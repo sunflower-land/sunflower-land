@@ -14,8 +14,11 @@ import { useActor } from "@xstate/react";
 import { Countdown } from "../Countdown";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
-import { GOBLIN_RETREAT_ITEMS } from "features/game/types/craftables";
+import {
+  GoblinRetreatItemName,
+  GOBLIN_RETREAT_ITEMS,
+} from "features/game/types/craftables";
+import { MachineInterpreter } from "features/retreat/auctioneer/auctioneerMachine";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -123,7 +126,12 @@ const PanelDetail = ({
 export const AuctioneerContent = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
-  const { auctioneerItems, auctioneerSupply } = goblinState.context;
+
+  const child = goblinState.children.auctioneer as MachineInterpreter;
+
+  const [auctioneerState, send] = useActor(child);
+
+  const { auctioneerItems } = auctioneerState.context;
 
   const upcoming = getValidAuctionItems(auctioneerItems);
 
@@ -131,8 +139,8 @@ export const AuctioneerContent = () => {
     upcoming[0]
   );
 
-  const mint = (item: InventoryItemName) => {
-    goblinService.send("MINT", { item, captcha: "" });
+  const mint = (item: GoblinRetreatItemName) => {
+    send({ type: "MINT", item, captcha: "" });
   };
 
   if (selected === undefined) {
@@ -165,7 +173,7 @@ export const AuctioneerContent = () => {
             item={selected}
             totalMinted={selected.totalMinted ?? 0}
             onMint={() => mint(selected.name)}
-            isMinting={goblinState.matches("auction.minting")}
+            isMinting={auctioneerState.matches("minting")}
           />
         </div>
       </OuterPanel>

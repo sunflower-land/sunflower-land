@@ -27,11 +27,8 @@ import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 import { Inventory } from "lib/blockchain/Inventory";
-import Web3 from "web3";
-import {
-  fetchAuctioneerDrops,
-  fetchAuctioneerSupply,
-} from "../actions/auctioneer";
+import { fetchAuctioneerDrops } from "../actions/auctioneer";
+import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 
 const API_URL = CONFIG.API_URL;
 
@@ -48,7 +45,6 @@ export interface Context {
   limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
   auctioneerItems: Item[];
   auctioneerId: string;
-  auctioneerSupply?: number[];
 }
 
 type MintEvent = {
@@ -133,11 +129,7 @@ export type GoblinMachineState = {
     | "withdrawn"
     | "playing"
     | "trading"
-    | "auction"
-    | "auction.loading"
-    | "auction.playing"
-    | "auction.minting"
-    | "auction.minted"
+    | "auctioneer"
     | "error";
   context: Context;
 };
@@ -181,19 +173,26 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: async () => {
               const farmId = authContext.farmId as number;
 
-              const onChainState = await getOnChainState({
+              const onChainStateFn = getOnChainState({
                 farmAddress: authContext.address as string,
                 id: Number(authContext.farmId),
               });
 
-              const { id, items } = await fetchAuctioneerDrops(
+              const auctioneerItemsFn = fetchAuctioneerDrops(
                 authContext.rawToken as string
               );
 
               // Get session id
-              const sessionId = await metamask
+              const sessionIdFn = metamask
                 .getSessionManager()
                 .getSessionId(farmId);
+
+              const [onChainState, { id, items }, sessionId] =
+                await Promise.all([
+                  onChainStateFn,
+                  auctioneerItemsFn,
+                  sessionIdFn,
+                ]);
 
               const response = await loadSession({
                 farmId,
@@ -261,132 +260,40 @@ export function startGoblinVillage(authContext: AuthContext) {
               target: "trading",
             },
             OPEN_AUCTIONEER: {
-              target: "auction",
+              target: "auctioneer",
             },
           },
         },
-        auction: {
-          initial: "loading",
-          states: {
-            loading: {
-              invoke: {
-                src: async () => {
-                  const { id, items } = await fetchAuctioneerDrops(
-                    authContext.rawToken as string
-                  );
-
-                  const ids = items.map((item) => item.id);
-                  const supply = await fetchAuctioneerSupply(ids);
-
-                  return {
-                    auctioneerId: id,
-                    auctioneerItems: items,
-                    auctioneerSupply: supply.map(Number),
-                  };
-                },
-                onDone: {
-                  target: "playing",
-                  actions: assign({
-                    auctioneerItems: (_, event) => event.data.auctioneerItems,
-                    auctioneerId: (_, event) => event.data.auctioneerId,
-                    auctioneerSupply: (_, event) => event.data.auctioneerSupply,
-                  }),
-                },
-                onError: {
-                  target: "#goblinMachine.error",
-                  actions: "assignErrorMessage",
-                },
-              },
+        auctioneer: {
+          invoke: {
+            id: "auctioneer",
+            src: auctioneerMachine,
+            data: {
+              token: () => authContext.rawToken,
+              farmId: () => authContext.farmId,
+              sessionId: (context: Context) => context.sessionId,
+              auctioneerItems: (context: Context) => context.auctioneerItems,
+              auctioneerId: (context: Context) => context.auctioneerId,
             },
-            playing: {
-              on: {
-                MINT: {
-                  target: "minting",
-                },
-                CLOSE_AUCTIONEER: {
-                  target: "#goblinMachine.playing",
-                },
-                TICK: {
-                  actions: assign({
-                    auctioneerSupply: (_, event) => event.auctioneerSupply,
-                  }),
-                },
-              },
-              invoke: {
-                src: (context) => (callback) => {
-                  if (context.auctioneerId === undefined) {
-                    throw Error("Could not find auction id");
-                  }
-
-                  const web3 = new Web3(
-                    `wss://polygon-${
-                      CONFIG.NETWORK
-                    }.g.alchemy.com/v2/${Buffer.from(
-                      context.auctioneerId,
-                      "base64"
-                    ).toString("ascii")}`
-                  );
-                  const inventory = new Inventory(
-                    web3,
-                    metamask.myAccount as string
-                  );
-                  const id = setInterval(async () => {
-                    if (context.auctioneerItems === undefined) {
-                      throw Error("Could not find auction id");
-                    }
-
-                    callback({
-                      type: "TICK",
-                      auctioneerSupply: await inventory.getSupply(
-                        context.auctioneerItems.map((item) => item.id)
-                      ),
-                    });
-                  }, 1000);
-
-                  // Perform cleanup
-                  return () => clearInterval(id);
-                },
-              },
+            onDone: {
+              target: "playing",
             },
-            minting: {
-              invoke: {
-                src: async (context, event) => {
-                  const { item, captcha } = event as MintEvent;
-
-                  const { sessionId } = await mint({
-                    farmId: Number(authContext.farmId),
-                    sessionId: context.sessionId as string,
-                    token: authContext.rawToken as string,
-                    item,
-                    captcha,
-                  });
-
-                  return {
-                    sessionId,
-                    item,
-                  } as MintedEvent;
-                },
-                onDone: {
-                  target: "minted",
-                  actions: assign((_, event) => ({
-                    sessionId: event.data.sessionId,
-                    actions: [],
-                  })),
-                },
-                onError: [
-                  {
-                    target: "playing",
-                    cond: (_, event: any) =>
-                      event.data.message === ERRORS.REJECTED_TRANSACTION,
-                  },
-                  {
-                    target: "#goblinMachine.error",
-                    actions: "assignErrorMessage",
-                  },
-                ],
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
               },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+          on: {
+            CLOSE_AUCTIONEER: {
+              target: "playing",
             },
-            minted: {},
           },
         },
         wishing: {

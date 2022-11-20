@@ -19,8 +19,7 @@ export const Auctioneer: React.FC = () => {
     .filter((item) => item.releases.some(({ endDate }) => endDate > Date.now()))
     .sort((a, b) => a.releases[0].endDate - b.releases[0].endDate)[0];
 
-  const isLoading = goblinState.matches("auction.loading");
-  const isPlaying = goblinState.matches("auction.playing");
+  const isPlaying = goblinState.matches("auctioneer");
 
   const openAuctioneer = () => {
     goblinService.send("OPEN_AUCTIONEER");

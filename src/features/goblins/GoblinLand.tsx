@@ -30,7 +30,6 @@ const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
   withdrawn: true,
   playing: false,
   error: true,
-  auction: false,
 };
 
 export const GoblinLand: React.FC = () => {
