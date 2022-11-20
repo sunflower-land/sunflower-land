@@ -25,6 +25,7 @@ export type Item = {
   id: number;
   releases: Release[];
   name: GoblinRetreatItemName;
+  totalMinted?: number;
 };
 
 export function getMaxSupply(releases: Release[]) {
@@ -60,6 +61,7 @@ export function getValidAuctionItems(items: Item[]): AuctioneerItem[] {
       maxSupply: getMaxSupply(item.releases),
       releases: item.releases,
       currentRelease,
+      totalMinted: item.totalMinted,
     };
   });
 

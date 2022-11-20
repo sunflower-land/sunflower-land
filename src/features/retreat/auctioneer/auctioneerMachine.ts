@@ -15,7 +15,6 @@ export interface Context {
   token: string;
   auctioneerItems: Item[];
   auctioneerId: string;
-  auctioneerSupply?: number[];
 }
 
 type MintEvent = {
@@ -31,7 +30,7 @@ export type MintedEvent = {
 
 type TickEvent = {
   type: "TICK";
-  auctioneerSupply: number[];
+  auctioneerItems: Item[];
 };
 
 export type BlockchainEvent = TickEvent | MintEvent;
@@ -62,14 +61,19 @@ export const auctioneerMachine = createMachine<
           const ids = context.auctioneerItems.map((item) => item.id);
           const supply = await fetchAuctioneerSupply(ids);
 
-          return {
-            auctioneerSupply: supply.map(Number),
-          };
+          const auctioneerItems = context.auctioneerItems.map(
+            (item, index) => ({
+              ...item,
+              totalMinted: supply[index],
+            })
+          );
+
+          return { auctioneerItems };
         },
         onDone: {
           target: "playing",
           actions: assign({
-            auctioneerSupply: (_, event) => event.data.auctioneerSupply,
+            auctioneerItems: (_, event) => event.data.auctioneerItems,
           }),
         },
         // onError: {
@@ -85,7 +89,7 @@ export const auctioneerMachine = createMachine<
         },
         TICK: {
           actions: assign({
-            auctioneerSupply: (_, event) => event.auctioneerSupply,
+            auctioneerItems: (_, event) => event.auctioneerItems,
           }),
         },
       },
@@ -108,11 +112,21 @@ export const auctioneerMachine = createMachine<
               throw Error("Could not find auction id");
             }
 
+            const ids = context.auctioneerItems.map((item) => item.id);
+            const supply = await inventory.getSupply(ids);
+
+            const auctioneerItems = context.auctioneerItems.map(
+              (item, index) => ({
+                ...item,
+                totalMinted: supply[index],
+              })
+            );
+
+            console.log(auctioneerItems);
+
             callback({
               type: "TICK",
-              auctioneerSupply: await inventory.getSupply(
-                context.auctioneerItems.map((item) => item.id)
-              ),
+              auctioneerItems,
             });
           }, 1000);
 

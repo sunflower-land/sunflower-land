@@ -88,11 +88,6 @@ type UpdateSession = {
   sessionId: string;
 };
 
-type TickEvent = {
-  type: "TICK";
-  auctioneerSupply: number[];
-};
-
 export type BlockchainEvent =
   | {
       type: "REFRESH";
