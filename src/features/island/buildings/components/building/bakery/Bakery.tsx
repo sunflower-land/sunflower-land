@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import bakery from "assets/buildings/bakery.png";
 import smoke from "assets/buildings/smoke.gif";
 import goblinChef from "assets/npcs/goblin_chef.gif";
+import goblinChefdoing from "assets/npcs/goblin_chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { ConsumableName } from "features/game/types/consumables";
@@ -108,20 +109,33 @@ export const Bakery: React.FC<Props> = ({
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 33}px`,
+            left: `${PIXEL_SCALE * 28}px`,
             bottom: `${PIXEL_SCALE * 1}px`,
           }}
         />
-        <img
-          src={goblinChef}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-            left: `${PIXEL_SCALE * 32}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
-            transform: "scaleX(-1)",
-          }}
-        />
+        {crafting ? (
+          <img
+            src={goblinChefdoing}
+            className="absolute pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+              left: `${PIXEL_SCALE * 27}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              transform: "scaleX(-1)",
+            }}
+          />
+        ) : (
+          <img
+            src={goblinChef}
+            className="absolute pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+              left: `${PIXEL_SCALE * 27}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              transform: "scaleX(-1)",
+            }}
+          />
+        )}
         {crafting && (
           <img
             src={smoke}
