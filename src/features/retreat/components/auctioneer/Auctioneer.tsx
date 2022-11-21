@@ -51,7 +51,6 @@ export const Auctioneer: React.FC = () => {
           {upcomingItem && (
             <img
               src={GOBLIN_RETREAT_ITEMS[upcomingItem.name].image}
-              className={"animate-float"}
               style={{
                 width: `${PIXEL_SCALE * 16}px`,
               }}

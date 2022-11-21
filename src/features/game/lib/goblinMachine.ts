@@ -106,7 +106,6 @@ export type BlockchainEvent =
   | {
       type: "RESET";
     }
-  | TickEvent
   | WithdrawEvent
   | MintEvent
   | OpeningWishingWellEvent
@@ -271,7 +270,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               auctioneerId: (context: Context) => context.auctioneerId,
             },
             onDone: {
-              target: "playing",
+              target: "loading",
             },
             onError: [
               {

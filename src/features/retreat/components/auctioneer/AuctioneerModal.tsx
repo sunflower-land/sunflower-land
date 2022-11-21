@@ -11,6 +11,9 @@ import { useActor } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { MachineInterpreter } from "features/game/lib/goblinMachine";
 import mintingAnimation from "assets/npcs/goblin_hammering.gif";
+import { MintedEvent } from "features/retreat/auctioneer/auctioneerMachine";
+import { GOBLIN_RETREAT_ITEMS } from "features/game/types/craftables";
+import { Button } from "components/ui/Button";
 
 interface Props {
   isOpen: boolean;
@@ -23,14 +26,19 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [goblinState] = useActor(goblinService);
   const child = goblinState.children.auctioneer as MachineInterpreter;
 
-  const [auctioneerState] = useActor(child);
+  const [auctioneerState, send] = useActor(child);
 
   const isLoading = auctioneerState.matches("loading");
+  const isPlaying = auctioneerState.matches("playing");
   const isMinting = auctioneerState.matches("minting");
+  const isMinted = auctioneerState.matches("minted");
+
+  const mintedItemName = ((auctioneerState.event as any)?.data as MintedEvent)
+    ?.item;
 
   return (
     <Modal centered show={isOpen} onHide={onClose} scrollable>
-      {isMinting ? (
+      {isMinting && (
         <Panel className="relative">
           <div className="flex flex-col items-center px-2 py-4">
             <span className="text-shadow text-center loading">Minting</span>
@@ -40,7 +48,27 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </span>
           </div>
         </Panel>
-      ) : (
+      )}
+      {isMinted && (
+        <Panel className="relative">
+          <div className="flex flex-col items-center px-2 py-4">
+            <div className="flex flex-col">
+              <div className="p-2 flex flex-col items-center">
+                <h1 className="text-center mb-3 text-lg">
+                  Woohoo, you just minted an awesome new item!
+                </h1>
+                <img
+                  src={GOBLIN_RETREAT_ITEMS[mintedItemName].image}
+                  className="w-20 mb-3"
+                />
+                <h1 className="text-center mb-3">{mintedItemName}</h1>
+              </div>
+              <Button onClick={() => send("REFRESH")}>Ok</Button>
+            </div>
+          </div>
+        </Panel>
+      )}
+      {(isPlaying || isLoading) && (
         <Panel className="pt-5 relative">
           <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
             <div className="flex">
@@ -57,15 +85,13 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
               onClick={onClose}
             />
           </div>
-
           <div
             style={{
               minHeight: "200px",
             }}
           >
-            {isLoading ? (
-              <Loading />
-            ) : (
+            {isLoading && <Loading />}
+            {isPlaying && (
               <>
                 {tab === "auction" && <AuctioneerContent />}
                 {tab === "upcoming" && <UpcomingAuctions />}
@@ -74,6 +100,7 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
           </div>
         </Panel>
       )}
+      )
     </Modal>
   );
 };

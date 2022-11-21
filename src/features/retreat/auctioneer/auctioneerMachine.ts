@@ -33,7 +33,11 @@ type TickEvent = {
   auctioneerItems: Item[];
 };
 
-export type BlockchainEvent = TickEvent | MintEvent;
+type RefreshEvent = {
+  type: "REFRESH";
+};
+
+export type BlockchainEvent = TickEvent | MintEvent | RefreshEvent;
 
 export type AuctioneerMachineState = {
   value: "loading" | "playing" | "minting" | "minted" | "error";
@@ -76,10 +80,9 @@ export const auctioneerMachine = createMachine<
             auctioneerItems: (_, event) => event.data.auctioneerItems,
           }),
         },
-        // onError: {
-        //   target: "#goblinMachine.error",
-        //   actions: "assignErrorMessage",
-        // },
+        onError: {
+          target: "error",
+        },
       },
     },
     playing: {
@@ -122,8 +125,6 @@ export const auctioneerMachine = createMachine<
               })
             );
 
-            console.log(auctioneerItems);
-
             callback({
               type: "TICK",
               auctioneerItems,
@@ -140,7 +141,6 @@ export const auctioneerMachine = createMachine<
         src: async (context, event) => {
           const { item, captcha } = event as MintEvent;
 
-          console.log({ event });
           const { sessionId } = await mint({
             farmId: Number(context.farmId),
             sessionId: context.sessionId as string,
@@ -167,13 +167,20 @@ export const auctioneerMachine = createMachine<
             cond: (_, event: any) =>
               event.data.message === ERRORS.REJECTED_TRANSACTION,
           },
-          // {
-          //   target: "#goblinMachine.error",
-          //   actions: "assignErrorMessage",
-          // },
+          {
+            target: "error",
+          },
         ],
       },
     },
-    minted: {},
+    minted: {
+      on: {
+        REFRESH: "finish",
+      },
+    },
+    finish: {
+      type: "final",
+    },
+    error: {},
   },
 });

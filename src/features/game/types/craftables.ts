@@ -10,6 +10,7 @@ import { isArray } from "lodash";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName } from "./beans";
 import question from "assets/icons/expression_confused.png";
+import prizedPotato from "assets/sfts/prized_potato.gif";
 
 export { FLAGS };
 
@@ -976,7 +977,7 @@ export const GOBLIN_RETREAT_ITEMS: Record<
 > = {
   "Prized Potato": {
     description: "A precious potato, doubles potato yield",
-    image: question,
+    image: prizedPotato,
   },
   "Cabbage Boy": {
     description: "Don't wake the baby!",
