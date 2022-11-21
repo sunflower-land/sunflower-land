@@ -120,3 +120,24 @@ export const getCookingTime = (
 
   return reducedSecs.toNumber();
 };
+
+/**
+ * Get boosted exp from Bumpkin skills.
+ * Decimal mul for precision.
+ * @todo add "Curer" skill once "Fermenter Goods" are finalized
+ * @param foodExp value to be increased
+ * @param bumpkin to check for skills
+ * @returns boosted food exp
+ */
+export const getFoodExpBoost = (
+  foodExp: number,
+  bumpkin: Bumpkin | undefined
+): number => {
+  let boostedExp = new Decimal(foodExp);
+
+  if (bumpkin?.skills["Kitchen Hand"]) {
+    boostedExp = boostedExp.mul(1.1);
+  }
+
+  return boostedExp.toNumber();
+};

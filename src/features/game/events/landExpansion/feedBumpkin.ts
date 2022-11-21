@@ -37,18 +37,10 @@ export function feedBumpkin({
   const { tool } = equipped;
   inventory[action.food] = quantity.sub(1);
 
-  let foodExperience = CONSUMABLES[action.food].experience;
-
-  if (skills["Kitchen Hand"]) {
-    foodExperience *= 1.1;
-  }
-
-  //Bumpkin Wearable Boost Golden Spatula
-  if (tool === "Golden Spatula") {
-    foodExperience *= 1.1;
-  }
-
-  bumpkin.experience += foodExperience;
+  bumpkin.experience += getFoodExpBoost(
+    CONSUMABLES[action.food].experience,
+    bumpkin
+  );
 
   bumpkin.activity = trackActivity(`${action.food} Fed`, bumpkin.activity);
 

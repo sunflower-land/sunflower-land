@@ -51,7 +51,7 @@ export const Inventory: React.FC<Props> = ({
         className="relative flex z-50 cursor-pointer hover:img-highlight"
         style={{
           marginLeft: `${PIXEL_SCALE * 2}px`,
-          bottom: `${PIXEL_SCALE * 11.5}px`,
+          marginBottom: `${PIXEL_SCALE * 22.5}px`,
           width: `${PIXEL_SCALE * 22}px`,
         }}
       >

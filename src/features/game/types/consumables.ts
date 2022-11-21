@@ -48,7 +48,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     ingredients: {
       Potato: new Decimal(10),
     },
-    marketRate: 1.4,
+    marketRate: 10,
   },
 
   "Pumpkin Soup": {

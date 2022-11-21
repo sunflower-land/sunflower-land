@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import sflIcon from "assets/icons/token_2.png";
 import arrowLeft from "assets/icons/arrow_left.png";
@@ -16,6 +16,8 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 import { setImageWidth } from "lib/images";
 import Decimal from "decimal.js-light";
 
@@ -33,20 +35,24 @@ interface Props {
   onBack: () => void;
   onClaim: () => void;
   name: AchievementName;
-  gameState: GameState;
+  state: GameState;
 }
 
 export const AchievementDetails: React.FC<Props> = ({
   onBack,
   onClaim,
   name,
-  gameState,
+  state,
 }) => {
   const achievement = ACHIEVEMENTS()[name];
-  const progress = achievement.progress(gameState);
+  const progress = achievement.progress(state);
   const isComplete = progress >= achievement.requirement;
 
-  const bumpkinAchievements = gameState.bumpkin?.achievements || {};
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+  const isVisiting = gameState.matches("visiting");
+
+  const bumpkinAchievements = state.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[name];
   const progressWidth = Math.min(
     Math.floor(
@@ -225,13 +231,15 @@ export const AchievementDetails: React.FC<Props> = ({
                     </div>
                   ))}
                 </div>
-                <Button
-                  className="text-xs mt-2"
-                  onClick={onClaim}
-                  disabled={!isComplete}
-                >
-                  <span>Claim</span>
-                </Button>
+                {!isVisiting && (
+                  <Button
+                    className="text-xs mt-2"
+                    onClick={onClaim}
+                    disabled={!isComplete}
+                  >
+                    <span>Claim</span>
+                  </Button>
+                )}
               </div>
             )}
           </>
