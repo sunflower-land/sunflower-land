@@ -19,7 +19,6 @@ export const Revealed: React.FC = () => {
 
   const items = getKeys(gameState.context.revealed?.inventory ?? {});
   const sfl = Number(gameState.context.revealed?.balance ?? 0);
-  console.log(gameState.context.revealed);
 
   return (
     <div className="flex flex-col items-center p-1">
@@ -32,14 +31,14 @@ export const Revealed: React.FC = () => {
       )}
 
       {items.length > 0 &&
-        items.map((name) => (
-          <>
+        items.map((name, index) => (
+          <div key={`${name}-${index}`} className="flex flex-col items-center">
             <img
               src={ITEM_DETAILS[name as InventoryItemName].image}
               className="w-1/5 mb-2"
             />
             <p className="text-center text-sm mb-2">{`You found a ${name}`}</p>
-          </>
+          </div>
         ))}
 
       <Button onClick={onAcknowledge}>Continue</Button>
