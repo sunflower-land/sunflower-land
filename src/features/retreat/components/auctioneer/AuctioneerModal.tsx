@@ -10,6 +10,7 @@ import { UpcomingAuctions } from "./UpcomingAuctions";
 import { useActor } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { MachineInterpreter } from "features/game/lib/goblinMachine";
+import mintingAnimation from "assets/npcs/goblin_hammering.gif";
 
 interface Props {
   isOpen: boolean;
@@ -29,38 +30,50 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal centered show={isOpen} onHide={onClose} scrollable>
-      <Panel className="pt-5 relative">
-        <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-          <div className="flex">
-            <Tab isActive={tab === "auction"}>
-              <span className="text-sm text-shadow ml-1">Auctioneer</span>
-            </Tab>
-            <Tab isActive={tab === "upcoming"}>
-              <span className="text-sm text-shadow ml-1">Upcoming</span>
-            </Tab>
+      {isMinting ? (
+        <Panel className="relative">
+          <div className="flex flex-col items-center px-2 py-4">
+            <span className="text-shadow text-center loading">Minting</span>
+            <img src={mintingAnimation} className="w-1/2 mt-2 mb-3" />
+            <span className="text-sm">
+              Please be patient while we mint the NFT for you.
+            </span>
           </div>
-          <img
-            src={close}
-            className="h-6 cursor-pointer mr-2 mb-1"
-            onClick={onClose}
-          />
-        </div>
+        </Panel>
+      ) : (
+        <Panel className="pt-5 relative">
+          <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
+            <div className="flex">
+              <Tab isActive={tab === "auction"}>
+                <span className="text-sm text-shadow ml-1">Auctioneer</span>
+              </Tab>
+              <Tab isActive={tab === "upcoming"}>
+                <span className="text-sm text-shadow ml-1">Upcoming</span>
+              </Tab>
+            </div>
+            <img
+              src={close}
+              className="h-6 cursor-pointer mr-2 mb-1"
+              onClick={onClose}
+            />
+          </div>
 
-        <div
-          style={{
-            minHeight: "200px",
-          }}
-        >
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <>
-              {tab === "auction" && <AuctioneerContent />}
-              {tab === "upcoming" && <UpcomingAuctions />}
-            </>
-          )}
-        </div>
-      </Panel>
+          <div
+            style={{
+              minHeight: "200px",
+            }}
+          >
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <>
+                {tab === "auction" && <AuctioneerContent />}
+                {tab === "upcoming" && <UpcomingAuctions />}
+              </>
+            )}
+          </div>
+        </Panel>
+      )}
     </Modal>
   );
 };
