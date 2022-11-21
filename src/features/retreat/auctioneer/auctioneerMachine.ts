@@ -4,10 +4,10 @@ import { GoblinRetreatItemName } from "features/game/types/craftables";
 import { Inventory } from "lib/blockchain/Inventory";
 import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { createMachine, Interpreter, assign } from "xstate";
 import { Item } from "../components/auctioneer/actions/auctioneerItems";
+import { escalate } from "xstate/lib/actions";
 
 export interface Context {
   farmId: number;
@@ -81,7 +81,9 @@ export const auctioneerMachine = createMachine<
           }),
         },
         onError: {
-          target: "error",
+          actions: escalate((_, event) => ({
+            message: event.data.message,
+          })),
         },
       },
     },
@@ -134,6 +136,11 @@ export const auctioneerMachine = createMachine<
           // Perform cleanup
           return () => clearInterval(id);
         },
+        onError: {
+          actions: escalate((_, event) => ({
+            message: event.data.message,
+          })),
+        },
       },
     },
     minting: {
@@ -161,16 +168,11 @@ export const auctioneerMachine = createMachine<
             actions: [],
           })),
         },
-        onError: [
-          {
-            target: "playing",
-            cond: (_, event: any) =>
-              event.data.message === ERRORS.REJECTED_TRANSACTION,
-          },
-          {
-            target: "error",
-          },
-        ],
+        onError: {
+          actions: escalate((_, event) => ({
+            message: event.data.message,
+          })),
+        },
       },
     },
     minted: {
@@ -181,6 +183,5 @@ export const auctioneerMachine = createMachine<
     finish: {
       type: "final",
     },
-    error: {},
   },
 });

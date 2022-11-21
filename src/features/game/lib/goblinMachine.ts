@@ -261,6 +261,7 @@ export function startGoblinVillage(authContext: AuthContext) {
         auctioneer: {
           invoke: {
             id: "auctioneer",
+            autoForward: true,
             src: auctioneerMachine,
             data: {
               token: () => authContext.rawToken,
