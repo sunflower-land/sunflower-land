@@ -11,7 +11,6 @@ import { Context } from "features/game/GameProvider";
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import { Badges } from "features/farming/house/House";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -23,6 +22,7 @@ import { Skills } from "features/bumpkins/components/Skills";
 import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SkillBadges } from "./SkillBadges";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -31,8 +31,8 @@ const PROGRESS_BAR_DIMENSIONS = {
   height: 7,
   innerWidth: 36,
   innerHeight: 2,
-  marginTop: 2,
-  marginLeft: 2,
+  innerTop: 2,
+  innerLeft: 2,
 };
 
 interface Props {
@@ -94,7 +94,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
 
   return (
     <Panel>
-      <div className="flex flex-wrap ">
+      <div className="flex flex-wrap">
         <img
           src={close}
           className="absolute cursor-pointer z-20"
@@ -105,7 +105,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
             width: `${PIXEL_SCALE * 11}px`,
           }}
         />
-        <div className="w-full sm:w-1/3 z-10 md:mr-4">
+        <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
           <div className="w-full rounded-md overflow-hidden mb-1">
             <DynamicNFT
               showBackground
@@ -126,29 +126,41 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
 
         <div className="flex-1">
           <div className="mb-2">
-            <div className="flex items-center mt-2 mb-1 md:mt-0">
+            <div className="flex items-center mt-2 mb-2 md:mt-0">
               <p className="text-base">
                 Level {level}
                 {maxLevel ? " (Max)" : ""}
               </p>
-              <img src={levelIcon} className="w-4 ml-1" />
+              <img
+                src={levelIcon}
+                style={{
+                  width: `${PIXEL_SCALE * 10}px`,
+                  marginLeft: `${PIXEL_SCALE * 4}px`,
+                }}
+              />
             </div>
 
             {/* Progress bar */}
-            <div className="flex items-center">
+            <div className="flex item-center">
               <div
-                className="flex mr-2 items-center relative z-10"
+                className="absolute"
                 style={{
                   width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
                 }}
               >
-                <img src={progressBarSmall} className="w-full" />
+                <img
+                  src={progressBarSmall}
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
+                  }}
+                />
                 <div
                   className="absolute bg-[#193c3e]"
                   style={{
-                    top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.marginTop}px`,
+                    top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
                     left: `${
-                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.marginLeft
+                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
                     }px`,
                     width: `${
                       PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
@@ -161,9 +173,9 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                 <div
                   className="absolute bg-[#63c74d]"
                   style={{
-                    top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.marginTop}px`,
+                    top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
                     left: `${
-                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.marginLeft
+                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
                     }px`,
                     width: `${PIXEL_SCALE * progressWidth}px`,
                     height: `${
@@ -173,9 +185,16 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                 />
               </div>
 
-              <p className="text-xxs">{`${Math.floor(
-                currentExperienceProgress
-              )}/${Math.floor(experienceToNextLevel)} XP`}</p>
+              <p
+                className="text-xxs mt-0.5"
+                style={{
+                  marginLeft: `${
+                    PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
+                  }px`,
+                }}
+              >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
+                experienceToNextLevel
+              )} XP`}</p>
             </div>
           </div>
 
@@ -183,7 +202,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
             className="mb-2 cursor-pointer"
             onClick={() => setView("skills")}
           >
-            <InnerPanel className="relative mt-1 ">
+            <InnerPanel className="relative mt-1">
               <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
@@ -193,7 +212,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                 </div>
                 <span className="text-xxs underline">View all</span>
               </div>
-              <Badges inventory={state.inventory} />
+              <SkillBadges inventory={state.inventory} />
             </InnerPanel>
           </div>
 

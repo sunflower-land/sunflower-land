@@ -16,6 +16,18 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { setImageWidth } from "lib/images";
+import Decimal from "decimal.js-light";
+
+const PROGRESS_BAR_DIMENSIONS = {
+  width: 80,
+  height: 10,
+  innerWidth: 76,
+  innerHeight: 5,
+  innerTop: 2,
+  innerLeft: 2,
+  innerRight: 2,
+};
 
 interface Props {
   onBack: () => void;
@@ -36,6 +48,12 @@ export const AchievementDetails: React.FC<Props> = ({
 
   const bumpkinAchievements = gameState.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[name];
+  const progressWidth = Math.min(
+    Math.floor(
+      (PROGRESS_BAR_DIMENSIONS.innerWidth * progress) / achievement.requirement
+    ),
+    PROGRESS_BAR_DIMENSIONS.innerWidth
+  );
 
   return (
     <div className="flex flex-col items-center">
@@ -60,44 +78,120 @@ export const AchievementDetails: React.FC<Props> = ({
                 </span>
                 <img
                   src={ITEM_DETAILS[name].image}
-                  className="object-scale-down"
+                  style={{
+                    opacity: 0,
+                    marginRight: `${PIXEL_SCALE * 2}px`,
+                    marginBottom: `${PIXEL_SCALE * 2}px`,
+                  }}
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
                 />
               </div>
               <div className="flex flex-col items-center justify-center w-full">
                 <div className="flex-1 mt-2 text-xxs sm:text-xs flex-wrap justify-center items-center text-center w-full">
                   <p className="text-xs mb-2">{achievement.description}</p>
-                  <div className="flex items-center border-t border-white justify-center pt-1 w-full">
-                    <div className="flex items-center justify-center mt-2 mb-1">
-                      <div className="flex items-center justify-center relative w-40 h-4 z-10">
+                  <div className="flex items-center justify-center border-t border-white pt-1 w-full">
+                    <div className="flex items-center mt-2 mb-1">
+                      <div
+                        className="absolute"
+                        style={{
+                          width: `${
+                            PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width
+                          }px`,
+                          height: `${
+                            PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
+                          }px`,
+                        }}
+                      >
+                        {/* Progress bar frame */}
                         <img
                           src={progressBar}
-                          className="absolute w-full h-full"
-                        />
-                        <img
-                          src={progressBarEdge}
-                          className="absolute top-0 left-[-2px] h-full"
-                        />
-                        <img
-                          src={progressBarEdge}
-                          className="absolute top-0 right-[-2px] h-full"
+                          className="absolute"
                           style={{
+                            left: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                            }px`,
+                            width: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
+                            }px`,
+                            height: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
+                            }px`,
+                          }}
+                        />
+                        <img
+                          src={progressBarEdge}
+                          className="absolute"
+                          style={{
+                            left: `0px`,
+                            width: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                            }px`,
+                            height: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
+                            }px`,
+                          }}
+                        />
+                        <img
+                          src={progressBarEdge}
+                          className="absolute"
+                          style={{
+                            right: `0px`,
+                            width: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                            }px`,
+                            height: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
+                            }px`,
                             transform: "scaleX(-1)",
                           }}
                         />
-                        <div className="w-full h-full bg-[#193c3e] absolute -z-20" />
                         <div
-                          className="h-full bg-[#63c74d] absolute -z-10 left-0"
+                          className="absolute bg-[#193c3e]"
                           style={{
+                            top: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
+                            }px`,
+                            left: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                            }px`,
                             width: `${
-                              (progress / achievement.requirement) * 100
-                            }%`,
-                            maxWidth: "100%",
-                            borderRight: "3px solid #418848",
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
+                            }px`,
+                            height: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
+                            }px`,
+                          }}
+                        />
+
+                        {/* Progress */}
+                        <div
+                          className="absolute bg-[#63c74d]"
+                          style={{
+                            top: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
+                            }px`,
+                            left: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                            }px`,
+                            width: `${PIXEL_SCALE * progressWidth}px`,
+                            height: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
+                            }px`,
                           }}
                         />
                       </div>
+                      <span
+                        className="text-xxs"
+                        style={{
+                          marginLeft: `${
+                            PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
+                          }px`,
+                        }}
+                      >{`${new Decimal(progress).toDecimalPlaces(
+                        4,
+                        Decimal.ROUND_DOWN
+                      )}/${achievement.requirement}`}</span>
                     </div>
-                    <span className="text-xxs text-white ml-2 mt-1">{`${progress}/${achievement.requirement}`}</span>
                   </div>
                 </div>
               </div>
@@ -107,25 +201,29 @@ export const AchievementDetails: React.FC<Props> = ({
                 <div className={classNames("flex flex-col items-center", {})}>
                   {achievement.sfl?.gt(0) && (
                     <div className={classNames("flex items-center mt-1", {})}>
-                      <img src={sflIcon} className="h-5 z-10 mr-2" />
-                      <span className="text-xxs">{`${achievement.sfl} SFL`}</span>
+                      <img
+                        src={sflIcon}
+                        style={{
+                          width: `${PIXEL_SCALE * 10}px`,
+                          marginRight: `${PIXEL_SCALE * 4}px`,
+                        }}
+                      />
+                      <span className="text-xs">{`${achievement.sfl} SFL`}</span>
                     </div>
                   )}
                   {getKeys(achievement.rewards || {}).map((name) => (
                     <div key={name} className="flex items-center mt-1">
                       <img
                         src={ITEM_DETAILS[name].image}
-                        className="h-7 z-10 mr-2"
+                        style={{
+                          opacity: 0,
+                          marginRight: `${PIXEL_SCALE * 4}px`,
+                        }}
+                        onLoad={(e) => setImageWidth(e.currentTarget)}
                       />
-                      <span className="text-sm">{name}</span>
+                      <span className="text-xs">{name}</span>
                     </div>
                   ))}
-                  {/* {!!achievement.experienceReward && (
-                    <div className="flex items-center mt-1">
-                      <img src={experience} className="h-5 z-10 mr-2" />
-                      <span className="text-xxs">{`${achievement.experienceReward} Exp`}</span>
-                    </div>
-                  )} */}
                 </div>
                 <Button
                   className="text-xs mt-2"
