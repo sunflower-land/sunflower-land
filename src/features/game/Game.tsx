@@ -71,6 +71,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   visiting: false,
   landToVisitNotFound: false,
   checkIsVisiting: false,
+  revealed: false,
+  revealing: false,
 };
 
 export const Game: React.FC = () => {

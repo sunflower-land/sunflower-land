@@ -1,6 +1,11 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
-import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
+import {
+  TreasureToolName,
+  TREASURE_TOOLS,
+  WorkbenchToolName,
+  WORKBENCH_TOOLS,
+} from "features/game/types/tools";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 
@@ -8,9 +13,13 @@ import { GameState } from "../../types/game";
 
 export type CraftToolAction = {
   type: "tool.crafted";
-  tool: WorkbenchToolName;
+  tool: WorkbenchToolName | TreasureToolName;
 };
 
+const CRAFTABLE_TOOLS = () => ({
+  ...WORKBENCH_TOOLS(),
+  ...TREASURE_TOOLS(),
+});
 type Options = {
   state: Readonly<GameState>;
   action: CraftToolAction;
@@ -20,7 +29,7 @@ export function craftTool({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
-  const tool = WORKBENCH_TOOLS()[action.tool];
+  const tool = CRAFTABLE_TOOLS()[action.tool];
 
   if (!tool) {
     throw new Error("Tool does not exist");
