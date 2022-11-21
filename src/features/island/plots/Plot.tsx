@@ -182,8 +182,6 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       return;
     }
 
-    console.log({ crop });
-
     // increase touch count if there is a reward
     if (crop?.reward && isReadyToHarvest(now, crop, CROPS()[crop.name])) {
       if (touchCount < 1) {
