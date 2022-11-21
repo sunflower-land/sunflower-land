@@ -176,14 +176,16 @@ export const Menu = () => {
                     <span className="sm:text-sm flex-1">Community</span>
                   </Button>
                 </li>
-                <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={handleLandExpansionClick}
-                  >
-                    <span className="sm:text-sm flex-1">Discord</span>
-                  </Button>
-                </li>
+                {CONFIG.NETWORK === "mainnet" && (
+                  <li className="p-1">
+                    <Button
+                      className="flex justify-between"
+                      onClick={handleLandExpansionClick}
+                    >
+                      <span className="sm:text-sm flex-1">Discord</span>
+                    </Button>
+                  </li>
+                )}
                 <li className="p-1">
                   <Button
                     className="flex justify-between"
@@ -242,10 +244,12 @@ export const Menu = () => {
         onClose={() => setShowSettingsModal(false)}
       />
 
-      <LandExpansionRole
-        isOpen={showLandExpansionModal}
-        onClose={() => setShowLandExpansionModal(false)}
-      />
+      {CONFIG.NETWORK === "mainnet" && (
+        <LandExpansionRole
+          isOpen={showLandExpansionModal}
+          onClose={() => setShowLandExpansionModal(false)}
+        />
+      )}
 
       {showCaptcha && (
         <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>

@@ -126,8 +126,8 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
 
         <div className="flex-1">
           <div className="mb-2">
-            <div className="flex items-center mt-2 md:mt-0">
-              <p className="text-sm">
+            <div className="flex items-center mt-2 mb-1 md:mt-0">
+              <p className="text-base">
                 Level {level}
                 {maxLevel ? " (Max)" : ""}
               </p>
