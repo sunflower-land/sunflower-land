@@ -145,9 +145,7 @@ export const AuctioneerContent = () => {
     send({ type: "MINT", item, captcha: "" });
   };
 
-  return <AuctionDetails />;
-
-  if (selected === undefined) {
+  if (upcoming.length === 0) {
     return (
       <div className="flex flex-col">
         <span>Currently Unavailable!</span>
@@ -155,6 +153,16 @@ export const AuctioneerContent = () => {
       </div>
     );
   }
+
+  const item = upcoming[0];
+  return (
+    <AuctionDetails
+      item={item}
+      game={goblinState.context.state}
+      onMint={() => mint(item.name)}
+      isMinting={auctioneerState.matches("minting")}
+    />
+  );
 
   return (
     <div className="flex flex-col">
