@@ -38,9 +38,8 @@ export const AuctionDetails: React.FC<Props> = ({
   const isMintComplete =
     !end.days && !end.hours && !end.minutes && !end.seconds;
 
-  // TODO - aggregate previous supplies as well
   const availableSupply = releases.reduce(
-    (supply, release) => supply + release.price,
+    (supply, release) => supply + release.supply,
     0
   );
 
@@ -137,7 +136,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
         const sfl = Number(release.price ?? 0);
 
-        const date = format.formatRange(release.releaseDate, release.endDate);
+        const date = format.formatRange(release.releaseDate, release.endDate); //
         return (
           <div className="mt-4 w-full" key={release.releaseDate}>
             <div className="flex justify-between items-start">
