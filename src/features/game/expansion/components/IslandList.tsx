@@ -18,6 +18,8 @@ import snowman from "assets/npcs/snowman.png";
 import land from "assets/land/islands/island.png";
 import { VisitLandExpansionForm } from "./VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
+import { RedLabel } from "components/ui/RedLabel";
+import { CONFIG } from "lib/config";
 
 const CONTENT_HEIGHT = 380;
 
@@ -59,7 +61,7 @@ const Island = ({
             </div>
           )}
           <div className="flex-1 flex flex-col justify-center">
-            <span className="text-sm">{name}</span>
+            <span className="text-sm mb-1">{name}</span>
 
             {/* Current island */}
             {onSameIsland && (
@@ -77,12 +79,8 @@ const Island = ({
             {(notEnoughLevel || comingSoon) && (
               <div className="flex items-center">
                 <img src={heart} className="h-4 mr-1" />
-                <span
-                  className="bg-error border text-xxs p-1 rounded-md"
-                  style={{ lineHeight: "10px" }}
-                >
-                  Lvl {levelRequired}
-                </span>
+                <RedLabel>Lvl {levelRequired}</RedLabel>
+
                 <img src={lock} className="h-4 ml-1" />
 
                 {/* Coming soon */}
@@ -165,8 +163,8 @@ export const IslandList = ({
       name: "Treasure Island",
       levelRequired: 10,
       image: treasureIsland,
-      path: `/treasure/${id}`,
-      comingSoon: true,
+      path: `/land/${id}/treasure-island`,
+      comingSoon: CONFIG.NETWORK === "mainnet",
     },
     {
       name: "Stone Haven",

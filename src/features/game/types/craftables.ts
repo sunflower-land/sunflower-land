@@ -8,6 +8,7 @@ import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
 import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
+import { BeanName, MutantCropName } from "./beans";
 
 export { FLAGS };
 
@@ -175,8 +176,10 @@ export type CollectibleName =
   | Flag
   | TravelingSalesmanItem
   | MutantChicken
+  | MutantCropName
   | DecorationName
   | GoblinRetreatItemName
+  | BeanName
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -189,7 +192,7 @@ export type ToolName =
   | "Hammer"
   | "Rod";
 
-export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel";
+export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel" | "Sand Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -576,6 +579,22 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
       },
       {
         item: "Gold",
+        amount: new Decimal(5),
+      },
+    ],
+    disabled: true,
+  },
+  "Sand Shovel": {
+    name: "Sand Shovel",
+    description: "Used for digging treasure",
+    tokenAmount: new Decimal(25),
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(20),
+      },
+      {
+        item: "Stone",
         amount: new Decimal(5),
       },
     ],
@@ -1204,6 +1223,15 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Wood Nymph Wendy": { height: 1, width: 1 },
   "Cabbage Boy": { height: 1, width: 1 },
   "Cabbage Girl": { height: 1, width: 1 },
+
+  "Magic Bean": { height: 2, width: 2 },
+  "Shiny Bean": { height: 2, width: 2 },
+  "Golden Bean": { height: 2, width: 2 },
+
+  "Stellar Sunflower": { height: 1, width: 1 },
+  "Peaceful Potato": { height: 1, width: 1 },
+  "Perky Pumpkin": { height: 1, width: 1 },
+  "Collosal Crop": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

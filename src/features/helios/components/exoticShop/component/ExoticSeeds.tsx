@@ -18,6 +18,10 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
 import { Bean, BEANS } from "features/game/types/beans";
+import { RedLabel } from "components/ui/RedLabel";
+import { Button } from "components/ui/Button";
+import { CONFIG } from "lib/config";
+import { INITIAL_STOCK } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -36,9 +40,8 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
   const price = selected.sfl;
   const buy = (amount = 1) => {
-    gameService.send("seed.bought", {
-      item: selected.name,
-      amount,
+    gameService.send("bean.bought", {
+      bean: selected.name,
     });
 
     setToast({
@@ -55,48 +58,57 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     return state.balance.lessThan(price.mul(amount).toString());
   };
 
+  const lessIngredients = () => {
+    return getKeys(selected.ingredients).some((ingredientName) => {
+      const inventoryAmount =
+        inventory[ingredientName]?.toDecimalPlaces(1) || new Decimal(0);
+      const requiredAmount =
+        selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
+        new Decimal(0);
+      return new Decimal(inventoryAmount).lessThan(requiredAmount);
+    });
+  };
+
   const stock = state.stock[selected.name] || new Decimal(0);
   const Action = () => {
-    return <span className="text-center text-xs mt-2">Coming soon</span>;
-    // if (stock?.equals(0)) {
-    //   return (
-    //     <div>
-    //       <p className="text-xxs no-wrap text-center my-1 underline">
-    //         Sold out
-    //       </p>
-    //       <p className="text-xxs text-center">
-    //         Sync your farm to the Blockchain to restock
-    //       </p>
-    //     </div>
-    //   );
-    // }
+    if (stock?.equals(0)) {
+      return (
+        <div>
+          <p className="text-xxs no-wrap text-center my-1 underline">
+            Sold out
+          </p>
+          <p className="text-xxs text-center">
+            Sync your farm to the Blockchain to restock
+          </p>
+        </div>
+      );
+    }
 
-    // const max = INITIAL_STOCK[selected.name];
+    const max = INITIAL_STOCK[selected.name];
 
-    // if (max && inventory[selected.name]?.gt(max)) {
-    //   return (
-    //     <span className="text-xs mt-1 text-center">
-    //       {`Max ${max} ${selected.name}s`}
-    //     </span>
-    //   );
-    // }
+    if (max && inventory[selected.name]?.gt(max)) {
+      return (
+        <span className="text-xs mt-1 text-center">
+          {`Max ${max} ${selected.name}s`}
+        </span>
+      );
+    }
 
-    // const disabled = true;
-    // if (disabled) {
-    //   return <span className="text-sm">Coming soon</span>;
-    // }
+    if (CONFIG.NETWORK === "mainnet" || selected.name !== "Magic Bean") {
+      return <span className="text-sm">Coming soon</span>;
+    }
 
-    // return (
-    //   <>
-    //     <Button
-    //       disabled={lessFunds() || stock?.lessThan(1)}
-    //       className="text-xs mt-1"
-    //       onClick={() => buy(1)}
-    //     >
-    //       Buy 1
-    //     </Button>
-    //   </>
-    // );
+    return (
+      <>
+        <Button
+          disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
+          className="text-xs mt-1"
+          onClick={() => buy(1)}
+        >
+          Buy 1
+        </Button>
+      </>
+    );
   };
 
   return (
@@ -115,7 +127,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
           <Stock item={selected} />
-          <span className="text-center">{selected.name}</span>
+          <span className="text-center mb-1">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="w-8 sm:w-12 img-highlight mt-1"
@@ -145,16 +157,8 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
               // rendering item remenants
               const renderRemenants = () => {
                 if (lessIngredient) {
-                  // if inventory items is less than required items
                   return (
-                    <>
-                      <span className="text-xs text-center mt-2 text-red-500">
-                        {`${inventoryAmount}`}
-                      </span>
-                      <span className="text-xs text-center mt-2 text-red-500">
-                        {`/${requiredAmount}`}
-                      </span>
-                    </>
+                    <RedLabel>{`${inventoryAmount}/${requiredAmount}`}</RedLabel>
                   );
                 } else {
                   // if inventory items is equal to required items
@@ -178,13 +182,13 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             })}
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
-              <span
-                className={classNames("text-xs text-center mt-2", {
-                  "text-red-500": lessFunds(),
-                })}
-              >
-                {`$${price}`}
-              </span>
+              {lessFunds() ? (
+                <RedLabel>{`$${price}`}</RedLabel>
+              ) : (
+                <span className={classNames("text-xs text-center mt-2")}>
+                  {`$${price}`}
+                </span>
+              )}
             </div>
           </div>
           {Action()}

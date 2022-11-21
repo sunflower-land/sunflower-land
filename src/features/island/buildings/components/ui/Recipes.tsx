@@ -14,6 +14,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
 import { secondsToString } from "lib/utils/time";
+import { RedLabel } from "components/ui/RedLabel";
+import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 interface Props {
   recipes: Consumable[];
@@ -73,7 +75,7 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
         <Button
           disabled={lessIngredients()}
           // disabled={lessIngredients() || stock?.lessThan(1)}
-          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+          className="text-sm mt-1 whitespace-nowrap"
           onClick={() => cook()}
         >
           Cook
@@ -100,7 +102,7 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
       <OuterPanel className="flex-1 w-1/2">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {/* <Stock item={selected} /> */}
-          <span className="text-shadow text-center">{selected.name}</span>
+          <span className="text-shadow text-center mb-1">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="h-16 img-highlight mt-1"
@@ -128,14 +130,9 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
                 if (lessIngredient) {
                   // if inventory items is less than required items
                   return (
-                    <>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
-                        {`${inventoryAmount}`}
-                      </span>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
-                        {`/${requiredAmount}`}
-                      </span>
-                    </>
+                    <RedLabel>
+                      {`${inventoryAmount}/${requiredAmount}`}
+                    </RedLabel>
                   );
                 } else {
                   // if inventory items is equal to required items
@@ -165,10 +162,13 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
           <div className="flex mt-2 items-center">
             <img src={watch} className="h-5 mr-2" />
             <span className="text-xs">
-              {secondsToString(selected.cookingSeconds, {
-                length: "medium",
-                removeTrailingZeros: true,
-              })}
+              {secondsToString(
+                getCookingTime(selected.cookingSeconds, state.bumpkin),
+                {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                }
+              )}
             </span>
           </div>
           {Action()}

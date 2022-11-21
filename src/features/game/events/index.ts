@@ -99,6 +99,7 @@ import {
   removeCollectible,
   RemoveCollectibleAction,
 } from "./landExpansion/removeCollectible";
+import { beanBought, BeanBoughtAction } from "./landExpansion/buyBean";
 
 export type PlayingEvent =
   | CraftAction
@@ -142,7 +143,8 @@ export type PlayingEvent =
   | buyDecorationAction
   | SellCropAction
   | RemoveBuildingAction
-  | RemoveCollectibleAction;
+  | RemoveCollectibleAction
+  | BeanBoughtAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -208,6 +210,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crop.sold": sellCrop,
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
+  "bean.bought": beanBought,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

@@ -21,6 +21,11 @@ export const PlaceableController: React.FC = () => {
   ] = useActor(child);
 
   const handleConfirmPlacement = () => {
+    // prevents multiple toasts while spam clicking place button
+    if (!child.state.matches("idle")) {
+      return;
+    }
+
     send("PLACE");
   };
 

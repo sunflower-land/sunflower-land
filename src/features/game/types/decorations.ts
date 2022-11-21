@@ -18,6 +18,8 @@ export type AchievementDecorationName =
 export type ShopDecorationName =
   | "White Tulips"
   | "Potted Sunflower"
+  | "Potted Potato"
+  | "Potted Pumpkin"
   | "Cactus"
   | "Basic Bear";
 
@@ -29,6 +31,14 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Potted Sunflower": {
+    height: 1,
+    width: 1,
+  },
+  "Potted Potato": {
+    height: 1,
+    width: 1,
+  },
+  "Potted Pumpkin": {
     height: 1,
     width: 1,
   },
@@ -105,6 +115,22 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
     },
     description: "Brighten up your land.",
   },
+  "Potted Potato": {
+    name: "Potted Potato",
+    sfl: marketRate(50),
+    ingredients: {
+      Potato: new Decimal(200),
+    },
+    description: "Potato blood runs through your Bumpkin.",
+  },
+  "Potted Pumpkin": {
+    name: "Potted Pumpkin",
+    sfl: marketRate(200),
+    ingredients: {
+      Sunflower: new Decimal(200),
+    },
+    description: "Pumpkins for Bumpkins",
+  },
   Cactus: {
     name: "Cactus",
     sfl: marketRate(20),
@@ -164,7 +190,7 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
   },
   "Rich Bear": {
     name: "Rich Bear",
-    description: "A prized possesion",
+    description: "A prized possession",
     ingredients: {},
   },
 });

@@ -8,6 +8,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 import heart from "assets/icons/level_up.png";
 import firePit from "src/assets/buildings/fire_pit.png";
@@ -35,7 +36,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
 
     setToast({
       icon: heart,
-      content: `+${food.experience}`,
+      content: `+${getFoodExpBoost(food.experience, state.bumpkin)}`,
     });
     setToast({
       icon: ITEM_DETAILS[food.name].image,
@@ -66,7 +67,9 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
         <div className="flex flex-col justify-center items-center p-2 relative">
           {selected !== undefined && (
             <>
-              <span className="text-shadow text-center">{selected.name}</span>
+              <span className="text-shadow text-basetext-center mb-1">
+                {selected.name}
+              </span>
               <img
                 src={ITEM_DETAILS[selected.name].image}
                 className="h-16 img-highlight mt-1"
@@ -80,13 +83,16 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
                 <div className="flex justify-center flex-wrap items-center">
                   <img src={heart} className="me-2 w-6" />
                   <span className="text-xs text-shadow text-center">
-                    {`${selected.experience} EXP`}
+                    {`${getFoodExpBoost(
+                      selected.experience,
+                      state.bumpkin
+                    )} EXP`}
                   </span>
                 </div>
               </div>
               <Button
                 disabled={!inventory[selected.name]?.gt(0)}
-                className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+                className="text-sm mt-1 whitespace-nowrap"
                 onClick={() => feed(selected)}
               >
                 Eat 1

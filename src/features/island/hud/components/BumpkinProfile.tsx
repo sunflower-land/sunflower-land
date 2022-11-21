@@ -29,18 +29,30 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 const DIMENSIONS = {
   width: 52,
   height: 48,
+  top: 1,
+  left: 1,
+  cutout: {
+    width: 56,
+    height: 57,
+  },
+  frame: {
+    marginTop: 14,
+    marginLeft: 4,
+  },
   bumpkin: {
     width: 100,
     marginTop: -36,
+    marginLeft: -20,
   },
   level: {
-    marginLeft: 108,
-    marginTop: 74,
-    width: 27,
+    marginTop: 39,
+    marginLeft: 44,
+    width: 12,
+    height: 11,
   },
   skillsMark: {
-    marginLeft: 116,
-    marginTop: 44,
+    marginTop: 30,
+    marginLeft: 48,
   },
 };
 
@@ -113,8 +125,8 @@ export const BumpkinProfile: React.FC = () => {
       <div
         className={`grid cursor-pointer hover:img-highlight fixed z-50`}
         style={{
-          top: `${PIXEL_SCALE * 15}px`,
-          left: `${PIXEL_SCALE * 5}px`,
+          top: `${PIXEL_SCALE * dimensions.top}px`,
+          left: `${PIXEL_SCALE * dimensions.left}px`,
         }}
         onClick={handleShowHomeModal}
       >
@@ -122,22 +134,23 @@ export const BumpkinProfile: React.FC = () => {
           src={profileBg}
           className="col-start-1 row-start-1 opacity-40"
           style={{
-            width: `${dimensions.width * PIXEL_SCALE}px`,
+            width: `${PIXEL_SCALE * dimensions.width}px`,
+            marginTop: `${PIXEL_SCALE * dimensions.frame.marginTop}px`,
+            marginLeft: `${PIXEL_SCALE * dimensions.frame.marginLeft}px`,
           }}
         />
         <div
           className="col-start-1 row-start-1 overflow-hidden rounded-b-full z-0"
           style={{
-            width: `${dimensions.height * PIXEL_SCALE}px`,
-            height: `${dimensions.height * PIXEL_SCALE * 1.22}px`,
-            marginTop: `${dimensions.bumpkin.marginTop}px`,
+            width: `${PIXEL_SCALE * dimensions.cutout.width}px`,
+            height: `${PIXEL_SCALE * dimensions.cutout.height}px`,
           }}
         >
           {state.bumpkin ? (
             <div
               style={{
-                width: `${dimensions.bumpkin.width * PIXEL_SCALE}px`,
-                marginLeft: "-50%",
+                width: `${PIXEL_SCALE * dimensions.bumpkin.width}px`,
+                marginLeft: `${PIXEL_SCALE * dimensions.bumpkin.marginLeft}px`,
               }}
             >
               <DynamicNFT
@@ -158,7 +171,9 @@ export const BumpkinProfile: React.FC = () => {
         <Spritesheet
           className="col-start-1 row-start-1 z-10"
           style={{
-            width: `${dimensions.width * PIXEL_SCALE}px`,
+            width: `${PIXEL_SCALE * dimensions.width}px`,
+            marginTop: `${PIXEL_SCALE * dimensions.frame.marginTop}px`,
+            marginLeft: `${PIXEL_SCALE * dimensions.frame.marginLeft}px`,
             imageRendering: "pixelated",
           }}
           image={progressBarSprite}
@@ -172,25 +187,26 @@ export const BumpkinProfile: React.FC = () => {
             goToProgress();
           }}
         />
-        <span
-          className={`col-start-1 row-start-1 text-white text-center z-20 text-xxs`}
+        <div
+          className={`col-start-1 row-start-1 flex justify-center items-center text-white z-20 text-xxs`}
           style={{
-            marginLeft: `${dimensions.level.marginLeft}px`,
-            marginTop: `${dimensions.level.marginTop}px`,
-            width: `${dimensions.level.width}px`,
+            marginLeft: `${PIXEL_SCALE * dimensions.level.marginLeft}px`,
+            marginTop: `${PIXEL_SCALE * dimensions.level.marginTop}px`,
+            width: `${PIXEL_SCALE * dimensions.level.width}px`,
+            height: `${PIXEL_SCALE * dimensions.level.height}px`,
           }}
         >
           {level}
-        </span>
+        </div>
         {showSkillPointAlert && !gameState.matches("visiting") && (
           <img
             src={lvlUp}
             className="col-start-1 row-start-1 animate-float z-30"
             style={{
-              width: `${4 * PIXEL_SCALE}px`,
-              height: `${9 * PIXEL_SCALE}px`,
-              marginLeft: `${dimensions.skillsMark.marginLeft}px`,
-              marginTop: `${dimensions.skillsMark.marginTop}px`,
+              width: `${PIXEL_SCALE * 4}px`,
+              height: `${PIXEL_SCALE * 9}px`,
+              marginLeft: `${PIXEL_SCALE * dimensions.skillsMark.marginLeft}px`,
+              marginTop: `${PIXEL_SCALE * dimensions.skillsMark.marginTop}px`,
             }}
           />
         )}

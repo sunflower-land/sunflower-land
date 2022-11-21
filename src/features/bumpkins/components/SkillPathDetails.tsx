@@ -15,6 +15,8 @@ import { getKeys } from "features/game/types/craftables";
 import { acknowledgeSkillPoints } from "../../island/bumpkin/lib/skillPointStorage";
 import { SkillPath } from "./SkillPath";
 import { Button } from "components/ui/Button";
+import { setImageWidth } from "lib/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const RequiredSkillPoints = ({
   missingPointRequirement,
@@ -32,7 +34,7 @@ const RequiredSkillPoints = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">
-        Required Skill Points:
+        Required Skill Points:&nbsp;
       </span>
       <span className="text-xxs sm:text-xs text-center">
         {`${availableSkillPoints}/${pointsRequired}`}
@@ -55,7 +57,11 @@ const RequiredSkill = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">Required Skills:</span>
-      <img src={requiredSkillImage} />
+      <img
+        src={requiredSkillImage}
+        style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
+        onLoad={(e) => setImageWidth(e.currentTarget)}
+      />
     </div>
   );
 };
@@ -120,7 +126,7 @@ export const SkillPathDetails: React.FC<Props> = ({
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {showConfirmButton && (
             <div className="flex flex-col">
-              <p className="mx-4 text-center">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
+              <p className="mx-4 text-center text-base">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
               <div className="flex space-x-1">
                 <Button
                   onClick={() => setShowConfirmButton(false)}
@@ -137,12 +143,13 @@ export const SkillPathDetails: React.FC<Props> = ({
           {!showConfirmButton && (
             <>
               <div className="flex mb-1 items-center">
-                <span className="text-center text-sm sm:text-base mr-2">
+                <span className="text-center text-sm sm:text-base">
                   {selectedSkill}
                 </span>
                 <img
                   src={BUMPKIN_SKILL_TREE[selectedSkill].image}
-                  className="object-scale-down"
+                  style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
                 />
               </div>
 

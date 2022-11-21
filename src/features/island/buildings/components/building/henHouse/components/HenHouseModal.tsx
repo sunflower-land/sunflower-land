@@ -220,7 +220,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               {`Capacity ${placedChickenCount}/${availableSpots}`}
             </span>
             {chickenCount.gte(availableSpots) && (
-              <p className="text-xs mt-1">
+              <p className="text-xs mt-2">
                 Build an extra coop to farm more chickens
               </p>
             )}

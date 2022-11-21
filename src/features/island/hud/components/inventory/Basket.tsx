@@ -2,7 +2,11 @@ import React, { useContext, useRef } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  InventoryItemName,
+  FERTILISERS,
+  COUPONS,
+} from "features/game/types/game";
 
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 
@@ -20,6 +24,8 @@ import { RESOURCES } from "features/game/types/resources";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
+import { KNOWN_IDS } from "features/game/types";
+import { BEANS } from "features/game/types/beans";
 
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
@@ -62,7 +68,7 @@ export const Basket: React.FC = () => {
         className="flex flex-col justify-evenly items-center p-2"
       >
         <img src={basket} className="h-12" alt="Empty Chest" />
-        <span className="text-xs text-shadow text-center mt-2 w-80">
+        <span className="text-xs text-center mt-2 w-80">
           Your basket is empty!
         </span>
       </div>
@@ -78,9 +84,12 @@ export const Basket: React.FC = () => {
   const seeds = getItems(CROP_SEEDS());
   const crops = getItems(CROPS());
   const tools = getItems(TOOLS);
+  const exotic = getItems(BEANS());
   const shovels = getItems(SHOVELS);
   const resources = getItems(RESOURCES);
   const consumables = getItems(CONSUMABLES);
+  const fertilisers = getItems(FERTILISERS);
+  const coupons = getItems(COUPONS);
 
   const allTools = [...tools, ...shovels];
 
@@ -91,15 +100,15 @@ export const Basket: React.FC = () => {
           {selectedItem && (
             <div
               style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-              className="flex flex-col justify-evenly items-center p-2"
+              className="flex flex-col justify-evenly text-center items-center p-2"
             >
-              <span className="text-center text-shadow">{selectedItem}</span>
+              <span>{selectedItem}</span>
               <img
                 src={ITEM_DETAILS[selectedItem].image}
-                className="h-12"
+                className="h-12 mt-2"
                 alt={selectedItem}
               />
-              <span className="text-xs text-shadow text-center mt-2 w-80">
+              <span className="text-xs mt-2 w-80">
                 {ITEM_DETAILS[selectedItem].description}
               </span>
               {!!isSeed(selectedItem) && (
@@ -109,12 +118,22 @@ export const Basket: React.FC = () => {
                     {isTimeBoosted && (
                       <img src={lightning} className="h-6 me-2" />
                     )}
-                    <span className="text-xs text-shadow text-center mt-2 ">
+                    <span className="text-xs mt-2 ">
                       {getCropHarvestTime(selectedItem)}
                     </span>
                   </div>
                 </div>
               )}
+              <div className="flex flex-col items-center justify-center">
+                <a
+                  href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[selectedItem]}`}
+                  className="underline text-xxs hover:text-blue-500 p-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  OpenSea
+                </a>
+              </div>
             </div>
           )}
         </OuterPanel>
@@ -124,46 +143,11 @@ export const Basket: React.FC = () => {
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
         className="overflow-y-auto scrollable overflow-x-hidden"
       >
-        {!!resources.length && (
-          <div className="flex flex-col pl-2" key={"Resources"}>
-            {<p className="mb-2 underline">Resources</p>}
-            <div className="flex mb-2 flex-wrap -ml-1.5">
-              {resources.map((item) => (
-                <Box
-                  count={inventory[item]}
-                  isSelected={selectedItem === item}
-                  key={item}
-                  onClick={() => handleItemClick(item)}
-                  image={ITEM_DETAILS[item].image}
-                  parentDivRef={divRef}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
         {!!seeds.length && (
           <div className="flex flex-col pl-2" key={"Seeds"}>
             {<p className="mb-2 underline">Seeds</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {seeds.map((item) => (
-                <Box
-                  count={inventory[item]}
-                  isSelected={selectedItem === item}
-                  key={item}
-                  onClick={() => handleItemClick(item)}
-                  image={ITEM_DETAILS[item].image}
-                  parentDivRef={divRef}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-        {!!crops.length && (
-          <div className="flex flex-col pl-2" key={"Crops"}>
-            {<p className="mb-2 underline">Crops</p>}
-            <div className="flex mb-2 flex-wrap -ml-1.5">
-              {crops.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}
@@ -193,11 +177,96 @@ export const Basket: React.FC = () => {
             </div>
           </div>
         )}
+        {!!resources.length && (
+          <div className="flex flex-col pl-2" key={"Resources"}>
+            {<p className="mb-2 underline">Resources</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {resources.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!crops.length && (
+          <div className="flex flex-col pl-2" key={"Crops"}>
+            {<p className="mb-2 underline">Crops</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {crops.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!exotic.length && (
+          <div className="flex flex-col pl-2" key={"Exotic"}>
+            {<p className="mb-2 underline">Exotic</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {exotic.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
         {!!consumables.length && (
           <div className="flex flex-col pl-2" key={"foods"}>
             {<p className="mb-2 underline">Foods</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {consumables.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!fertilisers.length && (
+          <div className="flex flex-col pl-2" key={"fertilisers"}>
+            {<p className="mb-2 underline">Fertilisers</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {fertilisers.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!coupons.length && (
+          <div className="flex flex-col pl-2" key={"coupons"}>
+            {<p className="mb-2 underline">Coupons</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {coupons.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}

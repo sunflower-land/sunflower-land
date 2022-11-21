@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
@@ -36,13 +37,10 @@ export function feedBumpkin({
 
   inventory[action.food] = quantity.sub(1);
 
-  let foodExperience = CONSUMABLES[action.food].experience;
-
-  if (bumpkin.skills["Kitchen Hand"]) {
-    foodExperience *= 1.1;
-  }
-
-  bumpkin.experience += foodExperience;
+  bumpkin.experience += getFoodExpBoost(
+    CONSUMABLES[action.food].experience,
+    bumpkin
+  );
 
   bumpkin.activity = trackActivity(`${action.food} Fed`, bumpkin.activity);
 

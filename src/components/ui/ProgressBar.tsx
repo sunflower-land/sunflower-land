@@ -46,7 +46,9 @@ export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
   percentage,
   type,
 }) => {
-  const progressWidth = Math.floor((DIMENSIONS.innerWidth * percentage) / 100);
+  const progressWidth = Math.floor(
+    (DIMENSIONS.innerWidth * Math.min(percentage, 100)) / 100
+  );
 
   return (
     <div
@@ -125,7 +127,7 @@ export const ProgressBar: React.FC<Props> = ({ percentage, type, seconds }) => {
         <span
           className="absolute text-xxs text-white text-center z-30"
           style={{
-            top: `${PIXEL_SCALE * -5}px`,
+            top: `${PIXEL_SCALE * -5.5}px`,
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >

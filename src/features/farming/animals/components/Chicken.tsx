@@ -61,14 +61,14 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   return (
     <InnerPanel
       className={classNames(
-        "transition-opacity scale-90 absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-10 z-20 pointer-events-none",
+        "transition-opacity scale-90 absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-10 z-40 pointer-events-none",
         {
           "opacity-100": showTimeToEgg,
           "opacity-0": !showTimeToEgg,
         }
       )}
     >
-      <div className="text-[8px] text-white mx-1">
+      <div className="text-xs text-white mx-1">
         <span>
           {secondsToString(context.timeToEgg - context.timeElapsed, {
             length: "medium",
@@ -335,8 +335,8 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       )}
       {showEggProgress && (
         <div
-          className="absolute w-2/5 bottom-1 left-4"
-          style={{ zIndex: index + 1 }}
+          className="absolute bottom-4 left-4"
+          style={{ zIndex: index + 1, transform: "scale(0.7)" }}
         >
           <Bar percentage={percentageComplete} type="progress" />
         </div>
