@@ -19,7 +19,7 @@ describe("feed chickens", () => {
     expect(() =>
       feedChicken({
         state: GAME_STATE,
-        action: { type: "chicken.fed", index: 3 },
+        action: { type: "chicken.fed", index: 0 },
       })
     ).toThrow("This chicken does not exist");
   });
@@ -158,9 +158,16 @@ describe("feed chickens", () => {
     const state = {
       ...GAME_STATE,
       inventory: {
-        Chicken: new Decimal(1),
         Wheat: new Decimal(1),
-        ["Fat Chicken"]: new Decimal(1),
+      },
+      chickens: {
+        0: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
       },
       collectibles: {
         "Fat Chicken": [
@@ -187,9 +194,16 @@ describe("feed chickens", () => {
     const state = {
       ...GAME_STATE,
       inventory: {
-        Chicken: new Decimal(1),
         Wheat: new Decimal(1),
-        ["Fat Chicken"]: new Decimal(5),
+      },
+      chickens: {
+        0: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
       },
       collectibles: {
         "Fat Chicken": [
@@ -197,6 +211,20 @@ describe("feed chickens", () => {
             id: "123",
             createdAt: dateNow,
             coordinates: { x: 1, y: 1 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+          {
+            id: "1234",
+            createdAt: dateNow,
+            coordinates: { x: 2, y: 2 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+          {
+            id: "12345",
+            createdAt: dateNow,
+            coordinates: { x: 2, y: 2 },
             // ready at < now
             readyAt: dateNow - 5 * 60 * 1000,
           },
@@ -217,9 +245,114 @@ describe("feed chickens", () => {
       ...GAME_STATE,
       bumpkin: INITIAL_BUMPKIN,
       inventory: {
-        Chicken: new Decimal(15),
-        "Chicken Coop": new Decimal(1),
         Wheat: new Decimal(1),
+      },
+      chickens: {
+        0: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        1: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        2: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        3: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        4: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        5: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        6: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        7: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        8: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        9: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        10: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        11: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        12: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        13: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
+        14: {
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          multiplier: 1,
+        },
       },
       collectibles: {
         "Chicken Coop": [

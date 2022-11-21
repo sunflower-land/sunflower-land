@@ -1,11 +1,12 @@
 import Decimal from "decimal.js-light";
+import cloneDeep from "lodash.clonedeep";
+
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { Collectibles, GameState, Inventory } from "features/game/types/game";
 import {
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
-import { Collectibles, GameState, Inventory } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionFeedChickenAction = {
   type: "chicken.fed";
@@ -74,8 +75,6 @@ export function feedChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const maxChickens = getMaxChickens(collectibles);
-
   const chickens = stateCopy.chickens || {};
   const chicken = chickens[action.index];
 
@@ -86,6 +85,7 @@ export function feedChicken({
     throw new Error("This chicken does not exist");
   }
 
+  const maxChickens = getMaxChickens(collectibles);
   if (action.index > maxChickens - 1) {
     throw new Error(`Cannot have more than ${maxChickens} chickens`);
   }
@@ -105,10 +105,8 @@ export function feedChicken({
 
   const currentWheat = inventory.Wheat || new Decimal(0);
   inventory.Wheat = currentWheat.minus(wheatRequired);
-  chickens[action.index] = {
-    fedAt: makeFedAt(inventory, collectibles, createdAt),
-    multiplier: 1,
-  };
+
+  chickens[action.index].fedAt = makeFedAt(inventory, collectibles, createdAt);
 
   return stateCopy;
 }

@@ -37,6 +37,10 @@ import {
 } from "./landExpansion/ironMine";
 
 import {
+  collectEgg as LandExpansionCollectEgg,
+  LandExpansionCollectEggAction,
+} from "./landExpansion/collectEgg";
+import {
   feedChicken as LandExpansionFeedChicken,
   LandExpansionFeedChickenAction,
 } from "./landExpansion/feedChicken";
@@ -141,6 +145,7 @@ export type PlayingEvent =
   | SeedBoughtAction
   | ClaimAchievementAction
   | FulFillGrubOrderAction
+  | LandExpansionCollectEggAction
   | LandExpansionFeedChickenAction
   | CraftToolAction
   | LandExpansionMigrateAction
@@ -208,6 +213,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
   "grubOrder.fulfilled": fulfillGrubOrder,
+  "chicken.eggCollected": LandExpansionCollectEgg,
   "chicken.fed": LandExpansionFeedChicken,
   "tool.crafted": craftTool,
   "game.migrated": migrate,
