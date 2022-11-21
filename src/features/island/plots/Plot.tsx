@@ -20,7 +20,6 @@ import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Soil } from "features/farming/crops/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
-import { CropReward } from "features/farming/crops/components/CropReward";
 import { isPlotFertile } from "features/game/events/landExpansion/plant";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
@@ -29,6 +28,7 @@ import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
+import { CropReward } from "./CropReward";
 
 interface Props {
   plotIndex: number;
@@ -57,6 +57,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
   const plot = expansion.plots?.[plotIndex];
 
   const crop = plot && plot.crop;
+
   const isFertile = isPlotFertile({
     plotIndex,
     expansionIndex,
@@ -180,6 +181,8 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     if (reward) {
       return;
     }
+
+    console.log({ crop });
 
     // increase touch count if there is a reward
     if (crop?.reward && isReadyToHarvest(now, crop, CROPS()[crop.name])) {
@@ -380,7 +383,8 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       <CropReward
         reward={reward}
         onCollected={onCollectReward}
-        fieldIndex={plotIndex}
+        plotIndex={plotIndex}
+        expansionIndex={expansionIndex}
       />
     </div>
   );
