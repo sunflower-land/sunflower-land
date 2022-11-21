@@ -19,6 +19,7 @@ import {
   DECORATIONS,
 } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
+import { RedLabel } from "components/ui/RedLabel";
 
 interface Props {
   onClose: () => void;
@@ -75,16 +76,7 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
   ) => {
     if (missingIngredients) {
       // if inventory items is less than required items
-      return (
-        <>
-          <span className="text-xs text-shadow text-center mt-2 text-red-500">
-            {`${inventoryAmount}`}
-          </span>
-          <span className="text-xs text-shadow text-center mt-2 text-red-500">
-            {`/${requiredAmount}`}
-          </span>
-        </>
-      );
+      return <RedLabel>{`${inventoryAmount}/${requiredAmount}`}</RedLabel>;
     } else {
       // if inventory items is equal to required items
       return (

@@ -14,7 +14,15 @@ export const Label: React.FC<Props> = ({ children, className }) => {
       )}
       style={pixelWhiteBorderStyle}
     >
-      {children}
+      <span
+        className={classnames(" text-white text-xs")}
+        style={{
+          lineHeight: "12px",
+          height: "14px",
+        }}
+      >
+        {children}
+      </span>
     </div>
   );
 };

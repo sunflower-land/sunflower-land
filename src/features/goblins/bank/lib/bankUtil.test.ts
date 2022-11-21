@@ -515,4 +515,48 @@ describe("canWithdraw", () => {
 
     expect(enabled).toBeFalsy();
   });
+
+  it("prevent a user to withdraw a building", () => {
+    const enabled = canWithdraw({
+      item: "Fire Pit",
+      game: {
+        ...TEST_FARM,
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("prevent a user to withdraw a placed collectible", () => {
+    const enabled = canWithdraw({
+      item: "Apprentice Beaver",
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Apprentice Beaver": [
+            {
+              id: "123",
+              createdAt: 0,
+              coordinates: { x: 1, y: 1 },
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("withdraws a collectible that is not placed", () => {
+    const enabled = canWithdraw({
+      item: "Apprentice Beaver",
+      game: {
+        ...TEST_FARM,
+        collectibles: {},
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
 });

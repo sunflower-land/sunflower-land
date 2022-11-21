@@ -94,7 +94,19 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-type Coupons = "Trading Ticket" | "War Bond" | "Jack-o-lantern";
+export type Coupons = "Trading Ticket" | "War Bond" | "Jack-o-lantern";
+
+export const COUPONS: Record<Coupons, { description: string }> = {
+  "Trading Ticket": {
+    description: "Free Trades! Woohoo!",
+  },
+  "War Bond": {
+    description: "A mark of a true warrior",
+  },
+  "Jack-o-lantern": {
+    description: "A Halloween special event item",
+  },
+};
 
 type Points = "Human War Point" | "Goblin War Point" | "Player Experience";
 
