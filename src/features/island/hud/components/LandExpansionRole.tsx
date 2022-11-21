@@ -7,8 +7,15 @@ import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { addVipRole as addDiscordRole } from "features/game/actions/discordRole";
 import { Context } from "features/game/GameProvider";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
 
-export const LandExpansionRole: React.FC = () => {
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const LandExpansionRole: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
@@ -19,7 +26,6 @@ export const LandExpansionRole: React.FC = () => {
     "idle" | "noDiscord" | "joining" | "joined" | "error"
   >("idle");
 
-  const inventory = gameState.context.state.inventory;
   const oauth = () => {
     redirectOAuth();
   };
@@ -45,44 +51,50 @@ export const LandExpansionRole: React.FC = () => {
     }
   };
 
-  if (state === "error") {
-    return <span className="text-shadow">Error!</span>;
-  }
+  const Content = () => {
+    if (state === "error") {
+      return <span>Error!</span>;
+    }
 
-  if (state === "joining") {
-    return <span className="text-shadow loading">Joining</span>;
-  }
+    if (state === "joining") {
+      return <span className="loading">Joining</span>;
+    }
 
-  if (state === "joined") {
+    if (state === "joined") {
+      return (
+        <>
+          <span className="mt-2 block text-center">Congratulations!</span>
+          <span className="my-2 block text-center">
+            You now have access. Go check out the channel in Discord
+          </span>
+        </>
+      );
+    }
+
+    if (state === "noDiscord") {
+      return (
+        <>
+          <span className="my-2 block text-sm">
+            You must be connected to Discord to join a restricted channel.
+          </span>
+          <Button onClick={oauth}>Connect</Button>
+        </>
+      );
+    }
+
     return (
       <>
-        <span className="text-shadow mt-2 block text-center">
-          Congratulations!
+        <span className="my-2 block text-sm">
+          Get access to the land expansion Beta group
         </span>
-        <span className="text-shadow my-2 block text-center">
-          You now have access. Go check out the channel in Discord
-        </span>
+        <Button onClick={() => addRole()}>Join</Button>
       </>
     );
-  }
-
-  if (state === "noDiscord") {
-    return (
-      <>
-        <span className="text-shadow my-2 block text-sm">
-          You must be connected to Discord to join a restricted channel.
-        </span>
-        <Button onClick={oauth}>Connect</Button>
-      </>
-    );
-  }
+  };
 
   return (
-    <span className="text-shadow my-2 block text-sm">
-      Get access to the land expansion Beta group
-      <Button className="text-xs h-8 w-20" onClick={() => addRole()}>
-        Join
-      </Button>
-    </span>
+    <Modal show={isOpen} onHide={onClose} centered>
+      <Panel className="p-0">{Content()}</Panel>
+    </Modal>
   );
 };

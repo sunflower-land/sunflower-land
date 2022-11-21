@@ -4,11 +4,11 @@
 
 @layer utilities {
   .text-shadow {
-    text-shadow: 1px 1px black;
+    text-shadow: 1px 1px #1f1f1f;
   }
 
   .text-shadow-md {
-    text-shadow: 2px 2px black;
+    text-shadow: 2px 2px #1f1f1f;
   }
 
   .text-shadow-none {
@@ -31,10 +31,15 @@
 }
 
 body {
-  font-family: "Press Start 2p", sans-serif;
+  font-family: "Paytone One", sans-serif;
+
   overflow: hidden;
-  text-shadow: 1px 1px black;
-  font-size: 12px;
+  text-shadow: 1px 1px #1f1f1f;
+  font-size: 22px;
+  letter-spacing: -0.4px;
+  word-spacing: 3px;
+
+  line-height: 20px;
 }
 
 button:disabled {
@@ -43,7 +48,8 @@ button:disabled {
 
 @media screen and (min-width: 480px) {
   body {
-    font-size: 16px;
+    font-size: 24px;
+    line-height: 22px;
   }
 }
 
@@ -160,10 +166,11 @@ img {
 }
 
 /* Loading ellipsis animation that will be added to the end of text ie Loading... */
-.loading {
+.loading,
+.no-tadpoles {
   display: inline-block;
   overflow: hidden;
-  height: 1.5rem;
+  height: 2.5rem;
   line-height: 1.5em;
   vertical-align: text-bottom;
 }
@@ -174,6 +181,10 @@ img {
   text-align: left;
   content: "\A.\A..\A...";
   animation: ellipsis 1s steps(4) infinite;
+}
+
+.no-tadpoles {
+  height: 2.25rem;
 }
 
 .npc-shadow::after {

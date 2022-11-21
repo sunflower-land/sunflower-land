@@ -58,6 +58,7 @@ export const Soil: React.FC<Props> = ({
   if (timeLeft > 0) {
     const growPercentage = 100 - (timeLeft / harvestSeconds) * 100;
     const isAlmostReady = growPercentage >= 50;
+    const isHalfway = growPercentage >= 25 && !isAlmostReady;
 
     return (
       <div className="relative w-full h-full">
@@ -83,24 +84,31 @@ export const Soil: React.FC<Props> = ({
           </div>
         )}
 
-        {getCropImage(isAlmostReady ? lifecycle.almost : lifecycle.seedling)}
+        {getCropImage(
+          isAlmostReady
+            ? lifecycle.almost
+            : isHalfway
+            ? lifecycle.halfway
+            : lifecycle.seedling
+        )}
 
         <div
-          className="absolute z-20"
+          className="absolute"
           style={{
-            top: `${PIXEL_SCALE * 7.5}px`,
+            top: `${PIXEL_SCALE * 9}px`,
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
           <ProgressBar
-            percentage={isRemoving ? -50 : growPercentage}
+            percentage={isRemoving ? 50 : growPercentage}
             seconds={timeLeft}
+            type={isRemoving ? "error" : "progress"}
           />
         </div>
 
         <InnerPanel
           className={classNames(
-            "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-1 z-30 pointer-events-none",
+            "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-1 z-40 pointer-events-none",
             {
               "opacity-100": showCropDetails,
               "opacity-0": !showCropDetails,

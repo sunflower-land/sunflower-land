@@ -21,14 +21,13 @@ import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
-import { HealthBar } from "components/ui/HealthBar";
 import { LandExpansionRock } from "features/game/types/game";
 import { MINE_ERRORS } from "features/game/events/stoneMine";
-import { Overlay } from "react-bootstrap";
-import { Label } from "components/ui/Label";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { Bar } from "components/ui/ProgressBar";
+import { InnerPanel } from "components/ui/Panel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -220,22 +219,19 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 spritesheet.pause();
               }}
             />
-            <Overlay
-              target={containerRef.current}
-              show={errorLabel !== undefined}
-              placement="right"
-            >
-              {({ show, arrowProps, ...props }) => (
-                <div
-                  {...props}
-                  className="absolute -left-1/2 z-10 w-28 pointer-events-none"
-                >
-                  {errorLabel === "noPickaxe" && (
-                    <Label className="p-2">Equip {tool.toLowerCase()}</Label>
-                  )}
-                </div>
+            <InnerPanel
+              className={classNames(
+                "transition-opacity absolute top-2 w-fit left-12 z-40 pointer-events-none",
+                {
+                  "opacity-100": errorLabel === "noPickaxe",
+                  "opacity-0": errorLabel !== "noPickaxe",
+                }
               )}
-            </Overlay>
+            >
+              <div className="text-xxs text-white mx-1">
+                <span>Equip {tool.toLowerCase()}</span>
+              </div>
+            </InnerPanel>
           </>
         </div>
       )}
@@ -282,14 +278,17 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       {/* Health bar shown when striking */}
       <div
         className={classNames(
-          "absolute top-10 left-1 transition-opacity pointer-events-none",
+          "absolute top-10 left-0 transition-opacity pointer-events-none",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
           }
         )}
       >
-        <HealthBar percentage={collecting ? 0 : 100 - (touchCount / 3) * 100} />
+        <Bar
+          percentage={collecting ? 0 : 100 - (touchCount / 3) * 100}
+          type="health"
+        />
       </div>
       {/* Recovery time panel */}
       {mined && (

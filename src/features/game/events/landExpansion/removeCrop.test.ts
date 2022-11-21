@@ -34,7 +34,7 @@ describe("removeCrop", () => {
       })
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_EXPANSION);
   });
-  it("does not remove on a an expansion with no plots", () => {
+  it("does not remove on an expansion with no plots", () => {
     expect(() =>
       removeCrop({
         state: {

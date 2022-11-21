@@ -10,6 +10,8 @@ import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { setImageWidth } from "lib/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SkillCategoryList = ({
   onClick,
@@ -42,8 +44,12 @@ export const SkillCategoryList = ({
               <Label className="px-1 text-xxs absolute -top-3 -right-1">
                 {`${skillsAcquiredInCategoryCount}/${skills.length}`}
               </Label>
-              <div className="flex justify-center">
-                <img src={icon} className="h-9 mr-2" />
+              <div className="flex justify-center items-center">
+                <img
+                  src={icon}
+                  style={{ opacity: 0, marginRight: `${PIXEL_SCALE * 4}px` }}
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
+                />
                 <span className="text-sm">{category}</span>
               </div>
             </OuterPanel>

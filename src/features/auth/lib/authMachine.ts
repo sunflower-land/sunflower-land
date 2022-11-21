@@ -96,6 +96,9 @@ export type BlockchainEvent =
       type: "REFRESH";
     }
   | {
+      type: "CONNECT";
+    }
+  | {
       type: "LOGOUT";
     }
   | { type: "MIGRATE" }
@@ -108,6 +111,8 @@ export type BlockchainEvent =
 
 export type BlockchainState = {
   value:
+    | "idle"
+    | "initialising"
     | "visiting"
     | "connecting"
     | "connected"
@@ -149,8 +154,15 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
-    initial: API_URL ? "connecting" : "connected",
+    initial: API_URL ? "idle" : "connected",
     states: {
+      idle: {
+        on: {
+          CONNECT: {
+            target: "connecting",
+          },
+        },
+      },
       connecting: {
         id: "connecting",
         invoke: {
@@ -231,10 +243,17 @@ export const authMachine = createMachine<
                   target: "countdown",
                   cond: "isFresh",
                 },
+
                 {
-                  target: "readyToStart",
+                  target: "authorised",
                   actions: "assignFarm",
                   cond: "hasFarm",
+                },
+
+                {
+                  cond: (context) =>
+                    !!context.farmId && context.blacklistStatus !== "OK",
+                  target: "blacklisted",
                 },
 
                 { target: "checkingSupply" },

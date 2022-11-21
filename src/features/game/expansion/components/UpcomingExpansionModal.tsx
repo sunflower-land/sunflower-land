@@ -14,6 +14,7 @@ import { Ingredients } from "./Ingredients";
 import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { RedLabel } from "components/ui/RedLabel";
 
 interface Props {
   gameState: GameState;
@@ -42,7 +43,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
           }}
         />
         <div className="flex items-start">
-          <span className="mr-8">
+          <span className="mr-8 text-base">
             More expansions will be available soon...
           </span>
         </div>
@@ -85,7 +86,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       />
       <div className="flex items-start">
         <div>
-          <p className="mr-8">
+          <p className="mr-8 text-base mb-2">
             Want to expand your land and discover new resources?
           </p>
 
@@ -105,12 +106,10 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
             gameState.expansionRequirements.bumpkinLevel && (
             <div className="flex items-center mt-2">
               <img src={heart} className="h-6 ml-0.5 mr-1" />
-              <span
-                className="bg-error border text-xs p-1 rounded-md"
-                style={{ lineHeight: "10px" }}
-              >
+              <RedLabel>
                 Lvl {gameState.expansionRequirements.bumpkinLevel}
-              </span>
+              </RedLabel>
+
               <img src={lock} className="h-6  ml-2" />
             </div>
           )}

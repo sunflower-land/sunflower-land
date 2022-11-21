@@ -40,7 +40,8 @@ export const Menu = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showLogoutModal, setShowSettings] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showLandExpansionModal, setShowLandExpansionModal] = useState(false);
   const [showGoblinModal, setShowGoblinModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
@@ -62,7 +63,12 @@ export const Menu = () => {
   };
 
   const handleSettingsClick = () => {
-    setShowSettings(true);
+    setShowSettingsModal(true);
+    setMenuOpen(false);
+  };
+
+  const handleLandExpansionClick = () => {
+    setShowLandExpansionModal(true);
     setMenuOpen(false);
   };
 
@@ -170,6 +176,16 @@ export const Menu = () => {
                     <span className="sm:text-sm flex-1">Community</span>
                   </Button>
                 </li>
+                {CONFIG.NETWORK === "mainnet" && (
+                  <li className="p-1">
+                    <Button
+                      className="flex justify-between"
+                      onClick={handleLandExpansionClick}
+                    >
+                      <span className="sm:text-sm flex-1">Discord</span>
+                    </Button>
+                  </li>
+                )}
                 <li className="p-1">
                   <Button
                     className="flex justify-between"
@@ -224,11 +240,16 @@ export const Menu = () => {
       />
 
       <Settings
-        isOpen={showLogoutModal}
-        onClose={() => setShowSettings(false)}
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
       />
 
-      <LandExpansionRole />
+      {CONFIG.NETWORK === "mainnet" && (
+        <LandExpansionRole
+          isOpen={showLandExpansionModal}
+          onClose={() => setShowLandExpansionModal(false)}
+        />
+      )}
 
       {showCaptcha && (
         <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>

@@ -78,6 +78,10 @@ export const INITIAL_STOCK: Inventory = {
   "Wheat Cake": new Decimal(1),
 
   "Boiled Eggs": new Decimal(1),
+
+  "Magic Bean": new Decimal(5),
+  "Shiny Bean": new Decimal(5),
+  "Golden Bean": new Decimal(5),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -446,73 +450,6 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
       },
     },
   },
-  {
-    createdAt: 5,
-    readyAt: 0,
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 0,
-        height: 2,
-        width: 2,
-      },
-    },
-    plots: [
-      {
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      {
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      {
-        x: -1,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      {
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-    ],
-
-    iron: {
-      0: {
-        x: 1,
-        y: 3,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
-    stones: {
-      0: {
-        x: 1,
-        y: -2,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
-  },
 ];
 
 export const INITIAL_BUMPKIN: Bumpkin = {
@@ -571,6 +508,7 @@ export const TEST_FARM: GameState = {
     farming: new Decimal(0),
     gathering: new Decimal(0),
   },
+  mysteryPrizes: {},
   stockExpiry: {
     "Sunflower Cake": "1970-06-06",
     "Potato Cake": "1970-01-01T00:00:00.000Z",
@@ -730,6 +668,7 @@ export const EMPTY: GameState = {
 
   buildings: {},
   collectibles: {},
+  mysteryPrizes: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

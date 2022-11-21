@@ -1,10 +1,10 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
-import { GameState } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
+import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
@@ -20,16 +20,12 @@ type Options = {
 
 type GetReadyAtArgs = {
   item: ConsumableName;
-  skills: Partial<Record<BumpkinSkillName, number>>;
+  bumpkin: Bumpkin;
   createdAt: number;
 };
 
-export const getReadyAt = ({ item, skills, createdAt }: GetReadyAtArgs) => {
-  let seconds = CONSUMABLES[item].cookingSeconds;
-
-  if (skills["Rush Hour"]) {
-    seconds -= CONSUMABLES[item].cookingSeconds * 0.2;
-  }
+export const getReadyAt = ({ item, bumpkin, createdAt }: GetReadyAtArgs) => {
+  const seconds = getCookingTime(CONSUMABLES[item].cookingSeconds, bumpkin);
 
   return createdAt + seconds * 1000;
 };
@@ -89,7 +85,7 @@ export function cook({
     name: action.item,
     readyAt: getReadyAt({
       item: action.item,
-      skills: bumpkin.skills,
+      bumpkin,
       createdAt,
     }),
   };

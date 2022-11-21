@@ -25,7 +25,7 @@ import { Stock } from "components/ui/Stock";
 import { hasBoost } from "features/game/expansion/lib/boosts";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/plant";
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -129,7 +129,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           <img src={heart} className="h-4 ml-0.5 mr-1" />
           <span
             className="bg-error border text-xs p-1 rounded-md"
-            style={{ lineHeight: "10px" }}
+            style={{ lineHeight: "12px", height: "23px" }}
           >
             Lvl {selected.bumpkinLevel ?? 0}
           </span>
@@ -198,8 +198,16 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
-            secondaryImage={
-              isSeedLocked(state.bumpkin, SEEDS()[name]) ? lock : undefined
+            showOverlay={isSeedLocked(state.bumpkin, SEEDS()[name])}
+            overlayIcon={
+              <img
+                src={lock}
+                alt="locked"
+                className="relative object-contain"
+                style={{
+                  width: `${PIXEL_SCALE * 12}px`,
+                }}
+              />
             }
             count={inventory[name]}
           />
@@ -208,7 +216,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
           <Stock item={{ name: selectedName }} />
-          <span className="text-shadow text-center">{selectedName}</span>
+          <span className="text-shadow text-center mb-1">{selectedName}</span>
           <img
             src={ITEM_DETAILS[selectedName].image}
             className="w-8 sm:w-12 img-highlight mt-1"

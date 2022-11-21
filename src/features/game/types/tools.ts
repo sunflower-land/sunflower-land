@@ -11,14 +11,16 @@ export type WorkbenchToolName =
   | "Pickaxe"
   | "Stone Pickaxe"
   | "Iron Pickaxe"
-  | "Power Shovel"
-  | "Shovel"
-  | "Rusty Shovel";
+  | "Rusty Shovel"
+  | "Power Shovel";
+
+export type TreasureToolName = "Sand Shovel";
 
 export type WorkbenchTool = {
   sfl: Decimal;
   ingredients: Inventory;
   description: string;
+  disabled?: boolean;
 };
 
 export const WORKBENCH_TOOLS: () => Record<
@@ -31,27 +33,18 @@ export const WORKBENCH_TOOLS: () => Record<
     ingredients: {},
     sfl: marketRate(5),
   },
-  "Rusty Shovel": {
-    name: "Rusty Shovel",
-    description: "Used to remove buildings and collectibles",
-    ingredients: {},
-    sfl: marketRate(5),
-  },
-  Shovel: {
-    name: "Shovel",
-    description: "Used to remove unwanted crops",
-    sfl: marketRate(5),
-    ingredients: {
-      Iron: new Decimal(10),
-      Wood: new Decimal(20),
-    },
-  },
   Pickaxe: {
     name: "Pickaxe",
     description: "Used to collect wood",
     ingredients: {
       Wood: new Decimal(5),
     },
+    sfl: marketRate(5),
+  },
+  "Rusty Shovel": {
+    name: "Rusty Shovel",
+    description: "Used to move buildings and collectibles",
+    ingredients: {},
     sfl: marketRate(5),
   },
   "Stone Pickaxe": {
@@ -64,7 +57,7 @@ export const WORKBENCH_TOOLS: () => Record<
     sfl: marketRate(5),
   },
   "Iron Pickaxe": {
-    name: "Iron Pickaxe",
+    name: "Iron Axe",
     description: "Used to collect wood",
     ingredients: {
       Wood: new Decimal(10),
@@ -76,9 +69,33 @@ export const WORKBENCH_TOOLS: () => Record<
     name: "Power Shovel",
     description: "Used for landscaping",
     ingredients: {
-      Diamond: new Decimal(2),
+      Diamond: new Decimal(5),
       Gold: new Decimal(5),
     },
     sfl: marketRate(5),
+  },
+  "Sand Shovel": {
+    name: "Sand Shovel",
+    description: "Used for digging treasure",
+    ingredients: {
+      Wood: new Decimal(20),
+      Stone: new Decimal(5),
+    },
+    sfl: marketRate(25),
+  },
+});
+
+export const TREASURE_TOOLS: () => Record<
+  TreasureToolName,
+  WorkbenchTool
+> = () => ({
+  "Sand Shovel": {
+    name: "Sand Shovel",
+    description: "Used for digging treasure",
+    ingredients: {
+      Wood: new Decimal(20),
+      Stone: new Decimal(5),
+    },
+    sfl: marketRate(25),
   },
 });

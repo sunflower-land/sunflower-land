@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { cook, getReadyAt } from "./cook";
@@ -260,7 +260,7 @@ describe("getReadyAt", () => {
 
     const time = getReadyAt({
       item: "Boiled Eggs",
-      skills: { "Rush Hour": 1 },
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
       createdAt: now,
     });
 
