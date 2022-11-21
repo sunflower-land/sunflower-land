@@ -2,7 +2,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 
-import { GameState } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { mint } from "../actions/mint";
 import {
   LimitedItem,
@@ -26,7 +26,6 @@ import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
-import { Inventory } from "lib/blockchain/Inventory";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 

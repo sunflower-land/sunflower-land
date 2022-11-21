@@ -378,7 +378,9 @@ export const authMachine = createMachine<
           readyToStart: {
             invoke: {
               src: async () => ({
-                skipSplash: window.location.hash.includes("retreat"),
+                skipSplash:
+                  window.location.hash.includes("goblins") ||
+                  window.location.hash.includes("retreat"),
               }),
               onDone: {
                 cond: (_, event) => event.data.skipSplash,

@@ -8,8 +8,8 @@ type Cache = {
   items: Item[];
   id: string;
 };
-
-const CACHE_KEY = "auctioneer.items";
+const host = window.location.host.replace(/^www\./, "");
+const CACHE_KEY = `auctioneer.items.${host}-${window.location.pathname}`;
 const CACHE_MINUTES = 5;
 
 function loadCachedItems(): Cache | null {

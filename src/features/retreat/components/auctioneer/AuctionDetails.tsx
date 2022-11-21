@@ -25,7 +25,6 @@ export const AuctionDetails: React.FC<Props> = ({
   game,
   onMint,
 }) => {
-  console.log({ currentRelease });
   const releaseDate = currentRelease?.releaseDate as number;
   const releaseEndDate = currentRelease?.endDate as number;
   const start = useCountdown(releaseDate);
@@ -40,7 +39,10 @@ export const AuctionDetails: React.FC<Props> = ({
     !end.days && !end.hours && !end.minutes && !end.seconds;
 
   // TODO - aggregate previous supplies as well
-  const availableSupply = currentRelease?.supply ?? 0;
+  const availableSupply = releases.reduce(
+    (supply, release) => supply + release.price,
+    0
+  );
 
   return (
     <div className="w-full p-2 flex flex-col items-center">
