@@ -36,7 +36,8 @@ body {
   overflow: hidden;
   text-shadow: 1px 1px #1f1f1f;
   font-size: 22px;
-  letter-spacing: 0.7px;
+  letter-spacing: -0.4px;
+  word-spacing: 3px;
 
   line-height: 20px;
 }

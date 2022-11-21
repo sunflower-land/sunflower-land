@@ -4,10 +4,9 @@ import classNames from "classnames";
 
 import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
-import soilNotFertile from "assets/land/soil_not_fertile.png";
+import soilNotFertile from "assets/land/soil_dry.png";
 import well from "assets/buildings/well1.png";
 import close from "assets/icons/close.png";
-import water from "assets/icons/water.png";
 
 import { Context } from "features/game/GameProvider";
 import {
@@ -222,6 +221,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
 
         setProcAnimation(null);
       } catch (e: any) {
+        console.log({ e });
         // TODO - catch more elaborate errors
         displayPopover();
       }
@@ -305,15 +305,6 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
               width: `${PIXEL_SCALE * 16}px`,
             }}
             onClick={notFertileCallback}
-          />
-          <img
-            src={water}
-            alt="water drop"
-            className="absolute pointer-events-none"
-            style={{
-              right: `${PIXEL_SCALE * 4.5}px`,
-              width: `${PIXEL_SCALE * 7}px`,
-            }}
           />
         </div>
       </>

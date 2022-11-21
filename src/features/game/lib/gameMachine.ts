@@ -68,6 +68,10 @@ export interface Context {
   goblinSwarm?: Date;
   deviceTrackerId?: string;
   status?: "COOL_DOWN";
+  revealed?: {
+    balance: string;
+    inventory: Record<InventoryItemName, string>;
+  };
 }
 
 type MintEvent = {
@@ -124,6 +128,9 @@ export type BlockchainEvent =
     }
   | {
       type: "RESET";
+    }
+  | {
+      type: "REVEAL";
     }
   | {
       type: "SKIP_MIGRATION";
@@ -229,6 +236,8 @@ export type BlockchainState = {
     | "expanding"
     | "expanded"
     | "levelling"
+    | "revealing"
+    | "revealed"
     | "error"
     | "refreshing"
     | "swarming"
@@ -593,6 +602,9 @@ export function startGame(authContext: Options) {
             LEVEL_UP: {
               target: "levelling",
             },
+            REVEAL: {
+              target: "revealing",
+            },
             EXPIRED: {
               target: "error",
               actions: assign((_) => ({
@@ -769,6 +781,65 @@ export function startGame(authContext: Options) {
           },
         },
 
+        // Similar to autosaving, but for events that are only processed server side
+        revealing: {
+          invoke: {
+            src: async (context, e) => {
+              // Grab the server side event to fire
+              const { event } = e as { event: any; type: "REVEAL" };
+
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.rawToken as string,
+                  offset: context.offset,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                });
+              }
+
+              const { farm, changeset } = await autosave({
+                farmId: Number(authContext.farmId),
+                sessionId: context.sessionId as string,
+                actions: [event],
+                token: authContext.rawToken as string,
+                offset: context.offset,
+                fingerprint: context.fingerprint as string,
+                deviceTrackerId: context.deviceTrackerId as string,
+              });
+
+              return {
+                farm,
+                changeset,
+              };
+            },
+            onDone: [
+              {
+                target: "revealed",
+                actions: assign((_, event) => ({
+                  // Remove events
+                  actions: [],
+                  // Update immediately with state from server
+                  state: event.data.farm,
+                  revealed: event.data.changeset,
+                })),
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        revealed: {
+          on: {
+            CONTINUE: {
+              target: "playing",
+            },
+          },
+        },
         refreshing: {
           invoke: {
             src: async (context, event) => {
@@ -797,6 +868,9 @@ export function startGame(authContext: Options) {
         error: {
           on: {
             CONTINUE: "playing",
+            REFRESH: {
+              target: "loading",
+            },
           },
         },
         synced: {

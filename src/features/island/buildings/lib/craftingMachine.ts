@@ -2,6 +2,7 @@ import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { MachineInterpreter as GameServiceMachineInterpreter } from "src/features/game/lib/gameMachine";
 import { GameEventName, PlayingEvent } from "features/game/events";
+import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 export interface CraftingContext {
   name?: ConsumableName;
@@ -148,11 +149,13 @@ export const craftingMachine = createMachine<
           buildingId: context.buildingId,
         });
       },
-      assignCraftingDetails: assign((_, event) => {
+      assignCraftingDetails: assign((context, event) => {
         const { cookingSeconds } = CONSUMABLES[(event as CraftEvent).item];
+        const { bumpkin } = context.gameService.state.context.state;
+        const reducedSeconds = getCookingTime(cookingSeconds, bumpkin);
 
         return {
-          readyAt: Date.now() + cookingSeconds * 1000,
+          readyAt: Date.now() + reducedSeconds * 1000,
           name: (event as CraftEvent).item,
         };
       }),
