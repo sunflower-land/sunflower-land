@@ -83,38 +83,40 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
 
   const harvestCrop = (crop: PlantedCrop) => {
     try {
-      gameService.send("crop.harvested", {
+      const newState = gameService.send("crop.harvested", {
         index: plotIndex,
         expansionIndex,
       });
 
-      harvestAudio.play();
+      if (!newState.matches("hoarding")) {
+        harvestAudio.play();
 
-      // firework animation
-      if (crop.amount && crop.amount >= 10) {
-        setProcAnimation(
-          <Spritesheet
-            className="absolute pointer-events-none"
-            style={{
-              top: `${PIXEL_SCALE * -23}px`,
-              left: `${PIXEL_SCALE * -10}px`,
-              width: `${PIXEL_SCALE * HARVEST_PROC_ANIMATION.size}px`,
-              imageRendering: "pixelated",
-            }}
-            image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
-            widthFrame={HARVEST_PROC_ANIMATION.size}
-            heightFrame={HARVEST_PROC_ANIMATION.size}
-            fps={HARVEST_PROC_ANIMATION.fps}
-            steps={HARVEST_PROC_ANIMATION.steps}
-            hiddenWhenPaused={true}
-          />
-        );
+        // firework animation
+        if (crop.amount && crop.amount >= 10) {
+          setProcAnimation(
+            <Spritesheet
+              className="absolute pointer-events-none"
+              style={{
+                top: `${PIXEL_SCALE * -23}px`,
+                left: `${PIXEL_SCALE * -10}px`,
+                width: `${PIXEL_SCALE * HARVEST_PROC_ANIMATION.size}px`,
+                imageRendering: "pixelated",
+              }}
+              image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
+              widthFrame={HARVEST_PROC_ANIMATION.size}
+              heightFrame={HARVEST_PROC_ANIMATION.size}
+              fps={HARVEST_PROC_ANIMATION.fps}
+              steps={HARVEST_PROC_ANIMATION.steps}
+              hiddenWhenPaused={true}
+            />
+          );
+        }
+
+        setToast({
+          icon: ITEM_DETAILS[crop.name].image,
+          content: `+${crop.amount || 1}`,
+        });
       }
-
-      setToast({
-        icon: ITEM_DETAILS[crop.name].image,
-        content: `+${crop.amount || 1}`,
-      });
     } catch (e: any) {
       // TODO - catch more elaborate errors
       displayPopover();

@@ -93,36 +93,38 @@ export const Field: React.FC<Props> = ({
   };
 
   const harvestCrop = () => {
-    gameService.send("item.harvested", {
+    const newState = gameService.send("item.harvested", {
       index: fieldIndex,
     });
 
-    harvestAudio.play();
+    if (!newState.matches("hoarding")) {
+      harvestAudio.play();
 
-    if (field.multiplier && field.multiplier >= 10) {
-      setProcAnimation(
-        <Spritesheet
-          className="absolute pointer-events-none bottom-[4px] -left-[26px]"
-          style={{
-            width: `${HARVEST_PROC_ANIMATION.size * PIXEL_SCALE}px`,
-            imageRendering: "pixelated",
-          }}
-          image={HARVEST_PROC_ANIMATION.sprites[field.name]}
-          widthFrame={HARVEST_PROC_ANIMATION.size}
-          heightFrame={HARVEST_PROC_ANIMATION.size}
-          fps={HARVEST_PROC_ANIMATION.fps}
-          steps={HARVEST_PROC_ANIMATION.steps}
-          hiddenWhenPaused={true}
-        />
+      if (field.multiplier && field.multiplier >= 10) {
+        setProcAnimation(
+          <Spritesheet
+            className="absolute pointer-events-none bottom-[4px] -left-[26px]"
+            style={{
+              width: `${HARVEST_PROC_ANIMATION.size * PIXEL_SCALE}px`,
+              imageRendering: "pixelated",
+            }}
+            image={HARVEST_PROC_ANIMATION.sprites[field.name]}
+            widthFrame={HARVEST_PROC_ANIMATION.size}
+            heightFrame={HARVEST_PROC_ANIMATION.size}
+            fps={HARVEST_PROC_ANIMATION.fps}
+            steps={HARVEST_PROC_ANIMATION.steps}
+            hiddenWhenPaused={true}
+          />
+        );
+      }
+
+      displayPopover(
+        <div className="flex items-center justify-center text-xs text-white overflow-visible">
+          <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
+          <span>{`+${field.multiplier || 1}`}</span>
+        </div>
       );
     }
-
-    displayPopover(
-      <div className="flex items-center justify-center text-xs text-white overflow-visible">
-        <img src={ITEM_DETAILS[field.name].image} className="w-4 mr-1" />
-        <span>{`+${field.multiplier || 1}`}</span>
-      </div>
-    );
   };
 
   const handleMouseHover = () => {
