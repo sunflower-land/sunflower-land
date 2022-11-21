@@ -6,6 +6,15 @@ import {
 import { GameState, PlacedItem } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 
+// TODO
+export const COLLECTIBLE_PLACE_SECONDS: Partial<
+  Record<CollectibleName, number>
+> = {
+  "Foreman Beaver": 60 * 60 * 8,
+  Kuebiko: 60 * 60 * 24,
+  Scarecrow: 5 * 60,
+};
+
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
   name: CollectibleName;
@@ -52,10 +61,11 @@ export function placeCollectible({
   }
 
   const placed = stateCopy.collectibles[action.name] || [];
+  const seconds = COLLECTIBLE_PLACE_SECONDS[action.name] ?? 0;
   const newCollectiblePlacement: Omit<PlacedItem, "id"> = {
     createdAt: createdAt,
     coordinates: action.coordinates,
-    readyAt: createdAt + 5 * 60 * 1000,
+    readyAt: createdAt + seconds * 1000,
   };
 
   bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);

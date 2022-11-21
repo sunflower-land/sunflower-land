@@ -54,13 +54,13 @@ export function constructBuilding({
     throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_SFL);
   }
 
-  let misingIngredients: string[] = [];
+  let missingIngredients: string[] = [];
   const inventoryMinusIngredients = building.ingredients.reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient.item] || new Decimal(0);
 
       if (count.lessThan(ingredient.amount)) {
-        misingIngredients = [...misingIngredients, ingredient.item];
+        missingIngredients = [...missingIngredients, ingredient.item];
       }
 
       return {
@@ -71,11 +71,11 @@ export function constructBuilding({
     stateCopy.inventory
   );
 
-  if (misingIngredients.length > 0) {
+  if (missingIngredients.length > 0) {
     throw new Error(
       `${
         CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
-      }${misingIngredients.join(", ")}`
+      }${missingIngredients.join(", ")}`
     );
   }
 

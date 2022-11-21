@@ -26,7 +26,7 @@ export const Button: React.FC<Props> = ({
       onClick={onClick}
       style={pixelLightBordertyle}
     >
-      {children}
+      <div className="mb-1">{children}</div>
     </button>
   );
 };

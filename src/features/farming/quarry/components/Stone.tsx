@@ -22,11 +22,11 @@ import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { Bar, ProgressBar } from "components/ui/ProgressBar";
-import { Label } from "components/ui/Label";
 import { canMine } from "features/game/events/stoneMine";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { InnerPanel } from "components/ui/Panel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -228,13 +228,19 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
               spritesheet.pause();
             }}
           />
-          <div
-            className={`absolute top-10 transition pointer-events-none w-28 z-20 ${
-              showLabel ? "opacity-100" : "opacity-0"
-            }`}
+          <InnerPanel
+            className={classNames(
+              "ml-10 transition-opacity absolute top-6 w-fit left-5 z-40 pointer-events-none",
+              {
+                "opacity-100": showLabel,
+                "opacity-0": !showLabel,
+              }
+            )}
           >
-            <Label className="p-2">Equip {tool.toLowerCase()}</Label>
-          </div>
+            <div className="text-xxs text-white mx-1">
+              <span>Equip {tool.toLowerCase()}</span>
+            </div>
+          </InnerPanel>
         </div>
       )}
 

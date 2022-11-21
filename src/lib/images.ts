@@ -1,3 +1,5 @@
+import { PIXEL_SCALE } from "features/game/lib/constants";
+
 const p1 = 0.99;
 const p2 = 0.99;
 const p3 = 0.99;
@@ -54,4 +56,15 @@ export const addNoise = (img: HTMLImageElement, noise = 0.4) => {
 
   img.src = base64URI;
   return base64URI;
+};
+
+export const setImageWidth = (img: HTMLImageElement) => {
+  // adjust image width only if loaded
+  if (!img || !img.complete || !img.naturalWidth || !img.naturalHeight) {
+    return;
+  }
+
+  img.style.width = `${PIXEL_SCALE * img.naturalWidth}px`;
+  img.style.height = `${PIXEL_SCALE * img.naturalHeight}px`;
+  img.style.opacity = "1";
 };
