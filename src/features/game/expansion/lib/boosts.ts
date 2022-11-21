@@ -43,11 +43,6 @@ export const getSellPrice = (
     price = price.mul(1.2);
   }
 
-  // apply Green Thumb boost to crop BUMPKIN NEW SKILL!
-  if (item.name in crops && skills["Green Thumb"]) {
-    price = price.mul(1.05);
-  }
-
   return price;
 };
 
@@ -58,9 +53,6 @@ export const getSellPrice = (
 export const hasSellBoost = (inventory: Inventory, bumpkin: Bumpkin) => {
   const { skills } = bumpkin;
   if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
-    return true;
-  }
-  if (skills["Green Thumb"]) {
     return true;
   }
 

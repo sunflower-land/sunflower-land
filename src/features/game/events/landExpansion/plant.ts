@@ -183,6 +183,11 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
+  //Bumpkin Skill boost Green Thumb Skill
+  if (skills["Green Thumb"]) {
+    amount *= 1.05;
+  }
+
   //Bumpkin Skill boost Master Farmer Skill
   if (skills["Master Farmer"]) {
     amount *= 1.1;

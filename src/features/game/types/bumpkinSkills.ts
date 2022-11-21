@@ -56,7 +56,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Crops are worth 5% more",
+    boosts: "Crops yield 5% more",
     image: greenThumb,
   },
   Cultivator: {
