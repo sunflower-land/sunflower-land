@@ -56,7 +56,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
         {machine.matches("approve") && (
           <>
             <div className="flex flex-col items-center mt-1 mb-1">
-              <h1 className="text-xl mb-2 text-center">
+              <h1 className="text-lg mb-2 text-center">
                 {`This season's event: Frogs!`}
               </h1>
               <p className="text-xs mb-4\2 mt-2 text-center">
@@ -111,7 +111,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
         {machine.matches("mint") && (
           <>
             <div className="flex flex-col items-center mt-1 mb-1">
-              <h1 className="text-xl mb-2 text-center">
+              <h1 className="text-lg mb-2 text-center">
                 {`This season's event: Frogs!`}
               </h1>
               <p className="text-xs mb-4\2 mt-2 text-center">
