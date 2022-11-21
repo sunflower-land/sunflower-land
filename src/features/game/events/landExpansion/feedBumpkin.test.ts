@@ -94,7 +94,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Boiled Eggs"].experience * 1.1
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber()
     );
   });
 });

@@ -3,6 +3,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 export type FeedBumpkinAction = {
   type: "bumpkin.feed";
