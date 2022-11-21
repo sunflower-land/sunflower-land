@@ -1,5 +1,5 @@
 import { useActor, useInterpret, useSelector } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import debounce from "lodash.debounce";
 
@@ -34,7 +34,6 @@ import { MutantChickenModal } from "./MutantChickenModal";
 import { MutantChicken } from "features/game/types/craftables";
 import { ChickenPosition } from "features/game/types/game";
 import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
-import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   index: number;
@@ -89,7 +88,6 @@ const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
 export const Chicken: React.FC<Props> = ({ index, position }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [
     {
       context: { state },
@@ -107,19 +105,19 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   };
 
   // useInterpret returns a static reference (to just the interpreted machine) which will not rerender when its state changes
-  const service = useInterpret(chickenMachine, {
+  const chickenService = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
   }) as unknown as MachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
-  const hungry = useSelector(service, isHungry);
-  const eating = useSelector(service, isEating);
-  const sleeping = useSelector(service, isSleeping);
-  const happy = useSelector(service, isHappy);
-  const eggReady = useSelector(service, isEggReady);
-  const eggLaid = useSelector(service, isEggLaid);
+  const hungry = useSelector(chickenService, isHungry);
+  const eating = useSelector(chickenService, isEating);
+  const sleeping = useSelector(chickenService, isSleeping);
+  const happy = useSelector(chickenService, isHappy);
+  const eggReady = useSelector(chickenService, isEggReady);
+  const eggLaid = useSelector(chickenService, isEggLaid);
   console.log({ chickenContext, hungry });
 
   const eggIsBrewing = happy || sleeping;
@@ -129,8 +127,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const [showPopover, setShowPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
-
-  const [collectingEgg, setCollectingEgg] = useState(false);
 
   const debouncedHandleMouseEnter = debounce(
     () => eggIsBrewing && setShowTimeToEgg(true),
@@ -164,7 +160,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
     const chicken = chickens[index];
 
-    service.send("FEED", {
+    chickenService.send("FEED", {
       fedAt: chicken.fedAt,
     });
 
@@ -185,35 +181,22 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
 
   const handleContinue = () => {
     setShowMutantModal(false);
-
-    setToast({
-      icon: ITEM_DETAILS[chicken.reward?.items[0].name as MutantChicken].image,
-      content: "+1",
-    });
-
     collectEgg();
   };
 
-  // do not show toast and reset chicken state while hoarding
-  useEffect(() => {
-    if (collectingEgg && !gameState.matches("hoarding")) {
-      service.send("COLLECT");
-    }
-
-    setCollectingEgg(false);
-  }, [collectingEgg]);
-
   const collectEgg = () => {
-    gameService.send("chicken.collectEgg", {
+    const gameState = gameService.send("chicken.collectEgg", {
       index,
     });
 
-    setToast({
-      icon: egg,
-      content: `+${chicken.multiplier}`,
-    });
+    if (gameState.matches("playing")) {
+      chickenService.send("COLLECT");
 
-    setCollectingEgg(true);
+      setToast({
+        icon: egg,
+        content: `+${chicken.multiplier}`,
+      });
+    }
   };
 
   return (
@@ -326,7 +309,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
             direction={`forward`}
             autoplay={true}
             loop={true}
-            onClick={() => service.send("LAY")}
+            onClick={() => chickenService.send("LAY")}
           />
         )}
         {eggLaid && (
@@ -350,7 +333,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
         )}
       </div>
       {eggIsBrewing && showTimeToEgg && (
-        <TimeToEgg showTimeToEgg={showTimeToEgg} service={service} />
+        <TimeToEgg showTimeToEgg={showTimeToEgg} service={chickenService} />
       )}
       {showEggProgress && (
         <div

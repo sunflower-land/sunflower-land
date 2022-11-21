@@ -1,5 +1,5 @@
 import { useActor, useInterpret, useSelector } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
 import hungryChicken from "assets/animals/chickens/hungry_2.gif";
@@ -35,7 +35,6 @@ import {
   MachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
-import { ITEM_DETAILS } from "features/game/types/images";
 interface Props {
   index: number;
 }
@@ -92,7 +91,6 @@ const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
 export const Chicken: React.FC<Props> = ({ index }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [
     {
       context: { state },
@@ -131,9 +129,6 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
 
-  const [feedingChicken, setFeedingChicken] = useState(false);
-  const [collectingEgg, setCollectingEgg] = useState(false);
-
   const handleMouseEnter = () => {
     eggIsBrewing && setShowTimeToEgg(true);
   };
@@ -159,26 +154,6 @@ export const Chicken: React.FC<Props> = ({ index }) => {
     }
   };
 
-  // do not feed chicken while hoarding
-  useEffect(() => {
-    if (feedingChicken && !gameState.matches("hoarding")) {
-      service.send("FEED", {
-        fedAt: chicken.fedAt,
-      });
-    }
-
-    setFeedingChicken(false);
-  }, [feedingChicken]);
-
-  // do not show toast and reset chicken state while hoarding
-  useEffect(() => {
-    if (collectingEgg && !gameState.matches("hoarding")) {
-      service.send("COLLECT");
-    }
-
-    setCollectingEgg(false);
-  }, [collectingEgg]);
-
   const feed = async () => {
     const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
     const wheatRequired = getWheatRequiredToFeed(state.inventory);
@@ -190,16 +165,24 @@ export const Chicken: React.FC<Props> = ({ index }) => {
       return;
     }
 
-    gameService.send("chicken.feed", {
+    const {
+      context: {
+        state: { chickens },
+      },
+    } = gameService.send("chicken.feed", {
       index,
+    });
+
+    const chicken = chickens[index];
+
+    service.send("FEED", {
+      fedAt: chicken.fedAt,
     });
 
     setToast({
       icon: wheat,
       content: `-${wheatRequired}`,
     });
-
-    setFeedingChicken(true);
   };
 
   const handleCollect = () => {
@@ -213,12 +196,6 @@ export const Chicken: React.FC<Props> = ({ index }) => {
 
   const handleContinue = () => {
     setShowMutantModal(false);
-
-    setToast({
-      icon: ITEM_DETAILS[chicken.reward?.items[0].name as MutantChicken].image,
-      content: "+1",
-    });
-
     collectEgg();
   };
 
@@ -227,12 +204,12 @@ export const Chicken: React.FC<Props> = ({ index }) => {
       index,
     });
 
+    service.send("COLLECT");
+
     setToast({
       icon: egg,
       content: `+${chicken.multiplier}`,
     });
-
-    setCollectingEgg(true);
   };
 
   return (
