@@ -411,7 +411,6 @@ describe("plant", () => {
         ...PARSNIP_STATE,
         inventory: {
           "Parsnip Seed": new Decimal(1),
-          // "Mysterious Parsnip": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         collectibles: {},
@@ -448,7 +447,6 @@ describe("plant", () => {
         ...SKILL_STATE,
         inventory: {
           "Sunflower Seed": new Decimal(1),
-          // "Mysterious Parsnip": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         collectibles: {},
