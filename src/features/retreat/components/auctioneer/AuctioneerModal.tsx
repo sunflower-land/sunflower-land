@@ -72,10 +72,16 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <Panel className="pt-5 relative">
           <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
             <div className="flex">
-              <Tab isActive={tab === "auction"}>
+              <Tab
+                isActive={tab === "auction"}
+                onClick={() => setTab("auction")}
+              >
                 <span className="text-sm text-shadow ml-1">Auctioneer</span>
               </Tab>
-              <Tab isActive={tab === "upcoming"}>
+              <Tab
+                isActive={tab === "upcoming"}
+                onClick={() => setTab("upcoming")}
+              >
                 <span className="text-sm text-shadow ml-1">Upcoming</span>
               </Tab>
             </div>
