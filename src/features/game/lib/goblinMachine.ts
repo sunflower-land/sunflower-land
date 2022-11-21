@@ -154,7 +154,7 @@ export function startGoblinVillage(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, GoblinMachineState>(
     {
       id: "goblinMachine",
-      initial: API_URL ? "loading" : "auctioneer",
+      initial: API_URL ? "loading" : "playing",
       context: {
         state: EMPTY,
         sessionId: INITIAL_SESSION,

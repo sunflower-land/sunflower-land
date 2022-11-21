@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import close from "assets/icons/close.png";
-
+import { Context } from "features/game/GoblinProvider";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { UpcomingAuctions } from "./UpcomingAuctions";
+import { useActor } from "@xstate/react";
+import { Loading } from "features/auth/components";
+import { MachineInterpreter } from "features/game/lib/goblinMachine";
 
 interface Props {
   isOpen: boolean;
@@ -14,7 +17,16 @@ interface Props {
 }
 
 export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [tab, setTab] = useState<"auction" | "upcoming">("upcoming");
+  const [tab, setTab] = useState<"auction" | "upcoming">("auction");
+  const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
+  const child = goblinState.children.auctioneer as MachineInterpreter;
+
+  const [auctioneerState] = useActor(child);
+
+  const isLoading = auctioneerState.matches("loading");
+  const isMinting = auctioneerState.matches("minting");
+
   return (
     <Modal centered show={isOpen} onHide={onClose} scrollable>
       <Panel className="pt-5 relative">
@@ -39,8 +51,14 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             minHeight: "200px",
           }}
         >
-          {tab === "auction" && <AuctioneerContent />}
-          {tab === "upcoming" && <UpcomingAuctions />}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              {tab === "auction" && <AuctioneerContent />}
+              {tab === "upcoming" && <UpcomingAuctions />}
+            </>
+          )}
         </div>
       </Panel>
     </Modal>
