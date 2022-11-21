@@ -18,6 +18,7 @@ import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { TreasureToolName, TREASURE_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { RedLabel } from "components/ui/RedLabel";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -203,14 +204,9 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
                   if (lessIngredient) {
                     // if inventory items is less than required items
                     return (
-                      <>
-                        <span className="text-xs text-center mt-2 text-red-500">
-                          {`${inventoryAmount}`}
-                        </span>
-                        <span className="text-xs text-center mt-2 text-red-500">
-                          {`/${requiredAmount}`}
-                        </span>
-                      </>
+                      <RedLabel>
+                        {`${inventoryAmount}/${requiredAmount}`}
+                      </RedLabel>
                     );
                   } else {
                     // if inventory items is equal to required items
@@ -237,13 +233,15 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
               {price?.gt(0) && (
                 <div className="flex justify-center items-end">
                   <img src={token} className="h-5 mr-1" />
-                  <span
-                    className={classNames("text-xs text-center mt-2", {
-                      "text-red-500": lessFunds(),
-                    })}
-                  >
-                    {`$${price?.toNumber()}`}
-                  </span>
+                  {lessFunds() ? (
+                    <RedLabel>{`$${price?.toNumber()}`}</RedLabel>
+                  ) : (
+                    <span
+                      className={classNames("text-xs text-center mt-2", {})}
+                    >
+                      {`$${price?.toNumber()}`}
+                    </span>
+                  )}
                 </div>
               )}
             </div>
