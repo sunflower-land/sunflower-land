@@ -25,10 +25,11 @@ export const UpcomingAuctions: React.FC = () => {
     >
       {upcoming.map((item) => (
         <AuctionDetails
+          key={item.name}
           item={item}
           game={goblinState.context.state}
           // Won't be called
-          onMint={() => {}}
+          onMint={console.log}
           isMinting={false}
         />
       ))}

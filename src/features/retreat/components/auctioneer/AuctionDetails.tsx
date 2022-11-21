@@ -2,7 +2,6 @@ import React from "react";
 
 import { Button } from "components/ui/Button";
 import token from "assets/icons/token_2.png";
-import wood from "assets/resources/wood.png";
 import bg from "assets/ui/brown_background.png";
 
 import { RedLabel } from "components/ui/RedLabel";
@@ -63,24 +62,52 @@ export const AuctionDetails: React.FC<Props> = ({
               className="h-[70%] z-20 object-cover mb-2"
             />
 
-            <div>
-              {!isMintStarted && (
-                <p className="text-lg z-10 text-center w-full bottom-2">
-                  {`${start.days} days ${start.hours} hours ${start.minutes} minutes ${start.seconds} seconds`}
-                </p>
-              )}
-
-              {isMintStarted && (
-                <div className="w-full bottom-2 text-center">
-                  <span className="bg-[#ff8f0e] border text-xxs ml-2 p-1 rounded-md">
-                    {`Closes in`}
-                  </span>
-                  <p className="text-lg z-10 text-center w-full bottom-2 mt-1">
-                    {`${end.days} days ${end.hours} hours ${end.minutes} minutes ${end.seconds} seconds`}
-                  </p>
+            {!isMintStarted && (
+              <div className="flex w-full justify-around relative top-1">
+                <div className="flex flex-col items-center mr-1">
+                  <p className="text-lg">{`${start.days}`}</p>
+                  <p className="text-xs font-thin">days</p>
                 </div>
-              )}
-            </div>
+                <div className="flex flex-col items-center mr-1">
+                  <p className="text-lg">{`${start.hours}`}</p>
+                  <p className="text-xs font-thin">hours</p>
+                </div>
+                <div className="flex flex-col items-center mr-1">
+                  <p className="text-lg">{`${start.minutes}`}</p>
+                  <p className="text-xs font-thin">minutes</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <p className="text-lg">{`${start.seconds}`}</p>
+                  <p className="text-xs font-thin">seconds</p>
+                </div>
+              </div>
+            )}
+
+            {isMintStarted && (
+              <div className="w-full bottom-2 text-center top-1">
+                <span className="bg-[#ff8f0e] border text-xxs ml-2 p-1 rounded-md">
+                  {`Closes in`}
+                </span>
+                <div className="flex w-full justify-around relative">
+                  <div className="flex flex-col items-center mr-1">
+                    <p className="text-lg">{`${end.days}`}</p>
+                    <p className="text-xs font-thin">days</p>
+                  </div>
+                  <div className="flex flex-col items-center mr-1">
+                    <p className="text-lg">{`${end.hours}`}</p>
+                    <p className="text-xs font-thin">hours</p>
+                  </div>
+                  <div className="flex flex-col items-center mr-1">
+                    <p className="text-lg">{`${end.minutes}`}</p>
+                    <p className="text-xs font-thin">minutes</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-lg">{`${end.seconds}`}</p>
+                    <p className="text-xs font-thin">seconds</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -110,7 +137,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
         const date = format.formatRange(release.releaseDate, release.endDate);
         return (
-          <div className="mt-4 w-full">
+          <div className="mt-4 w-full" key={release.releaseDate}>
             <div className="flex justify-between items-start">
               <span
                 className={classNames("text-sm", {
@@ -139,7 +166,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
                 if (!hasIngredient) {
                   return (
-                    <div className="flex mr-4">
+                    <div className="flex mr-4" key={ingredient.item}>
                       <img
                         src={ITEM_DETAILS[ingredient.item].image}
                         className="h-6 mr-1"
@@ -150,7 +177,7 @@ export const AuctionDetails: React.FC<Props> = ({
                 }
 
                 return (
-                  <div className="flex mr-4">
+                  <div className="flex mr-4" key={ingredient.item}>
                     <img
                       src={ITEM_DETAILS[ingredient.item].image}
                       className="h-6 mr-1"
