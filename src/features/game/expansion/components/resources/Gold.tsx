@@ -26,7 +26,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 
-const SPRITE_TIME_MS = 2000;
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 
@@ -44,11 +43,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
-  // When to hide the gold that pops out
   const [collecting, setCollecting] = useState(false);
-  const [collectedAmount, setCollectedAmount] = useState<number | undefined>(
-    undefined
-  );
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -78,31 +73,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     };
   }, []);
 
-  // Do not show popover and animation while hoarding
-  useEffect(() => {
-    if (collecting && !game.matches("hoarding")) {
-      minedGif.current?.goToAndPlay(0);
-
-      displayPopover(
-        <div className="flex">
-          <img src={gold} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${collectedAmount}`}</span>
-        </div>
-      );
-
-      setToast({
-        icon: gold,
-        content: `+${collectedAmount}`,
-      });
-
-      setTimeout(() => {
-        setCollecting(false);
-      }, SPRITE_TIME_MS);
-    } else {
-      setCollecting(false);
-    }
-  }, [collecting]);
-
   // Users will need to refresh to strike the rock again
   const mined = !canMine(goldRock, GOLD_RECOVERY_TIME);
 
@@ -114,7 +84,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
-    setCollectedAmount(undefined);
   };
 
   const hasPickaxes =
@@ -148,12 +117,30 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("goldRock.mined", {
+      const newState = gameService.send("goldRock.mined", {
         index: rockIndex,
         expansionIndex,
       });
-      setCollecting(true);
-      setCollectedAmount(goldRock.stone.amount);
+
+      if (!newState.matches("hoarding")) {
+        setCollecting(true);
+        minedGif.current?.goToAndPlay(0);
+
+        displayPopover(
+          <div className="flex">
+            <img src={gold} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${goldRock.stone.amount}`}</span>
+          </div>
+        );
+
+        setToast({
+          icon: gold,
+          content: `+${goldRock.stone.amount}`,
+        });
+
+        await new Promise((res) => setTimeout(res, 2000));
+        setCollecting(false);
+      }
     } catch (e: any) {
       if (e.message === EVENT_ERRORS.NO_PICKAXES) {
         displayPopover(

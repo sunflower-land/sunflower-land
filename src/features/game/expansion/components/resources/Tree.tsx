@@ -35,7 +35,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 
-const SPRITE_TIME_MS = 2000;
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 const tool = "Axe";
@@ -62,9 +61,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
-  const [collectedAmount, setCollectedAmount] = useState<number | undefined>(
-    undefined
-  );
 
   const treeRef = useRef<HTMLDivElement>(null);
   const shakeGif = useRef<SpriteSheetInstance>();
@@ -89,31 +85,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     };
   }, []);
 
-  // Do not show popover and animation while hoarding
-  useEffect(() => {
-    if (collecting && !game.matches("hoarding")) {
-      choppedGif.current?.goToAndPlay(0);
-
-      displayPopover(
-        <div className="flex">
-          <img src={wood} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${collectedAmount}`}</span>
-        </div>
-      );
-
-      setToast({
-        icon: wood,
-        content: `+${collectedAmount}`,
-      });
-
-      setTimeout(() => {
-        setCollecting(false);
-      }, SPRITE_TIME_MS);
-    } else {
-      setCollecting(false);
-    }
-  }, [collecting]);
-
   const chopped = !canChop(tree);
 
   useUiRefresher({ active: chopped });
@@ -124,7 +95,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
     setShowPopover(false);
-    setCollectedAmount(undefined);
   };
 
   // Show/Hide Time left on hover
@@ -172,13 +142,31 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("timber.chopped", {
+      const newState = gameService.send("timber.chopped", {
         index: treeIndex,
         expansionIndex,
         item: selectedItem,
       });
-      setCollecting(true);
-      setCollectedAmount(tree.wood.amount);
+
+      if (!newState.matches("hoarding")) {
+        setCollecting(true);
+        choppedGif.current?.goToAndPlay(0);
+
+        displayPopover(
+          <div className="flex">
+            <img src={wood} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${tree.wood.amount}`}</span>
+          </div>
+        );
+
+        setToast({
+          icon: wood,
+          content: `+${tree.wood.amount}`,
+        });
+
+        await new Promise((res) => setTimeout(res, 2000));
+        setCollecting(false);
+      }
     } catch (e: any) {
       if (e.message === CHOP_ERRORS.NO_AXES) {
         displayPopover(

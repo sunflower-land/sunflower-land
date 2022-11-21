@@ -189,7 +189,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       index,
     });
 
-    if (gameState.matches("playing")) {
+    if (!gameState.matches("hoarding")) {
       chickenService.send("COLLECT");
 
       setToast({

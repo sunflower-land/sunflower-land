@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import femaleGoblin from "assets/npcs/goblin_female.gif";
@@ -28,7 +28,6 @@ interface Props {
 }
 export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [
     {
       context: {
@@ -59,32 +58,30 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   };
 
   const exchange = () => {
-    gameService.send("warBonds.bought");
+    const newstate = gameService.send("warBonds.bought");
 
-    warCollectionOffer?.ingredients?.map((ingredient) => {
-      const item = ITEM_DETAILS[ingredient.name];
-      setToast({
-        icon: item.image,
-        content: `-${ingredient.amount}`,
+    if (!newstate.matches("hoarding")) {
+      warCollectionOffer?.ingredients?.map((ingredient) => {
+        const item = ITEM_DETAILS[ingredient.name];
+        setToast({
+          icon: item.image,
+          content: `-${ingredient.amount}`,
+        });
       });
-    });
 
-    const warBonds = getWarBonds(inventory, warCollectionOffer?.warBonds || 0);
+      const warBonds = getWarBonds(
+        inventory,
+        warCollectionOffer?.warBonds || 0
+      );
 
-    setToast({
-      icon: warBond,
-      content: `+${warBonds}`,
-    });
+      setToast({
+        icon: warBond,
+        content: `+${warBonds}`,
+      });
 
-    setState("exchanged");
-  };
-
-  // do not show exchanged popover while hoarding
-  useEffect(() => {
-    if (state === "exchanged" && gameState.matches("hoarding")) {
-      setState("showOffer");
+      setState("exchanged");
     }
-  }, [state]);
+  };
 
   if (state === "exchanged") {
     return (

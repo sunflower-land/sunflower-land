@@ -72,14 +72,6 @@ export const Field: React.FC<Props> = ({
     setShowPopover(false);
   };
 
-  // Do not show popover and proc animation while hoarding
-  useEffect(() => {
-    if (showPopover && game.matches("hoarding")) {
-      setShowPopover(false);
-      setProcAnimation(null);
-    }
-  }, [showPopover]);
-
   const onCollectReward = (success: boolean) => {
     setReward(null);
     setTouchCount(0);
@@ -186,25 +178,27 @@ export const Field: React.FC<Props> = ({
     // Plant
     if (!field) {
       try {
-        gameService.send("item.planted", {
+        const newState = gameService.send("item.planted", {
           index: fieldIndex,
           item: selectedItem,
           analytics,
         });
 
-        plantAudio.play();
+        if (!newState.matches("hoarding")) {
+          plantAudio.play();
 
-        displayPopover(
-          <div className="flex items-center justify-center text-xs text-white overflow-visible">
-            <img
-              src={ITEM_DETAILS[selectedItem as CropName].image}
-              className="w-4 mr-1"
-            />
-            <span>-1</span>
-          </div>
-        );
+          displayPopover(
+            <div className="flex items-center justify-center text-xs text-white overflow-visible">
+              <img
+                src={ITEM_DETAILS[selectedItem as CropName].image}
+                className="w-4 mr-1"
+              />
+              <span>-1</span>
+            </div>
+          );
 
-        setProcAnimation(null);
+          setProcAnimation(null);
+        }
       } catch (e: any) {
         // TODO - catch more elaborate errors
         displayPopover(<img className="w-5" src={cancel} />);

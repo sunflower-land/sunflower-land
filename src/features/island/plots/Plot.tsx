@@ -75,13 +75,6 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     return () => clearTimeout(timer);
   }, [isRemoving]);
 
-  // Do not show proc animation while hoarding
-  useEffect(() => {
-    if (procAnimation && game.matches("hoarding")) {
-      setProcAnimation(null);
-    }
-  }, [procAnimation]);
-
   const displayPopover = async () => {
     setShowPopover(true);
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
@@ -205,21 +198,23 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     // plant
     if (!crop) {
       try {
-        gameService.send("seed.planted", {
+        const newState = gameService.send("seed.planted", {
           index: plotIndex,
           expansionIndex,
           item: selectedItem,
           analytics,
         });
 
-        plantAudio.play();
+        if (!newState.matches("hoarding")) {
+          plantAudio.play();
 
-        setToast({
-          icon: ITEM_DETAILS[selectedItem as CropName].image,
-          content: `-1`,
-        });
+          setToast({
+            icon: ITEM_DETAILS[selectedItem as CropName].image,
+            content: `-1`,
+          });
 
-        setProcAnimation(null);
+          setProcAnimation(null);
+        }
       } catch (e: any) {
         console.log({ e });
         // TODO - catch more elaborate errors
