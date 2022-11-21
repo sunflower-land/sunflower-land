@@ -164,7 +164,7 @@ export const IslandList = ({
       levelRequired: 10,
       image: treasureIsland,
       path: `/land/${id}/treasure-island`,
-      comingSoon: CONFIG.NETWORK === "mainnet" ? true : false,
+      comingSoon: CONFIG.NETWORK === "mainnet",
     },
     {
       name: "Stone Haven",
