@@ -33,12 +33,18 @@ export function feedBumpkin({
   if (quantity.lte(0)) {
     throw new Error("You have none of this food type");
   }
-
+  const { skills, equipped } = bumpkin;
+  const { tool } = equipped;
   inventory[action.food] = quantity.sub(1);
 
   let foodExperience = CONSUMABLES[action.food].experience;
 
-  if (bumpkin.skills["Kitchen Hand"]) {
+  if (skills["Kitchen Hand"]) {
+    foodExperience *= 1.1;
+  }
+
+  //Bumpkin Wearable Boost Golden Spatula
+  if (tool === "Golden Spatula") {
     foodExperience *= 1.1;
   }
 

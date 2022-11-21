@@ -75,4 +75,26 @@ describe("feedBumpkin", () => {
       CONSUMABLES["Boiled Eggs"].experience * 1.1
     );
   });
+  it("provides 10% more experience with Golden Spatula Bumpkin Wearable tool", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, tool: "Golden Spatula" },
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Boiled Eggs"].experience * 1.1
+    );
+  });
 });
