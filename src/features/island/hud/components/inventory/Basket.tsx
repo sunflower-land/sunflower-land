@@ -24,6 +24,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
+import { BEANS } from "features/game/types/beans";
 
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
@@ -82,6 +83,7 @@ export const Basket: React.FC = () => {
   const seeds = getItems(CROP_SEEDS());
   const crops = getItems(CROPS());
   const tools = getItems(TOOLS);
+  const exotic = getItems(BEANS());
   const shovels = getItems(SHOVELS);
   const resources = getItems(RESOURCES);
   const consumables = getItems(CONSUMABLES);
@@ -186,6 +188,23 @@ export const Basket: React.FC = () => {
             {<p className="mb-2 underline">Crops</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {crops.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selectedItem === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!exotic.length && (
+          <div className="flex flex-col pl-2" key={"Exotic"}>
+            {<p className="mb-2 underline">Exotic</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {exotic.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selectedItem === item}

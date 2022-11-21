@@ -17,7 +17,8 @@ export const BEANS: () => Record<BeanName, Bean> = () => ({
     name: "Magic Bean",
     sfl: marketRate(5),
     ingredients: {
-      Wood: new Decimal(100),
+      Wood: new Decimal(30),
+      Stone: new Decimal(10),
     },
     description: "What will grow?",
     plantSeconds: 2 * 24 * 60 * 60,
@@ -26,7 +27,7 @@ export const BEANS: () => Record<BeanName, Bean> = () => ({
     name: "Shiny Bean",
     sfl: marketRate(10),
     ingredients: {
-      Wood: new Decimal(100),
+      Wood: new Decimal(30),
       Iron: new Decimal(10),
     },
     description: "What will grow?",
@@ -36,10 +37,16 @@ export const BEANS: () => Record<BeanName, Bean> = () => ({
     name: "Golden Bean",
     sfl: marketRate(15),
     ingredients: {
-      Wood: new Decimal(100),
+      Wood: new Decimal(30),
       Gold: new Decimal(10),
     },
     description: "What will grow?",
-    plantSeconds: 5 * 24 * 60 * 60,
+    plantSeconds: 4 * 24 * 60 * 60,
   },
 });
+
+export type MutantCropName =
+  | "Stellar Sunflower"
+  | "Peaceful Potato"
+  | "Perky Pumpkin"
+  | "Collosal Crop";

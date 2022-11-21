@@ -35,7 +35,7 @@ export const Ingredients: React.FC<Props> = ({ gameState, resources, sfl }) => {
               <RedLabel>{`${inventoryAmount}/${requiredAmount}`}</RedLabel>
             ) : (
               <span className={classNames("text-sm text-shadow text-center ")}>
-                {requiredAmount}
+                {`${requiredAmount}`}
               </span>
             )}
           </div>

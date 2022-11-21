@@ -78,6 +78,10 @@ export const INITIAL_STOCK: Inventory = {
   "Wheat Cake": new Decimal(1),
 
   "Boiled Eggs": new Decimal(1),
+
+  "Magic Bean": new Decimal(5),
+  "Shiny Bean": new Decimal(5),
+  "Golden Bean": new Decimal(5),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {
@@ -504,6 +508,7 @@ export const TEST_FARM: GameState = {
     farming: new Decimal(0),
     gathering: new Decimal(0),
   },
+  mysteryPrizes: {},
   stockExpiry: {
     "Sunflower Cake": "1970-06-06",
     "Potato Cake": "1970-01-01T00:00:00.000Z",
@@ -663,6 +668,7 @@ export const EMPTY: GameState = {
 
   buildings: {},
   collectibles: {},
+  mysteryPrizes: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
