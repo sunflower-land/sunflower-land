@@ -189,7 +189,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     ingredients: {
       Sunflower: new Decimal(1000),
       Wheat: new Decimal(10),
-      Egg: new Decimal(10),
+      Egg: new Decimal(15),
     },
     marketRate: 360,
   },

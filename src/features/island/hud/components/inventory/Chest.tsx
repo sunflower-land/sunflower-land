@@ -19,6 +19,7 @@ import { Context } from "features/game/GameProvider";
 import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
 import { useActor } from "@xstate/react";
+import { BEANS } from "features/game/types/beans";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -44,7 +45,8 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
     if (
       item in LIMITED_ITEMS ||
       item in DECORATIONS() ||
-      item in GOBLIN_RETREAT_ITEMS
+      item in GOBLIN_RETREAT_ITEMS ||
+      item in BEANS()
     ) {
       return { ...acc, [item]: chestMap[item] };
     }

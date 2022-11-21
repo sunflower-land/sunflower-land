@@ -55,6 +55,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Rusty Shovel": 307,
   Shovel: 308,
   "Power Shovel": 309,
+  "Sand Shovel": 310,
 
   "Sunflower Statue": 401,
   "Potato Statue": 402,
@@ -92,6 +93,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Cabbage Boy": 434,
   "Cabbage Girl": 435,
   "Wood Nymph Wendy": 436,
+  "Stellar Sunflower": 437,
+  "Peaceful Potato": 438,
+  "Perky Pumpkin": 439,
+  "Collosal Crop": 440,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -270,6 +275,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Farmer Bear": 1212,
   "Sunflower Bear": 1213,
   "Rich Bear": 1214,
+  "Potted Potato": 1215,
+  "Potted Pumpkin": 1216,
 };
 
 // The reverse of above

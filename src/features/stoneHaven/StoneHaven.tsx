@@ -36,7 +36,7 @@ export const StoneHaven: React.FC = () => {
               className="absolute inset-0 bg-repeat w-full h-full"
               style={{
                 backgroundImage: `url(${ocean})`,
-                backgroundSize: "100px",
+                backgroundSize: "200px",
                 imageRendering: "pixelated",
               }}
             />

@@ -22,7 +22,7 @@ export const Decorations: React.FC = () => {
         // TODO some sort of coordinate system
         style={{
           width: `${GRID_WIDTH_PX * 6}px`,
-          right: `${GRID_WIDTH_PX * 17.6}px`,
+          right: `${GRID_WIDTH_PX * 17.5}px`,
           top: `${GRID_WIDTH_PX * 25.2}px`,
         }}
         onClick={handleClick}
@@ -47,6 +47,7 @@ export const Decorations: React.FC = () => {
         />
         <img
           src={building}
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 50}px`,
           }}
