@@ -399,7 +399,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
-  balance: new Decimal(10),
+  balance: new Decimal(10000000),
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),

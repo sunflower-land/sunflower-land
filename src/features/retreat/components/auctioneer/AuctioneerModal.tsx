@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import close from "assets/icons/close.png";
@@ -6,6 +6,7 @@ import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { AuctioneerContent } from "./AuctioneerContent";
+import { UpcomingAuctions } from "./UpcomingAuctions";
 
 interface Props {
   isOpen: boolean;
@@ -13,13 +14,17 @@ interface Props {
 }
 
 export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const [tab, setTab] = useState<"auction" | "upcoming">("upcoming");
   return (
-    <Modal centered show={isOpen} onHide={onClose}>
+    <Modal centered show={isOpen} onHide={onClose} scrollable>
       <Panel className="pt-5 relative">
         <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
           <div className="flex">
-            <Tab isActive>
+            <Tab isActive={tab === "auction"}>
               <span className="text-sm text-shadow ml-1">Auctioneer</span>
+            </Tab>
+            <Tab isActive={tab === "upcoming"}>
+              <span className="text-sm text-shadow ml-1">Upcoming</span>
             </Tab>
           </div>
           <img
@@ -34,7 +39,8 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             minHeight: "200px",
           }}
         >
-          <AuctioneerContent />
+          {tab === "auction" && <AuctioneerContent />}
+          {tab === "upcoming" && <UpcomingAuctions />}
         </div>
       </Panel>
     </Modal>

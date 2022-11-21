@@ -5,6 +5,7 @@ import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 import token from "assets/icons/token_2.png";
+
 import questionMark from "assets/icons/expression_confused.png";
 import {
   AuctioneerItem,
@@ -19,6 +20,7 @@ import {
   GOBLIN_RETREAT_ITEMS,
 } from "features/game/types/craftables";
 import { MachineInterpreter } from "features/retreat/auctioneer/auctioneerMachine";
+import { AuctionDetails } from "./AuctionDetails";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -142,6 +144,8 @@ export const AuctioneerContent = () => {
   const mint = (item: GoblinRetreatItemName) => {
     send({ type: "MINT", item, captcha: "" });
   };
+
+  return <AuctionDetails />;
 
   if (selected === undefined) {
     return (
