@@ -46,7 +46,6 @@ export const AuctionDetails: React.FC<Props> = ({
   const currentSupply = releases.reduce(
     (supply, release) =>
       release.releaseDate < Date.now() ? supply + release.supply : supply,
-
     0
   );
 
@@ -142,7 +141,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
       {releases.map((release) => {
         // TODO Aggregate any previous leftovers :/
-        const availableSupply = currentRelease?.supply ?? 0;
+        const availableSupply = release?.supply ?? 0;
 
         const format = new Intl.DateTimeFormat("en", {
           year: "2-digit",
@@ -154,13 +153,16 @@ export const AuctionDetails: React.FC<Props> = ({
 
         const sfl = Number(release.price ?? 0);
 
-        const date = format.formatRange(release.releaseDate, release.endDate); //
+        const date = format.formatRange(release.releaseDate, release.endDate);
+
+        const isFinished = release.endDate < Date.now();
+
         return (
           <div className="mt-4 w-full" key={release.releaseDate}>
             <div className="flex justify-between items-start">
               <span
                 className={classNames("text-sm", {
-                  "line-through": isMintComplete,
+                  "line-through": isFinished,
                 })}
               >
                 {date}
