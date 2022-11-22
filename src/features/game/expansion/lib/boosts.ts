@@ -108,3 +108,44 @@ export const hasBoost = ({ item, collectibles }: HasBoostArgs) => {
 
   return false;
 };
+
+/**
+ * Get reduced cooking time from bumpkin skills.
+ * @param seconds time to be decreased
+ * @param bumpkin to check for skills
+ * @returns reduced cooking
+ */
+export const getCookingTime = (
+  seconds: number,
+  bumpkin: Bumpkin | undefined
+): number => {
+  let reducedSecs = new Decimal(seconds);
+
+  // 20% reduction
+  if (bumpkin?.skills["Rush Hour"]) {
+    reducedSecs = reducedSecs.mul(0.8);
+  }
+
+  return reducedSecs.toNumber();
+};
+
+/**
+ * Get boosted exp from Bumpkin skills.
+ * Decimal mul for precision.
+ * @todo add "Curer" skill once "Fermenter Goods" are finalized
+ * @param foodExp value to be increased
+ * @param bumpkin to check for skills
+ * @returns boosted food exp
+ */
+export const getFoodExpBoost = (
+  foodExp: number,
+  bumpkin: Bumpkin | undefined
+): number => {
+  let boostedExp = new Decimal(foodExp);
+
+  if (bumpkin?.skills["Kitchen Hand"]) {
+    boostedExp = boostedExp.mul(1.1);
+  }
+
+  return boostedExp.toNumber();
+};

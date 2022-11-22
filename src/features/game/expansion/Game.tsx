@@ -37,6 +37,9 @@ import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 import land from "assets/land/islands/island.png";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { StoneHaven } from "features/stoneHaven/StoneHaven";
+import { Revealing } from "../components/Revealing";
+import { Revealed } from "../components/Revealed";
+import { getBumpkinLevel } from "../lib/level";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -66,6 +69,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   loadLandToVisit: true,
   landToVisitNotFound: true,
   checkIsVisiting: false,
+  revealing: true,
+  revealed: true,
 };
 
 export const Game: React.FC = () => {
@@ -174,6 +179,10 @@ export const Game: React.FC = () => {
       );
     }
 
+    const level = getBumpkinLevel(
+      gameState.context.state.bumpkin?.experience ?? 0
+    );
+
     return (
       <>
         <div className="absolute z-10 w-full h-full">
@@ -181,14 +190,19 @@ export const Game: React.FC = () => {
             <Routes>
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
-              <Route
-                path="/treasure-island"
-                element={<TreasureIsland key="treasure" />}
-              />
-              <Route
-                path="/stone-haven"
-                element={<StoneHaven key="stone-haven" />}
-              />
+              {level >= 10 && (
+                <Route
+                  path="/treasure-island"
+                  element={<TreasureIsland key="treasure" />}
+                />
+              )}
+
+              {level >= 20 && (
+                <Route
+                  path="/stone-haven"
+                  element={<StoneHaven key="stone-haven" />}
+                />
+              )}
               <Route element={<Land />} />
             </Routes>
           </PlaceableOverlay>
@@ -224,6 +238,8 @@ export const Game: React.FC = () => {
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("coolingDown") && <Cooldown />}
           {gameState.matches("gameRules") && <Rules />}
+          {gameState.matches("revealing") && <Revealing />}
+          {gameState.matches("revealed") && <Revealed />}
         </Panel>
       </Modal>
 
