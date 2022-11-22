@@ -104,24 +104,6 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     name: "Kale",
     description: "Bumpkin Power Food",
   },
-  Apple: {
-    buyPrice: marketRate(8),
-    harvestSeconds: 24 * 60 * 60 * 60,
-    name: "Apple",
-    description: "Bumpkin Power Food",
-  },
-  Blueberry: {
-    buyPrice: marketRate(8),
-    harvestSeconds: 24 * 60 * 60 * 60,
-    name: "Blueberry",
-    description: "Bumpkin Power Food",
-  },
-  Orange: {
-    buyPrice: marketRate(8),
-    harvestSeconds: 24 * 60 * 60 * 60,
-    name: "Orange",
-    description: "Bumpkin Power Food",
-  },
 });
 
 export type CropSeedName = `${CropName} Seed`;
@@ -201,30 +183,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     ingredients: [],
     description: "A Bumpkin Power Food!",
     plantSeconds: 24 * 60 * 60,
-    disabled: true,
-  },
-  "Apple Seed": {
-    name: "Apple Seed",
-    tokenAmount: marketRate(5),
-    ingredients: [],
-    description: "A Bumpkin Power Food!",
-    plantSeconds: 24 * 60 * 60 * 60,
-    disabled: true,
-  },
-  "Blueberry Seed": {
-    name: "Blueberry Seed",
-    tokenAmount: marketRate(5),
-    ingredients: [],
-    description: "A Bumpkin Power Food!",
-    plantSeconds: 24 * 60 * 60,
-    disabled: true,
-  },
-  "Orange Seed": {
-    name: "Orange Seed",
-    tokenAmount: marketRate(5),
-    ingredients: [],
-    description: "A Bumpkin Power Food!",
-    plantSeconds: 24 * 60 * 60 * 60,
     disabled: true,
   },
 });
