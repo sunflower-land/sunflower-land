@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
-import ocean from "assets/decorations/ocean.png";
-import background from "assets/land/retreat.png";
+import ocean from "assets/decorations/ocean.webp";
+import background from "assets/land/retreat.webp";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import { RetreatBank } from "./components/bank/RetreatBank";
 import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHouse";
