@@ -246,6 +246,7 @@ export const authMachine = createMachine<
 
                 {
                   cond: (_, event) => event.data.blacklistStatus === "BANNED",
+                  actions: "assignFarm",
                   target: "blacklisted",
                 },
 
