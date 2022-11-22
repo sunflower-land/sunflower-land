@@ -11,7 +11,7 @@ export const UndeadRooster: React.FC = () => {
         width: `${PIXEL_SCALE * 15}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
-      className="absolute hover:img-highlight"
+      className="absolute"
       alt="Undead Rooster"
     />
   );

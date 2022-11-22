@@ -12,7 +12,7 @@ export const GoldEgg: React.FC = () => {
         bottom: `${PIXEL_SCALE * 2}px`,
         left: `${PIXEL_SCALE * 3}px`,
       }}
-      className="absolute hover:img-highlight"
+      className="absolute"
       alt="Gold Egg"
     />
   );

@@ -167,7 +167,7 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
         <div className="absolute inset-0 bg-black opacity-90" />
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="flex flex-col max-w-3xl">
-            <span className="cave text-xl sm:text-[30px] text-white text-center mb-10">
+            <span className="cave text-lg sm:text-[30px] text-white text-center mb-10">
               GET READY FOR WAR
             </span>
             <div className="flex justify-evenly">
@@ -206,10 +206,10 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
                 }}
               />
             </div>
-            <span className="text-xl text-shadow text-white text-center">
+            <span className="text-lg text-shadow text-white text-center">
               Choose a side
             </span>
-            <span className="text-xl text-shadow text-white text-center">
+            <span className="text-lg text-shadow text-white text-center">
               Team Sunflower or Team Goblin?
             </span>
           </div>

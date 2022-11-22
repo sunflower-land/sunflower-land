@@ -34,7 +34,7 @@ import { Hud } from "features/island/hud/Hud";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
-import land from "assets/land/islands/island.png";
+import land from "assets/land/islands/island.webp";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { StoneHaven } from "features/stoneHaven/StoneHaven";
 import { Revealing } from "../components/Revealing";

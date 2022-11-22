@@ -4,7 +4,7 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 import {
   pixelDarkBorderStyle,
-  pixelLightBordertyle,
+  pixelLightBorderStyle,
 } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
@@ -56,7 +56,7 @@ export const InnerPanel: React.FC<Props> = ({ children, className }) => {
     <div
       className={classNames("bg-brown-300", className)}
       style={{
-        ...pixelLightBordertyle,
+        ...pixelLightBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
       }}
     >

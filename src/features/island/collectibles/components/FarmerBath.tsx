@@ -11,7 +11,7 @@ export const FarmerBath: React.FC = () => {
         width: `${PIXEL_SCALE * 36}px`,
         bottom: `${PIXEL_SCALE}px`,
       }}
-      className="absolute hover:img-highlight"
+      className="absolute"
       alt="Farmer Bath"
     />
   );

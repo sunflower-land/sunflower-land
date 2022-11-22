@@ -119,13 +119,13 @@ export const AncientDoor: React.FC = () => {
                 }}
               />
             </div>
-            <span className="text-xl text-shadow text-white text-center">
+            <span className="text-lg text-shadow text-white text-center">
               The cave is collapsing!
             </span>
-            <span className="text-xl text-shadow text-white text-center">
+            <span className="text-lg text-shadow text-white text-center">
               Pick an artifact and
             </span>
-            <span className="cave text-xl text-shadow text-white text-center">
+            <span className="cave text-lg text-shadow text-white text-center">
               GET OUT!
             </span>
           </div>

@@ -6,7 +6,7 @@ export const WarTombstone: React.FC = () => {
   return (
     <img
       src={tombstone}
-      className="absolute hover:img-highlight"
+      className="absolute"
       style={{
         width: `${PIXEL_SCALE * 14}px`,
         left: `${PIXEL_SCALE}px`,

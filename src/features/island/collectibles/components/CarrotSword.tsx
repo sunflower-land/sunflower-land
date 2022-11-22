@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 export const CarrotSword: React.FC = () => {
   return (
     <div
-      className="absolute hover:img-highlight"
+      className="absolute"
       style={{
         width: `${PIXEL_SCALE * 20}px`,
         bottom: `${PIXEL_SCALE * 0}px`,

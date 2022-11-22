@@ -48,6 +48,7 @@ export const DynamicNFT: React.FC<Props> = ({
     necklace,
     tool,
     coat,
+    secondaryTool,
   } = bumpkinParts;
 
   // Need to render layers in specific order
@@ -62,6 +63,7 @@ export const DynamicNFT: React.FC<Props> = ({
     hat,
     necklace,
     tool,
+    secondaryTool,
   };
 
   if (!showBackground) {

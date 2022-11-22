@@ -47,6 +47,7 @@ export type BumpkinSkill = {
   };
   boosts: string;
   image: string;
+  disabled?: boolean;
 };
 
 export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
@@ -56,7 +57,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Crops are worth 5% more",
+    boosts: "Crops yield 5% more",
     image: greenThumb,
   },
   Cultivator: {
@@ -147,6 +148,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Chance for SFL drops",
     image: question,
+    disabled: true,
   },
   Digger: {
     name: "Digger",
@@ -176,6 +178,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Attract Rock Monsters",
     image: question,
+    disabled: true,
   },
   "Gold Rush": {
     name: "Gold Rush",
@@ -215,6 +218,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "High quality food, earn additional 5% SFL",
     image: question,
+    disabled: true,
   },
   Curer: {
     name: "Curer",
@@ -225,6 +229,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Consuming fermenter goods adds extra 15% exp",
     image: question,
+    disabled: true,
   },
   "Stable Hand": {
     name: "Stable Hand",

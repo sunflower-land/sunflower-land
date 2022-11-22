@@ -2,7 +2,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useEffect } from "react";
 
-import background from "assets/land/helios.png";
+import background from "assets/land/helios.webp";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { Potions } from "./components/potions/Potions";

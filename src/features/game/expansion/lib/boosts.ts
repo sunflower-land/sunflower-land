@@ -43,11 +43,6 @@ export const getSellPrice = (
     price = price.mul(1.2);
   }
 
-  // apply Green Thumb boost to crop BUMPKIN NEW SKILL!
-  if (item.name in crops && skills["Green Thumb"]) {
-    price = price.mul(1.05);
-  }
-
   return price;
 };
 
@@ -58,9 +53,6 @@ export const getSellPrice = (
 export const hasSellBoost = (inventory: Inventory, bumpkin: Bumpkin) => {
   const { skills } = bumpkin;
   if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
-    return true;
-  }
-  if (skills["Green Thumb"]) {
     return true;
   }
 
@@ -137,13 +129,17 @@ export const getCookingTime = (
  * @param bumpkin to check for skills
  * @returns boosted food exp
  */
-export const getFoodExpBoost = (
-  foodExp: number,
-  bumpkin: Bumpkin | undefined
-): number => {
+export const getFoodExpBoost = (foodExp: number, bumpkin: Bumpkin): number => {
   let boostedExp = new Decimal(foodExp);
+  const { skills, equipped } = bumpkin;
+  const { tool } = equipped;
 
-  if (bumpkin?.skills["Kitchen Hand"]) {
+  //Bumpkin Skill Boost Kitchen Hand
+  if (skills["Kitchen Hand"]) {
+    boostedExp = boostedExp.mul(1.1);
+  }
+  //Bumpkin Wearable Boost Golden Spatula
+  if (tool === "Golden Spatula") {
     boostedExp = boostedExp.mul(1.1);
   }
 

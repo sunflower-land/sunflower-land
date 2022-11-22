@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import classNames from "classnames";
 
 import deli from "assets/buildings/deli.png";
 import artisian from "assets/npcs/artisian.gif";
@@ -12,9 +13,8 @@ import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import classNames from "classnames";
 import { DeliModal } from "./DeliModal";
-import { ClickableBuildingImage } from "../ClickableBuildingImage";
+import { BuildingImageWrapper } from "../BuildingImageWrapper";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -25,7 +25,9 @@ export const Deli: React.FC<Props> = ({
   ready,
   name,
   craftingService,
+  isBuilt,
   handleShowCraftingTimer,
+  onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
@@ -60,53 +62,47 @@ export const Deli: React.FC<Props> = ({
   };
 
   const handleClick = () => {
-    if (idle) {
-      setShowModal(true);
+    if (onRemove) {
+      onRemove();
       return;
     }
 
-    if (crafting) {
-      handleShowCraftingTimer();
-      return;
-    }
+    if (isBuilt) {
+      // Add future on click actions here
+      if (idle) {
+        setShowModal(true);
+        return;
+      }
 
-    if (ready) {
-      handleCollect();
-      return;
+      if (crafting) {
+        handleShowCraftingTimer();
+        return;
+      }
+
+      if (ready) {
+        handleCollect();
+        return;
+      }
     }
   };
 
   return (
     <>
-      <ClickableBuildingImage
-        className="relative cursor-pointer hover:img-highlight"
-        style={{
-          width: `${PIXEL_SCALE * 62}px`,
-          height: `${PIXEL_SCALE * 54}px`,
-        }}
-        onClick={handleClick}
-      >
-        {ready && name && (
-          <div className="flex justify-center absolute -top-7 w-full pointer-events-none">
-            <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
-          </div>
-        )}
+      <BuildingImageWrapper onClick={handleClick}>
         <img
           src={deli}
-          className={classNames("absolute", {
+          className={classNames("absolute bottom-0", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
           style={{
-            width: `${PIXEL_SCALE * 62}px`,
+            width: `${PIXEL_SCALE * 64}px`,
             height: `${PIXEL_SCALE * 54}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            top: `${PIXEL_SCALE * -3}px`,
           }}
         />
         <img
           src={shadow}
-          className="absolute pointer-events-none"
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             right: `${PIXEL_SCALE * 2.5}px`,
@@ -116,7 +112,7 @@ export const Deli: React.FC<Props> = ({
         {crafting ? (
           <img
             src={artisianDoing}
-            className="absolute pointer-events-none"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 20}px`,
               right: `${PIXEL_SCALE * 1}px`,
@@ -127,7 +123,7 @@ export const Deli: React.FC<Props> = ({
         ) : (
           <img
             src={artisian}
-            className="absolute pointer-events-none"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               right: `${PIXEL_SCALE * 1}px`,
@@ -140,7 +136,7 @@ export const Deli: React.FC<Props> = ({
         {(crafting || ready) && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className={classNames("absolute z-30 pointer-events-none", {
+            className={classNames("absolute z-30", {
               "img-highlight-heavy": ready,
             })}
             style={{
@@ -151,7 +147,12 @@ export const Deli: React.FC<Props> = ({
             }}
           />
         )}
-      </ClickableBuildingImage>
+        {ready && name && (
+          <div className="flex justify-center absolute -top-7 w-full">
+            <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
+          </div>
+        )}
+      </BuildingImageWrapper>
 
       <DeliModal
         isOpen={showModal}

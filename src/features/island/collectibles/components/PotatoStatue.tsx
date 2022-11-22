@@ -21,7 +21,7 @@ export const PotatoStatue: React.FC = () => {
           right: `${PIXEL_SCALE * 2}px `,
         }}
         alt="Potato Statue"
-        className="absolute hover:img-highlight"
+        className="absolute"
       />
     </div>
   );
