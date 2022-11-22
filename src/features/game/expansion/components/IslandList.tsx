@@ -15,7 +15,7 @@ import treasureIsland from "assets/land/islands/treasure_icon.png";
 import stoneHaven from "assets/land/islands/stone_haven.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
-import land from "assets/land/islands/island.png";
+import land from "assets/land/islands/island.webp";
 import { VisitLandExpansionForm } from "./VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
 import { RedLabel } from "components/ui/RedLabel";
