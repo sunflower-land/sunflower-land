@@ -20,18 +20,26 @@ export const UpcomingAuctions: React.FC = () => {
     <div
       className="h-full overflow-y-auto scrollable"
       style={{
-        maxHeight: "500px",
+        maxHeight: "600px",
       }}
     >
       {upcoming.map((item) => (
-        <AuctionDetails
-          key={item.name}
-          item={item}
-          game={goblinState.context.state}
-          // Won't be called
-          onMint={console.log}
-          isMinting={false}
-        />
+        <>
+          <AuctionDetails
+            key={item.name}
+            item={item}
+            game={goblinState.context.state}
+            // Won't be called
+            onMint={console.log}
+            isMinting={false}
+            isUpcomingItem={true}
+          />
+          <hr
+            style={{
+              height: "2px",
+            }}
+          />
+        </>
       ))}
     </div>
   );

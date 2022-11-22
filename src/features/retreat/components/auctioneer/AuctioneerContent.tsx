@@ -37,7 +37,7 @@ export const AuctioneerContent = () => {
     <div
       className="h-full overflow-y-auto scrollable"
       style={{
-        maxHeight: "500px",
+        maxHeight: "600px",
       }}
     >
       <AuctionDetails
@@ -45,6 +45,7 @@ export const AuctioneerContent = () => {
         game={goblinState.context.state}
         onMint={() => mint(item.name)}
         isMinting={auctioneerState.matches("minting")}
+        isUpcomingItem={false}
       />
     </div>
   );

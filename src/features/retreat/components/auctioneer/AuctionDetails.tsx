@@ -16,6 +16,7 @@ type Props = {
   isMinting: boolean;
   item: AuctioneerItem;
   game: GoblinState;
+  isUpcomingItem?: boolean;
   onMint: () => void;
 };
 
@@ -23,14 +24,13 @@ export const AuctionDetails: React.FC<Props> = ({
   item: { name, releases, totalMinted, currentRelease },
   isMinting,
   game,
+  isUpcomingItem,
   onMint,
 }) => {
   const releaseDate = currentRelease?.releaseDate as number;
   const releaseEndDate = currentRelease?.endDate as number;
   const start = useCountdown(releaseDate);
   const end = useCountdown(releaseEndDate);
-
-  console.log({ start, end });
 
   const isMintStarted =
     !start.days && !start.hours && !start.minutes && !start.seconds;
@@ -114,13 +114,15 @@ export const AuctionDetails: React.FC<Props> = ({
       </div>
       <p className="text-lg">{availableSupply - (totalMinted ?? 0)} left</p>
 
-      <Button
-        className="text-lg"
-        disabled={!isMintStarted || isMintComplete || isMinting}
-        onClick={onMint}
-      >
-        Mint
-      </Button>
+      {!isUpcomingItem && (
+        <Button
+          className="text-lg"
+          disabled={!isMintStarted || isMintComplete || isMinting}
+          onClick={onMint}
+        >
+          Mint
+        </Button>
+      )}
 
       {releases.map((release) => {
         // TODO Aggregate any previous leftovers :/
