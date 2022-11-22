@@ -19,7 +19,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
         src={token}
         style={{
           width: `${PIXEL_SCALE * 10}px`,
-          padding: `${PIXEL_SCALE * 1}px`,
+          margin: `${PIXEL_SCALE * 1}px`,
         }}
       />
       <span

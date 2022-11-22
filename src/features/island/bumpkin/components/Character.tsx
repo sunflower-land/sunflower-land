@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import beigeBody from "assets/npc-layers/beige_body.png";
 import lightBrownBody from "assets/npc-layers/light_brown_body.png";
@@ -57,6 +57,8 @@ type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
+const STEP_MS = 70;
+const STEPS = 9;
 
 const PARTS: Record<VisiblePart, string> = {
   // Bodies
@@ -116,6 +118,12 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
 
   const [open, setOpen] = useState(false);
 
+  const [frame, setFrame] = useState<number>(0);
+  const bodyRef = useRef<Spritesheet>(null);
+  const hairRef = useRef<Spritesheet>(null);
+  const shirtRef = useRef<Spritesheet>(null);
+  const pantsRef = useRef<Spritesheet>(null);
+
   const eat = (food: ConsumableName) => {
     gameService.send("bumpkin.feed", { food });
   };
@@ -128,6 +136,22 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
     left: `${PIXEL_SCALE * -2}px`,
     imageRendering: "pixelated" as const,
   };
+
+  const [timer, setTimer] = React.useState<number>(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setTimer(Date.now()), STEP_MS);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  // make sure all body parts are synchronized
+  useEffect(() => {
+    setFrame((frame + 1) % STEPS);
+    bodyRef.current?.goToAndPause(frame);
+    hairRef.current?.goToAndPause(frame);
+    shirtRef.current?.goToAndPause(frame);
+    pantsRef.current?.goToAndPause(frame);
+  }, [timer]);
 
   return (
     <>
@@ -149,7 +173,6 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
           right: `${PIXEL_SCALE * 1}px`,
         }}
       />
-      <Airdrop />
       <div
         className="relative cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
@@ -168,54 +191,47 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
           className="absolute"
         />
         <Spritesheet
-          className="absolute w-full inset-0 z-20"
+          ref={bodyRef}
+          className="absolute w-full inset-0"
           style={bodyPartStyle}
           image={PARTS[body] ?? beigeBody}
           widthFrame={FRAME_WIDTH}
           heightFrame={FRAME_HEIGHT}
-          steps={9}
-          fps={14}
-          autoplay={true}
-          loop={true}
-          direction="forward"
+          steps={STEPS}
+          fps={0}
         />
         <Spritesheet
-          className="absolute w-full inset-0 z-20"
+          ref={hairRef}
+          className="absolute w-full inset-0"
           style={bodyPartStyle}
           image={PARTS[hair] ?? sunSpots}
           widthFrame={FRAME_WIDTH}
           heightFrame={FRAME_HEIGHT}
-          steps={9}
-          fps={14}
-          autoplay={true}
-          loop={true}
-          direction="forward"
+          steps={STEPS}
+          fps={0}
         />
         <Spritesheet
-          className="absolute w-full inset-0 z-20"
+          ref={shirtRef}
+          className="absolute w-full inset-0"
           style={bodyPartStyle}
           image={PARTS[shirt] ?? whiteShirt}
           widthFrame={FRAME_WIDTH}
           heightFrame={FRAME_HEIGHT}
-          steps={9}
-          fps={14}
-          autoplay={true}
-          loop={true}
-          direction="forward"
+          steps={STEPS}
+          fps={0}
         />
         <Spritesheet
-          className="absolute w-full inset-0 z-20"
+          ref={pantsRef}
+          className="absolute w-full inset-0"
           style={bodyPartStyle}
           image={PARTS[pants] ?? farmerPants}
           widthFrame={FRAME_WIDTH}
           heightFrame={FRAME_HEIGHT}
-          steps={9}
-          fps={14}
-          autoplay={true}
-          loop={true}
-          direction="forward"
+          steps={STEPS}
+          fps={0}
         />
       </div>
+      <Airdrop />
       <FeedModal
         isOpen={open}
         onClose={() => setOpen(false)}

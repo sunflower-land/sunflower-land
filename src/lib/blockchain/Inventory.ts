@@ -68,6 +68,11 @@ export class Inventory {
     );
   }
 
+  public async getSupply(ids: number[]) {
+    const supply = await this.loadSupplyBatch(ids);
+    return supply.map(Number);
+  }
+
   public async getBalances(farmAddress: string) {
     const batchAccounts = Array(IDS.length).fill(farmAddress);
     const balances = await this.contract.methods

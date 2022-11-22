@@ -288,9 +288,11 @@ class Spritesheet extends React.Component<Props> {
 
     const currentRow = Math.floor(this.frame / this.cols);
     const currentCol = this.frame - this.cols * currentRow;
-    this.spriteElMove.style.backgroundPosition = `-${
-      this.props.widthFrame * currentCol
-    }px -${this.props.heightFrame * currentRow}px`;
+    if (this.spriteElMove) {
+      this.spriteElMove.style.backgroundPosition = `-${
+        this.props.widthFrame * currentCol
+      }px -${this.props.heightFrame * currentRow}px`;
+    }
 
     if (onEnterFrame) {
       onEnterFrame.map((frameAction) => {
