@@ -8,7 +8,7 @@ export const Connect: React.FC = () => {
 
   return (
     <div className="px-4">
-      <p className="text-xs text-white mt-2 mb-3  text-center italic">
+      <p className="text-xs text-white mt-2 mb-3 text-center italic">
         Connect your Web3 wallet to play
       </p>
       <Button
@@ -199,7 +199,7 @@ export const Connect: React.FC = () => {
 
       <div className="bg-white b-1 w-full h-[1px] my-4" />
       <div className="flex justify-center relative">
-        <span className="text-xs text-center  bg-[#c28669] px-2 absolute  top-[-34px]">
+        <span className="text-xs text-center bg-[#c28669] px-2 absolute top-[-34px] italic">
           Connect with an email or social login
         </span>
       </div>
