@@ -43,10 +43,16 @@ export const AuctionDetails: React.FC<Props> = ({
       (game.inventory[ingredient.item] ?? new Decimal(0)).gte(ingredient.amount)
     ) ?? false;
 
-  const availableSupply = releases.reduce(
-    (supply, release) => supply + release.supply,
+  const currentSupply = releases.reduce(
+    (supply, release) =>
+      release.releaseDate < Date.now() ? supply + release.supply : supply,
+
     0
   );
+
+  const remainingSupply = currentSupply - (totalMinted ?? 0);
+
+  const isSoldOut = remainingSupply <= 0;
 
   return (
     <div className="w-full p-2 flex flex-col items-center">
@@ -117,9 +123,12 @@ export const AuctionDetails: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      <p className="text-lg">{availableSupply - (totalMinted ?? 0)} left</p>
-
-      {!isUpcomingItem && (
+      {remainingSupply > 0 ? (
+        <p className="text-lg">{remainingSupply} left</p>
+      ) : (
+        <RedLabel>Sold out</RedLabel>
+      )}
+      {!isUpcomingItem && !isSoldOut && (
         <Button
           className="text-lg"
           disabled={
