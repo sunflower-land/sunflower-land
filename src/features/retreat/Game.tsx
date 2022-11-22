@@ -19,6 +19,8 @@ import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
+import { ErrorMessage } from "features/auth/ErrorMessage";
+import { ErrorCode } from "lib/errors";
 
 export const Game = () => {
   const container = useRef(null);
@@ -26,6 +28,7 @@ export const Game = () => {
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
   const isLoading = goblinState.matches("loading");
+  const isError = goblinState.matches("error");
 
   useEffect(() => {
     if (!isLoading) {
@@ -90,6 +93,14 @@ export const Game = () => {
             <Resale />
             <RetreatWishingWell />
             <IslandTravelWrapper />
+
+            <Modal show={isError} centered>
+              <Panel className="text-shadow">
+                <ErrorMessage
+                  errorCode={goblinState.context.errorCode as ErrorCode}
+                />
+              </Panel>
+            </Modal>
           </div>
         </div>
       </ScrollContainer>
