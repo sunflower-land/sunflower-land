@@ -245,15 +245,15 @@ export const authMachine = createMachine<
                 },
 
                 {
-                  target: "authorised",
-                  actions: "assignFarm",
-                  cond: "hasFarm",
-                },
-
-                {
                   cond: (context) =>
                     !!context.farmId && context.blacklistStatus !== "OK",
                   target: "blacklisted",
+                },
+
+                {
+                  target: "authorised",
+                  actions: "assignFarm",
+                  cond: "hasFarm",
                 },
 
                 { target: "checkingSupply" },
