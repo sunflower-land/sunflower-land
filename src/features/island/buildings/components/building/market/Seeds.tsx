@@ -29,14 +29,20 @@ import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
+import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
+import { FRUIT_SEEDS } from "features/game/types/fruits";
 
 interface Props {
   onClose: () => void;
 }
 
-function isSeedLocked(bumpkin: Bumpkin | undefined, seed: Seed) {
+function isSeedLocked(bumpkin: Bumpkin | undefined, seedName: SeedName) {
+  if (seedName in FRUIT_SEEDS()) {
+    return true;
+  }
+
+  const seed = SEEDS()[seedName];
   return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
 }
 
@@ -129,7 +135,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   }
 
   const Action = () => {
-    if (isSeedLocked(state.bumpkin, selected)) {
+    if (isSeedLocked(state.bumpkin, selectedName)) {
       return (
         <div className="flex items-center mt-2">
           <img src={heart} className="h-4 ml-0.5 mr-1" />
@@ -204,7 +210,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
-            showOverlay={isSeedLocked(state.bumpkin, SEEDS()[name])}
+            showOverlay={isSeedLocked(state.bumpkin, name)}
             overlayIcon={
               <img
                 src={lock}
