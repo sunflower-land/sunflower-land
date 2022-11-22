@@ -155,17 +155,19 @@ export const Building: React.FC<Prop> = ({ name, building }) => {
         <BuildingPlaced
           buildingId={building.id}
           craftingState={building.crafting}
-          isBuilt={true}
           onRemove={hasRustyShovelSelected ? handleRemove : undefined}
+          isBuilt
         />
       )}
       <Modal show={showRemoveModal} centered onHide={handleClose}>
-        <RemovePlaceableModal
-          type="building"
-          name={name}
-          placeableId={building.id}
-          onClose={handleClose}
-        />
+        {showRemoveModal && (
+          <RemovePlaceableModal
+            type="building"
+            name={name}
+            placeableId={building.id}
+            onClose={handleClose}
+          />
+        )}
       </Modal>
     </>
   );

@@ -19,6 +19,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     }
 
     if (isBuilt) {
+      // Add future on click actions here
       setIsOpen(true);
       return;
     }

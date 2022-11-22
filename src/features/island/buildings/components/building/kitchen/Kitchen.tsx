@@ -65,6 +65,7 @@ export const Kitchen: React.FC<Props> = ({
     }
 
     if (isBuilt) {
+      // Add future on click actions here
       if (idle) {
         setShowModal(true);
         return;

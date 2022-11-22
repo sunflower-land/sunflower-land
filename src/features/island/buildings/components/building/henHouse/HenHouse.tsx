@@ -21,6 +21,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
     }
 
     if (isBuilt) {
+      // Add future on click actions here
       setIsOpen(true);
       return;
     }

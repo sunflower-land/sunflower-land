@@ -69,6 +69,7 @@ export const FirePit: React.FC<Props> = ({
     }
 
     if (isBuilt) {
+      // Add future on click actions here
       if (idle) {
         setShowModal(true);
         return;

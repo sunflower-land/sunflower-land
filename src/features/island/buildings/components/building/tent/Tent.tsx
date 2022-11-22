@@ -14,12 +14,13 @@ export const Tent: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     }
 
     if (isBuilt) {
+      // Add future on click actions here
       return;
     }
   };
 
   return (
-    <BuildingImageWrapper onClick={handleClick} nonInteractible={true}>
+    <BuildingImageWrapper onClick={handleClick} nonInteractible>
       <img
         src={tent}
         className="absolute bottom-0"

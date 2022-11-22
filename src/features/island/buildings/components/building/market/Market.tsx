@@ -19,6 +19,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       return;
     }
     if (isBuilt) {
+      // Add future on click actions here
       setIsOpen(true);
       return;
     }
