@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 
 import close from "assets/icons/close.png";
 import { Context } from "features/game/GoblinProvider";
-import { Panel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { UpcomingAuctions } from "./UpcomingAuctions";
@@ -14,6 +14,7 @@ import mintingAnimation from "assets/npcs/goblin_hammering.gif";
 import { MintedEvent } from "features/retreat/auctioneer/auctioneerMachine";
 import { GOBLIN_RETREAT_ITEMS } from "features/game/types/craftables";
 import { Button } from "components/ui/Button";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   isOpen: boolean;
@@ -69,44 +70,55 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
         </Panel>
       )}
       {(isPlaying || isLoading) && (
-        <Panel className="pt-5 relative">
-          <div className="flex justify-between absolute top-1.5 left-0.5 right-0 items-center">
-            <div className="flex">
-              <Tab
-                isActive={tab === "auction"}
-                onClick={() => setTab("auction")}
-              >
-                <span className="text-sm text-shadow ml-1">Auctioneer</span>
-              </Tab>
-              <Tab
-                isActive={tab === "upcoming"}
-                onClick={() => setTab("upcoming")}
-              >
-                <span className="text-sm text-shadow ml-1">Upcoming</span>
-              </Tab>
-            </div>
+        <Panel className="relative" hasTabs>
+          <div
+            className="absolute flex"
+            style={{
+              top: `${PIXEL_SCALE * 1}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+              right: `${PIXEL_SCALE * 1}px`,
+            }}
+          >
+            <Tab isActive={tab === "auction"} onClick={() => setTab("auction")}>
+              <span className="text-sm text-shadow ml-1">Auctioneer</span>
+            </Tab>
+            <Tab
+              isActive={tab === "upcoming"}
+              onClick={() => setTab("upcoming")}
+            >
+              <span className="text-sm text-shadow ml-1">Upcoming</span>
+            </Tab>
             <img
               src={close}
-              className="h-6 cursor-pointer mr-2 mb-1"
+              className="absolute cursor-pointer z-20"
               onClick={onClose}
+              style={{
+                top: `${PIXEL_SCALE * 1}px`,
+                right: `${PIXEL_SCALE * 1}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
             />
           </div>
+
           <div
             style={{
               minHeight: "200px",
             }}
           >
-            {isLoading && <Loading />}
-            {isPlaying && (
-              <>
-                {tab === "auction" && <AuctioneerContent />}
-                {tab === "upcoming" && <UpcomingAuctions />}
-              </>
-            )}
+            <div className="flex flex-col">
+              <OuterPanel className="flex-1 w-full flex flex-col justify-between items-center">
+                {isLoading && <Loading />}
+                {isPlaying && (
+                  <>
+                    {tab === "auction" && <AuctioneerContent />}
+                    {tab === "upcoming" && <UpcomingAuctions />}
+                  </>
+                )}
+              </OuterPanel>
+            </div>
           </div>
         </Panel>
       )}
-      )
     </Modal>
   );
 };

@@ -20,7 +20,7 @@ export const UpcomingAuctions: React.FC = () => {
     <div
       className="h-full overflow-y-auto scrollable"
       style={{
-        maxHeight: "450px",
+        maxHeight: "500px",
       }}
     >
       {upcoming.map((item) => (

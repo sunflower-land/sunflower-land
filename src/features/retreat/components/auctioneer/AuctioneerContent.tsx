@@ -34,11 +34,18 @@ export const AuctioneerContent = () => {
 
   const item = upcoming[0];
   return (
-    <AuctionDetails
-      item={item}
-      game={goblinState.context.state}
-      onMint={() => mint(item.name)}
-      isMinting={auctioneerState.matches("minting")}
-    />
+    <div
+      className="h-full overflow-y-auto scrollable"
+      style={{
+        maxHeight: "500px",
+      }}
+    >
+      <AuctionDetails
+        item={item}
+        game={goblinState.context.state}
+        onMint={() => mint(item.name)}
+        isMinting={auctioneerState.matches("minting")}
+      />
+    </div>
   );
 };
