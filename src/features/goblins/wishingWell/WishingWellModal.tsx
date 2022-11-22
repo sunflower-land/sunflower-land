@@ -14,7 +14,6 @@ import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { metamask } from "lib/blockchain/metamask";
 import { fromWei } from "web3-utils";
-import { Context } from "features/game/GoblinProvider";
 import { shortAddress } from "lib/utils/shortAddress";
 import { CONFIG } from "lib/config";
 import { ConnectingError } from "features/auth/components/ConnectingError";
@@ -22,6 +21,7 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { MachineInterpreter } from "./wishingWellMachine";
 import { WishingWellTokens } from "./actions/loadWishingWell";
+import { Context } from "features/game/GoblinProvider";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -52,7 +52,7 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
-        <h1 className="text-xl mb-4 text-center">Congratulations!</h1>
+        <h1 className="text-lg mb-4 text-center">Congratulations!</h1>
         <img src={token} alt="sunflower token" className="w-16 mb-2" />
       </div>
       <p className="mb-4 text-sm">Your wish has been granted.</p>
@@ -77,7 +77,7 @@ const GrantWish = ({ totalTokensInWell, onClick, onClose }: GrantWishArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
-        <h1 className="text-xl mb-4 text-center">
+        <h1 className="text-lg mb-4 text-center">
           {`It's time to grant your wish!`}
         </h1>
         <img src={wisingWell} alt="wishing well" className="w-16 mb-2" />
@@ -104,7 +104,7 @@ const ZeroTokens = ({ onClick, onClose }: ZeroTokensArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
-        <h1 className="text-xl mb-4 text-center">{`Uh oh!`}</h1>
+        <h1 className="text-lg mb-4 text-center">{`Uh oh!`}</h1>
         <img src={goblinHead} alt="skeleton death" className="w-16 mb-2" />
       </div>
       <p className="mb-4 text-sm">
@@ -128,7 +128,7 @@ const WaitingForWish = ({ lockedTime, onClose }: WaitingForWishArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
-        <h1 className="text-xl mb-4 text-center">You have made a wish!</h1>
+        <h1 className="text-lg mb-4 text-center">You have made a wish!</h1>
         <img src={timer} alt="timer" className="w-8 mb-2" />
       </div>
       <p className="mb-4 text-sm">
@@ -162,7 +162,7 @@ const NoWish = ({
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
-        <h1 className="text-xl mb-2 text-center">Wishing Well</h1>
+        <h1 className="text-lg mb-2 text-center">Wishing Well</h1>
         <img src={wisingWell} alt="wishing well" className="w-16" />
       </div>
       <p className="mb-4 text-sm">
@@ -235,12 +235,7 @@ const NoWish = ({
   </>
 );
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
+export const WishingWellModal: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
@@ -251,7 +246,6 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { state: wishingWell, errorCode } = machine.context;
 
   const handleClose = () => {
-    onClose();
     send("CLOSING");
   };
 
@@ -263,7 +257,7 @@ export const WishingWellModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal centered show={isOpen} onHide={handleClose}>
+    <Modal centered show={true} onHide={handleClose}>
       <Panel className="relative">
         {machine.matches("loading") && (
           <span className="loading mt-1">Loading</span>

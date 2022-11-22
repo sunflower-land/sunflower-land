@@ -35,7 +35,7 @@ export function collectEggs({
     throw new Error("This chicken hasn't layed an egg");
   }
 
-  const mutantChicken = chicken.reward?.items[0];
+  const mutantChicken = chicken.reward?.items?.[0];
 
   delete chickens[action.index].fedAt;
 

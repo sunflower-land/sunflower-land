@@ -7,12 +7,15 @@ import { CropReward as Reward } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { StopTheGoblins } from "./StopTheGoblins";
-import { ChestCaptcha } from "./ChestCaptcha";
+
+import token from "assets/icons/token_2.png";
+import { StopTheGoblins } from "features/farming/crops/components/StopTheGoblins";
+import { ChestCaptcha } from "features/farming/crops/components/ChestCaptcha";
 
 interface Props {
   reward: Reward | null;
-  fieldIndex: number;
+  plotIndex: number;
+  expansionIndex: number;
   onCollected: (success: boolean) => void;
 }
 
@@ -21,7 +24,8 @@ type Challenge = "goblins" | "chest";
 export const CropReward: React.FC<Props> = ({
   reward,
   onCollected,
-  fieldIndex,
+  expansionIndex,
+  plotIndex,
 }) => {
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
@@ -44,7 +48,7 @@ export const CropReward: React.FC<Props> = ({
 
   const open = () => {
     setOpened(true);
-    gameService.send("reward.opened", { fieldIndex });
+    gameService.send("reward.collected", { plotIndex, expansionIndex });
   };
 
   const fail = () => {
@@ -58,6 +62,8 @@ export const CropReward: React.FC<Props> = ({
     setOpened(false);
   };
 
+  const { items, sfl } = reward;
+
   return (
     <Modal centered show={true}>
       <Panel>
@@ -70,23 +76,34 @@ export const CropReward: React.FC<Props> = ({
           hidden={loading} // render and hide captchas so images have time to load
           className="flex flex-col items-center justify-between"
         >
-          {opened && reward.items ? (
+          {opened ? (
             <>
               <span className="text-center mb-2">
                 Woohoo! Here is your reward
               </span>
-              {reward.items.map((item) => (
-                <div key={item.name} className="flex items-center">
-                  <img
-                    className="w-8 img-highlight mr-2"
-                    src={ITEM_DETAILS[item.name].image}
-                  />
-                  <span className="text-center mb-2">
-                    {`${item.amount} ${item.name}s`}
-                  </span>
+              {items &&
+                items.map((item) => {
+                  const name = `${item.amount} ${item.name}${
+                    item.name === "Gold" ? "" : "s"
+                  }`;
+
+                  return (
+                    <div key={item.name} className="flex items-center my-2">
+                      <img
+                        className="w-8 img-highlight mr-2"
+                        src={ITEM_DETAILS[item.name].image}
+                      />
+                      <span className="text-center">{name}</span>
+                    </div>
+                  );
+                })}
+              {sfl && (
+                <div key="sfl" className="flex items-center my-2">
+                  <img className="w-8 img-highlight mr-2" src={token} />
+                  <span className="text-center">{`${sfl} SFL`}</span>
                 </div>
-              ))}
-              <Button onClick={() => close(true)} className="mt-4 w-full">
+              )}
+              <Button onClick={() => close(true)} className="w-full">
                 Close
               </Button>
             </>
