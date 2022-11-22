@@ -36,8 +36,8 @@ export const RockGolem: React.FC = () => {
           className="absolute group-hover:img-highlight pointer-events-none transform z-10"
           style={{
             width: `${PIXEL_SCALE * 34}px`,
-            bottom: `${PIXEL_SCALE * 5}px`,
-            right: `${PIXEL_SCALE * 2.5} px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            right: `${PIXEL_SCALE * 2}px`,
             imageRendering: "pixelated",
           }}
           getInstance={(spritesheet) => {
@@ -59,8 +59,8 @@ export const RockGolem: React.FC = () => {
           className="absolute group-hover:img-highlight pointer-events-none transform z-10"
           style={{
             width: `${PIXEL_SCALE * 34}px`,
-            bottom: `${PIXEL_SCALE * 5}px`,
-            right: `${PIXEL_SCALE * 2.5}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            right: `${PIXEL_SCALE * 2}px`,
             imageRendering: "pixelated",
           }}
           getInstance={(spritesheet) => {
