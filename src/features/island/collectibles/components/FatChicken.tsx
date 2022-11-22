@@ -18,7 +18,7 @@ export const FatChicken: React.FC = () => {
           width: `${PIXEL_SCALE * 17}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute hover:img-highlight"
+        className="absolute"
         alt="Fat Chicken"
       />
     </div>

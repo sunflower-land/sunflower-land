@@ -3,7 +3,12 @@ import cloneDeep from "lodash.clonedeep";
 
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
-import { Collectibles, GameState, Inventory } from "features/game/types/game";
+import {
+  Bumpkin,
+  Collectibles,
+  GameState,
+  Inventory,
+} from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
@@ -18,13 +23,16 @@ export function getBuyPrice(
   name: SeedName,
   seed: Seed,
   inventory: Inventory,
-  colletibles: Collectibles
+  colletibles: Collectibles,
+  bumpkin: Bumpkin
 ) {
+  const { equipped } = bumpkin;
+  const { secondaryTool } = equipped;
   if (isCollectibleBuilt("Kuebiko", colletibles)) {
     return new Decimal(0);
   }
 
-  if (inventory["Sunflower Shield"]?.gte(1) && name === "Sunflower Seed") {
+  if (secondaryTool === "Sunflower Shield" && name === "Sunflower Seed") {
     return new Decimal(0);
   }
 
@@ -76,7 +84,8 @@ export function seedBought({ state, action }: Options) {
     item,
     seed,
     stateCopy.inventory,
-    stateCopy.collectibles
+    stateCopy.collectibles,
+    stateCopy.bumpkin as Bumpkin
   );
   const totalExpenses = price?.mul(amount);
 

@@ -12,6 +12,7 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 import heart from "assets/icons/level_up.png";
 import firePit from "src/assets/buildings/fire_pit.png";
+import { Bumpkin } from "features/game/types/game";
 
 interface Props {
   food: Consumable[];
@@ -36,7 +37,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
 
     setToast({
       icon: heart,
-      content: `+${getFoodExpBoost(food.experience, state.bumpkin)}`,
+      content: `+${getFoodExpBoost(food.experience, state.bumpkin as Bumpkin)}`,
     });
     setToast({
       icon: ITEM_DETAILS[food.name].image,
@@ -85,7 +86,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
                   <span className="text-xs text-shadow text-center">
                     {`${getFoodExpBoost(
                       selected.experience,
-                      state.bumpkin
+                      state.bumpkin as Bumpkin
                     )} EXP`}
                   </span>
                 </div>

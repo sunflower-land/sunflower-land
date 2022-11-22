@@ -13,7 +13,7 @@ export const CabbageBoy: React.FC = () => {
           bottom: `${PIXEL_SCALE * 1}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute hover:img-highlight"
+        className="absolute"
         alt="Cabbage Boy"
       />
     </>
