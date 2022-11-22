@@ -24,7 +24,6 @@ import { Settings } from "features/farming/hud/components/Settings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { LandExpansionRole } from "./LandExpansionRole";
 
@@ -36,7 +35,6 @@ enum MENU_LEVELS {
 export const Menu = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
-  const [isMobile] = useIsMobile();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -155,43 +153,36 @@ export const Menu = () => {
               <>
                 <li className="p-1">
                   <Button onClick={syncOnChain}>
-                    <span className="sm:text-sm">Sync on chain</span>
-                  </Button>
-                </li>
-                <li className="p-1 flex">
-                  <Button onClick={handleHowToPlay}>
-                    <span className="sm:text-sm flex-1">How to play</span>
-                    <img
-                      src={questionMark}
-                      className="w-3 ml-2"
-                      alt="question-mark"
-                    />
+                    <span>Sync on chain</span>
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}
-                  >
-                    <span className="sm:text-sm flex-1">Community</span>
+                  <Button onClick={handleHowToPlay}>
+                    <div className="flex items-center justify-center">
+                      <span>How to play</span>
+                      <img
+                        src={questionMark}
+                        className="w-3 ml-2"
+                        alt="question-mark"
+                      />
+                    </div>
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}>
+                    <span>Community</span>
                   </Button>
                 </li>
                 {CONFIG.NETWORK === "mainnet" && (
                   <li className="p-1">
-                    <Button
-                      className="flex justify-between"
-                      onClick={handleLandExpansionClick}
-                    >
-                      <span className="sm:text-sm flex-1">Discord</span>
+                    <Button onClick={handleLandExpansionClick}>
+                      <span>Discord</span>
                     </Button>
                   </li>
                 )}
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={handleSettingsClick}
-                  >
-                    <span className="sm:text-sm flex-1">Settings</span>
+                  <Button onClick={handleSettingsClick}>
+                    <span>Settings</span>
                   </Button>
                 </li>
               </>
@@ -210,16 +201,13 @@ export const Menu = () => {
             {menuLevel === MENU_LEVELS.VIEW && (
               <>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setShowCommunityGardenModal(true)}
-                  >
-                    <span className="sm:text-sm flex-1">Community Garden</span>
+                  <Button onClick={() => setShowCommunityGardenModal(true)}>
+                    <span>Community Garden</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={handleShareClick}>
-                    <span className="sm:text-sm">Share</span>
+                    <span>Share</span>
                   </Button>
                 </li>
               </>

@@ -1,9 +1,12 @@
 import Decimal from "decimal.js-light";
+import { getKeys } from "../types/craftables";
 import {
   FieldItem,
   GameState,
   Inventory,
   InventoryItemName,
+  LandExpansion,
+  LandExpansionPlot,
   Rock,
   Tree,
 } from "../types/game";
@@ -140,6 +143,44 @@ function updateRocks(oldRocks: Rocks, newRocks: Rocks): Rocks {
   }, {} as Record<number, Rock>);
 }
 
+function updatePlots(
+  oldPlots: Record<number, LandExpansionPlot>,
+  newPlots: Record<number, LandExpansionPlot>
+) {
+  return getKeys(oldPlots).reduce((plots, plotId) => {
+    const { crop } = oldPlots[plotId];
+    const reward = newPlots[plotId].crop?.reward;
+
+    return {
+      ...plots,
+      [plotId]: {
+        ...oldPlots[plotId],
+        ...(crop && {
+          crop: {
+            ...crop,
+            ...(reward && { reward }),
+          },
+        }),
+      },
+    };
+  }, {} as Record<number, LandExpansionPlot>);
+}
+
+function updateExpansionCrops(
+  oldExpansions: LandExpansion[],
+  newExpansions: LandExpansion[]
+): LandExpansion[] {
+  return oldExpansions.map((expansion, index) => {
+    const { plots } = expansion;
+
+    return {
+      ...expansion,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ...(plots && { plots: updatePlots(plots, newExpansions[index].plots!) }),
+    };
+  });
+}
+
 /**
  * Merge RNG from server
  */
@@ -186,6 +227,10 @@ export function updateGame(
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
       chickens: newGameState.chickens,
+      expansions: updateExpansionCrops(
+        oldGameState.expansions,
+        newGameState.expansions
+      ),
     };
   } catch (e) {
     console.log({ e });

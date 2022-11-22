@@ -427,7 +427,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
       {showMutantModal && (
         <MutantChickenModal
           show={showMutantModal}
-          type={chicken.reward?.items[0].name as MutantChicken}
+          type={chicken.reward?.items?.[0].name as MutantChicken}
           onContinue={handleContinue}
           inventory={state.inventory}
         />

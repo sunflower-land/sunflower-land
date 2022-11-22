@@ -110,7 +110,7 @@ export const Incubator: React.FC = () => {
       {machine.matches("approve_frog") && (
         <>
           <div className="flex flex-col items-center mb-1">
-            <h1 className="text-xl mb-2 text-center">
+            <h1 className="text-lg mb-2 text-center">
               {`Approve Access to your Frogs`}
             </h1>
             <p className="text-xs mb-4\2 mt-2 text-center">
@@ -151,7 +151,7 @@ export const Incubator: React.FC = () => {
       {machine.matches("approve_tadpole") && (
         <>
           <div className="flex flex-col items-center mb-1">
-            <h1 className="text-xl mb-2 text-center">
+            <h1 className="text-lg mb-2 text-center">
               {`Approve Access to your Tadpoles`}
             </h1>
             <p className="text-xs mb-4\2 mt-2 text-center">
@@ -213,7 +213,7 @@ export const Incubator: React.FC = () => {
       {machine.matches("removed") && (
         <>
           <div className="flex flex-col items-center mb-1">
-            <h1 className="text-xl mb-2 text-center">{`Awesome!`}</h1>
+            <h1 className="text-lg mb-2 text-center">{`Awesome!`}</h1>
             <img
               src={empty_incubator}
               alt="Empty Incubator"
@@ -230,7 +230,7 @@ export const Incubator: React.FC = () => {
       {machine.matches("claimed") && (
         <>
           <div className="flex flex-col items-center mb-1">
-            <h1 className="text-xl mb-2 text-center">{`Sweet!`}</h1>
+            <h1 className="text-lg mb-2 text-center">{`Sweet!`}</h1>
             <img
               src={active_incubator}
               alt="Active Incubator"
@@ -246,7 +246,7 @@ export const Incubator: React.FC = () => {
       {machine.matches("incubated") && (
         <>
           <div className="flex flex-col items-center mb-1">
-            <h1 className="text-xl mb-2 text-center">{`Congratulations!`}</h1>
+            <h1 className="text-lg mb-2 text-center">{`Congratulations!`}</h1>
             <img
               src={active_incubator}
               alt="Active Incubator"

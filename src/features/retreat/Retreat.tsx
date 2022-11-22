@@ -3,8 +3,8 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import ocean from "assets/decorations/ocean.png";
-import background from "assets/land/retreat.png";
+import ocean from "assets/decorations/ocean.webp";
+import background from "assets/land/retreat.webp";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import { GoblinProvider } from "features/game/GoblinProvider";
 import { RetreatBank } from "./components/bank/RetreatBank";

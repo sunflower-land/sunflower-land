@@ -26,6 +26,10 @@ export function openReward({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Field does not have a reward");
   }
 
+  if (!field.reward.items) {
+    throw new Error("Field does not have a reward");
+  }
+
   const crop = CROPS()[field.name];
 
   if (createdAt - field.plantedAt < crop.harvestSeconds * 1000) {

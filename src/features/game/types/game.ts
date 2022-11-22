@@ -24,7 +24,7 @@ import { FruitSeedName } from "./fruits";
 
 export type CropReward = {
   sfl?: Decimal;
-  items: {
+  items?: {
     name: InventoryItemName;
     amount: number;
   }[];

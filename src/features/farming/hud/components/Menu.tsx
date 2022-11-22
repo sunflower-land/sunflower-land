@@ -166,41 +166,34 @@ export const Menu = () => {
               <>
                 <li className="p-1">
                   <Button onClick={syncOnChain}>
-                    <span className="sm:text-sm">Sync on chain</span>
+                    <span>Sync on chain</span>
                   </Button>
                 </li>
-                <li className="p-1 flex">
+                <li className="p-1">
                   <Button onClick={handleHowToPlay}>
-                    <span className="sm:text-sm flex-1">How to play</span>
-                    <img
-                      src={questionMark}
-                      className="w-3 ml-2"
-                      alt="question-mark"
-                    />
+                    <div className="flex items-center justify-center">
+                      <span>How to play</span>
+                      <img
+                        src={questionMark}
+                        className="w-3 ml-2"
+                        alt="question-mark"
+                      />
+                    </div>
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setMenuLevel(MENU_LEVELS.MAP)}
-                  >
-                    <span className="sm:text-sm flex-1">Map</span>
+                  <Button onClick={() => setMenuLevel(MENU_LEVELS.MAP)}>
+                    <span>Map</span>
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}
-                  >
-                    <span className="sm:text-sm flex-1">Community</span>
+                  <Button onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}>
+                    <span>Community</span>
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={handleSettingsClick}
-                  >
-                    <span className="sm:text-sm flex-1">Settings</span>
+                  <Button onClick={handleSettingsClick}>
+                    <span>Settings</span>
                   </Button>
                 </li>
               </>
@@ -219,49 +212,44 @@ export const Menu = () => {
             {menuLevel === MENU_LEVELS.MAP && (
               <>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setShowGoblinModal(true)}
-                  >
-                    <span className="sm:text-sm flex-1">Goblin Village</span>
-                    <img src={goblin} className="w-6 ml-2" alt="town" />
+                  <Button onClick={() => setShowGoblinModal(true)}>
+                    <div className="flex items-center justify-center">
+                      <span>Goblin Village</span>
+                      <img src={goblin} className="w-6 ml-2" alt="town" />
+                    </div>
                   </Button>
                 </li>
 
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => handleNavigationClick(Section.Town)}
-                  >
-                    <span className="sm:text-sm flex-1">Town</span>
-                    <img src={town} className="w-6 ml-2" alt="town" />
+                  <Button onClick={() => handleNavigationClick(Section.Town)}>
+                    <div className="flex items-center justify-center">
+                      <span>Town</span>
+                      <img src={town} className="w-6 ml-2" alt="town" />
+                    </div>
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => handleNavigationClick(Section.Crops)}
-                  >
-                    <span className="sm:text-sm flex-1">Crops</span>
-                    <img src={radish} className="w-4 ml-2" alt="crop" />
+                  <Button onClick={() => handleNavigationClick(Section.Crops)}>
+                    <div className="flex items-center justify-center">
+                      <span>Crops</span>
+                      <img src={radish} className="w-4 ml-2" alt="crop" />
+                    </div>
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => handleNavigationClick(Section.Water)}
-                  >
-                    <span className="sm:text-sm flex-1">Water</span>
-                    <img src={water} className="w-4 ml-2" alt="water" />
+                  <Button onClick={() => handleNavigationClick(Section.Water)}>
+                    <div className="flex items-center justify-center">
+                      <span>Water</span>
+                      <img src={water} className="w-4 ml-2" alt="water" />
+                    </div>
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => handleNavigationClick(Section.Forest)}
-                  >
-                    <span className="sm:text-sm flex-1">Forest</span>
-                    <img src={wood} className="w-4 ml-2" alt="wood" />
+                  <Button onClick={() => handleNavigationClick(Section.Forest)}>
+                    <div className="flex items-center justify-center">
+                      <span>Forest</span>
+                      <img src={wood} className="w-4 ml-2" alt="wood" />
+                    </div>
                   </Button>
                 </li>
               </>
@@ -271,16 +259,13 @@ export const Menu = () => {
             {menuLevel === MENU_LEVELS.VIEW && (
               <>
                 <li className="p-1">
-                  <Button
-                    className="flex justify-between"
-                    onClick={() => setShowCommunityGardenModal(true)}
-                  >
-                    <span className="sm:text-sm flex-1">Community Garden</span>
+                  <Button onClick={() => setShowCommunityGardenModal(true)}>
+                    <span>Community Garden</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={handleShareClick}>
-                    <span className="sm:text-sm">Share</span>
+                    <span>Share</span>
                   </Button>
                 </li>
               </>
