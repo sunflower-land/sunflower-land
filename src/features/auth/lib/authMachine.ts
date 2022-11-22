@@ -245,8 +245,7 @@ export const authMachine = createMachine<
                 },
 
                 {
-                  cond: (context) =>
-                    !!context.farmId && context.blacklistStatus !== "OK",
+                  cond: (_, event) => event.data.blacklistStatus === "BANNED",
                   target: "blacklisted",
                 },
 
