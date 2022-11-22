@@ -14,7 +14,7 @@ export const UpcomingAuctions: React.FC = () => {
   const [auctioneerState, send] = useActor(child);
 
   const { auctioneerItems } = auctioneerState.context;
-  const upcoming = getValidAuctionItems(auctioneerItems);
+  const upcoming = getValidAuctionItems(auctioneerItems).slice(1);
 
   return (
     <div

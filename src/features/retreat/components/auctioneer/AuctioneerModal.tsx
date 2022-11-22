@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 
 import close from "assets/icons/close.png";
 import { Context } from "features/game/GoblinProvider";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { UpcomingAuctions } from "./UpcomingAuctions";
@@ -106,15 +106,13 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             }}
           >
             <div className="flex flex-col">
-              <OuterPanel className="flex-1 w-full flex flex-col justify-between items-center">
-                {isLoading && <Loading />}
-                {isPlaying && (
-                  <>
-                    {tab === "auction" && <AuctioneerContent />}
-                    {tab === "upcoming" && <UpcomingAuctions />}
-                  </>
-                )}
-              </OuterPanel>
+              {isLoading && <Loading />}
+              {isPlaying && (
+                <>
+                  {tab === "auction" && <AuctioneerContent />}
+                  {tab === "upcoming" && <UpcomingAuctions />}
+                </>
+              )}
             </div>
           </div>
         </Panel>
