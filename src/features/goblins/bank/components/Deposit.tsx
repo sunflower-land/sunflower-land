@@ -89,7 +89,7 @@ const SFLItemsInstructions = () => (
         Only send items from the
         <a
           className="underline ml-2"
-          href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+          href="https://opensea.io/collection/sunflower-land-collectibles"
           target="_blank"
           rel="noreferrer"
         >
@@ -100,7 +100,9 @@ const SFLItemsInstructions = () => (
 
     <li className="flex text-xs mb-3">
       <span className="mr-1">1.</span>
-      <span>{'Go to OpenSea and click the "Transfer" button'}</span>
+      <span>
+        {'Go to your OpenSea profile and click the ""Transfer"" button on the item'}
+      </span>
     </li>
     <li className="flex text-xs mb-3">
       <span className="mr-1">2.</span>
