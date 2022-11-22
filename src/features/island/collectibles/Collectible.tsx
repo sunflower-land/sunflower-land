@@ -67,15 +67,20 @@ import { Bar } from "components/ui/ProgressBar";
 import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Bean } from "./components/Bean";
 
-interface Prop {
+export interface CollectibleProps {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
 }
 
-export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
+export const COLLECTIBLE_COMPONENTS: Record<
+  CollectibleName,
+  React.FC<CollectibleProps>
+> = {
   "Mysterious Head": MysteriousHead,
   "War Skull": WarSkulls,
   "War Tombstone": WarTombstone,
@@ -153,9 +158,21 @@ export const COLLECTIBLE_COMPONENTS: Record<CollectibleName, React.FC> = {
 
   "Victoria Sisters": VictoriaSisters,
   "Egg Basket": () => null,
+
+  "Golden Bean": Bean,
+  "Magic Bean": Bean,
+  "Shiny Bean": Bean,
+
+  // TODO
+  "Potted Potato": () => null,
+  "Potted Pumpkin": () => null,
+  "Collosal Crop": () => null,
+  "Peaceful Potato": () => null,
+  "Perky Pumpkin": () => null,
+  "Stellar Sunflower": () => null,
 };
 
-export const Collectible: React.FC<Prop> = ({
+export const Collectible: React.FC<CollectibleProps> = ({
   name,
   id,
   readyAt,
@@ -188,9 +205,20 @@ export const Collectible: React.FC<Prop> = ({
               "opacity-50": inProgress,
             })}
           >
-            <CollectiblePlaced key={id} />
+            <CollectiblePlaced
+              key={id}
+              createdAt={createdAt}
+              id={id}
+              name={name}
+              readyAt={readyAt}
+            />
           </div>
-          <div className="absolute bottom-0 w-8 left-1/2 -translate-x-1/2">
+          <div
+            className="absolute bottom-0 left-1/2"
+            style={{
+              marginLeft: `${PIXEL_SCALE * -8}px`,
+            }}
+          >
             <Bar
               percentage={(1 - secondsLeft / totalSeconds) * 100}
               type="progress"
@@ -220,12 +248,24 @@ export const Collectible: React.FC<Prop> = ({
   return (
     <>
       <div
-        className={classNames({
-          "pointer-events-none": !hasRustyShovelSelected,
+        className={classNames("h-full", {
+          "cursor-pointer hover:img-highlight": hasRustyShovelSelected,
         })}
-        onClick={handleOnClick}
+        onClick={hasRustyShovelSelected ? handleOnClick : undefined}
       >
-        <CollectiblePlaced key={id} />
+        <div
+          className={classNames("h-full", {
+            "pointer-events-none": hasRustyShovelSelected,
+          })}
+        >
+          <CollectiblePlaced
+            key={id}
+            createdAt={createdAt}
+            id={id}
+            name={name}
+            readyAt={readyAt}
+          />
+        </div>
       </div>
       <Modal
         show={showRemoveModal}

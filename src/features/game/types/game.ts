@@ -19,12 +19,12 @@ import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { FruitName } from "features/island/fruit/FruitPatch";
-import { BeanName } from "./beans";
+import { BeanName, MutantCropName } from "./beans";
 import { FruitSeedName } from "./fruits";
 
 export type CropReward = {
   sfl?: Decimal;
-  items: {
+  items?: {
     name: InventoryItemName;
     amount: number;
   }[];
@@ -94,7 +94,19 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-type Coupons = "Trading Ticket" | "War Bond" | "Jack-o-lantern";
+export type Coupons = "Trading Ticket" | "War Bond" | "Jack-o-lantern";
+
+export const COUPONS: Record<Coupons, { description: string }> = {
+  "Trading Ticket": {
+    description: "Free Trades! Woohoo!",
+  },
+  "War Bond": {
+    description: "A mark of a true warrior",
+  },
+  "Jack-o-lantern": {
+    description: "A Halloween special event item",
+  },
+};
 
 type Points = "Human War Point" | "Goblin War Point" | "Player Experience";
 
@@ -123,6 +135,7 @@ export type InventoryItemName =
   | CropName
   | CropSeedName
   | BeanName
+  | MutantCropName
   | FruitName
   | FruitSeedName
   | CraftableName
@@ -289,6 +302,12 @@ export type Airdrop = {
   message?: string;
 };
 
+// Mystery Prize reveals
+export type Reveal = {
+  revealedAt: number;
+  id: string;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -311,6 +330,9 @@ export interface GameState {
   inventory: Inventory;
   stock: Inventory;
   stockExpiry: StockExpiry;
+
+  // When an item is burnt, what the prize was
+  mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
 
   farmAddress?: string;
 

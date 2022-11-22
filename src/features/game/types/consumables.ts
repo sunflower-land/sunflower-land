@@ -48,7 +48,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     ingredients: {
       Potato: new Decimal(10),
     },
-    marketRate: 1.4,
+    marketRate: 10,
   },
 
   "Pumpkin Soup": {
@@ -184,14 +184,14 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Sunflower Cake",
     description: "Sunflower Cake",
     building: "Bakery",
-    experience: 425,
+    experience: 525,
     cookingSeconds: 60 * 60 * 6.5,
     ingredients: {
       Sunflower: new Decimal(1000),
       Wheat: new Decimal(10),
       Egg: new Decimal(15),
     },
-    marketRate: 360,
+    marketRate: 440,
   },
   "Potato Cake": {
     name: "Potato Cake",

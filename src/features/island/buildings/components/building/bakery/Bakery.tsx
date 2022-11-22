@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
+import classNames from "classnames";
 
 import bakery from "assets/buildings/bakery.png";
 import smoke from "assets/buildings/smoke.gif";
 import goblinChef from "assets/npcs/goblin_chef.gif";
+import goblinChefdoing from "assets/npcs/goblin_chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { ConsumableName } from "features/game/types/consumables";
@@ -13,8 +15,7 @@ import { BuildingProps } from "../Building";
 import { BakeryModal } from "./BakeryModal";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import classNames from "classnames";
-import { ClickableBuildingImage } from "../ClickableBuildingImage";
+import { BuildingImageWrapper } from "../BuildingImageWrapper";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -25,7 +26,9 @@ export const Bakery: React.FC<Props> = ({
   ready,
   name,
   craftingService,
+  isBuilt,
   handleShowCraftingTimer,
+  onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
@@ -60,32 +63,33 @@ export const Bakery: React.FC<Props> = ({
   };
 
   const handleClick = () => {
-    if (idle) {
-      setShowModal(true);
+    if (onRemove) {
+      onRemove();
       return;
     }
 
-    if (crafting) {
-      handleShowCraftingTimer();
-      return;
-    }
+    if (isBuilt) {
+      // Add future on click actions here
+      if (idle) {
+        setShowModal(true);
+        return;
+      }
 
-    if (ready) {
-      handleCollect();
-      return;
+      if (crafting) {
+        handleShowCraftingTimer();
+        return;
+      }
+
+      if (ready) {
+        handleCollect();
+        return;
+      }
     }
   };
 
   return (
     <>
-      <ClickableBuildingImage
-        className="relative cursor-pointer hover:img-highlight w-full h-full"
-        style={{
-          width: `${PIXEL_SCALE * 62}px`,
-          height: `${PIXEL_SCALE * 51}px`,
-        }}
-        onClick={handleClick}
-      >
+      <BuildingImageWrapper onClick={handleClick}>
         {ready && name && (
           <div className="flex justify-center absolute -top-7 w-full">
             <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
@@ -93,43 +97,54 @@ export const Bakery: React.FC<Props> = ({
         )}
         <img
           src={bakery}
-          className={classNames("absolute", {
+          className={classNames("absolute bottom-0", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
           style={{
             width: `${PIXEL_SCALE * 62}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            top: `${PIXEL_SCALE * -3}px`,
+            height: `${PIXEL_SCALE * 51}px`,
           }}
         />
         <img
           src={shadow}
-          className="absolute"
+          className="absolute bottom-0"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 33}px`,
-            bottom: `${PIXEL_SCALE * 1}px`,
+            left: `${PIXEL_SCALE * 28}px`,
           }}
         />
-        <img
-          src={goblinChef}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-            left: `${PIXEL_SCALE * 32}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
-            transform: "scaleX(-1)",
-          }}
-        />
+        {crafting ? (
+          <img
+            src={goblinChefdoing}
+            className="absolute pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+              left: `${PIXEL_SCALE * 27}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              transform: "scaleX(-1)",
+            }}
+          />
+        ) : (
+          <img
+            src={goblinChef}
+            className="absolute pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+              left: `${PIXEL_SCALE * 27}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              transform: "scaleX(-1)",
+            }}
+          />
+        )}
         {crafting && (
           <img
             src={smoke}
-            className="absolute pointer-events-none"
+            className="absolute"
             style={{
-              width: `${PIXEL_SCALE * 20}px`,
-              left: `${PIXEL_SCALE * 9}px`,
-              bottom: `${PIXEL_SCALE * 44}px`,
+              width: `${PIXEL_SCALE * 15}px`,
+              left: `${PIXEL_SCALE * 11.5}px`,
+              bottom: `${PIXEL_SCALE * 45}px`,
             }}
           />
         )}
@@ -144,11 +159,11 @@ export const Bakery: React.FC<Props> = ({
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
               bottom: `${PIXEL_SCALE * 4.5}px`,
-              left: `${PIXEL_SCALE * 14.5}px`,
+              left: `${PIXEL_SCALE * 13.7}px`,
             }}
           />
         )}
-      </ClickableBuildingImage>
+      </BuildingImageWrapper>
 
       <BakeryModal
         isOpen={showModal}

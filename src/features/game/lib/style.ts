@@ -19,7 +19,7 @@ export const pixelWhiteBorderStyle: React.CSSProperties = {
   ...pixelizedBorderStyle,
 };
 
-export const pixelLightBordertyle: React.CSSProperties = {
+export const pixelLightBorderStyle: React.CSSProperties = {
   borderImage: `url(${lightBorder}) 30 stretch`,
   ...pixelizedBorderStyle,
 };

@@ -1,9 +1,9 @@
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import ocean from "assets/decorations/ocean.png";
+import ocean from "assets/decorations/ocean.webp";
 import background from "assets/land/stone_haven.png";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
@@ -36,7 +36,7 @@ export const StoneHaven: React.FC = () => {
               className="absolute inset-0 bg-repeat w-full h-full"
               style={{
                 backgroundImage: `url(${ocean})`,
-                backgroundSize: "100px",
+                backgroundSize: `${64 * PIXEL_SCALE}px`,
                 imageRendering: "pixelated",
               }}
             />

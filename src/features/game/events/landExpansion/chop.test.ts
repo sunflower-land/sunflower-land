@@ -420,7 +420,30 @@ describe("getChoppedAt", () => {
       createdAt: now,
     });
 
-    const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.8;
+    const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.2;
     expect(time).toEqual(now - treeTimeWithBoost);
+  });
+  it("tree replenishes faster when Apprentice Beaver is placed and the bumpkins has the skill Tree Hugger", () => {
+    const now = Date.now();
+
+    const time = getChoppedAt({
+      collectibles: {
+        "Apprentice Beaver": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 5 * 60 * 1000,
+          },
+        ],
+      },
+      skills: { "Tree Hugger": 1 },
+      createdAt: now,
+    });
+
+    const treeTimeWithSkill = TREE_RECOVERY_TIME * 0.2; // 1440
+    const treeTimeWithBeaver = TREE_RECOVERY_TIME / 2; // 3600
+    const treeTimeStacked = (treeTimeWithBeaver + treeTimeWithSkill) * 1000;
+    expect(time).toEqual(now - treeTimeStacked);
   });
 });

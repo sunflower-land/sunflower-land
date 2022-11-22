@@ -70,7 +70,7 @@ export const CropReward: React.FC<Props> = ({
           hidden={loading} // render and hide captchas so images have time to load
           className="flex flex-col items-center justify-between"
         >
-          {opened ? (
+          {opened && reward.items ? (
             <>
               <span className="text-center mb-2">
                 Woohoo! Here is your reward

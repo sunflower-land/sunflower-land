@@ -28,6 +28,7 @@ import { KNOWN_IDS, LimitedItemType } from "features/game/types";
 import { mintCooldown } from "./blacksmith/lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -179,22 +180,29 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
             <img src={busyGoblin} alt="not available" className="w-12" />
           </div>
           <div className="text-center">
-            <p className="text-[10px] mb-2">Ready in</p>
-            <p className="text-[10px]">
-              <ProgressBar
-                seconds={secondsLeft}
-                percentage={
-                  100 -
-                  (secondsLeft / (selected.cooldownSeconds as number)) * 100
-                }
-                type="progress"
-              />
+            <p className="text-xxs mb-2">Ready in</p>
+            <p className="text-xxs">
+              <div
+                className="flex item-center justify-center mt-4 mb-4"
+                style={{
+                  marginRight: `${PIXEL_SCALE * 15}px`,
+                }}
+              >
+                <ProgressBar
+                  seconds={secondsLeft}
+                  percentage={
+                    100 -
+                    (secondsLeft / (selected.cooldownSeconds as number)) * 100
+                  }
+                  type="progress"
+                />
+              </div>
             </p>
           </div>
           <div className="my-3 text-center">
             <a
               href={`https://docs.sunflower-land.com/player-guides/rare-and-limited-items#crafting-limits`}
-              className="underline text-[10px] hover:text-blue-500 mt-1 block"
+              className="underline text-xxs hover:text-blue-500 mt-1 block"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -211,8 +219,8 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     if (hasItemOnFarm && !selected.canMintMultiple)
       return (
         <div className="flex flex-col text-center mt-2 border-y border-white w-full">
-          <p className="text-[10px] sm:text-sm my-2">Already minted!</p>
-          <p className="text-[8px] sm:text-[10px] mb-2">
+          <p className="text-xxs sm:text-sm my-2">Already minted!</p>
+          <p className="text-xxs mb-2">
             You can only have one of each rare item on your farm at a time.
           </p>
         </div>
@@ -283,13 +291,13 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
               {`${amountLeft} left`}
             </span>
           )}
-          <span className="text-shadow text-center">{selected.name}</span>
+          <span className="text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
-          <span className="text-shadow text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
           {canCraft && (
@@ -315,10 +323,10 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                     // if inventory items is less than required items
                     return (
                       <>
-                        <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                        <span className="text-xs text-center mt-2 text-red-500">
                           {`${inventoryAmount}`}
                         </span>
-                        <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                        <span className="text-xs text-center mt-2 text-red-500">
                           {`/${requiredAmount}`}
                         </span>
                       </>
@@ -326,7 +334,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                   } else {
                     // if inventory items is equal to required items
                     return (
-                      <span className="text-xs text-shadow text-center mt-2">
+                      <span className="text-xs text-center mt-2">
                         {`${requiredAmount}`}
                       </span>
                     );
@@ -352,12 +360,9 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                   <div className="flex justify-center items-end">
                     <img src={token} className="h-5 mr-1" />
                     <span
-                      className={classNames(
-                        "text-xs text-shadow text-center mt-2 ",
-                        {
-                          "text-red-500": lessFunds(),
-                        }
-                      )}
+                      className={classNames("text-xs text-center mt-2", {
+                        "text-red-500": lessFunds(),
+                      })}
                     >
                       {`$${selected.tokenAmount?.toNumber()}`}
                     </span>
@@ -368,7 +373,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                 selected.cooldownSeconds > 0 && (
                   <div className="flex justify-center items-end">
                     <img src={timer} className="h-5 mr-1" />
-                    <span className="text-xs text-shadow text-center mt-2">
+                    <span className="text-xs text-center mt-2">
                       {secondsToString(selected.cooldownSeconds, {
                         length: "short",
                       })}

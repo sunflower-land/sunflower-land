@@ -6,7 +6,7 @@ export const WarSkulls: React.FC = () => {
   return (
     <img
       src={skulls}
-      className="absolute hover:img-highlight"
+      className="absolute"
       style={{
         width: `${PIXEL_SCALE * 16}px`,
         bottom: `${PIXEL_SCALE * 1}px`,

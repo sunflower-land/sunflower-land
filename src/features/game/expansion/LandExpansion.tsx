@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useContext } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import * as Auth from "features/auth/lib/Provider";
 
-import ocean from "assets/decorations/ocean.png";
+import ocean from "assets/decorations/ocean.webp";
 
 import { ToastProvider } from "../toast/ToastQueueProvider";
 import mapMovement from "../lib/mapMovement";
@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { useActor } from "@xstate/react";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
+import { PIXEL_SCALE } from "../lib/constants";
 
 export const LandExpansion: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -51,7 +52,7 @@ export const LandExpansion: React.FC = () => {
               className="absolute inset-0 bg-repeat w-full h-full"
               style={{
                 backgroundImage: `url(${ocean})`,
-                backgroundSize: "100px",
+                backgroundSize: `${64 * PIXEL_SCALE}px`,
                 imageRendering: "pixelated",
               }}
             />

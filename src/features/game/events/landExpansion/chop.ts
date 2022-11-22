@@ -49,18 +49,19 @@ export function getChoppedAt({
   skills,
   createdAt,
 }: GetChoppedAtArgs): number {
+  let time = createdAt;
   if (
     isCollectibleBuilt("Apprentice Beaver", collectibles) ||
     isCollectibleBuilt("Foreman Beaver", collectibles)
   ) {
-    return createdAt - (TREE_RECOVERY_TIME / 2) * 1000;
+    time = time - (TREE_RECOVERY_TIME / 2) * 1000;
   }
 
   if (skills["Tree Hugger"]) {
-    return createdAt - TREE_RECOVERY_TIME * 0.8 * 1000;
+    time = time - TREE_RECOVERY_TIME * 0.2 * 1000;
   }
 
-  return createdAt;
+  return time;
 }
 
 /**

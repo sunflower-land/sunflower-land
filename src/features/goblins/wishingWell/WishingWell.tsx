@@ -12,13 +12,11 @@ import { useActor } from "@xstate/react";
 
 export const WishingWell: React.FC = () => {
   const { goblinService } = useContext(Context);
-  const [_, send] = useActor(goblinService);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [goblinState, send] = useActor(goblinService);
 
   const openWell = () => {
     wishingWellAudio.play();
     send("OPENING_WISHING_WELL");
-    setIsOpen(true);
     //Checks if wishingWellAudio is playing, if false, plays the sound
     if (!wishingWellAudio.playing()) {
       wishingWellAudio.play();
@@ -51,9 +49,7 @@ export const WishingWell: React.FC = () => {
         }
       </div>
 
-      {isOpen && (
-        <WishingWellModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      )}
+      {goblinState.matches("wishing") && <WishingWellModal />}
     </div>
   );
 };

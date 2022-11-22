@@ -1,9 +1,11 @@
 import React from "react";
 
-import ocean from "assets/decorations/ocean.png";
-import sandIslandOne from "assets/decorations/sand_island_one.png";
-import sandIslandTwo from "assets/decorations/sand_island_two.png";
-import sunflowerIslandOne from "assets/decorations/sunflower_island_one.png";
+import ocean from "assets/decorations/ocean.webp";
+import sandIslandOne from "assets/brand/sand_island_one.png";
+import sandIslandOneShore from "assets/brand/sand_island_one_shore.png";
+import sandIslandTwo from "assets/brand/sand_island_two.png";
+import sandIslandTwoShore from "assets/brand/sand_island_two_shore.png";
+import sunflowerIslandOne from "assets/brand/sunflower_island_one.png";
 import watering from "assets/npcs/watering.gif";
 import shadow from "assets/npcs/shadow.png";
 import swimmer from "assets/npcs/swimmer.gif";
@@ -24,7 +26,7 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
       style={{
         backgroundImage: `url(${ocean})`,
-        backgroundSize: "200px",
+        backgroundSize: `${64 * PIXEL_SCALE}px`,
         imageRendering: "pixelated",
       }}
     >
@@ -42,8 +44,8 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
         style={{
           width: `${PIXEL_SCALE * 28}px`,
           transform: "scaleX(-1)",
-          top: `${70 * PIXEL_SCALE}px`,
-          right: `${70 * PIXEL_SCALE}px`,
+          bottom: `${40 * PIXEL_SCALE}px`,
+          right: `${45 * PIXEL_SCALE}px`,
         }}
       />
       <img
@@ -61,6 +63,24 @@ export const Splash: React.FC<{ fadeIn?: boolean }> = ({
           width: `${16 * PIXEL_SCALE}px`,
           left: `${20 * PIXEL_SCALE}px`,
           bottom: `${80 * PIXEL_SCALE}px`,
+        }}
+        className="absolute"
+      />
+      <img
+        src={sandIslandOneShore}
+        style={{
+          width: `${87 * PIXEL_SCALE}px`,
+          left: 0,
+          bottom: 0,
+        }}
+        className="absolute"
+      />
+      <img
+        src={sandIslandTwoShore}
+        style={{
+          width: `${71 * PIXEL_SCALE}px`,
+          right: 0,
+          bottom: 0,
         }}
         className="absolute"
       />

@@ -67,9 +67,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     buyPrice: marketRate(2),
     sellPrice: marketRate(2.8),
     harvestSeconds: 4 * 60 * 60,
-
     name: "Beetroot",
-
     description: "Good for hangovers!",
   },
   Cauliflower: {

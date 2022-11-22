@@ -15,6 +15,8 @@ import { getKeys } from "features/game/types/craftables";
 import { acknowledgeSkillPoints } from "../../island/bumpkin/lib/skillPointStorage";
 import { SkillPath } from "./SkillPath";
 import { Button } from "components/ui/Button";
+import { setImageWidth } from "lib/images";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const RequiredSkillPoints = ({
   missingPointRequirement,
@@ -32,7 +34,7 @@ const RequiredSkillPoints = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">
-        Required Skill Points:
+        Required Skill Points:&nbsp;
       </span>
       <span className="text-xxs sm:text-xs text-center">
         {`${availableSkillPoints}/${pointsRequired}`}
@@ -55,7 +57,11 @@ const RequiredSkill = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">Required Skills:</span>
-      <img src={requiredSkillImage} />
+      <img
+        src={requiredSkillImage}
+        style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
+        onLoad={(e) => setImageWidth(e.currentTarget)}
+      />
     </div>
   );
 };
@@ -107,6 +113,7 @@ export const SkillPathDetails: React.FC<Props> = ({
     : false;
 
   const missingPointRequirement = availableSkillPoints < pointsRequired;
+  const comingSoon = !!BUMPKIN_SKILL_TREE[selectedSkill].disabled;
 
   const handleClaim = () => {
     setShowConfirmButton(false);
@@ -137,45 +144,49 @@ export const SkillPathDetails: React.FC<Props> = ({
           {!showConfirmButton && (
             <>
               <div className="flex mb-1 items-center">
-                <span className="text-center text-sm sm:text-base mr-2">
+                <span className="text-center text-sm sm:text-base">
                   {selectedSkill}
                 </span>
                 <img
                   src={BUMPKIN_SKILL_TREE[selectedSkill].image}
-                  className="object-scale-down"
+                  style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
                 />
               </div>
 
               <span className="text-center mt-1 text-xxs sm:text-xs mb-1">
                 {BUMPKIN_SKILL_TREE[selectedSkill].boosts}
               </span>
+              {comingSoon && <p className="text-xs mt-1">Coming soon</p>}
 
-              {!hasSelectedSkill && !gameState.matches("visiting") && (
-                <>
-                  <div className="border-t border-white w-full pt-1 text-center">
-                    <RequiredSkillPoints
-                      missingPointRequirement={missingPointRequirement}
-                      availableSkillPoints={availableSkillPoints}
-                      pointsRequired={pointsRequired}
-                    />
-                    {skillRequired && (
-                      <RequiredSkill
-                        requiredSkillImage={requiredSkillImage}
-                        missingSkillRequirement={missingSkillRequirement}
+              {!hasSelectedSkill &&
+                !gameState.matches("visiting") &&
+                !comingSoon && (
+                  <>
+                    <div className="border-t border-white w-full pt-1 text-center">
+                      <RequiredSkillPoints
+                        missingPointRequirement={missingPointRequirement}
+                        availableSkillPoints={availableSkillPoints}
+                        pointsRequired={pointsRequired}
                       />
-                    )}
-                  </div>
-                  <Button
-                    onClick={() => setShowConfirmButton(true)}
-                    disabled={
-                      missingPointRequirement || missingSkillRequirement
-                    }
-                    className="text-xs mt-2"
-                  >
-                    Claim skill
-                  </Button>
-                </>
-              )}
+                      {skillRequired && (
+                        <RequiredSkill
+                          requiredSkillImage={requiredSkillImage}
+                          missingSkillRequirement={missingSkillRequirement}
+                        />
+                      )}
+                    </div>
+                    <Button
+                      onClick={() => setShowConfirmButton(true)}
+                      disabled={
+                        missingPointRequirement || missingSkillRequirement
+                      }
+                      className="text-xs mt-2"
+                    >
+                      Claim skill
+                    </Button>
+                  </>
+                )}
             </>
           )}
         </div>

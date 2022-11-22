@@ -23,7 +23,6 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
-import { Label } from "components/ui/Label";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { LandExpansionTree } from "features/game/types/game";
@@ -32,9 +31,9 @@ import {
   CHOP_ERRORS,
   getRequiredAxeAmount,
 } from "features/game/events/landExpansion/chop";
-import { Overlay } from "react-bootstrap";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
+import { InnerPanel } from "components/ui/Panel";
 
 const POPOVER_TIME_MS = 1000;
 const HITS = 3;
@@ -236,22 +235,19 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
               }}
             />
           </div>
-          <Overlay
-            target={treeRef.current}
-            show={errorLabel !== undefined}
-            placement="right"
-          >
-            {({ arrowProps, show, ...props }) => (
-              <div
-                {...props}
-                className="absolute -left-1/2 z-10 w-28 pointer-events-none"
-              >
-                {errorLabel === "noAxe" && (
-                  <Label className="p-2">Equip {tool.toLowerCase()}</Label>
-                )}
-              </div>
+          <InnerPanel
+            className={classNames(
+              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-40 pointer-events-none",
+              {
+                "opacity-100": errorLabel === "noAxe",
+                "opacity-0": errorLabel !== "noAxe",
+              }
             )}
-          </Overlay>
+          >
+            <div className="text-xxs text-white mx-1">
+              <span>Equip {tool.toLowerCase()}</span>
+            </div>
+          </InnerPanel>
         </>
       )}
 

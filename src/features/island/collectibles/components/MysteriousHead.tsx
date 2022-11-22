@@ -9,7 +9,6 @@ export const MysteriousHead: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 30}px`,
       }}
-      className="hover:img-highlight"
       alt="Mysterious Head"
     />
   );

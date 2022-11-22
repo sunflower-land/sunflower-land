@@ -18,16 +18,19 @@ export const Balance: React.FC<Props> = ({ balance }) => {
       <img
         src={token}
         style={{
-          width: `${PIXEL_SCALE * 14}px`,
+          width: `${PIXEL_SCALE * 10}px`,
+          margin: `${PIXEL_SCALE * 1}px`,
         }}
       />
       <span
-        className="text-white text-base h-7 ml-2"
+        className="text-white text-base h-7 ml-1"
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
       >
         {isShown === false ? (
-          balance.toDecimalPlaces(4, Decimal.ROUND_DOWN).toString()
+          <small>
+            {balance.toDecimalPlaces(4, Decimal.ROUND_DOWN).toString()}
+          </small>
         ) : (
           <small>{balance.toString()}</small>
         )}

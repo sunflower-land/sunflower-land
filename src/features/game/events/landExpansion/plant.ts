@@ -78,7 +78,6 @@ export const getCropTime = (
 ) => {
   const { skills, equipped } = bumpkin;
   const { necklace } = equipped;
-
   let seconds = CROPS()[crop].harvestSeconds;
 
   if (inventory["Seed Specialist"]?.gte(1)) {
@@ -91,7 +90,7 @@ export const getCropTime = (
   ) {
     seconds = seconds * 0.5;
   }
-
+  //Bumpkin Wearable Boost
   if (crop === "Carrot" && necklace === "Carrot Amulet") {
     seconds = seconds * 0.8;
   }
@@ -145,13 +144,16 @@ export function getCropYieldAmount({
   crop,
   inventory,
   collectibles,
+  bumpkin,
 }: {
   crop: CropName;
   inventory: Inventory;
   collectibles: Collectibles;
+  bumpkin: Bumpkin;
 }): number {
   let amount = 1;
-
+  const { skills, equipped } = bumpkin;
+  const { tool, necklace } = equipped;
   if (
     crop === "Cauliflower" &&
     isCollectibleBuilt("Golden Cauliflower", collectibles)
@@ -163,7 +165,10 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
-  if (crop === "Pumpkin" && inventory["Victoria Sisters"]?.gte(1)) {
+  if (
+    crop === "Pumpkin" &&
+    isCollectibleBuilt("Victoria Sisters", collectibles)
+  ) {
     amount *= 1.2;
   }
 
@@ -176,6 +181,30 @@ export function getCropYieldAmount({
 
   if (inventory.Coder?.gte(1)) {
     amount *= 1.2;
+  }
+
+  //Bumpkin Skill boost Green Thumb Skill
+  if (skills["Green Thumb"]) {
+    amount *= 1.05;
+  }
+
+  //Bumpkin Skill boost Master Farmer Skill
+  if (skills["Master Farmer"]) {
+    amount *= 1.1;
+  }
+
+  //Bumpkin Wearable boost Parsnip tool
+  if (crop === "Parsnip" && tool === "Parsnip") {
+    amount *= 1.2;
+  }
+
+  //Bumpkin Wearable boost Beetroot Amulet
+  if (crop === "Beetroot" && necklace === "Beetroot Amulet") {
+    amount *= 1.2;
+  }
+  //Bumpkin Wearable boost Sunflower Amulet
+  if (crop === "Sunflower" && necklace === "Sunflower Amulet") {
+    amount *= 1.1;
   }
 
   return amount;
@@ -253,6 +282,7 @@ export function plant({
         crop: cropName,
         inventory: inventory,
         collectibles,
+        bumpkin,
       }),
     },
   };

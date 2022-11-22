@@ -1,6 +1,6 @@
 import React from "react";
 import classnames from "classnames";
-import { pixelLightBordertyle } from "features/game/lib/style";
+import { pixelLightBorderStyle } from "features/game/lib/style";
 
 interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -24,9 +24,9 @@ export const Button: React.FC<Props> = ({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      style={pixelLightBordertyle}
+      style={pixelLightBorderStyle}
     >
-      {children}
+      <div className="mb-1">{children}</div>
     </button>
   );
 };

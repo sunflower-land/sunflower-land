@@ -7,8 +7,9 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import swimmer from "assets/npcs/swimmer.gif";
 import cossies from "assets/decorations/cossies.png";
-import island from "assets/land/islands/island.png";
-import chest from "assets/icons/chest.png";
+import pirateIsland from "assets/land/desert_island.webp";
+import bearIsland from "assets/land/bear_island.webp";
+import abandonedLand from "assets/land/abandoned_land.webp";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -82,23 +83,32 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      {level < 7 && (
-        <MapPlacement x={-8} y={-5}>
-          <img
-            src={island}
-            style={{
-              width: `${PIXEL_SCALE * 48}px`,
-            }}
-          />
-          <img
-            src={chest}
-            className="absolute bottom-16 left-1/2 -translate-x-1/2"
-            style={{
-              width: `${16 * PIXEL_SCALE}px`,
-            }}
-          />
-        </MapPlacement>
-      )}
+      <MapPlacement x={20} y={25} width={6}>
+        <img
+          src={bearIsland}
+          style={{
+            width: `${PIXEL_SCALE * 86}px`,
+          }}
+        />
+      </MapPlacement>
+
+      <MapPlacement x={-20} y={-15} width={6}>
+        <img
+          src={pirateIsland}
+          style={{
+            width: `${PIXEL_SCALE * 78}px`,
+          }}
+        />
+      </MapPlacement>
+
+      <MapPlacement x={18} y={-13} width={6}>
+        <img
+          src={abandonedLand}
+          style={{
+            width: `${PIXEL_SCALE * 46}px`,
+          }}
+        />
+      </MapPlacement>
     </div>
   );
 };

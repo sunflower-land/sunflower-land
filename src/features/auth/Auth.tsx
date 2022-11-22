@@ -23,6 +23,7 @@ import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
 import { Blacklisted } from "features/game/components/Blacklisted";
 import { Connect } from "./components/Connect";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -37,8 +38,15 @@ export const Auth: React.FC = () => {
       }
       backdrop={false}
     >
-      <div className="relative mb-6 -mt-24 left-[5%] -z-20 w-full max-w-xl">
-        <img id="logo" src={logo} className="w-[90%]" />
+      <div className="relative flex items-center justify-center mb-6 -mt-44 w-full max-w-xl">
+        <img
+          id="logo"
+          src={logo}
+          className="w-[90%]"
+          style={{
+            width: `${PIXEL_SCALE * 126}px`,
+          }}
+        />
       </div>
       <Panel>
         {(authState.matches({ connected: "loadingFarm" }) ||

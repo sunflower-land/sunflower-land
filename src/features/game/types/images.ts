@@ -38,6 +38,7 @@ import rod from "assets/tools/fishing_rod.png";
 import rustyShovel from "assets/tools/rusty_shovel.png";
 import shovel from "assets/tools/shovel.png";
 import powerShovel from "assets/tools/power_shovel.png";
+import sandShovel from "assets/tools/sand_shovel.png";
 
 // NFTs
 import chickenCoop from "assets/sfts/chicken_coop.png";
@@ -605,6 +606,10 @@ export const ITEM_DETAILS: Items = {
     ...SHOVELS["Power Shovel"],
     image: powerShovel,
   },
+  "Sand Shovel": {
+    ...SHOVELS["Sand Shovel"],
+    image: sandShovel,
+  },
 
   // NFTs
   "Sunflower Statue": {
@@ -857,8 +862,7 @@ export const ITEM_DETAILS: Items = {
     image: ticket,
   },
   "War Bond": {
-    description:
-      "A mark of a true warrior. Exchange at Goblin village for rare items.",
+    description: "A mark of a true warrior",
     image: warBond,
   },
   "Goblin War Point": {
@@ -1175,7 +1179,7 @@ export const ITEM_DETAILS: Items = {
   },
   Deli: {
     image: deli,
-    description: "Satisfy your appetite with these delicatsen foods!",
+    description: "Satisfy your appetite with these delicatessen foods!",
   },
 
   "Sunflower Amulet": {
@@ -1494,5 +1498,30 @@ export const ITEM_DETAILS: Items = {
   "Prized Potato": {
     image: prizedPotato,
     description: GOBLIN_RETREAT_ITEMS["Prized Potato"].description,
+  },
+
+  "Collosal Crop": {
+    image: questionMark,
+    description: "???",
+  },
+  "Peaceful Potato": {
+    image: questionMark,
+    description: "???",
+  },
+  "Perky Pumpkin": {
+    image: questionMark,
+    description: "???",
+  },
+  "Stellar Sunflower": {
+    image: questionMark,
+    description: "???",
+  },
+  "Potted Potato": {
+    image: questionMark,
+    description: "???",
+  },
+  "Potted Pumpkin": {
+    image: questionMark,
+    description: "???",
   },
 };

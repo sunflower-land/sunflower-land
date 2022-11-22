@@ -21,7 +21,7 @@ export const RockyTheMole: React.FC = () => {
           right: `${PIXEL_SCALE * -1.5}px`,
         }}
         alt="Rocky The Mole"
-        className="absolute hover:img-highlight"
+        className="absolute"
       />
     </div>
   );

@@ -4,10 +4,9 @@ import classNames from "classnames";
 
 import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
-import soilNotFertile from "assets/land/soil_not_fertile.png";
+import soilNotFertile from "assets/land/soil_dry.png";
 import well from "assets/buildings/well1.png";
 import close from "assets/icons/close.png";
-import water from "assets/icons/water.png";
 
 import { Context } from "features/game/GameProvider";
 import {
@@ -21,7 +20,6 @@ import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Soil } from "features/farming/crops/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
-import { CropReward } from "features/farming/crops/components/CropReward";
 import { isPlotFertile } from "features/game/events/landExpansion/plant";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
@@ -30,6 +28,7 @@ import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
+import { CropReward } from "./CropReward";
 
 interface Props {
   plotIndex: number;
@@ -58,6 +57,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
   const plot = expansion.plots?.[plotIndex];
 
   const crop = plot && plot.crop;
+
   const isFertile = isPlotFertile({
     plotIndex,
     expansionIndex,
@@ -213,6 +213,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           content: `-1`,
         });
       } catch (e: any) {
+        console.log({ e });
         // TODO - catch more elaborate errors
         displayPopover();
       }
@@ -297,15 +298,6 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
             }}
             onClick={notFertileCallback}
           />
-          <img
-            src={water}
-            alt="water drop"
-            className="absolute pointer-events-none"
-            style={{
-              right: `${PIXEL_SCALE * 4.5}px`,
-              width: `${PIXEL_SCALE * 7}px`,
-            }}
-          />
         </div>
       </>
     );
@@ -357,7 +349,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {/* Popover */}
       <div
         className={classNames(
-          "transition-opacity absolute top-6 w-full z-20 pointer-events-none flex justify-center",
+          "transition-opacity absolute top-6 w-full z-40 pointer-events-none flex justify-center",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
@@ -374,7 +366,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {playing && (
         <img
           src={selectBox}
-          className={classNames("absolute z-30 cursor-pointer", {
+          className={classNames("absolute z-40 cursor-pointer", {
             "opacity-100": showSelectBox,
             "opacity-0": !showSelectBox,
           })}
@@ -389,7 +381,8 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       <CropReward
         reward={reward}
         onCollected={onCollectReward}
-        fieldIndex={plotIndex}
+        plotIndex={plotIndex}
+        expansionIndex={expansionIndex}
       />
     </div>
   );

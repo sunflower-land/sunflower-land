@@ -11,7 +11,7 @@ export const SunflowerStatue: React.FC = () => {
         width: `${PIXEL_SCALE * 48}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
-      className="absolute hover:img-highlight"
+      className="absolute"
       alt="Sunflower Statue"
     />
   );

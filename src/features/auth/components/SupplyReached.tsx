@@ -24,7 +24,7 @@ export const SupplyReached: React.FC = () => {
 
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
-      <p className="text-center text-xl">{supply}</p>
+      <p className="text-center text-lg">{supply}</p>
       <p className="text-center mb-3">Supply reached!</p>
 
       <p className="text-center mb-4 text-xs">

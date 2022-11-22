@@ -3,6 +3,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 export type FeedBumpkinAction = {
   type: "bumpkin.feed";
@@ -33,16 +34,14 @@ export function feedBumpkin({
   if (quantity.lte(0)) {
     throw new Error("You have none of this food type");
   }
-
+  const { skills, equipped } = bumpkin;
+  const { tool } = equipped;
   inventory[action.food] = quantity.sub(1);
 
-  let foodExperience = CONSUMABLES[action.food].experience;
-
-  if (bumpkin.skills["Kitchen Hand"]) {
-    foodExperience *= 1.1;
-  }
-
-  bumpkin.experience += foodExperience;
+  bumpkin.experience += getFoodExpBoost(
+    CONSUMABLES[action.food].experience,
+    bumpkin
+  );
 
   bumpkin.activity = trackActivity(`${action.food} Fed`, bumpkin.activity);
 

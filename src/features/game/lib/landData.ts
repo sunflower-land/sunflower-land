@@ -1,6 +1,4 @@
 import Decimal from "decimal.js-light";
-import { KNOWN_IDS } from "../types";
-import { getKeys } from "../types/craftables";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
@@ -24,6 +22,7 @@ const INITIAL_STOCK: Inventory = {
   Pickaxe: new Decimal(30),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
+  "Rusty Shovel": new Decimal(10),
 
   // One off items
   "Pumpkin Soup": new Decimal(1),
@@ -42,6 +41,9 @@ const INITIAL_STOCK: Inventory = {
   "Wheat Cake": new Decimal(1),
 
   "Boiled Eggs": new Decimal(1),
+  "Magic Bean": new Decimal(5),
+  "Shiny Bean": new Decimal(5),
+  "Golden Bean": new Decimal(5),
 };
 
 const INITIAL_FIELDS: GameState["fields"] = {
@@ -378,7 +380,7 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 10,
+  experience: 100000,
   tokenUri: "bla",
   equipped: {
     body: "Light Brown Farmer Potion",
@@ -401,21 +403,23 @@ export const OFFLINE_FARM: GameState = {
   fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
-    Wood: new Decimal(10),
+    Wood: new Decimal(100),
+    Stone: new Decimal(50),
     Axe: new Decimal(10),
     "Prized Potato": new Decimal(1),
     "Wood Nymph Wendy": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
     "Cabbage Girl": new Decimal(1),
     "Basic Bear": new Decimal(1),
+    "Magic Bean": new Decimal(5),
     // Every item for testing
-    ...getKeys(KNOWN_IDS).reduce(
-      (acc, name) => ({
-        ...acc,
-        [name]: new Decimal(1),
-      }),
-      {}
-    ),
+    // ...getKeys(KNOWN_IDS).reduce(
+    //   (acc, name) => ({
+    //     ...acc,
+    //     [name]: new Decimal(1),
+    //   }),
+    //   {}
+    // ),
     Coder: new Decimal(0),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
@@ -470,7 +474,20 @@ export const OFFLINE_FARM: GameState = {
       message: "You are a legend!",
     },
   ],
-  collectibles: {},
+  collectibles: {
+    "Magic Bean": [
+      {
+        coordinates: {
+          x: 4,
+          y: -1,
+        },
+        createdAt: Date.now() - 12 * 60 * 60 * 1000,
+        id: "0",
+        readyAt: 0,
+      },
+    ],
+  },
+  mysteryPrizes: {},
   bumpkin: INITIAL_BUMPKIN,
 
   grubShop: {

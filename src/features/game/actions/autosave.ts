@@ -102,6 +102,7 @@ export async function autosaveRequest(
 export async function autosave(request: Request) {
   if (!API_URL) return { verified: true };
 
+  console.log({ events: request.actions });
   // Shorten the payload
   const events = squashEvents(request.actions);
 
@@ -136,11 +137,12 @@ export async function autosave(request: Request) {
     throw new Error(data.error || "Something went wrong");
   }
 
-  const { farm } = await sanitizeHTTPResponse<{
+  const { farm, changeset } = await sanitizeHTTPResponse<{
     farm: any;
+    changeset: any;
   }>(response);
 
   const game = makeGame(farm);
 
-  return { verified: true, farm: game };
+  return { verified: true, farm: game, changeset };
 }
