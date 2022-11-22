@@ -89,7 +89,7 @@ const SFLItemsInstructions = () => (
         Only send items from the
         <a
           className="underline ml-2"
-          href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+          href="https://opensea.io/collection/sunflower-land-collectibles"
           target="_blank"
           rel="noreferrer"
         >
