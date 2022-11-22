@@ -1,11 +1,26 @@
 import React from "react";
 
 import well from "assets/buildings/well1.png";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const WaterWell: React.FC = () => {
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { BuildingProps } from "../Building";
+
+export const WaterWell: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
+  const handleClick = () => {
+    if (onRemove) {
+      onRemove();
+      return;
+    }
+
+    if (isBuilt) {
+      // Add future on click actions here
+      return;
+    }
+  };
+
   return (
-    <div className="h-full w-full flex items-center justify-center">
+    <BuildingImageWrapper onClick={handleClick} nonInteractible>
       <img
         src={well}
         style={{
@@ -13,6 +28,6 @@ export const WaterWell: React.FC = () => {
         }}
         className="relative bottom-2"
       />
-    </div>
+    </BuildingImageWrapper>
   );
 };

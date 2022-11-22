@@ -1,7 +1,7 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
+import classNames from "classnames";
 
 import kitchen from "assets/buildings/kitchen.png";
-
 import npc from "assets/npcs/chef.gif";
 import doing from "assets/npcs/chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -14,8 +14,7 @@ import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
-import { ClickableBuildingImage } from "../ClickableBuildingImage";
-import classNames from "classnames";
+import { BuildingImageWrapper } from "../BuildingImageWrapper";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -26,7 +25,9 @@ export const Kitchen: React.FC<Props> = ({
   ready,
   name,
   craftingService,
+  isBuilt,
   handleShowCraftingTimer,
+  onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
@@ -57,51 +58,49 @@ export const Kitchen: React.FC<Props> = ({
     });
   };
 
-  const handleClick = (e: SyntheticEvent) => {
-    e.stopPropagation();
-
-    if (idle) {
-      setShowModal(true);
+  const handleClick = () => {
+    if (onRemove) {
+      onRemove();
       return;
     }
 
-    if (crafting) {
-      handleShowCraftingTimer && handleShowCraftingTimer();
-      return;
-    }
+    if (isBuilt) {
+      // Add future on click actions here
+      if (idle) {
+        setShowModal(true);
+        return;
+      }
 
-    if (ready) {
-      handleCollect();
-      return;
+      if (crafting) {
+        handleShowCraftingTimer && handleShowCraftingTimer();
+        return;
+      }
+
+      if (ready) {
+        handleCollect();
+        return;
+      }
     }
   };
 
   return (
     <>
-      <ClickableBuildingImage
-        className="relative cursor-pointer hover:img-highlight w-full h-full"
-        style={{
-          width: `${PIXEL_SCALE * 63}px`,
-          height: `${PIXEL_SCALE * 50}px`,
-        }}
-        onClick={handleClick}
-      >
+      <BuildingImageWrapper onClick={handleClick}>
         <img
           src={kitchen}
-          className={classNames("absolute", {
+          className={classNames("absolute bottom-0", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
           style={{
             width: `${PIXEL_SCALE * 63}px`,
-            left: `${PIXEL_SCALE * 0.5}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
+            height: `${PIXEL_SCALE * 50}px`,
           }}
         />
         {ready && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy pointer-events-none"
+            className="absolute z-30 img-highlight-heavy"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -113,7 +112,7 @@ export const Kitchen: React.FC<Props> = ({
         {crafting && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 pointer-events-none"
+            className="absolute z-30"
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,
@@ -124,7 +123,7 @@ export const Kitchen: React.FC<Props> = ({
         )}
         <img
           src={shadow}
-          className="absolute pointer-events-none"
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 6}px`,
@@ -134,7 +133,7 @@ export const Kitchen: React.FC<Props> = ({
         {crafting ? (
           <img
             src={doing}
-            className="absolute pointer-events-none"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               bottom: `${PIXEL_SCALE * 8}px`,
@@ -144,7 +143,7 @@ export const Kitchen: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute pointer-events-none"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
 
@@ -153,7 +152,7 @@ export const Kitchen: React.FC<Props> = ({
             }}
           />
         )}
-      </ClickableBuildingImage>
+      </BuildingImageWrapper>
 
       <KitchenModal
         isOpen={showModal}
