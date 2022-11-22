@@ -198,11 +198,6 @@ export const Box: React.FC<BoxProps> = ({
                 scale = width / height;
               }
 
-              // double scaling if image is smaller than half the inner dimension
-              if (maxDimension * 2 <= INNER_CANVAS_WIDTH) {
-                scale *= 2;
-              }
-
               // scale and show image
               e.currentTarget.style.transform = `scale(${scale})`;
               e.currentTarget.style.opacity = "1";
