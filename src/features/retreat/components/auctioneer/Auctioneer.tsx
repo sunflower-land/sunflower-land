@@ -7,8 +7,8 @@ import player from "assets/icons/player.png";
 import { AuctioneerModal } from "./AuctioneerModal";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
-import { GOBLIN_RETREAT_ITEMS } from "features/game/types/craftables";
 import { Item } from "./actions/auctioneerItems";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const Auctioneer: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -50,7 +50,7 @@ export const Auctioneer: React.FC = () => {
         <div className="flex items-center justify-center h-[100px] w-[88px]">
           {upcomingItem && (
             <img
-              src={GOBLIN_RETREAT_ITEMS[upcomingItem.name].image}
+              src={ITEM_DETAILS[upcomingItem.name].image}
               style={{
                 width: `${PIXEL_SCALE * 16}px`,
               }}

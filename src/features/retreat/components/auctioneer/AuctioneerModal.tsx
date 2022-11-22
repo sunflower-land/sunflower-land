@@ -12,9 +12,9 @@ import { Loading } from "features/auth/components";
 import { MachineInterpreter } from "features/game/lib/goblinMachine";
 import mintingAnimation from "assets/npcs/goblin_hammering.gif";
 import { MintedEvent } from "features/retreat/auctioneer/auctioneerMachine";
-import { GOBLIN_RETREAT_ITEMS } from "features/game/types/craftables";
 import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   isOpen: boolean;
@@ -59,7 +59,7 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   Woohoo, you just minted an awesome new item!
                 </h1>
                 <img
-                  src={GOBLIN_RETREAT_ITEMS[mintedItemName].image}
+                  src={ITEM_DETAILS[mintedItemName].image}
                   className="w-20 mb-3"
                 />
                 <h1 className="text-center mb-3">{mintedItemName}</h1>

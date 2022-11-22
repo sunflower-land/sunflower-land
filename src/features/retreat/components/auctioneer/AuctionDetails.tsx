@@ -38,6 +38,11 @@ export const AuctionDetails: React.FC<Props> = ({
   const isMintComplete =
     !end.days && !end.hours && !end.minutes && !end.seconds;
 
+  const hasIngredients =
+    currentRelease?.ingredients.every((ingredient) =>
+      (game.inventory[ingredient.item] ?? new Decimal(0)).gte(ingredient.amount)
+    ) ?? false;
+
   const availableSupply = releases.reduce(
     (supply, release) => supply + release.supply,
     0
@@ -117,7 +122,9 @@ export const AuctionDetails: React.FC<Props> = ({
       {!isUpcomingItem && (
         <Button
           className="text-lg"
-          disabled={!isMintStarted || isMintComplete || isMinting}
+          disabled={
+            !isMintStarted || isMintComplete || isMinting || !hasIngredients
+          }
           onClick={onMint}
         >
           Mint
