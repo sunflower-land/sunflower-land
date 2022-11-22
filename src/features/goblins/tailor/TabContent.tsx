@@ -142,12 +142,12 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
 
     return (
       <>
-        <span className="bg-blue-600 border text-xxs absolute left-0 -top-5 p-1 rounded-md">
+        <span className="bg-blue-600 border text-xxs absolute left-0 -top-7 p-1 rounded-md">
           {mintIsLive
             ? "Available now on Bumpkins.io"
-            : `Released: ${new Date(releaseDate).toLocaleString([], {
-                dateStyle: "short",
-                timeStyle: "short",
+            : `Available at: ${new Date(releaseDate).toLocaleString([], {
+                dateStyle: "medium",
+                timeStyle: "long",
                 hour12: true,
               })}`}
         </span>
@@ -174,7 +174,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
       <OuterPanel className="flex-1 w-full flex flex-col justify-between items-center">
         <div
           className={classNames(
-            "flex flex-col justify-center items-center p-2 relative w-full",
+            "flex flex-col justify-center items-center p-2 pt-3 relative w-full",
             {
               "mt-2": tab === "upcoming-drops",
             }
