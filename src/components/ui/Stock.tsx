@@ -20,7 +20,7 @@ export const Stock: React.FC<Props> = ({ item }) => {
   const stock = state.stock[item.name] || new Decimal(0);
 
   return (
-    <span className="w-auto -mt-4 sm:mr-auto bg-blue-600 text-shadow border text-xxs p-1 rounded-md">
+    <span className="w-auto -mt-2 mb-1 bg-blue-600 text-shadow border text-xxs p-1 rounded-md">
       {`${stock} in stock`}
     </span>
   );
