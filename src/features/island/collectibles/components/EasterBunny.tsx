@@ -11,7 +11,7 @@ export const EasterBunny: React.FC = () => {
         width: `${PIXEL_SCALE * 37}px`,
         bottom: `${PIXEL_SCALE}px`,
       }}
-      className="absolute hover:img-highlight"
+      className="absolute"
       alt="Easter Bunny"
     />
   );

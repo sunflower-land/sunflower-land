@@ -247,7 +247,12 @@ export const Collectible: React.FC<CollectibleProps> = ({
 
   return (
     <>
-      <div onClick={handleOnClick}>
+      <div
+        className={classNames("h-full", {
+          "cursor-pointer hover:img-highlight": hasRustyShovelSelected,
+        })}
+        onClick={handleOnClick}
+      >
         <CollectiblePlaced
           key={id}
           createdAt={createdAt}
