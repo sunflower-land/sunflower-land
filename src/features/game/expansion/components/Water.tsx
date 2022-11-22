@@ -7,9 +7,9 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import swimmer from "assets/npcs/swimmer.gif";
 import cossies from "assets/decorations/cossies.png";
-import pirateIsland from "assets/land/desert_island.png";
-import bearIsland from "assets/land/bear_island.png";
-import abandonedLand from "assets/land/abandoned_land.png";
+import pirateIsland from "assets/land/desert_island.webp";
+import bearIsland from "assets/land/bear_island.webp";
+import abandonedLand from "assets/land/abandoned_land.webp";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";

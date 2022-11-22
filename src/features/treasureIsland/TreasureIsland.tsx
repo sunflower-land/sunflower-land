@@ -2,7 +2,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useEffect } from "react";
 
-import background from "assets/land/treasure_island.png";
+import background from "assets/land/treasure_island.webp";
 import placeholderNPC from "assets/npcs/betty.gif";
 import placeholderNPC2 from "assets/npcs/artisian.gif";
 import shadow from "assets/npcs/shadow.png";

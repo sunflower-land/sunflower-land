@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useContext } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import * as Auth from "features/auth/lib/Provider";
 
-import ocean from "assets/decorations/ocean.png";
+import ocean from "assets/decorations/ocean.webp";
 
 import { ToastProvider } from "../toast/ToastQueueProvider";
 import mapMovement from "../lib/mapMovement";
