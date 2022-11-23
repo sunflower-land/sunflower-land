@@ -26,7 +26,6 @@ import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Mine } from "features/island/mines/Mine";
-import { IslandTravel } from "./components/IslandTravel";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
@@ -359,11 +358,6 @@ export const Land: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const boatCoordinates = {
-    x: level > 7 ? -9 : -2,
-    y: level > 7 ? -10.5 : -4.5,
-  };
-
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="relative w-full h-full">
@@ -372,7 +366,7 @@ export const Land: React.FC = () => {
             "pointer-events-none": gameState.matches("visiting"),
           })}
         >
-          <LandBase expansions={expansions} />
+          <LandBase />
           <UpcomingExpansion gameState={state} />
           <DirtRenderer
             expansions={expansions.filter((e) => e.readyAt < Date.now())}
@@ -391,15 +385,6 @@ export const Land: React.FC = () => {
             bumpkinParts: gameState.context.state.bumpkin?.equipped,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
-        <IslandTravel
-          key="island-travel"
-          bumpkin={bumpkin}
-          isVisiting={gameState.matches("visiting")}
-          isTravelAllowed={!gameState.matches("autosaving")}
-          onTravelDialogOpened={() => gameService.send("SAVE")}
-          x={boatCoordinates.x}
-          y={boatCoordinates.y}
-        />
 
         {gameState.matches("editing") && <Placeable />}
       </div>

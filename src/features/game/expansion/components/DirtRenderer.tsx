@@ -57,7 +57,7 @@ type Edges = {
  * X + Y Coordinates
  * { 1: { 2: true} , 2: { 2: true, 3: true }}
  */
-export type Positions = Record<number, Record<number, boolean>>;
+type Positions = Record<number, Record<number, boolean>>;
 
 interface Props {
   expansions: LandExpansion[];

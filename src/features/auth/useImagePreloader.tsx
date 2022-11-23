@@ -26,6 +26,31 @@ import retreat from "assets/land/retreat.webp";
 import treasureIsland from "assets/land/treasure_island.webp";
 import snowKingdom from "assets/land/snow_kingdom.webp";
 import stoneHeaven from "assets/land/stone_haven.webp";
+import homeIslandfullEdge from "assets/land/home-island/1_1_1_1.webp";
+import homeIslandnoEdge from "assets/land/home-island/0_0_0_0.webp";
+import homeIslandtopAndBottomEdge from "assets/land/home-island/1_0_1_0.webp";
+import homeIslandtopLeftAndBottomEdge from "assets/land/home-island/1_0_1_1.webp";
+import homeIslandtopRightAndBottomEdge from "assets/land/home-island/1_1_1_0.webp";
+import homeIslandtopRightAndLeftEdge from "assets/land/home-island/1_1_0_1.webp";
+import homeIslandrightBottomAndLeftEdge from "assets/land/home-island/0_1_1_1.webp";
+import homeIslandrightAndLeftEdge from "assets/land/home-island/0_1_0_1.webp";
+import homeIslandrightEdge from "assets/land/home-island/0_1_0_0.webp";
+import homeIslandbottomEdge from "assets/land/home-island/0_0_1_0.webp";
+import homeIslandtopEdge from "assets/land/home-island/1_0_0_0.webp";
+import homeIslandleftEdge from "assets/land/home-island/0_0_0_1.webp";
+import homeIslandtopAndLeftEdge from "assets/land/home-island/1_0_0_1.webp";
+import homeIslandbottomAndLeftEdge from "assets/land/home-island/0_0_1_1.webp";
+import homeIslandtopAndRightEdge from "assets/land/home-island/1_1_0_0.webp";
+import homeIslandbottomAndRightEdge from "assets/land/home-island/0_1_1_0.webp";
+import homeIslandtopLeftAndBottomCorner from "assets/land/home-island/next_1_0_1_1.webp";
+import homeIslandtopRightAndBottomCorner from "assets/land/home-island/next_1_1_1_0.webp";
+import homeIslandtopRightAndLeftCorner from "assets/land/home-island/next_1_1_0_1.webp";
+import homeIslandrightBottomAndLeftCorner from "assets/land/home-island/next_0_1_1_1.webp";
+import homeIslandtopAndLeftCorner from "assets/land/home-island/next_1_0_0_1.webp";
+import homeIslandbottomAndLeftCorner from "assets/land/home-island/next_0_0_1_1.webp";
+import homeIslandtopAndRightCorner from "assets/land/home-island/next_1_1_0_0.webp";
+import homeIslandbottomAndRightCorner from "assets/land/home-island/next_0_1_1_0.webp";
+import homeIslanddock from "assets/land/home-island/dock.webp";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -54,6 +79,31 @@ const IMAGE_LIST: string[] = [
   treasureIsland,
   snowKingdom,
   stoneHeaven,
+  homeIslandfullEdge,
+  homeIslandnoEdge,
+  homeIslandtopAndBottomEdge,
+  homeIslandtopLeftAndBottomEdge,
+  homeIslandtopRightAndBottomEdge,
+  homeIslandtopRightAndLeftEdge,
+  homeIslandrightBottomAndLeftEdge,
+  homeIslandrightAndLeftEdge,
+  homeIslandrightEdge,
+  homeIslandbottomEdge,
+  homeIslandtopEdge,
+  homeIslandleftEdge,
+  homeIslandtopAndLeftEdge,
+  homeIslandbottomAndLeftEdge,
+  homeIslandtopAndRightEdge,
+  homeIslandbottomAndRightEdge,
+  homeIslandtopLeftAndBottomCorner,
+  homeIslandtopRightAndBottomCorner,
+  homeIslandtopRightAndLeftCorner,
+  homeIslandrightBottomAndLeftCorner,
+  homeIslandtopAndLeftCorner,
+  homeIslandbottomAndLeftCorner,
+  homeIslandtopAndRightCorner,
+  homeIslandbottomAndRightCorner,
+  homeIslanddock,
 ];
 
 function preloadImage(src: string) {
