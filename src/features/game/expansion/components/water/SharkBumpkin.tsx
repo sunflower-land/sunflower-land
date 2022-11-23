@@ -28,7 +28,7 @@ export const SharkBumpkin: React.FC<Props> = ({ level }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setShowFin(true);
-    }, 25 * 1000);
+    }, 45 * 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -78,7 +78,7 @@ export const SharkBumpkin: React.FC<Props> = ({ level }) => {
             autoplay={true}
             loop={true}
             onLoopComplete={(spritesheet) => {
-              spritesheet.pause();
+              spritesheet.goToAndPause(0);
 
               setTimeout(() => setShowFin(false), 500);
             }}
