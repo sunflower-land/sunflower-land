@@ -1,7 +1,6 @@
 {
   "ci": {
     "collect": {
-      "url": ["http://localhost/#/land/undefined"],
       "staticDistDir": "./dist",
       "isSinglePageApplication": true,
       "numberOfRuns": 1
