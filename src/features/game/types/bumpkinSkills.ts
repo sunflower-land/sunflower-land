@@ -107,7 +107,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Master Farmer",
     },
-    boosts: "Chance to get 5x crops",
+    boosts: "Chance to get 2x crops",
     image: wheat,
   },
   Lumberjack: {
@@ -136,7 +136,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 3,
       skill: "Tree Hugger",
     },
-    boosts: "Critical Tree Drop",
+    boosts: "Chance to get 3x wood drops",
     image: question,
   },
   "Money Tree": {
