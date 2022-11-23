@@ -25,13 +25,10 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
-<<<<<<< HEAD
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
-=======
 import { getBumpkinLevel } from "./level";
->>>>>>> 2ebb8746 ([FIX] Block retreat from url change when level not met)
 
 const API_URL = CONFIG.API_URL;
 
@@ -126,11 +123,8 @@ export type GoblinMachineState = {
     | "withdrawn"
     | "playing"
     | "trading"
-<<<<<<< HEAD
     | "auctioneer"
-=======
     | "levelRequirementNotReached"
->>>>>>> 2ebb8746 ([FIX] Block retreat from url change when level not met)
     | "error";
   context: Context;
 };
@@ -230,23 +224,6 @@ export function startGoblinVillage(authContext: AuthContext) {
                 auctioneerId: id,
               };
             },
-<<<<<<< HEAD
-            onDone: {
-              target: "playing",
-              actions: assign({
-                state: (_, event) => event.data.state,
-                limitedItems: (_, event) =>
-                  makeLimitedItemsByName(
-                    LIMITED_ITEMS,
-                    event.data.limitedItems
-                  ),
-                sessionId: (_, event) => event.data.sessionId,
-                deviceTrackerId: (_, event) => event.data.deviceTrackerId,
-                auctioneerItems: (_, event) => event.data.auctioneerItems,
-                auctioneerId: (_, event) => event.data.auctioneerId,
-              }),
-            },
-=======
             onDone: [
               {
                 target: "levelRequirementNotReached",
@@ -273,14 +250,16 @@ export function startGoblinVillage(authContext: AuthContext) {
                     ),
                   sessionId: (_, event) => event.data.sessionId,
                   deviceTrackerId: (_, event) => event.data.deviceTrackerId,
+                  auctioneerItems: (_, event) => event.data.auctioneerItems,
+                  auctioneerId: (_, event) => event.data.auctioneerId,
                 }),
               },
             ],
->>>>>>> 2ebb8746 ([FIX] Block retreat from url change when level not met)
             onError: {},
           },
         },
         levelRequirementNotReached: {
+          // Go back... you have no business being here :)
           entry: () => history.go(-1),
         },
         playing: {
