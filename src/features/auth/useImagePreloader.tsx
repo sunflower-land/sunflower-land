@@ -9,9 +9,6 @@ import syncing from "assets/npcs/syncing.gif";
 import goblinBlacksmith from "assets/buildings/goblin_blacksmith.gif";
 import goblinTailor from "assets/buildings/goblin_tailor.png";
 import goblinBank from "assets/buildings/goblin_bank.gif";
-import background from "assets/land/background.png";
-import goblinLandBackground from "assets/land/goblin_background.png";
-import farm from "assets/brand/nft.png";
 import secure from "assets/npcs/synced.gif";
 import hungryChicken from "assets/animals/chickens/hungry.gif";
 import happyChicken from "assets/animals/chickens/happy.gif";
@@ -24,6 +21,11 @@ import fatChicken from "assets/animals/chickens/fat_chicken.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
+import helios from "assets/land/helios.webp";
+import retreat from "assets/land/retreat.webp";
+import treasureIsland from "assets/land/treasure_island.webp";
+import snowKingdom from "assets/land/snow_kingdom.webp";
+import stoneHeaven from "assets/land/stone_haven.webp";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -32,9 +34,6 @@ const IMAGE_LIST: string[] = [
   minting,
   richBegger,
   syncing,
-  background,
-  goblinLandBackground,
-  farm,
   goblinBlacksmith,
   goblinTailor,
   goblinBank,
@@ -50,6 +49,11 @@ const IMAGE_LIST: string[] = [
   speedChicken,
   leftArrow,
   rightArrow,
+  helios,
+  retreat,
+  treasureIsland,
+  snowKingdom,
+  stoneHeaven,
 ];
 
 function preloadImage(src: string) {
