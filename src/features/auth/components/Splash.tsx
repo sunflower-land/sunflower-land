@@ -1,11 +1,11 @@
 import React from "react";
 
 import ocean from "assets/decorations/ocean.webp";
-import sandIslandOne from "assets/brand/sand_island_one.png";
-import sandIslandOneShore from "assets/brand/sand_island_one_shore.png";
-import sandIslandTwo from "assets/brand/sand_island_two.png";
-import sandIslandTwoShore from "assets/brand/sand_island_two_shore.png";
-import sunflowerIslandOne from "assets/brand/sunflower_island_one.png";
+import sandIslandOne from "assets/brand/sand_island_one.webp";
+import sandIslandOneShore from "assets/brand/sand_island_one_shore.webp";
+import sandIslandTwo from "assets/brand/sand_island_two.webp";
+import sandIslandTwoShore from "assets/brand/sand_island_two_shore.webp";
+import sunflowerIslandOne from "assets/brand/sunflower_island_one.webp";
 import watering from "assets/npcs/watering.gif";
 import shadow from "assets/npcs/shadow.png";
 import swimmer from "assets/npcs/swimmer.gif";
