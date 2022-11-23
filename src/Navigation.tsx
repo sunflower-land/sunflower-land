@@ -86,7 +86,7 @@ export const Navigation: React.FC = () => {
               }
             />
             <Route path="/visit/*" element={<LandExpansion key="visit" />} />
-            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
+            {(CONFIG.NETWORK === "mumbai" || true) && (
               <Route
                 path="/land/:id/*"
                 element={<LandExpansion key="land" />}
