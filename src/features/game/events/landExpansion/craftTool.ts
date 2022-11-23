@@ -16,7 +16,7 @@ export type CraftToolAction = {
   tool: WorkbenchToolName | TreasureToolName;
 };
 
-const CRAFTABLE_TOOLS = () => ({
+export const CRAFTABLE_TOOLS = () => ({
   ...WORKBENCH_TOOLS(),
   ...TREASURE_TOOLS(),
 });

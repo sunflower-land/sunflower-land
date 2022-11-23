@@ -56,7 +56,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it("provides 10% more experience with Kitchen Hand skill", () => {
+  it("provides 5% more experience with Kitchen Hand skill", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -72,7 +72,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber()
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.05).toNumber()
     );
   });
   it("provides 10% more experience with Golden Spatula Bumpkin Wearable tool", () => {

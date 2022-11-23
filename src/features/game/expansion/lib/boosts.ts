@@ -10,9 +10,11 @@ import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { CRAFTABLE_TOOLS } from "features/game/events/landExpansion/craftTool";
 
 const crops = CROPS();
 const cakes = CAKES();
+const tools = CRAFTABLE_TOOLS();
 
 /**
  * How much SFL an item is worth
@@ -113,9 +115,9 @@ export const getCookingTime = (
 ): number => {
   let reducedSecs = new Decimal(seconds);
 
-  // 20% reduction
+  // 10% reduction
   if (bumpkin?.skills["Rush Hour"]) {
-    reducedSecs = reducedSecs.mul(0.8);
+    reducedSecs = reducedSecs.mul(0.9);
   }
 
   return reducedSecs.toNumber();
@@ -136,7 +138,7 @@ export const getFoodExpBoost = (foodExp: number, bumpkin: Bumpkin): number => {
 
   //Bumpkin Skill Boost Kitchen Hand
   if (skills["Kitchen Hand"]) {
-    boostedExp = boostedExp.mul(1.1);
+    boostedExp = boostedExp.mul(1.05);
   }
   //Bumpkin Wearable Boost Golden Spatula
   if (tool === "Golden Spatula") {
