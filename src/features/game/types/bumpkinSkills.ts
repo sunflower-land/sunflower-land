@@ -187,7 +187,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Coal Face",
     },
-    boosts: "Chance of double drops",
+    boosts: "Chance to get 2.5x gold drops",
     image: question,
   },
   "Rush Hour": {
