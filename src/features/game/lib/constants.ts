@@ -669,6 +669,7 @@ export const EMPTY: GameState = {
   buildings: {},
   collectibles: {},
   mysteryPrizes: {},
+  migrated: true,
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
