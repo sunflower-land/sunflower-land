@@ -29,7 +29,7 @@ import { Mine } from "features/island/mines/Mine";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
-import { Bumpkin, Chicken } from "../types/game";
+import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 
@@ -198,27 +198,18 @@ const getExpansions = (
 };
 
 const getIslandElements = ({
-  islandLevel,
   expansions,
   buildings,
   collectibles,
   chickens,
-  bumpkin,
   bumpkinParts,
 }: {
-  islandLevel: number;
   expansions: LandExpansion[];
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<number, Chicken>>;
-  bumpkin: Bumpkin | undefined;
   bumpkinParts: BumpkinParts | undefined;
 }) => {
-  const pirateCoordinates = {
-    x: islandLevel > 7 ? -8.4 : -1.4,
-    y: islandLevel > 7 ? -8 : -2,
-  };
-
   const mapPlacements: Array<JSX.Element> = [];
 
   mapPlacements.push(
@@ -349,7 +340,7 @@ export const Land: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  const { expansions, buildings, collectibles, chickens, bumpkin } = state;
+  const { expansions, buildings, collectibles, chickens } = state;
   const level = expansions.length + 1;
 
   const [scrollIntoView] = useScrollIntoView();
@@ -376,12 +367,10 @@ export const Land: React.FC = () => {
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
-            islandLevel: level,
             expansions,
             buildings,
             collectibles,
             chickens,
-            bumpkin,
             bumpkinParts: gameState.context.state.bumpkin?.equipped,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
