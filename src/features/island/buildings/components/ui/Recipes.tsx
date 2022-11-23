@@ -15,7 +15,11 @@ import { getKeys } from "features/game/types/craftables";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
 import { secondsToString } from "lib/utils/time";
 import { RedLabel } from "components/ui/RedLabel";
-import { getCookingTime } from "features/game/expansion/lib/boosts";
+import {
+  getCookingTime,
+  getFoodExpBoost,
+} from "features/game/expansion/lib/boosts";
+import { Bumpkin } from "features/game/types/game";
 
 interface Props {
   recipes: Consumable[];
@@ -157,7 +161,10 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
           </div>
           <div className="flex mt-2 items-center">
             <img src={heart} className="h-5 mr-2" />
-            <span className="text-xs">{selected.experience} exp</span>
+            <span className="text-xs">
+              {getFoodExpBoost(selected.experience, state.bumpkin as Bumpkin)}{" "}
+              exp
+            </span>
           </div>
           <div className="flex mt-2 items-center">
             <img src={watch} className="h-5 mr-2" />
