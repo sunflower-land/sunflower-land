@@ -12,7 +12,11 @@ import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
 import axe from "assets/tools/axe.png";
 
-import { GRID_WIDTH_PX, TREE_RECOVERY_TIME } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  POPOVER_TIME_MS,
+  TREE_RECOVERY_TIME,
+} from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -30,7 +34,6 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { InnerPanel } from "components/ui/Panel";
 
-const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 const tool = "Axe";
 
