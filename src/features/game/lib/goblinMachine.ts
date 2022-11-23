@@ -25,9 +25,13 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
+<<<<<<< HEAD
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
+=======
+import { getBumpkinLevel } from "./level";
+>>>>>>> 2ebb8746 ([FIX] Block retreat from url change when level not met)
 
 const API_URL = CONFIG.API_URL;
 
@@ -122,7 +126,11 @@ export type GoblinMachineState = {
     | "withdrawn"
     | "playing"
     | "trading"
+<<<<<<< HEAD
     | "auctioneer"
+=======
+    | "levelRequirementNotReached"
+>>>>>>> 2ebb8746 ([FIX] Block retreat from url change when level not met)
     | "error";
   context: Context;
 };
@@ -147,6 +155,8 @@ const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
     return obj;
   }, {} as Record<number, LimitedItemRecipeWithMintedAt>);
 };
+
+const LEVEL_REQUIREMENT = 5;
 
 export function startGoblinVillage(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, GoblinMachineState>(
@@ -220,6 +230,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 auctioneerId: id,
               };
             },
+<<<<<<< HEAD
             onDone: {
               target: "playing",
               actions: assign({
@@ -235,8 +246,42 @@ export function startGoblinVillage(authContext: AuthContext) {
                 auctioneerId: (_, event) => event.data.auctioneerId,
               }),
             },
+=======
+            onDone: [
+              {
+                target: "levelRequirementNotReached",
+                cond: (_, event) => {
+                  if (!authContext.migrated) return false;
+
+                  const { bumpkin } = event.data.state;
+
+                  if (!bumpkin) return true;
+
+                  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+
+                  return bumpkinLevel < LEVEL_REQUIREMENT;
+                },
+              },
+              {
+                target: "playing",
+                actions: assign({
+                  state: (_, event) => event.data.state,
+                  limitedItems: (_, event) =>
+                    makeLimitedItemsByName(
+                      LIMITED_ITEMS,
+                      event.data.limitedItems
+                    ),
+                  sessionId: (_, event) => event.data.sessionId,
+                  deviceTrackerId: (_, event) => event.data.deviceTrackerId,
+                }),
+              },
+            ],
+>>>>>>> 2ebb8746 ([FIX] Block retreat from url change when level not met)
             onError: {},
           },
+        },
+        levelRequirementNotReached: {
+          entry: () => history.go(-1),
         },
         playing: {
           on: {
