@@ -45,7 +45,7 @@ export function collectEgg({
     throw new Error("This chicken hasn't layed an egg");
   }
 
-  const mutantChicken = chicken.reward?.items[0];
+  const mutantChicken = chicken.reward?.items?.[0];
   if (mutantChicken) {
     const currentMutantChicken =
       inventory[mutantChicken.name] || new Decimal(0);
