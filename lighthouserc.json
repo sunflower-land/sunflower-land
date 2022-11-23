@@ -3,7 +3,8 @@
     "collect": {
       "url": ["http://localhost/#/land/undefined"],
       "staticDistDir": "./dist",
-      "isSinglePageApplication": true
+      "isSinglePageApplication": true,
+      "numberOfRuns": 1
     },
     "upload": {
       "target": "temporary-public-storage"

@@ -61,7 +61,7 @@ export const Navigation: React.FC = () => {
       {showGame ? (
         <HashRouter>
           <Routes>
-            <Route path="/" element={<Humans />} />
+            <Route path="/" element={<LandExpansion key="land" />} />
             {/* Forbid entry to Goblin Village when in Visiting State, show Forbidden screen */}
             {!authState.matches("visiting") ? (
               <Route path="/goblins" element={<Goblins />} />
