@@ -1,0 +1,10 @@
+{
+  "ci": {
+    "collect": {
+      "url": ["http://localhost/#/land/undefined"]
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
