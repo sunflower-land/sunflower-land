@@ -2,7 +2,8 @@
   "ci": {
     "collect": {
       "url": ["http://localhost/#/land/undefined"],
-      "staticDistDir": "./dist"
+      "staticDistDir": "./dist",
+      "isSinglePageApplication": true
     },
     "upload": {
       "target": "temporary-public-storage"
