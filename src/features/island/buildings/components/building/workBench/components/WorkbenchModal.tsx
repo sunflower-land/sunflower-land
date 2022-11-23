@@ -21,6 +21,7 @@ import { Tab } from "components/ui/Tab";
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { getToolBuyPrice } from "features/game/expansion/lib/boosts";
 
 interface Props {
   isOpen: boolean;
@@ -277,7 +278,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                           "text-red-500": lessFunds(),
                         })}
                       >
-                        {`$${price?.toNumber()}`}
+                        {`$${getToolBuyPrice(selectedName, inventory)}`}
                       </span>
                     </div>
                   )}
