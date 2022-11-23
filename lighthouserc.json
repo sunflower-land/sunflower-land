@@ -1,7 +1,8 @@
 {
   "ci": {
     "collect": {
-      "url": ["http://localhost/#/land/undefined"]
+      "url": ["http://localhost/#/land/undefined"],
+      "staticDistDir": "./dist"
     },
     "upload": {
       "target": "temporary-public-storage"
