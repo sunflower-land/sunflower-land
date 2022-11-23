@@ -10,7 +10,11 @@ import hitbox from "assets/resources/gold/gold.png";
 import gold from "assets/resources/gold_ore.png";
 import pickaxe from "assets/tools/iron_pickaxe.png";
 
-import { GRID_WIDTH_PX, GOLD_RECOVERY_TIME } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  GOLD_RECOVERY_TIME,
+  POPOVER_TIME_MS,
+} from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -26,7 +30,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 
-const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 
 interface Props {

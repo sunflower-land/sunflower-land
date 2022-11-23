@@ -96,108 +96,119 @@ export const AchievementDetails: React.FC<Props> = ({
                 <div className="flex-1 mt-2 text-xxs sm:text-xs flex-wrap justify-center items-center text-center w-full">
                   <p className="text-xs mb-2">{achievement.description}</p>
                   <div className="flex items-center justify-center border-t border-white pt-1 w-full">
-                    <div className="flex items-center mt-2 mb-1">
-                      <div
-                        className="absolute"
-                        style={{
-                          width: `${
-                            PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width
-                          }px`,
-                          height: `${
-                            PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
-                          }px`,
-                        }}
-                      >
-                        {/* Progress bar frame */}
-                        <img
-                          src={progressBar}
-                          className="absolute"
-                          style={{
-                            left: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                            }px`,
-                            width: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
-                            }px`,
-                            height: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
-                            }px`,
-                          }}
-                        />
-                        <img
-                          src={progressBarEdge}
-                          className="absolute"
-                          style={{
-                            left: `0px`,
-                            width: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                            }px`,
-                            height: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
-                            }px`,
-                          }}
-                        />
-                        <img
-                          src={progressBarEdge}
-                          className="absolute"
-                          style={{
-                            right: `0px`,
-                            width: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                            }px`,
-                            height: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
-                            }px`,
-                            transform: "scaleX(-1)",
-                          }}
-                        />
+                    {!isAlreadyClaimed && (
+                      <div className="flex items-center mt-2 mb-1">
                         <div
-                          className="absolute bg-[#193c3e]"
+                          className="absolute"
                           style={{
-                            top: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
-                            }px`,
-                            left: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                            }px`,
                             width: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width
                             }px`,
                             height: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
                             }px`,
                           }}
-                        />
+                        >
+                          {/* Progress bar frame */}
+                          <img
+                            src={progressBar}
+                            className="absolute"
+                            style={{
+                              left: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                              }px`,
+                              width: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
+                              }px`,
+                              height: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
+                              }px`,
+                            }}
+                          />
+                          <img
+                            src={progressBarEdge}
+                            className="absolute"
+                            style={{
+                              left: `0px`,
+                              width: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                              }px`,
+                              height: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
+                              }px`,
+                            }}
+                          />
+                          <img
+                            src={progressBarEdge}
+                            className="absolute"
+                            style={{
+                              right: `0px`,
+                              width: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                              }px`,
+                              height: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
+                              }px`,
+                              transform: "scaleX(-1)",
+                            }}
+                          />
+                          <div
+                            className="absolute bg-[#193c3e]"
+                            style={{
+                              top: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
+                              }px`,
+                              left: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                              }px`,
+                              width: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
+                              }px`,
+                              height: `${
+                                PIXEL_SCALE *
+                                PROGRESS_BAR_DIMENSIONS.innerHeight
+                              }px`,
+                            }}
+                          />
 
-                        {/* Progress */}
-                        <div
-                          className="absolute bg-[#63c74d]"
+                          {/* Progress */}
+                          <div
+                            className="absolute bg-[#63c74d]"
+                            style={{
+                              top: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
+                              }px`,
+                              left: `${
+                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                              }px`,
+                              width: `${PIXEL_SCALE * progressWidth}px`,
+                              height: `${
+                                PIXEL_SCALE *
+                                PROGRESS_BAR_DIMENSIONS.innerHeight
+                              }px`,
+                            }}
+                          />
+                        </div>
+                        <span
+                          className="text-xxs"
                           style={{
-                            top: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
-                            }px`,
-                            left: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                            }px`,
-                            width: `${PIXEL_SCALE * progressWidth}px`,
-                            height: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
+                            marginLeft: `${
+                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
                             }px`,
                           }}
-                        />
+                        >{`${new Decimal(progress).toDecimalPlaces(
+                          4,
+                          Decimal.ROUND_DOWN
+                        )}/${achievement.requirement}`}</span>
                       </div>
-                      <span
-                        className="text-xxs"
-                        style={{
-                          marginLeft: `${
-                            PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
-                          }px`,
-                        }}
-                      >{`${new Decimal(progress).toDecimalPlaces(
-                        4,
-                        Decimal.ROUND_DOWN
-                      )}/${achievement.requirement}`}</span>
-                    </div>
+                    )}
+                    {isAlreadyClaimed && (
+                      <div className="flex items-center mt-2 mb-1">
+                        <span className="w-auto -mt-2 mb-1 bg-blue-600 text-shadow border text-xxs p-1 rounded-md">
+                          Already Claimed!
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

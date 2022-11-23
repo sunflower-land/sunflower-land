@@ -20,7 +20,7 @@ export const Forbidden: React.FC = () => {
         You are not allowed to visit the Goblin Village while, visiting someone
         else&apos; farm !<br />
         <br />
-        Click on the &quot;Back&quot; button to go Back To Login Screen.
+        Click on the &quot;Back&quot; button to go back To Login Screen.
       </span>
       <Button className="mt-2" onClick={goBack}>
         Back

@@ -32,7 +32,7 @@ export const CommunityGarden: React.FC = () => {
       <BottleDonation />
       <Scientist />
       <ProjectDignityFrogs />
-      <Arcade />
+      <Arcade left={33} top={28.5} />
     </>
   );
 };
