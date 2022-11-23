@@ -213,7 +213,7 @@ export function getCropYieldAmount({
     amount *= 1.1;
   }
 
-  return amount;
+  return Number(new Decimal(amount).toDecimalPlaces(4));
 }
 
 export function plant({
