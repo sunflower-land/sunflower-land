@@ -1,8 +1,8 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": "./dist",
-      "isSinglePageApplication": true,
+      "url": ["http://localhost:3000/#/land/undefined"],
+      "startServerCommand": "yarn run dev",
       "numberOfRuns": 1
     },
     "upload": {
