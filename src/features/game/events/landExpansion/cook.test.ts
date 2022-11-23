@@ -255,7 +255,7 @@ describe("cook", () => {
 });
 
 describe("getReadyAt", () => {
-  it("applies 20% speed boost with Rush Hour skill", () => {
+  it("applies 10% speed boost with Rush Hour skill", () => {
     const now = Date.now();
 
     const time = getReadyAt({
@@ -264,7 +264,7 @@ describe("getReadyAt", () => {
       createdAt: now,
     });
 
-    const boost = CONSUMABLES["Boiled Eggs"].cookingSeconds * 0.2;
+    const boost = CONSUMABLES["Boiled Eggs"].cookingSeconds * 0.1;
 
     const readyAt =
       now + (CONSUMABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;

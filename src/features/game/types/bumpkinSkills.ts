@@ -196,7 +196,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Cook meals 20% faster",
+    boosts: "Cook meals 10% faster",
     image: question,
   },
   "Kitchen Hand": {

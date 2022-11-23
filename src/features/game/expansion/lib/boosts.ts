@@ -113,9 +113,9 @@ export const getCookingTime = (
 ): number => {
   let reducedSecs = new Decimal(seconds);
 
-  // 20% reduction
+  // 10% reduction
   if (bumpkin?.skills["Rush Hour"]) {
-    reducedSecs = reducedSecs.mul(0.8);
+    reducedSecs = reducedSecs.mul(0.9);
   }
 
   return reducedSecs.toNumber();
