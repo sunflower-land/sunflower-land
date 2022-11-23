@@ -1,7 +1,7 @@
 {
   "ci": {
     "collect": {
-      "url": ["http://localhost:3000/#/land/undefined"],
+      "url": ["http://127.0.0.1:3000/#/land/undefined"],
       "startServerCommand": "yarn run dev",
       "numberOfRuns": 1
     },
