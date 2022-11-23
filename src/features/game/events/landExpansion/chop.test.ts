@@ -446,4 +446,32 @@ describe("getChoppedAt", () => {
     const treeTimeStacked = (treeTimeWithBeaver + treeTimeWithSkill) * 1000;
     expect(time).toEqual(now - treeTimeStacked);
   });
+  it("chops trees with the logger Skill", () => {
+    const game = chop({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Logger: new Decimal(1),
+          Axe: new Decimal(1),
+        },
+        bumpkin: INITIAL_BUMPKIN,
+        collectibles: {},
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "timber.chopped",
+        item: "Axe",
+        index: 0,
+        expansionIndex: 0,
+      } as LandExpansionChopAction,
+    });
+
+    const { expansions } = game;
+    const trees = expansions[0].trees;
+    const tree = (trees as Record<number, LandExpansionTree>)[0];
+
+    expect(game.inventory.Wood).toEqual(new Decimal(3));
+    expect(tree.wood.amount).toBeGreaterThan(2);
+    expect(game.inventory.Axe).toEqual(new Decimal(0.5));
+  });
 });
