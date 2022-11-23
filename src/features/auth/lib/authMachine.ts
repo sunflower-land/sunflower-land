@@ -466,6 +466,10 @@ export const authMachine = createMachine<
             target: "connecting",
             actions: "refreshFarm",
           },
+          REFRESH: {
+            target: "connecting",
+            actions: "refreshFarm",
+          },
         },
       },
       exploring: {
