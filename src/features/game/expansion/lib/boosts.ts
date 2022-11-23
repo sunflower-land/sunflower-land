@@ -136,7 +136,7 @@ export const getFoodExpBoost = (foodExp: number, bumpkin: Bumpkin): number => {
 
   //Bumpkin Skill Boost Kitchen Hand
   if (skills["Kitchen Hand"]) {
-    boostedExp = boostedExp.mul(1.1);
+    boostedExp = boostedExp.mul(1.05);
   }
   //Bumpkin Wearable Boost Golden Spatula
   if (tool === "Golden Spatula") {

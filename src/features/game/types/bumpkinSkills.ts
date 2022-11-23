@@ -206,7 +206,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Rush Hour",
     },
-    boosts: "Meals yield an extra 10% experience",
+    boosts: "Meals yield an extra 5% experience",
     image: question,
   },
   "Michelin Stars": {
