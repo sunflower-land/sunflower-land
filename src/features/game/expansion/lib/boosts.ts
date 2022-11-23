@@ -11,7 +11,6 @@ import { CAKES } from "../../types/craftables";
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CRAFTABLE_TOOLS } from "features/game/events/landExpansion/craftTool";
-import { WorkbenchToolName } from "features/game/types/tools";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -147,22 +146,4 @@ export const getFoodExpBoost = (foodExp: number, bumpkin: Bumpkin): number => {
   }
 
   return boostedExp.toNumber();
-};
-export const getToolBuyPrice = (
-  item: WorkbenchToolName,
-  inventory: Inventory
-) => {
-  const toolObject = tools[item];
-  let price = toolObject.sfl;
-
-  if (!price) {
-    return new Decimal(0);
-  }
-
-  //apply 10% discount to tools
-  if (price && inventory.Artist?.gte(1)) {
-    price = price.mul(0.9);
-  }
-
-  return price;
 };
