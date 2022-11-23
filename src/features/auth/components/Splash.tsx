@@ -126,7 +126,6 @@ export const Splash: React.FC = ({ children }) => {
           <Panel>{children}</Panel>
         </Modal>
       )}
-
       {/* z-index must be 1056 or higher to break out of bootstrap modal */}
       <div
         className="absolute bottom-0 right-0 m-1 pointer-events-auto"

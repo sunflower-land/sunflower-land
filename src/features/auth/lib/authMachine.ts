@@ -426,6 +426,10 @@ export const authMachine = createMachine<
               }
             },
             on: {
+              RETURN: {
+                target: "#connecting",
+                actions: ["refreshFarm", "deleteFarmIdUrl"],
+              },
               REFRESH: {
                 target: "#connecting",
               },
