@@ -13,7 +13,7 @@ export const ForemanBeaver: React.FC = () => {
           width: `${PIXEL_SCALE * 15}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
         }}
-        className="absolute cursor-pointer"
+        className="absolute"
         alt="Foreman Beaver"
       />
       <img

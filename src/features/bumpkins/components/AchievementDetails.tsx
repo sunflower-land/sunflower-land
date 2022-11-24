@@ -20,6 +20,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { setImageWidth } from "lib/images";
 import Decimal from "decimal.js-light";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -196,10 +197,9 @@ export const AchievementDetails: React.FC<Props> = ({
                               PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
                             }px`,
                           }}
-                        >{`${new Decimal(progress).toDecimalPlaces(
-                          4,
-                          Decimal.ROUND_DOWN
-                        )}/${achievement.requirement}`}</span>
+                        >{`${setPrecision(new Decimal(progress))}/${
+                          achievement.requirement
+                        }`}</span>
                       </div>
                     )}
                     {isAlreadyClaimed && (
