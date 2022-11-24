@@ -30,7 +30,7 @@ export type Release = {
   price: string;
 };
 
-function getImageUrl(wearableId: number) {
+export function getImageUrl(wearableId: number) {
   if (CONFIG.NETWORK === "mainnet") {
     return `https://bumpkins.io/erc1155/images/${wearableId}.png`;
   }

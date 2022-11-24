@@ -34,6 +34,7 @@ import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { Arcade } from "features/community/arcade/Arcade";
+import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -391,6 +392,8 @@ export const Land: React.FC = () => {
           <Water level={level} />
 
           <Arcade left={40.15} top={-6.35} />
+
+          <FarmerQuest />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
