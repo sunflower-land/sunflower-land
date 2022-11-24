@@ -26,8 +26,7 @@ export const AuctioneerContent = () => {
   if (upcoming.length === 0) {
     return (
       <div className="flex flex-col">
-        <span>Currently Unavailable!</span>
-        <span>Please try again later.</span>
+        <span>Coming soon...</span>
       </div>
     );
   }
