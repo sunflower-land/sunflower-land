@@ -4,7 +4,12 @@ import {
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
-import { Collectibles, GameState, Inventory } from "features/game/types/game";
+import {
+  Bumpkin,
+  Collectibles,
+  GameState,
+  Inventory,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionFeedChickenAction = {
@@ -21,26 +26,24 @@ type Options = {
 const makeFedAt = (
   inventory: Inventory,
   collectibles: Collectibles,
-  createdAt: number
+  createdAt: number,
+  bumpkin: Bumpkin
 ) => {
-  if (
-    inventory["Wrangler"]?.gt(0) &&
-    isCollectibleBuilt("Speed Chicken", collectibles)
-  ) {
-    return (
-      createdAt - CHICKEN_TIME_TO_EGG * (0.1 + MUTANT_CHICKEN_BOOST_AMOUNT)
-    );
-  }
-
+  const { skills } = bumpkin;
+  let mul = 0;
   if (inventory["Wrangler"]?.gt(0)) {
-    return createdAt - CHICKEN_TIME_TO_EGG * 0.1;
+    mul += 0.1;
   }
 
   if (isCollectibleBuilt("Speed Chicken", collectibles)) {
-    return createdAt - CHICKEN_TIME_TO_EGG * MUTANT_CHICKEN_BOOST_AMOUNT;
+    mul += 0.1;
   }
 
-  return createdAt;
+  if (skills["Stable Hand"]) {
+    mul += 0.1;
+  }
+  const value = createdAt - CHICKEN_TIME_TO_EGG * mul;
+  return value;
 };
 
 export const getWheatRequiredToFeed = (collectibles: Collectibles) => {
@@ -106,7 +109,7 @@ export function feedChicken({
   const currentWheat = inventory.Wheat || new Decimal(0);
   inventory.Wheat = currentWheat.minus(wheatRequired);
   chickens[action.index] = {
-    fedAt: makeFedAt(inventory, collectibles, createdAt),
+    fedAt: makeFedAt(inventory, collectibles, createdAt, bumpkin),
     multiplier: 1,
   };
 
