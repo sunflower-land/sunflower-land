@@ -16,6 +16,7 @@ jobs:
           yarn build
         env:
           CI: false
+          LIGHTHOUSE_CI: true
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mainnet
           VITE_ACCOUNT_MINTER_CONTRACT: "0xF8DcD4eE078A0E2e7AcadA12A00a5993CCE2a55D"
