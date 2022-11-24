@@ -41,7 +41,7 @@ export const Crops: React.FC = () => {
     });
     setToast({
       icon: tokenStatic,
-      content: `+$${displaySellPrice(selected).mul(amount).toString()}`,
+      content: `+$${setPrecision(displaySellPrice(selected).mul(amount))}`,
     });
   };
 

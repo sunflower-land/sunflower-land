@@ -22,6 +22,7 @@ import Decimal from "decimal.js-light";
 import { MachineInterpreter } from "./wishingWellMachine";
 import { WishingWellTokens } from "./actions/loadWishingWell";
 import { Context } from "features/game/GoblinProvider";
+import { setPrecision } from "lib/utils/formatNumber";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -313,9 +314,7 @@ export const WishingWellModal: React.FC = () => {
           <Granted
             reward={
               machine.context.totalRewards
-                ? machine.context.totalRewards
-                    .toDecimalPlaces(4, Decimal.ROUND_DOWN)
-                    .toString()
+                ? setPrecision(machine.context.totalRewards).toString()
                 : new Decimal(0).toString()
             }
             lockedTime={wishingWell.lockedTime}
