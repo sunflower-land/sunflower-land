@@ -210,7 +210,6 @@ describe("feed chickens", () => {
       action: { type: "chicken.fed", index: 0 },
     });
     const speedChickenTime = newDate - CHICKEN_TIME_TO_EGG * 0.1;
-    //10 ms added to expect to count with cpu times
     expect(newState.chickens[0].fedAt).toBeLessThan(speedChickenTime + 10);
   });
 
@@ -231,7 +230,6 @@ describe("feed chickens", () => {
       action: { type: "chicken.fed", index: 0 },
     });
     const stableHandChickenTime = newDate - CHICKEN_TIME_TO_EGG * 0.1;
-    //10 ms added to expect to count with cpu times
     expect(newState.chickens[0].fedAt).toBeLessThan(stableHandChickenTime + 10);
   });
 
@@ -272,7 +270,6 @@ describe("feed chickens", () => {
     });
     const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.1);
     const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
-    //10 ms added to expect to count with cpu times
     expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
   });
 
@@ -306,7 +303,6 @@ describe("feed chickens", () => {
     });
     const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.3);
     const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
-    //10 ms added to expect to count with cpu times
     expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
   });
 
