@@ -12,6 +12,7 @@ import { CAKES } from "../../types/craftables";
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CRAFTABLE_TOOLS } from "features/game/events/landExpansion/craftTool";
+import { Consumable } from "features/game/types/consumables";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -132,8 +133,8 @@ export const getCookingTime = (
  * @param bumpkin to check for skills
  * @returns boosted food exp
  */
-export const getFoodExpBoost = (foodExp: number, bumpkin: Bumpkin): number => {
-  let boostedExp = new Decimal(foodExp);
+export const getFoodExpBoost = (food: Consumable, bumpkin: Bumpkin): number => {
+  let boostedExp = new Decimal(food.experience);
   const { skills, equipped } = bumpkin;
   const { tool } = equipped;
 
@@ -141,6 +142,11 @@ export const getFoodExpBoost = (foodExp: number, bumpkin: Bumpkin): number => {
   if (skills["Kitchen Hand"]) {
     boostedExp = boostedExp.mul(1.05);
   }
+  //Bumpkin Skill Boost Curer
+  if (food.building === "Deli" && skills["Curer"]) {
+    boostedExp = boostedExp.mul(1.15);
+  }
+
   //Bumpkin Wearable Boost Golden Spatula
   if (tool === "Golden Spatula") {
     boostedExp = boostedExp.mul(1.1);

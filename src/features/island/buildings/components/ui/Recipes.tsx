@@ -162,8 +162,7 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
           <div className="flex mt-2 items-center">
             <img src={heart} className="h-5 mr-2" />
             <span className="text-xs">
-              {getFoodExpBoost(selected.experience, state.bumpkin as Bumpkin)}{" "}
-              exp
+              {getFoodExpBoost(selected, state.bumpkin as Bumpkin)} exp
             </span>
           </div>
           <div className="flex mt-2 items-center">
