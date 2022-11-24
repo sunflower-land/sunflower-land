@@ -99,7 +99,7 @@ export const Idle: React.FC<IdleProps> = ({
           </>
         )}
         <div className="flex items-center">
-          <span className="text-shadow text-sm whitespace-nowrap">
+          <span className="text-shadow text-sm mr-2 whitespace-nowrap">
             {"Land ID: "}
           </span>
           <input

@@ -241,7 +241,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
       </div>
 
       <Button
-        className="my-3"
+        className="mt-3 mb-1"
         onClick={withdraw}
         disabled={selectedItems.length <= 0}
       >
