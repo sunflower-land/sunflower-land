@@ -11,6 +11,7 @@ import {
 import { isSeed } from "../plant";
 import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { setPrecision } from "lib/utils/formatNumber";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -213,7 +214,7 @@ export function getCropYieldAmount({
     amount *= 1.1;
   }
 
-  return Number(new Decimal(amount).toDecimalPlaces(4));
+  return Number(setPrecision(new Decimal(amount)));
 }
 
 export function plant({

@@ -6,6 +6,7 @@ import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import {
   Collectibles,
   GameState,
+  Inventory,
   InventoryItemName,
   LandExpansionTree,
 } from "features/game/types/game";
@@ -67,9 +68,16 @@ export function getChoppedAt({
 /**
  * Returns the amount of axe required to chop down a tree
  */
-export function getRequiredAxeAmount(collectibles: Collectibles) {
+export function getRequiredAxeAmount(
+  inventory: Inventory,
+  collectibles: Collectibles
+) {
   if (isCollectibleBuilt("Foreman Beaver", collectibles)) {
     return new Decimal(0);
+  }
+
+  if (inventory.Logger?.gte(1)) {
+    return new Decimal(0.5);
   }
 
   return new Decimal(1);
@@ -98,7 +106,7 @@ export function chop({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const requiredAxes = getRequiredAxeAmount(collectibles);
+  const requiredAxes = getRequiredAxeAmount(state.inventory, collectibles);
 
   if (action.item !== "Axe" && requiredAxes.gt(0)) {
     throw new Error(CHOP_ERRORS.MISSING_AXE);
@@ -128,8 +136,8 @@ export function chop({
       skills: bumpkin.skills,
       collectibles,
     }),
-    // Amount for next drop
-    amount: 3,
+    // Placeholder amount for next drop. This will get overridden on the next autosave.
+    amount: 1,
   };
   inventory.Axe = axeAmount.sub(requiredAxes);
   inventory.Wood = woodAmount.add(woodHarvested);

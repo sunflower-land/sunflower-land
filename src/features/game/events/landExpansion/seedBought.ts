@@ -38,6 +38,7 @@ export function getBuyPrice(
 
   let price = seed.sfl;
 
+  //LEGACY SKILL Contributor Artist Skill
   if (price && inventory.Artist?.gte(1)) {
     price = price.mul(0.9);
   }

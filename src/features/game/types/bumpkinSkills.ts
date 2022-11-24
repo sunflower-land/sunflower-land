@@ -107,7 +107,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Master Farmer",
     },
-    boosts: "Critical Crop Chance",
+    boosts: "Chance to get 2x crops",
     image: wheat,
   },
   Lumberjack: {
@@ -136,7 +136,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 3,
       skill: "Tree Hugger",
     },
-    boosts: "Critical Tree Drop",
+    boosts: "Chance to get 3x wood drops",
     image: question,
   },
   "Money Tree": {
@@ -187,7 +187,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Coal Face",
     },
-    boosts: "Chance of double drops",
+    boosts: "Chance to get 2.5x gold drops",
     image: question,
   },
   "Rush Hour": {
@@ -196,7 +196,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Cook meals 20% faster",
+    boosts: "Cook meals 10% faster",
     image: question,
   },
   "Kitchen Hand": {
@@ -206,7 +206,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Rush Hour",
     },
-    boosts: "Meals yield an extra 10% experience",
+    boosts: "Meals yield an extra 5% experience",
     image: question,
   },
   "Michelin Stars": {

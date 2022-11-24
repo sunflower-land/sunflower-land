@@ -19,6 +19,7 @@ import {
 import { ITEM_DETAILS } from "features/community/types/images";
 
 import token from "features/community/assets/icons/token.png";
+import { setPrecision } from "lib/utils/formatNumber";
 
 export const InventoryItems: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -82,10 +83,7 @@ export const InventoryItems: React.FC = () => {
         <div className="mr-2 ml-2 flex items-center">
           <img src={token} className="h-5 mr-2" />
           <p className="mt-2 mb-2">
-            {whitelistTokenData.balance
-              .toDecimalPlaces(4, Decimal.ROUND_DOWN)
-              .toString()}{" "}
-            PD-WL
+            {setPrecision(whitelistTokenData.balance).toString()} PD-WL
           </p>
         </div>
       </div>

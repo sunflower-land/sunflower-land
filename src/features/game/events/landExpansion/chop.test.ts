@@ -152,7 +152,7 @@ describe("chop", () => {
 
     expect(game.inventory.Axe).toEqual(new Decimal(0));
     expect(game.inventory.Wood).toEqual(new Decimal(3));
-    expect(tree.wood.amount).toBeGreaterThan(2);
+    expect(tree.wood.amount).toBeGreaterThan(0);
   });
 
   it("chops multiple tree", () => {
@@ -188,10 +188,38 @@ describe("chop", () => {
 
     expect(game.inventory.Axe).toEqual(new Decimal(1));
     expect(game.inventory.Wood).toEqual(new Decimal(7));
-    expect(tree1.wood.amount).toBeGreaterThan(2);
-    expect(tree2.wood.amount).toBeGreaterThan(2);
+    expect(tree1.wood.amount).toBeGreaterThan(0);
+    expect(tree2.wood.amount).toBeGreaterThan(0);
   });
 
+  it("chops trees with the logger Skill", () => {
+    const game = chop({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Logger: new Decimal(1),
+          Axe: new Decimal(1),
+        },
+        bumpkin: INITIAL_BUMPKIN,
+        collectibles: {},
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "timber.chopped",
+        item: "Axe",
+        index: 0,
+        expansionIndex: 0,
+      } as LandExpansionChopAction,
+    });
+
+    const { expansions } = game;
+    const trees = expansions[0].trees;
+    const tree = (trees as Record<number, LandExpansionTree>)[0];
+
+    expect(game.inventory.Wood).toEqual(new Decimal(3));
+    expect(tree.wood.amount).toBeGreaterThan(0);
+    expect(game.inventory.Axe).toEqual(new Decimal(0.5));
+  });
   it("tree replenishes normally", () => {
     const dateNow = Date.now();
     const game = chop({
@@ -323,7 +351,7 @@ describe("chop", () => {
     const tree = (trees as Record<number, LandExpansionTree>)[0];
 
     expect(game.inventory.Wood).toEqual(new Decimal(3));
-    expect(tree.wood.amount).toBeGreaterThan(2);
+    expect(tree.wood.amount).toBeGreaterThan(0);
   });
 
   it("throws an error if the player doesnt have a bumpkin", async () => {

@@ -5,6 +5,7 @@ import { InnerPanel } from "components/ui/Panel";
 
 import token from "assets/icons/token_2.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   balance: Decimal;
@@ -28,9 +29,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
         onMouseLeave={() => setIsShown(false)}
       >
         {isShown === false ? (
-          <small>
-            {balance.toDecimalPlaces(4, Decimal.ROUND_DOWN).toString()}
-          </small>
+          <small>{setPrecision(balance).toString()}</small>
         ) : (
           <small>{balance.toString()}</small>
         )}

@@ -107,7 +107,10 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setShowStumpTimeLeft(false);
   };
 
-  const axesNeeded = getRequiredAxeAmount(game.context.state.collectibles);
+  const axesNeeded = getRequiredAxeAmount(
+    game.context.state.inventory,
+    game.context.state.collectibles
+  );
   const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
 
   // Has enough axes to chop the tree

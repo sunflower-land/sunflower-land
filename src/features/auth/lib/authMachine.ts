@@ -426,6 +426,10 @@ export const authMachine = createMachine<
               }
             },
             on: {
+              RETURN: {
+                target: "#connecting",
+                actions: ["refreshFarm", "deleteFarmIdUrl"],
+              },
               REFRESH: {
                 target: "#connecting",
               },
@@ -459,6 +463,10 @@ export const authMachine = createMachine<
         id: "unauthorised",
         on: {
           ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "refreshFarm",
+          },
+          REFRESH: {
             target: "connecting",
             actions: "refreshFarm",
           },
