@@ -49,7 +49,7 @@ const maxItems: Inventory = {
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
     (acc, name) => ({
       ...acc,
-      [name]: new Decimal(1),
+      [name]: new Decimal(1000),
     }),
     {}
   ),
