@@ -235,6 +235,25 @@ describe("feed chickens", () => {
     expect(newState.chickens[0].fedAt).toBeLessThan(stableHandChickenTime + 10);
   });
 
+  it("chickens produce in normal time", () => {
+    const newDate = Date.now();
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+      },
+      collectibles: {},
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", index: 0 },
+    });
+    const decimalCreatedAt = new Decimal(newDate).toNumber();
+    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
+  });
+
   it("chickens produce goods 10% faster with Wrangler Badge", () => {
     const newDate = Date.now();
     const state = {
@@ -251,9 +270,10 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const wranglerChickenTime = newDate - CHICKEN_TIME_TO_EGG * 0.1;
+    const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.1);
+    const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
     //10 ms added to expect to count with cpu times
-    expect(newState.chickens[0].fedAt).toBeLessThan(wranglerChickenTime + 10);
+    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
   });
 
   it("chickens produce goods 30% faster with Speed Chicken, Wrangler Badge and Stable Hand skill", () => {
@@ -284,9 +304,10 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const stackChickenTime = newDate - CHICKEN_TIME_TO_EGG * 0.3;
+    const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.3);
+    const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
     //10 ms added to expect to count with cpu times
-    expect(newState.chickens[0].fedAt).toBeLessThan(stackChickenTime + 10);
+    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
   });
 
   it("does not stack Fat Chicken boost when a user has more than one", () => {

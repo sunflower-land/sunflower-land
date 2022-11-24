@@ -30,6 +30,7 @@ const makeFedAt = (
   bumpkin: Bumpkin
 ) => {
   const { skills } = bumpkin;
+  const decimalCreatedAt = new Decimal(createdAt);
   let mul = 0;
   if (inventory["Wrangler"]?.gt(0)) {
     mul += 0.1;
@@ -42,8 +43,13 @@ const makeFedAt = (
   if (skills["Stable Hand"]) {
     mul += 0.1;
   }
-  const value = createdAt - CHICKEN_TIME_TO_EGG * mul;
-  return value;
+  //Return default values if no boost applied
+  if (!mul) {
+    return createdAt;
+  }
+
+  const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(mul);
+  return decimalCreatedAt.minus(chickenTime).toNumber();
 };
 
 export const getWheatRequiredToFeed = (collectibles: Collectibles) => {
