@@ -136,8 +136,8 @@ export function chop({
       skills: bumpkin.skills,
       collectibles,
     }),
-    // Amount for next drop
-    amount: 3,
+    // Placeholder amount for next drop. This will get overridden on the next autosave.
+    amount: 1,
   };
   inventory.Axe = axeAmount.sub(requiredAxes);
   inventory.Wood = woodAmount.add(woodHarvested);

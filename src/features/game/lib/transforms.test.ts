@@ -61,51 +61,69 @@ describe("transform", () => {
   });
 
   describe.only("updateExpansions", () => {
-    const oldExpansions: LandExpansion[] = [
-      {
-        createdAt: 0,
-        readyAt: 0,
-        plots: {
-          0: {
-            x: -2,
-            y: -1,
-            height: 1,
-            width: 1,
-            crop: {
-              plantedAt: 10,
-              amount: 1,
-              name: "Sunflower",
+    it("returns old crop values if nothing has changed", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                plantedAt: 10,
+                amount: 1,
+                name: "Sunflower",
+              },
             },
-          },
-          1: {
-            x: -1,
-            y: -1,
-            height: 1,
-            width: 1,
-          },
-          2: {
-            x: -2,
-            y: -2,
-            height: 1,
-            width: 1,
-          },
-        } as GameState["plots"],
-        trees: {
-          0: {
-            wood: {
-              amount: 3,
-              choppedAt: 0,
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-            x: 1,
-            y: 1,
-            height: 2,
-            width: 2,
-          },
+          } as GameState["plots"],
         },
-      },
-    ];
+      ];
+
+      const newExpansions = [...oldExpansions];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.plots?.["0"]?.crop).toEqual(
+        oldExpansions[0]?.plots?.["0"]?.crop
+      );
+    });
 
     it("adds a reward to a crop", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                plantedAt: 10,
+                amount: 1,
+                name: "Sunflower",
+              },
+            },
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
+            },
+          } as GameState["plots"],
+        },
+      ];
+
       const newExpansions: LandExpansion[] = [
         {
           createdAt: 4,
@@ -143,19 +161,6 @@ describe("transform", () => {
               width: 1,
             },
           } as GameState["plots"],
-
-          trees: {
-            0: {
-              wood: {
-                amount: 3,
-                choppedAt: 0,
-              },
-              x: 1,
-              y: 1,
-              height: 2,
-              width: 2,
-            },
-          },
         },
       ];
 
@@ -165,6 +170,275 @@ describe("transform", () => {
       expect(expansions[0]?.plots?.["0"]?.crop?.reward?.items?.[0].amount).toBe(
         3
       );
+      expect(expansions[0]?.plots?.["1"]?.crop?.reward).not.toBeDefined();
+    });
+
+    it("updates the next drop amount for an updated tree", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          trees: {
+            0: {
+              wood: {
+                amount: 1,
+                choppedAt: 0,
+              },
+              x: -3,
+              y: 3,
+              height: 2,
+              width: 2,
+            },
+            1: {
+              wood: {
+                amount: 1,
+                choppedAt: 0,
+              },
+              x: -3,
+              y: 3,
+              height: 2,
+              width: 2,
+            },
+          },
+        },
+      ];
+
+      const newExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          trees: {
+            0: {
+              wood: {
+                amount: 10,
+                choppedAt: 0,
+              },
+              x: -3,
+              y: 3,
+              height: 2,
+              width: 2,
+            },
+            1: {
+              wood: {
+                amount: 1,
+                choppedAt: 0,
+              },
+              x: -3,
+              y: 3,
+              height: 2,
+              width: 2,
+            },
+          },
+        },
+      ];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.trees?.["0"]?.wood?.amount).toBeDefined();
+      expect(expansions[0]?.trees?.["0"]?.wood?.amount).toBe(10);
+      expect(expansions[0]?.trees?.["1"]).toEqual(
+        oldExpansions[0]?.trees?.["1"]
+      );
+    });
+
+    it("updates the next drop amount for an updated stone", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          stones: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+            1: {
+              x: 0,
+              y: 4,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+          },
+        },
+      ];
+
+      const newExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          stones: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+            1: {
+              x: 0,
+              y: 4,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 10,
+                minedAt: 0,
+              },
+            },
+          },
+        },
+      ];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.stones?.["1"]?.stone?.amount).toBeDefined();
+      expect(expansions[0]?.stones?.["1"]?.stone?.amount).toBe(10);
+      expect(expansions[0]?.stones?.["0"]).toEqual(
+        oldExpansions[0]?.stones?.["0"]
+      );
+    });
+
+    it("updates the next drop amount for an updated gold", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          gold: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+            1: {
+              x: 0,
+              y: 4,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+          },
+        },
+      ];
+
+      const newExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          gold: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+            1: {
+              x: 0,
+              y: 4,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 10,
+                minedAt: 0,
+              },
+            },
+          },
+        },
+      ];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.gold?.["1"]?.stone?.amount).toBeDefined();
+      expect(expansions[0]?.gold?.["1"]?.stone?.amount).toBe(10);
+      expect(expansions[0]?.gold?.["0"]).toEqual(oldExpansions[0]?.gold?.["0"]);
+    });
+
+    it("updates the next drop amount for an updated iron", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          iron: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+            1: {
+              x: 0,
+              y: 4,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+          },
+        },
+      ];
+
+      const newExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          iron: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
+              },
+            },
+            1: {
+              x: 0,
+              y: 4,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 10,
+                minedAt: 0,
+              },
+            },
+          },
+        },
+      ];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.iron?.["1"]?.stone?.amount).toBeDefined();
+      expect(expansions[0]?.iron?.["1"]?.stone?.amount).toBe(10);
+      expect(expansions[0]?.iron?.["0"]).toEqual(oldExpansions[0]?.iron?.["0"]);
     });
   });
 });
