@@ -8,7 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 
-export const Mine: React.FC = () => {
+export const Boulder: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (

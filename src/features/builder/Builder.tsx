@@ -31,6 +31,7 @@ export const Builder: React.FC = () => {
     iron: [],
     stones: [],
     trees: [],
+    boulder: [],
   });
 
   const [layouts, setLayouts] = useState<Layout[]>(
@@ -64,7 +65,7 @@ export const Builder: React.FC = () => {
   };
 
   const handlePrint = () => {
-    const prefix = 701;
+    const prefix = 1001;
     const identifiedLayouts = layouts.reduce(
       (acc, layout, index) => ({
         ...acc,
@@ -126,6 +127,7 @@ export const Builder: React.FC = () => {
                 iron: [],
                 stones: [],
                 trees: [],
+                boulder: [],
               })
             }
           >
