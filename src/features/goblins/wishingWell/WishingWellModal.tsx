@@ -23,6 +23,7 @@ import { MachineInterpreter } from "./wishingWellMachine";
 import { WishingWellTokens } from "./actions/loadWishingWell";
 import { Context } from "features/game/GoblinProvider";
 import { setPrecision } from "lib/utils/formatNumber";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -245,6 +246,8 @@ export const WishingWellModal: React.FC = () => {
   const [machine, send] = useActor(child);
 
   const { state: wishingWell, errorCode } = machine.context;
+
+  useUiRefresher({ active: machine.matches("granted") });
 
   const handleClose = () => {
     send("CLOSING");
