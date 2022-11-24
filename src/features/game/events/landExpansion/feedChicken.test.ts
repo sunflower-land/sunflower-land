@@ -209,8 +209,9 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const speedChickenTime = newDate - CHICKEN_TIME_TO_EGG * 0.1;
-    expect(newState.chickens[0].fedAt).toBeLessThan(speedChickenTime + 10);
+    const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.1);
+    const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
+    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
   });
 
   it("chickens produce goods 10% faster with Bumpkin Skill Stable Hand", () => {
@@ -229,8 +230,9 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const stableHandChickenTime = newDate - CHICKEN_TIME_TO_EGG * 0.1;
-    expect(newState.chickens[0].fedAt).toBeLessThan(stableHandChickenTime + 10);
+    const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.1);
+    const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
+    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
   });
 
   it("chickens produce in normal time", () => {
