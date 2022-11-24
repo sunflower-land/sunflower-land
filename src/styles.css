@@ -179,7 +179,6 @@ img {
   text-align: left;
   content: "\A.\A..\A...";
   animation: ellipsis 1s steps(4) infinite;
-  margin-left: 0.5rem;
 }
 
 .no-tadpoles {
