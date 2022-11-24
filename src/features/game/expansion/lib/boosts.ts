@@ -1,6 +1,7 @@
 import {
   Bumpkin,
   Collectibles,
+  GrubShopOrder,
   Inventory,
   InventoryItemName,
 } from "../../types/game";
@@ -146,4 +147,19 @@ export const getFoodExpBoost = (foodExp: number, bumpkin: Bumpkin): number => {
   }
 
   return boostedExp.toNumber();
+};
+
+export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {
+  const { skills } = bumpkin;
+  let mul = 1;
+
+  if (skills["Michelin Stars"]) {
+    mul += 0.05;
+  }
+
+  if (order.name in CAKES() && bumpkin.equipped.coat == "Chef Apron") {
+    mul += 0.2;
+  }
+
+  return order.sfl.mul(mul);
 };
