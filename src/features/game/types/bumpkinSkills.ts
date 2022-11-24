@@ -148,7 +148,6 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Chance for SFL drops",
     image: question,
-    disabled: true,
   },
   Digger: {
     name: "Digger",
@@ -178,7 +177,6 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Attract Rock Monsters",
     image: question,
-    disabled: true,
   },
   "Gold Rush": {
     name: "Gold Rush",
@@ -218,7 +216,6 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "High quality food, earn additional 5% SFL",
     image: question,
-    disabled: true,
   },
   Curer: {
     name: "Curer",
@@ -229,7 +226,6 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Consuming fermented goods adds extra 15% exp",
     image: question,
-    disabled: true,
   },
   "Stable Hand": {
     name: "Stable Hand",
