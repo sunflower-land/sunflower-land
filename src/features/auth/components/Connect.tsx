@@ -45,7 +45,10 @@ export const Connect: React.FC = () => {
           Coinbase
         </div>
       </Button> */}
-      <Button className="mb-2 py-2 text-sm relative" disabled>
+      <Button
+        className="mb-2 py-2 text-sm relative"
+        onClick={() => authService.send("WALLET_CONNECT")}
+      >
         <div className="px-8">
           <svg
             height="25"
@@ -69,7 +72,10 @@ export const Connect: React.FC = () => {
           Connect with an email or social login
         </span>
       </div>
-      <Button className="mb-2 py-2 text-sm relative" disabled>
+      <Button
+        className="mb-2 py-2 text-sm relative"
+        onClick={() => authService.send("SEQUENCE")}
+      >
         <div className="px-8">
           <img
             src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"

@@ -1,6 +1,7 @@
 import { pingHealthCheck } from "web3-health-check";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { toHex, toWei } from "web3-utils";
+import { sequence } from "0xsequence";
+import { AbiItem, toHex, toWei } from "web3-utils";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { CONFIG } from "lib/config";
@@ -8,6 +9,10 @@ import { Frog } from "./Frog";
 import { Tadpole } from "./Tadpole";
 import { Incubator } from "./Incubator";
 import { WhitelistToken } from "./WhitelistToken";
+import TokenJSON from "lib/blockchain/abis/Token.json";
+import { SunflowerLandToken } from "lib/blockchain/types";
+import { ethers } from "ethers";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -57,8 +62,64 @@ export class CommunityContracts {
   }
 
   private async setupWeb3() {
+    console.log("HI COMMUNITY");
+    try {
+      const providerz = new WalletConnectProvider({
+        rpc: {
+          80001: "https://matic-mumbai.chainstacklabs.com",
+        },
+      });
+      //  Enable session (triggers QR Code modal)
+      await providerz.enable();
+      this.web3 = new Web3(providerz as any);
+    } catch (e) {
+      console.log(e);
+    }
+    console.log("BYE");
+    return;
+
+    const wallet = await sequence.initWallet("mumbai");
+    const provider = wallet.getProvider();
+    if (provider) {
+      this.web3 = new Web3(provider as any);
+      const address = CONFIG.TOKEN_CONTRACT;
+
+      try {
+        console.log("ETHERS");
+
+        const testContract = new ethers.Contract(
+          CONFIG.TOKEN_CONTRACT as string,
+          TokenJSON as any,
+          provider
+        );
+        console.log(await testContract.balanceOf(address as string));
+        console.log("END ETHERS");
+      } catch (e) {
+        console.log(e);
+      }
+
+      try {
+        console.log("WEB3");
+        const contract = new this.web3.eth.Contract(
+          TokenJSON as AbiItem[],
+          address as string
+        ) as unknown as SunflowerLandToken;
+
+        const balance = await contract.methods
+          .balanceOf(address as string)
+          .call();
+        console.log(balance);
+
+        console.log("END WEB3");
+      } catch (e) {
+        console.log(e);
+      }
+
+      console.log("BYE COMMUNITY");
+    }
+
     // TODO add type support
-    if ((window as any).ethereum) {
+    else if ((window as any).ethereum) {
       try {
         // Request account access if needed
         await (window as any).ethereum.enable();
@@ -75,6 +136,10 @@ export class CommunityContracts {
   }
 
   public async healthCheck() {
+    if (window.location.hostname == "localhost") {
+      return true;
+    }
+
     const statusCode = await pingHealthCheck(
       this.web3 as Web3,
       this.account as string

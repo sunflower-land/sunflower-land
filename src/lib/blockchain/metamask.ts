@@ -1,4 +1,5 @@
 import { pingHealthCheck } from "web3-health-check";
+import { sequence } from "0xsequence";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 import { SessionManager } from "./Sessions";
@@ -8,12 +9,15 @@ import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
 import { Token } from "./Token";
-import { toHex, toWei } from "web3-utils";
+import { AbiItem, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { Trader } from "./Trader";
 import { BumpkinDetails } from "./BumpkinDetails";
 import { BumpkinItems } from "./BumpkinItems";
+import TokenJSON from "./abis/Token.json";
+import { SunflowerLandToken } from "./types/SunflowerLandToken";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 console.log({ CONFIG });
 /**
@@ -83,8 +87,54 @@ export class Metamask {
   }
 
   private async setupWeb3() {
+    console.log("HI");
+    try {
+      const providerz = new WalletConnectProvider({
+        rpc: {
+          80001: "https://matic-mumbai.chainstacklabs.com",
+        },
+      });
+      //  Enable session (triggers QR Code modal)
+      await providerz.enable();
+      this.web3 = new Web3(providerz as any);
+      const address = CONFIG.TOKEN_CONTRACT;
+      const contract = new this.web3.eth.Contract(
+        TokenJSON as AbiItem[],
+        address as string
+      ) as unknown as SunflowerLandToken;
+
+      const balance = await contract.methods
+        .balanceOf(address as string)
+        .call();
+      console.log(balance);
+    } catch (e) {
+      console.log(e);
+    }
+    console.log("BYE");
+    return;
+
+    const wallet = await sequence.initWallet("mumbai");
+    const provider = wallet.getProvider();
+    if (provider) {
+      console.log("HI");
+      this.web3 = new Web3(provider as any);
+
+      const address = CONFIG.TOKEN_CONTRACT;
+      const contract = new this.web3.eth.Contract(
+        TokenJSON as AbiItem[],
+        address as string
+      ) as unknown as SunflowerLandToken;
+
+      const balance = await contract.methods
+        .balanceOf(address as string)
+        .call();
+
+      console.log(balance);
+      console.log("BYE");
+    }
+
     // TODO add type support
-    if ((window as any).ethereum) {
+    else if ((window as any).ethereum) {
       try {
         // Request account access if needed
         await (window as any).ethereum.enable();
@@ -101,6 +151,10 @@ export class Metamask {
   }
 
   public async healthCheck() {
+    if (window.location.hostname == "localhost") {
+      return true;
+    }
+
     const statusCode = await pingHealthCheck(
       this.web3 as Web3,
       this.account as string
@@ -172,6 +226,16 @@ export class Metamask {
         // Empty password, handled by Metamask
         ""
       );
+      // const recover = await this.web3.eth.personal.ecRecover(
+      //   message,
+      //   signature
+      // );
+      // console.log({ recover });
+      // const wallet = await sequence.initWallet("mumbai");
+
+      // const signer = wallet.getSigner();
+
+      // const signature = await signer.signMessage(message);
 
       return {
         signature,

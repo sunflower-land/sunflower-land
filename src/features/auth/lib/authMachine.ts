@@ -1,8 +1,10 @@
+import { sequence } from "0xsequence";
+import { createMachine, Interpreter, assign } from "xstate";
+
 import { loadBanDetails } from "features/game/actions/bans";
 import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { createMachine, Interpreter, assign } from "xstate";
 
 import { metamask } from "../../../lib/blockchain/metamask";
 import { communityContracts } from "features/community/lib/communityContracts";
@@ -107,7 +109,9 @@ export type BlockchainEvent =
     }
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
-  | { type: "SKIP" };
+  | { type: "SKIP" }
+  | { type: "SEQUENCE" }
+  | { type: "WALLET_CONNECT" };
 
 export type BlockchainState = {
   value:
@@ -161,12 +165,66 @@ export const authMachine = createMachine<
           CONNECT: {
             target: "connecting",
           },
+          WALLET_CONNECT: {
+            target: "walletConnect",
+          },
+          SEQUENCE: {
+            target: "sequence",
+          },
         },
       },
       connecting: {
         id: "connecting",
         invoke: {
           src: "initMetamask",
+          onDone: [
+            {
+              target: "checkFarm",
+              cond: "isVisitingUrl",
+            },
+
+            { target: "signing" },
+          ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "refreshFarm",
+          },
+        },
+      },
+      walletConnect: {
+        id: "walletConnect",
+        invoke: {
+          src: "initWalletConnect",
+          onDone: [
+            {
+              target: "checkFarm",
+              cond: "isVisitingUrl",
+            },
+
+            { target: "signing" },
+          ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
+        on: {
+          ACCOUNT_CHANGED: {
+            target: "connecting",
+            actions: "refreshFarm",
+          },
+        },
+      },
+      sequence: {
+        id: "sequence",
+        invoke: {
+          src: "initSequence",
           onDone: [
             {
               target: "checkFarm",
@@ -546,6 +604,114 @@ export const authMachine = createMachine<
   {
     services: {
       initMetamask: async (context, event): Promise<void> => {
+        await metamask.initialise();
+        await communityContracts.initialise();
+      },
+      initWalletConnect: async (context, event): Promise<void> => {
+        console.log("YO");
+        await metamask.initialise();
+        // await communityContracts.initialise();
+        // const provider = await UniversalProvider.init({
+        //   projectId: "60ed09b429b8d593945f11190d799bb0",
+        //   relayUrl: "wss://relay.walletconnect.com",
+        //   logger: "debug",
+        // });
+        // provider.on("display_uri", async (uri: string) => {
+        //   console.log("EVENT", "QR Code Modal open");
+        //   QRCodeModal.open(
+        //     uri,
+        //     () => {
+        //       console.log("EVENT", "QR Code Modal closed");
+        //     },
+        //     {}
+        //   );
+        // });
+        // await provider.connect({
+        //   namespaces: {
+        //     eip155: {
+        //       methods: [
+        //         "eth_sendTransaction",
+        //         "eth_signTransaction",
+        //         "eth_sign",
+        //         "personal_sign",
+        //         "eth_signTypedData",
+        //       ],
+        //       chains: ["eip155:80001"],
+        //       events: ["chainChanged", "accountsChanged"],
+        //     },
+        //   },
+        // });
+      },
+      initSequence: async (context, event): Promise<void> => {
+        // const message = "hello world";
+
+        // const wallet = await sequence.initWallet("matic");
+        // await wallet.connect();
+
+        // const web3 = new Web3(wallet.getProvider() as any);
+        // // const web3 = new Web3((window as any).web3.currentProvider);
+        // const account = (await web3.eth.getAccounts())[0];
+
+        // sequence.utils.isValidMessageSignature
+
+        // console.log({ account });
+
+        // const signature = await web3.eth.personal.sign(message, account, "");
+
+        // console.log({ signature });
+        // console.log(signature.length);
+
+        // const r = signature.slice(0, 66);
+        // const s = "0x" + signature.slice(66, 130);
+        // let v1 = "0x" + signature.slice(130, 132);
+        // const v = web3.utils.toDecimal(v1);
+
+        // console.log({ r, s, v });
+
+        // const address = await web3.eth.accounts.recover(message, signature);
+
+        // console.log({ address });
+
+        //const web3 = new Web3((window as any).web3.currentProvider);
+
+        // console.log("TEST 1");
+        // const address11 = await wallet.getAddress();
+        // console.log({ address11 });
+        // const signature1 = await sequenceWeb3.eth.personal.sign(
+        //   message,
+        //   await wallet.getAddress(),
+        //   ""
+        // );
+        // console.log({ signature1 });
+        // try {
+        //   const address12 = await web3.eth.personal.ecRecover(
+        //     message,
+        //     signature1
+        //   );
+        //   console.log({ address12 });
+        // } catch (e) {
+        //   console.log(e);
+        // }
+
+        // console.log("TEST 2");
+        // const signer = await wallet.getSigner();
+        // const signature2 = await signer.signMessage(message);
+
+        // const address2 = web3.eth.accounts.recover(message, signature2, true);
+        // console.log({ address2 });
+
+        const wallet = await sequence.initWallet("mumbai");
+        await wallet.connect({
+          app: "Sunflower Land",
+          settings: {
+            signInOptions: ["google", "facebook"],
+            bannerUrl:
+              "https://raw.githubusercontent.com/sunflower-land/sunflower-land/2da50088d4bb87902dedaeca1013936ccf91c4ca/src/assets/brand/logo_with_sunflower.png",
+            theme: "light",
+            includedPaymentProviders: [],
+            defaultFundingCurrency: "matic",
+          },
+        });
         await metamask.initialise();
         await communityContracts.initialise();
       },
