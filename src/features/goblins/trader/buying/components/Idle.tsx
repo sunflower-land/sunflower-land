@@ -93,8 +93,10 @@ export const Idle: React.FC<IdleProps> = ({
         {!visitingFarmId && (
           <>
             <img src={goblin} className="w-12" />
-            <span>
-              {"Ready to trade? Enter a Land ID to browse what's on offer."}
+            <span className="text-sm">
+              {"Ready to trade?"}
+              <br />
+              {"Enter a Land ID to browse what's on offer."}
             </span>
           </>
         )}
