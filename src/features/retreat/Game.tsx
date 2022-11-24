@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useLayoutEffect, useRef } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 import ocean from "assets/decorations/ocean.webp";
@@ -30,11 +30,11 @@ export const Game = () => {
   const isLoading = goblinState.matches("loading");
   const isError = goblinState.matches("error");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isLoading) {
       scrollIntoView(Section.RetreatBackground, "auto");
     }
-  }, [scrollIntoView, isLoading]);
+  }, [isLoading]);
 
   if (isLoading) {
     return (

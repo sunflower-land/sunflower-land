@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect } from "react";
 import Modal from "react-bootstrap/esm/Modal";
 import { useActor } from "@xstate/react";
 
@@ -38,7 +38,7 @@ export const GoblinLand: React.FC = () => {
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     scrollIntoView(Section.GoblinVillage, "auto");
   }, []);
 

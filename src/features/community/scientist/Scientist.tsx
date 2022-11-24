@@ -7,7 +7,6 @@ import { ScientistModal } from "./ScientistModal";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { merchantAudio } from "lib/utils/sfx";
-import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 export const Scientist: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -23,7 +22,6 @@ export const Scientist: React.FC = () => {
   return (
     <div
       className="relative"
-      id={Section.Merchant}
       style={{
         width: `${GRID_WIDTH_PX * 3}px`,
         height: `${GRID_WIDTH_PX * 3}px`,
