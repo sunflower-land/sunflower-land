@@ -99,6 +99,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Crops require ?",
     image: radish,
+    disabled: true,
   },
   "Happy Crop": {
     name: "Happy Crop",
@@ -148,6 +149,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Chance for SFL drops",
     image: question,
+    disabled: true,
   },
   Digger: {
     name: "Digger",
@@ -177,6 +179,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Attract Rock Monsters",
     image: question,
+    disabled: true,
   },
   "Gold Rush": {
     name: "Gold Rush",
