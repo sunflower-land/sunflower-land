@@ -166,7 +166,7 @@ function updatePlots(
   }, {} as Record<number, LandExpansionPlot>);
 }
 
-function updateExpansionCrops(
+export function updateExpansions(
   oldExpansions: LandExpansion[],
   newExpansions: LandExpansion[]
 ): LandExpansion[] {
@@ -180,6 +180,21 @@ function updateExpansionCrops(
     };
   });
 }
+
+// function updateExpansionCrops(
+//   oldPlots: Record<number, LandExpansionPlot>,
+//   newPlots: Record<number, LandExpansionPlot>
+// ): LandExpansion[] {
+//   return oldExpansions.map((expansion, index) => {
+//     const { plots } = expansion;
+
+//     return {
+//       ...expansion,
+//       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//       ...(plots && { plots: updatePlots(plots, newExpansions[index].plots!) }),
+//     };
+//   });
+// }
 
 /**
  * Merge RNG from server
@@ -227,10 +242,10 @@ export function updateGame(
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
       chickens: newGameState.chickens,
-      expansions: updateExpansionCrops(
-        oldGameState.expansions,
-        newGameState.expansions
-      ),
+      // expansions: updateExpansionCrops(
+      //   oldGameState.expansions,
+      //   newGameState.expansions
+      // ),
     };
   } catch (e) {
     console.log({ e });

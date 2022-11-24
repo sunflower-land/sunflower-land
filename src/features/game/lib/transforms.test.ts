@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
+import { GameState, LandExpansion } from "../types/game";
 import { TEST_FARM } from "./constants";
-import { getLowestGameState } from "./transforms";
+import { getLowestGameState, updateExpansions } from "./transforms";
 
 describe("transform", () => {
   it("gets the lowest balance from the first object", () => {
@@ -56,6 +57,114 @@ describe("transform", () => {
     expect(lowest.inventory).toEqual({
       Sunflower: new Decimal(5),
       Axe: new Decimal(90),
+    });
+  });
+
+  describe.only("updateExpansions", () => {
+    const oldExpansions: LandExpansion[] = [
+      {
+        createdAt: 0,
+        readyAt: 0,
+        plots: {
+          0: {
+            x: -2,
+            y: -1,
+            height: 1,
+            width: 1,
+            crop: {
+              plantedAt: 10,
+              amount: 1,
+              name: "Sunflower",
+            },
+          },
+          1: {
+            x: -1,
+            y: -1,
+            height: 1,
+            width: 1,
+          },
+          2: {
+            x: -2,
+            y: -2,
+            height: 1,
+            width: 1,
+          },
+        } as GameState["plots"],
+        trees: {
+          0: {
+            wood: {
+              amount: 3,
+              choppedAt: 0,
+            },
+            x: 1,
+            y: 1,
+            height: 2,
+            width: 2,
+          },
+        },
+      },
+    ];
+
+    it("adds a reward to a crop", () => {
+      const newExpansions: LandExpansion[] = [
+        {
+          createdAt: 4,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                plantedAt: 10,
+                amount: 1,
+                name: "Sunflower",
+                reward: {
+                  items: [
+                    {
+                      name: "Sunflower Seed",
+                      amount: 3,
+                    },
+                  ],
+                },
+              },
+            },
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
+            },
+            2: {
+              x: -2,
+              y: -2,
+              height: 1,
+              width: 1,
+            },
+          } as GameState["plots"],
+
+          trees: {
+            0: {
+              wood: {
+                amount: 3,
+                choppedAt: 0,
+              },
+              x: 1,
+              y: 1,
+              height: 2,
+              width: 2,
+            },
+          },
+        },
+      ];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.plots?.["0"]?.crop?.reward).toBeDefined();
+      expect(expansions[0]?.plots?.["0"]?.crop?.reward?.items?.[0].amount).toBe(
+        3
+      );
     });
   });
 });
