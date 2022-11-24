@@ -45,7 +45,7 @@ export const HeliosBlacksmith: React.FC = () => {
           }}
         >
           <div className="p-1">
-            <p className="mb-4">Coming soon...</p>
+            <p className="mb-4 ml-1">Coming soon...</p>
           </div>
         </Panel>
       </Modal>
