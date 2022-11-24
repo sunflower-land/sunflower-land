@@ -60,7 +60,7 @@ describe("transform", () => {
     });
   });
 
-  describe.only("updateExpansions", () => {
+  describe("updateExpansions", () => {
     it("returns old crop values if nothing has changed", () => {
       const oldExpansions: LandExpansion[] = [
         {
