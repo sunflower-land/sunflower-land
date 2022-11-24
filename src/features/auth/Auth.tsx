@@ -48,7 +48,7 @@ export const Auth: React.FC = () => {
           }}
         />
       </div>
-      <Panel>
+      <Panel className="pb-1">
         {(authState.matches({ connected: "loadingFarm" }) ||
           authState.matches("checkFarm") ||
           authState.matches("initialising") ||

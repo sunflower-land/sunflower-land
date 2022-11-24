@@ -62,8 +62,8 @@ export const Navigation: React.FC = () => {
         <HashRouter>
           <Routes>
             <Route path="/" element={<Humans />} />
-            {/* Forbid entry to Goblin Village when in Visiting State, show Forbidden screen */}
-            {!authState.matches("visiting") ? (
+            {/* Forbid entry to Goblin Village when in Visiting State or when a player has migrated to LE, show Forbidden screen */}
+            {!authState.matches("visiting") && !authState.context.migrated ? (
               <Route path="/goblins" element={<Goblins />} />
             ) : (
               <Route
