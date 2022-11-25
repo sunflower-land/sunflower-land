@@ -48,10 +48,9 @@ export const TreeReward: React.FC<Props> = ({
 
   const open = () => {
     setOpened(true);
-    gameService.send("reward.collected", {
+    gameService.send("treeReward.collected", {
       treeIndex,
       expansionIndex,
-      rewardType,
     });
   };
 

@@ -4,7 +4,7 @@ import cloneDeep from "lodash.clonedeep";
 import { CROPS } from "../../types/crops";
 import { GameState } from "../../types/game";
 
-export type CollectRewardAction = {
+export type CollectCropRewardAction = {
   type: "cropReward.collected";
   expansionIndex: number;
   plotIndex: number;
@@ -12,7 +12,7 @@ export type CollectRewardAction = {
 
 type Options = {
   state: GameState;
-  action: CollectRewardAction;
+  action: CollectCropRewardAction;
   createdAt?: number;
 };
 
