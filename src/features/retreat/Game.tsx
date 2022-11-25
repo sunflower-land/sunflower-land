@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useRef } from "react";
+import React, { useContext, useLayoutEffect, useRef, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 import ocean from "assets/decorations/ocean.webp";
