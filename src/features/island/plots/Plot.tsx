@@ -9,11 +9,7 @@ import well from "assets/buildings/well1.png";
 import close from "assets/icons/close.png";
 
 import { Context } from "features/game/GameProvider";
-import {
-  CropReward as Reward,
-  FERTILISERS,
-  PlantedCrop,
-} from "features/game/types/game";
+import { Reward, FERTILISERS, PlantedCrop } from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
@@ -28,7 +24,7 @@ import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
-import { CropReward } from "./CropReward";
+import { CropReward } from "features/island/Plots/CropReward";
 
 interface Props {
   plotIndex: number;

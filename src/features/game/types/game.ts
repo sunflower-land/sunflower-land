@@ -22,7 +22,7 @@ import { FruitName } from "features/island/fruit/FruitPatch";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitSeedName } from "./fruits";
 
-export type CropReward = {
+export type Reward = {
   sfl?: Decimal;
   items?: {
     name: InventoryItemName;
@@ -48,7 +48,7 @@ export type FieldItem = {
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
-  reward?: CropReward;
+  reward?: Reward;
   fertilisers?: Fertilisers;
 };
 
@@ -164,7 +164,7 @@ export type Fields = Record<number, FieldItem>;
 export type Chicken = {
   fedAt?: number;
   multiplier: number;
-  reward?: CropReward;
+  reward?: Reward;
   coordinates?: { x: number; y: number };
 };
 
@@ -217,13 +217,14 @@ export type Position = {
 export type Wood = {
   amount: number;
   choppedAt: number;
+  reward?: Reward;
 };
 
 export type PlantedCrop = {
   name: CropName;
   plantedAt: number;
   amount?: number;
-  reward?: CropReward;
+  reward?: Reward;
   fertilisers?: Fertilisers;
 };
 
