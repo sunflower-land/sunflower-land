@@ -7,7 +7,7 @@ import { isReadyToHarvest } from "../harvest";
 
 export type LandExpansionFertiliseCropAction = {
   type: "crop.fertilised";
-  index: number;
+  plotIndex: number;
   expansionIndex: number;
   fertiliser: Fertiliser;
 };
@@ -59,19 +59,19 @@ export function fertiliseCrop({
 
   const { plots } = expansion;
 
-  if (action.index < 0) {
+  if (action.plotIndex < 0) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
   }
 
-  if (!Number.isInteger(action.index)) {
+  if (!Number.isInteger(action.plotIndex)) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
   }
 
-  if (action.index >= Object.keys(plots).length) {
+  if (action.plotIndex >= Object.keys(plots).length) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
   }
 
-  const plot = plots[action.index];
+  const plot = plots[action.plotIndex];
   const crop = plot && plot.crop;
 
   if (!crop) {
@@ -111,7 +111,7 @@ export function fertiliseCrop({
     throw new Error(FERTILISE_CROP_ERRORS.INVALID_PLANT);
   }
 
-  plots[action.index] = {
+  plots[action.plotIndex] = {
     ...plot,
     crop: {
       ...crop,

@@ -282,7 +282,7 @@ export type LandExpansion = {
   iron?: Record<number, LandExpansionRock>;
   plots?: Record<number, LandExpansionPlot>;
   fruitPatches?: Record<number, FruitPatch>;
-  mines?: Record<number, Mine>;
+  boulders?: Record<number, Mine>;
   trees?: Record<number, LandExpansionTree>;
   stones?: Record<number, LandExpansionRock>;
 };

@@ -27,14 +27,20 @@ export const Game = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
+  // Record initial page load
+  const [loaded, setLoaded] = useState(false);
+
   const isLoading = goblinState.matches("loading");
   const isError = goblinState.matches("error");
 
   useLayoutEffect(() => {
+    if (loaded) return;
+
     if (!isLoading) {
       scrollIntoView(Section.RetreatBackground, "auto");
+      setLoaded(true);
     }
-  }, [isLoading]);
+  }, [isLoading, loaded]);
 
   if (isLoading) {
     return (

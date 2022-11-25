@@ -7,6 +7,7 @@ export type Layout = {
   iron: Coordinates[];
   gold: Coordinates[];
   fruitPatches: Coordinates[];
+  boulder: Coordinates[];
 };
 
 export const INITIAL_LAYOUTS: Record<string, Layout> = {};

@@ -8,7 +8,7 @@ import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 export const Forbidden: React.FC = () => {
   const { authService } = useContext(Auth.Context);
 
-  const goBack = () => {
+  const goHome = () => {
     authService.send("RETURN");
   };
 
@@ -17,12 +17,9 @@ export const Forbidden: React.FC = () => {
       <span>Forbidden !</span>
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
       <span className="text-xs mt-2 mb-2">
-        You are not allowed to visit the Goblin Village while, visiting someone
-        else&apos; farm !<br />
-        <br />
-        Click on the &quot;Back&quot; button to go back To Login Screen.
+        You are not allowed to visit Goblin Village!
       </span>
-      <Button className="mt-2" onClick={goBack}>
+      <Button className="mt-2" onClick={goHome}>
         Back
       </Button>
     </div>

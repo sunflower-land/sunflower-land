@@ -28,6 +28,7 @@ import { getLowestGameState } from "./transforms";
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
+import { getBumpkinLevel } from "./level";
 
 const API_URL = CONFIG.API_URL;
 
@@ -123,6 +124,7 @@ export type GoblinMachineState = {
     | "playing"
     | "trading"
     | "auctioneer"
+    | "levelRequirementNotReached"
     | "error";
   context: Context;
 };
@@ -147,6 +149,8 @@ const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
     return obj;
   }, {} as Record<number, LimitedItemRecipeWithMintedAt>);
 };
+
+const LEVEL_REQUIREMENT = 5;
 
 export function startGoblinVillage(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, GoblinMachineState>(
@@ -220,23 +224,43 @@ export function startGoblinVillage(authContext: AuthContext) {
                 auctioneerId: id,
               };
             },
-            onDone: {
-              target: "playing",
-              actions: assign({
-                state: (_, event) => event.data.state,
-                limitedItems: (_, event) =>
-                  makeLimitedItemsByName(
-                    LIMITED_ITEMS,
-                    event.data.limitedItems
-                  ),
-                sessionId: (_, event) => event.data.sessionId,
-                deviceTrackerId: (_, event) => event.data.deviceTrackerId,
-                auctioneerItems: (_, event) => event.data.auctioneerItems,
-                auctioneerId: (_, event) => event.data.auctioneerId,
-              }),
-            },
+            onDone: [
+              {
+                target: "levelRequirementNotReached",
+                cond: (_, event) => {
+                  if (!authContext.migrated) return false;
+
+                  const { bumpkin } = event.data.state;
+
+                  if (!bumpkin) return true;
+
+                  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+
+                  return bumpkinLevel < LEVEL_REQUIREMENT;
+                },
+              },
+              {
+                target: "playing",
+                actions: assign({
+                  state: (_, event) => event.data.state,
+                  limitedItems: (_, event) =>
+                    makeLimitedItemsByName(
+                      LIMITED_ITEMS,
+                      event.data.limitedItems
+                    ),
+                  sessionId: (_, event) => event.data.sessionId,
+                  deviceTrackerId: (_, event) => event.data.deviceTrackerId,
+                  auctioneerItems: (_, event) => event.data.auctioneerItems,
+                  auctioneerId: (_, event) => event.data.auctioneerId,
+                }),
+              },
+            ],
             onError: {},
           },
+        },
+        levelRequirementNotReached: {
+          // Go back... you have no business being here :)
+          entry: () => history.go(-1),
         },
         playing: {
           on: {
