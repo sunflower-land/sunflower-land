@@ -137,6 +137,24 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
     // On third shake, chop
     if (touchCount > 0 && touchCount === HITS - 1) {
+      // already looking at a reward
+      if (reward) {
+        return;
+      }
+
+      // increase touch count if there is a reward
+      if (woodObj.reward && canChop(tree)) {
+        if (touchCount < 1) {
+          // Add to touch count for reward pickup
+          setTouchCount((count) => count + 1);
+          return;
+        }
+
+        // They have touched enough!
+        setReward(woodObj.reward);
+
+        return;
+      }
       chop();
       treeFallAudio.play();
       setTouchCount(0);
@@ -156,25 +174,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setTouchCount(0);
 
     try {
-      // already looking at a reward
-      if (reward) {
-        return;
-      }
-
-      // increase touch count if there is a reward
-      if (woodObj.reward && canChop(tree)) {
-        if (touchCount < 1) {
-          // Add to touch count for reward pickup
-          setTouchCount((count) => count + 1);
-          return;
-        }
-
-        // They have touched enough!
-        setReward(woodObj.reward);
-
-        return;
-      }
-
       gameService.send("timber.chopped", {
         index: treeIndex,
         expansionIndex,
