@@ -150,17 +150,20 @@ function updatePlots(
   newPlots: Record<number, LandExpansionPlot>
 ) {
   return getKeys(oldPlots).reduce((plots, plotId) => {
-    const { crop } = oldPlots[plotId];
-    const reward = newPlots[plotId].crop?.reward;
+    const { crop: oldCrop } = oldPlots[plotId];
+    const { crop: newCrop } = newPlots[plotId];
+
+    const hasCrop = oldCrop && newCrop;
 
     return {
       ...plots,
       [plotId]: {
         ...oldPlots[plotId],
-        ...(crop && {
+        ...(hasCrop && {
           crop: {
-            ...crop,
-            ...(reward && { reward }),
+            ...oldCrop,
+            amount: newCrop.amount,
+            ...(newCrop.reward && { reward: newCrop.reward }),
           },
         }),
       },

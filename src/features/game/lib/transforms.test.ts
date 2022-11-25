@@ -173,6 +173,78 @@ describe("transform", () => {
       expect(expansions[0]?.plots?.["1"]?.crop?.reward).not.toBeDefined();
     });
 
+    it("updated the drop amount for the crop", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                plantedAt: 10,
+                amount: 1,
+                name: "Sunflower",
+              },
+            },
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
+            },
+          } as GameState["plots"],
+        },
+      ];
+
+      const newExpansions: LandExpansion[] = [
+        {
+          createdAt: 4,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                plantedAt: 10,
+                amount: 1.25,
+                name: "Sunflower",
+                reward: {
+                  items: [
+                    {
+                      name: "Sunflower Seed",
+                      amount: 3,
+                    },
+                  ],
+                },
+              },
+            },
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
+            },
+            2: {
+              x: -2,
+              y: -2,
+              height: 1,
+              width: 1,
+            },
+          } as GameState["plots"],
+        },
+      ];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.plots?.["0"]?.crop?.amount).toBe(1.25);
+    });
+
     it("updates the next drop amount for an updated tree", () => {
       const oldExpansions: LandExpansion[] = [
         {
