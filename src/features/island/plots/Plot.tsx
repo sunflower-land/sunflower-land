@@ -24,7 +24,7 @@ import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
-import { CropReward } from "features/island/Plots/CropReward";
+import { CropReward } from "src/features/island/Plots/CropReward";
 
 interface Props {
   plotIndex: number;
@@ -230,7 +230,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     if (selectedItem && selectedItem in FERTILISERS) {
       try {
         gameService.send("crop.fertilised", {
-          index: plotIndex,
+          plotIndex,
           expansionIndex,
           fertiliser: selectedItem,
         });

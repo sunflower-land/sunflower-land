@@ -48,7 +48,7 @@ export const CropReward: React.FC<Props> = ({
 
   const open = () => {
     setOpened(true);
-    gameService.send("reward.collected", { plotIndex, expansionIndex });
+    gameService.send("cropReward.collected", { plotIndex, expansionIndex });
   };
 
   const fail = () => {
