@@ -127,7 +127,7 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
     name: "Potted Pumpkin",
     sfl: marketRate(200),
     ingredients: {
-      Sunflower: new Decimal(200),
+      Pumpkin: new Decimal(200),
     },
     description: "Pumpkins for Bumpkins",
   },
