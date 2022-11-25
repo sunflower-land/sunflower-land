@@ -240,7 +240,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     if (selectedItem && selectedItem in FERTILISERS) {
       try {
         gameService.send("crop.fertilised", {
-          index: plotIndex,
+          plotIndex,
           expansionIndex,
           fertiliser: selectedItem,
         });

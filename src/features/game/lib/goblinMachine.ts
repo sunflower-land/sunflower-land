@@ -25,6 +25,10 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getLowestGameState } from "./transforms";
+import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
+import { fetchAuctioneerDrops } from "../actions/auctioneer";
+import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
+import { getBumpkinLevel } from "./level";
 
 const API_URL = CONFIG.API_URL;
 
@@ -39,6 +43,8 @@ export interface Context {
   farmAddress?: string;
   deviceTrackerId?: string;
   limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
+  auctioneerItems: Item[];
+  auctioneerId: string;
 }
 
 type MintEvent = {
@@ -95,6 +101,8 @@ export type BlockchainEvent =
   | {
       type: "OPEN_TRADING_POST";
     }
+  | { type: "OPEN_AUCTIONEER" }
+  | { type: "CLOSE_AUCTIONEER" }
   | {
       type: "RESET";
     }
@@ -115,6 +123,8 @@ export type GoblinMachineState = {
     | "withdrawn"
     | "playing"
     | "trading"
+    | "auctioneer"
+    | "levelRequirementNotReached"
     | "error";
   context: Context;
 };
@@ -140,6 +150,8 @@ const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
   }, {} as Record<number, LimitedItemRecipeWithMintedAt>);
 };
 
+const LEVEL_REQUIREMENT = 5;
+
 export function startGoblinVillage(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, GoblinMachineState>(
     {
@@ -149,6 +161,8 @@ export function startGoblinVillage(authContext: AuthContext) {
         state: EMPTY,
         sessionId: INITIAL_SESSION,
         limitedItems: {},
+        auctioneerId: "",
+        auctioneerItems: [],
       },
       states: {
         loading: {
@@ -156,15 +170,26 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: async () => {
               const farmId = authContext.farmId as number;
 
-              const onChainState = await getOnChainState({
+              const onChainStateFn = getOnChainState({
                 farmAddress: authContext.address as string,
                 id: Number(authContext.farmId),
               });
 
+              const auctioneerItemsFn = fetchAuctioneerDrops(
+                authContext.rawToken as string
+              );
+
               // Get session id
-              const sessionId = await metamask
+              const sessionIdFn = metamask
                 .getSessionManager()
                 .getSessionId(farmId);
+
+              const [onChainState, { id, items }, sessionId] =
+                await Promise.all([
+                  onChainStateFn,
+                  auctioneerItemsFn,
+                  sessionIdFn,
+                ]);
 
               const response = await loadSession({
                 farmId,
@@ -195,23 +220,47 @@ export function startGoblinVillage(authContext: AuthContext) {
                 limitedItems: limitedItemsById,
                 sessionId,
                 deviceTrackerId: response?.deviceTrackerId,
+                auctioneerItems: items,
+                auctioneerId: id,
               };
             },
-            onDone: {
-              target: "playing",
-              actions: assign({
-                state: (_, event) => event.data.state,
-                limitedItems: (_, event) =>
-                  makeLimitedItemsByName(
-                    LIMITED_ITEMS,
-                    event.data.limitedItems
-                  ),
-                sessionId: (_, event) => event.data.sessionId,
-                deviceTrackerId: (_, event) => event.data.deviceTrackerId,
-              }),
-            },
+            onDone: [
+              {
+                target: "levelRequirementNotReached",
+                cond: (_, event) => {
+                  if (!authContext.migrated) return false;
+
+                  const { bumpkin } = event.data.state;
+
+                  if (!bumpkin) return true;
+
+                  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+
+                  return bumpkinLevel < LEVEL_REQUIREMENT;
+                },
+              },
+              {
+                target: "playing",
+                actions: assign({
+                  state: (_, event) => event.data.state,
+                  limitedItems: (_, event) =>
+                    makeLimitedItemsByName(
+                      LIMITED_ITEMS,
+                      event.data.limitedItems
+                    ),
+                  sessionId: (_, event) => event.data.sessionId,
+                  deviceTrackerId: (_, event) => event.data.deviceTrackerId,
+                  auctioneerItems: (_, event) => event.data.auctioneerItems,
+                  auctioneerId: (_, event) => event.data.auctioneerId,
+                }),
+              },
+            ],
             onError: {},
           },
+        },
+        levelRequirementNotReached: {
+          // Go back... you have no business being here :)
+          entry: () => history.go(-1),
         },
         playing: {
           on: {
@@ -226,6 +275,42 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             OPEN_TRADING_POST: {
               target: "trading",
+            },
+            OPEN_AUCTIONEER: {
+              target: "auctioneer",
+            },
+          },
+        },
+        auctioneer: {
+          invoke: {
+            id: "auctioneer",
+            autoForward: true,
+            src: auctioneerMachine,
+            data: {
+              token: () => authContext.rawToken,
+              farmId: () => authContext.farmId,
+              sessionId: (context: Context) => context.sessionId,
+              auctioneerItems: (context: Context) => context.auctioneerItems,
+              auctioneerId: (context: Context) => context.auctioneerId,
+            },
+            onDone: {
+              target: "loading",
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+          on: {
+            CLOSE_AUCTIONEER: {
+              target: "playing",
             },
           },
         },

@@ -11,7 +11,11 @@ import dropSheet from "assets/resources/gold/gold_drop.png";
 import empty from "assets/resources/gold/gold_empty.png";
 import gold from "assets/resources/gold_ore.png";
 
-import { GOLD_RECOVERY_TIME, GRID_WIDTH_PX } from "features/game/lib/constants";
+import {
+  GOLD_RECOVERY_TIME,
+  GRID_WIDTH_PX,
+  POPOVER_TIME_MS,
+} from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -25,7 +29,6 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { InnerPanel } from "components/ui/Panel";
 
-const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 
 interface Props {

@@ -15,6 +15,7 @@ import axe from "assets/tools/axe.png";
 import {
   GRID_WIDTH_PX,
   PIXEL_SCALE,
+  POPOVER_TIME_MS,
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -35,7 +36,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 
-const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 const tool = "Axe";
 
@@ -107,7 +107,10 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setShowStumpTimeLeft(false);
   };
 
-  const axesNeeded = getRequiredAxeAmount(game.context.state.collectibles);
+  const axesNeeded = getRequiredAxeAmount(
+    game.context.state.inventory,
+    game.context.state.collectibles
+  );
   const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
 
   // Has enough axes to chop the tree

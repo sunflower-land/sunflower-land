@@ -1,10 +1,10 @@
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import ocean from "assets/decorations/ocean.webp";
-import background from "assets/land/stone_haven.png";
+import background from "assets/land/stone_haven.webp";
 import { GameProvider } from "features/game/GameProvider";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import { IslandTravelWrapper } from "./components/IslandTravelWrapper";
@@ -18,10 +18,10 @@ export const StoneHaven: React.FC = () => {
 
   const [scrollIntoView] = useScrollIntoView();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.StoneHaven, "auto");
-  }, [scrollIntoView]);
+  }, []);
 
   // Load data
   return (

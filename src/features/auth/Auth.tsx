@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
-import logo from "assets/brand/logo_with_sunflower.png";
+import logo from "assets/brand/logo_with_sunflower.webp";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -48,7 +48,7 @@ export const Auth: React.FC = () => {
           }}
         />
       </div>
-      <Panel>
+      <Panel className="pb-1">
         {(authState.matches({ connected: "loadingFarm" }) ||
           authState.matches("checkFarm") ||
           authState.matches("initialising") ||

@@ -11,7 +11,11 @@ import dropSheet from "assets/resources/iron/iron_dropped.png";
 import empty from "assets/resources/iron/iron_empty.png";
 import ironOre from "assets/resources/iron_ore.png";
 
-import { GRID_WIDTH_PX, IRON_RECOVERY_TIME } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  IRON_RECOVERY_TIME,
+  POPOVER_TIME_MS,
+} from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
@@ -25,7 +29,6 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { InnerPanel } from "components/ui/Panel";
 
-const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 
 interface Props {

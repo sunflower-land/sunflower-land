@@ -7,6 +7,8 @@ import {
   InventoryItemName,
   LandExpansion,
   LandExpansionPlot,
+  LandExpansionRock,
+  LandExpansionTree,
   Rock,
   Tree,
 } from "../types/game";
@@ -148,17 +150,20 @@ function updatePlots(
   newPlots: Record<number, LandExpansionPlot>
 ) {
   return getKeys(oldPlots).reduce((plots, plotId) => {
-    const { crop } = oldPlots[plotId];
-    const reward = newPlots[plotId].crop?.reward;
+    const { crop: oldCrop } = oldPlots[plotId];
+    const { crop: newCrop } = newPlots[plotId];
+
+    const hasCrop = oldCrop && newCrop;
 
     return {
       ...plots,
       [plotId]: {
         ...oldPlots[plotId],
-        ...(crop && {
+        ...(hasCrop && {
           crop: {
-            ...crop,
-            ...(reward && { reward }),
+            ...oldCrop,
+            amount: newCrop.amount,
+            ...(newCrop.reward && { reward: newCrop.reward }),
           },
         }),
       },
@@ -166,17 +171,86 @@ function updatePlots(
   }, {} as Record<number, LandExpansionPlot>);
 }
 
-function updateExpansionCrops(
+function updateTrees(
+  oldTrees: Record<number, LandExpansionTree>,
+  newTrees: Record<number, LandExpansionTree>
+) {
+  return getKeys(oldTrees).reduce((trees, treeId) => {
+    const { wood } = oldTrees[treeId];
+    const nextDropAmount = newTrees[treeId].wood?.amount;
+
+    return {
+      ...trees,
+      [treeId]: {
+        ...oldTrees[treeId],
+        ...(wood && {
+          wood: {
+            ...wood,
+            amount: nextDropAmount,
+          },
+        }),
+      },
+    };
+  }, {} as Record<number, LandExpansionTree>);
+}
+
+function updateStones(
+  oldStones: Record<number, LandExpansionRock>,
+  newStones: Record<number, LandExpansionRock>
+) {
+  return getKeys(oldStones).reduce((stones, stoneId) => {
+    const { stone } = oldStones[stoneId];
+    const nextDropAmount = newStones[stoneId].stone?.amount;
+
+    return {
+      ...stones,
+      [stoneId]: {
+        ...oldStones[stoneId],
+        ...(stone && {
+          stone: {
+            ...stone,
+            amount: nextDropAmount,
+          },
+        }),
+      },
+    };
+  }, {} as Record<number, LandExpansionRock>);
+}
+
+export function updateExpansions(
   oldExpansions: LandExpansion[],
   newExpansions: LandExpansion[]
 ): LandExpansion[] {
+  // TODO: Add Fruit and Mines when they're implemented
   return oldExpansions.map((expansion, index) => {
-    const { plots } = expansion;
+    const {
+      plots: oldPlots,
+      trees: oldTrees,
+      stones: oldStones,
+      gold: oldGold,
+      iron: oldIron,
+    } = expansion;
+    const {
+      plots: newPlots,
+      trees: newTrees,
+      stones: newStones,
+      gold: newGold,
+      iron: newIron,
+    } = newExpansions[index];
+
+    const hasPlots = oldPlots && newPlots;
+    const hasTrees = oldTrees && newTrees;
+    const hasStones = oldStones && newStones;
+    const hasGold = oldGold && newGold;
+    const hasIron = oldIron && newIron;
 
     return {
       ...expansion,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ...(plots && { plots: updatePlots(plots, newExpansions[index].plots!) }),
+      ...(hasPlots && { plots: updatePlots(oldPlots, newPlots) }),
+      ...(hasTrees && { trees: updateTrees(oldTrees, newTrees) }),
+      ...(hasStones && { stones: updateStones(oldStones, newStones) }),
+      ...(hasGold && { gold: updateStones(oldGold, newGold) }),
+      ...(hasIron && { iron: updateStones(oldIron, newIron) }),
     };
   });
 }
@@ -227,7 +301,7 @@ export function updateGame(
       gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
       chickens: newGameState.chickens,
-      expansions: updateExpansionCrops(
+      expansions: updateExpansions(
         oldGameState.expansions,
         newGameState.expansions
       ),

@@ -52,6 +52,8 @@ type CollisionArgs = {
 
 const CANVAS_WIDTH = 300;
 const CANVAS_HEIGHT = 300;
+const INIT_GAME_INTERVAL = 2000; // 2s
+const INIT_DROP_INTERVAL = 100; // 100ms
 
 const goblinImage = new Image();
 goblinImage.src = goblin;
@@ -83,8 +85,8 @@ export const GreedyGoblin: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const intervalIds = useRef<IntervalType[]>([]);
-  const gameInterval = useRef(2000);
-  const dropInterval = useRef(100);
+  const gameInterval = useRef(INIT_GAME_INTERVAL);
+  const dropInterval = useRef(INIT_DROP_INTERVAL);
   const isGameOver = useRef(false);
   const points = useRef(0);
   const goblinPosX = useRef(0);
@@ -161,6 +163,7 @@ export const GreedyGoblin: React.FC = () => {
    * @param event keyboard event
    */
   const keydownKeboardListener = (event: KeyboardEvent) => {
+    event.stopPropagation();
     const key = event.key.toLowerCase();
 
     if (
@@ -179,6 +182,7 @@ export const GreedyGoblin: React.FC = () => {
    * @param event keyboard event
    */
   const keyupKeboardListener = (event: KeyboardEvent) => {
+    event.stopPropagation();
     const key = event.key.toLowerCase();
 
     // remove from list of active keys
@@ -215,15 +219,15 @@ export const GreedyGoblin: React.FC = () => {
 
     canvasRef.current?.getContext("2d")?.drawGoblinImage();
 
-    window.addEventListener("keydown", keydownKeboardListener);
-    window.addEventListener("keyup", keyupKeboardListener);
+    document.addEventListener("keydown", keydownKeboardListener);
+    document.addEventListener("keyup", keyupKeboardListener);
 
     greedyGoblinAudio.greedyGoblinIntroAudio.play();
 
     return () => {
       intervalIds.current.forEach((id) => clearInterval(id));
-      window.removeEventListener("keydown", keydownKeboardListener);
-      window.removeEventListener("keyup", keyupKeboardListener);
+      document.removeEventListener("keydown", keydownKeboardListener);
+      document.removeEventListener("keyup", keyupKeboardListener);
 
       Object.values(greedyGoblinAudio).forEach((audio) => audio.stop());
     };
@@ -282,7 +286,11 @@ export const GreedyGoblin: React.FC = () => {
    * @todo: finalize logic
    */
   const gameLogic = () => {
-    if (points.current > 4 && dropInterval.current === 100) {
+    if (points.current > 50 && gameInterval.current === INIT_GAME_INTERVAL) {
+      gameInterval.current = 1600;
+    }
+
+    if (points.current > 4 && dropInterval.current === INIT_DROP_INTERVAL) {
       dropInterval.current = 75;
     }
 

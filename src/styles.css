@@ -248,6 +248,25 @@ img {
   }
 }
 
+.swimming {
+  animation-duration: 10s;
+  animation-name: swimming;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
+@keyframes swimming {
+  0% {
+    transform: translateX(0);
+    animation-timing-function: linear;
+  }
+
+  100% {
+    transform: translateX(300px);
+    animation-timing-function: linear;
+  }
+}
+
 .pointing {
   animation-duration: 3s;
   animation-name: pointing;

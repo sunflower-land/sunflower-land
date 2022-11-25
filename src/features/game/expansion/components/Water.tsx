@@ -13,6 +13,7 @@ import abandonedLand from "assets/land/abandoned_land.webp";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
+import { SharkBumpkin } from "./water/SharkBumpkin";
 
 export const LAND_WIDTH = 6;
 
@@ -59,6 +60,8 @@ export const Water: React.FC<Props> = ({ level }) => {
       </MapPlacement>
 
       <Snorkler level={level} />
+
+      <SharkBumpkin level={level} />
 
       <MapPlacement x={offset + 4} y={6} width={1}>
         <img

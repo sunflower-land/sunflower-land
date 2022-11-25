@@ -12,6 +12,7 @@ import pickaxe from "assets/tools/wood_pickaxe.png";
 
 import {
   GRID_WIDTH_PX,
+  POPOVER_TIME_MS,
   STONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -29,7 +30,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 
-const POPOVER_TIME_MS = 1000;
 const HITS = 3;
 
 interface Props {

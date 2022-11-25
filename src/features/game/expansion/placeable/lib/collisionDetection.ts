@@ -46,7 +46,7 @@ const getAllResources = (expansions: LandExpansion[]): Resources[] => {
     plots: expansion.plots ?? {},
     gold: expansion.gold ?? {},
     fruitPatches: expansion.fruitPatches ?? {},
-    mines: expansion.mines ?? {},
+    boulders: expansion.boulders ?? {},
   }));
 };
 

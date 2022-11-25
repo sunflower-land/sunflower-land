@@ -1,6 +1,6 @@
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 
 import background from "assets/land/treasure_island.webp";
 import placeholderNPC from "assets/npcs/betty.gif";
@@ -15,10 +15,10 @@ import { ShovelShop } from "./components/ShovelShop";
 export const TreasureIsland: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.TreasureIsland, "auto");
-  }, [scrollIntoView]);
+  }, []);
 
   // Load data
   return (
