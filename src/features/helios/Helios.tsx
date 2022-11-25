@@ -1,6 +1,6 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 
 import background from "assets/land/helios.webp";
 import { GrubShop } from "./components/grubShop/GrubShop";
@@ -22,10 +22,10 @@ export const Helios: React.FC = () => {
 
   const [scrollIntoView] = useScrollIntoView();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.HeliosBackGround, "auto");
-  }, [scrollIntoView]);
+  }, []);
 
   // Load data
   return (
@@ -50,7 +50,12 @@ export const Helios: React.FC = () => {
         <HeliosSunflower />
         <LostSunflorian />
 
-        <IslandTravel bumpkin={bumpkin} x={5} y={-17} />
+        <IslandTravel
+          bumpkin={bumpkin}
+          x={5}
+          y={-17}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
+        />
       </div>
     </>
   );

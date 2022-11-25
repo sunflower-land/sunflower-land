@@ -1,6 +1,6 @@
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import ocean from "assets/decorations/ocean.webp";
@@ -14,10 +14,10 @@ export const SnowKingdom: React.FC = () => {
 
   const [scrollIntoView] = useScrollIntoView();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.SnowKingdomBackground, "auto");
-  }, [scrollIntoView]);
+  }, []);
 
   // Load data
   return (
