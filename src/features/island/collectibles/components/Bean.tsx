@@ -13,6 +13,7 @@ import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 export const Bean: React.FC<CollectibleProps> = ({
   createdAt,
@@ -21,6 +22,8 @@ export const Bean: React.FC<CollectibleProps> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
+
+  useUiRefresher();
 
   const plantSeconds = BEANS()[name as BeanName].plantSeconds;
 

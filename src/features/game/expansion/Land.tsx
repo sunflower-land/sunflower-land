@@ -25,7 +25,7 @@ import { Iron } from "./components/resources/Iron";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
-import { Mine } from "features/island/mines/Mine";
+import { Boulder } from "features/island/boulder/Boulder";
 import { IslandTravel } from "./components/IslandTravel";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
@@ -34,6 +34,7 @@ import { Bumpkin, Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { Arcade } from "features/community/arcade/Arcade";
+import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -44,7 +45,7 @@ type ExpansionProps = Pick<
   | "gold"
   | "createdAt"
   | "fruitPatches"
-  | "mines"
+  | "boulders"
 >;
 
 const getExpansions = (
@@ -176,20 +177,20 @@ const getExpansions = (
     );
   }
 
-  if (expansionProps?.mines) {
+  if (expansionProps?.boulders) {
     mapPlacements.push(
-      ...getKeys(expansionProps.mines).map((index) => {
-        const { x, y, width, height } = expansionProps.mines![index];
+      ...getKeys(expansionProps.boulders).map((index) => {
+        const { x, y, width, height } = expansionProps.boulders![index];
 
         return (
           <MapPlacement
-            key={`${expansionIndex}-mine-${index}`}
+            key={`${expansionIndex}-boulder-${index}`}
             x={x + xOffset}
             y={y + yOffset}
             height={height}
             width={width}
           >
-            <Mine />
+            <Boulder />
           </MapPlacement>
         );
       })
@@ -228,7 +229,16 @@ const getIslandElements = ({
       .filter((expansion) => expansion.readyAt < Date.now())
       .flatMap(
         (
-          { stones, gold, iron, trees, plots, createdAt, fruitPatches, mines },
+          {
+            stones,
+            gold,
+            iron,
+            trees,
+            plots,
+            createdAt,
+            fruitPatches,
+            boulders,
+          },
           index
         ) =>
           getExpansions(
@@ -240,7 +250,7 @@ const getIslandElements = ({
               iron: iron,
               plots: plots,
               fruitPatches: fruitPatches,
-              mines: mines,
+              boulders: boulders,
             },
             index
           )
@@ -382,6 +392,8 @@ export const Land: React.FC = () => {
           <Water level={level} />
 
           <Arcade left={40.15} top={-6.35} />
+
+          <FarmerQuest />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
