@@ -166,7 +166,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Digger",
     },
-    boosts: "Rocks recover 20% quicker",
+    boosts: "Stones recover 20% quicker",
     image: question,
   },
   Seeker: {
