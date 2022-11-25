@@ -27,7 +27,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: 0,
+          plotIndex: 0,
           expansionIndex: -1,
           fertiliser: "Rapid Growth",
         },
@@ -43,7 +43,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: 0,
+          plotIndex: 0,
           expansionIndex: 0,
           fertiliser: "Rapid Growth",
         },
@@ -58,7 +58,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: -1,
+          plotIndex: -1,
           expansionIndex: 0,
           fertiliser: "Rapid Growth",
         },
@@ -73,7 +73,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: 1.2,
+          plotIndex: 1.2,
           expansionIndex: 0,
           fertiliser: "Rapid Growth",
         },
@@ -88,7 +88,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: 200000,
+          plotIndex: 200000,
           expansionIndex: 0,
           fertiliser: "Rapid Growth",
         },
@@ -116,7 +116,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: 0,
+          plotIndex: 0,
           expansionIndex: 0,
           fertiliser: "Rapid Growth",
         },
@@ -145,7 +145,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: 0,
+          plotIndex: 0,
           expansionIndex: 0,
           fertiliser: "Rapid Growth",
         },
@@ -180,7 +180,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: 0,
+          plotIndex: 0,
           expansionIndex: 0,
           fertiliser: "Rapid Growth",
         },
@@ -213,7 +213,7 @@ describe("fertiliseCrop", () => {
         },
         action: {
           type: "crop.fertilised",
-          index: 0,
+          plotIndex: 0,
           expansionIndex: 0,
           fertiliser: "Rapid Growth",
         },
@@ -248,7 +248,7 @@ describe("fertiliseCrop", () => {
       },
       action: {
         type: "crop.fertilised",
-        index: 0,
+        plotIndex: 0,
         expansionIndex: 0,
         fertiliser: "Rapid Growth",
       },

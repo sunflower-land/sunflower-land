@@ -58,7 +58,7 @@ export const Auctioneer: React.FC = () => {
           )}
         </div>
         <Action
-          className="absolute -left-10"
+          className="absolute -left-5"
           text="Auctioneer"
           icon={player}
           onClick={openAuctioneer}

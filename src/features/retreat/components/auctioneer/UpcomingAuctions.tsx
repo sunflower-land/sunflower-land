@@ -16,6 +16,14 @@ export const UpcomingAuctions: React.FC = () => {
   const { auctioneerItems } = auctioneerState.context;
   const upcoming = getValidAuctionItems(auctioneerItems).slice(1);
 
+  if (upcoming.length === 0) {
+    return (
+      <div className="flex flex-col">
+        <span>Coming soon...</span>
+      </div>
+    );
+  }
+
   return (
     <div
       className="h-full overflow-y-auto scrollable"

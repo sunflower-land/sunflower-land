@@ -9,6 +9,7 @@ import fruitPatch from "assets/fruit/apple/apple_tree.png";
 import smallStone from "assets/resources/small_stone.png";
 import goldStone from "assets/resources/gold_small.png";
 import ironStone from "assets/resources/iron_small.png";
+import boulder from "assets/resources/rare_mine.png";
 import plot from "assets/crops/sunflower/seedling.png";
 
 import { FruitPatch } from "features/island/fruit/FruitPatch";
@@ -20,6 +21,7 @@ import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Plot } from "features/island/plots/Plot";
 import { Tree } from "features/game/expansion/components/resources/Tree";
 import { Layout } from "../lib/layouts";
+import { Boulder } from "features/island/boulder/Boulder";
 
 export const RESOURCES: Record<
   keyof Layout,
@@ -76,6 +78,14 @@ export const RESOURCES: Record<
       width: 1,
     },
     icon: plot,
+  },
+  boulder: {
+    component: () => <Boulder />,
+    dimensions: {
+      height: 2,
+      width: 2,
+    },
+    icon: boulder,
   },
 };
 
