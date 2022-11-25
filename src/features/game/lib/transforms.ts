@@ -185,7 +185,7 @@ function updateTrees(
           wood: {
             ...wood,
             amount: nextDropAmount,
-            reward,
+            ...(reward && { reward }),
           },
         }),
       },
