@@ -65,7 +65,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
     return (
       <InnerPanel
         className={classNames(
-          "absolute transition-opacity whitespace-nowrap w-fit p-1 z-40 pointer-events-none",
+          "absolute transition-opacity whitespace-nowrap w-fit p-1 z-50 pointer-events-none",
           {
             "opacity-100": showHover,
             "opacity-0": !showHover,
