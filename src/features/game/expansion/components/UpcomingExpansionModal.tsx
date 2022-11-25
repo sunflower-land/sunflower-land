@@ -73,7 +73,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       gameState.expansionRequirements.bumpkinLevel;
 
   return (
-    <div>
+    <div className="p-1">
       <img
         src={close}
         className="absolute cursor-pointer z-20"
@@ -90,7 +90,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
             Want to expand your land and discover new resources?
           </p>
 
-          <p className="text-xs mt-2 underline">
+          <p className="text-xs mt-2">
             Each piece of land is a unique NFT on the blockchain.
           </p>
         </div>
@@ -110,7 +110,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
                 Lvl {gameState.expansionRequirements.bumpkinLevel}
               </RedLabel>
 
-              <img src={lock} className="h-6  ml-2" />
+              <img src={lock} className="h-6 ml-2" />
             </div>
           )}
         </div>
