@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from "react";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 import ocean from "assets/decorations/ocean.webp";
 import background from "assets/land/retreat.webp";
@@ -49,7 +49,7 @@ export const Game = () => {
           className="absolute inset-0 bg-repeat w-full h-full"
           style={{
             backgroundImage: `url(${ocean})`,
-            backgroundSize: "100px",
+            backgroundSize: `${64 * PIXEL_SCALE}px`,
             imageRendering: "pixelated",
           }}
         />
@@ -74,7 +74,7 @@ export const Game = () => {
             className="absolute inset-0 bg-repeat w-full h-full"
             style={{
               backgroundImage: `url(${ocean})`,
-              backgroundSize: "100px",
+              backgroundSize: `${64 * PIXEL_SCALE}px`,
               imageRendering: "pixelated",
             }}
           />

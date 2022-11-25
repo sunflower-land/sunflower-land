@@ -6,7 +6,7 @@ import npc from "assets/npcs/chef.gif";
 import doing from "assets/npcs/chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { ConsumableName } from "features/game/types/consumables";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { InventoryItemName } from "features/game/types/game";
@@ -15,6 +15,8 @@ import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { setImageWidth } from "lib/images";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -32,6 +34,12 @@ export const Kitchen: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
+  useUiRefresher({ active: crafting });
+
+  if (!craftingService?.initialized || !handleShowCraftingTimer) {
+    return <img src={kitchen} className="w-full" />;
+  }
+
   const handleCook = (item: ConsumableName) => {
     craftingService?.send({
       type: "CRAFT",
@@ -42,8 +50,6 @@ export const Kitchen: React.FC<Props> = ({
   };
 
   const handleCollect = () => {
-    const context = craftingService?.state.context;
-    const name = context?.name;
     if (!name) return;
 
     craftingService?.send({
@@ -85,10 +91,17 @@ export const Kitchen: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
+      <BuildingImageWrapper
+        onClick={handleClick}
+        crafting={crafting}
+        ready={ready}
+        itemName={name}
+        craftingSeconds={name ? CONSUMABLES[name].cookingSeconds : undefined}
+        secondsTillReady={craftingService?.state?.context?.secondsTillReady}
+      >
         <img
           src={kitchen}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute pointer-events-none bottom-0", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -97,27 +110,30 @@ export const Kitchen: React.FC<Props> = ({
             height: `${PIXEL_SCALE * 50}px`,
           }}
         />
-        {ready && name && (
+        {(ready || crafting) && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy"
-            style={{
-              // TODO - dynamically get correct width
-              width: `${PIXEL_SCALE * 12}px`,
-              bottom: `${PIXEL_SCALE * 10}px`,
-              right: `${PIXEL_SCALE * 2}px`,
+            className={classNames("absolute pointer-events-none z-30", {
+              "img-highlight-heavy": ready,
+            })}
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (
+                !img ||
+                !img.complete ||
+                !img.naturalWidth ||
+                !img.naturalHeight
+              ) {
+                return;
+              }
+
+              const right = Math.floor(8 - img.naturalWidth / 2);
+              img.style.right = `${PIXEL_SCALE * right}px`;
+              setImageWidth(img);
             }}
-          />
-        )}
-        {crafting && name && (
-          <img
-            src={ITEM_DETAILS[name].image}
-            className="absolute z-30"
             style={{
-              // TODO - dynamically get correct width
-              width: `${PIXEL_SCALE * 12}px`,
+              opacity: 0,
               bottom: `${PIXEL_SCALE * 10}px`,
-              right: `${PIXEL_SCALE * 2}px`,
             }}
           />
         )}
@@ -136,7 +152,7 @@ export const Kitchen: React.FC<Props> = ({
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
-              bottom: `${PIXEL_SCALE * 8}px`,
+              bottom: `${PIXEL_SCALE * 7}px`,
               right: `${PIXEL_SCALE * 14}px`,
             }}
           />
@@ -145,8 +161,7 @@ export const Kitchen: React.FC<Props> = ({
             src={npc}
             className="absolute"
             style={{
-              width: `${PIXEL_SCALE * 16}px`,
-
+              width: `${PIXEL_SCALE * 15}px`,
               bottom: `${PIXEL_SCALE * 8}px`,
               right: `${PIXEL_SCALE * 14}px`,
             }}

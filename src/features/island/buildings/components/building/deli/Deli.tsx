@@ -6,7 +6,7 @@ import artisian from "assets/npcs/artisian.gif";
 import artisianDoing from "assets/npcs/artisian_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { ConsumableName } from "features/game/types/consumables";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
@@ -15,6 +15,8 @@ import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DeliModal } from "./DeliModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { setImageWidth } from "lib/images";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -32,8 +34,11 @@ export const Deli: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService || !handleShowCraftingTimer)
+  useUiRefresher({ active: crafting });
+
+  if (!craftingService?.initialized || !handleShowCraftingTimer) {
     return <img src={deli} className="w-full" />;
+  }
 
   const handleCook = (item: ConsumableName) => {
     craftingService.send({
@@ -45,8 +50,6 @@ export const Deli: React.FC<Props> = ({
   };
 
   const handleCollect = () => {
-    const { name } = craftingService.state.context;
-
     if (!name) return;
 
     craftingService.send({
@@ -88,7 +91,14 @@ export const Deli: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
+      <BuildingImageWrapper
+        onClick={handleClick}
+        crafting={crafting}
+        ready={ready}
+        itemName={name}
+        craftingSeconds={name ? CONSUMABLES[name].cookingSeconds : undefined}
+        secondsTillReady={craftingService?.state?.context?.secondsTillReady}
+      >
         <img
           src={deli}
           className={classNames("absolute bottom-0", {
@@ -102,55 +112,62 @@ export const Deli: React.FC<Props> = ({
         />
         <img
           src={shadow}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             right: `${PIXEL_SCALE * 2.5}px`,
-            bottom: `${PIXEL_SCALE * 14.7}px`,
+            bottom: `${PIXEL_SCALE * 15}px`,
           }}
         />
         {crafting ? (
           <img
             src={artisianDoing}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 20}px`,
               right: `${PIXEL_SCALE * 1}px`,
-              bottom: `${PIXEL_SCALE * 16.7}px`,
+              bottom: `${PIXEL_SCALE * 17}px`,
               transform: "scaleX(-1)",
             }}
           />
         ) : (
           <img
             src={artisian}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               right: `${PIXEL_SCALE * 1}px`,
-              bottom: `${PIXEL_SCALE * 16.7}px`,
+              bottom: `${PIXEL_SCALE * 17}px`,
               transform: "scaleX(-1)",
             }}
           />
         )}
-
-        {name && (
+        {(ready || crafting) && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className={classNames("absolute z-30", {
+            className={classNames("absolute pointer-events-none z-30", {
               "img-highlight-heavy": ready,
             })}
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (
+                !img ||
+                !img.complete ||
+                !img.naturalWidth ||
+                !img.naturalHeight
+              ) {
+                return;
+              }
+
+              const right = Math.floor(8 - img.naturalWidth / 2);
+              img.style.right = `${PIXEL_SCALE * right}px`;
+              setImageWidth(img);
+            }}
             style={{
-              // TODO - dynamically get correct width
-              width: `${PIXEL_SCALE * 12}px`,
-              bottom: `${PIXEL_SCALE * 8.7}px`,
-              right: `${PIXEL_SCALE * 8}px`,
+              opacity: 0,
+              bottom: `${PIXEL_SCALE * 8}px`,
             }}
           />
-        )}
-        {ready && name && (
-          <div className="flex justify-center absolute -top-7 w-full">
-            <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
-          </div>
         )}
       </BuildingImageWrapper>
 

@@ -7,7 +7,7 @@ import shadow from "assets/npcs/shadow.png";
 
 import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
-import { ConsumableName } from "features/game/types/consumables";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
@@ -15,6 +15,8 @@ import { BuildingProps } from "../Building";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { setImageWidth } from "lib/images";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -32,8 +34,10 @@ export const FirePit: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService || !handleShowCraftingTimer) {
-    return null;
+  useUiRefresher({ active: crafting });
+
+  if (!craftingService?.initialized || !handleShowCraftingTimer) {
+    return <img src={firePit} className="w-full" />;
   }
 
   const handleCook = (item: ConsumableName) => {
@@ -46,8 +50,6 @@ export const FirePit: React.FC<Props> = ({
   };
 
   const handleCollect = () => {
-    const { name } = craftingService.state.context;
-
     if (!name) return;
 
     craftingService.send({
@@ -89,7 +91,14 @@ export const FirePit: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
+      <BuildingImageWrapper
+        onClick={handleClick}
+        crafting={crafting}
+        ready={ready}
+        itemName={name}
+        craftingSeconds={name ? CONSUMABLES[name].cookingSeconds : undefined}
+        secondsTillReady={craftingService?.state?.context?.secondsTillReady}
+      >
         <img
           src={firePit}
           className={classNames("absolute bottom-0", {
@@ -101,58 +110,60 @@ export const FirePit: React.FC<Props> = ({
             height: `${PIXEL_SCALE * 33}px`,
           }}
         />
-        {ready && name && (
+        {(ready || crafting) && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy"
-            style={{
-              // TODO - dynamically get correct width
-              width: `${PIXEL_SCALE * 12}px`,
-              top: `${PIXEL_SCALE * 16}px`,
-              left: `${PIXEL_SCALE * 17}px`,
+            className={classNames("absolute pointer-events-none z-30", {
+              "img-highlight-heavy": ready,
+            })}
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (
+                !img ||
+                !img.complete ||
+                !img.naturalWidth ||
+                !img.naturalHeight
+              ) {
+                return;
+              }
+
+              const left = Math.floor(24 - img.naturalWidth / 2);
+              img.style.left = `${PIXEL_SCALE * left}px`;
+              setImageWidth(img);
             }}
-          />
-        )}
-        {crafting && name && (
-          <img
-            src={ITEM_DETAILS[name].image}
-            className="absolute z-30"
             style={{
-              // TODO - dynamically get correct width
-              width: `${PIXEL_SCALE * 12}px`,
+              opacity: 0,
               top: `${PIXEL_SCALE * 16}px`,
-              left: `${PIXEL_SCALE * 17}px`,
             }}
           />
         )}
         <img
           src={shadow}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             top: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 13}px`,
+            left: `${PIXEL_SCALE * 11}px`,
           }}
         />
         {crafting ? (
           <img
             src={doing}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               top: `${PIXEL_SCALE * 2}px`,
-
               left: `${PIXEL_SCALE * 13}px`,
             }}
           />
         ) : (
           <img
             src={npc}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 14}px`,
               top: `${PIXEL_SCALE * 2}px`,
-              left: `${PIXEL_SCALE * 13}px`,
+              left: `${PIXEL_SCALE * 11}px`,
             }}
           />
         )}
