@@ -55,17 +55,15 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
       >
         {selected !== undefined &&
-          food
-            .filter((x) => Math.random() < 0.2)
-            .map((item) => (
-              <Box
-                isSelected={selected.name === item.name}
-                key={item.name}
-                onClick={() => setSelected(item)}
-                image={ITEM_DETAILS[item.name].image}
-                count={inventory[item.name]}
-              />
-            ))}
+          food.map((item) => (
+            <Box
+              isSelected={selected.name === item.name}
+              key={item.name}
+              onClick={() => setSelected(item)}
+              image={ITEM_DETAILS[item.name].image}
+              count={inventory[item.name]}
+            />
+          ))}
         {selected === undefined && (
           <span className="p-1">No food in inventory</span>
         )}
