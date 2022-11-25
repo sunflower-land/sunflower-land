@@ -26,7 +26,7 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { LandExpansionTree } from "features/game/types/game";
+import { LandExpansionTree, Reward, Wood } from "features/game/types/game";
 import {
   canChop,
   CHOP_ERRORS,
@@ -35,6 +35,7 @@ import {
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
+import { TreeReward } from "features/game/expansion/components/resources/components/TreeReward";
 
 const HITS = 3;
 const tool = "Axe";
@@ -57,7 +58,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [errorLabel, setErrorLabel] = useState<"noAxe">();
   const [popover, setPopover] = useState<JSX.Element | null>();
-
+  const [reward, setReward] = useState<Reward | null>(null);
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
@@ -71,6 +72,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const { setToast } = useContext(ToastContext);
   const expansion = game.context.state.expansions[expansionIndex];
   const tree = expansion.trees?.[treeIndex] as LandExpansionTree;
+  const woodObj = expansion.trees?.[treeIndex].wood as Wood;
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -141,10 +143,38 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     }
   };
 
+  const onCollectReward = (success: boolean) => {
+    setReward(null);
+    setTouchCount(0);
+
+    if (success && tree) {
+      chop();
+    }
+  };
+
   const chop = async () => {
     setTouchCount(0);
 
     try {
+      // already looking at a reward
+      if (reward) {
+        return;
+      }
+
+      // increase touch count if there is a reward
+      if (woodObj.reward && canChop(tree)) {
+        if (touchCount < 1) {
+          // Add to touch count for reward pickup
+          setTouchCount((count) => count + 1);
+          return;
+        }
+
+        // They have touched enough!
+        setReward(woodObj.reward);
+
+        return;
+      }
+
       gameService.send("timber.chopped", {
         index: treeIndex,
         expansionIndex,
@@ -340,6 +370,13 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         )}
       >
         {popover}
+        {/* Tree Reward */}
+        <TreeReward
+          reward={reward}
+          onCollected={onCollectReward}
+          treeIndex={treeIndex}
+          expansionIndex={expansionIndex}
+        />
       </div>
     </div>
   );

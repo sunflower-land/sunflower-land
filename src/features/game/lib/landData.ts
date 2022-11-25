@@ -279,6 +279,9 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
         wood: {
           amount: 3,
           choppedAt: 0,
+          reward: {
+            sfl: new Decimal(3),
+          },
         },
         x: -3,
         y: 3,
