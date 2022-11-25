@@ -27,7 +27,6 @@ import { setPrecision } from "lib/utils/formatNumber";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
   reward: string;
