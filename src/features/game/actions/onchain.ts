@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
 import Decimal from "decimal.js-light";
 
@@ -58,15 +58,15 @@ export async function getOnChainState({
     return { game: EMPTY, owner: "", limitedItems: [] };
   }
 
-  const balanceFn = metamask.getToken().balanceOf(farmAddress);
-  const balancesFn = metamask.getInventory().getBalances(farmAddress);
-  const farmFn = metamask.getFarm().getFarm(id);
-  const bumpkinFn = metamask.getBumpkinDetails().loadBumpkins();
+  const balanceFn = wallet.getToken().balanceOf(farmAddress);
+  const balancesFn = wallet.getInventory().getBalances(farmAddress);
+  const farmFn = wallet.getFarm().getFarm(id);
+  const bumpkinFn = wallet.getBumpkinDetails().loadBumpkins();
 
   // Short term workaround to get data from session contract
-  const recipesFn = metamask.getSessionManager().getRecipes(RECIPES_IDS);
+  const recipesFn = wallet.getSessionManager().getRecipes(RECIPES_IDS);
 
-  const mintedAtsFn = metamask
+  const mintedAtsFn = wallet
     .getSessionManager()
     .getMintedAtBatch(id, RECIPES_IDS);
 
@@ -106,7 +106,7 @@ export async function getOnChainState({
 export async function getTreasuryItems() {
   if (!API_URL) return {} as Inventory;
 
-  const treasuryItems = await metamask
+  const treasuryItems = await wallet
     .getInventory()
     .getBalances(CONFIG.TREASURY_ADDRESS);
 

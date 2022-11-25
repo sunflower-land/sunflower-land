@@ -24,6 +24,7 @@ import { Builder } from "features/builder/Builder";
 export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
+  const { provider } = authState.context;
   const [showGame, setShowGame] = useState(false);
   useImagePreloader();
 
@@ -32,16 +33,16 @@ export const Navigation: React.FC = () => {
    * TODO: move into a hook
    */
   useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("chainChanged", () => {
-        send("METAMASK_CHAIN_CHANGED");
+    if (provider) {
+      provider.on("chainChanged", () => {
+        send("CHAIN_CHANGED");
       });
 
-      window.ethereum.on("accountsChanged", function () {
-        send("METAMASK_ACCOUNT_CHANGED");
+      provider.on("accountsChanged", function () {
+        send("ACCOUNT_CHANGED");
       });
     }
-  }, [send]);
+  }, [provider]);
 
   useEffect(() => {
     const _showGame =

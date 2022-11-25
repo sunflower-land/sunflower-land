@@ -1,6 +1,6 @@
 import { toWei } from "web3-utils";
 
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -75,7 +75,7 @@ export async function listRequest(request: Request): Promise<Response> {
 export async function list(request: Request) {
   const response = await listRequest(request);
 
-  await metamask
+  await wallet
     .getSessionManager()
     .listTrade({ ...response.payload, signature: response.signature });
 }

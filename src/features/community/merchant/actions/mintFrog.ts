@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { communityContracts } from "features/community/lib/communityContracts";
 
 type Request = {
@@ -18,6 +18,6 @@ export async function mintFrog(request: Request) {
 }
 
 export async function approve(address: string) {
-  const approveToken = await metamask.getToken().approve(address, 100);
+  const approveToken = await wallet.getToken().approve(address, 100);
   return approveToken;
 }

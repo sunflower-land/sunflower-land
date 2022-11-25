@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import React, { useEffect, useState } from "react";
 
 export const SupplyReached: React.FC = () => {
@@ -6,7 +6,7 @@ export const SupplyReached: React.FC = () => {
 
   useEffect(() => {
     const load = async () => {
-      const amount = await metamask.getFarm().getTotalSupply();
+      const amount = await wallet.getFarm().getTotalSupply();
 
       setSupply(amount);
     };

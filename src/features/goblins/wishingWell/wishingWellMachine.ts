@@ -6,7 +6,7 @@ import {
   sendParent,
 } from "xstate";
 
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { ERRORS } from "lib/errors";
 
 import { WishingWellTokens, loadWishingWell } from "./actions/loadWishingWell";
@@ -157,7 +157,7 @@ export const wishingWellMachine = createMachine<
       wishing: {
         invoke: {
           src: async () => {
-            await metamask.getWishingWell().wish();
+            await wallet.getWishingWell().wish();
           },
           onDone: {
             target: "wished",

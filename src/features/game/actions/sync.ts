@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -40,7 +40,7 @@ export async function syncProgress({
   const transaction = await response.json();
 
   // TODO
-  const newSessionId = await metamask
+  const newSessionId = await wallet
     .getSessionManager()
     .syncProgress(transaction);
 

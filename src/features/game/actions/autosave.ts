@@ -1,5 +1,5 @@
 import { removeSession } from "features/auth/actions/login";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
@@ -123,7 +123,7 @@ export async function autosave(request: Request) {
   }
 
   if (response.status === 401) {
-    removeSession(metamask.myAccount as string);
+    removeSession(wallet.myAccount as string);
   }
 
   if (response.status === 429) {

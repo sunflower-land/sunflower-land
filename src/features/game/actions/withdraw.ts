@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -47,7 +47,7 @@ export async function withdraw({
 
   const transaction = await response.json();
 
-  const newSessionId = await metamask.getSessionManager().withdraw(transaction);
+  const newSessionId = await wallet.getSessionManager().withdraw(transaction);
 
   return { sessionId: newSessionId, verified: true };
 }
