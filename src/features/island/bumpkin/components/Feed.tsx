@@ -13,6 +13,7 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import heart from "assets/icons/level_up.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 import { Bumpkin } from "features/game/types/game";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   food: Consumable[];
@@ -48,8 +49,11 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-1/2 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      >
         {selected !== undefined &&
           food.map((item) => (
             <Box
@@ -64,26 +68,24 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
           <span className="p-1">No food in inventory</span>
         )}
       </div>
-      <OuterPanel className="flex-1 w-1/2">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {selected !== undefined && (
             <>
-              <span className="text-shadow text-basetext-center mb-1">
-                {selected.name}
-              </span>
+              <span className="text-center mb-1">{selected.name}</span>
               <img
                 src={ITEM_DETAILS[selected.name].image}
-                className="h-16 img-highlight mt-1"
+                className="h-16 img-highlight mt-2"
                 alt={selected.name}
               />
-              <span className="text-shadow text-center mt-2 sm:text-sm">
+              <span className="text-center mt-2 text-sm">
                 {ITEM_DETAILS[selected.name].description}
               </span>
 
               <div className="border-t border-white w-full mt-2 pt-1">
                 <div className="flex justify-center flex-wrap items-center">
                   <img src={heart} className="me-2 w-6" />
-                  <span className="text-xs text-shadow text-center">
+                  <span className="text-xs text-center">
                     {`${getFoodExpBoost(
                       selected.experience,
                       state.bumpkin as Bumpkin
@@ -102,13 +104,13 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
           )}
           {selected === undefined && (
             <>
-              <span className="text-shadow text-center">Hungry?</span>
+              <span className="text-center">Hungry?</span>
               <img
                 src={firePit}
-                className="h-16 img-highlight my-3"
+                className="h-16 img-highlight mt-3"
                 alt={"Fire Pit"}
               />
-              <span className="text-shadow text-center mt-2 sm:text-sm">
+              <span className="text-center mt-2 text-sm">
                 You will need to cook food in order to feed your bumpkin
               </span>
             </>

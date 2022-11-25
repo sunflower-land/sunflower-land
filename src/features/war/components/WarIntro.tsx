@@ -218,6 +218,3 @@ export const WarIntro: React.FC<Props> = ({ onPickSide }) => {
     </>
   );
 };
-function scrollIntoView(arg0: any) {
-  throw new Error("Function not implemented.");
-}
