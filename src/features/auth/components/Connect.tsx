@@ -14,7 +14,7 @@ export const Connect: React.FC = () => {
       </p>
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() => authService.send("CONNECT")}
+        onClick={() => authService.send("CONNECT_TO_METAMASK")}
       >
         <div className="px-8">
           {metamaskIcon}
@@ -47,7 +47,7 @@ export const Connect: React.FC = () => {
       </Button> */}
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() => authService.send("WALLET_CONNECT")}
+        onClick={() => authService.send("CONNECT_TO_WALLET_CONNECT")}
       >
         <div className="px-8">
           <svg
@@ -74,7 +74,7 @@ export const Connect: React.FC = () => {
       </div>
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() => authService.send("SEQUENCE")}
+        onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
       >
         <div className="px-8">
           <img

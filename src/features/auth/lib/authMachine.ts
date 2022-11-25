@@ -1,5 +1,6 @@
 import { sequence } from "0xsequence";
 import { createMachine, Interpreter, assign } from "xstate";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import { loadBanDetails } from "features/game/actions/bans";
 import { isFarmBlacklisted } from "features/game/actions/onchain";
@@ -48,6 +49,7 @@ export interface Context {
   blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
   verificationUrl?: string;
   migrated?: boolean;
+  wallet?: "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
 }
 
 export type Screen = "land" | "farm";
@@ -89,16 +91,13 @@ export type BlockchainEvent =
   | CreateFarmEvent
   | LoadFarmEvent
   | {
-      type: "CHAIN_CHANGED";
+      type: "METAMASK_CHAIN_CHANGED";
     }
   | {
-      type: "ACCOUNT_CHANGED";
+      type: "METAMASK_ACCOUNT_CHANGED";
     }
   | {
       type: "REFRESH";
-    }
-  | {
-      type: "CONNECT";
     }
   | {
       type: "LOGOUT";
@@ -110,15 +109,19 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
   | { type: "SKIP" }
-  | { type: "SEQUENCE" }
-  | { type: "WALLET_CONNECT" };
+  | { type: "CONNECT_TO_METAMASK" }
+  | { type: "CONNECT_TO_WALLET_CONNECT" }
+  | { type: "CONNECT_TO_SEQUENCE" };
 
 export type BlockchainState = {
   value:
     | "idle"
     | "initialising"
     | "visiting"
-    | "connecting"
+    | "connectingToMetamask"
+    | "connectingToWalletConnect"
+    | "connectingToSequence"
+    | "reconnecting"
     | "connected"
     | "signing"
     | "oauthorising"
@@ -161,29 +164,32 @@ export const authMachine = createMachine<
     initial: API_URL ? "idle" : "connected",
     states: {
       idle: {
+        id: "idle",
         on: {
-          CONNECT: {
-            target: "connecting",
+          CONNECT_TO_METAMASK: {
+            target: "connectingToMetamask",
           },
-          WALLET_CONNECT: {
-            target: "walletConnect",
+          CONNECT_TO_WALLET_CONNECT: {
+            target: "connectingToWalletConnect",
           },
-          SEQUENCE: {
-            target: "sequence",
+          CONNECT_TO_SEQUENCE: {
+            target: "connectingToSequence",
           },
         },
       },
-      connecting: {
-        id: "connecting",
+      reconnecting: { id: "reconnecting" },
+      connectingToMetamask: {
+        id: "connectingToMetamask",
         invoke: {
           src: "initMetamask",
           onDone: [
             {
               target: "checkFarm",
               cond: "isVisitingUrl",
+              actions: "assignWallet",
             },
 
-            { target: "signing" },
+            { target: "signing", actions: "assignWallet" },
           ],
           onError: {
             target: "unauthorised",
@@ -191,57 +197,50 @@ export const authMachine = createMachine<
           },
         },
         on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
+          METAMASK_ACCOUNT_CHANGED: {
+            target: "connectingToMetamask",
             actions: "refreshFarm",
           },
         },
       },
-      walletConnect: {
-        id: "walletConnect",
+      connectingToWalletConnect: {
+        id: "connectingToWalletConnect",
         invoke: {
           src: "initWalletConnect",
           onDone: [
             {
               target: "checkFarm",
               cond: "isVisitingUrl",
+              actions: "assignWallet",
             },
 
-            { target: "signing" },
+            { target: "signing", actions: "assignWallet" },
           ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
           },
         },
-        on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
-            actions: "refreshFarm",
-          },
-        },
       },
-      sequence: {
-        id: "sequence",
+      connectingToSequence: {
+        id: "connectingToSequence",
         invoke: {
           src: "initSequence",
           onDone: [
             {
               target: "checkFarm",
               cond: "isVisitingUrl",
+              actions: "assignWallet",
             },
 
-            { target: "signing" },
+            { target: "signing", actions: "assignWallet" },
           ],
           onError: {
             target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-        on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
-            actions: "refreshFarm",
+            actions: [
+              (context, event) => console.log("HI"),
+              "assignErrorMessage",
+            ],
           },
         },
       },
@@ -264,8 +263,8 @@ export const authMachine = createMachine<
           },
         },
         on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
+          METAMASK_ACCOUNT_CHANGED: {
+            target: "connectingToMetamask",
             actions: "refreshFarm",
           },
         },
@@ -283,8 +282,8 @@ export const authMachine = createMachine<
           },
         },
         on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
+          METAMASK_ACCOUNT_CHANGED: {
+            target: "connectingToMetamask",
             actions: "refreshFarm",
           },
         },
@@ -390,7 +389,7 @@ export const authMachine = createMachine<
                 target: "creatingFarm",
               },
               REFRESH: {
-                target: "#connecting",
+                target: "#reconnecting",
               },
             },
           },
@@ -398,7 +397,7 @@ export const authMachine = createMachine<
             invoke: {
               src: "createFarm",
               onDone: {
-                target: "#connecting",
+                target: "#reconnecting",
               },
               onError: {
                 target: "#unauthorised",
@@ -409,7 +408,7 @@ export const authMachine = createMachine<
           countdown: {
             on: {
               REFRESH: {
-                target: "#connecting",
+                target: "#reconnecting",
               },
             },
           },
@@ -489,7 +488,7 @@ export const authMachine = createMachine<
                 actions: ["refreshFarm", "deleteFarmIdUrl"],
               },
               REFRESH: {
-                target: "#connecting",
+                target: "#reconnecting",
               },
               EXPLORE: {
                 target: "#exploring",
@@ -503,7 +502,7 @@ export const authMachine = createMachine<
                 }),
               },
               LOGOUT: {
-                target: "#connecting",
+                target: "#idle",
                 actions: ["clearSession", "refreshFarm"],
               },
             },
@@ -511,8 +510,8 @@ export const authMachine = createMachine<
           supplyReached: {},
         },
         on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
+          METAMASK_ACCOUNT_CHANGED: {
+            target: "connectingToMetamask",
             actions: "refreshFarm",
           },
         },
@@ -520,8 +519,8 @@ export const authMachine = createMachine<
       unauthorised: {
         id: "unauthorised",
         on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
+          METAMASK_ACCOUNT_CHANGED: {
+            target: "connectingToMetamask",
             actions: "refreshFarm",
           },
           REFRESH: {
@@ -539,8 +538,8 @@ export const authMachine = createMachine<
           VISIT: {
             target: "checkFarm",
           },
-          ACCOUNT_CHANGED: {
-            target: "connecting",
+          METAMASK_ACCOUNT_CHANGED: {
+            target: "connectingToMetamask",
             actions: "refreshFarm",
           },
         },
@@ -567,8 +566,8 @@ export const authMachine = createMachine<
           },
         },
         on: {
-          ACCOUNT_CHANGED: {
-            target: "connecting",
+          METAMASK_ACCOUNT_CHANGED: {
+            target: "connectingToMetamask",
             actions: "refreshFarm",
           },
         },
@@ -580,128 +579,64 @@ export const authMachine = createMachine<
         },
         on: {
           RETURN: {
-            target: "connecting",
+            target: "reconnecting",
             actions: ["refreshFarm", "deleteFarmIdUrl"],
           },
-          ACCOUNT_CHANGED: {
-            target: "connecting",
+          METAMASK_ACCOUNT_CHANGED: {
+            target: "connectingToMetamask",
             actions: "refreshFarm",
           },
         },
       },
     },
     on: {
-      CHAIN_CHANGED: {
-        target: "connecting",
+      METAMASK_CHAIN_CHANGED: {
+        target: "connectingToMetamask",
         actions: "refreshFarm",
       },
       REFRESH: {
-        target: "connecting",
+        target: "reconnecting",
         actions: "refreshFarm",
       },
     },
   },
   {
     services: {
-      initMetamask: async (context, event): Promise<void> => {
-        await metamask.initialise();
-        await communityContracts.initialise();
+      initMetamask: async () => {
+        // TODO add type support
+        if ((window as any).ethereum) {
+          await (window as any).ethereum.enable();
+          await metamask.initialise((window as any).ethereum);
+          await communityContracts.initialise((window as any).ethereum);
+        } else if ((window as any).web3) {
+          await metamask.initialise((window as any).web3.currentProvider);
+          await communityContracts.initialise(
+            (window as any).web3.currentProvider
+          );
+        } else {
+          throw new Error(ERRORS.NO_WEB3);
+        }
+
+        return { wallet: "METAMASK" };
       },
-      initWalletConnect: async (context, event): Promise<void> => {
-        console.log("YO");
-        await metamask.initialise();
-        // await communityContracts.initialise();
-        // const provider = await UniversalProvider.init({
-        //   projectId: "60ed09b429b8d593945f11190d799bb0",
-        //   relayUrl: "wss://relay.walletconnect.com",
-        //   logger: "debug",
-        // });
-        // provider.on("display_uri", async (uri: string) => {
-        //   console.log("EVENT", "QR Code Modal open");
-        //   QRCodeModal.open(
-        //     uri,
-        //     () => {
-        //       console.log("EVENT", "QR Code Modal closed");
-        //     },
-        //     {}
-        //   );
-        // });
-        // await provider.connect({
-        //   namespaces: {
-        //     eip155: {
-        //       methods: [
-        //         "eth_sendTransaction",
-        //         "eth_signTransaction",
-        //         "eth_sign",
-        //         "personal_sign",
-        //         "eth_signTypedData",
-        //       ],
-        //       chains: ["eip155:80001"],
-        //       events: ["chainChanged", "accountsChanged"],
-        //     },
-        //   },
-        // });
+      initWalletConnect: async () => {
+        // TODO abstract RPC constants
+        const provider = new WalletConnectProvider({
+          rpc: {
+            80001: "https://matic-mumbai.chainstacklabs.com",
+            137: "https://polygon-rpc.com",
+          },
+        });
+        //  Enable session (triggers QR Code modal)
+        await provider.enable();
+        await metamask.initialise(provider);
+        await communityContracts.initialise(provider);
+
+        return { wallet: "WALLET_CONNECT" };
       },
-      initSequence: async (context, event): Promise<void> => {
-        // const message = "hello world";
-
-        // const wallet = await sequence.initWallet("matic");
-        // await wallet.connect();
-
-        // const web3 = new Web3(wallet.getProvider() as any);
-        // // const web3 = new Web3((window as any).web3.currentProvider);
-        // const account = (await web3.eth.getAccounts())[0];
-
-        // sequence.utils.isValidMessageSignature
-
-        // console.log({ account });
-
-        // const signature = await web3.eth.personal.sign(message, account, "");
-
-        // console.log({ signature });
-        // console.log(signature.length);
-
-        // const r = signature.slice(0, 66);
-        // const s = "0x" + signature.slice(66, 130);
-        // let v1 = "0x" + signature.slice(130, 132);
-        // const v = web3.utils.toDecimal(v1);
-
-        // console.log({ r, s, v });
-
-        // const address = await web3.eth.accounts.recover(message, signature);
-
-        // console.log({ address });
-
-        //const web3 = new Web3((window as any).web3.currentProvider);
-
-        // console.log("TEST 1");
-        // const address11 = await wallet.getAddress();
-        // console.log({ address11 });
-        // const signature1 = await sequenceWeb3.eth.personal.sign(
-        //   message,
-        //   await wallet.getAddress(),
-        //   ""
-        // );
-        // console.log({ signature1 });
-        // try {
-        //   const address12 = await web3.eth.personal.ecRecover(
-        //     message,
-        //     signature1
-        //   );
-        //   console.log({ address12 });
-        // } catch (e) {
-        //   console.log(e);
-        // }
-
-        // console.log("TEST 2");
-        // const signer = await wallet.getSigner();
-        // const signature2 = await signer.signMessage(message);
-
-        // const address2 = web3.eth.accounts.recover(message, signature2, true);
-        // console.log({ address2 });
-
-        const wallet = await sequence.initWallet("mumbai");
-        await wallet.connect({
+      initSequence: async () => {
+        const sequenceWallet = await sequence.initWallet("mumbai");
+        await sequenceWallet.connect({
           app: "Sunflower Land",
           settings: {
             signInOptions: ["google", "facebook"],
@@ -712,8 +647,11 @@ export const authMachine = createMachine<
             defaultFundingCurrency: "matic",
           },
         });
-        await metamask.initialise();
-        await communityContracts.initialise();
+        const provider = sequenceWallet.getProvider();
+        await metamask.initialise(provider);
+        await communityContracts.initialise(provider);
+
+        return { wallet: "SEQUENCE" };
       },
       loadFarm: async (
         context
@@ -810,6 +748,9 @@ export const authMachine = createMachine<
       }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
+      }),
+      assignWallet: assign<Context, any>({
+        wallet: (_context, event) => event.data.wallet,
       }),
       refreshFarm: assign<Context, any>({
         farmId: () => undefined,

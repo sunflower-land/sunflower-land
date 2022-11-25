@@ -178,11 +178,11 @@ export class Metamask {
     this.account = await this.getAccount();
   }
 
-  public async initialise(retryCount = 0): Promise<void> {
+  public async initialise(provider: any, retryCount = 0): Promise<void> {
     try {
       // Smooth out the loading state
       await new Promise((res) => setTimeout(res, 1000));
-      await this.setupWeb3();
+      this.web3 = new Web3(provider);
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();

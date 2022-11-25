@@ -34,11 +34,11 @@ export const Navigation: React.FC = () => {
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("chainChanged", () => {
-        send("CHAIN_CHANGED");
+        send("METAMASK_CHAIN_CHANGED");
       });
 
       window.ethereum.on("accountsChanged", function () {
-        send("ACCOUNT_CHANGED");
+        send("METAMASK_ACCOUNT_CHANGED");
       });
     }
   }, [send]);
