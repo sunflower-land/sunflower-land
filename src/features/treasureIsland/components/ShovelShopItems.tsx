@@ -18,7 +18,7 @@ import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { TreasureToolName, TREASURE_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { RedLabel } from "components/ui/RedLabel";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -204,9 +204,9 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
                   if (lessIngredient) {
                     // if inventory items is less than required items
                     return (
-                      <RedLabel>
+                      <Label type="danger">
                         {`${inventoryAmount}/${requiredAmount}`}
-                      </RedLabel>
+                      </Label>
                     );
                   } else {
                     // if inventory items is equal to required items
@@ -234,7 +234,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
                 <div className="flex justify-center items-end">
                   <img src={token} className="h-5 mr-1" />
                   {lessFunds() ? (
-                    <RedLabel>{`$${price?.toNumber()}`}</RedLabel>
+                    <Label type="danger">{`$${price?.toNumber()}`}</Label>
                   ) : (
                     <span
                       className={classNames("text-xs text-center mt-2", {})}

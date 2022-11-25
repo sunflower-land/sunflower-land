@@ -32,6 +32,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: () => void;
@@ -152,10 +153,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     if (stock?.equals(0)) {
       return (
-        <div>
-          <p className="text-xxs no-wrap text-center my-1 underline">
-            Sold out
-          </p>
+        <div className="my-1">
           <p className="text-xxs text-center">
             Sync your farm to the Blockchain to restock
           </p>
@@ -170,9 +168,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     if (max && inventory[selectedName]?.gt(max)) {
       return (
-        <span className="text-xs mt-1 text-shadow text-center">
-          No space left
-        </span>
+        <div className="my-1">
+          <p className="text-xxs text-center">
+            You have too many seeds on your basket!
+          </p>
+        </div>
       );
     }
 
@@ -200,6 +200,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const cropName = selectedName.split(" ")[0] as CropName;
   const crop = CROPS()[cropName];
+  const max = INITIAL_STOCK[selectedName];
 
   return (
     <div className="flex">
@@ -227,7 +228,19 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={{ name: selectedName }} />
+          {stock?.equals(0) && (
+            <Label type="danger" className="-mt-2 mb-1">
+              Sold out
+            </Label>
+          )}
+          {!stock?.equals(0) && max && inventory[selectedName]?.gt(max) && (
+            <Label type="danger" className="-mt-2 mb-1">
+              No space left
+            </Label>
+          )}
+          {max && !inventory[selectedName]?.gt(max) && !stock?.equals(0) && (
+            <Stock item={{ name: selectedName }} />
+          )}
           <span className="text-shadow text-center mb-1">{selectedName}</span>
           <img
             src={ITEM_DETAILS[selectedName].image}

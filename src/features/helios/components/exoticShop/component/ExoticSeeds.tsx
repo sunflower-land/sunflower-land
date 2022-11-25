@@ -18,7 +18,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
 import { Bean, BEANS } from "features/game/types/beans";
-import { RedLabel } from "components/ui/RedLabel";
+import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { INITIAL_STOCK } from "features/game/lib/constants";
@@ -158,7 +158,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
               const renderRemenants = () => {
                 if (lessIngredient) {
                   return (
-                    <RedLabel>{`${inventoryAmount}/${requiredAmount}`}</RedLabel>
+                    <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
                   );
                 } else {
                   // if inventory items is equal to required items
@@ -183,7 +183,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               {lessFunds() ? (
-                <RedLabel>{`$${price}`}</RedLabel>
+                <Label type="danger">{`$${price}`}</Label>
               ) : (
                 <span className={classNames("text-xs text-center mt-2")}>
                   {`$${price}`}

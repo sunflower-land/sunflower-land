@@ -72,7 +72,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           <SkillPointsLabel points={availableSkillPoints} />
         )}
         {!availableSkillPoints && levelRequired && (
-          <Label>
+          <Label type="default">
             <p className="text-xxs px-1">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
               experience
             )}`}</p>

@@ -14,7 +14,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { Consumable, ConsumableName } from "features/game/types/consumables";
 import { secondsToString } from "lib/utils/time";
-import { RedLabel } from "components/ui/RedLabel";
+import { Label } from "components/ui/Label";
 import {
   getCookingTime,
   getFoodExpBoost,
@@ -134,9 +134,9 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
                 if (lessIngredient) {
                   // if inventory items is less than required items
                   return (
-                    <RedLabel>
+                    <Label type="danger">
                       {`${inventoryAmount}/${requiredAmount}`}
-                    </RedLabel>
+                    </Label>
                   );
                 } else {
                   // if inventory items is equal to required items
