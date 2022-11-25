@@ -9,7 +9,12 @@ import well from "assets/buildings/well1.png";
 import close from "assets/icons/close.png";
 
 import { Context } from "features/game/GameProvider";
-import { Reward, FERTILISERS, PlantedCrop } from "features/game/types/game";
+import {
+  Reward,
+  FERTILISERS,
+  PlantedCrop,
+  InventoryItemName,
+} from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
@@ -136,6 +141,12 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     setTouchCount(0);
 
     if (success && crop) {
+      const rewardItemName = reward?.items?.[0].name;
+      const rewardItemAmount = reward?.items?.[0].amount;
+      setToast({
+        icon: ITEM_DETAILS[rewardItemName as InventoryItemName].image,
+        content: `+${rewardItemAmount}`,
+      });
       harvestCrop(crop);
     }
   };

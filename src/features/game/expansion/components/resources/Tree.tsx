@@ -10,6 +10,7 @@ import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
+import sfltoken from "assets/icons/token_2.png";
 import axe from "assets/tools/axe.png";
 
 import {
@@ -164,8 +165,13 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const onCollectReward = (success: boolean) => {
     setReward(null);
     setTouchCount(0);
-
     if (success && tree) {
+      //Toast for the Rewards
+      //@NOTE This Toast only supports SFL rewards 😭
+      setToast({
+        icon: sfltoken,
+        content: `+${reward?.sfl?.toString()}`,
+      });
       chop();
     }
   };

@@ -241,7 +241,18 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
         width: 1,
       },
       4: {
-        crop: { name: "Sunflower", plantedAt: 0 },
+        crop: {
+          name: "Sunflower",
+          plantedAt: 0,
+          reward: {
+            items: [
+              {
+                name: "Sunflower Seed",
+                amount: 1,
+              },
+            ],
+          },
+        },
         x: -1,
         y: 0,
         height: 1,
