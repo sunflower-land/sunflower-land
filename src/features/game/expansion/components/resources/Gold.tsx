@@ -14,6 +14,7 @@ import {
   GRID_WIDTH_PX,
   GOLD_RECOVERY_TIME,
   POPOVER_TIME_MS,
+  PIXEL_SCALE,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -48,7 +49,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const [touchCount, setTouchCount] = useState(0);
   const [collecting, setCollecting] = useState(false);
 
-  const overlayRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
@@ -180,7 +180,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
   return (
     <div
-      ref={overlayRef}
       className="relative"
       style={{ height: "40px" }}
       onMouseEnter={handleHover}
@@ -220,7 +219,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
             />
             <InnerPanel
               className={classNames(
-                "transition-opacity absolute top-2 w-fit left-12 z-40 pointer-events-none",
+                "transition-opacity absolute top-2 w-fit left-12 z-50 pointer-events-none",
                 {
                   "opacity-100": errorLabel === "noPickaxe",
                   "opacity-0": errorLabel !== "noPickaxe",
@@ -292,19 +291,16 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       {/* Recovery time panel */}
       {mined && (
         <div
-          className="absolute"
+          className="flex justify-center absolute w-full pointer-events-none"
           style={{
-            top: "30px",
-            left: "-26px",
+            top: `${PIXEL_SCALE * -20}px`,
           }}
         >
-          {overlayRef.current && (
-            <TimeLeftPanel
-              text="Recovers in:"
-              timeLeft={timeLeft}
-              showTimeLeft={showRockTimeLeft}
-            />
-          )}
+          <TimeLeftPanel
+            text="Recovers in:"
+            timeLeft={timeLeft}
+            showTimeLeft={showRockTimeLeft}
+          />
         </div>
       )}
       {/* Popover showing amount of gold collected */}

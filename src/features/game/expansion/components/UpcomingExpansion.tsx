@@ -63,7 +63,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
           <img
             src={expandIcon}
             width={18 * PIXEL_SCALE}
-            className="relative top-4 cursor-pointer hover:img-highlight"
+            className="relative cursor-pointer hover:img-highlight"
             onClick={() => setShowBumpkinModal(true)}
           />
         </div>

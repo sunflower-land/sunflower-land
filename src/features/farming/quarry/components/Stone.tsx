@@ -230,7 +230,7 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
           />
           <InnerPanel
             className={classNames(
-              "ml-10 transition-opacity absolute top-6 w-fit left-5 z-40 pointer-events-none",
+              "ml-10 transition-opacity absolute top-6 w-fit left-5 z-50 pointer-events-none",
               {
                 "opacity-100": showLabel,
                 "opacity-0": !showLabel,
@@ -306,11 +306,19 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
               seconds={timeLeft}
               type="progress"
             />
-            <TimeLeftPanel
-              text="Recovers in:"
-              timeLeft={timeLeft}
-              showTimeLeft={showRockTimeLeft}
-            />
+            <div
+              className="absolute"
+              style={{
+                top: "-90px",
+                left: "40px",
+              }}
+            >
+              <TimeLeftPanel
+                text="Recovers in:"
+                timeLeft={timeLeft}
+                showTimeLeft={showRockTimeLeft}
+              />
+            </div>
           </div>
         </>
       )}

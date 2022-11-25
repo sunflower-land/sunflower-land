@@ -61,7 +61,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   return (
     <InnerPanel
       className={classNames(
-        "transition-opacity scale-90 absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-10 z-40 pointer-events-none",
+        "transition-opacity scale-90 absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-10 z-50 pointer-events-none",
         {
           "opacity-100": showTimeToEgg,
           "opacity-0": !showTimeToEgg,
