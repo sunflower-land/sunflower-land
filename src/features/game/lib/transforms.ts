@@ -175,6 +175,7 @@ function updateTrees(
   return getKeys(oldTrees).reduce((trees, treeId) => {
     const { wood } = oldTrees[treeId];
     const nextDropAmount = newTrees[treeId].wood?.amount;
+    const reward = newTrees[treeId].wood?.reward;
 
     return {
       ...trees,
@@ -184,6 +185,7 @@ function updateTrees(
           wood: {
             ...wood,
             amount: nextDropAmount,
+            reward,
           },
         }),
       },
