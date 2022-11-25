@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import {
@@ -78,7 +78,6 @@ export const BUILDING_COMPONENTS: Record<
 };
 
 const InProgressBuilding: React.FC<Prop> = ({ building, name, onRemove }) => {
-  const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -90,7 +89,6 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name, onRemove }) => {
     <>
       <div
         className="w-full h-full opacity-50"
-        ref={overlayRef}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
@@ -107,13 +105,18 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name, onRemove }) => {
           type="progress"
         />
       </div>
-      {overlayRef.current && (
+      <div
+        className="flex justify-center absolute w-full pointer-events-none"
+        style={{
+          top: `${PIXEL_SCALE * -20}px`,
+        }}
+      >
         <TimeLeftPanel
           text="Ready in:"
           timeLeft={secondsLeft}
           showTimeLeft={showTooltip}
         />
-      )}
+      </div>
     </>
   );
 };
