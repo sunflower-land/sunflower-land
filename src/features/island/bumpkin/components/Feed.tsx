@@ -51,19 +51,21 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div
-        className="w-full sm:w-3/5 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
       >
         {selected !== undefined &&
-          food.map((item) => (
-            <Box
-              isSelected={selected.name === item.name}
-              key={item.name}
-              onClick={() => setSelected(item)}
-              image={ITEM_DETAILS[item.name].image}
-              count={inventory[item.name]}
-            />
-          ))}
+          food
+            .filter((x) => Math.random() < 0.2)
+            .map((item) => (
+              <Box
+                isSelected={selected.name === item.name}
+                key={item.name}
+                onClick={() => setSelected(item)}
+                image={ITEM_DETAILS[item.name].image}
+                count={inventory[item.name]}
+              />
+            ))}
         {selected === undefined && (
           <span className="p-1">No food in inventory</span>
         )}
