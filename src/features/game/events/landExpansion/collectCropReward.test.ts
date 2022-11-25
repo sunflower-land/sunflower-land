@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { collectCropReward } from "./collectCropReward";
 
-describe("collectReward", () => {
+describe("collectCropReward", () => {
   const dateNow = Date.now();
 
   it("only checks for rewards on plots that exist", () => {
