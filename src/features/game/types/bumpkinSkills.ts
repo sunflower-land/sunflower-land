@@ -149,7 +149,6 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     },
     boosts: "Chance for SFL drops",
     image: question,
-    disabled: true,
   },
   Digger: {
     name: "Digger",
