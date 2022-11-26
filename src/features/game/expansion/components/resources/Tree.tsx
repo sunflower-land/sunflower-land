@@ -154,8 +154,14 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
       choppedGif.current?.goToAndPlay(0);
 
       displayPopover(
-        <div className="flex">
-          <img src={wood} className="w-5 h-5 mr-2" />
+        <div className="flex justify-center">
+          <img
+            src={wood}
+            className="mr-2"
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
           <span className="text-sm text-white text-shadow">{`+${tree.wood.amount}`}</span>
         </div>
       );
@@ -269,7 +275,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           bottom: `${8 * PIXEL_SCALE}px`,
           right: `-${4 * PIXEL_SCALE}px`,
         }}
-        className="absolute bottom-0 pointer-events-none"
+        className="absolute bottom-0 pointer-events-none z-40"
         getInstance={(spritesheet) => {
           choppedGif.current = spritesheet;
         }}
@@ -332,7 +338,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-5 w-40 -left-16 z-20 pointer-events-none",
+          "transition-opacity absolute -bottom-5 w-40 -left-16 z-40 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,

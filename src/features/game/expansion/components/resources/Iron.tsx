@@ -13,6 +13,7 @@ import pickaxe from "assets/tools/stone_pickaxe.png";
 import {
   GRID_WIDTH_PX,
   IRON_RECOVERY_TIME,
+  PIXEL_SCALE,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -127,8 +128,14 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       minedGif.current?.goToAndPlay(0);
 
       displayPopover(
-        <div className="flex">
-          <img src={iron} className="w-5 h-5 mr-2" />
+        <div className="flex justify-center">
+          <img
+            src={iron}
+            className="mr-2"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+            }}
+          />
           <span className="text-sm text-white text-shadow">{`+${ironRock.stone.amount}`}</span>
         </div>
       );
@@ -237,14 +244,14 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       <Spritesheet
         style={{
           position: "absolute",
-          left: "-86.6px",
-          top: "-50px",
+          left: `${PIXEL_SCALE * -33}px`,
+          top: `${PIXEL_SCALE * -19}px`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           width: `${GRID_WIDTH_PX * 7}px`,
           imageRendering: "pixelated",
         }}
-        className="pointer-events-none z-20"
+        className="pointer-events-none z-40"
         getInstance={(spritesheet) => {
           minedGif.current = spritesheet;
         }}
@@ -309,7 +316,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       {/* Popover showing amount of iron collected */}
       <div
         className={classNames(
-          "transition-opacity absolute top-8 w-40 left-12 z-20 pointer-events-none",
+          "transition-opacity absolute top-8 w-40 left-12 z-40 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
