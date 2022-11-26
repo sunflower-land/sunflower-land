@@ -61,9 +61,9 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     const isClosed = grubShop.closesAt < Date.now();
     if (isClosed) {
       return (
-        <div className="text-center">
+        <div className="p-2">
           <p>The Grub Shop is closed on Tuesdays.</p>
-          <p className="mt-2 text-sm">
+          <p className="mt-4 text-sm">
             Come back tomorrow to view the Grublin Orders.
           </p>
         </div>
