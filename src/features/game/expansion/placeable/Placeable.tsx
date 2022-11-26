@@ -42,6 +42,7 @@ export const Placeable: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const [showHint, setShowHint] = useState(true);
+  const collideRef = useRef(false);
 
   useEffect(() => {
     detect({ x: DEFAULT_POSITION_X, y: -DEFAULT_POSITION_Y });
@@ -64,6 +65,8 @@ export const Placeable: React.FC = () => {
       width,
       height,
     });
+
+    collideRef.current = collisionDetected;
 
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
@@ -133,7 +136,13 @@ export const Placeable: React.FC = () => {
             )}
             <div
               draggable={false}
-              className=" w-full h-full relative img-highlight pointer-events-none"
+              className={classNames(
+                " w-full h-full relative img-highlight pointer-events-none",
+                {
+                  "bg-green-background": !collideRef.current,
+                  "bg-red-background": collideRef.current,
+                }
+              )}
               style={{
                 width: `${width * GRID_WIDTH_PX}px`,
                 height: `${height * GRID_WIDTH_PX}px`,
