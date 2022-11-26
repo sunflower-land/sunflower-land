@@ -154,7 +154,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
       choppedGif.current?.goToAndPlay(0);
 
       displayPopover(
-        <div className="flex justify-center">
+        <div className="flex">
           <img
             src={wood}
             className="mr-2"

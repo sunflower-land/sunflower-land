@@ -130,7 +130,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       minedGif.current?.goToAndPlay(0);
 
       displayPopover(
-        <div className="flex justify-center">
+        <div className="flex">
           <img
             src={stone}
             className="mr-2"

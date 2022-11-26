@@ -129,7 +129,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       minedGif.current?.goToAndPlay(0);
 
       displayPopover(
-        <div className="flex justify-center">
+        <div className="flex">
           <img
             src={gold}
             className="mr-2"

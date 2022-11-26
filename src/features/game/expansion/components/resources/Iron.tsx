@@ -128,7 +128,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       minedGif.current?.goToAndPlay(0);
 
       displayPopover(
-        <div className="flex justify-center">
+        <div className="flex">
           <img
             src={iron}
             className="mr-2"
