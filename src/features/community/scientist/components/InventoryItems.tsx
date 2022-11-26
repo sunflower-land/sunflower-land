@@ -54,17 +54,29 @@ export const InventoryItems: React.FC = () => {
   }, []);
 
   // links
-  const openseaLink =
+  const tadpoleLink =
     CONFIG.NETWORK == "mainnet"
       ? "https://opensea.io/collection/project-dignity-x-sfl-tadpole-collection"
       : "https://testnets.opensea.io/collection/project-dignity-tadpoles-v1";
+  const frogLink =
+    CONFIG.NETWORK == "mainnet"
+      ? "https://opensea.io/collection/sunflower-land-frogs-collection"
+      : "https://testnets.opensea.io/collection/sunflower-land-frogs-collection-testnet";
   const projectDignity = "https://www.projectdignity.work";
-
+  console.log("tadpole", tadpoleData);
   return (
     <>
-      <div className="mt-3 lf">
-        <p className="mb-2 underline">Tadpole Inventory</p>
+      <div className="my-2 px-2 lf">
+        <p className="mb-2">Tadpole Inventory</p>
         <div className="flex flex-wrap h-fit mb-2">
+          {tadpoleData?.length <= 0 && (
+            <span className="text-xxs">
+              No tadpoles found, see it on{" "}
+              <a href={tadpoleLink} className="underline">
+                Open Sea
+              </a>
+            </span>
+          )}
           {tadpoleData.map((tadpole, index) => {
             return (
               <Box key={index} image={ITEM_DETAILS[tadpole.health].image} />
@@ -72,17 +84,25 @@ export const InventoryItems: React.FC = () => {
           })}
         </div>
 
-        <p className="mt-2 mb-2 underline">Frog Inventory</p>
+        <p className="mt-3 mb-2">Frog Inventory</p>
         <div className="flex flex-wrap h-fit mb-2">
+          {frogData?.length <= 0 && (
+            <span className="text-xxs">
+              No frogs found, grab one on{" "}
+              <a href={frogLink} className="underline">
+                Open Sea
+              </a>
+            </span>
+          )}
           {frogData.map((frog, index) => {
             return <Box key={index} image={frog.pixel_image} />;
           })}
         </div>
 
-        <p className="mt-2 mb-2 underline">WL Tokens in Wallet</p>
+        <p className="mt-3">WL Tokens in Wallet</p>
         <div className="mr-2 ml-2 flex items-center">
           <img src={token} className="h-5 mr-2" />
-          <p className="mt-2 mb-2">
+          <p className="mt-1 mb-2">
             {setPrecision(whitelistTokenData.balance).toString()} PD-WL
           </p>
         </div>
