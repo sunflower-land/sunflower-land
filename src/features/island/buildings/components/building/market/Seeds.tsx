@@ -135,6 +135,26 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   }
 
+  const labelState = () => {
+    const max = INITIAL_STOCK[selectedName];
+
+    if (stock?.equals(0)) {
+      return (
+        <Label type="danger" className="-mt-2 mb-1">
+          Sold out
+        </Label>
+      );
+    }
+    if (!stock?.equals(0) && max && inventory[selectedName]?.gt(max)) {
+      return (
+        <Label type="danger" className="-mt-2 mb-1">
+          No space left
+        </Label>
+      );
+    }
+    return <Stock item={{ name: selectedName }} />;
+  };
+
   const Action = () => {
     if (isSeedLocked(state.bumpkin, selectedName)) {
       return (
@@ -200,7 +220,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const cropName = selectedName.split(" ")[0] as CropName;
   const crop = CROPS()[cropName];
-  const max = INITIAL_STOCK[selectedName];
 
   return (
     <div className="flex">
@@ -228,19 +247,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          {stock?.equals(0) && (
-            <Label type="danger" className="-mt-2 mb-1">
-              Sold out
-            </Label>
-          )}
-          {!stock?.equals(0) && max && inventory[selectedName]?.gt(max) && (
-            <Label type="danger" className="-mt-2 mb-1">
-              No space left
-            </Label>
-          )}
-          {max && !inventory[selectedName]?.gt(max) && !stock?.equals(0) && (
-            <Stock item={{ name: selectedName }} />
-          )}
+          {labelState()}
           <span className="text-shadow text-center mb-1">{selectedName}</span>
           <img
             src={ITEM_DETAILS[selectedName].image}
