@@ -139,8 +139,8 @@ export const Placeable: React.FC = () => {
               className={classNames(
                 " w-full h-full relative img-highlight pointer-events-none",
                 {
-                  "bg-green-background": !collideRef.current,
-                  "bg-red-background": collideRef.current,
+                  "bg-green-background/80": !collideRef.current,
+                  "bg-red-background/80": collideRef.current,
                 }
               )}
               style={{
