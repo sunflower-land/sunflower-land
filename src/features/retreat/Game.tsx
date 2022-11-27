@@ -13,6 +13,7 @@ import { Auctioneer } from "./components/auctioneer/Auctioneer";
 import { Resale } from "./components/resale/Resale";
 import { RetreatWishingWell } from "./components/wishingWell/RetreatWishingWell";
 import { IslandTravelWrapper } from "./components/islandTravel/IslandTravelWrapper";
+import { RetreatFarmer } from "./components/farmer/RetreatFarmer";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
@@ -99,7 +100,7 @@ export const Game = () => {
             <Resale />
             <RetreatWishingWell />
             <IslandTravelWrapper />
-
+            <RetreatFarmer />
             <Modal show={isError} centered>
               <Panel className="text-shadow">
                 <ErrorMessage
