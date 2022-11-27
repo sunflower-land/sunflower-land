@@ -209,9 +209,9 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.1);
-    const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
-    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
+    const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
+    const createdAt = newDate - chickenTime;
+    expect(newState.chickens[0].fedAt).toEqual(createdAt);
   });
 
   it("chickens produce goods 10% faster with Bumpkin Skill Stable Hand", () => {
@@ -230,9 +230,9 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.1);
-    const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
-    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
+    const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
+    const createdAt = newDate - chickenTime;
+    expect(newState.chickens[0].fedAt).toEqual(createdAt);
   });
 
   it("chickens produce in normal time", () => {
@@ -250,8 +250,7 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const decimalCreatedAt = new Decimal(newDate).toNumber();
-    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
+    expect(newState.chickens[0].fedAt).toEqual(newDate);
   });
 
   it("chickens produce goods 10% faster with Wrangler Badge", () => {
@@ -270,9 +269,9 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.1);
-    const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
-    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
+    const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
+    const createdAt = newDate - chickenTime;
+    expect(newState.chickens[0].fedAt).toEqual(createdAt);
   });
 
   it("chickens produce goods 30% faster with Speed Chicken, Wrangler Badge and Stable Hand skill", () => {
@@ -303,9 +302,9 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", index: 0 },
     });
-    const chickenTime = new Decimal(CHICKEN_TIME_TO_EGG).mul(0.3);
-    const decimalCreatedAt = new Decimal(newDate).minus(chickenTime).toNumber();
-    expect(newState.chickens[0].fedAt).toEqual(decimalCreatedAt);
+    const chickenTime = CHICKEN_TIME_TO_EGG * 0.3;
+    const createdAt = newDate - chickenTime;
+    expect(newState.chickens[0].fedAt).toEqual(createdAt);
   });
 
   it("does not stack Fat Chicken boost when a user has more than one", () => {
