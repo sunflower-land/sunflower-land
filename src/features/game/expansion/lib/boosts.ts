@@ -163,7 +163,7 @@ export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {
     mul += 0.05;
   }
 
-  if (order.name in CAKES() && bumpkin.equipped.coat == "Chef Apron") {
+  if (order.name in CAKES() && bumpkin.equipped.coat === "Chef Apron") {
     mul += 0.2;
   }
 
