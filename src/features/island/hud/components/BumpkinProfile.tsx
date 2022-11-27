@@ -4,13 +4,16 @@ import { useActor } from "@xstate/react";
 
 import question from "assets/icons/expression_confused.png";
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
-import profileBg from "assets/ui/profile/bg.png";
+import whiteBg from "assets/ui/profile/bg.png";
 import lvlUp from "assets/icons/expression_alerted.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import {
+  DynamicNFT,
+  getImageUrl as getBumpkinLayerUrl,
+} from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
-import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
+import { ITEM_IDS as BUMPKIN_ITEMS } from "features/game/types/bumpkin";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -27,6 +30,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 const DIMENSIONS = {
   original: 80,
   scaled: 160,
+  bgMargin: 34,
   bumpkinContainer: {
     width: 130,
     height: 125,
@@ -57,6 +61,7 @@ const DIMENSIONS = {
 const MOBILE_DIMENSIONS = {
   original: 80,
   scaled: 120,
+  bgMargin: 25,
   bumpkinContainer: {
     width: 96,
     height: 93,
@@ -102,6 +107,9 @@ export const BumpkinProfile: React.FC = () => {
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
+  const bgUrl =
+    state.bumpkin &&
+    getBumpkinLayerUrl(BUMPKIN_ITEMS[state.bumpkin.equipped.background]);
 
   useEffect(() => {
     goToProgress();
@@ -155,14 +163,27 @@ export const BumpkinProfile: React.FC = () => {
         className={`grid cursor-pointer hover:img-highlight fixed z-50`}
         onClick={handleShowHomeModal}
       >
-        <img
-          src={profileBg}
-          className="col-start-1 row-start-1"
-          style={{
-            width: `${dimensions.scaled}px`,
-            height: `${dimensions.scaled}px`,
-          }}
-        />
+        <div className="col-start-1 row-start-1">
+          {state.bumpkin ? (
+            <img
+              src={bgUrl}
+              style={{
+                width: `${dimensions.scaled - 2 * dimensions.bgMargin}px`,
+                height: `${dimensions.scaled - 2 * dimensions.bgMargin}px`,
+                margin: `${dimensions.bgMargin}px`,
+                borderRadius: `45%`,
+              }}
+            />
+          ) : (
+            <img
+              src={whiteBg}
+              style={{
+                width: `${dimensions.scaled}px`,
+                height: `${dimensions.scaled}px`,
+              }}
+            />
+          )}
+        </div>
         <div
           className="col-start-1 row-start-1 overflow-hidden z-0"
           style={{
@@ -180,7 +201,7 @@ export const BumpkinProfile: React.FC = () => {
               }}
             >
               <DynamicNFT
-                bumpkinParts={state.bumpkin.equipped as BumpkinParts}
+                bumpkinParts={state.bumpkin.equipped}
                 showTool={false}
               />
             </div>
