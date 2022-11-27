@@ -5,7 +5,7 @@ import { useActor } from "@xstate/react";
 import question from "assets/icons/expression_confused.png";
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
 import profileBg from "assets/ui/profile/bg.png";
-import lvlUp from "assets/ui/profile/lvl_up.png";
+import lvlUp from "assets/icons/expression_alerted.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
@@ -22,41 +22,76 @@ import {
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 const DIMENSIONS = {
   original: 80,
-  scaled: 60,
+  scaled: 160,
+  bumpkinContainer: {
+    width: 130,
+    height: 125,
+    radiusBottomLeft: 85,
+    radiusBottomRight: 45,
+  },
   bumpkin: {
-    containerSize: 47,
-    size: 75,
-    marginLeft: -5,
-    radius: {
-      bottomLeft: "100%",
-      bottomRight: "30%",
-    },
+    width: 200,
+    marginLeft: -10,
+  },
+  noBumpkin: {
+    marginLeft: 48,
+    marginTop: 20,
   },
   level: {
-    width: 10,
-    height: 5,
-    marginTop: 40,
-    marginLeft: 25,
+    width: 24,
+    height: 12,
+    marginLeft: 68,
+    marginTop: 104,
   },
   skillsMark: {
-    width: 4,
-    height: 9,
-    marginTop: 14,
-    marginLeft: 46,
+    width: 12,
+    marginLeft: 119,
+    marginTop: 35,
+  },
+};
+
+const MOBILE_DIMENSIONS = {
+  original: 80,
+  scaled: 120,
+  bumpkinContainer: {
+    width: 96,
+    height: 93,
+    radiusBottomLeft: 70,
+    radiusBottomRight: 35,
+  },
+  bumpkin: {
+    width: 160,
+    marginLeft: -14,
+  },
+  noBumpkin: {
+    marginLeft: 36,
+    marginTop: 17,
+  },
+  level: {
+    width: 22,
+    height: 14,
+    marginLeft: 49,
+    marginTop: 76,
+  },
+  skillsMark: {
+    width: 10,
+    marginLeft: 88,
+    marginTop: 22,
   },
 };
 
 const SPRITE_STEPS = 50;
 
 export const BumpkinProfile: React.FC = () => {
+  const [isMobile] = useIsMobile();
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const dimensions = DIMENSIONS;
+  const [dimensions, setDimensions] = useState(DIMENSIONS);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -71,6 +106,10 @@ export const BumpkinProfile: React.FC = () => {
   useEffect(() => {
     goToProgress();
   }, [level, experience]);
+
+  useEffect(() => {
+    setDimensions(isMobile ? MOBILE_DIMENSIONS : DIMENSIONS);
+  }, [isMobile]);
 
   const handleShowHomeModal = () => {
     setViewSkillsPage(showSkillPointAlert);
@@ -120,24 +159,24 @@ export const BumpkinProfile: React.FC = () => {
           src={profileBg}
           className="col-start-1 row-start-1"
           style={{
-            width: `${PIXEL_SCALE * dimensions.scaled}px`,
-            height: `${PIXEL_SCALE * dimensions.scaled}px`,
+            width: `${dimensions.scaled}px`,
+            height: `${dimensions.scaled}px`,
           }}
         />
         <div
           className="col-start-1 row-start-1 overflow-hidden z-0"
           style={{
-            width: `${PIXEL_SCALE * dimensions.bumpkin.containerSize}px`,
-            height: `${PIXEL_SCALE * dimensions.bumpkin.containerSize}px`,
-            borderBottomLeftRadius: dimensions.bumpkin.radius.bottomLeft,
-            borderBottomRightRadius: dimensions.bumpkin.radius.bottomRight,
+            width: `${dimensions.bumpkinContainer.width}px`,
+            height: `${dimensions.bumpkinContainer.height}px`,
+            borderBottomLeftRadius: `${dimensions.bumpkinContainer.radiusBottomLeft}px`,
+            borderBottomRightRadius: `${dimensions.bumpkinContainer.radiusBottomRight}px`,
           }}
         >
           {state.bumpkin ? (
             <div
               style={{
-                width: `${PIXEL_SCALE * dimensions.bumpkin.size}px`,
-                marginLeft: `${PIXEL_SCALE * dimensions.bumpkin.marginLeft}px`,
+                width: `${dimensions.bumpkin.width}px`,
+                marginLeft: `${dimensions.bumpkin.marginLeft}px`,
               }}
             >
               <DynamicNFT
@@ -150,15 +189,18 @@ export const BumpkinProfile: React.FC = () => {
               id="no-bumpkin"
               src={question}
               alt="No Bumpkin Found"
-              className="w-1/2 mx-auto"
-              style={{ marginTop: "40px" }}
+              className="w-1/2"
+              style={{
+                marginLeft: `${dimensions.noBumpkin.marginLeft}px`,
+                marginTop: `${dimensions.noBumpkin.marginTop}px`,
+              }}
             />
           )}
         </div>
         <Spritesheet
           className="col-start-1 row-start-1 z-10"
           style={{
-            width: `${PIXEL_SCALE * dimensions.scaled}px`,
+            width: `${dimensions.scaled}px`,
             imageRendering: "pixelated",
           }}
           image={progressBarSprite}
@@ -175,11 +217,10 @@ export const BumpkinProfile: React.FC = () => {
         <div
           className={`col-start-1 row-start-1 flex justify-center text-white text-xxs z-20`}
           style={{
-            marginLeft: `${PIXEL_SCALE * dimensions.level.marginLeft}px`,
-            marginTop: `${PIXEL_SCALE * dimensions.level.marginTop}px`,
-            width: `${PIXEL_SCALE * dimensions.level.width}px`,
-            height: `${PIXEL_SCALE * dimensions.level.height}px`,
-            lineHeight: "0.5rem",
+            width: `${dimensions.level.width}px`,
+            height: `${dimensions.level.height}px`,
+            marginLeft: `${dimensions.level.marginLeft}px`,
+            marginTop: `${dimensions.level.marginTop}px`,
           }}
         >
           {level}
@@ -189,10 +230,9 @@ export const BumpkinProfile: React.FC = () => {
             src={lvlUp}
             className="col-start-1 row-start-1 animate-float z-30"
             style={{
-              width: `${PIXEL_SCALE * dimensions.skillsMark.width}px`,
-              height: `${PIXEL_SCALE * dimensions.skillsMark.height}px`,
-              marginLeft: `${PIXEL_SCALE * dimensions.skillsMark.marginLeft}px`,
-              marginTop: `${PIXEL_SCALE * dimensions.skillsMark.marginTop}px`,
+              width: `${dimensions.skillsMark.width}px`,
+              marginLeft: `${dimensions.skillsMark.marginLeft}px`,
+              marginTop: `${dimensions.skillsMark.marginTop}px`,
             }}
           />
         )}
