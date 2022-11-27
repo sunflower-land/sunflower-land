@@ -6,6 +6,7 @@ import { canMine as canMineGold } from "features/game/events/goldMine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import {
+  CollectibleName,
   FOODS,
   getKeys,
   QUEST_ITEMS,
@@ -62,7 +63,10 @@ export function canWithdraw({ item, game }: CanWithdrawArgs) {
   }
 
   // Placed items
-  if (item in game.collectibles) {
+  if (
+    item in game.collectibles &&
+    (game.collectibles[item as CollectibleName] || []).length > 0
+  ) {
     return false;
   }
 
