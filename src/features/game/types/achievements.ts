@@ -97,7 +97,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       "Pumpkin Seed": new Decimal(50),
     },
   },
-
   Timbeerrr: {
     description: "Chop 150 trees",
     progress: (gameState: GameState) =>
@@ -113,7 +112,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.expansions.length - INITIAL_EXPANSIONS.length,
     requirement: 5,
-
     sfl: marketRate(50),
   },
   "Cool Flower": {

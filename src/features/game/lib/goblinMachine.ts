@@ -18,7 +18,7 @@ import {
 import { ERRORS } from "lib/errors";
 import { EMPTY } from "./constants";
 import { loadSession } from "../actions/loadSession";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { INITIAL_SESSION } from "./gameMachine";
 import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMachine";
 import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/tradingPostMachine";
@@ -180,7 +180,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               );
 
               // Get session id
-              const sessionIdFn = metamask
+              const sessionIdFn = wallet
                 .getSessionManager()
                 .getSessionId(farmId);
 

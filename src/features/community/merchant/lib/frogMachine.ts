@@ -1,6 +1,6 @@
 import { createMachine, Interpreter, assign } from "xstate";
 
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { communityContracts } from "features/community/lib/communityContracts";
 
 import { mintFrog, approve } from "../actions/mintFrog";
@@ -140,7 +140,7 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
       check_token: {
         invoke: {
           src: async () => {
-            const isTokenApproved = await metamask
+            const isTokenApproved = await wallet
               .getToken()
               .isTokenApprovedForContract(frogAddress);
 
@@ -194,7 +194,7 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
       minting: {
         invoke: {
           src: async () => {
-            const farm = await metamask.getFarm()?.getFarms();
+            const farm = await wallet.getFarm()?.getFarms();
             const mint = await mintFrog({ farmId: Number(farm[0].tokenId) });
 
             return { mint };

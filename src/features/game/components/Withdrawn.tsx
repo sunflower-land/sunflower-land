@@ -3,14 +3,14 @@ import React, { useContext } from "react";
 
 import secure from "assets/npcs/synced.gif";
 import { Context } from "../GoblinProvider";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { shortAddress } from "lib/utils/shortAddress";
 
 export const Withdrawn: React.FC = () => {
   const { goblinService } = useContext(Context);
 
   const handleAddToken = async () => {
-    await metamask.addTokenToMetamask();
+    await wallet.addTokenToMetamask();
   };
 
   return (
@@ -21,7 +21,7 @@ export const Withdrawn: React.FC = () => {
         <p className="mb-4">
           Your items/tokens have been sent to:
           <span className="text-center mb-2 ml-2 text-sm">
-            {shortAddress(metamask.myAccount as string)}
+            {shortAddress(wallet.myAccount as string)}
           </span>
         </p>
 
@@ -48,7 +48,7 @@ export const Withdrawn: React.FC = () => {
           items. You can also view your items on{" "}
           <a
             className="underline hover:text-white"
-            href={`https://polygonscan.com/address/${metamask.myAccount}#tokentxnsErc1155`}
+            href={`https://polygonscan.com/address/${wallet.myAccount}#tokentxnsErc1155`}
             target="_blank"
             rel="noreferrer"
           >

@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { CharityAddress } from "../components/CreateFarm";
@@ -68,9 +68,9 @@ export async function createAccount({
     captcha,
   });
 
-  await metamask.getAccountMinter().createAccount(transaction);
+  await wallet.getAccountMinter().createAccount(transaction);
 
-  const farm = await metamask.getFarm().getNewFarm();
+  const farm = await wallet.getFarm().getNewFarm();
 
   return farm;
 }

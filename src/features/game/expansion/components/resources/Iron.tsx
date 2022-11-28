@@ -50,12 +50,11 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   // When to hide the iron that pops out
   const [collecting, setCollecting] = useState(false);
 
-  const overlayRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
 
-  const [showIronTimeLeft, setShowIronTimeLeft] = useState(false);
+  const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
   const expansion = game.context.state.expansions[expansionIndex];
@@ -170,7 +169,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   };
 
   const handleHover = () => {
-    if (mined) setShowIronTimeLeft(true);
+    if (mined) setShowRockTimeLeft(true);
 
     if (!hasPickaxes) {
       containerRef.current?.classList["add"]("cursor-not-allowed");
@@ -179,7 +178,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   };
 
   const handleMouseLeave = () => {
-    setShowIronTimeLeft(false);
+    setShowRockTimeLeft(false);
 
     containerRef.current?.classList["remove"]("cursor-not-allowed");
     setErrorLabel(undefined);
@@ -189,7 +188,6 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
   return (
     <div
-      ref={overlayRef}
       className="relative"
       style={{ height: "40px" }}
       onMouseEnter={handleHover}
@@ -229,7 +227,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
             />
             <InnerPanel
               className={classNames(
-                "transition-opacity absolute top-2 w-fit left-12 z-40 pointer-events-none",
+                "transition-opacity absolute top-2 w-fit left-12 z-50 pointer-events-none",
                 {
                   "opacity-100": errorLabel === "noPickaxe",
                   "opacity-0": errorLabel !== "noPickaxe",
@@ -301,19 +299,16 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       {/* Recovery time panel */}
       {mined && (
         <div
-          className="absolute"
+          className="flex justify-center absolute w-full pointer-events-none"
           style={{
-            top: "30px",
-            left: "-26px",
+            top: `${PIXEL_SCALE * -20}px`,
           }}
         >
-          {overlayRef.current && (
-            <TimeLeftPanel
-              text="Recovers in:"
-              timeLeft={timeLeft}
-              showTimeLeft={showIronTimeLeft}
-            />
-          )}
+          <TimeLeftPanel
+            text="Recovers in:"
+            timeLeft={timeLeft}
+            showTimeLeft={showRockTimeLeft}
+          />
         </div>
       )}
       {/* Popover showing amount of iron collected */}

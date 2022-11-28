@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import Modal from "react-bootstrap/Modal";
 
@@ -180,7 +180,6 @@ export const Collectible: React.FC<CollectibleProps> = ({
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
-  const overlayRef = useRef<HTMLDivElement>(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -196,7 +195,6 @@ export const Collectible: React.FC<CollectibleProps> = ({
       <>
         <div
           className="w-full h-full cursor-pointer"
-          ref={overlayRef}
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
         >
@@ -225,13 +223,18 @@ export const Collectible: React.FC<CollectibleProps> = ({
             />
           </div>
         </div>
-        {overlayRef.current && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -20}px`,
+          }}
+        >
           <TimeLeftPanel
             text="Ready in:"
             timeLeft={secondsLeft}
             showTimeLeft={showTooltip}
           />
-        )}
+        </div>
       </>
     );
   }

@@ -42,27 +42,30 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
   );
 
   return (
-    <div className="w-max h-full relative max-w-none">
-      <img
-        src={pontoon}
-        width={129 * PIXEL_SCALE}
-        style={{
-          top: `${PIXEL_SCALE * 18}px`,
-          right: `${PIXEL_SCALE * 15}px`,
-        }}
-        className="relative"
-      />
+    <div className="w-full h-full relative">
+      <div className="w-max h-full relative">
+        <img
+          src={pontoon}
+          width={129 * PIXEL_SCALE}
+          style={{
+            top: `${PIXEL_SCALE * 21}px`,
+            right: `${PIXEL_SCALE * 17}px`,
+          }}
+          className="relative"
+        />
+      </div>
       <div
         className="absolute"
         style={{
-          top: `${PIXEL_SCALE * 80}px`,
-          left: `${PIXEL_SCALE * 42}px`,
+          top: `${PIXEL_SCALE * 83}px`,
+          left: `${PIXEL_SCALE * 40}px`,
         }}
       >
         <ProgressBar
           seconds={secondsLeft}
           percentage={secondsLeft / constructionTime}
           type="progress"
+          formatLength="medium"
         />
       </div>
     </div>

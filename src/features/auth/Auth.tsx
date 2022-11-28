@@ -24,10 +24,19 @@ import { Countdown } from "./components/Countdown";
 import { Blacklisted } from "features/game/components/Blacklisted";
 import { Connect } from "./components/Connect";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ConnectedToWallet } from "./components/ConnectedToWallet";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
+
+  const connecting =
+    authState.matches("reconnecting") ||
+    authState.matches("connectingToMetamask") ||
+    authState.matches("connectingToWalletConnect") ||
+    authState.matches("connectingToSequence") ||
+    authState.matches("setupContracts");
+
   return (
     <Modal
       centered
@@ -55,7 +64,8 @@ export const Auth: React.FC = () => {
           authState.matches({ connected: "checkingSupply" }) ||
           authState.matches({ connected: "checkingAccess" })) && <Loading />}
         {authState.matches("idle") && <Connect />}
-        {authState.matches("connecting") && <Loading text="Connecting" />}
+        {connecting && <Loading text="Connecting" />}
+        {authState.matches("connectedToWallet") && <ConnectedToWallet />}
         {authState.matches("signing") && <Signing />}
         {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
         {authState.matches({ connected: "supplyReached" }) && <SupplyReached />}

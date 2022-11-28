@@ -26,7 +26,6 @@ export const Kitchen: React.FC<Props> = ({
   name,
   craftingService,
   isBuilt,
-  handleShowCraftingTimer,
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
@@ -66,13 +65,8 @@ export const Kitchen: React.FC<Props> = ({
 
     if (isBuilt) {
       // Add future on click actions here
-      if (idle) {
+      if (idle || crafting) {
         setShowModal(true);
-        return;
-      }
-
-      if (crafting) {
-        handleShowCraftingTimer && handleShowCraftingTimer();
         return;
       }
 
@@ -148,6 +142,8 @@ export const Kitchen: React.FC<Props> = ({
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}
+        crafting={!!crafting}
+        craftingService={craftingService}
       />
     </>
   );
