@@ -47,9 +47,7 @@ export const InventoryItems: React.FC<Props> = ({ state, onClose }) => {
           onClick={() => handleTabClick("basket")}
         >
           <img src={basket} className="h-4 sm:h-5 mr-2" />
-          <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
-            Basket
-          </span>
+          <span className="text-xs sm:text-sm text-ellipsis">Basket</span>
         </Tab>
         <Tab
           className="flex items-center"
@@ -57,9 +55,7 @@ export const InventoryItems: React.FC<Props> = ({ state, onClose }) => {
           onClick={() => handleTabClick("chest")}
         >
           <img src={chest} className="h-4 sm:h-5 mr-2" />
-          <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
-            Chest
-          </span>
+          <span className="text-xs sm:text-sm text-ellipsis">Chest</span>
         </Tab>
         <img
           src={close}
