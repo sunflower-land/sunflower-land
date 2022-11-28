@@ -89,7 +89,7 @@ export const Recipes: React.FC<Props> = ({
     <div className="flex">
       <div className="w-1/2 flex flex-col p-1">
         {craftingService && (
-          <InProgressInfo craftingService={craftingService} />
+          <InProgressInfo craftingService={craftingService} onClose={onClose} />
         )}
         <p className="mb-1">Recipes</p>
         <div className="flex flex-wrap h-fit">
