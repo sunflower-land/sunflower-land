@@ -48,11 +48,11 @@ export const KitchenModal: React.FC<Props> = ({
         }}
       >
         <Recipes
-          craftingService={craftingService}
           recipes={kitchenRecipes}
           onCook={onCook}
           onClose={onClose}
           crafting={crafting}
+          craftingService={craftingService}
         />
       </Panel>
     </Modal>
