@@ -259,4 +259,33 @@ describe("removeCollectible", () => {
 
     expect(getKeys(gameState.chickens).length).toEqual(20);
   });
+
+  it("removes the collectible key if there are none of the type placed", () => {
+    const gameState = removeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Rusty Shovel": new Decimal(2),
+        },
+        chickens: makeChickens(30),
+        collectibles: {
+          "Rock Golem": [
+            {
+              id: "123",
+              createdAt: 0,
+              coordinates: { x: 1, y: 1 },
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "collectible.removed",
+        collectible: "Rock Golem",
+        id: "123",
+      },
+    });
+
+    expect(gameState.collectibles["Rock Golem"]).toBeUndefined();
+  });
 });
