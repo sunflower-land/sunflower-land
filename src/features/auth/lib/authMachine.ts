@@ -659,8 +659,6 @@ export const authMachine = createMachine<
           context.rawToken as string
         );
 
-        console.log({ verificationUrl, botStatus, isBanned });
-
         // Call migrated end point to see if migrated
         const { migrated } = await checkMigrationStatus(
           farmAccount.tokenId,
