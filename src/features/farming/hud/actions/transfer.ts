@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 
 type Request = {
@@ -26,7 +26,7 @@ export async function transferAccount(request: Request) {
 
   const data: { success: boolean } = await response.json();
 
-  await metamask
+  await wallet
     .getFarm()
     .transfer({ to: request.receiver, tokenId: request.farmId });
 

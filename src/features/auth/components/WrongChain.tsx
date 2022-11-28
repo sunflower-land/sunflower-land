@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 
 import alert from "assets/icons/expression_alerted.png";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { metamaskIcon } from "./WalletIcons";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -19,7 +19,7 @@ export const WrongChain: React.FC = () => {
 
   useEffect(() => {
     const load = async () => {
-      const defaultNetworkStatus = await metamask.checkDefaultNetwork();
+      const defaultNetworkStatus = await wallet.checkDefaultNetwork();
       setIsDefaultNetwork(defaultNetworkStatus);
     };
 
@@ -27,7 +27,7 @@ export const WrongChain: React.FC = () => {
   }, []);
 
   const initialiseNetwork = async () => {
-    await metamask.initialiseNetwork();
+    await wallet.initialiseNetwork();
   };
 
   return (

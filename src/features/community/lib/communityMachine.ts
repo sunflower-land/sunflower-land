@@ -2,7 +2,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import Decimal from "decimal.js-light";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
 
 export interface Context {
@@ -39,11 +39,11 @@ export function startCommunityMachine(authContext: AuthContext) {
           src: async () => {
             // TODO load on chain balances for current wallet
 
-            const balance = await metamask
+            const balance = await wallet
               .getToken()
-              .balanceOf(metamask.myAccount as string);
+              .balanceOf(wallet.myAccount as string);
 
-            const farm = await metamask.getFarm()?.getFarms();
+            const farm = await wallet.getFarm()?.getFarms();
 
             return {
               balance: new Decimal(fromWei(balance)),

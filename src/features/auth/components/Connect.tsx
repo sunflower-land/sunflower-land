@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
+import { CONFIG } from "lib/config";
 
 export const Connect: React.FC = () => {
   const { authService } = useContext(Context);
@@ -14,7 +15,7 @@ export const Connect: React.FC = () => {
       </p>
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() => authService.send("CONNECT")}
+        onClick={() => authService.send("CONNECT_TO_METAMASK")}
       >
         <div className="px-8">
           {metamaskIcon}
@@ -45,7 +46,11 @@ export const Connect: React.FC = () => {
           Coinbase
         </div>
       </Button> */}
-      <Button className="mb-2 py-2 text-sm relative" disabled>
+      <Button
+        className="mb-2 py-2 text-sm relative"
+        onClick={() => authService.send("CONNECT_TO_WALLET_CONNECT")}
+        disabled={CONFIG.NETWORK === "mainnet"}
+      >
         <div className="px-8">
           <svg
             height="25"
@@ -69,7 +74,11 @@ export const Connect: React.FC = () => {
           Connect with an email or social login
         </span>
       </div>
-      <Button className="mb-2 py-2 text-sm relative" disabled>
+      <Button
+        className="mb-2 py-2 text-sm relative"
+        onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
+        disabled={CONFIG.NETWORK === "mainnet"}
+      >
         <div className="px-8">
           <img
             src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"

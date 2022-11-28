@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -59,7 +59,7 @@ export async function cancelRequest(request: Request): Promise<Response> {
 export async function cancel(request: Request) {
   const response = await cancelRequest(request);
 
-  await metamask
+  await wallet
     .getSessionManager()
     .cancelTrade({ ...response.payload, signature: response.signature });
 }
