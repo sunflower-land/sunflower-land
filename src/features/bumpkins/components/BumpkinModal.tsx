@@ -23,6 +23,7 @@ import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillP
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
+import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -83,6 +84,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
     getExperienceToNextLevel(experience);
 
   const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
+  const hasAvaliableSP = getAvailableBumpkinSkillPoints(state.bumpkin) > 0;
 
   const progressWidth = Math.min(
     Math.floor(
@@ -127,13 +129,15 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
         <div className="flex-1">
           <div className="mb-3">
             <div className="flex items-center ml-1 my-2">
-              <img
-                src={levelIcon}
-                style={{
-                  width: `${PIXEL_SCALE * 10}px`,
-                  marginRight: `${PIXEL_SCALE * 4}px`,
-                }}
-              />
+              {hasAvaliableSP && (
+                <img
+                  src={levelIcon}
+                  style={{
+                    width: `${PIXEL_SCALE * 10}px`,
+                    marginRight: `${PIXEL_SCALE * 4}px`,
+                  }}
+                />
+              )}
               <div>
                 <p className="text-base">
                   Level {level}
