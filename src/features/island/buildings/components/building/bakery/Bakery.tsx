@@ -4,7 +4,7 @@ import classNames from "classnames";
 import bakery from "assets/buildings/bakery.png";
 import smoke from "assets/buildings/smoke.gif";
 import goblinChef from "assets/npcs/goblin_chef.gif";
-import goblinChefdoing from "assets/npcs/goblin_chef_doing.gif";
+import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { ConsumableName } from "features/game/types/consumables";
@@ -27,14 +27,12 @@ export const Bakery: React.FC<Props> = ({
   name,
   craftingService,
   isBuilt,
-  handleShowCraftingTimer,
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService || !handleShowCraftingTimer)
-    return <img src={bakery} className="w-full" />;
+  if (!craftingService) return <img src={bakery} className="w-full" />;
 
   const handleCook = (item: ConsumableName) => {
     craftingService.send({
@@ -70,13 +68,8 @@ export const Bakery: React.FC<Props> = ({
 
     if (isBuilt) {
       // Add future on click actions here
-      if (idle) {
+      if (idle || crafting) {
         setShowModal(true);
-        return;
-      }
-
-      if (crafting) {
-        handleShowCraftingTimer();
         return;
       }
 
@@ -116,7 +109,7 @@ export const Bakery: React.FC<Props> = ({
         />
         {crafting ? (
           <img
-            src={goblinChefdoing}
+            src={goblinChefDoing}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 22}px`,
@@ -169,6 +162,8 @@ export const Bakery: React.FC<Props> = ({
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}
+        crafting={!!crafting}
+        craftingService={craftingService}
       />
     </>
   );

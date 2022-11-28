@@ -69,8 +69,8 @@ export const Connect: React.FC = () => {
       </Button>
 
       <div className="bg-white b-1 w-full h-[1px] my-4" />
-      <div className="flex justify-center relative">
-        <span className="text-xs text-center bg-[#c28669] px-2 absolute top-[-34px] italic">
+      <div className="flex justify-center relative pb-1">
+        <span className="text-xs text-center bg-[#c28669] px-2 absolute top-[-34px] italic ">
           Connect with an email or social login
         </span>
       </div>
