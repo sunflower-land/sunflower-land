@@ -29,7 +29,7 @@ import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
-import { CropReward } from "./CropReward";
+import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
 
 interface Props {
   plotIndex: number;
@@ -385,10 +385,11 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       )}
 
       {/* Crop reward */}
-      <CropReward
+      <ChestReward
         reward={reward}
+        rewardType={"Crop"}
         onCollected={onCollectReward}
-        plotIndex={plotIndex}
+        index={plotIndex}
         expansionIndex={expansionIndex}
       />
     </div>

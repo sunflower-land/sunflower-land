@@ -36,7 +36,7 @@ import {
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
-import { TreeReward } from "features/game/expansion/components/resources/components/TreeReward";
+import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
 
 const HITS = 3;
 const tool = "Axe";
@@ -166,7 +166,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setReward(null);
     setTouchCount(0);
     if (success && tree) {
-      //Toast for the Rewards
+      //Toast for the ChestReward
       //@NOTE This Toast only supports SFL rewards 😭
       setToast({
         icon: sfltoken,
@@ -375,12 +375,13 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         )}
       >
         {popover}
-        {/* Tree Reward */}
-        <TreeReward
+        {/* Tree ChestReward */}
+        <ChestReward
           reward={reward}
           onCollected={onCollectReward}
-          treeIndex={treeIndex}
+          index={treeIndex}
           expansionIndex={expansionIndex}
+          rewardType={"Tree"}
         />
       </div>
     </div>
