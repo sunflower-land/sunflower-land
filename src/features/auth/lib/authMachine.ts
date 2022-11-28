@@ -129,6 +129,7 @@ export type BlockchainState = {
     | "connectingToMetamask"
     | "connectingToWalletConnect"
     | "connectingToSequence"
+    | "setupContracts"
     | "connectedToWallet"
     | "reconnecting"
     | "connected"
@@ -208,18 +209,10 @@ export const authMachine = createMachine<
         id: "connectingToMetamask",
         invoke: {
           src: "initMetamask",
-          onDone: [
-            {
-              target: "checkFarm",
-              cond: "isVisitingUrl",
-              actions: "assignWallet",
-            },
-
-            {
-              target: "signing",
-              actions: "assignWallet",
-            },
-          ],
+          onDone: {
+            target: "setupContracts",
+            actions: "assignWallet",
+          },
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -230,18 +223,10 @@ export const authMachine = createMachine<
         id: "connectingToWalletConnect",
         invoke: {
           src: "initWalletConnect",
-          onDone: [
-            {
-              target: "checkFarm",
-              cond: "isVisitingUrl",
-              actions: "assignWallet",
-            },
-
-            {
-              target: "connectedToWallet",
-              actions: "assignWallet",
-            },
-          ],
+          onDone: {
+            target: "setupContracts",
+            actions: "assignWallet",
+          },
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -252,16 +237,33 @@ export const authMachine = createMachine<
         id: "connectingToSequence",
         invoke: {
           src: "initSequence",
+          onDone: {
+            target: "setupContracts",
+            actions: "assignWallet",
+          },
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
+      },
+      setupContracts: {
+        invoke: {
+          src: async (context) => {
+            await wallet.initialise(context.provider);
+            await communityContracts.initialise(context.provider);
+          },
           onDone: [
             {
               target: "checkFarm",
               cond: "isVisitingUrl",
-              actions: "assignWallet",
             },
-
+            {
+              target: "signing",
+              cond: (context) => context.wallet === "METAMASK",
+            },
             {
               target: "connectedToWallet",
-              actions: "assignWallet",
             },
           ],
           onError: {
@@ -600,14 +602,9 @@ export const authMachine = createMachine<
           const provider = (window as any).ethereum;
           await provider.enable();
 
-          await wallet.initialise(provider);
-          await communityContracts.initialise(provider);
-
           return { wallet: "METAMASK", provider };
         } else if ((window as any).web3) {
-          const provider = (window as any).web3;
-          await wallet.initialise(provider.currentProvider);
-          await communityContracts.initialise(provider.currentProvider);
+          const provider = (window as any).web3.currentProvider;
 
           return { wallet: "METAMASK", provider };
         } else {
@@ -624,8 +621,6 @@ export const authMachine = createMachine<
         });
         //  Enable session (triggers QR Code modal)
         await provider.enable();
-        await wallet.initialise(provider);
-        await communityContracts.initialise(provider);
 
         return { wallet: "WALLET_CONNECT", provider };
       },
@@ -640,8 +635,6 @@ export const authMachine = createMachine<
           },
         });
         const provider = sequenceWallet.getProvider();
-        await wallet.initialise(provider);
-        await communityContracts.initialise(provider);
 
         return { wallet: "SEQUENCE", provider };
       },

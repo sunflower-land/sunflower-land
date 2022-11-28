@@ -34,7 +34,8 @@ export const Auth: React.FC = () => {
     authState.matches("reconnecting") ||
     authState.matches("connectingToMetamask") ||
     authState.matches("connectingToWalletConnect") ||
-    authState.matches("connectingToSequence");
+    authState.matches("connectingToSequence") ||
+    authState.matches("setupContracts");
 
   return (
     <Modal
