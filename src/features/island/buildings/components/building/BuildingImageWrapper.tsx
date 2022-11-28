@@ -32,6 +32,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
   onClick,
   children,
 }) => {
+  console.log();
   return (
     <>
       {/* building */}
@@ -52,7 +53,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
           <div
             className="flex justify-center absolute w-full pointer-events-none"
             style={{
-              bottom: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 7}px`,
               paddingRight: `${PIXEL_SCALE * 1}px`,
             }}
           >

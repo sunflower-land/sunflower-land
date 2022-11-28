@@ -16,7 +16,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -26,6 +25,7 @@ export const Kitchen: React.FC<Props> = ({
   idle,
   ready,
   name,
+  secondsLeft,
   craftingService,
   isBuilt,
   handleShowCraftingTimer,
@@ -33,8 +33,6 @@ export const Kitchen: React.FC<Props> = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
-
-  useUiRefresher({ active: crafting });
 
   if (!craftingService?.initialized || !handleShowCraftingTimer) {
     return <img src={kitchen} className="w-full" />;
@@ -96,7 +94,7 @@ export const Kitchen: React.FC<Props> = ({
         crafting={crafting}
         ready={ready}
         craftingSeconds={name ? CONSUMABLES[name].cookingSeconds : undefined}
-        secondsTillReady={craftingService?.state?.context?.secondsTillReady}
+        secondsTillReady={secondsLeft}
       >
         <img
           src={kitchen}

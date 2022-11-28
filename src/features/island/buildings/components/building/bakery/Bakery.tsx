@@ -17,7 +17,6 @@ import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -27,6 +26,7 @@ export const Bakery: React.FC<Props> = ({
   idle,
   ready,
   name,
+  secondsLeft,
   craftingService,
   isBuilt,
   handleShowCraftingTimer,
@@ -34,8 +34,6 @@ export const Bakery: React.FC<Props> = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
-
-  useUiRefresher({ active: crafting });
 
   if (!craftingService?.initialized || !handleShowCraftingTimer) {
     return <img src={bakery} className="w-full" />;
@@ -97,7 +95,7 @@ export const Bakery: React.FC<Props> = ({
         crafting={crafting}
         ready={ready}
         craftingSeconds={name ? CONSUMABLES[name].cookingSeconds : undefined}
-        secondsTillReady={craftingService?.state?.context?.secondsTillReady}
+        secondsTillReady={secondsLeft}
       >
         <img
           src={bakery}

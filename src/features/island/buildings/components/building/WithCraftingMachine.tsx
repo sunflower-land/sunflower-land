@@ -16,12 +16,15 @@ const isIdle = (state: MachineState) => state.matches("idle");
 const isCrafting = (state: MachineState) => state.matches("crafting");
 const isReady = (state: MachineState) => state.matches("ready");
 const itemName = (state: MachineState) => state.context.name;
+const secondsTillReady = (state: MachineState) =>
+  state.context.secondsTillReady;
 
 export interface CraftingMachineChildProps extends BuildingProps {
   idle: boolean;
   crafting: boolean;
   ready: boolean;
   name?: ConsumableName;
+  secondsLeft?: number;
   craftingService: MachineInterpreter;
   handleShowCraftingTimer: () => void;
 }
@@ -57,6 +60,7 @@ export const WithCraftingMachine = ({
   const crafting = useSelector(craftingService, isCrafting);
   const ready = useSelector(craftingService, isReady);
   const name = useSelector(craftingService, itemName);
+  const secondsLeft = useSelector(craftingService, secondsTillReady);
 
   const handleShowCraftingTimer = () => {
     setShowTimer(true);
@@ -68,6 +72,7 @@ export const WithCraftingMachine = ({
     crafting,
     ready,
     name,
+    secondsLeft,
     craftingService,
     handleShowCraftingTimer,
   });
