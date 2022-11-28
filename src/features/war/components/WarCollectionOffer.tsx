@@ -10,14 +10,18 @@ import warBond from "src/assets/icons/warBond.png";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { getWarBonds } from "features/game/events/buyWarBonds";
+import close from "assets/icons/close.png";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
+  onClose: () => void;
   onCraft: () => void;
   inventory: Inventory;
   offer: Offer;
 }
 
 export const WarCollectionOffer: React.FC<Props> = ({
+  onClose,
   onCraft,
   inventory,
   offer,
@@ -45,6 +49,16 @@ export const WarCollectionOffer: React.FC<Props> = ({
 
   return (
     <div className="flex">
+      <img
+        src={close}
+        className="absolute cursor-pointer z-20"
+        onClick={onClose}
+        style={{
+          top: `${PIXEL_SCALE * 6}px`,
+          right: `${PIXEL_SCALE * 6}px`,
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+      />
       <div className="flex flex-col justify-center items-center p-2 relative w-full">
         <span className="text-shadow text-center">{`${warBonds} x war bonds`}</span>
         <img src={warBond} className="h-16 img-highlight mt-1" alt="War bond" />

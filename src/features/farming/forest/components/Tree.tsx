@@ -133,27 +133,30 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("tree.chopped", {
+      const newState = gameService.send("tree.chopped", {
         index: treeIndex,
         item: selectedItem,
       });
-      setCollecting(true);
-      choppedGif.current?.goToAndPlay(0);
 
-      displayPopover(
-        <div className="flex">
-          <img src={wood} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
-        </div>
-      );
+      if (!newState.matches("hoarding")) {
+        setCollecting(true);
+        choppedGif.current?.goToAndPlay(0);
 
-      setToast({
-        icon: wood,
-        content: `+${tree.wood}`,
-      });
+        displayPopover(
+          <div className="flex">
+            <img src={wood} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
+          </div>
+        );
 
-      await new Promise((res) => setTimeout(res, 2000));
-      setCollecting(false);
+        setToast({
+          icon: wood,
+          content: `+${tree.wood}`,
+        });
+
+        await new Promise((res) => setTimeout(res, 2000));
+        setCollecting(false);
+      }
     } catch (e: any) {
       if (e.message === CHOP_ERRORS.NO_AXES) {
         displayPopover(
