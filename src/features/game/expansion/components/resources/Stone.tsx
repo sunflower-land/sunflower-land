@@ -13,6 +13,7 @@ import pickaxe from "assets/tools/wood_pickaxe.png";
 import {
   GRID_WIDTH_PX,
   POPOVER_TIME_MS,
+  PIXEL_SCALE,
   STONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -132,7 +133,13 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
         displayPopover(
           <div className="flex">
-            <img src={stone} className="w-5 h-5 mr-2" />
+            <img
+              src={stone}
+              className="mr-2"
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
             <span className="text-sm text-white text-shadow">{`+${rock.stone.amount}`}</span>
           </div>
         );
@@ -242,14 +249,14 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       <Spritesheet
         style={{
           position: "absolute",
-          left: "-86.5px",
-          top: "-50px",
+          left: `${PIXEL_SCALE * -33}px`,
+          top: `${PIXEL_SCALE * -19}px`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           width: `${GRID_WIDTH_PX * 7}px`,
           imageRendering: "pixelated",
         }}
-        className="pointer-events-none z-20"
+        className="pointer-events-none z-40"
         getInstance={(spritesheet) => {
           minedGif.current = spritesheet;
         }}
@@ -314,7 +321,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       {/* Popover showing amount of stone collected */}
       <div
         className={classNames(
-          "transition-opacity absolute top-8 w-40 left-12 z-20 pointer-events-none",
+          "transition-opacity absolute top-8 w-40 left-12 z-40 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
