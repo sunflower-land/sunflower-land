@@ -5,13 +5,13 @@ import humanDeath from "assets/npcs/human_death.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { removeSession } from "../actions/login";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 
 export const Blocked: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
 
   const tryAgain = () => {
-    removeSession(metamask.myAccount as string);
+    removeSession(wallet.myAccount as string);
 
     authService.send("REFRESH");
   };

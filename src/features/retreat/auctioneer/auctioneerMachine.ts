@@ -2,12 +2,12 @@ import { fetchAuctioneerSupply } from "features/game/actions/auctioneer";
 import { mint } from "features/game/actions/mint";
 import { GoblinRetreatItemName } from "features/game/types/craftables";
 import { Inventory } from "lib/blockchain/Inventory";
-import { metamask } from "lib/blockchain/metamask";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { createMachine, Interpreter, assign } from "xstate";
 import { Item } from "../components/auctioneer/actions/auctioneerItems";
 import { escalate } from "xstate/lib/actions";
+import { wallet } from "lib/blockchain/wallet";
 
 export interface Context {
   farmId: number;
@@ -110,7 +110,7 @@ export const auctioneerMachine = createMachine<
               "base64"
             ).toString("ascii")}`
           );
-          const inventory = new Inventory(web3, metamask.myAccount as string);
+          const inventory = new Inventory(web3, wallet.myAccount as string);
 
           const id = setInterval(async () => {
             if (context.auctioneerItems === undefined) {

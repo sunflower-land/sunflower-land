@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { createMachine, assign, Interpreter } from "xstate";
@@ -91,7 +91,7 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
     {
       services: {
         loadFarmToVisit: async (): Promise<Context | undefined> => {
-          const farmAccount = await metamask.getFarm()?.getFarm(farmToVisitID);
+          const farmAccount = await wallet.getFarm()?.getFarm(farmToVisitID);
 
           const { game: onChain, owner } = await getOnChainState({
             farmAddress: farmAccount.account,

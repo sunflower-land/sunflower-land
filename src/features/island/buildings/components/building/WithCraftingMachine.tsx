@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useInterpret, useSelector } from "@xstate/react";
 import isEmpty from "lodash.isempty";
 import { Context } from "features/game/GameProvider";
@@ -8,7 +8,6 @@ import {
   MachineInterpreter,
   MachineState,
 } from "../../lib/craftingMachine";
-import { CraftingTimerModal } from "../ui/CraftingTimerModal";
 import { BuildingProps } from "./Building";
 import { ConsumableName } from "features/game/types/consumables";
 
@@ -40,7 +39,6 @@ export const WithCraftingMachine = ({
 }: BuildingProps & {
   children: React.ReactElement<CraftingMachineChildProps>;
 }) => {
-  const [showTimer, setShowTimer] = useState(false);
   const { gameService } = useContext(Context);
   const craftingInProgress = craftingState && !isEmpty(craftingState);
   const craftingMachineContext: CraftingContext = {
@@ -62,10 +60,6 @@ export const WithCraftingMachine = ({
   const name = useSelector(craftingService, itemName);
   const secondsLeft = useSelector(craftingService, secondsTillReady);
 
-  const handleShowCraftingTimer = () => {
-    setShowTimer(true);
-  };
-
   // The building component is cloned and crafting state machine props are injected into it
   const clonedChildren = React.cloneElement(children, {
     idle,
@@ -74,17 +68,7 @@ export const WithCraftingMachine = ({
     name,
     secondsLeft,
     craftingService,
-    handleShowCraftingTimer,
   });
 
-  return (
-    <>
-      {clonedChildren}
-      <CraftingTimerModal
-        show={showTimer}
-        service={craftingService}
-        onClose={() => setShowTimer(false)}
-      />
-    </>
-  );
+  return <>{clonedChildren}</>;
 };

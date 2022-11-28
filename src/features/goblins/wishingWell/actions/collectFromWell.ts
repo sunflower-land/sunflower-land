@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -52,7 +52,7 @@ export async function signCollectFromWell({
 }
 
 export async function collectFromWell(transaction: SignedTransaction) {
-  const receipt = await metamask.getWishingWell().collectFromWell(transaction);
+  const receipt = await wallet.getWishingWell().collectFromWell(transaction);
 
   return receipt;
 }

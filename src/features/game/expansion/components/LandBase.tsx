@@ -16,11 +16,10 @@ import level13 from "assets/land/levels/level_13.webp";
 import level14 from "assets/land/levels/level_14.webp";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { LandExpansion } from "features/game/types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 interface Props {
-  expansions: LandExpansion[];
+  expandedCount: number;
 }
 
 const IMAGE_GRID_WIDTH = 36;
@@ -42,16 +41,7 @@ const LEVEL_IMAGES: Record<number, string> = {
   14: level14,
 };
 
-export const LandBase: React.FC<Props> = ({ expansions }) => {
-  let expandedCount = expansions.length;
-
-  const latestLand = expansions[expansions.length - 1];
-
-  // Land is still being built show previous layout
-  if (latestLand.readyAt > Date.now()) {
-    expandedCount -= 1;
-  }
-
+export const LandBase: React.FC<Props> = ({ expandedCount }) => {
   return (
     <img
       id={Section.GenesisBlock}

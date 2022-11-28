@@ -366,8 +366,14 @@ export const Land: React.FC = () => {
   const { state } = gameState.context;
 
   const { expansions, buildings, collectibles, chickens, bumpkin } = state;
-  const level = expansions.length + 1;
   const [isEditing, setIsEditing] = useState(false);
+
+  let expandedCount = expansions.length;
+  const latestLand = expansions[expansions.length - 1];
+  // Land is still being built show previous layout
+  if (latestLand.readyAt > Date.now()) {
+    expandedCount -= 1;
+  }
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -380,8 +386,8 @@ export const Land: React.FC = () => {
   }, [gameState.value]);
 
   const boatCoordinates = {
-    x: level > 7 ? -9 : -2,
-    y: level > 7 ? -10.5 : -4.5,
+    x: expandedCount >= 7 ? -9 : -2,
+    y: expandedCount >= 7 ? -10.5 : -4.5,
   };
 
   return (
@@ -391,13 +397,13 @@ export const Land: React.FC = () => {
           "pointer-events-none": gameState.matches("visiting"),
         })}
       >
-        <LandBase expansions={expansions} />
+        <LandBase expandedCount={expandedCount} />
         <UpcomingExpansion gameState={state} />
         <DirtRenderer
           expansions={expansions.filter((e) => e.readyAt < Date.now())}
         />
 
-        <Water level={level} />
+        <Water level={expandedCount} />
 
         {/* Sort island elements by y axis */}
         {getIslandElements({

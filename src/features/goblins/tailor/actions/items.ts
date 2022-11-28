@@ -3,7 +3,7 @@ import { ERRORS } from "lib/errors";
 import { BumpkinItem, BumpkinPart } from "features/game/types/bumpkin";
 import { Release } from "../TabContent";
 import { MOCK_SHOP } from "./mockShopItems";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 
 const API_URL = CONFIG.API_URL;
 
@@ -124,7 +124,7 @@ async function loadItems(): Promise<BumpkinShopItem[]> {
   let supply: string[] = [];
 
   try {
-    supply = await metamask.getBumpkinItems().loadSupplyBatch(ids);
+    supply = await wallet.getBumpkinItems().loadSupplyBatch(ids);
   } catch (e) {
     console.log("Loading supply failed: ", e);
   }

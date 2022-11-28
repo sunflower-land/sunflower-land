@@ -11,7 +11,7 @@ import { shortAddress } from "lib/utils/shortAddress";
 
 import { Button } from "components/ui/Button";
 
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 
 import token from "assets/icons/token_2.png";
 import player from "assets/icons/player.png";
@@ -174,9 +174,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         <img src={player} className="h-8 mr-2" />
         <div>
           <p className="text-sm">Sent to your wallet</p>
-          <p className="text-sm">
-            {shortAddress(metamask.myAccount || "XXXX")}
-          </p>
+          <p className="text-sm">{shortAddress(wallet.myAccount || "XXXX")}</p>
         </div>
       </div>
       <Button onClick={withdraw} disabled={disableWithdraw}>

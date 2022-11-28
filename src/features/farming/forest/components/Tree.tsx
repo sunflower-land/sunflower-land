@@ -228,7 +228,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           />
           <InnerPanel
             className={classNames(
-              "ml-10 transition-opacity absolute top-6 w-fit left-5 z-40 pointer-events-none",
+              "ml-10 transition-opacity absolute top-6 w-fit left-5 z-50 pointer-events-none",
               {
                 "opacity-100": showLabel,
                 "opacity-0": !showLabel,
@@ -294,13 +294,21 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               percentage={percentage}
               seconds={timeLeft}
               type="progress"
+              formatLength="short"
             />
           </div>
-          <TimeLeftPanel
-            text="Recovers in:"
-            timeLeft={timeLeft}
-            showTimeLeft={showStumpTimeLeft}
-          />
+          <div
+            className="flex justify-center absolute w-full pointer-events-none"
+            style={{
+              top: "0px",
+            }}
+          >
+            <TimeLeftPanel
+              text="Recovers in:"
+              timeLeft={timeLeft}
+              showTimeLeft={showStumpTimeLeft}
+            />
+          </div>
         </>
       )}
 

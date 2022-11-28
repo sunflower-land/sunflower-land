@@ -1,7 +1,7 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 
 export const loadFarmSlots = async (farmId: number) => {
-  const farmSlots = await metamask.getTrader().getFarmSlots(farmId);
+  const farmSlots = await wallet.getTrader().getFarmSlots(farmId);
 
   return { farmSlots };
 };
