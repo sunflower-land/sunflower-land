@@ -736,7 +736,7 @@ export const authMachine = createMachine<
       }),
       assignWallet: assign<Context, any>({
         wallet: (_context, event) => event.data.wallet,
-        provider: (_context, event) => event.data.provider,
+        provider: (_context: any, event: any) => event.data.provider,
       }),
       refreshFarm: assign<Context, any>({
         farmId: () => undefined,
