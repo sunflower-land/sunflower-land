@@ -15,7 +15,6 @@ import {
   GOLD_RECOVERY_TIME,
   PIXEL_SCALE,
   POPOVER_TIME_MS,
-  PIXEL_SCALE,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";

@@ -14,7 +14,6 @@ import {
   GRID_WIDTH_PX,
   PIXEL_SCALE,
   POPOVER_TIME_MS,
-  PIXEL_SCALE,
   STONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
