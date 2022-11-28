@@ -55,8 +55,6 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
       });
     });
 
-    shortcutItem(selected.name);
-
     onClose();
   };
 

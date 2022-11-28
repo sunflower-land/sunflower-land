@@ -12,12 +12,12 @@ import { OuterPanel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
-import { Bean, BEANS } from "features/game/types/beans";
+import { Bean, BeanName, BEANS } from "features/game/types/beans";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
@@ -37,6 +37,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
+  const collectibles = state.collectibles;
 
   const price = selected.sfl;
   const buy = (amount = 1) => {
@@ -69,6 +70,12 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     });
   };
 
+  const getInventoryItemCount = (name: BeanName) => {
+    return inventory[name]?.sub(
+      collectibles[name as CollectibleName]?.length ?? 0
+    );
+  };
+
   const stock = state.stock[selected.name] || new Decimal(0);
   const Action = () => {
     if (stock?.equals(0)) {
@@ -86,7 +93,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
     const max = INITIAL_STOCK[selected.name];
 
-    if (max && inventory[selected.name]?.gt(max)) {
+    if (max && getInventoryItemCount(selected.name)?.gt(max)) {
       return (
         <span className="text-xs mt-1 text-center">
           {`Max ${max} ${selected.name}s`}
@@ -120,7 +127,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             key={item.name}
             onClick={() => setSelected(item)}
             image={ITEM_DETAILS[item.name].image}
-            count={inventory[item.name]}
+            count={getInventoryItemCount(item.name)}
           />
         ))}
       </div>

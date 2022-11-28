@@ -12,6 +12,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CollectibleName } from "features/game/types/craftables";
 
 interface Props {
   state: GameState;
@@ -85,7 +86,9 @@ export const Inventory: React.FC<Props> = ({
               isSelected={index === 0}
               image={ITEM_DETAILS[item]?.image}
               secondaryImage={ITEM_DETAILS[item]?.secondaryImage}
-              count={state.inventory[item]}
+              count={state.inventory[item]?.sub(
+                state.collectibles[item as CollectibleName]?.length ?? 0
+              )}
               onClick={() => handleItemClick(item)}
             />
           ))}
