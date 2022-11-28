@@ -4,6 +4,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import farmerNpc from "assets/npcs/idle.gif";
 import shadow from "assets/npcs/shadow.png";
+import close from "assets/icons/close.png";
 import island from "assets/land/islands/farmer_island.webp";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
@@ -92,6 +93,16 @@ export const FarmerQuest: React.FC = () => {
             tool: "Farmer Pitchfork",
           }}
         >
+          <img
+            src={close}
+            className="absolute cursor-pointer z-20"
+            onClick={() => setState("closed")}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
           {ModalContent()}
         </Panel>
       </Modal>

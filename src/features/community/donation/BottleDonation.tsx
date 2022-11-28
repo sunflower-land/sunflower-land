@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor, useMachine } from "@xstate/react";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { roundToOneDecimal } from "features/auth/components";
 import { Button } from "components/ui/Button";
 
+import close from "assets/icons/close.png";
 import bottle from "../assets/bottle.gif";
 import seal from "../assets/seal.png";
 import upArrow from "assets/icons/arrow_up.png";
@@ -81,7 +82,17 @@ export const BottleDonation: React.FC = () => {
         <Panel>
           {state.matches("floating") && (
             <div className="flex flex-col items-center mb-1">
-              <img src={team} alt="team members" className="w-full m-3" />
+              <img
+                src={close}
+                className="absolute cursor-pointer z-20"
+                onClick={() => send("CLOSE")}
+                style={{
+                  top: `${PIXEL_SCALE * 6}px`,
+                  right: `${PIXEL_SCALE * 6}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
+              />
+              <img src={team} alt="team members" className="w-full m-3 px-3" />
               <div className="flex flex-col text-shadow items-center">
                 <h2 className="text-sm sm:text-base mb-2 text-center pb-2">
                   Want more Aquatics?
@@ -124,13 +135,10 @@ export const BottleDonation: React.FC = () => {
                   onClick={decrementDonation}
                 />
               </div>
-              <span className="text-[10px] text-shadow mt-2 mb-3">
+              <span className="text-xxs text-shadow mt-2 mb-3">
                 Amount in MATIC
               </span>
               <div className="flex w-full">
-                <Button className="w-full mr-1" onClick={() => send("CLOSE")}>
-                  <span className="text-xs whitespace-nowrap">Close</span>
-                </Button>
                 <Button className="w-full ml-1" onClick={donate}>
                   <span className="text-xs whitespace-nowrap">Donate</span>
                 </Button>

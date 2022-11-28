@@ -144,8 +144,8 @@ export const Basket: React.FC = () => {
         className="overflow-y-auto scrollable overflow-x-hidden"
       >
         {!!seeds.length && (
-          <div className="flex flex-col pl-2" key={"Seeds"}>
-            {<p className="mb-2 underline">Seeds</p>}
+          <div className="flex flex-col pl-2 mb-2" key={"Seeds"}>
+            {<p className="mb-2">Seeds</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {seeds.map((item) => (
                 <Box
@@ -161,8 +161,8 @@ export const Basket: React.FC = () => {
           </div>
         )}
         {!!allTools.length && (
-          <div className="flex flex-col pl-2" key={"Tools"}>
-            {<p className="mb-2 underline">Tools</p>}
+          <div className="flex flex-col pl-2 mb-2" key={"Tools"}>
+            {<p className="mb-2">Tools</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {allTools.map((item) => (
                 <Box
@@ -178,8 +178,8 @@ export const Basket: React.FC = () => {
           </div>
         )}
         {!!resources.length && (
-          <div className="flex flex-col pl-2" key={"Resources"}>
-            {<p className="mb-2 underline">Resources</p>}
+          <div className="flex flex-col pl-2 mb-2" key={"Resources"}>
+            {<p className="mb-2">Resources</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {resources.map((item) => (
                 <Box
@@ -195,8 +195,8 @@ export const Basket: React.FC = () => {
           </div>
         )}
         {!!crops.length && (
-          <div className="flex flex-col pl-2" key={"Crops"}>
-            {<p className="mb-2 underline">Crops</p>}
+          <div className="flex flex-col pl-2 mb-2" key={"Crops"}>
+            {<p className="mb-2">Crops</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {crops.map((item) => (
                 <Box
@@ -212,8 +212,8 @@ export const Basket: React.FC = () => {
           </div>
         )}
         {!!exotic.length && (
-          <div className="flex flex-col pl-2" key={"Exotic"}>
-            {<p className="mb-2 underline">Exotic</p>}
+          <div className="flex flex-col pl-2 mb-2" key={"Exotic"}>
+            {<p className="mb-2">Exotic</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {exotic.map((item) => (
                 <Box
@@ -229,8 +229,8 @@ export const Basket: React.FC = () => {
           </div>
         )}
         {!!consumables.length && (
-          <div className="flex flex-col pl-2" key={"foods"}>
-            {<p className="mb-2 underline">Foods</p>}
+          <div className="flex flex-col pl-2 mb-2" key={"foods"}>
+            {<p className="mb-2">Foods</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {consumables.map((item) => (
                 <Box
@@ -246,8 +246,8 @@ export const Basket: React.FC = () => {
           </div>
         )}
         {!!fertilisers.length && (
-          <div className="flex flex-col pl-2" key={"fertilisers"}>
-            {<p className="mb-2 underline">Fertilisers</p>}
+          <div className="flex flex-col pl-2 mb-2" key={"fertilisers"}>
+            {<p className="mb-2">Fertilisers</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {fertilisers.map((item) => (
                 <Box
@@ -263,8 +263,8 @@ export const Basket: React.FC = () => {
           </div>
         )}
         {!!coupons.length && (
-          <div className="flex flex-col pl-2" key={"coupons"}>
-            {<p className="mb-2 underline">Coupons</p>}
+          <div className="flex flex-col pl-2 mb-2" key={"coupons"}>
+            {<p className="mb-2">Coupons</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {coupons.map((item) => (
                 <Box

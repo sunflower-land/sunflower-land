@@ -41,7 +41,10 @@ export const SkillCategoryList = ({
         return (
           <div key={category} onClick={() => onClick(category)}>
             <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
-              <Label className="px-1 text-xxs absolute -top-3 -right-1">
+              <Label
+                type="default"
+                className="px-1 text-xxs absolute -top-3 -right-1"
+              >
                 {`${skillsAcquiredInCategoryCount}/${skills.length}`}
               </Label>
               <div className="flex justify-center items-center">

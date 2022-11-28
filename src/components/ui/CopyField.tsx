@@ -75,7 +75,7 @@ export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
           showLabel ? "opacity-100" : "opacity-0"
         }`}
       >
-        <Label>{tooltipMessage}</Label>
+        <Label type="default">{tooltipMessage}</Label>
       </div>
     </div>
   );

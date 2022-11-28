@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { fulfillGrubOrder } from "./fulfillGrubOrder";
 
 describe("fulfillGrubOrder", () => {
@@ -186,6 +186,75 @@ describe("fulfillGrubOrder", () => {
     });
 
     expect(state.balance).toEqual(new Decimal(101));
+  });
+
+  it("player receives bonus SFL if equipped with the Chef Apron and if the order is a cake", () => {
+    const state = fulfillGrubOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {},
+          equipped: { ...INITIAL_BUMPKIN.equipped, coat: "Chef Apron" },
+        },
+        balance: new Decimal(1),
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        grubShop: {
+          opensAt: Date.now() - 1 * 60 * 60 * 1000,
+          closesAt: Date.now() + 1 * 60 * 60 * 1000,
+          orders: [
+            {
+              id: "767",
+              name: "Sunflower Cake",
+              sfl: new Decimal(20),
+            },
+          ],
+        },
+        grubOrdersFulfilled: [],
+      },
+      action: {
+        id: "767",
+        type: "grubOrder.fulfilled",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(25));
+  });
+
+  it("player receives bonus SFL if the Bumpkin has the skill Michelin Stars", () => {
+    const state = fulfillGrubOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Michelin Stars": 1 },
+        },
+        balance: new Decimal(1),
+        inventory: {
+          "Bumpkin Broth": new Decimal(1),
+        },
+        grubShop: {
+          opensAt: Date.now() - 1 * 60 * 60 * 1000,
+          closesAt: Date.now() + 1 * 60 * 60 * 1000,
+          orders: [
+            {
+              id: "43",
+              name: "Bumpkin Broth",
+              sfl: new Decimal(5),
+            },
+          ],
+        },
+        grubOrdersFulfilled: [],
+      },
+      action: {
+        id: "43",
+        type: "grubOrder.fulfilled",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(6.25));
   });
 
   it("order is fulfilled", () => {

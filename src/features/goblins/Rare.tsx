@@ -29,6 +29,7 @@ import { mintCooldown } from "./blacksmith/lib/mintUtils";
 import { secondsToString } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Label } from "components/ui/Label";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -123,7 +124,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
 
   if (selected === undefined) {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col p-2">
         <span>Currently Unavailable!</span>
         <span>Please try again later.</span>
       </div>
@@ -282,14 +283,14 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {soldOut && (
-            <span className="bg-error border text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            <Label type="danger" className="-mt-2 mb-1">
               Sold out
-            </span>
+            </Label>
           )}
           {!!selected.maxSupply && amountLeft > 0 && (
-            <span className="bg-blue-600 border  text-xxs absolute left-0 -top-4 p-1 rounded-md">
+            <Label type="danger" className="-mt-2 mb-1">
               {`${amountLeft} left`}
-            </span>
+            </Label>
           )}
           <span className="text-center">{selected.name}</span>
           <img

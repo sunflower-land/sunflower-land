@@ -5,6 +5,7 @@ import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
+import { Label } from "./Label";
 
 interface Props {
   item: { name: InventoryItemName };
@@ -20,8 +21,8 @@ export const Stock: React.FC<Props> = ({ item }) => {
   const stock = state.stock[item.name] || new Decimal(0);
 
   return (
-    <span className="w-auto -mt-2 mb-1 bg-blue-600 text-shadow border text-xxs p-1 rounded-md">
+    <Label className="w-auto -mt-2 mb-1" type="info">
       {`${stock} in stock`}
-    </span>
+    </Label>
   );
 };

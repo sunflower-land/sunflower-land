@@ -121,27 +121,30 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("stoneRock.mined", {
+      const newState = gameService.send("stoneRock.mined", {
         index: rockIndex,
         expansionIndex,
       });
-      setCollecting(true);
-      minedGif.current?.goToAndPlay(0);
 
-      displayPopover(
-        <div className="flex">
-          <img src={stone} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${rock.stone.amount}`}</span>
-        </div>
-      );
+      if (!newState.matches("hoarding")) {
+        setCollecting(true);
+        minedGif.current?.goToAndPlay(0);
 
-      setToast({
-        icon: stone,
-        content: `+${rock.stone.amount}`,
-      });
+        displayPopover(
+          <div className="flex">
+            <img src={stone} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${rock.stone.amount}`}</span>
+          </div>
+        );
 
-      await new Promise((res) => setTimeout(res, 2000));
-      setCollecting(false);
+        setToast({
+          icon: stone,
+          content: `+${rock.stone.amount}`,
+        });
+
+        await new Promise((res) => setTimeout(res, 2000));
+        setCollecting(false);
+      }
     } catch (e: any) {
       if (e.message === MINE_ERRORS.NO_PICKAXES) {
         displayPopover(
@@ -227,7 +230,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 }
               )}
             >
-              <div className="text-xxs text-white mx-1">
+              <div className="text-xxs text-white mx-1 p-1">
                 <span>Equip {tool.toLowerCase()}</span>
               </div>
             </InnerPanel>

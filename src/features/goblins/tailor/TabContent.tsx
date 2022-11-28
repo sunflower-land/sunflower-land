@@ -16,6 +16,7 @@ import {
 import classNames from "classnames";
 
 import { CONFIG } from "lib/config";
+import { Label } from "components/ui/Label";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -142,7 +143,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
 
     return (
       <>
-        <span className="bg-blue-600 border text-xxs absolute left-0 -top-7 p-1 rounded-md">
+        <Label type="info" className="my-1">
           {mintIsLive
             ? "Available now on Bumpkins.io"
             : `Available at: ${new Date(releaseDate).toLocaleString([], {
@@ -150,7 +151,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
                 timeStyle: "long",
                 hour12: true,
               })}`}
-        </span>
+        </Label>
         <span className="text-shadow text-center text-xs leading-5">
           {/* TODO - load from metadata url? */}
         </span>

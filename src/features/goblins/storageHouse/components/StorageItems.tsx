@@ -38,8 +38,8 @@ export const StorageItems: React.FC = () => {
 
   return (
     <>
-      <div className="mt-3 lf">
-        <p className="mb-2 underline">Farm Storage</p>
+      <div className="px-2 mt-3 lf">
+        <p className="mb-2">Farm Storage</p>
         <div
           className="flex flex-wrap h-fit -ml-1.5 mb-2"
           style={{ minHeight: "150px" }}
@@ -60,7 +60,7 @@ export const StorageItems: React.FC = () => {
           })}
         </div>
 
-        <p className="mb-2 underline">Goblin Community Treasury</p>
+        <p>Goblin Community Treasury</p>
         {loading ? (
           <div className="my-2 loading">Loading</div>
         ) : (

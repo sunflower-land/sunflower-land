@@ -38,7 +38,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
 
     setToast({
       icon: heart,
-      content: `+${getFoodExpBoost(food.experience, state.bumpkin as Bumpkin)}`,
+      content: `+${getFoodExpBoost(food, state.bumpkin as Bumpkin)}`,
     });
     setToast({
       icon: ITEM_DETAILS[food.name].image,
@@ -87,7 +87,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
                   <img src={heart} className="me-2 w-6" />
                   <span className="text-xs text-center">
                     {`${getFoodExpBoost(
-                      selected.experience,
+                      selected,
                       state.bumpkin as Bumpkin
                     )} EXP`}
                   </span>

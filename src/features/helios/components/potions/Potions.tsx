@@ -5,6 +5,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import building from "assets/buildings/fertilisers.png";
 import potionMaster from "assets/npcs/potion_master.gif";
 import shadow from "assets/npcs/shadow.png";
+import close from "assets/icons/close.png";
+
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 
@@ -64,9 +66,19 @@ export const Potions: React.FC = () => {
             shoes: "Black Farmer Boots",
           }}
         >
+          <img
+            src={close}
+            className="absolute cursor-pointer z-20"
+            onClick={() => setIsOpen(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
           <div className="p-1">
             <p className="mb-4">I am the potion master!</p>
-            <p>Give me some time to set up shop.</p>
+            <p className="mb-2">Give me some time to set up shop.</p>
           </div>
         </Panel>
       </Modal>

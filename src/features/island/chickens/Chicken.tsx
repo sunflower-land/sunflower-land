@@ -106,19 +106,19 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   const chickenContext: Partial<ChickenContext> = chicken;
 
   // useInterpret returns a static reference (to just the interpreted machine) which will not rerender when its state changes
-  const service = useInterpret(chickenMachine, {
+  const chickenService = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
   }) as unknown as MachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
-  const hungry = useSelector(service, isHungry);
-  const eating = useSelector(service, isEating);
-  const sleeping = useSelector(service, isSleeping);
-  const happy = useSelector(service, isHappy);
-  const eggReady = useSelector(service, isEggReady);
-  const eggLaid = useSelector(service, isEggLaid);
+  const hungry = useSelector(chickenService, isHungry);
+  const eating = useSelector(chickenService, isEating);
+  const sleeping = useSelector(chickenService, isSleeping);
+  const happy = useSelector(chickenService, isHappy);
+  const eggReady = useSelector(chickenService, isEggReady);
+  const eggLaid = useSelector(chickenService, isEggLaid);
 
   const eggIsBrewing = happy || sleeping;
   const showEggProgress = chicken && !eating && !eggLaid && !hungry;
@@ -144,7 +144,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
     }
 
     if (eggReady) {
-      service.send("LAY");
+      chickenService.send("LAY");
       return;
     }
 
@@ -175,7 +175,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
 
     const chicken = chickens[index];
 
-    service.send("FEED", {
+    chickenService.send("FEED", {
       fedAt: chicken.fedAt,
     });
 
@@ -200,16 +200,18 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   };
 
   const collectEgg = () => {
-    gameService.send("chicken.collectEgg", {
+    const newState = gameService.send("chicken.collectEgg", {
       index,
     });
 
-    service.send("COLLECT");
+    if (!newState.matches("hoarding")) {
+      chickenService.send("COLLECT");
 
-    setToast({
-      icon: egg,
-      content: `+${chicken.multiplier}`,
-    });
+      setToast({
+        icon: egg,
+        content: `+${chicken.multiplier}`,
+      });
+    }
   };
 
   return (
@@ -412,7 +414,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
         </div>
       </div>
 
-      <TimeToEgg showTimeToEgg={showTimeToEgg} service={service} />
+      <TimeToEgg showTimeToEgg={showTimeToEgg} service={chickenService} />
       {showEggProgress && (
         <div
           className="absolute pointer-events-none"

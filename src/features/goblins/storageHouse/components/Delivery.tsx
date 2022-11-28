@@ -15,7 +15,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
 
   if (isTalking) {
     return (
-      <div className="p-1">
+      <div className="p-2">
         <img
           src={goblinCarry}
           className="h-16 my-2 running relative left-1/4"
