@@ -95,7 +95,6 @@ export const FirePit: React.FC<Props> = ({
         onClick={handleClick}
         crafting={crafting}
         ready={ready}
-        itemName={name}
         craftingSeconds={name ? CONSUMABLES[name].cookingSeconds : undefined}
         secondsTillReady={craftingService?.state?.context?.secondsTillReady}
       >
