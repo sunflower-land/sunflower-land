@@ -178,7 +178,7 @@ export const craftingMachine = createMachine<
 
           const now = Date.now();
 
-          return Math.floor((readyAt - now) / 1000);
+          return (readyAt - now) / 1000;
         },
       }),
     },
