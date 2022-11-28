@@ -320,9 +320,9 @@ export const authMachine = createMachine<
                   target: "countdown",
                   cond: "isFresh",
                 },
-
                 {
-                  cond: (_, event) => event.data.blacklistStatus === "BANNED",
+                  // event.data can be undefined if the player has no farms
+                  cond: (_, event) => event.data?.blacklistStatus === "BANNED",
                   actions: "assignFarm",
                   target: "blacklisted",
                 },
@@ -658,6 +658,8 @@ export const authMachine = createMachine<
           farmAccount.tokenId,
           context.rawToken as string
         );
+
+        console.log({ verificationUrl, botStatus, isBanned });
 
         // Call migrated end point to see if migrated
         const { migrated } = await checkMigrationStatus(
