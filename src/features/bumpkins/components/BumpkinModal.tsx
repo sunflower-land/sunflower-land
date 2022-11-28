@@ -127,15 +127,13 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
         <div className="flex-1">
           <div className="mb-3">
             <div className="flex items-center ml-1 my-2">
-              {hasAvaliableSP && (
-                <img
-                  src={levelIcon}
-                  style={{
-                    width: `${PIXEL_SCALE * 10}px`,
-                    marginRight: `${PIXEL_SCALE * 4}px`,
-                  }}
-                />
-              )}
+              <img
+                src={levelIcon}
+                style={{
+                  width: `${PIXEL_SCALE * 10}px`,
+                  marginRight: `${PIXEL_SCALE * 4}px`,
+                }}
+              />
               <div>
                 <p className="text-base">
                   Level {level}
