@@ -387,10 +387,13 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {/* Crop reward */}
       <ChestReward
         reward={reward}
-        rewardType={"Crop"}
         onCollected={onCollectReward}
-        index={plotIndex}
-        expansionIndex={expansionIndex}
+        onOpen={() =>
+          gameService.send("cropReward.collected", {
+            plotIndex,
+            expansionIndex,
+          })
+        }
       />
     </div>
   );

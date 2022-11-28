@@ -14,20 +14,16 @@ import { ChestCaptcha } from "features/farming/crops/components/ChestCaptcha";
 
 interface Props {
   reward: Reward | null;
-  rewardType: string;
-  index: number;
-  expansionIndex: number;
   onCollected: (success: boolean) => void;
+  onOpen: () => void;
 }
 
 type Challenge = "goblins" | "chest";
 
 export const ChestReward: React.FC<Props> = ({
   reward,
-  rewardType,
   onCollected,
-  expansionIndex,
-  index,
+  onOpen,
 }) => {
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
@@ -49,18 +45,7 @@ export const ChestReward: React.FC<Props> = ({
 
   const open = () => {
     setOpened(true);
-    if (rewardType === "Tree") {
-      gameService.send("treeReward.collected", {
-        index,
-        expansionIndex,
-      });
-    }
-    if (rewardType === "Crop") {
-      gameService.send("cropReward.collected", {
-        index,
-        expansionIndex,
-      });
-    }
+    onOpen();
   };
 
   const fail = () => {

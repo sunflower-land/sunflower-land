@@ -379,9 +379,12 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         <ChestReward
           reward={reward}
           onCollected={onCollectReward}
-          index={treeIndex}
-          expansionIndex={expansionIndex}
-          rewardType={"Tree"}
+          onOpen={() =>
+            gameService.send("treeReward.collected", {
+              treeIndex,
+              expansionIndex,
+            })
+          }
         />
       </div>
     </div>
