@@ -2,7 +2,7 @@ import { Panel } from "components/ui/Panel";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import { CropReward as Reward } from "features/game/types/game";
+import { Reward } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -14,23 +14,20 @@ import { ChestCaptcha } from "features/farming/crops/components/ChestCaptcha";
 
 interface Props {
   reward: Reward | null;
-  plotIndex: number;
-  expansionIndex: number;
   onCollected: (success: boolean) => void;
+  onOpen: () => void;
 }
 
 type Challenge = "goblins" | "chest";
 
-export const CropReward: React.FC<Props> = ({
+export const ChestReward: React.FC<Props> = ({
   reward,
   onCollected,
-  expansionIndex,
-  plotIndex,
+  onOpen,
 }) => {
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const challenge = useRef<Challenge>(
     Math.random() > 0.3 ? "chest" : "goblins"
   );
@@ -48,7 +45,7 @@ export const CropReward: React.FC<Props> = ({
 
   const open = () => {
     setOpened(true);
-    gameService.send("reward.collected", { plotIndex, expansionIndex });
+    onOpen();
   };
 
   const fail = () => {

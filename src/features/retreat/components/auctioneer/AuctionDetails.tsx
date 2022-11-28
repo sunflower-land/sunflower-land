@@ -4,7 +4,7 @@ import { Button } from "components/ui/Button";
 import token from "assets/icons/token_2.png";
 import bg from "assets/ui/brown_background.png";
 
-import { RedLabel } from "components/ui/RedLabel";
+import { Label } from "components/ui/Label";
 import { AuctioneerItem } from "./actions/auctioneerItems";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -125,7 +125,7 @@ export const AuctionDetails: React.FC<Props> = ({
       {remainingSupply > 0 ? (
         <p className="text-lg">{remainingSupply} left</p>
       ) : (
-        <RedLabel>Sold out</RedLabel>
+        <Label type="danger">Sold out</Label>
       )}
       {!isUpcomingItem && !isSoldOut && (
         <Button
@@ -168,7 +168,7 @@ export const AuctionDetails: React.FC<Props> = ({
                 {date}
               </span>
 
-              {availableSupply <= 0 && <RedLabel>Sold out</RedLabel>}
+              {availableSupply <= 0 && <Label type="danger">Sold out</Label>}
 
               {availableSupply > 0 && (
                 <span className="bg-blue-600 border text-xxs ml-2 p-1 rounded-md">
@@ -192,7 +192,7 @@ export const AuctionDetails: React.FC<Props> = ({
                         src={ITEM_DETAILS[ingredient.item].image}
                         className="h-6 mr-1"
                       />
-                      <RedLabel>{`${inventoryItemAmount}/${ingredient.amount}`}</RedLabel>
+                      <Label type="danger">{`${inventoryItemAmount}/${ingredient.amount}`}</Label>
                     </div>
                   );
                 }
@@ -210,7 +210,7 @@ export const AuctionDetails: React.FC<Props> = ({
               {sfl > 0 && game.balance.lt(sfl) && (
                 <div className="flex mr-2">
                   <img src={token} className="h-6 mr-1" />
-                  <RedLabel>{`${game.balance.toString()}/${sfl}`}</RedLabel>
+                  <Label type="danger">{`${game.balance.toString()}/${sfl}`}</Label>
                 </div>
               )}
               {sfl > 0 && game.balance.gte(sfl) && (

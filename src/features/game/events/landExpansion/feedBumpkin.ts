@@ -34,14 +34,9 @@ export function feedBumpkin({
   if (quantity.lte(0)) {
     throw new Error("You have none of this food type");
   }
-  const { skills, equipped } = bumpkin;
-  const { tool } = equipped;
   inventory[action.food] = quantity.sub(1);
 
-  bumpkin.experience += getFoodExpBoost(
-    CONSUMABLES[action.food].experience,
-    bumpkin
-  );
+  bumpkin.experience += getFoodExpBoost(CONSUMABLES[action.food], bumpkin);
 
   bumpkin.activity = trackActivity(`${action.food} Fed`, bumpkin.activity);
 

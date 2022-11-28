@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import goblin from "assets/npcs/goblin_treasure.gif";
 import shadow from "assets/npcs/shadow.png";
 import sandDug from "assets/land/sand_dug.png";
+import close from "assets/icons/close.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
@@ -62,10 +63,22 @@ export const GoblinDigging: React.FC = () => {
           />
         </div>
         <Panel>
-          <p className="mb-4">
-            My uncle found a diamond ring digging at this beach.
-          </p>
-          <p>All I keep finding is boring SFL coins.</p>
+          <img
+            src={close}
+            className="absolute cursor-pointer z-20"
+            onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
+          <div className="p-2">
+            <p className="mb-4">
+              My uncle found a diamond ring digging at this beach.
+            </p>
+            <p>All I keep finding is boring SFL coins.</p>
+          </div>
         </Panel>
       </Modal>
     </div>

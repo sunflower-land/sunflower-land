@@ -19,6 +19,7 @@ import Decimal from "decimal.js-light";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: () => void;
@@ -216,14 +217,19 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
                 );
               })}
             </div>
-            <span className="w-32 -mt-4 sm:mr-auto bg-blue-600 border text-xxs p-1 rounded-md">
-              {`Capacity ${placedChickenCount}/${availableSpots}`}
-            </span>
-            {chickenCount.gte(availableSpots) && (
-              <p className="text-xs mt-2">
-                Build an extra coop to farm more chickens
-              </p>
-            )}
+            <div className="flex flex-col items-baseline">
+              <Label
+                type={placedChickenCount === availableSpots ? "danger" : "info"}
+                className="sm:mr-auto m-1"
+              >
+                {`Capacity ${placedChickenCount}/${availableSpots}`}
+              </Label>
+              {chickenCount.gte(availableSpots) && (
+                <p className="text-xs mx-1 mb-1">
+                  Build an extra coop to farm more chickens
+                </p>
+              )}
+            </div>
           </div>
           <OuterPanel className="flex-1 w-1/3">{Details()}</OuterPanel>
         </div>

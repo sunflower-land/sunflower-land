@@ -21,6 +21,7 @@ import { Tab } from "components/ui/Tab";
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Label } from "components/ui/Label";
 
 interface Props {
   isOpen: boolean;
@@ -125,13 +126,21 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     );
   }
 
+  const labelState = () => {
+    if (stock?.equals(0)) {
+      return (
+        <Label type="danger" className="-mt-2 mb-1">
+          Sold out
+        </Label>
+      );
+    }
+    return <Stock item={{ name: selectedName }} />;
+  };
+
   const Action = () => {
     if (stock?.equals(0)) {
       return (
-        <div>
-          <p className="text-xxs no-wrap text-center my-1 underline">
-            Sold out
-          </p>
+        <div className="my-1">
           <p className="text-xxs text-center">
             Sync your farm to the Blockchain to restock
           </p>
@@ -205,7 +214,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </div>
             <OuterPanel className="flex-1 w-1/3">
               <div className="flex flex-col justify-center items-center p-2 relative">
-                <Stock item={{ name: selectedName }} />
+                {labelState()}
                 <span className="text-center">{selectedName}</span>
                 <img
                   src={ITEM_DETAILS[selectedName].image}
@@ -215,7 +224,6 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <span className="text-center mt-2 sm:text-sm">
                   {selected.description}
                 </span>
-
                 <div className="border-t border-white w-full mt-2 pt-1">
                   {getKeys(selected.ingredients).map(
                     (ingredientName, index) => {

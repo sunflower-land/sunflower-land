@@ -142,7 +142,8 @@ export const Deli: React.FC<Props> = ({
             }}
           />
         )}
-        {(ready || crafting) && name && (
+
+        {(crafting || ready) && name && (
           <img
             src={ITEM_DETAILS[name].image}
             className={classNames("absolute pointer-events-none z-30", {

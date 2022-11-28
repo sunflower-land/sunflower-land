@@ -23,12 +23,14 @@ type Options = {
   createdAt?: number;
 };
 
-function removeItem<T>(arr: Array<T>, value: T): Array<T> {
+function removeItem<T>(arr: Array<T>, value: T): Array<T> | undefined {
   const index = arr.indexOf(value);
+
   if (index > -1) {
     arr.splice(index, 1);
   }
-  return arr;
+
+  return arr.length ? arr : undefined;
 }
 
 export function removeCollectible({
@@ -67,6 +69,11 @@ export function removeCollectible({
     collectibleGroup,
     collectibleGroup[collectibleIndex]
   );
+
+  // Remove collectible key if there are none placed
+  if (!stateCopy.collectibles[action.collectible]) {
+    delete stateCopy.collectibles[action.collectible];
+  }
 
   if (action.collectible === "Chicken Coop") {
     stateCopy.chickens = removeUnsupportedChickens(stateCopy);

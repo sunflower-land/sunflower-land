@@ -18,7 +18,7 @@ import { CONSUMABLES } from "features/game/types/consumables";
 import { getKeys, TOOLS } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SEEDS } from "features/game/types/seeds";
-import { RedLabel } from "components/ui/RedLabel";
+import { Label } from "components/ui/Label";
 
 const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
@@ -224,7 +224,7 @@ export const DetailView: React.FC<Props> = ({
                 </Button>
               ) : (
                 <div className="flex items-center">
-                  <RedLabel>Lvl {nextLockedLevel} Required</RedLabel>
+                  <Label type="danger">Lvl {nextLockedLevel} Required</Label>
 
                   <img src={lock} className="h-4 ml-1" />
                 </div>

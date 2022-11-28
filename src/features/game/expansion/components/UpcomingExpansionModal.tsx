@@ -14,7 +14,7 @@ import { Ingredients } from "./Ingredients";
 import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { RedLabel } from "components/ui/RedLabel";
+import { Label } from "components/ui/Label";
 
 interface Props {
   gameState: GameState;
@@ -73,7 +73,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       gameState.expansionRequirements.bumpkinLevel;
 
   return (
-    <div>
+    <div className="p-1">
       <img
         src={close}
         className="absolute cursor-pointer z-20"
@@ -90,7 +90,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
             Want to expand your land and discover new resources?
           </p>
 
-          <p className="text-xs mt-2 underline">
+          <p className="text-xs mt-2">
             Each piece of land is a unique NFT on the blockchain.
           </p>
         </div>
@@ -106,11 +106,11 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
             gameState.expansionRequirements.bumpkinLevel && (
             <div className="flex items-center mt-2">
               <img src={heart} className="h-6 ml-0.5 mr-1" />
-              <RedLabel>
+              <Label type="danger">
                 Lvl {gameState.expansionRequirements.bumpkinLevel}
-              </RedLabel>
+              </Label>
 
-              <img src={lock} className="h-6  ml-2" />
+              <img src={lock} className="h-6 ml-2" />
             </div>
           )}
         </div>

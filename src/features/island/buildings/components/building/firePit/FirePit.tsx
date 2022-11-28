@@ -110,10 +110,10 @@ export const FirePit: React.FC<Props> = ({
             height: `${PIXEL_SCALE * 33}px`,
           }}
         />
-        {(ready || crafting) && name && (
+        {(crafting || ready) && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className={classNames("absolute pointer-events-none z-30", {
+            className={classNames("absolute z-30 pointer-events-none", {
               "img-highlight-heavy": ready,
             })}
             onLoad={(e) => {

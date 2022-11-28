@@ -18,7 +18,7 @@ import snowman from "assets/npcs/snowman.png";
 import land from "assets/land/islands/island.webp";
 import { VisitLandExpansionForm } from "./VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
-import { RedLabel } from "components/ui/RedLabel";
+import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
 
 const CONTENT_HEIGHT = 380;
@@ -79,7 +79,7 @@ const Island = ({
             {(notEnoughLevel || comingSoon) && (
               <div className="flex items-center">
                 <img src={heart} className="h-4 mr-1" />
-                <RedLabel>Lvl {levelRequired}</RedLabel>
+                <Label type="danger">Lvl {levelRequired}</Label>
 
                 <img src={lock} className="h-4 ml-1" />
 

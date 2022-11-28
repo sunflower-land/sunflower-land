@@ -910,7 +910,7 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
-    description: "Double the rewards from cauliflowers",
+    description: "Doubles cauliflower yield",
     type: LimitedItemType.MarketItem,
   },
   "Mysterious Parsnip": {

@@ -241,7 +241,18 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
         width: 1,
       },
       4: {
-        crop: { name: "Sunflower", plantedAt: 0 },
+        crop: {
+          name: "Sunflower",
+          plantedAt: 0,
+          reward: {
+            items: [
+              {
+                name: "Sunflower Seed",
+                amount: 1,
+              },
+            ],
+          },
+        },
         x: -1,
         y: 0,
         height: 1,
@@ -279,6 +290,9 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
         wood: {
           amount: 3,
           choppedAt: 0,
+          reward: {
+            sfl: new Decimal(3),
+          },
         },
         x: -3,
         y: 3,

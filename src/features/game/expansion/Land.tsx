@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
@@ -48,7 +48,8 @@ type ExpansionProps = Pick<
 
 const getExpansions = (
   expansionProps: ExpansionProps,
-  expansionIndex: number
+  expansionIndex: number,
+  isEditing?: boolean
 ) => {
   const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
 
@@ -66,6 +67,7 @@ const getExpansions = (
             y={y + yOffset}
             height={height}
             width={width}
+            isEditing={isEditing}
           >
             <Gold rockIndex={Number(index)} expansionIndex={expansionIndex} />
           </MapPlacement>
@@ -86,6 +88,7 @@ const getExpansions = (
             y={y + yOffset}
             height={height}
             width={width}
+            isEditing={isEditing}
           >
             <Plot plotIndex={Number(index)} expansionIndex={expansionIndex} />
           </MapPlacement>
@@ -106,6 +109,7 @@ const getExpansions = (
             y={y + yOffset}
             height={height}
             width={width}
+            isEditing={isEditing}
           >
             <Tree treeIndex={Number(index)} expansionIndex={expansionIndex} />
           </MapPlacement>
@@ -126,6 +130,7 @@ const getExpansions = (
             y={y + yOffset}
             height={height}
             width={width}
+            isEditing={isEditing}
           >
             <Stone rockIndex={Number(index)} expansionIndex={expansionIndex} />
           </MapPlacement>
@@ -146,6 +151,7 @@ const getExpansions = (
             y={y + yOffset}
             height={height}
             width={width}
+            isEditing={isEditing}
           >
             <Iron ironIndex={Number(index)} expansionIndex={expansionIndex} />
           </MapPlacement>
@@ -167,6 +173,7 @@ const getExpansions = (
             y={y + yOffset}
             height={height}
             width={width}
+            isEditing={isEditing}
           >
             <FruitPatch fruit={fruit?.name} />
           </MapPlacement>
@@ -187,6 +194,7 @@ const getExpansions = (
             y={y + yOffset}
             height={height}
             width={width}
+            isEditing={isEditing}
           >
             <Boulder />
           </MapPlacement>
@@ -204,12 +212,14 @@ const getIslandElements = ({
   collectibles,
   chickens,
   bumpkinParts,
+  isEditing,
 }: {
   expansions: LandExpansion[];
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<number, Chicken>>;
   bumpkinParts: BumpkinParts | undefined;
+  isEditing?: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -241,7 +251,8 @@ const getIslandElements = ({
               fruitPatches: fruitPatches,
               boulders: boulders,
             },
-            index
+            index,
+            isEditing
           )
       )
   );
@@ -254,6 +265,7 @@ const getIslandElements = ({
         y={BUMPKIN_POSITION.y}
         width={2}
         height={2}
+        isEditing={isEditing}
       >
         <Character
           body={bumpkinParts.body}
@@ -281,6 +293,7 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
+              isEditing={isEditing}
             >
               <Building building={building} name={name as BuildingName} />
             </MapPlacement>
@@ -306,6 +319,7 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
+              isEditing={isEditing}
             >
               <Collectible
                 name={name}
@@ -335,6 +349,7 @@ const getIslandElements = ({
             y={y}
             height={height}
             width={width}
+            isEditing={isEditing}
           >
             <ChickenElement index={index} />
           </MapPlacement>
@@ -352,12 +367,17 @@ export const Land: React.FC = () => {
 
   const { expansions, buildings, collectibles, chickens, bumpkin } = state;
   const level = expansions.length + 1;
+  const [isEditing, setIsEditing] = useState(false);
 
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
+
+  useEffect(() => {
+    setIsEditing(gameState.matches("editing"));
+  }, [gameState.value]);
 
   const boatCoordinates = {
     x: level > 7 ? -9 : -2,
@@ -386,6 +406,7 @@ export const Land: React.FC = () => {
           collectibles,
           chickens,
           bumpkinParts: gameState.context.state.bumpkin?.equipped,
+          isEditing,
         }).sort((a, b) => b.props.y - a.props.y)}
       </div>
       <IslandTravel
