@@ -20,14 +20,14 @@ export const TimeLeftPanel: React.FC<Props> = ({
   return (
     <InnerPanel
       className={classNames(
-        "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-5 z-40 pointer-events-none",
+        "absolute transition-opacity whitespace-nowrap w-fit z-50 pointer-events-none",
         {
           "opacity-100": showTimeLeft,
           "opacity-0": !showTimeLeft,
         }
       )}
     >
-      <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
+      <div className="flex flex-col text-xxs text-white p-1">
         <span className="flex-1">{text}</span>
         <span className="flex-1">
           {secondsToString(timeLeft, { length: "medium" })}

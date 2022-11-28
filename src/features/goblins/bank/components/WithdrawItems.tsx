@@ -15,7 +15,7 @@ import { Box } from "components/ui/Box";
 import player from "assets/icons/player.png";
 
 import { toWei } from "web3-utils";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { canWithdraw } from "../lib/bankUtils";
 
 import {
@@ -226,7 +226,7 @@ export const WithdrawItems: React.FC<Props> = ({
           <div>
             <p className="text-sm">Send to your wallet</p>
             <p className="text-sm">
-              {shortAddress(metamask.myAccount || "XXXX")}
+              {shortAddress(wallet.myAccount || "XXXX")}
             </p>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { loadSession } from "features/game/actions/loadSession";
 import { getOnChainState } from "features/game/actions/onchain";
 import { getLowestGameState } from "features/game/lib/transforms";
 import { GameState } from "features/game/types/game";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 
 export const loadUpdatedSession = async (
   farmId: number,
@@ -11,7 +11,7 @@ export const loadUpdatedSession = async (
 ) => {
   const onChainState = await getOnChainState({ farmAddress, id: farmId });
 
-  const sessionId = await metamask.getSessionManager().getSessionId(farmId);
+  const sessionId = await wallet.getSessionManager().getSessionId(farmId);
 
   const response = await loadSession({
     farmId,

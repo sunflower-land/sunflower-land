@@ -19,7 +19,7 @@ console.log({ CONFIG });
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
-export class Metamask {
+export class Wallet {
   private web3: Web3 | null = null;
 
   private farm: Farm | null = null;
@@ -82,25 +82,11 @@ export class Metamask {
     }
   }
 
-  private async setupWeb3() {
-    // TODO add type support
-    if ((window as any).ethereum) {
-      try {
-        // Request account access if needed
-        await (window as any).ethereum.enable();
-        this.web3 = new Web3((window as any).ethereum);
-      } catch (error) {
-        // User denied account access...
-        console.error("Error inside setupWeb3", error);
-      }
-    } else if ((window as any).web3) {
-      this.web3 = new Web3((window as any).web3.currentProvider);
-    } else {
-      throw new Error(ERRORS.NO_WEB3);
-    }
-  }
-
   public async healthCheck() {
+    if (window.location.hostname == "localhost") {
+      return true;
+    }
+
     const statusCode = await pingHealthCheck(
       this.web3 as Web3,
       this.account as string
@@ -124,11 +110,11 @@ export class Metamask {
     this.account = await this.getAccount();
   }
 
-  public async initialise(retryCount = 0): Promise<void> {
+  public async initialise(provider: any, retryCount = 0): Promise<void> {
     try {
       // Smooth out the loading state
       await new Promise((res) => setTimeout(res, 1000));
-      await this.setupWeb3();
+      this.web3 = new Web3(provider);
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
@@ -273,7 +259,7 @@ export class Metamask {
 
     try {
       await this.web3?.eth.sendTransaction({
-        from: metamask.myAccount as string,
+        from: wallet.myAccount as string,
         to,
         value: toHex(toWei(donation.toString(), "ether")),
         gasPrice,
@@ -371,4 +357,4 @@ export class Metamask {
   }
 }
 
-export const metamask = new Metamask();
+export const wallet = new Wallet();

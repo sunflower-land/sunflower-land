@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -32,6 +32,14 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
+
+  useEffect(() => {
+    if (food.length) {
+      setSelected(food[0]);
+    } else {
+      setSelected(undefined);
+    }
+  }, [food.length]);
 
   const feed = (food: Consumable) => {
     onFeed(food.name);

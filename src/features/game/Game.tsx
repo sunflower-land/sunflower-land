@@ -119,7 +119,7 @@ export const Game: React.FC = () => {
       <ToastManager island={false} />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
-        <Panel className="text-shadow">
+        <Panel>
           {gameState.matches("loading") && <Loading />}
 
           {gameState.matches("offerMigration") && <Migrate />}
