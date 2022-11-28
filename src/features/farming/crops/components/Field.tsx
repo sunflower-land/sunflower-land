@@ -9,7 +9,7 @@ import { Context } from "features/game/GameProvider";
 import {
   FERTILISERS,
   InventoryItemName,
-  CropReward as Reward,
+  Reward,
 } from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";

@@ -101,9 +101,13 @@ import {
 } from "./landExpansion/removeCollectible";
 import { beanBought, BeanBoughtAction } from "./landExpansion/buyBean";
 import {
-  collectReward,
-  CollectRewardAction,
-} from "./landExpansion/collectReward";
+  collectCropReward,
+  CollectCropRewardAction,
+} from "./landExpansion/collectCropReward";
+import {
+  collectTreeReward,
+  CollectTreeRewardAction,
+} from "features/game/events/landExpansion/collectTreeReward";
 
 export type PlayingEvent =
   | CraftAction
@@ -149,7 +153,8 @@ export type PlayingEvent =
   | RemoveBuildingAction
   | RemoveCollectibleAction
   | BeanBoughtAction
-  | CollectRewardAction;
+  | CollectCropRewardAction
+  | CollectTreeRewardAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -216,7 +221,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "bean.bought": beanBought,
-  "reward.collected": collectReward,
+  "cropReward.collected": collectCropReward,
+  "treeReward.collected": collectTreeReward,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

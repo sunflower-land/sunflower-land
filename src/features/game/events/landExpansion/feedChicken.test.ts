@@ -183,6 +183,130 @@ describe("feed chickens", () => {
     expect(newState.inventory.Wheat).toEqual(new Decimal(0.1));
   });
 
+  it("chickens produce goods 10% faster with speed chicken", () => {
+    const newDate = Date.now();
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["Speed Chicken"]: new Decimal(1),
+      },
+      collectibles: {
+        "Speed Chicken": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 1, y: 1 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", index: 0 },
+    });
+    const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
+    const createdAt = newDate - chickenTime;
+    expect(newState.chickens[0].fedAt).toEqual(createdAt);
+  });
+
+  it("chickens produce goods 10% faster with Bumpkin Skill Stable Hand", () => {
+    const newDate = Date.now();
+    const state = {
+      ...GAME_STATE,
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Stable Hand": 1 } },
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+      },
+      collectibles: {},
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", index: 0 },
+    });
+    const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
+    const createdAt = newDate - chickenTime;
+    expect(newState.chickens[0].fedAt).toEqual(createdAt);
+  });
+
+  it("chickens produce in normal time", () => {
+    const newDate = Date.now();
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+      },
+      collectibles: {},
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", index: 0 },
+    });
+    expect(newState.chickens[0].fedAt).toEqual(newDate);
+  });
+
+  it("chickens produce goods 10% faster with Wrangler Badge", () => {
+    const newDate = Date.now();
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        Wrangler: new Decimal(1),
+      },
+      collectibles: {},
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", index: 0 },
+    });
+    const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
+    const createdAt = newDate - chickenTime;
+    expect(newState.chickens[0].fedAt).toEqual(createdAt);
+  });
+
+  it("chickens produce goods 30% faster with Speed Chicken, Wrangler Badge and Stable Hand skill", () => {
+    const newDate = Date.now();
+    const state = {
+      ...GAME_STATE,
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { "Stable Hand": 1 } },
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        Wrangler: new Decimal(1),
+        ["Speed Chicken"]: new Decimal(1),
+      },
+      collectibles: {
+        "Speed Chicken": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 1, y: 1 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", index: 0 },
+    });
+    const chickenTime = CHICKEN_TIME_TO_EGG * 0.3;
+    const createdAt = newDate - chickenTime;
+    expect(newState.chickens[0].fedAt).toEqual(createdAt);
+  });
+
   it("does not stack Fat Chicken boost when a user has more than one", () => {
     const state = {
       ...GAME_STATE,

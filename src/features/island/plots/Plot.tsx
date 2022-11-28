@@ -10,9 +10,10 @@ import close from "assets/icons/close.png";
 
 import { Context } from "features/game/GameProvider";
 import {
-  CropReward as Reward,
+  Reward,
   FERTILISERS,
   PlantedCrop,
+  InventoryItemName,
 } from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -28,7 +29,7 @@ import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
-import { CropReward } from "./CropReward";
+import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
 
 interface Props {
   plotIndex: number;
@@ -142,6 +143,12 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     setTouchCount(0);
 
     if (success && crop) {
+      const rewardItemName = reward?.items?.[0].name;
+      const rewardItemAmount = reward?.items?.[0].amount;
+      setToast({
+        icon: ITEM_DETAILS[rewardItemName as InventoryItemName].image,
+        content: `+${rewardItemAmount}`,
+      });
       harvestCrop(crop);
     }
   };
@@ -384,11 +391,15 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       )}
 
       {/* Crop reward */}
-      <CropReward
+      <ChestReward
         reward={reward}
         onCollected={onCollectReward}
-        plotIndex={plotIndex}
-        expansionIndex={expansionIndex}
+        onOpen={() =>
+          gameService.send("cropReward.collected", {
+            plotIndex,
+            expansionIndex,
+          })
+        }
       />
     </div>
   );
