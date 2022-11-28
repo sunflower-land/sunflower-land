@@ -41,7 +41,7 @@ export type Consumable = {
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Mashed Potato": {
     name: "Mashed Potato",
-    description: "Boiled Eggss are always a good breakfast choice",
+    description: "My life is potato.",
     experience: 3,
     building: "Fire Pit",
     cookingSeconds: 60,
@@ -50,7 +50,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 10,
   },
-
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
     description: "Boiled Eggss are always a good breakfast choice",

@@ -10,13 +10,22 @@ import {
   ConsumableName,
   CONSUMABLES,
 } from "features/game/types/consumables";
+import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
+  crafting: boolean;
+  craftingService?: MachineInterpreter;
 }
-export const FirePitModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
+export const FirePitModal: React.FC<Props> = ({
+  isOpen,
+  onCook,
+  onClose,
+  crafting,
+  craftingService,
+}) => {
   const firePitRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
     if (CONSUMABLES[name].building !== "Fire Pit") {
       return acc;
@@ -39,7 +48,13 @@ export const FirePitModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
           shoes: "Black Farmer Boots",
         }}
       >
-        <Recipes recipes={firePitRecipes} onCook={onCook} onClose={onClose} />
+        <Recipes
+          recipes={firePitRecipes}
+          onCook={onCook}
+          onClose={onClose}
+          crafting={!!crafting}
+          craftingService={craftingService}
+        />
       </Panel>
     </Modal>
   );

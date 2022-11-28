@@ -20,14 +20,24 @@ import {
   getFoodExpBoost,
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
+import { InProgressInfo } from "../building/InProgressInfo";
+import { MachineInterpreter } from "../../lib/craftingMachine";
 
 interface Props {
   recipes: Consumable[];
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
+  craftingService?: MachineInterpreter;
+  crafting: boolean;
 }
 
-export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
+export const Recipes: React.FC<Props> = ({
+  recipes,
+  onClose,
+  onCook,
+  crafting,
+  craftingService,
+}) => {
   const [selected, setSelected] = useState<Consumable>(recipes[0]);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
@@ -59,47 +69,38 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
   };
 
   const Action = () => {
-    // if (stock?.equals(0)) {
-    //   return (
-    //     <div>
-    //       <p className="text-xxs no-wrap text-center my-1 underline">
-    //         Sold out
-    //       </p>
-    //       <p className="text-xxs text-center">
-    //         Sync your farm to the Blockchain to restock
-    //       </p>
-    //     </div>
-    //   );
-    // }
-
     return (
       <>
         <Button
-          disabled={lessIngredients()}
-          // disabled={lessIngredients() || stock?.lessThan(1)}
+          disabled={lessIngredients() || crafting}
           className="text-sm mt-1 whitespace-nowrap"
           onClick={() => cook()}
         >
           Cook
         </Button>
+        {crafting && <p className="text-xs my-1">Chef is busy</p>}
       </>
     );
   };
 
-  const stock = state.stock[selected.name] || new Decimal(0);
-
   return (
     <div className="flex">
-      <div className="w-1/2 flex flex-wrap h-fit">
-        {recipes.map((item) => (
-          <Box
-            isSelected={selected.name === item.name}
-            key={item.name}
-            onClick={() => setSelected(item)}
-            image={ITEM_DETAILS[item.name].image}
-            count={inventory[item.name]}
-          />
-        ))}
+      <div className="w-1/2 flex flex-col p-1">
+        {craftingService && (
+          <InProgressInfo craftingService={craftingService} />
+        )}
+        <p className="mb-1">Recipes</p>
+        <div className="flex flex-wrap h-fit">
+          {recipes.map((item) => (
+            <Box
+              isSelected={selected.name === item.name}
+              key={item.name}
+              onClick={() => setSelected(item)}
+              image={ITEM_DETAILS[item.name].image}
+              count={inventory[item.name]}
+            />
+          ))}
+        </div>
       </div>
       <OuterPanel className="flex-1 w-1/2">
         <div className="flex flex-col justify-center items-center p-2 relative">
@@ -127,8 +128,8 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
                 requiredAmount
               );
 
-              // rendering item remenants
-              const renderRemenants = () => {
+              // rendering item remnants
+              const renderRemnants = () => {
                 if (lessIngredient) {
                   // if inventory items is less than required items
                   return (
@@ -152,7 +153,7 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
                   key={index}
                 >
                   <img src={item.image} className="h-5 me-2" />
-                  {renderRemenants()}
+                  {renderRemnants()}
                 </div>
               );
             })}

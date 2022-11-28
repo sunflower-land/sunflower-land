@@ -2,7 +2,7 @@ import React from "react";
 
 import emptyBar from "assets/ui/progress/empty_bar.png";
 
-import { secondsToString } from "lib/utils/time";
+import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type progressType = "progress" | "health" | "error";
@@ -10,7 +10,8 @@ type progressType = "progress" | "health" | "error";
 interface Props {
   percentage: number;
   type: progressType;
-  seconds: number;
+  seconds?: number;
+  formatLength: TimeFormatLength;
 }
 
 const DIMENSIONS = {
@@ -120,19 +121,29 @@ export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
   );
 };
 
-export const ProgressBar: React.FC<Props> = ({ percentage, type, seconds }) => {
+export const ProgressBar: React.FC<Props> = ({
+  percentage,
+  type,
+  formatLength,
+  seconds = 0,
+}) => {
   return (
     <div className="absolute">
       {seconds > 0 && (
-        <span
-          className="absolute text-xxs text-white text-center z-30"
+        <div
+          className="flex justify-center absolute w-full pointer-events-none z-30"
           style={{
             top: `${PIXEL_SCALE * -5.5}px`,
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          {secondsToString(seconds, { length: "short", isShortFormat: true })}
-        </span>
+          <span className="text-xxs text-white text-center">
+            {secondsToString(seconds, {
+              length: formatLength,
+              isShortFormat: true,
+            })}
+          </span>
+        </div>
       )}
       <div className="absolute" style={{}}>
         <Bar percentage={percentage} type={type} />

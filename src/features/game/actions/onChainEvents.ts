@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 
 import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
@@ -36,7 +36,7 @@ async function loadPastEvents({
     // metamask.getInventory().getTransfers(farmAddress, block.blockNumber),
     // metamask.getInventory().getBatchTransfers(farmAddress, block.blockNumber),
     // metamask.getToken().getPastDeposits(farmAddress, block.blockNumber),
-    metamask.getTrader().getFarmSlots(farmId),
+    wallet.getTrader().getFarmSlots(farmId),
   ]);
 
   const recentPurchases = farmTrades.filter(
@@ -199,7 +199,7 @@ function storeLastBlock(block: BlockInfo) {
 }
 
 async function getCurrentBlock() {
-  const blockNumber = await metamask.getBlockNumber();
+  const blockNumber = await wallet.getBlockNumber();
 
   return {
     blockNumber,

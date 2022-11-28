@@ -2,7 +2,7 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import BumpkinDetailsABI from "./abis/BumpkinDetails.json";
-import { metamask } from "./metamask";
+import { wallet } from "./wallet";
 import { BumpkinDetails as IBumpkinDetails } from "./types/BumpkinDetails";
 
 const address = CONFIG.BUMPKIN_DETAILS_CONTRACT;
@@ -39,7 +39,7 @@ export class BumpkinDetails {
 
   public async loadBumpkins(): Promise<OnChainBumpkin[]> {
     return this.contract.methods
-      .loadBumpkins(metamask.myAccount as string)
+      .loadBumpkins(wallet.myAccount as string)
       .call({ from: this.account });
   }
 }

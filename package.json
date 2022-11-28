@@ -21,12 +21,15 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "0xsequence": "^0.43.2",
+    "@walletconnect/web3-provider": "^1.8.0",
     "@xstate/inspect": "^0.6.2",
     "@xstate/react": "^3.0.1",
     "browserify-zlib": "^0.2.0",
     "classnames": "^2.3.1",
     "clipboard": "^2.0.11",
     "decimal.js-light": "^2.5.1",
+    "ethers": "^5.7.2",
     "events": "^3.3.0",
     "howler": "^2.2.3",
     "html2canvas": "^1.4.1",

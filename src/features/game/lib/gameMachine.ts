@@ -15,7 +15,7 @@ import {
 } from "../events";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
-import { metamask } from "../../../lib/blockchain/metamask";
+import { wallet } from "../../../lib/blockchain/wallet";
 
 import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
@@ -314,7 +314,7 @@ export function startGame(authContext: Options) {
               // Get sessionId
               const sessionId =
                 farmId &&
-                (await metamask.getSessionManager().getSessionId(farmId));
+                (await wallet.getSessionManager().getSessionId(farmId));
 
               // Load the farm session
               if (sessionId) {
@@ -565,7 +565,7 @@ export function startGame(authContext: Options) {
              */
             src: (context) => (cb) => {
               const interval = setInterval(async () => {
-                const sessionID = await metamask
+                const sessionID = await wallet
                   .getSessionManager()
                   ?.getSessionId(authContext?.farmId as number);
 
@@ -574,7 +574,7 @@ export function startGame(authContext: Options) {
                 }
 
                 const bumpkins =
-                  (await metamask.getBumpkinDetails()?.loadBumpkins()) ?? [];
+                  (await wallet.getBumpkinDetails()?.loadBumpkins()) ?? [];
                 const tokenURI = bumpkins[0]?.tokenURI;
 
                 if (tokenURI !== context.state.bumpkin?.tokenUri) {

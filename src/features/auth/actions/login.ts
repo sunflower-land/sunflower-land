@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -109,8 +109,24 @@ export function decodeToken(token: string): Token {
  */
 const TOKEN_BUFFER_MS = 1000 * 60 * 60 * 4;
 
+export function hasValidSession(): boolean {
+  const address = wallet.myAccount as string;
+  const session = getSession(address);
+
+  if (session) {
+    const token = decodeToken(session.token);
+    const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
+    const isValid = !!token.userAccess;
+
+    if (isFresh && isValid) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export async function login(): Promise<{ token: string }> {
-  const address = metamask.myAccount as string;
+  const address = wallet.myAccount as string;
   const session = getSession(address);
 
   if (session) {
@@ -129,7 +145,7 @@ export async function login(): Promise<{ token: string }> {
 
   const timestamp = Math.floor(Date.now() / 8.64e7);
 
-  const { signature } = await metamask.signTransaction(timestamp);
+  const { signature } = await wallet.signTransaction(timestamp);
 
   const { token } = await loginRequest({
     address,

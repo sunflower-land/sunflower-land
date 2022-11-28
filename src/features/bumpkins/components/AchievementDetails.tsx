@@ -228,19 +228,25 @@ export const AchievementDetails: React.FC<Props> = ({
                       <span className="text-xs">{`${achievement.sfl} SFL`}</span>
                     </div>
                   )}
-                  {getKeys(achievement.rewards || {}).map((name) => (
-                    <div key={name} className="flex items-center mt-1">
-                      <img
-                        src={ITEM_DETAILS[name].image}
-                        style={{
-                          opacity: 0,
-                          marginRight: `${PIXEL_SCALE * 4}px`,
-                        }}
-                        onLoad={(e) => setImageWidth(e.currentTarget)}
-                      />
-                      <span className="text-xs">{name}</span>
-                    </div>
-                  ))}
+                  {getKeys(achievement.rewards || {}).map((name) => {
+                    const amount =
+                      achievement.rewards?.[name] || new Decimal(0);
+                    const rewardAmount = amount.gt(1) ? `(${amount})` : "";
+
+                    return (
+                      <div key={name} className="flex items-center mt-1">
+                        <img
+                          src={ITEM_DETAILS[name].image}
+                          style={{
+                            opacity: 0,
+                            marginRight: `${PIXEL_SCALE * 4}px`,
+                          }}
+                          onLoad={(e) => setImageWidth(e.currentTarget)}
+                        />
+                        <span className="text-xs">{`${name} ${rewardAmount}`}</span>
+                      </div>
+                    );
+                  })}
                 </div>
                 {!isVisiting && (
                   <Button

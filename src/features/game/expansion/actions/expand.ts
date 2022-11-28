@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -41,5 +41,5 @@ export async function expandRequest(request: Request) {
 export async function expand(request: Request) {
   const response = await expandRequest(request);
 
-  return await metamask.getSessionManager().syncProgress(response);
+  return await wallet.getSessionManager().syncProgress(response);
 }

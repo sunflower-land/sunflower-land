@@ -4,7 +4,7 @@ export const ONE_HR = ONE_MIN * 60;
 export const ONE_DAY = ONE_HR * 24;
 
 type TimeUnit = "sec" | "min" | "hr" | "day";
-type FormatLength = "short" | "medium" | "full";
+export type TimeFormatLength = "short" | "medium" | "full";
 type TimeDuration = {
   value: number;
   unit: TimeUnit;
@@ -17,7 +17,7 @@ type TimeDuration = {
  * @param removeTrailingZeros true, if trailing zeros are removed (eg. '23h 0m 0s' becomes '23h').
  */
 export type TimeFormatOptions = {
-  length: FormatLength;
+  length: TimeFormatLength;
   isShortFormat?: boolean;
   removeTrailingZeros?: boolean;
 };

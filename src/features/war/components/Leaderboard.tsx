@@ -7,7 +7,7 @@ import sword from "assets/icons/sword.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 
 interface Points {
@@ -50,7 +50,7 @@ export const Leaderboard: React.FC = () => {
         : { humans: 0, goblins: 0 };
 
     setLoading(true);
-    const totalSupply = await metamask.getInventory().totalSupply();
+    const totalSupply = await wallet.getInventory().totalSupply();
     const humanWarPoints = totalSupply["Human War Point"];
     const goblinWarPoints = totalSupply["Goblin War Point"];
 
