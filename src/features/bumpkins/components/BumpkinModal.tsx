@@ -19,7 +19,6 @@ import {
 import { Achievements } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
 import { Skills } from "features/bumpkins/components/Skills";
-import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
@@ -83,7 +82,6 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
 
-  const hasSkillPoint = hasUnacknowledgedSkillPoints(state.bumpkin);
   const hasAvaliableSP = getAvailableBumpkinSkillPoints(state.bumpkin) > 0;
 
   const progressWidth = Math.min(
@@ -216,7 +214,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
               <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
-                  {hasSkillPoint && !gameState.matches("visiting") && (
+                  {hasAvaliableSP && !gameState.matches("visiting") && (
                     <img src={alert} className="h-4 ml-2" />
                   )}
                 </div>
