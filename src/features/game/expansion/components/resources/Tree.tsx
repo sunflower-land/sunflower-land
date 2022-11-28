@@ -284,7 +284,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           </div>
           <InnerPanel
             className={classNames(
-              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-40 pointer-events-none p-1",
+              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-50 pointer-events-none p-1",
               {
                 "opacity-100": errorLabel === "noAxe",
                 "opacity-0": errorLabel !== "noAxe",
@@ -351,11 +351,18 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}
           />
-          <TimeLeftPanel
-            text="Recovers in:"
-            timeLeft={timeLeft}
-            showTimeLeft={showStumpTimeLeft}
-          />
+          <div
+            className="flex justify-center absolute w-full pointer-events-none"
+            style={{
+              top: `${PIXEL_SCALE * -15}px`,
+            }}
+          >
+            <TimeLeftPanel
+              text="Recovers in:"
+              timeLeft={timeLeft}
+              showTimeLeft={showStumpTimeLeft}
+            />
+          </div>
         </div>
       )}
 
