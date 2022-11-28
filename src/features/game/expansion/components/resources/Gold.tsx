@@ -13,6 +13,7 @@ import pickaxe from "assets/tools/iron_pickaxe.png";
 import {
   GRID_WIDTH_PX,
   GOLD_RECOVERY_TIME,
+  PIXEL_SCALE,
   POPOVER_TIME_MS,
   PIXEL_SCALE,
 } from "features/game/lib/constants";
@@ -131,7 +132,13 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
         displayPopover(
           <div className="flex">
-            <img src={gold} className="w-5 h-5 mr-2" />
+            <img
+              src={gold}
+              className="mr-2"
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
             <span className="text-sm text-white text-shadow">{`+${goldRock.stone.amount}`}</span>
           </div>
         );
@@ -197,14 +204,14 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         >
           <>
             <Spritesheet
-              className="group-hover:img-highlight pointer-events-none"
               style={{
                 position: "absolute",
-                left: "-86.7px",
-                top: "-50px",
+                left: `${PIXEL_SCALE * -33}px`,
+                top: `${PIXEL_SCALE * -19}px`,
                 imageRendering: "pixelated",
                 width: `${GRID_WIDTH_PX * 7}px`,
               }}
+              className="pointer-events-none z-40"
               getInstance={(spritesheet) => {
                 sparkGif.current = spritesheet;
               }}
@@ -309,7 +316,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       {/* Popover showing amount of gold collected */}
       <div
         className={classNames(
-          "transition-opacity absolute top-8 w-40 left-12 z-20 pointer-events-none",
+          "transition-opacity absolute top-8 w-40 left-12 z-40 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,
