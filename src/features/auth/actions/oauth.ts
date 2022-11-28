@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { login, saveSession } from "./login";
@@ -35,7 +35,7 @@ export async function oauthorise(code: string): Promise<{ token: string }> {
   // Remove query parameters from url
   window.history.pushState({}, "", window.location.pathname);
 
-  const address = metamask.myAccount as string;
+  const address = wallet.myAccount as string;
 
   const { token: oldToken } = await login();
 

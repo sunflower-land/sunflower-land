@@ -10,7 +10,7 @@ type progressType = "progress" | "health" | "error";
 interface Props {
   percentage: number;
   type: progressType;
-  seconds: number;
+  seconds?: number;
   formatLength: TimeFormatLength;
 }
 
@@ -124,8 +124,8 @@ export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
 export const ProgressBar: React.FC<Props> = ({
   percentage,
   type,
-  seconds,
   formatLength,
+  seconds = 0,
 }) => {
   return (
     <div className="absolute">

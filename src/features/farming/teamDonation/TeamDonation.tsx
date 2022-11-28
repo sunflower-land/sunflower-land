@@ -6,7 +6,7 @@ import { useActor, useMachine } from "@xstate/react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { roundToOneDecimal } from "features/auth/components";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { Button } from "components/ui/Button";
 
 import begger from "assets/npcs/begger.gif";
@@ -64,7 +64,7 @@ const teamDonationMachine = createMachine<Context, Event, State>({
         src: async (_context: Context, event: any): Promise<void> => {
           const { donation, to } = event as DonateEvent;
 
-          await metamask.donate(donation, to);
+          await wallet.donate(donation, to);
         },
         onDone: {
           target: "donated",

@@ -26,13 +26,12 @@ export const FirePit: React.FC<Props> = ({
   name,
   craftingService,
   isBuilt,
-  handleShowCraftingTimer,
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService || !handleShowCraftingTimer) {
+  if (!craftingService) {
     return null;
   }
 
@@ -70,13 +69,8 @@ export const FirePit: React.FC<Props> = ({
 
     if (isBuilt) {
       // Add future on click actions here
-      if (idle) {
+      if (idle || crafting) {
         setShowModal(true);
-        return;
-      }
-
-      if (crafting) {
-        handleShowCraftingTimer();
         return;
       }
 
@@ -152,6 +146,8 @@ export const FirePit: React.FC<Props> = ({
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}
+        crafting={!!crafting}
+        craftingService={craftingService}
       />
     </>
   );
