@@ -26,6 +26,7 @@ import tadpole_icon from "features/community/assets/icons/tadpole.png";
 import empty_incubator from "features/community/assets/incubator/empty-small.gif";
 import active_incubator from "features/community/assets/incubator/algae-small.gif";
 import token from "features/community/assets/icons/token.png";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 export const Incubator: React.FC = () => {
   const [machine, send] = useMachine(incubateMachine);
@@ -264,8 +265,11 @@ export const Incubator: React.FC = () => {
       )}
       {machine.matches("display_vaults") && (
         <>
-          <div className="flex">
-            <div className="w-3/5 flex flex-wrap h-fit">
+          <div className="flex flex-col-reverse sm:flex-row">
+            <div
+              className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+              style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+            >
               <p className="mb-2 underline">Empty Incubator</p>
               <Box
                 isSelected={selected === "empty"}
@@ -302,9 +306,9 @@ export const Incubator: React.FC = () => {
                   />
                 ))}
             </div>
-            <OuterPanel className="flex-1 w-1/3 mb-2">
+            <OuterPanel className="w-full flex-1">
               <div className="flex flex-col justify-center items-center p-2 ">
-                <span className="text-shadow text-center">Incubator</span>
+                <span className="text-center">Incubator</span>
                 <img
                   src={ITEM_DETAILS[selected as IncubatorName].image}
                   className="h-16 img-highlight mt-1"
@@ -312,7 +316,7 @@ export const Incubator: React.FC = () => {
                 />
                 {selected === "empty" && (
                   <>
-                    <span className="text-shadow text-center mt-2 sm:text-sm">
+                    <span className="text-center mt-2 text-sm">
                       {ITEM_DETAILS[selected as IncubatorName].description}
                     </span>
                     <Button
@@ -325,13 +329,13 @@ export const Incubator: React.FC = () => {
                 )}
                 {selected === "active" && (
                   <>
-                    <span className="text-shadow text-center mt-2 sm:text-sm">
+                    <span className="text-center mt-2 text-sm">
                       {`#${selectedActiveIncubator}`}
                     </span>
                     <div className="border-t border-white w-full mt-2 pt-1">
                       <div className="flex justify-center items-end">
                         <img src={token} className="h-6 mr-1" />
-                        <span className="text-xs text-shadow text-center mt-2 mb-1">
+                        <span className="text-xs text-center mt-2 mb-1">
                           {`${selectedIncubatorEarnings}`}
                         </span>
                       </div>
@@ -356,7 +360,7 @@ export const Incubator: React.FC = () => {
           >
             <Panel className="md:w-4/5 m-auto">
               <div className="m-auto flex flex-col">
-                <span className="text-sm text-center text-shadow underline mt-2">
+                <span className="text-sm text-center underline mt-2">
                   Select Tadpole
                 </span>
                 <div className="flex flex-wrap h-fit mb-2 mt-2">
@@ -375,7 +379,7 @@ export const Incubator: React.FC = () => {
                 </div>
               </div>
               <div className="m-auto flex flex-col">
-                <span className="text-sm text-center text-shadow underline">
+                <span className="text-sm text-center underline">
                   Select Frog
                 </span>
                 <div className="flex flex-wrap h-fit mb-2 mt-2">
@@ -418,7 +422,7 @@ export const Incubator: React.FC = () => {
           <Modal centered show={isUnloadModalOpen} onHide={closeUnloadModal}>
             <Panel className="md:w-4/5 m-auto">
               <div className="m-auto flex flex-col">
-                <span className="text-sm text-center text-shadow">
+                <span className="text-sm text-center">
                   Are you sure you want to <br className="hidden md:block" />
                   remove Incubator #{selectedActiveIncubator} and{" "}
                   <br className="hidden md:block" />
@@ -448,7 +452,7 @@ export const Incubator: React.FC = () => {
           <Modal centered show={isClaimModalOpen} onHide={closeClaimModal}>
             <Panel className="md:w-4/5 m-auto">
               <div className="m-auto flex flex-col">
-                <span className="text-sm text-center text-shadow">
+                <span className="text-sm text-center">
                   Are you sure you want to <br className="hidden md:block" />
                   claim your {selectedIncubatorEarnings} PD-WL tokens on
                   Incubator #{selectedActiveIncubator}?

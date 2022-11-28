@@ -20,6 +20,7 @@ import {
   getFoodExpBoost,
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   recipes: Consumable[];
@@ -91,8 +92,11 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
   const stock = state.stock[selected.name] || new Decimal(0);
 
   return (
-    <div className="flex">
-      <div className="w-1/2 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      >
         {recipes.map((item) => (
           <Box
             isSelected={selected.name === item.name}
@@ -103,16 +107,16 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
           />
         ))}
       </div>
-      <OuterPanel className="flex-1 w-1/2">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {/* <Stock item={selected} /> */}
-          <span className="text-shadow text-center mb-1">{selected.name}</span>
+          <span className="text-center mb-1">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
-          <span className="text-shadow text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 text-sm">
             {ITEM_DETAILS[selected.name].description}
           </span>
 
@@ -141,7 +145,7 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
                 } else {
                   // if inventory items is equal to required items
                   return (
-                    <span className="text-xs text-shadow text-center mt-2">
+                    <span className="text-xs text-center mt-2">
                       {`${requiredAmount}`}
                     </span>
                   );

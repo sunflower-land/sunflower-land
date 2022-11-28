@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token_2.png";
@@ -19,6 +19,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice, hasSellBoost } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Bumpkin } from "features/game/types/game";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
@@ -33,6 +34,8 @@ export const Crops: React.FC = () => {
   const [isPriceBoosted, setIsPriceBoosted] = useState(false);
 
   const inventory = state.inventory;
+
+  const divRef = useRef<HTMLDivElement>(null);
 
   const sell = (amount: Decimal) => {
     gameService.send("crop.sold", {
@@ -78,8 +81,12 @@ export const Crops: React.FC = () => {
   }, [inventory, state.inventory]);
 
   return (
-    <div className="flex">
-      <div className="w-3/5 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+        ref={divRef}
+      >
         {Object.values(CROPS())
           .filter((crop) => !!crop.sellPrice)
           .map((item) => (
@@ -89,18 +96,19 @@ export const Crops: React.FC = () => {
               onClick={() => setSelected(item)}
               image={ITEM_DETAILS[item.name].image}
               count={setPrecision(inventory[item.name] ?? new Decimal(0))}
+              parentDivRef={divRef}
             />
           ))}
       </div>
-      <OuterPanel className="flex-1 w-1/3">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 ">
-          <span className="text-shadow mb-2">{selected.name}</span>
+          <span className="mb-2">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="w-8 sm:w-12 "
             alt={selected.name}
           />
-          <span className="text-shadow text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 text-sm">
             {selected.description}
           </span>
 
@@ -108,7 +116,7 @@ export const Crops: React.FC = () => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               {isPriceBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-shadow text-center mt-2 ">
+              <span className="text-xs text-center mt-2 ">
                 {`$${displaySellPrice(selected)}`}
               </span>
             </div>
@@ -132,7 +140,7 @@ export const Crops: React.FC = () => {
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
         <Panel className="md:w-4/5 m-auto">
           <div className="m-auto flex flex-col">
-            <span className="text-sm text-center text-shadow">
+            <span className="text-sm text-center">
               Are you sure you want to <br className="hidden md:block" />
               sell {setPrecision(cropAmount).toNumber()} {selected.name} for{" "}
               <br className="hidden md:block" />
