@@ -45,11 +45,11 @@ const maxItems: Inventory = {
   "Chef Hat": new Decimal(1),
   "Rapid Growth": new Decimal(100),
 
-  // Max of 1 food item
+  // Max of 1000 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
     (acc, name) => ({
       ...acc,
-      [name]: new Decimal(1),
+      [name]: new Decimal(1000),
     }),
     {}
   ),

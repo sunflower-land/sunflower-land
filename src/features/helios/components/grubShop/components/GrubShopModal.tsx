@@ -17,6 +17,7 @@ import { useActor } from "@xstate/react";
 import { secondsToString } from "lib/utils/time";
 import { GrubShop } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: () => void;
@@ -61,9 +62,9 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     const isClosed = grubShop.closesAt < Date.now();
     if (isClosed) {
       return (
-        <div className="text-center">
+        <div className="p-2">
           <p>The Grub Shop is closed on Tuesdays.</p>
-          <p className="mt-2 text-sm">
+          <p className="mt-4 text-sm">
             Come back tomorrow to view the Grublin Orders.
           </p>
         </div>
@@ -116,14 +117,25 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
               })}
             </div>
             {selected && (
-              <OuterPanel className="flex-1 w-1/3 relative">
-                <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center absolute -top-4 p-[3px] rounded-md whitespace-nowrap">
-                  <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
-                  <span className="mt-[2px]">{`${secondsToString(
-                    secondsLeft as number,
-                    { length: "medium" }
-                  )} left`}</span>
-                </span>
+              <OuterPanel className="flex flex-col items-center relative">
+                <Label
+                  type={selectedFulFilled ? "success" : "info"}
+                  className="flex justify-center items-center"
+                >
+                  {selectedFulFilled ? (
+                    <span className="text-center text-xxs">
+                      Order fulfilled
+                    </span>
+                  ) : (
+                    <>
+                      <img src={stopwatch} className="w-3 left-0 mr-1" />
+                      <span className="mt-0.5">{`${secondsToString(
+                        secondsLeft as number,
+                        { length: "medium" }
+                      )} left`}</span>
+                    </>
+                  )}
+                </Label>
                 <div className="flex flex-col justify-center items-center p-2 ">
                   <span className="text-center">{selected.name}</span>
                   <img
@@ -143,11 +155,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                       </span>
                     </div>
                   </div>
-                  {selectedFulFilled ? (
-                    <span className="text-center text-xs mt-2">
-                      Order fulfilled
-                    </span>
-                  ) : (
+                  {!selectedFulFilled && (
                     <Button
                       disabled={
                         !state.inventory[selected.name] ||

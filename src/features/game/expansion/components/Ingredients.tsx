@@ -7,7 +7,7 @@ import token from "assets/icons/token_2.png";
 import { Ingredient } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { RedLabel } from "components/ui/RedLabel";
+import { Label } from "components/ui/Label";
 
 export interface Props {
   gameState: GameState;
@@ -32,7 +32,7 @@ export const Ingredients: React.FC<Props> = ({ gameState, resources, sfl }) => {
           <div className="flex items-center mb-1" key={index}>
             <img src={item.image} className="h-6 mr-2" />
             {isMissingIngredient ? (
-              <RedLabel>{`${inventoryAmount}/${requiredAmount}`}</RedLabel>
+              <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
             ) : (
               <span className={classNames("text-sm text-shadow text-center ")}>
                 {`${requiredAmount}`}
@@ -46,7 +46,7 @@ export const Ingredients: React.FC<Props> = ({ gameState, resources, sfl }) => {
         <div className="flex  items-center">
           <img src={token} className="h-6 mr-2" />
           {gameState.balance.lessThan(sfl) ? (
-            <RedLabel>{`${sfl.toNumber()} SFL`}</RedLabel>
+            <Label type="danger">{`${sfl.toNumber()} SFL`}</Label>
           ) : (
             <span
               className={classNames("text-sm text-shadow text-center ", {})}

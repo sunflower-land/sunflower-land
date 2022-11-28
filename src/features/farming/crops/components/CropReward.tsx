@@ -2,7 +2,7 @@ import { Panel } from "components/ui/Panel";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import { CropReward as Reward } from "features/game/types/game";
+import { Reward } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";

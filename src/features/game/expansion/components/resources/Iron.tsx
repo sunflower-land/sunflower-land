@@ -120,33 +120,36 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("ironRock.mined", {
+      const newState = gameService.send("ironRock.mined", {
         index: ironIndex,
         expansionIndex,
       });
-      setCollecting(true);
-      minedGif.current?.goToAndPlay(0);
 
-      displayPopover(
-        <div className="flex">
-          <img
-            src={iron}
-            className="mr-2"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-            }}
-          />
-          <span className="text-sm text-white text-shadow">{`+${ironRock.stone.amount}`}</span>
-        </div>
-      );
+      if (!newState.matches("hoarding")) {
+        setCollecting(true);
+        minedGif.current?.goToAndPlay(0);
 
-      setToast({
-        icon: iron,
-        content: `+${ironRock.stone.amount}`,
-      });
+        displayPopover(
+          <div className="flex">
+            <img
+              src={iron}
+              className="mr-2"
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
+            <span className="text-sm text-white text-shadow">{`+${ironRock.stone.amount}`}</span>
+          </div>
+        );
 
-      await new Promise((res) => setTimeout(res, 2000));
-      setCollecting(false);
+        setToast({
+          icon: iron,
+          content: `+${ironRock.stone.amount}`,
+        });
+
+        await new Promise((res) => setTimeout(res, 2000));
+        setCollecting(false);
+      }
     } catch (e: any) {
       if (e.message === MINE_ERRORS.NO_PICKAXES) {
         displayPopover(
@@ -233,7 +236,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
                 }
               )}
             >
-              <div className="text-xxs text-white mx-1">
+              <div className="text-xxs text-white mx-1 p-1">
                 <span>Equip {tool.toLowerCase()}</span>
               </div>
             </InnerPanel>

@@ -44,7 +44,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
   const [popover, setPopover] = useState<JSX.Element | null>();
 
   const [touchCount, setTouchCount] = useState(0);
-  // When to hide the wood that pops out
+  // When to hide the iron that pops out
   const [collecting, setCollecting] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -116,26 +116,29 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("iron.mined", {
+      const newState = gameService.send("iron.mined", {
         index: rockIndex,
       });
-      setCollecting(true);
-      minedGif.current?.goToAndPlay(0);
 
-      displayPopover(
-        <div className="flex">
-          <img src={ironOre} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${rock.amount}`}</span>
-        </div>
-      );
+      if (!newState.matches("hoarding")) {
+        setCollecting(true);
+        minedGif.current?.goToAndPlay(0);
 
-      setToast({
-        icon: ironOre,
-        content: `+${rock.amount}`,
-      });
+        displayPopover(
+          <div className="flex">
+            <img src={ironOre} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${rock.amount}`}</span>
+          </div>
+        );
 
-      await new Promise((res) => setTimeout(res, 2000));
-      setCollecting(false);
+        setToast({
+          icon: ironOre,
+          content: `+${rock.amount}`,
+        });
+
+        await new Promise((res) => setTimeout(res, 2000));
+        setCollecting(false);
+      }
     } catch (e: any) {
       displayPopover(
         <span className="text-xs text-white text-shadow">{e.message}</span>

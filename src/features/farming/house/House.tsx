@@ -159,6 +159,7 @@ export const House: React.FC<Props> = ({
                     <Label
                       key={index}
                       className="w-5 h-7 mr-1 flex flex-col items-center"
+                      type="default"
                     />
                   );
                 }
@@ -188,6 +189,7 @@ export const House: React.FC<Props> = ({
                     <Label
                       key={index}
                       className="w-5 h-7 mr-1 flex flex-col items-center"
+                      type="default"
                     />
                   );
                 }

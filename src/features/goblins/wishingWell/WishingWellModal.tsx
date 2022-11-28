@@ -9,6 +9,7 @@ import player from "assets/icons/player.png";
 import timer from "assets/icons/timer.png";
 import alert from "assets/icons/expression_alerted.png";
 import token from "assets/icons/token_2.png";
+import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -24,6 +25,7 @@ import { WishingWellTokens } from "./actions/loadWishingWell";
 import { Context } from "features/game/GoblinProvider";
 import { setPrecision } from "lib/utils/formatNumber";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -92,12 +94,7 @@ const GrantWish = ({ totalTokensInWell, onClick, onClose }: GrantWishArgs) => (
       <p className="mb-2 text-sm">{`Let's see how lucky you are!`}</p>
     </div>
     <div className="flex">
-      <Button className="mr-1" onClick={onClose}>
-        Close
-      </Button>
-      <Button className="ml-1" onClick={onClick}>
-        Grant Wish
-      </Button>
+      <Button onClick={onClick}>Grant Wish</Button>
     </div>
   </>
 );
@@ -116,10 +113,7 @@ const ZeroTokens = ({ onClick, onClose }: ZeroTokensArgs) => (
       <p className="mb-2 text-sm">{`Grant a new wish and see how lucky you are!`}</p>
     </div>
     <div className="flex">
-      <Button className="mr-1 whitespace-nowrap" onClick={onClose}>
-        Close
-      </Button>
-      <Button className="ml-1 whitespace-nowrap" onClick={onClick}>
+      <Button className="whitespace-nowrap" onClick={onClick}>
         Grant New Wish
       </Button>
     </div>
@@ -151,7 +145,6 @@ const WaitingForWish = ({ lockedTime, onClose }: WaitingForWishArgs) => (
         </span>
       </div>
     </div>
-    <Button onClick={onClose}>Close</Button>
   </>
 );
 
@@ -214,11 +207,8 @@ const NoWish = ({
       )}
     </div>
     <div className="flex">
-      <Button className="mr-1" onClick={onClose}>
-        Close
-      </Button>
       <Button
-        className={classNames("ml-1", !hasLPTokens && "text-xs")}
+        className={classNames(!hasLPTokens && "text-xs")}
         onClick={onClick}
       >
         {hasLPTokens ? `Make Wish` : `Add Liquidity`}
@@ -281,6 +271,16 @@ export const WishingWellModal: React.FC = () => {
             )}
           </div>
         )}
+        <img
+          src={close}
+          className="absolute cursor-pointer m-2 z-20"
+          onClick={handleClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
         {machine.matches("noLiquidity") && (
           <NoWish
             totalTokensInWell={wishingWell.totalTokensInWell}

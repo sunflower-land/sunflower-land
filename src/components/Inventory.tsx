@@ -77,7 +77,9 @@ export const Inventory: React.FC<Props> = ({
         />
       </div>
       <div className="flex flex-col items-center sm:mt-8">
-        <Label className="hidden sm:block absolute">Items</Label>
+        <Label type="default" className="hidden sm:block absolute">
+          Items
+        </Label>
       </div>
 
       <Modal centered scrollable show={isOpen} onHide={() => setIsOpen(false)}>

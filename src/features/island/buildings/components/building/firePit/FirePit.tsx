@@ -101,22 +101,12 @@ export const FirePit: React.FC<Props> = ({
             height: `${PIXEL_SCALE * 33}px`,
           }}
         />
-        {ready && name && (
+        {(crafting || ready) && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className="absolute z-30 img-highlight-heavy"
-            style={{
-              // TODO - dynamically get correct width
-              width: `${PIXEL_SCALE * 12}px`,
-              top: `${PIXEL_SCALE * 16}px`,
-              left: `${PIXEL_SCALE * 17}px`,
-            }}
-          />
-        )}
-        {crafting && name && (
-          <img
-            src={ITEM_DETAILS[name].image}
-            className="absolute z-30"
+            className={classNames("absolute z-30 pointer-events-none", {
+              "img-highlight-heavy": ready,
+            })}
             style={{
               // TODO - dynamically get correct width
               width: `${PIXEL_SCALE * 12}px`,

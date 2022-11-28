@@ -222,7 +222,7 @@ export const Deposit: React.FC = () => {
               showLabel ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Label>{tooltipMessage}</Label>
+            <Label type="default">{tooltipMessage}</Label>
           </div>
         </div>
       </div>

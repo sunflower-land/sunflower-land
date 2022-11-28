@@ -81,6 +81,9 @@ module.exports = {
         green: {
           background: "#63c74d",
         },
+        red: {
+          background: "#e43b44",
+        },
         blue: {
           300: "#0099da",
           600: "#0d87ff",
