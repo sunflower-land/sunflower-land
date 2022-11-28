@@ -294,6 +294,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
               percentage={percentage}
               seconds={timeLeft}
               type="progress"
+              formatLength="short"
             />
           </div>
           <div

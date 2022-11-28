@@ -196,6 +196,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                     (secondsLeft / (selected.cooldownSeconds as number)) * 100
                   }
                   type="progress"
+                  formatLength="medium"
                 />
               </div>
             </p>

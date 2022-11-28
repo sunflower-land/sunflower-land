@@ -308,6 +308,7 @@ export const Stone: React.FC<Props> = ({ rockIndex }) => {
               percentage={percentage}
               seconds={timeLeft}
               type="progress"
+              formatLength="short"
             />
             <div
               className="absolute"

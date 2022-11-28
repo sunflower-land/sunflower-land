@@ -103,6 +103,7 @@ export const Soil: React.FC<Props> = ({
             percentage={isRemoving ? 50 : growPercentage}
             seconds={timeLeft}
             type={isRemoving ? "error" : "progress"}
+            formatLength="short"
           />
         </div>
 
