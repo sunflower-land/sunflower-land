@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { secondsToString } from "lib/utils/time";
 
@@ -17,12 +17,12 @@ export type WishingWellTokens = {
  * Load Blockchain data for the wishing well
  */
 export async function loadWishingWell(): Promise<WishingWellTokens> {
-  const tokensInWellPromise = metamask.getWishingWell().getBalance();
-  const canCollectPromise = metamask.getWishingWell().canCollect();
-  const lastCollectedPromise = metamask.getWishingWell().lastCollected();
-  const lockedPeriodPromise = metamask.getWishingWell().getLockedPeriod();
-  const lpTokensPromise = metamask.getPair().getBalance();
-  const totalTokensInWellPromise = metamask
+  const tokensInWellPromise = wallet.getWishingWell().getBalance();
+  const canCollectPromise = wallet.getWishingWell().canCollect();
+  const lastCollectedPromise = wallet.getWishingWell().lastCollected();
+  const lockedPeriodPromise = wallet.getWishingWell().getLockedPeriod();
+  const lpTokensPromise = wallet.getPair().getBalance();
+  const totalTokensInWellPromise = wallet
     .getToken()
     .balanceOf(wishingWellAddress as string);
 

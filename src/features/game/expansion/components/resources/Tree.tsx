@@ -192,7 +192,13 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
         displayPopover(
           <div className="flex">
-            <img src={wood} className="w-5 h-5 mr-2" />
+            <img
+              src={wood}
+              className="mr-2"
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+            />
             <span className="text-sm text-white text-shadow">{`+${tree.wood.amount}`}</span>
           </div>
         );
@@ -278,7 +284,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           </div>
           <InnerPanel
             className={classNames(
-              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-40 pointer-events-none p-1",
+              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-50 pointer-events-none p-1",
               {
                 "opacity-100": errorLabel === "noAxe",
                 "opacity-0": errorLabel !== "noAxe",
@@ -307,7 +313,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           bottom: `${8 * PIXEL_SCALE}px`,
           right: `-${4 * PIXEL_SCALE}px`,
         }}
-        className="absolute bottom-0 pointer-events-none"
+        className="absolute bottom-0 pointer-events-none z-40"
         getInstance={(spritesheet) => {
           choppedGif.current = spritesheet;
         }}
@@ -345,11 +351,18 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}
           />
-          <TimeLeftPanel
-            text="Recovers in:"
-            timeLeft={timeLeft}
-            showTimeLeft={showStumpTimeLeft}
-          />
+          <div
+            className="flex justify-center absolute w-full pointer-events-none"
+            style={{
+              top: `${PIXEL_SCALE * -15}px`,
+            }}
+          >
+            <TimeLeftPanel
+              text="Recovers in:"
+              timeLeft={timeLeft}
+              showTimeLeft={showStumpTimeLeft}
+            />
+          </div>
         </div>
       )}
 
@@ -370,7 +383,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity absolute -bottom-5 w-40 -left-16 z-20 pointer-events-none",
+          "transition-opacity absolute -bottom-5 w-40 -left-16 z-40 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,

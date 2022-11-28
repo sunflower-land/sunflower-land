@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 
 import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
@@ -18,8 +18,8 @@ const API_URL = CONFIG.API_URL;
 async function getSFLSupply() {
   const [total, burned] = API_URL
     ? await Promise.all([
-        metamask.getToken().totalSupply(),
-        metamask
+        wallet.getToken().totalSupply(),
+        wallet
           .getToken()
           .balanceOf("0x000000000000000000000000000000000000dead"),
       ])

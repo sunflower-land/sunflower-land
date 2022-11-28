@@ -16,7 +16,7 @@ import player from "assets/icons/player.png";
 import remove from "assets/icons/cancel.png";
 
 import { toWei } from "web3-utils";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "features/game/types/craftables";
 import { getDeliverableItems } from "../lib/storageItems";
@@ -230,7 +230,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
           <div>
             <p className="text-sm">Deliver to your wallet</p>
             <p className="text-sm">
-              {shortAddress(metamask.myAccount || "XXXX")}
+              {shortAddress(wallet.myAccount || "XXXX")}
             </p>
           </div>
         </div>

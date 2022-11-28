@@ -1,4 +1,4 @@
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { GoblinRetreatItemName, LimitedItemName } from "../types/craftables";
@@ -41,7 +41,7 @@ export async function mint(request: Request) {
 
   const transaction = await response.json();
 
-  const sessionId = await metamask.getSessionManager().mint(transaction);
+  const sessionId = await wallet.getSessionManager().mint(transaction);
 
   return { sessionId, verified: true };
 }
@@ -73,7 +73,7 @@ async function mintCollectible(request: Request) {
 
   const transaction = await response.json();
 
-  const sessionId = await metamask
+  const sessionId = await wallet
     .getSessionManager()
     .mintCollectible(transaction);
 

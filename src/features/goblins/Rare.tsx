@@ -14,7 +14,7 @@ import {
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ItemSupply } from "lib/blockchain/Inventory";
 import { Context } from "features/game/GoblinProvider";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -93,7 +93,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   useEffect(() => {
     const load = async () => {
       const supply = API_URL
-        ? await metamask.getInventory().totalSupply()
+        ? await wallet.getInventory().totalSupply()
         : ({} as ItemSupply);
 
       console.log({ supply });
@@ -193,6 +193,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                     (secondsLeft / (selected.cooldownSeconds as number)) * 100
                   }
                   type="progress"
+                  formatLength="medium"
                 />
               </div>
             </p>

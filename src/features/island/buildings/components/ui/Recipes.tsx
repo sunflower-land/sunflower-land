@@ -21,14 +21,24 @@ import {
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
+import { InProgressInfo } from "../building/InProgressInfo";
+import { MachineInterpreter } from "../../lib/craftingMachine";
 
 interface Props {
   recipes: Consumable[];
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
+  craftingService?: MachineInterpreter;
+  crafting: boolean;
 }
 
-export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
+export const Recipes: React.FC<Props> = ({
+  recipes,
+  onClose,
+  onCook,
+  crafting,
+  craftingService,
+}) => {
   const [selected, setSelected] = useState<Consumable>(recipes[0]);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
@@ -62,50 +72,41 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
   };
 
   const Action = () => {
-    // if (stock?.equals(0)) {
-    //   return (
-    //     <div>
-    //       <p className="text-xxs no-wrap text-center my-1 underline">
-    //         Sold out
-    //       </p>
-    //       <p className="text-xxs text-center">
-    //         Sync your farm to the Blockchain to restock
-    //       </p>
-    //     </div>
-    //   );
-    // }
-
     return (
       <>
         <Button
-          disabled={lessIngredients()}
-          // disabled={lessIngredients() || stock?.lessThan(1)}
+          disabled={lessIngredients() || crafting}
           className="text-sm mt-1 whitespace-nowrap"
           onClick={() => cook()}
         >
           Cook
         </Button>
+        {crafting && <p className="text-xs my-1">Chef is busy</p>}
       </>
     );
   };
 
-  const stock = state.stock[selected.name] || new Decimal(0);
-
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div
-        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1"
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
       >
-        {recipes.map((item) => (
-          <Box
-            isSelected={selected.name === item.name}
-            key={item.name}
-            onClick={() => setSelected(item)}
-            image={ITEM_DETAILS[item.name].image}
-            count={inventory[item.name]}
-          />
-        ))}
+        {craftingService && (
+          <InProgressInfo craftingService={craftingService} />
+        )}
+        <p className="mb-2">Recipes</p>
+        <div className="flex flex-wrap h-fit">
+          {recipes.map((item) => (
+            <Box
+              isSelected={selected.name === item.name}
+              key={item.name}
+              onClick={() => setSelected(item)}
+              image={ITEM_DETAILS[item.name].image}
+              count={inventory[item.name]}
+            />
+          ))}
+        </div>
       </div>
       <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
@@ -133,8 +134,8 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
                 requiredAmount
               );
 
-              // rendering item remenants
-              const renderRemenants = () => {
+              // rendering item remnants
+              const renderRemnants = () => {
                 if (lessIngredient) {
                   // if inventory items is less than required items
                   return (
@@ -158,7 +159,7 @@ export const Recipes: React.FC<Props> = ({ recipes, onClose, onCook }) => {
                   key={index}
                 >
                   <img src={item.image} className="h-5 me-2" />
-                  {renderRemenants()}
+                  {renderRemnants()}
                 </div>
               );
             })}

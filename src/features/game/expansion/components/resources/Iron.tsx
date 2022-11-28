@@ -13,6 +13,7 @@ import pickaxe from "assets/tools/stone_pickaxe.png";
 import {
   GRID_WIDTH_PX,
   IRON_RECOVERY_TIME,
+  PIXEL_SCALE,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -49,12 +50,11 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   // When to hide the iron that pops out
   const [collecting, setCollecting] = useState(false);
 
-  const overlayRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
   const minedGif = useRef<SpriteSheetInstance>();
 
-  const [showIronTimeLeft, setShowIronTimeLeft] = useState(false);
+  const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
   const expansion = game.context.state.expansions[expansionIndex];
@@ -130,7 +130,13 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
         displayPopover(
           <div className="flex">
-            <img src={iron} className="w-5 h-5 mr-2" />
+            <img
+              src={iron}
+              className="mr-2"
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
             <span className="text-sm text-white text-shadow">{`+${ironRock.stone.amount}`}</span>
           </div>
         );
@@ -163,7 +169,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   };
 
   const handleHover = () => {
-    if (mined) setShowIronTimeLeft(true);
+    if (mined) setShowRockTimeLeft(true);
 
     if (!hasPickaxes) {
       containerRef.current?.classList["add"]("cursor-not-allowed");
@@ -172,7 +178,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   };
 
   const handleMouseLeave = () => {
-    setShowIronTimeLeft(false);
+    setShowRockTimeLeft(false);
 
     containerRef.current?.classList["remove"]("cursor-not-allowed");
     setErrorLabel(undefined);
@@ -182,7 +188,6 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
   return (
     <div
-      ref={overlayRef}
       className="relative"
       style={{ height: "40px" }}
       onMouseEnter={handleHover}
@@ -222,7 +227,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
             />
             <InnerPanel
               className={classNames(
-                "transition-opacity absolute top-2 w-fit left-12 z-40 pointer-events-none",
+                "transition-opacity absolute top-2 w-fit left-12 z-50 pointer-events-none",
                 {
                   "opacity-100": errorLabel === "noPickaxe",
                   "opacity-0": errorLabel !== "noPickaxe",
@@ -240,14 +245,14 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       <Spritesheet
         style={{
           position: "absolute",
-          left: "-86.6px",
-          top: "-50px",
+          left: `${PIXEL_SCALE * -33}px`,
+          top: `${PIXEL_SCALE * -19}px`,
           opacity: collecting ? 1 : 0,
           transition: "opacity 0.2s ease-in",
           width: `${GRID_WIDTH_PX * 7}px`,
           imageRendering: "pixelated",
         }}
-        className="pointer-events-none z-20"
+        className="pointer-events-none z-40"
         getInstance={(spritesheet) => {
           minedGif.current = spritesheet;
         }}
@@ -294,25 +299,22 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       {/* Recovery time panel */}
       {mined && (
         <div
-          className="absolute"
+          className="flex justify-center absolute w-full pointer-events-none"
           style={{
-            top: "30px",
-            left: "-26px",
+            top: `${PIXEL_SCALE * -20}px`,
           }}
         >
-          {overlayRef.current && (
-            <TimeLeftPanel
-              text="Recovers in:"
-              timeLeft={timeLeft}
-              showTimeLeft={showIronTimeLeft}
-            />
-          )}
+          <TimeLeftPanel
+            text="Recovers in:"
+            timeLeft={timeLeft}
+            showTimeLeft={showRockTimeLeft}
+          />
         </div>
       )}
       {/* Popover showing amount of iron collected */}
       <div
         className={classNames(
-          "transition-opacity absolute top-8 w-40 left-12 z-20 pointer-events-none",
+          "transition-opacity absolute top-8 w-40 left-12 z-40 pointer-events-none",
           {
             "opacity-100": showPopover,
             "opacity-0": !showPopover,

@@ -14,13 +14,22 @@ import {
 } from "features/game/types/consumables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Tab } from "components/ui/Tab";
+import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
+  crafting: boolean;
+  craftingService?: MachineInterpreter;
 }
-export const DeliModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
+export const DeliModal: React.FC<Props> = ({
+  isOpen,
+  onCook,
+  onClose,
+  crafting,
+  craftingService,
+}) => {
   const deliRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
     if (CONSUMABLES[name].building !== "Deli") {
       return acc;
@@ -66,7 +75,13 @@ export const DeliModal: React.FC<Props> = ({ isOpen, onCook, onClose }) => {
             }}
           />
         </div>
-        <Recipes recipes={deliRecipes} onCook={onCook} onClose={onClose} />
+        <Recipes
+          recipes={deliRecipes}
+          onCook={onCook}
+          onClose={onClose}
+          crafting={crafting}
+          craftingService={craftingService}
+        />
       </Panel>
     </Modal>
   );

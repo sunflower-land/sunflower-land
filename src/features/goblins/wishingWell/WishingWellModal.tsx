@@ -13,7 +13,7 @@ import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { metamask } from "lib/blockchain/metamask";
+import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
 import { shortAddress } from "lib/utils/shortAddress";
 import { CONFIG } from "lib/config";
@@ -183,9 +183,7 @@ const NoWish = ({
       </p>
       <div className="flex justify-center items-center mb-4">
         <img src={player} alt="player address" className="w-6" />
-        <span className="ml-2">
-          {shortAddress(metamask.myAccount as string)}
-        </span>
+        <span className="ml-2">{shortAddress(wallet.myAccount as string)}</span>
       </div>
       {hasLPTokens ? (
         <p className="mb-2 text-sm">
@@ -218,7 +216,7 @@ const NoWish = ({
       <div>
         <Button
           className="text-xs mt-2"
-          onClick={() => metamask.getPair().mintTestnetTokens()}
+          onClick={() => wallet.getPair().mintTestnetTokens()}
         >
           Mint testnet LP tokens
         </Button>
