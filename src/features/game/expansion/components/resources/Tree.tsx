@@ -10,6 +10,7 @@ import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
+import sfltoken from "assets/icons/token_2.png";
 import axe from "assets/tools/axe.png";
 
 import {
@@ -26,7 +27,7 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { LandExpansionTree } from "features/game/types/game";
+import { LandExpansionTree, Reward, Wood } from "features/game/types/game";
 import {
   canChop,
   CHOP_ERRORS,
@@ -35,6 +36,7 @@ import {
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
+import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
 
 const HITS = 3;
 const tool = "Axe";
@@ -57,7 +59,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [errorLabel, setErrorLabel] = useState<"noAxe">();
   const [popover, setPopover] = useState<JSX.Element | null>();
-
+  const [reward, setReward] = useState<Reward | null>(null);
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
@@ -71,6 +73,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const { setToast } = useContext(ToastContext);
   const expansion = game.context.state.expansions[expansionIndex];
   const tree = expansion.trees?.[treeIndex] as LandExpansionTree;
+  const woodObj = expansion.trees?.[treeIndex].wood as Wood;
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -135,9 +138,41 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
     // On third shake, chop
     if (touchCount > 0 && touchCount === HITS - 1) {
+      // already looking at a reward
+      if (reward) {
+        return;
+      }
+
+      // increase touch count if there is a reward
+      if (woodObj.reward && canChop(tree)) {
+        if (touchCount < 1) {
+          // Add to touch count for reward pickup
+          setTouchCount((count) => count + 1);
+          return;
+        }
+
+        // They have touched enough!
+        setReward(woodObj.reward);
+
+        return;
+      }
       chop();
       treeFallAudio.play();
       setTouchCount(0);
+    }
+  };
+
+  const onCollectReward = (success: boolean) => {
+    setReward(null);
+    setTouchCount(0);
+    if (success && tree) {
+      //Toast for the ChestReward
+      //@NOTE This Toast only supports SFL rewards 😭
+      setToast({
+        icon: sfltoken,
+        content: `+${reward?.sfl?.toString()}`,
+      });
+      chop();
     }
   };
 
@@ -145,28 +180,31 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("timber.chopped", {
+      const newState = gameService.send("timber.chopped", {
         index: treeIndex,
         expansionIndex,
         item: selectedItem,
       });
-      setCollecting(true);
-      choppedGif.current?.goToAndPlay(0);
 
-      displayPopover(
-        <div className="flex">
-          <img src={wood} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${tree.wood.amount}`}</span>
-        </div>
-      );
+      if (!newState.matches("hoarding")) {
+        setCollecting(true);
+        choppedGif.current?.goToAndPlay(0);
 
-      setToast({
-        icon: wood,
-        content: `+${tree.wood.amount}`,
-      });
+        displayPopover(
+          <div className="flex">
+            <img src={wood} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${tree.wood.amount}`}</span>
+          </div>
+        );
 
-      await new Promise((res) => setTimeout(res, 2000));
-      setCollecting(false);
+        setToast({
+          icon: wood,
+          content: `+${tree.wood.amount}`,
+        });
+
+        await new Promise((res) => setTimeout(res, 2000));
+        setCollecting(false);
+      }
     } catch (e: any) {
       if (e.message === CHOP_ERRORS.NO_AXES) {
         displayPopover(
@@ -340,6 +378,17 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         )}
       >
         {popover}
+        {/* Tree ChestReward */}
+        <ChestReward
+          reward={reward}
+          onCollected={onCollectReward}
+          onOpen={() =>
+            gameService.send("treeReward.collected", {
+              treeIndex,
+              expansionIndex,
+            })
+          }
+        />
       </div>
     </div>
   );

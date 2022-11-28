@@ -38,7 +38,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
 
     setToast({
       icon: heart,
-      content: `+${getFoodExpBoost(food.experience, state.bumpkin as Bumpkin)}`,
+      content: `+${getFoodExpBoost(food, state.bumpkin as Bumpkin)}`,
     });
     setToast({
       icon: ITEM_DETAILS[food.name].image,
@@ -51,7 +51,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div
-        className="w-full sm:w-3/5 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
       >
         {selected !== undefined &&
@@ -87,7 +87,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
                   <img src={heart} className="me-2 w-6" />
                   <span className="text-xs text-center">
                     {`${getFoodExpBoost(
-                      selected.experience,
+                      selected,
                       state.bumpkin as Bumpkin
                     )} EXP`}
                   </span>

@@ -61,7 +61,10 @@ export const ListView: React.FC<{
           <div key={index} onClick={() => onClick(buildingName)}>
             <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
               {unplaced?.gt(0) && (
-                <Label className="px-1 text-xxs absolute -top-3 -right-1">
+                <Label
+                  type="default"
+                  className="px-1 text-xxs absolute -top-3 -right-1"
+                >
                   {unplaced.toNumber()}
                 </Label>
               )}

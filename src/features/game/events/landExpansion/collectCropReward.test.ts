@@ -1,16 +1,16 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { collectReward } from "./collectReward";
+import { collectCropReward } from "./collectCropReward";
 
-describe("collectReward", () => {
+describe("collectCropReward", () => {
   const dateNow = Date.now();
 
   it("only checks for rewards on plots that exist", () => {
     expect(() =>
-      collectReward({
+      collectCropReward({
         state: TEST_FARM,
         action: {
-          type: "reward.collected",
+          type: "cropReward.collected",
           expansionIndex: 10,
           plotIndex: 30,
         },
@@ -21,7 +21,7 @@ describe("collectReward", () => {
 
   it("only checks for rewards if a crop exists", () => {
     expect(() =>
-      collectReward({
+      collectCropReward({
         state: {
           ...TEST_FARM,
           expansions: [
@@ -40,7 +40,7 @@ describe("collectReward", () => {
           ],
         },
         action: {
-          type: "reward.collected",
+          type: "cropReward.collected",
           expansionIndex: 0,
           plotIndex: 0,
         },
@@ -51,7 +51,7 @@ describe("collectReward", () => {
 
   it("checks if plot has reward", () => {
     expect(() =>
-      collectReward({
+      collectCropReward({
         state: {
           ...TEST_FARM,
           expansions: [
@@ -75,7 +75,7 @@ describe("collectReward", () => {
           ],
         },
         action: {
-          type: "reward.collected",
+          type: "cropReward.collected",
           expansionIndex: 0,
           plotIndex: 0,
         },
@@ -86,7 +86,7 @@ describe("collectReward", () => {
 
   it("checks it reward is ready", () => {
     expect(() =>
-      collectReward({
+      collectCropReward({
         state: {
           ...TEST_FARM,
           expansions: [
@@ -118,7 +118,7 @@ describe("collectReward", () => {
           ],
         },
         action: {
-          type: "reward.collected",
+          type: "cropReward.collected",
           plotIndex: 0,
           expansionIndex: 0,
         },
@@ -128,7 +128,7 @@ describe("collectReward", () => {
   });
 
   it("provides seed rewards", () => {
-    const state = collectReward({
+    const state = collectCropReward({
       state: {
         ...TEST_FARM,
         expansions: [
@@ -160,7 +160,7 @@ describe("collectReward", () => {
         ],
       },
       action: {
-        type: "reward.collected",
+        type: "cropReward.collected",
         plotIndex: 0,
         expansionIndex: 0,
       },
@@ -174,7 +174,7 @@ describe("collectReward", () => {
   });
 
   it("provides gold rewards", () => {
-    const state = collectReward({
+    const state = collectCropReward({
       state: {
         ...TEST_FARM,
         expansions: [
@@ -206,7 +206,7 @@ describe("collectReward", () => {
         ],
       },
       action: {
-        type: "reward.collected",
+        type: "cropReward.collected",
         plotIndex: 0,
         expansionIndex: 0,
       },
@@ -220,7 +220,7 @@ describe("collectReward", () => {
   });
 
   it("provides sfl rewards", () => {
-    const state = collectReward({
+    const state = collectCropReward({
       state: {
         ...TEST_FARM,
         expansions: [
@@ -247,7 +247,7 @@ describe("collectReward", () => {
         ],
       },
       action: {
-        type: "reward.collected",
+        type: "cropReward.collected",
         plotIndex: 0,
         expansionIndex: 0,
       },

@@ -58,24 +58,29 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
   };
 
   const exchange = () => {
-    gameService.send("warBonds.bought");
+    const newstate = gameService.send("warBonds.bought");
 
-    warCollectionOffer?.ingredients?.map((ingredient) => {
-      const item = ITEM_DETAILS[ingredient.name];
-      setToast({
-        icon: item.image,
-        content: `-${ingredient.amount}`,
+    if (!newstate.matches("hoarding")) {
+      warCollectionOffer?.ingredients?.map((ingredient) => {
+        const item = ITEM_DETAILS[ingredient.name];
+        setToast({
+          icon: item.image,
+          content: `-${ingredient.amount}`,
+        });
       });
-    });
 
-    const warBonds = getWarBonds(inventory, warCollectionOffer?.warBonds || 0);
+      const warBonds = getWarBonds(
+        inventory,
+        warCollectionOffer?.warBonds || 0
+      );
 
-    setToast({
-      icon: warBond,
-      content: `+${warBonds}`,
-    });
+      setToast({
+        icon: warBond,
+        content: `+${warBonds}`,
+      });
 
-    setState("exchanged");
+      setState("exchanged");
+    }
   };
 
   if (state === "exchanged") {
@@ -159,6 +164,7 @@ export const WarCollectors: React.FC<Props> = ({ onClose, side }) => {
         inventory={inventory}
         offer={warCollectionOffer as Offer}
         onCraft={exchange}
+        onClose={onClose}
       />
     );
   }

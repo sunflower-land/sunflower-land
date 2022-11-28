@@ -149,10 +149,10 @@ export const Bakery: React.FC<Props> = ({
           />
         )}
 
-        {name && (
+        {(crafting || ready) && name && (
           <img
             src={ITEM_DETAILS[name].image}
-            className={classNames("absolute z-30", {
+            className={classNames("absolute z-30 pointer-events-none", {
               "img-highlight-heavy": ready,
             })}
             style={{

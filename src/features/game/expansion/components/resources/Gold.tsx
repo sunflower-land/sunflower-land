@@ -120,27 +120,30 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     setTouchCount(0);
 
     try {
-      gameService.send("goldRock.mined", {
+      const newState = gameService.send("goldRock.mined", {
         index: rockIndex,
         expansionIndex,
       });
-      setCollecting(true);
-      minedGif.current?.goToAndPlay(0);
 
-      displayPopover(
-        <div className="flex">
-          <img src={gold} className="w-5 h-5 mr-2" />
-          <span className="text-sm text-white text-shadow">{`+${goldRock.stone.amount}`}</span>
-        </div>
-      );
+      if (!newState.matches("hoarding")) {
+        setCollecting(true);
+        minedGif.current?.goToAndPlay(0);
 
-      setToast({
-        icon: gold,
-        content: `+${goldRock.stone.amount}`,
-      });
+        displayPopover(
+          <div className="flex">
+            <img src={gold} className="w-5 h-5 mr-2" />
+            <span className="text-sm text-white text-shadow">{`+${goldRock.stone.amount}`}</span>
+          </div>
+        );
 
-      await new Promise((res) => setTimeout(res, 2000));
-      setCollecting(false);
+        setToast({
+          icon: gold,
+          content: `+${goldRock.stone.amount}`,
+        });
+
+        await new Promise((res) => setTimeout(res, 2000));
+        setCollecting(false);
+      }
     } catch (e: any) {
       if (e.message === EVENT_ERRORS.NO_PICKAXES) {
         displayPopover(
