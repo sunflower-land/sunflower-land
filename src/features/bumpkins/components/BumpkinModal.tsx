@@ -112,7 +112,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
               bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
             />
           </div>
-          <div>
+          <div className="ml-1">
             <a
               href={getVisitBumpkinUrl()}
               target="_blank"
@@ -125,76 +125,82 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
         </div>
 
         <div className="flex-1">
-          <div className="mb-2">
-            <div className="flex items-center mt-2 mb-2 md:mt-0">
-              <p className="text-base">
-                Level {level}
-                {maxLevel ? " (Max)" : ""}
-              </p>
+          <div className="mb-3">
+            <div className="flex items-center ml-1 my-2">
               <img
                 src={levelIcon}
                 style={{
                   width: `${PIXEL_SCALE * 10}px`,
-                  marginLeft: `${PIXEL_SCALE * 4}px`,
+                  marginRight: `${PIXEL_SCALE * 4}px`,
                 }}
               />
-            </div>
-
-            {/* Progress bar */}
-            <div className="flex item-center">
-              <div
-                className="absolute"
-                style={{
-                  width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
-                }}
-              >
-                <img
-                  src={progressBarSmall}
-                  className="absolute"
-                  style={{
-                    width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
-                  }}
-                />
-                <div
-                  className="absolute bg-[#193c3e]"
-                  style={{
-                    top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
-                    left: `${
-                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                    }px`,
-                    width: `${
-                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
-                    }px`,
-                    height: `${
-                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
-                    }px`,
-                  }}
-                />
-                <div
-                  className="absolute bg-[#63c74d]"
-                  style={{
-                    top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
-                    left: `${
-                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                    }px`,
-                    width: `${PIXEL_SCALE * progressWidth}px`,
-                    height: `${
-                      PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
-                    }px`,
-                  }}
-                />
+              <div>
+                <p className="text-base">
+                  Level {level}
+                  {maxLevel ? " (Max)" : ""}
+                </p>
+                {/* Progress bar */}
+                <div className="flex item-center mt-1">
+                  <div
+                    className="absolute"
+                    style={{
+                      width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
+                    }}
+                  >
+                    <img
+                      src={progressBarSmall}
+                      className="absolute"
+                      style={{
+                        width: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width
+                        }px`,
+                      }}
+                    />
+                    <div
+                      className="absolute bg-[#193c3e]"
+                      style={{
+                        top: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
+                        }px`,
+                        left: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                        }px`,
+                        width: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
+                        }px`,
+                        height: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
+                        }px`,
+                      }}
+                    />
+                    <div
+                      className="absolute bg-[#63c74d]"
+                      style={{
+                        top: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
+                        }px`,
+                        left: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
+                        }px`,
+                        width: `${PIXEL_SCALE * progressWidth}px`,
+                        height: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
+                        }px`,
+                      }}
+                    />
+                  </div>
+                  <p
+                    className="text-xxs mt-0.5"
+                    style={{
+                      marginLeft: `${
+                        PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
+                      }px`,
+                    }}
+                  >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
+                    experienceToNextLevel
+                  )} XP`}</p>
+                </div>
               </div>
-
-              <p
-                className="text-xxs mt-0.5"
-                style={{
-                  marginLeft: `${
-                    PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
-                  }px`,
-                }}
-              >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
-                experienceToNextLevel
-              )} XP`}</p>
             </div>
           </div>
 
@@ -202,7 +208,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
             className="mb-2 cursor-pointer"
             onClick={() => setView("skills")}
           >
-            <InnerPanel className="relative mt-1">
+            <InnerPanel className="relative mt-1 px-2 py-1">
               <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
@@ -220,7 +226,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
             className="mb-2 cursor-pointer"
             onClick={() => setView("achievements")}
           >
-            <InnerPanel className="relative mt-1">
+            <InnerPanel className="relative mt-1 px-2 py-1">
               <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Achievements</span>

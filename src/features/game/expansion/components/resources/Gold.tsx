@@ -230,7 +230,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 }
               )}
             >
-              <div className="text-xxs text-white mx-1">
+              <div className="text-xxs text-white mx-1 p-1">
                 <span>Equip {tool.toLowerCase()}</span>
               </div>
             </InnerPanel>

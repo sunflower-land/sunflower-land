@@ -123,7 +123,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
 
   if (selected === undefined) {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col p-2">
         <span>Currently Unavailable!</span>
         <span>Please try again later.</span>
       </div>

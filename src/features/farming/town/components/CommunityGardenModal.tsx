@@ -2,8 +2,9 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import merchant from "assets/npcs/merchant.gif";
-
+import close from "assets/icons/close.png";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -17,6 +18,16 @@ export const CommunityGardenModal: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <Modal centered show={isOpen} onHide={onClose}>
       <Panel>
+        <img
+          src={close}
+          className="absolute cursor-pointer z-20"
+          onClick={() => onClose}
+          style={{
+            top: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
         <div className="p-2">
           <div className="flex flex-col items-center mb-3">
             <h1 className="text-lg mb-2 text-center">
@@ -41,9 +52,6 @@ export const CommunityGardenModal: React.FC<Props> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="flex">
-          <Button className="mr-1" onClick={onClose}>
-            Close
-          </Button>
           <Button className="ml-1" onClick={goToCommunityGarden}>
             Continue
           </Button>

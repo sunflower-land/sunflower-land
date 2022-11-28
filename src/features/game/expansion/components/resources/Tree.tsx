@@ -278,7 +278,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           </div>
           <InnerPanel
             className={classNames(
-              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-40 pointer-events-none",
+              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-40 pointer-events-none p-1",
               {
                 "opacity-100": errorLabel === "noAxe",
                 "opacity-0": errorLabel !== "noAxe",

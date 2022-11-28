@@ -93,13 +93,15 @@ export const Idle: React.FC<IdleProps> = ({
         {!visitingFarmId && (
           <>
             <img src={goblin} className="w-12" />
-            <span>
-              {"Ready to trade? Enter a Land ID to browse what's on offer."}
+            <span className="text-sm">
+              {"Ready to trade?"}
+              <br />
+              {"Enter a Land ID to browse what's on offer."}
             </span>
           </>
         )}
         <div className="flex items-center">
-          <span className="text-shadow text-sm whitespace-nowrap">
+          <span className="text-shadow text-sm mr-2 whitespace-nowrap">
             {"Land ID: "}
           </span>
           <input

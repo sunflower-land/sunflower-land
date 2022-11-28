@@ -158,7 +158,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   );
 
   return (
-    <>
+    <div className="p-2">
       <div className="mt-3">
         <h2 className="mb-1 text-sm">Select items to deliver:</h2>
         <div className="flex flex-wrap h-fit -ml-1.5 mb-2">
@@ -241,22 +241,12 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
       </div>
 
       <Button
-        className="my-3"
+        className="mt-3 mb-1"
         onClick={withdraw}
         disabled={selectedItems.length <= 0}
       >
         Deliver
       </Button>
-
-      <span className="text-xs underline mt-2">
-        <a
-          href="https://docs.sunflower-land.com/economy/goblin-community-treasury"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Read more
-        </a>
-      </span>
-    </>
+    </div>
   );
 };

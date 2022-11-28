@@ -22,7 +22,10 @@ export const Tab: React.FC<Props> = ({
   if (!isActive) {
     return (
       <div
-        className={classNames("flex items-center cursor-pointer", className)}
+        className={classNames(
+          "flex items-center cursor-pointer px-2",
+          className
+        )}
         onClick={onClick}
         style={{
           paddingLeft: `${PIXEL_SCALE * 2}px`,
@@ -37,7 +40,7 @@ export const Tab: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames("bg-brown-300 flex items-center", className)}
+      className={classNames("bg-brown-300 flex items-center px-2", className)}
       style={{
         ...pixelTabBorderStyle,
         paddingLeft: `${PIXEL_SCALE * 2}px`,
