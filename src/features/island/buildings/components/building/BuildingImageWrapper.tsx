@@ -1,6 +1,5 @@
 import React from "react";
 import classNames from "classnames";
-import { Bar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import expressionAlerted from "assets/icons/expression_alerted.png";
 
@@ -47,7 +46,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
       </div>
 
       {/* Progress bar */}
-      {crafting &&
+      {/* {crafting &&
         craftingSeconds !== undefined &&
         secondsTillReady !== undefined && (
           <div
@@ -62,7 +61,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
               type="progress"
             />
           </div>
-        )}
+        )} */}
 
       {/* Ready indicator */}
       {ready && (
