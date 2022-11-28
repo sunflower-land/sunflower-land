@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
+import { CONFIG } from "lib/config";
 
 export const Connect: React.FC = () => {
   const { authService } = useContext(Context);
@@ -48,6 +49,7 @@ export const Connect: React.FC = () => {
       <Button
         className="mb-2 py-2 text-sm relative"
         onClick={() => authService.send("CONNECT_TO_WALLET_CONNECT")}
+        disabled={CONFIG.NETWORK === "mainnet"}
       >
         <div className="px-8">
           <svg
@@ -75,6 +77,7 @@ export const Connect: React.FC = () => {
       <Button
         className="mb-2 py-2 text-sm relative"
         onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
+        disabled={CONFIG.NETWORK === "mainnet"}
       >
         <div className="px-8">
           <img
