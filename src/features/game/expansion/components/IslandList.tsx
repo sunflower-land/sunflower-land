@@ -240,7 +240,9 @@ export const IslandList = ({
             currentPath={location.pathname}
           />
         ))}
-        <VisitFriendListItem onClick={() => setView("visitForm")} />
+        {!location.pathname.includes("retreat") && (
+          <VisitFriendListItem onClick={() => setView("visitForm")} />
+        )}
       </>
     );
   };
