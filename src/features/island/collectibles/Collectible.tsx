@@ -167,7 +167,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // TODO
   "Potted Potato": () => null,
   "Potted Pumpkin": PottedPumpkin,
-  "Collosal Crop": () => null,
+  "Colossal Crop": () => null,
   "Peaceful Potato": () => null,
   "Perky Pumpkin": () => null,
   "Stellar Sunflower": () => null,

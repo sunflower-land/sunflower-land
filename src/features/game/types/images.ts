@@ -1501,7 +1501,7 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_RETREAT_ITEMS["Prized Potato"].description,
   },
 
-  "Collosal Crop": {
+  "Colossal Crop": {
     image: questionMark,
     description: "???",
   },
