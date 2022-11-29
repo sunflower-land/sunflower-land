@@ -33,12 +33,8 @@ export const Bakery: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService) {
-    return null;
-  }
-
   const handleCook = (item: ConsumableName) => {
-    craftingService.send({
+    craftingService?.send({
       type: "CRAFT",
       event: "recipe.cooked",
       item,
@@ -49,7 +45,7 @@ export const Bakery: React.FC<Props> = ({
   const handleCollect = () => {
     if (!name) return;
 
-    craftingService.send({
+    craftingService?.send({
       type: "COLLECT",
       item: name,
       event: "recipe.collected",
