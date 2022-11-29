@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { useActor } from "@xstate/react";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
-import { PIXEL_SCALE } from "../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 
 export const LandExpansion: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -45,7 +45,11 @@ export const LandExpansion: React.FC = () => {
           ignoreElements={"*[data-prevent-drag-scroll]"}
         >
           <div
-            className="relative h-islandGameboard w-islandGameboard"
+            className="relative"
+            style={{
+              width: `${84 * GRID_WIDTH_PX}px`,
+              height: `${56 * GRID_WIDTH_PX}px`,
+            }}
             // TODO dynamic game board size based on tile dimensions
           >
             <div

@@ -14,6 +14,8 @@ import abandonedLand from "assets/land/abandoned_land.webp";
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
 import { SharkBumpkin } from "./water/SharkBumpkin";
+import { Arcade } from "features/community/arcade/Arcade";
+import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
 export const LAND_WIDTH = 6;
 
@@ -94,6 +96,9 @@ export const Water: React.FC<Props> = ({ level }) => {
           }}
         />
       </MapPlacement>
+      <Arcade left={40.25} top={-6.375} />
+
+      <FarmerQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
         <img
