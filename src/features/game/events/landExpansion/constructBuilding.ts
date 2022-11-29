@@ -15,6 +15,7 @@ export enum CONSTRUCT_BUILDING_ERRORS {
 export type ConstructBuildingAction = {
   type: "building.constructed";
   name: BuildingName;
+  id: string;
   coordinates: {
     x: number;
     y: number;
@@ -82,7 +83,8 @@ export function constructBuilding({
   const buildingInventory = stateCopy.inventory[action.name] || new Decimal(0);
   const placed = stateCopy.buildings[action.name] || [];
 
-  const newBuilding: Omit<PlacedItem, "id"> = {
+  const newBuilding: PlacedItem = {
+    id: action.id,
     createdAt: createdAt,
     coordinates: action.coordinates,
     readyAt: createdAt + building.constructionSeconds * 1000,

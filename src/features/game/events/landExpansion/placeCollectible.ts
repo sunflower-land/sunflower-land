@@ -18,6 +18,7 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
   name: CollectibleName;
+  id: string;
   coordinates: {
     x: number;
     y: number;
@@ -62,7 +63,8 @@ export function placeCollectible({
 
   const placed = stateCopy.collectibles[action.name] || [];
   const seconds = COLLECTIBLE_PLACE_SECONDS[action.name] ?? 0;
-  const newCollectiblePlacement: Omit<PlacedItem, "id"> = {
+  const newCollectiblePlacement: PlacedItem = {
+    id: action.id,
     createdAt: createdAt,
     coordinates: action.coordinates,
     readyAt: createdAt + seconds * 1000,

@@ -21,6 +21,7 @@ describe("Place building", () => {
       placeBuilding({
         state: { ...GAME_STATE, bumpkin: undefined },
         action: {
+          id: "123",
           type: "building.placed",
           name: "Water Well",
           coordinates: {
@@ -42,6 +43,7 @@ describe("Place building", () => {
           },
         },
         action: {
+          id: "123",
           type: "building.placed",
           name: "Water Well",
           coordinates: {
@@ -94,6 +96,7 @@ describe("Place building", () => {
           },
         },
         action: {
+          id: "123",
           type: "building.placed",
           name: "Water Well",
           coordinates: {
@@ -120,6 +123,7 @@ describe("Place building", () => {
       },
 
       action: {
+        id: "123",
         type: "building.placed",
         name: "Water Well",
         coordinates: {
@@ -156,6 +160,7 @@ describe("Place building", () => {
       },
       createdAt: dateNow,
       action: {
+        id: "456",
         type: "building.placed",
         name: "Water Well",
         coordinates: {
@@ -173,6 +178,7 @@ describe("Place building", () => {
       createdAt: dateNow,
     });
     expect(state.buildings["Water Well"]?.[1]).toEqual({
+      id: expect.any(String),
       coordinates: { x: 0, y: 0 },
       readyAt: dateNow + waterWell.constructionSeconds * 1000,
       createdAt: dateNow,
