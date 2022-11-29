@@ -26,7 +26,7 @@ const VALID_SEEDS: InventoryItemName[] = [
   "Kale Seed",
   "Apple Seed",
   "Orange Seed",
-  "Blueberry Seed"
+  "Blueberry Seed",
 ];
 
 export function isSeed(item: InventoryItemName): item is CropSeedName {
