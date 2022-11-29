@@ -69,6 +69,7 @@ import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean } from "./components/Bean";
+import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -165,7 +166,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
   // TODO
   "Potted Potato": () => null,
-  "Potted Pumpkin": () => null,
+  "Potted Pumpkin": PottedPumpkin,
   "Collosal Crop": () => null,
   "Peaceful Potato": () => null,
   "Perky Pumpkin": () => null,
