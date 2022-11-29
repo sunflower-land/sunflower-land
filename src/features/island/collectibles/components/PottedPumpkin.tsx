@@ -14,7 +14,7 @@ export const PottedPumpkin: React.FC = () => {
           left: `${PIXEL_SCALE * 2}px`,
         }}
         className="absolute"
-        alt="Potted Sunflower"
+        alt="Potted Pumpkin"
       />
     </>
   );
