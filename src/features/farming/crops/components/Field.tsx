@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
-import selectBox from "assets/ui/select/select_box.png";
+import selectBox from "assets/ui/select/select_box_plot.png";
 import cancel from "assets/icons/cancel.png";
 
 import { Context } from "features/game/GameProvider";

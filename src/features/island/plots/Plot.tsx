@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
-import selectBox from "assets/ui/select/select_box.png";
+import selectBox from "assets/ui/select/select_box_plot.png";
 import cancel from "assets/icons/cancel.png";
 import soilNotFertile from "assets/land/soil_dry.png";
 import well from "assets/buildings/well1.png";
@@ -326,7 +326,10 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       onMouseEnter={handleMouseHover}
       onMouseLeave={handleMouseLeave}
       {...onMouseUpProps}
-      className="w-full h-full relative"
+      className={classNames("w-full h-full relative", {
+        "cursor-pointer": playing,
+      })}
+      onClick={playing ? () => onClick() : undefined}
     >
       {/* Crop base image */}
       <div
@@ -376,18 +379,19 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       {procAnimation}
 
       {/* Select box */}
-      {playing && (
-        <img
-          src={selectBox}
-          className={classNames("absolute z-40 cursor-pointer", {
-            "opacity-100": showSelectBox,
-            "opacity-0": !showSelectBox,
-          })}
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-          }}
-          onClick={() => onClick()}
-        />
+      {playing && showSelectBox && (
+        <div className="w-max h-full z-40 relative pointer-events-none">
+          <img
+            src={selectBox}
+            className="relative"
+            style={{
+              top: `${PIXEL_SCALE * -4}px`,
+              left: `${PIXEL_SCALE * -4}px`,
+              width: `${PIXEL_SCALE * 24}px`,
+              height: `${PIXEL_SCALE * 24}px`,
+            }}
+          />
+        </div>
       )}
 
       {/* Crop reward */}

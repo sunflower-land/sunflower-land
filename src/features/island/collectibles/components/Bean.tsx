@@ -79,7 +79,7 @@ export const Bean: React.FC<CollectibleProps> = ({
           width: `${PIXEL_SCALE * 30}px`,
           bottom: `${PIXEL_SCALE * 1}px`,
         }}
-        className="absolute hover:img-highlight"
+        className="absolute hover:img-highlight cursor-pointer"
         alt="Bean"
       />
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
