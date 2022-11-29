@@ -226,7 +226,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Michelin Stars",
     },
-    boosts: "Consuming fermented goods adds extra 15% exp",
+    boosts: "Consuming deli goods adds extra 15% exp",
     image: question,
   },
   "Stable Hand": {
