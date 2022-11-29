@@ -7,7 +7,7 @@ import goblinChef from "assets/npcs/goblin_chef.gif";
 import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
@@ -26,7 +26,6 @@ export const Bakery: React.FC<Props> = ({
   idle,
   ready,
   name,
-  secondsLeft,
   craftingService,
   isBuilt,
   onRemove,
@@ -34,8 +33,8 @@ export const Bakery: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService?.initialized) {
-    return <img src={bakery} className="w-full" />;
+  if (!craftingService) {
+    return null;
   }
 
   const handleCook = (item: ConsumableName) => {
@@ -84,13 +83,7 @@ export const Bakery: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper
-        onClick={handleClick}
-        crafting={crafting}
-        ready={ready}
-        craftingSeconds={name ? CONSUMABLES[name].cookingSeconds : undefined}
-        secondsTillReady={secondsLeft}
-      >
+      <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={bakery}
           className={classNames("absolute bottom-0", {
