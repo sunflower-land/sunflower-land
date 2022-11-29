@@ -21,7 +21,6 @@ export const BuildingImageWrapper: React.FC<Props> = ({
   onClick,
   children,
 }) => {
-  console.log();
   return (
     <>
       {/* building */}
