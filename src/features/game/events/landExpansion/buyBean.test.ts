@@ -140,6 +140,30 @@ describe("beanBought", () => {
     expect(state.inventory[bean]).toEqual(oldAmount.add(amount));
   });
 
+  it("decrease the stock on purchase", () => {
+    const balance = new Decimal(1);
+    const bean = "Magic Bean";
+    const amount = 1;
+    const state = beanBought({
+      state: {
+        ...GAME_STATE,
+        balance,
+        inventory: {
+          Wood: new Decimal(500),
+          Stone: new Decimal(500),
+        },
+      },
+      action: {
+        bean,
+        type: "bean.bought",
+      },
+    });
+
+    const oldStock = GAME_STATE.stock[bean] ?? new Decimal(0);
+
+    expect(state.stock[bean]).toEqual(oldStock.minus(amount));
+  });
+
   it("increments the sfl spent activity ", () => {
     const state = beanBought({
       state: {
