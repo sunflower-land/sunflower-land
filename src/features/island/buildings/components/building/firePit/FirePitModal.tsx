@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
@@ -33,6 +33,7 @@ export const FirePitModal: React.FC<Props> = ({
 
     return [...acc, CONSUMABLES[name]];
   }, [] as Consumable[]);
+  const [selected, setSelected] = useState<Consumable>(firePitRecipes[0]);
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
@@ -49,6 +50,8 @@ export const FirePitModal: React.FC<Props> = ({
         }}
       >
         <Recipes
+          selected={selected}
+          setSelected={setSelected}
           recipes={firePitRecipes}
           onCook={onCook}
           onClose={onClose}
