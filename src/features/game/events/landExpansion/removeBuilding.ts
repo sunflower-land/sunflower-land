@@ -48,7 +48,7 @@ function getUnSupportedPlotCount(gameState: GameState): number {
     return count;
   }, 0);
 
-  return plotCount - supportedPlots;
+  return Math.max(plotCount - supportedPlots, 0);
 }
 
 /**
