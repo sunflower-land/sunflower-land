@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { getKeys } from "features/game/types/craftables";
 
 export enum REMOVE_CHICKEN_ERRORS {
   INVALID_CHICKEN = "This chicken does not exist",
@@ -45,7 +46,12 @@ export function removeChicken({
     throw new Error(REMOVE_CHICKEN_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   }
 
-  delete chickens[action.chickenIndex];
+  const chickenKeys = getKeys(chickens);
+  const lastChickenIndex = chickenKeys.pop() || 0;
+  chickens[action.chickenIndex] = {
+    ...chickens[lastChickenIndex],
+  };
+  delete chickens[lastChickenIndex];
 
   inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
