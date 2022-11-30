@@ -19,7 +19,7 @@ interface Props {
   className?: string;
 }
 
-export function getImageUrl(layerId: number) {
+function getImageUrl(layerId: number) {
   if (CONFIG.NETWORK === "mainnet") {
     return `https://images.bumpkins.io/layers/${layerId}.png`;
   }

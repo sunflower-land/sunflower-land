@@ -8,12 +8,8 @@ import whiteBg from "assets/ui/profile/bg.png";
 import lvlUp from "assets/icons/expression_alerted.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
-import {
-  DynamicNFT,
-  getImageUrl as getBumpkinLayerUrl,
-} from "features/bumpkins/components/DynamicNFT";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
-import { ITEM_IDS as BUMPKIN_ITEMS } from "features/game/types/bumpkin";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -29,7 +25,6 @@ import Spritesheet, {
 const DIMENSIONS = {
   original: 80,
   scaled: 160,
-  bgMargin: 34,
   bumpkinContainer: {
     width: 130,
     height: 125,
@@ -47,13 +42,13 @@ const DIMENSIONS = {
   level: {
     width: 24,
     height: 12,
-    marginLeft: 68,
-    marginTop: 104,
+    marginLeft: 108,
+    marginTop: 84,
   },
   skillsMark: {
-    width: 12,
-    marginLeft: 119,
-    marginTop: 35,
+    width: 10,
+    marginLeft: 116,
+    marginTop: 45,
   },
 };
 
@@ -73,9 +68,6 @@ export const BumpkinProfile: React.FC = () => {
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
-  const bgUrl =
-    state.bumpkin &&
-    getBumpkinLayerUrl(BUMPKIN_ITEMS[state.bumpkin.equipped.background]);
 
   useEffect(() => {
     goToProgress();
@@ -125,27 +117,14 @@ export const BumpkinProfile: React.FC = () => {
         className={`grid cursor-pointer hover:img-highlight fixed z-50`}
         onClick={handleShowHomeModal}
       >
-        <div className="col-start-1 row-start-1">
-          {state.bumpkin ? (
-            <img
-              src={bgUrl}
-              className="pixel-corners-23-2"
-              style={{
-                width: `${DIMENSIONS.scaled - 2 * DIMENSIONS.bgMargin}px`,
-                height: `${DIMENSIONS.scaled - 2 * DIMENSIONS.bgMargin}px`,
-                margin: `${DIMENSIONS.bgMargin}px`,
-              }}
-            />
-          ) : (
-            <img
-              src={whiteBg}
-              style={{
-                width: `${DIMENSIONS.scaled}px`,
-                height: `${DIMENSIONS.scaled}px`,
-              }}
-            />
-          )}
-        </div>
+        <img
+          src={whiteBg}
+          className="col-start-1 row-start-1 opacity-40"
+          style={{
+            width: `${DIMENSIONS.scaled}px`,
+            height: `${DIMENSIONS.scaled}px`,
+          }}
+        />
         <div
           className="col-start-1 row-start-1 overflow-hidden z-0"
           style={{
