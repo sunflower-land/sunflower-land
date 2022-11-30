@@ -34,5 +34,10 @@ export function migrate({
 
   stateCopy.migrated = true;
 
+  const rustyShovelCount =
+    stateCopy.inventory["Rusty Shovel"] || new Decimal(0);
+
+  stateCopy.inventory["Rusty Shovel"] = rustyShovelCount.add(new Decimal(2));
+
   return stateCopy;
 }
