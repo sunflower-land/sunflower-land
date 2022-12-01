@@ -114,6 +114,7 @@ export function feedChicken({
   const currentWheat = inventory.Wheat || new Decimal(0);
   inventory.Wheat = currentWheat.minus(wheatRequired);
   chickens[action.index] = {
+    ...chickens[action.index],
     fedAt: makeFedAt(inventory, collectibles, createdAt, bumpkin),
     multiplier: 1,
   };

@@ -216,7 +216,7 @@ export const ChickenContent: React.FC<Props> = ({ index }) => {
       context: {
         state: { chickens },
       },
-    } = gameService.send("chicken.feed", {
+    } = gameService.send("chicken.fed", {
       index,
     });
 
