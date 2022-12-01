@@ -1,6 +1,6 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GoblinProvider";
-import { IslandTravel } from "features/island/travel/IslandTravel";
+import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import React, { useContext } from "react";
 
 export const IslandTravelWrapper = () => {

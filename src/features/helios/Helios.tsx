@@ -12,7 +12,7 @@ import { HeliosBlacksmith } from "./components/blacksmith/HeliosBlacksmith";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { LostSunflorian } from "./components/npcs/LostSunflorian";
-import { IslandTravel } from "features/island/travel/IslandTravel";
+import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 
 export const Helios: React.FC = () => {
   const { gameService } = useContext(Context);

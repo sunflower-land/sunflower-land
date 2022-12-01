@@ -32,7 +32,7 @@ import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
-import { IslandTravel } from "features/island/travel/IslandTravel";
+import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 
 type ExpansionProps = Pick<
   LandExpansion,
