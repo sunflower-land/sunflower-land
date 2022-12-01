@@ -52,11 +52,8 @@ const Items: React.FC<{
 
   return (
     <div
-      style={{
-        maxHeight: TAB_CONTENT_HEIGHT,
-        minHeight: (TAB_CONTENT_HEIGHT * 2) / 3,
-      }}
-      className="overflow-y-auto w-3/5 pt-1 mr-2 scrollable"
+      className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+      style={{ maxHeight: TAB_CONTENT_HEIGHT }}
     >
       <div className="flex flex-wrap h-fit">
         {ordered.map((item) => (
@@ -221,7 +218,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
     if (hasItemOnFarm && !selected.canMintMultiple)
       return (
         <div className="flex flex-col text-center mt-2 border-y border-white w-full">
-          <p className="text-xxs sm:text-sm my-2">Already minted!</p>
+          <p className="text-xxs my-2">Already minted!</p>
           <p className="text-xxs mb-2">
             You can only have one of each rare item on your farm at a time.
           </p>
@@ -273,7 +270,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex flex-col-reverse sm:flex-row">
       <Items
         items={items}
         selected={selected.name}
@@ -281,7 +278,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
         onClick={setSelected}
         type={type}
       />
-      <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {soldOut && (
             <Label type="danger" className="-mt-2 mb-1">
@@ -299,7 +296,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
-          <span className="text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 text-sm">
             {selected.description}
           </span>
           {canCraft && (
@@ -386,16 +383,18 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
           )}
           {Action()}
         </div>
-        <a
-          href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${
-            KNOWN_IDS[selected.name]
-          }`}
-          className="underline text-xs hover:text-blue-500 my-1"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          OpenSea
-        </a>
+        <div className="flex flex-col items-center justify-center">
+          <a
+            href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${
+              KNOWN_IDS[selected.name]
+            }`}
+            className="underline text-xxs hover:text-blue-500 p-2"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            OpenSea
+          </a>
+        </div>
       </OuterPanel>
     </div>
   );

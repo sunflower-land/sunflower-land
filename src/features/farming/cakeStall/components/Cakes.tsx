@@ -17,6 +17,7 @@ import { Cake, CAKES } from "features/game/types/craftables";
 import { Modal } from "react-bootstrap";
 import { getSellPrice } from "features/game/lib/boosts";
 import { SellableItem } from "features/game/events/sell";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 export const Cakes: React.FC = () => {
   const [selected, setSelected] = useState<Cake>("Sunflower Cake");
@@ -64,8 +65,11 @@ export const Cakes: React.FC = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-3/5 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      >
         {Object.values(CAKES()).map((item) => (
           <Box
             isSelected={selected === item.name}
@@ -76,24 +80,20 @@ export const Cakes: React.FC = () => {
           />
         ))}
       </div>
-      <OuterPanel className="flex-1 w-1/3">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 ">
-          <span className="text-shadow text-center">{selected}</span>
+          <span className="text-center">{selected}</span>
           <img
             src={ITEM_DETAILS[selected].image}
             className="h-16 img-highlight mt-1"
             alt={selected}
           />
-          <span className="text-shadow text-center mt-2 sm:text-sm">
-            {cake.description}
-          </span>
+          <span className="text-center mt-2 text-sm">{cake.description}</span>
 
           <div className="border-t border-white w-full mt-2 pt-1">
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
-              <span className="text-xs text-shadow text-center mt-2 ">
-                {`$${price}`}
-              </span>
+              <span className="text-xs text-center mt-2 ">{`$${price}`}</span>
             </div>
           </div>
           {amount.gte(1) && (
@@ -110,7 +110,7 @@ export const Cakes: React.FC = () => {
       <Modal centered show={isSellModalOpen} onHide={closeConfirmationModal}>
         <Panel className="md:w-4/5 m-auto">
           <div className="m-auto flex flex-col">
-            <span className="text-sm text-center text-shadow">
+            <span className="text-sm text-center">
               Are you sure you want to <br className="hidden md:block" />
               sell your {selected}?
             </span>

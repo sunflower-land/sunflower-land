@@ -18,6 +18,7 @@ import { secondsToString } from "lib/utils/time";
 import { GrubShop } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: () => void;
@@ -78,8 +79,11 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
             minHeight: "200px",
           }}
         >
-          <div className="flex">
-            <div className="w-3/5 flex flex-wrap h-fit">
+          <div className="flex flex-col-reverse sm:flex-row">
+            <div
+              className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+              style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+            >
               {Object.values(grubShop.orders).map((item, index) => {
                 const isFulfilled = !!state.grubOrdersFulfilled?.find(
                   (order) => order.id === item.id
@@ -87,7 +91,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                 return (
                   <Box
                     isSelected={selectedId === item.id}
-                    key={item.name}
+                    key={`${item.name}-${index}`}
                     onClick={() => setSelectedId(item.id)}
                     image={
                       index <= hiddenPositionStart
@@ -117,7 +121,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
               })}
             </div>
             {selected && (
-              <OuterPanel className="flex flex-col items-center relative">
+              <OuterPanel className="w-full flex-1">
                 <Label
                   type={selectedFulFilled ? "success" : "info"}
                   className="flex justify-center items-center"
@@ -143,7 +147,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     className="h-16 img-highlight mt-1"
                     alt={selected.name}
                   />
-                  <span className="text-center mt-2 sm:text-sm">
+                  <span className="text-center mt-2 text-sm">
                     {ITEM_DETAILS[selected.name].description}
                   </span>
 
@@ -164,7 +168,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                       className="text-xs mt-1"
                       onClick={handleSell}
                     >
-                      Sell
+                      Sell 1
                     </Button>
                   )}
                 </div>

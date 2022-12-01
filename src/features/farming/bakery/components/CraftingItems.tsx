@@ -18,6 +18,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { isExpired } from "features/game/lib/stock";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
@@ -154,10 +155,10 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
                 // if inventory items is less than required items
                 return (
                   <>
-                    <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                    <span className="text-xs text-center mt-2 text-red-500">
                       {`${inventoryAmount}`}
                     </span>
-                    <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                    <span className="text-xs text-center mt-2 text-red-500">
                       {`/${requiredAmount}`}
                     </span>
                   </>
@@ -165,7 +166,7 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
               } else {
                 // if inventory items is equal to required items
                 return (
-                  <span className="text-xs text-shadow text-center mt-2">
+                  <span className="text-xs text-center mt-2">
                     {`${requiredAmount}`}
                   </span>
                 );
@@ -188,7 +189,7 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               <span
-                className={classNames("text-xs text-shadow text-center mt-2 ", {
+                className={classNames("text-xs text-center mt-2 ", {
                   "text-red-500": lessFunds(),
                 })}
               >
@@ -214,8 +215,11 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
     expiryTime && (new Date(expiryTime).getTime() - Date.now()) / 1000;
 
   return (
-    <div className="flex">
-      <div className="w-3/5 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      >
         {validItems.map((item) => (
           <Box
             isSelected={selected.name === item.name}
@@ -227,10 +231,10 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
         ))}
       </div>
 
-      <OuterPanel className="flex-1 w-1/3">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {expiryTime && (
-            <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center absolute -top-4 p-[3px] rounded-md whitespace-nowrap">
+            <span className="bg-blue-600 border flex text-[8px] text-xxs items-center absolute -top-4 p-[3px] rounded-md whitespace-nowrap">
               <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
               <span className="mt-[2px]">{`${secondsToString(
                 secondsLeft as number,
@@ -239,13 +243,13 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
             </span>
           )}
 
-          <span className="text-shadow text-center">{selected.name}</span>
+          <span className="text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
-          <span className="text-shadow text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 text-sm">
             {selected.description}
           </span>
 
