@@ -10,9 +10,9 @@ import { Tab } from "components/ui/Tab";
 import { Seeds } from "./Seeds";
 import { Crops } from "./Crops";
 import { acknowledgeTutorial, hasIntroducedBuilding } from "lib/tutorial";
-import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
+import { Tutorial } from "./Tutorial";
 
 interface Props {
   onClose: () => void;
@@ -27,7 +27,6 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
 
   const acknowledge = () => {
     acknowledgeTutorial("Market");
-    setTab("sell");
   };
 
   const bumpkinParts: Partial<Equipped> = {
@@ -41,12 +40,7 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
   };
 
   if (!hasIntroducedBuilding("Market")) {
-    return (
-      <Panel className="relative" bumpkinParts={bumpkinParts}>
-        Market introduction (TODO)
-        <Button onClick={acknowledge}>Continue</Button>
-      </Panel>
-    );
+    return <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
   }
 
   return (
