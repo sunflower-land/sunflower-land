@@ -155,7 +155,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     <div className="flex justify-center items-end">
                       <img src={token} className="h-5 mr-1" />
                       <span className="text-xs text-center mt-2 ">
-                        {`$${selected.sfl.toNumber()}`}
+                        {`${selected.sfl.toNumber()}`}
                       </span>
                     </div>
                   </div>

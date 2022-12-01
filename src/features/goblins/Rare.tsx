@@ -363,7 +363,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
                         "text-red-500": lessFunds(),
                       })}
                     >
-                      {`$${selected.tokenAmount?.toNumber()}`}
+                      {`${selected.tokenAmount?.toNumber()}`}
                     </span>
                   </div>
                 ))}

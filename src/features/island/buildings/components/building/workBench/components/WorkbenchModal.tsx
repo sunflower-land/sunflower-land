@@ -82,7 +82,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     setToast({
       icon: token,
-      content: `-$${price?.mul(amount)}`,
+      content: `-${price?.mul(amount)}`,
     });
 
     getKeys(selected.ingredients).map((name) => {
@@ -289,7 +289,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                           "text-red-500": lessFunds(),
                         })}
                       >
-                        {`$${price?.toNumber()}`}
+                        {`${price?.toNumber()}`}
                       </span>
                     </div>
                   )}

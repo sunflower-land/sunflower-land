@@ -69,7 +69,7 @@ export const CraftingItems: React.FC<Props> = ({
 
     setToast({
       icon: tokenStatic,
-      content: `-$${price?.mul(amount)}`,
+      content: `-${price?.mul(amount)}`,
     });
 
     selected.ingredients?.map((ingredient) => {
@@ -289,7 +289,7 @@ export const CraftingItems: React.FC<Props> = ({
                     "text-red-500": lessFunds(),
                   })}
                 >
-                  {`$${price?.toNumber()}`}
+                  {`${price?.toNumber()}`}
                 </span>
               </div>
             )}

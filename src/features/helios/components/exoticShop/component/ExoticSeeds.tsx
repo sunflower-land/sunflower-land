@@ -48,7 +48,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
     setToast({
       icon: tokenStatic,
-      content: `-$${selected.sfl?.mul(amount).toString()}`,
+      content: `-${selected.sfl?.mul(amount).toString()}`,
     });
 
     shortcutItem(selected.name);
@@ -194,10 +194,10 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               {lessFunds() ? (
-                <Label type="danger">{`$${price}`}</Label>
+                <Label type="danger">{`${price}`}</Label>
               ) : (
                 <span className={classNames("text-xs text-center mt-2")}>
-                  {`$${price}`}
+                  {`${price}`}
                 </span>
               )}
             </div>

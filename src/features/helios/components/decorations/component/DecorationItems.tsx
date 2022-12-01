@@ -58,7 +58,7 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
 
     setToast({
       icon: tokenStatic,
-      content: `-$${selected.sfl?.toString()}`,
+      content: `-${selected.sfl?.toString()}`,
     });
 
     shortcutItem(selected.name);
@@ -158,7 +158,7 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${price}`}
+                {`${price}`}
               </span>
             </div>
           </div>

@@ -42,7 +42,7 @@ export const Plants: React.FC = () => {
     });
     setToast({
       icon: tokenStatic,
-      content: `+$${displaySellPrice(selected).mul(amount).toString()}`,
+      content: `+${displaySellPrice(selected).mul(amount).toString()}`,
     });
   };
 
@@ -114,8 +114,8 @@ export const Plants: React.FC = () => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               {isPriceBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-center mt-2 ">
-                {`$${displaySellPrice(selected)}`}
+              <span className="text-xs text-shadow text-center mt-2 ">
+                {`${displaySellPrice(selected)}`}
               </span>
             </div>
           </div>

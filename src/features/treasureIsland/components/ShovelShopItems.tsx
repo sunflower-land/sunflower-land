@@ -79,7 +79,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
 
     setToast({
       icon: token,
-      content: `-$${price?.mul(amount)}`,
+      content: `-${price?.mul(amount)}`,
     });
 
     getKeys(selected.ingredients).map((name) => {
@@ -238,12 +238,12 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
                 <div className="flex justify-center items-end">
                   <img src={token} className="h-5 mr-1" />
                   {lessFunds() ? (
-                    <Label type="danger">{`$${price?.toNumber()}`}</Label>
+                    <Label type="danger">{`${price?.toNumber()}`}</Label>
                   ) : (
                     <span
                       className={classNames("text-xs text-center mt-2", {})}
                     >
-                      {`$${price?.toNumber()}`}
+                      {`${price?.toNumber()}`}
                     </span>
                   )}
                 </div>
