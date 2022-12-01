@@ -1231,7 +1231,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Stellar Sunflower": { height: 1, width: 1 },
   "Peaceful Potato": { height: 1, width: 1 },
   "Perky Pumpkin": { height: 1, width: 1 },
-  "Collosal Crop": { height: 1, width: 1 },
+  "Colossal Crop": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

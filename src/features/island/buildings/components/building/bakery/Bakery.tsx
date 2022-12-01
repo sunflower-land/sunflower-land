@@ -16,6 +16,7 @@ import { BakeryModal } from "./BakeryModal";
 import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { setImageWidth } from "lib/images";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -32,7 +33,9 @@ export const Bakery: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService) return <img src={bakery} className="w-full" />;
+  if (!craftingService) {
+    return null;
+  }
 
   const handleCook = (item: ConsumableName) => {
     craftingService.send({
@@ -44,8 +47,6 @@ export const Bakery: React.FC<Props> = ({
   };
 
   const handleCollect = () => {
-    const { name } = craftingService.state.context;
-
     if (!name) return;
 
     craftingService.send({
@@ -82,12 +83,7 @@ export const Bakery: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
-        {ready && name && (
-          <div className="flex justify-center absolute -top-7 w-full">
-            <img src={ITEM_DETAILS[name].image} className="w-5 ready" />
-          </div>
-        )}
+      <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={bakery}
           className={classNames("absolute bottom-0", {
@@ -95,13 +91,14 @@ export const Bakery: React.FC<Props> = ({
             "opacity-80": crafting,
           })}
           style={{
+            left: `${PIXEL_SCALE * 1}px`,
             width: `${PIXEL_SCALE * 62}px`,
             height: `${PIXEL_SCALE * 51}px`,
           }}
         />
         <img
           src={shadow}
-          className="absolute bottom-0"
+          className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             left: `${PIXEL_SCALE * 28}px`,
@@ -112,9 +109,9 @@ export const Bakery: React.FC<Props> = ({
             src={goblinChefDoing}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 22}px`,
+              width: `${PIXEL_SCALE * 25}px`,
               left: `${PIXEL_SCALE * 27}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 1}px`,
               transform: "scaleX(-1)",
             }}
           />
@@ -133,11 +130,11 @@ export const Bakery: React.FC<Props> = ({
         {crafting && (
           <img
             src={smoke}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 15}px`,
-              left: `${PIXEL_SCALE * 11.5}px`,
-              bottom: `${PIXEL_SCALE * 45}px`,
+              width: `${PIXEL_SCALE * 20}px`,
+              left: `${PIXEL_SCALE * 9}px`,
+              bottom: `${PIXEL_SCALE * 44}px`,
             }}
           />
         )}
@@ -148,11 +145,24 @@ export const Bakery: React.FC<Props> = ({
             className={classNames("absolute z-30 pointer-events-none", {
               "img-highlight-heavy": ready,
             })}
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (
+                !img ||
+                !img.complete ||
+                !img.naturalWidth ||
+                !img.naturalHeight
+              ) {
+                return;
+              }
+
+              const left = Math.floor(21 - img.naturalWidth / 2);
+              img.style.left = `${PIXEL_SCALE * left}px`;
+              setImageWidth(img);
+            }}
             style={{
-              // TODO - dynamically get correct width
-              width: `${PIXEL_SCALE * 12}px`,
-              bottom: `${PIXEL_SCALE * 4.5}px`,
-              left: `${PIXEL_SCALE * 13.7}px`,
+              opacity: 0,
+              bottom: `${PIXEL_SCALE * 4}px`,
             }}
           />
         )}

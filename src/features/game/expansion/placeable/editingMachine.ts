@@ -78,6 +78,7 @@ export const editingMachine = createMachine<
                 type: action,
                 name: placeable,
                 coordinates: { x, y },
+                id: crypto.randomUUID(),
               } as PlacementEvent)
           ),
         },

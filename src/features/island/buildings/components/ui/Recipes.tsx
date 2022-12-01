@@ -66,8 +66,6 @@ export const Recipes: React.FC<Props> = ({
       });
     });
 
-    shortcutItem(selected.name);
-
     onClose();
   };
 
@@ -93,7 +91,7 @@ export const Recipes: React.FC<Props> = ({
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
       >
         {craftingService && (
-          <InProgressInfo craftingService={craftingService} />
+          <InProgressInfo craftingService={craftingService} onClose={onClose} />
         )}
         <p className="mb-2">Recipes</p>
         <div className="flex flex-wrap h-fit">

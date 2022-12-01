@@ -16,7 +16,7 @@ export const canMigrate = (state: GameState) => {
   const { skills, inventory } = state;
   const { farming, gathering } = skills;
 
-  const hasEnoughXP = farming.add(gathering).gte(new Decimal(25000));
+  const hasEnoughXP = farming.add(gathering).gte(new Decimal(21700));
   const isWarrior = inventory.Warrior?.gte(1);
   const isMod = inventory["Discord Mod"]?.gte(1);
   const isCoder = inventory.Coder?.gte(1);
@@ -33,6 +33,11 @@ export function migrate({
   const stateCopy = cloneDeep(state) as GameState;
 
   stateCopy.migrated = true;
+
+  const rustyShovelCount =
+    stateCopy.inventory["Rusty Shovel"] || new Decimal(0);
+
+  stateCopy.inventory["Rusty Shovel"] = rustyShovelCount.add(new Decimal(2));
 
   return stateCopy;
 }

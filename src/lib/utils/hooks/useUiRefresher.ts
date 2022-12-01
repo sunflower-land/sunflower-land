@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Refresh a component at regular intervals.
@@ -10,19 +10,15 @@ const useUiRefresher = (props?: { delay?: number; active?: boolean }) => {
   const delay = props?.delay ?? 1000;
   const active = props?.active ?? true;
 
-  const [_, setTimer] = React.useState<number>(0);
-  const setRecoveryTime = React.useCallback(() => {
-    setTimer((count) => count + 1);
-  }, []);
+  const [_, setTimer] = useState<number>(0);
 
   // refresh in regular intervals
   useEffect(() => {
     if (active) {
-      setRecoveryTime();
-      const interval = window.setInterval(setRecoveryTime, delay);
-      return () => window.clearInterval(interval);
+      const interval = setInterval(() => setTimer(Date.now()), delay);
+      return () => clearInterval(interval);
     }
-  }, [active, setRecoveryTime]);
+  }, [active]);
 };
 
 export default useUiRefresher;

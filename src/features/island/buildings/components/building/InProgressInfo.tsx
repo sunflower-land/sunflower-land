@@ -10,9 +10,13 @@ import { MachineInterpreter } from "../../lib/craftingMachine";
 
 interface Props {
   craftingService: MachineInterpreter;
+  onClose: () => void;
 }
 
-export const InProgressInfo: React.FC<Props> = ({ craftingService }) => {
+export const InProgressInfo: React.FC<Props> = ({
+  craftingService,
+  onClose,
+}) => {
   const [
     {
       context: { secondsTillReady, name },
@@ -20,6 +24,10 @@ export const InProgressInfo: React.FC<Props> = ({ craftingService }) => {
   ] = useActor(craftingService);
 
   if (!name || !secondsTillReady) return null;
+
+  if (secondsTillReady <= 0) {
+    onClose();
+  }
 
   const { cookingSeconds } = CONSUMABLES[name];
 

@@ -60,6 +60,7 @@ export function beanBought({ state, action }: Options) {
   );
 
   const oldAmount = stateCopy.inventory[bean] ?? new Decimal(0);
+  const oldStock = stateCopy.stock[bean] ?? new Decimal(0);
 
   bumpkin.activity = trackActivity(
     "SFL Spent",
@@ -81,6 +82,9 @@ export function beanBought({ state, action }: Options) {
       ...stateCopy.inventory,
       ...subtractedInventory,
       [bean]: oldAmount.add(1) as Decimal,
+    },
+    stock: {
+      [bean]: oldStock.minus(1) as Decimal,
     },
   };
 }

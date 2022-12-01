@@ -49,4 +49,4 @@ export type MutantCropName =
   | "Stellar Sunflower"
   | "Peaceful Potato"
   | "Perky Pumpkin"
-  | "Collosal Crop";
+  | "Colossal Crop";

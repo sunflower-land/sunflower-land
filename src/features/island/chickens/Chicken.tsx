@@ -35,6 +35,9 @@ import {
   MachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
+import { Modal } from "react-bootstrap";
+import { RemoveChickenModal } from "features/farming/animals/components/RemoveChickenModal";
+import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 interface Props {
   index: number;
 }
@@ -90,6 +93,50 @@ const isEggReady = (state: MachineState) => state.matches("eggReady");
 const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
 export const Chicken: React.FC<Props> = ({ index }) => {
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+
+  const shortcuts = getShortcuts();
+  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+
+  const handleOnClick = () => {
+    if (!hasRustyShovelSelected) return;
+
+    setShowRemoveModal(true);
+  };
+
+  return (
+    <>
+      <div
+        className={classNames("h-full", {
+          "cursor-pointer hover:img-highlight": hasRustyShovelSelected,
+        })}
+        onClick={hasRustyShovelSelected ? handleOnClick : undefined}
+      >
+        <div
+          className={classNames("h-full", {
+            "pointer-events-none": hasRustyShovelSelected,
+          })}
+        >
+          <ChickenContent index={index} />
+        </div>
+      </div>
+      <Modal
+        show={showRemoveModal}
+        centered
+        onHide={() => setShowRemoveModal(false)}
+      >
+        {showRemoveModal && (
+          <RemoveChickenModal
+            chickenIndex={index}
+            onClose={() => setShowRemoveModal(false)}
+          />
+        )}
+      </Modal>
+    </>
+  );
+};
+
+export const ChickenContent: React.FC<Props> = ({ index }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [
     {
@@ -169,7 +216,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
       context: {
         state: { chickens },
       },
-    } = gameService.send("chicken.feed", {
+    } = gameService.send("chicken.fed", {
       index,
     });
 
