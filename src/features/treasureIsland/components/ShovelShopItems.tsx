@@ -175,7 +175,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
         </div>
         <OuterPanel className="flex-1 w-1/3">
           <div className="flex flex-col justify-center items-center p-2 relative">
-            <Stock item={{ name: selectedName }} />
+            <Stock item={{ name: selectedName }} inventoryFull={false} />
             <span className="text-center">{selectedName}</span>
             <img
               src={ITEM_DETAILS[selectedName].image}

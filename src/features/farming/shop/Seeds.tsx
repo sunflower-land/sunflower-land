@@ -26,6 +26,7 @@ import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: () => void;
@@ -111,6 +112,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       />
     );
   }
+
+  const max = INITIAL_STOCK[selected.name];
+  const inventoryFull = max ? inventory[selected.name]?.gt(max) ?? true : true;
+
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];
     if (isLocked || selected.disabled) {
@@ -133,12 +138,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       );
     }
 
-    const max = INITIAL_STOCK[selected.name];
-
-    if (max && inventory[selected.name]?.gt(max)) {
+    if (inventoryFull) {
       return (
-        <span className="text-xs mt-1 text-shadow text-center">
-          No space left
+        <span className="text-xxs mt-1 text-shadow text-center">
+          You have too many seeds in your basket!
         </span>
       );
     }
@@ -165,6 +168,17 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
+  const labelState = () => {
+    if (stock?.equals(0)) {
+      return (
+        <Label type="danger" className="-mt-2 mb-1">
+          Sold out
+        </Label>
+      );
+    }
+    return <Stock item={selected} inventoryFull={inventoryFull} />;
+  };
+
   return (
     <div className="flex">
       <div className="w-3/5 flex flex-wrap h-fit">
@@ -180,7 +194,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} />
+          {labelState()}
           <span className="text-shadow text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}

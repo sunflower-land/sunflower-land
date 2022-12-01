@@ -125,7 +125,7 @@ export const CraftingItems: React.FC<Props> = ({
 
   const Action = () => {
     if (selected.disabled) {
-      return <span className="text-xs mt-1 text-shadow">Locked</span>;
+      return <span className="text-xs mt-1">Locked</span>;
     }
 
     if (
@@ -133,7 +133,7 @@ export const CraftingItems: React.FC<Props> = ({
       inventory[selected.name]?.gte(getMaxChickens(inventory))
     ) {
       return (
-        <span className="text-xs mt-1 text-shadow text-center">
+        <span className="text-xs mt-1 text-center">
           No more space for chickens
         </span>
       );
@@ -182,7 +182,7 @@ export const CraftingItems: React.FC<Props> = ({
         >
           <Panel className="md:w-4/5 m-auto">
             <div className="m-auto flex flex-col">
-              <span className="text-sm text-center text-shadow">
+              <span className="text-sm text-center">
                 Are you sure you want to <br className="hidden md:block" />
                 craft 10 {selected.name}?
               </span>
@@ -218,14 +218,14 @@ export const CraftingItems: React.FC<Props> = ({
       </div>
       <OuterPanel className="flex-1 w-1/3">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} />
-          <span className="text-shadow text-center">{selected.name}</span>
+          <Stock item={selected} inventoryFull={false} />
+          <span className="text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
-          <span className="text-shadow text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
 
@@ -247,10 +247,10 @@ export const CraftingItems: React.FC<Props> = ({
                   // if inventory items is less than required items
                   return (
                     <>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      <span className="text-xs text-center mt-2 text-red-500">
                         {`${inventoryAmount}`}
                       </span>
-                      <span className="text-xs text-shadow text-center mt-2 text-red-500">
+                      <span className="text-xs text-center mt-2 text-red-500">
                         {`/${requiredAmount}`}
                       </span>
                     </>
@@ -258,7 +258,7 @@ export const CraftingItems: React.FC<Props> = ({
                 } else {
                   // if inventory items is equal to required items
                   return (
-                    <span className="text-xs text-shadow text-center mt-2">
+                    <span className="text-xs text-center mt-2">
                       {`${requiredAmount}`}
                     </span>
                   );
@@ -281,12 +281,9 @@ export const CraftingItems: React.FC<Props> = ({
               <div className="flex justify-center items-end">
                 <img src={token} className="h-5 mr-1" />
                 <span
-                  className={classNames(
-                    "text-xs text-shadow text-center mt-2 ",
-                    {
-                      "text-red-500": lessFunds(),
-                    }
-                  )}
+                  className={classNames("text-xs text-center mt-2 ", {
+                    "text-red-500": lessFunds(),
+                  })}
                 >
                   {`$${price?.toNumber()}`}
                 </span>
