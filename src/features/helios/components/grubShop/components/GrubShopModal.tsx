@@ -91,7 +91,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                 return (
                   <Box
                     isSelected={selectedId === item.id}
-                    key={item.name}
+                    key={`${item.name}-${index}`}
                     onClick={() => setSelectedId(item.id)}
                     image={
                       index <= hiddenPositionStart
@@ -168,7 +168,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                       className="text-xs mt-1"
                       onClick={handleSell}
                     >
-                      Sell
+                      Sell 1
                     </Button>
                   )}
                 </div>
