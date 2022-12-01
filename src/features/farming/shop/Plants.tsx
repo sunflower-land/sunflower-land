@@ -54,6 +54,10 @@ export const Plants: React.FC = () => {
     sell(new Decimal(1));
   };
 
+  const handleSellTen = () => {
+    sell(new Decimal(10));
+  };
+
   const handleSellAll = () => {
     sell(cropAmount);
     showSellAllModal(false);
@@ -115,16 +119,25 @@ export const Plants: React.FC = () => {
               </span>
             </div>
           </div>
-          <Button
-            disabled={cropAmount.lessThan(1)}
-            className="text-xs mt-1"
-            onClick={handleSellOne}
-          >
-            Sell 1
-          </Button>
+          <div className="flex sm:flex-col w-full">
+            <Button
+              disabled={cropAmount.lessThan(1)}
+              className="text-xs mt-1 mr-1 sm:mr-0 flex-1"
+              onClick={handleSellOne}
+            >
+              Sell 1
+            </Button>
+            <Button
+              disabled={cropAmount.lessThan(10)}
+              className="text-xs mt-1 flex-1"
+              onClick={handleSellTen}
+            >
+              Sell 10
+            </Button>
+          </div>
           <Button
             disabled={noCrop}
-            className="text-xs mt-1 whitespace-nowrap"
+            className="text-xs mt-1"
             onClick={openConfirmationModal}
           >
             Sell All

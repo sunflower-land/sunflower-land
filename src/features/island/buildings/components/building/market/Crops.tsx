@@ -49,12 +49,16 @@ export const Crops: React.FC = () => {
   };
 
   const cropAmount = new Decimal(inventory[selected.name] || 0);
-  const noCrop = cropAmount.equals(0);
+  const noCrop = cropAmount.lessThanOrEqualTo(0);
   const displaySellPrice = (crop: Crop) =>
     getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
 
   const handleSellOneOrLess = () => {
     const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
+    sell(sellAmount);
+  };
+  const handleSellTenOrLess = () => {
+    const sellAmount = cropAmount.gte(10) ? new Decimal(10) : cropAmount;
     sell(sellAmount);
   };
 
@@ -101,11 +105,11 @@ export const Crops: React.FC = () => {
           ))}
       </div>
       <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2 ">
+        <div className="flex flex-col justify-center items-center p-2">
           <span className="mb-2">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
-            className="w-8 sm:w-12 "
+            className="w-8 sm:w-12"
             alt={selected.name}
           />
           <span className="text-center mt-2 text-sm">
@@ -121,16 +125,25 @@ export const Crops: React.FC = () => {
               </span>
             </div>
           </div>
-          <Button
-            disabled={cropAmount.lte(0)}
-            className="text-xs mt-1"
-            onClick={handleSellOneOrLess}
-          >
-            {`Sell ${cropAmount.gte(1) ? "1" : "<1"}`}
-          </Button>
+          <div className="flex sm:flex-col w-full">
+            <Button
+              disabled={noCrop}
+              className="text-xs mt-1 mr-1 sm:mr-0 flex-1"
+              onClick={handleSellOneOrLess}
+            >
+              {`Sell ${cropAmount.gte(1) ? "1" : "<1"}`}
+            </Button>
+            <Button
+              disabled={noCrop}
+              className="text-xs mt-1 flex-1"
+              onClick={handleSellTenOrLess}
+            >
+              {`Sell ${cropAmount.gte(10) ? "10" : "<10"}`}
+            </Button>
+          </div>
           <Button
             disabled={noCrop}
-            className="text-xs mt-1 whitespace-nowrap"
+            className="text-xs mt-1"
             onClick={openConfirmationModal}
           >
             Sell All
