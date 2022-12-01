@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -15,9 +16,8 @@ interface Props {
 }
 
 export const CommunityGardenModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const goToCommunityGarden = () => {
-    window.location.href = `${window.location.pathname}#/community-garden`;
-  };
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
@@ -72,7 +72,10 @@ export const CommunityGardenModal: React.FC<Props> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="flex">
-          <Button className="ml-1" onClick={goToCommunityGarden}>
+          <Button
+            className="ml-1"
+            onClick={() => navigate(`/community-garden/${id}`)}
+          >
             Continue
           </Button>
         </div>

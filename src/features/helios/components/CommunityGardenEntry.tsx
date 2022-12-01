@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import shadow from "assets/npcs/shadow.png";
 import npc from "assets/npcs/community_garden.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -27,6 +28,15 @@ export const CommunityGardenEntry: React.FC = () => {
         }}
         onClick={openMerchant}
       >
+        <img
+          src={shadow}
+          className="absolute -z-10"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${GRID_WIDTH_PX * 1.45}px`,
+            top: `${GRID_WIDTH_PX * 0.75}px`,
+          }}
+        />
         <img
           src={npc}
           style={{

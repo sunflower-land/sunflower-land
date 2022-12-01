@@ -1,10 +1,11 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-import { useState } from "react";
-import { useInterpret } from "@xstate/react";
+import { useContext, useState } from "react";
+import { useActor, useInterpret } from "@xstate/react";
 import React from "react";
 
+import * as Auth from "features/auth/lib/Provider";
 import { MachineInterpreter, startCommunityMachine } from "./communityMachine";
 
 interface GameContext {
@@ -14,7 +15,11 @@ interface GameContext {
 export const Context = React.createContext<GameContext>({} as GameContext);
 
 export const CommunityProvider: React.FC = ({ children }) => {
-  const [communityMachine] = useState(startCommunityMachine({}));
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+  const [communityMachine] = useState(
+    startCommunityMachine({ ...authState.context })
+  );
 
   // TODO - Typescript error
   const communityService = useInterpret(

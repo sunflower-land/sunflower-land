@@ -10,10 +10,13 @@ import { BottleDonation } from "../donation/BottleDonation";
 import { Scientist } from "../scientist/Scientist";
 import { ProjectDignityFrogs } from "./ProjectDignityFrogs";
 import { Arcade } from "../arcade/Arcade";
+import { IslandTravel } from "features/game/expansion/components/IslandTravel";
 
 export const CommunityGarden: React.FC = () => {
   const { communityService } = useContext(Context);
   const [state] = useActor(communityService);
+  const { bumpkin, migrated } = state.context;
+
   return (
     <>
       <Modal show={state.matches("loading")} centered>
@@ -33,6 +36,8 @@ export const CommunityGarden: React.FC = () => {
       <Scientist />
       <ProjectDignityFrogs />
       <Arcade left={33} top={28.5} />
+
+      {migrated && <IslandTravel bumpkin={bumpkin} x={-4} y={-9} />}
     </>
   );
 };
