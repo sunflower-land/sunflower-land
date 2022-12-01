@@ -2,7 +2,12 @@ import { BuildingName } from "features/game/types/buildings";
 
 const TUTORIAL_ACKNOWLEDGEMENT_KEY = "sunflower_isles_tutorials";
 
-type TutorialName = BuildingName | "Boat" | "BuildingMenu" | "Bumpkin";
+type TutorialName =
+  | BuildingName
+  | "Boat"
+  | "BuildingMenu"
+  | "Bumpkin"
+  | "Grub Shop";
 
 export function acknowledgeTutorial(tutorialName: TutorialName) {
   const acknowledgements = getAcknowledgements();
