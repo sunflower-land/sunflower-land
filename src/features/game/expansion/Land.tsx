@@ -26,13 +26,13 @@ import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Boulder } from "features/island/boulder/Boulder";
-import { IslandTravel } from "./components/IslandTravel";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
+import { IslandTravel } from "features/island/travel/IslandTravel";
 
 type ExpansionProps = Pick<
   LandExpansion,

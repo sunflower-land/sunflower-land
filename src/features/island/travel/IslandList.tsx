@@ -16,7 +16,7 @@ import stoneHaven from "assets/land/islands/stone_haven.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
 import land from "assets/land/islands/island.webp";
-import { VisitLandExpansionForm } from "./VisitLandExpansionForm";
+import { VisitLandExpansionForm } from "../../game/expansion/components/VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";

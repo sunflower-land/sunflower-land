@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
-import { IslandTravel } from "features/game/expansion/components/IslandTravel";
 import { Context } from "features/game/GameProvider";
+import { IslandTravel } from "features/island/travel/IslandTravel";
 
 export const IslandTravelWrapper = () => {
   const { gameService } = useContext(Context);
