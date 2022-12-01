@@ -75,7 +75,8 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
           />
         ))}
       </div>
-      {pageNumber === 1 ? PageOne() : PageTwo()}
+      {pageNumber === 1 && PageOne()}
+      {pageNumber === 2 && PageTwo()}
     </TutorialPanel>
   );
 };
