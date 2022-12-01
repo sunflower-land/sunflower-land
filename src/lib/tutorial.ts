@@ -1,44 +1,46 @@
 import { BuildingName } from "features/game/types/buildings";
 
-const BUILDING_ACKNOWLEDGEMENT_KEY = "building_tutorials";
+const TUTORIAL_ACKNOWLEDGEMENT_KEY = "building_tutorials";
 
-export function acknowledgeTutorial(buildingName: BuildingName) {
+type TutorialName = BuildingName | "Boat" | "BuildingMenu";
+
+export function acknowledgeTutorial(tutorialName: TutorialName) {
   const acknowledgements = getAcknowledgements();
 
-  const newAcknowledgements: BuildingTutorials = {
+  const newAcknowledgements: Tutorials = {
     ...acknowledgements,
-    [buildingName]: {
+    [tutorialName]: {
       acknowledgedAt: Date.now(),
     },
   };
 
   localStorage.setItem(
-    BUILDING_ACKNOWLEDGEMENT_KEY,
+    TUTORIAL_ACKNOWLEDGEMENT_KEY,
     JSON.stringify(newAcknowledgements)
   );
 }
 
-export function hasIntroducedBuilding(buildingName: BuildingName): boolean {
+export function hasShownTutorial(tutorialName: TutorialName): boolean {
   const acknowledgements = getAcknowledgements();
 
-  return !!acknowledgements[buildingName];
+  return !!acknowledgements[tutorialName];
 }
 
-type BuildingTutorials = Partial<
+type Tutorials = Partial<
   Record<
-    BuildingName,
+    TutorialName,
     {
       acknowledgedAt: number;
     }
   >
 >;
 
-function getAcknowledgements(): BuildingTutorials {
-  const obj = localStorage.getItem(BUILDING_ACKNOWLEDGEMENT_KEY);
+function getAcknowledgements(): Tutorials {
+  const obj = localStorage.getItem(TUTORIAL_ACKNOWLEDGEMENT_KEY);
 
   if (!obj) {
     return {};
   }
 
-  return JSON.parse(obj) as BuildingTutorials;
+  return JSON.parse(obj) as Tutorials;
 }

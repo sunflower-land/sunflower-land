@@ -9,7 +9,7 @@ import { Tab } from "components/ui/Tab";
 
 import { Seeds } from "./Seeds";
 import { Crops } from "./Crops";
-import { acknowledgeTutorial, hasIntroducedBuilding } from "lib/tutorial";
+import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
@@ -21,7 +21,7 @@ interface Props {
 export const ShopItems: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"buy" | "sell">("buy");
   const [showTutorial, setShowTutorial] = useState<boolean>(
-    !hasIntroducedBuilding("Market")
+    !hasShownTutorial("Market")
   );
 
   const handleTabClick = (tab: "buy" | "sell") => {

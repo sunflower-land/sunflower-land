@@ -16,7 +16,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Tab } from "components/ui/Tab";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { Equipped } from "features/game/types/bumpkin";
-import { acknowledgeTutorial, hasIntroducedBuilding } from "lib/tutorial";
+import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Tutorial } from "./Tutorial";
 
 interface Props {
@@ -34,7 +34,7 @@ export const FirePitModal: React.FC<Props> = ({
   craftingService,
 }) => {
   const [showTutorial, setShowTutorial] = useState<boolean>(
-    !hasIntroducedBuilding("Fire Pit")
+    !hasShownTutorial("Fire Pit")
   );
   const firePitRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
     if (CONSUMABLES[name].building !== "Fire Pit") {
