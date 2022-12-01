@@ -89,7 +89,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
   if (showCaptcha) {
     return (
       <CloudFlareCaptcha
-        action="seeds-sync"
+        action="exotic-seeds-sync"
         onDone={onCaptchaSolved}
         onExpire={() => setShowCaptcha(false)}
         onError={() => setShowCaptcha(false)}
