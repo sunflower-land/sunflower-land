@@ -69,7 +69,7 @@ export const Tutorial: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={bumpkinParts}
     >
       <div className="w-full mb-3 flex justify-center">
-        <img src={hammer} className="h-5 md:h-6" />
+        <img src={hammer} className="h-6 md:h-7" />
       </div>
       {pageNumber === 1 && PageOne()}
       {pageNumber === 2 && PageTwo()}

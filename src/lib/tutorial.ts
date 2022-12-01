@@ -1,6 +1,6 @@
 import { BuildingName } from "features/game/types/buildings";
 
-const TUTORIAL_ACKNOWLEDGEMENT_KEY = "building_tutorials";
+const TUTORIAL_ACKNOWLEDGEMENT_KEY = "sunflower_isles_tutorials";
 
 type TutorialName = BuildingName | "Boat" | "BuildingMenu" | "Bumpkin";
 
