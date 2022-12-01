@@ -20,6 +20,9 @@ interface Props {
 
 export const ShopItems: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"buy" | "sell">("buy");
+  const [showTutorial, setShowTutorial] = useState<boolean>(
+    !hasIntroducedBuilding("Market")
+  );
 
   const handleTabClick = (tab: "buy" | "sell") => {
     setTab(tab);
@@ -27,6 +30,7 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
 
   const acknowledge = () => {
     acknowledgeTutorial("Market");
+    setShowTutorial(false);
   };
 
   const bumpkinParts: Partial<Equipped> = {
@@ -39,7 +43,7 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
     shoes: "Black Farmer Boots",
   };
 
-  if (!hasIntroducedBuilding("Market")) {
+  if (showTutorial) {
     return <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
   }
 

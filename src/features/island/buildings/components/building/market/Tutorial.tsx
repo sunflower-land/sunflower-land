@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { SEEDS } from "features/game/types/seeds";
 import { TutorialPanel } from "../../ui/TutorialPanel";
 
 import token from "assets/icons/token_2.png";
+import { UNLOCKABLES } from "../../ui/DetailView";
 
 interface Props {
   onClose: () => void;
   bumpkinParts?: Partial<Equipped>;
 }
 
+type Pages = 1 | 2;
+
 export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
-  const [pageNumber, setPageNumber] = useState<1 | 2>(1);
+  const [pageNumber, setPageNumber] = useState<Pages>(1);
 
   const PageOne = () => {
     return (
@@ -66,15 +67,13 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
       bumpkinParts={bumpkinParts}
     >
       <div className="flex flex-wrap justify-center mb-3 space-x-2">
-        {getKeys(SEEDS())
-          .slice(0, 5)
-          .map((name) => (
-            <img
-              key={name}
-              src={ITEM_DETAILS[name].image}
-              className="h-5 md:h-6"
-            />
-          ))}
+        {UNLOCKABLES["Market"].slice(0, 5).map((name) => (
+          <img
+            key={name}
+            src={ITEM_DETAILS[name].image}
+            className="h-5 md:h-6"
+          />
+        ))}
       </div>
       {pageNumber === 1 ? PageOne() : PageTwo()}
     </TutorialPanel>
