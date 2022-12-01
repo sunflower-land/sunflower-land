@@ -33,6 +33,7 @@ import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
+import { BumpkinTutorial } from "./BumpkinTutorial";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -424,6 +425,8 @@ export const Land: React.FC = () => {
         x={boatCoordinates.x}
         y={boatCoordinates.y}
       />
+
+      <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
       {gameState.matches("editing") && <Placeable />}
     </div>

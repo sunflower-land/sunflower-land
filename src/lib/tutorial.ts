@@ -2,7 +2,7 @@ import { BuildingName } from "features/game/types/buildings";
 
 const TUTORIAL_ACKNOWLEDGEMENT_KEY = "building_tutorials";
 
-type TutorialName = BuildingName | "Boat" | "BuildingMenu";
+type TutorialName = BuildingName | "Boat" | "BuildingMenu" | "Bumpkin";
 
 export function acknowledgeTutorial(tutorialName: TutorialName) {
   const acknowledgements = getAcknowledgements();
