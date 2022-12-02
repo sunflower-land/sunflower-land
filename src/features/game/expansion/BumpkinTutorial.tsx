@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
-import { TutorialPanel } from "features/island/buildings/components/ui/TutorialPanel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import sunflower from "assets/crops/sunflower/crop.png";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
@@ -80,7 +80,7 @@ export const BumpkinTutorial: React.FC<Props> = ({ bumpkinParts }) => {
 
   return (
     <Modal show={showTutorial} onHide={acknowledge} centered>
-      <TutorialPanel
+      <CloseButtonPanel
         onClose={acknowledge}
         title="Welcome to Sunflower Isles"
         bumpkinParts={bumpkinParts}
@@ -91,7 +91,7 @@ export const BumpkinTutorial: React.FC<Props> = ({ bumpkinParts }) => {
         {pageNumber === 1 && PageOne()}
         {pageNumber === 2 && PageTwo()}
         {pageNumber === 3 && PageThree()}
-      </TutorialPanel>
+      </CloseButtonPanel>
     </Modal>
   );
 };

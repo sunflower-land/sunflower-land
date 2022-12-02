@@ -2,7 +2,7 @@ import React from "react";
 
 import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Panel } from "../../../../../components/ui/Panel";
+import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
   bumpkinParts?: Partial<Equipped>;
 }
 
-export const TutorialPanel: React.FC<Props> = ({
+export const CloseButtonPanel: React.FC<Props> = ({
   title,
   onClose,
   bumpkinParts,
@@ -19,7 +19,7 @@ export const TutorialPanel: React.FC<Props> = ({
 }) => {
   return (
     <Panel bumpkinParts={bumpkinParts}>
-      <div id="information-modal">
+      <div>
         {title && (
           <div className="flex text-center">
             <div

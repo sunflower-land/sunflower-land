@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
-import { TutorialPanel } from "features/island/buildings/components/ui/TutorialPanel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import hammer from "assets/icons/hammer.png";
 import { Equipped } from "features/game/types/bumpkin";
@@ -63,7 +63,7 @@ export const Tutorial: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <TutorialPanel
+    <CloseButtonPanel
       onClose={onClose}
       title="Welcome to Buildings"
       bumpkinParts={bumpkinParts}
@@ -73,6 +73,6 @@ export const Tutorial: React.FC<Props> = ({ onClose }) => {
       </div>
       {pageNumber === 1 && PageOne()}
       {pageNumber === 2 && PageTwo()}
-    </TutorialPanel>
+    </CloseButtonPanel>
   );
 };

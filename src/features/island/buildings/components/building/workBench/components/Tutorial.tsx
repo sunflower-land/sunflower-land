@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { TutorialPanel } from "../../../ui/TutorialPanel";
+import { CloseButtonPanel } from "../../../../../../game/components/CloseablePanel";
 import { UNLOCKABLES } from "../../../ui/DetailView";
 
 interface Props {
@@ -96,7 +96,7 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
   };
 
   return (
-    <TutorialPanel
+    <CloseButtonPanel
       onClose={onClose}
       title="Welcome to the Workbench"
       bumpkinParts={bumpkinParts}
@@ -114,6 +114,6 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
       {pageNumber === 2 && PageTwo()}
       {pageNumber === 3 && PageThree()}
       {pageNumber === 4 && PageFour()}
-    </TutorialPanel>
+    </CloseButtonPanel>
   );
 };

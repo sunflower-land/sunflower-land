@@ -87,13 +87,13 @@ export const Recipes: React.FC<Props> = ({
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div
-        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1"
+        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1"
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
       >
         {craftingService && (
           <InProgressInfo craftingService={craftingService} onClose={onClose} />
         )}
-        <p className="mb-2">Recipes</p>
+        {crafting && <p className="mb-2">Recipes</p>}
         <div className="flex flex-wrap h-fit">
           {recipes.map((item) => (
             <Box
