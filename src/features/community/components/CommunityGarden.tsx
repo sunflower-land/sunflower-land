@@ -10,7 +10,7 @@ import { BottleDonation } from "../donation/BottleDonation";
 import { Scientist } from "../scientist/Scientist";
 import { ProjectDignityFrogs } from "./ProjectDignityFrogs";
 import { Arcade } from "../arcade/Arcade";
-import { IslandTravel } from "features/game/expansion/components/IslandTravel";
+import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 
 export const CommunityGarden: React.FC = () => {
   const { communityService } = useContext(Context);
