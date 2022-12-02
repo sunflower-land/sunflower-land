@@ -93,7 +93,28 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...mutantChickenDefaults,
   ...flagDefaults,
   ...easterEggDefaults,
-  Chicken: false, // Temporarily disable until land expansion
+
+  // Explicit Rules
+  Chicken: false, // Temporarily disabled until land expansion
+  "Farm Cat": true,
+  "Farm Dog": true,
+  "Gold Egg": true,
+  "Sunflower Statue": true,
+  "Potato Statue": true,
+  "Christmas Tree": true,
+  Gnome: true,
+  "Homeless Tent": true,
+  "Sunflower Tombstone": true,
+  "Sunflower Rock": true,
+  "Goblin Crown": true,
+  Fountain: true,
+  "Nyon Statue": true,
+  "Farmer Bath": true,
+  "Mysterious Head": true,
+  "Golden Bonsai": true,
+  "Wicker Man": true,
+
+  // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
