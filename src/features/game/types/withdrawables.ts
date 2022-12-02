@@ -7,7 +7,7 @@ import { canMine as canMineIron } from "features/game/events/ironMine";
 import { canMine as canMineGold } from "features/game/events/goldMine";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { Inventory, InventoryItemName } from "./game";
-import { getKeys, MUTANT_CHICKENS } from "./craftables";
+import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
 import { RESOURCES } from "./resources";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
@@ -83,12 +83,14 @@ const mutantChickenDefaults = buildDefaults(
   Object.keys(MUTANT_CHICKENS),
   (game) => !areAnyChickensFed(game)
 );
+const flagDefaults = buildDefaults(Object.keys(FLAGS), true);
 
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...globalDefaults,
   ...cropDefaults,
   ...resourceDefaults,
   ...mutantChickenDefaults,
+  ...flagDefaults,
   Chicken: false, // Temporarily disable until land expansion
   "Chicken Coop": (game) => !areAnyChickensFed(game),
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),

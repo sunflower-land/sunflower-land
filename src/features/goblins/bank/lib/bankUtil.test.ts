@@ -431,6 +431,20 @@ describe("canWithdraw", () => {
       expect(enabled).toBeTruthy();
     });
 
+    it("enables users to withdraw flags", () => {
+      const enabled = canWithdraw({
+        item: "Goblin Flag",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Goblin Flag": new Decimal(1),
+          },
+        },
+      });
+
+      expect(enabled).toBeTruthy();
+    });
+
     it("enables a user to withdraw an easter bunny when not in use", () => {
       const enabled = canWithdraw({
         item: "Easter Bunny",
