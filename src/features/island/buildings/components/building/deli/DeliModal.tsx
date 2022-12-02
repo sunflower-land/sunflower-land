@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
@@ -37,6 +37,7 @@ export const DeliModal: React.FC<Props> = ({
 
     return [...acc, CONSUMABLES[name]];
   }, [] as Consumable[]);
+  const [selected, setSelected] = useState<Consumable>(deliRecipes[0]);
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
@@ -76,6 +77,8 @@ export const DeliModal: React.FC<Props> = ({
           />
         </div>
         <Recipes
+          selected={selected}
+          setSelected={setSelected}
           recipes={deliRecipes}
           onCook={onCook}
           onClose={onClose}

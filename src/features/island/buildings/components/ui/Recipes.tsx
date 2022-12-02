@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
@@ -25,6 +25,8 @@ import { InProgressInfo } from "../building/InProgressInfo";
 import { MachineInterpreter } from "../../lib/craftingMachine";
 
 interface Props {
+  selected: Consumable;
+  setSelected: Dispatch<SetStateAction<Consumable>>;
   recipes: Consumable[];
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
@@ -32,16 +34,27 @@ interface Props {
   crafting: boolean;
 }
 
+/**
+ * The recipes of a food producing building
+ * @selected The selected food in the interface.  This prop is set in the parent so closing the modal will not reset the selected state.
+ * @setSelected Sets the selected food in the interface.  This prop is set in the parent so closing the modal will not reset the selected state.
+ * @recipes The list of available recipes.
+ * @onClose The close action.
+ * @onCook The cook action.
+ * @crafting Whether the building is in the process of crafting a food item.
+ * @craftingService The crafting service.
+ */
 export const Recipes: React.FC<Props> = ({
+  selected,
+  setSelected,
   recipes,
   onClose,
   onCook,
   crafting,
   craftingService,
 }) => {
-  const [selected, setSelected] = useState<Consumable>(recipes[0]);
   const { setToast } = useContext(ToastContext);
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const [
     {

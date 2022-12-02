@@ -43,6 +43,7 @@ export const FirePitModal: React.FC<Props> = ({
 
     return [...acc, CONSUMABLES[name]];
   }, [] as Consumable[]);
+  const [selected, setSelected] = useState<Consumable>(firePitRecipes[0]);
 
   const bumpkinParts: Partial<Equipped> = {
     body: "Beige Farmer Potion",
@@ -95,6 +96,8 @@ export const FirePitModal: React.FC<Props> = ({
           />
         </div>
         <Recipes
+          selected={selected}
+          setSelected={setSelected}
           recipes={firePitRecipes}
           onCook={onCook}
           onClose={onClose}
