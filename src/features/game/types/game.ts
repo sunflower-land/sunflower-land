@@ -318,7 +318,7 @@ export interface GameState {
   stones: Record<number, Rock>;
   iron: Record<number, Rock>;
   gold: Record<number, Rock>;
-  chickens: Record<number, Chicken>;
+  chickens: Record<string, Chicken>;
 
   plots: Record<number, LandExpansionPlot>;
 
