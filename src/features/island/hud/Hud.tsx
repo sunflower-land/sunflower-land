@@ -9,6 +9,8 @@ import { Buildings } from "../buildings/Buildings";
 import { Inventory } from "./components/inventory/Inventory";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
 import { BumpkinProfile } from "./components/BumpkinProfile";
+import { Save } from "./components/Save";
+import { LandId } from "./components/LandId";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -19,6 +21,7 @@ export const Hud: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const isEditing = gameState.matches("editing");
+  const landId = gameState.context.state.id;
 
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
@@ -33,8 +36,9 @@ export const Hud: React.FC = () => {
             shortcutItem={shortcutItem}
             isFarming
           />
-
+          {landId && <LandId landId={landId} />}
           <Buildings />
+          <Save />
           <BumpkinProfile />
         </>
       )}

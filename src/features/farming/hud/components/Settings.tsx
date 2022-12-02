@@ -56,7 +56,7 @@ export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{
-              top: `${PIXEL_SCALE * 6}px`,
+              bottom: `${PIXEL_SCALE * 26.4}px`,
               right: `${PIXEL_SCALE * 6}px`,
               width: `${PIXEL_SCALE * 11}px`,
             }}
