@@ -167,6 +167,23 @@ describe("canWithdraw", () => {
       expect(enabled).toBeFalsy();
     });
 
+    it("prevents a user from withdrawing victoria sisters when in use", () => {
+      const enabled = canWithdraw({
+        item: "Victoria Sisters",
+        game: {
+          ...TEST_FARM,
+          fields: {
+            0: {
+              name: "Pumpkin",
+              plantedAt: Date.now(),
+            },
+          },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
+
     it("prevents a user from withdrawing a golden cauliflower when in use", () => {
       const enabled = canWithdraw({
         item: "Golden Cauliflower",
@@ -417,6 +434,18 @@ describe("canWithdraw", () => {
     it("enables a user to withdraw an easter bunny when not in use", () => {
       const enabled = canWithdraw({
         item: "Easter Bunny",
+        game: {
+          ...TEST_FARM,
+          fields: {},
+        },
+      });
+
+      expect(enabled).toBeTruthy();
+    });
+
+    it("enables a user to withdraw victoria sisters when not in use", () => {
+      const enabled = canWithdraw({
+        item: "Victoria Sisters",
         game: {
           ...TEST_FARM,
           fields: {},
