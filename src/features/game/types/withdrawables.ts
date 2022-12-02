@@ -51,4 +51,5 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...cropDefaults,
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
+  "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
 };
