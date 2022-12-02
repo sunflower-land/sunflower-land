@@ -1,5 +1,6 @@
 import { KNOWN_IDS } from ".";
-import { GoblinState } from "../lib/goblinMachine";
+import { canChop } from "features/game/events/chop";
+import { GoblinState } from "features/game/lib/goblinMachine";
 import { CROPS } from "./crops";
 import { InventoryItemName } from "./game";
 
@@ -50,6 +51,10 @@ function areAnyCropsPlanted(game: GoblinState): boolean {
   return Object.values(game.fields).length > 0;
 }
 
+function areAnyTreesChopped(game: GoblinState): boolean {
+  return Object.values(game?.trees).some((tree) => !canChop(tree));
+}
+
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...globalDefaults,
   ...cropDefaults,
@@ -59,4 +64,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   Nancy: (game) => !areAnyCropsPlanted(game),
   Scarecrow: (game) => !areAnyCropsPlanted(game),
   Kuebiko: (game) => !areAnyCropsPlanted(game),
+  "Woody the Beaver": (game) => !areAnyTreesChopped(game),
+  "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
+  "Foreman Beaver": (game) => !areAnyTreesChopped(game),
 };
