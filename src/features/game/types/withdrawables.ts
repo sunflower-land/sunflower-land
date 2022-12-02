@@ -121,6 +121,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
   "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
+  "Carrot Sword": (game) => !areAnyCropsPlanted(game),
   Nancy: (game) => !areAnyCropsPlanted(game),
   Scarecrow: (game) => !areAnyCropsPlanted(game),
   Kuebiko: (game) => !areAnyCropsPlanted(game) && !hasSeeds(game.inventory),

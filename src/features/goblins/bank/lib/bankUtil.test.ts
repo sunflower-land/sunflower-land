@@ -170,6 +170,26 @@ describe("canWithdraw", () => {
       expect(enabled).toBeFalsy();
     });
 
+    it("prevents a user from withdrawing carrot sword if some crop is planted", () => {
+      const enabled = canWithdraw({
+        item: "Carrot Sword",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Carrot Sword": new Decimal(1),
+          },
+          fields: {
+            0: {
+              name: "Sunflower",
+              plantedAt: Date.now(),
+            },
+          },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
+
     it("prevents a user from withdrawing an easter bunny when in use", () => {
       const enabled = canWithdraw({
         item: "Easter Bunny",
@@ -735,6 +755,21 @@ describe("canWithdraw", () => {
             Rooster: new Decimal(1),
           },
           chickens: {},
+        },
+      });
+
+      expect(enabled).toBeTruthy();
+    });
+
+    it("enables a user to withdraw carrot sword as long as no crops are planted", () => {
+      const enabled = canWithdraw({
+        item: "Carrot Sword",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Carrot Sword": new Decimal(1),
+          },
+          fields: {},
         },
       });
 
