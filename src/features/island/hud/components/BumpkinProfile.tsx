@@ -4,18 +4,15 @@ import { useActor } from "@xstate/react";
 
 import question from "assets/icons/expression_confused.png";
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
-import profileBg from "assets/ui/profile/bg.png";
-import lvlUp from "assets/ui/profile/lvl_up.png";
+import whiteBg from "assets/ui/profile/bg.png";
+import lvlUp from "assets/icons/expression_alerted.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
-import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import {
-  BumpkinLevel,
   getBumpkinLevel,
   getExperienceToNextLevel,
-  LEVEL_BRACKETS,
 } from "features/game/lib/level";
 import {
   acknowledgeSkillPoints,
@@ -24,35 +21,34 @@ import {
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const DIMENSIONS = {
-  width: 52,
-  height: 48,
-  top: 1,
-  left: 1,
-  cutout: {
-    width: 56,
-    height: 57,
-  },
-  frame: {
-    marginTop: 14,
-    marginLeft: 4,
+  original: 80,
+  scaled: 160,
+  bumpkinContainer: {
+    width: 130,
+    height: 125,
+    radiusBottomLeft: 85,
+    radiusBottomRight: 45,
   },
   bumpkin: {
-    width: 100,
-    marginTop: -36,
-    marginLeft: -20,
+    width: 200,
+    marginLeft: -10,
+  },
+  noBumpkin: {
+    marginLeft: 48,
+    marginTop: 20,
   },
   level: {
-    marginTop: 39,
-    marginLeft: 44,
-    width: 12,
-    height: 11,
+    width: 24,
+    height: 12,
+    marginLeft: 108,
+    marginTop: 84,
   },
   skillsMark: {
-    marginTop: 30,
-    marginLeft: 48,
+    width: 10,
+    marginLeft: 116,
+    marginTop: 45,
   },
 };
 
@@ -62,7 +58,6 @@ export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const dimensions = DIMENSIONS;
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -88,10 +83,6 @@ export const BumpkinProfile: React.FC = () => {
 
   const goToProgress = () => {
     if (progressBarEl.current) {
-      const nextLevelExperience = LEVEL_BRACKETS[level];
-      const previousLevelExperience =
-        LEVEL_BRACKETS[(level - 1) as BumpkinLevel] || 0;
-
       const experience = state.bumpkin?.experience ?? 0;
       const { currentExperienceProgress, experienceToNextLevel } =
         getExperienceToNextLevel(experience);
@@ -124,38 +115,35 @@ export const BumpkinProfile: React.FC = () => {
       {/* Bumpkin profile */}
       <div
         className={`grid cursor-pointer hover:img-highlight fixed z-50`}
-        style={{
-          top: `${PIXEL_SCALE * dimensions.top}px`,
-          left: `${PIXEL_SCALE * dimensions.left}px`,
-        }}
         onClick={handleShowHomeModal}
       >
         <img
-          src={profileBg}
+          src={whiteBg}
           className="col-start-1 row-start-1 opacity-40"
           style={{
-            width: `${PIXEL_SCALE * dimensions.width}px`,
-            marginTop: `${PIXEL_SCALE * dimensions.frame.marginTop}px`,
-            marginLeft: `${PIXEL_SCALE * dimensions.frame.marginLeft}px`,
+            width: `${DIMENSIONS.scaled}px`,
+            height: `${DIMENSIONS.scaled}px`,
           }}
         />
         <div
-          className="col-start-1 row-start-1 overflow-hidden rounded-b-full z-0"
+          className="col-start-1 row-start-1 overflow-hidden z-0"
           style={{
-            width: `${PIXEL_SCALE * dimensions.cutout.width}px`,
-            height: `${PIXEL_SCALE * dimensions.cutout.height}px`,
+            width: `${DIMENSIONS.bumpkinContainer.width}px`,
+            height: `${DIMENSIONS.bumpkinContainer.height}px`,
+            borderBottomLeftRadius: `${DIMENSIONS.bumpkinContainer.radiusBottomLeft}px`,
+            borderBottomRightRadius: `${DIMENSIONS.bumpkinContainer.radiusBottomRight}px`,
           }}
         >
           {state.bumpkin ? (
             <div
               style={{
-                width: `${PIXEL_SCALE * dimensions.bumpkin.width}px`,
-                marginLeft: `${PIXEL_SCALE * dimensions.bumpkin.marginLeft}px`,
+                width: `${DIMENSIONS.bumpkin.width}px`,
+                marginLeft: `${DIMENSIONS.bumpkin.marginLeft}px`,
               }}
             >
               <DynamicNFT
-                bumpkinParts={state.bumpkin.equipped as BumpkinParts}
-                showTool={false}
+                bumpkinParts={state.bumpkin.equipped}
+                showTools={false}
               />
             </div>
           ) : (
@@ -163,22 +151,23 @@ export const BumpkinProfile: React.FC = () => {
               id="no-bumpkin"
               src={question}
               alt="No Bumpkin Found"
-              className="w-1/2 mx-auto"
-              style={{ marginTop: "40px" }}
+              className="w-1/2"
+              style={{
+                marginLeft: `${DIMENSIONS.noBumpkin.marginLeft}px`,
+                marginTop: `${DIMENSIONS.noBumpkin.marginTop}px`,
+              }}
             />
           )}
         </div>
         <Spritesheet
           className="col-start-1 row-start-1 z-10"
           style={{
-            width: `${PIXEL_SCALE * dimensions.width}px`,
-            marginTop: `${PIXEL_SCALE * dimensions.frame.marginTop}px`,
-            marginLeft: `${PIXEL_SCALE * dimensions.frame.marginLeft}px`,
+            width: `${DIMENSIONS.scaled}px`,
             imageRendering: "pixelated",
           }}
           image={progressBarSprite}
-          widthFrame={DIMENSIONS.width}
-          heightFrame={DIMENSIONS.height}
+          widthFrame={DIMENSIONS.original}
+          heightFrame={DIMENSIONS.original}
           fps={10}
           steps={SPRITE_STEPS}
           autoplay={false}
@@ -188,12 +177,12 @@ export const BumpkinProfile: React.FC = () => {
           }}
         />
         <div
-          className={`col-start-1 row-start-1 flex justify-center items-center text-white z-20 text-xxs`}
+          className={`col-start-1 row-start-1 flex justify-center text-white text-xxs z-20`}
           style={{
-            marginLeft: `${PIXEL_SCALE * dimensions.level.marginLeft}px`,
-            marginTop: `${PIXEL_SCALE * dimensions.level.marginTop}px`,
-            width: `${PIXEL_SCALE * dimensions.level.width}px`,
-            height: `${PIXEL_SCALE * dimensions.level.height}px`,
+            width: `${DIMENSIONS.level.width}px`,
+            height: `${DIMENSIONS.level.height}px`,
+            marginLeft: `${DIMENSIONS.level.marginLeft}px`,
+            marginTop: `${DIMENSIONS.level.marginTop}px`,
           }}
         >
           {level}
@@ -203,10 +192,9 @@ export const BumpkinProfile: React.FC = () => {
             src={lvlUp}
             className="col-start-1 row-start-1 animate-float z-30"
             style={{
-              width: `${PIXEL_SCALE * 4}px`,
-              height: `${PIXEL_SCALE * 9}px`,
-              marginLeft: `${PIXEL_SCALE * dimensions.skillsMark.marginLeft}px`,
-              marginTop: `${PIXEL_SCALE * dimensions.skillsMark.marginTop}px`,
+              width: `${DIMENSIONS.skillsMark.width}px`,
+              marginLeft: `${DIMENSIONS.skillsMark.marginLeft}px`,
+              marginTop: `${DIMENSIONS.skillsMark.marginTop}px`,
             }}
           />
         )}
