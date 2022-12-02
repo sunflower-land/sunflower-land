@@ -366,6 +366,24 @@ describe("canWithdraw", () => {
       expect(enabled).toBeFalsy();
     });
 
+    it("prevents a user from withdrawing Rock Golem while they have replenishing stones", () => {
+      const enabled = canWithdraw({
+        item: "Rock Golem",
+        game: {
+          ...TEST_FARM,
+          stones: {
+            0: {
+              // Just been mined
+              minedAt: Date.now(),
+              amount: new Decimal(3),
+            },
+          },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
+
     it("prevents a user from withdrawing Tunnel Mole while they have replenishing stones", () => {
       const enabled = canWithdraw({
         item: "Tunnel Mole",
@@ -662,18 +680,24 @@ describe("canWithdraw", () => {
       expect(enabled).toBeTruthy();
     });
 
+    it("enable a user to withdraw Rock Golem while they dont have stones replenishing", () => {
+      const enabled = canWithdraw({
+        item: "Rock Golem",
+        game: {
+          ...TEST_FARM,
+          stones: {},
+        },
+      });
+
+      expect(enabled).toBeTruthy();
+    });
+
     it("enable a user to withdraw Tunnel Mole while they dont have stones replenishing", () => {
       const enabled = canWithdraw({
         item: "Tunnel Mole",
         game: {
           ...TEST_FARM,
-          stones: {
-            0: {
-              // Available to mine
-              minedAt: 0,
-              amount: new Decimal(3),
-            },
-          },
+          stones: {},
         },
       });
 

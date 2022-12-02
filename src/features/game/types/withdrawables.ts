@@ -128,6 +128,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Woody the Beaver": (game) => !areAnyTreesChopped(game),
   "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
   "Foreman Beaver": (game) => !areAnyTreesChopped(game),
+  "Rock Golem": (game) => !areAnyStonesMined(game),
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
