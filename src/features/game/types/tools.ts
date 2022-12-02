@@ -11,7 +11,6 @@ export type WorkbenchToolName =
   | "Pickaxe"
   | "Stone Pickaxe"
   | "Iron Pickaxe"
-  | "Rusty Shovel"
   | "Power Shovel";
 
 export type TreasureToolName = "Sand Shovel";
@@ -39,12 +38,6 @@ export const WORKBENCH_TOOLS: () => Record<
     ingredients: {
       Wood: new Decimal(5),
     },
-    sfl: marketRate(5),
-  },
-  "Rusty Shovel": {
-    name: "Rusty Shovel",
-    description: "Used to move buildings and collectibles",
-    ingredients: {},
     sfl: marketRate(5),
   },
   "Stone Pickaxe": {
