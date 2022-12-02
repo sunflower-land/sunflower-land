@@ -40,10 +40,6 @@ export async function syncProgress({
     throw new Error(ERRORS.SYNC_SERVER_ERROR);
   }
 
-  if (response.status !== 200 || !response.ok) {
-    throw new Error();
-  }
-
   const transaction = await response.json();
 
   // TODO
