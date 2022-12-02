@@ -110,6 +110,26 @@ describe("canWithdraw", () => {
       expect(enabled).toBeFalsy();
     });
 
+    it("prevents a user from withdrawing mutant chickens if some chicken is fed", () => {
+      const enabled = canWithdraw({
+        item: "Rich Chicken",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Rich Chicken": new Decimal(1),
+          },
+          chickens: {
+            1: {
+              multiplier: 1,
+              fedAt: Date.now(),
+            },
+          },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
+
     it("prevents a user from withdrawing an easter bunny when in use", () => {
       const enabled = canWithdraw({
         item: "Easter Bunny",
@@ -577,6 +597,21 @@ describe("canWithdraw", () => {
       });
 
       expect(gold).toBeTruthy();
+    });
+
+    it("enables a user to withdraw mutant chickens as long as no chickens are fed", () => {
+      const enabled = canWithdraw({
+        item: "Rich Chicken",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Rich Chicken": new Decimal(1),
+          },
+          chickens: {},
+        },
+      });
+
+      expect(enabled).toBeTruthy();
     });
 
     it("enables a user to withdraw a collectible that is not placed", () => {
