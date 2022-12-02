@@ -14,7 +14,7 @@ describe("collect eggs", () => {
     expect(() =>
       collectEggs({
         state: GAME_STATE,
-        action: { type: "chicken.collectEgg", index: 3 },
+        action: { type: "chicken.collectEgg", id: "3" },
       })
     ).toThrow("This chicken does not exist");
   });
@@ -32,7 +32,7 @@ describe("collect eggs", () => {
             },
           },
         },
-        action: { type: "chicken.collectEgg", index: 0 },
+        action: { type: "chicken.collectEgg", id: "0" },
       })
     ).toThrow("This chicken hasn't layed an egg");
   });
@@ -51,7 +51,7 @@ describe("collect eggs", () => {
 
     const newState = collectEggs({
       state,
-      action: { type: "chicken.collectEgg", index: 0 },
+      action: { type: "chicken.collectEgg", id: "0" },
     });
 
     expect(newState.inventory.Egg).toEqual(new Decimal(1));
@@ -78,12 +78,12 @@ describe("collect eggs", () => {
 
     const stateAfterFirstEggCollected = collectEggs({
       state,
-      action: { type: "chicken.collectEgg", index: 0 },
+      action: { type: "chicken.collectEgg", id: "0" },
     });
 
     const stateAfterSecondEggCollected = collectEggs({
       state: stateAfterFirstEggCollected,
-      action: { type: "chicken.collectEgg", index: 1 },
+      action: { type: "chicken.collectEgg", id: "1" },
     });
 
     expect(stateAfterSecondEggCollected.inventory.Egg).toEqual(new Decimal(2));
@@ -117,7 +117,7 @@ describe("collect eggs", () => {
 
     const newState = collectEggs({
       state,
-      action: { type: "chicken.collectEgg", index: 0 },
+      action: { type: "chicken.collectEgg", id: "0" },
     });
 
     expect(newState.inventory["Speed Chicken"]).toStrictEqual(new Decimal(1));
@@ -145,7 +145,7 @@ describe("collect eggs", () => {
 
     const newState = collectEggs({
       state,
-      action: { type: "chicken.collectEgg", index: 0 },
+      action: { type: "chicken.collectEgg", id: "0" },
     });
 
     expect(newState.inventory["Fat Chicken"]).toStrictEqual(new Decimal(1));
@@ -173,7 +173,7 @@ describe("collect eggs", () => {
 
     const newState = collectEggs({
       state,
-      action: { type: "chicken.collectEgg", index: 0 },
+      action: { type: "chicken.collectEgg", id: "0" },
     });
 
     expect(newState.inventory["Rich Chicken"]).toStrictEqual(new Decimal(1));
