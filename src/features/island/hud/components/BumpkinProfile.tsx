@@ -114,7 +114,7 @@ export const BumpkinProfile: React.FC = () => {
 
       {/* Bumpkin profile */}
       <div
-        className={`grid cursor-pointer hover:img-highlight fixed z-50`}
+        className={`grid cursor-pointer hover:img-highlight fixed -left-4 z-50`}
         onClick={handleShowHomeModal}
       >
         <img
