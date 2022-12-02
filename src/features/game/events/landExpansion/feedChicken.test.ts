@@ -19,7 +19,7 @@ describe("feed chickens", () => {
     expect(() =>
       feedChicken({
         state: GAME_STATE,
-        action: { type: "chicken.fed", index: 3 },
+        action: { type: "chicken.fed", id: "3" },
       })
     ).toThrow("This chicken does not exist");
   });
@@ -37,7 +37,7 @@ describe("feed chickens", () => {
             },
           },
         },
-        action: { type: "chicken.fed", index: 0 },
+        action: { type: "chicken.fed", id: "0" },
       })
     ).toThrow("This chicken is not hungry");
   });
@@ -55,7 +55,7 @@ describe("feed chickens", () => {
             },
           },
         },
-        action: { type: "chicken.fed", index: 0 },
+        action: { type: "chicken.fed", id: "0" },
       })
     ).toThrow("No wheat to feed chickens");
   });
@@ -66,9 +66,66 @@ describe("feed chickens", () => {
         state: {
           ...GAME_STATE,
           inventory: { Chicken: new Decimal(11), Wheat: new Decimal(1) },
+          chickens: {
+            "1": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "2": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "3": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "4": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "5": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "6": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "7": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "8": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "9": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "10": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+            "11": {
+              multiplier: 1,
+              coordinates: { x: 1, y: 1 },
+              fedAt: 0,
+            },
+          },
         },
 
-        action: { type: "chicken.fed", index: 11 },
+        action: { type: "chicken.fed", id: "11" },
       })
     ).toThrow("Cannot have more than 10 chickens");
   });
@@ -92,11 +149,93 @@ describe("feed chickens", () => {
           },
         ],
       },
+      chickens: {
+        "1": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "2": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "3": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "4": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "5": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "6": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "7": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "8": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "9": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "10": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "11": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "12": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "13": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "14": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "15": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "16": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
     expect(() =>
       feedChicken({
         state: state,
-        action: { type: "chicken.fed", index: 16 },
+        action: { type: "chicken.fed", id: "16" },
       })
     ).toThrow("Cannot have more than 15 chickens");
   });
@@ -106,16 +245,17 @@ describe("feed chickens", () => {
       ...GAME_STATE,
       inventory: { Chicken: new Decimal(1), Wheat: new Decimal(1) },
       chickens: {
-        0: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
           fedAt: 0,
-          multiplier: 0,
         },
       },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
 
     const newChickens = newState.chickens || {};
@@ -138,14 +278,14 @@ describe("feed chickens", () => {
 
     const firstFeed = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
 
     jest.advanceTimersByTime(CHICKEN_TIME_TO_EGG);
 
     const secondFeed = feedChicken({
       state: firstFeed,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
 
     const newChickens = secondFeed.chickens || {};
@@ -173,11 +313,18 @@ describe("feed chickens", () => {
           },
         ],
       },
+      chickens: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
 
     expect(newState.inventory.Wheat).toEqual(new Decimal(0.1));
@@ -203,11 +350,18 @@ describe("feed chickens", () => {
           },
         ],
       },
+      chickens: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
     const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
     const createdAt = newDate - chickenTime;
@@ -224,11 +378,18 @@ describe("feed chickens", () => {
         Wheat: new Decimal(1),
       },
       collectibles: {},
+      chickens: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
     const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
     const createdAt = newDate - chickenTime;
@@ -244,11 +405,18 @@ describe("feed chickens", () => {
         Wheat: new Decimal(1),
       },
       collectibles: {},
+      chickens: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
     expect(newState.chickens[0].fedAt).toEqual(newDate);
   });
@@ -263,11 +431,18 @@ describe("feed chickens", () => {
         Wrangler: new Decimal(1),
       },
       collectibles: {},
+      chickens: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
     const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
     const createdAt = newDate - chickenTime;
@@ -296,11 +471,18 @@ describe("feed chickens", () => {
           },
         ],
       },
+      chickens: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
     const chickenTime = CHICKEN_TIME_TO_EGG * 0.3;
     const createdAt = newDate - chickenTime;
@@ -326,11 +508,18 @@ describe("feed chickens", () => {
           },
         ],
       },
+      chickens: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 0 },
+      action: { type: "chicken.fed", id: "0" },
     });
 
     expect(newState.inventory.Wheat).toEqual(new Decimal(0.1));
@@ -356,14 +545,91 @@ describe("feed chickens", () => {
           },
         ],
       },
+      chickens: {
+        "1": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "2": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "3": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "4": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "5": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "6": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "7": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "8": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "9": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "10": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "11": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "12": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "13": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "14": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+        "15": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
     };
 
     const newState = feedChicken({
       state,
-      action: { type: "chicken.fed", index: 14 },
+      action: { type: "chicken.fed", id: "15" },
       createdAt: dateNow,
     });
 
-    expect(newState.chickens[14]).toBeTruthy();
+    expect(newState.chickens[15]).toBeTruthy();
   });
 });
