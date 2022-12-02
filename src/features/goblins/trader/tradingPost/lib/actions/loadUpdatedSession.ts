@@ -7,7 +7,8 @@ import { wallet } from "lib/blockchain/wallet";
 export const loadUpdatedSession = async (
   farmId: number,
   farmAddress: string,
-  token: string
+  token: string,
+  transactionId: string
 ) => {
   const onChainState = await getOnChainState({ farmAddress, id: farmId });
 
@@ -18,6 +19,7 @@ export const loadUpdatedSession = async (
     sessionId,
     token,
     bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
+    transactionId,
   });
 
   const game = response?.game as GameState;

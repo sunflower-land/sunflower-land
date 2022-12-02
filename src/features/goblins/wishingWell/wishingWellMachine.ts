@@ -7,7 +7,7 @@ import {
 } from "xstate";
 
 import { wallet } from "lib/blockchain/wallet";
-import { ERRORS } from "lib/errors";
+import { ErrorCode } from "lib/errors";
 
 import { WishingWellTokens, loadWishingWell } from "./actions/loadWishingWell";
 import {
@@ -19,10 +19,12 @@ import Decimal from "decimal.js-light";
 import { reset } from "features/farming/hud/actions/reset";
 import { fromWei } from "web3-utils";
 import { loadSession } from "features/game/actions/loadSession";
+import { randomID } from "lib/utils/random";
 
 export interface Context {
   state: WishingWellTokens;
-  errorCode?: keyof typeof ERRORS;
+  errorCode?: ErrorCode;
+  transactionId?: string;
   farmId?: number;
   bumpkinTokenUri?: string;
   sessionId?: string;
@@ -183,6 +185,7 @@ export const wishingWellMachine = createMachine<
         },
       },
       signing: {
+        entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
             const transaction = await signCollectFromWell({
@@ -191,6 +194,7 @@ export const wishingWellMachine = createMachine<
               amount: context.state.myTokensInWell.toString(),
               token: context.token as string,
               captcha: (event as CaptchaEvent).captcha,
+              transactionId: context.transactionId as string,
             });
             return { transaction };
           },
@@ -219,6 +223,7 @@ export const wishingWellMachine = createMachine<
         },
       },
       granting: {
+        entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
             // Collect from well and await receipt
@@ -236,6 +241,7 @@ export const wishingWellMachine = createMachine<
               farmId: Number(context.farmId),
               token: context.token as string,
               fingerprint: "fingerprint",
+              transactionId: context.transactionId as string,
             });
 
             // Reload the session to get the new refreshed balance
@@ -244,6 +250,7 @@ export const wishingWellMachine = createMachine<
               sessionId: context.sessionId as string,
               token: context.token as string,
               bumpkinTokenUri: context.bumpkinTokenUri as string,
+              transactionId: context.transactionId as string,
             });
 
             const well = await loadWishingWell();
@@ -285,5 +292,11 @@ export const wishingWellMachine = createMachine<
       },
     },
   },
-  {}
+  {
+    actions: {
+      setTransactionId: assign<Context, any>({
+        transactionId: () => randomID(),
+      }),
+    },
+  }
 );

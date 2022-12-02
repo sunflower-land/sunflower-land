@@ -5,7 +5,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { loadBanDetails } from "features/game/actions/bans";
 import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
+import { ErrorCode, ERRORS } from "lib/errors";
 
 import { wallet } from "../../../lib/blockchain/wallet";
 import { communityContracts } from "features/community/lib/communityContracts";
@@ -20,6 +20,7 @@ import {
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 import { checkMigrationStatus } from "features/game/actions/checkMigrationStatus";
+import { randomID } from "lib/utils/random";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -45,7 +46,8 @@ type Farm = {
 };
 
 export interface Context {
-  errorCode?: keyof typeof ERRORS;
+  errorCode?: ErrorCode;
+  transactionId?: string;
   farmId?: number;
   hash?: string;
   address?: string;
@@ -277,6 +279,7 @@ export const authMachine = createMachine<
         on: { SIGN: { target: "signing" } },
       },
       signing: {
+        entry: "setTransactionId",
         invoke: {
           src: "login",
           onDone: [
@@ -296,6 +299,7 @@ export const authMachine = createMachine<
         },
       },
       oauthorising: {
+        entry: "setTransactionId",
         invoke: {
           src: "oauthorise",
           onDone: {
@@ -313,6 +317,7 @@ export const authMachine = createMachine<
         states: {
           loadingFarm: {
             id: "loadingFarm",
+            entry: "setTransactionId",
             invoke: {
               src: "loadFarm",
               onDone: [
@@ -402,7 +407,6 @@ export const authMachine = createMachine<
               },
             },
           },
-
           donating: {
             on: {
               CREATE_FARM: {
@@ -414,6 +418,7 @@ export const authMachine = createMachine<
             },
           },
           creatingFarm: {
+            entry: "setTransactionId",
             invoke: {
               src: "createFarm",
               onDone: {
@@ -656,13 +661,15 @@ export const authMachine = createMachine<
 
         const { verificationUrl, botStatus, isBanned } = await loadBanDetails(
           farmAccount.tokenId,
-          context.rawToken as string
+          context.rawToken as string,
+          context.transactionId as string
         );
 
         // Call migrated end point to see if migrated
         const { migrated } = await checkMigrationStatus(
           farmAccount.tokenId,
-          context.rawToken as string
+          context.rawToken as string,
+          context.transactionId as string
         );
 
         return {
@@ -681,6 +688,7 @@ export const authMachine = createMachine<
           charity: charityAddress,
           token: context.rawToken as string,
           captcha: captcha,
+          transactionId: context.transactionId as string,
         });
 
         return {
@@ -688,17 +696,20 @@ export const authMachine = createMachine<
           address: newFarm.account,
         };
       },
-      login: async (): Promise<{ token: string }> => {
-        const { token } = await login();
+      login: async (context): Promise<{ token: string }> => {
+        const { token } = await login(context.transactionId as string);
 
         return {
           token,
         };
       },
-      oauthorise: async () => {
+      oauthorise: async (context) => {
         const code = getDiscordCode() as string;
         // Navigates to Discord OAuth Flow
-        const { token } = await oauthorise(code);
+        const { token } = await oauthorise(
+          code,
+          context.transactionId as string
+        );
 
         return { token };
       },
@@ -746,6 +757,9 @@ export const authMachine = createMachine<
       }),
       clearSession: () => removeSession(wallet.myAccount as string),
       deleteFarmIdUrl: deleteFarmUrl,
+      setTransactionId: assign<Context, any>({
+        transactionId: () => randomID(),
+      }),
     },
     guards: {
       isFresh: (context: Context, event: any) => {

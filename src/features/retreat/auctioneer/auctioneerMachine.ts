@@ -8,6 +8,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 import { Item } from "../components/auctioneer/actions/auctioneerItems";
 import { escalate } from "xstate/lib/actions";
 import { wallet } from "lib/blockchain/wallet";
+import { randomID } from "lib/utils/random";
 
 export interface Context {
   farmId: number;
@@ -15,6 +16,7 @@ export interface Context {
   token: string;
   auctioneerItems: Item[];
   auctioneerId: string;
+  transactionId?: string;
 }
 
 type MintEvent = {
@@ -88,6 +90,9 @@ export const auctioneerMachine = createMachine<
       },
     },
     playing: {
+      entry: assign({
+        transactionId: () => undefined,
+      }),
       on: {
         MINT: {
           target: "minting",
@@ -144,6 +149,9 @@ export const auctioneerMachine = createMachine<
       },
     },
     minting: {
+      entry: assign({
+        transactionId: () => randomID(),
+      }),
       invoke: {
         src: async (context, event) => {
           const { item, captcha } = event as MintEvent;
@@ -154,6 +162,7 @@ export const auctioneerMachine = createMachine<
             token: context.token as string,
             item,
             captcha,
+            transactionId: context.transactionId as string,
           });
 
           return {
