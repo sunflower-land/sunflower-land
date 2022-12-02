@@ -61,7 +61,7 @@ export const Save: React.FC = () => {
       })}
       style={{
         right: `${PIXEL_SCALE * 3}px`,
-        bottom: `${PIXEL_SCALE * 52}px`,
+        bottom: `${PIXEL_SCALE * 52.3}px`,
         width: `${PIXEL_SCALE * 22}px`,
       }}
     >
