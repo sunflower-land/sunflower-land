@@ -346,6 +346,20 @@ describe("canWithdraw", () => {
       expect(enabled).toBeTruthy();
     });
 
+    it("enables users to withdraw resources", () => {
+      const enabled = canWithdraw({
+        item: "Wood",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            Wood: new Decimal(1),
+          },
+        },
+      });
+
+      expect(enabled).toBeTruthy();
+    });
+
     it("enables a user to withdraw an easter bunny when not in use", () => {
       const enabled = canWithdraw({
         item: "Easter Bunny",

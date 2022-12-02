@@ -7,6 +7,7 @@ import { canMine as canMineGold } from "features/game/events/goldMine";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { Inventory, InventoryItemName } from "./game";
 import { getKeys } from "./craftables";
+import { RESOURCES } from "./resources";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -35,6 +36,7 @@ const globalDefaults = Object.keys(KNOWN_IDS).reduce(
 
 // Group withdraw conditions for common items
 const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
+const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
 
 // Helper functions
 type CanWithdrawArgs = {
@@ -78,6 +80,7 @@ function hasSeeds(inventory: Inventory) {
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...globalDefaults,
   ...cropDefaults,
+  ...resourceDefaults,
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
