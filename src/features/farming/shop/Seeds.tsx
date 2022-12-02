@@ -27,6 +27,7 @@ import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { Label } from "components/ui/Label";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: () => void;
@@ -58,7 +59,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     setToast({
       icon: tokenStatic,
-      content: `-$${price?.mul(amount).toString()}`,
+      content: `-${price?.mul(amount).toString()}`,
     });
 
     shortcutItem(selected.name);
@@ -119,7 +120,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];
     if (isLocked || selected.disabled) {
-      return <span className="text-xs mt-1 text-shadow">Locked</span>;
+      return <span className="text-xs mt-1">Locked</span>;
     }
 
     if (stock?.equals(0)) {
@@ -140,7 +141,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     if (inventoryFull) {
       return (
-        <span className="text-xxs mt-1 text-shadow text-center">
+        <span className="text-xxs mt-1 text-center">
           You have too many seeds in your basket!
         </span>
       );
@@ -180,8 +181,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-3/5 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      >
         {Object.values(CROP_SEEDS()).map((item: CraftableItem) => (
           <Box
             isSelected={selected.name === item.name}
@@ -192,10 +196,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           />
         ))}
       </div>
-      <OuterPanel className="flex-1 w-1/3">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {labelState()}
-          <span className="text-shadow text-center">{selected.name}</span>
+          <span className="text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="w-8 sm:w-12 img-highlight mt-1"
@@ -205,7 +209,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-center scale-75 sm:scale-100">
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-shadow text-center mt-2">
+              <span className="text-xs text-center mt-2">
                 {secondsToString(getCropTime(crop.name, inventory), {
                   length: "medium",
                   removeTrailingZeros: true,
@@ -215,11 +219,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               <span
-                className={classNames("text-xs text-shadow text-center mt-2", {
+                className={classNames("text-xs text-center mt-2", {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${price}`}
+                {`${price}`}
               </span>
             </div>
           </div>

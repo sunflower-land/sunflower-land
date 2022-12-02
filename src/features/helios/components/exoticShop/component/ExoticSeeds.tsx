@@ -23,6 +23,7 @@ import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: () => void;
@@ -49,7 +50,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
     setToast({
       icon: tokenStatic,
-      content: `-$${selected.sfl?.mul(amount).toString()}`,
+      content: `-${selected.sfl?.mul(amount).toString()}`,
     });
 
     shortcutItem(selected.name);
@@ -153,8 +154,11 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-3/5 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      >
         {Object.values(BEANS()).map((item: Bean) => (
           <Box
             isSelected={selected.name === item.name}
@@ -165,7 +169,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
           />
         ))}
       </div>
-      <OuterPanel className="flex-1 w-1/3">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
           <Stock item={selected} inventoryFull={inventoryFull} />
           <span className="text-center mb-1">{selected.name}</span>
@@ -224,10 +228,10 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               {lessFunds() ? (
-                <Label type="danger">{`$${price}`}</Label>
+                <Label type="danger">{`${price}`}</Label>
               ) : (
                 <span className={classNames("text-xs text-center mt-2")}>
-                  {`$${price}`}
+                  {`${price}`}
                 </span>
               )}
             </div>

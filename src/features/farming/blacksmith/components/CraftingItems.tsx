@@ -19,6 +19,7 @@ import { Stock } from "components/ui/Stock";
 import { getBuyPrice } from "features/game/events/craft";
 import { getMaxChickens } from "features/game/events/feedChicken";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   items: Partial<Record<InventoryItemName, CraftableItem>>;
@@ -68,7 +69,7 @@ export const CraftingItems: React.FC<Props> = ({
 
     setToast({
       icon: tokenStatic,
-      content: `-$${price?.mul(amount)}`,
+      content: `-${price?.mul(amount)}`,
     });
 
     selected.ingredients?.map((ingredient) => {
@@ -159,7 +160,7 @@ export const CraftingItems: React.FC<Props> = ({
       <>
         <Button
           disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+          className="text-xs mt-1 whitespace-nowrap"
           onClick={() => craft()}
         >
           Craft {isBulk && "1"}
@@ -169,7 +170,7 @@ export const CraftingItems: React.FC<Props> = ({
             disabled={
               lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)
             }
-            className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+            className="text-xs mt-1 whitespace-nowrap"
             onClick={openConfirmationModal}
           >
             Craft 10
@@ -204,8 +205,11 @@ export const CraftingItems: React.FC<Props> = ({
   const stock = state.stock[selected.name] || new Decimal(0);
 
   return (
-    <div className="flex">
-      <div className="w-3/5 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      >
         {craftableItems.map((item) => (
           <Box
             isSelected={selected.name === item.name}
@@ -216,7 +220,7 @@ export const CraftingItems: React.FC<Props> = ({
           />
         ))}
       </div>
-      <OuterPanel className="flex-1 w-1/3">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
           <Stock item={selected} inventoryFull={false} />
           <span className="text-center">{selected.name}</span>
@@ -285,7 +289,7 @@ export const CraftingItems: React.FC<Props> = ({
                     "text-red-500": lessFunds(),
                   })}
                 >
-                  {`$${price?.toNumber()}`}
+                  {`${price?.toNumber()}`}
                 </span>
               </div>
             )}

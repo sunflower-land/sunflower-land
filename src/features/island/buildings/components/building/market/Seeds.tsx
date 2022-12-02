@@ -33,6 +33,7 @@ import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: () => void;
@@ -80,7 +81,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     setToast({
       icon: tokenStatic,
-      content: `-$${price?.mul(amount).toString()}`,
+      content: `-${price?.mul(amount).toString()}`,
     });
 
     shortcutItem(selectedName);
@@ -218,8 +219,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const crop = CROPS()[cropName];
 
   return (
-    <div className="flex">
-      <div className="w-3/5 flex flex-wrap h-fit">
+    <div className="flex flex-col-reverse sm:flex-row">
+      <div
+        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+      >
         {getKeys(SEEDS()).map((name: SeedName) => (
           <Box
             isSelected={selectedName === name}
@@ -241,10 +245,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           />
         ))}
       </div>
-      <OuterPanel className="flex-1 w-1/3">
+      <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {labelState()}
-          <span className="text-shadow text-center mb-1">{selectedName}</span>
+          <span className="text-center mb-1">{selectedName}</span>
           <img
             src={ITEM_DETAILS[selectedName].image}
             className="w-8 sm:w-12 img-highlight mt-1"
@@ -254,7 +258,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-center scale-75 sm:scale-100">
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-shadow text-center mt-2">
+              <span className="text-xs text-center mt-2">
                 {secondsToString(
                   getCropTime(
                     crop?.name,
@@ -272,11 +276,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
               <span
-                className={classNames("text-xs text-shadow text-center mt-2", {
+                className={classNames("text-xs text-center mt-2", {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${price}`}
+                {`${price}`}
               </span>
             </div>
           </div>

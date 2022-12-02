@@ -20,7 +20,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SEEDS } from "features/game/types/seeds";
 import { Label } from "components/ui/Label";
 
-const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
+export const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
     (name) => CONSUMABLES[name].building === "Fire Pit"
   ),

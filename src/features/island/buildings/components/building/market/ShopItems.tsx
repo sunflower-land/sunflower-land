@@ -9,10 +9,10 @@ import { Tab } from "components/ui/Tab";
 
 import { Seeds } from "./Seeds";
 import { Crops } from "./Crops";
-import { acknowledgeTutorial, hasIntroducedBuilding } from "lib/tutorial";
-import { Button } from "components/ui/Button";
+import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
+import { Tutorial } from "./Tutorial";
 
 interface Props {
   onClose: () => void;
@@ -20,6 +20,9 @@ interface Props {
 
 export const ShopItems: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"buy" | "sell">("buy");
+  const [showTutorial, setShowTutorial] = useState<boolean>(
+    !hasShownTutorial("Market")
+  );
 
   const handleTabClick = (tab: "buy" | "sell") => {
     setTab(tab);
@@ -27,7 +30,7 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
 
   const acknowledge = () => {
     acknowledgeTutorial("Market");
-    setTab("sell");
+    setShowTutorial(false);
   };
 
   const bumpkinParts: Partial<Equipped> = {
@@ -40,13 +43,8 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
     shoes: "Black Farmer Boots",
   };
 
-  if (!hasIntroducedBuilding("Market")) {
-    return (
-      <Panel className="relative" bumpkinParts={bumpkinParts}>
-        Market introduction (TODO)
-        <Button onClick={acknowledge}>Continue</Button>
-      </Panel>
-    );
+  if (showTutorial) {
+    return <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
   }
 
   return (

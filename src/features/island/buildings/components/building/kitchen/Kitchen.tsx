@@ -32,10 +32,6 @@ export const Kitchen: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  if (!craftingService) {
-    return null;
-  }
-
   const handleCook = (item: ConsumableName) => {
     craftingService?.send({
       type: "CRAFT",
