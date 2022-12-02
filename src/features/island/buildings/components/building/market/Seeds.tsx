@@ -81,7 +81,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     setToast({
       icon: tokenStatic,
-      content: `-$${price?.mul(amount).toString()}`,
+      content: `-${price?.mul(amount).toString()}`,
     });
 
     shortcutItem(selectedName);
@@ -284,7 +284,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${price}`}
+                {`${price}`}
               </span>
             </div>
           </div>

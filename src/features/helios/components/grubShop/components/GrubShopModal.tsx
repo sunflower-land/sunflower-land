@@ -19,12 +19,18 @@ import { GrubShop } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
+import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
+import { Equipped } from "features/game/types/bumpkin";
+import { Tutorial } from "../Tutorial";
 
 interface Props {
   onClose: () => void;
 }
 
 export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
+  const [showTutorial, setShowTutorial] = useState<boolean>(
+    !hasShownTutorial("Grub Shop")
+  );
   const { gameService } = useContext(Context);
   const [
     {
@@ -59,8 +65,28 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
 
   const hiddenPositionStart = 3 + fulFilledOrders.length;
 
+  const bumpkinParts: Partial<Equipped> = {
+    body: "Goblin Potion",
+    hair: "Sun Spots",
+    pants: "Lumberjack Overalls",
+    tool: "Golden Spatula",
+    background: "Farm Background",
+    hat: "Chef Hat",
+    shoes: "Black Farmer Boots",
+  };
+
+  const acknowledge = () => {
+    acknowledgeTutorial("Grub Shop");
+    setShowTutorial(false);
+  };
+
+  if (showTutorial) {
+    return <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
+  }
+
   const Content = () => {
     const isClosed = grubShop.closesAt < Date.now();
+
     if (isClosed) {
       return (
         <div className="p-2">
@@ -155,7 +181,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     <div className="flex justify-center items-end">
                       <img src={token} className="h-5 mr-1" />
                       <span className="text-xs text-center mt-2 ">
-                        {`$${selected.sfl.toNumber()}`}
+                        {`${selected.sfl.toNumber()}`}
                       </span>
                     </div>
                   </div>
@@ -179,20 +205,9 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
       </>
     );
   };
+
   return (
-    <Panel
-      className="relative"
-      hasTabs
-      bumpkinParts={{
-        body: "Goblin Potion",
-        hair: "Sun Spots",
-        pants: "Lumberjack Overalls",
-        tool: "Golden Spatula",
-        background: "Farm Background",
-        hat: "Chef Hat",
-        shoes: "Black Farmer Boots",
-      }}
-    >
+    <Panel className="relative" hasTabs bumpkinParts={bumpkinParts}>
       <div
         className="absolute flex"
         style={{

@@ -26,13 +26,14 @@ import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Boulder } from "features/island/boulder/Boulder";
-import { IslandTravel } from "./components/IslandTravel";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
+import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
+import { BumpkinTutorial } from "./BumpkinTutorial";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -424,6 +425,8 @@ export const Land: React.FC = () => {
         x={boatCoordinates.x}
         y={boatCoordinates.y}
       />
+
+      <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
       {gameState.matches("editing") && <Placeable />}
     </div>

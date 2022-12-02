@@ -133,7 +133,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
                     "text-red-500": lessFunds(),
                   })}
                 >
-                  {`$${price?.toNumber()}`}
+                  {`${price?.toNumber()}`}
                 </span>
               </div>
             </div>

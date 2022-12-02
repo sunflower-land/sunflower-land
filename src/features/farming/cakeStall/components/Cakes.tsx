@@ -43,7 +43,7 @@ export const Cakes: React.FC = () => {
 
     setToast({
       icon: tokenStatic,
-      content: `+$${price?.toString()}`,
+      content: `+${price?.toString()}`,
     });
   };
 
@@ -67,7 +67,7 @@ export const Cakes: React.FC = () => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div
-        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
       >
         {Object.values(CAKES()).map((item) => (
@@ -93,7 +93,9 @@ export const Cakes: React.FC = () => {
           <div className="border-t border-white w-full mt-2 pt-1">
             <div className="flex justify-center items-end">
               <img src={token} className="h-5 mr-1" />
-              <span className="text-xs text-center mt-2 ">{`$${price}`}</span>
+              <span className="text-xs text-shadow text-center mt-2 ">
+                {`${price}`}
+              </span>
             </div>
           </div>
           {amount.gte(1) && (

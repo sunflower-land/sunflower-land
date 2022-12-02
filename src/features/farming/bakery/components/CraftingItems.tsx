@@ -63,7 +63,7 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
     if (selected.tokenAmount) {
       setToast({
         icon: tokenStatic,
-        content: `-$${selected.tokenAmount?.mul(1)}`,
+        content: `-${selected.tokenAmount?.mul(1)}`,
       });
     }
 
@@ -193,7 +193,7 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`$${selected.tokenAmount?.toNumber()}`}
+                {`${selected.tokenAmount?.toNumber()}`}
               </span>
             </div>
           )}

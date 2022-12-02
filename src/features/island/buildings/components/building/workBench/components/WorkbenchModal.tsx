@@ -23,6 +23,9 @@ import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
+import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
+import { Tutorial } from "./Tutorial";
+import { Equipped } from "features/game/types/bumpkin";
 
 interface Props {
   isOpen: boolean;
@@ -51,12 +54,38 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [showTutorial, setShowTutorial] = useState<boolean>(
+    !hasShownTutorial("Workbench")
+  );
 
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const bumpkinParts: Partial<Equipped> = {
+    body: "Light Brown Farmer Potion",
+    hair: "Blacksmith Hair",
+    pants: "Lumberjack Overalls",
+    shirt: "SFL T-Shirt",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  };
+
+  const acknowledge = () => {
+    acknowledgeTutorial("Workbench");
+    setShowTutorial(false);
+  };
+
+  if (showTutorial) {
+    return (
+      <Modal show={isOpen} onHide={acknowledge} centered>
+        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
+      </Modal>
+    );
+  }
 
   const selected = craftableItems[selectedName];
   const inventory = state.inventory;
@@ -82,7 +111,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     setToast({
       icon: token,
-      content: `-$${price?.mul(amount)}`,
+      content: `-${price?.mul(amount)}`,
     });
 
     getKeys(selected.ingredients).map((name) => {
@@ -169,19 +198,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
-      <Panel
-        className="relative"
-        hasTabs
-        bumpkinParts={{
-          body: "Light Brown Farmer Potion",
-          hair: "Blacksmith Hair",
-          pants: "Lumberjack Overalls",
-          shirt: "SFL T-Shirt",
-          tool: "Hammer",
-          background: "Farm Background",
-          shoes: "Brown Boots",
-        }}
-      >
+      <Panel className="relative" hasTabs bumpkinParts={bumpkinParts}>
         <div
           className="absolute flex"
           style={{
@@ -289,7 +306,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                           "text-red-500": lessFunds(),
                         })}
                       >
-                        {`$${price?.toNumber()}`}
+                        {`${price?.toNumber()}`}
                       </span>
                     </div>
                   )}
