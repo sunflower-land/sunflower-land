@@ -1,6 +1,7 @@
 import { KNOWN_IDS } from ".";
-import { canChop } from "features/game/events/chop";
 import { GoblinState } from "features/game/lib/goblinMachine";
+import { canChop } from "features/game/events/chop";
+import { canMine as canMineStone } from "features/game/events/stoneMine";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { Inventory, InventoryItemName } from "./game";
 import { getKeys } from "./craftables";
@@ -56,6 +57,10 @@ function areAnyTreesChopped(game: GoblinState): boolean {
   return Object.values(game?.trees).some((tree) => !canChop(tree));
 }
 
+function areAnyStonesMined(game: GoblinState): boolean {
+  return Object.values(game?.stones).some((stone) => !canMineStone(stone));
+}
+
 function hasSeeds(inventory: Inventory) {
   return getKeys(inventory).some((name) => name in CROP_SEEDS());
 }
@@ -72,4 +77,5 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Woody the Beaver": (game) => !areAnyTreesChopped(game),
   "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
   "Foreman Beaver": (game) => !areAnyTreesChopped(game),
+  "Tunnel Mole": (game) => !areAnyStonesMined(game),
 };
