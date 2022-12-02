@@ -1,8 +1,9 @@
 import { KNOWN_IDS } from ".";
 import { canChop } from "features/game/events/chop";
 import { GoblinState } from "features/game/lib/goblinMachine";
-import { CROPS } from "./crops";
-import { InventoryItemName } from "./game";
+import { CROPS, CROP_SEEDS } from "./crops";
+import { Inventory, InventoryItemName } from "./game";
+import { getKeys } from "./craftables";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -55,6 +56,10 @@ function areAnyTreesChopped(game: GoblinState): boolean {
   return Object.values(game?.trees).some((tree) => !canChop(tree));
 }
 
+function hasSeeds(inventory: Inventory) {
+  return getKeys(inventory).some((name) => name in CROP_SEEDS());
+}
+
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...globalDefaults,
   ...cropDefaults,
@@ -63,7 +68,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
   Nancy: (game) => !areAnyCropsPlanted(game),
   Scarecrow: (game) => !areAnyCropsPlanted(game),
-  Kuebiko: (game) => !areAnyCropsPlanted(game),
+  Kuebiko: (game) => !areAnyCropsPlanted(game) && !hasSeeds(game.inventory),
   "Woody the Beaver": (game) => !areAnyTreesChopped(game),
   "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
   "Foreman Beaver": (game) => !areAnyTreesChopped(game),
