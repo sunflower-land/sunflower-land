@@ -116,6 +116,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
+  Rooster: (game) => !areAnyChickensFed(game),
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),

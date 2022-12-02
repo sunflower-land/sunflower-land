@@ -150,6 +150,26 @@ describe("canWithdraw", () => {
       expect(enabled).toBeFalsy();
     });
 
+    it("prevents a user from withdrawing rooster if some chicken is fed", () => {
+      const enabled = canWithdraw({
+        item: "Rooster",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            Rooster: new Decimal(1),
+          },
+          chickens: {
+            1: {
+              multiplier: 1,
+              fedAt: Date.now(),
+            },
+          },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
+
     it("prevents a user from withdrawing an easter bunny when in use", () => {
       const enabled = canWithdraw({
         item: "Easter Bunny",
@@ -698,6 +718,21 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           inventory: {
             "Chicken Coop": new Decimal(1),
+          },
+          chickens: {},
+        },
+      });
+
+      expect(enabled).toBeTruthy();
+    });
+
+    it("enables a user to withdraw rooster as long as no chickens are fed", () => {
+      const enabled = canWithdraw({
+        item: "Rooster",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            Rooster: new Decimal(1),
           },
           chickens: {},
         },
