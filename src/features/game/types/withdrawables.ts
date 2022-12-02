@@ -46,10 +46,17 @@ function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
   return isPlanted;
 }
 
+function areAnyCropsPlanted(game: GoblinState): boolean {
+  return Object.values(game.fields).length > 0;
+}
+
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...globalDefaults,
   ...cropDefaults,
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
+  Nancy: (game) => !areAnyCropsPlanted(game),
+  Scarecrow: (game) => !areAnyCropsPlanted(game),
+  Kuebiko: (game) => !areAnyCropsPlanted(game),
 };
