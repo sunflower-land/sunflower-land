@@ -26,23 +26,6 @@ function buildDefaults(
   );
 }
 
-// Everything is non-withdawable by default
-const globalDefaults = Object.keys(KNOWN_IDS).reduce(
-  (prev, cur) => ({
-    ...prev,
-    [cur]: false,
-  }),
-  {}
-) as Record<InventoryItemName, WithdrawCondition>;
-
-// Group withdraw conditions for common items
-const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
-const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
-const mutantChickenDefaults = buildDefaults(
-  Object.keys(MUTANT_CHICKENS),
-  (game) => !areAnyChickensFed(game)
-);
-
 // Helper functions
 type CanWithdrawArgs = {
   item: InventoryItemName;
@@ -83,6 +66,23 @@ function areAnyChickensFed(game: GoblinState): boolean {
       chicken.fedAt && Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
   );
 }
+
+// Everything is non-withdrawable by default
+const globalDefaults = Object.keys(KNOWN_IDS).reduce(
+  (prev, cur) => ({
+    ...prev,
+    [cur]: false,
+  }),
+  {}
+) as Record<InventoryItemName, WithdrawCondition>;
+
+// Group withdraw conditions for common items
+const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
+const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
+const mutantChickenDefaults = buildDefaults(
+  Object.keys(MUTANT_CHICKENS),
+  (game) => !areAnyChickensFed(game)
+);
 
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...globalDefaults,
