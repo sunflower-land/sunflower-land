@@ -96,6 +96,20 @@ describe("canWithdraw", () => {
       expect(enabled).toBeFalsy();
     });
 
+    it("[TEMP] prevents a user from withdrawing chickens", () => {
+      const enabled = canWithdraw({
+        item: "Chicken",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            Chicken: new Decimal(1),
+          },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
+
     it("prevents a user from withdrawing an easter bunny when in use", () => {
       const enabled = canWithdraw({
         item: "Easter Bunny",
