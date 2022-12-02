@@ -90,6 +90,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...resourceDefaults,
   ...mutantChickenDefaults,
   Chicken: false, // Temporarily disable until land expansion
+  "Chicken Coop": (game) => !areAnyChickensFed(game),
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
