@@ -9,11 +9,13 @@ import { detectCollision } from "./lib/collisionDetection";
 import classNames from "classnames";
 import { Coordinates } from "../components/MapPlacement";
 import {
+  BuildingName,
   BUILDINGS_DIMENSIONS,
   PlaceableName,
 } from "features/game/types/buildings";
 import {
   ANIMAL_DIMENSIONS,
+  CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
 import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
@@ -23,7 +25,7 @@ import { Chicken } from "features/island/chickens/Chicken";
 import dragIcon from "assets/icons/drag.png";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken index={-1} />, // chicken state is always hungry for index -1
+  Chicken: () => <Chicken id="123" />, // Arbitrary id for placing, when placed Machine overites with random UUID.
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
 };
@@ -71,6 +73,9 @@ export const Placeable: React.FC = () => {
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
+  const place = (placeable: CollectibleName | BuildingName) => {
+    return PLACEABLES[placeable]({});
+  };
   return (
     <>
       <div
@@ -148,6 +153,7 @@ export const Placeable: React.FC = () => {
                 height: `${height * GRID_WIDTH_PX}px`,
               }}
             >
+              {/* {place(placeable)} */}
               {PLACEABLES[placeable]({})}
             </div>
           </div>
