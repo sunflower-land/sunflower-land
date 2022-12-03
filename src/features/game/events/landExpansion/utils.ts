@@ -1,7 +1,7 @@
 import { GameState } from "features/game/types/game";
 
 export const getSupportedChickens = (state: Readonly<GameState>) => {
-  const chickenHouses =
+  const henHouses =
     state.buildings["Hen House"]?.filter(
       (building) => building.readyAt < Date.now()
     ).length ?? 0;
@@ -11,5 +11,5 @@ export const getSupportedChickens = (state: Readonly<GameState>) => {
       (coop) => coop.readyAt < Date.now()
     ).length ?? 0;
 
-  return chickenCoop ? chickenHouses * 10 * 1.5 : chickenHouses * 10;
+  return chickenCoop ? henHouses * 15 : henHouses * 10;
 };
