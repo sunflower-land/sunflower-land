@@ -20,6 +20,7 @@ import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
 import { useActor } from "@xstate/react";
 import { BEANS } from "features/game/types/beans";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -41,17 +42,27 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
   const { inventory, collectibles: placedItems } = state;
   const isVisiting = gameState.matches("visiting");
 
-  const collectibles = getKeys(chestMap).reduce((acc, item) => {
-    if (
-      item in LIMITED_ITEMS ||
-      item in DECORATIONS() ||
-      item in GOBLIN_RETREAT_ITEMS ||
-      item in BEANS()
-    ) {
-      return { ...acc, [item]: chestMap[item] };
-    }
-    return acc;
-  }, {} as Record<LimitedItemName, Decimal>);
+  const getItemCount = (item: InventoryItemName) => {
+    const count =
+      inventory[item]?.sub(placedItems[item as CollectibleName]?.length ?? 0) ??
+      new Decimal(0);
+
+    return setPrecision(count);
+  };
+
+  const collectibles = getKeys(chestMap)
+    .filter((item) => getItemCount(item).greaterThan(0))
+    .reduce((acc, item) => {
+      if (
+        item in LIMITED_ITEMS ||
+        item in DECORATIONS() ||
+        item in GOBLIN_RETREAT_ITEMS ||
+        item in BEANS()
+      ) {
+        return { ...acc, [item]: chestMap[item] };
+      }
+      return acc;
+    }, {} as Record<LimitedItemName, Decimal>);
 
   const [selected, setSelected] = useState<InventoryItemName>(
     getKeys(collectibles)[0]
@@ -74,7 +85,7 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
     }
   };
 
-  const basketIsEmpty = Object.values(chestMap).length === 0;
+  const basketIsEmpty = getKeys(collectibles).length === 0;
 
   if (basketIsEmpty) {
     return (
@@ -140,9 +151,7 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
                 .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
                 .map((item) => (
                   <Box
-                    count={inventory[item]?.sub(
-                      placedItems[item as CollectibleName]?.length ?? 0
-                    )}
+                    count={getItemCount(item)}
                     isSelected={selected === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
