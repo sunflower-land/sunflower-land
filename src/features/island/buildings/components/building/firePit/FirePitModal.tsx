@@ -4,7 +4,7 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
 import close from "assets/icons/close.png";
-import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
+import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {

@@ -15,6 +15,7 @@ import { CONFIG } from "lib/config";
 interface Props {
   bumpkinParts: Partial<BumpkinParts>;
   showBackground?: boolean;
+  showDropShadow?: boolean;
   showTools?: boolean;
   className?: string;
 }
@@ -30,6 +31,7 @@ function getImageUrl(layerId: number) {
 export const DynamicNFT: React.FC<Props> = ({
   bumpkinParts,
   showBackground,
+  showDropShadow = true,
   showTools = true,
   className,
 }) => {
@@ -51,9 +53,13 @@ export const DynamicNFT: React.FC<Props> = ({
     secondaryTool,
   } = bumpkinParts;
 
-  // Need to render layers in specific order
-  const orderedParts: Partial<BumpkinParts> = {
+  const backgroundPart: Partial<BumpkinParts> = {
     background,
+  };
+
+  // Need to render layers in specific order
+  // Not including background because background is rendered before the shadow
+  const orderedParts: Partial<BumpkinParts> = {
     body,
     hair,
     shirt,
@@ -75,29 +81,38 @@ export const DynamicNFT: React.FC<Props> = ({
     delete orderedParts.secondaryTool;
   }
 
+  const getBumpkinPartImage = (part: BumpkinPart) => {
+    return (
+      <img
+        key={part}
+        // TODO
+        src={getImageUrl(ITEM_IDS[bumpkinParts[part] as BumpkinItem])}
+        className={classNames(`inset-0 w-full absolute`, {
+          // The body sets the dimensions
+          relative: part === "body",
+        })}
+      />
+    );
+  };
+
   return (
     <div className={classNames("relative w-full", className ?? "")}>
-      <img
-        src={dropShadow}
-        alt="drop-shadow"
-        className="absolute bottom-0 z-0 opacity-30"
-      />
+      {showBackground &&
+        getKeys(backgroundPart).map((part: BumpkinPart) =>
+          getBumpkinPartImage(part)
+        )}
+
+      {showDropShadow && (
+        <img
+          src={dropShadow}
+          alt="drop-shadow"
+          className="absolute w-full bottom-0 opacity-30"
+        />
+      )}
+
       {getKeys(orderedParts)
         .filter((part) => !!bumpkinParts[part])
-        .map((part: BumpkinPart, index) => (
-          <img
-            key={part}
-            // TODO
-            src={getImageUrl(ITEM_IDS[bumpkinParts[part] as BumpkinItem])}
-            style={{
-              zIndex: index * 10,
-            }}
-            className={classNames(`inset-0 w-full absolute`, {
-              // The body sets the dimensions
-              relative: part === "body",
-            })}
-          />
-        ))}
+        .map((part: BumpkinPart) => getBumpkinPartImage(part))}
     </div>
   );
 };
