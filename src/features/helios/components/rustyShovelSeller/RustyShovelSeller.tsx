@@ -61,7 +61,6 @@ export const RustyShovelSeller: React.FC = () => {
             body: "Goblin Potion",
             hair: "Sun Spots",
             pants: "Brown Suspenders",
-            shirt: "Yellow Farmer Shirt",
             tool: "Farmer Pitchfork",
             background: "Farm Background",
             shoes: "Black Farmer Boots",

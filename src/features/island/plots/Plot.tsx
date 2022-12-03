@@ -208,25 +208,20 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     // plant
     if (!crop) {
       try {
-        const newState = gameService.send("seed.planted", {
+        gameService.send("seed.planted", {
           index: plotIndex,
           expansionIndex,
           item: selectedItem,
           analytics,
         });
 
-        if (!newState.matches("hoarding")) {
-          plantAudio.play();
+        plantAudio.play();
 
-          setToast({
-            icon: ITEM_DETAILS[selectedItem as CropName].image,
-            content: `-1`,
-          });
-
-          setProcAnimation(null);
-        }
+        setToast({
+          icon: ITEM_DETAILS[selectedItem as CropName].image,
+          content: `-1`,
+        });
       } catch (e: any) {
-        console.log({ e });
         // TODO - catch more elaborate errors
         displayPopover();
       }

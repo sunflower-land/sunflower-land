@@ -4,10 +4,15 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 import Decimal from "decimal.js-light";
 import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
+import { getOnChainState } from "features/game/actions/onchain";
+import { loadSession } from "features/game/actions/loadSession";
+import { Bumpkin } from "features/game/types/game";
 
 export interface Context {
   balance: Decimal;
   farmId: number;
+  migrated: boolean;
+  bumpkin?: Bumpkin;
 }
 
 export type CommmunityMachineState = {
@@ -32,22 +37,40 @@ export function startCommunityMachine(authContext: AuthContext) {
     context: {
       balance: new Decimal(0),
       farmId: 0,
+      migrated: false,
     },
     states: {
       loading: {
         invoke: {
           src: async () => {
-            // TODO load on chain balances for current wallet
-
             const balance = await wallet
               .getToken()
               .balanceOf(wallet.myAccount as string);
 
-            const farm = await wallet.getFarm()?.getFarms();
+            const farmId = authContext.farmId as number;
+
+            const onChainStateFn = await getOnChainState({
+              farmAddress: authContext.address as string,
+              id: Number(authContext.farmId),
+            });
+            const sessionIdFn = wallet.getSessionManager().getSessionId(farmId);
+            const [onChainState, sessionId] = await Promise.all([
+              onChainStateFn,
+              sessionIdFn,
+            ]);
+
+            const response = await loadSession({
+              farmId,
+              sessionId,
+              token: authContext.rawToken as string,
+              bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
+            });
 
             return {
               balance: new Decimal(fromWei(balance)),
-              farmId: Number(farm[0].tokenId),
+              farmId,
+              migrated: authContext.migrated,
+              bumpkin: response?.game.bumpkin,
             };
           },
           onDone: {
@@ -55,6 +78,8 @@ export function startCommunityMachine(authContext: AuthContext) {
             actions: assign({
               balance: (_, event) => event.data.balance,
               farmId: (_, event) => event.data.farmId,
+              migrated: (_, event) => event.data.migrated,
+              bumpkin: (_, event) => event.data.bumpkin,
             }),
           },
           onError: {
