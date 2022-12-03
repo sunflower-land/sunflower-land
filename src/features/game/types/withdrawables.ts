@@ -113,6 +113,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Mysterious Head": true,
   "Golden Bonsai": true,
   "Wicker Man": true,
+  Observatory: true,
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),

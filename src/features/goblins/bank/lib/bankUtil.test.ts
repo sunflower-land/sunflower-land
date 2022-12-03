@@ -517,6 +517,20 @@ describe("canWithdraw", () => {
       expect(enabled).toBeTruthy();
     });
 
+    it("enables users to withdraw observatory", () => {
+      const enabled = canWithdraw({
+        item: "Observatory",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            Observatory: new Decimal(1),
+          },
+        },
+      });
+
+      expect(enabled).toBeTruthy();
+    });
+
     it("enables a user to withdraw an easter bunny when not in use", () => {
       const enabled = canWithdraw({
         item: "Easter Bunny",
