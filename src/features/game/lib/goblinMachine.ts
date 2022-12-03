@@ -150,7 +150,7 @@ const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
   }, {} as Record<number, LimitedItemRecipeWithMintedAt>);
 };
 
-const LEVEL_REQUIREMENT = 5;
+export const RETREAT_LEVEL_REQUIREMENT = 5;
 
 export function startGoblinVillage(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, GoblinMachineState>(
@@ -236,7 +236,7 @@ export function startGoblinVillage(authContext: AuthContext) {
 
                   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
 
-                  return bumpkinLevel < LEVEL_REQUIREMENT;
+                  return bumpkinLevel < RETREAT_LEVEL_REQUIREMENT;
                 },
               },
               {
