@@ -22,6 +22,10 @@ import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
+import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
+import { Tutorial } from "./Tutorial";
+import { Equipped } from "features/game/types/bumpkin";
 
 interface Props {
   isOpen: boolean;
@@ -50,12 +54,38 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [showTutorial, setShowTutorial] = useState<boolean>(
+    !hasShownTutorial("Workbench")
+  );
 
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const bumpkinParts: Partial<Equipped> = {
+    body: "Light Brown Farmer Potion",
+    hair: "Blacksmith Hair",
+    pants: "Lumberjack Overalls",
+    shirt: "SFL T-Shirt",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  };
+
+  const acknowledge = () => {
+    acknowledgeTutorial("Workbench");
+    setShowTutorial(false);
+  };
+
+  if (showTutorial) {
+    return (
+      <Modal show={isOpen} onHide={acknowledge} centered>
+        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
+      </Modal>
+    );
+  }
 
   const selected = craftableItems[selectedName];
   const inventory = state.inventory;
@@ -81,7 +111,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     setToast({
       icon: token,
-      content: `-$${price?.mul(amount)}`,
+      content: `-${price?.mul(amount)}`,
     });
 
     getKeys(selected.ingredients).map((name) => {
@@ -155,7 +185,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
       <>
         <Button
           disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+          className="text-xs mt-1 whitespace-nowrap"
           onClick={(e) => craft(e)}
         >
           Craft 1
@@ -168,19 +198,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
-      <Panel
-        className="relative"
-        hasTabs
-        bumpkinParts={{
-          body: "Light Brown Farmer Potion",
-          hair: "Blacksmith Hair",
-          pants: "Lumberjack Overalls",
-          shirt: "SFL T-Shirt",
-          tool: "Hammer",
-          background: "Farm Background",
-          shoes: "Brown Boots",
-        }}
-      >
+      <Panel className="relative" hasTabs bumpkinParts={bumpkinParts}>
         <div
           className="absolute flex"
           style={{
@@ -200,8 +218,11 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
             minHeight: "200px",
           }}
         >
-          <div className="flex">
-            <div className="w-3/5 flex flex-wrap h-fit">
+          <div className="flex flex-col-reverse sm:flex-row">
+            <div
+              className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+              style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+            >
               {getKeys(craftableItems).map((toolName) => (
                 <Box
                   isSelected={selectedName === toolName}
@@ -212,7 +233,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 />
               ))}
             </div>
-            <OuterPanel className="flex-1 w-1/3">
+            <OuterPanel className="w-full flex-1">
               <div className="flex flex-col justify-center items-center p-2 relative">
                 {labelState()}
                 <span className="text-center">{selectedName}</span>
@@ -221,7 +242,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   className="h-16 img-highlight mt-1"
                   alt={selectedName}
                 />
-                <span className="text-center mt-2 sm:text-sm">
+                <span className="text-center mt-2 text-sm">
                   {selected.description}
                 </span>
                 <div className="border-t border-white w-full mt-2 pt-1">
@@ -285,7 +306,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                           "text-red-500": lessFunds(),
                         })}
                       >
-                        {`$${price?.toNumber()}`}
+                        {`${price?.toNumber()}`}
                       </span>
                     </div>
                   )}

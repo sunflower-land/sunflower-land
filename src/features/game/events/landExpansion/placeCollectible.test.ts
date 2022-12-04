@@ -29,8 +29,8 @@ describe("Place Collectible", () => {
             ],
           },
         },
-
         action: {
+          id: "123",
           type: "collectible.placed",
           name: "Scarecrow",
           coordinates: {
@@ -50,8 +50,8 @@ describe("Place Collectible", () => {
           inventory: {},
           collectibles: {},
         },
-
         action: {
+          id: "123",
           type: "collectible.placed",
           name: "Scarecrow",
           coordinates: {
@@ -72,8 +72,8 @@ describe("Place Collectible", () => {
         },
         collectibles: {},
       },
-
       action: {
+        id: "123",
         type: "collectible.placed",
         name: "Brazilian Flag",
         coordinates: {
@@ -106,6 +106,7 @@ describe("Place Collectible", () => {
       },
       createdAt: date,
       action: {
+        id: "1234",
         type: "collectible.placed",
         name: "Scarecrow",
         coordinates: {
@@ -123,6 +124,7 @@ describe("Place Collectible", () => {
       createdAt: date,
     });
     expect(state.collectibles["Scarecrow"]?.[1]).toEqual({
+      id: expect.any(String),
       coordinates: { x: 0, y: 0 },
       readyAt: date + 5 * 60 * 1000,
       createdAt: date,
@@ -141,8 +143,8 @@ describe("Place Collectible", () => {
           },
           collectibles: {},
         },
-
         action: {
+          id: "123",
           type: "collectible.placed",
           name: "Fire Pit" as CollectibleName,
           coordinates: {

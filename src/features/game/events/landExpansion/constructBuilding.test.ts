@@ -24,6 +24,7 @@ describe("Construct building", () => {
       constructBuilding({
         state: { ...GAME_STATE, bumpkin: undefined },
         action: {
+          id: "123",
           type: "building.constructed",
           name: "Water Well",
           coordinates: {
@@ -45,6 +46,7 @@ describe("Construct building", () => {
           },
         },
         action: {
+          id: "123",
           type: "building.constructed",
           name: "Water Well",
           coordinates: {
@@ -97,6 +99,7 @@ describe("Construct building", () => {
           },
         },
         action: {
+          id: "123",
           type: "building.constructed",
           name: "Water Well",
           coordinates: {
@@ -123,6 +126,7 @@ describe("Construct building", () => {
           balance: new Decimal(0),
         },
         action: {
+          id: "123",
           type: "building.constructed",
           name: "Water Well",
           coordinates: {
@@ -149,6 +153,7 @@ describe("Construct building", () => {
           balance: new Decimal(100),
         },
         action: {
+          id: "123",
           type: "building.constructed",
           name: "Water Well",
           coordinates: {
@@ -179,6 +184,7 @@ describe("Construct building", () => {
         balance: initialSFL,
       },
       action: {
+        id: "123",
         type: "building.constructed",
         name: "Water Well",
         coordinates: {
@@ -214,6 +220,7 @@ describe("Construct building", () => {
         },
       },
       action: {
+        id: "123",
         type: "building.constructed",
         name: "Fire Pit",
         coordinates: {
@@ -235,6 +242,7 @@ describe("Construct building", () => {
         inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
       },
       action: {
+        id: "123",
         type: "building.constructed",
         name: "Fire Pit",
         coordinates: {
@@ -247,6 +255,7 @@ describe("Construct building", () => {
 
     expect(state.buildings["Fire Pit"]).toHaveLength(1);
     expect(state.buildings["Fire Pit"]?.[0]).toEqual({
+      id: expect.any(String),
       coordinates: { x: 1, y: 2 },
       readyAt: dateNow + 30 * 1000,
       createdAt: dateNow,
@@ -278,6 +287,7 @@ describe("Construct building", () => {
         },
       },
       action: {
+        id: "123",
         type: "building.constructed",
         name: "Water Well",
         coordinates: {
@@ -289,6 +299,7 @@ describe("Construct building", () => {
     });
     expect(state.buildings["Water Well"]).toHaveLength(2);
   });
+
   it("does not affect existing Buildings when constructing new Water Well", () => {
     const buildings = {
       "Water Well": [
@@ -326,6 +337,7 @@ describe("Construct building", () => {
         },
       },
       action: {
+        id: "123",
         type: "building.constructed",
         name: "Water Well",
         coordinates: {
@@ -344,6 +356,7 @@ describe("Construct building", () => {
           id: "1",
         },
         {
+          id: "123",
           coordinates: {
             x: 1,
             y: 2,

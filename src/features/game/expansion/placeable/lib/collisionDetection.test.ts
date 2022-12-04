@@ -71,6 +71,17 @@ describe("detectCollisions", () => {
     expect(hasCollision).toBe(false);
   });
 
+  it("returns true if checking collision on a building land", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.expansions = [{ createdAt: 0, readyAt: Date.now() + 86400000 }];
+
+    const position: Position = { x: 0, y: 0, height: 1, width: 1 };
+
+    const hasCollision = detectCollision(state, position);
+
+    expect(hasCollision).toBe(true);
+  });
+
   it("returns true if a collision is detected with an expansion resource", () => {
     const state: GameState = cloneDeep(TEST_FARM);
 

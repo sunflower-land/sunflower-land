@@ -122,11 +122,11 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
     if (tab === "collection") {
       return (
         <>
-          <span className="text-shadow text-center text-xs leading-5">
+          <span className="text-center text-xs leading-5">
             {/* TODO - load from metadata url? */}
           </span>
           <div className="border-t border-white w-full mt-2 py-2 text-center">
-            <span className="text-shadow text-xxs text-center mt-2 sm:text-xs">
+            <span className="text-xxs text-center mt-2">
               Visit Bumpkins.io for more info about this wearable
             </span>
           </div>
@@ -152,14 +152,14 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
                 hour12: true,
               })}`}
         </Label>
-        <span className="text-shadow text-center text-xs leading-5">
+        <span className="text-center text-xs leading-5">
           {/* TODO - load from metadata url? */}
         </span>
         <div className="border-t border-white w-full mt-2 pt-2 text-center">
           <div className="flex justify-center items-end my-1">
             <img src={token} className="h-4 mr-1" />
             <span className="text-xs sm:text-sm text-shadow text-center">
-              {`$${selected.currentRelease?.price}`}
+              {`${selected.currentRelease?.price}`}
             </span>
           </div>
         </div>
@@ -181,9 +181,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
             }
           )}
         >
-          <span className="text-shadow text-center text-sm">
-            {selected.name}
-          </span>
+          <span className="text-center text-sm">{selected.name}</span>
           <img
             src={getImageUrl(selected.tokenId)}
             className="h-24 rounded-md my-2"
@@ -196,7 +194,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
         style={{
           maxHeight: TAB_CONTENT_HEIGHT,
         }}
-        className="overflow-y-auto w-full pt-1 mr-1 scrollable"
+        className="overflow-y-auto w-full pt-1 mr-1 scrollable mt-1"
       >
         <div className="flex flex-wrap h-fit justify-center">
           {items.map((item) => (

@@ -20,6 +20,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
 import { Label } from "components/ui/Label";
+import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: () => void;
@@ -132,7 +133,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
                     "text-red-500": lessFunds(),
                   })}
                 >
-                  {`$${price?.toNumber()}`}
+                  {`${price?.toNumber()}`}
                 </span>
               </div>
             </div>
@@ -189,9 +190,12 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           minHeight: "200px",
         }}
       >
-        <div className="flex">
-          <div className="w-3/5 h-fit">
-            <div className="flex flex-wrap ">
+        <div className="flex flex-col-reverse sm:flex-row">
+          <div
+            className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+            style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+          >
+            <div className="flex flex-wrap">
               {new Array(availableSpots).fill(null).map((item, index) => {
                 let boxImage = undefined;
 
@@ -231,7 +235,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               )}
             </div>
           </div>
-          <OuterPanel className="flex-1 w-1/3">{Details()}</OuterPanel>
+          <OuterPanel className="w-full flex-1">{Details()}</OuterPanel>
         </div>
       </div>
     </Panel>

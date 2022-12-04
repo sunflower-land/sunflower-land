@@ -61,7 +61,7 @@ describe("removeChicken", () => {
     ).toThrow(REMOVE_CHICKEN_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   });
 
-  it("removes a chicken", () => {
+  it("removes a chicken: clone the last chicken index to removed index and deletes the last index", () => {
     const state = {
       ...GAME_STATE,
       inventory: {
@@ -79,7 +79,7 @@ describe("removeChicken", () => {
       state,
       action: {
         type: "chicken.removed",
-        chickenIndex: 4,
+        chickenIndex: 3,
       },
     });
 
@@ -96,10 +96,10 @@ describe("removeChicken", () => {
       multiplier: 1,
     });
     expect(gameState.chickens[3]).toEqual({
-      coordinates: { x: 3, y: 3 },
+      coordinates: { x: 4, y: 4 },
       multiplier: 1,
     });
-    expect(gameState.chickens[4]).toEqual(undefined);
+    expect(gameState.chickens[4]).toBeUndefined();
   });
 
   it("uses one Rusty Shovel per chicken removed", () => {

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+// import { randomUUID } from "crypto";
 import { getBumpkinLevel } from "features/game/lib/level";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
@@ -13,6 +14,7 @@ export enum PLACE_BUILDING_ERRORS {
 export type PlaceBuildingAction = {
   type: "building.placed";
   name: BuildingName;
+  id: string;
   coordinates: {
     x: number;
     y: number;
@@ -58,7 +60,8 @@ export function placeBuilding({
     throw new Error(PLACE_BUILDING_ERRORS.NO_UNPLACED_BUILDINGS);
   }
 
-  const newBuilding: Omit<PlacedItem, "id"> = {
+  const newBuilding: PlacedItem = {
+    id: action.id,
     createdAt: createdAt,
     coordinates: action.coordinates,
     readyAt: createdAt + building.constructionSeconds * 1000,
