@@ -10,13 +10,24 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { CRAFTABLE_TOOLS } from "features/game/events/landExpansion/craftTool";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { Button } from "components/ui/Button";
+
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useActor } from "@xstate/react";
+import { Label } from "components/ui/Label";
+import { Stock } from "components/ui/Stock";
+import { Button } from "components/ui/Button";
+import Decimal from "decimal.js-light";
 
 export const RustyShovelSeller: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
   const [showModal, setShowModal] = useState(false);
+  const stock = state.stock["Rusty Shovel"] || new Decimal(0);
 
   const { sfl: price } = CRAFTABLE_TOOLS()["Rusty Shovel"];
 
@@ -31,6 +42,41 @@ export const RustyShovelSeller: React.FC = () => {
     });
 
     shortcutItem("Rusty Shovel");
+  };
+
+  const restock = () => {
+    gameService.send("SYNC", { captcha: "" });
+
+    setShowModal(false);
+  };
+
+  const labelState = () => {
+    if (stock.equals(0)) {
+      return (
+        <Label type="danger" className="-mt-2 mb-1">
+          Sold out
+        </Label>
+      );
+    }
+
+    return <Stock item={{ name: "Rusty Shovel" }} />;
+  };
+
+  const Action = () => {
+    if (stock.equals(0)) {
+      return (
+        <div className="my-1">
+          <p className="text-xxs text-center mb-2">
+            Sync your farm to the Blockchain to restock.
+          </p>
+          <Button className="text-xs mt-1" onClick={restock}>
+            Sync
+          </Button>
+        </div>
+      );
+    }
+
+    return <Button onClick={() => craft(1)}>Buy 1</Button>;
   };
 
   return (
@@ -73,6 +119,7 @@ export const RustyShovelSeller: React.FC = () => {
               className="h-7 md:h-8"
             />
           </div>
+          <div className="flex justify-center">{labelState()}</div>
           <div className="space-y-3 text-sm px-1 mb-3">
             <p>
               I am assuming you are here because you need to dig something up on
@@ -93,7 +140,7 @@ export const RustyShovelSeller: React.FC = () => {
               {`${price.toString()} SFL a piece. Interested?`}
             </div>
           </div>
-          <Button onClick={() => craft(1)}>Buy 1</Button>
+          {Action()}
         </CloseButtonPanel>
       </Modal>
     </>
