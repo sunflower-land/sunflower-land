@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import {
+  CHICKEN_COOP_MULTIPLIER,
   CHICKEN_TIME_TO_EGG,
+  HEN_HOUSE_CAPACITY,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "../lib/constants";
 import { GameState, Inventory } from "../types/game";
@@ -47,11 +49,13 @@ export const getWheatRequiredToFeed = (inventory: Inventory) => {
 };
 
 export function getMaxChickens(inventory: Inventory) {
+  let capacity = HEN_HOUSE_CAPACITY;
+
   if (inventory["Chicken Coop"]) {
-    return 15;
+    capacity *= CHICKEN_COOP_MULTIPLIER;
   }
 
-  return 10;
+  return capacity;
 }
 
 export function feedChicken({

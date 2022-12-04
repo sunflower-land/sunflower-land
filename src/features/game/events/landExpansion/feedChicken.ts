@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
+  CHICKEN_COOP_MULTIPLIER,
   CHICKEN_TIME_TO_EGG,
+  HEN_HOUSE_CAPACITY,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
 import {
@@ -63,11 +65,13 @@ export const getWheatRequiredToFeed = (collectibles: Collectibles) => {
 };
 
 export function getMaxChickens(collectibles: Collectibles) {
+  let capacity = HEN_HOUSE_CAPACITY;
+
   if (isCollectibleBuilt("Chicken Coop", collectibles)) {
-    return 15;
+    capacity *= CHICKEN_COOP_MULTIPLIER;
   }
 
-  return 10;
+  return capacity;
 }
 
 export function feedChicken({

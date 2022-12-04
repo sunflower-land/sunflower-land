@@ -228,7 +228,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               </Label>
               {workingCapacityFull && (
                 <p className="text-xs mx-1 mb-1">
-                  Build an extra coop to farm more chickens
+                  Build an extra Hen House to farm more chickens
                 </p>
               )}
             </div>
