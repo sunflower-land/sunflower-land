@@ -25,7 +25,7 @@ import { Chicken } from "features/island/chickens/Chicken";
 import dragIcon from "assets/icons/drag.png";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken id="123" />, // Arbitrary id for placing, when placed Machine overites with random UUID.
+  Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
 };

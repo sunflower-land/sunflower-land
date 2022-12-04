@@ -337,14 +337,14 @@ const getIslandElements = ({
     ...getKeys(chickens)
       // Only show placed chickens (V1 may have ones without coords)
       .filter((id) => chickens[id]?.coordinates)
-      .flatMap((id, nameIndex) => {
+      .flatMap((id) => {
         const chicken = chickens[id]!;
         const { x, y } = chicken.coordinates as Coordinates;
         const { width, height } = ANIMAL_DIMENSIONS.Chicken;
 
         return (
           <MapPlacement
-            key={`chicken-${nameIndex}`}
+            key={`chicken-${id}`}
             x={x}
             y={y}
             height={height}

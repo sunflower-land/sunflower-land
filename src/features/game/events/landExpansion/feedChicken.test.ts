@@ -60,186 +60,6 @@ describe("feed chickens", () => {
     ).toThrow("No wheat to feed chickens");
   });
 
-  it("throws and error if the user has more than 10 chickens without coop", () => {
-    expect(() =>
-      feedChicken({
-        state: {
-          ...GAME_STATE,
-          inventory: { Chicken: new Decimal(11), Wheat: new Decimal(1) },
-          chickens: {
-            "1": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "2": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "3": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "4": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "5": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "6": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "7": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "8": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "9": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "10": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-            "11": {
-              multiplier: 1,
-              coordinates: { x: 1, y: 1 },
-              fedAt: 0,
-            },
-          },
-        },
-
-        action: { type: "chicken.fed", id: "11" },
-      })
-    ).toThrow("Cannot have more than 10 chickens");
-  });
-
-  it("throws and error if the user has more than 15 chickens with coop", () => {
-    const state = {
-      ...GAME_STATE,
-      inventory: {
-        "Chicken Coop": new Decimal(1),
-        Chicken: new Decimal(16),
-        Wheat: new Decimal(1),
-      },
-      collectibles: {
-        "Chicken Coop": [
-          {
-            id: "123",
-            createdAt: dateNow,
-            coordinates: { x: 1, y: 1 },
-            // ready at < now
-            readyAt: dateNow - 5 * 60 * 1000,
-          },
-        ],
-      },
-      chickens: {
-        "1": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "2": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "3": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "4": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "5": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "6": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "7": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "8": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "9": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "10": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "11": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "12": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "13": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "14": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "15": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-        "16": {
-          multiplier: 1,
-          coordinates: { x: 1, y: 1 },
-          fedAt: 0,
-        },
-      },
-    };
-    expect(() =>
-      feedChicken({
-        state: state,
-        action: { type: "chicken.fed", id: "16" },
-      })
-    ).toThrow("Cannot have more than 15 chickens");
-  });
-
   it("feeds a chicken", () => {
     const state = {
       ...GAME_STATE,
@@ -260,7 +80,7 @@ describe("feed chickens", () => {
 
     const newChickens = newState.chickens || {};
 
-    expect(newChickens[0].fedAt).toBeGreaterThan(0);
+    expect(newChickens["0"].fedAt).toBeGreaterThan(0);
     expect(newState.inventory.Wheat).toStrictEqual(new Decimal(0));
   });
 
@@ -290,7 +110,7 @@ describe("feed chickens", () => {
 
     const newChickens = secondFeed.chickens || {};
 
-    expect(newChickens[0].fedAt).toBeGreaterThan(0);
+    expect(newChickens["0"].fedAt).toBeGreaterThan(0);
     expect(secondFeed.inventory.Wheat).toStrictEqual(new Decimal(0));
   });
 
@@ -365,7 +185,7 @@ describe("feed chickens", () => {
     });
     const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
     const createdAt = newDate - chickenTime;
-    expect(newState.chickens[0].fedAt).toEqual(createdAt);
+    expect(newState.chickens["0"].fedAt).toEqual(createdAt);
   });
 
   it("chickens produce goods 10% faster with Bumpkin Skill Stable Hand", () => {
@@ -393,7 +213,7 @@ describe("feed chickens", () => {
     });
     const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
     const createdAt = newDate - chickenTime;
-    expect(newState.chickens[0].fedAt).toEqual(createdAt);
+    expect(newState.chickens["0"].fedAt).toEqual(createdAt);
   });
 
   it("chickens produce in normal time", () => {
@@ -418,7 +238,7 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", id: "0" },
     });
-    expect(newState.chickens[0].fedAt).toEqual(newDate);
+    expect(newState.chickens["0"].fedAt).toEqual(newDate);
   });
 
   it("chickens produce goods 10% faster with Wrangler Badge", () => {
@@ -446,7 +266,7 @@ describe("feed chickens", () => {
     });
     const chickenTime = CHICKEN_TIME_TO_EGG * 0.1;
     const createdAt = newDate - chickenTime;
-    expect(newState.chickens[0].fedAt).toEqual(createdAt);
+    expect(newState.chickens["0"].fedAt).toEqual(createdAt);
   });
 
   it("chickens produce goods 30% faster with Speed Chicken, Wrangler Badge and Stable Hand skill", () => {
@@ -486,7 +306,7 @@ describe("feed chickens", () => {
     });
     const chickenTime = CHICKEN_TIME_TO_EGG * 0.3;
     const createdAt = newDate - chickenTime;
-    expect(newState.chickens[0].fedAt).toEqual(createdAt);
+    expect(newState.chickens["0"].fedAt).toEqual(createdAt);
   });
 
   it("does not stack Fat Chicken boost when a user has more than one", () => {
@@ -630,6 +450,6 @@ describe("feed chickens", () => {
       createdAt: dateNow,
     });
 
-    expect(newState.chickens[15]).toBeTruthy();
+    expect(newState.chickens["15"]).toBeTruthy();
   });
 });

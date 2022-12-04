@@ -93,10 +93,6 @@ export function feedChicken({
     throw new Error("This chicken does not exist");
   }
 
-  if (chickenCount > maxChickens) {
-    throw new Error(`Cannot have more than ${maxChickens} chickens`);
-  }
-
   const isChickenHungry =
     chicken?.fedAt && createdAt - chicken.fedAt < CHICKEN_TIME_TO_EGG;
 
