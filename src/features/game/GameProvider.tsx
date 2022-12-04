@@ -19,6 +19,8 @@ interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;
+  showProgressBars: boolean;
+  toggleProgressBars: () => void;
 }
 
 export const Context = React.createContext<GameContext>({} as GameContext);
@@ -26,6 +28,7 @@ export const Context = React.createContext<GameContext>({} as GameContext);
 export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+  const [showProgressBars, setShowProgressBars] = useState(true);
 
   const { id } = useParams();
   const [gameMachine] = useState(
@@ -54,10 +57,22 @@ export const GameProvider: React.FC = ({ children }) => {
     setShortcuts(savedShortcuts);
   }, []);
 
+  const toggleProgressBars = () => {
+    setShowProgressBars(!showProgressBars);
+  };
+
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
 
   return (
-    <Context.Provider value={{ shortcutItem, selectedItem, gameService }}>
+    <Context.Provider
+      value={{
+        shortcutItem,
+        selectedItem,
+        gameService,
+        showProgressBars,
+        toggleProgressBars,
+      }}
+    >
       {children}
     </Context.Provider>
   );

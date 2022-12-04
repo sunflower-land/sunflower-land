@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 
-import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
 import { Share } from "components/Share";
 
+import more from "assets/ui/more.png";
 import roundButton from "assets/ui/button/round_button.png";
 import questionMark from "assets/icons/expression_confused.png";
 import settings from "assets/icons/settings.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import close from "assets/icons/close.png";
 
-import { GoblinVillageModal } from "features/farming/town/components/GoblinVillageModal";
 import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "features/farming/hud/components/howToPlay/HowToPlay";
@@ -26,21 +25,23 @@ import { CommunityGardenModal } from "features/farming/town/components/Community
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { LandExpansionRole } from "./LandExpansionRole";
+import { Bar } from "components/ui/ProgressBar";
 
 enum MENU_LEVELS {
   ROOT = "root",
   VIEW = "view",
 }
 
-export const Menu = () => {
-  const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
-
+const SettingsMenu: React.FC<{ show: boolean; onClose: () => void }> = ({
+  show,
+  onClose,
+}) => {
+  const { gameService, showProgressBars, toggleProgressBars } =
+    useContext(Context);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showLandExpansionModal, setShowLandExpansionModal] = useState(false);
-  const [showGoblinModal, setShowGoblinModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
@@ -48,34 +49,37 @@ export const Menu = () => {
   const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
-  const ref = useRef<HTMLDivElement>(null);
+  const handleClose = () => {
+    setMenuOpen(false);
+    onClose();
+  };
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
-    setMenuOpen(false);
+    handleClose();
   };
 
   const handleShareClick = () => {
     setShowShareModal(true);
-    setMenuOpen(false);
+    handleClose();
   };
 
   const handleSettingsClick = () => {
     setShowSettingsModal(true);
-    setMenuOpen(false);
+    handleClose();
   };
 
   const handleLandExpansionClick = () => {
     setShowLandExpansionModal(true);
-    setMenuOpen(false);
+    handleClose();
   };
 
   const syncOnChain = async () => {
     // setShowCaptcha(true);
-    // setMenuOpen(false);
+    // handleClos()e
 
     gameService.send("SYNC", { captcha: "" });
-    setMenuOpen(false);
+    handleClose();
     setShowCaptcha(false);
   };
 
@@ -84,12 +88,8 @@ export const Menu = () => {
     await new Promise((res) => setTimeout(res, 1000));
 
     gameService.send("SYNC", { captcha });
-    setMenuOpen(false);
+    handleClose();
     setShowCaptcha(false);
-  };
-
-  const visitFarm = () => {
-    authService.send("EXPLORE");
   };
 
   // Handles closing the menu if someone clicks outside
@@ -99,39 +99,78 @@ export const Menu = () => {
     setFarmURL(_farmURL);
   }, []);
 
+  const buttonWidth = PIXEL_SCALE * 22;
+
   return (
     <>
-      {!gameService.state.matches("editing") && (
-        <div
-          id="setting"
-          onClick={() => setMenuOpen(true)}
-          className="fixed z-50 cursor-pointer hover:img-highlight"
+      <div
+        id="setting"
+        onClick={toggleProgressBars}
+        className="fixed z-50 cursor-pointer hover:img-highlight"
+        style={{
+          right: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 26}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          transition: "transform 250ms ease",
+          transform: "translateX(0)",
+          ...(show && {
+            transform: `translateX(-${buttonWidth + 8}px)`,
+          }),
+        }}
+      >
+        <img
+          src={roundButton}
+          className="absolute"
           style={{
-            right: `${PIXEL_SCALE * 3}px`,
-            bottom: `${PIXEL_SCALE * 26}px`,
             width: `${PIXEL_SCALE * 22}px`,
           }}
+        />
+        <div
+          className="absolute"
+          style={{
+            top: `${PIXEL_SCALE * 7.4}px`,
+            left: `${PIXEL_SCALE * 3.6}px`,
+          }}
         >
-          <img
-            src={roundButton}
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 22}px`,
-            }}
-          />
-          <img
-            src={settings}
-            className="absolute"
-            style={{
-              top: `${PIXEL_SCALE * 4}px`,
-              left: `${PIXEL_SCALE * 4}px`,
-              width: `${PIXEL_SCALE * 14}px`,
-            }}
-          />
+          <Bar percentage={70} type={showProgressBars ? "progress" : "error"} />
         </div>
-      )}
+      </div>
+      <div
+        id="setting"
+        onClick={() => {
+          setMenuOpen(true);
+        }}
+        className="fixed z-50 cursor-pointer hover:img-highlight"
+        style={{
+          right: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 26}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          transition: "transform 250ms ease",
+          transform: "translateX(0)",
+          ...(show && {
+            transform: `translateX(-${buttonWidth * 2 + 16}px)`,
+          }),
+        }}
+      >
+        <img
+          src={roundButton}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        />
+        <img
+          src={more}
+          className="absolute"
+          style={{
+            top: `${PIXEL_SCALE * 9.3}px`,
+            left: `${PIXEL_SCALE * 4.3}px`,
+            width: `${PIXEL_SCALE * 13}px`,
+          }}
+        />
+      </div>
 
-      <Modal show={menuOpen} centered onHide={() => setMenuOpen(false)}>
+      <Modal show={menuOpen} centered onHide={handleClose}>
         <Panel>
           <ul
             className={`list-none pt-1 transition-all ease duration-200 origin-top ${
@@ -265,14 +304,52 @@ export const Menu = () => {
         </Modal>
       )}
 
-      <GoblinVillageModal
-        isOpen={showGoblinModal}
-        onClose={() => setShowGoblinModal(false)}
-      />
       <CommunityGardenModal
         isOpen={showCommunityGardenModal}
         onClose={() => setShowCommunityGardenModal(false)}
       />
+    </>
+  );
+};
+
+export const Menu = () => {
+  const { gameService } = useContext(Context);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <>
+      {!gameService.state.matches("editing") && (
+        <>
+          <SettingsMenu show={menuOpen} onClose={() => setMenuOpen(false)} />
+          <div
+            id="setting"
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="fixed z-50 cursor-pointer hover:img-highlight"
+            style={{
+              right: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 26}px`,
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          >
+            <img
+              src={roundButton}
+              className="absolute"
+              style={{
+                width: `${PIXEL_SCALE * 22}px`,
+              }}
+            />
+            <img
+              src={settings}
+              className="absolute"
+              style={{
+                top: `${PIXEL_SCALE * 4}px`,
+                left: `${PIXEL_SCALE * 4}px`,
+                width: `${PIXEL_SCALE * 14}px`,
+              }}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };

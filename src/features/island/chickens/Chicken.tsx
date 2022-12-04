@@ -168,7 +168,8 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
   const eggLaid = useSelector(chickenService, isEggLaid);
 
   const eggIsBrewing = happy || sleeping;
-  const showEggProgress = chicken && !eating && !eggLaid && !hungry;
+  const showEggProgress =
+    showProgressBars && chicken && !eating && !eggLaid && !hungry;
   const interactable = hungry || eggReady || eggLaid;
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.

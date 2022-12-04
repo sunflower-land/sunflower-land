@@ -17,7 +17,8 @@ import { LandId } from "./components/LandId";
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem, showProgressBars, toggleProgressBars } =
+    useContext(Context);
   const [gameState] = useActor(gameService);
 
   const isEditing = gameState.matches("editing");
