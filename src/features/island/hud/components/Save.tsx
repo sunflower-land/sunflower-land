@@ -18,12 +18,12 @@ export const Save: React.FC = () => {
   const playing = gameState.matches("playing");
   const autoSaving = gameState.matches("autosaving");
   const hasUnsavedProgress = gameState.context.actions.length > 0;
-  const buttonState: ButtonState =
-    playing && !hasUnsavedProgress
-      ? "saved"
-      : autoSaving
-      ? "inProgress"
-      : "unsaved";
+  const showSaved = playing && !hasUnsavedProgress;
+  const buttonState: ButtonState = showSaved
+    ? "saved"
+    : autoSaving
+    ? "inProgress"
+    : "unsaved";
 
   const [showButton, setShowButton] = useState<boolean>(false);
   const [hideShowButtonTimer, setHideShowButtonTimer] = useState<number>();
@@ -36,12 +36,12 @@ export const Save: React.FC = () => {
     }
 
     // hide button after 2 seconds when changes are saved
-    if (showButton && !hasUnsavedProgress) {
+    if (showButton && showSaved) {
       setHideShowButtonTimer(
         window.setTimeout(() => setShowButton(false), 2000)
       );
     }
-  }, [hasUnsavedProgress]);
+  }, [playing && !hasUnsavedProgress]);
 
   const save = () => {
     gameService.send("SAVE");
