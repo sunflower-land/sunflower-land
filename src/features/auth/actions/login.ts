@@ -19,7 +19,8 @@ export async function loginRequest(request: Request) {
       "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
-      ...request,
+      address: request.address,
+      signature: request.signature,
     }),
   });
 

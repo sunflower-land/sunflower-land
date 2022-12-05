@@ -493,20 +493,23 @@ export const authMachine = createMachine<
           },
           authorised: {
             id: "authorised",
-            entry: (context, event) => {
-              if (window.location.hash.includes("goblins")) return;
+            entry: [
+              "clearTransactionId",
+              (context, event) => {
+                if (window.location.hash.includes("goblins")) return;
 
-              // When no 'screen' parameter is given to the event
-              const defaultScreen = window.location.hash.includes("land")
-                ? "land"
-                : "farm";
+                // When no 'screen' parameter is given to the event
+                const defaultScreen = window.location.hash.includes("land")
+                  ? "land"
+                  : "farm";
 
-              const { screen = defaultScreen } = event as StartEvent;
+                const { screen = defaultScreen } = event as StartEvent;
 
-              if (CONFIG.API_URL) {
-                window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
-              }
-            },
+                if (CONFIG.API_URL) {
+                  window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
+                }
+              },
+            ],
             on: {
               RETURN: {
                 target: "#reconnecting",
@@ -759,6 +762,9 @@ export const authMachine = createMachine<
       deleteFarmIdUrl: deleteFarmUrl,
       setTransactionId: assign<Context, any>({
         transactionId: () => randomID(),
+      }),
+      clearTransactionId: assign<Context, any>({
+        transactionId: () => undefined,
       }),
     },
     guards: {
