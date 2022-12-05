@@ -9,6 +9,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { StopTheGoblins } from "./StopTheGoblins";
 import { ChestCaptcha } from "./ChestCaptcha";
+import { Loading } from "features/auth/components";
 
 interface Props {
   reward: Reward | null;
@@ -61,18 +62,14 @@ export const CropReward: React.FC<Props> = ({
   return (
     <Modal centered show={true}>
       <Panel>
-        {loading && (
-          <div className="flex flex-col items-center justify-between">
-            Loading...
-          </div>
-        )}
+        {loading && <Loading />}
         <div
           hidden={loading} // render and hide captchas so images have time to load
           className="flex flex-col items-center justify-between"
         >
           {opened && reward.items ? (
             <>
-              <span className="text-center mb-2">
+              <span className="text-center my-2">
                 Woohoo! Here is your reward
               </span>
               {reward.items.map((item) => (

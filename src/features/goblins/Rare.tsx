@@ -286,7 +286,7 @@ export const Rare: React.FC<Props> = ({ onClose, type, canCraft = true }) => {
             </Label>
           )}
           {!!selected.maxSupply && amountLeft > 0 && (
-            <Label type="danger" className="-mt-2 mb-1">
+            <Label type="info" className="-mt-2 mb-1">
               {`${amountLeft} left`}
             </Label>
           )}
