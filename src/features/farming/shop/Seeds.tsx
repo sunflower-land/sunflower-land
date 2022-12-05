@@ -115,7 +115,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   }
 
   const max = INITIAL_STOCK[selected.name];
-  const inventoryFull = max ? inventory[selected.name]?.gt(max) ?? true : true;
+  const inventoryCount = inventory[selected.name] ?? new Decimal(0);
+  const inventoryFull = max ? inventoryCount.gt(max) : true;
 
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];

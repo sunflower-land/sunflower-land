@@ -138,7 +138,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const labelState = () => {
     const max = INITIAL_STOCK[selectedName];
-    const inventoryFull = max ? inventory[selectedName]?.gt(max) ?? true : true;
+    const inventoryCount = inventory[selectedName] ?? new Decimal(0);
+    const inventoryFull = max ? inventoryCount.gt(max) : true;
 
     if (stock?.equals(0)) {
       return (
