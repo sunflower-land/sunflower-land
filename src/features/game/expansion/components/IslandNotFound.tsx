@@ -14,7 +14,7 @@ export const IslandNotFound = () => {
         <div className="flex flex-col items-center">
           <img id="richBegger" src={humanDeath} />
           <p className="my-4 text-center px-2">
-            You have landed at an unkown island!
+            You have landed in the middle of nowhere!
           </p>
           <Button onClick={() => navigate(`/land/${id}`)}>Take me home</Button>
         </div>
