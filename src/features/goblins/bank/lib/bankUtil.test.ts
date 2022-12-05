@@ -458,6 +458,36 @@ describe("canWithdraw", () => {
 
       expect(enabled).toBeFalsy();
     });
+
+    it("prevents a user from withdrawing a collectible when a player has two and both are placed", () => {
+      const enabled = canWithdraw({
+        item: "Apprentice Beaver",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Apprentice Beaver": new Decimal(2),
+          },
+          collectibles: {
+            "Apprentice Beaver": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+              },
+              {
+                id: "345",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
   });
 
   describe("enables", () => {
@@ -825,59 +855,29 @@ describe("canWithdraw", () => {
 
       expect(enabled).toBeTruthy();
     });
-  });
 
-  it("withdraws a collectible when a player has two and one is placed", () => {
-    const enabled = canWithdraw({
-      item: "Apprentice Beaver",
-      game: {
-        ...TEST_FARM,
-        inventory: {
-          "Apprentice Beaver": new Decimal(2),
+    it("enables a user to withdraw a collectible when a player has two and one is placed", () => {
+      const enabled = canWithdraw({
+        item: "Apprentice Beaver",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Apprentice Beaver": new Decimal(2),
+          },
+          collectibles: {
+            "Apprentice Beaver": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+              },
+            ],
+          },
         },
-        collectibles: {
-          "Apprentice Beaver": [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
-        },
-      },
+      });
+
+      expect(enabled).toBeTruthy();
     });
-
-    expect(enabled).toBeTruthy();
-  });
-
-  it("does not withdraw a collectible when a player has two and both are placed", () => {
-    const enabled = canWithdraw({
-      item: "Apprentice Beaver",
-      game: {
-        ...TEST_FARM,
-        inventory: {
-          "Apprentice Beaver": new Decimal(2),
-        },
-        collectibles: {
-          "Apprentice Beaver": [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-            {
-              id: "345",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-    });
-
-    expect(enabled).toBeFalsy();
   });
 });
