@@ -53,8 +53,9 @@ export const Crops: React.FC = () => {
   const displaySellPrice = (crop: Crop) =>
     getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
 
-  const handleSellOne = () => {
-    sell(new Decimal(1));
+  const handleSellOneOrLess = () => {
+    const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
+    sell(sellAmount);
   };
 
   const handleSellTen = () => {
@@ -69,7 +70,7 @@ export const Crops: React.FC = () => {
   // ask confirmation if crop supply is greater than 1
   const openConfirmationModal = () => {
     if (cropAmount.equals(1)) {
-      handleSellOne();
+      handleSellOneOrLess();
     } else {
       showSellAllModal(true);
     }
@@ -79,6 +80,13 @@ export const Crops: React.FC = () => {
     showSellAllModal(false);
   };
 
+  const sellOneButtonText = () => {
+    // In the case of 0 the button will be disabled
+    if (cropAmount.greaterThan(1) || cropAmount.eq(0)) return "Sell 1";
+
+    return `Sell ${cropAmount}`;
+  };
+
   useEffect(() => {
     setIsPriceBoosted(hasSellBoost(inventory, state.bumpkin as Bumpkin));
   }, [inventory, state.inventory]);
@@ -86,7 +94,7 @@ export const Crops: React.FC = () => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div
-        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
         style={{ maxHeight: TAB_CONTENT_HEIGHT }}
         ref={divRef}
       >
@@ -126,11 +134,11 @@ export const Crops: React.FC = () => {
           </div>
           <div className="flex sm:flex-col w-full">
             <Button
-              disabled={cropAmount.lessThan(1)}
+              disabled={cropAmount.eq(0)}
               className="text-xs mt-1 mr-1 sm:mr-0 flex-1"
-              onClick={handleSellOne}
+              onClick={handleSellOneOrLess}
             >
-              Sell 1
+              {sellOneButtonText()}
             </Button>
             <Button
               disabled={cropAmount.lessThan(10)}
