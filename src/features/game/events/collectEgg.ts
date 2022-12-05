@@ -5,7 +5,7 @@ import { Chicken, GameState } from "../types/game";
 
 export type CollectAction = {
   type: "chicken.collectEgg";
-  index: number;
+  id: string;
 };
 
 type Options = {
@@ -25,7 +25,7 @@ export function collectEggs({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const chickens = stateCopy.chickens || {};
-  const chicken = chickens[action.index];
+  const chicken = chickens[action.id];
 
   if (!chicken) {
     throw new Error("This chicken does not exist");
@@ -37,7 +37,7 @@ export function collectEggs({
 
   const mutantChicken = chicken.reward?.items?.[0];
 
-  delete chickens[action.index].fedAt;
+  delete chickens[action.id].fedAt;
 
   return {
     ...stateCopy,

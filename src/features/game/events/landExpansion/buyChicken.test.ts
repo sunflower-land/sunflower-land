@@ -12,6 +12,7 @@ describe("buyChicken", () => {
           bumpkin: undefined,
         },
         action: {
+          id: "1234asd",
           coordinates: {
             x: 2,
             y: 2,
@@ -43,6 +44,7 @@ describe("buyChicken", () => {
           },
         },
         action: {
+          id: "1234asd",
           coordinates: {
             x: 2,
             y: 2,
@@ -73,6 +75,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asd",
         coordinates: {
           x: 2,
           y: 2,
@@ -104,6 +107,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asd",
         coordinates: {
           x: 2,
           y: 2,
@@ -113,7 +117,7 @@ describe("buyChicken", () => {
     });
 
     expect(state.chickens).toEqual({
-      0: {
+      "1234asd": {
         coordinates: {
           x: 2,
           y: 2,
@@ -159,6 +163,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asd",
         coordinates: {
           x: 2,
           y: 2,
@@ -168,7 +173,7 @@ describe("buyChicken", () => {
     });
 
     expect(state.chickens).toEqual({
-      0: {
+      "1234asd": {
         coordinates: {
           x: 2,
           y: 2,
@@ -208,6 +213,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "112",
         coordinates: {
           x: 2,
           y: 2,
@@ -219,6 +225,7 @@ describe("buyChicken", () => {
     state = buyChicken({
       state,
       action: {
+        id: "1234asd",
         coordinates: {
           x: 3,
           y: 3,
@@ -228,14 +235,14 @@ describe("buyChicken", () => {
     });
 
     expect(state.chickens).toEqual({
-      0: {
+      "112": {
         coordinates: {
           x: 2,
           y: 2,
         },
         multiplier: 1,
       },
-      1: {
+      "1234asd": {
         coordinates: {
           x: 3,
           y: 3,
@@ -265,6 +272,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asd",
         coordinates: {
           x: 2,
           y: 2,
@@ -302,6 +310,7 @@ describe("buyChicken", () => {
           },
         },
         action: {
+          id: "1234asd",
           coordinates: {
             x: 2,
             y: 2,
@@ -336,6 +345,7 @@ describe("buyChicken", () => {
           },
         },
         action: {
+          id: "1234asd",
           coordinates: {
             x: 2,
             y: 2,
@@ -366,6 +376,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asd",
         coordinates: {
           x: 2,
           y: 2,
@@ -410,6 +421,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asd",
         coordinates: {
           x: 2,
           y: 2,

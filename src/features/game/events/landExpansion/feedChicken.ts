@@ -4,6 +4,7 @@ import {
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
+import { getKeys } from "features/game/types/craftables";
 import {
   Bumpkin,
   Collectibles,
@@ -14,7 +15,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionFeedChickenAction = {
   type: "chicken.fed";
-  index: number;
+  id: string;
 };
 
 type Options = {
@@ -85,17 +86,11 @@ export function feedChicken({
   const maxChickens = getMaxChickens(collectibles);
 
   const chickens = stateCopy.chickens || {};
-  const chicken = chickens[action.index];
+  const chickenCount = getKeys(stateCopy.chickens).length;
+  const chicken = chickens[action.id];
 
-  if (
-    !chicken &&
-    (!inventory?.Chicken || inventory.Chicken?.lt(action.index))
-  ) {
+  if (!chicken) {
     throw new Error("This chicken does not exist");
-  }
-
-  if (action.index > maxChickens - 1) {
-    throw new Error(`Cannot have more than ${maxChickens} chickens`);
   }
 
   const isChickenHungry =
@@ -113,8 +108,8 @@ export function feedChicken({
 
   const currentWheat = inventory.Wheat || new Decimal(0);
   inventory.Wheat = currentWheat.minus(wheatRequired);
-  chickens[action.index] = {
-    ...chickens[action.index],
+  chickens[action.id] = {
+    ...chickens[action.id],
     fedAt: makeFedAt(inventory, collectibles, createdAt, bumpkin),
     multiplier: 1,
   };
