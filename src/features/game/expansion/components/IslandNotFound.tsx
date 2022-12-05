@@ -11,14 +11,12 @@ export const IslandNotFound = () => {
   return (
     <Modal centered show={true}>
       <Panel>
-        <div className="flex flex-col items-center px-3">
+        <div className="flex flex-col items-center">
           <img id="richBegger" src={humanDeath} />
-          <p className="my-4 text-center">
+          <p className="my-4 text-center px-2">
             You have landed at an unkown island!
           </p>
-          <Button className="mb-4" onClick={() => navigate(`/land/${id}`)}>
-            Take me home
-          </Button>
+          <Button onClick={() => navigate(`/land/${id}`)}>Take me home</Button>
         </div>
       </Panel>
     </Modal>
