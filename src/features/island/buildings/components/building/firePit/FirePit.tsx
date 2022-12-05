@@ -154,6 +154,7 @@ export const FirePit: React.FC<Props> = ({
         onClose={() => setShowModal(false)}
         onCook={handleCook}
         crafting={!!crafting}
+        itemInProgress={name}
         craftingService={craftingService}
       />
     </>

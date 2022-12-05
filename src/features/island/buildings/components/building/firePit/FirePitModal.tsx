@@ -24,6 +24,7 @@ interface Props {
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
   crafting: boolean;
+  itemInProgress?: ConsumableName;
   craftingService?: MachineInterpreter;
 }
 export const FirePitModal: React.FC<Props> = ({
@@ -31,6 +32,7 @@ export const FirePitModal: React.FC<Props> = ({
   onCook,
   onClose,
   crafting,
+  itemInProgress,
   craftingService,
 }) => {
   const [showTutorial, setShowTutorial] = useState<boolean>(
@@ -43,7 +45,10 @@ export const FirePitModal: React.FC<Props> = ({
 
     return [...acc, CONSUMABLES[name]];
   }, [] as Consumable[]);
-  const [selected, setSelected] = useState<Consumable>(firePitRecipes[0]);
+  const [selected, setSelected] = useState<Consumable>(
+    firePitRecipes.find((recipe) => recipe.name === itemInProgress) ||
+      firePitRecipes[0]
+  );
 
   const bumpkinParts: Partial<Equipped> = {
     body: "Beige Farmer Potion",
