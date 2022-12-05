@@ -32,7 +32,7 @@ export async function addVipRole({ farmId, token, role }: Options) {
   }
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
+    throw new Error(ERRORS.DISCORD_ROLE_SERVER_ERROR);
   }
 
   await response.json();

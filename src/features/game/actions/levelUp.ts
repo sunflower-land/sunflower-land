@@ -12,6 +12,7 @@ type Request = {
   skill: SkillName;
   offset: number;
   deviceTrackerId: string;
+  transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;

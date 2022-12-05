@@ -15,7 +15,7 @@ import {
   getOnChainState,
   LimitedItemRecipeWithMintedAt,
 } from "../actions/onchain";
-import { ERRORS } from "lib/errors";
+import { ErrorCode, ERRORS } from "lib/errors";
 import { EMPTY } from "./constants";
 import { loadSession } from "../actions/loadSession";
 import { wallet } from "lib/blockchain/wallet";
@@ -29,6 +29,7 @@ import { Item } from "features/retreat/components/auctioneer/actions/auctioneerI
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 import { getBumpkinLevel } from "./level";
+import { randomID } from "lib/utils/random";
 
 const API_URL = CONFIG.API_URL;
 
@@ -39,7 +40,8 @@ export type OnChainLimitedItems = Record<number, LimitedItemRecipeWithMintedAt>;
 export interface Context {
   state: GoblinState;
   sessionId?: string;
-  errorCode?: keyof typeof ERRORS;
+  errorCode?: ErrorCode;
+  transactionId?: string;
   farmAddress?: string;
   deviceTrackerId?: string;
   limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
@@ -166,8 +168,9 @@ export function startGoblinVillage(authContext: AuthContext) {
       },
       states: {
         loading: {
+          entry: "setTransactionId",
           invoke: {
-            src: async () => {
+            src: async (context) => {
               const farmId = authContext.farmId as number;
 
               const onChainStateFn = getOnChainState({
@@ -176,7 +179,8 @@ export function startGoblinVillage(authContext: AuthContext) {
               });
 
               const auctioneerItemsFn = fetchAuctioneerDrops(
-                authContext.rawToken as string
+                authContext.rawToken as string,
+                context.transactionId as string
               );
 
               // Get session id
@@ -196,6 +200,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 sessionId,
                 token: authContext.rawToken as string,
                 bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
+                transactionId: context.transactionId as string,
               });
 
               const game = response?.game as GameState;
@@ -263,6 +268,7 @@ export function startGoblinVillage(authContext: AuthContext) {
           entry: () => history.go(-1),
         },
         playing: {
+          entry: "clearTransactionId",
           on: {
             MINT: {
               target: "minting",
@@ -389,6 +395,7 @@ export function startGoblinVillage(authContext: AuthContext) {
           },
         },
         minting: {
+          entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
               const { item, captcha } = event as MintEvent;
@@ -399,6 +406,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 token: authContext.rawToken as string,
                 item,
                 captcha,
+                transactionId: context.transactionId as string,
               });
 
               return {
@@ -425,6 +433,7 @@ export function startGoblinVillage(authContext: AuthContext) {
           },
         },
         withdrawing: {
+          entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
               const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
@@ -437,6 +446,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 ids,
                 sfl,
                 captcha,
+                transactionId: context.transactionId as string,
               });
 
               return {
@@ -476,6 +486,12 @@ export function startGoblinVillage(authContext: AuthContext) {
       actions: {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
+        }),
+        setTransactionId: assign<Context, any>({
+          transactionId: () => randomID(),
+        }),
+        clearTransactionId: assign<Context, any>({
+          transactionId: () => randomID(),
         }),
       },
     }

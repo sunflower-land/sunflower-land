@@ -8,6 +8,7 @@ type Request = {
   amount: string;
   token: string;
   captcha: string;
+  transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -25,6 +26,7 @@ export async function signCollectFromWell({
   token,
   amount,
   captcha,
+  transactionId,
 }: Request): Promise<SignedTransaction | void> {
   if (!API_URL) return;
 
@@ -33,6 +35,7 @@ export async function signCollectFromWell({
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${token}`,
+      "X-Transaction-ID": transactionId,
     },
     body: JSON.stringify({
       sessionId: sessionId,
@@ -44,6 +47,10 @@ export async function signCollectFromWell({
 
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.WISHING_WELL_SERVER_ERROR);
   }
 
   const transaction = await response.json();
