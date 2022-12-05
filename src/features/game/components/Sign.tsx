@@ -75,7 +75,7 @@ export const Sign: React.FC<Props> = ({ inventory, id }) => {
 
       <img src={sign} className="w-full" />
       <div
-        className="flex flex-col absolute"
+        className="flex flex-col absolute text-xxs"
         style={{
           width: `130px`,
           top: `${GRID_WIDTH_PX * 0.27}px`,
@@ -83,10 +83,9 @@ export const Sign: React.FC<Props> = ({ inventory, id }) => {
           color: "#ead4aa",
           textAlign: "center",
           textShadow: "1px 1px #723e39",
-          fontSize: "14px",
         }}
       >
-        <p style={{ fontSize: "8px", height: "8px" }}>Land</p>
+        <p className="mt-1 text-xxs">Land</p>
         {id}
       </div>
     </div>

@@ -10,7 +10,7 @@ import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import timer from "assets/icons/timer.png";
 import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
-import { shortenCount } from "lib/utils/formatNumber";
+import { setPrecision, shortenCount } from "lib/utils/formatNumber";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -70,15 +70,20 @@ export const Box: React.FC<BoxProps> = ({
   const labelRef = useRef<HTMLDivElement>(null);
   const labelCheckerRef = useRef<HTMLDivElement>(null);
 
+  const precisionCount = setPrecision(new Decimal(count || 0));
+
   // re-execute function on count change
-  useEffect(() => setShortCount(shortenCount(count)), [count]);
+  useEffect(
+    () => setShortCount(shortenCount(precisionCount)),
+    [precisionCount]
+  );
 
   const canClick = !locked && !disabled;
 
   const longPressEvents = useLongPress(
     (e) => (canClick ? onClick?.() : undefined),
     undefined,
-    count,
+    precisionCount,
     {
       delay: 500,
       interval: 20,
@@ -89,8 +94,7 @@ export const Box: React.FC<BoxProps> = ({
     ? longPressEvents
     : { onClick: canClick ? onClick : undefined };
 
-  const showCountLabel =
-    !locked && !hideCount && !!count && count.greaterThan(0);
+  const showCountLabel = !locked && !hideCount && precisionCount.greaterThan(0);
 
   // shift count label position to right if out of parent div or viewport bounds on hover
   // restore count label position when not on hover
@@ -258,7 +262,9 @@ export const Box: React.FC<BoxProps> = ({
             }}
           >
             <Label type="default" className="px-0.5 text-xxs">
-              {isHover && !showHiddenCountLabel ? count.toString() : shortCount}
+              {isHover && !showHiddenCountLabel
+                ? precisionCount.toString()
+                : shortCount}
             </Label>
           </div>
         )}
@@ -275,7 +281,7 @@ export const Box: React.FC<BoxProps> = ({
             }}
           >
             <Label type="default" className="px-0.5 text-xxs">
-              {count.toString()}
+              {precisionCount.toString()}
             </Label>
           </div>
         )}

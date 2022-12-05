@@ -26,13 +26,14 @@ import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { Boulder } from "features/island/boulder/Boulder";
-import { IslandTravel } from "./components/IslandTravel";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
+import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
+import { BumpkinTutorial } from "./BumpkinTutorial";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -217,7 +218,7 @@ const getIslandElements = ({
   expansions: LandExpansion[];
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
-  chickens: Partial<Record<number, Chicken>>;
+  chickens: Partial<Record<string, Chicken>>;
   bumpkinParts: BumpkinParts | undefined;
   isEditing?: boolean;
 }) => {
@@ -336,22 +337,22 @@ const getIslandElements = ({
   mapPlacements.push(
     ...getKeys(chickens)
       // Only show placed chickens (V1 may have ones without coords)
-      .filter((index) => chickens[index]?.coordinates)
-      .flatMap((index, nameIndex) => {
-        const chicken = chickens[index]!;
+      .filter((id) => chickens[id]?.coordinates)
+      .flatMap((id) => {
+        const chicken = chickens[id]!;
         const { x, y } = chicken.coordinates as Coordinates;
         const { width, height } = ANIMAL_DIMENSIONS.Chicken;
 
         return (
           <MapPlacement
-            key={`chicken-${nameIndex}`}
+            key={`chicken-${id}`}
             x={x}
             y={y}
             height={height}
             width={width}
             isEditing={isEditing}
           >
-            <ChickenElement index={index} />
+            <ChickenElement id={id} />
           </MapPlacement>
         );
       })
@@ -424,6 +425,8 @@ export const Land: React.FC = () => {
         x={boatCoordinates.x}
         y={boatCoordinates.y}
       />
+
+      <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
       {gameState.matches("editing") && <Placeable />}
     </div>

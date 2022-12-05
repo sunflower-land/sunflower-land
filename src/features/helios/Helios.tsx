@@ -9,10 +9,12 @@ import { Potions } from "./components/potions/Potions";
 import { ExoticShop } from "./components/exoticShop/ExoticShop";
 import { HeliosSunflower } from "./components/HeliosSunflower";
 import { HeliosBlacksmith } from "./components/blacksmith/HeliosBlacksmith";
-import { IslandTravel } from "features/game/expansion/components/IslandTravel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { LostSunflorian } from "./components/npcs/LostSunflorian";
+import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
+import { RustyShovelSeller } from "./components/rustyShovelSeller/RustyShovelSeller";
+import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 
 export const Helios: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -49,12 +51,15 @@ export const Helios: React.FC = () => {
         <ExoticShop />
         <HeliosSunflower />
         <LostSunflorian />
+        <RustyShovelSeller />
+        <CommunityGardenEntry />
 
         <IslandTravel
           bumpkin={bumpkin}
           x={5}
           y={-17}
           onTravelDialogOpened={() => gameService.send("SAVE")}
+          isTravelAllowed={!gameState.matches("autosaving")}
         />
       </div>
     </>

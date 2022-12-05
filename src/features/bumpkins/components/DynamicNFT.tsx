@@ -15,7 +15,7 @@ import { CONFIG } from "lib/config";
 interface Props {
   bumpkinParts: Partial<BumpkinParts>;
   showBackground?: boolean;
-  showTool?: boolean;
+  showTools?: boolean;
   className?: string;
 }
 
@@ -30,7 +30,7 @@ function getImageUrl(layerId: number) {
 export const DynamicNFT: React.FC<Props> = ({
   bumpkinParts,
   showBackground,
-  showTool = true,
+  showTools = true,
   className,
 }) => {
   if (!bumpkinParts) {
@@ -70,8 +70,9 @@ export const DynamicNFT: React.FC<Props> = ({
     delete orderedParts.background;
   }
 
-  if (!showTool) {
+  if (!showTools) {
     delete orderedParts.tool;
+    delete orderedParts.secondaryTool;
   }
 
   return (

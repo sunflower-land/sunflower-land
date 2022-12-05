@@ -103,8 +103,8 @@ export const Navigation: React.FC = () => {
             )}
 
             <Route
-              path="/community-garden"
-              element={<Community key="farm" />}
+              path="/community-garden/:id"
+              element={<Community key="community" />}
             />
             {/* Fallback */}
             <Route element={<Humans />} />

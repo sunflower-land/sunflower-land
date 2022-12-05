@@ -120,9 +120,10 @@ function detectResourceCollision(state: GameState, boundingBox: BoundingBox) {
   );
 }
 
-function detectWaterCollision(state: GameState, boundingBox: BoundingBox) {
-  const { expansions } = state;
-
+function detectWaterCollision(
+  expansions: LandExpansion[],
+  boundingBox: BoundingBox
+) {
   const expansionBoundingBoxes: BoundingBox[] = expansions.map(
     (_, expansionIndex) => ({
       x: EXPANSION_ORIGINS[expansionIndex].x - LAND_SIZE / 2,
@@ -213,13 +214,14 @@ enum Direction {
  * As corners of a land change depending on how many expansions you have, this function looks for
  * neighbouring expansions in all directions to determine where the corners are and whether the bounding box
  * overlaps with any of them.
- * @param state
+ * @param expansions The list of expansions that are not under construction.
  * @param boundingBox
  * @returns boolean
  */
-function detectLandCornerCollision(state: GameState, boundingBox: BoundingBox) {
-  const { expansions } = state;
-
+function detectLandCornerCollision(
+  expansions: LandExpansion[],
+  boundingBox: BoundingBox
+) {
   // Mid point coordinates for all land expansions
   const originCoordinatesForExpansions: Coordinates[] = expansions.map(
     (_, i) => EXPANSION_ORIGINS[i]
@@ -321,11 +323,18 @@ function detectBumpkinCollision(boundingBox: BoundingBox) {
   });
 }
 export function detectCollision(state: GameState, position: Position) {
+  const { expansions } = state;
+  const latestLand = expansions[expansions.length - 1];
+  const completedExpansions = [
+    ...expansions.slice(0, expansions.length - 1),
+    ...(latestLand.readyAt <= Date.now() ? [latestLand] : []),
+  ];
+
   return (
-    detectWaterCollision(state, position) ||
+    detectWaterCollision(completedExpansions, position) ||
     detectResourceCollision(state, position) ||
     detectPlaceableCollision(state, position) ||
-    detectLandCornerCollision(state, position) ||
+    detectLandCornerCollision(completedExpansions, position) ||
     detectChickenCollision(state, position) ||
     detectBumpkinCollision(position)
   );

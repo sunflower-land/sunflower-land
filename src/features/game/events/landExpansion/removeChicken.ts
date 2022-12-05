@@ -9,7 +9,7 @@ export enum REMOVE_CHICKEN_ERRORS {
 
 export type RemoveChickenAction = {
   type: "chicken.removed";
-  chickenIndex: number;
+  id: string;
 };
 
 type Options = {
@@ -31,11 +31,7 @@ export function removeChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (!chickens[action.chickenIndex]) {
-    throw new Error(REMOVE_CHICKEN_ERRORS.INVALID_CHICKEN);
-  }
-
-  if (action.chickenIndex === -1) {
+  if (!chickens[action.id]) {
     throw new Error(REMOVE_CHICKEN_ERRORS.INVALID_CHICKEN);
   }
 
@@ -45,7 +41,7 @@ export function removeChicken({
     throw new Error(REMOVE_CHICKEN_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   }
 
-  delete chickens[action.chickenIndex];
+  delete chickens[action.id];
 
   inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 

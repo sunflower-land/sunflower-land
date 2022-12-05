@@ -17,6 +17,8 @@ import { getKeys } from "features/game/types/craftables";
 import { useMakeDefaultInventoryItem } from "components/hooks/useGetDefaultInventoryItem";
 import { useHasBoostForItem } from "./hooks/useHasBoostForItem";
 import { KNOWN_IDS } from "features/game/types";
+import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -49,19 +51,23 @@ export const InventoryTabContent = ({
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const inventoryMap = inventoryItems.reduce((acc, curr) => {
-    const category = inventoryCategories.find(
-      (category) => curr in tabItems[category].items
-    );
+  const inventoryMap = inventoryItems
+    .filter((item) =>
+      setPrecision(new Decimal(inventory[item] || 0)).greaterThan(0)
+    )
+    .reduce((acc, curr) => {
+      const category = inventoryCategories.find(
+        (category) => curr in tabItems[category].items
+      );
 
-    if (category) {
-      const currentItems = acc[category] || [];
+      if (category) {
+        const currentItems = acc[category] || [];
 
-      acc[category] = [...currentItems, curr];
-    }
+        acc[category] = [...currentItems, curr];
+      }
 
-    return acc;
-  }, {} as Record<string, InventoryItemName[]>);
+      return acc;
+    }, {} as Record<string, InventoryItemName[]>);
 
   useMakeDefaultInventoryItem({
     setDefaultSelectedItem,

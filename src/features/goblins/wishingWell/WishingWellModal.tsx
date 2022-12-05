@@ -235,7 +235,12 @@ export const WishingWellModal: React.FC = () => {
 
   const { state: wishingWell, errorCode } = machine.context;
 
-  useUiRefresher({ active: machine.matches("granted") });
+  useUiRefresher({
+    active:
+      machine.matches("granted") ||
+      machine.matches("waiting") ||
+      machine.matches("wished"),
+  });
 
   const handleClose = () => {
     send("CLOSING");
@@ -243,7 +248,7 @@ export const WishingWellModal: React.FC = () => {
 
   const goToQuickSwap = () => {
     window.open(
-      "https://quickswap.exchange/#/add/0xd1f9c58e33933a993a3891f8acfe05a68e1afc05/ETH",
+      "https://quickswap.exchange/#/add/0xd1f9c58e33933a993a3891f8acfe05a68e1afc05/ETH/v2",
       "_blank"
     );
   };

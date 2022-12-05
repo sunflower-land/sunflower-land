@@ -7,6 +7,7 @@ import { getSupportedChickens } from "./utils";
 
 export type BuyChickenAction = {
   type: "chicken.bought";
+  id: string;
   coordinates: {
     x: number;
     y: number;
@@ -25,7 +26,7 @@ export function buyChicken({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const bumpkin = stateCopy.bumpkin;
+  const { bumpkin, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
@@ -37,17 +38,15 @@ export function buyChicken({
     throw new Error("Insufficient SFL");
   }
 
-  const previousChickens = stateCopy.inventory.Chicken || new Decimal(0);
+  const previousChickens = inventory.Chicken || new Decimal(0);
 
   if (previousChickens.gte(getSupportedChickens(state))) {
     throw new Error("Insufficient space for more chickens");
   }
 
-  const id = Object.keys(stateCopy.chickens).length;
-
   const chickens: GameState["chickens"] = {
     ...stateCopy.chickens,
-    [id]: {
+    [action.id]: {
       multiplier: 1,
       coordinates: action.coordinates,
     },

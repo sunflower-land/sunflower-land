@@ -20,7 +20,8 @@ export type BuyEvent = `${BuyableName} Bought`;
 export type CraftedEvent = `${
   | ToolName
   | WorkbenchToolName
-  | TreasureToolName} Crafted`;
+  | TreasureToolName
+  | "Rusty Shovel"} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 

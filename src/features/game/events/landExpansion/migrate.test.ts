@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { canMigrate, migrate } from "./migrate";
+import { canMigrate } from "./migrate";
 
 const GAME_STATE: GameState = { ...TEST_FARM, inventory: {} };
 
@@ -79,21 +79,5 @@ describe("Migrate", () => {
     });
 
     expect(result).toBe(true);
-  });
-
-  it("gives a player 2 Rusty Shovels as part of migration", () => {
-    const result = migrate({
-      state: {
-        ...GAME_STATE,
-        inventory: { Coder: new Decimal(1) },
-      },
-      action: {
-        type: "game.migrated",
-      },
-    });
-
-    expect(result.inventory["Rusty Shovel"]?.toNumber()).toBeGreaterThanOrEqual(
-      2
-    );
   });
 });

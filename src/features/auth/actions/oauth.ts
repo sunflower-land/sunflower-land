@@ -6,6 +6,7 @@ import { login, saveSession } from "./login";
 type Request = {
   token: string;
   code: string;
+  transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -16,6 +17,7 @@ export async function oauthoriseRequest(request: Request) {
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${request.token}`,
+      "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
       code: request.code,
@@ -25,23 +27,27 @@ export async function oauthoriseRequest(request: Request) {
   const { token, errorCode } = await response.json();
 
   if (response.status >= 400) {
-    throw new Error(errorCode || ERRORS.FAILED_REQUEST);
+    throw new Error(errorCode ?? ERRORS.OAUTH_SERVER_ERROR);
   }
 
   return { token };
 }
 
-export async function oauthorise(code: string): Promise<{ token: string }> {
+export async function oauthorise(
+  code: string,
+  transactionId: string
+): Promise<{ token: string }> {
   // Remove query parameters from url
   window.history.pushState({}, "", window.location.pathname);
 
   const address = wallet.myAccount as string;
 
-  const { token: oldToken } = await login();
+  const { token: oldToken } = await login(transactionId);
 
   const { token } = await oauthoriseRequest({
     token: oldToken,
     code,
+    transactionId,
   });
 
   saveSession(address, { token });

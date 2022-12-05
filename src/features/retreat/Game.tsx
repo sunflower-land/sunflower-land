@@ -21,95 +21,102 @@ import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
+import {
+  RETREAT_LEVEL_REQUIREMENT,
+  StateValues,
+} from "features/game/lib/goblinMachine";
+import { Withdrawing } from "features/game/components/Withdrawing";
+import { Withdrawn } from "features/game/components/Withdrawn";
+import { getBumpkinLevel } from "features/game/lib/level";
+
+const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
+  loading: true,
+  minting: false,
+  minted: false,
+  withdrawing: true,
+  withdrawn: true,
+  playing: false,
+  error: true,
+};
 
 export const Game = () => {
   const container = useRef(null);
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
-  // Record initial page load
-  const [loaded, setLoaded] = useState(false);
-
-  const isLoading = goblinState.matches("loading");
-  const isError = goblinState.matches("error");
+  const [retreatLoaded, setRetreatLoaded] = useState(false);
 
   useLayoutEffect(() => {
-    if (loaded) return;
-
-    if (!isLoading) {
+    if (retreatLoaded) {
       scrollIntoView(Section.RetreatBackground, "auto");
-      setLoaded(true);
     }
-  }, [isLoading, loaded]);
+  }, [retreatLoaded]);
 
-  if (isLoading) {
-    return (
-      <div>
-        <div
-          className="absolute inset-0 bg-repeat w-full h-full"
-          style={{
-            backgroundImage: `url(${ocean})`,
-            backgroundSize: `${64 * PIXEL_SCALE}px`,
-            imageRendering: "pixelated",
-          }}
-        />
-        <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-          <Modal show centered backdrop={false}>
-            <Panel>
-              <Loading />
-            </Panel>
-          </Modal>
-        </div>
-      </div>
-    );
-  }
+  const { bumpkin } = goblinState.context.state;
+
+  const hasRequiredLevel =
+    bumpkin && getBumpkinLevel(bumpkin.experience) >= RETREAT_LEVEL_REQUIREMENT;
+
   return (
-    <ToastProvider>
-      <ScrollContainer
-        className="bg-blue-300 overflow-scroll relative w-full h-full"
-        innerRef={container}
+    <>
+      <Modal
+        show={SHOW_MODAL[goblinState.value as StateValues]}
+        centered
+        backdrop={retreatLoaded}
       >
-        <div className="relative h-retreatGameboard w-retreatGameboard">
-          <div
-            className="absolute inset-0 bg-repeat w-full h-full"
-            style={{
-              backgroundImage: `url(${ocean})`,
-              backgroundSize: `${64 * PIXEL_SCALE}px`,
-              imageRendering: "pixelated",
-            }}
-          />
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            style={{
-              width: `${40 * GRID_WIDTH_PX}px`,
-              height: `${40 * GRID_WIDTH_PX}px`,
-            }}
-          >
-            <img
-              src={background}
-              className="absolute inset-0 w-full h-full"
-              id={Section.RetreatBackground}
+        <Panel className="text-shadow">
+          {goblinState.matches("error") && (
+            <ErrorMessage
+              errorCode={goblinState.context.errorCode as ErrorCode}
             />
-            <RetreatBank />
-            <RetreatStorageHouse />
-            <RetreatHotAirBalloon />
-            <RetreatTailor />
-            <RetreatBlacksmith />
-            <Auctioneer />
-            <Resale />
-            <RetreatWishingWell />
-            <IslandTravelWrapper />
-
-            <Modal show={isError} centered>
-              <Panel className="text-shadow">
-                <ErrorMessage
-                  errorCode={goblinState.context.errorCode as ErrorCode}
+          )}
+          {goblinState.matches("withdrawing") && <Withdrawing />}
+          {goblinState.matches("loading") && <Loading />}
+          {goblinState.matches("withdrawn") && <Withdrawn />}
+        </Panel>
+      </Modal>
+      <ToastProvider>
+        <ScrollContainer
+          className="bg-blue-300 overflow-scroll relative w-full h-full"
+          innerRef={container}
+        >
+          <div className="relative h-retreatGameboard w-retreatGameboard">
+            <div
+              className="absolute inset-0 bg-repeat w-full h-full"
+              style={{
+                backgroundImage: `url(${ocean})`,
+                backgroundSize: `${64 * PIXEL_SCALE}px`,
+                imageRendering: "pixelated",
+              }}
+            />
+            {hasRequiredLevel && (
+              <div
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  width: `${40 * GRID_WIDTH_PX}px`,
+                  height: `${40 * GRID_WIDTH_PX}px`,
+                }}
+              >
+                <img
+                  src={background}
+                  className="absolute inset-0 w-full h-full"
+                  id={Section.RetreatBackground}
+                  onLoad={() => setRetreatLoaded(true)}
                 />
-              </Panel>
-            </Modal>
+                <RetreatBank />
+                <RetreatStorageHouse />
+                <RetreatHotAirBalloon />
+                <RetreatTailor />
+                <RetreatBlacksmith />
+                <Auctioneer />
+                <Resale />
+                <RetreatWishingWell />
+                <IslandTravelWrapper />
+              </div>
+            )}
           </div>
-        </div>
-      </ScrollContainer>
-    </ToastProvider>
+        </ScrollContainer>
+      </ToastProvider>
+    </>
   );
 };

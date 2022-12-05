@@ -24,7 +24,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
         }}
       />
       <span
-        className="text-white text-base h-7 ml-1"
+        className="text-white text-base h-7 mx-1"
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
       >

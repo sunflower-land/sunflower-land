@@ -39,7 +39,7 @@ import { Modal } from "react-bootstrap";
 import { RemoveChickenModal } from "features/farming/animals/components/RemoveChickenModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 interface Props {
-  index: number;
+  id: string;
 }
 
 const getPercentageComplete = (fedAt?: number) => {
@@ -92,7 +92,7 @@ const isHappy = (state: MachineState) => state.matches({ fed: "happy" });
 const isEggReady = (state: MachineState) => state.matches("eggReady");
 const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
-export const Chicken: React.FC<Props> = ({ index }) => {
+export const Chicken: React.FC<Props> = ({ id }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const shortcuts = getShortcuts();
@@ -117,7 +117,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
             "pointer-events-none": hasRustyShovelSelected,
           })}
         >
-          <ChickenContent index={index} />
+          <ChickenContent id={id} />
         </div>
       </div>
       <Modal
@@ -127,7 +127,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
       >
         {showRemoveModal && (
           <RemoveChickenModal
-            chickenIndex={index}
+            id={id}
             onClose={() => setShowRemoveModal(false)}
           />
         )}
@@ -136,7 +136,7 @@ export const Chicken: React.FC<Props> = ({ index }) => {
   );
 };
 
-export const ChickenContent: React.FC<Props> = ({ index }) => {
+export const ChickenContent: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [
     {
@@ -146,7 +146,7 @@ export const ChickenContent: React.FC<Props> = ({ index }) => {
 
   const { setToast } = useContext(ToastContext);
 
-  const chicken = state.chickens[index];
+  const chicken = state.chickens[id];
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
 
@@ -216,11 +216,11 @@ export const ChickenContent: React.FC<Props> = ({ index }) => {
       context: {
         state: { chickens },
       },
-    } = gameService.send("chicken.feed", {
-      index,
+    } = gameService.send("chicken.fed", {
+      id,
     });
 
-    const chicken = chickens[index];
+    const chicken = chickens[id];
 
     chickenService.send("FEED", {
       fedAt: chicken.fedAt,
@@ -248,7 +248,7 @@ export const ChickenContent: React.FC<Props> = ({ index }) => {
 
   const collectEgg = () => {
     const newState = gameService.send("chicken.collectEgg", {
-      index,
+      id,
     });
 
     if (!newState.matches("hoarding")) {

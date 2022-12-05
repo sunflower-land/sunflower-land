@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
+
 import { Panel } from "components/ui/Panel";
 import { ToastContext } from "./ToastQueueProvider";
 import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";
 import { PIXEL_SCALE } from "../lib/constants";
 
-export const ToastManager: React.FC<{ island: boolean }> = ({ island }) => {
+export const ToastManager: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { toastList } = useContext(ToastContext);
@@ -27,10 +28,8 @@ export const ToastManager: React.FC<{ island: boolean }> = ({ island }) => {
             "flex flex-col items-end sm:block fixed z-[99999] pointer-events-none"
           }
           style={{
-            top: `${PIXEL_SCALE * (island ? 23 : 30)}px`,
-            ...(island
-              ? { right: `${PIXEL_SCALE * 3}px` }
-              : { left: `${PIXEL_SCALE * 3}px` }),
+            top: `${PIXEL_SCALE * 52}px`,
+            left: `${PIXEL_SCALE * 3}px`,
           }}
         >
           <Panel>
