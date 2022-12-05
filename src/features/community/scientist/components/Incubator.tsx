@@ -27,6 +27,7 @@ import empty_incubator from "features/community/assets/incubator/empty-small.gif
 import active_incubator from "features/community/assets/incubator/algae-small.gif";
 import token from "features/community/assets/icons/token.png";
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
+import { setPrecision } from "lib/utils/formatNumber";
 
 export const Incubator: React.FC = () => {
   const [machine, send] = useMachine(incubateMachine);
@@ -296,9 +297,9 @@ export const Incubator: React.FC = () => {
                       setSelected("active");
                       setSelectedActiveIncubator(incubator.id);
                       setSelectedIncubatorEarnings(
-                        incubator.earnings
-                          ?.toDecimalPlaces(4, Decimal.ROUND_DOWN)
-                          .toString()
+                        setPrecision(
+                          new Decimal(incubator.earnings || 0)
+                        ).toString()
                       );
                     }}
                     key={index}

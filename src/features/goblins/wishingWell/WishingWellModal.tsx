@@ -235,7 +235,12 @@ export const WishingWellModal: React.FC = () => {
 
   const { state: wishingWell, errorCode } = machine.context;
 
-  useUiRefresher({ active: machine.matches("granted") });
+  useUiRefresher({
+    active:
+      machine.matches("granted") ||
+      machine.matches("waiting") ||
+      machine.matches("wished"),
+  });
 
   const handleClose = () => {
     send("CLOSING");

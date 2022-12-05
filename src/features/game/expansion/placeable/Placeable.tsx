@@ -23,7 +23,7 @@ import { Chicken } from "features/island/chickens/Chicken";
 import dragIcon from "assets/icons/drag.png";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken index={-1} />, // chicken state is always hungry for index -1
+  Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
 };

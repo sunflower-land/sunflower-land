@@ -218,7 +218,7 @@ const getIslandElements = ({
   expansions: LandExpansion[];
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
-  chickens: Partial<Record<number, Chicken>>;
+  chickens: Partial<Record<string, Chicken>>;
   bumpkinParts: BumpkinParts | undefined;
   isEditing?: boolean;
 }) => {
@@ -337,22 +337,22 @@ const getIslandElements = ({
   mapPlacements.push(
     ...getKeys(chickens)
       // Only show placed chickens (V1 may have ones without coords)
-      .filter((index) => chickens[index]?.coordinates)
-      .flatMap((index, nameIndex) => {
-        const chicken = chickens[index]!;
+      .filter((id) => chickens[id]?.coordinates)
+      .flatMap((id) => {
+        const chicken = chickens[id]!;
         const { x, y } = chicken.coordinates as Coordinates;
         const { width, height } = ANIMAL_DIMENSIONS.Chicken;
 
         return (
           <MapPlacement
-            key={`chicken-${nameIndex}`}
+            key={`chicken-${id}`}
             x={x}
             y={y}
             height={height}
             width={width}
             isEditing={isEditing}
           >
-            <ChickenElement index={index} />
+            <ChickenElement id={id} />
           </MapPlacement>
         );
       })

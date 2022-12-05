@@ -1,21 +1,23 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { CHICKEN_TIME_TO_EGG } from "../lib/constants";
-import { Chicken, GameState } from "../types/game";
+import { CHICKEN_TIME_TO_EGG } from "../../lib/constants";
+import { Chicken, GameState } from "../../types/game";
 
-export type CollectAction = {
-  type: "chicken.harvested";
-  index: number;
+export type LandExpansionCollectEggAction = {
+  type: "chicken.collectEgg";
+  id: string;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: CollectAction;
+  action: LandExpansionCollectEggAction;
   createdAt?: number;
 };
+
 export function eggIsReady(chicken: Chicken, createdAt: number) {
   return chicken.fedAt && createdAt - chicken.fedAt >= CHICKEN_TIME_TO_EGG;
 }
+
 export function collectEggs({
   state,
   action,
@@ -23,18 +25,19 @@ export function collectEggs({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const chickens = stateCopy.chickens || {};
-  const chicken = chickens[action.index];
+  const chicken = chickens[action.id];
 
   if (!chicken) {
     throw new Error("This chicken does not exist");
   }
+
   if (!eggIsReady(chicken, createdAt)) {
     throw new Error("This chicken hasn't layed an egg");
   }
 
   const mutantChicken = chicken.reward?.items?.[0];
 
-  delete chickens[action.index].fedAt;
+  delete chickens[action.id].fedAt;
 
   return {
     ...stateCopy,

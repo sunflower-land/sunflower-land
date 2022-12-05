@@ -27,6 +27,7 @@ describe("buyChicken", () => {
           chickens: {},
         },
         action: {
+          id: "1234asdf",
           coordinates: {
             x: 2,
             y: 2,
@@ -48,6 +49,7 @@ describe("buyChicken", () => {
           },
         },
         action: {
+          id: "1234asdf",
           coordinates: {
             x: 2,
             y: 2,
@@ -99,6 +101,7 @@ describe("buyChicken", () => {
           },
         },
         action: {
+          id: "1234asdf",
           coordinates: {
             x: 2,
             y: 2,
@@ -134,6 +137,7 @@ describe("buyChicken", () => {
           },
         },
         action: {
+          id: "1234asdf",
           coordinates: {
             x: 2,
             y: 2,
@@ -167,6 +171,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asdf",
         coordinates: {
           x: 2,
           y: 2,
@@ -176,7 +181,7 @@ describe("buyChicken", () => {
     });
 
     expect(state.chickens).toEqual({
-      0: {
+      "1234asdf": {
         coordinates: {
           x: 2,
           y: 2,
@@ -220,6 +225,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asdf",
         coordinates: {
           x: 2,
           y: 2,
@@ -229,7 +235,7 @@ describe("buyChicken", () => {
     });
 
     expect(state.chickens).toEqual({
-      0: {
+      "1234asdf": {
         coordinates: {
           x: 2,
           y: 2,
@@ -262,6 +268,7 @@ describe("buyChicken", () => {
         },
       },
       action: {
+        id: "1234asdf",
         coordinates: {
           x: 2,
           y: 2,
@@ -273,6 +280,7 @@ describe("buyChicken", () => {
     state = placeChicken({
       state,
       action: {
+        id: "asdfg",
         coordinates: {
           x: 3,
           y: 3,
@@ -282,14 +290,14 @@ describe("buyChicken", () => {
     });
 
     expect(state.chickens).toEqual({
-      0: {
+      "1234asdf": {
         coordinates: {
           x: 2,
           y: 2,
         },
         multiplier: 1,
       },
-      1: {
+      asdfg: {
         coordinates: {
           x: 3,
           y: 3,

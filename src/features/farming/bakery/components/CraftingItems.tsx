@@ -234,7 +234,7 @@ export const CraftingItems: React.FC<Props> = ({ items, onClose }) => {
       <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
           {expiryTime && (
-            <span className="bg-blue-600 border flex text-[8px] text-xxs items-center absolute -top-4 p-[3px] rounded-md whitespace-nowrap">
+            <span className="bg-blue-600 border flex text-xxs items-center mb-2 px-2 py-1 rounded-md whitespace-nowrap">
               <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
               <span className="mt-[2px]">{`${secondsToString(
                 secondsLeft as number,

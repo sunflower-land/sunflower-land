@@ -48,7 +48,7 @@ export const Crops: React.FC = () => {
     });
   };
 
-  const cropAmount = new Decimal(inventory[selected.name] || 0);
+  const cropAmount = setPrecision(new Decimal(inventory[selected.name] || 0));
   const noCrop = cropAmount.lessThanOrEqualTo(0);
   const displaySellPrice = (crop: Crop) =>
     getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
@@ -99,7 +99,7 @@ export const Crops: React.FC = () => {
               key={item.name}
               onClick={() => setSelected(item)}
               image={ITEM_DETAILS[item.name].image}
-              count={setPrecision(inventory[item.name] ?? new Decimal(0))}
+              count={inventory[item.name]}
               parentDivRef={divRef}
             />
           ))}
