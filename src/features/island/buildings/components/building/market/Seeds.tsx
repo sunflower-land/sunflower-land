@@ -258,11 +258,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             className="w-8 sm:w-12 img-highlight mt-1"
             alt={selectedName}
           />
-          <div className="border-t border-white w-full mt-2 pt-1">
-            <div className="flex justify-center items-center scale-75 sm:scale-100">
+          <div className="border-t border-white w-full my-2 pt-1">
+            <div className="flex justify-center items-center">
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-center mt-2">
+              <span className="text-xs text-center">
                 {secondsToString(
                   getCropTime(
                     crop?.name,
@@ -277,14 +277,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 )}
               </span>
             </div>
-            <div className="flex justify-center items-end">
+            <div className="flex justify-center items-center mt-1">
               <img src={token} className="h-5 mr-1" />
               <span
-                className={classNames("text-xs text-center mt-2", {
+                className={classNames("text-xs text-center", {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`${price}`}
+                {price.equals(0) ? `Free` : `${price}`}
               </span>
             </div>
           </div>

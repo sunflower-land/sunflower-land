@@ -53,13 +53,12 @@ export const Crops: React.FC = () => {
   const displaySellPrice = (crop: Crop) =>
     getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
 
-  const handleSellOneOrLess = () => {
-    const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
-    sell(sellAmount);
+  const handleSellOne = () => {
+    sell(new Decimal(1));
   };
-  const handleSellTenOrLess = () => {
-    const sellAmount = cropAmount.gte(10) ? new Decimal(10) : cropAmount;
-    sell(sellAmount);
+
+  const handleSellTen = () => {
+    sell(new Decimal(10));
   };
 
   const handleSellAll = () => {
@@ -70,7 +69,7 @@ export const Crops: React.FC = () => {
   // ask confirmation if crop supply is greater than 1
   const openConfirmationModal = () => {
     if (cropAmount.equals(1)) {
-      handleSellOneOrLess();
+      handleSellOne();
     } else {
       showSellAllModal(true);
     }
@@ -116,29 +115,29 @@ export const Crops: React.FC = () => {
             {selected.description}
           </span>
 
-          <div className="border-t border-white w-full mt-2 pt-1">
-            <div className="flex justify-center items-end">
+          <div className="border-t border-white w-full my-2 pt-1">
+            <div className="flex justify-center items-center">
               <img src={token} className="h-5 mr-1" />
               {isPriceBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-shadow text-center mt-2 ">
+              <span className="text-xs text-shadow text-center">
                 {`${displaySellPrice(selected)}`}
               </span>
             </div>
           </div>
           <div className="flex sm:flex-col w-full">
             <Button
-              disabled={noCrop}
+              disabled={cropAmount.lessThan(1)}
               className="text-xs mt-1 mr-1 sm:mr-0 flex-1"
-              onClick={handleSellOneOrLess}
+              onClick={handleSellOne}
             >
-              {`Sell ${cropAmount.gte(1) ? "1" : "<1"}`}
+              Sell 1
             </Button>
             <Button
-              disabled={noCrop}
+              disabled={cropAmount.lessThan(10)}
               className="text-xs mt-1 flex-1"
-              onClick={handleSellTenOrLess}
+              onClick={handleSellTen}
             >
-              {`Sell ${cropAmount.gte(10) ? "10" : "<10"}`}
+              Sell 10
             </Button>
           </div>
           <Button
