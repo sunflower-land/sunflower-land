@@ -118,7 +118,6 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   const happy = useSelector(chickenService, isHappy);
   const eggReady = useSelector(chickenService, isEggReady);
   const eggLaid = useSelector(chickenService, isEggLaid);
-  console.log({ chickenContext, hungry });
 
   const eggIsBrewing = happy || sleeping;
   const showEggProgress = chicken && !eating && !eggLaid && !hungry;
@@ -185,7 +184,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
   };
 
   const collectEgg = () => {
-    const gameState = gameService.send("chicken.collectEgg", {
+    const gameState = gameService.send("chicken.harvested", {
       index,
     });
 
