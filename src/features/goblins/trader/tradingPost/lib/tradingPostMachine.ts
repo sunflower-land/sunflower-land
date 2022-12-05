@@ -11,6 +11,7 @@ import { purchase } from "./actions/purchase";
 import { list } from "./actions/list";
 import { cancel } from "./actions/cancel";
 import { escalate } from "xstate/lib/actions";
+import { randomID } from "lib/utils/random";
 
 export interface Cancel {
   listingId: number;
@@ -27,6 +28,7 @@ export interface Context {
   remainingListings: number;
   freeListings: number;
   itemLimits: ItemLimits;
+  transactionId?: string;
 }
 
 type ListEvent = {
@@ -71,173 +73,190 @@ export const tradingPostMachine = createMachine<
   Context,
   BlockchainEvent,
   BlockchainState
->({
-  initial: "loading",
-  states: {
-    loading: {
-      invoke: {
-        src: async (context) => {
-          return await loadTradingPost(context.farmId, context.farmAddress);
-        },
-        onDone: {
-          target: "trading",
-          actions: [
-            assign((_, event) => ({
-              farmSlots: event.data.farmSlots,
-              remainingListings: event.data.remainingListings,
-              freeListings: event.data.freeListings,
-              itemLimits: event.data.itemLimits,
+>(
+  {
+    initial: "loading",
+    states: {
+      loading: {
+        invoke: {
+          src: async (context) => {
+            return await loadTradingPost(context.farmId, context.farmAddress);
+          },
+          onDone: {
+            target: "trading",
+            actions: [
+              assign((_, event) => ({
+                farmSlots: event.data.farmSlots,
+                remainingListings: event.data.remainingListings,
+                freeListings: event.data.freeListings,
+                itemLimits: event.data.itemLimits,
+              })),
+            ],
+          },
+          onError: {
+            actions: escalate((_, event) => ({
+              message: event.data.message,
             })),
-          ],
-        },
-        onError: {
-          actions: escalate((_, event) => ({
-            message: event.data.message,
-          })),
-        },
-      },
-    },
-    trading: {
-      type: "parallel",
-      states: {
-        selling: {
-          invoke: {
-            id: "selling",
-            autoForward: true,
-            src: sellingMachine,
-            data: {
-              farmId: (context: Context) => context.farmId,
-              token: (context: Context) => context.token,
-            },
-          },
-          on: {
-            LIST: {
-              target: "#listing",
-            },
-            CANCEL: {
-              target: "#cancelling",
-            },
-          },
-        },
-        buying: {
-          invoke: {
-            id: "buying",
-            autoForward: true,
-            src: buyingMachine,
-            data: {
-              farmId: (context: Context) => context.farmId,
-              token: (context: Context) => context.token,
-            },
-          },
-          on: {
-            PURCHASE: {
-              target: "#purchasing",
-            },
           },
         },
       },
-      onDone: {
-        target: "#updatingSession",
-      },
-    },
-    listing: {
-      id: "listing",
-      invoke: {
-        src: async (context, event) => {
-          await list({
-            slotId: (event as ListEvent).slotId,
-            draft: (event as ListEvent).draft,
-            farmId: context.farmId,
-            token: context.token,
-          });
+      trading: {
+        type: "parallel",
+        states: {
+          selling: {
+            invoke: {
+              id: "selling",
+              autoForward: true,
+              src: sellingMachine,
+              data: {
+                farmId: (context: Context) => context.farmId,
+                token: (context: Context) => context.token,
+              },
+            },
+            on: {
+              LIST: {
+                target: "#listing",
+              },
+              CANCEL: {
+                target: "#cancelling",
+              },
+            },
+          },
+          buying: {
+            invoke: {
+              id: "buying",
+              autoForward: true,
+              src: buyingMachine,
+              data: {
+                farmId: (context: Context) => context.farmId,
+                token: (context: Context) => context.token,
+              },
+            },
+            on: {
+              PURCHASE: {
+                target: "#purchasing",
+              },
+            },
+          },
         },
         onDone: {
-          target: "updatingSession",
-        },
-        onError: {
-          actions: escalate((_, event) => ({
-            message: event.data.message,
-          })),
+          target: "#updatingSession",
         },
       },
-    },
-    cancelling: {
-      id: "cancelling",
-      invoke: {
-        src: async (context, event) => {
-          await cancel({
-            listingId: (event as CancelEvent).listingId,
-            farmId: context.farmId,
-            token: context.token,
-          });
-        },
-        onDone: {
-          target: "updatingSession",
-        },
-        onError: {
-          actions: escalate((_, event) => ({
-            message: event.data.message,
-          })),
-        },
-      },
-    },
-    purchasing: {
-      id: "purchasing",
-      invoke: {
-        src: async (context, event) => {
-          await purchase({
-            listingId: (event as PurchaseEvent).listingId,
-            sfl: (event as PurchaseEvent).sfl,
-            farmId: context.farmId,
-            token: context.token,
-            deviceTrackerId: context.deviceTrackerId,
-          });
-        },
-        onDone: {
-          target: "updatingSession",
-        },
-        onError: {
-          actions: escalate((_, event) => ({
-            message: event.data.message,
-          })),
-        },
-      },
-    },
-    updatingSession: {
-      id: "updatingSession",
-      invoke: {
-        src: async (context) => {
-          return loadUpdatedSession(
-            context.farmId,
-            context.farmAddress,
-            context.token
-          );
-        },
-        onDone: {
-          target: "loading",
-          actions: [
-            sendParent((_, event) => ({
-              type: "UPDATE_SESSION",
-              inventory: event.data.inventory,
-              balance: event.data.balance,
-              sessionId: event.data.sessionId,
+      listing: {
+        id: "listing",
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context, event) => {
+            await list({
+              slotId: (event as ListEvent).slotId,
+              draft: (event as ListEvent).draft,
+              farmId: context.farmId,
+              token: context.token,
+              transactionId: context.transactionId as string,
+            });
+          },
+          onDone: {
+            target: "updatingSession",
+          },
+          onError: {
+            actions: escalate((_, event) => ({
+              message: event.data.message,
             })),
-          ],
-        },
-        onError: {
-          actions: escalate((_, event) => ({
-            message: event.data.message,
-          })),
+          },
         },
       },
+      cancelling: {
+        id: "cancelling",
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context, event) => {
+            await cancel({
+              listingId: (event as CancelEvent).listingId,
+              farmId: context.farmId,
+              token: context.token,
+              transactionId: context.transactionId as string,
+            });
+          },
+          onDone: {
+            target: "updatingSession",
+          },
+          onError: {
+            actions: escalate((_, event) => ({
+              message: event.data.message,
+            })),
+          },
+        },
+      },
+      purchasing: {
+        id: "purchasing",
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context, event) => {
+            await purchase({
+              listingId: (event as PurchaseEvent).listingId,
+              sfl: (event as PurchaseEvent).sfl,
+              farmId: context.farmId,
+              token: context.token,
+              deviceTrackerId: context.deviceTrackerId,
+              transactionId: context.transactionId as string,
+            });
+          },
+          onDone: {
+            target: "updatingSession",
+          },
+          onError: {
+            actions: escalate((_, event) => ({
+              message: event.data.message,
+            })),
+          },
+        },
+      },
+      updatingSession: {
+        id: "updatingSession",
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context) => {
+            return loadUpdatedSession(
+              context.farmId,
+              context.farmAddress,
+              context.token,
+              context.transactionId as string
+            );
+          },
+          onDone: {
+            target: "loading",
+            actions: [
+              sendParent((_, event) => ({
+                type: "UPDATE_SESSION",
+                inventory: event.data.inventory,
+                balance: event.data.balance,
+                sessionId: event.data.sessionId,
+              })),
+            ],
+          },
+          onError: {
+            actions: escalate((_, event) => ({
+              message: event.data.message,
+            })),
+          },
+        },
+      },
+      closed: {
+        type: "final",
+      },
     },
-    closed: {
-      type: "final",
+    on: {
+      CLOSE: {
+        target: "closed",
+      },
     },
   },
-  on: {
-    CLOSE: {
-      target: "closed",
+  {
+    actions: {
+      setTransactionId: assign<Context, any>({
+        transactionId: () => randomID(),
+      }),
     },
-  },
-});
+  }
+);

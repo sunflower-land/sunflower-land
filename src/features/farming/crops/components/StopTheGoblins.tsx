@@ -14,8 +14,8 @@ import goblin4 from "assets/npcs/goblin_doing.gif";
 import goblin5 from "assets/npcs/goblin_farmer.gif";
 import goblin6 from "assets/npcs/goblin_female.gif";
 import goblin7 from "assets/npcs/wheat_goblin.gif";
-import classNames from "classnames";
 import { randomDouble, randomInt } from "lib/utils/random";
+import { Label } from "components/ui/Label";
 
 const ITEM_COUNT = 16;
 const MAX_ATTEMPTS = 3;
@@ -134,11 +134,10 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
           Tap the Goblins before they eat your crops
         </span>
 
-        <span
-          className={classNames("text-xs mt-2 underline", {
-            "text-red-500": attemptsLeft <= 2,
-          })}
-        >{`Attempts left: ${attemptsLeft}`}</span>
+        <Label
+          className="my-1"
+          type={attemptsLeft <= 2 ? "danger" : "info"}
+        >{`Attempts left: ${attemptsLeft}`}</Label>
       </div>
     </div>
   );

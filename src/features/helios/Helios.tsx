@@ -59,6 +59,7 @@ export const Helios: React.FC = () => {
           x={5}
           y={-17}
           onTravelDialogOpened={() => gameService.send("SAVE")}
+          isTravelAllowed={!gameState.matches("autosaving")}
         />
       </div>
     </>

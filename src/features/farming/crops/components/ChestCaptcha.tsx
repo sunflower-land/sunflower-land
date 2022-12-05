@@ -89,7 +89,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
           ))}
       </div>
 
-      <span className="text-sm">Tap the chest to open it</span>
+      <span className="text-sm mb-2">Tap the chest to open it</span>
     </div>
   );
 };

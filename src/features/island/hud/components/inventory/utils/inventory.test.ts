@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { getBasketItems } from "./utils/inventory";
+import { getBasketItems } from "./inventory";
 
-describe("basket", () => {
+describe("getBasketItems", () => {
   it("creates an empty basket", () => {
     const basket = getBasketItems({});
 
@@ -116,6 +116,11 @@ describe("basket", () => {
   });
   it("excludes rare items from the basket", () => {
     const basket = getBasketItems({ Scarecrow: new Decimal(3) });
+
+    expect(basket).toEqual({});
+  });
+  it("excludes item dusts from the basket", () => {
+    const basket = getBasketItems({ Wheat: new Decimal(0.00009) });
 
     expect(basket).toEqual({});
   });

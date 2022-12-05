@@ -7,6 +7,7 @@ import {
 } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const PLACEABLE_DIMENSIONS = {
   ...BUILDINGS_DIMENSIONS,
@@ -14,16 +15,20 @@ const PLACEABLE_DIMENSIONS = {
 };
 
 export const getBasketItems = (inventory: Inventory) => {
-  return getKeys(inventory).reduce((acc, itemName) => {
-    if (itemName in PLACEABLE_DIMENSIONS) {
-      return acc;
-    }
+  return getKeys(inventory)
+    .filter((itemName) =>
+      setPrecision(new Decimal(inventory[itemName] || 0)).greaterThan(0)
+    )
+    .reduce((acc, itemName) => {
+      if (itemName in PLACEABLE_DIMENSIONS) {
+        return acc;
+      }
 
-    return {
-      ...acc,
-      [itemName]: inventory[itemName],
-    };
-  }, {} as Inventory);
+      return {
+        ...acc,
+        [itemName]: inventory[itemName],
+      };
+    }, {} as Inventory);
 };
 
 export const getChestItems = (state: GameState) => {

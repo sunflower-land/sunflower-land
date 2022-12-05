@@ -82,4 +82,4 @@ export const shortenCount = (count: Decimal | undefined): string => {
 };
 
 export const setPrecision = (number: Decimal) =>
-  number.todp(4, Decimal.ROUND_DOWN);
+  number.toDecimalPlaces(4, Decimal.ROUND_DOWN);

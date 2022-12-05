@@ -11,6 +11,7 @@ type Request = {
   farmId: number;
   token: string;
   deviceTrackerId: string;
+  transactionId: string;
 };
 
 type Payload = {
@@ -42,6 +43,7 @@ export async function purchaseRequest(request: Request): Promise<Response> {
         ...((window as any)["x-amz-ttl"]
           ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] }
           : {}),
+        "X-Transaction-ID": request.transactionId,
       },
       body: JSON.stringify({
         listingId: request.listingId,
@@ -56,7 +58,7 @@ export async function purchaseRequest(request: Request): Promise<Response> {
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error("Could not post the listing");
+    throw new Error(ERRORS.PURCHASE_TRADE_SERVER_ERROR);
   }
 
   const data = await response.json();

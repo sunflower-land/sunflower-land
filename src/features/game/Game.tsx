@@ -116,7 +116,7 @@ export const Game: React.FC = () => {
 
   return (
     <>
-      <ToastManager island={false} />
+      <ToastManager />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel>

@@ -103,11 +103,12 @@ export const Menu = () => {
     <>
       {!gameService.state.matches("editing") && (
         <div
+          id="setting"
           onClick={() => setMenuOpen(true)}
           className="fixed z-50 cursor-pointer hover:img-highlight"
           style={{
             right: `${PIXEL_SCALE * 3}px`,
-            bottom: `${PIXEL_SCALE * 76}px`,
+            bottom: `${PIXEL_SCALE * 26}px`,
             width: `${PIXEL_SCALE * 22}px`,
           }}
         >

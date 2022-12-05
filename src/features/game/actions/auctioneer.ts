@@ -38,7 +38,10 @@ function cacheItems(id: string, items: Item[]) {
   localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
 }
 
-export const fetchAuctioneerDrops = async (token: string) => {
+export const fetchAuctioneerDrops = async (
+  token: string,
+  transactionId: string
+) => {
   const cache = loadCachedItems();
 
   if (cache) {
@@ -49,6 +52,7 @@ export const fetchAuctioneerDrops = async (token: string) => {
     headers: {
       "content-type": "application/json;charset=UTF-8",
       authorization: `Bearer ${token}`,
+      "X-Transaction-ID": transactionId,
     },
   });
   if (response.status === 429) {
@@ -56,7 +60,7 @@ export const fetchAuctioneerDrops = async (token: string) => {
   }
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
+    throw new Error(ERRORS.AUCTIONEER_SERVER_ERROR);
   }
 
   const {
