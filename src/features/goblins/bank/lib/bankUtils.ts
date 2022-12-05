@@ -14,6 +14,12 @@ export function canWithdraw({ item, game }: CanWithdrawArgs): boolean {
     item in game.collectibles &&
     game.collectibles[item as CollectibleName]?.length
   ) {
+    const numberInInventory = game.inventory[item];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const numberPlaced = game.collectibles[item as CollectibleName]!.length;
+
+    if (numberInInventory?.gt(numberPlaced)) return true;
+
     return false;
   }
 

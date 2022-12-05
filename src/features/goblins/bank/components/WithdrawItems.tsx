@@ -19,6 +19,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { canWithdraw } from "../lib/bankUtils";
 
 import {
+  CollectibleName,
   getKeys,
   isLimitedItem,
   LimitedItemName,
@@ -124,6 +125,19 @@ export const WithdrawItems: React.FC<Props> = ({
       const totalHungryChicks = inventory["Chicken"].sub(totalChicksLayingEggs);
 
       return new Decimal(totalHungryChicks);
+    }
+
+    const { collectibles } = state;
+
+    if (
+      itemName in collectibles &&
+      collectibles[itemName as CollectibleName]?.length
+    ) {
+      const numberInInventory = inventory[itemName as CollectibleName];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const numberPlaced = collectibles[itemName as CollectibleName]!.length;
+
+      return numberInInventory?.minus(numberPlaced) || new Decimal(0);
     }
 
     return inventory[itemName] || new Decimal(0);
