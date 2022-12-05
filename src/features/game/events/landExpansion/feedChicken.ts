@@ -1,12 +1,9 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
-  CHICKEN_COOP_MULTIPLIER,
   CHICKEN_TIME_TO_EGG,
-  HEN_HOUSE_CAPACITY,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
 import {
   Bumpkin,
   Collectibles,
@@ -65,16 +62,6 @@ export const getWheatRequiredToFeed = (collectibles: Collectibles) => {
   return defaultAmount;
 };
 
-export function getMaxChickens(collectibles: Collectibles) {
-  let capacity = HEN_HOUSE_CAPACITY;
-
-  if (isCollectibleBuilt("Chicken Coop", collectibles)) {
-    capacity *= CHICKEN_COOP_MULTIPLIER;
-  }
-
-  return capacity;
-}
-
 export function feedChicken({
   state,
   action,
@@ -87,10 +74,7 @@ export function feedChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const maxChickens = getMaxChickens(collectibles);
-
   const chickens = stateCopy.chickens || {};
-  const chickenCount = getKeys(stateCopy.chickens).length;
   const chicken = chickens[action.id];
 
   if (!chicken) {
