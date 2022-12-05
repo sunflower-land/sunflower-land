@@ -15,7 +15,13 @@ export const Balance: React.FC<Props> = ({ balance }) => {
   const [isShown, setIsShown] = useState(false);
 
   return (
-    <InnerPanel className="fixed top-2 right-2 z-50 flex items-center cursor-pointer">
+    <InnerPanel
+      className="fixed z-50 flex items-center cursor-pointer"
+      style={{
+        top: `${PIXEL_SCALE * 3}px`,
+        right: `${PIXEL_SCALE * 3}px`,
+      }}
+    >
       <img
         src={token}
         style={{

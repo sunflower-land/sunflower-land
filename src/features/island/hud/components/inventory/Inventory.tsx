@@ -44,7 +44,7 @@ export const Inventory: React.FC<Props> = ({
       className="flex flex-col items-center fixed z-50"
       style={{
         right: `${PIXEL_SCALE * 3}px`,
-        top: `${PIXEL_SCALE * 50.2}px`,
+        top: `${PIXEL_SCALE * 50}px`,
       }}
     >
       <div
@@ -52,7 +52,7 @@ export const Inventory: React.FC<Props> = ({
         className="relative flex z-50 cursor-pointer hover:img-highlight"
         style={{
           marginLeft: `${PIXEL_SCALE * 2}px`,
-          marginBottom: `${PIXEL_SCALE * 24}px`,
+          marginBottom: `${PIXEL_SCALE * 25}px`,
           width: `${PIXEL_SCALE * 22}px`,
         }}
       >
@@ -79,7 +79,12 @@ export const Inventory: React.FC<Props> = ({
       </Modal>
 
       {isFarming && (
-        <div className="flex flex-col-reverse items-center">
+        <div
+          className="flex flex-col items-center"
+          style={{
+            marginRight: `${PIXEL_SCALE * -3}px`,
+          }}
+        >
           {shortcuts.map((item, index) => (
             <Box
               key={index}
