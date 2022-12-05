@@ -63,6 +63,8 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     state.grubOrdersFulfilled?.find((fulfilled) => fulfilled.id === order.id)
   );
 
+  const isAllFullFilled = fulFilledOrders.length === grubShop.orders.length;
+
   const hiddenPositionStart = 3 + fulFilledOrders.length;
 
   const bumpkinParts: Partial<Equipped> = {
@@ -107,66 +109,78 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
         >
           <div className="flex flex-col-reverse sm:flex-row">
             <div
-              className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+              className="w-full sm:w-3/5 overflow-y-auto 
+              scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1
+              flex justify-between sm:flex-col flex-wrap"
               style={{ maxHeight: TAB_CONTENT_HEIGHT }}
             >
-              {Object.values(grubShop.orders).map((item, index) => {
-                const isFulfilled = !!state.grubOrdersFulfilled?.find(
-                  (order) => order.id === item.id
-                );
-                return (
-                  <Box
-                    isSelected={selectedId === item.id}
-                    key={`${item.name}-${index}`}
-                    onClick={() => setSelectedId(item.id)}
-                    image={
-                      index <= hiddenPositionStart
-                        ? ITEM_DETAILS[item.name].image
-                        : questionMark
-                    }
-                    showOverlay={isFulfilled}
-                    overlayIcon={
-                      <img
-                        src={confirm}
-                        id="confirm"
-                        alt="confirm"
-                        className="relative object-contain"
-                        style={{
-                          width: `${PIXEL_SCALE * 12}px`,
-                        }}
-                      />
-                    }
-                    disabled={index > hiddenPositionStart}
-                    count={
-                      index <= hiddenPositionStart
-                        ? state.inventory[item.name]
-                        : undefined
-                    }
-                  />
-                );
-              })}
+              <div className="flex flex-wrap">
+                {Object.values(grubShop.orders).map((item, index) => {
+                  const isFulfilled = !!state.grubOrdersFulfilled?.find(
+                    (order) => order.id === item.id
+                  );
+                  return (
+                    <Box
+                      isSelected={selectedId === item.id}
+                      key={`${item.name}-${index}`}
+                      onClick={() => setSelectedId(item.id)}
+                      image={
+                        index <= hiddenPositionStart
+                          ? ITEM_DETAILS[item.name].image
+                          : questionMark
+                      }
+                      showOverlay={isFulfilled}
+                      overlayIcon={
+                        <img
+                          src={confirm}
+                          id="confirm"
+                          alt="confirm"
+                          className="relative object-contain"
+                          style={{
+                            width: `${PIXEL_SCALE * 12}px`,
+                          }}
+                        />
+                      }
+                      disabled={index > hiddenPositionStart}
+                      count={
+                        index <= hiddenPositionStart
+                          ? state.inventory[item.name]
+                          : undefined
+                      }
+                    />
+                  );
+                })}
+              </div>
+              {isAllFullFilled && (
+                <div className="flex items-start sm:flex-col ml-2 mt-2">
+                  <p className="text-xs my-1 mr-2">More order in</p>
+                  <Label type="info" className="flex flex-row items-center">
+                    <img src={stopwatch} className="w-3 left-0 mr-1" />
+                    {`${secondsToString(secondsLeft as number, {
+                      length: "medium",
+                    })} left`}
+                  </Label>
+                </div>
+              )}
             </div>
             {selected && (
               <OuterPanel className="w-full flex-1">
-                <Label
-                  type={selectedFulFilled ? "success" : "info"}
-                  className="flex justify-center items-center"
-                >
-                  {selectedFulFilled ? (
-                    <span className="text-center text-xxs">
-                      Order fulfilled
-                    </span>
-                  ) : (
-                    <>
-                      <img src={stopwatch} className="w-3 left-0 mr-1" />
-                      <span className="mt-0.5">{`${secondsToString(
-                        secondsLeft as number,
-                        { length: "medium" }
-                      )} left`}</span>
-                    </>
-                  )}
-                </Label>
-                <div className="flex flex-col justify-center items-center p-2 ">
+                <div className="flex flex-col justify-center items-center p-2 relative">
+                  <Label
+                    type={selectedFulFilled ? "success" : "info"}
+                    className="flex justify-center items-center mb-1"
+                  >
+                    {selectedFulFilled ? (
+                      `Order fulfilled`
+                    ) : (
+                      <>
+                        <img src={stopwatch} className="w-3 left-0 mr-1" />
+                        {`${secondsToString(secondsLeft as number, {
+                          length: "medium",
+                        })} left`}
+                      </>
+                    )}
+                  </Label>
                   <span className="text-center">{selected.name}</span>
                   <img
                     src={ITEM_DETAILS[selected.name].image}
