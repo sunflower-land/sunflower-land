@@ -12,6 +12,7 @@ type Options = {
   amounts: string[];
   token: string;
   captcha: string;
+  transactionId: string;
 };
 export async function withdraw({
   farmId,
@@ -21,12 +22,14 @@ export async function withdraw({
   amounts,
   token,
   captcha,
+  transactionId,
 }: Options) {
   const response = await window.fetch(`${API_URL}/withdraw/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${token}`,
+      "X-Transaction-ID": transactionId,
     },
     body: JSON.stringify({
       sessionId: sessionId,
@@ -42,7 +45,7 @@ export async function withdraw({
   }
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
+    throw new Error(ERRORS.WITHDRAW_SERVER_ERROR);
   }
 
   const transaction = await response.json();

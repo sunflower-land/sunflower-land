@@ -16,7 +16,7 @@ export const Buildings: React.FC = () => {
         className="fixed z-50 cursor-pointer hover:img-highlight"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 51}px`,
+          top: `${PIXEL_SCALE * 24.3}px`,
           width: `${PIXEL_SCALE * 22}px`,
         }}
       >

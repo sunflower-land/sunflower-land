@@ -11,6 +11,7 @@ type Request = {
   bumpkinTokenUri?: string;
   farmId: number;
   token: string;
+  transactionId: string;
 };
 
 export type MintedAt = Partial<Record<InventoryItemName, number>>;
@@ -39,6 +40,7 @@ export async function loadSession(
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${request.token}`,
       accept: "application/json",
+      "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
       sessionId: request.sessionId,
@@ -60,7 +62,7 @@ export async function loadSession(
   }
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+    throw new Error(ERRORS.SESSION_SERVER_ERROR);
   }
 
   const {

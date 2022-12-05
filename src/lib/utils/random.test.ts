@@ -18,7 +18,7 @@ describe("random", () => {
     it("should return values in correct format", () => {
       Array.from({ length: 100 }, (_) => {
         const value = randomID();
-        expect(value).toMatch(/^_([0-9]|[a-z]){7}$/);
+        expect(value).toMatch(/^([0-9]|[a-z]){7}$/);
       });
     });
   });

@@ -8,6 +8,10 @@ import { mineStone, StoneMineAction } from "./stoneMine";
 import { mineIron, IronMineAction } from "./ironMine";
 import { chop, ChopAction } from "./chop";
 import { openReward, OpenRewardAction } from "./rewarded";
+import {
+  collectEggs as landExpansionCollectEggs,
+  LandExpansionCollectEggAction as LandExpansionCollectEggsAction,
+} from "./landExpansion/collectEgg";
 import { collectEggs, CollectAction } from "./collectEgg";
 import { feedChicken, FeedAction } from "./feedChicken";
 import {
@@ -159,7 +163,8 @@ export type PlayingEvent =
   | RemoveChickenAction
   | BeanBoughtAction
   | CollectCropRewardAction
-  | CollectTreeRewardAction;
+  | CollectTreeRewardAction
+  | LandExpansionCollectEggsAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -192,7 +197,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "gold.mined": mineGold,
   "tree.chopped": chop,
   "reward.opened": openReward,
-  "chicken.collectEgg": collectEggs,
+  "chicken.harvested": collectEggs,
+  "chicken.collectEgg": landExpansionCollectEggs,
   "chicken.feed": feedChicken,
   "item.traded": trade,
   "item.removed": removeCrop,

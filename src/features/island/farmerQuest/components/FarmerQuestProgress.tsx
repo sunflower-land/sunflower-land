@@ -10,6 +10,7 @@ import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -124,7 +125,7 @@ export const FarmerQuestProgress: React.FC = () => {
                 PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
               }px`,
             }}
-          >{`${new Decimal(progress).toDecimalPlaces(4, Decimal.ROUND_DOWN)}/${
+          >{`${setPrecision(new Decimal(progress))}/${
             quest.requirement
           }`}</span>
         </div>

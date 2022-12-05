@@ -5,6 +5,7 @@ import { getSupportedChickens } from "./utils";
 
 export type PlaceChickenAction = {
   type: "chicken.placed";
+  id: string;
   coordinates: {
     x: number;
     y: number;
@@ -45,7 +46,7 @@ export function placeChicken({
 
   const chickens: GameState["chickens"] = {
     ...stateCopy.chickens,
-    [placedChickens]: {
+    [action.id]: {
       multiplier: 1,
       coordinates: action.coordinates,
     },

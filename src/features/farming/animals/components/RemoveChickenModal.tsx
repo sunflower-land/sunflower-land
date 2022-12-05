@@ -6,14 +6,11 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 
 interface Props {
-  chickenIndex: number;
+  id?: string;
   onClose: () => void;
 }
 
-export const RemoveChickenModal: React.FC<Props> = ({
-  chickenIndex,
-  onClose,
-}) => {
+export const RemoveChickenModal: React.FC<Props> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -27,7 +24,7 @@ export const RemoveChickenModal: React.FC<Props> = ({
 
   const handleRemove = () => {
     gameService.send("chicken.removed", {
-      chickenIndex,
+      id,
     });
 
     onClose();

@@ -7,6 +7,7 @@ const API_URL = CONFIG.API_URL;
 type Request = {
   farmId: number;
   token: string;
+  transactionId: string;
 };
 
 export async function expandRequest(request: Request) {
@@ -20,6 +21,7 @@ export async function expandRequest(request: Request) {
         "content-type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${request.token}`,
         accept: "application/json",
+        "X-Transaction-ID": request.transactionId,
       },
       body: JSON.stringify({}),
     }
@@ -30,7 +32,7 @@ export async function expandRequest(request: Request) {
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error("Could not expand land");
+    throw new Error(ERRORS.EXPAND_LAND_SERVER_ERROR);
   }
 
   const data = await response.json();

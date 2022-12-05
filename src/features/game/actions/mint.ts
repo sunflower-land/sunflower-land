@@ -9,6 +9,7 @@ type Request = {
   item: LimitedItemName | GoblinRetreatItemName;
   token: string;
   captcha: string;
+  transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -23,6 +24,7 @@ export async function mint(request: Request) {
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${request.token}`,
+      "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
       sessionId: request.sessionId,
@@ -36,7 +38,7 @@ export async function mint(request: Request) {
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error("Could not mint your object");
+    throw new Error(ERRORS.MINT_SERVER_ERROR);
   }
 
   const transaction = await response.json();
@@ -54,6 +56,7 @@ async function mintCollectible(request: Request) {
       headers: {
         "content-type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${request.token}`,
+        "X-Transaction-ID": request.transactionId,
       },
       body: JSON.stringify({
         sessionId: request.sessionId,
@@ -68,7 +71,7 @@ async function mintCollectible(request: Request) {
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error("Could not mint your object");
+    throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 
   const transaction = await response.json();

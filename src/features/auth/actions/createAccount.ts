@@ -7,6 +7,7 @@ type Request = {
   charity: string;
   token: string;
   captcha: string;
+  transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -17,6 +18,7 @@ export async function signTransaction(request: Request) {
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${request.token}`,
+      "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
       charity: request.charity,
@@ -29,7 +31,7 @@ export async function signTransaction(request: Request) {
   }
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
+    throw new Error(ERRORS.CREATE_ACCOUNT_SERVER_ERROR);
   }
 
   const {
@@ -55,17 +57,20 @@ type CreateFarmOptions = {
   charity: CharityAddress;
   token: string;
   captcha: string;
+  transactionId: string;
 };
 
 export async function createAccount({
   charity,
   token,
   captcha,
+  transactionId,
 }: CreateFarmOptions) {
   const transaction = await signTransaction({
     charity,
     token,
     captcha,
+    transactionId,
   });
 
   await wallet.getAccountMinter().createAccount(transaction);

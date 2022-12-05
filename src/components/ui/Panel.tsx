@@ -30,7 +30,7 @@ export const Panel: React.FC<Props> = ({
     <>
       {bumpkinParts && (
         <div
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             zIndex: -10,
             top: `${PIXEL_SCALE * -61}px`,
