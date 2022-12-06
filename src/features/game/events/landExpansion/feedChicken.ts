@@ -30,24 +30,22 @@ const makeFedAt = (
   bumpkin: Bumpkin
 ) => {
   const { skills } = bumpkin;
-  let mul = 0;
+  let seconds = CHICKEN_TIME_TO_EGG;
+
   if (inventory["Wrangler"]?.gt(0)) {
-    mul += 0.1;
+    seconds *= 0.9;
   }
 
   if (isCollectibleBuilt("Speed Chicken", collectibles)) {
-    mul += 0.1;
+    seconds *= 0.9;
   }
 
   if (skills["Stable Hand"]) {
-    mul += 0.1;
+    seconds *= 0.9;
   }
   //Return default values if no boost applied
-  if (!mul) {
-    return createdAt;
-  }
 
-  const chickenTime = CHICKEN_TIME_TO_EGG * mul;
+  const chickenTime = CHICKEN_TIME_TO_EGG - seconds;
   return createdAt - chickenTime;
 };
 
