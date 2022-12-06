@@ -76,7 +76,7 @@ export const SEEDS: () => Record<SeedName, Seed> = () => ({
   "Kale Seed": {
     sfl: marketRate(5),
     description: "A Bumpkin Power Food!",
-    bumpkinLevel: 6,
+    bumpkinLevel: 7,
     plantSeconds: 24 * 60 * 60,
   },
   ...FRUIT_SEEDS(),
