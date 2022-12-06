@@ -23,8 +23,8 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
         <div className="space-y-3 text-sm px-1 mb-3">
           <p>This is the first of many building that enable cooking.</p>
           <p>
-            As you progress you will be able to cook more exotic food but for
-            now, lets start with the basics.
+            {`As you progress you will be able to cook more exotic food but for
+            now, let's start with the basics.`}
           </p>
         </div>
         <Button onClick={() => setPageNumber(2)}>Next</Button>
@@ -59,12 +59,12 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
       <>
         <div className="space-y-3 text-sm px-1 mb-3">
           <p>
-            When you click on a recipe it will tell you what ingredients you
+            When you click on a recipe, it will tell you what ingredients you
             need to start cooking, then simply click on the dish and wait for
             the timer.
           </p>
           <p className="mb-2">
-            {`When it's ready you can click back on this building to add the food to
+            {`When it's ready, you can click back on this building to add the food to
             your inventory.`}
           </p>
         </div>
@@ -103,7 +103,7 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
         <div className="space-y-3 text-sm px-1 mb-3">
           <div className="mb-2">
             Once you are comfortable with cooking and have a few levels in your
-            Bumpkin click on the button with the
+            Bumpkin, click on the button with the
             <img
               src={hammer}
               className="h-4 inline mx-1"
