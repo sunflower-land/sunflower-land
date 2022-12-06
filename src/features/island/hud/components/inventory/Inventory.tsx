@@ -79,7 +79,7 @@ export const Inventory: React.FC<Props> = ({
       </Modal>
 
       {isFarming && (
-        <div className="flex flex-col-reverse items-center">
+        <div className="flex flex-col items-center">
           {shortcuts.map((item, index) => (
             <Box
               key={index}
