@@ -265,7 +265,7 @@ import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
 
 // Clothing
-import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
+import chefHat from "src/assets/icons/chef_hat.png";
 import chefApron from "src/assets/bumpkins/shop/shirts/chef_apron.png";
 import sunflowerAmulet from "src/assets/bumpkins/shop/necklaces/sunflower_amulet.png";
 import carrotAmulet from "src/assets/bumpkins/shop/necklaces/carrot_amulet.png";

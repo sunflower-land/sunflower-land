@@ -4,7 +4,7 @@ import close from "assets/icons/close.png";
 import confirm from "assets/icons/confirm.png";
 import token from "assets/icons/token_2.png";
 import questionMark from "assets/icons/expression_confused.png";
-import grubShopIcon from "assets/bumpkins/small/hats/chef_hat.png";
+import grubShopIcon from "assets/icons/chef_hat.png";
 import stopwatch from "assets/icons/stopwatch.png";
 
 import { OuterPanel, Panel } from "components/ui/Panel";

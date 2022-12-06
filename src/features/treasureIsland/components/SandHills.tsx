@@ -4,11 +4,12 @@ import sandHill from "assets/land/sand_hill.png";
 import sandDug from "assets/land/sand_dug.png";
 import warningIcon from "assets/icons/cancel.png";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 type Hill = {
   x: number;
@@ -158,22 +159,37 @@ export const SandHill: React.FC<Hill> = ({ x, y, id }) => {
   };
 
   return (
-    <div
-      className="absolute"
-      style={{
-        top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
-        left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 2}px`,
-      }}
-    >
+    <MapPlacement key={id} x={x} y={y} height={1} width={1}>
+      <div
+        className="w-full h-full relative cursor-pointer hover:img-highlight"
+        onClick={() => dig(id)}
+      >
+        <img
+          src={warningIcon}
+          className="absolute z-20 transition-opacity"
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            left: `${PIXEL_SCALE * 2.5}px`,
+            top: `${PIXEL_SCALE * 2}px`,
+            opacity: warning === "warning" ? 1 : 0,
+          }}
+        />
+        <img
+          src={isDug ? sandDug : sandHill}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+            top: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
+      </div>
       <Modal
         centered
         show={showMissingShovel}
         onHide={() => setShowMissingShovel(false)}
       >
         <Panel>
-          <p>You must equip a Sand Shovel first</p>
+          <p className="p-2">You must equip a Sand Shovel first.</p>
         </Panel>
       </Modal>
       <Modal
@@ -182,27 +198,12 @@ export const SandHill: React.FC<Hill> = ({ x, y, id }) => {
         onHide={() => setShowRecoveryWarning(false)}
       >
         <Panel>
-          <p>This spot has already been dug up. Please come back tomorrow</p>
+          <p className="p-2">
+            This spot has already been dug up. Please come back tomorrow.
+          </p>
         </Panel>
       </Modal>
-
-      <img
-        src={warningIcon}
-        className="absolute top-0 left-0 w-full z-10 pointer-events-none transition-opacity"
-        style={{
-          width: `${PIXEL_SCALE * 11}px`,
-          left: `${PIXEL_SCALE * 2.5}px`,
-          bottom: `${PIXEL_SCALE * 2.5}px`,
-          opacity: warning === "warning" ? 1 : 0,
-        }}
-      />
-      <img
-        src={isDug ? sandDug : sandHill}
-        className="absolute cursor-pointer hover:img-highlight w-full"
-        key={id}
-        onClick={() => dig(id)}
-      />
-    </div>
+    </MapPlacement>
   );
 };
 

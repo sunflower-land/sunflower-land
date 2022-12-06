@@ -127,7 +127,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
   const Action = () => {
     if (stock?.equals(0)) {
       return (
-        <div>
+        <div className="w-full">
           <p className="text-xxs no-wrap text-center my-1 underline">
             Sold out
           </p>
