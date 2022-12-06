@@ -10,23 +10,19 @@ import { useActor } from "@xstate/react";
 export const SomethingWentWrong: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
+
+  const { farmId: landId } = authService.state.context;
+  // If we get a connecting error before the game has loaded then try to connect again via the authService
+  const service = gameService ?? authService;
+
   const [
     {
-      context: {
-        transactionId,
-        errorCode,
-        state: { id: landId },
-      },
+      context: { transactionId, errorCode },
     },
-  ] = useActor(gameService);
+  ] = useActor(service);
 
   const onAcknowledge = () => {
-    // If we get a connecting error before the game has loaded then try to connect again via the authService
-    if (gameService) {
-      gameService.send("REFRESH");
-    } else {
-      authService.send("REFRESH");
-    }
+    service.send("REFRESH");
   };
 
   return (
@@ -38,10 +34,8 @@ export const SomethingWentWrong: React.FC = () => {
         </div>
         <div className="space-y-3 text-sm mb-3">
           <p>It looks like we were unable to complete this request.</p>
-          <p>
-            It may be a simple connection issue so you can click refresh to try
-            again.
-          </p>
+          <p>It may be a simple connection issue.</p>
+          <p>You can click refresh to try again.</p>
           <p>
             If the issue remains you can reach out for help by either contacting
             our{" "}
