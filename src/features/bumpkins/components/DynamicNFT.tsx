@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
 
-import dropShadow from "assets/bumpkins/shop/body_dropshadow.png";
+import dropShadow from "assets/bumpkins/shop/body_dropshadow.webp";
 
 import {
   BumpkinItem,
