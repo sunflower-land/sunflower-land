@@ -14,7 +14,6 @@ import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
-import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { Builder } from "features/builder/Builder";
 
 /**
@@ -98,9 +97,6 @@ export const Navigation: React.FC = () => {
             )} */}
             {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
               <Route path="/retreat/:id" element={<Retreat key="helios" />} />
-            )}
-            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
-              <Route path="/snow/:id" element={<SnowKingdom key="snow" />} />
             )}
             {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />

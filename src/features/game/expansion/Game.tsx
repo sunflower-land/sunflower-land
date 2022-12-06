@@ -40,6 +40,8 @@ import { StoneHaven } from "features/stoneHaven/StoneHaven";
 import { Revealing } from "../components/Revealing";
 import { Revealed } from "../components/Revealed";
 import { getBumpkinLevel } from "../lib/level";
+import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
+import { IslandNotFound } from "./components/IslandNotFound";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -203,7 +205,10 @@ export const Game: React.FC = () => {
                   element={<StoneHaven key="stone-haven" />}
                 />
               )}
-              <Route element={<Land />} />
+              {level >= 50 && (
+                <Route path="/snow" element={<SnowKingdom key="snow" />} />
+              )}
+              <Route path="*" element={<IslandNotFound />} />
             </Routes>
           </PlaceableOverlay>
         </div>
