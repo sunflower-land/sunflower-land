@@ -179,10 +179,9 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
   },
   "Kale Seed": {
     name: "Kale Seed",
-    tokenAmount: marketRate(5),
+    tokenAmount: marketRate(7),
     ingredients: [],
     description: "A Bumpkin Power Food!",
-    plantSeconds: 24 * 60 * 60,
-    disabled: true,
+    bumpkinLevel: 7,
   },
 });
