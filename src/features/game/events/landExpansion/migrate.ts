@@ -16,7 +16,7 @@ export const canMigrate = (state: GameState) => {
   const { skills, inventory } = state;
   const { farming, gathering } = skills;
 
-  const hasEnoughXP = farming.add(gathering).gte(new Decimal(21700));
+  const hasEnoughXP = farming.add(gathering).gte(new Decimal(16500));
   const isWarrior = inventory.Warrior?.gte(1);
   const isMod = inventory["Discord Mod"]?.gte(1);
   const isCoder = inventory.Coder?.gte(1);
