@@ -4,7 +4,6 @@ import {
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
 import {
   Bumpkin,
   Collectibles,
@@ -63,14 +62,6 @@ export const getWheatRequiredToFeed = (collectibles: Collectibles) => {
   return defaultAmount;
 };
 
-export function getMaxChickens(collectibles: Collectibles) {
-  if (isCollectibleBuilt("Chicken Coop", collectibles)) {
-    return 15;
-  }
-
-  return 10;
-}
-
 export function feedChicken({
   state,
   action,
@@ -83,10 +74,7 @@ export function feedChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const maxChickens = getMaxChickens(collectibles);
-
   const chickens = stateCopy.chickens || {};
-  const chickenCount = getKeys(stateCopy.chickens).length;
   const chicken = chickens[action.id];
 
   if (!chicken) {
