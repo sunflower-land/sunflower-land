@@ -1,5 +1,6 @@
 import { Inventory } from "components/InventoryItems";
 import Decimal from "decimal.js-light";
+import { GoblinState } from "features/game/lib/goblinMachine";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   CollectibleName,
@@ -31,7 +32,7 @@ export const getBasketItems = (inventory: Inventory) => {
     }, {} as Inventory);
 };
 
-export const getChestItems = (state: GameState) => {
+export const getChestItems = (state: GameState | GoblinState) => {
   const { collectibles } = state;
   return getKeys(state.inventory).reduce((acc, itemName) => {
     const isCollectible = itemName in collectibles;

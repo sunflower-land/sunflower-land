@@ -12,11 +12,12 @@ import Decimal from "decimal.js-light";
 import { Basket } from "./Basket";
 import { Chest } from "./Chest";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 type Tab = "basket" | "chest";
 
 interface Props {
-  state: GameState;
+  state: GameState | GoblinState;
   onClose: () => void;
 }
 

@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useActor } from "@xstate/react";
 
 import question from "assets/icons/expression_confused.png";
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
@@ -9,7 +8,6 @@ import lvlUp from "assets/icons/expression_alerted.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
-import { Context } from "features/game/GameProvider";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -21,6 +19,8 @@ import {
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
+import { GameState } from "features/game/types/game";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 const DIMENSIONS = {
   original: 80,
@@ -54,16 +54,17 @@ const DIMENSIONS = {
 
 const SPRITE_STEPS = 50;
 
-export const BumpkinProfile: React.FC = () => {
+interface Props {
+  state: GameState | GoblinState;
+  isVisiting?: boolean;
+}
+
+export const BumpkinProfile: React.FC<Props> = ({ state, isVisiting }) => {
+  console.log(state);
+
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
@@ -187,7 +188,7 @@ export const BumpkinProfile: React.FC = () => {
         >
           {level}
         </div>
-        {showSkillPointAlert && !gameState.matches("visiting") && (
+        {showSkillPointAlert && !isVisiting && (
           <img
             src={lvlUp}
             className="col-start-1 row-start-1 animate-float z-30"

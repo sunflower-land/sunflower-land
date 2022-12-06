@@ -13,9 +13,10 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleName } from "features/game/types/craftables";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 interface Props {
-  state: GameState;
+  state: GameState | GoblinState;
   shortcutItem?: (item: InventoryItemName) => void;
   isFarming?: boolean;
 }

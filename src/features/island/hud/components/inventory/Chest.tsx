@@ -21,11 +21,12 @@ import { KNOWN_IDS } from "features/game/types";
 import { useActor } from "@xstate/react";
 import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
 interface Props {
-  state: GameState;
+  state: GameState | GoblinState;
   closeModal: () => void;
 }
 

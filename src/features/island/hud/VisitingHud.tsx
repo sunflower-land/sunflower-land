@@ -16,6 +16,7 @@ export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { state } = gameState.context;
   return (
     <>
       {!gameState.matches("landToVisitNotFound") && (
@@ -30,7 +31,7 @@ export const VisitingHud: React.FC = () => {
           shortcutItem={shortcutItem}
           isFarming={false}
         />
-        <BumpkinProfile />
+        <BumpkinProfile state={state} />
       </div>
     </>
   );

@@ -21,7 +21,8 @@ export const Hud: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const isEditing = gameState.matches("editing");
-  const landId = gameState.context.state.id;
+  const { state } = gameState.context;
+  const landId = state.id;
 
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
@@ -39,7 +40,7 @@ export const Hud: React.FC = () => {
           {landId && <LandId landId={landId} />}
           <Buildings />
           <Save />
-          <BumpkinProfile />
+          <BumpkinProfile state={state} />
         </>
       )}
       {/* <AudioPlayer isFarming /> */}

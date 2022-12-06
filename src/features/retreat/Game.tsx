@@ -21,6 +21,7 @@ import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
+import { Hud } from "./Hud";
 
 export const Game = () => {
   const container = useRef(null);
@@ -64,52 +65,57 @@ export const Game = () => {
     );
   }
   return (
-    <ToastProvider>
-      <ScrollContainer
-        className="bg-blue-300 overflow-scroll relative w-full h-full"
-        innerRef={container}
-      >
-        <div className="relative h-retreatGameboard w-retreatGameboard">
-          <div
-            className="absolute inset-0 bg-repeat w-full h-full"
-            style={{
-              backgroundImage: `url(${ocean})`,
-              backgroundSize: `${64 * PIXEL_SCALE}px`,
-              imageRendering: "pixelated",
-            }}
-          />
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            style={{
-              width: `${40 * GRID_WIDTH_PX}px`,
-              height: `${40 * GRID_WIDTH_PX}px`,
-            }}
-          >
-            <img
-              src={background}
-              className="absolute inset-0 w-full h-full"
-              id={Section.RetreatBackground}
+    <>
+      <ToastProvider>
+        <ScrollContainer
+          className="bg-blue-300 overflow-scroll relative w-full h-full"
+          innerRef={container}
+        >
+          <div className="relative h-retreatGameboard w-retreatGameboard">
+            <div
+              className="absolute inset-0 bg-repeat w-full h-full"
+              style={{
+                backgroundImage: `url(${ocean})`,
+                backgroundSize: `${64 * PIXEL_SCALE}px`,
+                imageRendering: "pixelated",
+              }}
             />
-            <RetreatBank />
-            <RetreatStorageHouse />
-            <RetreatHotAirBalloon />
-            <RetreatTailor />
-            <RetreatBlacksmith />
-            <Auctioneer />
-            <Resale />
-            <RetreatWishingWell />
-            <IslandTravelWrapper />
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{
+                width: `${40 * GRID_WIDTH_PX}px`,
+                height: `${40 * GRID_WIDTH_PX}px`,
+              }}
+            >
+              <img
+                src={background}
+                className="absolute inset-0 w-full h-full"
+                id={Section.RetreatBackground}
+              />
+              <RetreatBank />
+              <RetreatStorageHouse />
+              <RetreatHotAirBalloon />
+              <RetreatTailor />
+              <RetreatBlacksmith />
+              <Auctioneer />
+              <Resale />
+              <RetreatWishingWell />
+              <IslandTravelWrapper />
 
-            <Modal show={isError} centered>
-              <Panel className="text-shadow">
-                <ErrorMessage
-                  errorCode={goblinState.context.errorCode as ErrorCode}
-                />
-              </Panel>
-            </Modal>
+              <Modal show={isError} centered>
+                <Panel className="text-shadow">
+                  <ErrorMessage
+                    errorCode={goblinState.context.errorCode as ErrorCode}
+                  />
+                </Panel>
+              </Modal>
+            </div>
           </div>
-        </div>
-      </ScrollContainer>
-    </ToastProvider>
+        </ScrollContainer>
+      </ToastProvider>
+      <div className="absolute z-20">
+        <Hud />
+      </div>
+    </>
   );
 };
