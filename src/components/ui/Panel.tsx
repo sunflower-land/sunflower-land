@@ -51,13 +51,14 @@ export const Panel: React.FC<Props> = ({
 /**
  * Light panel with border effect
  */
-export const InnerPanel: React.FC<Props> = ({ children, className }) => {
+export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
   return (
     <div
       className={classNames("bg-brown-300", className)}
       style={{
         ...pixelLightBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
+        ...style,
       }}
     >
       {children}
