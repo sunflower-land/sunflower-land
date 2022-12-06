@@ -38,29 +38,35 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
 
   const inventory = state.inventory;
 
-  const chickenCount = inventory.Chicken || new Decimal(0);
-
   // V1 may have ones without coords
-  const placedChickenCount = getKeys(state.chickens).filter(
-    (index) => state.chickens[index].coordinates
-  ).length;
+  const workingChickenCount = new Decimal(
+    getKeys(state.chickens).filter(
+      (index) => state.chickens[index].coordinates
+    ).length
+  );
+  const ownedChickenCount = new Decimal(inventory.Chicken || 0);
+  const lazyChickenCount = workingChickenCount.greaterThan(ownedChickenCount)
+    ? new Decimal(0)
+    : ownedChickenCount.minus(workingChickenCount);
 
   const availableSpots = getSupportedChickens(state);
-
-  const startingIndex =
-    placedChickenCount === availableSpots
-      ? placedChickenCount - 1
-      : placedChickenCount;
-
-  const [selectedIndex, setSelectedIndex] = useState(startingIndex);
+  const henHouseFull = ownedChickenCount.greaterThanOrEqualTo(availableSpots);
+  const workingCapacityFull =
+    workingChickenCount.greaterThanOrEqualTo(availableSpots);
 
   const price = getBuyPrice(ANIMALS()["Chicken"], inventory);
-
-  const lessFunds = (amount = 1) => {
-    if (!price) return;
-
-    return state.balance.lessThan(price.mul(amount));
+  const lessFunds = () => {
+    if (price === undefined) return true;
+    return state.balance.lessThan(price);
   };
+
+  const canBuyChicken = !henHouseFull && !workingCapacityFull && !lessFunds();
+  const canPlaceLazyChicken =
+    !workingCapacityFull && lazyChickenCount.greaterThanOrEqualTo(1);
+
+  const [selectedChicken, setSelectedChicken] = useState<
+    "working" | "lazy" | "buy"
+  >(canPlaceLazyChicken ? "lazy" : canBuyChicken ? "buy" : "working");
 
   const handleBuy = () => {
     gameService.send("EDIT", {
@@ -81,38 +87,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   };
 
   const Details = () => {
-    const isNotPlaced =
-      chickenCount.gt(selectedIndex) && selectedIndex >= placedChickenCount;
-
-    if (isNotPlaced) {
-      return (
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-center">Lazy Chicken</span>
-          <img
-            src={boxChicken}
-            className="h-16 img-highlight mt-1"
-            alt="chicken"
-          />
-          <div className="flex mt-2 relative">
-            <span className="text-center text-xs">
-              Put your chicken to work to start collecting eggs!
-            </span>
-          </div>
-
-          <Button
-            disabled={lessFunds()}
-            className="text-xxs sm:text-xs mt-3 whitespace-nowrap"
-            onClick={handlePlace}
-          >
-            Place
-          </Button>
-        </div>
-      );
-    }
-
-    const isNew = chickenCount.eq(selectedIndex);
-
-    if (isNew) {
+    if (selectedChicken === "buy") {
       return (
         <div className="flex flex-col justify-center items-center p-2 relative">
           <span className="text-center">Chicken</span>
@@ -121,7 +96,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
             className="h-16 img-highlight mt-1"
             alt="chicken"
           />
-          <span className="text-center mt-2 sm:text-sm">
+          <span className="text-center mt-2 text-sm">
             Feed wheat and collect eggs
           </span>
           <>
@@ -133,13 +108,13 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
                     "text-red-500": lessFunds(),
                   })}
                 >
-                  {`${price?.toNumber()}`}
+                  {`${price?.toString()}`}
                 </span>
               </div>
             </div>
             <Button
-              disabled={lessFunds()}
-              className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+              disabled={!canBuyChicken}
+              className="text-xs mt-3 whitespace-nowrap"
               onClick={handleBuy}
             >
               Buy
@@ -148,6 +123,33 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
         </div>
       );
     }
+
+    if (selectedChicken === "lazy") {
+      return (
+        <div className="flex flex-col justify-center items-center p-2 relative">
+          <span className="text-center">Lazy Chicken</span>
+          <img
+            src={boxChicken}
+            className="h-16 img-highlight mt-1"
+            alt="chicken"
+          />
+          <div className="flex mt-2 relative">
+            <span className="text-center text-sm">
+              Put your chicken to work to start collecting eggs!
+            </span>
+          </div>
+
+          <Button
+            className="text-xs mt-3 whitespace-nowrap"
+            onClick={handlePlace}
+            disabled={!canPlaceLazyChicken}
+          >
+            Place
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-col justify-center items-center p-2 relative">
         <span className="text-center">Working Chicken</span>
@@ -196,41 +198,37 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
             style={{ maxHeight: TAB_CONTENT_HEIGHT }}
           >
             <div className="flex flex-wrap">
-              {new Array(availableSpots).fill(null).map((item, index) => {
-                let boxImage = undefined;
-
-                if (placedChickenCount > index) {
-                  boxImage = chicken;
-                }
-                if (chickenCount.gt(index) && index >= placedChickenCount) {
-                  boxImage = boxChicken;
-                }
-
-                if (chickenCount.eq(index)) {
-                  boxImage = plus;
-                }
-
-                return (
-                  <Box
-                    isSelected={selectedIndex === index}
-                    key={index}
-                    onClick={() => setSelectedIndex(index)}
-                    image={boxImage}
-                    disabled={chickenCount.lt(index)}
-                  />
-                );
-              })}
+              <Box
+                isSelected={selectedChicken === "working"}
+                key="working-chicken"
+                count={workingChickenCount}
+                onClick={() => setSelectedChicken("working")}
+                image={chicken}
+              />
+              <Box
+                isSelected={selectedChicken === "lazy"}
+                key="lazy-chicken"
+                count={lazyChickenCount}
+                onClick={() => setSelectedChicken("lazy")}
+                image={boxChicken}
+              />
+              <Box
+                isSelected={selectedChicken === "buy"}
+                key="buy-chicken"
+                onClick={() => setSelectedChicken("buy")}
+                image={plus}
+              />
             </div>
-            <div className="flex flex-col items-baseline">
+            <div className="flex flex-col items-baseline w-full">
               <Label
-                type={placedChickenCount === availableSpots ? "danger" : "info"}
+                type={workingCapacityFull ? "danger" : "info"}
                 className="sm:mr-auto m-1"
               >
-                {`Capacity ${placedChickenCount}/${availableSpots}`}
+                {`Capacity ${workingChickenCount}/${availableSpots}`}
               </Label>
-              {chickenCount.gte(availableSpots) && (
+              {workingCapacityFull && (
                 <p className="text-xs mx-1 mb-1">
-                  Build an extra coop to farm more chickens
+                  Build an extra Hen House to farm more chickens
                 </p>
               )}
             </div>

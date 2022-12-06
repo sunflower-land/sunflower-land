@@ -18,6 +18,8 @@ export const GRID_WIDTH_PX = PIXEL_SCALE * SQUARE_WIDTH;
 
 export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
 export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
+export const HEN_HOUSE_CAPACITY = 10;
+export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 

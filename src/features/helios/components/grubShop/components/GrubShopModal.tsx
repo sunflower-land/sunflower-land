@@ -4,7 +4,7 @@ import close from "assets/icons/close.png";
 import confirm from "assets/icons/confirm.png";
 import token from "assets/icons/token_2.png";
 import questionMark from "assets/icons/expression_confused.png";
-import grubShopIcon from "assets/bumpkins/small/hats/chef_hat.png";
+import grubShopIcon from "assets/icons/chef_hat.png";
 import stopwatch from "assets/icons/stopwatch.png";
 
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -232,7 +232,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
       >
         <Tab isActive>
           <img src={grubShopIcon} className="h-5 mr-2" />
-          <span className="text-sm">Grub Shop</span>
+          <span className="text-sm whitespace-nowrap">Grub Shop</span>
         </Tab>
         <img
           src={close}

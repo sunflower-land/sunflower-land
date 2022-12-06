@@ -5,64 +5,57 @@ import shadow from "assets/npcs/shadow.png";
 import sandDug from "assets/land/sand_dug.png";
 import close from "assets/icons/close.png";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Panel } from "components/ui/Panel";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const GoblinDigging: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   return (
-    <div
-      className="absolute"
-      style={{
-        top: `${GRID_WIDTH_PX * 17}px`,
-        right: `${GRID_WIDTH_PX * 15}px`,
-        width: `${GRID_WIDTH_PX * 2}px`,
-      }}
-    >
+    <MapPlacement x={3} y={2} height={1} width={2}>
       <img
-        src={goblin}
-        className="absolute z-20 cursor-pointer hover:img-highlight"
+        src={sandDug}
+        className="absolute"
         style={{
-          width: `${PIXEL_SCALE * 33}px`,
-          left: 0,
-          right: 0,
+          width: `${PIXEL_SCALE * 16}px`,
+          right: `${PIXEL_SCALE * 2}px`,
+          bottom: `${PIXEL_SCALE * -4}px`,
         }}
-        onClick={() => setShowModal(true)}
       />
       <img
         src={shadow}
-        className="absolute z-10"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 15}px`,
-          right: `${PIXEL_SCALE * 9.5}px`,
-          top: `${PIXEL_SCALE * 22}px`,
+          left: `0px`,
+          bottom: `0px`,
         }}
       />
-      <img
-        src={sandDug}
-        className="absolute z-0"
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          right: `${PIXEL_SCALE * -3.3}px`,
-          top: `${PIXEL_SCALE * 20.5}px`,
-        }}
-      />
+      <div className="w-max h-full relative">
+        <img
+          src={goblin}
+          className="relative cursor-pointer hover:img-highlight"
+          style={{
+            width: `${PIXEL_SCALE * 33}px`,
+            left: `${PIXEL_SCALE * -7}px`,
+            bottom: `${PIXEL_SCALE * 13}px`,
+          }}
+          onClick={() => setShowModal(true)}
+        />
+      </div>
+
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <div className="absolute w-72 -left-8 -top-44 -z-10">
-          <DynamicNFT
-            bumpkinParts={{
-              body: "Goblin Potion",
-              hair: "Sun Spots",
-              pants: "Lumberjack Overalls",
-              tool: "Farmer Pitchfork",
-              background: "Farm Background",
-              shoes: "Black Farmer Boots",
-            }}
-          />
-        </div>
-        <Panel>
+        <Panel
+          bumpkinParts={{
+            body: "Goblin Potion",
+            hair: "Sun Spots",
+            pants: "Lumberjack Overalls",
+            tool: "Farmer Pitchfork",
+            background: "Farm Background",
+            shoes: "Black Farmer Boots",
+          }}
+        >
           <img
             src={close}
             className="absolute cursor-pointer z-20"
@@ -81,6 +74,6 @@ export const GoblinDigging: React.FC = () => {
           </div>
         </Panel>
       </Modal>
-    </div>
+    </MapPlacement>
   );
 };

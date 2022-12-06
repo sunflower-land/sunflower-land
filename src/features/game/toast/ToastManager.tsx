@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { Panel } from "components/ui/Panel";
 import { ToastContext } from "./ToastQueueProvider";
 import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";
 import { PIXEL_SCALE } from "../lib/constants";
+import { InnerPanel } from "components/ui/Panel";
 
 export const ToastManager: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -32,7 +32,7 @@ export const ToastManager: React.FC = () => {
             left: `${PIXEL_SCALE * 3}px`,
           }}
         >
-          <Panel>
+          <InnerPanel className="text-white">
             {toastList.map(({ content, id, icon }) => (
               <div className="flex items-center relative" key={id}>
                 {icon && (
@@ -41,7 +41,7 @@ export const ToastManager: React.FC = () => {
                 <span className="text-sm mx-1">{content}</span>
               </div>
             ))}
-          </Panel>
+          </InnerPanel>
         </div>
       )}
     </div>

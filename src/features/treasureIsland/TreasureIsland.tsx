@@ -11,6 +11,7 @@ import { IslandTravelWrapper } from "./components/IslandTravelWrapper";
 import { SandHills } from "./components/SandHills";
 import { GoblinDigging } from "./components/GoblinDigging";
 import { ShovelShop } from "./components/ShovelShop";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const TreasureIsland: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
@@ -39,44 +40,48 @@ export const TreasureIsland: React.FC = () => {
       <GoblinDigging />
       <ShovelShop />
 
-      <img
-        src={placeholderNPC}
-        className="absolute pointer-events-none z-10"
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          bottom: `${GRID_WIDTH_PX * 29.5}px`,
-          left: `${GRID_WIDTH_PX * 12}px`,
-        }}
-      />
-      <img
-        src={shadow}
-        className="absolute pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${GRID_WIDTH_PX * 29.35}px`,
-          left: `${GRID_WIDTH_PX * 12.1}px`,
-        }}
-      />
+      <MapPlacement x={-8} y={10} height={1} width={1}>
+        <img
+          src={shadow}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `0px`,
+            left: `0px`,
+          }}
+        />
+        <img
+          src={placeholderNPC}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            left: `${PIXEL_SCALE * -2}px`,
+          }}
+        />
+      </MapPlacement>
 
-      <img
-        src={placeholderNPC2}
-        className="absolute pointer-events-none z-10"
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          bottom: `${GRID_WIDTH_PX * 30.5}px`,
-          left: `${GRID_WIDTH_PX * 18.5}px`,
-          transform: "scaleX(-1)",
-        }}
-      />
-      <img
-        src={shadow}
-        className="absolute pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${GRID_WIDTH_PX * 30.35}px`,
-          left: `${GRID_WIDTH_PX * 18.45}px`,
-        }}
-      />
+      <MapPlacement x={-2} y={11} height={1} width={1}>
+        <img
+          src={shadow}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `0px`,
+            left: `0px`,
+          }}
+        />
+        <img
+          src={placeholderNPC2}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            transform: "scaleX(-1)",
+          }}
+        />
+      </MapPlacement>
     </div>
   );
 };

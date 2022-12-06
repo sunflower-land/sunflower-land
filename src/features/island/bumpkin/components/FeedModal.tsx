@@ -57,7 +57,7 @@ export const FeedModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
           />
           <Tab isActive>
             <img src={foodIcon} className="h-5 mr-2" />
-            <span className="text-sm">Feed Bumpkin</span>
+            <span className="text-sm whitespace-nowrap">Feed Bumpkin</span>
           </Tab>
         </div>
         <Feed food={availableFood} onFeed={onFeed} onClose={onClose} />

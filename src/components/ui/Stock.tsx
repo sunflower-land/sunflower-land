@@ -9,9 +9,10 @@ import { Label } from "./Label";
 
 interface Props {
   item: { name: InventoryItemName };
+  inventoryFull: boolean;
 }
 
-export const Stock: React.FC<Props> = ({ item }) => {
+export const Stock: React.FC<Props> = ({ item, inventoryFull }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -21,7 +22,10 @@ export const Stock: React.FC<Props> = ({ item }) => {
   const stock = state.stock[item.name] || new Decimal(0);
 
   return (
-    <Label className="w-auto -mt-2 mb-1" type="info">
+    <Label
+      className="w-auto -mt-2 mb-1"
+      type={inventoryFull ? "danger" : "info"}
+    >
       {`${stock} in stock`}
     </Label>
   );

@@ -4,7 +4,6 @@ import {
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
 import {
   Bumpkin,
   Collectibles,
@@ -31,24 +30,22 @@ const makeFedAt = (
   bumpkin: Bumpkin
 ) => {
   const { skills } = bumpkin;
-  let mul = 0;
+  let seconds = CHICKEN_TIME_TO_EGG;
+
   if (inventory["Wrangler"]?.gt(0)) {
-    mul += 0.1;
+    seconds *= 0.9;
   }
 
   if (isCollectibleBuilt("Speed Chicken", collectibles)) {
-    mul += 0.1;
+    seconds *= 0.9;
   }
 
   if (skills["Stable Hand"]) {
-    mul += 0.1;
+    seconds *= 0.9;
   }
   //Return default values if no boost applied
-  if (!mul) {
-    return createdAt;
-  }
 
-  const chickenTime = CHICKEN_TIME_TO_EGG * mul;
+  const chickenTime = CHICKEN_TIME_TO_EGG - seconds;
   return createdAt - chickenTime;
 };
 
@@ -63,14 +60,6 @@ export const getWheatRequiredToFeed = (collectibles: Collectibles) => {
   return defaultAmount;
 };
 
-export function getMaxChickens(collectibles: Collectibles) {
-  if (isCollectibleBuilt("Chicken Coop", collectibles)) {
-    return 15;
-  }
-
-  return 10;
-}
-
 export function feedChicken({
   state,
   action,
@@ -83,10 +72,7 @@ export function feedChicken({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const maxChickens = getMaxChickens(collectibles);
-
   const chickens = stateCopy.chickens || {};
-  const chickenCount = getKeys(stateCopy.chickens).length;
   const chicken = chickens[action.id];
 
   if (!chicken) {

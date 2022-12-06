@@ -138,6 +138,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const labelState = () => {
     const max = INITIAL_STOCK[selectedName];
+    const inventoryCount = inventory[selectedName] ?? new Decimal(0);
+    const inventoryFull = max ? inventoryCount.gt(max) : true;
 
     if (stock?.equals(0)) {
       return (
@@ -146,14 +148,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         </Label>
       );
     }
-    if (!stock?.equals(0) && max && inventory[selectedName]?.gt(max)) {
-      return (
-        <Label type="danger" className="-mt-2 mb-1">
-          No space left
-        </Label>
-      );
-    }
-    return <Stock item={{ name: selectedName }} />;
+    return (
+      <Stock item={{ name: selectedName }} inventoryFull={inventoryFull} />
+    );
   };
 
   const Action = () => {
@@ -191,7 +188,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return (
         <div className="my-1">
           <p className="text-xxs text-center">
-            You have too many seeds on your basket!
+            You have too many seeds in your basket!
           </p>
         </div>
       );
@@ -258,11 +255,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             className="w-8 sm:w-12 img-highlight mt-1"
             alt={selectedName}
           />
-          <div className="border-t border-white w-full mt-2 pt-1">
-            <div className="flex justify-center items-center scale-75 sm:scale-100">
+          <div className="border-t border-white w-full my-2 pt-1">
+            <div className="flex justify-center items-center">
               <img src={timer} className="h-5 me-2" />
               {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-center mt-2">
+              <span className="text-xs text-center">
                 {secondsToString(
                   getCropTime(
                     crop?.name,
@@ -277,14 +274,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 )}
               </span>
             </div>
-            <div className="flex justify-center items-end">
+            <div className="flex justify-center items-center mt-1">
               <img src={token} className="h-5 mr-1" />
               <span
-                className={classNames("text-xs text-center mt-2", {
+                className={classNames("text-xs text-center", {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`${price}`}
+                {price.equals(0) ? `Free` : `${price}`}
               </span>
             </div>
           </div>

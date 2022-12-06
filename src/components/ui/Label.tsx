@@ -2,9 +2,11 @@ import React from "react";
 import classnames from "classnames";
 import { pixelWhiteBorderStyle } from "features/game/lib/style";
 
+type labelType = "default" | "success" | "info" | "danger";
+
 interface Props {
   className?: string;
-  type?: string;
+  type?: labelType;
 }
 export const Label: React.FC<Props> = ({ children, className, type }) => {
   return (

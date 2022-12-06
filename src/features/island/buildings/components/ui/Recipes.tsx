@@ -35,7 +35,7 @@ interface Props {
 }
 
 /**
- * The recipes of a food producing building
+ * The recipes of a food producing building.
  * @selected The selected food in the interface.  This prop is set in the parent so closing the modal will not reset the selected state.
  * @setSelected Sets the selected food in the interface.  This prop is set in the parent so closing the modal will not reset the selected state.
  * @recipes The list of available recipes.

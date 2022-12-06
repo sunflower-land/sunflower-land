@@ -22,6 +22,7 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { INITIAL_STOCK } from "features/game/lib/constants";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
@@ -37,6 +38,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
+  const [showCaptcha, setShowCaptcha] = useState(false);
   const inventory = state.inventory;
   const collectibles = state.collectibles;
 
@@ -77,7 +79,37 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
+  const onCaptchaSolved = async (captcha: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("SYNC", { captcha });
+
+    onClose();
+  };
+
+  if (showCaptcha) {
+    return (
+      <CloudFlareCaptcha
+        action="exotic-seeds-sync"
+        onDone={onCaptchaSolved}
+        onExpire={() => setShowCaptcha(false)}
+        onError={() => setShowCaptcha(false)}
+      />
+    );
+  }
+
+  const restock = () => {
+    // setShowCaptcha(true);
+    gameService.send("SYNC", { captcha: "" });
+
+    onClose();
+  };
+
   const stock = state.stock[selected.name] || new Decimal(0);
+  const max = INITIAL_STOCK[selected.name];
+  const inventoryCount = getInventoryItemCount(selected.name) ?? new Decimal(0);
+  const inventoryFull = max ? inventoryCount.gt(max) : true;
+
   const Action = () => {
     if (stock?.equals(0)) {
       return (
@@ -88,22 +120,23 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
           <p className="text-xxs text-center">
             Sync your farm to the Blockchain to restock
           </p>
+          <Button className="text-xs mt-1" onClick={restock}>
+            Sync
+          </Button>
         </div>
       );
     }
 
-    const max = INITIAL_STOCK[selected.name];
-
-    if (max && getInventoryItemCount(selected.name)?.gt(max)) {
+    if (inventoryFull) {
       return (
-        <span className="text-xs mt-1 text-center">
+        <span className="text-xxs mt-1 text-center">
           {`Max ${max} ${selected.name}s`}
         </span>
       );
     }
 
     if (CONFIG.NETWORK === "mainnet" || selected.name !== "Magic Bean") {
-      return <span className="text-sm">Coming soon</span>;
+      return <span className="text-sm whitespace-nowrap">Coming soon</span>;
     }
 
     return (
@@ -137,7 +170,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} />
+          <Stock item={selected} inventoryFull={inventoryFull} />
           <span className="text-center mb-1">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}

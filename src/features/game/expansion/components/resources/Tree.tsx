@@ -199,7 +199,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
                 width: `${PIXEL_SCALE * 11}px`,
               }}
             />
-            <span className="text-sm text-white text-shadow">{`+${tree.wood.amount}`}</span>
+            <span className="text-sm text-white">{`+${tree.wood.amount}`}</span>
           </div>
         );
 
@@ -216,15 +216,13 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         displayPopover(
           <div className="flex">
             <img src={axe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white text-shadow">No axes left</span>
+            <span className="text-xs text-white">No axes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(
-        <span className="text-xs text-white text-shadow">{e.message}</span>
-      );
+      displayPopover(<span className="text-xs text-white">{e.message}</span>);
     }
   };
 

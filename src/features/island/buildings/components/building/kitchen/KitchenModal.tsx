@@ -4,7 +4,7 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
 import close from "assets/icons/close.png";
-import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
+import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
@@ -21,6 +21,7 @@ interface Props {
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
   crafting: boolean;
+  itemInProgress?: ConsumableName;
   craftingService?: MachineInterpreter;
 }
 export const KitchenModal: React.FC<Props> = ({
@@ -28,6 +29,7 @@ export const KitchenModal: React.FC<Props> = ({
   onCook,
   onClose,
   crafting,
+  itemInProgress,
   craftingService,
 }) => {
   const kitchenRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
@@ -37,7 +39,10 @@ export const KitchenModal: React.FC<Props> = ({
 
     return [...acc, CONSUMABLES[name]];
   }, [] as Consumable[]);
-  const [selected, setSelected] = useState<Consumable>(kitchenRecipes[0]);
+  const [selected, setSelected] = useState<Consumable>(
+    kitchenRecipes.find((recipe) => recipe.name === itemInProgress) ||
+      kitchenRecipes[0]
+  );
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
