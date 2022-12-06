@@ -18,27 +18,32 @@ export const Save: React.FC = () => {
   const playing = gameState.matches("playing");
   const autoSaving = gameState.matches("autosaving");
   const hasUnsavedProgress = gameState.context.actions.length > 0;
-  const showSaved = playing && !hasUnsavedProgress;
-  const buttonState: ButtonState = showSaved
-    ? "saved"
-    : autoSaving
-    ? "inProgress"
-    : "unsaved";
+  const savedWithoutError = playing && !hasUnsavedProgress;
 
-  const [showButton, setShowButton] = useState<boolean>(false);
-  const [hideShowButtonTimer, setHideShowButtonTimer] = useState<number>();
+  const [enableButton, setEnableButton] = useState<boolean>(false);
+  const [disableSaveButtonTimer, setDisableSaveButtonTimer] =
+    useState<number>();
+
+  const showSaved = savedWithoutError && enableButton;
+  const buttonState: ButtonState = autoSaving
+    ? "inProgress"
+    : showSaved
+    ? "saved"
+    : "unsaved";
 
   useEffect(() => {
     // show button when there are unsaved progress
     if (hasUnsavedProgress) {
-      setShowButton(true);
-      setHideShowButtonTimer(clearTimeout(hideShowButtonTimer) as undefined);
+      setEnableButton(true);
+      setDisableSaveButtonTimer(
+        clearTimeout(disableSaveButtonTimer) as undefined
+      );
     }
 
     // hide button after 2 seconds when changes are saved
-    if (showButton && showSaved) {
-      setHideShowButtonTimer(
-        window.setTimeout(() => setShowButton(false), 2000)
+    if (showSaved) {
+      setDisableSaveButtonTimer(
+        window.setTimeout(() => setEnableButton(false), 2000)
       );
     }
   }, [playing && !hasUnsavedProgress]);
@@ -49,14 +54,11 @@ export const Save: React.FC = () => {
 
   return (
     <div
-      onClick={save}
-      className={classNames(
-        "fixed z-50 cursor-pointer hover:img-highlight transition-opacity",
-        {
-          "opacity-100": showButton,
-          "opacity-0 pointer-events-none": !showButton,
-        }
-      )}
+      onClick={enableButton ? save : undefined}
+      className={classNames("fixed z-50", {
+        "cursor-pointer hover:img-highlight":
+          enableButton && buttonState === "unsaved",
+      })}
       style={{
         right: `${PIXEL_SCALE * 3}px`,
         bottom: `${PIXEL_SCALE * 52}px`,
@@ -104,6 +106,17 @@ export const Save: React.FC = () => {
           }}
         />
       )}
+
+      <img
+        src={roundButton}
+        className={classNames("absolute", {
+          "opacity-0": enableButton,
+          "opacity-40": !enableButton,
+        })}
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+        }}
+      />
     </div>
   );
 };
