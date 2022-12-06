@@ -145,7 +145,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
         displayPopover(
           <div className="flex">
             <img src={wood} className="w-5 h-5 mr-2" />
-            <span className="text-sm text-white text-shadow">{`+${tree.wood}`}</span>
+            <span className="text-sm text-white">{`+${tree.wood}`}</span>
           </div>
         );
 
@@ -162,15 +162,13 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
         displayPopover(
           <div className="flex">
             <img src={axe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white text-shadow">No axes left</span>
+            <span className="text-xs text-white">No axes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(
-        <span className="text-xs text-white text-shadow">{e.message}</span>
-      );
+      displayPopover(<span className="text-xs text-white">{e.message}</span>);
     }
   };
 
@@ -198,7 +196,7 @@ export const Tree: React.FC<Props> = ({ treeIndex }) => {
           onMouseEnter={handleHover}
           onMouseLeave={handleMouseLeave}
           ref={treeRef}
-          className="group cursor-pointer  w-full h-full"
+          className="group cursor-pointer w-full h-full"
           onClick={shake}
         >
           <Spritesheet

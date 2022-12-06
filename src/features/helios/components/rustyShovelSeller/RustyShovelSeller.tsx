@@ -59,7 +59,7 @@ export const RustyShovelSeller: React.FC = () => {
       );
     }
 
-    return <Stock item={{ name: "Rusty Shovel" }} />;
+    return <Stock item={{ name: "Rusty Shovel" }} inventoryFull={false} />;
   };
 
   const Action = () => {

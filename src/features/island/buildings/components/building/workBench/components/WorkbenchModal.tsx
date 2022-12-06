@@ -164,7 +164,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         </Label>
       );
     }
-    return <Stock item={{ name: selectedName }} />;
+    return <Stock item={{ name: selectedName }} inventoryFull={false} />;
   };
 
   const Action = () => {

@@ -138,6 +138,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const labelState = () => {
     const max = INITIAL_STOCK[selectedName];
+    const inventoryCount = inventory[selectedName] ?? new Decimal(0);
+    const inventoryFull = max ? inventoryCount.gt(max) : true;
 
     if (stock?.equals(0)) {
       return (
@@ -146,14 +148,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         </Label>
       );
     }
-    if (!stock?.equals(0) && max && inventory[selectedName]?.gt(max)) {
-      return (
-        <Label type="danger" className="-mt-2 mb-1">
-          No space left
-        </Label>
-      );
-    }
-    return <Stock item={{ name: selectedName }} />;
+    return (
+      <Stock item={{ name: selectedName }} inventoryFull={inventoryFull} />
+    );
   };
 
   const Action = () => {
@@ -191,7 +188,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return (
         <div className="my-1">
           <p className="text-xxs text-center">
-            You have too many seeds on your basket!
+            You have too many seeds in your basket!
           </p>
         </div>
       );
