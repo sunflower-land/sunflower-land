@@ -13,6 +13,20 @@ import { Context } from "features/game/GameProvider";
 import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
+import animals from "assets/skills/land/skill-tree-icon/animals.png";
+import cooking from "assets/skills/land/skill-tree-icon/cooking.png";
+import crops from "assets/skills/land/skill-tree-icon/crops.png";
+import rocks from "assets/skills/land/skill-tree-icon/rocks.png";
+import trees from "assets/skills/land/skill-tree-icon/trees.png";
+
+const iconList = {
+  Crops: crops,
+  Trees: trees,
+  Rocks: rocks,
+  Cooking: cooking,
+  Animals: animals,
+};
+
 export const SkillCategoryList = ({
   onClick,
 }: {
@@ -26,12 +40,11 @@ export const SkillCategoryList = ({
   ] = useActor(gameService);
 
   const { bumpkin } = state;
-
   return (
     <>
       {SKILL_TREE_CATEGORIES.map((category) => {
         const skills = getSkills(category);
-        const icon = skills[0].image;
+        const icon = iconList[skills[0].tree];
         const skillsAcquiredInCategoryCount = getKeys({
           ...bumpkin?.skills,
         }).filter((acquiredSkillName) =>
