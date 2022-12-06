@@ -49,7 +49,7 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
     food which is needed to level up your Bumpkin.`}
           </p>
           <p className="mb-2">
-            To learn more about cooking we will need to visit the Fire Pit.
+            To learn more about cooking, we will need to visit the Fire Pit.
           </p>
         </div>
         <div className="flex space-x-1">

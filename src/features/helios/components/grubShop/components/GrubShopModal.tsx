@@ -232,7 +232,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
       >
         <Tab isActive>
           <img src={grubShopIcon} className="h-5 mr-2" />
-          <span className="text-sm">Grub Shop</span>
+          <span className="text-sm whitespace-nowrap">Grub Shop</span>
         </Tab>
         <img
           src={close}

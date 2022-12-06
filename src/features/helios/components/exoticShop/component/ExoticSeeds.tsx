@@ -136,7 +136,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     }
 
     if (CONFIG.NETWORK === "mainnet" || selected.name !== "Magic Bean") {
-      return <span className="text-sm">Coming soon</span>;
+      return <span className="text-sm whitespace-nowrap">Coming soon</span>;
     }
 
     return (

@@ -87,7 +87,7 @@ export const FirePitModal: React.FC<Props> = ({
         >
           <Tab isActive>
             <img src={chefHat} className="h-5 mr-2" />
-            <span className="text-sm">Fire Pit</span>
+            <span className="text-sm whitespace-nowrap">Fire Pit</span>
           </Tab>
           <img
             src={close}
