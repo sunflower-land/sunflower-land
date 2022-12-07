@@ -130,7 +130,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
               image={golden_crop_sheet}
               widthFrame={HARVEST_PROC_ANIMATION.size}
               heightFrame={HARVEST_PROC_ANIMATION.size}
-              fps={HARVEST_PROC_ANIMATION.fps}
+              fps={6}
               steps={HARVEST_PROC_ANIMATION.steps}
               hiddenWhenPaused={true}
             />
