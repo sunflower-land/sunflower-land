@@ -31,7 +31,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
 import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
 import { GoldenCropModal } from "src/features/island/Plots/components/GoldenCropModal";
-
+import golden_crop_sheet from "assets/events/golden_crop/golden_crop_sheet.png";
 interface Props {
   plotIndex: number;
   expansionIndex: number;
@@ -107,6 +107,27 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
                 imageRendering: "pixelated",
               }}
               image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
+              widthFrame={HARVEST_PROC_ANIMATION.size}
+              heightFrame={HARVEST_PROC_ANIMATION.size}
+              fps={HARVEST_PROC_ANIMATION.fps}
+              steps={HARVEST_PROC_ANIMATION.steps}
+              hiddenWhenPaused={true}
+            />
+          );
+        }
+        // golden crop event animation
+        const rewardName = crop?.reward?.items?.[0].name;
+        if (rewardName === "Golden Crop") {
+          setProcAnimation(
+            <Spritesheet
+              className="absolute pointer-events-none"
+              style={{
+                top: `${PIXEL_SCALE * -23}px`,
+                left: `${PIXEL_SCALE * -10}px`,
+                width: `${PIXEL_SCALE * HARVEST_PROC_ANIMATION.size}px`,
+                imageRendering: "pixelated",
+              }}
+              image={golden_crop_sheet}
               widthFrame={HARVEST_PROC_ANIMATION.size}
               heightFrame={HARVEST_PROC_ANIMATION.size}
               fps={HARVEST_PROC_ANIMATION.fps}
