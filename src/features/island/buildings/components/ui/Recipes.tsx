@@ -98,7 +98,9 @@ export const Recipes: React.FC<Props> = ({
         >
           Cook
         </Button>
-        {crafting && <p className="text-xs my-1">Chef is busy</p>}
+        {true && (
+          <p className="text-xxs sm:text-xs text-center my-1">Chef is busy</p>
+        )}
       </>
     );
   };
