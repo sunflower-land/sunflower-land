@@ -232,6 +232,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Goblin War Banner": 921,
   "Player Experience": 922,
   "Jack-o-lantern": 923,
+  //Golden crop event
+  "Golden Crop": 924,
 
   // Buildings
   Market: 1001,
