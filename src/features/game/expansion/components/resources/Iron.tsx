@@ -184,8 +184,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
   return (
     <div
-      className="relative"
-      style={{ height: "40px" }}
+      className="relative h-full w-full"
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >

@@ -8,17 +8,16 @@ export const FatChicken: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 17}px `,
-        bottom: `${PIXEL_SCALE * 0}px `,
+        width: `${PIXEL_SCALE * 17}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1}px`,
       }}
     >
       <img
         src={fatChicken}
         style={{
           width: `${PIXEL_SCALE * 17}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute"
         alt="Fat Chicken"
       />
     </div>

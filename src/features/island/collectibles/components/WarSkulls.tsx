@@ -9,9 +9,8 @@ export const WarSkulls: React.FC = () => {
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 1}px`,
       }}
-      alt="War Skulls"
+      alt="War Skull"
     />
   );
 };

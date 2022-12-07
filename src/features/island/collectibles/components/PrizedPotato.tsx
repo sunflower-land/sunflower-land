@@ -11,10 +11,10 @@ export const PrizedPotato: React.FC = () => {
         src={shadow}
         style={{
           width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${PIXEL_SCALE * 0.1}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute w-full left z-29"
+        className="absolute w-full"
       />
       <img
         src={prizedPotato}

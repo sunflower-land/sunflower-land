@@ -8,17 +8,15 @@ export const FarmCat: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 20}px `,
-        left: `${PIXEL_SCALE * -2}px `,
-        bottom: `${PIXEL_SCALE * 0}px `,
+        width: `${PIXEL_SCALE * 20}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
       }}
     >
       <img
         src={cat}
         style={{
           width: `${PIXEL_SCALE * 20}px`,
-          left: `${PIXEL_SCALE * -2}px `,
-          bottom: `${PIXEL_SCALE * 0}px `,
         }}
         alt="Farm Cat"
       />

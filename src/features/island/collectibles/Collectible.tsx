@@ -55,7 +55,7 @@ import { ChefBear } from "./components/ChefBear";
 import { ConstructionBear } from "./components/ConstructionBear";
 import { AngelBear } from "./components/AngelBear";
 import { BearTrap } from "./components/BearTrap";
-import { BrilliantBear } from "./components/BrilliantBumpkin";
+import { BrilliantBear } from "./components/BrilliantBear";
 import { ClassyBear } from "./components/ClassyBear";
 import { FarmerBear } from "./components/FarmerBear";
 import { RichBear } from "./components/RichBear";
@@ -70,6 +70,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
+import { EggBasket } from "./components/EggBasket";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -93,6 +94,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Foreman Beaver": ForemanBeaver,
 
   "Chicken Coop": ChickenCoop,
+  "Egg Basket": EggBasket,
   "Easter Bunny": EasterBunny,
 
   // Animals
@@ -144,6 +146,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   //Decorations
   "White Tulips": WhiteTulips,
   "Potted Sunflower": PottedSunflower,
+  "Potted Pumpkin": PottedPumpkin,
   Cactus: Cactus,
   "Basic Bear": BasicBear,
   "Chef Bear": ChefBear,
@@ -158,7 +161,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Sunflower Bear": SunflowerBear,
 
   "Victoria Sisters": VictoriaSisters,
-  "Egg Basket": () => null,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
@@ -166,7 +168,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
   // TODO
   "Potted Potato": () => null,
-  "Potted Pumpkin": PottedPumpkin,
   "Colossal Crop": () => null,
   "Peaceful Potato": () => null,
   "Perky Pumpkin": () => null,

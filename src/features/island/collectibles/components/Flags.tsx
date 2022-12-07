@@ -15,21 +15,15 @@ interface Props {
 
 const FlagsImages: React.FC<Props> = ({ flagName }) => {
   return (
-    <div
+    <img
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 11}px`,
-        right: `${PIXEL_SCALE * 2.5}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
-    >
-      <img
-        style={{
-          width: `${PIXEL_SCALE * 11}px`,
-        }}
-        src={ITEM_DETAILS[flagName].image}
-        alt={flagName}
-      />
-    </div>
+      src={ITEM_DETAILS[flagName].image}
+      alt={flagName}
+    />
   );
 };
 

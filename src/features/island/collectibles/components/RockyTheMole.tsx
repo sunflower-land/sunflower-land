@@ -10,18 +10,15 @@ export const RockyTheMole: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 21}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        right: `${PIXEL_SCALE * -1.5}px`,
+        right: `${PIXEL_SCALE * -3}px`,
       }}
     >
       <img
         src={rockyTheMole}
         style={{
           width: `${PIXEL_SCALE * 21}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          right: `${PIXEL_SCALE * -1.5}px`,
         }}
         alt="Rocky The Mole"
-        className="absolute"
       />
     </div>
   );

@@ -241,7 +241,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_TIME);
 
   return (
-    <div className="relative w-full h-full mt-3">
+    <div className="relative w-full h-full">
       {!chopped && (
         <>
           <div
@@ -261,8 +261,8 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
                 // Adjust the base of tree to be perfectly aligned to
                 // on a grid point.
-                bottom: `${8 * PIXEL_SCALE}px`,
-                right: `-${4 * PIXEL_SCALE}px`,
+                bottom: `${PIXEL_SCALE * 2}px`,
+                right: `${PIXEL_SCALE * -4}px`,
               }}
               getInstance={(spritesheet) => {
                 shakeGif.current = spritesheet;
@@ -304,14 +304,13 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           width: `${CHOPPED_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
           height: `${CHOPPED_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
-          position: "absolute",
 
           // Adjust the base of tree to be perfectly aligned to
           // on a grid point.
-          bottom: `${8 * PIXEL_SCALE}px`,
-          right: `-${4 * PIXEL_SCALE}px`,
+          bottom: `${PIXEL_SCALE * 4}px`,
+          right: `${PIXEL_SCALE * -6}px`,
         }}
-        className="absolute bottom-0 pointer-events-none z-40"
+        className="absolute pointer-events-none z-40"
         getInstance={(spritesheet) => {
           choppedGif.current = spritesheet;
         }}
@@ -339,12 +338,11 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         >
           <img
             src={stump}
-            className="relative opacity-50"
+            className="absolute opacity-50"
             style={{
               width: `${GRID_WIDTH_PX}px`,
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%, -50%)",
+              bottom: `${PIXEL_SCALE * 5}px`,
+              left: `${PIXEL_SCALE * 8}px`,
             }}
             onMouseEnter={handleMouseHoverStump}
             onMouseLeave={handleMouseLeaveStump}
