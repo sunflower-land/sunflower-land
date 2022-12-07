@@ -10,7 +10,7 @@ export const GoblinCrown: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 9}px`,
         bottom: `${PIXEL_SCALE * 5}px`,
-        left: `${PIXEL_SCALE * 4}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
       className="absolute"
       alt="Goblin Crown"

@@ -9,7 +9,7 @@ export const ChristmasTree: React.FC = () => {
       src={tree}
       style={{
         width: `${PIXEL_SCALE * 23}px`,
-        bottom: `${PIXEL_SCALE * 2}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 4}px`,
       }}
       className="absolute"

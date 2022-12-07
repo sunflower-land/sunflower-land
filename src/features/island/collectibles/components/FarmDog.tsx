@@ -5,20 +5,14 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const FarmDog: React.FC = () => {
   return (
-    <div
+    <img
+      src={farmDog}
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 16}px `,
+        width: `${PIXEL_SCALE * 16}px`,
         bottom: `${PIXEL_SCALE * 0}px `,
       }}
-    >
-      <img
-        src={farmDog}
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-        }}
-        alt="Farm Dog"
-      />
-    </div>
+      alt="Farm Dog"
+    />
   );
 };

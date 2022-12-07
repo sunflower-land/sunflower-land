@@ -10,17 +10,14 @@ export const GoldenBonsai: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 18}px`,
         bottom: `${PIXEL_SCALE * 0}px `,
-        right: `${PIXEL_SCALE * -0.5}px `,
+        right: `${PIXEL_SCALE * -1}px `,
       }}
     >
       <img
         src={goldenBonsai}
         style={{
           width: `${PIXEL_SCALE * 18}px`,
-          bottom: `${PIXEL_SCALE * 0}px `,
-          right: `${PIXEL_SCALE * -0.5}px `,
         }}
-        className="absolute"
         alt="Golden Bonsai"
       />
     </div>

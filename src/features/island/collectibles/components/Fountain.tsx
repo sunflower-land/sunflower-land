@@ -6,29 +6,20 @@ import { fountainAudio } from "lib/utils/sfx";
 
 export const Fountain: React.FC = () => {
   return (
-    <div
-      className="absolute"
+    <img
       style={{
         width: `${PIXEL_SCALE * 26}px`,
-        bottom: `${PIXEL_SCALE * 2}px`,
-        right: `${PIXEL_SCALE * 1}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
-    >
-      <img
-        style={{
-          width: `${PIXEL_SCALE * 26}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-        onClick={() => {
-          if (!fountainAudio.playing()) {
-            fountainAudio.play();
-          }
-        }}
-        className="absolute hover:img-highlight cursor-pointer"
-        src={fountain}
-        alt="Fountain"
-      />
-    </div>
+      onClick={() => {
+        if (!fountainAudio.playing()) {
+          fountainAudio.play();
+        }
+      }}
+      className="absolute hover:img-highlight cursor-pointer"
+      src={fountain}
+      alt="Fountain"
+    />
   );
 };

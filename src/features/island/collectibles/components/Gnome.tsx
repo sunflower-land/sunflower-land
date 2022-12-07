@@ -9,6 +9,8 @@ export const Gnome: React.FC = () => {
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 17}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
       }}
     >
       <img
@@ -17,7 +19,6 @@ export const Gnome: React.FC = () => {
           width: `${PIXEL_SCALE * 17}px`,
         }}
         alt="Gnome"
-        className="absolute"
       />
     </div>
   );
