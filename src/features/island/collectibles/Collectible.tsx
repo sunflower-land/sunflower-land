@@ -70,7 +70,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
-import { EggBasket } from "./components/EggBasket";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -94,7 +93,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Foreman Beaver": ForemanBeaver,
 
   "Chicken Coop": ChickenCoop,
-  "Egg Basket": EggBasket,
   "Easter Bunny": EasterBunny,
 
   // Animals
@@ -165,6 +163,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Golden Bean": Bean,
   "Magic Bean": Bean,
   "Shiny Bean": Bean,
+
+  "Egg Basket": () => null,
 
   // TODO
   "Potted Potato": () => null,
