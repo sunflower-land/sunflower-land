@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -6,6 +6,7 @@ import {
   InventoryItemName,
   FERTILISERS,
   COUPONS,
+  GameState,
 } from "features/game/types/game";
 
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
@@ -21,11 +22,10 @@ import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
 import { RESOURCES } from "features/game/types/resources";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
@@ -33,15 +33,22 @@ export const TAB_CONTENT_HEIGHT = 400;
 const isSeed = (selectedItem: InventoryItemName) =>
   selectedItem in CROP_SEEDS();
 
-export const Basket: React.FC = () => {
-  const [scrollIntoView] = useScrollIntoView();
+interface Props {
+  state: GameState | GoblinState;
+  shortcutItem: (item: InventoryItemName) => void;
+  selectedItem: InventoryItemName | undefined;
+}
 
-  const { gameService, shortcutItem, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
+export const Basket: React.FC<Props> = ({
+  state,
+  selectedItem,
+  shortcutItem,
+}) => {
+  const [scrollIntoView] = useScrollIntoView();
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const { inventory } = gameState.context.state;
+  const { inventory } = state;
   const basketMap = getBasketItems(inventory);
   const isTimeBoosted = useHasBoostForItem({ selectedItem, inventory });
 
@@ -52,7 +59,9 @@ export const Basket: React.FC = () => {
   };
 
   const handleItemClick = (item: InventoryItemName) => {
-    shortcutItem(item);
+    if (shortcutItem) {
+      shortcutItem(item);
+    }
 
     if (item && ITEM_DETAILS[item].section) {
       scrollIntoView(ITEM_DETAILS[item].section);

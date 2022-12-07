@@ -18,8 +18,6 @@ export const Hud: React.FC = () => {
   const { state } = gameState.context;
   const landId = state.id;
 
-  console.log(state);
-
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <>

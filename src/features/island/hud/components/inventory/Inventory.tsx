@@ -17,14 +17,20 @@ import { GoblinState } from "features/game/lib/goblinMachine";
 
 interface Props {
   state: GameState | GoblinState;
-  shortcutItem?: (item: InventoryItemName) => void;
+  shortcutItem: (item: InventoryItemName) => void;
+  selectedItem: InventoryItemName;
   isFarming?: boolean;
+  onPlace?: (selected: InventoryItemName) => void;
+  showPlaceButton?: boolean;
 }
 
 export const Inventory: React.FC<Props> = ({
   state,
   shortcutItem,
   isFarming,
+  onPlace,
+  showPlaceButton,
+  selectedItem,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -76,7 +82,14 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems state={state} onClose={() => setIsOpen(false)} />
+        <InventoryItems
+          state={state}
+          onPlace={onPlace}
+          onClose={() => setIsOpen(false)}
+          shortcutItem={shortcutItem}
+          showPlaceButton={showPlaceButton}
+          selectedItem={selectedItem}
+        />
       </Modal>
 
       {isFarming && (

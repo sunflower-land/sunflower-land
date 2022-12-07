@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -15,10 +15,8 @@ import { getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
-import { Context } from "features/game/GameProvider";
 import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
-import { useActor } from "@xstate/react";
 import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
 import { GoblinState } from "features/game/lib/goblinMachine";
@@ -28,20 +26,24 @@ const ITEM_CARD_MIN_HEIGHT = "148px";
 interface Props {
   state: GameState | GoblinState;
   closeModal: () => void;
+  showPlaceButton?: boolean;
+  onPlace?: (selected: InventoryItemName) => void;
 }
 
 const TAB_CONTENT_HEIGHT = 400;
 
-export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+export const Chest: React.FC<Props> = ({
+  state,
+  closeModal,
+  showPlaceButton,
+  onPlace,
+}: Props) => {
   const [scrollIntoView] = useScrollIntoView();
 
   const divRef = useRef<HTMLDivElement>(null);
 
   const chestMap = getChestItems(state);
   const { inventory, collectibles: placedItems } = state;
-  const isVisiting = gameState.matches("visiting");
 
   const getItemCount = (item: InventoryItemName) => {
     const count =
@@ -70,10 +72,9 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
   );
 
   const handlePlace = () => {
-    gameService.send("EDIT", {
-      placeable: selected,
-      action: "collectible.placed",
-    });
+    if (showPlaceButton && onPlace) {
+      onPlace(selected);
+    }
     closeModal();
     scrollIntoView(Section.GenesisBlock);
   };
@@ -132,7 +133,7 @@ export const Chest: React.FC<Props> = ({ state, closeModal }: Props) => {
               </a>
             </div>
 
-            {!isVisiting && (
+            {showPlaceButton && (
               <Button className="text-xs w-full mb-1" onClick={handlePlace}>
                 Place on map
               </Button>
