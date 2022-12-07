@@ -29,6 +29,23 @@ import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
 import { getBumpkinLevel } from "features/game/lib/level";
 
+// random seal spawn spots
+import { randomInt } from "lib/utils/random";
+import { LostSeal } from "features/community/seal/Seal";
+
+const spawn = [
+  [30, 15],
+  [10, 15],
+  [10, 25],
+  [35, 25],
+  [21, 19],
+];
+
+const getRandomSpawn = () => {
+  const randomSpawn = randomInt(0, 5);
+  return spawn[randomSpawn];
+};
+
 const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
   loading: true,
   minting: false,
@@ -45,6 +62,7 @@ export const Game = () => {
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
   const [retreatLoaded, setRetreatLoaded] = useState(false);
+  const [sealSpawn, setSealSpawn] = useState(getRandomSpawn());
 
   useLayoutEffect(() => {
     if (retreatLoaded) {
@@ -112,6 +130,7 @@ export const Game = () => {
                 <Resale />
                 <RetreatWishingWell />
                 <IslandTravelWrapper />
+                <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
               </div>
             )}
           </div>

@@ -1,6 +1,6 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 
 import background from "assets/land/helios.webp";
 import { GrubShop } from "./components/grubShop/GrubShop";
@@ -16,11 +16,28 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 import { RustyShovelSeller } from "./components/rustyShovelSeller/RustyShovelSeller";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 
+// random seal spawn spots
+import { randomInt } from "lib/utils/random";
+import { LostSeal } from "features/community/seal/Seal";
+
+const spawn = [
+  [30, 15],
+  [10, 15],
+  [10, 25],
+  [35, 25],
+];
+
+const getRandomSpawn = () => {
+  const randomSpawn = randomInt(0, 4);
+  return spawn[randomSpawn];
+};
+
 export const Helios: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
   const { bumpkin } = state;
+  const [sealSpawn, setSealSpawn] = useState(getRandomSpawn());
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -53,6 +70,7 @@ export const Helios: React.FC = () => {
         <LostSunflorian />
         <RustyShovelSeller />
         <CommunityGardenEntry />
+        <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
 
         <IslandTravel
           bumpkin={bumpkin}
