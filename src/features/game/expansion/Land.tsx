@@ -3,7 +3,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
-import { Plot } from "features/island/Plots/Plot";
+import { Plot } from "features/island/plots/Plot";
 import {
   ANIMAL_DIMENSIONS,
   CollectibleName,

@@ -18,7 +18,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Stone } from "features/game/expansion/components/resources/Stone";
 import { Iron } from "features/game/expansion/components/resources/Iron";
 import { Gold } from "features/game/expansion/components/resources/Gold";
-import { Plot } from "features/island/Plots/Plot";
+import { Plot } from "features/island/plots/Plot";
 import { Tree } from "features/game/expansion/components/resources/Tree";
 import { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";

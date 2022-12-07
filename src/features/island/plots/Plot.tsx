@@ -30,7 +30,7 @@ import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
 import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
-import { GoldenCropModal } from "src/features/island/Plots/components/GoldenCropModal";
+import { GoldenCropModal } from "features/island/plots/components/GoldenCropModal";
 import golden_crop_sheet from "assets/events/golden_crop/golden_crop_sheet.png";
 interface Props {
   plotIndex: number;
