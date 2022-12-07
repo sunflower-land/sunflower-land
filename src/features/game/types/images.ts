@@ -1525,4 +1525,8 @@ export const ITEM_DETAILS: Items = {
     image: pottedPumpkin,
     description: DECORATIONS()["Potted Pumpkin"].description,
   },
+  "Golden Crop": {
+    image: goldEgg,
+    description: "A shiny golden crop",
+  },
 };

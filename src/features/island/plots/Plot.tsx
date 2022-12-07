@@ -30,6 +30,7 @@ import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
 import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
+import { GoldenCropModal } from "features/island/Plots/components/GoldenCropModal";
 
 interface Props {
   plotIndex: number;
@@ -53,7 +54,8 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
   const clickedAt = useRef<number>(0);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isMobile] = useIsMobile();
-
+  //Golden Crop event
+  const [showGoldenCropModal, setShowGoldenCropModal] = useState(false);
   const expansion = game.context.state.expansions[expansionIndex];
   const plot = expansion.plots?.[plotIndex];
 
@@ -141,6 +143,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
   const onCollectReward = (success: boolean) => {
     setReward(null);
     setTouchCount(0);
+    setShowGoldenCropModal(false);
 
     if (success && crop) {
       const rewardItemName = reward?.items?.[0].name;
@@ -199,6 +202,10 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         return;
       }
 
+      if (crop?.reward?.items?.[0].name === "Golden Crop") {
+        console.log("golden crop");
+        setShowGoldenCropModal(true);
+      }
       // They have touched enough!
       setReward(crop.reward);
 
@@ -385,17 +392,28 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         />
       )}
 
+      {/* Golden Crop Event */}
+      {showGoldenCropModal && (
+        <GoldenCropModal
+          show={showGoldenCropModal}
+          onContinue={() => onCollectReward(true)}
+        />
+      )}
+
       {/* Crop reward */}
-      <ChestReward
-        reward={reward}
-        onCollected={onCollectReward}
-        onOpen={() =>
-          gameService.send("cropReward.collected", {
-            plotIndex,
-            expansionIndex,
-          })
-        }
-      />
+
+      {!showGoldenCropModal && (
+        <ChestReward
+          reward={reward}
+          onCollected={onCollectReward}
+          onOpen={() =>
+            gameService.send("cropReward.collected", {
+              plotIndex,
+              expansionIndex,
+            })
+          }
+        />
+      )}
     </div>
   );
 };

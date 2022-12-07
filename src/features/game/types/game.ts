@@ -112,6 +112,8 @@ type Points = "Human War Point" | "Goblin War Point" | "Player Experience";
 
 type WarBanner = "Human War Banner" | "Goblin War Banner";
 
+export type GoldenCropEventItem = "Golden Crop";
+
 export type Bumpkin = {
   id: number;
   equipped: BumpkinParts;
@@ -155,7 +157,8 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | GoblinRetreatItemName;
+  | GoblinRetreatItemName
+  | GoldenCropEventItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
