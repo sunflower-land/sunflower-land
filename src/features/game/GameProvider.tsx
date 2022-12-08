@@ -1,7 +1,7 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-import { useState, useCallback, useLayoutEffect } from "react";
+import { useState, useCallback } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
@@ -14,13 +14,17 @@ import {
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import { useParams } from "react-router-dom";
+import {
+  cacheShowTimersSetting,
+  getShowTimersSetting,
+} from "features/farming/hud/lib/timers";
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;
-  showProgressBars: boolean;
-  toggleProgressBars: () => void;
+  showTimers: boolean;
+  toggleTimers: () => void;
 }
 
 export const Context = React.createContext<GameContext>({} as GameContext);
@@ -28,7 +32,6 @@ export const Context = React.createContext<GameContext>({} as GameContext);
 export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
-  const [showProgressBars, setShowProgressBars] = useState(true);
 
   const { id } = useParams();
   const [gameMachine] = useState(
@@ -43,7 +46,10 @@ export const GameProvider: React.FC = ({ children }) => {
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
-  const [shortcuts, setShortcuts] = useState<InventoryItemName[]>([]);
+  const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
+    getShortcuts()
+  );
+  const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const items = cacheShortcuts(item);
@@ -51,14 +57,11 @@ export const GameProvider: React.FC = ({ children }) => {
     setShortcuts(items);
   }, []);
 
-  useLayoutEffect(() => {
-    const savedShortcuts = getShortcuts();
+  const toggleTimers = () => {
+    const newValue = !showTimers;
 
-    setShortcuts(savedShortcuts);
-  }, []);
-
-  const toggleProgressBars = () => {
-    setShowProgressBars(!showProgressBars);
+    setShowTimers(newValue);
+    cacheShowTimersSetting(newValue);
   };
 
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
@@ -69,8 +72,8 @@ export const GameProvider: React.FC = ({ children }) => {
         shortcutItem,
         selectedItem,
         gameService,
-        showProgressBars,
-        toggleProgressBars,
+        showTimers,
+        toggleTimers,
       }}
     >
       {children}
