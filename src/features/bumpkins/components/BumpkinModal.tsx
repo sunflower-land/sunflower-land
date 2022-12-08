@@ -23,6 +23,7 @@ import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import { Bumpkin } from "features/game/types/game";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -218,7 +219,10 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                 </div>
                 <span className="text-xxs underline">View all</span>
               </div>
-              <SkillBadges inventory={state.inventory} />
+              <SkillBadges
+                inventory={state.inventory}
+                bumpkin={state.bumpkin as Bumpkin}
+              />
             </InnerPanel>
           </div>
 
