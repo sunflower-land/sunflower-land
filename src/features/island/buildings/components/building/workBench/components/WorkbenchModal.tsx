@@ -171,7 +171,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
       return (
         <div className="my-1">
           <p className="text-xs sm:text-xs sm:text-center px-2">
-            Sync your farm to the Blockchain to restock
+            Sync your farm on chain to restock
           </p>
           <Button className="text-xxs sm:text-xs mt-1" onClick={restock}>
             Sync
@@ -194,9 +194,8 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
-  const ingredientKeys = getKeys(selected.ingredients);
   // Price is added as an ingredient for layout purposes
-  const ingredientCount = ingredientKeys.length + 1;
+  const ingredientCount = getKeys(selected.ingredients).length + 1;
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
@@ -252,7 +251,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     {price?.gt(0) && (
                       <div className="flex items-center space-x-1 shrink-0 w-1/2 sm:w-full sm:justify-center my-[1px] sm:mb-1">
                         <div className="w-5">
-                          <img src={token} className="h-5" />
+                          <img src={token} className="h-5 mr-1" />
                         </div>
                         <span
                           className={classNames("text-xs text-center", {

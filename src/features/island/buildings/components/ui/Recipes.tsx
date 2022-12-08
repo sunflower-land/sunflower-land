@@ -103,8 +103,7 @@ export const Recipes: React.FC<Props> = ({
     );
   };
 
-  const ingredientKeys = getKeys(selected.ingredients);
-  const ingredientCount = ingredientKeys.length;
+  const ingredientCount = getKeys(selected.ingredients).length;
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
