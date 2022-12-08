@@ -94,7 +94,7 @@ export const Soil: React.FC<Props> = ({
             : lifecycle.seedling
         )}
 
-        {showProgressBars && (
+        {showTimers && (
           <div
             className="absolute"
             style={{
