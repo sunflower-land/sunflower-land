@@ -19,7 +19,6 @@ import {
 } from "features/game/types/consumables";
 import { Label } from "components/ui/Label";
 
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 import { InProgressInfo } from "../building/InProgressInfo";
 import { MachineInterpreter } from "../../lib/craftingMachine";
 import {
@@ -98,7 +97,7 @@ export const Recipes: React.FC<Props> = ({
         >
           Cook
         </Button>
-        {true && (
+        {crafting && (
           <p className="text-xxs sm:text-xs text-center my-1">Chef is busy</p>
         )}
       </>
@@ -107,10 +106,7 @@ export const Recipes: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
-      <div
-        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1"
-        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-      >
+      <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
         {craftingService && (
           <InProgressInfo craftingService={craftingService} onClose={onClose} />
         )}

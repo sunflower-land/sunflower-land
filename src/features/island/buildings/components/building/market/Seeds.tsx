@@ -33,7 +33,6 @@ import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: () => void;
@@ -221,10 +220,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
-      <div
-        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-      >
+      <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
         {getKeys(SEEDS()).map((name: SeedName) => (
           <Box
             isSelected={selectedName === name}
@@ -247,20 +243,20 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         ))}
       </div>
       <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2 relative">
+        <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
           {labelState()}
           <div className="flex space-x-2 items-center mt-1 sm:flex-col-reverse md:space-x-0">
             <img
               src={ITEM_DETAILS[selectedName].image}
-              className="w-5 sm:w-8 img-highlight sm:my-1"
+              className="w-5 sm:w-8 sm:my-1"
               alt={selectedName}
             />
             <span className="text-center mb-1">{selectedName}</span>
           </div>
-          <div className="border-t border-white w-full my-2 pt-1 flex justify-between sm:flex-col sm:items-center">
-            <div className="flex items-center sm:justify-center">
-              <img src={timer} className="h-5 me-2" />
-              {true && <img src={lightning} className="h-6 me-2" />}
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-start space-x-2 sm:flex-col sm:space-y-2 sm:items-center">
+            <div className="flex space-x-1 items-center sm:justify-center">
+              <img src={timer} className="h-4 sm:h-5" />
+              {true && <img src={lightning} className="h-5 sm:h-6 mr-2" />}
               <span className="text-xs text-center">
                 {secondsToString(
                   getCropTime(
@@ -276,8 +272,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 )}
               </span>
             </div>
-            <div className="flex justify-center items-center mt-1">
-              <img src={token} className="h-5 mr-1" />
+            <div className="flex space-x-1 justify-center items-center">
+              <img src={token} className="h-4 sm:h-5" />
               <span
                 className={classNames("text-xs text-center", {
                   "text-red-500": lessFunds(),
@@ -287,51 +283,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               </span>
             </div>
           </div>
-          {Action()}
         </div>
+        {Action()}
       </OuterPanel>
-      {/* <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          {labelState()}
-          <span className="text-center mb-1">{selectedName}</span>
-          <img
-            src={ITEM_DETAILS[selectedName].image}
-            className="w-8 sm:w-12 img-highlight mt-1"
-            alt={selectedName}
-          />
-          <div className="border-t border-white w-full my-2 pt-1">
-            <div className="flex justify-center items-center">
-              <img src={timer} className="h-5 me-2" />
-              {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-center">
-                {secondsToString(
-                  getCropTime(
-                    crop?.name,
-                    inventory,
-                    collectibles,
-                    state.bumpkin as Bumpkin
-                  ),
-                  {
-                    length: "medium",
-                    removeTrailingZeros: true,
-                  }
-                )}
-              </span>
-            </div>
-            <div className="flex justify-center items-center mt-1">
-              <img src={token} className="h-5 mr-1" />
-              <span
-                className={classNames("text-xs text-center", {
-                  "text-red-500": lessFunds(),
-                })}
-              >
-                {price.equals(0) ? `Free` : `${price}`}
-              </span>
-            </div>
-          </div>
-          {Action()}
-        </div>
-      </OuterPanel> */}
     </div>
   );
 };
