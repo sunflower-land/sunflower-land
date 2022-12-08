@@ -88,7 +88,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     sellPrice: marketRate(9.5),
     harvestSeconds: 24 * 60 * 60,
     name: "Radish",
-    description: "Give it some time, it's worth the wait!",
+    description: "Takes time but is worth the wait!",
   },
   Wheat: {
     buyPrice: marketRate(5),
@@ -165,7 +165,7 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
   },
   "Radish Seed": {
     name: "Radish Seed",
-    description: "Give it some time, it's worth the wait!",
+    description: "Takes time but is worth the wait!",
     tokenAmount: marketRate(7),
     ingredients: [],
     bumpkinLevel: 5,
