@@ -18,7 +18,6 @@ import { secondsToString } from "lib/utils/time";
 import { GrubShop } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "../Tutorial";
@@ -86,6 +85,26 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     return <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
   }
 
+  const labelState = () => {
+    if (selectedFulFilled) {
+      return (
+        <Label type="success" className="-mt-2 mb-1">
+          Order fulfilled
+        </Label>
+      );
+    }
+
+    return (
+      <Label type="info" className="flex space-x-1 -mt-2 mb-1">
+        <img src={stopwatch} className="w-3 left-0 mr-1" />
+        {`${secondsToString(secondsLeft as number, {
+          length: "medium",
+          isShortFormat: true,
+        })} left`}
+      </Label>
+    );
+  };
+
   const Content = () => {
     const isClosed = grubShop.closesAt < Date.now();
 
@@ -108,12 +127,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
           }}
         >
           <div className="flex flex-col-reverse sm:flex-row">
-            <div
-              className="w-full sm:w-3/5 overflow-y-auto 
-              scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1
-              flex justify-between sm:flex-col flex-wrap"
-              style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-            >
+            <div className="w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
               <div className="flex flex-wrap">
                 {Object.values(grubShop.orders).map((item, index) => {
                   const isFulfilled = !!state.grubOrdersFulfilled?.find(
@@ -158,6 +172,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     <img src={stopwatch} className="w-3 left-0 mr-1" />
                     {`${secondsToString(secondsLeft as number, {
                       length: "medium",
+                      isShortFormat: true,
                     })}`}
                   </Label>
                 </div>
@@ -165,53 +180,41 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
             </div>
             {selected && (
               <OuterPanel className="w-full flex-1">
-                <div className="flex flex-col justify-center items-center p-2 relative">
-                  <Label
-                    type={selectedFulFilled ? "success" : "info"}
-                    className="flex justify-center items-center mb-1"
-                  >
-                    {selectedFulFilled ? (
-                      `Order fulfilled`
-                    ) : (
-                      <>
-                        <img src={stopwatch} className="w-3 left-0 mr-1" />
-                        {`${secondsToString(secondsLeft as number, {
-                          length: "medium",
-                        })} left`}
-                      </>
-                    )}
-                  </Label>
-                  <span className="text-center">{selected.name}</span>
-                  <img
-                    src={ITEM_DETAILS[selected.name].image}
-                    className="h-16 img-highlight mt-1"
-                    alt={selected.name}
-                  />
-                  <span className="text-center mt-2 text-sm">
+                <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
+                  {labelState()}
+                  <div className="flex space-x-2 justify-start my-1 sm:items-center sm:flex-col-reverse md:space-x-0">
+                    <img
+                      src={ITEM_DETAILS[selected.name].image}
+                      className="w-5 object-contain sm:w-8 sm:my-1"
+                      alt={selected.name}
+                    />
+                    <span className="text-center">{selected.name}</span>
+                  </div>
+                  <span className="text-xs sm:text-sm sm:text-center">
                     {ITEM_DETAILS[selected.name].description}
                   </span>
-
-                  <div className="border-t border-white w-full mt-2 pt-1">
-                    <div className="flex justify-center items-end">
-                      <img src={token} className="h-5 mr-1" />
-                      <span className="text-xs text-center mt-2 ">
+                  <div className="border-t border-white w-full my-2" />
+                  <div className="flex justify-between px-1 mb-2 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
+                    <div className="flex justify-center space-x-1 items-center sm:justify-center">
+                      <img src={token} className="h-4 sm:h-5" />
+                      <span className="text-xs text-shadow text-center">
                         {`${selected.sfl.toNumber()}`}
                       </span>
                     </div>
                   </div>
-                  {!selectedFulFilled && (
-                    <Button
-                      disabled={
-                        !state.inventory[selected.name] ||
-                        state.inventory[selected.name]?.lt(1)
-                      }
-                      className="text-xs mt-1"
-                      onClick={handleSell}
-                    >
-                      Sell 1
-                    </Button>
-                  )}
                 </div>
+                {!selectedFulFilled && (
+                  <Button
+                    disabled={
+                      !state.inventory[selected.name] ||
+                      state.inventory[selected.name]?.lt(1)
+                    }
+                    className="text-xxs sm:text-xs"
+                    onClick={handleSell}
+                  >
+                    Sell 1
+                  </Button>
+                )}
               </OuterPanel>
             )}
           </div>

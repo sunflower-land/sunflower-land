@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useContext } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
-import heart from "assets/icons/level_up.png";
+import levelup from "assets/icons/level_up.png";
 import watch from "assets/icons/stopwatch.png";
 
 import { Box } from "components/ui/Box";
@@ -12,17 +12,21 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
-import { Consumable, ConsumableName } from "features/game/types/consumables";
-import { secondsToString } from "lib/utils/time";
+import {
+  Consumable,
+  ConsumableName,
+  CONSUMABLES,
+} from "features/game/types/consumables";
 import { Label } from "components/ui/Label";
+
+import { InProgressInfo } from "../building/InProgressInfo";
+import { MachineInterpreter } from "../../lib/craftingMachine";
 import {
   getCookingTime,
   getFoodExpBoost,
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
-import { InProgressInfo } from "../building/InProgressInfo";
-import { MachineInterpreter } from "../../lib/craftingMachine";
+import { secondsToString } from "lib/utils/time";
 
 interface Props {
   selected: Consumable;
@@ -87,22 +91,23 @@ export const Recipes: React.FC<Props> = ({
       <>
         <Button
           disabled={lessIngredients() || crafting}
-          className="text-sm mt-1 whitespace-nowrap"
+          className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
           onClick={() => cook()}
         >
           Cook
         </Button>
-        {crafting && <p className="text-xs my-1">Chef is busy</p>}
+        {crafting && (
+          <p className="text-xxs sm:text-xs text-center my-1">Chef is busy</p>
+        )}
       </>
     );
   };
 
+  const ingredientCount = getKeys(selected.ingredients).length;
+
   return (
     <div className="flex flex-col-reverse sm:flex-row">
-      <div
-        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1"
-        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-      >
+      <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
         {craftingService && (
           <InProgressInfo craftingService={craftingService} onClose={onClose} />
         )}
@@ -119,20 +124,25 @@ export const Recipes: React.FC<Props> = ({
           ))}
         </div>
       </div>
-      <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          {/* <Stock item={selected} /> */}
-          <span className="text-center mb-1">{selected.name}</span>
-          <img
-            src={ITEM_DETAILS[selected.name].image}
-            className="h-16 img-highlight mt-1"
-            alt={selected.name}
-          />
-          <span className="text-center mt-2 text-sm">
-            {ITEM_DETAILS[selected.name].description}
-          </span>
-
-          <div className="border-t border-white w-full mt-2 pt-1">
+      <OuterPanel className="flex flex-col w-full sm:flex-1">
+        <div className="flex p-1 items-end">
+          <div className="flex flex-col justify-between w-full sm:items-center">
+            <div className="flex items-center space-x-2 sm:flex-col-reverse">
+              <img
+                src={ITEM_DETAILS[selected.name].image}
+                className="h-6 img-highlight mt-1 sm:h-12"
+                alt={selected.name}
+              />
+              <p className="sm:text-center sm:mb-1">{selected.name}</p>
+            </div>
+            <span className="text-xxs mt-2 sm:text-center">
+              {CONSUMABLES[selected.name].description}
+            </span>
+          </div>
+        </div>
+        <div className="border-t border-white w-full my-2" />
+        <div className="flex justify-between px-1 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
+          <div className="mb-1 flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
             {getKeys(selected.ingredients).map((name, index) => {
               const item = ITEM_DETAILS[name];
               const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
@@ -150,51 +160,55 @@ export const Recipes: React.FC<Props> = ({
                 if (lessIngredient) {
                   // if inventory items is less than required items
                   return (
-                    <Label type="danger">
-                      {`${inventoryAmount}/${requiredAmount}`}
-                    </Label>
-                  );
-                } else {
-                  // if inventory items is equal to required items
-                  return (
-                    <span className="text-xs text-center mt-2">
-                      {`${requiredAmount}`}
-                    </span>
+                    <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
                   );
                 }
+
+                return (
+                  <span className="text-xs text-center">
+                    {`${requiredAmount}`}
+                  </span>
+                );
               };
 
               return (
                 <div
-                  className="flex justify-center flex-wrap items-end"
+                  className={`flex items-center space-x-1 ${
+                    ingredientCount > 2 ? "w-1/2" : "w-full"
+                  } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
                   key={index}
                 >
-                  <img src={item.image} className="h-5 me-2" />
+                  <div className="w-5">
+                    <img src={item.image} className="h-5" />
+                  </div>
                   {renderRemnants()}
                 </div>
               );
             })}
           </div>
-          <div className="flex mt-2 items-center">
-            <img src={heart} className="h-5 mr-2" />
-            <span className="text-xs">
-              {getFoodExpBoost(selected, state.bumpkin as Bumpkin)} exp
-            </span>
+          <div className="flex flex-col space-y-2 items-start w-[30%] sm:w-full sm:items-center sm:mb-1">
+            <div className="flex justify-between">
+              <img src={levelup} className="h-5 mr-2" />
+              <span className="text-xs whitespace-nowrap">
+                {getFoodExpBoost(selected, state.bumpkin as Bumpkin)} exp
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <img src={watch} className="h-5 mr-1" />
+              <span className="text-xs whitespace-nowrap">
+                {secondsToString(
+                  getCookingTime(selected.cookingSeconds, state.bumpkin),
+                  {
+                    length: "medium",
+                    isShortFormat: true,
+                    removeTrailingZeros: true,
+                  }
+                )}
+              </span>
+            </div>
           </div>
-          <div className="flex mt-2 items-center">
-            <img src={watch} className="h-5 mr-2" />
-            <span className="text-xs">
-              {secondsToString(
-                getCookingTime(selected.cookingSeconds, state.bumpkin),
-                {
-                  length: "medium",
-                  removeTrailingZeros: true,
-                }
-              )}
-            </span>
-          </div>
-          {Action()}
         </div>
+        {Action()}
       </OuterPanel>
     </div>
   );
