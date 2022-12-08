@@ -65,18 +65,8 @@ export const SkillBadges: React.FC<{
     return null;
   }).filter(Boolean);
 
-  if (skills.length === 0) {
-    return null;
-  }
+  const totalSkills = [...badges, ...skills];
+  if (totalSkills.length === 0) return null;
 
-  if (badges.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className="flex flex-wrap items-center">
-      {badges}
-      {skills}
-    </div>
-  );
+  return <div className="flex flex-wrap items-center">{totalSkills}</div>;
 };
