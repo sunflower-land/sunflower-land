@@ -21,9 +21,9 @@ export const StorageHouse: React.FC = () => {
       <div
         className="z-10 absolute"
         style={{
-          width: `${GRID_WIDTH_PX * 5.5}px`,
-          right: `${GRID_WIDTH_PX * 19.5}px`,
-          top: `${GRID_WIDTH_PX * 10}px`,
+          width: `${GRID_WIDTH_PX * 5}px`,
+          right: `${GRID_WIDTH_PX * 18.5}px`,
+          top: `${GRID_WIDTH_PX * 14}px`,
         }}
       >
         <div className="cursor-pointer hover:img-highlight">
@@ -31,8 +31,8 @@ export const StorageHouse: React.FC = () => {
             src={goblin}
             style={{
               width: `${GRID_WIDTH_PX * 1}px`,
-              right: `${GRID_WIDTH_PX * 2.35}px`,
-              top: `${GRID_WIDTH_PX * 3.8}px`,
+              right: `${GRID_WIDTH_PX * 1.95}px`,
+              top: `${GRID_WIDTH_PX * 2.2}px`,
             }}
             className="absolute"
           />

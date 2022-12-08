@@ -35,11 +35,7 @@ export const Resale: React.FC = () => {
             bottom: `${PIXEL_SCALE * 3}px`,
           }}
         >
-          <Action
-            className="pointer-events-none"
-            text="Auctioneer"
-            icon={icon}
-          />
+          <Action className="pointer-events-none" text="Resale" icon={icon} />
         </div>
       </div>
     </MapPlacement>
