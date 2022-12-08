@@ -68,7 +68,7 @@ export const RustyShovelSeller: React.FC = () => {
       return (
         <div className="my-1">
           <p className="text-xxs text-center mb-2">
-            Sync your farm to the Blockchain to restock.
+            Sync your farm on chain to restock.
           </p>
           <Button className="text-xs mt-1" onClick={restock}>
             Sync
