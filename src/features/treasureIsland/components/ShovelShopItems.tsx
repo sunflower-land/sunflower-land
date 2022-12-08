@@ -162,7 +162,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
     >
       <div className="flex flex-col-reverse sm:flex-row">
         <div
-          className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+          className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
           style={{ maxHeight: TAB_CONTENT_HEIGHT }}
         >
           {getKeys(TREASURE_TOOLS).map((toolName) => (
