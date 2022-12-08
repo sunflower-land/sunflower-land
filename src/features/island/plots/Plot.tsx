@@ -40,7 +40,7 @@ interface Props {
 const REMOVE_CROP_TIMEOUT = 5000; // 5 seconds
 
 export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
-  const { gameService, selectedItem, showProgressBars } = useContext(Context);
+  const { gameService, selectedItem, showTimers } = useContext(Context);
   const [game] = useActor(gameService);
   const [showPopover, setShowPopover] = useState(false);
   const [showSelectBox, setShowSelectBox] = useState(false);
@@ -331,7 +331,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         }}
       >
         <Soil
-          showProgressBars={showProgressBars}
+          showTimers={showTimers}
           plantedCrop={crop}
           showCropDetails={showCropDetails}
           isRemoving={isRemoving}

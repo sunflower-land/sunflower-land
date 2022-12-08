@@ -21,7 +21,7 @@ interface Props {
   plantedCrop?: PlantedCrop;
   showCropDetails?: boolean;
   isRemoving?: boolean;
-  showProgressBars: boolean;
+  showTimers: boolean;
 }
 
 const CROP_NOISE_LEVEL = 0.1;
@@ -44,7 +44,7 @@ export const Soil: React.FC<Props> = ({
   plantedCrop,
   showCropDetails,
   isRemoving,
-  showProgressBars,
+  showTimers,
 }) => {
   useUiRefresher({ active: !!plantedCrop });
 
