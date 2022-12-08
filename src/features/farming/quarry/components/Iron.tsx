@@ -13,7 +13,7 @@ import ironOre from "assets/resources/iron_ore.png";
 
 import {
   GRID_WIDTH_PX,
-  IRON_RECOVERY_TIME,
+  FARM_IRON_RECOVERY_TIME,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -144,7 +144,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
     }
   };
 
-  const recoveryTime = IRON_RECOVERY_TIME;
+  const recoveryTime = FARM_IRON_RECOVERY_TIME;
   const timeLeft = getTimeLeft(rock.minedAt, recoveryTime);
   const percentage = 100 - (timeLeft / recoveryTime) * 100;
 
