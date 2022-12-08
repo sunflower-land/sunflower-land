@@ -256,7 +256,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           <div className="border-t border-white w-full my-2 pt-2 flex justify-start space-x-2 sm:flex-col sm:space-y-2 sm:items-center">
             <div className="flex space-x-1 items-center sm:justify-center">
               <img src={timer} className="h-4 sm:h-5" />
-              {true && <img src={lightning} className="h-5 sm:h-6 mr-2" />}
+              {isTimeBoosted && (
+                <img src={lightning} className="h-5 sm:h-6 mr-2" />
+              )}
               <span className="text-xs text-center">
                 {secondsToString(
                   getCropTime(

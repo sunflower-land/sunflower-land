@@ -26,7 +26,6 @@ import {
   getFoodExpBoost,
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
-import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
 
 interface Props {
@@ -104,6 +103,9 @@ export const Recipes: React.FC<Props> = ({
     );
   };
 
+  const ingredientKeys = getKeys(selected.ingredients);
+  const ingredientCount = ingredientKeys.length;
+
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
@@ -141,11 +143,7 @@ export const Recipes: React.FC<Props> = ({
         </div>
         <div className="border-t border-white w-full my-2" />
         <div className="flex justify-between px-1 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
-          <div
-            className={classNames(
-              "mb-1 flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto"
-            )}
-          >
+          <div className="mb-1 flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
             {getKeys(selected.ingredients).map((name, index) => {
               const item = ITEM_DETAILS[name];
               const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
@@ -176,7 +174,9 @@ export const Recipes: React.FC<Props> = ({
 
               return (
                 <div
-                  className="flex items-center space-x-1 shrink-0 basis-1/2 sm:basis-auto sm:justify-center max-h-6 my-[1px]"
+                  className={`flex items-center space-x-1 ${
+                    ingredientCount > 2 ? "w-1/2" : "w-full"
+                  } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
                   key={index}
                 >
                   <div className="w-5">

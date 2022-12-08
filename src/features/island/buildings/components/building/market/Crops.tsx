@@ -111,7 +111,7 @@ export const Crops: React.FC = () => {
       </div>
       <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center p-2 pb-0">
-          <div className="flex space-x-2 justify-start mb-2 sm:items-center sm:flex-col-reverse md:space-x-0">
+          <div className="flex space-x-2 justify-start mb-1 sm:items-center sm:flex-col-reverse md:space-x-0">
             <img
               src={ITEM_DETAILS[selected.name].image}
               className="w-5 object-contain sm:w-8 sm:my-1"
@@ -125,7 +125,7 @@ export const Crops: React.FC = () => {
           <div className="border-t border-white w-full my-2 pt-1 flex justify-between sm:flex-col sm:items-center">
             <div className="flex justify-center space-x-1 items-center sm:justify-center">
               <img src={token} className="h-4 sm:h-5" />
-              {true && <img src={lightning} className="h-5 sm:h-6" />}
+              {isPriceBoosted && <img src={lightning} className="h-5 sm:h-6" />}
               <span className="text-xs text-shadow text-center">
                 {`${displaySellPrice(selected)}`}
               </span>
