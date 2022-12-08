@@ -190,7 +190,7 @@ export const Recipes: React.FC<Props> = ({
             <div className="flex justify-between">
               <img src={levelup} className="h-5 mr-2" />
               <span className="text-xs whitespace-nowrap">
-                {getFoodExpBoost(selected, state.bumpkin as Bumpkin)} exp
+                {getFoodExpBoost(selected, state.bumpkin as Bumpkin)}xp
               </span>
             </div>
             <div className="flex justify-between">
