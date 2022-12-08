@@ -17,7 +17,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Stock } from "components/ui/Stock";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { Tab } from "components/ui/Tab";
-import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
+import {
+  TreasureToolName,
+  TREASURE_TOOLS,
+  WorkbenchToolName,
+  WORKBENCH_TOOLS,
+} from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
@@ -47,9 +52,11 @@ const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
 };
 
 export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const craftableItems = WORKBENCH_TOOLS();
+  const craftableItems = { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS };
 
-  const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
+  const [selectedName, setSelectedName] = useState<
+    WorkbenchToolName | TreasureToolName
+  >("Axe");
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);

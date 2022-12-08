@@ -41,8 +41,6 @@ const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
 };
 
 export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
-  const craftableItems = TREASURE_TOOLS();
-
   const [selectedName, setSelectedName] =
     useState<TreasureToolName>("Sand Shovel");
   const { setToast } = useContext(ToastContext);
@@ -55,7 +53,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const selected = craftableItems[selectedName];
+  const selected = TREASURE_TOOLS[selectedName];
   const inventory = state.inventory;
 
   const price = selected.sfl;
@@ -167,7 +165,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
           className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
           style={{ maxHeight: TAB_CONTENT_HEIGHT }}
         >
-          {getKeys(craftableItems).map((toolName) => (
+          {getKeys(TREASURE_TOOLS).map((toolName) => (
             <Box
               isSelected={selectedName === toolName}
               key={toolName}
