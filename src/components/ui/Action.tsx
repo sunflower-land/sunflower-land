@@ -3,11 +3,13 @@ import React from "react";
 import disc from "assets/icons/disc.png";
 import { InnerPanel } from "./Panel";
 import classNames from "classnames";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { setImageWidth } from "lib/images";
 
 interface Props {
   text: string;
   icon: any;
-  onClick: () => void;
+  onClick?: () => void;
   className: string;
 }
 
@@ -15,16 +17,59 @@ export const Action: React.FC<Props> = ({ text, icon, onClick, className }) => {
   return (
     <div
       onClick={onClick}
-      className={classNames("cursor-pointer", className)}
-      data-html2canvas-ignore="false"
+      className={classNames("relative cursor-pointer z-20", className)}
     >
-      <div className="absolute w-10 h-10 -left-2 -top-1 flex items-center justify-center">
-        <img src={disc} className="w-full absolute inset-0" />
-        <img src={icon} className="w-2/3 z-10" />
-      </div>
-      <InnerPanel className="text-white text-shadow text-xs w-fit">
-        <span className="pl-7">{text}</span>
+      <InnerPanel
+        className="relative text-white text-xs w-fit"
+        style={{
+          height: `${PIXEL_SCALE * 13}px`,
+          left: `${PIXEL_SCALE * 5}px`,
+        }}
+      >
+        <span className="pl-4 pr-1">{text}</span>
       </InnerPanel>
+      <div
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 18}px`,
+          height: `${PIXEL_SCALE * 19}px`,
+          top: `${PIXEL_SCALE * -3}px`,
+          left: `${PIXEL_SCALE * -6}px`,
+        }}
+      >
+        <img
+          src={disc}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+            height: `${PIXEL_SCALE * 19}px`,
+          }}
+        />
+        <img
+          src={icon}
+          className="absolute"
+          onLoad={(e) => {
+            const img = e.currentTarget;
+            if (
+              !img ||
+              !img.complete ||
+              !img.naturalWidth ||
+              !img.naturalHeight
+            ) {
+              return;
+            }
+
+            const left = Math.floor((18 - img.naturalWidth) / 2);
+            const top = Math.floor((18 - img.naturalHeight) / 2);
+            img.style.left = `${PIXEL_SCALE * left}px`;
+            img.style.top = `${PIXEL_SCALE * top}px`;
+            setImageWidth(img);
+          }}
+          style={{
+            opacity: 0,
+          }}
+        />
+      </div>
     </div>
   );
 };

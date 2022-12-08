@@ -2,12 +2,13 @@ import React from "react";
 
 import goblinTailor from "assets/buildings/goblin_tailor2.gif";
 import clothesRack from "assets/decorations/clothes-rack.png";
-import player from "assets/icons/player.png";
+import icon from "assets/icons/player_small.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { tailorAudio } from "lib/utils/sfx";
 import { ItemsModal } from "features/goblins/tailor/ItemsModal";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const RetreatTailor: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -21,30 +22,43 @@ export const RetreatTailor: React.FC = () => {
   };
 
   return (
-    <div
-      className="absolute z-10"
-      style={{
-        width: `${GRID_WIDTH_PX * 3.8}px`,
-        left: `${GRID_WIDTH_PX * 13.5}px`,
-        top: `${GRID_WIDTH_PX * 19.7}px`,
-      }}
-    >
-      <div className="cursor-pointer hover:img-highlight" onClick={openTailor}>
-        <img src={goblinTailor} className="w-3/4" />
-        <img src={clothesRack} className="w-3/5 absolute top-4 -right-20" />
-        {
+    <MapPlacement x={-7} y={1} height={4} width={4}>
+      <div
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        onClick={openTailor}
+      >
+        <img
+          src={goblinTailor}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 48}px`,
+            left: `${PIXEL_SCALE * 8}px`,
+            bottom: `${PIXEL_SCALE * 16}px`,
+          }}
+        />
+        <img
+          src={clothesRack}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 41}px`,
+            right: `${PIXEL_SCALE * -44}px`,
+            bottom: `${PIXEL_SCALE * 22}px`,
+          }}
+        />
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
           <Action
-            className="absolute -bottom-7 -left-4"
+            className="pointer-events-none"
             text="Wearables"
-            icon={player}
-            onClick={openTailor}
+            icon={icon}
           />
-        }
+        </div>
       </div>
-
-      {isOpen && (
-        <ItemsModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      )}
-    </div>
+      <ItemsModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    </MapPlacement>
   );
 };

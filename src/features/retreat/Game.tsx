@@ -80,7 +80,13 @@ export const Game = () => {
           className="bg-blue-300 overflow-scroll relative w-full h-full"
           innerRef={container}
         >
-          <div className="relative h-retreatGameboard w-retreatGameboard">
+          <div
+            className="relative"
+            style={{
+              width: `${84 * GRID_WIDTH_PX}px`,
+              height: `${56 * GRID_WIDTH_PX}px`,
+            }}
+          >
             <div
               className="absolute inset-0 bg-repeat w-full h-full"
               style={{

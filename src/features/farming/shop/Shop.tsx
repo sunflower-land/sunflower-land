@@ -34,7 +34,7 @@ export const Shop: React.FC = () => {
     >
       <img src={shop} alt="shop" onClick={handleShopClick} className="w-full" />
       <Action
-        className="absolute top-5 left-4"
+        className="absolute top-0 left-4"
         text="Shop"
         icon={plant}
         onClick={handleShopClick}

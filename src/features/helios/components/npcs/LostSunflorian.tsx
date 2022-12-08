@@ -3,33 +3,38 @@ import React, { useState } from "react";
 import sunflorian from "assets/npcs/lost_sunflorian.gif";
 import shadow from "assets/npcs/shadow.png";
 import close from "assets/icons/close.png";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const LostSunflorian: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   return (
-    <>
-      <img
-        src={shadow}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 14}px`,
-          top: `${GRID_WIDTH_PX * 12.3}px`,
-          left: `${GRID_WIDTH_PX * 17.35}px`,
-        }}
-      />
-      <img
-        src={sunflorian}
+    <MapPlacement x={-4} y={9} height={1} width={1}>
+      <div
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={() => setShowModal(true)}
-        className="absolute cursor-pointer hover:img-highlight"
-        style={{
-          width: `${PIXEL_SCALE * 14}px`,
-          top: `${GRID_WIDTH_PX * 11.5}px`,
-          left: `${GRID_WIDTH_PX * 17.35}px`,
-        }}
-      />
+      >
+        <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+        <img
+          src={sunflorian}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            left: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Panel
           bumpkinParts={{
@@ -61,6 +66,6 @@ export const LostSunflorian: React.FC = () => {
           </div>
         </Panel>
       </Modal>
-    </>
+    </MapPlacement>
   );
 };

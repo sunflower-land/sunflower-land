@@ -1,6 +1,6 @@
 import React from "react";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import building from "assets/buildings/fertilisers.png";
 import potionMaster from "assets/npcs/potion_master.gif";
@@ -9,6 +9,7 @@ import close from "assets/icons/close.png";
 
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const Potions: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -18,24 +19,27 @@ export const Potions: React.FC = () => {
   };
 
   return (
-    <>
+    <MapPlacement x={3} y={-9} height={3} width={4}>
       <div
-        className="absolute cursor-pointer hover:img-highlight"
-        // TODO some sort of coordinate system
-        style={{
-          width: `${GRID_WIDTH_PX * 6}px`,
-          right: `${GRID_WIDTH_PX * 10}px`,
-          top: `${GRID_WIDTH_PX * 29.1}px`,
-        }}
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={handleClick}
       >
+        <img
+          src={building}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 55}px`,
+            left: `${PIXEL_SCALE * 4}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
+          }}
+        />
         <img
           src={shadow}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 17.2}px`,
-            top: `${PIXEL_SCALE * 15.6}px`,
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            bottom: `${PIXEL_SCALE * 25}px`,
           }}
         />
         <img
@@ -43,14 +47,8 @@ export const Potions: React.FC = () => {
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 17.2}px`,
-            top: `${PIXEL_SCALE * 3.6}px`,
-          }}
-        />
-        <img
-          src={building}
-          style={{
-            width: `${PIXEL_SCALE * 55}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            bottom: `${PIXEL_SCALE * 27}px`,
           }}
         />
       </div>
@@ -82,6 +80,6 @@ export const Potions: React.FC = () => {
           </div>
         </Panel>
       </Modal>
-    </>
+    </MapPlacement>
   );
 };

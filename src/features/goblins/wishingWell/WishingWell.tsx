@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import wishingWell from "assets/buildings/wishing_well.png";
-import icon from "assets/brand/icon.png";
+import token from "assets/icons/token_2.png";
 
 import { WishingWellModal } from "./WishingWellModal";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -41,9 +41,9 @@ export const WishingWell: React.FC = () => {
         />
         {
           <Action
-            className="absolute -bottom-[36px] -left-[5px]"
+            className="absolute bottom-2 left-0"
             text="Wish"
-            icon={icon}
+            icon={token}
             onClick={openWell}
           />
         }

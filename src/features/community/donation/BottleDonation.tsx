@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor, useMachine } from "@xstate/react";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { roundToOneDecimal } from "features/auth/components";
 import { Button } from "components/ui/Button";
@@ -17,6 +17,7 @@ import humanDeath from "assets/npcs/human_death.gif";
 import { beggarAudio } from "lib/utils/sfx";
 import { Context } from "../lib/CommunityProvider";
 import { donationMachine } from "../merchant/lib/donationMachine";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const BottleDonation: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
@@ -56,24 +57,24 @@ export const BottleDonation: React.FC = () => {
   };
 
   return (
-    <div
-      className="z-5 relative align-items-center"
-      style={{
-        left: `${GRID_WIDTH_PX * 15}px`,
-        top: `${GRID_WIDTH_PX * 32}px`,
-        width: `${GRID_WIDTH_PX * 1}px`,
-        height: `${GRID_WIDTH_PX * 1}px`,
-      }}
-    >
-      <img
-        id="bottle"
-        src={bottle}
-        className="relative hover:cursor-pointer hover:img-highlight z-20"
-        style={{
-          width: `${GRID_WIDTH_PX * 1}px`,
-        }}
-        onClick={bottleClick}
-      />
+    <>
+      <MapPlacement x={-9} y={-2} height={1} width={1}>
+        <div
+          className="relative w-full h-full cursor-pointer hover:img-highlight"
+          onClick={bottleClick}
+        >
+          <img
+            id="bottle"
+            src={bottle}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+            }}
+          />
+        </div>
+      </MapPlacement>
       <Modal
         centered
         show={!state.matches("idle")}
@@ -165,6 +166,6 @@ export const BottleDonation: React.FC = () => {
           )}
         </Panel>
       </Modal>
-    </div>
+    </>
   );
 };

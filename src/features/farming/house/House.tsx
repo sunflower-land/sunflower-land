@@ -255,7 +255,7 @@ export const House: React.FC<Props> = ({
           }}
         />
         <Action
-          className="absolute bottom-10 left-5"
+          className="absolute bottom-0 left-4"
           text="Home"
           icon={player}
           onClick={open}

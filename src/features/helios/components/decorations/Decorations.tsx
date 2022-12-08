@@ -1,6 +1,6 @@
 import React from "react";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import building from "assets/buildings/decorations.png";
 import retroGirl from "assets/npcs/retro_girl.gif";
@@ -8,6 +8,7 @@ import shadow from "assets/npcs/shadow.png";
 
 import { Modal } from "react-bootstrap";
 import { DecorationShopItems } from "./component/DecorationShopItems";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const Decorations: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -16,24 +17,18 @@ export const Decorations: React.FC = () => {
     setIsOpen(true);
   };
   return (
-    <>
+    <MapPlacement x={-6} y={-5} height={3} width={5}>
       <div
-        className="absolute cursor-pointer hover:img-highlight"
-        // TODO some sort of coordinate system
-        style={{
-          width: `${GRID_WIDTH_PX * 6}px`,
-          right: `${GRID_WIDTH_PX * 17.5}px`,
-          top: `${GRID_WIDTH_PX * 25.2}px`,
-        }}
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={handleClick}
       >
         <img
           src={shadow}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            left: `${GRID_WIDTH_PX * -1.2}px`,
-            top: `${GRID_WIDTH_PX * 2.45}px`,
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+            bottom: `${PIXEL_SCALE * 4}px`,
           }}
         />
         <img
@@ -41,8 +36,8 @@ export const Decorations: React.FC = () => {
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
-            left: `${GRID_WIDTH_PX * -1.2}px`,
-            top: `${GRID_WIDTH_PX * 1.6}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
           }}
         />
         <img
@@ -50,12 +45,14 @@ export const Decorations: React.FC = () => {
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 50}px`,
+            right: `${PIXEL_SCALE * 8}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
           }}
         />
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <DecorationShopItems onClose={() => setIsOpen(false)} />
       </Modal>
-    </>
+    </MapPlacement>
   );
 };

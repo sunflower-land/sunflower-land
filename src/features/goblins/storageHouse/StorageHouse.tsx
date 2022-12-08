@@ -44,7 +44,7 @@ export const StorageHouse: React.FC = () => {
             className="w-full"
           />
           <Action
-            className="absolute -bottom-2 left-10"
+            className="absolute bottom-7 left-12"
             text="Storage"
             icon={token}
             onClick={openStorageHouse}
