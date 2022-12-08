@@ -34,7 +34,7 @@ export const TownHall: React.FC = () => {
       <div className={"cursor-pointer hover:img-highlight"}>
         <img src={townHall} alt="market" onClick={open} className="w-full" />
         <Action
-          className="absolute bottom-24 left-8"
+          className="absolute bottom-0 left-8"
           text="Town Hall"
           icon={heart}
           onClick={open}

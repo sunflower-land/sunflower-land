@@ -8,7 +8,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
 import goblinBalloon from "assets/npcs/goblin_balloon.png";
-import icon from "assets/brand/icon.png";
+import token from "assets/icons/token_2.png";
 import { useActor } from "@xstate/react";
 
 export const Trader: React.FC = () => {
@@ -56,9 +56,9 @@ export const Trader: React.FC = () => {
         />
         {
           <Action
-            className="absolute -bottom-[40px] left-[13px]"
+            className="absolute -bottom-4 left-2"
             text="Trade"
-            icon={icon}
+            icon={token}
             onClick={openTrader}
           />
         }

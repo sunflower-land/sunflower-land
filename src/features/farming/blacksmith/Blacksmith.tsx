@@ -37,7 +37,7 @@ export const Blacksmith: React.FC = () => {
           className="w-full"
         />
         <Action
-          className="absolute -bottom-8 left-1"
+          className="absolute bottom-2 left-1"
           text="Craft"
           icon={hammer}
           onClick={openBlacksmith}

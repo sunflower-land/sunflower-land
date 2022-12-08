@@ -1,13 +1,15 @@
 import React from "react";
 
 import resources from "assets/buildings/resources.png";
-import token from "assets/resources/wood.png";
+import icon from "assets/resources/wood.png";
 import goblin from "assets/npcs/goblin.gif";
+import shadow from "assets/npcs/shadow.png";
 
 import { Action } from "components/ui/Action";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { StorageModal } from "features/goblins/storageHouse/components/StorageModal";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const RetreatStorageHouse: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -17,43 +19,57 @@ export const RetreatStorageHouse: React.FC = () => {
   };
 
   return (
-    <>
+    <MapPlacement x={4} y={7} height={5} width={5}>
       <div
-        className="z-10 absolute"
-        style={{
-          width: `${GRID_WIDTH_PX * 5.5}px`,
-          right: `${GRID_WIDTH_PX * 10.5}px`,
-          top: `${GRID_WIDTH_PX * 12}px`,
-        }}
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        onClick={openStorageHouse}
       >
-        <div className="cursor-pointer hover:img-highlight">
-          <img
-            src={goblin}
-            style={{
-              width: `${GRID_WIDTH_PX * 1}px`,
-              right: `${GRID_WIDTH_PX * 2.35}px`,
-              top: `${GRID_WIDTH_PX * 3.8}px`,
-            }}
-            className="absolute"
-          />
-
+        <div
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 83}px`,
+            left: `${PIXEL_SCALE * -2}px`,
+            bottom: `${PIXEL_SCALE * 14}px`,
+          }}
+        >
           <img
             src={resources}
+            style={{
+              width: `${PIXEL_SCALE * 83}px`,
+            }}
             alt="storage-house"
-            onClick={openStorageHouse}
-            className="w-full"
           />
-          <Action
-            className="absolute -bottom-2 left-10"
-            text="Storage"
-            icon={token}
-            onClick={openStorageHouse}
-          />
+        </div>
+        <img
+          src={shadow}
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * 20}px`,
+            left: `${PIXEL_SCALE * 32}px`,
+          }}
+          className="absolute pointer-events-none"
+        />
+        <img
+          src={goblin}
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+            bottom: `${PIXEL_SCALE * 22}px`,
+            left: `${PIXEL_SCALE * 30}px`,
+          }}
+          className="absolute"
+        />
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <Action className="pointer-events-none" text="Storage" icon={icon} />
         </div>
       </div>
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
         <StorageModal onClose={() => setIsOpen(false)} />
       </Modal>
-    </>
+    </MapPlacement>
   );
 };

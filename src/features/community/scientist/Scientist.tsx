@@ -4,14 +4,15 @@ import scientist from "../assets/lab.gif";
 import icon from "../assets/icons/pot.png";
 
 import { ScientistModal } from "./ScientistModal";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { merchantAudio } from "lib/utils/sfx";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const Scientist: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const openMerchant = () => {
+  const openScientist = () => {
     setIsOpen(true);
     //Checks if merchantAudio is playing, if false, plays the sound
     if (!merchantAudio.playing()) {
@@ -20,33 +21,37 @@ export const Scientist: React.FC = () => {
   };
 
   return (
-    <div
-      className="relative"
-      style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        height: `${GRID_WIDTH_PX * 3}px`,
-        left: `${GRID_WIDTH_PX * 7.5}px`,
-        top: `${GRID_WIDTH_PX * 25}px`,
-      }}
-    >
-      <div className="cursor-pointer hover:img-highlight relative">
+    <MapPlacement x={-16} y={5} height={4} width={4}>
+      <div
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        onClick={openScientist}
+      >
         <img
           src={scientist}
           alt="scientist"
-          onClick={openMerchant}
-          className="w-full"
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 40}px`,
+            left: `${PIXEL_SCALE * 12}px`,
+            bottom: `${PIXEL_SCALE * 16}px`,
+          }}
         />
-        <Action
-          className="absolute -bottom-[30px] -left-[5px]"
-          text="Scientist"
-          icon={icon}
-          onClick={openMerchant}
-        />
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <Action
+            className="pointer-events-none"
+            text="Scientist"
+            icon={icon}
+          />
+        </div>
       </div>
-
       {isOpen && (
         <ScientistModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
       )}
-    </div>
+    </MapPlacement>
   );
 };

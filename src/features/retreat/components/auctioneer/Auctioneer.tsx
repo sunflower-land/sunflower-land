@@ -1,14 +1,16 @@
 import React, { useContext } from "react";
 
 import auctioneer from "assets/npcs/trivia.gif";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import player from "assets/icons/player.png";
+import icon from "assets/icons/player_small.png";
 import { AuctioneerModal } from "./AuctioneerModal";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { Item } from "./actions/auctioneerItems";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { setImageWidth } from "lib/images";
 
 export const Auctioneer: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -29,44 +31,63 @@ export const Auctioneer: React.FC = () => {
   };
 
   return (
-    <div
-      className="z-10 absolute"
-      style={{
-        width: `${GRID_WIDTH_PX * 5.5}px`,
-        left: `${GRID_WIDTH_PX * 16.5}px`,
-        top: `${GRID_WIDTH_PX * 26.5}px`,
-      }}
-    >
+    <MapPlacement x={-5} y={-6} height={6} width={5}>
       <div
-        className="cursor-pointer hover:img-highlight"
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={openAuctioneer}
       >
         <img
           src={auctioneer}
+          alt="Auctioneer"
+          className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 30}px`,
+            width: `${PIXEL_SCALE * 33}px`,
+            top: `${PIXEL_SCALE * 6}px`,
+            left: `${PIXEL_SCALE * 23}px`,
           }}
         />
-        <div className="flex items-center justify-center h-[100px] w-[88px]">
-          {upcomingItem && (
-            <img
-              src={ITEM_DETAILS[upcomingItem.name].image}
-              style={{
-                width: `${PIXEL_SCALE * 16}px`,
-              }}
-            />
-          )}
+        {upcomingItem && (
+          <img
+            className="absolute"
+            src={ITEM_DETAILS[upcomingItem.name].image}
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (
+                !img ||
+                !img.complete ||
+                !img.naturalWidth ||
+                !img.naturalHeight
+              ) {
+                return;
+              }
+
+              const left = Math.floor((80 - img.naturalWidth) / 2);
+              const bottom = Math.floor((80 - img.naturalHeight) / 2);
+              img.style.left = `${PIXEL_SCALE * left}px`;
+              img.style.bottom = `${PIXEL_SCALE * bottom}px`;
+              setImageWidth(img);
+            }}
+            style={{
+              opacity: 0,
+            }}
+          />
+        )}
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <Action
+            className="pointer-events-none"
+            text="Auctioneer"
+            icon={icon}
+          />
         </div>
-        <Action
-          className="absolute -left-5"
-          text="Auctioneer"
-          icon={player}
-          onClick={openAuctioneer}
-        />
       </div>
       {isPlaying && (
         <AuctioneerModal isOpen={isPlaying} onClose={closeAuctioneer} />
       )}
-    </div>
+    </MapPlacement>
   );
 };

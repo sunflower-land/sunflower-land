@@ -1,7 +1,7 @@
 import React from "react";
 
 import goblinTailor from "assets/buildings/goblin_tailor.png";
-import flag from "assets/sfts/flags/sunflower_flag.gif";
+import player from "assets/icons/player_small.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -32,9 +32,9 @@ export const Tailor: React.FC = () => {
         <img src={goblinTailor} className="w-full" onClick={openTailor} />
         {
           <Action
-            className="absolute -bottom-7 left-4"
+            className="absolute bottom-0 left-6"
             text="Tailor"
-            icon={flag}
+            icon={player}
             onClick={openTailor}
           />
         }
