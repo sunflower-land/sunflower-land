@@ -46,6 +46,8 @@ export const Save: React.FC = () => {
         window.setTimeout(() => setEnableButton(false), 2000)
       );
     }
+
+    return () => clearTimeout(disableSaveButtonTimer);
   }, [playing && !hasUnsavedProgress]);
 
   const save = () => {
@@ -78,7 +80,7 @@ export const Save: React.FC = () => {
           src={saveIcon}
           className="absolute"
           style={{
-            top: `${PIXEL_SCALE * 5}px`,
+            top: `${PIXEL_SCALE * 4.2}px`,
             left: `${PIXEL_SCALE * 5}px`,
             width: `${PIXEL_SCALE * 12}px`,
           }}
@@ -100,7 +102,7 @@ export const Save: React.FC = () => {
           src={savedIcon}
           className="absolute"
           style={{
-            top: `${PIXEL_SCALE * 5}px`,
+            top: `${PIXEL_SCALE * 4.2}px`,
             left: `${PIXEL_SCALE * 5}px`,
             width: `${PIXEL_SCALE * 12}px`,
           }}
