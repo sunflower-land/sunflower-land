@@ -88,14 +88,14 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
   const labelState = () => {
     if (selectedFulFilled) {
       return (
-        <Label type="success" className="flex justify-center items-center mb-1">
+        <Label type="success" className="-mt-2 mb-1">
           Order fulfilled
         </Label>
       );
     }
 
     return (
-      <Label type="info" className="flex justify-center items-center mb-1">
+      <Label type="info" className="flex space-x-1 -mt-2 mb-1">
         <img src={stopwatch} className="w-3 left-0 mr-1" />
         {`${secondsToString(secondsLeft as number, {
           length: "medium",

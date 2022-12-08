@@ -253,7 +253,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             />
             <span className="text-center mb-1">{selectedName}</span>
           </div>
-          <div className="border-t border-white w-full my-2 pt-2 flex justify-start space-x-2 sm:flex-col sm:space-y-2 sm:items-center">
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col sm:space-y-2 sm:items-center">
             <div className="flex space-x-1 items-center sm:justify-center">
               <img src={timer} className="h-4 sm:h-5" />
               {isTimeBoosted && (

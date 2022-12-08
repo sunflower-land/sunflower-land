@@ -174,7 +174,7 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
         </div>
         <Button
           disabled={lessFunds() || lessIngredients()}
-          className="text-xs mt-1"
+          className="text-xxs sm:text-xs mt-1"
           onClick={() => buy()}
         >
           Buy
