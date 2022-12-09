@@ -24,7 +24,7 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 
-export const HeadQuarters: React.FC = () => {
+export const Studios: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   const [showModal, setShowModal] = useState(false);
@@ -221,7 +221,7 @@ export const HeadQuarters: React.FC = () => {
       <Modal centered show={showDiggle} onHide={() => setShowDiggle(false)}>
         <Panel>
           <div className="p-2">
-            <p className="mb-2">Hi I'm Daniel!</p>
+            <p className="mb-2">{`Hi I'm Daniel!`}</p>
             <p className="mb-2">I am the designer of the base asset pack.</p>
             <p className="mb-2">
               You can follow my art and latest game developments on Twitter.
