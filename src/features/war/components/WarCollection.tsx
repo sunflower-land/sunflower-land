@@ -159,8 +159,8 @@ export const WarCollection: React.FC<{ side: WarSide }> = ({ side }) => {
         <div
           className="absolute cursor-pointer hover:img-highlight"
           style={{
-            left: `${GRID_WIDTH_PX * 53.57}px`,
-            top: `${GRID_WIDTH_PX * 36.8}px`,
+            left: `${GRID_WIDTH_PX * 53.43}px`,
+            top: `${GRID_WIDTH_PX * 36.93}px`,
           }}
         >
           <Action

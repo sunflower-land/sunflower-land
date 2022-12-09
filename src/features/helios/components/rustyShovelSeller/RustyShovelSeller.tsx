@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import shadow from "assets/npcs/shadow.png";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 
 import goblin from "assets/npcs/goblin_jump_rusty_shovel.gif";
@@ -17,6 +17,7 @@ import { Label } from "components/ui/Label";
 import { Stock } from "components/ui/Stock";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const RustyShovelSeller: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
@@ -67,7 +68,7 @@ export const RustyShovelSeller: React.FC = () => {
       return (
         <div className="my-1">
           <p className="text-xxs text-center mb-2">
-            Sync your farm to the Blockchain to restock.
+            Sync your farm on chain to restock.
           </p>
           <Button className="text-xs mt-1" onClick={restock}>
             Sync
@@ -80,26 +81,36 @@ export const RustyShovelSeller: React.FC = () => {
   };
 
   return (
-    <>
-      <img
-        src={shadow}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 14.9}px`,
-          top: `${GRID_WIDTH_PX * 19.14}px`,
-          left: `${GRID_WIDTH_PX * 15.2}px`,
-        }}
-      />
-      <img
-        src={goblin}
+    <MapPlacement x={-6} y={2} height={1} width={1}>
+      <div
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={() => setShowModal(true)}
-        className="absolute cursor-pointer hover:img-highlight"
-        style={{
-          width: `${PIXEL_SCALE * 26}px`,
-          top: `${GRID_WIDTH_PX * 18.2}px`,
-          left: `${GRID_WIDTH_PX * 15.1}px`,
-        }}
-      />
+      >
+        <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+        <div
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 26}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * -1}px`,
+          }}
+        >
+          <img
+            src={goblin}
+            style={{
+              width: `${PIXEL_SCALE * 26}px`,
+            }}
+          />
+        </div>
+      </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <CloseButtonPanel
           onClose={() => setShowModal(false)}
@@ -143,6 +154,6 @@ export const RustyShovelSeller: React.FC = () => {
           {Action()}
         </CloseButtonPanel>
       </Modal>
-    </>
+    </MapPlacement>
   );
 };

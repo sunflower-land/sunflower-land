@@ -132,7 +132,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
             Sold out
           </p>
           <p className="text-xxs text-center">
-            Sync your farm to the Blockchain to restock
+            Sync your farm on chain to restock
           </p>
           <Button className="text-xs mt-1" onClick={restock}>
             Sync

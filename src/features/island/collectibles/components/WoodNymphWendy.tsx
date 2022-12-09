@@ -14,7 +14,7 @@ export const WoodNymphWendy: React.FC = () => {
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
-        alt="Wendy"
+        alt="Wood Nymph Wendy"
       />
     </>
   );

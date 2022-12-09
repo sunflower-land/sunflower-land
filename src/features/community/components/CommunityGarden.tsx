@@ -35,7 +35,7 @@ export const CommunityGarden: React.FC = () => {
       <BottleDonation />
       <Scientist />
       <ProjectDignityFrogs />
-      <Arcade left={33} top={28.5} />
+      <Arcade left={31} top={27} />
 
       {migrated && <IslandTravel bumpkin={bumpkin} x={-4} y={-9} />}
     </>

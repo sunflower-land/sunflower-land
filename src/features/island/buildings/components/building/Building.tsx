@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import {
@@ -22,6 +22,7 @@ import { Modal } from "react-bootstrap";
 import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Context } from "features/game/GameProvider";
 
 interface Prop {
   name: BuildingName;
@@ -78,6 +79,7 @@ export const BUILDING_COMPONENTS: Record<
 };
 
 const InProgressBuilding: React.FC<Prop> = ({ building, name, onRemove }) => {
+  const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -94,17 +96,19 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name, onRemove }) => {
       >
         <BuildingPlaced buildingId={building.id} onRemove={onRemove} />
       </div>
-      <div
-        className="absolute bottom-0 left-1/2"
-        style={{
-          marginLeft: `${PIXEL_SCALE * -8}px`,
-        }}
-      >
-        <Bar
-          percentage={(1 - secondsLeft / totalSeconds) * 100}
-          type="progress"
-        />
-      </div>
+      {showTimers && (
+        <div
+          className="absolute bottom-0 left-1/2"
+          style={{
+            marginLeft: `${PIXEL_SCALE * -8}px`,
+          }}
+        >
+          <Bar
+            percentage={(1 - secondsLeft / totalSeconds) * 100}
+            type="progress"
+          />
+        </div>
+      )}
       <div
         className="flex justify-center absolute w-full pointer-events-none"
         style={{

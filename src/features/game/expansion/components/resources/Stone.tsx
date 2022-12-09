@@ -186,8 +186,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
   return (
     <div
-      className="relative"
-      style={{ height: "40px" }}
+      className="relative h-full w-full"
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >

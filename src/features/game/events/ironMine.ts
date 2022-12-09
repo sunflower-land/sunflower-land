@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { IRON_RECOVERY_TIME } from "../lib/constants";
+import { FARM_IRON_RECOVERY_TIME } from "../lib/constants";
 import { GameState, Rock } from "../types/game";
 
 export type IronMineAction = {
@@ -21,7 +21,7 @@ export enum MINE_ERRORS {
 }
 
 export function canMine(rock: Rock, now: number = Date.now()) {
-  const recoveryTime = IRON_RECOVERY_TIME;
+  const recoveryTime = FARM_IRON_RECOVERY_TIME;
   return now - rock.minedAt > recoveryTime * 1000;
 }
 

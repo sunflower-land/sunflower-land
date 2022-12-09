@@ -8,8 +8,8 @@ export const FarmerBath: React.FC = () => {
     <img
       src={farmerBath}
       style={{
-        width: `${PIXEL_SCALE * 36}px`,
-        bottom: `${PIXEL_SCALE}px`,
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
       }}
       className="absolute"
       alt="Farmer Bath"

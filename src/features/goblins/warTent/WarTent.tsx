@@ -56,14 +56,12 @@ export const WarTent: React.FC = () => {
             transform: "scaleX(-1)",
           }}
         />
-        {
-          <Action
-            className="absolute -bottom-5 left-4 whitespace-nowrap"
-            text="War Tent"
-            icon={sword}
-            onClick={openWarTent}
-          />
-        }
+        <Action
+          className="absolute -bottom-[140px] left-6 whitespace-nowrap"
+          text="War Tent"
+          icon={sword}
+          onClick={openWarTent}
+        />
       </div>
 
       {isOpen && (

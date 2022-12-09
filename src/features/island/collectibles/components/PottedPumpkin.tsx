@@ -10,8 +10,8 @@ export const PottedPumpkin: React.FC = () => {
         src={pottedPumpkin}
         style={{
           width: `${PIXEL_SCALE * 13}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${PIXEL_SCALE * 2}px`,
+          bottom: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
         }}
         className="absolute"
         alt="Potted Pumpkin"

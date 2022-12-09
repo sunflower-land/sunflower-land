@@ -12,6 +12,7 @@ import {
 import house from "assets/buildings/house.png";
 import smoke from "assets/buildings/smoke.gif";
 import player from "assets/icons/player.png";
+import playerSmall from "assets/icons/player_small.png";
 import questionMark from "assets/icons/expression_confused.png";
 import close from "assets/icons/close.png";
 import alert from "assets/icons/expression_alerted.png";
@@ -255,9 +256,9 @@ export const House: React.FC<Props> = ({
           }}
         />
         <Action
-          className="absolute bottom-10 left-5"
+          className="absolute bottom-0 left-4"
           text="Home"
-          icon={player}
+          icon={playerSmall}
           onClick={open}
         />
       </div>

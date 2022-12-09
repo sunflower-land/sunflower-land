@@ -8,16 +8,14 @@ export const Nancy: React.FC = () => {
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 20}px`,
-        bottom: `${PIXEL_SCALE * 2}px`,
-        right: `${PIXEL_SCALE * -1.5}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * -2}px`,
       }}
     >
       <img
         src={nancy}
         style={{
           width: `${PIXEL_SCALE * 20}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          right: `${PIXEL_SCALE * -1.5}px`,
         }}
         alt="Nancy"
       />

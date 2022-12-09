@@ -62,7 +62,7 @@ export const SEEDS: () => Record<SeedName, Seed> = () => ({
     plantSeconds: 12 * 60 * 60,
   },
   "Radish Seed": {
-    description: "Give it some time, it's worth the wait!",
+    description: "Takes time but is worth the wait!",
     sfl: marketRate(7),
     bumpkinLevel: 5,
     plantSeconds: 24 * 60 * 60,
@@ -74,10 +74,10 @@ export const SEEDS: () => Record<SeedName, Seed> = () => ({
     plantSeconds: 24 * 60 * 60,
   },
   "Kale Seed": {
-    sfl: marketRate(5),
+    sfl: marketRate(7),
     description: "A Bumpkin Power Food!",
-    bumpkinLevel: 6,
-    plantSeconds: 24 * 60 * 60,
+    bumpkinLevel: 7,
+    plantSeconds: 36 * 60 * 60,
   },
   ...FRUIT_SEEDS(),
 });

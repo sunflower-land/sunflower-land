@@ -55,7 +55,7 @@ import { ChefBear } from "./components/ChefBear";
 import { ConstructionBear } from "./components/ConstructionBear";
 import { AngelBear } from "./components/AngelBear";
 import { BearTrap } from "./components/BearTrap";
-import { BrilliantBear } from "./components/BrilliantBumpkin";
+import { BrilliantBear } from "./components/BrilliantBear";
 import { ClassyBear } from "./components/ClassyBear";
 import { FarmerBear } from "./components/FarmerBear";
 import { RichBear } from "./components/RichBear";
@@ -144,6 +144,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   //Decorations
   "White Tulips": WhiteTulips,
   "Potted Sunflower": PottedSunflower,
+  "Potted Pumpkin": PottedPumpkin,
   Cactus: Cactus,
   "Basic Bear": BasicBear,
   "Chef Bear": ChefBear,
@@ -158,15 +159,15 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Sunflower Bear": SunflowerBear,
 
   "Victoria Sisters": VictoriaSisters,
-  "Egg Basket": () => null,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
   "Shiny Bean": Bean,
 
+  "Egg Basket": () => null,
+
   // TODO
   "Potted Potato": () => null,
-  "Potted Pumpkin": PottedPumpkin,
   "Colossal Crop": () => null,
   "Peaceful Potato": () => null,
   "Perky Pumpkin": () => null,

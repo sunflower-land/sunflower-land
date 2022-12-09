@@ -9,12 +9,12 @@ export const BearTrap: React.FC = () => {
       <img
         src={bear}
         style={{
-          width: `${PIXEL_SCALE * 17}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
+          width: `${PIXEL_SCALE * 16}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
-        alt="Angel Bear"
+        alt="Bear Trap"
       />
     </>
   );

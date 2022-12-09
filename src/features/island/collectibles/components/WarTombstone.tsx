@@ -9,10 +9,10 @@ export const WarTombstone: React.FC = () => {
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 14}px`,
-        left: `${PIXEL_SCALE}px`,
-        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
       }}
-      alt="WarTombstone"
+      alt="War Tombstone"
     />
   );
 };

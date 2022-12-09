@@ -52,7 +52,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   },
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
-    description: "Boiled Eggss are always a good breakfast choice",
+    description: "Creamy, orange and healthy!",
     experience: 24,
     building: "Fire Pit",
     cookingSeconds: 60 * 3,
@@ -77,7 +77,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
 
   "Boiled Eggs": {
     name: "Boiled Eggs",
-    description: "Boiled Eggss are always a good breakfast choice",
+    description: "Boiled Eggss are great for breakfast",
     experience: 90,
     building: "Fire Pit",
     cookingSeconds: 60 * 60,
@@ -101,7 +101,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
 
   "Roast Veggies": {
     name: "Roast Veggies",
-    description: "Even Goblin's need to eat their veggies!",
+    description: "Even Goblins need to eat their veggies!",
     experience: 170,
     building: "Kitchen",
     cookingSeconds: 60 * 60 * 2,
@@ -127,7 +127,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
 
   "Goblin's Treat": {
     name: "Goblin's Treat",
-    description: "Boiled Eggss are always a good breakfast choice",
+    description: "Goblins go crazy for this stuff!",
     experience: 500,
     building: "Kitchen",
     cookingSeconds: 60 * 60 * 6,
@@ -358,7 +358,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   },
   "Kale & Mushroom Pie": {
     name: "Kale & Mushroom Pie",
-    description: "A traditional Saphiron recipe",
+    description: "A traditional Sapphiron recipe",
     building: "Bakery",
     cookingSeconds: 60 * 240,
     experience: 720,

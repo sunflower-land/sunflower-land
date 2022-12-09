@@ -10,7 +10,7 @@ export const ClassyBear: React.FC = () => {
         src={bear}
         style={{
           width: `${PIXEL_SCALE * 16}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"

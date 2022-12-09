@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import shadow from "assets/npcs/shadow.png";
 import npc from "assets/npcs/community_garden.gif";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { merchantAudio } from "lib/utils/sfx";
 import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const CommunityGardenEntry: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -19,35 +20,40 @@ export const CommunityGardenEntry: React.FC = () => {
   };
 
   return (
-    <>
+    <MapPlacement x={-8} y={-11} height={3} width={2}>
       <div
-        className="absolute hover:img-highlight cursor-pointer z-10"
-        style={{
-          left: `${GRID_WIDTH_PX * 13}px`,
-          top: `${GRID_WIDTH_PX * 31}px`,
-        }}
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={openMerchant}
       >
         <img
           src={shadow}
-          className="absolute -z-10"
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            left: `${GRID_WIDTH_PX * 1.45}px`,
-            top: `${GRID_WIDTH_PX * 0.75}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            top: `${PIXEL_SCALE * 9}px`,
           }}
         />
-        <img
-          src={npc}
+        <div
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 39}px`,
+            right: `${PIXEL_SCALE * 0}px`,
+            top: `${PIXEL_SCALE * -3}px`,
           }}
-        />
+        >
+          <img
+            src={npc}
+            style={{
+              width: `${PIXEL_SCALE * 39}px`,
+            }}
+          />
+        </div>
       </div>
       <CommunityGardenModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
-    </>
+    </MapPlacement>
   );
 };

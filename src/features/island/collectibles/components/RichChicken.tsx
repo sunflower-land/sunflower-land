@@ -8,19 +8,16 @@ export const RichChicken: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 22}px `,
-        bottom: `${PIXEL_SCALE * 0}px `,
-        right: `${PIXEL_SCALE * -2}px `,
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        right: `${PIXEL_SCALE * -3}px`,
       }}
     >
       <img
         src={richChicken}
         style={{
-          width: `${PIXEL_SCALE * 22}px `,
-          bottom: `${PIXEL_SCALE * 0}px `,
-          right: `${PIXEL_SCALE * -2}px `,
+          width: `${PIXEL_SCALE * 22}px`,
         }}
-        className="absolute"
         alt="Rich Chicken"
       />
     </div>

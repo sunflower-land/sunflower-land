@@ -9,8 +9,6 @@ import timer from "assets/icons/timer.png";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 
-import { secondsToString } from "lib/utils/time";
-
 import { Context } from "features/game/GameProvider";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -23,7 +21,7 @@ import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
+import { secondsToString } from "lib/utils/time";
 
 interface Props {
   onClose: () => void;
@@ -110,17 +108,32 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
   const inventoryCount = getInventoryItemCount(selected.name) ?? new Decimal(0);
   const inventoryFull = max ? inventoryCount.gt(max) : true;
 
+  const labelState = () => {
+    const max = INITIAL_STOCK[selected.name];
+    const inventoryCount = inventory[selected.name] ?? new Decimal(0);
+    const inventoryFull = max ? inventoryCount.gt(max) : true;
+
+    if (stock?.equals(0)) {
+      return (
+        <Label type="danger" className="-mt-2 mb-1">
+          Sold out
+        </Label>
+      );
+    }
+
+    return (
+      <Stock item={{ name: selected.name }} inventoryFull={inventoryFull} />
+    );
+  };
+
   const Action = () => {
     if (stock?.equals(0)) {
       return (
         <div>
-          <p className="text-xxs no-wrap text-center my-1 underline">
-            Sold out
+          <p className="text-xxs sm:text-xs mb-1 sm:text-center">
+            Sync your farm on chain to restock
           </p>
-          <p className="text-xxs text-center">
-            Sync your farm to the Blockchain to restock
-          </p>
-          <Button className="text-xs mt-1" onClick={restock}>
+          <Button className="text-xxs sm:text-xs mt-1" onClick={restock}>
             Sync
           </Button>
         </div>
@@ -129,7 +142,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
     if (inventoryFull) {
       return (
-        <span className="text-xxs mt-1 text-center">
+        <span className="text-xxs sm:text-xs my-1 text-center">
           {`Max ${max} ${selected.name}s`}
         </span>
       );
@@ -142,8 +155,13 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     return (
       <>
         <Button
-          disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          className="text-xs mt-1"
+          disabled={
+            lessFunds() ||
+            lessIngredients() ||
+            stock?.lessThan(1) ||
+            inventoryFull
+          }
+          className="text-xxs sm:text-xs mt-1"
           onClick={() => buy(1)}
         >
           Buy 1
@@ -152,91 +170,103 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
+  const ingredientCount = getKeys(selected.ingredients).length;
+
   return (
     <div className="flex flex-col-reverse sm:flex-row">
-      <div
-        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-      >
-        {Object.values(BEANS()).map((item: Bean) => (
-          <Box
-            isSelected={selected.name === item.name}
-            key={item.name}
-            onClick={() => setSelected(item)}
-            image={ITEM_DETAILS[item.name].image}
-            count={getInventoryItemCount(item.name)}
-          />
-        ))}
+      <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
+        <div className="flex flex-wrap h-fit">
+          {Object.values(BEANS()).map((item: Bean) => (
+            <Box
+              isSelected={selected.name === item.name}
+              key={item.name}
+              onClick={() => setSelected(item)}
+              image={ITEM_DETAILS[item.name].image}
+              count={getInventoryItemCount(item.name)}
+            />
+          ))}
+        </div>
       </div>
-      <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} inventoryFull={inventoryFull} />
-          <span className="text-center mb-1">{selected.name}</span>
-          <img
-            src={ITEM_DETAILS[selected.name].image}
-            className="w-8 sm:w-12 img-highlight mt-1"
-            alt={selected.name}
-          />
-          <div className="border-t border-white w-full mt-2 pt-1">
-            <div className="flex justify-center items-center scale-75 sm:scale-100">
-              <img src={timer} className="h-5 me-2" />
-              <span className="text-xs text-center mt-2">
-                {secondsToString(selected.plantSeconds, { length: "medium" })}
-              </span>
+      <OuterPanel className="flex flex-col w-full sm:flex-1">
+        <div className="flex flex-col justify-center items-start sm:items-center p-2 relative">
+          {labelState()}
+          <div className="flex items-center space-x-2 mt-1 sm:flex-col-reverse">
+            <img
+              src={ITEM_DETAILS[selected.name].image}
+              className="w-5 sm:w-8 sm:my-1"
+              alt={selected.name}
+            />
+            <span className="sm:text-center mb-1">{selected.name}</span>
+          </div>
+          <div className="border-t border-white w-full my-2" />
+          <div className="flex w-full justify-between px-1 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
+            <div className="flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
+              {getKeys(selected.ingredients).map((ingredientName, index) => {
+                const item = ITEM_DETAILS[ingredientName];
+                const inventoryAmount =
+                  inventory[ingredientName]?.toDecimalPlaces(1) || 0;
+                const requiredAmount =
+                  selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
+                  new Decimal(0);
+
+                // Ingredient difference
+                const lessIngredient = new Decimal(inventoryAmount).lessThan(
+                  requiredAmount
+                );
+
+                // rendering item remnants
+                const renderRemnants = () => {
+                  if (lessIngredient) {
+                    return (
+                      <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
+                    );
+                  } else {
+                    // if inventory items is equal to required items
+                    return (
+                      <span className="text-xs text-center">
+                        {`${requiredAmount}`}
+                      </span>
+                    );
+                  }
+                };
+
+                return (
+                  <div
+                    className={`flex items-center space-x-1 ${
+                      ingredientCount > 2 ? "w-1/2" : "w-full"
+                    } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
+                    key={index}
+                  >
+                    <img src={item.image} className="h-5 me-2" />
+                    {renderRemnants()}
+                  </div>
+                );
+              })}
             </div>
-
-            {getKeys(selected.ingredients).map((ingredientName, index) => {
-              const item = ITEM_DETAILS[ingredientName];
-              const inventoryAmount =
-                inventory[ingredientName]?.toDecimalPlaces(1) || 0;
-              const requiredAmount =
-                selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
-                new Decimal(0);
-
-              // Ingredient difference
-              const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                requiredAmount
-              );
-
-              // rendering item remenants
-              const renderRemenants = () => {
-                if (lessIngredient) {
-                  return (
-                    <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-                  );
-                } else {
-                  // if inventory items is equal to required items
-                  return (
-                    <span className="text-xs text-center mt-2">
-                      {`${requiredAmount}`}
-                    </span>
-                  );
-                }
-              };
-
-              return (
-                <div
-                  className="flex justify-center flex-wrap items-end"
-                  key={index}
-                >
-                  <img src={item.image} className="h-5 me-2" />
-                  {renderRemenants()}
-                </div>
-              );
-            })}
-            <div className="flex justify-center items-end">
-              <img src={token} className="h-5 mr-1" />
-              {lessFunds() ? (
-                <Label type="danger">{`${price}`}</Label>
-              ) : (
-                <span className={classNames("text-xs text-center mt-2")}>
-                  {`${price}`}
+            <div className="flex flex-col space-y-2 items-start w-[30%] sm:w-full sm:items-center sm:mb-1">
+              <div className="flex space-x-1">
+                <img src={timer} className="h-4 sm:h-5" />
+                <span className="text-xs text-center">
+                  {secondsToString(selected.plantSeconds, {
+                    length: "medium",
+                    isShortFormat: true,
+                  })}
                 </span>
-              )}
+              </div>
+              <div className="flex items-end space-x-1">
+                <img src={token} className="h-4 sm:h-5" />
+                {lessFunds() ? (
+                  <Label type="danger">{`${price}`}</Label>
+                ) : (
+                  <span className={classNames("text-xs text-center")}>
+                    {`${price}`}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-          {Action()}
         </div>
+        {Action()}
       </OuterPanel>
     </div>
   );

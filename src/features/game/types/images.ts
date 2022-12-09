@@ -279,8 +279,8 @@ import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png
 
 import skull from "src/assets/decorations/war_skulls.png";
 import warTombston from "src/assets/decorations/war_tombstone.png";
-import jackOLanternItem from "src/assets/sfts/jack-o-lantern.png";
-import victoriaSisters from "src/assets/sfts/victoria-sisters.gif";
+import jackOLanternItem from "src/assets/sfts/jack_o_lantern.png";
+import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
 
 //Decorations
 import pottedSunflower from "src/assets/decorations/potted_sunflower.png";

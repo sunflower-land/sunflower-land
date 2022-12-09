@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 
 import wishingWell from "assets/buildings/wishing_well.png";
-import icon from "assets/brand/icon.png";
+import icon from "assets/icons/token_2.png";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { wishingWellAudio } from "lib/utils/sfx";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { WishingWellModal } from "features/goblins/wishingWell/WishingWellModal";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const RetreatWishingWell: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -24,33 +25,32 @@ export const RetreatWishingWell: React.FC = () => {
   };
 
   return (
-    <div
-      className="z-10 absolute"
-      // TODO some sort of coordinate system
-      style={{
-        width: `${GRID_WIDTH_PX * 2.1}px`,
-        right: `${GRID_WIDTH_PX * 11.95}px`,
-        top: `${GRID_WIDTH_PX * 6.1}px`,
-      }}
-    >
-      <div className="cursor-pointer hover:img-highlight">
+    <MapPlacement x={5} y={14} height={4} width={4}>
+      <div
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        onClick={openWell}
+      >
         <img
           src={wishingWell}
-          alt="market"
-          onClick={openWell}
-          className="w-full"
+          alt="Wishing Well"
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 34}px`,
+            left: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * 14}px`,
+          }}
         />
-        {
-          <Action
-            className="absolute -bottom-[36px] -left-[5px]"
-            text="Wish"
-            icon={icon}
-            onClick={openWell}
-          />
-        }
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <Action className="pointer-events-none" text="Wish" icon={icon} />
+        </div>
       </div>
 
       {goblinState.matches("wishing") && <WishingWellModal />}
-    </div>
+    </MapPlacement>
   );
 };

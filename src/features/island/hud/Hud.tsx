@@ -4,7 +4,7 @@ import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
-import { Menu } from "./components/Menu";
+import { Settings } from "./components/Settings";
 import { Buildings } from "../buildings/Buildings";
 import { Inventory } from "./components/inventory/Inventory";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
@@ -25,7 +25,7 @@ export const Hud: React.FC = () => {
 
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
-      <Menu />
+      <Settings />
       {isEditing ? (
         <PlaceableController />
       ) : (

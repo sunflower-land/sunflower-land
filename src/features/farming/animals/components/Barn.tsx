@@ -32,7 +32,7 @@ export const Barn: React.FC = () => {
       <div className="cursor-pointer hover:img-highlight">
         <img src={barn} alt="barn" onClick={openBarn} className="w-full" />
         <Action
-          className="absolute bottom-12 left-16"
+          className="absolute bottom-2 left-16"
           text="Barn"
           icon={chicken}
           onClick={openBarn}

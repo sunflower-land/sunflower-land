@@ -7,8 +7,11 @@ export const MysteriousHead: React.FC = () => {
     <img
       src={mysteriousHead}
       style={{
-        width: `${PIXEL_SCALE * 30}px`,
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
+      className="absolute"
       alt="Mysterious Head"
     />
   );

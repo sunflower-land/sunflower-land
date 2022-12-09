@@ -73,7 +73,7 @@ export const InventoryItems: React.FC = () => {
             <span className="text-xxs">
               No tadpoles found, see it on{" "}
               <a href={tadpoleLink} className="underline">
-                Open Sea
+                OpenSea
               </a>
             </span>
           )}
@@ -90,7 +90,7 @@ export const InventoryItems: React.FC = () => {
             <span className="text-xxs">
               No frogs found, grab one on{" "}
               <a href={frogLink} className="underline">
-                Open Sea
+                OpenSea
               </a>
             </span>
           )}

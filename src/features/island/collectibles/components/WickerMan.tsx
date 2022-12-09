@@ -10,7 +10,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const WickerMan: React.FC = () => {
   const wickerManGif = useRef<SpriteSheetInstance>();
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const burn = () => {
     const isPlaying = wickerManGif.current?.getInfo("isPlaying");
@@ -23,23 +22,16 @@ export const WickerMan: React.FC = () => {
 
   return (
     <div
-      ref={containerRef}
-      className="absolute cursor-pointer hover:img-highlight z-10"
+      className="relative w-full h-full cursor-pointer hover:img-highlight"
       onClick={burn}
-      style={{
-        width: `${PIXEL_SCALE * 19}px`,
-        height: `${PIXEL_SCALE * 25}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 1}px`,
-      }}
     >
       <Spritesheet
-        className="absolute group-hover:img-highlight pointer-events-none z-10"
+        className="absolute group-hover:img-highlight pointer-events-none"
         style={{
-          imageRendering: "pixelated",
-          left: `-73%`,
-          width: `${PIXEL_SCALE * 44}px`,
+          width: `${PIXEL_SCALE * 48}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -14}px`,
+          imageRendering: "pixelated",
         }}
         getInstance={(spritesheet) => {
           wickerManGif.current = spritesheet;
