@@ -244,6 +244,15 @@ import pancakes from "assets/food/pancakes.png";
 import roastVeggies from "assets/food/roast_veggies.png";
 import clubSandwich from "assets/food/club_sandwich.png";
 import bumpkinSalad from "assets/food/bumpkin_salad.png";
+import blueberryJam from "assets/food/blueberry_jam.png";
+import honeyCake from "assets/food/honey_cake.png";
+import kaleStew from "assets/food/kale_stew.png";
+import mushroomSoup from "assets/food/mushroom_soup.png";
+import orangeCake from "assets/food/orange_cake.png";
+import sunflowerCrunch from "assets/food/sunflower_crunch.png";
+import applePie from "assets/food/apple_pie.png";
+import mushroomJacketPotato from "assets/food/mushroom_jacket_potato.png";
+import kaleMushroomPie from "assets/food/mushroom_kale_pie.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -466,39 +475,39 @@ export const ITEM_DETAILS: Items = {
 
   "Apple Pie": {
     description: CONSUMABLES["Apple Pie"].description,
-    image: questionMark,
+    image: applePie,
   },
   "Blueberry Jam": {
     description: CONSUMABLES["Blueberry Jam"].description,
-    image: questionMark,
+    image: blueberryJam,
   },
   "Honey Cake": {
     description: CONSUMABLES["Honey Cake"].description,
-    image: questionMark,
+    image: honeyCake,
   },
   "Kale & Mushroom Pie": {
     description: CONSUMABLES["Kale & Mushroom Pie"].description,
-    image: questionMark,
+    image: kaleMushroomPie,
   },
   "Kale Stew": {
     description: CONSUMABLES["Kale Stew"].description,
-    image: questionMark,
+    image: kaleStew,
   },
   "Mushroom Jacket Potatoes": {
     description: CONSUMABLES["Mushroom Jacket Potatoes"].description,
-    image: questionMark,
+    image: mushroomJacketPotato,
   },
   "Mushroom Soup": {
     description: CONSUMABLES["Mushroom Soup"].description,
-    image: questionMark,
+    image: mushroomSoup,
   },
   "Orange Cake": {
     description: CONSUMABLES["Orange Cake"].description,
-    image: questionMark,
+    image: orangeCake,
   },
   "Sunflower Crunch": {
     description: CONSUMABLES["Sunflower Crunch"].description,
-    image: questionMark,
+    image: sunflowerCrunch,
   },
 
   "Magic Mushroom": {
