@@ -25,7 +25,7 @@ export const AchievementBadges: React.FC<{
   });
 
   if (badges.length === 0) {
-    return <div className="text-xs">No achievments claimed.</div>;
+    return <div className="text-xs">No achievements claimed.</div>;
   }
 
   return <div className="flex flex-wrap items-center">{badges}</div>;
