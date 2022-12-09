@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 
 import bakery from "assets/buildings/bakery_building.png";
 import smoke from "assets/buildings/bakery_smoke.gif";
-import soup from "assets/icons/goblin_head.png";
+import icon from "assets/food/pumpkin_soup.png";
 
 import { Crafting } from "./components/Crafting";
 import { Action } from "components/ui/Action";
@@ -54,9 +54,9 @@ export const Bakery: React.FC = () => {
           className="w-full"
         />
         <Action
-          className="absolute bottom-14 left-0"
+          className="absolute bottom-0 left-2"
           text="Kitchen"
-          icon={soup}
+          icon={icon}
           onClick={openBakeryModal}
         />
       </div>

@@ -304,8 +304,10 @@ describe("feed chickens", () => {
       state,
       action: { type: "chicken.fed", id: "0" },
     });
-    const chickenTime = CHICKEN_TIME_TO_EGG * 0.3;
-    const createdAt = newDate - chickenTime;
+    const boost = CHICKEN_TIME_TO_EGG * 0.9 * 0.9 * 0.9;
+    const seconds = CHICKEN_TIME_TO_EGG - boost;
+    const createdAt = newDate - seconds;
+
     expect(newState.chickens["0"].fedAt).toEqual(createdAt);
   });
 

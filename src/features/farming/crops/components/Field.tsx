@@ -258,6 +258,7 @@ export const Field: React.FC<Props> = ({
         plantedCrop={field}
         showCropDetails={showCropDetails}
         isRemoving={isRemoving}
+        showTimers
       />
 
       {procAnimation}

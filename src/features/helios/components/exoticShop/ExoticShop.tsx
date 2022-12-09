@@ -1,13 +1,14 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import building from "assets/buildings/farmersMarket.png";
 import retroGirl from "assets/npcs/exotic_girl.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { ExoticShopItems } from "./component/ExoticShopItems";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const ExoticShop: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -17,23 +18,26 @@ export const ExoticShop: React.FC = () => {
   };
 
   return (
-    <>
+    <MapPlacement x={2} y={-5} height={3} width={5}>
       <div
-        className="absolute cursor-pointer hover:img-highlight"
-        // TODO some sort of coordinate system
-        style={{
-          right: `${GRID_WIDTH_PX * 12}px`,
-          top: `${GRID_WIDTH_PX * 25.2}px`,
-        }}
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={handleClick}
       >
+        <img
+          src={building}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 80}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
+          }}
+        />
         <img
           src={shadow}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            left: `${GRID_WIDTH_PX * 3.2}px`,
-            top: `${GRID_WIDTH_PX * 2.85}px`,
+            width: `${PIXEL_SCALE * 15}px`,
+            right: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * -4}px`,
           }}
         />
         <img
@@ -41,21 +45,15 @@ export const ExoticShop: React.FC = () => {
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
-            left: `${GRID_WIDTH_PX * 3.2}px`,
-            top: `${GRID_WIDTH_PX * 2}px`,
+            right: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * -2}px`,
             transform: "scaleX(-1)",
-          }}
-        />
-        <img
-          src={building}
-          style={{
-            width: `${PIXEL_SCALE * 80}px`,
           }}
         />
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <ExoticShopItems onClose={() => setIsOpen(false)} />
       </Modal>
-    </>
+    </MapPlacement>
   );
 };

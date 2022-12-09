@@ -18,6 +18,8 @@ export const GRID_WIDTH_PX = PIXEL_SCALE * SQUARE_WIDTH;
 
 export const CHICKEN_TIME_TO_EGG = 1000 * 60 * 60 * 24 * 2; // 48 hours
 export const MUTANT_CHICKEN_BOOST_AMOUNT = 0.1;
+export const HEN_HOUSE_CAPACITY = 10;
+export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 
@@ -673,5 +675,8 @@ export const EMPTY: GameState = {
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
-export const IRON_RECOVERY_TIME = 12 * 60 * 60;
+// This can be deleted once all players are on the Sunflower Isles
+// @c-py 08/12/2022
+export const FARM_IRON_RECOVERY_TIME = 12 * 60 * 60;
+export const IRON_RECOVERY_TIME = 8 * 60 * 60;
 export const GOLD_RECOVERY_TIME = 24 * 60 * 60;

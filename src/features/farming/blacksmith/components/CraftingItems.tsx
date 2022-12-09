@@ -147,7 +147,7 @@ export const CraftingItems: React.FC<Props> = ({
             Sold out
           </p>
           <p className="text-xxs text-center">
-            Sync your farm to the Blockchain to restock
+            Sync your farm on chain to restock
           </p>
           <Button className="text-xs mt-1" onClick={restock}>
             Sync
@@ -222,14 +222,14 @@ export const CraftingItems: React.FC<Props> = ({
       </div>
       <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} />
+          <Stock item={selected} inventoryFull={false} />
           <span className="text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}
             className="h-16 img-highlight mt-1"
             alt={selected.name}
           />
-          <span className="text-center mt-2 text-sm">
+          <span className="text-center mt-2 sm:text-sm">
             {selected.description}
           </span>
 

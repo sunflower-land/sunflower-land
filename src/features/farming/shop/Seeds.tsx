@@ -26,6 +26,7 @@ import { getCropTime } from "features/game/events/plant";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { Label } from "components/ui/Label";
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
@@ -112,6 +113,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       />
     );
   }
+
+  const max = INITIAL_STOCK[selected.name];
+  const inventoryCount = inventory[selected.name] ?? new Decimal(0);
+  const inventoryFull = max ? inventoryCount.gt(max) : true;
+
   const Action = () => {
     const isLocked = selected.requires && !inventory[selected.requires];
     if (isLocked || selected.disabled) {
@@ -125,7 +131,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             Sold out
           </p>
           <p className="text-xxs text-center">
-            Sync your farm to the Blockchain to restock
+            Sync your farm on chain to restock
           </p>
           <Button className="text-xs mt-1" onClick={restock}>
             Sync
@@ -134,10 +140,12 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       );
     }
 
-    const max = INITIAL_STOCK[selected.name];
-
-    if (max && inventory[selected.name]?.gt(max)) {
-      return <span className="text-xs mt-1 text-center">No space left</span>;
+    if (inventoryFull) {
+      return (
+        <span className="text-xxs mt-1 text-center">
+          You have too many seeds in your basket!
+        </span>
+      );
     }
 
     return (
@@ -162,6 +170,17 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
+  const labelState = () => {
+    if (stock?.equals(0)) {
+      return (
+        <Label type="danger" className="-mt-2 mb-1">
+          Sold out
+        </Label>
+      );
+    }
+    return <Stock item={selected} inventoryFull={inventoryFull} />;
+  };
+
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div
@@ -180,7 +199,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       </div>
       <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <Stock item={selected} />
+          {labelState()}
           <span className="text-center">{selected.name}</span>
           <img
             src={ITEM_DETAILS[selected.name].image}

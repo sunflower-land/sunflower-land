@@ -48,6 +48,7 @@ import {
 } from "../events/landExpansion/migrate";
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
+import { randomID } from "lib/utils/random";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -60,7 +61,8 @@ export interface Context {
   offset: number;
   owner?: string;
   sessionId?: string;
-  errorCode?: keyof typeof ERRORS;
+  errorCode?: ErrorCode;
+  transactionId?: string;
   fingerprint?: string;
   itemsMintedAt?: MintedAt;
   notifications?: OnChainEvent[];
@@ -293,8 +295,9 @@ export function startGame(authContext: Options) {
           ],
         },
         loading: {
+          entry: "setTransactionId",
           invoke: {
-            src: async () => {
+            src: async (context) => {
               const farmId = authContext.farmId as number;
 
               const {
@@ -325,6 +328,7 @@ export function startGame(authContext: Options) {
                   bumpkinTokenUri: bumpkin?.tokenURI,
                   sessionId,
                   token: authContext.rawToken as string,
+                  transactionId: context.transactionId as string,
                 });
 
                 if (!response) {
@@ -509,6 +513,7 @@ export function startGame(authContext: Options) {
           },
         },
         migrating: {
+          entry: "setTransactionId",
           invoke: {
             src: async (context) => {
               await autosave({
@@ -519,6 +524,7 @@ export function startGame(authContext: Options) {
                 offset: context.offset,
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
+                transactionId: context.transactionId as string,
               });
 
               return true;
@@ -558,6 +564,7 @@ export function startGame(authContext: Options) {
           },
         },
         playing: {
+          entry: "clearTransactionId",
           invoke: {
             /**
              * An in game loop that checks if Blockchain becomes out of sync
@@ -629,6 +636,7 @@ export function startGame(authContext: Options) {
           },
         },
         autosaving: {
+          entry: "setTransactionId",
           on: {
             ...GAME_EVENT_HANDLERS,
           },
@@ -648,6 +656,7 @@ export function startGame(authContext: Options) {
                 offset: context.offset,
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
+                transactionId: context.transactionId as string,
               });
 
               // This gives the UI time to indicate that a save is taking place both when clicking save
@@ -684,6 +693,7 @@ export function startGame(authContext: Options) {
           },
         },
         syncing: {
+          entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
               // Autosave just in case
@@ -696,6 +706,7 @@ export function startGame(authContext: Options) {
                   offset: context.offset,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
                 });
               }
 
@@ -704,6 +715,7 @@ export function startGame(authContext: Options) {
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
                 captcha: (event as SyncEvent).captcha,
+                transactionId: context.transactionId as string,
               });
 
               return {
@@ -734,6 +746,7 @@ export function startGame(authContext: Options) {
           },
         },
         levelling: {
+          entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
               // Autosave just in case
@@ -746,6 +759,7 @@ export function startGame(authContext: Options) {
                   offset: context.offset,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
                 });
               }
 
@@ -757,6 +771,7 @@ export function startGame(authContext: Options) {
                 skill: (event as LevelUpEvent).skill,
                 offset: context.offset,
                 deviceTrackerId: context.deviceTrackerId as string,
+                transactionId: context.transactionId as string,
               });
 
               return {
@@ -783,6 +798,7 @@ export function startGame(authContext: Options) {
 
         // Similar to autosaving, but for events that are only processed server side
         revealing: {
+          entry: "setTransactionId",
           invoke: {
             src: async (context, e) => {
               // Grab the server side event to fire
@@ -797,6 +813,7 @@ export function startGame(authContext: Options) {
                   offset: context.offset,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
                 });
               }
 
@@ -808,6 +825,7 @@ export function startGame(authContext: Options) {
                 offset: context.offset,
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
+                transactionId: context.transactionId as string,
               });
 
               return {
@@ -841,13 +859,15 @@ export function startGame(authContext: Options) {
           },
         },
         refreshing: {
+          entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
+            src: async (context) => {
               // Autosave just in case
               const { success } = await reset({
                 farmId: Number(authContext.farmId),
                 token: authContext.rawToken as string,
                 fingerprint: context.fingerprint as string,
+                transactionId: context.transactionId as string,
               });
 
               return {
@@ -882,6 +902,7 @@ export function startGame(authContext: Options) {
         },
         //  withdrawn
         expanding: {
+          entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
               // Autosave just in case
@@ -894,12 +915,14 @@ export function startGame(authContext: Options) {
                   offset: context.offset,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
                 });
               }
 
               const sessionId = await expand({
                 farmId: Number(authContext.farmId),
                 token: authContext.rawToken as string,
+                transactionId: context.transactionId as string,
               });
 
               return {
@@ -1025,6 +1048,12 @@ export function startGame(authContext: Options) {
           notifications: (_, event) => event.data.notifications,
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           status: (_, event) => event.data.status,
+        }),
+        setTransactionId: assign<Context, any>({
+          transactionId: () => randomID(),
+        }),
+        clearTransactionId: assign<Context, any>({
+          transactionId: () => randomID(),
         }),
       },
     }

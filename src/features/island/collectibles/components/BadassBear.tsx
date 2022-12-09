@@ -9,19 +9,16 @@ export const BadassBear: React.FC = () => {
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 18}px`,
-        bottom: 0,
-        left: 0,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
     >
       <img
         src={bear}
         style={{
           width: `${PIXEL_SCALE * 18}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute"
-        alt="Angel Bear"
+        alt="Badass Bear"
       />
     </div>
   );

@@ -13,7 +13,7 @@ import ironOre from "assets/resources/iron_ore.png";
 
 import {
   GRID_WIDTH_PX,
-  IRON_RECOVERY_TIME,
+  FARM_IRON_RECOVERY_TIME,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -127,7 +127,7 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
         displayPopover(
           <div className="flex">
             <img src={ironOre} className="w-5 h-5 mr-2" />
-            <span className="text-sm text-white text-shadow">{`+${rock.amount}`}</span>
+            <span className="text-sm text-white">{`+${rock.amount}`}</span>
           </div>
         );
 
@@ -140,13 +140,11 @@ export const Iron: React.FC<Props> = ({ rockIndex }) => {
         setCollecting(false);
       }
     } catch (e: any) {
-      displayPopover(
-        <span className="text-xs text-white text-shadow">{e.message}</span>
-      );
+      displayPopover(<span className="text-xs text-white">{e.message}</span>);
     }
   };
 
-  const recoveryTime = IRON_RECOVERY_TIME;
+  const recoveryTime = FARM_IRON_RECOVERY_TIME;
   const timeLeft = getTimeLeft(rock.minedAt, recoveryTime);
   const percentage = 100 - (timeLeft / recoveryTime) * 100;
 

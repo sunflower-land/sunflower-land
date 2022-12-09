@@ -1,27 +1,25 @@
 import React, { useState } from "react";
 import sunflower from "assets/decorations/helios_sunflower.png";
 import close from "assets/icons/close.png";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const HeliosSunflower: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   return (
-    <>
+    <MapPlacement x={0} y={12} height={1} width={1}>
       <div
-        className="z-10 absolute cursor-pointer hover:img-highlight"
-        // TODO some sort of coordinate system
-        style={{
-          right: `${GRID_WIDTH_PX * 17.9}px`,
-          top: `${GRID_WIDTH_PX * 8.2}px`,
-        }}
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={() => setShowModal(true)}
       >
         <img
           src={sunflower}
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
           }}
         />
       </div>
@@ -45,6 +43,6 @@ export const HeliosSunflower: React.FC = () => {
           </div>
         </Panel>
       </Modal>
-    </>
+    </MapPlacement>
   );
 };

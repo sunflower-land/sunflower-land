@@ -33,7 +33,6 @@ import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: () => void;
@@ -138,6 +137,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const labelState = () => {
     const max = INITIAL_STOCK[selectedName];
+    const inventoryCount = inventory[selectedName] ?? new Decimal(0);
+    const inventoryFull = max ? inventoryCount.gt(max) : true;
 
     if (stock?.equals(0)) {
       return (
@@ -146,14 +147,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         </Label>
       );
     }
-    if (!stock?.equals(0) && max && inventory[selectedName]?.gt(max)) {
-      return (
-        <Label type="danger" className="-mt-2 mb-1">
-          No space left
-        </Label>
-      );
-    }
-    return <Stock item={{ name: selectedName }} />;
+    return (
+      <Stock item={{ name: selectedName }} inventoryFull={inventoryFull} />
+    );
   };
 
   const Action = () => {
@@ -176,7 +172,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return (
         <div className="my-1">
           <p className="text-xxs text-center">
-            Sync your farm to the Blockchain to restock
+            Sync your farm on chain to restock
           </p>
           <Button className="text-xs mt-1" onClick={restock}>
             Sync
@@ -191,17 +187,17 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return (
         <div className="my-1">
           <p className="text-xxs text-center">
-            You have too many seeds on your basket!
+            You have too many seeds in your basket!
           </p>
         </div>
       );
     }
 
     return (
-      <>
+      <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
         <Button
           disabled={lessFunds() || stock?.lessThan(1)}
-          className="text-xs mt-1"
+          className="text-xxs sm:text-xs"
           onClick={() => buy(1)}
         >
           Buy 1
@@ -209,13 +205,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         {bulkSeedBuyAmount > 1 && (
           <Button
             disabled={lessFunds(bulkSeedBuyAmount)}
-            className="text-xs mt-1"
+            className="text-xxs sm:text-xs"
             onClick={() => buy(bulkSeedBuyAmount)}
           >
             Buy {bulkSeedBuyAmount}
           </Button>
         )}
-      </>
+      </div>
     );
   };
 
@@ -224,10 +220,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
-      <div
-        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-      >
+      <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
         {getKeys(SEEDS()).map((name: SeedName) => (
           <Box
             isSelected={selectedName === name}
@@ -250,19 +243,23 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         ))}
       </div>
       <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2 relative">
+        <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
           {labelState()}
-          <span className="text-center mb-1">{selectedName}</span>
-          <img
-            src={ITEM_DETAILS[selectedName].image}
-            className="w-8 sm:w-12 img-highlight mt-1"
-            alt={selectedName}
-          />
-          <div className="border-t border-white w-full mt-2 pt-1">
-            <div className="flex justify-center items-center scale-75 sm:scale-100">
-              <img src={timer} className="h-5 me-2" />
-              {isTimeBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-center mt-2">
+          <div className="flex space-x-2 items-center mt-1 sm:flex-col-reverse md:space-x-0">
+            <img
+              src={ITEM_DETAILS[selectedName].image}
+              className="w-5 sm:w-8 sm:my-1"
+              alt={selectedName}
+            />
+            <span className="text-center mb-1">{selectedName}</span>
+          </div>
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col sm:space-y-2 sm:items-center">
+            <div className="flex space-x-1 items-center sm:justify-center">
+              <img src={timer} className="h-4 sm:h-5" />
+              {isTimeBoosted && (
+                <img src={lightning} className="h-5 sm:h-6 mr-2" />
+              )}
+              <span className="text-xs text-center">
                 {secondsToString(
                   getCropTime(
                     crop?.name,
@@ -277,19 +274,19 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 )}
               </span>
             </div>
-            <div className="flex justify-center items-end">
-              <img src={token} className="h-5 mr-1" />
+            <div className="flex space-x-1 justify-center items-center">
+              <img src={token} className="h-4 sm:h-5" />
               <span
-                className={classNames("text-xs text-center mt-2", {
+                className={classNames("text-xs text-center", {
                   "text-red-500": lessFunds(),
                 })}
               >
-                {`${price}`}
+                {price.equals(0) ? `Free` : `${price}`}
               </span>
             </div>
           </div>
-          {Action()}
         </div>
+        {Action()}
       </OuterPanel>
     </div>
   );

@@ -4,8 +4,8 @@ import { CHICKEN_TIME_TO_EGG } from "../lib/constants";
 import { Chicken, GameState } from "../types/game";
 
 export type CollectAction = {
-  type: "chicken.collectEgg";
-  id: string;
+  type: "chicken.harvested";
+  index: number;
 };
 
 type Options = {
@@ -13,11 +13,9 @@ type Options = {
   action: CollectAction;
   createdAt?: number;
 };
-
 export function eggIsReady(chicken: Chicken, createdAt: number) {
   return chicken.fedAt && createdAt - chicken.fedAt >= CHICKEN_TIME_TO_EGG;
 }
-
 export function collectEggs({
   state,
   action,
@@ -25,19 +23,18 @@ export function collectEggs({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const chickens = stateCopy.chickens || {};
-  const chicken = chickens[action.id];
+  const chicken = chickens[action.index];
 
   if (!chicken) {
     throw new Error("This chicken does not exist");
   }
-
   if (!eggIsReady(chicken, createdAt)) {
     throw new Error("This chicken hasn't layed an egg");
   }
 
   const mutantChicken = chicken.reward?.items?.[0];
 
-  delete chickens[action.id].fedAt;
+  delete chickens[action.index].fedAt;
 
   return {
     ...stateCopy,

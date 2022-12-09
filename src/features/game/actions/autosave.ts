@@ -19,6 +19,7 @@ type Request = {
   offset: number;
   fingerprint: string;
   deviceTrackerId: string;
+  transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -86,6 +87,7 @@ export async function autosaveRequest(
         "content-type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${request.token}`,
         "X-Fingerprint": request.fingerprint,
+        "X-Transaction-ID": request.transactionId,
       },
       ...(ttl ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] } : {}),
     },
@@ -134,7 +136,7 @@ export async function autosave(request: Request) {
     const data = await response.json();
     console.log({ data });
 
-    throw new Error(data.error || "Something went wrong");
+    throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
   }
 
   const { farm, changeset } = await sanitizeHTTPResponse<{

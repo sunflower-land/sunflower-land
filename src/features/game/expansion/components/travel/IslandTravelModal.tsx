@@ -68,7 +68,7 @@ export const IslandTravelModal = ({
         >
           <Tab isActive>
             <img src={boat} className="h-5 mr-2" />
-            <span className="text-sm">Travel To</span>
+            <span className="text-sm whitespace-nowrap">Travel To</span>
           </Tab>
           <img
             src={close}

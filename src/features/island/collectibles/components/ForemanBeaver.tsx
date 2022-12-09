@@ -8,6 +8,14 @@ export const ForemanBeaver: React.FC = () => {
   return (
     <>
       <img
+        src={shadow}
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+        className="absolute left"
+      />
+      <img
         src={foremanBeaver}
         style={{
           width: `${PIXEL_SCALE * 15}px`,
@@ -15,14 +23,6 @@ export const ForemanBeaver: React.FC = () => {
         }}
         className="absolute"
         alt="Foreman Beaver"
-      />
-      <img
-        src={shadow}
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${PIXEL_SCALE * 0.1}px`,
-        }}
-        className="absolute w-full left z-29"
       />
     </>
   );

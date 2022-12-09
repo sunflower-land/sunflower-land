@@ -17,6 +17,22 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
 import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
+// random seal spawn spots
+import { randomInt } from "lib/utils/random";
+import { LostSeal } from "features/community/seal/Seal";
+
+const spawn = [
+  [40.1, -3],
+  [35, 30],
+  [5, 35],
+  [5, -3],
+];
+
+const getRandomSpawn = () => {
+  const randomSpawn = randomInt(0, 4);
+  return spawn[randomSpawn];
+};
+
 export const LAND_WIDTH = 6;
 
 interface Props {
@@ -26,6 +42,7 @@ interface Props {
 export const Water: React.FC<Props> = ({ level }) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
+  const [sealSpawn, setSealSpawn] = React.useState(getRandomSpawn());
 
   return (
     // Container
@@ -97,6 +114,8 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
       <Arcade left={40.25} top={-6.375} />
+
+      <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
 
       <FarmerQuest />
 

@@ -169,6 +169,7 @@ export const Bakery: React.FC<Props> = ({
         onClose={() => setShowModal(false)}
         onCook={handleCook}
         crafting={!!crafting}
+        itemInProgress={name}
         craftingService={craftingService}
       />
     </>

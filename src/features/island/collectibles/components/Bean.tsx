@@ -47,7 +47,7 @@ export const Bean: React.FC<CollectibleProps> = ({
       <>
         <img
           src={alerted}
-          className="animate-float z-10 absolute "
+          className="animate-float z-10 absolute"
           style={{
             width: `${PIXEL_SCALE * 4}px`,
             left: `${PIXEL_SCALE * 12.8}px`,
@@ -77,9 +77,10 @@ export const Bean: React.FC<CollectibleProps> = ({
         onClick={() => setShowModal(true)}
         style={{
           width: `${PIXEL_SCALE * 30}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
         }}
-        className="absolute hover:img-highlight"
+        className="absolute hover:img-highlight cursor-pointer"
         alt="Bean"
       />
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>

@@ -36,7 +36,7 @@ export const Farmer: React.FC = () => {
           className="w-full"
         />
         <Action
-          className="absolute -bottom-10 -left-1"
+          className="absolute -bottom-2 left-1"
           text="Farmer"
           icon={cowbell}
           onClick={openBarn}

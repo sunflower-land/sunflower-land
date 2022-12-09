@@ -19,7 +19,7 @@ export const VisitingHud: React.FC = () => {
   return (
     <>
       {!gameState.matches("landToVisitNotFound") && (
-        <InnerPanel className="fixed bottom-2 left-2 z-50">
+        <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-2 z-50">
           <span className="text-white">{`Visiting #${gameState.context.state.id}`}</span>
         </InnerPanel>
       )}

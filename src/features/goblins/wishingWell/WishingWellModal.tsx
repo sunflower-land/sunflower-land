@@ -17,7 +17,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
 import { shortAddress } from "lib/utils/shortAddress";
 import { CONFIG } from "lib/config";
-import { ConnectingError } from "features/auth/components/ConnectingError";
+import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { MachineInterpreter } from "./wishingWellMachine";
@@ -270,7 +270,7 @@ export const WishingWellModal: React.FC = () => {
             {errorCode === "NO_TOKENS" ? (
               <span className="mt-2">No SFL tokens found</span>
             ) : (
-              <ConnectingError />
+              <SomethingWentWrong />
             )}
           </div>
         )}

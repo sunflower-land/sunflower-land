@@ -137,7 +137,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
                 width: `${PIXEL_SCALE * 10}px`,
               }}
             />
-            <span className="text-sm text-white text-shadow">{`+${ironRock.stone.amount}`}</span>
+            <span className="text-sm text-white">{`+${ironRock.stone.amount}`}</span>
           </div>
         );
 
@@ -154,17 +154,13 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
         displayPopover(
           <div className="flex">
             <img src={pickaxe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white text-shadow">
-              No pickaxes left
-            </span>
+            <span className="text-xs text-white">No pickaxes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(
-        <span className="text-xs text-white text-shadow">{e.message}</span>
-      );
+      displayPopover(<span className="text-xs text-white">{e.message}</span>);
     }
   };
 
@@ -188,8 +184,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
   return (
     <div
-      className="relative"
-      style={{ height: "40px" }}
+      className="relative h-full w-full"
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
@@ -205,8 +200,8 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
               className="group-hover:img-highlight pointer-events-none"
               style={{
                 position: "absolute",
-                left: "-86.7px",
-                top: "-50px",
+                left: `${PIXEL_SCALE * -33}px`,
+                top: `${PIXEL_SCALE * -19}px`,
                 imageRendering: "pixelated",
                 width: `${GRID_WIDTH_PX * 7}px`,
               }}

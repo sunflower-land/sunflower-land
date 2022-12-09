@@ -12,7 +12,7 @@ import transferring from "assets/npcs/minting.gif";
 import farmImg from "assets/brand/nft.png";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { ConnectingError } from "features/auth/components/ConnectingError";
+import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
@@ -73,7 +73,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
   }
 
   if (state === "error") {
-    return <ConnectingError />;
+    return <SomethingWentWrong />;
   }
 
   if (state === "loading") {

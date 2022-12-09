@@ -1,7 +1,7 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-import { useState, useCallback, useLayoutEffect } from "react";
+import { useState, useCallback } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
@@ -14,11 +14,17 @@ import {
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import { useParams } from "react-router-dom";
+import {
+  cacheShowTimersSetting,
+  getShowTimersSetting,
+} from "features/farming/hud/lib/timers";
 
 export interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;
+  showTimers: boolean;
+  toggleTimers: () => void;
 }
 
 export const Context = React.createContext<GameContext>({} as GameContext);
@@ -40,7 +46,10 @@ export const GameProvider: React.FC = ({ children }) => {
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
-  const [shortcuts, setShortcuts] = useState<InventoryItemName[]>([]);
+  const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
+    getShortcuts()
+  );
+  const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const items = cacheShortcuts(item);
@@ -48,16 +57,25 @@ export const GameProvider: React.FC = ({ children }) => {
     setShortcuts(items);
   }, []);
 
-  useLayoutEffect(() => {
-    const savedShortcuts = getShortcuts();
+  const toggleTimers = () => {
+    const newValue = !showTimers;
 
-    setShortcuts(savedShortcuts);
-  }, []);
+    setShowTimers(newValue);
+    cacheShowTimersSetting(newValue);
+  };
 
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
 
   return (
-    <Context.Provider value={{ shortcutItem, selectedItem, gameService }}>
+    <Context.Provider
+      value={{
+        shortcutItem,
+        selectedItem,
+        gameService,
+        showTimers,
+        toggleTimers,
+      }}
+    >
       {children}
     </Context.Provider>
   );

@@ -30,7 +30,7 @@ export const Panel: React.FC<Props> = ({
     <>
       {bumpkinParts && (
         <div
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             zIndex: -10,
             top: `${PIXEL_SCALE * -61}px`,
@@ -38,7 +38,7 @@ export const Panel: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 100}px`,
           }}
         >
-          <DynamicNFT bumpkinParts={bumpkinParts} />
+          <DynamicNFT bumpkinParts={bumpkinParts} showDropShadow={false} />
         </div>
       )}
       <OuterPanel className={className} style={style} hasTabs={hasTabs}>
@@ -51,13 +51,14 @@ export const Panel: React.FC<Props> = ({
 /**
  * Light panel with border effect
  */
-export const InnerPanel: React.FC<Props> = ({ children, className }) => {
+export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
   return (
     <div
       className={classNames("bg-brown-300", className)}
       style={{
         ...pixelLightBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
+        ...style,
       }}
     >
       {children}

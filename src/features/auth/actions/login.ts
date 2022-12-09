@@ -6,6 +6,7 @@ import { ERRORS } from "lib/errors";
 type Request = {
   address: string;
   signature: string;
+  transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -15,14 +16,16 @@ export async function loginRequest(request: Request) {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
-      ...request,
+      address: request.address,
+      signature: request.signature,
     }),
   });
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
+    throw new Error(ERRORS.LOGIN_SERVER_ERROR);
   }
 
   const { token } = await response.json();
@@ -125,7 +128,7 @@ export function hasValidSession(): boolean {
   return false;
 }
 
-export async function login(): Promise<{ token: string }> {
+export async function login(transactionId: string): Promise<{ token: string }> {
   const address = wallet.myAccount as string;
   const session = getSession(address);
 
@@ -150,6 +153,7 @@ export async function login(): Promise<{ token: string }> {
   const { token } = await loginRequest({
     address,
     signature,
+    transactionId,
   });
 
   saveSession(address, { token });

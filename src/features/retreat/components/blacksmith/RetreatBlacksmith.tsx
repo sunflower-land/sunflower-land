@@ -1,11 +1,12 @@
 import React from "react";
 import blacksmith from "assets/buildings/goblin_blacksmith.gif";
-import hammer from "assets/icons/hammer.png";
+import icon from "assets/icons/hammer.png";
 
 import { Action } from "components/ui/Action";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { blacksmithAudio } from "lib/utils/sfx";
 import { ItemsModal } from "features/goblins/blacksmith/ItemsModal";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const RetreatBlacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -19,30 +20,31 @@ export const RetreatBlacksmith: React.FC = () => {
   };
 
   return (
-    <div
-      className="z-10 absolute"
-      // TODO some sort of coordinate system
-      style={{
-        width: `${GRID_WIDTH_PX * 7.1}px`,
-        right: `${GRID_WIDTH_PX * 9.5}px`,
-        top: `${GRID_WIDTH_PX * 22.3}px`,
-      }}
-    >
-      <div className="cursor-pointer hover:img-highlight">
+    <MapPlacement x={3} y={-2} height={5} width={8}>
+      <div
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        onClick={openBlacksmith}
+      >
         <img
           src={blacksmith}
           alt="market"
-          onClick={openBlacksmith}
-          className="w-full"
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 121}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
+          }}
         />
-        <Action
-          className="absolute bottom-0 left-24"
-          text="Craft"
-          icon={hammer}
-          onClick={openBlacksmith}
-        />
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <Action className="pointer-events-none" text="Craft" icon={icon} />
+        </div>
       </div>
       <ItemsModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
-    </div>
+    </MapPlacement>
   );
 };

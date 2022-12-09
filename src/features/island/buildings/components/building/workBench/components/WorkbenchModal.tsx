@@ -1,6 +1,5 @@
 import React, { SyntheticEvent, useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { Modal } from "react-bootstrap";
 
@@ -22,10 +21,10 @@ import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
+import classNames from "classnames";
 
 interface Props {
   isOpen: boolean;
@@ -164,17 +163,17 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         </Label>
       );
     }
-    return <Stock item={{ name: selectedName }} />;
+    return <Stock item={{ name: selectedName }} inventoryFull={false} />;
   };
 
   const Action = () => {
     if (stock?.equals(0)) {
       return (
         <div className="my-1">
-          <p className="text-xxs text-center">
-            Sync your farm to the Blockchain to restock
+          <p className="text-xs sm:text-xs sm:text-center px-2">
+            Sync your farm on chain to restock
           </p>
-          <Button className="text-xs mt-1" onClick={restock}>
+          <Button className="text-xxs sm:text-xs mt-1" onClick={restock}>
             Sync
           </Button>
         </div>
@@ -185,7 +184,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
       <>
         <Button
           disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          className="text-xs mt-1 whitespace-nowrap"
+          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
           onClick={(e) => craft(e)}
         >
           Craft 1
@@ -195,6 +194,8 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
+  // Price is added as an ingredient for layout purposes
+  const ingredientCount = getKeys(selected.ingredients).length + 1;
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
@@ -219,10 +220,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
         >
           <div className="flex flex-col-reverse sm:flex-row">
-            <div
-              className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-              style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-            >
+            <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
               {getKeys(craftableItems).map((toolName) => (
                 <Box
                   isSelected={selectedName === toolName}
@@ -233,86 +231,87 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 />
               ))}
             </div>
-            <OuterPanel className="w-full flex-1">
-              <div className="flex flex-col justify-center items-center p-2 relative">
+            <OuterPanel className="flex flex-col w-full sm:flex-1">
+              <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
                 {labelState()}
-                <span className="text-center">{selectedName}</span>
-                <img
-                  src={ITEM_DETAILS[selectedName].image}
-                  className="h-16 img-highlight mt-1"
-                  alt={selectedName}
-                />
-                <span className="text-center mt-2 text-sm">
+                <div className="flex space-x-2 items-center my-1 sm:flex-col-reverse md:space-x-0">
+                  <img
+                    src={ITEM_DETAILS[selectedName].image}
+                    className="w-5 sm:w-8 sm:my-1"
+                    alt={selectedName}
+                  />
+                  <span className="text-center mb-1">{selectedName}</span>
+                </div>
+                <span className="text-xs sm:text-sm sm:text-center">
                   {selected.description}
                 </span>
-                <div className="border-t border-white w-full mt-2 pt-1">
-                  {getKeys(selected.ingredients).map(
-                    (ingredientName, index) => {
-                      const item = ITEM_DETAILS[ingredientName];
-                      const inventoryAmount =
-                        inventory[ingredientName]?.toDecimalPlaces(1) || 0;
-                      const requiredAmount =
-                        selected.ingredients[ingredientName]?.toDecimalPlaces(
-                          1
-                        ) || 0;
+                <div className="border-t border-white w-full my-2" />
+                <div className="flex w-full justify-between max-h-14 sm:max-h-full sm:flex-col sm:items-center">
+                  <div className="mb-1 flex flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
+                    {price?.gt(0) && (
+                      <div className="flex items-center space-x-1 shrink-0 w-1/2 sm:w-full sm:justify-center my-[1px] sm:mb-1">
+                        <div className="w-5">
+                          <img src={token} className="h-5 mr-1" />
+                        </div>
+                        <span
+                          className={classNames("text-xs text-center", {
+                            "text-red-500": lessFunds(),
+                          })}
+                        >
+                          {`${price?.toNumber()}`}
+                        </span>
+                      </div>
+                    )}
+                    {getKeys(selected.ingredients).map(
+                      (ingredientName, index) => {
+                        const item = ITEM_DETAILS[ingredientName];
+                        const inventoryAmount =
+                          inventory[ingredientName]?.toDecimalPlaces(1) || 0;
+                        const requiredAmount =
+                          selected.ingredients[ingredientName]?.toDecimalPlaces(
+                            1
+                          ) || 0;
 
-                      // Ingredient difference
-                      const lessIngredient = new Decimal(
-                        inventoryAmount
-                      ).lessThan(requiredAmount);
+                        // Ingredient difference
+                        const lessIngredient = new Decimal(
+                          inventoryAmount
+                        ).lessThan(requiredAmount);
 
-                      // rendering item remenants
-                      const renderRemnants = () => {
-                        if (lessIngredient) {
-                          // if inventory items is less than required items
-                          return (
-                            <>
-                              <span className="text-xs text-center mt-2 text-red-500">
-                                {`${inventoryAmount}`}
-                              </span>
-                              <span className="text-xs text-center mt-2 text-red-500">
-                                {`/${requiredAmount}`}
-                              </span>
-                            </>
-                          );
-                        } else {
+                        // rendering item remnants
+                        const renderRemnants = () => {
+                          if (lessIngredient) {
+                            // if inventory items is less than required items
+                            return (
+                              <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
+                            );
+                          }
                           // if inventory items is equal to required items
                           return (
-                            <span className="text-xs text-center mt-2">
+                            <span className="text-xs text-center">
                               {`${requiredAmount}`}
                             </span>
                           );
-                        }
-                      };
+                        };
 
-                      return (
-                        <div
-                          className="flex justify-center flex-wrap items-end"
-                          key={index}
-                        >
-                          <img src={item.image} className="h-5 me-2" />
-                          {renderRemnants()}
-                        </div>
-                      );
-                    }
-                  )}
-
-                  {/* SFL requirement */}
-                  {price?.gt(0) && (
-                    <div className="flex justify-center items-end">
-                      <img src={token} className="h-5 mr-1" />
-                      <span
-                        className={classNames("text-xs text-center mt-2", {
-                          "text-red-500": lessFunds(),
-                        })}
-                      >
-                        {`${price?.toNumber()}`}
-                      </span>
-                    </div>
-                  )}
+                        return (
+                          <div
+                            className={`flex items-center space-x-1 ${
+                              ingredientCount > 2 ? "w-1/2" : "w-full"
+                            } shrink-0 sm:justify-center my-[1px] sm:mb-1 sm:w-full`}
+                            key={index}
+                          >
+                            <div className="w-5">
+                              <img src={item.image} className="h-5" />
+                            </div>
+                            {renderRemnants()}
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
                 </div>
-                {Action()}
               </div>
+              {Action()}
             </OuterPanel>
           </div>
         </div>

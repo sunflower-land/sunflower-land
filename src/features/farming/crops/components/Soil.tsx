@@ -21,6 +21,7 @@ interface Props {
   plantedCrop?: PlantedCrop;
   showCropDetails?: boolean;
   isRemoving?: boolean;
+  showTimers: boolean;
 }
 
 const CROP_NOISE_LEVEL = 0.1;
@@ -43,6 +44,7 @@ export const Soil: React.FC<Props> = ({
   plantedCrop,
   showCropDetails,
   isRemoving,
+  showTimers,
 }) => {
   useUiRefresher({ active: !!plantedCrop });
 
@@ -92,20 +94,22 @@ export const Soil: React.FC<Props> = ({
             : lifecycle.seedling
         )}
 
-        <div
-          className="absolute"
-          style={{
-            top: `${PIXEL_SCALE * 9}px`,
-            width: `${PIXEL_SCALE * 15}px`,
-          }}
-        >
-          <ProgressBar
-            percentage={isRemoving ? 50 : growPercentage}
-            seconds={timeLeft}
-            type={isRemoving ? "error" : "progress"}
-            formatLength="short"
-          />
-        </div>
+        {showTimers && (
+          <div
+            className="absolute"
+            style={{
+              top: `${PIXEL_SCALE * 9}px`,
+              width: `${PIXEL_SCALE * 15}px`,
+            }}
+          >
+            <ProgressBar
+              percentage={isRemoving ? 50 : growPercentage}
+              seconds={timeLeft}
+              type={isRemoving ? "error" : "progress"}
+              formatLength="short"
+            />
+          </div>
+        )}
 
         <InnerPanel
           className={classNames(

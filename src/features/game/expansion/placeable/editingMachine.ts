@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { BuildingName } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
@@ -78,7 +79,7 @@ export const editingMachine = createMachine<
                 type: action,
                 name: placeable,
                 coordinates: { x, y },
-                id: crypto.randomUUID(),
+                id: uuidv4(),
               } as PlacementEvent)
           ),
         },

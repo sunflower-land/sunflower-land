@@ -10,7 +10,7 @@ export const WhiteTulips: React.FC = () => {
         src={whiteTulip}
         style={{
           width: `${PIXEL_SCALE * 8}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
+          bottom: `${PIXEL_SCALE * 1}px`,
           left: `${PIXEL_SCALE * 4}px`,
         }}
         className="absolute"

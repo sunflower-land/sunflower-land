@@ -1220,7 +1220,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Victoria Sisters": { height: 2, width: 2 },
   "Basic Bear": { height: 1, width: 1 },
   "Prized Potato": { height: 1, width: 1 },
-  "Wood Nymph Wendy": { height: 1, width: 1 },
+  "Wood Nymph Wendy": { height: 2, width: 1 },
   "Cabbage Boy": { height: 1, width: 1 },
   "Cabbage Girl": { height: 1, width: 1 },
 

@@ -25,7 +25,6 @@ export type Crop = {
 
 /**
  * Crops and their original prices
- * TODO - use crop name from GraphQL API
  */
 export const CROPS: () => Record<CropName, Crop> = () => ({
   Sunflower: {
@@ -89,7 +88,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     sellPrice: marketRate(9.5),
     harvestSeconds: 24 * 60 * 60,
     name: "Radish",
-    description: "Give it some time, it's worth the wait!",
+    description: "Takes time but is worth the wait!",
   },
   Wheat: {
     buyPrice: marketRate(5),
@@ -100,7 +99,8 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
   },
   Kale: {
     buyPrice: marketRate(8),
-    harvestSeconds: 24 * 60 * 60,
+    sellPrice: marketRate(10),
+    harvestSeconds: 36 * 60 * 60,
     name: "Kale",
     description: "Bumpkin Power Food",
   },
@@ -165,7 +165,7 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
   },
   "Radish Seed": {
     name: "Radish Seed",
-    description: "Give it some time, it's worth the wait!",
+    description: "Takes time but is worth the wait!",
     tokenAmount: marketRate(7),
     ingredients: [],
     bumpkinLevel: 5,
@@ -179,10 +179,9 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
   },
   "Kale Seed": {
     name: "Kale Seed",
-    tokenAmount: marketRate(5),
+    tokenAmount: marketRate(7),
     ingredients: [],
     description: "A Bumpkin Power Food!",
-    plantSeconds: 24 * 60 * 60,
-    disabled: true,
+    bumpkinLevel: 7,
   },
 });

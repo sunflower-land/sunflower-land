@@ -10,17 +10,14 @@ export const TunnelMole: React.FC = () => {
       style={{
         width: `${PIXEL_SCALE * 20}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        right: `${PIXEL_SCALE * -1}px`,
+        right: `${PIXEL_SCALE * -2}px`,
       }}
     >
       <img
         src={tunnelMole}
         style={{
           width: `${PIXEL_SCALE * 20}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          right: `${PIXEL_SCALE * -1}px`,
         }}
-        className="absolute"
         alt="Tunnel mole"
       />
     </div>

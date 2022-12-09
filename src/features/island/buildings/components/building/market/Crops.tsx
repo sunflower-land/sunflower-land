@@ -19,7 +19,6 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice, hasSellBoost } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Bumpkin } from "features/game/types/game";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
@@ -57,9 +56,9 @@ export const Crops: React.FC = () => {
     const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
     sell(sellAmount);
   };
-  const handleSellTenOrLess = () => {
-    const sellAmount = cropAmount.gte(10) ? new Decimal(10) : cropAmount;
-    sell(sellAmount);
+
+  const handleSellTen = () => {
+    sell(new Decimal(10));
   };
 
   const handleSellAll = () => {
@@ -80,6 +79,13 @@ export const Crops: React.FC = () => {
     showSellAllModal(false);
   };
 
+  const sellOneButtonText = () => {
+    // In the case of 0 the button will be disabled
+    if (cropAmount.greaterThan(1) || cropAmount.eq(0)) return "Sell 1";
+
+    return `Sell ${cropAmount}`;
+  };
+
   useEffect(() => {
     setIsPriceBoosted(hasSellBoost(inventory, state.bumpkin as Bumpkin));
   }, [inventory, state.inventory]);
@@ -87,8 +93,7 @@ export const Crops: React.FC = () => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div
-        className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+        className="w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
         ref={divRef}
       >
         {Object.values(CROPS())
@@ -105,50 +110,51 @@ export const Crops: React.FC = () => {
           ))}
       </div>
       <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2">
-          <span className="mb-2">{selected.name}</span>
-          <img
-            src={ITEM_DETAILS[selected.name].image}
-            className="w-8 sm:w-12"
-            alt={selected.name}
-          />
-          <span className="text-center mt-2 text-sm">
+        <div className="flex flex-col justify-center p-2 pb-0">
+          <div className="flex space-x-2 justify-start mb-1 sm:items-center sm:flex-col-reverse md:space-x-0">
+            <img
+              src={ITEM_DETAILS[selected.name].image}
+              className="w-5 object-contain sm:w-8 sm:my-1"
+              alt={selected.name}
+            />
+            <span>{selected.name}</span>
+          </div>
+          <span className="text-xs sm:text-sm sm:text-center">
             {selected.description}
           </span>
-
-          <div className="border-t border-white w-full mt-2 pt-1">
-            <div className="flex justify-center items-end">
-              <img src={token} className="h-5 mr-1" />
-              {isPriceBoosted && <img src={lightning} className="h-6 me-2" />}
-              <span className="text-xs text-shadow text-center mt-2 ">
+          <div className="border-t border-white w-full my-2 pt-1 flex justify-between sm:flex-col sm:items-center">
+            <div className="flex justify-center space-x-1 items-center sm:justify-center">
+              <img src={token} className="h-4 sm:h-5" />
+              {isPriceBoosted && <img src={lightning} className="h-5 sm:h-6" />}
+              <span className="text-xs text-shadow text-center">
                 {`${displaySellPrice(selected)}`}
               </span>
             </div>
           </div>
-          <div className="flex sm:flex-col w-full">
-            <Button
-              disabled={noCrop}
-              className="text-xs mt-1 mr-1 sm:mr-0 flex-1"
-              onClick={handleSellOneOrLess}
-            >
-              {`Sell ${cropAmount.gte(1) ? "1" : "<1"}`}
-            </Button>
-            <Button
-              disabled={noCrop}
-              className="text-xs mt-1 flex-1"
-              onClick={handleSellTenOrLess}
-            >
-              {`Sell ${cropAmount.gte(10) ? "10" : "<10"}`}
-            </Button>
-          </div>
+        </div>
+        <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
           <Button
-            disabled={noCrop}
-            className="text-xs mt-1"
-            onClick={openConfirmationModal}
+            disabled={cropAmount.eq(0)}
+            className="text-xxs sm:text-xs"
+            onClick={handleSellOneOrLess}
           >
-            Sell All
+            {sellOneButtonText()}
+          </Button>
+          <Button
+            disabled={cropAmount.lessThan(10)}
+            className="text-xxs sm:text-xs"
+            onClick={handleSellTen}
+          >
+            Sell 10
           </Button>
         </div>
+        <Button
+          disabled={noCrop}
+          className="text-xxs sm:text-xs"
+          onClick={openConfirmationModal}
+        >
+          Sell All
+        </Button>
       </OuterPanel>
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
         <Panel className="md:w-4/5 m-auto">

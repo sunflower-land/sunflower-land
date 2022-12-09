@@ -4,7 +4,7 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
 import close from "assets/icons/close.png";
-import chefHat from "src/assets/bumpkins/small/hats/chef_hat.png";
+import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
@@ -24,6 +24,7 @@ interface Props {
   onClose: () => void;
   onCook: (name: ConsumableName) => void;
   crafting: boolean;
+  itemInProgress?: ConsumableName;
   craftingService?: MachineInterpreter;
 }
 export const FirePitModal: React.FC<Props> = ({
@@ -31,6 +32,7 @@ export const FirePitModal: React.FC<Props> = ({
   onCook,
   onClose,
   crafting,
+  itemInProgress,
   craftingService,
 }) => {
   const [showTutorial, setShowTutorial] = useState<boolean>(
@@ -43,7 +45,10 @@ export const FirePitModal: React.FC<Props> = ({
 
     return [...acc, CONSUMABLES[name]];
   }, [] as Consumable[]);
-  const [selected, setSelected] = useState<Consumable>(firePitRecipes[0]);
+  const [selected, setSelected] = useState<Consumable>(
+    firePitRecipes.find((recipe) => recipe.name === itemInProgress) ||
+      firePitRecipes[0]
+  );
 
   const bumpkinParts: Partial<Equipped> = {
     body: "Beige Farmer Potion",
@@ -82,7 +87,7 @@ export const FirePitModal: React.FC<Props> = ({
         >
           <Tab isActive>
             <img src={chefHat} className="h-5 mr-2" />
-            <span className="text-sm">Fire Pit</span>
+            <span className="text-sm whitespace-nowrap">Fire Pit</span>
           </Tab>
           <img
             src={close}

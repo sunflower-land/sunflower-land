@@ -14,6 +14,7 @@ type Request = {
   farmId: number;
   token: string;
   draft: Draft;
+  transactionId: string;
 };
 
 type Payload = {
@@ -46,6 +47,7 @@ export async function listRequest(request: Request): Promise<Response> {
         "content-type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${request.token}`,
         accept: "application/json",
+        "X-Transaction-ID": request.transactionId,
       },
       body: JSON.stringify({
         slotId: request.slotId,
@@ -64,7 +66,7 @@ export async function listRequest(request: Request): Promise<Response> {
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error("Could not post the listing");
+    throw new Error(ERRORS.LIST_TRADE_SERVER_ERROR);
   }
 
   const data = await response.json();

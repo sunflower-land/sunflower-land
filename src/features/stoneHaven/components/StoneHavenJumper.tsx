@@ -1,38 +1,40 @@
 import React from "react";
 
 import jumping from "assets/npcs/goblin_jumping.gif";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const StoneHavenJumper: React.FC = () => {
   return (
-    <div
-      className="absolute"
-      style={{
-        width: `${GRID_WIDTH_PX * 2}px`,
-        left: `${GRID_WIDTH_PX * 20}px`,
-        bottom: `${GRID_WIDTH_PX * 22}px`,
-      }}
-    >
-      <img
-        src={jumping}
-        className="absolute z-20"
-        style={{
-          width: `${PIXEL_SCALE * 18}px`,
-          bottom: 0,
-          right: 0,
-          transform: "scaleX(-1)",
-        }}
-      />
-      <img
-        src={shadow}
-        className="absolute z-10 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${PIXEL_SCALE * -2}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      />
-    </div>
+    <MapPlacement x={1} y={3} height={1} width={1}>
+      <div className="relative w-full h-full">
+        <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+        <div
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            right: 0,
+            transform: "scaleX(-1)",
+          }}
+        >
+          <img
+            src={jumping}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+            }}
+          />
+        </div>
+      </div>
+    </MapPlacement>
   );
 };

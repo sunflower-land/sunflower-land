@@ -138,7 +138,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 width: `${PIXEL_SCALE * 10}px`,
               }}
             />
-            <span className="text-sm text-white text-shadow">{`+${goldRock.stone.amount}`}</span>
+            <span className="text-sm text-white">{`+${goldRock.stone.amount}`}</span>
           </div>
         );
 
@@ -155,17 +155,13 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         displayPopover(
           <div className="flex">
             <img src={pickaxe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white text-shadow">
-              No pickaxes left
-            </span>
+            <span className="text-xs text-white">No pickaxes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(
-        <span className="text-xs text-white text-shadow">{e.message}</span>
-      );
+      displayPopover(<span className="text-xs text-white">{e.message}</span>);
     }
   };
 
@@ -189,8 +185,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
   return (
     <div
-      className="relative"
-      style={{ height: "40px" }}
+      className="relative h-full w-full"
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
@@ -203,6 +198,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         >
           <>
             <Spritesheet
+              className="group-hover:img-highlight pointer-events-none"
               style={{
                 position: "absolute",
                 left: `${PIXEL_SCALE * -33}px`,
@@ -210,7 +206,6 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 imageRendering: "pixelated",
                 width: `${GRID_WIDTH_PX * 7}px`,
               }}
-              className="pointer-events-none z-40"
               getInstance={(spritesheet) => {
                 sparkGif.current = spritesheet;
               }}

@@ -1,13 +1,14 @@
 import React from "react";
 
 import merchant from "assets/npcs/merchant.gif";
-import icon from "assets/brand/icon.png";
+import icon from "assets/icons/token_2.png";
 
 import { MerchantModal } from "./MerchantModal";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { merchantAudio } from "lib/utils/sfx";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const Merchant: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -21,34 +22,40 @@ export const Merchant: React.FC = () => {
   };
 
   return (
-    <div
-      className="relative"
-      id={Section.Merchant}
-      style={{
-        width: `${GRID_WIDTH_PX * 3.5}px`,
-        height: `${GRID_WIDTH_PX * 3.5}px`,
-        left: `${GRID_WIDTH_PX * 27}px`,
-        top: `${GRID_WIDTH_PX * 28}px`,
-      }}
-    >
-      <div className="cursor-pointer hover:img-highlight relative">
-        <img
-          src={merchant}
-          alt="merchant"
-          onClick={openMerchant}
-          className="w-full"
-        />
-        <Action
-          className="absolute -bottom-[30px] -left-[5px]"
-          text="Merchant"
-          icon={icon}
-          onClick={openMerchant}
-        />
+    <MapPlacement x={-3} y={2} height={3} width={3}>
+      <div
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        id={Section.Merchant}
+        onClick={openMerchant}
+      >
+        <div
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 49}px`,
+            left: `${PIXEL_SCALE * -1}px`,
+            bottom: `${PIXEL_SCALE * 14}px`,
+          }}
+        >
+          <img
+            src={merchant}
+            style={{
+              width: `${PIXEL_SCALE * 49}px`,
+            }}
+            alt="Merchant"
+          />
+        </div>
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <Action className="pointer-events-none" text="Merchant" icon={icon} />
+        </div>
       </div>
-
       {isOpen && (
         <MerchantModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
       )}
-    </div>
+    </MapPlacement>
   );
 };

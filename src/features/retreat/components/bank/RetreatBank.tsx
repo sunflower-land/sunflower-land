@@ -2,12 +2,13 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 import bank from "assets/buildings/goblin_bank.gif";
-import token from "assets/icons/token.gif";
+import icon from "assets/icons/token_2.png";
 
 import { Action } from "components/ui/Action";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { bankAudio } from "lib/utils/sfx";
 import { BankModal } from "features/goblins/bank/components/BankModal";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const RetreatBank: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -21,27 +22,33 @@ export const RetreatBank: React.FC = () => {
   };
 
   return (
-    <div
-      className="z-10 absolute"
-      style={{
-        width: `${GRID_WIDTH_PX * 3.4}px`,
-        right: `${GRID_WIDTH_PX * 19.3}px`,
-        top: `${GRID_WIDTH_PX * 2}px`,
-      }}
-    >
-      <div className="cursor-pointer hover:img-highlight">
-        <img src={bank} alt="bank" onClick={openBank} className="w-full" />
-        <Action
-          className="absolute -bottom-6 left-5"
-          text="Bank"
-          icon={token}
-          onClick={openBank}
+    <MapPlacement x={-4} y={19} height={5} width={5}>
+      <div
+        className="relative w-full h-full cursor-pointer hover:img-highlight"
+        onClick={openBank}
+      >
+        <img
+          src={bank}
+          alt="bank"
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 67}px`,
+            left: `${PIXEL_SCALE * 6}px`,
+            bottom: `${PIXEL_SCALE * 14}px`,
+          }}
         />
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <Action className="pointer-events-none" text="Bank" icon={icon} />
+        </div>
       </div>
-
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
         <BankModal onClose={() => setIsOpen(false)} />
       </Modal>
-    </div>
+    </MapPlacement>
   );
 };

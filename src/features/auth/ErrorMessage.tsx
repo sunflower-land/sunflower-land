@@ -7,7 +7,7 @@ import { Web3Missing } from "./components/Web3Missing";
 import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
 import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
-import { ConnectingError } from "./components/ConnectingError";
+import { SomethingWentWrong } from "./components/SomethingWentWrong";
 import { Blocked } from "./components/Blocked";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
@@ -38,7 +38,6 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     };
   }, []);
 
-  console.log({ errorCode });
   if (errorCode === ERRORS.NO_WEB3) {
     return <Web3Missing />;
   }
@@ -83,5 +82,5 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <MultipleDevices />;
   }
 
-  return <ConnectingError />;
+  return <SomethingWentWrong />;
 };

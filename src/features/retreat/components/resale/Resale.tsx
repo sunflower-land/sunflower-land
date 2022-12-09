@@ -1,32 +1,43 @@
 import React from "react";
 
-import chat from "assets/icons/heart.png";
+import icon from "assets/icons/heart.png";
 import resale from "assets/buildings/resale.png";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const Resale: React.FC = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const openResale = () => {
+    setIsOpen(true);
+  };
+
   return (
-    <div
-      className="z-10 absolute"
-      style={{
-        width: `${GRID_WIDTH_PX * 5.5}px`,
-        left: `${GRID_WIDTH_PX * 21.5}px`,
-        top: `${GRID_WIDTH_PX * 27.2}px`,
-      }}
-    >
-      <img
-        src={resale}
-        style={{
-          width: `${PIXEL_SCALE * 53}px`,
-        }}
-      />
-      <Action
-        className="absolute -bottom-[20px] left-[13px]"
-        text="Resale"
-        icon={chat}
-        onClick={console.log}
-      />
-    </div>
+    <MapPlacement x={1} y={-7} height={5} width={4}>
+      <div
+        className="relative w-full h-full" //cursor-pointer hover:img-highlight"
+        onClick={openResale}
+      >
+        <img
+          src={resale}
+          alt="Resale"
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 53}px`,
+            left: `${PIXEL_SCALE * 5}px`,
+            bottom: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <Action className="pointer-events-none" text="Resale" icon={icon} />
+        </div>
+      </div>
+    </MapPlacement>
   );
 };
