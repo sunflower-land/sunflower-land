@@ -21,7 +21,7 @@ interface Props {
   plantedCrop?: PlantedCrop;
   showCropDetails?: boolean;
   isRemoving?: boolean;
-  showTimers?: boolean;
+  showTimers: boolean;
 }
 
 const CROP_NOISE_LEVEL = 0.1;
