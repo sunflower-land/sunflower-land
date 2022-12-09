@@ -34,6 +34,11 @@ const getRandomSeal = () => {
   return imgSeals[randomSeal];
 };
 
+const getShowSealRandom = () => {
+  const showSeal = randomInt(0, 5); // 5 is exclusive
+  return showSeal === 1; // [0, 1, 2, 3] = 1 is 25% of the time;
+};
+
 interface Props {
   left: number;
   top: number;
@@ -42,6 +47,7 @@ interface Props {
 export const LostSeal: React.FC<Props> = ({ left, top }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [sealImg, setSealImg] = useState(getRandomSeal());
+  const [showSeal, setShowSeal] = useState(getShowSealRandom());
 
   return (
     <div
@@ -60,6 +66,7 @@ export const LostSeal: React.FC<Props> = ({ left, top }) => {
           className="relative hover:cursor-pointer hover:img-highlight"
           style={{
             width: `${GRID_WIDTH_PX * 1.25}px`,
+            display: showSeal ? "block" : "none",
           }}
           onClick={() => setIsOpen(true)}
         />

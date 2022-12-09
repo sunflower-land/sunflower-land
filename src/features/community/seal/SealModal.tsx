@@ -1,7 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import { Button } from "components/ui/Button";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -13,9 +11,6 @@ interface Props {
 }
 
 export const SealModal: React.FC<Props> = ({ isOpen, onClose, sealImg }) => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-
   return (
     <Modal centered show={isOpen} onHide={onClose}>
       <CloseButtonPanel
@@ -30,17 +25,6 @@ export const SealModal: React.FC<Props> = ({ isOpen, onClose, sealImg }) => {
             }}
           />
         </div>
-        <div className="space-y-3 mb-3 px-2 text-sm">
-          <p>
-            I have lost my way back home. Only the Goblin Merchant can bring me
-            back to my seal family.
-          </p>
-          <p>Will you help me?</p>
-        </div>
-
-        <Button onClick={() => navigate(`/community-garden/${id}`)}>
-          Go To Community Garden
-        </Button>
       </CloseButtonPanel>
     </Modal>
   );

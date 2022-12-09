@@ -34,7 +34,7 @@ import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 
 const spawn = [
-  [30, 15],
+  [35, 15],
   [10, 15],
   [10, 25],
   [35, 25],
