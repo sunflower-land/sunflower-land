@@ -6,6 +6,8 @@ import {
   InventoryItemName,
   FERTILISERS,
   COUPONS,
+  GameState,
+  Bumpkin,
 } from "features/game/types/game";
 
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
@@ -17,6 +19,7 @@ import basket from "assets/icons/basket.png";
 import { secondsToString } from "lib/utils/time";
 import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { getCropTime } from "features/game/events/plant";
+import { getCropTime as getCropTimeLandExpansion } from "features/game/events/landExpansion/plant";
 import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
@@ -30,10 +33,14 @@ import { BEANS } from "features/game/types/beans";
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
 
+interface Props {
+  state: GameState;
+}
+
 const isSeed = (selectedItem: InventoryItemName) =>
   selectedItem in CROP_SEEDS();
 
-export const Basket: React.FC = () => {
+export const Basket: React.FC<Props> = ({ state }: Props) => {
   const [scrollIntoView] = useScrollIntoView();
 
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
@@ -47,6 +54,20 @@ export const Basket: React.FC = () => {
 
   const getCropHarvestTime = (seedName = "") => {
     const crop = seedName.split(" ")[0] as CropName;
+
+    if (state.bumpkin) {
+      return secondsToString(
+        getCropTimeLandExpansion(
+          crop,
+          inventory,
+          state.collectibles,
+          state.bumpkin as Bumpkin
+        ),
+        {
+          length: "medium",
+        }
+      );
+    }
 
     return secondsToString(getCropTime(crop, inventory), { length: "medium" });
   };
