@@ -77,7 +77,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
 
   "Boiled Eggs": {
     name: "Boiled Eggs",
-    description: "Boiled Eggss are great for breakfast",
+    description: "Boiled Eggs are great for breakfast",
     experience: 90,
     building: "Fire Pit",
     cookingSeconds: 60 * 60,
