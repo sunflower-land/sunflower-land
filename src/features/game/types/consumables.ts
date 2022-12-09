@@ -95,8 +95,8 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     ingredients: {
       Kale: new Decimal(10),
     },
-    experience: 175,
-    marketRate: 304,
+    experience: 400,
+    marketRate: 400,
   },
 
   "Roast Veggies": {
