@@ -18,7 +18,8 @@ import { InventoryItemName } from "features/game/types/game";
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {
-  const { gameService, shortcutItem, selectedItem } = useContext(Context);
+  const gameContext = useContext(Context);
+  const { gameService, shortcutItem, selectedItem } = gameContext;
   const [gameState] = useActor(gameService);
 
   const isEditing = gameState.matches("editing");
@@ -41,17 +42,19 @@ export const Hud: React.FC = () => {
         <>
           <Balance balance={gameState.context.state.balance} />
           <Inventory
-            state={gameState.context.state}
-            shortcutItem={shortcutItem}
-            onPlace={onPlace}
+            context={{
+              game: gameContext,
+            }}
             isFarming
-            selectedItem={selectedItem}
-            showPlaceButton
           />
           {landId && <LandId landId={landId} />}
           <Buildings />
           <Save />
-          <BumpkinProfile state={state} />
+          <BumpkinProfile
+            context={{
+              game: gameContext,
+            }}
+          />
         </>
       )}
       {/* <AudioPlayer isFarming /> */}

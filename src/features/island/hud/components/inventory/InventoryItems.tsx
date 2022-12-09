@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  CombinedGameContext,
+  InventoryItemName,
+} from "features/game/types/game";
 
 import basket from "assets/icons/basket.png";
 import chest from "assets/icons/chest.png";
@@ -12,31 +15,19 @@ import Decimal from "decimal.js-light";
 import { Basket } from "./Basket";
 import { Chest } from "./Chest";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { GoblinState } from "features/game/lib/goblinMachine";
 
 type Tab = "basket" | "chest";
 
 interface Props {
-  state: GameState | GoblinState;
+  context: CombinedGameContext;
   onClose: () => void;
-  showPlaceButton?: boolean;
-  onPlace?: (selected: InventoryItemName) => void;
-  shortcutItem: (item: InventoryItemName) => void;
-  selectedItem?: InventoryItemName | undefined;
 }
 
 export type TabItems = Record<string, { items: object }>;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
-export const InventoryItems: React.FC<Props> = ({
-  state,
-  onClose,
-  onPlace,
-  shortcutItem,
-  showPlaceButton,
-  selectedItem,
-}) => {
+export const InventoryItems: React.FC<Props> = ({ context, onClose }) => {
   const [currentTab, setCurrentTab] = useState<Tab>("basket");
 
   const handleTabClick = (tab: Tab) => {
@@ -59,9 +50,7 @@ export const InventoryItems: React.FC<Props> = ({
           onClick={() => handleTabClick("basket")}
         >
           <img src={basket} className="h-4 sm:h-5 mr-2" />
-          <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
-            Basket
-          </span>
+          <span className="text-xs sm:text-sm text-ellipsis">Basket</span>
         </Tab>
         <Tab
           className="flex items-center"
@@ -69,9 +58,7 @@ export const InventoryItems: React.FC<Props> = ({
           onClick={() => handleTabClick("chest")}
         >
           <img src={chest} className="h-4 sm:h-5 mr-2" />
-          <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
-            Chest
-          </span>
+          <span className="text-xs sm:text-sm text-ellipsis">Chest</span>
         </Tab>
         <img
           src={close}
@@ -85,20 +72,9 @@ export const InventoryItems: React.FC<Props> = ({
         />
       </div>
 
-      {currentTab === "basket" && (
-        <Basket
-          state={state}
-          shortcutItem={shortcutItem}
-          selectedItem={selectedItem}
-        />
-      )}
+      {currentTab === "basket" && <Basket context={context} />}
       {currentTab === "chest" && (
-        <Chest
-          state={state}
-          closeModal={onClose}
-          onPlace={onPlace}
-          showPlaceButton={showPlaceButton}
-        />
+        <Chest context={context} closeModal={onClose} />
       )}
     </Panel>
   );

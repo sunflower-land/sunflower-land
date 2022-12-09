@@ -21,6 +21,10 @@ import { DecorationName } from "./decorations";
 import { FruitName } from "features/island/fruit/FruitPatch";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitSeedName } from "./fruits";
+import { GameContext as GoblinContext } from "../GoblinProvider";
+import { GameContext } from "../GameProvider";
+import { MachineInterpreter as GoblinMachineInterpreter } from "../lib/goblinMachine";
+import { MachineInterpreter } from "../lib/gameMachine";
 
 export type Reward = {
   sfl?: Decimal;
@@ -359,3 +363,10 @@ export interface Context {
   state?: GameState;
   actions: PastAction[];
 }
+
+export type CombinedGameContext = {
+  retreat?: GoblinContext;
+  game?: GameContext;
+};
+
+export type CombinedGameService = GoblinMachineInterpreter | MachineInterpreter;

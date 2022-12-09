@@ -6,7 +6,8 @@ import {
   InventoryItemName,
   FERTILISERS,
   COUPONS,
-  GameState,
+  CombinedGameContext,
+  CombinedGameService,
 } from "features/game/types/game";
 
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
@@ -22,10 +23,10 @@ import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
 import { RESOURCES } from "features/game/types/resources";
+import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
-import { GoblinState } from "features/game/lib/goblinMachine";
 
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
@@ -34,21 +35,23 @@ const isSeed = (selectedItem: InventoryItemName) =>
   selectedItem in CROP_SEEDS();
 
 interface Props {
-  state: GameState | GoblinState;
-  shortcutItem: (item: InventoryItemName) => void;
-  selectedItem: InventoryItemName | undefined;
+  context: CombinedGameContext;
 }
 
-export const Basket: React.FC<Props> = ({
-  state,
-  selectedItem,
-  shortcutItem,
-}) => {
+export const Basket: React.FC<Props> = ({ context }) => {
   const [scrollIntoView] = useScrollIntoView();
+
+  const service = (context?.retreat?.goblinService ||
+    context?.game?.gameService) as CombinedGameService;
+  const shortcutItem =
+    context?.retreat?.shortcutItem || context?.game?.shortcutItem;
+  const selectedItem =
+    context?.retreat?.selectedItem || context?.game?.selectedItem;
+  const [gameState] = useActor(service);
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const { inventory } = state;
+  const { inventory } = gameState.context.state;
   const basketMap = getBasketItems(inventory);
   const isTimeBoosted = useHasBoostForItem({ selectedItem, inventory });
 
@@ -59,9 +62,9 @@ export const Basket: React.FC<Props> = ({
   };
 
   const handleItemClick = (item: InventoryItemName) => {
-    if (shortcutItem) {
-      shortcutItem(item);
-    }
+    if (!shortcutItem) return;
+
+    shortcutItem(item);
 
     if (item && ITEM_DETAILS[item].section) {
       scrollIntoView(ITEM_DETAILS[item].section);

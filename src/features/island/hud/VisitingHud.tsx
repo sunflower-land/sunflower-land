@@ -13,10 +13,9 @@ import { BumpkinProfile } from "./components/BumpkinProfile";
  * Balances, Inventory, actions etc.
  */
 export const VisitingHud: React.FC = () => {
-  const { gameService, shortcutItem } = useContext(Context);
+  const gameContext = useContext(Context);
+  const { gameService } = gameContext;
   const [gameState] = useActor(gameService);
-
-  const { state } = gameState.context;
   return (
     <>
       {!gameState.matches("landToVisitNotFound") && (
@@ -27,11 +26,16 @@ export const VisitingHud: React.FC = () => {
       <div data-html2canvas-ignore="true" aria-label="Hud">
         <Balance balance={gameState.context.state.balance} />
         <Inventory
-          state={gameState.context.state}
-          shortcutItem={shortcutItem}
+          context={{
+            game: gameContext,
+          }}
           isFarming={false}
         />
-        <BumpkinProfile state={state} />
+        <BumpkinProfile
+          context={{
+            game: gameContext,
+          }}
+        />
       </div>
     </>
   );

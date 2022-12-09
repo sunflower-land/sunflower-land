@@ -15,7 +15,7 @@ import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import { useParams } from "react-router-dom";
 
-interface GameContext {
+export interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;

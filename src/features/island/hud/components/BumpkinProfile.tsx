@@ -19,8 +19,11 @@ import {
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { GameState } from "features/game/types/game";
-import { GoblinState } from "features/game/lib/goblinMachine";
+import {
+  CombinedGameContext,
+  CombinedGameService,
+} from "features/game/types/game";
+import { useActor } from "@xstate/react";
 
 const DIMENSIONS = {
   original: 80,
@@ -55,16 +58,19 @@ const DIMENSIONS = {
 const SPRITE_STEPS = 50;
 
 interface Props {
-  state: GameState | GoblinState;
+  context: CombinedGameContext;
   isVisiting?: boolean;
 }
 
-export const BumpkinProfile: React.FC<Props> = ({ state, isVisiting }) => {
-  console.log(state);
-
+export const BumpkinProfile: React.FC<Props> = ({ context, isVisiting }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const service = (context?.retreat?.goblinService ||
+    context?.game?.gameService) as CombinedGameService;
+  const [gameState] = useActor(service);
+  const { state } = gameState.context;
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
@@ -110,12 +116,13 @@ export const BumpkinProfile: React.FC<Props> = ({ state, isVisiting }) => {
         <BumpkinModal
           initialView={viewSkillsPage ? "skills" : "home"}
           onClose={handleHideModal}
+          context={context}
         />
       </Modal>
 
       {/* Bumpkin profile */}
       <div
-        className={`grid cursor-pointer hover:img-highlight fixed -left-4 z-50`}
+        className={`grid cursor-pointer hover:img-highlight fixed -left-4 z-50 top-0`}
         onClick={handleShowHomeModal}
       >
         <img

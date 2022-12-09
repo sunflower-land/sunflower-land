@@ -12,8 +12,8 @@ import { LandId } from "features/island/hud/components/LandId";
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {
-  const { goblinService } = useContext(Context);
-  const [gameState] = useActor(goblinService);
+  const goblinContext = useContext(Context);
+  const [gameState] = useActor(goblinContext.goblinService);
 
   const { state } = gameState.context;
   const landId = state.id;
@@ -22,9 +22,18 @@ export const Hud: React.FC = () => {
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <>
         <Balance balance={gameState.context.state.balance} />
-        <Inventory state={gameState.context.state} />
+        <Inventory
+          context={{
+            retreat: goblinContext,
+          }}
+        />
         {landId && <LandId landId={landId} />}
-        <BumpkinProfile state={state} isVisiting />
+        <BumpkinProfile
+          context={{
+            retreat: goblinContext,
+          }}
+          isVisiting
+        />
       </>
       {/* <AudioPlayer isFarming /> */}
     </div>

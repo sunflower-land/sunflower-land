@@ -9,29 +9,29 @@ import { Box } from "components/ui/Box";
 import { InventoryItems } from "./InventoryItems";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  CombinedGameContext,
+  CombinedGameService,
+  InventoryItemName,
+} from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleName } from "features/game/types/craftables";
-import { GoblinState } from "features/game/lib/goblinMachine";
+import { useActor } from "@xstate/react";
 
 interface Props {
-  state: GameState | GoblinState;
-  shortcutItem: (item: InventoryItemName) => void;
-  selectedItem: InventoryItemName;
+  context: CombinedGameContext;
   isFarming?: boolean;
-  onPlace?: (selected: InventoryItemName) => void;
-  showPlaceButton?: boolean;
 }
 
-export const Inventory: React.FC<Props> = ({
-  state,
-  shortcutItem,
-  isFarming,
-  onPlace,
-  showPlaceButton,
-  selectedItem,
-}) => {
+export const Inventory: React.FC<Props> = ({ context, isFarming }) => {
+  const service = (context?.retreat?.goblinService ||
+    context?.game?.gameService) as CombinedGameService;
+  const shortcutItem =
+    context?.retreat?.shortcutItem || context?.game?.shortcutItem;
+  const [gameState] = useActor(service);
+  const { state } = gameState.context;
+
   const [isOpen, setIsOpen] = useState(false);
 
   const shortcuts = getShortcuts();
@@ -51,7 +51,7 @@ export const Inventory: React.FC<Props> = ({
       className="flex flex-col items-center fixed z-50"
       style={{
         right: `${PIXEL_SCALE * 3}px`,
-        top: `${PIXEL_SCALE * 50.2}px`,
+        top: `${PIXEL_SCALE * 50}px`,
       }}
     >
       <div
@@ -59,7 +59,7 @@ export const Inventory: React.FC<Props> = ({
         className="relative flex z-50 cursor-pointer hover:img-highlight"
         style={{
           marginLeft: `${PIXEL_SCALE * 2}px`,
-          marginBottom: `${PIXEL_SCALE * 24}px`,
+          marginBottom: `${PIXEL_SCALE * 25}px`,
           width: `${PIXEL_SCALE * 22}px`,
         }}
       >
@@ -82,18 +82,16 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems
-          state={state}
-          onPlace={onPlace}
-          onClose={() => setIsOpen(false)}
-          shortcutItem={shortcutItem}
-          showPlaceButton={showPlaceButton}
-          selectedItem={selectedItem}
-        />
+        <InventoryItems context={context} onClose={() => setIsOpen(false)} />
       </Modal>
 
       {isFarming && (
-        <div className="flex flex-col-reverse items-center">
+        <div
+          className="flex flex-col items-center"
+          style={{
+            marginRight: `${PIXEL_SCALE * -3}px`,
+          }}
+        >
           {shortcuts.map((item, index) => (
             <Box
               key={index}

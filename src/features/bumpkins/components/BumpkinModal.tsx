@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
 import close from "assets/icons/close.png";
@@ -7,7 +7,6 @@ import alert from "assets/icons/expression_alerted.png";
 
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 
-import { Context } from "features/game/GameProvider";
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -23,6 +22,10 @@ import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
+import {
+  CombinedGameContext,
+  CombinedGameService,
+} from "features/game/types/game";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -36,18 +39,26 @@ const PROGRESS_BAR_DIMENSIONS = {
 };
 
 interface Props {
+  context: CombinedGameContext;
   initialView: ViewState;
   onClose: () => void;
 }
 
-export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
+export const BumpkinModal: React.FC<Props> = ({
+  context,
+  initialView,
+  onClose,
+}) => {
   const [view, setView] = useState<ViewState>(initialView);
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+
+  const service = (context?.retreat?.goblinService ||
+    context?.game?.gameService) as CombinedGameService;
+  const isRetreat = !!context.retreat;
+  const [gameState] = useActor(service);
   const { state } = gameState.context;
 
   const getVisitBumpkinUrl = () => {
-    if (gameState.matches("visiting")) {
+    if (gameState.matches("visiting" as never)) {
       const baseUrl =
         CONFIG.NETWORK === "mainnet"
           ? `https://opensea.io/assets/matic`
@@ -205,25 +216,32 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
           </div>
 
           <div
-            className="mb-2 cursor-pointer"
+            className={`mb-2 ${
+              !isRetreat ? "cursor-pointer" : "pointer-events-none"
+            }`}
             onClick={() => setView("skills")}
           >
             <InnerPanel className="relative mt-1 px-2 py-1">
               <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
-                  {hasAvaliableSP && !gameState.matches("visiting") && (
-                    <img src={alert} className="h-4 ml-2" />
-                  )}
+                  {hasAvaliableSP &&
+                    !gameState.matches("visiting" as never) && (
+                      <img src={alert} className="h-4 ml-2" />
+                    )}
                 </div>
-                <span className="text-xxs underline">View all</span>
+                {!isRetreat && (
+                  <span className="text-xxs underline">View all</span>
+                )}
               </div>
               <SkillBadges inventory={state.inventory} />
             </InnerPanel>
           </div>
 
           <div
-            className="mb-2 cursor-pointer"
+            className={`mb-2 ${
+              !isRetreat ? "cursor-pointer" : "pointer-events-none"
+            }`}
             onClick={() => setView("achievements")}
           >
             <InnerPanel className="relative mt-1 px-2 py-1">
@@ -231,7 +249,9 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                 <div className="flex items-center">
                   <span className="text-xs">Achievements</span>
                 </div>
-                <span className="text-xxs underline">View all</span>
+                {!isRetreat && (
+                  <span className="text-xxs underline">View all</span>
+                )}
               </div>
               <AchievementBadges achievements={state.bumpkin?.achievements} />
             </InnerPanel>

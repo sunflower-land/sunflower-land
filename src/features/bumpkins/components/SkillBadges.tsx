@@ -33,7 +33,7 @@ export const SkillBadges: React.FC<{ inventory: Inventory }> = ({
   }).filter(Boolean);
 
   if (badges.length === 0) {
-    return null;
+    return <div className="text-xs">No skills claimed.</div>;
   }
 
   return <div className="flex flex-wrap items-center">{badges}</div>;
