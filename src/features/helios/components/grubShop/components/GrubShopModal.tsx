@@ -15,12 +15,13 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { secondsToString } from "lib/utils/time";
-import { GrubShop } from "features/game/types/game";
+import { Bumpkin, GrubShop } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "../Tutorial";
+import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 
 interface Props {
   onClose: () => void;
@@ -198,7 +199,10 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     <div className="flex justify-center space-x-1 items-center sm:justify-center">
                       <img src={token} className="h-4 sm:h-5" />
                       <span className="text-xs text-shadow text-center">
-                        {`${selected.sfl.toNumber()}`}
+                        {`${getOrderSellPrice(
+                          state.bumpkin as Bumpkin,
+                          selected
+                        )}`}
                       </span>
                     </div>
                   </div>
