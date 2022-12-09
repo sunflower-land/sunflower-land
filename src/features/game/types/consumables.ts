@@ -323,7 +323,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   },
   "Blueberry Jam": {
     name: "Blueberry Jam",
-    description: "Goblin's will do anything for this jam",
+    description: "Goblins will do anything for this jam",
     building: "Deli",
     experience: 380,
     cookingSeconds: 60 * 24 * 60,
