@@ -21,7 +21,7 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
     return (
       <>
         <div className="space-y-3 text-sm px-1 mb-3">
-          <p>This is the first of many building that enable cooking.</p>
+          <p>This is the first of many buildings that enable cooking.</p>
           <p>
             {`As you progress you will be able to cook more exotic food but for
             now, let's start with the basics.`}
@@ -127,7 +127,7 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
       bumpkinParts={bumpkinParts}
     >
       <div className="flex flex-wrap justify-center mb-3 space-x-2">
-        {UNLOCKABLES["Fire Pit"].slice(0, 5).map((name) => (
+        {UNLOCKABLES["Fire Pit"].slice(0, 7).map((name) => (
           <img
             key={name}
             src={ITEM_DETAILS[name].image}
