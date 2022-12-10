@@ -32,9 +32,8 @@ export const UpcomingAuctions: React.FC = () => {
       }}
     >
       {upcoming.map((item) => (
-        <>
+        <div className="mb-2" key={item.name}>
           <AuctionDetails
-            key={item.name}
             item={item}
             game={goblinState.context.state}
             // Won't be called
@@ -42,12 +41,7 @@ export const UpcomingAuctions: React.FC = () => {
             isMinting={false}
             isUpcomingItem={true}
           />
-          <hr
-            style={{
-              height: "2px",
-            }}
-          />
-        </>
+        </div>
       ))}
     </div>
   );
