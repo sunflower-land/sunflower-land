@@ -173,9 +173,13 @@ export const AuctionDetails: React.FC<Props> = ({
             />
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-full">
               <div className="flex flex-col items-center w-full">
-                {isMintStarted && (
+                {isMintStarted ? (
                   <Label type="warning" className="mb-2">
                     Closes in
+                  </Label>
+                ) : (
+                  <Label type="info" className="mb-2">
+                    Opens in
                   </Label>
                 )}
                 <TimerDisplay time={isMintStarted ? end : start} />
