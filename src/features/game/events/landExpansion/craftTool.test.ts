@@ -14,6 +14,7 @@ describe("craftTool", () => {
         action: {
           type: "tool.crafted",
           tool: "Sunflower Statue" as any,
+          amount: 1,
         },
       })
     ).toThrow("Tool does not exist");
@@ -29,6 +30,7 @@ describe("craftTool", () => {
         action: {
           type: "tool.crafted",
           tool: "Axe",
+          amount: 1,
         },
       })
     ).toThrow("Insufficient tokens");
@@ -45,6 +47,7 @@ describe("craftTool", () => {
         action: {
           type: "tool.crafted",
           tool: "Pickaxe",
+          amount: 1,
         },
       })
     ).toThrow("Insufficient ingredient: Wood");
@@ -60,6 +63,7 @@ describe("craftTool", () => {
       action: {
         type: "tool.crafted",
         tool: "Axe",
+        amount: 1,
       },
     });
 
@@ -79,10 +83,49 @@ describe("craftTool", () => {
       action: {
         type: "tool.crafted",
         tool: "Pickaxe",
+        amount: 1,
       },
     });
 
     expect(state.inventory["Pickaxe"]).toEqual(new Decimal(1));
+    expect(state.inventory["Wood"]).toEqual(new Decimal(5));
+  });
+
+  it("crafts item in bulk given sufficient balance", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+        inventory: {},
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Axe",
+        amount: 10,
+      },
+    });
+
+    expect(state.balance).toEqual(
+      new Decimal(1).minus(WORKBENCH_TOOLS()["Axe"].sfl.mul(10))
+    );
+    expect(state.inventory["Axe"]).toEqual(new Decimal(10));
+  });
+
+  it("crafts item in bulk with sufficient ingredients", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+        inventory: { Wood: new Decimal(55) },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Pickaxe",
+        amount: 10,
+      },
+    });
+
+    expect(state.inventory["Pickaxe"]).toEqual(new Decimal(10));
     expect(state.inventory["Wood"]).toEqual(new Decimal(5));
   });
 
@@ -99,6 +142,7 @@ describe("craftTool", () => {
         action: {
           type: "tool.crafted",
           tool: "Axe",
+          amount: 1,
         },
       })
     ).toThrow("Not enough stock");
@@ -119,10 +163,32 @@ it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
     action: {
       type: "tool.crafted",
       tool: "Axe",
+      amount: 1,
     },
   });
 
   expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(1);
+});
+
+it("increments Axe Crafted activity by 10 when 10 axe is crafted", () => {
+  const createdAt = Date.now();
+  const bumpkin = {
+    ...INITIAL_BUMPKIN,
+  };
+  const state = craftTool({
+    state: {
+      ...GAME_STATE,
+      balance: new Decimal(5),
+      inventory: {},
+    },
+    action: {
+      type: "tool.crafted",
+      tool: "Axe",
+      amount: 10,
+    },
+  });
+
+  expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(10);
 });
 
 it("increments SFL spent when axe is crafted", () => {
@@ -139,8 +205,30 @@ it("increments SFL spent when axe is crafted", () => {
     action: {
       type: "tool.crafted",
       tool: "Axe",
+      amount: 1,
     },
   });
 
   expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(0.0625);
+});
+
+it("increments SFL spent when axe is crafted in bulk", () => {
+  const createdAt = Date.now();
+  const bumpkin = {
+    ...INITIAL_BUMPKIN,
+  };
+  const state = craftTool({
+    state: {
+      ...GAME_STATE,
+      balance: new Decimal(1),
+      inventory: {},
+    },
+    action: {
+      type: "tool.crafted",
+      tool: "Axe",
+      amount: 10,
+    },
+  });
+
+  expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(0.625);
 });
