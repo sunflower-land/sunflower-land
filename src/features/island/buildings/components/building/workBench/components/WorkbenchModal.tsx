@@ -232,10 +232,16 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
               </span>
             </div>
             <div className="flex justify-content-around p-1">
-              <Button className="text-xs" onClick={(e) => handleCraftTen(e)}>
+              <Button
+                className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                onClick={(e) => handleCraftTen(e)}
+              >
                 Yes
               </Button>
-              <Button className="text-xs ml-2" onClick={closeConfirmationModal}>
+              <Button
+                className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                onClick={closeConfirmationModal}
+              >
                 No
               </Button>
             </div>
