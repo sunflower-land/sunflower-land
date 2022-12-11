@@ -348,12 +348,17 @@ export const Incubator: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <Button className="text-xs mt-1" onClick={openUnloadModal}>
-                      Remove
-                    </Button>
-                    <Button className="text-xs mt-1" onClick={openClaimModal}>
-                      Claim
-                    </Button>
+                    <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
+                      <Button
+                        className="text-xs mt-1"
+                        onClick={openUnloadModal}
+                      >
+                        Remove
+                      </Button>
+                      <Button className="text-xs mt-1" onClick={openClaimModal}>
+                        Claim
+                      </Button>
+                    </div>
                   </>
                 )}
               </div>
