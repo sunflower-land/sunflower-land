@@ -46,20 +46,18 @@ export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
         >
           <Tab
-            className="pb-2"
             isActive={tab === "inventory"}
             onClick={() => setTab("inventory")}
           >
             <img src={tadpole_icon} className="h-5 mr-3 ml-2" />
-            <span className="text-xsm">Inventory</span>
+            <span className="text-sm">Inventory</span>
           </Tab>
           <Tab
-            className="pb-2"
             isActive={tab === "incubator"}
             onClick={() => setTab("incubator")}
           >
             <img src={incubator} className="h-5 mr-2" />
-            <span className="text-xsm">Incubator</span>
+            <span className="text-sm">Incubator</span>
           </Tab>
           <img
             src={close}
