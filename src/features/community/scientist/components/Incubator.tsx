@@ -406,7 +406,6 @@ export const Incubator: React.FC = () => {
                   })}
                 </div>
               </div>
-              {console.log("selectedFrog", !!selectedFrog)}
               <div className="flex justify-content-around p-1">
                 <Button
                   className="text-xs"
