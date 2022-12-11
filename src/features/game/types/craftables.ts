@@ -184,6 +184,7 @@ export type CollectibleName =
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | "Observatory"
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -722,7 +723,7 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   },
 };
 
-export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
+export const MOM_EVENT_ITEMS: Record<MOMEventItem, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
     description: "The power of the sunflower",
@@ -1047,7 +1048,7 @@ export const LIMITED_ITEMS = {
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
   ...FLAGS,
-  ...ROCKET_ITEMS,
+  ...MOM_EVENT_ITEMS,
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
   ...SALESMAN_ITEMS,
@@ -1130,6 +1131,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "War Tombstone": { height: 1, width: 1 },
   "Undead Rooster": { height: 1, width: 1 },
 
+  Observatory: { height: 3, width: 2 },
   "Victoria Sisters": { height: 2, width: 2 },
   "Basic Bear": { height: 1, width: 1 },
   "Peeled Potato": { height: 1, width: 1 },

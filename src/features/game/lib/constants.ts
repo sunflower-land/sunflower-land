@@ -324,7 +324,6 @@ export const TEST_FARM: GameState = {
     Egg: new Decimal(30),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
-    Observatory: new Decimal(1),
     Pickaxe: new Decimal(3),
     "Stone Pickaxe": new Decimal(3),
     "Iron Pickaxe": new Decimal(5),

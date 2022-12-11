@@ -76,6 +76,7 @@ import { PottedPotato } from "features/island/collectibles/components/PottedPota
 import { isBean } from "features/game/types/beans";
 import { ChristmasBear } from "./components/ChristmasBear";
 import { RainbowArtistBear } from "./components/RainbowArtistBear";
+import { Observatory } from "./components/Observatory";
 import { SnowGlobe } from "./components/SnowGlobe";
 import { ImmortalPear } from "./components/ImmortalPear";
 
@@ -153,7 +154,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "White Tulips": WhiteTulips,
   "Potted Sunflower": PottedSunflower,
   "Potted Pumpkin": PottedPumpkin,
-  Cactus: Cactus,
+  Cactus,
   "Basic Bear": BasicBear,
   "Chef Bear": ChefBear,
   "Construction Bear": ConstructionBear,
@@ -169,6 +170,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Rainbow Artist Bear": RainbowArtistBear,
   "Victoria Sisters": VictoriaSisters,
   "Devil Bear": DevilBear,
+  Observatory,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
