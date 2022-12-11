@@ -149,25 +149,27 @@ export const WithdrawItems: React.FC<Props> = ({
       <div className="mt-3">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
           <span className="text-xs">
-            Items that are{" "}
+            {
+              "Some items cannot be withdrawn. Other items may be restricted when "
+            }
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
               rel="noreferrer"
               className="underline"
             >
-              in use
-            </a>{" "}
-            or{" "}
+              {"in use"}
+            </a>
+            {" or are "}
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
               rel="noreferrer"
               className="underline"
             >
-              still being built
-            </a>{" "}
-            by the goblins are not available to be withdrawn.
+              {"still being built"}
+            </a>
+            {"."}
           </span>
         </div>
         <h2 className="mb-3">Select items to withdraw</h2>
