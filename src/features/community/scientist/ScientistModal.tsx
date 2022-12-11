@@ -46,6 +46,7 @@ export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
         >
           <Tab
+            className="pb-2"
             isActive={tab === "inventory"}
             onClick={() => setTab("inventory")}
           >
@@ -53,6 +54,7 @@ export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <span className="text-xsm">Inventory</span>
           </Tab>
           <Tab
+            className="pb-2"
             isActive={tab === "incubator"}
             onClick={() => setTab("incubator")}
           >

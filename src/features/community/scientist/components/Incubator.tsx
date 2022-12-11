@@ -26,8 +26,11 @@ import tadpole_icon from "features/community/assets/icons/tadpole.png";
 import empty_incubator from "features/community/assets/incubator/empty-small.gif";
 import active_incubator from "features/community/assets/incubator/algae-small.gif";
 import token from "features/community/assets/icons/token.png";
+import close from "assets/icons/close.png";
+
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 import { setPrecision } from "lib/utils/formatNumber";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Incubator: React.FC = () => {
   const [machine, send] = useMachine(incubateMachine);
@@ -268,44 +271,48 @@ export const Incubator: React.FC = () => {
         <>
           <div className="flex flex-col-reverse sm:flex-row">
             <div
-              className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+              className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
               style={{ maxHeight: TAB_CONTENT_HEIGHT }}
             >
-              <p className="mb-2 underline">Empty Incubator</p>
-              <Box
-                isSelected={selected === "empty"}
-                onClick={() => {
-                  setSelected("empty");
-                }}
-                key={0}
-                image={ITEM_DETAILS.empty.image}
-              />
-              <p className="mt-2 mb-2 underline">Active Incubators</p>
-              {incubatorData.length < 1 && (
-                <p className="mt-1 mb-1 text-xs">
-                  You have no active incubators.
-                </p>
-              )}
-              {incubatorData &&
-                incubatorData.map((incubator, index) => (
-                  <Box
-                    isSelected={
-                      selected === "active" &&
-                      selectedActiveIncubator === incubator.id
-                    }
-                    onClick={() => {
-                      setSelected("active");
-                      setSelectedActiveIncubator(incubator.id);
-                      setSelectedIncubatorEarnings(
-                        setPrecision(
-                          new Decimal(incubator.earnings || 0)
-                        ).toString()
-                      );
-                    }}
-                    key={index}
-                    image={ITEM_DETAILS[incubator.name].image}
-                  />
-                ))}
+              <div className="flex flex-col mb-2">
+                <p className="mb-2">Empty Incubator</p>
+                <Box
+                  isSelected={selected === "empty"}
+                  onClick={() => {
+                    setSelected("empty");
+                  }}
+                  key={0}
+                  image={ITEM_DETAILS.empty.image}
+                />
+              </div>
+              <div className="flex flex-col">
+                <p className="mt-2 mb-2">Active Incubators</p>
+                {incubatorData.length < 1 && (
+                  <p className="mt-1 mb-1 text-xs">
+                    You have no active incubators.
+                  </p>
+                )}
+                {incubatorData &&
+                  incubatorData.map((incubator, index) => (
+                    <Box
+                      isSelected={
+                        selected === "active" &&
+                        selectedActiveIncubator === incubator.id
+                      }
+                      onClick={() => {
+                        setSelected("active");
+                        setSelectedActiveIncubator(incubator.id);
+                        setSelectedIncubatorEarnings(
+                          setPrecision(
+                            new Decimal(incubator.earnings || 0)
+                          ).toString()
+                        );
+                      }}
+                      key={index}
+                      image={ITEM_DETAILS[incubator.name].image}
+                    />
+                  ))}
+              </div>
             </div>
             <OuterPanel className="w-full flex-1">
               <div className="flex flex-col justify-center items-center p-2 ">
@@ -359,11 +366,9 @@ export const Incubator: React.FC = () => {
             show={isIncubatorModalOpen}
             onHide={closeIncubatorModal}
           >
-            <Panel className="md:w-4/5 m-auto">
-              <div className="m-auto flex flex-col">
-                <span className="text-sm text-center underline mt-2">
-                  Select Tadpole
-                </span>
+            <Panel className="md:w-4/5 mx-5">
+              <div className="m-auto flex flex-col pl-2">
+                <span className="mt-2">Select Tadpole</span>
                 <div className="flex flex-wrap h-fit mb-2 mt-2">
                   {tadpoleData.map((tadpole, index) => {
                     return (
@@ -379,10 +384,8 @@ export const Incubator: React.FC = () => {
                   })}
                 </div>
               </div>
-              <div className="m-auto flex flex-col">
-                <span className="text-sm text-center underline">
-                  Select Frog
-                </span>
+              <div className="m-auto flex flex-col pl-2">
+                <span className="mt-2">Select Frog</span>
                 <div className="flex flex-wrap h-fit mb-2 mt-2">
                   {frogData.map((frog, index) => {
                     return (
@@ -398,9 +401,11 @@ export const Incubator: React.FC = () => {
                   })}
                 </div>
               </div>
+              {console.log("selectedFrog", !!selectedFrog)}
               <div className="flex justify-content-around p-1">
                 <Button
                   className="text-xs"
+                  disabled={!selectedFrog || !selectedTadpole}
                   onClick={() => {
                     send("INCUBATE", {
                       frogId: selectedFrog,
@@ -412,11 +417,18 @@ export const Incubator: React.FC = () => {
                 >
                   Incubate
                 </Button>
-                <Button className="text-xs ml-2" onClick={closeIncubatorModal}>
-                  Close
-                </Button>
               </div>
             </Panel>
+            <img
+              src={close}
+              className="absolute cursor-pointer z-20"
+              onClick={closeIncubatorModal}
+              style={{
+                top: `${PIXEL_SCALE * 7}px`,
+                right: `${PIXEL_SCALE * 27}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+            />
           </Modal>
 
           {/* UNLOAD MODAL */}
