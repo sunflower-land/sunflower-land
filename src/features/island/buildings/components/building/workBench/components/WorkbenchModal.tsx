@@ -15,6 +15,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Stock } from "components/ui/Stock";
+import { getToolBuyPrice } from "features/game/events/landExpansion/craftTool";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { Tab } from "components/ui/Tab";
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
@@ -50,6 +51,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const craftableItems = WORKBENCH_TOOLS();
 
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
+  const [isCraftTenModalOpen, showCraftTenModal] = useState(false);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -89,7 +91,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const selected = craftableItems[selectedName];
   const inventory = state.inventory;
 
-  const price = selected.sfl;
+  const price = getToolBuyPrice(selected, inventory);
 
   const lessIngredients = (amount = 1) =>
     getKeys(selected.ingredients).some((name) =>
@@ -106,6 +108,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     event.stopPropagation();
     gameService.send("tool.crafted", {
       tool: selectedName,
+      amount,
     });
 
     setToast({
@@ -142,6 +145,22 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     event.stopPropagation();
     // setShowCaptcha(true);
     sync();
+  };
+
+  // ask confirmation if crafting more than 10
+  const openConfirmationModal = (event: SyntheticEvent) => {
+    event.stopPropagation();
+    showCraftTenModal(true);
+  };
+
+  const closeConfirmationModal = () => {
+    showCraftTenModal(false);
+  };
+
+  const handleCraftTen = (event: SyntheticEvent, amount = 10) => {
+    event.stopPropagation();
+    craft(event, amount);
+    closeConfirmationModal();
   };
 
   if (showCaptcha) {
@@ -189,6 +208,35 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           Craft 1
         </Button>
+        <Button
+          disabled={lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)}
+          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+          onClick={(e) => openConfirmationModal(e)}
+        >
+          Craft 10
+        </Button>
+        <Modal
+          centered
+          show={isCraftTenModalOpen}
+          onHide={closeConfirmationModal}
+        >
+          <Panel className="md:w-4/5 m-auto">
+            <div className="m-auto flex flex-col mx-2 my-1">
+              <span className="text-sm text-center my-2">
+                Are you sure you want to <br className="hidden md:block" />
+                craft 10 {selectedName}?
+              </span>
+            </div>
+            <div className="flex justify-content-around p-1">
+              <Button className="text-xs" onClick={(e) => handleCraftTen(e)}>
+                Yes
+              </Button>
+              <Button className="text-xs ml-2" onClick={closeConfirmationModal}>
+                No
+              </Button>
+            </div>
+          </Panel>
+        </Modal>
       </>
     );
   };
