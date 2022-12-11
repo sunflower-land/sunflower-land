@@ -24,6 +24,7 @@ import {
   isLimitedItem,
   LimitedItemName,
 } from "features/game/types/craftables";
+import { isNeverWithdrawable } from "features/game/types/withdrawables";
 import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 
@@ -108,8 +109,8 @@ export const WithdrawItems: React.FC<Props> = ({
       : details;
   };
 
-  const inventoryItems = getKeys(inventory)
-    .filter((item) => inventory[item]?.gt(0))
+  const withdrawableItems = getKeys(inventory)
+    .filter((item) => !isNeverWithdrawable(item) && inventory[item]?.gt(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const selectedItems = getKeys(selected)
@@ -171,7 +172,7 @@ export const WithdrawItems: React.FC<Props> = ({
         </div>
         <h2 className="mb-3">Select items to withdraw</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {inventoryItems.map((itemName) => {
+          {withdrawableItems.map((itemName) => {
             const details = makeItemDetails(itemName);
             const gameState = goblinState.context.state;
 
@@ -206,8 +207,8 @@ export const WithdrawItems: React.FC<Props> = ({
             );
           })}
           {/* Pad with empty boxes */}
-          {inventoryItems.length < 4 &&
-            new Array(4 - inventoryItems.length)
+          {withdrawableItems.length < 4 &&
+            new Array(4 - withdrawableItems.length)
               .fill(null)
               .map((_, index) => <Box disabled key={index} />)}
         </div>
