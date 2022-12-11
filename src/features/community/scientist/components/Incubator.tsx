@@ -328,7 +328,7 @@ export const Incubator: React.FC = () => {
                       {ITEM_DETAILS[selected as IncubatorName].description}
                     </span>
                     <Button
-                      className="text-xs mt-1"
+                      className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
                       onClick={openIncubatorModal}
                     >
                       Incubate
@@ -350,12 +350,15 @@ export const Incubator: React.FC = () => {
                     </div>
                     <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
                       <Button
-                        className="text-xs mt-1"
+                        className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
                         onClick={openUnloadModal}
                       >
                         Remove
                       </Button>
-                      <Button className="text-xs mt-1" onClick={openClaimModal}>
+                      <Button
+                        className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                        onClick={openClaimModal}
+                      >
                         Claim
                       </Button>
                     </div>
@@ -408,7 +411,7 @@ export const Incubator: React.FC = () => {
               </div>
               <div className="flex justify-content-around p-1">
                 <Button
-                  className="text-xs"
+                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
                   disabled={!selectedFrog || !selectedTadpole}
                   onClick={() => {
                     send("INCUBATE", {
@@ -448,7 +451,7 @@ export const Incubator: React.FC = () => {
               </div>
               <div className="flex justify-content-around p-1">
                 <Button
-                  className="text-xs"
+                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
                   onClick={() => {
                     send("REMOVE", {
                       incubatorId: selectedActiveIncubator,
@@ -458,7 +461,10 @@ export const Incubator: React.FC = () => {
                 >
                   Yes
                 </Button>
-                <Button className="text-xs ml-2" onClick={closeUnloadModal}>
+                <Button
+                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                  onClick={closeUnloadModal}
+                >
                   No
                 </Button>
               </div>
@@ -477,7 +483,7 @@ export const Incubator: React.FC = () => {
               </div>
               <div className="flex justify-content-around p-1">
                 <Button
-                  className="text-xs"
+                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
                   onClick={() => {
                     send("CLAIM", {
                       incubatorId: selectedActiveIncubator,
@@ -487,7 +493,10 @@ export const Incubator: React.FC = () => {
                 >
                   Yes
                 </Button>
-                <Button className="text-xs ml-2" onClick={closeClaimModal}>
+                <Button
+                  className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                  onClick={closeClaimModal}
+                >
                   No
                 </Button>
               </div>
