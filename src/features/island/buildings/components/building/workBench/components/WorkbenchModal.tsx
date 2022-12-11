@@ -201,20 +201,24 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     return (
       <>
-        <Button
-          disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-          onClick={(e) => craft(e)}
-        >
-          Craft 1
-        </Button>
-        <Button
-          disabled={lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)}
-          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-          onClick={(e) => openConfirmationModal(e)}
-        >
-          Craft 10
-        </Button>
+        <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
+          <Button
+            disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
+            className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+            onClick={(e) => craft(e)}
+          >
+            Craft 1
+          </Button>
+          <Button
+            disabled={
+              lessFunds(10) || lessIngredients(10) || stock?.lessThan(10)
+            }
+            className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+            onClick={(e) => openConfirmationModal(e)}
+          >
+            Craft 10
+          </Button>
+        </div>
         <Modal
           centered
           show={isCraftTenModalOpen}
