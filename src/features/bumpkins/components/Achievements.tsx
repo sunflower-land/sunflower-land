@@ -178,16 +178,16 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                     </div>
                   )}
                   {!isComplete && !isAlreadyClaimed && (
-                    <div className="flex flex-col flex-1 mt-1.5 text-xxs flex-wrap justify-center">
-                      <Bar
-                        percentage={(progress / achievement.requirement) * 100}
-                        type="progress"
-                      />
-                      <p className="mt-1 text-center">{`${shortenCount(
+                    <div className="flex flex-col flex-1 mt-1.5 items-center justify-center">
+                      <p className="mb-1 text-xxs text-center">{`${shortenCount(
                         new Decimal(progress)
                       )}/${shortenCount(
                         new Decimal(achievement.requirement)
                       )}`}</p>
+                      <Bar
+                        percentage={(progress / achievement.requirement) * 100}
+                        type="progress"
+                      />
                     </div>
                   )}
                 </div>
