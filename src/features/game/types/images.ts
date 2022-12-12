@@ -1255,32 +1255,32 @@ export const ITEM_DETAILS: Items = {
   },
   "Bumpkin Salad": {
     image: bumpkinSalad,
-    description: "?",
+    description: "Gotta keep your Bumpkin healthy!",
   },
   "Goblin's Treat": {
     image: goblinsTreat,
-    description: "?",
+    description: "Goblins go crazy for this stuff!",
   },
   "Cauliflower Burger": {
     image: cauliflowerBurger,
-    description: "?",
+    description: "Calling all cauliflower lovers!",
   },
   "Club Sandwich": {
     image: clubSandwich,
-    description: "",
+    description: "Filled with Carrots and Roasted Sunflower Seeds",
   },
   "Roast Veggies": {
     image: roastVeggies,
-    description: "",
+    description: "Even Goblins need to eat their veggies!",
   },
   Pancakes: {
     image: pancakes,
-    description: "",
+    description: "A great start to a Bumpkins day",
   },
   "Fermented Carrots": {
     // TODO
     image: roastVeggies,
-    description: "",
+    description: "Got a surplus of carrots?",
   },
 
   Explorer: {
@@ -1293,135 +1293,135 @@ export const ITEM_DETAILS: Items = {
   },
   "Brilliant Bumpkin": {
     image: brilliantBumpkin,
-    description: "",
+    description: "Reach level 20",
   },
   "Sun Seeker": {
     image: sunSeeker,
-    description: "",
+    description: "Harvest 100 Sunflowers",
   },
   "Sunflower Superstar": {
     image: sunflowerSuperstar,
-    description: "",
+    description: "Harvest 100,000 sunflowers",
   },
   "My life is potato": {
     image: myLifeIsPotato,
-    description: "",
+    description: "Harvest 5000 potatoes",
   },
   "Jack O'Latern": {
     image: jackOLantern,
-    description: "",
+    description: "Harvest 500 Pumpkins",
   },
   "20/20 Vision": {
     image: twentyTwentyVision,
-    description: "",
+    description: "Harvest 10,000 carrots",
   },
   "Cabbage King": {
     image: cabbageKing,
-    description: "",
+    description: "Harvest 200 cabbages",
   },
   "Beetroot Beast": {
     image: beetrootBeast,
-    description: "",
+    description: "Harvest 2000 beetroots",
   },
   "Cool Flower": {
     image: coolCauliflower,
-    description: "",
+    description: "Harvest 100 cauliflowers",
   },
   "Patient Parsnips": {
     image: patientParsnip,
-    description: "",
+    description: "Harvest 5000 parsnips",
   },
   "Rapid Radish": {
     image: rapidRadish,
-    description: "",
+    description: "Harvest 200 radishes",
   },
   "Staple Crop": {
     image: stapleCrop,
-    description: "",
+    description: "Harvest 10000 wheat",
   },
   "Farm Hand": {
     image: questionMark,
-    description: "",
+    description: "Harvest 10000 crops",
   },
   "Crop Champion": {
     image: cropChampion,
-    description: "",
+    description: "Harvest 1 million crops",
   },
   "Bread Winner": {
     image: questionMark,
-    description: "",
+    description: "Earn 100 SFL",
   },
   "Bumpkin Billionaire": {
     image: bumpkinBillionaire,
-    description: "",
+    description: "Earn 5000 SFL",
   },
   "Big Spender": {
     image: bigSpender,
-    description: "",
+    description: "Spend 10 SFL",
   },
   "High Roller": {
     image: questionMark,
-    description: "",
+    description: "Spend 7500 SFL",
   },
   Timbeerrr: {
     image: timberrr,
-    description: "",
+    description: "Chop 150 trees",
   },
   "Bumpkin Chainsaw Amateur": {
     image: bumpkinChainsawAmateu,
-    description: "",
+    description: "Chop 5000 trees",
   },
   Driller: {
     image: driller,
-    description: "",
+    description: "Mine 50 stone rocks",
   },
   Canary: {
     image: canary,
-    description: "",
+    description: "Mine 1000 stone rocks",
   },
   "Iron Eyes": {
     image: ironEyes,
-    description: "",
+    description: "Mine 50 iron rocks",
   },
   "Something Shiny": {
     image: somethingShiny,
-    description: "",
+    description: "Mine 500 iron rocks",
   },
   "El Dorado": {
     image: elDorado,
-    description: "",
+    description: "Mine 50 gold rocks",
   },
   "Gold Fever": {
     image: goldFever,
-    description: "",
+    description: "Mine 500 gold rocks",
   },
   "Kiss the Cook": {
     image: kissTheCook,
-    description: "",
+    description: "Cook 20 meals",
   },
   "Bakers Dozen": {
     image: bakersDozen,
-    description: "",
+    description: "Bake 13 cakes",
   },
   "Chef de Cuisine": {
     image: chefDeCusine,
-    description: "",
+    description: "Cook 5000 meals",
   },
   Craftmanship: {
     image: craftmanship,
-    description: "",
+    description: "Craft 100 tools",
   },
   "Time to chop": {
     image: timeToChop,
-    description: "",
+    description: "Craft 500 axes",
   },
   Contractor: {
     image: contractor,
-    description: "",
+    description: "Construct 10 buildings",
   },
   Museum: {
     image: museum,
-    description: "",
+    description: "Place 10 rare items",
   },
   "White Tulips": {
     image: whiteTulips,
@@ -1512,11 +1512,11 @@ export const ITEM_DETAILS: Items = {
 
   "Colossal Crop": {
     image: questionMark,
-    description: "???",
+    description: "As big as the Empire State building",
   },
   "Peaceful Potato": {
     image: questionMark,
-    description: "???",
+    description: "Practicioner of spud Yoga",
   },
   "Perky Pumpkin": {
     image: questionMark,
