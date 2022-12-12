@@ -71,6 +71,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { Context } from "features/game/GameProvider";
+import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -168,7 +169,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Egg Basket": () => null,
 
   // TODO
-  "Potted Potato": () => null,
+  "Potted Potato": PottedPotato,
   "Colossal Crop": () => null,
   "Peaceful Potato": () => null,
   "Perky Pumpkin": () => null,
