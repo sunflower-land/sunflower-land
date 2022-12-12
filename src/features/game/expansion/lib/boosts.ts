@@ -11,12 +11,10 @@ import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { CRAFTABLE_TOOLS } from "features/game/events/landExpansion/craftTool";
 import { Consumable } from "features/game/types/consumables";
 
 const crops = CROPS();
 const cakes = CAKES();
-const tools = CRAFTABLE_TOOLS();
 
 /**
  * How much SFL an item is worth
@@ -27,7 +25,6 @@ export const getSellPrice = (
   bumpkin: Bumpkin
 ) => {
   let price = item.sellPrice;
-  const { skills } = bumpkin;
 
   if (!price) {
     return new Decimal(0);
@@ -54,8 +51,7 @@ export const getSellPrice = (
  * To be used as boolean flag
  * Update if more upcoming boosts
  */
-export const hasSellBoost = (inventory: Inventory, bumpkin: Bumpkin) => {
-  const { skills } = bumpkin;
+export const hasSellBoost = (inventory: Inventory) => {
   if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     return true;
   }

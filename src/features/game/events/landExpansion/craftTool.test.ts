@@ -64,7 +64,7 @@ describe("craftTool", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(1).minus(WORKBENCH_TOOLS()["Axe"].sfl)
+      new Decimal(1).minus(WORKBENCH_TOOLS["Axe"].sfl)
     );
     expect(state.inventory["Axe"]).toEqual(new Decimal(1));
   });
