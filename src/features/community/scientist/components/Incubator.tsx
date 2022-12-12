@@ -277,6 +277,7 @@ export const Incubator: React.FC = () => {
               <div className="flex flex-col mb-2">
                 <p className="mb-2">Empty Incubator</p>
                 <Box
+                  className="w-fit"
                   isSelected={selected === "empty"}
                   onClick={() => {
                     setSelected("empty");
@@ -295,6 +296,7 @@ export const Incubator: React.FC = () => {
                 {incubatorData &&
                   incubatorData.map((incubator, index) => (
                     <Box
+                      className="w-fit"
                       isSelected={
                         selected === "active" &&
                         selectedActiveIncubator === incubator.id
