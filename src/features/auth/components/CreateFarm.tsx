@@ -4,9 +4,8 @@ import shuffle from "lodash.shuffle";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 
-import question from "assets/icons/expression_confused.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import confirm from "assets/icons/confirm.png";
@@ -18,6 +17,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineInterpreter } from "../lib/createFarmMachine";
 import { onramp } from "../actions/onramp";
 import { randomID } from "lib/utils/random";
+import classNames from "classnames";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -37,60 +37,47 @@ interface Charity {
 const CHARITIES: Charity[] = shuffle([
   {
     name: "The Water Project",
-    info: "You can provide clean, safe and reliable water today.",
+    info: "Providing clean, safe and reliable water.",
     url: "https://thewaterproject.org/donate-ethereum",
     address: CharityAddress.TheWaterProject,
   },
   {
     name: "Purple Community Fund",
-    info: "To help poverty stricken families and communities transform their own lives with our skills training, education, health and nutrition programmes.",
+    info: "Strengthening communities and changing lives.",
     url: "https://www.p-c-f.org/",
     address: CharityAddress.PCF,
   },
 ]);
 
-interface CharityDetailProps extends Charity {
-  onDonateAndPlayClick: (address: CharityAddress) => void;
-}
-
 const CharityDetail = ({
   url,
   name,
   info,
-  address,
-  onDonateAndPlayClick,
-}: CharityDetailProps) => {
-  const onAboutClick = (url: string) => {
-    window.open(url, "_blank");
-  };
-
+  selected,
+}: Charity & { selected: boolean }) => {
   return (
-    <OuterPanel className="flex-col inline-flex items-center justify-center w-full">
-      <div className="flex flex-col items-center mb-3 whitespace-normal">
-        <h5 className="text-sm underline mb-3 text-center">{name}</h5>
-        <p className="text-xs text-center mb-2 px-5 two-line-ellipsis">
-          {info}
-        </p>
+    <InnerPanel
+      className={classNames(
+        "flex-col inline-flex items-center justify-center w-full",
+        { "img-highlight": selected }
+      )}
+    >
+      <div className="flex flex-col items-center whitespace-normal w-full">
+        <h5 className="text-xs underline mb-3 text-center">{name}</h5>
+        <p className="text-xxs mb-1">{info}</p>
       </div>
 
       <div className="flex w-full z-10">
-        <Button
-          className="w-full mr-1"
+        {/* <Button
+          className="w-full"
           onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             onAboutClick(url), e.preventDefault();
           }}
         >
-          <span className="text-xs mr-1">About</span>
-          <img src={question} className="scale-110" alt="question-mark" />
-        </Button>
-        <Button
-          className="w-full ml-1"
-          onClick={() => onDonateAndPlayClick(address)}
-        >
-          <span className="text-xs whitespace-nowrap">Donate & Play</span>
-        </Button>
+          <span className="text-xs">About</span>
+        </Button> */}
       </div>
-    </OuterPanel>
+    </InnerPanel>
   );
 };
 
@@ -105,6 +92,7 @@ export const CreateFarm: React.FC = () => {
 
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [charity, setCharity] = useState<CharityAddress | null>(null);
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
 
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
@@ -151,7 +139,7 @@ export const CreateFarm: React.FC = () => {
     });
 
     wyre.on("paymentSuccess", (event: any) => {
-      console.log("PAYMENT", event);
+      setPaymentConfirmed(true);
     });
 
     wyre.open();
@@ -179,9 +167,9 @@ export const CreateFarm: React.FC = () => {
         <p>50 cents will be donated to a charity of your choice.</p>
       </div>
       <div className="text-xs">
-        <ol>
+        <ol className="p-2 space-y-2">
           <li>
-            <div className="p-2">
+            <div>
               <div className="flex space-x-1 mb-2 items-center">
                 {createFarmState.matches("notEnoughMatic") && <span>1.</span>}
                 {createFarmState.matches("hasEnoughMatic") && (
@@ -195,27 +183,44 @@ export const CreateFarm: React.FC = () => {
                 <span>Add Funds (We recommend $10 USD)</span>
               </div>
               {createFarmState.matches("notEnoughMatic") && (
-                <Button onClick={addFunds}>Add Funds</Button>
+                <Button disabled={paymentConfirmed} onClick={addFunds}>
+                  Buy Matic
+                </Button>
               )}
             </div>
           </li>
           {createFarmState.matches("hasEnoughMatic") && (
             <li>
-              <div className="p-2">
+              <div className="flex flex-col space-y-2">
                 <p>2. Pick your charity</p>
                 <div className="flex space-x-2">
-                  {CHARITIES.map((charity) => (
-                    <button
-                      key={charity.address}
-                      onClick={() => setCharity(charity.address)}
+                  {CHARITIES.map((_charity) => (
+                    <div
+                      key={_charity.address}
+                      onClick={() => setCharity(_charity.address)}
                     >
-                      {charity.name}
-                    </button>
+                      <CharityDetail
+                        {..._charity}
+                        selected={charity === _charity.address}
+                      />
+                    </div>
+
+                    // <button
+                    //   key={charity.address}
+                    //   onClick={() => setCharity(charity.address)}
+                    // >
+                    //   {charity.name}
+                    // </button>
                   ))}
                 </div>
               </div>
             </li>
           )}
+          <li>
+            {createFarmState.matches("hasEnoughMatic") && charity !== null && (
+              <Button onClick={() => setShowCaptcha(true)}>Create Farm</Button>
+            )}
+          </li>
         </ol>
       </div>
     </div>
