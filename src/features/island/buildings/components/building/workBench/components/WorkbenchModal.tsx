@@ -17,12 +17,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Stock } from "components/ui/Stock";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { Tab } from "components/ui/Tab";
-import {
-  TreasureToolName,
-  TREASURE_TOOLS,
-  WorkbenchToolName,
-  WORKBENCH_TOOLS,
-} from "features/game/types/tools";
+import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
@@ -52,11 +47,7 @@ const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
 };
 
 export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const craftableItems = { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS };
-
-  const [selectedName, setSelectedName] = useState<
-    WorkbenchToolName | TreasureToolName
-  >("Axe");
+  const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -93,7 +84,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     );
   }
 
-  const selected = craftableItems[selectedName];
+  const selected = WORKBENCH_TOOLS[selectedName];
   const inventory = state.inventory;
 
   const price = selected.sfl;
@@ -228,7 +219,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           <div className="flex flex-col-reverse sm:flex-row">
             <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-              {getKeys(craftableItems).map((toolName) => (
+              {getKeys(WORKBENCH_TOOLS).map((toolName) => (
                 <Box
                   isSelected={selectedName === toolName}
                   key={toolName}
