@@ -514,7 +514,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Hammer: {
     name: "Hammer",
-    description: "Used to construct buildings",
+    description: "Coming soon",
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -530,7 +530,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Rod: {
     name: "Rod",
-    description: "Used to fish trout",
+    description: "Coming soon",
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -940,7 +940,7 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
   "Farm Dog": {
     name: "Farm Dog",
-    description: "Herd sheep 4x faster",
+    description: "Herd sheep with your farm dog",
     section: Section["Farm Dog"],
     type: LimitedItemType.BarnItem,
   },
@@ -982,7 +982,7 @@ export const GOBLIN_RETREAT_ITEMS: Record<
     description: "Shhh it's sleeping",
   },
   "Wood Nymph Wendy": {
-    description: "Cast an enchanchment to entice the fairies",
+    description: "Cast an enchantment to entice the fairies",
   },
 };
 
