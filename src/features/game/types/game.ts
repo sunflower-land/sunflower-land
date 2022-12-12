@@ -94,7 +94,11 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-export type Coupons = "Trading Ticket" | "War Bond" | "Jack-o-lantern";
+export type Coupons =
+  | "Trading Ticket"
+  | "War Bond"
+  | "Jack-o-lantern"
+  | "Golden Crop";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -105,6 +109,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Jack-o-lantern": {
     description: "A Halloween special event item",
+  },
+  "Golden Crop": {
+    description: "A shiny golden crop",
   },
 };
 
