@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -7,6 +7,7 @@ import {
   FERTILISERS,
   COUPONS,
   Bumpkin,
+  GameState,
 } from "features/game/types/game";
 
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
@@ -23,8 +24,6 @@ import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
 import { RESOURCES } from "features/game/types/resources";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
@@ -32,20 +31,25 @@ import { BEANS } from "features/game/types/beans";
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
 
-const isSeed = (selectedItem: InventoryItemName) =>
-  selectedItem in CROP_SEEDS();
+const isSeed = (selected: InventoryItemName) => selected in CROP_SEEDS();
 
-export const Basket: React.FC = () => {
+interface Prop {
+  gameState: GameState;
+  selected: InventoryItemName;
+  onSelect: (name: InventoryItemName) => void;
+}
+
+export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const [scrollIntoView] = useScrollIntoView();
-
-  const { gameService, shortcutItem, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const { inventory, bumpkin, collectibles } = gameState.context.state;
+  const { inventory, bumpkin, collectibles } = gameState;
   const basketMap = getBasketItems(inventory);
-  const isTimeBoosted = useHasBoostForItem({ selectedItem, inventory });
+  const isTimeBoosted = useHasBoostForItem({
+    selectedItem: selected,
+    inventory,
+  });
 
   const getCropHarvestTime = (seedName = "") => {
     const crop = seedName.split(" ")[0] as CropName;
@@ -68,7 +72,7 @@ export const Basket: React.FC = () => {
   };
 
   const handleItemClick = (item: InventoryItemName) => {
-    shortcutItem(item);
+    onSelect(item);
 
     if (item && ITEM_DETAILS[item].section) {
       scrollIntoView(ITEM_DETAILS[item].section);
@@ -113,21 +117,21 @@ export const Basket: React.FC = () => {
     <div className="flex flex-col">
       {!basketIsEmpty && (
         <OuterPanel className="flex-1 mb-3">
-          {selectedItem && (
+          {selected && (
             <div
               style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
               className="flex flex-col justify-evenly text-center items-center p-2"
             >
-              <span>{selectedItem}</span>
+              <span>{selected}</span>
               <img
-                src={ITEM_DETAILS[selectedItem].image}
+                src={ITEM_DETAILS[selected].image}
                 className="h-12 mt-2"
-                alt={selectedItem}
+                alt={selected}
               />
               <span className="text-xs mt-2 w-80">
-                {ITEM_DETAILS[selectedItem].description}
+                {ITEM_DETAILS[selected].description}
               </span>
-              {!!isSeed(selectedItem) && (
+              {!!isSeed(selected) && (
                 <div className="w-full pt-1">
                   <div className="flex justify-center items-end">
                     <img src={timer} className="h-5 me-2" />
@@ -135,14 +139,14 @@ export const Basket: React.FC = () => {
                       <img src={lightning} className="h-6 me-2" />
                     )}
                     <span className="text-xs mt-2 ">
-                      {getCropHarvestTime(selectedItem)}
+                      {getCropHarvestTime(selected)}
                     </span>
                   </div>
                 </div>
               )}
               <div className="flex flex-col items-center justify-center">
                 <a
-                  href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[selectedItem]}`}
+                  href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[selected]}`}
                   className="underline text-xxs hover:text-blue-500 p-2"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -166,7 +170,7 @@ export const Basket: React.FC = () => {
               {seeds.map((item) => (
                 <Box
                   count={inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
@@ -183,7 +187,7 @@ export const Basket: React.FC = () => {
               {allTools.map((item) => (
                 <Box
                   count={inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
@@ -200,7 +204,7 @@ export const Basket: React.FC = () => {
               {resources.map((item) => (
                 <Box
                   count={inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
@@ -217,7 +221,7 @@ export const Basket: React.FC = () => {
               {crops.map((item) => (
                 <Box
                   count={inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
@@ -234,7 +238,7 @@ export const Basket: React.FC = () => {
               {exotic.map((item) => (
                 <Box
                   count={inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
@@ -251,7 +255,7 @@ export const Basket: React.FC = () => {
               {consumables.map((item) => (
                 <Box
                   count={inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
@@ -268,7 +272,7 @@ export const Basket: React.FC = () => {
               {fertilisers.map((item) => (
                 <Box
                   count={inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
@@ -285,7 +289,7 @@ export const Basket: React.FC = () => {
               {coupons.map((item) => (
                 <Box
                   count={inventory[item]}
-                  isSelected={selectedItem === item}
+                  isSelected={selected === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}

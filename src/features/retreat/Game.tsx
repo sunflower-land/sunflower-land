@@ -33,6 +33,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 
+import { Hud } from "./Hud";
+
 const spawn = [
   [35, 15],
   [10, 15],
@@ -142,6 +144,9 @@ export const Game = () => {
           </div>
         </ScrollContainer>
       </ToastProvider>
+      <div className="absolute z-20">
+        <Hud />
+      </div>
     </>
   );
 };
