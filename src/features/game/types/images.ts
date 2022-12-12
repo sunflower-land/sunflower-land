@@ -197,6 +197,10 @@ import sunSeeker from "assets/achievements/sun_seeker.png";
 import sunflowerSuperstar from "assets/achievements/sunflower_superstar.png";
 import timberrr from "assets/achievements/timber.png";
 import timeToChop from "assets/achievements/time_to_chop.png";
+import breadWinner from "assets/achievements/bread_winner.png";
+import explorer from "assets/achievements/explorer.png";
+import farmHand from "assets/achievements/farm_hand.png";
+import highRoller from "assets/achievements/high_roller.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
@@ -1284,7 +1288,7 @@ export const ITEM_DETAILS: Items = {
   },
 
   Explorer: {
-    image: questionMark,
+    image: explorer,
     description: ACHIEVEMENTS().Explorer.description,
   },
   "Busy Bumpkin": {
@@ -1293,135 +1297,135 @@ export const ITEM_DETAILS: Items = {
   },
   "Brilliant Bumpkin": {
     image: brilliantBumpkin,
-    description: "Reach level 20",
+    description: ACHIEVEMENTS()["Brilliant Bumpkin"].description,
   },
   "Sun Seeker": {
     image: sunSeeker,
-    description: "Harvest 100 Sunflowers",
+    description: ACHIEVEMENTS()["Sun Seeker"].description,
   },
   "Sunflower Superstar": {
     image: sunflowerSuperstar,
-    description: "Harvest 100,000 sunflowers",
+    description: ACHIEVEMENTS()["Sunflower Superstar"].description,
   },
   "My life is potato": {
     image: myLifeIsPotato,
-    description: "Harvest 5000 potatoes",
+    description: ACHIEVEMENTS()["My life is potato"].description,
   },
   "Jack O'Latern": {
     image: jackOLantern,
-    description: "Harvest 500 Pumpkins",
+    description: ACHIEVEMENTS()["Jack O'Latern"].description,
   },
   "20/20 Vision": {
     image: twentyTwentyVision,
-    description: "Harvest 10,000 carrots",
+    description: ACHIEVEMENTS()["20/20 Vision"].description,
   },
   "Cabbage King": {
     image: cabbageKing,
-    description: "Harvest 200 cabbages",
+    description: ACHIEVEMENTS()["Cabbage King"].description,
   },
   "Beetroot Beast": {
     image: beetrootBeast,
-    description: "Harvest 2000 beetroots",
+    description: ACHIEVEMENTS()["Beetroot Beast"].description,
   },
   "Cool Flower": {
     image: coolCauliflower,
-    description: "Harvest 100 cauliflowers",
+    description: ACHIEVEMENTS()["Cool Flower"].description,
   },
   "Patient Parsnips": {
     image: patientParsnip,
-    description: "Harvest 5000 parsnips",
+    description: ACHIEVEMENTS()["Patient Parsnips"].description,
   },
   "Rapid Radish": {
     image: rapidRadish,
-    description: "Harvest 200 radishes",
+    description: ACHIEVEMENTS()["Rapid Radish"].description,
   },
   "Staple Crop": {
     image: stapleCrop,
-    description: "Harvest 10000 wheat",
+    description: ACHIEVEMENTS()["Staple Crop"].description,
   },
   "Farm Hand": {
-    image: questionMark,
-    description: "Harvest 10000 crops",
+    image: farmHand,
+    description: ACHIEVEMENTS()["Farm Hand"].description,
   },
   "Crop Champion": {
     image: cropChampion,
-    description: "Harvest 1 million crops",
+    description: ACHIEVEMENTS()["Crop Champion"].description,
   },
   "Bread Winner": {
-    image: questionMark,
-    description: "Earn 100 SFL",
+    image: breadWinner,
+    description: ACHIEVEMENTS()["Bread Winner"].description,
   },
   "Bumpkin Billionaire": {
     image: bumpkinBillionaire,
-    description: "Earn 5000 SFL",
+    description: ACHIEVEMENTS()["Bumpkin Billionaire"].description,
   },
   "Big Spender": {
     image: bigSpender,
-    description: "Spend 10 SFL",
+    description: ACHIEVEMENTS()["Big Spender"].description,
   },
   "High Roller": {
-    image: questionMark,
-    description: "Spend 7500 SFL",
+    image: highRoller,
+    description: ACHIEVEMENTS()["High Roller"].description,
   },
   Timbeerrr: {
     image: timberrr,
-    description: "Chop 150 trees",
+    description: ACHIEVEMENTS().Timbeerrr.description,
   },
   "Bumpkin Chainsaw Amateur": {
     image: bumpkinChainsawAmateu,
-    description: "Chop 5000 trees",
+    description: ACHIEVEMENTS()["Bumpkin Chainsaw Amateur"].description,
   },
   Driller: {
     image: driller,
-    description: "Mine 50 stone rocks",
+    description: ACHIEVEMENTS().Driller.description,
   },
   Canary: {
     image: canary,
-    description: "Mine 1000 stone rocks",
+    description: ACHIEVEMENTS().Canary.description,
   },
   "Iron Eyes": {
     image: ironEyes,
-    description: "Mine 50 iron rocks",
+    description: ACHIEVEMENTS()["Iron Eyes"].description,
   },
   "Something Shiny": {
     image: somethingShiny,
-    description: "Mine 500 iron rocks",
+    description: ACHIEVEMENTS()["Something Shiny"].description,
   },
   "El Dorado": {
     image: elDorado,
-    description: "Mine 50 gold rocks",
+    description: ACHIEVEMENTS()["El Dorado"].description,
   },
   "Gold Fever": {
     image: goldFever,
-    description: "Mine 500 gold rocks",
+    description: ACHIEVEMENTS()["Gold Fever"].description,
   },
   "Kiss the Cook": {
     image: kissTheCook,
-    description: "Cook 20 meals",
+    description: ACHIEVEMENTS()["Kiss the Cook"].description,
   },
   "Bakers Dozen": {
     image: bakersDozen,
-    description: "Bake 13 cakes",
+    description: ACHIEVEMENTS()["Bakers Dozen"].description,
   },
   "Chef de Cuisine": {
     image: chefDeCusine,
-    description: "Cook 5000 meals",
+    description: ACHIEVEMENTS()["Chef de Cuisine"].description,
   },
   Craftmanship: {
     image: craftmanship,
-    description: "Craft 100 tools",
+    description: ACHIEVEMENTS().Craftmanship.description,
   },
   "Time to chop": {
     image: timeToChop,
-    description: "Craft 500 axes",
+    description: ACHIEVEMENTS()["Time to chop"].description,
   },
   Contractor: {
     image: contractor,
-    description: "Construct 10 buildings",
+    description: ACHIEVEMENTS().Contractor.description,
   },
   Museum: {
     image: museum,
-    description: "Place 10 rare items",
+    description: ACHIEVEMENTS().Museum.description,
   },
   "White Tulips": {
     image: whiteTulips,
