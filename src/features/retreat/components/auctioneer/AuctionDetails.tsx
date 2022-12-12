@@ -136,6 +136,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
   const makeLabel = () => {
     if (isUpcomingItem) return null;
+
     if (isMintStarted && remainingSupply > 0) {
       return (
         <Label type="info" className="mb-2">
@@ -144,16 +145,27 @@ export const AuctionDetails: React.FC<Props> = ({
       );
     }
 
+    if (isMintStarted && isSoldOut) {
+      return (
+        <Label type="danger" className="mb-2">
+          Sold out
+        </Label>
+      );
+    }
+
     return (
-      <Label type="danger" className="mb-2">
-        Sold out
+      <Label type="info" className="mb-2">
+        {`Supply: ${currentSupply}`}
       </Label>
     );
   };
 
+  console.log({ isUpcomingItem });
+
   // If on the Auction tab showing the current release then don't show its details
   // in the list of releases below as its details will be showcased
   const releasesList = isUpcomingItem ? releases : releases.slice(1);
+  const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
 
   return (
     <div className="w-full p-2 flex flex-col items-center">
@@ -173,15 +185,17 @@ export const AuctionDetails: React.FC<Props> = ({
             />
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-full">
               <div className="flex flex-col items-center w-full">
-                {isMintStarted ? (
+                {isMintStarted && (
                   <Label type="warning" className="mb-2">
                     Closes in
                   </Label>
-                ) : (
-                  <Label type="info" className="mb-2">
+                )}
+                {(!isMintStarted || isUpcomingItem) && (
+                  <Label type="warning" className="mb-2">
                     Opens in
                   </Label>
                 )}
+
                 <TimerDisplay time={isMintStarted ? end : start} />
               </div>
             </div>
@@ -190,7 +204,7 @@ export const AuctionDetails: React.FC<Props> = ({
       </div>
 
       <div className="flex items-center space-x-3 mb-3">
-        {currentRelease?.price && makeSFLRequiredLabel(currentRelease.price)}
+        {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
         {makeIngredients(currentRelease?.ingredients)}
       </div>
 
@@ -214,14 +228,14 @@ export const AuctionDetails: React.FC<Props> = ({
           <p className="mb-2">
             {isUpcomingItem ? "Releases" : "More Releases"}
           </p>
-          {releasesList.map((release) => {
+          {releasesList.map((release, index) => {
             const availableSupply = release?.supply ?? 0;
             const sfl = Number(release.price ?? 0);
 
             return (
               <div
                 className="border-b last:border-b-0 border-white w-full py-3"
-                key={release.releaseDate}
+                key={index}
               >
                 <div className="flex flex-col items-start mb-2 space-y-2 w-full">
                   <Label
