@@ -8,7 +8,7 @@ import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
 import { Token } from "./Token";
-import { toHex, toWei } from "web3-utils";
+import { fromWei, toBN, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { Trader } from "./Trader";
@@ -16,6 +16,9 @@ import { BumpkinDetails } from "./BumpkinDetails";
 import { BumpkinItems } from "./BumpkinItems";
 
 console.log({ CONFIG });
+const UNISWAP_ROUTER = "0xa5e0829caced8ffdd4de3c43696c57f7d7a678ff";
+const USDC_ADDRESS = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
+const WMATIC_ADDRESS = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -97,7 +100,7 @@ export class Wallet {
     return isHealthy;
   }
 
-  public async getAccount() {
+  private async getAccount() {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
@@ -108,6 +111,39 @@ export class Wallet {
 
   private async loadAccount() {
     this.account = await this.getAccount();
+  }
+
+  public async getMaticBalance() {
+    if (!this.web3) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
+
+    const balance = await this.web3?.eth.getBalance(this.account as string);
+
+    return Number(balance);
+  }
+
+  public async getUSDC(matic: number) {
+    // Uniswap contract only available on mainnet
+    const web3 = new Web3("https://polygon-rpc.com/");
+
+    const encodedFunctionSignature = web3.eth.abi.encodeFunctionSignature(
+      "getAmountsOut(uint256,address[])"
+    );
+
+    const encodedParameters = web3.eth.abi
+      .encodeParameters(
+        ["uint256", "address[]"],
+        [toBN(matic), [WMATIC_ADDRESS, USDC_ADDRESS]]
+      )
+      .substring(2);
+
+    const data = encodedFunctionSignature + encodedParameters;
+
+    const result = await web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = web3.eth.abi.decodeParameter("uint256[]", result);
+
+    return fromWei(toBN(decodedResult[1]), "Mwei");
   }
 
   public async initialise(provider: any, retryCount = 0): Promise<void> {

@@ -9,11 +9,15 @@ import { OuterPanel } from "components/ui/Panel";
 import question from "assets/icons/expression_confused.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
+import confirm from "assets/icons/confirm.png";
+
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
-import { Blocked } from "./Blocked";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineInterpreter } from "../lib/createFarmMachine";
+import { onramp } from "../actions/onramp";
+import { randomID } from "lib/utils/random";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -21,9 +25,8 @@ export const roundToOneDecimal = (number: number) =>
 export enum CharityAddress {
   TheWaterProject = "0xBCf9bf2F0544252761BCA9c76Fe2aA18733C48db",
   PCF = "0x8c6A1870D922279dB6F91CB6798592c7A7133BBD",
-  // Heifer = "0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1",
-  // CoolEarth = "0x3c8cB169281196737c493AfFA8F49a9d823bB9c5",
 }
+
 interface Charity {
   name: string;
   info: string;
@@ -44,18 +47,6 @@ const CHARITIES: Charity[] = shuffle([
     url: "https://www.p-c-f.org/",
     address: CharityAddress.PCF,
   },
-  // {
-  //   name: "The Heifer Project",
-  //   info: "We do more than train farmers. We grow incomes.",
-  //   url: "https://www.heifer.org/give/other/digital-currency.html",
-  //   address: CharityAddress.Heifer,
-  // },
-  // {
-  //   name: "Cool Earth",
-  //   info: "Aim to halt deforestation and its impact on our climate.",
-  //   url: "https://www.coolearth.org/cryptocurrency-donations/",
-  //   address: CharityAddress.CoolEarth,
-  // },
 ]);
 
 interface CharityDetailProps extends Charity {
@@ -104,11 +95,16 @@ const CharityDetail = ({
 };
 
 export const CreateFarm: React.FC = () => {
-  const [charity, setCharity] = useState<string>();
   const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
+
+  const child = authService.state.children
+    .createFarmMachine as MachineInterpreter;
+
+  const [createFarmState] = useActor(child);
+
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [charity, setCharity] = useState<CharityAddress | null>(null);
 
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
@@ -138,9 +134,28 @@ export const CreateFarm: React.FC = () => {
     setActiveIndex(newIdx);
   };
 
-  if (!authState.context.token?.userAccess.createFarm) {
-    return <Blocked />;
-  }
+  const addFunds = async () => {
+    const env = CONFIG.NETWORK === "mainnet" ? "prod" : "test";
+
+    const { reservation } = await onramp({
+      token: authService.state.context.rawToken as string,
+      transactionId: randomID(),
+    });
+
+    const wyre = new (window as any).Wyre({
+      env,
+      reservation,
+      operation: {
+        type: "debitcard-hosted-dialog",
+      },
+    });
+
+    wyre.on("paymentSuccess", (event: any) => {
+      console.log("PAYMENT", event);
+    });
+
+    wyre.open();
+  };
 
   if (showCaptcha) {
     return (
@@ -152,6 +167,59 @@ export const CreateFarm: React.FC = () => {
       />
     );
   }
+
+  return (
+    <div>
+      <h1 className="text-center">Getting Started</h1>
+      <div className="flex flex-col space-y-2 text-xs p-2 mb-3">
+        <p>
+          Buying land costs $5 USD. Included with your purchase is a Bumpkin NFT
+          (worth $5 USD) who will be your guide in Sunflower Land.
+        </p>
+        <p>50 cents will be donated to a charity of your choice.</p>
+      </div>
+      <div className="text-xs">
+        <ol>
+          <li>
+            <div className="p-2">
+              <div className="flex space-x-1 mb-2 items-center">
+                {createFarmState.matches("notEnoughMatic") && <span>1.</span>}
+                {createFarmState.matches("hasEnoughMatic") && (
+                  <img
+                    src={confirm}
+                    style={{
+                      width: `${PIXEL_SCALE * 6}px`,
+                    }}
+                  />
+                )}
+                <span>Add Funds (We recommend $10 USD)</span>
+              </div>
+              {createFarmState.matches("notEnoughMatic") && (
+                <Button onClick={addFunds}>Add Funds</Button>
+              )}
+            </div>
+          </li>
+          {createFarmState.matches("hasEnoughMatic") && (
+            <li>
+              <div className="p-2">
+                <p>2. Pick your charity</p>
+                <div className="flex space-x-2">
+                  {CHARITIES.map((charity) => (
+                    <button
+                      key={charity.address}
+                      onClick={() => setCharity(charity.address)}
+                    >
+                      {charity.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </li>
+          )}
+        </ol>
+      </div>
+    </div>
+  );
 
   return (
     <form className="mb-4 relative">

@@ -8,7 +8,6 @@ import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
 import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
 import { SomethingWentWrong } from "./components/SomethingWentWrong";
-import { Blocked } from "./components/Blocked";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
@@ -52,10 +51,6 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.NO_FARM) {
     return <Beta />;
-  }
-
-  if (errorCode === ERRORS.BLOCKED) {
-    return <Blocked />;
   }
 
   if (errorCode === ERRORS.DISCORD_USER_EXISTS) {
