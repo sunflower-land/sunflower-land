@@ -294,6 +294,7 @@ import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
 //Decorations
 import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
 import pottedPumpkin from "src/assets/decorations/potted_pumpkin.webp";
+import pottedPotato from "src/assets/decorations/potted_potato.png";
 import whiteTulips from "src/assets/decorations/white_tulips.png";
 import cactus from "src/assets/decorations/cactus.png";
 import basicBear from "src/assets/sfts/bears/basic_bear.png";
@@ -1529,8 +1530,8 @@ export const ITEM_DETAILS: Items = {
     description: "???",
   },
   "Potted Potato": {
-    image: questionMark,
-    description: "???",
+    image: pottedPotato,
+    description: "Potato blood runs through your Bumpkin.",
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
