@@ -3,8 +3,7 @@ import { KNOWN_ITEMS } from "features/game/types";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
-import SessionMainnetABI from "./abis/SessionMainnet.json";
-import SessionTestnetABI from "./abis/SessionTestnet.json";
+import SessionABI from "./abis/Session.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.SESSION_CONTRACT;
@@ -75,9 +74,7 @@ export class SessionManager {
   private account: string;
 
   private contract: any;
-  private sessionABI =
-    CONFIG.NETWORK === "mumbai" ? SessionTestnetABI : SessionMainnetABI;
-
+  private sessionABI = SessionABI;
   constructor(web3: Web3, account: string) {
     this.web3 = web3;
     this.account = account;
