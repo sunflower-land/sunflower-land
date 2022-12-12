@@ -70,10 +70,7 @@ export const Chest: React.FC<Props> = ({
 
   const handlePlace = () => {
     onPlace && onPlace(selected);
-    // gameService.send("EDIT", {
-    //   placeable: selected,
-    //   action: "collectible.placed",
-    // });
+
     closeModal();
     scrollIntoView(Section.GenesisBlock);
   };

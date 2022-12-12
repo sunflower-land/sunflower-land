@@ -70,7 +70,6 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
 
   const experience = bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
-  // const showSkillPointAlert = hasUnacknowledgedSkillPoints(bumpkin);
 
   useEffect(() => {
     goToProgress();

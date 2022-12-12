@@ -7,6 +7,7 @@ import roundButton from "assets/ui/button/round_button.png";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItems } from "features/island/hud/components/inventory/InventoryItems";
+import { getKeys } from "features/game/types/craftables";
 
 interface Props {
   state: GameState;
@@ -14,7 +15,9 @@ interface Props {
 
 export const GoblinInventory: React.FC<Props> = ({ state }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<InventoryItemName>("Sunflower"); // TODO grab first item
+  const [selected, setSelected] = useState<InventoryItemName>(
+    getKeys(state.inventory)[0]
+  );
   return (
     <div
       className="flex flex-col items-center fixed z-50"
