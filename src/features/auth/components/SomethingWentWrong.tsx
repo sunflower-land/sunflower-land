@@ -37,8 +37,8 @@ export const SomethingWentWrong: React.FC = () => {
           <p>It may be a simple connection issue.</p>
           <p>You can click refresh to try again.</p>
           <p>
-            If the issue remains you can reach out for help by either contacting
-            our{" "}
+            If the issue remains, you can reach out for help by either
+            contacting our{" "}
             <a
               className="underline"
               target="_blank"

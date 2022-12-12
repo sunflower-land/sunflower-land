@@ -3,6 +3,8 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import token from "assets/icons/token_2.png";
 import bg from "assets/ui/brown_background.png";
+import calendar from "assets/icons/calendar.png";
+import stopwatch from "assets/icons/stopwatch.png";
 
 import { Label } from "components/ui/Label";
 import { AuctioneerItem } from "./actions/auctioneerItems";
@@ -10,6 +12,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
+import { getKeys } from "features/game/types/craftables";
+import { setImageWidth } from "lib/images";
+import { formatDateTime, secondsToString } from "lib/utils/time";
+import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
 
 type Props = {
@@ -18,6 +24,35 @@ type Props = {
   game: GoblinState;
   isUpcomingItem?: boolean;
   onMint: () => void;
+};
+
+type TimeObject = {
+  time: {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  };
+};
+
+const TimerDisplay = ({ time }: TimeObject) => {
+  const timeKeys = getKeys(time);
+
+  return (
+    <div className="flex w-full justify-evenly">
+      {timeKeys.map((key) => {
+        const value = time[key];
+        const label = value === 1 ? `${key.slice(0, -1)}` : key;
+
+        return (
+          <div className="flex flex-col w-1/4 items-center mr-1" key={key}>
+            <p className="text-sm">{`${value}`}</p>
+            <p className="text-xxs font-thin">{label}</p>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export const AuctionDetails: React.FC<Props> = ({
@@ -31,6 +66,53 @@ export const AuctionDetails: React.FC<Props> = ({
   const releaseEndDate = currentRelease?.endDate as number;
   const start = useCountdown(releaseDate);
   const end = useCountdown(releaseEndDate);
+
+  const makeSFLRequiredLabel = (sfl: number) => {
+    if (game.balance.lt(sfl)) {
+      <div className="flex items-center space-x-1">
+        <img src={token} className="h-5 mr-1" />
+        <Label type="danger">{`${game.balance.toString()}/${sfl}`}</Label>
+      </div>;
+    }
+
+    return (
+      <div className="flex items-center space-x-1">
+        <img src={token} className="h-5 mr-1" />
+        <span className="text-xxs">{sfl}</span>
+      </div>
+    );
+  };
+
+  const makeIngredients = (
+    ingredients?: {
+      item: InventoryItemName;
+      amount: number;
+    }[]
+  ) => {
+    if (!ingredients) return null;
+
+    return ingredients.map((ingredient) => {
+      const inventoryItemAmount =
+        game.inventory[ingredient.item] ?? new Decimal(0);
+      const hasIngredient = inventoryItemAmount.gte(ingredient.amount);
+
+      if (!hasIngredient) {
+        return (
+          <div className="flex items-center space-x-1" key={ingredient.item}>
+            <img src={ITEM_DETAILS[ingredient.item].image} className="h-5" />
+            <Label type="danger">{`${inventoryItemAmount}/${ingredient.amount}`}</Label>
+          </div>
+        );
+      }
+
+      return (
+        <div className="flex items-center space-x-1" key={ingredient.item}>
+          <img src={ITEM_DETAILS[ingredient.item].image} className="h-5" />
+          <span className="text-xxs">{ingredient.amount}</span>
+        </div>
+      );
+    });
+  };
 
   const isMintStarted =
     !start.days && !start.hours && !start.minutes && !start.seconds;
@@ -50,86 +132,84 @@ export const AuctionDetails: React.FC<Props> = ({
   );
 
   const remainingSupply = currentSupply - (totalMinted ?? 0);
-
   const isSoldOut = remainingSupply <= 0;
+
+  const makeLabel = () => {
+    if (isUpcomingItem) return null;
+
+    if (isMintStarted && remainingSupply > 0) {
+      return (
+        <Label type="info" className="mb-2">
+          {`${totalMinted ?? 0}/${currentSupply} Minted`}
+        </Label>
+      );
+    }
+
+    if (isMintStarted && isSoldOut) {
+      return (
+        <Label type="danger" className="mb-2">
+          Sold out
+        </Label>
+      );
+    }
+
+    return (
+      <Label type="info" className="mb-2">
+        {`Supply: ${currentSupply}`}
+      </Label>
+    );
+  };
+
+  console.log({ isUpcomingItem });
+
+  // If on the Auction tab showing the current release then don't show its details
+  // in the list of releases below as its details will be showcased
+  const releasesList = isUpcomingItem ? releases : releases.slice(1);
+  const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
 
   return (
     <div className="w-full p-2 flex flex-col items-center">
-      <div
-        className="w-full p-2 flex flex-col items-center mx-auto"
-        style={{
-          maxWidth: "350px",
-        }}
-      >
-        <p className="text-base mb-2">{name}</p>
+      <div className="w-full p-2 flex flex-col items-center mx-auto">
+        <p className="mb-2">{name}</p>
         <p className="text-center text-sm mb-2">
           {ITEM_DETAILS[name].description}
         </p>
-        <div className="flex relative mb-2">
-          <img src={bg} className="w-full object-contain rounded-md" />
-          <div className="absolute inset-0 flex flex-col p-2 items-center justify-center">
+        {makeLabel()}
+        <div className="relative mb-2">
+          <img src={bg} className="w-64 object-contain rounded-md" />
+          <div className="absolute inset-0">
             <img
               src={ITEM_DETAILS[name].image}
-              className="h-[70%] z-20 object-cover mb-2"
+              className="absolute z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              onLoad={(e) => setImageWidth(e.currentTarget)}
             />
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-full">
+              <div className="flex flex-col items-center w-full">
+                {isMintStarted && (
+                  <Label type="warning" className="mb-2">
+                    Closes in
+                  </Label>
+                )}
+                {(!isMintStarted || isUpcomingItem) && (
+                  <Label type="warning" className="mb-2">
+                    Opens in
+                  </Label>
+                )}
 
-            {!isMintStarted && (
-              <div className="flex w-full justify-around relative top-1">
-                <div className="flex flex-col items-center mr-1">
-                  <p className="text-lg">{`${start.days}`}</p>
-                  <p className="text-xs font-thin">days</p>
-                </div>
-                <div className="flex flex-col items-center mr-1">
-                  <p className="text-lg">{`${start.hours}`}</p>
-                  <p className="text-xs font-thin">hours</p>
-                </div>
-                <div className="flex flex-col items-center mr-1">
-                  <p className="text-lg">{`${start.minutes}`}</p>
-                  <p className="text-xs font-thin">minutes</p>
-                </div>
-                <div className="flex flex-col items-center">
-                  <p className="text-lg">{`${start.seconds}`}</p>
-                  <p className="text-xs font-thin">seconds</p>
-                </div>
+                <TimerDisplay time={isMintStarted ? end : start} />
               </div>
-            )}
-
-            {isMintStarted && (
-              <div className="w-full bottom-2 text-center top-1">
-                <span className="bg-[#ff8f0e] border text-xxs ml-2 p-1 rounded-md">
-                  {`Closes in`}
-                </span>
-                <div className="flex w-full justify-around relative">
-                  <div className="flex flex-col items-center mr-1">
-                    <p className="text-lg">{`${end.days}`}</p>
-                    <p className="text-xs font-thin">days</p>
-                  </div>
-                  <div className="flex flex-col items-center mr-1">
-                    <p className="text-lg">{`${end.hours}`}</p>
-                    <p className="text-xs font-thin">hours</p>
-                  </div>
-                  <div className="flex flex-col items-center mr-1">
-                    <p className="text-lg">{`${end.minutes}`}</p>
-                    <p className="text-xs font-thin">minutes</p>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <p className="text-lg">{`${end.seconds}`}</p>
-                    <p className="text-xs font-thin">seconds</p>
-                  </div>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
-      {remainingSupply > 0 ? (
-        <p className="text-lg">{remainingSupply} left</p>
-      ) : (
-        <Label type="danger">Sold out</Label>
-      )}
+
+      <div className="flex items-center space-x-3 mb-3">
+        {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
+        {makeIngredients(currentRelease?.ingredients)}
+      </div>
+
       {!isUpcomingItem && !isSoldOut && (
         <Button
-          className="text-lg"
           disabled={
             !isMintStarted || isMintComplete || isMinting || !hasIngredients
           }
@@ -139,90 +219,55 @@ export const AuctionDetails: React.FC<Props> = ({
         </Button>
       )}
 
-      {releases.map((release) => {
-        // TODO Aggregate any previous leftovers :/
-        const availableSupply = release?.supply ?? 0;
+      {releasesList.length > 0 && (
+        <div
+          className={classNames("flex flex-col items-start w-full", {
+            "mt-4": !isUpcomingItem,
+          })}
+        >
+          <p className="mb-2">
+            {isUpcomingItem ? "Releases" : "More Releases"}
+          </p>
+          {releasesList.map((release, index) => {
+            const availableSupply = release?.supply ?? 0;
+            const sfl = Number(release.price ?? 0);
 
-        const format = new Intl.DateTimeFormat("en", {
-          year: "2-digit",
-          month: "numeric",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-        });
-
-        const sfl = Number(release.price ?? 0);
-
-        const date = format.formatRange(release.releaseDate, release.endDate);
-
-        const isFinished = release.endDate < Date.now();
-
-        return (
-          <div className="mt-4 w-full" key={release.releaseDate}>
-            <div className="flex justify-between items-start">
-              <span
-                className={classNames("text-sm", {
-                  "line-through": isFinished,
-                })}
+            return (
+              <div
+                className="border-b last:border-b-0 border-white w-full py-3"
+                key={index}
               >
-                {date}
-              </span>
-
-              {availableSupply <= 0 && <Label type="danger">Sold out</Label>}
-
-              {availableSupply > 0 && (
-                <span className="bg-blue-600 border text-xxs ml-2 p-1 rounded-md">
-                  {`Supply: ${availableSupply}`}
-                </span>
-              )}
-            </div>
-
-            <div className="flex items-center mb-1 flex-wrap">
-              {release.ingredients.map((ingredient) => {
-                const inventoryItemAmount =
-                  game.inventory[ingredient.item] ?? new Decimal(0);
-                const hasIngredient = inventoryItemAmount.gte(
-                  ingredient.amount
-                );
-
-                if (!hasIngredient) {
-                  return (
-                    <div className="flex mr-4" key={ingredient.item}>
-                      <img
-                        src={ITEM_DETAILS[ingredient.item].image}
-                        className="h-6 mr-1"
-                      />
-                      <Label type="danger">{`${inventoryItemAmount}/${ingredient.amount}`}</Label>
-                    </div>
-                  );
-                }
-
-                return (
-                  <div className="flex mr-4" key={ingredient.item}>
-                    <img
-                      src={ITEM_DETAILS[ingredient.item].image}
-                      className="h-6 mr-1"
-                    />
-                    <span className="text-sm">{ingredient.amount}</span>
+                <div className="flex flex-col items-start mb-2 space-y-2 w-full">
+                  <Label
+                    type="info"
+                    className="mb-1"
+                  >{`Supply: ${availableSupply}`}</Label>
+                  <div className="flex items-center space-x-2">
+                    <img src={calendar} className="w-4" alt="calendar" />
+                    <span className="text-xxs">
+                      {formatDateTime(
+                        new Date(release.releaseDate).toISOString()
+                      )}
+                    </span>
                   </div>
-                );
-              })}
-              {sfl > 0 && game.balance.lt(sfl) && (
-                <div className="flex mr-2">
-                  <img src={token} className="h-6 mr-1" />
-                  <Label type="danger">{`${game.balance.toString()}/${sfl}`}</Label>
+                  <div className="flex items-center space-x-2">
+                    <img src={stopwatch} className="w-4" alt="timer" />
+                    <span className="text-xxs">{`Available for ${secondsToString(
+                      (release.endDate - release.releaseDate) / 1000,
+                      { length: "short" }
+                    )}`}</span>
+                  </div>
                 </div>
-              )}
-              {sfl > 0 && game.balance.gte(sfl) && (
-                <div className="flex mr-2">
-                  <img src={token} className="h-6 mr-1" />
-                  <span className="text-sm">{sfl}</span>
+
+                <div className="flex items-center space-x-3 mb-1">
+                  {sfl > 0 && makeSFLRequiredLabel(sfl)}
+                  {makeIngredients(release.ingredients)}
                 </div>
-              )}
-            </div>
-          </div>
-        );
-      })}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

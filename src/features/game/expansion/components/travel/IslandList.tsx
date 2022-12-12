@@ -197,6 +197,9 @@ export const IslandList = ({
 
   // Someone who is visiting without a loaded session
   const unAuthenticatedVisit = authState.matches("visiting");
+  const hideVisitOption =
+    location.pathname.includes("retreat") ||
+    location.pathname.includes("community-garden");
 
   const ModalContent = () => {
     // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm
@@ -240,7 +243,7 @@ export const IslandList = ({
             currentPath={location.pathname}
           />
         ))}
-        {!location.pathname.includes("retreat") && (
+        {!hideVisitOption && (
           <VisitFriendListItem onClick={() => setView("visitForm")} />
         )}
       </>
