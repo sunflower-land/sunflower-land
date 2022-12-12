@@ -11,21 +11,20 @@ export type WorkbenchToolName =
   | "Pickaxe"
   | "Stone Pickaxe"
   | "Iron Pickaxe"
+  | "Rusty Shovel"
   | "Power Shovel";
 
 export type TreasureToolName = "Sand Shovel";
 
-export type WorkbenchTool = {
-  sfl: Decimal;
-  ingredients: Inventory;
+export interface Tool {
+  name: string;
   description: string;
+  ingredients: Inventory;
+  sfl: Decimal;
   disabled?: boolean;
-};
+}
 
-export const WORKBENCH_TOOLS: () => Record<
-  WorkbenchToolName,
-  WorkbenchTool
-> = () => ({
+export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
@@ -58,6 +57,12 @@ export const WORKBENCH_TOOLS: () => Record<
     },
     sfl: marketRate(5),
   },
+  "Rusty Shovel": {
+    name: "Rusty Shovel",
+    description: "Used to move buildings and collectibles",
+    ingredients: {},
+    sfl: marketRate(5),
+  },
   "Power Shovel": {
     name: "Power Shovel",
     description: "Used for landscaping",
@@ -67,21 +72,9 @@ export const WORKBENCH_TOOLS: () => Record<
     },
     sfl: marketRate(5),
   },
-  "Sand Shovel": {
-    name: "Sand Shovel",
-    description: "Used for digging treasure",
-    ingredients: {
-      Wood: new Decimal(20),
-      Stone: new Decimal(5),
-    },
-    sfl: marketRate(25),
-  },
-});
+};
 
-export const TREASURE_TOOLS: () => Record<
-  TreasureToolName,
-  WorkbenchTool
-> = () => ({
+export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   "Sand Shovel": {
     name: "Sand Shovel",
     description: "Used for digging treasure",
@@ -91,4 +84,4 @@ export const TREASURE_TOOLS: () => Record<
     },
     sfl: marketRate(25),
   },
-});
+};

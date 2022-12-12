@@ -21,21 +21,15 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const RustyShovelSeller: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const [{ context }] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
   const [showModal, setShowModal] = useState(false);
-  const stock = state.stock["Rusty Shovel"] || new Decimal(0);
 
-  const { sfl: price } = CRAFTABLE_TOOLS()["Rusty Shovel"];
+  const stock = context.state.stock["Rusty Shovel"] || new Decimal(0);
+  const { sfl: price, name: tool } = CRAFTABLE_TOOLS["Rusty Shovel"];
 
   const craft = (amount: number) => {
-    gameService.send("tool.crafted", {
-      tool: "Rusty Shovel",
-    });
+    gameService.send("tool.crafted", { tool });
 
     setToast({
       icon: token,

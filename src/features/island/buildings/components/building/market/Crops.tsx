@@ -87,7 +87,7 @@ export const Crops: React.FC = () => {
   };
 
   useEffect(() => {
-    setIsPriceBoosted(hasSellBoost(inventory, state.bumpkin as Bumpkin));
+    setIsPriceBoosted(hasSellBoost(inventory));
   }, [inventory, state.inventory]);
 
   return (

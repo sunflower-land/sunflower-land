@@ -3,7 +3,7 @@ import { getKeys } from "features/game/types/craftables";
 import {
   TreasureToolName,
   TREASURE_TOOLS,
-  WorkbenchTool,
+  Tool,
   WorkbenchToolName,
   WORKBENCH_TOOLS,
 } from "features/game/types/tools";
@@ -11,28 +11,18 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
-import { marketRate } from "features/game/lib/halvening";
 
-type CraftableToolName = WorkbenchToolName | TreasureToolName | "Rusty Shovel";
+type CraftableToolName = WorkbenchToolName | TreasureToolName;
 
 export type CraftToolAction = {
   type: "tool.crafted";
   tool: CraftableToolName;
 };
 
-export const CRAFTABLE_TOOLS: () => Record<
-  CraftableToolName,
-  WorkbenchTool
-> = () => ({
-  ...WORKBENCH_TOOLS(),
-  ...TREASURE_TOOLS(),
-  "Rusty Shovel": {
-    name: "Rusty Shovel",
-    description: "Used to move buildings and collectibles",
-    ingredients: {},
-    sfl: marketRate(5),
-  },
-});
+export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
+  ...WORKBENCH_TOOLS,
+  ...TREASURE_TOOLS,
+};
 
 type Options = {
   state: Readonly<GameState>;
@@ -43,7 +33,7 @@ export function craftTool({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
-  const tool = CRAFTABLE_TOOLS()[action.tool];
+  const tool = CRAFTABLE_TOOLS[action.tool];
 
   if (!tool) {
     throw new Error("Tool does not exist");
