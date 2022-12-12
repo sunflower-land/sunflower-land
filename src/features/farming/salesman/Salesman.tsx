@@ -148,8 +148,8 @@ export const Salesman: React.FC = () => {
       id="salesman"
       style={{
         width: `${GRID_WIDTH_PX * 1}px`,
-        left: `${GRID_WIDTH_PX * 1}px`,
-        top: `${GRID_WIDTH_PX * 4.5}px`,
+        left: `${GRID_WIDTH_PX * 14.5}px`,
+        top: `${GRID_WIDTH_PX * 34}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight z-10">
