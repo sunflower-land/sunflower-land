@@ -124,6 +124,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                 className="flex flex-col items-center mb-1 w-1/3 sm:w-1/4"
                 key={name}
               >
+                {/* Achievement icon */}
                 <div
                   style={{
                     width: `${PIXEL_SCALE * 22}px`,
@@ -156,7 +157,12 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                   />
                 </div>
 
-                <div className="h-12">
+                {/* Achievement indicator */}
+                <div
+                  className="h-12 cursor-pointer"
+                  onClick={() => setSelected(name)}
+                >
+                  {/* Ready to claim */}
                   {isComplete && !isAlreadyClaimed && (
                     <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
                       <img
@@ -167,6 +173,8 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                       />
                     </div>
                   )}
+
+                  {/* Claimed */}
                   {isAlreadyClaimed && (
                     <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
                       <img
@@ -177,6 +185,8 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                       />
                     </div>
                   )}
+
+                  {/* In progress */}
                   {!isComplete && !isAlreadyClaimed && (
                     <div className="flex flex-col flex-1 mt-1.5 items-center justify-center">
                       <p className="mb-1 text-xxs text-center">{`${shortenCount(
