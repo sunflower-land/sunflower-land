@@ -334,6 +334,8 @@ import { DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
+//Golden Crop Event
+import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1533,5 +1535,9 @@ export const ITEM_DETAILS: Items = {
   "Potted Pumpkin": {
     image: pottedPumpkin,
     description: DECORATIONS()["Potted Pumpkin"].description,
+  },
+  "Golden Crop": {
+    image: goldenCrop,
+    description: "A shiny golden crop",
   },
 };

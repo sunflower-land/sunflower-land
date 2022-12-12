@@ -30,7 +30,8 @@ import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
 import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
-
+import { GoldenCropModal } from "features/island/plots/components/GoldenCropModal";
+import golden_crop_sheet from "assets/events/golden_crop/golden_crop_sheet.png";
 interface Props {
   plotIndex: number;
   expansionIndex: number;
@@ -53,7 +54,8 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
   const clickedAt = useRef<number>(0);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isMobile] = useIsMobile();
-
+  //Golden Crop event
+  const [showGoldenCropModal, setShowGoldenCropModal] = useState(false);
   const expansion = game.context.state.expansions[expansionIndex];
   const plot = expansion.plots?.[plotIndex];
 
@@ -113,6 +115,27 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
             />
           );
         }
+        // golden crop event animation
+        const rewardName = crop?.reward?.items?.[0].name;
+        if (rewardName === "Golden Crop") {
+          setProcAnimation(
+            <Spritesheet
+              className="absolute pointer-events-none"
+              style={{
+                top: `${PIXEL_SCALE * -23}px`,
+                left: `${PIXEL_SCALE * -10}px`,
+                width: `${PIXEL_SCALE * HARVEST_PROC_ANIMATION.size}px`,
+                imageRendering: "pixelated",
+              }}
+              image={golden_crop_sheet}
+              widthFrame={HARVEST_PROC_ANIMATION.size}
+              heightFrame={HARVEST_PROC_ANIMATION.size}
+              fps={6}
+              steps={HARVEST_PROC_ANIMATION.steps}
+              hiddenWhenPaused={true}
+            />
+          );
+        }
 
         setToast({
           icon: ITEM_DETAILS[crop.name].image,
@@ -141,6 +164,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
   const onCollectReward = (success: boolean) => {
     setReward(null);
     setTouchCount(0);
+    setShowGoldenCropModal(false);
 
     if (success && crop) {
       const rewardItemName = reward?.items?.[0].name;
@@ -199,6 +223,10 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         return;
       }
 
+      if (crop?.reward?.items?.[0].name === "Golden Crop") {
+        console.log("golden crop");
+        setShowGoldenCropModal(true);
+      }
       // They have touched enough!
       setReward(crop.reward);
 
@@ -386,17 +414,28 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         />
       )}
 
+      {/* Golden Crop Event */}
+      {showGoldenCropModal && (
+        <GoldenCropModal
+          show={showGoldenCropModal}
+          onContinue={() => onCollectReward(true)}
+        />
+      )}
+
       {/* Crop reward */}
-      <ChestReward
-        reward={reward}
-        onCollected={onCollectReward}
-        onOpen={() =>
-          gameService.send("cropReward.collected", {
-            plotIndex,
-            expansionIndex,
-          })
-        }
-      />
+
+      {!showGoldenCropModal && (
+        <ChestReward
+          reward={reward}
+          onCollected={onCollectReward}
+          onOpen={() =>
+            gameService.send("cropReward.collected", {
+              plotIndex,
+              expansionIndex,
+            })
+          }
+        />
+      )}
     </div>
   );
 };
