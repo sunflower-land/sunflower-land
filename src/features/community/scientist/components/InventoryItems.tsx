@@ -72,7 +72,12 @@ export const InventoryItems: React.FC = () => {
           {tadpoleData?.length <= 0 && (
             <span className="text-xxs">
               No tadpoles found, see it on{" "}
-              <a href={tadpoleLink} className="underline">
+              <a
+                href={tadpoleLink}
+                className="underline"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 OpenSea
               </a>
             </span>
@@ -89,7 +94,12 @@ export const InventoryItems: React.FC = () => {
           {frogData?.length <= 0 && (
             <span className="text-xxs">
               No frogs found, grab one on{" "}
-              <a href={frogLink} className="underline">
+              <a
+                href={frogLink}
+                className="underline"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 OpenSea
               </a>
             </span>
