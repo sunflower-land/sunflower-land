@@ -79,7 +79,6 @@ export const createFarmMachine = createMachine<
             {
               target: "hasEnoughMatic",
               cond: (context: Context, event) => {
-                console.log({ context });
                 if (context.maticFee === undefined) return true;
 
                 return event.data.maticBalance > context.maticFee;
