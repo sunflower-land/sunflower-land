@@ -25,7 +25,7 @@ type CreateFarmEvent = {
 export type BlockchainEvent = PickCharityEvent | TickEvent | CreateFarmEvent;
 
 export type CreateFarmMachineState = {
-  value: "hasEnoughMatic" | "notEnoughMatic";
+  value: "loading" | "hasEnoughMatic" | "notEnoughMatic";
   context: Context;
 };
 
@@ -43,9 +43,30 @@ export const createFarmMachine = createMachine<
 >(
   {
     id: "createFarmMachine",
-    initial: "notEnoughMatic",
+    initial: "loading",
     context: {},
     states: {
+      loading: {
+        invoke: {
+          src: "loadBalance",
+          onDone: [
+            {
+              target: "hasEnoughMatic",
+              cond: (_, event) => event.data.usdc > 5,
+              actions: "assignBalance",
+            },
+            {
+              target: "notEnoughMatic",
+              actions: "assignBalance",
+            },
+          ],
+          onError: {
+            actions: escalate((_, event) => ({
+              message: event.data.message,
+            })),
+          },
+        },
+      },
       notEnoughMatic: {
         invoke: {
           src: "loadBalance",

@@ -9,6 +9,7 @@ import { InnerPanel } from "components/ui/Panel";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import confirm from "assets/icons/confirm.png";
+import betty from "assets/crops/sunflower/crop.png";
 
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
@@ -18,6 +19,7 @@ import { MachineInterpreter } from "../lib/createFarmMachine";
 import { onramp } from "../actions/onramp";
 import { randomID } from "lib/utils/random";
 import classNames from "classnames";
+import { Loading } from "./Loading";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -49,34 +51,44 @@ const CHARITIES: Charity[] = shuffle([
   },
 ]);
 
+interface CharityDetailProps extends Charity {
+  selected: boolean;
+  onClick: () => void;
+}
+
 const CharityDetail = ({
   url,
   name,
   info,
   selected,
-}: Charity & { selected: boolean }) => {
+  onClick,
+}: CharityDetailProps) => {
   return (
     <InnerPanel
       className={classNames(
-        "flex-col inline-flex items-center justify-center w-full",
-        { "img-highlight": selected }
+        "flex flex-col items-center w-full justify-between",
+        {
+          "img-highlight": selected,
+        }
       )}
     >
-      <div className="flex flex-col items-center whitespace-normal w-full">
-        <h5 className="text-xs underline mb-3 text-center">{name}</h5>
-        <p className="text-xxs mb-1">{info}</p>
+      <div className="w-full p-1 space-y-2 cursor-pointer" onClick={onClick}>
+        <a
+          href={url}
+          className="underline text-xs hover:text-blue-500 mb-2 text-center"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {name}
+        </a>
+        <p className="text-xs mb-1">{info}</p>
       </div>
 
-      <div className="flex w-full z-10">
-        {/* <Button
-          className="w-full"
-          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            onAboutClick(url), e.preventDefault();
-          }}
-        >
-          <span className="text-xs">About</span>
-        </Button> */}
-      </div>
+      {/* <div className="flex w-full z-10">
+        <Button className="w-full text-xxs" onClick={onClick}>
+          Select
+        </Button>
+      </div> */}
     </InnerPanel>
   );
 };
@@ -93,6 +105,15 @@ export const CreateFarm: React.FC = () => {
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [charity, setCharity] = useState<CharityAddress | null>(null);
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+  const [screen, setScreen] = useState<"intro" | "create">("intro");
+
+  const isLoading = createFarmState.matches("loading");
+  const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
+  const hasCharitySelected = charity !== null;
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
@@ -151,78 +172,104 @@ export const CreateFarm: React.FC = () => {
         sitekey={CONFIG.RECAPTCHA_SITEKEY}
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
+        className="w-full flex items-center justify-center"
       />
     );
   }
 
   return (
-    <div>
-      <h1 className="text-center">Getting Started</h1>
-      <div className="flex flex-col space-y-2 text-xs p-2 mb-3">
-        <p>
-          Buying land costs $5 USD. Included with your purchase is a Bumpkin NFT
-          (worth $5 USD) who will be your guide in Sunflower Land.
-        </p>
-        <p>50 cents will be donated to a charity of your choice.</p>
-      </div>
-      <div className="text-xs">
-        <ol className="p-2 space-y-2">
-          <li>
-            <div>
-              <div className="flex space-x-1 mb-2 items-center">
-                {createFarmState.matches("notEnoughMatic") && <span>1.</span>}
-                {createFarmState.matches("hasEnoughMatic") && (
-                  <img
-                    src={confirm}
-                    style={{
-                      width: `${PIXEL_SCALE * 6}px`,
-                    }}
-                  />
+    <div className="flex flex-col items-center">
+      <h1 className="text-center mb-1">Getting Started</h1>
+      <img
+        src={betty}
+        className="my-1"
+        style={{
+          width: `${PIXEL_SCALE * 13}px`,
+        }}
+      />
+      {screen === "intro" && (
+        <>
+          <div className="flex flex-col space-y-2 text-xs p-2 pt-1 mb-2">
+            <p>
+              {`Sunflower Land is powered by the Polygon blockchain and requires
+              Polygon's MATIC token to play.`}
+            </p>
+            <p>
+              Buying land costs $5 USD worth of MATIC. 50 cents will be donated
+              to a charity of your choice.
+            </p>
+            <p>Included with your purchase is a Bumpkin NFT (worth $5 USD).</p>
+            <p>This Bumpkin will be your guide in Sunflower Land.</p>
+          </div>
+          <Button onClick={() => setScreen("create")}>Continue</Button>
+        </>
+      )}
+
+      {screen === "create" && (
+        <>
+          <ol className="p-2 space-y-3 text-xs">
+            <li>
+              <div>
+                <div className="flex space-x-1 mb-2 items-center">
+                  {!hasEnoughMatic && <span>1.</span>}
+                  {hasEnoughMatic && (
+                    <img
+                      src={confirm}
+                      style={{
+                        width: `${PIXEL_SCALE * 6}px`,
+                      }}
+                    />
+                  )}
+                  <span>Add funds ($10 USD recommended)</span>
+                </div>
+                {!hasEnoughMatic && (
+                  <Button disabled={paymentConfirmed} onClick={addFunds}>
+                    Buy Matic
+                  </Button>
                 )}
-                <span>Add Funds (We recommend $10 USD)</span>
               </div>
-              {createFarmState.matches("notEnoughMatic") && (
-                <Button disabled={paymentConfirmed} onClick={addFunds}>
-                  Buy Matic
-                </Button>
-              )}
-            </div>
-          </li>
-          {createFarmState.matches("hasEnoughMatic") && (
+            </li>
             <li>
               <div className="flex flex-col space-y-2">
-                <p>2. Pick your charity</p>
-                <div className="flex space-x-2">
+                <div className="flex space-x-1 mb-1 items-center">
+                  {!hasCharitySelected && <span>2.</span>}
+                  {hasCharitySelected && (
+                    <img
+                      src={confirm}
+                      style={{
+                        width: `${PIXEL_SCALE * 6}px`,
+                      }}
+                    />
+                  )}
+                  <span>Pick your charity</span>
+                </div>
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 justify-evenly">
                   {CHARITIES.map((_charity) => (
-                    <div
-                      key={_charity.address}
+                    <CharityDetail
+                      {..._charity}
+                      selected={charity === _charity.address}
                       onClick={() => setCharity(_charity.address)}
-                    >
-                      <CharityDetail
-                        {..._charity}
-                        selected={charity === _charity.address}
-                      />
-                    </div>
-
-                    // <button
-                    //   key={charity.address}
-                    //   onClick={() => setCharity(charity.address)}
-                    // >
-                    //   {charity.name}
-                    // </button>
+                      key={_charity.address}
+                    />
                   ))}
                 </div>
               </div>
             </li>
-          )}
-          <li>
-            {createFarmState.matches("hasEnoughMatic") && charity !== null && (
-              <Button onClick={() => setShowCaptcha(true)}>Create Farm</Button>
-            )}
-          </li>
-        </ol>
-      </div>
+
+            <li>
+              <div className="flex flex-col space-y-2">
+                <span>3. Create your land!</span>
+                <Button
+                  disabled={!hasEnoughMatic || !hasCharitySelected}
+                  onClick={() => setShowCaptcha(true)}
+                >
+                  Create Land
+                </Button>
+              </div>
+            </li>
+          </ol>
+        </>
+      )}
     </div>
   );
 
