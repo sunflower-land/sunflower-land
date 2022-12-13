@@ -21,6 +21,7 @@ import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible
 import { Chicken } from "features/island/chickens/Chicken";
 
 import dragIcon from "assets/icons/drag.png";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -28,14 +29,45 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   ...COLLECTIBLE_COMPONENTS,
 };
 
-const DEFAULT_POSITION_X = 0;
-const DEFAULT_POSITION_Y = 0;
-
 // TODO - get dynamic bounds for placeable
 // const BOUNDS_MIN_X = -15
 // const BOUNDS_MAX_X = 5
 // const BOUNDS_MIN_Y = -5
 // const BOUNDS_MAX_Y = 15
+
+const getInitialCorodinates = () => {
+  // This container helps us to calculate the scroll pixels as in our application
+  // window do not scroll but this container dose
+  const pageScrollContainer = document.getElementsByClassName(
+    "page-scroll-container"
+  )[0];
+
+  const viewportMidPointX =
+    window.innerWidth / 2 + pageScrollContainer.scrollLeft;
+  const viewportMidPointY =
+    window.innerHeight / 2 + pageScrollContainer.scrollTop;
+
+  const land = document
+    .getElementById(Section.GenesisBlock)
+    ?.getBoundingClientRect();
+  const landMidX =
+    pageScrollContainer.scrollLeft +
+    (land?.left ?? 0) +
+    ((land?.width ?? 0) / 2 ?? 0);
+  const landMidY =
+    pageScrollContainer.scrollTop +
+    (land?.top ?? 0) +
+    ((land?.height ?? 0) / 2 ?? 0);
+
+  // This division and then multiplication with GRID_WIDTH_PX has been done as
+  // due to a small pixel difference in rounding, the actual placeable square was
+  // a bit off from the land square.
+  const INITIAL_POSITION_X =
+    Math.round((viewportMidPointX - landMidX) / GRID_WIDTH_PX) * GRID_WIDTH_PX;
+  const INITIAL_POSITION_Y =
+    Math.round((viewportMidPointY - landMidY) / GRID_WIDTH_PX) * GRID_WIDTH_PX;
+  return [INITIAL_POSITION_X, INITIAL_POSITION_Y];
+};
 
 export const Placeable: React.FC = () => {
   const nodeRef = useRef(null);
@@ -43,10 +75,6 @@ export const Placeable: React.FC = () => {
 
   const [showHint, setShowHint] = useState(true);
   const collideRef = useRef(false);
-
-  useEffect(() => {
-    detect({ x: DEFAULT_POSITION_X, y: -DEFAULT_POSITION_Y });
-  }, []);
 
   const child = gameService.state.children.editing as MachineInterpreter;
 
@@ -71,6 +99,15 @@ export const Placeable: React.FC = () => {
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
+  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] = getInitialCorodinates();
+
+  useEffect(() => {
+    detect({
+      x: Math.round(DEFAULT_POSITION_X / GRID_WIDTH_PX),
+      y: Math.round(-DEFAULT_POSITION_Y / GRID_WIDTH_PX),
+    });
+  }, []);
+
   return (
     <>
       <div
@@ -89,8 +126,8 @@ export const Placeable: React.FC = () => {
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
           defaultPosition={{
-            x: DEFAULT_POSITION_X * GRID_WIDTH_PX,
-            y: DEFAULT_POSITION_Y * GRID_WIDTH_PX,
+            x: DEFAULT_POSITION_X,
+            y: DEFAULT_POSITION_Y,
           }}
           nodeRef={nodeRef}
           grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
