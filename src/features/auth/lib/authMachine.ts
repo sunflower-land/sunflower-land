@@ -604,7 +604,9 @@ export const authMachine = createMachine<
         return { wallet: "WALLET_CONNECT", provider };
       },
       initSequence: async () => {
-        const sequenceWallet = await sequence.initWallet("mumbai");
+        const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
+
+        const sequenceWallet = await sequence.initWallet(network);
         await sequenceWallet.connect({
           app: "Sunflower Land",
           settings: {
