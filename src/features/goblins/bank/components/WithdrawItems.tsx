@@ -24,6 +24,7 @@ import {
   isLimitedItem,
   LimitedItemName,
 } from "features/game/types/craftables";
+import { isNeverWithdrawable } from "features/game/types/withdrawables";
 import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 
@@ -108,8 +109,8 @@ export const WithdrawItems: React.FC<Props> = ({
       : details;
   };
 
-  const inventoryItems = getKeys(inventory)
-    .filter((item) => inventory[item]?.gt(0))
+  const withdrawableItems = getKeys(inventory)
+    .filter((item) => !isNeverWithdrawable(item) && inventory[item]?.gt(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const selectedItems = getKeys(selected)
@@ -148,30 +149,32 @@ export const WithdrawItems: React.FC<Props> = ({
       <div className="mt-3">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
           <span className="text-xs">
-            Items that are{" "}
+            {
+              "Some items cannot be withdrawn. Other items may be restricted when "
+            }
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
               rel="noreferrer"
               className="underline"
             >
-              in use
-            </a>{" "}
-            or{" "}
+              {"in use"}
+            </a>
+            {" or are "}
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
               rel="noreferrer"
               className="underline"
             >
-              still being built
-            </a>{" "}
-            by the goblins are not available to be withdrawn.
+              {"still being built"}
+            </a>
+            {"."}
           </span>
         </div>
         <h2 className="mb-3">Select items to withdraw</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {inventoryItems.map((itemName) => {
+          {withdrawableItems.map((itemName) => {
             const details = makeItemDetails(itemName);
             const gameState = goblinState.context.state;
 
@@ -206,8 +209,8 @@ export const WithdrawItems: React.FC<Props> = ({
             );
           })}
           {/* Pad with empty boxes */}
-          {inventoryItems.length < 4 &&
-            new Array(4 - inventoryItems.length)
+          {withdrawableItems.length < 4 &&
+            new Array(4 - withdrawableItems.length)
               .fill(null)
               .map((_, index) => <Box disabled key={index} />)}
         </div>

@@ -61,7 +61,7 @@ export const flags: Record<Flag, LimitedItem> = {
   },
   "Brazilian Flag": {
     name: "Brazilian Flag",
-    description: "Brazillian flag",
+    description: "Brazilian flag",
     section: Section["Flags"],
     type: LimitedItemType.Flag,
   },

@@ -94,7 +94,11 @@ export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 
-export type Coupons = "Trading Ticket" | "War Bond" | "Jack-o-lantern";
+export type Coupons =
+  | "Trading Ticket"
+  | "War Bond"
+  | "Jack-o-lantern"
+  | "Golden Crop";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -106,11 +110,16 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Jack-o-lantern": {
     description: "A Halloween special event item",
   },
+  "Golden Crop": {
+    description: "A shiny golden crop",
+  },
 };
 
 type Points = "Human War Point" | "Goblin War Point" | "Player Experience";
 
 type WarBanner = "Human War Banner" | "Goblin War Banner";
+
+export type GoldenCropEventItem = "Golden Crop";
 
 export type Bumpkin = {
   id: number;
@@ -155,7 +164,8 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | GoblinRetreatItemName;
+  | GoblinRetreatItemName
+  | GoldenCropEventItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

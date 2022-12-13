@@ -18,13 +18,22 @@ type Tab = "basket" | "chest";
 interface Props {
   state: GameState;
   onClose: () => void;
+  selected: InventoryItemName;
+  onSelect: (name: InventoryItemName) => void;
+  onPlace?: (name: InventoryItemName) => void;
 }
 
 export type TabItems = Record<string, { items: object }>;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
-export const InventoryItems: React.FC<Props> = ({ state, onClose }) => {
+export const InventoryItems: React.FC<Props> = ({
+  state,
+  onClose,
+  selected,
+  onSelect,
+  onPlace,
+}) => {
   const [currentTab, setCurrentTab] = useState<Tab>("basket");
 
   const handleTabClick = (tab: Tab) => {
@@ -69,8 +78,12 @@ export const InventoryItems: React.FC<Props> = ({ state, onClose }) => {
         />
       </div>
 
-      {currentTab === "basket" && <Basket />}
-      {currentTab === "chest" && <Chest state={state} closeModal={onClose} />}
+      {currentTab === "basket" && (
+        <Basket gameState={state} onSelect={onSelect} selected={selected} />
+      )}
+      {currentTab === "chest" && (
+        <Chest state={state} closeModal={onClose} onPlace={onPlace} />
+      )}
     </Panel>
   );
 };

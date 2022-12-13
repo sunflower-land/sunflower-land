@@ -197,6 +197,10 @@ import sunSeeker from "assets/achievements/sun_seeker.png";
 import sunflowerSuperstar from "assets/achievements/sunflower_superstar.png";
 import timberrr from "assets/achievements/timber.png";
 import timeToChop from "assets/achievements/time_to_chop.png";
+import breadWinner from "assets/achievements/bread_winner.png";
+import explorer from "assets/achievements/explorer.png";
+import farmHand from "assets/achievements/farm_hand.png";
+import highRoller from "assets/achievements/high_roller.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
@@ -294,6 +298,7 @@ import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
 //Decorations
 import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
 import pottedPumpkin from "src/assets/decorations/potted_pumpkin.webp";
+import pottedPotato from "src/assets/decorations/potted_potato.png";
 import whiteTulips from "src/assets/decorations/white_tulips.png";
 import cactus from "src/assets/decorations/cactus.png";
 import basicBear from "src/assets/sfts/bears/basic_bear.png";
@@ -334,6 +339,8 @@ import { DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
+//Golden Crop Event
+import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1255,36 +1262,36 @@ export const ITEM_DETAILS: Items = {
   },
   "Bumpkin Salad": {
     image: bumpkinSalad,
-    description: "?",
+    description: "Gotta keep your Bumpkin healthy!",
   },
   "Goblin's Treat": {
     image: goblinsTreat,
-    description: "?",
+    description: "Goblins go crazy for this stuff!",
   },
   "Cauliflower Burger": {
     image: cauliflowerBurger,
-    description: "?",
+    description: "Calling all cauliflower lovers!",
   },
   "Club Sandwich": {
     image: clubSandwich,
-    description: "",
+    description: "Filled with Carrots and Roasted Sunflower Seeds",
   },
   "Roast Veggies": {
     image: roastVeggies,
-    description: "",
+    description: "Even Goblins need to eat their veggies!",
   },
   Pancakes: {
     image: pancakes,
-    description: "",
+    description: "A great start to a Bumpkins day",
   },
   "Fermented Carrots": {
     // TODO
     image: roastVeggies,
-    description: "",
+    description: "Got a surplus of carrots?",
   },
 
   Explorer: {
-    image: questionMark,
+    image: explorer,
     description: ACHIEVEMENTS().Explorer.description,
   },
   "Busy Bumpkin": {
@@ -1293,135 +1300,135 @@ export const ITEM_DETAILS: Items = {
   },
   "Brilliant Bumpkin": {
     image: brilliantBumpkin,
-    description: "",
+    description: ACHIEVEMENTS()["Brilliant Bumpkin"].description,
   },
   "Sun Seeker": {
     image: sunSeeker,
-    description: "",
+    description: ACHIEVEMENTS()["Sun Seeker"].description,
   },
   "Sunflower Superstar": {
     image: sunflowerSuperstar,
-    description: "",
+    description: ACHIEVEMENTS()["Sunflower Superstar"].description,
   },
   "My life is potato": {
     image: myLifeIsPotato,
-    description: "",
+    description: ACHIEVEMENTS()["My life is potato"].description,
   },
   "Jack O'Latern": {
     image: jackOLantern,
-    description: "",
+    description: ACHIEVEMENTS()["Jack O'Latern"].description,
   },
   "20/20 Vision": {
     image: twentyTwentyVision,
-    description: "",
+    description: ACHIEVEMENTS()["20/20 Vision"].description,
   },
   "Cabbage King": {
     image: cabbageKing,
-    description: "",
+    description: ACHIEVEMENTS()["Cabbage King"].description,
   },
   "Beetroot Beast": {
     image: beetrootBeast,
-    description: "",
+    description: ACHIEVEMENTS()["Beetroot Beast"].description,
   },
   "Cool Flower": {
     image: coolCauliflower,
-    description: "",
+    description: ACHIEVEMENTS()["Cool Flower"].description,
   },
   "Patient Parsnips": {
     image: patientParsnip,
-    description: "",
+    description: ACHIEVEMENTS()["Patient Parsnips"].description,
   },
   "Rapid Radish": {
     image: rapidRadish,
-    description: "",
+    description: ACHIEVEMENTS()["Rapid Radish"].description,
   },
   "Staple Crop": {
     image: stapleCrop,
-    description: "",
+    description: ACHIEVEMENTS()["Staple Crop"].description,
   },
   "Farm Hand": {
-    image: questionMark,
-    description: "",
+    image: farmHand,
+    description: ACHIEVEMENTS()["Farm Hand"].description,
   },
   "Crop Champion": {
     image: cropChampion,
-    description: "",
+    description: ACHIEVEMENTS()["Crop Champion"].description,
   },
   "Bread Winner": {
-    image: questionMark,
-    description: "",
+    image: breadWinner,
+    description: ACHIEVEMENTS()["Bread Winner"].description,
   },
   "Bumpkin Billionaire": {
     image: bumpkinBillionaire,
-    description: "",
+    description: ACHIEVEMENTS()["Bumpkin Billionaire"].description,
   },
   "Big Spender": {
     image: bigSpender,
-    description: "",
+    description: ACHIEVEMENTS()["Big Spender"].description,
   },
   "High Roller": {
-    image: questionMark,
-    description: "",
+    image: highRoller,
+    description: ACHIEVEMENTS()["High Roller"].description,
   },
   Timbeerrr: {
     image: timberrr,
-    description: "",
+    description: ACHIEVEMENTS().Timbeerrr.description,
   },
   "Bumpkin Chainsaw Amateur": {
     image: bumpkinChainsawAmateu,
-    description: "",
+    description: ACHIEVEMENTS()["Bumpkin Chainsaw Amateur"].description,
   },
   Driller: {
     image: driller,
-    description: "",
+    description: ACHIEVEMENTS().Driller.description,
   },
   Canary: {
     image: canary,
-    description: "",
+    description: ACHIEVEMENTS().Canary.description,
   },
   "Iron Eyes": {
     image: ironEyes,
-    description: "",
+    description: ACHIEVEMENTS()["Iron Eyes"].description,
   },
   "Something Shiny": {
     image: somethingShiny,
-    description: "",
+    description: ACHIEVEMENTS()["Something Shiny"].description,
   },
   "El Dorado": {
     image: elDorado,
-    description: "",
+    description: ACHIEVEMENTS()["El Dorado"].description,
   },
   "Gold Fever": {
     image: goldFever,
-    description: "",
+    description: ACHIEVEMENTS()["Gold Fever"].description,
   },
   "Kiss the Cook": {
     image: kissTheCook,
-    description: "",
+    description: ACHIEVEMENTS()["Kiss the Cook"].description,
   },
   "Bakers Dozen": {
     image: bakersDozen,
-    description: "",
+    description: ACHIEVEMENTS()["Bakers Dozen"].description,
   },
   "Chef de Cuisine": {
     image: chefDeCusine,
-    description: "",
+    description: ACHIEVEMENTS()["Chef de Cuisine"].description,
   },
   Craftmanship: {
     image: craftmanship,
-    description: "",
+    description: ACHIEVEMENTS().Craftmanship.description,
   },
   "Time to chop": {
     image: timeToChop,
-    description: "",
+    description: ACHIEVEMENTS()["Time to chop"].description,
   },
   Contractor: {
     image: contractor,
-    description: "",
+    description: ACHIEVEMENTS().Contractor.description,
   },
   Museum: {
     image: museum,
-    description: "",
+    description: ACHIEVEMENTS().Museum.description,
   },
   "White Tulips": {
     image: whiteTulips,
@@ -1512,11 +1519,11 @@ export const ITEM_DETAILS: Items = {
 
   "Colossal Crop": {
     image: questionMark,
-    description: "???",
+    description: "As big as the Empire State building",
   },
   "Peaceful Potato": {
     image: questionMark,
-    description: "???",
+    description: "Practicioner of spud Yoga",
   },
   "Perky Pumpkin": {
     image: questionMark,
@@ -1527,11 +1534,15 @@ export const ITEM_DETAILS: Items = {
     description: "???",
   },
   "Potted Potato": {
-    image: questionMark,
-    description: "???",
+    image: pottedPotato,
+    description: "Potato blood runs through your Bumpkin.",
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
     description: DECORATIONS()["Potted Pumpkin"].description,
+  },
+  "Golden Crop": {
+    image: goldenCrop,
+    description: "A shiny golden crop",
   },
 };

@@ -11,13 +11,14 @@ import { PlaceableController } from "features/farming/hud/components/PlaceableCo
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { LandId } from "./components/LandId";
+import { InventoryItemName } from "features/game/types/game";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const isEditing = gameState.matches("editing");
@@ -34,6 +35,13 @@ export const Hud: React.FC = () => {
           <Inventory
             state={gameState.context.state}
             shortcutItem={shortcutItem}
+            selectedItem={selectedItem as InventoryItemName}
+            onPlace={(selected) => {
+              gameService.send("EDIT", {
+                placeable: selected,
+                action: "collectible.placed",
+              });
+            }}
             isFarming
           />
           {landId && <LandId landId={landId} />}

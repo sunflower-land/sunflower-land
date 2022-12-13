@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { pixelWhiteBorderStyle } from "features/game/lib/style";
 
-type labelType = "default" | "success" | "info" | "danger";
+type labelType = "default" | "success" | "info" | "danger" | "warning";
 
 interface Props {
   className?: string;
@@ -55,6 +55,16 @@ export const Label: React.FC<Props> = ({ children, className, type }) => {
         <span
           className={classnames(
             "bg-error border text-xxs px-2 py-1 rounded-md",
+            className
+          )}
+        >
+          {children}
+        </span>
+      )}
+      {type === "warning" && (
+        <span
+          className={classnames(
+            "bg-[#ff8f0e] border text-xxs px-2 py-1 rounded-md",
             className
           )}
         >

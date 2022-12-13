@@ -15,37 +15,7 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 export async function mint(request: Request) {
-  if (CONFIG.NETWORK === "mumbai") {
-    return mintCollectible(request);
-  }
-
-  const response = await window.fetch(`${API_URL}/mint/${request.farmId}`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${request.token}`,
-      "X-Transaction-ID": request.transactionId,
-    },
-    body: JSON.stringify({
-      sessionId: request.sessionId,
-      item: request.item,
-      captcha: request.captcha,
-    }),
-  });
-
-  if (response.status === 429) {
-    throw new Error(ERRORS.TOO_MANY_REQUESTS);
-  }
-
-  if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.MINT_SERVER_ERROR);
-  }
-
-  const transaction = await response.json();
-
-  const sessionId = await wallet.getSessionManager().mint(transaction);
-
-  return { sessionId, verified: true };
+  return mintCollectible(request);
 }
 
 async function mintCollectible(request: Request) {

@@ -20,10 +20,7 @@ export const CommunityGardenModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
-      <CloseButtonPanel
-        onClose={onClose}
-        title="Do you want to visit the Community Garden?"
-      >
+      <CloseButtonPanel onClose={onClose} title="Visit the Community Garden?">
         <div className="flex justify-center items-center gap-6 mb-3">
           <img
             src={boats}

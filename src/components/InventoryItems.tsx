@@ -67,6 +67,7 @@ const BASKET_CATEGORIES: TabItems = {
       "Trading Ticket": {},
       "War Bond": {},
       "Jack-o-lantern": {},
+      "Golden Crop": {},
     },
   },
 };

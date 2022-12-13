@@ -16,14 +16,18 @@ import { CollectibleName } from "features/game/types/craftables";
 
 interface Props {
   state: GameState;
+  selectedItem: InventoryItemName;
   shortcutItem?: (item: InventoryItemName) => void;
+  onPlace?: (item: InventoryItemName) => void;
   isFarming?: boolean;
 }
 
 export const Inventory: React.FC<Props> = ({
   state,
+  selectedItem,
   shortcutItem,
   isFarming,
+  onPlace,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -75,7 +79,13 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems state={state} onClose={() => setIsOpen(false)} />
+        <InventoryItems
+          state={state}
+          onClose={() => setIsOpen(false)}
+          onSelect={handleItemClick}
+          selected={selectedItem}
+          onPlace={onPlace}
+        />
       </Modal>
 
       {isFarming && (

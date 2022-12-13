@@ -48,8 +48,6 @@ const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
 };
 
 export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const craftableItems = WORKBENCH_TOOLS();
-
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
   const [isCraftTenModalOpen, showCraftTenModal] = useState(false);
   const { setToast } = useContext(ToastContext);
@@ -88,7 +86,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     );
   }
 
-  const selected = craftableItems[selectedName];
+  const selected = WORKBENCH_TOOLS[selectedName];
   const inventory = state.inventory;
 
   const price = getToolBuyPrice(selected, inventory);
@@ -279,7 +277,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           <div className="flex flex-col-reverse sm:flex-row">
             <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-              {getKeys(craftableItems).map((toolName) => (
+              {getKeys(WORKBENCH_TOOLS).map((toolName) => (
                 <Box
                   isSelected={selectedName === toolName}
                   key={toolName}
