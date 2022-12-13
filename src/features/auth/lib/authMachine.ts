@@ -17,6 +17,7 @@ import {
   removeSession,
   hasValidSession,
 } from "../actions/login";
+import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 import { checkMigrationStatus } from "features/game/actions/checkMigrationStatus";
 import { randomID } from "lib/utils/random";
@@ -26,6 +27,12 @@ const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
   const id = paths[paths.length - 1];
   return parseInt(id);
+};
+
+const getDiscordCode = () => {
+  const code = new URLSearchParams(window.location.search).get("code");
+
+  return code;
 };
 
 const deleteFarmUrl = () =>
@@ -109,6 +116,7 @@ export type BlockchainEvent =
   | {
       type: "CHOOSE_CHARITY";
     }
+  | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
   | { type: "SKIP" }
   | { type: "CONNECT_TO_METAMASK" }
@@ -129,6 +137,7 @@ export type BlockchainState = {
     | "reconnecting"
     | "connected"
     | "signing"
+    | "oauthorising"
     | "blacklisted"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
@@ -276,10 +285,28 @@ export const authMachine = createMachine<
           src: "login",
           onDone: [
             {
+              target: "oauthorising",
+              cond: "hasDiscordCode",
+            },
+            {
               target: "connected",
               actions: "assignToken",
             },
           ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
+      },
+      oauthorising: {
+        entry: "setTransactionId",
+        invoke: {
+          src: "oauthorise",
+          onDone: {
+            target: "connected.loadingFarm",
+            actions: "assignToken",
+          },
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -419,6 +446,11 @@ export const authMachine = createMachine<
             on: {
               CHOOSE_CHARITY: {
                 target: "donating",
+              },
+              CONNECT_TO_DISCORD: {
+                // Redirects to Discord OAuth so no need for a state change
+                target: "noFarmLoaded",
+                actions: redirectOAuth,
               },
               EXPLORE: {
                 target: "#exploring",
@@ -679,6 +711,16 @@ export const authMachine = createMachine<
           token,
         };
       },
+      oauthorise: async (context) => {
+        const code = getDiscordCode() as string;
+        // Navigates to Discord OAuth Flow
+        const { token } = await oauthorise(
+          code,
+          context.transactionId as string
+        );
+
+        return { token };
+      },
       visitFarm: async (
         _context: Context,
         event: any
@@ -752,6 +794,7 @@ export const authMachine = createMachine<
         return !!context.farmId;
       },
       isVisitingUrl: () => window.location.href.includes("visit"),
+      hasDiscordCode: () => !!getDiscordCode(),
     },
   }
 );

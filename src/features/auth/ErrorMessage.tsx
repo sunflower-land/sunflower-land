@@ -15,6 +15,7 @@ import { ErrorCode, ERRORS } from "lib/errors";
 import { TooManyRequests } from "./components/TooManyRequests";
 import { Maintenance } from "./components/Maintenance";
 import { MultipleDevices } from "./components/MultipleDevices";
+import { Blocked } from "./components/Blocked";
 
 interface Props {
   errorCode: ErrorCode;
@@ -51,6 +52,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.NO_FARM) {
     return <Beta />;
+  }
+
+  if (errorCode === ERRORS.BLOCKED) {
+    return <Blocked />;
   }
 
   if (errorCode === ERRORS.DISCORD_USER_EXISTS) {

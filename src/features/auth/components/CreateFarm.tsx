@@ -20,6 +20,7 @@ import { onramp } from "../actions/onramp";
 import { randomID } from "lib/utils/random";
 import classNames from "classnames";
 import { Loading } from "./Loading";
+import { Blocked } from "./Blocked";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -83,12 +84,6 @@ const CharityDetail = ({
         </a>
         <p className="text-xs mb-1">{info}</p>
       </div>
-
-      {/* <div className="flex w-full z-10">
-        <Button className="w-full text-xxs" onClick={onClick}>
-          Select
-        </Button>
-      </div> */}
     </InnerPanel>
   );
 };
@@ -96,6 +91,7 @@ const CharityDetail = ({
 export const CreateFarm: React.FC = () => {
   const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
+  const [authState] = useActor(authService);
 
   const child = authService.state.children
     .createFarmMachine as MachineInterpreter;
@@ -165,6 +161,10 @@ export const CreateFarm: React.FC = () => {
 
     wyre.open();
   };
+
+  if (!authState.context.token?.userAccess.createFarm) {
+    return <Blocked />;
+  }
 
   if (showCaptcha) {
     return (
