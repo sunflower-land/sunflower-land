@@ -18,6 +18,8 @@ import { randomID } from "lib/utils/random";
 import classNames from "classnames";
 import { Loading } from "./Loading";
 import { Blocked } from "./Blocked";
+import Decimal from "decimal.js-light";
+import { fromWei, toBN } from "web3-utils";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -86,7 +88,6 @@ const CharityDetail = ({
 };
 
 export const CreateFarm: React.FC = () => {
-  const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
 
@@ -108,6 +109,17 @@ export const CreateFarm: React.FC = () => {
     return <Loading />;
   }
 
+  const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
+
+  // 20c gas fee for a $5 USD farm, is 4%.
+  const maticFeePlusGas = new Decimal(maticFee)
+    .mul(1.04)
+    .toDecimalPlaces(2, Decimal.ROUND_UP);
+
+  const recommendedMatic = maticFeePlusGas
+    .mul(2)
+    .toDecimalPlaces(0, Decimal.ROUND_UP);
+
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
@@ -116,24 +128,6 @@ export const CreateFarm: React.FC = () => {
       donation: 10,
       captcha: token,
     });
-  };
-
-  const onDonateAndPlayClick = (charityAddress: CharityAddress) => {
-    setCharity(charityAddress);
-    setShowCaptcha(true);
-  };
-
-  const updateActiveIndex = (newIdx: number) => {
-    if (newIdx < 0) {
-      setActiveIndex(0);
-    }
-
-    if (newIdx > CHARITIES.length - 1) {
-      setActiveIndex(CHARITIES.length - 1);
-      return;
-    }
-
-    setActiveIndex(newIdx);
   };
 
   const addFunds = async () => {
@@ -179,8 +173,8 @@ export const CreateFarm: React.FC = () => {
               Polygon's Matic token to play.`}
             </p>
             <p>
-              Creating an account costs $5 USD worth of Matic. 50 cents will be
-              donated to a charity of your choice.
+              {`Creating an account costs ${maticFeePlusGas.toNumber()} Matic (~$5 USD). 50 cents will
+              be donated to a charity of your choice.`}
             </p>
             <p>You will also receive a free Bumpkin NFT (worth $5 USD).</p>
             <p>This Bumpkin will be your guide in Sunflower Land.</p>
@@ -204,12 +198,26 @@ export const CreateFarm: React.FC = () => {
                       }}
                     />
                   )}
-                  <span>Add Matic ($10 USD recommended)</span>
+                  <span>
+                    Add Matic ({recommendedMatic.toNumber()} Matic recommended)
+                  </span>
                 </div>
                 {!hasEnoughMatic && (
-                  <Button disabled={paymentConfirmed} onClick={addFunds}>
-                    Buy Matic
-                  </Button>
+                  <>
+                    <Button disabled={paymentConfirmed} onClick={addFunds}>
+                      Buy Matic
+                    </Button>
+                    {paymentConfirmed && (
+                      <p
+                        className="text-xxs italic"
+                        style={{ lineHeight: 1.1 }}
+                      >
+                        Waiting for crypto to be sent to your wallet. This
+                        usually takes 20-30 seconds
+                        <span className="loading2" />
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             </li>
