@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import Modal from "react-bootstrap/Modal";
 
@@ -70,6 +70,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean, getBeanStates } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
+import { Context } from "features/game/GameProvider";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
 import { isBean } from "features/game/types/beans";
 
@@ -183,7 +184,7 @@ export const Collectible: React.FC<CollectibleProps> = ({
   createdAt,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-
+  const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -215,17 +216,19 @@ export const Collectible: React.FC<CollectibleProps> = ({
               readyAt={readyAt}
             />
           </div>
-          <div
-            className="absolute bottom-0 left-1/2"
-            style={{
-              marginLeft: `${PIXEL_SCALE * -8}px`,
-            }}
-          >
-            <Bar
-              percentage={(1 - secondsLeft / totalSeconds) * 100}
-              type="progress"
-            />
-          </div>
+          {showTimers && (
+            <div
+              className="absolute bottom-0 left-1/2"
+              style={{
+                marginLeft: `${PIXEL_SCALE * -8}px`,
+              }}
+            >
+              <Bar
+                percentage={(1 - secondsLeft / totalSeconds) * 100}
+                type="progress"
+              />
+            </div>
+          )}
         </div>
         <div
           className="flex justify-center absolute w-full pointer-events-none"

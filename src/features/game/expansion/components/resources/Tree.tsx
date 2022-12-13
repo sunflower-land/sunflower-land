@@ -364,12 +364,16 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute bottom-5 left-6",
+          "absolute left-1/2 transition-opacity pointer-events-none",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
           }
         )}
+        style={{
+          marginLeft: `${PIXEL_SCALE * -8}px`,
+          bottom: `${PIXEL_SCALE * -5}px`,
+        }}
       >
         <Bar
           percentage={collecting ? 0 : 100 - (touchCount / 3) * 100}

@@ -16,7 +16,7 @@ interface Props {
  * Goblins working hard constructing a piece of land
  */
 export const Pontoon: React.FC<Props> = ({ expansion }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
 
   const [secondsLeft, setSecondsLeft] = useState(
     (expansion.readyAt - Date.now()) / 1000
@@ -54,20 +54,22 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
           className="relative"
         />
       </div>
-      <div
-        className="absolute"
-        style={{
-          top: `${PIXEL_SCALE * 83}px`,
-          left: `${PIXEL_SCALE * 40}px`,
-        }}
-      >
-        <ProgressBar
-          seconds={secondsLeft}
-          percentage={secondsLeft / constructionTime}
-          type="progress"
-          formatLength="medium"
-        />
-      </div>
+      {showTimers && (
+        <div
+          className="absolute"
+          style={{
+            top: `${PIXEL_SCALE * 83}px`,
+            left: `${PIXEL_SCALE * 40}px`,
+          }}
+        >
+          <ProgressBar
+            seconds={secondsLeft}
+            percentage={secondsLeft / constructionTime}
+            type="progress"
+            formatLength="medium"
+          />
+        </div>
+      )}
     </div>
   );
 };

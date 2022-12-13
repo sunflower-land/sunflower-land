@@ -22,6 +22,7 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
+import { Bar } from "components/ui/ProgressBar";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -123,6 +124,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                 className="flex flex-col items-center mb-1 w-1/3 sm:w-1/4"
                 key={name}
               >
+                {/* Achievement icon */}
                 <div
                   style={{
                     width: `${PIXEL_SCALE * 22}px`,
@@ -130,7 +132,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                   }}
                   onClick={() => setSelected(name)}
                   className={classNames(
-                    "flex justify-center items-center p-1 rounded-md mr-2 relative cursor-pointer hover:img-highlight",
+                    "flex justify-center items-center p-1 rounded-md relative cursor-pointer hover:img-highlight",
                     {
                       "opacity-50": !isAlreadyClaimed && !isComplete,
                       "img-highlight": selected === name,
@@ -155,9 +157,14 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                   />
                 </div>
 
-                <div className="h-10">
+                {/* Achievement indicator */}
+                <div
+                  className="h-12 cursor-pointer"
+                  onClick={() => setSelected(name)}
+                >
+                  {/* Ready to claim */}
                   {isComplete && !isAlreadyClaimed && (
-                    <div className="flex flex-1 pr-2 mt-1.5 text-xs flex-wrap justify-center">
+                    <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
                       <img
                         src={alert}
                         style={{
@@ -166,8 +173,10 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                       />
                     </div>
                   )}
+
+                  {/* Claimed */}
                   {isAlreadyClaimed && (
-                    <div className="flex flex-1 pr-2 mt-1.5 text-xs flex-wrap justify-center">
+                    <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
                       <img
                         src={confirm}
                         style={{
@@ -176,13 +185,19 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                       />
                     </div>
                   )}
+
+                  {/* In progress */}
                   {!isComplete && !isAlreadyClaimed && (
-                    <div className="flex flex-1 mt-1.5 text-xxs flex-wrap justify-center">
-                      <p>{`${shortenCount(
+                    <div className="flex flex-col flex-1 mt-1.5 items-center justify-center">
+                      <p className="mb-1 text-xxs text-center">{`${shortenCount(
                         new Decimal(progress)
                       )}/${shortenCount(
                         new Decimal(achievement.requirement)
                       )}`}</p>
+                      <Bar
+                        percentage={(progress / achievement.requirement) * 100}
+                        type="progress"
+                      />
                     </div>
                   )}
                 </div>
