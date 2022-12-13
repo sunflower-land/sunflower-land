@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { PlaceableName } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type PlaceableType = "building" | "collectible";
 
@@ -97,13 +98,15 @@ export const RemovePlaceableModal: React.FC<Props> = ({
   };
 
   return (
-    <Panel>
+    <CloseButtonPanel showCloseButton={false} title={`Remove this ${type}?`}>
       <div className="flex flex-col items-center">
-        <h2 className="text-sm sm:text-base text-center">{`Remove this ${type}?`}</h2>
         <img
           src={ITEM_DETAILS["Rusty Shovel"].image}
           alt="Rusty Shovel"
-          className="w-10 my-2"
+          className="mb-2"
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+          }}
         />
         <div className="p-1 mb-3 text-xs sm:text-sm">
           <p className="mb-3">
@@ -125,6 +128,6 @@ export const RemovePlaceableModal: React.FC<Props> = ({
           )}
         </div>
       </div>
-    </Panel>
+    </CloseButtonPanel>
   );
 };

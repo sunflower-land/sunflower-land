@@ -17,7 +17,7 @@ interface Props {
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
   title?: string;
   showCloseButton?: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   bumpkinParts?: Partial<Equipped>;
 }
 
@@ -90,12 +90,14 @@ export const CloseButtonPanel: React.FC<Props> = ({
       <div>
         {title && (
           <div className="flex text-center">
-            <div
-              className="flex-none"
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
+            {showCloseButton && !tabs && (
+              <div
+                className="flex-none"
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
+              />
+            )}
             <div className="grow mb-3 text-lg">{title}</div>
             {showCloseButton && !tabs && (
               <div className="flex-none">

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
-import { Inventory } from "./game";
+import { Inventory, InventoryItemName } from "./game";
 
 export type BeanName = "Magic Bean" | "Shiny Bean" | "Golden Bean";
 
@@ -44,6 +44,10 @@ export const BEANS: () => Record<BeanName, Bean> = () => ({
     plantSeconds: 4 * 24 * 60 * 60,
   },
 });
+
+export function isBean(item: InventoryItemName): item is BeanName {
+  return item in BEANS();
+}
 
 export type MutantCropName =
   | "Stellar Sunflower"
