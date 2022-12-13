@@ -20,13 +20,15 @@ export const WaterWell: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
   };
 
   return (
-    <BuildingImageWrapper onClick={handleClick} nonInteractible>
+    <BuildingImageWrapper onClick={handleClick} nonInteractible={!onRemove}>
       <img
         src={well}
         style={{
           width: `${PIXEL_SCALE * 28}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 2}px`,
         }}
-        className="relative bottom-2"
+        className="absolute"
       />
     </BuildingImageWrapper>
   );

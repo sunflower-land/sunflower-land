@@ -68,9 +68,10 @@ import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlace
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bean } from "./components/Bean";
+import { Bean, getBeanStates } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
+import { isBean } from "features/game/types/beans";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -243,10 +244,13 @@ export const Collectible: React.FC<CollectibleProps> = ({
   }
 
   const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+  const isBeanAndFullyGrown =
+    isBean(name) && getBeanStates(name, createdAt).isReady;
+  const canRemoveOnClick =
+    shortcuts[0] === "Rusty Shovel" && !isBeanAndFullyGrown;
 
   const handleOnClick = () => {
-    if (!hasRustyShovelSelected) return;
+    if (!canRemoveOnClick) return;
 
     setShowRemoveModal(true);
   };
@@ -255,13 +259,13 @@ export const Collectible: React.FC<CollectibleProps> = ({
     <>
       <div
         className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": hasRustyShovelSelected,
+          "cursor-pointer hover:img-highlight": canRemoveOnClick,
         })}
-        onClick={hasRustyShovelSelected ? handleOnClick : undefined}
+        onClick={canRemoveOnClick ? handleOnClick : undefined}
       >
         <div
           className={classNames("h-full", {
-            "pointer-events-none": hasRustyShovelSelected,
+            "pointer-events-none": canRemoveOnClick,
           })}
         >
           <CollectiblePlaced

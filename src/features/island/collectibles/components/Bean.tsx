@@ -4,16 +4,28 @@ import planted from "assets/crops/bean_planted.png";
 import ready from "assets/crops/bean_ready.png";
 import growing from "assets/crops/bean_growing.png";
 import alerted from "assets/icons/expression_alerted.png";
-import questionMark from "assets/icons/expression_confused.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { BeanName, BEANS } from "features/game/types/beans";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { setImageWidth } from "lib/images";
+import { InventoryItemName } from "features/game/types/game";
+
+export const getBeanStates = (name: InventoryItemName, createdAt: number) => {
+  const plantSeconds = BEANS()[name as BeanName].plantSeconds;
+
+  const secondsPassed = (Date.now() - createdAt) / 1000;
+
+  const timeLeft = plantSeconds - secondsPassed;
+  const isReady = timeLeft <= 0;
+  return { isReady, timeLeft, plantSeconds };
+};
 
 export const Bean: React.FC<CollectibleProps> = ({
   createdAt,
@@ -25,11 +37,7 @@ export const Bean: React.FC<CollectibleProps> = ({
 
   useUiRefresher();
 
-  const plantSeconds = BEANS()[name as BeanName].plantSeconds;
-
-  const secondsPassed = (Date.now() - createdAt) / 1000;
-
-  const timeLeft = plantSeconds - secondsPassed;
+  const { isReady, timeLeft, plantSeconds } = getBeanStates(name, createdAt);
 
   const harvest = () => {
     gameService.send("REVEAL", {
@@ -42,7 +50,7 @@ export const Bean: React.FC<CollectibleProps> = ({
     });
   };
 
-  if (timeLeft <= 0) {
+  if (isReady) {
     return (
       <>
         <img
@@ -50,7 +58,7 @@ export const Bean: React.FC<CollectibleProps> = ({
           className="animate-float z-10 absolute"
           style={{
             width: `${PIXEL_SCALE * 4}px`,
-            left: `${PIXEL_SCALE * 12.8}px`,
+            left: `${PIXEL_SCALE * 14}px`,
             bottom: `${PIXEL_SCALE * 26}px`,
           }}
         />
@@ -59,7 +67,8 @@ export const Bean: React.FC<CollectibleProps> = ({
           onClick={harvest}
           style={{
             width: `${PIXEL_SCALE * 30}px`,
-            bottom: `${PIXEL_SCALE * 1}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
           }}
           className="absolute hover:img-highlight cursor-pointer"
           alt="Bean"
@@ -84,9 +93,9 @@ export const Bean: React.FC<CollectibleProps> = ({
         alt="Bean"
       />
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
-        <Panel>
+        <CloseButtonPanel onClose={() => setShowModal(false)} title={name}>
           <div className="flex flex-col justify-center items-center">
-            <span className="text-center mb-4">
+            <span className="text-center mb-2">
               {`Your mystery prize will be ready in ${secondsToString(
                 timeLeft,
                 {
@@ -94,9 +103,16 @@ export const Bean: React.FC<CollectibleProps> = ({
                 }
               )}`}
             </span>
-            <img src={questionMark} className="w-1/5 mb-2" />
+            <img
+              src={ITEM_DETAILS[name].image}
+              className="mb-2"
+              onLoad={(e) => setImageWidth(e.currentTarget)}
+              style={{
+                opacity: 0,
+              }}
+            />
           </div>
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
     </>
   );
