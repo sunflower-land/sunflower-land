@@ -39,6 +39,7 @@ export enum Section {
   "Rooster" = "rooster",
   "Wicker Man" = "wicker-man",
   "War Recruiter" = "war-recruiter",
+  "Christmas Bear" = "christmas-bear",
 
   // Land
   GenesisBlock = "genesisBlock",

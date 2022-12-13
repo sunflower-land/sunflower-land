@@ -91,7 +91,8 @@ export type MOMEventItem = "Engine Core" | "Observatory";
 export type TravelingSalesmanItem =
   | "Wicker Man"
   | "Golden Bonsai"
-  | "Victoria Sisters";
+  | "Victoria Sisters"
+  | "Christmas Bear";
 
 export type QuestItem =
   | "Goblin Key"
@@ -643,6 +644,12 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
     name: "Victoria Sisters",
     description: "The pumpkin loving sisters",
     section: Section["Golden Bonsai"],
+    isPlaceholder: true,
+  },
+  "Christmas Bear": {
+    name: "Christmas Bear",
+    description: "Santa's favorite",
+    section: Section["Christmas Bear"],
     isPlaceholder: true,
   },
 };
@@ -1232,6 +1239,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Peaceful Potato": { height: 1, width: 1 },
   "Perky Pumpkin": { height: 1, width: 1 },
   "Colossal Crop": { height: 1, width: 1 },
+
+  "Christmas Bear": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
