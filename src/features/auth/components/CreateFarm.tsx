@@ -1,13 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Carousel, CarouselItem } from "react-bootstrap";
 import shuffle from "lodash.shuffle";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
 
-import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
 import confirm from "assets/icons/confirm.png";
 import betty from "assets/crops/sunflower/crop.png";
 
@@ -271,56 +268,5 @@ export const CreateFarm: React.FC = () => {
         </>
       )}
     </div>
-  );
-
-  return (
-    <form className="mb-4 relative">
-      <div className="flex flex-col items-center">
-        <h2 className="text-base mb-2">$5 USD to play</h2>
-        <p className="text-xs mb-3 text-center">
-          To play Sunflower Land, you first need to mint an Account NFT for $5
-          USD (paid in MATIC)
-        </p>
-        <p className="text-xs mb-3 text-center">
-          10% of this fee will be donated to a charity of your choice.
-        </p>
-      </div>
-      <p className="text-center mb-3 mt-10">Select a charity</p>
-      <Carousel
-        activeIndex={activeIdx}
-        onSelect={updateActiveIndex}
-        prevIcon={
-          <img
-            src={leftArrow}
-            alt="left-arrow"
-            className="absolute cursor-pointer"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-            onClick={() => updateActiveIndex(activeIdx - 1)}
-          />
-        }
-        nextIcon={
-          <img
-            src={rightArrow}
-            alt="right-arrow"
-            className="absolute cursor-pointer"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-            onClick={() => updateActiveIndex(activeIdx + 1)}
-          />
-        }
-      >
-        {CHARITIES.map((props: Charity) => (
-          <CarouselItem key={props.url}>
-            <CharityDetail
-              {...props}
-              onDonateAndPlayClick={onDonateAndPlayClick}
-            />
-          </CarouselItem>
-        ))}
-      </Carousel>
-    </form>
   );
 };
