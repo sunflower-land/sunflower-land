@@ -30,7 +30,7 @@ export const NoFarm: React.FC = () => {
       {!!authState.context.token?.userAccess.createFarm ||
       !!authState.context.token?.discordId ? (
         <Button onClick={create} className="overflow-hidden mb-2">
-          Create Farm
+          Get Started
         </Button>
       ) : (
         <div className="flex flex-col items-center">
@@ -55,10 +55,7 @@ export const NoFarm: React.FC = () => {
             />
           </div>
           <span className="text-sm p-2 text-center mb-4">
-            Beta is currently open for testers on Discord.
-          </span>
-          <span className="text-sm p-2 text-center mb-2">
-            Only 150,000 spots available!
+            Testnet accessed is reserved for testers on Discord.
           </span>
           <Button onClick={connect} className="overflow-hidden mb-2">
             Connect to Discord
@@ -67,7 +64,7 @@ export const NoFarm: React.FC = () => {
       )}
 
       <Button onClick={explore} className="overflow-hidden">
-        {`Explore a friend's farm`}
+        {`Explore a friend's land`}
       </Button>
     </>
   );

@@ -97,7 +97,7 @@ export class Wallet {
     return isHealthy;
   }
 
-  public async getAccount() {
+  private async getAccount() {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }
@@ -108,6 +108,16 @@ export class Wallet {
 
   private async loadAccount() {
     this.account = await this.getAccount();
+  }
+
+  public async getMaticBalance() {
+    if (!this.web3) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
+
+    const balance = await this.web3?.eth.getBalance(this.account as string);
+
+    return Number(balance);
   }
 
   public async initialise(provider: any, retryCount = 0): Promise<void> {

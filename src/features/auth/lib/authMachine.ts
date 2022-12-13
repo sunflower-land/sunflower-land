@@ -21,6 +21,7 @@ import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 import { checkMigrationStatus } from "features/game/actions/checkMigrationStatus";
 import { randomID } from "lib/utils/random";
+import { createFarmMachine } from "./createFarmMachine";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -408,6 +409,17 @@ export const authMachine = createMachine<
             },
           },
           donating: {
+            invoke: {
+              id: "createFarmMachine",
+              src: createFarmMachine,
+              data: {
+                token: (context: Context) => context.rawToken,
+              },
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
             on: {
               CREATE_FARM: {
                 target: "creatingFarm",
