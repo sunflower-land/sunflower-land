@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
 
 import confirm from "assets/icons/confirm.png";
-import betty from "assets/crops/sunflower/crop.png";
+import sunflower from "assets/crops/sunflower/crop.png";
 
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
@@ -165,7 +165,7 @@ export const CreateFarm: React.FC = () => {
     <div className="flex flex-col items-center">
       <h1 className="text-center mb-1">Getting Started</h1>
       <img
-        src={betty}
+        src={sunflower}
         className="my-1"
         style={{
           width: `${PIXEL_SCALE * 13}px`,
