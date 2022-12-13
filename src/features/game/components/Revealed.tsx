@@ -8,6 +8,8 @@ import { Context } from "../GameProvider";
 import { getKeys } from "../types/craftables";
 import { ITEM_DETAILS } from "../types/images";
 import { InventoryItemName } from "../types/game";
+import { PIXEL_SCALE } from "../lib/constants";
+import { setImageWidth } from "lib/images";
 
 export const Revealed: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -25,7 +27,13 @@ export const Revealed: React.FC = () => {
       <p className="text-center text-base mb-2">Congratulations!</p>
       {sfl > 0 && (
         <>
-          <img src={token} className="w-1/5 mb-2" />
+          <img
+            src={token}
+            className="mb-2"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+            }}
+          />
           <p className="text-center text-sm mb-2">{`You found ${sfl} SFL`}</p>
         </>
       )}
@@ -35,7 +43,11 @@ export const Revealed: React.FC = () => {
           <div key={`${name}-${index}`} className="flex flex-col items-center">
             <img
               src={ITEM_DETAILS[name as InventoryItemName].image}
-              className="w-1/5 mb-2"
+              className="mb-2"
+              onLoad={(e) => setImageWidth(e.currentTarget)}
+              style={{
+                opacity: 0,
+              }}
             />
             <p className="text-center text-sm mb-2">{`You found a ${name}`}</p>
           </div>
