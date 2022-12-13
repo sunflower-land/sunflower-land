@@ -64,7 +64,7 @@ export const Label: React.FC<Props> = ({ children, className, type }) => {
       {type === "warning" && (
         <span
           className={classnames(
-            "bg-[#ff8f0e] border text-xxs px-2 py-1 rounded-md",
+            "bg-orange-400 border text-xxs px-2 py-1 rounded-md",
             className
           )}
         >

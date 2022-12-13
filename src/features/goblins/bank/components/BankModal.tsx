@@ -46,7 +46,11 @@ export const BankModal: React.FC<Props> = ({ onClose }) => {
           }}
         />
       </div>
-      {tab === "deposit" && <Deposit />}
+      {tab === "deposit" && (
+        <div className="mt-3">
+          <Deposit />
+        </div>
+      )}
       {tab === "withdraw" && <Withdraw onClose={onClose} />}
     </Panel>
   );

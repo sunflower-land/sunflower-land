@@ -92,6 +92,8 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
     }
   };
 
+  if (!bumpkin) return null;
+
   return (
     <>
       {/* Bumpkin profile */}
