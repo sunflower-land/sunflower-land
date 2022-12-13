@@ -1,4 +1,3 @@
-import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 
@@ -13,16 +12,8 @@ type Options = {
 };
 
 export const canMigrate = (state: GameState) => {
-  const { skills, inventory } = state;
-  const { farming, gathering } = skills;
-
-  const hasEnoughXP = farming.add(gathering).gte(new Decimal(16500));
-  const isWarrior = inventory.Warrior?.gte(1);
-  const isMod = inventory["Discord Mod"]?.gte(1);
-  const isCoder = inventory.Coder?.gte(1);
-  const isArtist = inventory.Artist?.gte(1);
-
-  return !!hasEnoughXP || !!isWarrior || !!isMod || !!isCoder || !!isArtist;
+  // WOOHOOO
+  return true;
 };
 
 export function migrate({
