@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   id?: string;
@@ -54,13 +55,15 @@ export const RemoveChickenModal: React.FC<Props> = ({ id, onClose }) => {
   };
 
   return (
-    <Panel>
+    <CloseButtonPanel showCloseButton={false} title="Remove this chicken?">
       <div className="flex flex-col items-center">
-        <h2 className="text-sm sm:text-base text-center">{`Remove this chicken?`}</h2>
         <img
           src={ITEM_DETAILS["Rusty Shovel"].image}
           alt="Rusty Shovel"
-          className="w-10 my-2"
+          className="mb-2"
+          style={{
+            width: `${PIXEL_SCALE * 14}px`,
+          }}
         />
         <div className="p-1 mb-3 text-xs sm:text-sm">
           <p className="mb-3">
@@ -82,6 +85,6 @@ export const RemoveChickenModal: React.FC<Props> = ({ id, onClose }) => {
           )}
         </div>
       </div>
-    </Panel>
+    </CloseButtonPanel>
   );
 };
