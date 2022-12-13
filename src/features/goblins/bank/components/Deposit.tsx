@@ -2,16 +2,13 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { CopySvg } from "components/ui/CopyField";
-import { OuterPanel } from "components/ui/Panel";
 import { shortAddress } from "lib/utils/shortAddress";
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import farm from "assets/brand/nft.png";
 import alert from "assets/icons/expression_alerted.png";
 import { Label } from "components/ui/Label";
-import { Button } from "components/ui/Button";
-import classNames from "classnames";
 import clipboard from "clipboard";
+import classNames from "classnames";
 
 const EyeSvg = () => (
   <svg
@@ -41,103 +38,15 @@ const CloseEyeSvg = () => (
   </svg>
 );
 
-const SFLTokenInstructions = () => (
-  <ol>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">1.</span>
-      <span>{'Go to MetaMask and under the "Assets" tab click SFL token'}</span>
-    </li>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">2.</span>
-      <span>{`Click "Send" on the token's main page`}</span>
-    </li>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">3.</span>
-      <span>
-        {
-          'Copy your farm address from above and paste into the "Add Recipient" field'
-        }
-      </span>
-    </li>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">4.</span>
-      <span>
-        {
-          'In the "Amount" field, enter the amount of the token you want to deposit'
-        }
-      </span>
-    </li>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">5.</span>
-      <span>{'Review the transaction detail and click "Confirm" to send'}</span>
-    </li>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">6.</span>
-      <span>
-        {
-          'Once the transaction has completed successfully, open the menu inside Sunflower Land and select "Refresh" under "Settings"'
-        }
-      </span>
-    </li>
-  </ol>
-);
-
-const SFLItemsInstructions = () => (
-  <ol>
-    <div className="text-xs mb-3">
-      <span>
-        Only send items from the
-        <a
-          className="underline ml-2"
-          href="https://opensea.io/collection/sunflower-land-collectibles"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Sunflower Land Collectibles
-        </a>
-      </span>
-    </div>
-
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">1.</span>
-      <span>{'Go to OpenSea and click the "Transfer" button'}</span>
-    </li>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">2.</span>
-      <span>
-        {'Copy your farm address from above and paste into the "Address" field'}
-      </span>
-    </li>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">3.</span>
-      <span>Follow the prompts</span>
-    </li>
-    <li className="flex text-xs mb-3">
-      <span className="mr-1">4.</span>
-      <span>
-        {
-          'Once the transaction has completed successfully, open the menu inside Sunflower Land and select "Refresh" under "Settings"'
-        }
-      </span>
-    </li>
-  </ol>
-);
-
 const TOOL_TIP_MESSAGE = "Copy Farm Address";
 
-enum Instructions {
-  "token",
-  "item",
-}
-
-export const Deposit: React.FC = () => {
+export const Deposit: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
   const [showFullAddress, setShowFullAddress] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
   const [showLabel, setShowLabel] = useState(false);
-  const [instructions, setInstructions] = useState<Instructions | null>(null);
 
   const farmAddress = authState.context.address as string;
 
@@ -159,109 +68,62 @@ export const Deposit: React.FC = () => {
     }, 2000);
   };
 
-  const showTokenInstructions = instructions === Instructions.token;
-  const showItemInstructions = instructions === Instructions.item;
-
   return (
-    <div>
-      {/* Address card */}
-      <div className="h-14 w-full" style={{ perspective: "1000px" }}>
-        <div className="relative">
-          <OuterPanel
-            className="w-full transition-transform duration-700 h-14"
-            style={
-              {
-                transformStyle: "preserve-3d",
-                transform: showFullAddress ? "rotateX(180deg)" : undefined,
-              } as { [key: string]: React.CSSProperties }
-            }
-          >
-            <div
-              className="flex items-center absolute w-full h-full px-2 rotate-0"
-              style={{ backfaceVisibility: "hidden" }}
+    <div className="p-2 pt-0">
+      <div className="flex flex-col items-center text-xs sm:text-sm mb-3">
+        <p className="mb-3">
+          Your account in Sunflower Land has its own wallet address into which
+          you can send SFL tokens or SFL collectibles.
+        </p>
+        <p>
+          {`This address will be the "recipient" address of any transfer you initiate whether it's from your personal wallet or from a marketplace like OpenSea or Niftyswap.`}
+        </p>
+        <div className="relative w-full my-4">
+          <div className="flex justify-center items-center w-full">
+            <span
+              className="cursor-pointer mr-3 flex-none"
+              onClick={() => setShowFullAddress(!showFullAddress)}
             >
-              <img src={farm} className="h-8 mr-2 z-50" />
-              <div className="flex flex-1 justify-center items-center">
-                <span>{shortAddress(farmAddress)}</span>
-                <span
-                  className="cursor-pointer ml-3"
-                  onMouseEnter={() => setShowLabel(true)}
-                  onMouseLeave={() => setShowLabel(false)}
-                  onClick={copyToClipboard}
-                >
-                  <CopySvg />
-                </span>
-              </div>
-              <span
-                className="cursor-pointer"
-                onClick={() => setShowFullAddress(true)}
-              >
-                <EyeSvg />
-              </span>
-            </div>
-            <div
-              className="flex items-center justify-center absolute w-full h-full px-2"
-              style={{
-                backfaceVisibility: "hidden",
-                transform: "rotateX(180deg)",
-              }}
+              {showFullAddress ? <CloseEyeSvg /> : <EyeSvg />}
+            </span>
+            <p
+              className={classNames({
+                "grow text-[11px] sm:text-xs": showFullAddress,
+              })}
             >
-              <span className="text-[10px] sm:text-xs mt-2 break-all select-text">
-                {farmAddress}
-              </span>
-              <span
-                className="cursor-pointer ml-3 mt-2"
-                onClick={() => setShowFullAddress(false)}
-              >
-                <CloseEyeSvg />
-              </span>
-            </div>
-          </OuterPanel>
+              {showFullAddress ? farmAddress : shortAddress(farmAddress)}
+            </p>
+            <span
+              className="cursor-pointer ml-3 flex-none"
+              onMouseEnter={() => setShowLabel(true)}
+              onMouseLeave={() => setShowLabel(false)}
+              onClick={copyToClipboard}
+            >
+              <CopySvg />
+            </span>
+          </div>
           <div
-            className={`absolute top-12 right-16 mr-5 transition duration-400 pointer-events-none ${
+            className={`absolute top-8 right-28 mr-5 transition duration-400 pointer-events-none ${
               showLabel ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Label type="default">{tooltipMessage}</Label>
+            <Label type="success">{tooltipMessage}</Label>
           </div>
         </div>
+        <p className="mb-3">
+          Always double check the address before and after copying and pasting.
+        </p>
+        <p>
+          Once the transfer has been completed, you can go into Settings and use
+          the Refresh button to see your deposited items in the game.
+        </p>
       </div>
 
-      <div className="text-xs m-1">
-        Always double check the address before and after copying and pasting.
-      </div>
-
-      {/* Instructions */}
-      <span className="text-base sm:text-lg block text-center mb-4 mt-4">
-        How to deposit?
-      </span>
-
-      <div className="flex mb-3">
-        <Button
-          className={classNames("mr-1", {
-            "bg-brown-300": showTokenInstructions,
-          })}
-          onClick={() => setInstructions(Instructions.token)}
-        >
-          SFL Token
-        </Button>
-        <Button
-          className={classNames("ml-1", {
-            "bg-brown-300": showItemInstructions,
-          })}
-          onClick={() => setInstructions(Instructions.item)}
-        >
-          SFL Items
-        </Button>
-      </div>
-
-      {showTokenInstructions && <SFLTokenInstructions />}
-      {showItemInstructions && <SFLItemsInstructions />}
-
-      <div className="flex items-center border-2 rounded-md border-black p-2 bg-error">
+      <div className="flex items-center border-2 rounded-md border-black p-2 bg-orange-400">
         <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
         <span className="text-xs">
-          DO NOT SEND MATIC OR ANY OTHER NON SFL TOKENS TO YOUR FARM ADDRESS
+          DO NOT SEND MATIC, BUMPKIN ITEMS OR ANY OTHER NON SFL TOKENS TO YOUR
+          FARM ADDRESS
         </span>
       </div>
     </div>

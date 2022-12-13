@@ -4,7 +4,7 @@ import clipboard from "clipboard";
 
 export const CopySvg = () => (
   <svg
-    className="fill-white hover:fill-brown-300"
+    className="fill-white"
     aria-hidden="true"
     height="16"
     viewBox="0 0 16 16"
