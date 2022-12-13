@@ -1,11 +1,15 @@
 import { wallet } from "lib/blockchain/wallet";
+import { randomID } from "lib/utils/random";
 import { assign, createMachine, Interpreter } from "xstate";
 import { escalate } from "xstate/lib/actions";
+import { signTransaction } from "../actions/createAccount";
 import { CharityAddress } from "../components";
 
 export interface Context {
-  matic?: number;
-  usdc?: number;
+  token?: string;
+  transactionId?: string;
+  maticFee?: number;
+  maticBalance?: number;
 }
 
 type PickCharityEvent = {
@@ -47,17 +51,18 @@ export const createFarmMachine = createMachine<
     context: {},
     states: {
       loading: {
+        entry: "setTransactionId",
         invoke: {
           src: "loadBalance",
           onDone: [
             {
               target: "hasEnoughMatic",
-              cond: (_, event) => event.data.usdc > 5,
-              actions: "assignBalance",
+              cond: (_, event) => event.data.maticBalance > event.data.maticFee,
+              actions: "assignFee",
             },
             {
               target: "notEnoughMatic",
-              actions: "assignBalance",
+              actions: "assignFee",
             },
           ],
           onError: {
@@ -69,15 +74,16 @@ export const createFarmMachine = createMachine<
       },
       notEnoughMatic: {
         invoke: {
-          src: "loadBalance",
+          src: "updateBalance",
           onDone: [
             {
               target: "hasEnoughMatic",
-              cond: (_, event) => event.data.usdc > 5,
-              actions: "assignBalance",
-            },
-            {
-              actions: "assignBalance",
+              cond: (context: Context, event) => {
+                console.log({ context });
+                if (context.maticFee === undefined) return true;
+
+                return event.data.maticBalance > context.maticFee;
+              },
             },
           ],
           onError: {
@@ -95,17 +101,32 @@ export const createFarmMachine = createMachine<
   },
   {
     services: {
-      loadBalance: async () => {
-        const matic = await wallet.getMaticBalance();
-        const usdc = await wallet.getUSDC(matic);
-        console.log({ matic, usdc });
-        return { matic, usdc };
+      loadBalance: async (context) => {
+        const { fee } = await signTransaction({
+          charity: CharityAddress.TheWaterProject,
+          token: context.token as string,
+          captcha: context.transactionId as string,
+          transactionId: context.transactionId as string,
+        });
+        const maticFee = Number(fee);
+        const maticBalance = await wallet.getMaticBalance();
+
+        console.log({ maticFee, maticBalance });
+        return { maticFee, maticBalance };
+      },
+      updateBalance: async () => {
+        const maticBalance = await wallet.getMaticBalance();
+
+        console.log({ maticBalance });
+        return { maticBalance };
       },
     },
     actions: {
-      assignBalance: assign<Context, any>({
-        matic: (_, event) => event.data.matic,
-        usdc: (_, event) => event.data.usdc,
+      assignFee: assign<Context, any>({
+        maticFee: (_, event) => event.data.maticFee,
+      }),
+      setTransactionId: assign<Context, any>({
+        transactionId: () => randomID(),
       }),
     },
   }

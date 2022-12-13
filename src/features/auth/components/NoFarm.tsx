@@ -30,7 +30,7 @@ export const NoFarm: React.FC = () => {
       {!!authState.context.token?.userAccess.createFarm ||
       !!authState.context.token?.discordId ? (
         <Button onClick={create} className="overflow-hidden mb-2">
-          Create Farm
+          Get Started
         </Button>
       ) : (
         <div className="flex flex-col items-center">
@@ -64,7 +64,7 @@ export const NoFarm: React.FC = () => {
       )}
 
       <Button onClick={explore} className="overflow-hidden">
-        {`Explore a friend's farm`}
+        {`Explore a friend's land`}
       </Button>
     </>
   );

@@ -172,7 +172,7 @@ export const CreateFarm: React.FC = () => {
         sitekey={CONFIG.RECAPTCHA_SITEKEY}
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
-        className="w-full flex items-center justify-center"
+        className="w-full flex items-center justify-center min-h-[78px]"
       />
     );
   }
@@ -195,10 +195,10 @@ export const CreateFarm: React.FC = () => {
               Polygon's MATIC token to play.`}
             </p>
             <p>
-              Buying land costs $5 USD worth of MATIC. 50 cents will be donated
-              to a charity of your choice.
+              Creating an account costs $5 USD worth of MATIC. 50 cents will be
+              donated to a charity of your choice.
             </p>
-            <p>Included with your purchase is a Bumpkin NFT (worth $5 USD).</p>
+            <p>You will also receive a free Bumpkin NFT (worth $5 USD).</p>
             <p>This Bumpkin will be your guide in Sunflower Land.</p>
           </div>
           <Button onClick={() => setScreen("create")}>Continue</Button>
@@ -258,12 +258,12 @@ export const CreateFarm: React.FC = () => {
 
             <li>
               <div className="flex flex-col space-y-2">
-                <span>3. Create your land!</span>
+                <span>3. Create your account</span>
                 <Button
                   disabled={!hasEnoughMatic || !hasCharitySelected}
                   onClick={() => setShowCaptcha(true)}
                 >
-                  Create Land
+                  Start your adventure!
                 </Button>
               </div>
             </li>

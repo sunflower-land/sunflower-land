@@ -8,7 +8,7 @@ import { Inventory } from "./Inventory";
 import { Pair } from "./Pair";
 import { WishingWell } from "./WishingWell";
 import { Token } from "./Token";
-import { fromWei, toBN, toHex, toWei } from "web3-utils";
+import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { Trader } from "./Trader";
@@ -121,29 +121,6 @@ export class Wallet {
     const balance = await this.web3?.eth.getBalance(this.account as string);
 
     return Number(balance);
-  }
-
-  public async getUSDC(matic: number) {
-    // Uniswap contract only available on mainnet
-    const web3 = new Web3("https://polygon-rpc.com/");
-
-    const encodedFunctionSignature = web3.eth.abi.encodeFunctionSignature(
-      "getAmountsOut(uint256,address[])"
-    );
-
-    const encodedParameters = web3.eth.abi
-      .encodeParameters(
-        ["uint256", "address[]"],
-        [toBN(matic), [WMATIC_ADDRESS, USDC_ADDRESS]]
-      )
-      .substring(2);
-
-    const data = encodedFunctionSignature + encodedParameters;
-
-    const result = await web3.eth.call({ to: UNISWAP_ROUTER, data });
-    const decodedResult = web3.eth.abi.decodeParameter("uint256[]", result);
-
-    return fromWei(toBN(decodedResult[1]), "Mwei");
   }
 
   public async initialise(provider: any, retryCount = 0): Promise<void> {

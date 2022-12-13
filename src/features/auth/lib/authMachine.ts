@@ -412,6 +412,13 @@ export const authMachine = createMachine<
             invoke: {
               id: "createFarmMachine",
               src: createFarmMachine,
+              data: {
+                token: (context: Context) => context.rawToken,
+              },
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
             },
             on: {
               CREATE_FARM: {
