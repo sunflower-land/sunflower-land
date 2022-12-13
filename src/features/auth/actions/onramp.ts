@@ -8,7 +8,7 @@ type Request = {
 
 const API_URL = CONFIG.API_URL;
 
-export async function onramp(request: Request) {
+async function getReservation(request: Request) {
   const response = await window.fetch(`${API_URL}/onramp`, {
     method: "GET",
     headers: {
@@ -31,4 +31,24 @@ export async function onramp(request: Request) {
   return {
     reservation,
   };
+}
+
+export async function onramp(request: Request, onPaymentSuccess?: () => void) {
+  const env = CONFIG.NETWORK === "mainnet" ? "prod" : "test";
+
+  const { reservation } = await getReservation(request);
+
+  const wyre = new (window as any).Wyre({
+    env,
+    reservation,
+    operation: {
+      type: "debitcard-hosted-dialog",
+    },
+  });
+
+  wyre.on("paymentSuccess", (_event: any) => {
+    onPaymentSuccess && onPaymentSuccess();
+  });
+
+  wyre.open();
 }

@@ -137,26 +137,13 @@ export const CreateFarm: React.FC = () => {
   };
 
   const addFunds = async () => {
-    const env = CONFIG.NETWORK === "mainnet" ? "prod" : "test";
-
-    const { reservation } = await onramp({
-      token: authService.state.context.rawToken as string,
-      transactionId: randomID(),
-    });
-
-    const wyre = new (window as any).Wyre({
-      env,
-      reservation,
-      operation: {
-        type: "debitcard-hosted-dialog",
+    await onramp(
+      {
+        token: authService.state.context.rawToken as string,
+        transactionId: randomID(),
       },
-    });
-
-    wyre.on("paymentSuccess", (event: any) => {
-      setPaymentConfirmed(true);
-    });
-
-    wyre.open();
+      () => setPaymentConfirmed(true)
+    );
   };
 
   if (!authState.context.token?.userAccess.createFarm) {
@@ -189,10 +176,10 @@ export const CreateFarm: React.FC = () => {
           <div className="flex flex-col space-y-2 text-xs p-2 pt-1 mb-2">
             <p>
               {`Sunflower Land is powered by the Polygon blockchain and requires
-              Polygon's MATIC token to play.`}
+              Polygon's Matic token to play.`}
             </p>
             <p>
-              Creating an account costs $5 USD worth of MATIC. 50 cents will be
+              Creating an account costs $5 USD worth of Matic. 50 cents will be
               donated to a charity of your choice.
             </p>
             <p>You will also receive a free Bumpkin NFT (worth $5 USD).</p>
@@ -217,7 +204,7 @@ export const CreateFarm: React.FC = () => {
                       }}
                     />
                   )}
-                  <span>Add funds ($10 USD recommended)</span>
+                  <span>Add Matic ($10 USD recommended)</span>
                 </div>
                 {!hasEnoughMatic && (
                   <Button disabled={paymentConfirmed} onClick={addFunds}>
