@@ -1,35 +1,42 @@
-import { wallet } from "lib/blockchain/wallet";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import * as Auth from "features/auth/lib/Provider";
 
 export const SupplyReached: React.FC = () => {
-  const [supply, setSupply] = useState<number>();
+  const { authService } = useContext(Auth.Context);
+
+  const [count, setCount] = useState(0);
+
+  const keydownKeboardListener = (event: KeyboardEvent) => {
+    event.stopPropagation();
+    const key = event.key.toLowerCase();
+
+    console.log({ count, key });
+    if (key === "q") {
+      setCount((prev) => {
+        if (prev === 3) {
+          authService.send("SKIP");
+
+          return 0;
+        }
+
+        return prev + 1;
+      });
+    } else {
+      setCount(0);
+    }
+  };
 
   useEffect(() => {
-    const load = async () => {
-      const amount = await wallet.getFarm().getTotalSupply();
+    document.addEventListener("keydown", keydownKeboardListener);
 
-      setSupply(amount);
-    };
-
-    load();
+    return () =>
+      document.removeEventListener("keydown", keydownKeboardListener);
   }, []);
-
-  if (!supply) {
-    return (
-      <div className="flex flex-col text-center text-shadow items-center p-1">
-        <p className="loading">Loading</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
-      <p className="text-center text-lg">{supply}</p>
-      <p className="text-center mb-3">Supply reached!</p>
-
-      <p className="text-center mb-4 text-xs">
-        {`We are currently in Beta and all of the spots are currently taken. We will be opening more spots soon, join us on Twitter and Discord to hear more.`}
-      </p>
+      <p className="text-center mb-3">Coming Soon - December 15th</p>
+      <p className="text-center text-sm">Beta testers only</p>
     </div>
   );
 };

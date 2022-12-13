@@ -17,7 +17,6 @@ import { onramp } from "../actions/onramp";
 import { randomID } from "lib/utils/random";
 import classNames from "classnames";
 import { Loading } from "./Loading";
-import { Blocked } from "./Blocked";
 import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
 
@@ -139,10 +138,6 @@ export const CreateFarm: React.FC = () => {
       () => setPaymentConfirmed(true)
     );
   };
-
-  if (!authState.context.token?.userAccess.createFarm) {
-    return <Blocked />;
-  }
 
   if (showCaptcha) {
     return (

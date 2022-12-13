@@ -141,9 +141,7 @@ export type BlockchainState = {
     | "blacklisted"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
-    | { connected: "checkingAccess" }
-    | { connected: "checkingSupply" }
-    | { connected: "supplyReached" }
+    | { connected: "comingSoon" }
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
     | { connected: "countdown" }
@@ -339,7 +337,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "checkingSupply" },
+                { target: "comingSoon" },
               ],
               onError: {
                 target: "#unauthorised",
@@ -362,49 +360,10 @@ export const authMachine = createMachine<
               ],
             },
           },
-          checkingSupply: {
-            id: "checkingSupply",
-            invoke: {
-              src: async () => {
-                const [totalSupply, maxSupply] = await Promise.all([
-                  wallet.getFarm()?.getTotalSupply(),
-                  wallet.getAccountMinter().getMaxSupply(),
-                ]);
-
-                return {
-                  totalSupply,
-                  maxSupply,
-                };
-              },
-              onDone: [
-                {
-                  target: "supplyReached",
-                  cond: (context, event) =>
-                    Number(event.data.totalSupply) >= event.data.maxSupply,
-                },
-                { target: "checkingAccess" },
-              ],
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
-              },
-            },
-          },
-          checkingAccess: {
-            id: "checkingAccess",
-            invoke: {
-              src: async (context) => {
-                return {
-                  hasAccess: context.token?.userAccess.createFarm,
-                };
-              },
-              onDone: {
+          comingSoon: {
+            on: {
+              SKIP: {
                 target: "noFarmLoaded",
-              },
-
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
               },
             },
           },
