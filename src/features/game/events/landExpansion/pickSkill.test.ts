@@ -1,5 +1,5 @@
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
-import { LEVEL_BRACKETS } from "features/game/lib/level";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { pickSkill } from "./pickSkill";
 
 describe("PickSkill", () => {
@@ -38,7 +38,7 @@ describe("PickSkill", () => {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_BRACKETS[1],
+            experience: LEVEL_EXPERIENCE[1],
             skills: { "Green Thumb": 1 },
           },
         },
@@ -55,7 +55,7 @@ describe("PickSkill", () => {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_BRACKETS[3],
+            experience: LEVEL_EXPERIENCE[3],
             skills: { "Green Thumb": 1, Cultivator: 1 },
           },
         },
@@ -72,7 +72,7 @@ describe("PickSkill", () => {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_BRACKETS[4],
+            experience: LEVEL_EXPERIENCE[4],
             skills: { "Green Thumb": 1 },
           },
         },
@@ -89,7 +89,7 @@ describe("PickSkill", () => {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_BRACKETS[4],
+            experience: LEVEL_EXPERIENCE[4],
             skills: { "Green Thumb": 1 },
           },
         },
@@ -105,7 +105,7 @@ describe("PickSkill", () => {
         ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_BRACKETS[2],
+          experience: LEVEL_EXPERIENCE[2],
           skills: {},
         },
       },
@@ -122,7 +122,7 @@ describe("PickSkill", () => {
         ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_BRACKETS[3],
+          experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
         },
       },
