@@ -107,7 +107,7 @@ export const Kitchen: React.FC<Props> = ({
                 return;
               }
 
-              const right = Math.floor(8 - img.naturalWidth / 2);
+              const right = Math.floor((17 - img.naturalWidth) / 2);
               img.style.right = `${PIXEL_SCALE * right}px`;
               setImageWidth(img);
             }}

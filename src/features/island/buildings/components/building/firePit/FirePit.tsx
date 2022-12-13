@@ -113,7 +113,7 @@ export const FirePit: React.FC<Props> = ({
             }}
             style={{
               opacity: 0,
-              top: `${PIXEL_SCALE * 16}px`,
+              bottom: `${PIXEL_SCALE * 6}px`,
             }}
           />
         )}
