@@ -7,13 +7,14 @@ import { Context } from "features/game/GameProvider";
 import { Inventory } from "./components/inventory/Inventory";
 import { InnerPanel } from "components/ui/Panel";
 import { BumpkinProfile } from "./components/BumpkinProfile";
+import { InventoryItemName } from "features/game/types/game";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
  * Balances, Inventory, actions etc.
  */
 export const VisitingHud: React.FC = () => {
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   return (
@@ -28,6 +29,7 @@ export const VisitingHud: React.FC = () => {
         <Inventory
           state={gameState.context.state}
           shortcutItem={shortcutItem}
+          selectedItem={selectedItem as InventoryItemName}
           isFarming={false}
         />
         <BumpkinProfile />
