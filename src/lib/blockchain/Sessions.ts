@@ -240,7 +240,7 @@ export class SessionManager {
             // Sequence wallet doesn't resolve the receipt. Therefore
             // We try to fetch it after we have a tx hash returned
             // From Sequence.
-            const receipt = await web3.eth.getTransactionReceipt(
+            const receipt = await this.web3.eth.getTransactionReceipt(
               transactionHash
             );
 
