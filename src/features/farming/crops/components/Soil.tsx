@@ -113,7 +113,7 @@ export const Soil: React.FC<Props> = ({
 
         <InnerPanel
           className={classNames(
-            "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-5 w-fit left-1 z-50 pointer-events-none",
+            "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 -bottom-2 w-fit left-1 z-50 pointer-events-none",
             {
               "opacity-100": showCropDetails,
               "opacity-0": !showCropDetails,
