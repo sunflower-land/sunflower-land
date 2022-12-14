@@ -35,8 +35,20 @@ export class WishingWell {
 
           reject(error);
         })
-        .on("transactionHash", function (transactionHash: any) {
+        .on("transactionHash", async (transactionHash: any) => {
           console.log({ transactionHash });
+          try {
+            // Sequence wallet doesn't resolve the receipt. Therefore
+            // We try to fetch it after we have a tx hash returned
+            // From Sequence.
+            const receipt: any = await this.web3.eth.getTransactionReceipt(
+              transactionHash
+            );
+
+            if (receipt) resolve(receipt);
+          } catch (e) {
+            reject(e);
+          }
         })
         .on("receipt", function (receipt: any) {
           console.log({ receipt });
@@ -67,8 +79,20 @@ export class WishingWell {
 
           reject(error);
         })
-        .on("transactionHash", function (transactionHash: any) {
+        .on("transactionHash", async (transactionHash: any) => {
           console.log({ transactionHash });
+          try {
+            // Sequence wallet doesn't resolve the receipt. Therefore
+            // We try to fetch it after we have a tx hash returned
+            // From Sequence.
+            const receipt: any = await this.web3.eth.getTransactionReceipt(
+              transactionHash
+            );
+
+            if (receipt) resolve(receipt);
+          } catch (e) {
+            reject(e);
+          }
         })
         // This event is fired once the tx has been mined and not reverted. The first time when confNumber == 0 is the actual block in which it was mined.
         // This event will fire 24 times in total with a new confirmation number each time.
