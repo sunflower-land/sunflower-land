@@ -18,7 +18,7 @@ export const Resale: React.FC = () => {
 
   return (
     <>
-      <Modal show={isOpen} onHide={() => setIsOpen(true)} centered>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
         <Panel>
           <div className="p-2">
             <p className="mb-3">Looking for rare items?</p>
