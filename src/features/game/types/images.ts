@@ -257,6 +257,7 @@ import sunflowerCrunch from "assets/food/sunflower_crunch.png";
 import applePie from "assets/food/apple_pie.png";
 import mushroomJacketPotato from "assets/food/mushroom_jacket_potato.png";
 import kaleMushroomPie from "assets/food/mushroom_kale_pie.png";
+import reindeerCarrot from "assets/food/reindeer_carrot.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -1289,6 +1290,10 @@ export const ITEM_DETAILS: Items = {
     // TODO
     image: roastVeggies,
     description: "Got a surplus of carrots?",
+  },
+  "Reindeer Carrot": {
+    image: reindeerCarrot,
+    description: "Rudolph can't stop eating them!",
   },
 
   Explorer: {
