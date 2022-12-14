@@ -45,8 +45,20 @@ export class Frog {
 
           reject(parsed);
         })
-        .on("transactionHash", function (transactionHash: any) {
+        .on("transactionHash", async (transactionHash: any) => {
           console.log("TRANS HASH:" + { transactionHash });
+          try {
+            // Sequence wallet doesn't resolve the receipt. Therefore
+            // We try to fetch it after we have a tx hash returned
+            // From Sequence.
+            const receipt: any = await this.web3.eth.getTransactionReceipt(
+              transactionHash
+            );
+
+            if (receipt) resolve(receipt);
+          } catch (e) {
+            reject(e);
+          }
         })
         .on("receipt", function (receipt: any) {
           console.log({ receipt });
