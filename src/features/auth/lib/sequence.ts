@@ -1,3 +1,5 @@
+import { ConnectOptions } from "@0xsequence/provider";
+
 export const SEQUENCE_CONNECT_OPTIONS: ConnectOptions = {
   app: "Sunflower Land",
   settings: {
