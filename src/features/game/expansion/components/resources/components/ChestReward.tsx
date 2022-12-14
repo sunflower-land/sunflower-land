@@ -11,6 +11,7 @@ import { Context } from "features/game/GameProvider";
 import token from "assets/icons/token_2.png";
 import { StopTheGoblins } from "features/farming/crops/components/StopTheGoblins";
 import { ChestCaptcha } from "features/farming/crops/components/ChestCaptcha";
+import { Loading } from "features/auth/components";
 
 interface Props {
   reward: Reward | null;
@@ -64,18 +65,14 @@ export const ChestReward: React.FC<Props> = ({
   return (
     <Modal centered show={true}>
       <Panel>
-        {loading && (
-          <div className="flex flex-col items-center justify-between">
-            Loading...
-          </div>
-        )}
+        {loading && <Loading />}
         <div
           hidden={loading} // render and hide captchas so images have time to load
           className="flex flex-col items-center justify-between"
         >
           {opened ? (
             <>
-              <span className="text-center mb-2">
+              <span className="text-center my-2">
                 Woohoo! Here is your reward
               </span>
               {items &&
@@ -85,22 +82,22 @@ export const ChestReward: React.FC<Props> = ({
                   }`;
 
                   return (
-                    <div key={item.name} className="flex items-center my-2">
+                    <div key={item.name} className="flex items-center">
                       <img
                         className="w-8 img-highlight mr-2"
                         src={ITEM_DETAILS[item.name].image}
                       />
-                      <span className="text-center">{name}</span>
+                      <span className="text-center mb-2">{name}</span>
                     </div>
                   );
                 })}
               {sfl && (
                 <div key="sfl" className="flex items-center my-2">
                   <img className="w-8 img-highlight mr-2" src={token} />
-                  <span className="text-center">{`${sfl} SFL`}</span>
+                  <span className="text-center mb-2">{`${sfl} SFL`}</span>
                 </div>
               )}
-              <Button onClick={() => close(true)} className="w-full">
+              <Button onClick={() => close(true)} className="w-full mt-3">
                 Close
               </Button>
             </>
