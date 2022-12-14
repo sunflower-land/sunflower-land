@@ -22,6 +22,7 @@ import { CharityAddress } from "../components/CreateFarm";
 import { checkMigrationStatus } from "features/game/actions/checkMigrationStatus";
 import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
+import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -248,10 +249,17 @@ export const authMachine = createMachine<
             target: "setupContracts",
             actions: "assignWallet",
           },
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
+          onError: [
+            {
+              target: "idle",
+              cond: (_, event) =>
+                event.data.message === ERRORS.SEQUENCE_NOT_CONNECTED,
+            },
+            {
+              target: "unauthorised",
+              actions: "assignErrorMessage",
+            },
+          ],
         },
       },
       setupContracts: {
@@ -613,14 +621,12 @@ export const authMachine = createMachine<
         const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
         const sequenceWallet = await sequence.initWallet(network);
-        await sequenceWallet.connect({
-          app: "Sunflower Land",
-          settings: {
-            theme: "dark",
-            includedPaymentProviders: [],
-            defaultFundingCurrency: "matic",
-          },
-        });
+        await sequenceWallet.connect(SEQUENCE_CONNECT_OPTIONS);
+
+        if (!sequenceWallet.isConnected()) {
+          throw Error(ERRORS.SEQUENCE_NOT_CONNECTED);
+        }
+
         const provider = sequenceWallet.getProvider();
 
         return { wallet: "SEQUENCE", provider };
