@@ -30,6 +30,7 @@ import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 import { getBumpkinLevel } from "./level";
 import { randomID } from "lib/utils/random";
+import { OFFLINE_FARM } from "./landData";
 
 const API_URL = CONFIG.API_URL;
 
@@ -160,7 +161,7 @@ export function startGoblinVillage(authContext: AuthContext) {
       id: "goblinMachine",
       initial: API_URL ? "loading" : "playing",
       context: {
-        state: EMPTY,
+        state: API_URL ? EMPTY : OFFLINE_FARM,
         sessionId: INITIAL_SESSION,
         limitedItems: {},
         auctioneerId: "",

@@ -89,7 +89,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Nugget: 430,
   "Wicker Man": 431,
   "Victoria Sisters": 432,
-  "Prized Potato": 433,
+  "Peeled Potato": 433,
   "Cabbage Boy": 434,
   "Cabbage Girl": 435,
   "Wood Nymph Wendy": 436,

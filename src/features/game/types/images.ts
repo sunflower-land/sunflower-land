@@ -77,7 +77,7 @@ import wickerMan from "assets/sfts/wicker_man.png";
 import wendy from "assets/sfts/wood_nymph_wendy.png";
 import cabbageBoy from "assets/sfts/cabbage_boy.png";
 import cabbageGirl from "assets/sfts/cabbage_girl.png";
-import prizedPotato from "assets/sfts/prized_potato.gif";
+import prizedPotato from "assets/sfts/peeled_potato.gif";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -1512,9 +1512,9 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_RETREAT_ITEMS["Wood Nymph Wendy"].description,
   },
 
-  "Prized Potato": {
+  "Peeled Potato": {
     image: prizedPotato,
-    description: GOBLIN_RETREAT_ITEMS["Prized Potato"].description,
+    description: GOBLIN_RETREAT_ITEMS["Peeled Potato"].description,
   },
 
   "Colossal Crop": {

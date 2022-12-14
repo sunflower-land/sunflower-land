@@ -100,7 +100,7 @@ export type QuestItem =
   | "Ancient Human Warhammer";
 
 export type GoblinRetreatItemName =
-  | "Prized Potato"
+  | "Peeled Potato"
   | "Cabbage Boy"
   | "Cabbage Girl"
   | "Wood Nymph Wendy";
@@ -972,8 +972,8 @@ export const GOBLIN_RETREAT_ITEMS: Record<
   GoblinRetreatItemName,
   GoblinRetreatItem
 > = {
-  "Prized Potato": {
-    description: "A precious potato, doubles potato yield",
+  "Peeled Potato": {
+    description: "A precious potato, encourages bonus potatoes on harvest.",
   },
   "Cabbage Boy": {
     description: "Don't wake the baby!",
@@ -1219,7 +1219,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   "Victoria Sisters": { height: 2, width: 2 },
   "Basic Bear": { height: 1, width: 1 },
-  "Prized Potato": { height: 1, width: 1 },
+  "Peeled Potato": { height: 1, width: 1 },
   "Wood Nymph Wendy": { height: 2, width: 1 },
   "Cabbage Boy": { height: 1, width: 1 },
   "Cabbage Girl": { height: 1, width: 1 },
