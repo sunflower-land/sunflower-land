@@ -350,7 +350,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           <div
             className="flex justify-center absolute w-full pointer-events-none"
             style={{
-              top: `${PIXEL_SCALE * -15}px`,
+              top: `${PIXEL_SCALE * -7}px`,
             }}
           >
             <TimeLeftPanel
