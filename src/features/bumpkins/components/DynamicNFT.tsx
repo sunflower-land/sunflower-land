@@ -41,32 +41,12 @@ export const DynamicNFT: React.FC<Props> = ({
   }
 
   useEffect(() => {
-    function loadImage() {}
     const load = async () => {
-      const tokenUri = tokenUriBuilder(bumpkinParts);
+      const image = await buildImage({
+        parts: bumpkinParts,
+      });
 
-      // Grab a small file size and enlarge with CSS
-      const size = 100;
-      const fileName = `${tokenUri}x${size}.png`;
-      const url = `https://testnet-images.bumpkins.io/nfts/${fileName}`;
-      const img = new Image();
-      img.src = url;
-
-      if (img.complete) {
-        setImageSrc(url);
-      } else {
-        img.onload = () => {
-          setImageSrc(url);
-        };
-
-        img.onerror = async () => {
-          console.log("Does not exist!");
-          await buildImage({
-            fileName: url,
-            token: "",
-          });
-        };
-      }
+      setImageSrc(image);
     };
 
     load();

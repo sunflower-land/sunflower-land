@@ -29,8 +29,6 @@ export type BumpkinParts = {
   onesie?: BumpkinOnesie;
 };
 
-const VERSION = "v1";
-
 export enum Slots {
   Background = 0,
   Body = 1,
@@ -64,12 +62,7 @@ export function tokenUriBuilder(parts: BumpkinParts) {
     : 0;
   ids[Slots.Onesie] = parts.onesie ? ITEM_IDS[parts.onesie] : 0;
 
-  const lastPartIndex = [...ids].reverse().findIndex(Boolean);
+  const uriFormat = ids.join("_");
 
-  // Trims off zeros from the end of the array
-  const validIds = lastPartIndex > 0 ? ids.slice(0, -lastPartIndex) : ids;
-
-  const uriFormat = validIds.join("_");
-
-  return `${VERSION}_${uriFormat}`;
+  return uriFormat;
 }

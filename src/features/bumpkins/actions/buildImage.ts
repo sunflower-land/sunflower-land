@@ -1,22 +1,26 @@
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { toWei } from "web3-utils";
+import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 const API_URL = CONFIG.API_URL;
 
 type Request = {
-  fileName: string;
-  token: string;
+  parts: BumpkinParts;
 };
 
 type Response = {
   image: string;
 };
 
-export async function buildImage(request: Request): Promise<Response> {
+export async function buildImageRequest({
+  fileName,
+  token,
+}: {
+  fileName: string;
+  token: string;
+}) {
   const response = await window.fetch(
-    `${API_URL}/bumpkins/metadata/${request.fileName}`,
+    `${API_URL}/bumpkins/metadata/${fileName}`,
     {
       method: "GET",
       headers: {
@@ -35,16 +39,45 @@ export async function buildImage(request: Request): Promise<Response> {
     throw new Error(ERRORS.PURCHASE_TRADE_SERVER_ERROR);
   }
 
-  const data = await response.json();
+  const data: Response = await response.json();
 
   console.log(data);
-  return data;
+  return data.image;
 }
 
-export async function purchase(request: Request) {
-  const response = await purchaseRequest(request);
+export async function buildImage(request: Request): Promise<string> {
+  const tokenUri = tokenUriBuilder(request.parts);
 
-  await wallet
-    .getSessionManager()
-    .purchaseTrade({ ...response.payload, signature: response.signature });
+  // Grab a small file size and enlarge with CSS
+  const size = 100;
+  const url = `https://testnet-images.bumpkins.io/nfts/${tokenUri}x${size}.png`;
+  const img = new Image();
+  img.src = url;
+
+  return new Promise((res, rej) => {
+    // Check if image already loaded
+    if (img.complete) {
+      res(url);
+    } else {
+      // Image does work
+      img.onload = () => {
+        res(url);
+      };
+
+      // Image 404 - build it
+      img.onerror = async () => {
+        console.log("Does not exist!");
+        // Since these are not real NFTs, prepend fake ID and version
+        const validName = `0_v1_${tokenUri}?size=${size}.png`;
+
+        console.log({ validName });
+        const response = await buildImageRequest({
+          fileName: validName,
+          token: "",
+        });
+
+        res(response);
+      };
+    }
+  });
 }
