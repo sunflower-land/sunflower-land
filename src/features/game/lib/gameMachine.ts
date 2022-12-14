@@ -30,10 +30,7 @@ import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
-import {
-  getGameRulesLastRead,
-  hasAnnouncements,
-} from "features/announcements/announcementsStorage";
+// import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
@@ -227,10 +224,9 @@ export type BlockchainState = {
     | "loadLandToVisit"
     | "landToVisitNotFound"
     | "loading"
-    | "announcing"
     | "deposited"
     | "visiting"
-    | "gameRules"
+    // | "gameRules"
     | "playing"
     | "autosaving"
     | "syncing"
@@ -443,20 +439,16 @@ export function startGame(authContext: Options) {
               cond: (context: Context) =>
                 !!context.notifications && context.notifications?.length > 0,
             },
-            {
-              target: "announcing",
-              cond: () => hasAnnouncements(),
-            },
-            {
-              target: "gameRules",
-              cond: () => {
-                const lastRead = getGameRulesLastRead();
-                return (
-                  !lastRead ||
-                  Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
-                );
-              },
-            },
+            // {
+            //   target: "gameRules",
+            //   cond: () => {
+            //     const lastRead = getGameRulesLastRead();
+            //     return (
+            //       !lastRead ||
+            //       Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
+            //     );
+            //   },
+            // },
             {
               target: "swarming",
               cond: () => isSwarming(),
@@ -556,13 +548,13 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        gameRules: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
+        // gameRules: {
+        //   on: {
+        //     ACKNOWLEDGE: {
+        //       target: "notifying",
+        //     },
+        //   },
+        // },
         playing: {
           entry: "clearTransactionId",
           invoke: {

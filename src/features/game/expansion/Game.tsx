@@ -20,12 +20,11 @@ import { Expanding } from "./components/Expanding";
 import { ExpansionSuccess } from "./components/ExpansionSuccess";
 
 import { Notifications } from "../components/Notifications";
-import { Announcements } from "features/announcements/Announcement";
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-import { Rules } from "../components/Rules";
+// import { Rules } from "../components/Rules";
 import { PlaceableOverlay } from "./components/PlaceableOverlay";
 import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
@@ -54,7 +53,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   error: true,
   levelling: false,
   refreshing: true,
-  announcing: true,
   deposited: true,
   expanding: true,
   expanded: true,
@@ -63,7 +61,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   noBumpkinFound: true,
   swarming: true,
   coolingDown: true,
-  gameRules: true,
+  // gameRules: true,
   randomising: false,
   migrated: false,
   migrating: false,
@@ -231,7 +229,6 @@ export const Game: React.FC = () => {
           {gameState.matches("loading") && <Loading />}
           {gameState.matches("refreshing") && <Refreshing />}
           {gameState.matches("deposited") && <Notifications />}
-          {gameState.matches("announcing") && <Announcements />}
           {gameState.matches("error") && (
             <ErrorMessage
               errorCode={gameState.context.errorCode as ErrorCode}
@@ -245,7 +242,7 @@ export const Game: React.FC = () => {
           {gameState.matches("swarming") && <Swarming />}
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("coolingDown") && <Cooldown />}
-          {gameState.matches("gameRules") && <Rules />}
+          {/* {gameState.matches("gameRules") && <Rules />} */}
           {gameState.matches("revealing") && <Revealing />}
           {gameState.matches("revealed") && <Revealed />}
         </Panel>
