@@ -9,6 +9,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import close from "assets/icons/close.png";
 
 import salesmanImage from "assets/npcs/salesman.gif";
+import shadow from "assets/npcs/shadow.png";
 import { hasAlreadyTraded } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
@@ -155,6 +156,15 @@ export const Salesman: React.FC = () => {
       }}
     >
       <div className="cursor-pointer hover:img-highlight z-10">
+        <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * -1}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+          }}
+        />
         <img
           src={salesmanImage}
           alt="salesman"
