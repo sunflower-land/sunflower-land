@@ -49,7 +49,7 @@ import { Cactus } from "./components/Cactus";
 import { BasicBear } from "./components/BasicBear";
 import { CabbageBoy } from "./components/CabbageBoy";
 import { CabbageGirl } from "./components/CabbageGirl";
-import { PrizedPotato } from "./components/PrizedPotato";
+import { PeeledPotato } from "./components/PeeledPotato";
 import { WoodNymphWendy } from "./components/WoodNymphWendy";
 import { ChefBear } from "./components/ChefBear";
 import { ConstructionBear } from "./components/ConstructionBear";
@@ -120,7 +120,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Rock Golem": RockGolem,
   "Cabbage Boy": CabbageBoy,
   "Cabbage Girl": CabbageGirl,
-  "Prized Potato": PrizedPotato,
+  "Peeled Potato": PeeledPotato,
   "Wood Nymph Wendy": WoodNymphWendy,
 
   // Moles

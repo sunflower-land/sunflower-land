@@ -1,6 +1,10 @@
 import React, { useContext } from "react";
 
 import auctioneer from "assets/npcs/trivia.gif";
+import goblin from "assets/npcs/goblin.gif";
+import shadow from "assets/npcs/shadow.png";
+import heart from "assets/icons/heart.png";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import icon from "assets/icons/player_small.png";
@@ -88,6 +92,55 @@ export const Auctioneer: React.FC = () => {
       {isPlaying && (
         <AuctioneerModal isOpen={isPlaying} onClose={closeAuctioneer} />
       )}
+
+      {/* Interested Goblins */}
+      <img
+        src={goblin}
+        className="absolute z-10"
+        style={{
+          width: `${PIXEL_SCALE * 18}px`,
+          left: `${PIXEL_SCALE * -5}px`,
+          bottom: `${PIXEL_SCALE * 20}px`,
+        }}
+      />
+      <img
+        src={shadow}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+          left: `${PIXEL_SCALE * -4}px`,
+          bottom: `${PIXEL_SCALE * 18}px`,
+        }}
+      />
+      <img
+        src={heart}
+        className="absolute animate-float z-20"
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 40}px`,
+        }}
+      />
+
+      <img
+        src={goblin}
+        className="absolute z-10"
+        style={{
+          width: `${PIXEL_SCALE * 18}px`,
+          right: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 40}px`,
+          transform: "scaleX(-1)",
+        }}
+      />
+      <img
+        src={shadow}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+          bottom: `${PIXEL_SCALE * 38}px`,
+        }}
+      />
     </MapPlacement>
   );
 };

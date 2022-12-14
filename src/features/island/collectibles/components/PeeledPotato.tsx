@@ -1,10 +1,10 @@
 import React from "react";
 
-import prizedPotato from "assets/sfts/prized_potato.gif";
+import prizedPotato from "assets/sfts/peeled_potato.gif";
 import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const PrizedPotato: React.FC = () => {
+export const PeeledPotato: React.FC = () => {
   return (
     <>
       <img
@@ -24,7 +24,7 @@ export const PrizedPotato: React.FC = () => {
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
-        alt="Prized Potato"
+        alt="Peeled Potato"
       />
     </>
   );

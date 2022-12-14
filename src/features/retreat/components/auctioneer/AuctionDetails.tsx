@@ -125,11 +125,11 @@ export const AuctionDetails: React.FC<Props> = ({
       (game.inventory[ingredient.item] ?? new Decimal(0)).gte(ingredient.amount)
     ) ?? false;
 
-  const currentSupply = releases.reduce(
-    (supply, release) =>
-      release.releaseDate < Date.now() ? supply + release.supply : supply,
-    0
+  const focussedRelease = releases.find(
+    (release) => release.endDate > Date.now()
   );
+
+  const currentSupply = focussedRelease?.supply ?? 0;
 
   const remainingSupply = currentSupply - (totalMinted ?? 0);
   const isSoldOut = remainingSupply <= 0;
@@ -162,8 +162,6 @@ export const AuctionDetails: React.FC<Props> = ({
 
   console.log({ isUpcomingItem });
 
-  // If on the Auction tab showing the current release then don't show its details
-  // in the list of releases below as its details will be showcased
   const releasesList = isUpcomingItem ? releases : releases.slice(1);
   const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
 
@@ -229,7 +227,16 @@ export const AuctionDetails: React.FC<Props> = ({
             {isUpcomingItem ? "Releases" : "More Releases"}
           </p>
           {releasesList.map((release, index) => {
-            const availableSupply = release?.supply ?? 0;
+            // Upcoming items use full release list - current item slices it so be careful
+            let availableSupply = 0;
+
+            if (isUpcomingItem) {
+              const previousSupply = index > 0 ? releases[index - 1].supply : 0;
+              availableSupply = (release?.supply ?? 0) - previousSupply;
+            } else {
+              const previousSupply = releases[index].supply;
+              availableSupply = (release?.supply ?? 0) - previousSupply;
+            }
             const sfl = Number(release.price ?? 0);
 
             return (
