@@ -1,8 +1,6 @@
-import React from "react";
-import classNames from "classnames";
-import { getKeys } from "features/game/types/craftables";
+import React, { useEffect, useState } from "react";
 
-import dropShadow from "assets/bumpkins/shop/body_dropshadow.webp";
+import silhouette from "assets/bumpkins/silhouette.png";
 
 import {
   BumpkinItem,
@@ -11,6 +9,8 @@ import {
   ITEM_IDS,
 } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
+import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { buildImage } from "../actions/buildImage";
 
 interface Props {
   bumpkinParts: Partial<BumpkinParts>;
@@ -35,84 +35,47 @@ export const DynamicNFT: React.FC<Props> = ({
   showTools = true,
   className,
 }) => {
+  const [imageSrc, setImageSrc] = useState<string>();
   if (!bumpkinParts) {
     return null;
   }
 
-  const {
-    background,
-    body,
-    hair,
-    pants,
-    shirt,
-    shoes,
-    hat,
-    necklace,
-    tool,
-    coat,
-    secondaryTool,
-  } = bumpkinParts;
+  useEffect(() => {
+    function loadImage() {}
+    const load = async () => {
+      const tokenUri = tokenUriBuilder(bumpkinParts);
 
-  const backgroundPart: Partial<BumpkinParts> = {
-    background,
-  };
+      // Grab a small file size and enlarge with CSS
+      const size = 100;
+      const fileName = `${tokenUri}x${size}.png`;
+      const url = `https://testnet-images.bumpkins.io/nfts/${fileName}`;
+      const img = new Image();
+      img.src = url;
 
-  // Need to render layers in specific order
-  // Not including background because background is rendered before the shadow
-  const orderedParts: Partial<BumpkinParts> = {
-    body,
-    hair,
-    shirt,
-    pants,
-    coat,
-    shoes,
-    hat,
-    necklace,
-    tool,
-    secondaryTool,
-  };
+      if (img.complete) {
+        setImageSrc(url);
+      } else {
+        img.onload = () => {
+          setImageSrc(url);
+        };
 
-  if (!showBackground) {
-    delete orderedParts.background;
+        img.onerror = async () => {
+          console.log("Does not exist!");
+          await buildImage({
+            fileName: url,
+            token: "",
+          });
+        };
+      }
+    };
+
+    load();
+  }, []);
+
+  console.log({ imageSrc });
+  if (!imageSrc) {
+    return <img src={silhouette} alt="bumpkin" className="relative w-full" />;
   }
 
-  if (!showTools) {
-    delete orderedParts.tool;
-    delete orderedParts.secondaryTool;
-  }
-
-  const getBumpkinPartImage = (part: BumpkinPart) => {
-    return (
-      <img
-        key={part}
-        // TODO
-        src={getImageUrl(ITEM_IDS[bumpkinParts[part] as BumpkinItem])}
-        className={classNames(`inset-0 w-full absolute`, {
-          // The body sets the dimensions
-          relative: part === "body",
-        })}
-      />
-    );
-  };
-
-  return (
-    <div className={classNames("relative w-full", className ?? "")}>
-      {showBackground &&
-        getKeys(backgroundPart).map((part: BumpkinPart) =>
-          getBumpkinPartImage(part)
-        )}
-
-      {showDropShadow && (
-        <img
-          src={dropShadow}
-          alt="drop-shadow"
-          className="absolute w-full bottom-0 opacity-30"
-        />
-      )}
-
-      {getKeys(orderedParts)
-        .filter((part) => !!bumpkinParts[part])
-        .map((part: BumpkinPart) => getBumpkinPartImage(part))}
-    </div>
-  );
+  return <img src={imageSrc} alt="bumpkin" className="relative w-full" />;
 };

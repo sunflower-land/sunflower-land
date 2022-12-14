@@ -1,0 +1,75 @@
+import {
+  BumpkinBody,
+  BumpkinHat,
+  BumpkinNecklace,
+  BumpkinPant,
+  BumpkinSecondaryTool,
+  BumpkinShirt,
+  BumpkinShoe,
+  BumpkinTool,
+  BumpkinHair,
+  BumpkinBackground,
+  BumpkinCoat,
+  BumpkinOnesie,
+  ITEM_IDS,
+} from "features/game/types/bumpkin";
+
+export type BumpkinParts = {
+  background?: BumpkinBackground;
+  hair?: BumpkinHair;
+  body?: BumpkinBody;
+  shirt?: BumpkinShirt;
+  pants?: BumpkinPant;
+  shoes?: BumpkinShoe;
+  tool?: BumpkinTool;
+  necklace?: BumpkinNecklace;
+  coat?: BumpkinCoat;
+  hat?: BumpkinHat;
+  secondaryTool?: BumpkinSecondaryTool;
+  onesie?: BumpkinOnesie;
+};
+
+const VERSION = "v1";
+
+export enum Slots {
+  Background = 0,
+  Body = 1,
+  Hair = 2,
+  Shirt = 3,
+  Pants = 4,
+  Shoes = 5,
+  Tool = 6,
+  Hat = 7,
+  Necklace = 8,
+  SecondaryTool = 9,
+  Coat = 10,
+  Onesie = 11,
+}
+
+export function tokenUriBuilder(parts: BumpkinParts) {
+  const ids = [];
+
+  ids[Slots.Background] = parts.background ? ITEM_IDS[parts.background] : 0;
+  ids[Slots.Body] = parts.body ? ITEM_IDS[parts.body] : 0;
+  ids[Slots.Hair] = parts.hair ? ITEM_IDS[parts.hair] : 0;
+  ids[Slots.Shirt] = parts.shirt ? ITEM_IDS[parts.shirt] : 0;
+  ids[Slots.Pants] = parts.pants ? ITEM_IDS[parts.pants] : 0;
+  ids[Slots.Shoes] = parts.shoes ? ITEM_IDS[parts.shoes] : 0;
+  ids[Slots.Tool] = parts.tool ? ITEM_IDS[parts.tool] : 0;
+  ids[Slots.Hat] = parts.hat ? ITEM_IDS[parts.hat] : 0;
+  ids[Slots.Coat] = parts.coat ? ITEM_IDS[parts.coat] : 0;
+  ids[Slots.Necklace] = parts.necklace ? ITEM_IDS[parts.necklace] : 0;
+  ids[Slots.SecondaryTool] = parts.secondaryTool
+    ? ITEM_IDS[parts.secondaryTool]
+    : 0;
+  ids[Slots.Onesie] = parts.onesie ? ITEM_IDS[parts.onesie] : 0;
+
+  const lastPartIndex = [...ids].reverse().findIndex(Boolean);
+
+  // Trims off zeros from the end of the array
+  const validIds = lastPartIndex > 0 ? ids.slice(0, -lastPartIndex) : ids;
+
+  const uriFormat = validIds.join("_");
+
+  return `${VERSION}_${uriFormat}`;
+}
