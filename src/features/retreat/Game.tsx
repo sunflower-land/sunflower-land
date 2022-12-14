@@ -77,7 +77,6 @@ export const Game = () => {
   const hasRequiredLevel =
     bumpkin && getBumpkinLevel(bumpkin.experience) >= RETREAT_LEVEL_REQUIREMENT;
 
-  console.log({ hasRequiredLevel, bumpkin });
   return (
     <>
       <Modal

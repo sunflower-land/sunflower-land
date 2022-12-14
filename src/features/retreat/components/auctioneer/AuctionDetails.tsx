@@ -134,8 +134,6 @@ export const AuctionDetails: React.FC<Props> = ({
   const remainingSupply = currentSupply - (totalMinted ?? 0);
   const isSoldOut = remainingSupply <= 0;
 
-  console.log({ currentSupply, remainingSupply, releases });
-
   const makeLabel = () => {
     if (isUpcomingItem) return null;
 

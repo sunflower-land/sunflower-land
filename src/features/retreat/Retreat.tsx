@@ -6,7 +6,6 @@ import { Game } from "./Game";
 export const Retreat: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
-  console.log("RETERAT");
   useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.RetreatBackground, "auto");
