@@ -77,7 +77,7 @@ import wickerMan from "assets/sfts/wicker_man.png";
 import wendy from "assets/sfts/wood_nymph_wendy.png";
 import cabbageBoy from "assets/sfts/cabbage_boy.png";
 import cabbageGirl from "assets/sfts/cabbage_girl.png";
-import prizedPotato from "assets/sfts/prized_potato.gif";
+import prizedPotato from "assets/sfts/peeled_potato.gif";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -312,6 +312,7 @@ import classyBear from "src/assets/sfts/bears/classy_bear.png";
 import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
 import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
+import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1496,6 +1497,10 @@ export const ITEM_DETAILS: Items = {
     image: sunflowerBear,
     description: DECORATIONS()["Sunflower Bear"].description,
   },
+  "Christmas Bear": {
+    ...SALESMAN_ITEMS["Christmas Bear"],
+    image: christmasBear,
+  },
 
   "Cabbage Boy": {
     image: cabbageBoy,
@@ -1512,9 +1517,9 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_RETREAT_ITEMS["Wood Nymph Wendy"].description,
   },
 
-  "Prized Potato": {
+  "Peeled Potato": {
     image: prizedPotato,
-    description: GOBLIN_RETREAT_ITEMS["Prized Potato"].description,
+    description: GOBLIN_RETREAT_ITEMS["Peeled Potato"].description,
   },
 
   "Colossal Crop": {

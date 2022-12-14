@@ -167,6 +167,24 @@ img {
 
 /* Loading ellipsis animation that will be added to the end of text ie Loading... */
 
+.loading2 {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.loading2::after {
+  display: inline-block;
+  content: "...";
+  animation: loading2-keyframes 1.2s steps(4, jump-none) infinite;
+}
+
+@keyframes loading2-keyframes {
+  0% {
+    transform: translateX(-100%);
+  }
+}
+
 .loading,
 .no-tadpoles {
   display: inline-block;

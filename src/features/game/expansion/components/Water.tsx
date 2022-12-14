@@ -10,6 +10,7 @@ import cossies from "assets/decorations/cossies.png";
 import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
 import abandonedLand from "assets/land/abandoned_land.webp";
+import snowIsland from "assets/land/snow_island.webp";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -20,6 +21,7 @@ import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
+import { Salesman } from "features/farming/salesman/Salesman";
 
 const spawn = [
   [40.1, -3],
@@ -136,6 +138,17 @@ export const Water: React.FC<Props> = ({ level }) => {
           }}
         />
       </MapPlacement>
+
+      <MapPlacement x={-5} y={-16} width={6}>
+        <img
+          src={snowIsland}
+          style={{
+            width: `${PIXEL_SCALE * 82}px`,
+          }}
+        />
+      </MapPlacement>
+
+      <Salesman />
     </div>
   );
 };

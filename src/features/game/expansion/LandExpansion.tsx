@@ -40,7 +40,7 @@ export const LandExpansion: React.FC = () => {
     <GameProvider key={id}>
       <ToastProvider>
         <ScrollContainer
-          className="bg-blue-300 overflow-scroll relative w-full h-full"
+          className="bg-blue-300 overflow-scroll relative w-full h-full page-scroll-container"
           innerRef={container}
           ignoreElements={"*[data-prevent-drag-scroll]"}
         >

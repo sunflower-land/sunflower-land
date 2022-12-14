@@ -54,7 +54,7 @@
     "util": "^0.12.4",
     "uuid": "^9.0.0",
     "web3": "^1.6.1",
-    "web3-health-check": "1.0.16",
+    "web3-health-check": "^1.0.17",
     "web3-utils": "^1.6.1",
     "xstate": "^4.33.1"
   },

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { LEVEL_BRACKETS } from "features/game/lib/level";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
@@ -42,7 +42,7 @@ describe("Construct building", () => {
           ...GAME_STATE,
           bumpkin: {
             ...GAME_STATE.bumpkin!,
-            experience: LEVEL_BRACKETS[1],
+            experience: LEVEL_EXPERIENCE[1],
           },
         },
         action: {
@@ -64,7 +64,7 @@ describe("Construct building", () => {
           ...GAME_STATE,
           bumpkin: {
             ...GAME_STATE.bumpkin!,
-            experience: LEVEL_BRACKETS[20],
+            experience: LEVEL_EXPERIENCE[20],
           },
           inventory: {
             "Water Well": new Decimal(4),
@@ -117,7 +117,7 @@ describe("Construct building", () => {
           ...GAME_STATE,
           bumpkin: {
             ...GAME_STATE.bumpkin!,
-            experience: LEVEL_BRACKETS[20],
+            experience: LEVEL_EXPERIENCE[20],
           },
           inventory: {
             Wood: new Decimal(100),
@@ -144,7 +144,7 @@ describe("Construct building", () => {
           ...GAME_STATE,
           bumpkin: {
             ...GAME_STATE.bumpkin!,
-            experience: LEVEL_BRACKETS[20],
+            experience: LEVEL_EXPERIENCE[20],
           },
           inventory: {
             Wood: new Decimal(0.1),
@@ -174,7 +174,7 @@ describe("Construct building", () => {
         ...GAME_STATE,
         bumpkin: {
           ...GAME_STATE.bumpkin!,
-          experience: LEVEL_BRACKETS[20],
+          experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
           Wood: initialWood,
@@ -268,7 +268,7 @@ describe("Construct building", () => {
         balance: new Decimal(100),
         bumpkin: {
           ...GAME_STATE.bumpkin!,
-          experience: LEVEL_BRACKETS[20],
+          experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
           Wood: new Decimal(20),
@@ -326,7 +326,7 @@ describe("Construct building", () => {
         balance: new Decimal(100),
         bumpkin: {
           ...GAME_STATE.bumpkin!,
-          experience: LEVEL_BRACKETS[20],
+          experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
           Wood: new Decimal(20),

@@ -279,12 +279,16 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       {/* Health bar shown when striking */}
       <div
         className={classNames(
-          "absolute top-10 left-0 transition-opacity pointer-events-none",
+          "absolute left-1/2 transition-opacity pointer-events-none",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,
           }
         )}
+        style={{
+          marginLeft: `${PIXEL_SCALE * -8}px`,
+          bottom: `${PIXEL_SCALE * -5}px`,
+        }}
       >
         <Bar
           percentage={collecting ? 0 : 100 - (touchCount / 3) * 100}

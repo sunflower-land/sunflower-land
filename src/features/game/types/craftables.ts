@@ -91,7 +91,8 @@ export type MOMEventItem = "Engine Core" | "Observatory";
 export type TravelingSalesmanItem =
   | "Wicker Man"
   | "Golden Bonsai"
-  | "Victoria Sisters";
+  | "Victoria Sisters"
+  | "Christmas Bear";
 
 export type QuestItem =
   | "Goblin Key"
@@ -100,7 +101,7 @@ export type QuestItem =
   | "Ancient Human Warhammer";
 
 export type GoblinRetreatItemName =
-  | "Prized Potato"
+  | "Peeled Potato"
   | "Cabbage Boy"
   | "Cabbage Girl"
   | "Wood Nymph Wendy";
@@ -645,6 +646,12 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
     section: Section["Golden Bonsai"],
     isPlaceholder: true,
   },
+  "Christmas Bear": {
+    name: "Christmas Bear",
+    description: "Santa's favorite",
+    section: Section["Christmas Bear"],
+    isPlaceholder: true,
+  },
 };
 
 export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
@@ -972,8 +979,8 @@ export const GOBLIN_RETREAT_ITEMS: Record<
   GoblinRetreatItemName,
   GoblinRetreatItem
 > = {
-  "Prized Potato": {
-    description: "A precious potato, doubles potato yield",
+  "Peeled Potato": {
+    description: "A precious potato, encourages bonus potatoes on harvest.",
   },
   "Cabbage Boy": {
     description: "Don't wake the baby!",
@@ -1219,7 +1226,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   "Victoria Sisters": { height: 2, width: 2 },
   "Basic Bear": { height: 1, width: 1 },
-  "Prized Potato": { height: 1, width: 1 },
+  "Peeled Potato": { height: 1, width: 1 },
   "Wood Nymph Wendy": { height: 2, width: 1 },
   "Cabbage Boy": { height: 1, width: 1 },
   "Cabbage Girl": { height: 1, width: 1 },
@@ -1232,6 +1239,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Peaceful Potato": { height: 1, width: 1 },
   "Perky Pumpkin": { height: 1, width: 1 },
   "Colossal Crop": { height: 1, width: 1 },
+
+  "Christmas Bear": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

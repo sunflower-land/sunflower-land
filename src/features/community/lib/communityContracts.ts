@@ -71,7 +71,7 @@ export class CommunityContracts {
     return isHealthy;
   }
 
-  public async getAccount() {
+  private async getAccount() {
     if (!this.web3) {
       throw new Error(ERRORS.NO_WEB3);
     }

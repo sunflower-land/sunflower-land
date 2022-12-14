@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { LEVEL_BRACKETS } from "features/game/lib/level";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { TEST_FARM } from "../../lib/constants";
 import { BUILDINGS } from "../../types/buildings";
 import { GameState } from "../../types/game";
@@ -39,7 +39,7 @@ describe("Place building", () => {
           ...GAME_STATE,
           bumpkin: {
             ...GAME_STATE.bumpkin!,
-            experience: LEVEL_BRACKETS[1],
+            experience: LEVEL_EXPERIENCE[1],
           },
         },
         action: {
@@ -61,7 +61,7 @@ describe("Place building", () => {
           ...GAME_STATE,
           bumpkin: {
             ...GAME_STATE.bumpkin!,
-            experience: LEVEL_BRACKETS[20],
+            experience: LEVEL_EXPERIENCE[20],
           },
           inventory: {
             "Water Well": new Decimal(4),
@@ -114,7 +114,7 @@ describe("Place building", () => {
         ...GAME_STATE,
         bumpkin: {
           ...GAME_STATE.bumpkin!,
-          experience: LEVEL_BRACKETS[20],
+          experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
           "Water Well": new Decimal(1),
@@ -142,7 +142,7 @@ describe("Place building", () => {
         ...GAME_STATE,
         bumpkin: {
           ...GAME_STATE.bumpkin!,
-          experience: LEVEL_BRACKETS[20],
+          experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
           "Water Well": new Decimal(2),

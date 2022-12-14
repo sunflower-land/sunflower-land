@@ -8,7 +8,6 @@ import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
 import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
 import { SomethingWentWrong } from "./components/SomethingWentWrong";
-import { Blocked } from "./components/Blocked";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
@@ -16,6 +15,7 @@ import { ErrorCode, ERRORS } from "lib/errors";
 import { TooManyRequests } from "./components/TooManyRequests";
 import { Maintenance } from "./components/Maintenance";
 import { MultipleDevices } from "./components/MultipleDevices";
+import { Blocked } from "./components/Blocked";
 
 interface Props {
   errorCode: ErrorCode;

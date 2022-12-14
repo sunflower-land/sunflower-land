@@ -74,7 +74,7 @@ export const Helios: React.FC = () => {
 
         <IslandTravel
           bumpkin={bumpkin}
-          x={5}
+          x={3.5}
           y={-17}
           onTravelDialogOpened={() => gameService.send("SAVE")}
           isTravelAllowed={!gameState.matches("autosaving")}

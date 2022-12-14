@@ -9722,10 +9722,10 @@ web3-eth@1.6.1:
     web3-net "1.6.1"
     web3-utils "1.6.1"
 
-web3-health-check@1.0.16:
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/web3-health-check/-/web3-health-check-1.0.16.tgz#abbb6ed299a9401a8affdb4e2ae2c559c3871871"
-  integrity sha512-1VgUCtxbkMaViFIkzgrNjs3syvrl86OzktVCoqha/Zs6a5EoZ553XdjGOphMbbMmyZeVPBkhhEAMy9OeAXZN8w==
+web3-health-check@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/web3-health-check/-/web3-health-check-1.0.17.tgz#6c00a5476caa334fc59be4dcd626a514a329e566"
+  integrity sha512-y8KYsMkk50R56tFs8G3JNSxt6cqa5iHvxUKNKuqI/PX1s9P3BACE+AQ2xqM6Rp2KPF4m24LvUEOttyXKQP/MEg==
   dependencies:
     web3 "^1.6.1"
 

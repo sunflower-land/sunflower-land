@@ -1053,7 +1053,7 @@ export function startGame(authContext: Options) {
           transactionId: () => randomID(),
         }),
         clearTransactionId: assign<Context, any>({
-          transactionId: () => randomID(),
+          transactionId: () => undefined,
         }),
       },
     }

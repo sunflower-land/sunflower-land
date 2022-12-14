@@ -5,7 +5,8 @@ import { CONFIG } from "lib/config";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 
-import { Context } from "features/game/GameProvider";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import { Context as GameContext } from "features/game/GameProvider";
 
 import { Share } from "components/Share";
 
@@ -22,6 +23,9 @@ import { CommunityGardenModal } from "features/farming/town/components/Community
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { LandExpansionRole } from "./LandExpansionRole";
+import { onramp } from "features/auth/actions/onramp";
+import { randomID } from "lib/utils/random";
+import { Loading } from "features/auth/components";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -34,7 +38,8 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
-  const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
+  const { gameService } = useContext(GameContext);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showLandExpansionModal, setShowLandExpansionModal] = useState(false);
@@ -44,6 +49,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
+  const [loadingOnRamp, setLoadingOnRamp] = useState(false);
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -53,6 +59,20 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
   const handleShareClick = () => {
     setShowShareModal(true);
     onClose();
+  };
+
+  const handleAddMatic = async () => {
+    setLoadingOnRamp(true);
+    await onramp({
+      token: authService.state.context.rawToken as string,
+      transactionId: randomID(),
+    });
+
+    onClose();
+
+    // Wait for the closing animation to finish
+    await new Promise((res) => setTimeout(res, 150));
+    setLoadingOnRamp(false);
   };
 
   const handleSettingsClick = () => {
@@ -94,83 +114,91 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
     <>
       <Modal show={show} centered onHide={onClose}>
         <Panel>
-          <ul className="list-none pt-1">
-            {CONFIG.NETWORK === "mumbai" && (
-              <>
-                <li className="p-1">
-                  <DEV_BurnLandButton />
-                </li>
-                <li className="p-1">
-                  <DEV_GenerateLandButton />
-                </li>
-              </>
-            )}
-
-            {/* Root menu */}
-            {menuLevel === MENU_LEVELS.ROOT && (
-              <>
-                <li className="p-1">
-                  <Button onClick={syncOnChain}>
-                    <span>Sync on chain</span>
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button onClick={handleHowToPlay}>
-                    <div className="flex items-center justify-center">
-                      <span>How to play</span>
-                      <img
-                        src={questionMark}
-                        className="w-3 ml-2"
-                        alt="question-mark"
-                      />
-                    </div>
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}>
-                    <span>Community</span>
-                  </Button>
-                </li>
-                {CONFIG.NETWORK === "mainnet" && (
+          {loadingOnRamp && <Loading />}
+          {!loadingOnRamp && (
+            <ul className="list-none pt-1">
+              {CONFIG.NETWORK === "mumbai" && (
+                <>
                   <li className="p-1">
-                    <Button onClick={handleLandExpansionClick}>
-                      <span>Discord</span>
+                    <DEV_BurnLandButton />
+                  </li>
+                  <li className="p-1">
+                    <DEV_GenerateLandButton />
+                  </li>
+                </>
+              )}
+
+              {/* Root menu */}
+              {menuLevel === MENU_LEVELS.ROOT && (
+                <>
+                  <li className="p-1">
+                    <Button onClick={syncOnChain}>
+                      <span>Sync on chain</span>
                     </Button>
                   </li>
-                )}
-                <li className="p-1">
-                  <Button onClick={handleSettingsClick}>
-                    <span>Settings</span>
-                  </Button>
-                </li>
-              </>
-            )}
+                  <li className="p-1">
+                    <Button onClick={handleHowToPlay}>
+                      <div className="flex items-center justify-center">
+                        <span>How to play</span>
+                        <img
+                          src={questionMark}
+                          className="w-3 ml-2"
+                          alt="question-mark"
+                        />
+                      </div>
+                    </Button>
+                  </li>
+                  <li className="p-1">
+                    <Button onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}>
+                      <span>Community</span>
+                    </Button>
+                  </li>
+                  {CONFIG.NETWORK === "mainnet" && (
+                    <li className="p-1">
+                      <Button onClick={handleLandExpansionClick}>
+                        <span>Discord</span>
+                      </Button>
+                    </li>
+                  )}
+                  <li className="p-1">
+                    <Button onClick={handleAddMatic}>
+                      <span>Add Matic</span>
+                    </Button>
+                  </li>
+                  <li className="p-1">
+                    <Button onClick={handleSettingsClick}>
+                      <span>Settings</span>
+                    </Button>
+                  </li>
+                </>
+              )}
 
-            {/* Back button when not Root */}
-            {menuLevel !== MENU_LEVELS.ROOT && (
-              <li className="p-1">
-                <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
-                  <img src={leftArrow} className="w-4 mr-2" alt="left" />
-                </Button>
-              </li>
-            )}
+              {/* Back button when not Root */}
+              {menuLevel !== MENU_LEVELS.ROOT && (
+                <li className="p-1">
+                  <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
+                    <img src={leftArrow} className="w-4 mr-2" alt="left" />
+                  </Button>
+                </li>
+              )}
 
-            {/* Community menu */}
-            {menuLevel === MENU_LEVELS.VIEW && (
-              <>
-                <li className="p-1">
-                  <Button onClick={() => setShowCommunityGardenModal(true)}>
-                    <span>Community Garden</span>
-                  </Button>
-                </li>
-                <li className="p-1">
-                  <Button onClick={handleShareClick}>
-                    <span>Share</span>
-                  </Button>
-                </li>
-              </>
-            )}
-          </ul>
+              {/* Community menu */}
+              {menuLevel === MENU_LEVELS.VIEW && (
+                <>
+                  <li className="p-1">
+                    <Button onClick={() => setShowCommunityGardenModal(true)}>
+                      <span>Community Garden</span>
+                    </Button>
+                  </li>
+                  <li className="p-1">
+                    <Button onClick={handleShareClick}>
+                      <span>Share</span>
+                    </Button>
+                  </li>
+                </>
+              )}
+            </ul>
+          )}
         </Panel>
       </Modal>
 

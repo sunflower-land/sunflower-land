@@ -1,19 +1,24 @@
 import React, { useContext, useState } from "react";
-import { Carousel, CarouselItem } from "react-bootstrap";
 import shuffle from "lodash.shuffle";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 
-import question from "assets/icons/expression_confused.png";
-import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
+import confirm from "assets/icons/confirm.png";
+import sunflower from "assets/crops/sunflower/crop.png";
+
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
-import { Blocked } from "./Blocked";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineInterpreter } from "../lib/createFarmMachine";
+import { onramp } from "../actions/onramp";
+import { randomID } from "lib/utils/random";
+import classNames from "classnames";
+import { Loading } from "./Loading";
+import Decimal from "decimal.js-light";
+import { fromWei, toBN } from "web3-utils";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -21,9 +26,8 @@ export const roundToOneDecimal = (number: number) =>
 export enum CharityAddress {
   TheWaterProject = "0xBCf9bf2F0544252761BCA9c76Fe2aA18733C48db",
   PCF = "0x8c6A1870D922279dB6F91CB6798592c7A7133BBD",
-  // Heifer = "0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1",
-  // CoolEarth = "0x3c8cB169281196737c493AfFA8F49a9d823bB9c5",
 }
+
 interface Charity {
   name: string;
   info: string;
@@ -34,81 +38,86 @@ interface Charity {
 const CHARITIES: Charity[] = shuffle([
   {
     name: "The Water Project",
-    info: "You can provide clean, safe and reliable water today.",
+    info: "Providing clean, safe and reliable water.",
     url: "https://thewaterproject.org/donate-ethereum",
     address: CharityAddress.TheWaterProject,
   },
   {
     name: "Purple Community Fund",
-    info: "To help poverty stricken families and communities transform their own lives with our skills training, education, health and nutrition programmes.",
+    info: "Strengthening communities and changing lives.",
     url: "https://www.p-c-f.org/",
     address: CharityAddress.PCF,
   },
-  // {
-  //   name: "The Heifer Project",
-  //   info: "We do more than train farmers. We grow incomes.",
-  //   url: "https://www.heifer.org/give/other/digital-currency.html",
-  //   address: CharityAddress.Heifer,
-  // },
-  // {
-  //   name: "Cool Earth",
-  //   info: "Aim to halt deforestation and its impact on our climate.",
-  //   url: "https://www.coolearth.org/cryptocurrency-donations/",
-  //   address: CharityAddress.CoolEarth,
-  // },
 ]);
 
 interface CharityDetailProps extends Charity {
-  onDonateAndPlayClick: (address: CharityAddress) => void;
+  selected: boolean;
+  onClick: () => void;
 }
 
 const CharityDetail = ({
   url,
   name,
   info,
-  address,
-  onDonateAndPlayClick,
+  selected,
+  onClick,
 }: CharityDetailProps) => {
-  const onAboutClick = (url: string) => {
-    window.open(url, "_blank");
-  };
-
   return (
-    <OuterPanel className="flex-col inline-flex items-center justify-center w-full">
-      <div className="flex flex-col items-center mb-3 whitespace-normal">
-        <h5 className="text-sm underline mb-3 text-center">{name}</h5>
-        <p className="text-xs text-center mb-2 px-5 two-line-ellipsis">
-          {info}
-        </p>
-      </div>
-
-      <div className="flex w-full z-10">
-        <Button
-          className="w-full mr-1"
-          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            onAboutClick(url), e.preventDefault();
-          }}
+    <InnerPanel
+      className={classNames(
+        "flex flex-col items-center w-full justify-between",
+        {
+          "img-highlight": selected,
+        }
+      )}
+    >
+      <div className="w-full p-1 space-y-2 cursor-pointer" onClick={onClick}>
+        <a
+          href={url}
+          className="underline text-xs hover:text-blue-500 mb-2 text-center"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <span className="text-xs mr-1">About</span>
-          <img src={question} className="scale-110" alt="question-mark" />
-        </Button>
-        <Button
-          className="w-full ml-1"
-          onClick={() => onDonateAndPlayClick(address)}
-        >
-          <span className="text-xs whitespace-nowrap">Donate & Play</span>
-        </Button>
+          {name}
+        </a>
+        <p className="text-xs mb-1">{info}</p>
       </div>
-    </OuterPanel>
+    </InnerPanel>
   );
 };
 
 export const CreateFarm: React.FC = () => {
-  const [charity, setCharity] = useState<string>();
-  const [activeIdx, setActiveIndex] = useState(0);
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
+
+  const child = authService.state.children
+    .createFarmMachine as MachineInterpreter;
+
+  const [createFarmState] = useActor(child);
+
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [charity, setCharity] = useState<CharityAddress | null>(null);
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+  const [screen, setScreen] = useState<"intro" | "create">("intro");
+
+  const isLoading = createFarmState.matches("loading");
+  const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
+  const hasCharitySelected = charity !== null;
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
+
+  // 20c gas fee for a $5 USD farm, is 4%.
+  const maticFeePlusGas = new Decimal(maticFee)
+    .mul(1.04)
+    .toDecimalPlaces(2, Decimal.ROUND_UP);
+
+  const recommendedMatic = maticFeePlusGas
+    .mul(2)
+    .toDecimalPlaces(0, Decimal.ROUND_UP);
 
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
@@ -120,27 +129,15 @@ export const CreateFarm: React.FC = () => {
     });
   };
 
-  const onDonateAndPlayClick = (charityAddress: CharityAddress) => {
-    setCharity(charityAddress);
-    setShowCaptcha(true);
+  const addFunds = async () => {
+    await onramp(
+      {
+        token: authService.state.context.rawToken as string,
+        transactionId: randomID(),
+      },
+      () => setPaymentConfirmed(true)
+    );
   };
-
-  const updateActiveIndex = (newIdx: number) => {
-    if (newIdx < 0) {
-      setActiveIndex(0);
-    }
-
-    if (newIdx > CHARITIES.length - 1) {
-      setActiveIndex(CHARITIES.length - 1);
-      return;
-    }
-
-    setActiveIndex(newIdx);
-  };
-
-  if (!authState.context.token?.userAccess.createFarm) {
-    return <Blocked />;
-  }
 
   if (showCaptcha) {
     return (
@@ -148,59 +145,118 @@ export const CreateFarm: React.FC = () => {
         sitekey={CONFIG.RECAPTCHA_SITEKEY}
         onChange={onCaptchaSolved}
         onExpired={() => setShowCaptcha(false)}
-        className="w-full m-4 flex items-center justify-center"
+        className="w-full flex items-center justify-center min-h-[78px]"
       />
     );
   }
 
   return (
-    <form className="mb-4 relative">
-      <div className="flex flex-col items-center">
-        <h2 className="text-base mb-2">$5 USD to play</h2>
-        <p className="text-xs mb-3 text-center">
-          To play Sunflower Land, you first need to mint an Account NFT for $5
-          USD (paid in MATIC)
-        </p>
-        <p className="text-xs mb-3 text-center">
-          10% of this fee will be donated to a charity of your choice.
-        </p>
-      </div>
-      <p className="text-center mb-3 mt-10">Select a charity</p>
-      <Carousel
-        activeIndex={activeIdx}
-        onSelect={updateActiveIndex}
-        prevIcon={
-          <img
-            src={leftArrow}
-            alt="left-arrow"
-            className="absolute cursor-pointer"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-            onClick={() => updateActiveIndex(activeIdx - 1)}
-          />
-        }
-        nextIcon={
-          <img
-            src={rightArrow}
-            alt="right-arrow"
-            className="absolute cursor-pointer"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-            onClick={() => updateActiveIndex(activeIdx + 1)}
-          />
-        }
-      >
-        {CHARITIES.map((props: Charity) => (
-          <CarouselItem key={props.url}>
-            <CharityDetail
-              {...props}
-              onDonateAndPlayClick={onDonateAndPlayClick}
-            />
-          </CarouselItem>
-        ))}
-      </Carousel>
-    </form>
+    <div className="flex flex-col items-center">
+      <h1 className="text-center mb-1">Getting Started</h1>
+      <img
+        src={sunflower}
+        className="my-1"
+        style={{
+          width: `${PIXEL_SCALE * 13}px`,
+        }}
+      />
+      {screen === "intro" && (
+        <>
+          <div className="flex flex-col space-y-2 text-xs p-2 pt-1 mb-2">
+            <p>
+              {`Sunflower Land is powered by the Polygon blockchain and requires
+              Polygon's Matic token to play.`}
+            </p>
+            <p>
+              {`Creating an account costs ${maticFeePlusGas.toNumber()} Matic (~$5 USD). 50 cents will
+              be donated to a charity of your choice.`}
+            </p>
+            <p>You will also receive a free Bumpkin NFT (worth $5 USD).</p>
+            <p>This Bumpkin will be your guide in Sunflower Land.</p>
+          </div>
+          <Button onClick={() => setScreen("create")}>Continue</Button>
+        </>
+      )}
+
+      {screen === "create" && (
+        <>
+          <ol className="p-2 space-y-3 text-xs">
+            <li>
+              <div>
+                <div className="flex space-x-1 mb-2 items-center">
+                  {!hasEnoughMatic && <span>1.</span>}
+                  {hasEnoughMatic && (
+                    <img
+                      src={confirm}
+                      style={{
+                        width: `${PIXEL_SCALE * 6}px`,
+                      }}
+                    />
+                  )}
+                  <span>
+                    Add Matic ({recommendedMatic.toNumber()} Matic recommended)
+                  </span>
+                </div>
+                {!hasEnoughMatic && (
+                  <>
+                    <Button disabled={paymentConfirmed} onClick={addFunds}>
+                      Buy Matic
+                    </Button>
+                    {paymentConfirmed && (
+                      <p
+                        className="text-xxs italic"
+                        style={{ lineHeight: 1.1 }}
+                      >
+                        Waiting for crypto to be sent to your wallet. This
+                        usually takes 20-30 seconds
+                        <span className="loading2" />
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+            </li>
+            <li>
+              <div className="flex flex-col space-y-2">
+                <div className="flex space-x-1 mb-1 items-center">
+                  {!hasCharitySelected && <span>2.</span>}
+                  {hasCharitySelected && (
+                    <img
+                      src={confirm}
+                      style={{
+                        width: `${PIXEL_SCALE * 6}px`,
+                      }}
+                    />
+                  )}
+                  <span>Pick your charity</span>
+                </div>
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 justify-evenly">
+                  {CHARITIES.map((_charity) => (
+                    <CharityDetail
+                      {..._charity}
+                      selected={charity === _charity.address}
+                      onClick={() => setCharity(_charity.address)}
+                      key={_charity.address}
+                    />
+                  ))}
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div className="flex flex-col space-y-2">
+                <span>3. Create your account</span>
+                <Button
+                  disabled={!hasEnoughMatic || !hasCharitySelected}
+                  onClick={() => setShowCaptcha(true)}
+                >
+                  Start your adventure!
+                </Button>
+              </div>
+            </li>
+          </ol>
+        </>
+      )}
+    </div>
   );
 };

@@ -336,7 +336,7 @@ export const Chicken: React.FC<Props> = ({ index, position }) => {
       )}
       {showEggProgress && (
         <div
-          className="absolute bottom-4 left-4"
+          className="absolute bottom-0 left-2.5 pointer-events-none"
           style={{ zIndex: index + 1, transform: "scale(0.7)" }}
         >
           <Bar percentage={percentageComplete} type="progress" />

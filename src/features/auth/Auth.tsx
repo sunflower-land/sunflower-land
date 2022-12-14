@@ -37,6 +37,7 @@ export const Auth: React.FC = () => {
     authState.matches("connectingToSequence") ||
     authState.matches("setupContracts");
 
+  console.log(authState.value);
   return (
     <Modal
       centered
@@ -60,15 +61,13 @@ export const Auth: React.FC = () => {
       <Panel className="pb-1">
         {(authState.matches({ connected: "loadingFarm" }) ||
           authState.matches("checkFarm") ||
-          authState.matches("initialising") ||
-          authState.matches({ connected: "checkingSupply" }) ||
-          authState.matches({ connected: "checkingAccess" })) && <Loading />}
+          authState.matches("initialising")) && <Loading />}
         {authState.matches("idle") && <Connect />}
         {connecting && <Loading text="Connecting" />}
         {authState.matches("connectedToWallet") && <ConnectedToWallet />}
         {authState.matches("signing") && <Signing />}
         {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
-        {authState.matches({ connected: "supplyReached" }) && <SupplyReached />}
+        {authState.matches({ connected: "comingSoon" }) && <SupplyReached />}
         {authState.matches("oauthorising") && <Loading />}
         {authState.matches({ connected: "donating" }) && <CreateFarm />}
         {authState.matches({ connected: "countdown" }) && <Countdown />}

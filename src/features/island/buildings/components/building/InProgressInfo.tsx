@@ -47,12 +47,10 @@ export const InProgressInfo: React.FC<Props> = ({
           <span className="text-xs mb-1">
             {secondsToString(secondsTillReady, { length: "medium" })}
           </span>
-          <div className="relative w-full h">
-            <Bar
-              percentage={(1 - secondsTillReady / cookingSeconds) * 100}
-              type="progress"
-            />
-          </div>
+          <Bar
+            percentage={(1 - secondsTillReady / cookingSeconds) * 100}
+            type="progress"
+          />
         </div>
       </div>
     </div>

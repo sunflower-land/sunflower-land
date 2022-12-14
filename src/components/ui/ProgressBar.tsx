@@ -53,9 +53,10 @@ export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
 
   return (
     <div
-      className="absolute"
+      className="relative"
       style={{
         width: `${PIXEL_SCALE * DIMENSIONS.width}px`,
+        height: `${PIXEL_SCALE * DIMENSIONS.height}px`,
       }}
     >
       {/* Progress bar frame */}

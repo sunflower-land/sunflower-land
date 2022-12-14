@@ -265,7 +265,7 @@ export const Field: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "transition-opacity pointer-events-none absolute bottom-5 flex",
+          "transition-opacity pointer-events-none absolute bottom-0 flex",
           {
             "opacity-100": touchCount > 0,
             "opacity-0": touchCount === 0,

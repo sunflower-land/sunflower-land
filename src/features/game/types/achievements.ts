@@ -56,7 +56,7 @@ export type Achievement = {
 
 export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Sun Seeker": {
-    description: "Harvest 100 Sunflowers",
+    description: "Harvest Sunflower 100 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 100,
@@ -74,7 +74,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     rewards: {},
   },
   "Cabbage King": {
-    description: "Harvest 200 cabbages",
+    description: "Harvest Cabbage 200 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cabbage Harvested"] || 0,
     requirement: 200,
@@ -88,7 +88,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sfl: marketRate(20),
   },
   "Jack O'Latern": {
-    description: "Harvest 500 Pumpkins",
+    description: "Harvest Pumpkin 500 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Pumpkin Harvested"] || 0,
     requirement: 500,
@@ -115,7 +115,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sfl: marketRate(50),
   },
   "Cool Flower": {
-    description: "Harvest 100 cauliflowers",
+    description: "Harvest Cauliflower 100 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cauliflower Harvested"] || 0,
     requirement: 100,
@@ -187,7 +187,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Farm Hand": {
-    description: "Harvest 10000 crops",
+    description: "Harvest crops 10,000 times",
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(CROPS()).map(
         (name) => `${name} Harvested` as HarvestEvent
@@ -207,7 +207,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Beetroot Beast": {
-    description: "Harvest 2000 beetroots",
+    description: "Harvest Beetroot 2,000 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Beetroot Harvested"] || 0,
     requirement: 2000,
@@ -218,7 +218,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "My life is potato": {
-    description: "Harvest 5000 potatoes",
+    description: "Harvest Potato 5,000 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Potato Harvested"] || 0,
     requirement: 5000,
@@ -248,7 +248,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Rapid Radish": {
-    description: "Harvest 200 radishes",
+    description: "Harvest Radish 200 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Radish Harvested"] || 0,
     requirement: 200,
@@ -256,7 +256,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "20/20 Vision": {
-    description: "Harvest 10,000 carrots",
+    description: "Harvest Carrot 10,000 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Carrot Harvested"] || 0,
     requirement: 10000,
@@ -291,7 +291,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   Canary: {
-    description: "Mine 1000 stone rocks",
+    description: "Mine 1,000 stone rocks",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Stone Mined"] || 0,
     requirement: 1000,
@@ -299,7 +299,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Staple Crop": {
-    description: "Harvest 10000 wheat",
+    description: "Harvest Wheat 10,000 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Wheat Harvested"] || 0,
     requirement: 10000,
@@ -323,7 +323,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Sunflower Superstar": {
-    description: "Harvest 100,000 sunflowers",
+    description: "Harvest Sunflower 100,000 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 100000,
@@ -333,7 +333,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Bumpkin Chainsaw Amateur": {
-    description: "Chop 5000 trees",
+    description: "Chop 5,000 trees",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
     requirement: 5000,
@@ -353,7 +353,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Chef de Cuisine": {
-    description: "Cook 5000 meals",
+    description: "Cook 5,000 meals",
     progress: (gameState: GameState) => {
       const cookEvents = getKeys(CONSUMABLES).map(
         (name) => `${name} Cooked` as CookEvent
@@ -372,7 +372,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Bumpkin Billionaire": {
-    description: "Earn 5000 SFL",
+    description: "Earn 5,000 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
     requirement: 5000,
@@ -382,7 +382,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Patient Parsnips": {
-    description: "Harvest 5000 parsnips",
+    description: "Harvest Parsnip 5,000 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Parsnip Harvested"] || 0,
     requirement: 5000,
@@ -390,7 +390,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "High Roller": {
-    description: "Spend 7500 SFL",
+    description: "Spend 7,500 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
     requirement: 7500,

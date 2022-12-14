@@ -21,6 +21,7 @@ import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 import { checkMigrationStatus } from "features/game/actions/checkMigrationStatus";
 import { randomID } from "lib/utils/random";
+import { createFarmMachine } from "./createFarmMachine";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -140,9 +141,7 @@ export type BlockchainState = {
     | "blacklisted"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
-    | { connected: "checkingAccess" }
-    | { connected: "checkingSupply" }
-    | { connected: "supplyReached" }
+    | { connected: "comingSoon" }
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
     | { connected: "countdown" }
@@ -338,7 +337,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "checkingSupply" },
+                { target: "comingSoon" },
               ],
               onError: {
                 target: "#unauthorised",
@@ -361,53 +360,25 @@ export const authMachine = createMachine<
               ],
             },
           },
-          checkingSupply: {
-            id: "checkingSupply",
-            invoke: {
-              src: async () => {
-                const [totalSupply, maxSupply] = await Promise.all([
-                  wallet.getFarm()?.getTotalSupply(),
-                  wallet.getAccountMinter().getMaxSupply(),
-                ]);
-
-                return {
-                  totalSupply,
-                  maxSupply,
-                };
-              },
-              onDone: [
-                {
-                  target: "supplyReached",
-                  cond: (context, event) =>
-                    Number(event.data.totalSupply) >= event.data.maxSupply,
-                },
-                { target: "checkingAccess" },
-              ],
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
-              },
-            },
-          },
-          checkingAccess: {
-            id: "checkingAccess",
-            invoke: {
-              src: async (context) => {
-                return {
-                  hasAccess: context.token?.userAccess.createFarm,
-                };
-              },
-              onDone: {
+          comingSoon: {
+            on: {
+              SKIP: {
                 target: "noFarmLoaded",
-              },
-
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
               },
             },
           },
           donating: {
+            invoke: {
+              id: "createFarmMachine",
+              src: createFarmMachine,
+              data: {
+                token: (context: Context) => context.rawToken,
+              },
+              onError: {
+                target: "#unauthorised",
+                actions: "assignErrorMessage",
+              },
+            },
             on: {
               CREATE_FARM: {
                 target: "creatingFarm",
@@ -633,7 +604,9 @@ export const authMachine = createMachine<
         return { wallet: "WALLET_CONNECT", provider };
       },
       initSequence: async () => {
-        const sequenceWallet = await sequence.initWallet("mumbai");
+        const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
+
+        const sequenceWallet = await sequence.initWallet(network);
         await sequenceWallet.connect({
           app: "Sunflower Land",
           settings: {

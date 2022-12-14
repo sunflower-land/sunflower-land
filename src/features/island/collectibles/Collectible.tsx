@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import Modal from "react-bootstrap/Modal";
 
@@ -49,7 +49,7 @@ import { Cactus } from "./components/Cactus";
 import { BasicBear } from "./components/BasicBear";
 import { CabbageBoy } from "./components/CabbageBoy";
 import { CabbageGirl } from "./components/CabbageGirl";
-import { PrizedPotato } from "./components/PrizedPotato";
+import { PeeledPotato } from "./components/PeeledPotato";
 import { WoodNymphWendy } from "./components/WoodNymphWendy";
 import { ChefBear } from "./components/ChefBear";
 import { ConstructionBear } from "./components/ConstructionBear";
@@ -68,9 +68,12 @@ import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlace
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bean } from "./components/Bean";
+import { Bean, getBeanStates } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
+import { Context } from "features/game/GameProvider";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
+import { isBean } from "features/game/types/beans";
+import { ChristmasBear } from "./components/ChristmasBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -118,7 +121,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Rock Golem": RockGolem,
   "Cabbage Boy": CabbageBoy,
   "Cabbage Girl": CabbageGirl,
-  "Prized Potato": PrizedPotato,
+  "Peeled Potato": PeeledPotato,
   "Wood Nymph Wendy": WoodNymphWendy,
 
   // Moles
@@ -158,6 +161,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Farmer Bear": FarmerBear,
   "Rich Bear": RichBear,
   "Sunflower Bear": SunflowerBear,
+  "Christmas Bear": ChristmasBear,
 
   "Victoria Sisters": VictoriaSisters,
 
@@ -182,7 +186,7 @@ export const Collectible: React.FC<CollectibleProps> = ({
   createdAt,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-
+  const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -214,17 +218,19 @@ export const Collectible: React.FC<CollectibleProps> = ({
               readyAt={readyAt}
             />
           </div>
-          <div
-            className="absolute bottom-0 left-1/2"
-            style={{
-              marginLeft: `${PIXEL_SCALE * -8}px`,
-            }}
-          >
-            <Bar
-              percentage={(1 - secondsLeft / totalSeconds) * 100}
-              type="progress"
-            />
-          </div>
+          {showTimers && (
+            <div
+              className="absolute bottom-0 left-1/2"
+              style={{
+                marginLeft: `${PIXEL_SCALE * -8}px`,
+              }}
+            >
+              <Bar
+                percentage={(1 - secondsLeft / totalSeconds) * 100}
+                type="progress"
+              />
+            </div>
+          )}
         </div>
         <div
           className="flex justify-center absolute w-full pointer-events-none"
@@ -243,10 +249,13 @@ export const Collectible: React.FC<CollectibleProps> = ({
   }
 
   const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+  const isBeanAndFullyGrown =
+    isBean(name) && getBeanStates(name, createdAt).isReady;
+  const canRemoveOnClick =
+    shortcuts[0] === "Rusty Shovel" && !isBeanAndFullyGrown;
 
   const handleOnClick = () => {
-    if (!hasRustyShovelSelected) return;
+    if (!canRemoveOnClick) return;
 
     setShowRemoveModal(true);
   };
@@ -255,13 +264,13 @@ export const Collectible: React.FC<CollectibleProps> = ({
     <>
       <div
         className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": hasRustyShovelSelected,
+          "cursor-pointer hover:img-highlight": canRemoveOnClick,
         })}
-        onClick={hasRustyShovelSelected ? handleOnClick : undefined}
+        onClick={canRemoveOnClick ? handleOnClick : undefined}
       >
         <div
           className={classNames("h-full", {
-            "pointer-events-none": hasRustyShovelSelected,
+            "pointer-events-none": canRemoveOnClick,
           })}
         >
           <CollectiblePlaced

@@ -95,9 +95,7 @@ export const Navigation: React.FC = () => {
             {/* {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/helios/:id" element={<Helios key="helios" />} />
             )} */}
-            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
-              <Route path="/retreat/:id" element={<Retreat key="helios" />} />
-            )}
+            <Route path="/retreat/:id" element={<Retreat key="helios" />} />
             {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
             )}
