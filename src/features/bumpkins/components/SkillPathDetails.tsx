@@ -127,15 +127,18 @@ export const SkillPathDetails: React.FC<Props> = ({
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {showConfirmButton && (
             <div className="flex flex-col">
-              <p className="mx-4 text-center text-base">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
+              <p className="mx-4 text-center text-sm">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
               <div className="flex space-x-1">
                 <Button
                   onClick={() => setShowConfirmButton(false)}
-                  className="text-xs mt-2"
+                  className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
                 >
                   Cancel
                 </Button>
-                <Button onClick={handleClaim} className="text-xs mt-2">
+                <Button
+                  onClick={handleClaim}
+                  className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+                >
                   Claim
                 </Button>
               </div>
@@ -181,7 +184,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                       disabled={
                         missingPointRequirement || missingSkillRequirement
                       }
-                      className="text-xs mt-2"
+                      className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
                     >
                       Claim skill
                     </Button>
