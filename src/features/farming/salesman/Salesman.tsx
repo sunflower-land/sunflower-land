@@ -9,6 +9,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import close from "assets/icons/close.png";
 
 import salesmanImage from "assets/npcs/salesman.gif";
+import shadow from "assets/npcs/shadow.png";
 import { hasAlreadyTraded } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
@@ -30,6 +31,7 @@ export const Salesman: React.FC = () => {
   const [modalState, setModalState] = useState<
     "closed" | "intro" | "showOffer" | "tradeCompleted" | "alreadyTraded"
   >("closed");
+  const [showModal, setShowModal] = useState<boolean>(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
@@ -43,6 +45,7 @@ export const Salesman: React.FC = () => {
     return null;
 
   const handleOpenModal = () => {
+    setShowModal(true);
     if (hasAlreadyTraded(state)) {
       setModalState("alreadyTraded");
       return;
@@ -74,7 +77,7 @@ export const Salesman: React.FC = () => {
   };
 
   const handleCloseModal = () => {
-    setModalState("closed");
+    setShowModal(false);
   };
 
   const ModalContent = () => {
@@ -148,11 +151,20 @@ export const Salesman: React.FC = () => {
       id="salesman"
       style={{
         width: `${GRID_WIDTH_PX * 1}px`,
-        left: `${GRID_WIDTH_PX * 1}px`,
-        top: `${GRID_WIDTH_PX * 4.5}px`,
+        left: `${GRID_WIDTH_PX * 14.5}px`,
+        top: `${GRID_WIDTH_PX * 34}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight z-10">
+        <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * -1}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+          }}
+        />
         <img
           src={salesmanImage}
           alt="salesman"
@@ -161,12 +173,12 @@ export const Salesman: React.FC = () => {
         />
       </div>
 
-      <Modal centered show={modalState !== "closed"} onHide={handleCloseModal}>
+      <Modal centered show={showModal} onHide={handleCloseModal}>
         <Panel>
           <img
             src={close}
             className="absolute cursor-pointer z-20"
-            onClick={() => handleCloseModal}
+            onClick={handleCloseModal}
             style={{
               top: `${PIXEL_SCALE * 6}px`,
               right: `${PIXEL_SCALE * 6}px`,

@@ -312,6 +312,7 @@ import classyBear from "src/assets/sfts/bears/classy_bear.png";
 import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
 import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
+import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1495,6 +1496,10 @@ export const ITEM_DETAILS: Items = {
   "Sunflower Bear": {
     image: sunflowerBear,
     description: DECORATIONS()["Sunflower Bear"].description,
+  },
+  "Christmas Bear": {
+    ...SALESMAN_ITEMS["Christmas Bear"],
+    image: christmasBear,
   },
 
   "Cabbage Boy": {
