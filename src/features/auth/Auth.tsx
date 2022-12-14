@@ -19,7 +19,6 @@ import {
 
 import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
-import { SupplyReached } from "./components/SupplyReached";
 import { Countdown } from "./components/Countdown";
 import { Blacklisted } from "features/game/components/Blacklisted";
 import { Connect } from "./components/Connect";
@@ -67,7 +66,6 @@ export const Auth: React.FC = () => {
         {authState.matches("connectedToWallet") && <ConnectedToWallet />}
         {authState.matches("signing") && <Signing />}
         {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
-        {authState.matches({ connected: "comingSoon" }) && <SupplyReached />}
         {authState.matches("oauthorising") && <Loading />}
         {authState.matches({ connected: "donating" }) && <CreateFarm />}
         {authState.matches({ connected: "countdown" }) && <Countdown />}
