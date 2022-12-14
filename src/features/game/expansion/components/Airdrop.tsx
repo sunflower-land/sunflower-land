@@ -7,6 +7,7 @@ import { Modal } from "react-bootstrap";
 import chest from "src/assets/decorations/treasure_chest.png";
 import token from "src/assets/icons/token_2.png";
 import alerted from "assets/icons/expression_alerted.png";
+import close from "assets/icons/close.png";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getKeys } from "features/game/types/craftables";
@@ -55,6 +56,16 @@ export const Airdrop: React.FC = () => {
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
+          <img
+            src={close}
+            className="absolute cursor-pointer z-20"
+            onClick={() => setShowModal(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
           <p className="text-center">
             {airdrop.message ?? "Congratulations, you found a reward!"}
           </p>
