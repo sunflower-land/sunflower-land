@@ -228,10 +228,16 @@ export const authMachine = createMachine<
             target: "setupContracts",
             actions: "assignWallet",
           },
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
+          onError: [
+            {
+              target: "idle",
+              cond: (_, event) => event.data.message === "User closed modal",
+            },
+            {
+              target: "unauthorised",
+              actions: "assignErrorMessage",
+            },
+          ],
         },
       },
       connectingToSequence: {
