@@ -142,7 +142,6 @@ export type BlockchainState = {
     | "blacklisted"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
-    | { connected: "comingSoon" }
     | { connected: "noFarmLoaded" }
     | { connected: "creatingFarm" }
     | { connected: "countdown" }
@@ -351,7 +350,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "comingSoon" },
+                { target: "noFarmLoaded" },
               ],
               onError: {
                 target: "#unauthorised",
@@ -374,13 +373,7 @@ export const authMachine = createMachine<
               ],
             },
           },
-          comingSoon: {
-            on: {
-              SKIP: {
-                target: "noFarmLoaded",
-              },
-            },
-          },
+
           donating: {
             invoke: {
               id: "createFarmMachine",
