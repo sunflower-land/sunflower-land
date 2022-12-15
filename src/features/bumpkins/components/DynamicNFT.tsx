@@ -62,13 +62,22 @@ export const DynamicNFT: React.FC<Props> = ({
   }
 
   if (!imageSrc) {
-    return <img src={silhouette} alt="bumpkin" className="relative w-full" />;
+    return (
+      <div className={"relative w-full"}>
+        {showBackground && (
+          <div className="h-full w-full absolute  bg-slate-800 opacity-50" />
+        )}
+        <img src={silhouette} alt="bumpkin" className="relative w-full" />
+      </div>
+    );
   }
 
   return (
     <div className="relative w-full">
       <img src={silhouette} alt="bumpkin" className="relative w-full" />
-
+      {showBackground && (
+        <div className="h-full w-full absolute left-0 top-0 bg-slate-800 opacity-50" />
+      )}
       <img
         src={imageSrc}
         alt="fader"
@@ -79,7 +88,7 @@ export const DynamicNFT: React.FC<Props> = ({
           transition: "opacity 0.2s ease-in-out",
         }}
         onLoad={() => {
-          setTransitioned(true);
+          setTimeout(() => setTransitioned(true), 50);
         }}
       />
     </div>

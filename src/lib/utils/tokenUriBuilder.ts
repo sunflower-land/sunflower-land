@@ -10,7 +10,6 @@ import {
   BumpkinHair,
   BumpkinBackground,
   BumpkinCoat,
-  BumpkinOnesie,
   ITEM_IDS,
 } from "features/game/types/bumpkin";
 
@@ -26,7 +25,6 @@ export type BumpkinParts = {
   coat?: BumpkinCoat;
   hat?: BumpkinHat;
   secondaryTool?: BumpkinSecondaryTool;
-  onesie?: BumpkinOnesie;
 };
 
 export enum Slots {
@@ -60,7 +58,6 @@ export function tokenUriBuilder(parts: BumpkinParts) {
   ids[Slots.SecondaryTool] = parts.secondaryTool
     ? ITEM_IDS[parts.secondaryTool]
     : 0;
-  ids[Slots.Onesie] = parts.onesie ? ITEM_IDS[parts.onesie] : 0;
 
   // Trim off trailing 0s
   const lastPartIndex = [...ids].reverse().findIndex(Boolean);
