@@ -155,15 +155,15 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const Action = () => {
     if (isSeedLocked(state.bumpkin, selectedName)) {
       return (
-        <div className="flex items-center mt-2">
-          <img src={heart} className="h-4 ml-0.5 mr-1" />
+        <div className="flex items-center justify-center mt-2">
+          <img src={heart} className="h-4 mr-1" />
           <span
             className="bg-error border text-xs p-1 rounded-md"
             style={{ lineHeight: "12px", height: "23px" }}
           >
             Lvl {selected.bumpkinLevel ?? 0}
           </span>
-          <img src={lock} className="h-4 ml-0.5 mr-2" />
+          <img src={lock} className="h-4 ml-1" />
         </div>
       );
     }
