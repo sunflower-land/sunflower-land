@@ -31,14 +31,12 @@ import { Lore } from "./components/Lore";
 import { ClockIssue } from "./components/ClockIssue";
 import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
-import { Announcements } from "features/announcements/Announcement";
 import { Notifications } from "./components/Notifications";
 import { Hoarding } from "./components/Hoarding";
 import { Airdrop } from "./components/Airdrop";
 import { CommunityGardenEntry } from "features/farming/town/components/CommunityGardenEntry";
 import { Swarming } from "./components/Swarming";
 import { Cooldown } from "./components/Cooldown";
-import { Rules } from "./components/Rules";
 import { Migrate } from "./components/Migrate";
 import { GoblinWar } from "features/war/GoblinWar";
 import { MoonSeekers } from "./components/MoonSeekers";
@@ -47,7 +45,7 @@ const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   deposited: true,
-  announcing: true,
+  // announcing: true,
   playing: false,
   autosaving: false,
   syncing: true,
@@ -62,7 +60,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   noBumpkinFound: false,
   swarming: true,
   coolingDown: true,
-  gameRules: true,
+  // gameRules: true,
   randomising: false,
   offerMigration: true,
   migrating: true,
@@ -125,7 +123,7 @@ export const Game: React.FC = () => {
           {gameState.matches("offerMigration") && <Migrate />}
           {gameState.matches("migrating") && <Loading />}
 
-          {gameState.matches("announcing") && <Announcements />}
+          {/* {gameState.matches("announcing") && <Announcements />} */}
           {gameState.matches("deposited") && <Notifications />}
 
           {gameState.matches("refreshing") && <Refreshing />}
@@ -139,7 +137,7 @@ export const Game: React.FC = () => {
           {gameState.matches("hoarding") && <Hoarding />}
           {gameState.matches("swarming") && <Swarming />}
           {gameState.matches("coolingDown") && <Cooldown />}
-          {gameState.matches("gameRules") && <Rules />}
+          {/* {gameState.matches("gameRules") && <Rules />} */}
         </Panel>
       </Modal>
       {/* check local storage and show modal if not read */}
