@@ -429,7 +429,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 224,
   },
-
   "Reindeer Carrot": {
     name: "Reindeer Carrot",
     description: "Rudolph can't stop eating them!",
