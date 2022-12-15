@@ -13,12 +13,13 @@ import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineInterpreter } from "../lib/createFarmMachine";
-import { onramp } from "../actions/onramp";
-import { randomID } from "lib/utils/random";
 import classNames from "classnames";
 import { Loading } from "./Loading";
 import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
+import { sequence } from "0xsequence";
+import { OpenWalletIntent } from "@0xsequence/provider";
+import { SEQUENCE_CONNECT_OPTIONS } from "../lib/sequence";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -110,14 +111,12 @@ export const CreateFarm: React.FC = () => {
 
   const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
 
-  // 20c gas fee for a $5 USD farm, is 4%.
+  // $5 USD farm
+  // 4% to cover gas fee of farm mint
+  // 20% to cover first 5 syncs
   const maticFeePlusGas = new Decimal(maticFee)
-    .mul(1.04)
+    .mul(1.24)
     .toDecimalPlaces(2, Decimal.ROUND_UP);
-
-  const recommendedMatic = maticFeePlusGas
-    .mul(2)
-    .toDecimalPlaces(0, Decimal.ROUND_UP);
 
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
@@ -130,13 +129,33 @@ export const CreateFarm: React.FC = () => {
   };
 
   const addFunds = async () => {
-    await onramp(
-      {
-        token: authService.state.context.rawToken as string,
-        transactionId: randomID(),
-      },
-      () => setPaymentConfirmed(true)
-    );
+    // Temporarily link to sequence when adding funds. Until Wyre is ready.
+    if (authState.context.wallet === "SEQUENCE") {
+      const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
+
+      const sequenceWallet = await sequence.initWallet(network);
+
+      const intent: OpenWalletIntent = {
+        type: "openWithOptions",
+        options: SEQUENCE_CONNECT_OPTIONS,
+      };
+
+      const path = "wallet/add-funds";
+      sequenceWallet.openWallet(path, intent);
+    } else {
+      window.open(
+        "https://docs.sunflower-land.com/getting-started/web3-wallets#usdmatic",
+        "_blank"
+      );
+    }
+
+    // await onramp(
+    //   {
+    //     token: authService.state.context.rawToken as string,
+    //     transactionId: randomID(),
+    //   },
+    //   () => setPaymentConfirmed(true)
+    // );
   };
 
   if (showCaptcha) {
@@ -168,7 +187,7 @@ export const CreateFarm: React.FC = () => {
               Polygon's Matic token to play.`}
             </p>
             <p>
-              {`Creating an account costs ${maticFeePlusGas.toNumber()} Matic (~$5 USD). 50 cents will
+              {`Creating an account requires ${maticFeePlusGas.toNumber()} Matic (~$5 USD). 50 cents will
               be donated to a charity of your choice.`}
             </p>
             <p>You will also receive a free Bumpkin NFT (worth $5 USD).</p>
@@ -194,7 +213,7 @@ export const CreateFarm: React.FC = () => {
                     />
                   )}
                   <span>
-                    Add Matic ({recommendedMatic.toNumber()} Matic recommended)
+                    Add Matic ({maticFeePlusGas.toNumber()} Matic required)
                   </span>
                 </div>
                 {!hasEnoughMatic && (

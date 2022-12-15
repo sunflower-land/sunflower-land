@@ -11,6 +11,7 @@ import rancher from "assets/npc-layers/rancher_hair.png";
 import blacksmithHair from "assets/npc-layers/blacksmith_hair.png";
 import longBrownHair from "assets/npc-layers/long_brown_hair.png";
 import longWhiteHair from "assets/npc-layers/long_white_hair.png";
+import longRedHair from "assets/npc-layers/long_red_hair.webp";
 import buzzCut from "assets/npc-layers/buzz_cut_hair.png";
 import parlourHair from "assets/npc-layers/parlour_hair.png";
 import sunSpots from "assets/npc-layers/sun_spots.png";
@@ -79,7 +80,7 @@ const PARTS: Record<VisiblePart, string> = {
   "Teal Mohawk": tealMohawk,
   "White Long Hair": longWhiteHair,
   Blondie: blondie,
-  "Red Long Hair": basicHair,
+  "Red Long Hair": longRedHair,
 
   // Shirts
   "Red Farmer Shirt": redShirt,
