@@ -12,20 +12,13 @@ type Response = {
   image: string;
 };
 
-export async function buildImageRequest({
-  fileName,
-  token,
-}: {
-  fileName: string;
-  token: string;
-}) {
+export async function buildImageRequest({ fileName }: { fileName: string }) {
   const response = await window.fetch(
     `${API_URL}/bumpkins/metadata/${fileName}`,
     {
       method: "GET",
       headers: {
         "content-type": "application/json;charset=UTF-8",
-        // TODO Authorization: `Bearer ${request.token}`,
         accept: "application/json",
       },
     }
@@ -71,7 +64,6 @@ export async function buildImage(request: Request): Promise<string> {
 
         const response = await buildImageRequest({
           fileName: validName,
-          token: "",
         });
 
         res(response);
