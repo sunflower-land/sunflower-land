@@ -541,13 +541,6 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        announcing: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
         // gameRules: {
         //   on: {
         //     ACKNOWLEDGE: {
