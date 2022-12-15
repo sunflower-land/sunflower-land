@@ -42,6 +42,7 @@ import { getBumpkinLevel } from "../lib/level";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Studios } from "features/studioes/Studios";
+import { GoldenCrop } from "../components/GoldenCrop";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -62,6 +63,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   swarming: true,
   coolingDown: true,
   // gameRules: true,
+  goldenCrop: true,
   randomising: false,
   migrated: false,
   migrating: false,
@@ -220,6 +222,7 @@ export const Game: React.FC = () => {
     );
   };
 
+  console.log({ state: gameState.value });
   return (
     <>
       <ToastManager />
@@ -243,6 +246,7 @@ export const Game: React.FC = () => {
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("coolingDown") && <Cooldown />}
           {/* {gameState.matches("gameRules") && <Rules />} */}
+          {gameState.matches("goldenCrop") && <GoldenCrop />}
           {gameState.matches("revealing") && <Revealing />}
           {gameState.matches("revealed") && <Revealed />}
         </Panel>
