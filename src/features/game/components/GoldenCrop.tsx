@@ -25,7 +25,7 @@ export const GoldenCrop: React.FC = () => {
         </p>
 
         <p className="text-sm text-center">Would you like to participate?</p>
-        <div className="flex -mt-4">
+        <div className="flex -mt-4 mb-1">
           <Button onClick={() => onAcknowledge("no")} className="mt-4 mr-2">
             No
           </Button>
@@ -33,12 +33,13 @@ export const GoldenCrop: React.FC = () => {
             Yes
           </Button>
         </div>
-        <p className="text-xs underline mt-2 text-center">
+        <p className="text-xxs text-center">
+          By participating, you agree to the{" "}
           <a
             href="https://docs.sunflower-land.com/support/terms-of-service#golden-crop"
             target="_blank"
             rel="noreferrer"
-            className="text-center"
+            className="text-center underline"
           >
             Terms and conditions
           </a>
