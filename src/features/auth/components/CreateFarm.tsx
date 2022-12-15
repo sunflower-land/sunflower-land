@@ -187,7 +187,7 @@ export const CreateFarm: React.FC = () => {
               Polygon's Matic token to play.`}
             </p>
             <p>
-              {`Creating an account costs ${maticFeePlusGas.toNumber()} Matic (~$5 USD). 50 cents will
+              {`Creating an account requires ${maticFeePlusGas.toNumber()} Matic (~$5 USD). 50 cents will
               be donated to a charity of your choice.`}
             </p>
             <p>You will also receive a free Bumpkin NFT (worth $5 USD).</p>
