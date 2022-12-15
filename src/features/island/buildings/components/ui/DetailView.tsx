@@ -195,7 +195,7 @@ export const DetailView: React.FC<Props> = ({
             src={ITEM_DETAILS[building].image}
             className="h-16 img-highlight mt-1 mb-2"
           />
-          <span className="text-center mt-2 sm:text-sm">
+          <span className="text-center my-2 sm:text-sm">
             {ITEM_DETAILS[building].description}
           </span>
 
@@ -224,7 +224,7 @@ export const DetailView: React.FC<Props> = ({
                   {hasUnplaced ? "Place" : "Build"}
                 </Button>
               ) : (
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                   <Label type="danger">Lvl {nextLockedLevel} Required</Label>
 
                   <img src={lock} className="h-4 ml-1" />
