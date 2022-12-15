@@ -64,7 +64,7 @@ export function tokenUriBuilder(parts: BumpkinParts) {
 
   // Trim off trailing 0s
   const lastPartIndex = [...ids].reverse().findIndex(Boolean);
-  const validIds = lastPartIndex >= 0 ? ids.slice(0, -lastPartIndex) : ids;
+  const validIds = lastPartIndex > 0 ? ids.slice(0, -lastPartIndex) : ids;
 
   const uriFormat = validIds.join("_");
 
