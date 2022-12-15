@@ -443,12 +443,9 @@ export function startGame(authContext: Options) {
             {
               target: "goldenCrop",
               cond: () => {
-                console.log("Golden crop check");
                 const hasNotAcknowledged = !localStorage.getItem(
                   "goldenCrop.acknowledged"
                 );
-
-                console.log({ hasNotAcknowledged });
 
                 return hasNotAcknowledged;
               },
