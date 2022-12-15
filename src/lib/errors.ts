@@ -40,6 +40,9 @@ export const ERRORS = {
 
   // Wishing well errors
   NO_TOKENS: "NO_TOKENS",
+
+  // Sequence
+  SEQUENCE_NOT_CONNECTED: "SEQUENCE_NOT_CONNECTED",
 };
 
 export type ErrorCode = keyof typeof ERRORS;

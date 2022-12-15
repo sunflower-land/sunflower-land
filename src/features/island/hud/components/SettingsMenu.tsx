@@ -23,9 +23,10 @@ import { CommunityGardenModal } from "features/farming/town/components/Community
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { LandExpansionRole } from "./LandExpansionRole";
-import { onramp } from "features/auth/actions/onramp";
-import { randomID } from "lib/utils/random";
 import { Loading } from "features/auth/components";
+import { sequence } from "0xsequence";
+import { OpenWalletIntent } from "0xsequence/dist/declarations/src/provider";
+import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -63,10 +64,31 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
 
   const handleAddMatic = async () => {
     setLoadingOnRamp(true);
-    await onramp({
-      token: authService.state.context.rawToken as string,
-      transactionId: randomID(),
-    });
+
+    // Temporarily link to sequence when adding funds. Until Wyre is ready.
+    if (authService.state.context.wallet === "SEQUENCE") {
+      const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
+
+      const sequenceWallet = await sequence.initWallet(network);
+
+      const intent: OpenWalletIntent = {
+        type: "openWithOptions",
+        options: SEQUENCE_CONNECT_OPTIONS,
+      };
+
+      const path = "wallet/add-funds";
+      sequenceWallet.openWallet(path, intent);
+    } else {
+      window.open(
+        "https://docs.sunflower-land.com/getting-started/web3-wallets#usdmatic",
+        "_blank"
+      );
+    }
+
+    // await onramp({
+    //   token: authService.state.context.rawToken as string,
+    //   transactionId: randomID(),
+    // });
 
     onClose();
 
