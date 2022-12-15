@@ -111,14 +111,12 @@ export const CreateFarm: React.FC = () => {
 
   const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
 
-  // 20c gas fee for a $5 USD farm, is 4%.
+  // $5 USD farm
+  // 4% to cover gas fee of farm mint
+  // 20% to cover first 5 syncs
   const maticFeePlusGas = new Decimal(maticFee)
-    .mul(1.04)
+    .mul(1.24)
     .toDecimalPlaces(2, Decimal.ROUND_UP);
-
-  const recommendedMatic = maticFeePlusGas
-    .mul(2)
-    .toDecimalPlaces(0, Decimal.ROUND_UP);
 
   const onCaptchaSolved = async (token: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
@@ -215,7 +213,7 @@ export const CreateFarm: React.FC = () => {
                     />
                   )}
                   <span>
-                    Add Matic ({recommendedMatic.toNumber()} Matic recommended)
+                    Add Matic ({maticFeePlusGas.toNumber()} Matic required)
                   </span>
                 </div>
                 {!hasEnoughMatic && (
