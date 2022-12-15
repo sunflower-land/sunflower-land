@@ -68,7 +68,7 @@ export async function buildImage(request: Request): Promise<string> {
       img.onerror = async () => {
         console.log("Does not exist!");
         // Since these are not real NFTs, prepend fake ID and version
-        const validName = `0_v1_${tokenUri}?size=${size}.png`;
+        const validName = `0_v1_${tokenUri}?size=${size}`;
 
         console.log({ validName });
         const response = await buildImageRequest({

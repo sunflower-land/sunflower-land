@@ -62,7 +62,13 @@ export function tokenUriBuilder(parts: BumpkinParts) {
     : 0;
   ids[Slots.Onesie] = parts.onesie ? ITEM_IDS[parts.onesie] : 0;
 
-  const uriFormat = ids.join("_");
+  console.log({ ids });
+  // Trim off trailing 0s
+  const lastPartIndex = [...ids].reverse().findIndex(Boolean);
+  const validIds = lastPartIndex >= 0 ? ids.slice(0, -lastPartIndex) : ids;
+  console.log({ validIds, ids });
+
+  const uriFormat = validIds.join("_");
 
   return uriFormat;
 }
