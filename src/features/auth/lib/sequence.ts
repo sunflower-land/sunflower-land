@@ -5,7 +5,7 @@ export const SEQUENCE_CONNECT_OPTIONS: ConnectOptions = {
   settings: {
     theme: "dark",
     bannerUrl: `${window.origin}/brand/sequence_banner.png`,
-    includedPaymentProviders: ["moonpay", "ramp"],
+    includedPaymentProviders: ["ramp"],
     lockFundingCurrencyToDefault: true,
     defaultFundingCurrency: "matic",
   },
