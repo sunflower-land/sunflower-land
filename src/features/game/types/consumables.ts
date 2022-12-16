@@ -432,7 +432,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Reindeer Carrot": {
     name: "Reindeer Carrot",
     description: "Rudolph can't stop eating them!",
-    building: "Fire Pit",
+    building: "" as BuildingName,
     cookingSeconds: 60 * 5,
     experience: 10,
     ingredients: {
