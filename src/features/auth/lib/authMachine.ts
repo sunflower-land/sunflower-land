@@ -584,7 +584,6 @@ export const authMachine = createMachine<
     services: {
       initMetamask: async () => {
         const _window = window as any;
-        // await (provider as any).request({ method: "eth_requestAccounts" });
 
         // TODO add type support
         if (_window.ethereum) {
