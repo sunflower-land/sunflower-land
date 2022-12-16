@@ -36,7 +36,7 @@ export const GoldenCrop: React.FC = () => {
         <p className="text-xxs text-center">
           By participating, you agree to the{" "}
           <a
-            href="https://docs.sunflower-land.com/support/terms-of-service#golden-crop"
+            href="https://docs.sunflower-land.com/support/terms-of-service/golden-crop-competition"
             target="_blank"
             rel="noreferrer"
             className="text-center underline"
