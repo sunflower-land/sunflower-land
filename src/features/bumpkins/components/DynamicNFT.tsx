@@ -63,7 +63,7 @@ export const DynamicNFT: React.FC<Props> = ({
 
   if (!imageSrc) {
     return (
-      <div className={"relative w-full"}>
+      <div className={"relative w-full animate-pulse"}>
         {showBackground && (
           <div className="h-full w-full absolute  bg-slate-800 opacity-50" />
         )}
