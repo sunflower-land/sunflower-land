@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { BuildingName } from "features/game/types/buildings";
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { ListView } from "./ListView";
 import { DetailView } from "./DetailView";
 import Decimal from "decimal.js-light";
@@ -14,7 +13,6 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
   const { state } = game.context;
-  const [scrollIntoView] = useScrollIntoView();
 
   const [selected, setSelected] = useState<BuildingName | null>(null);
 
@@ -33,7 +31,6 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
       action: hasUnplacedBuildings ? "building.placed" : "building.constructed",
     });
     closeModal();
-    scrollIntoView(Section.GenesisBlock);
   };
 
   if (!selected) {
