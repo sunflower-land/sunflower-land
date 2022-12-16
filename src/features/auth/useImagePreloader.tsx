@@ -26,6 +26,7 @@ import retreat from "assets/land/retreat.webp";
 import treasureIsland from "assets/land/treasure_island.webp";
 import snowKingdom from "assets/land/snow_kingdom.webp";
 import stoneHeaven from "assets/land/stone_haven.webp";
+import silhouette from "assets/bumpkins/silhouette.png";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -54,6 +55,7 @@ const IMAGE_LIST: string[] = [
   treasureIsland,
   snowKingdom,
   stoneHeaven,
+  silhouette,
 ];
 
 function preloadImage(src: string) {
