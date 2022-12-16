@@ -61,6 +61,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   swarming: true,
   coolingDown: true,
   // gameRules: true,
+  goldenCrop: true,
   randomising: false,
   offerMigration: true,
   migrating: true,

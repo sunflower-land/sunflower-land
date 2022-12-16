@@ -227,6 +227,7 @@ export type BlockchainState = {
     | "deposited"
     | "visiting"
     // | "gameRules"
+    | "goldenCrop"
     | "playing"
     | "autosaving"
     | "syncing"
@@ -439,6 +440,16 @@ export function startGame(authContext: Options) {
               cond: (context: Context) =>
                 !!context.notifications && context.notifications?.length > 0,
             },
+            {
+              target: "goldenCrop",
+              cond: () => {
+                const hasNotAcknowledged = !localStorage.getItem(
+                  "goldenCrop.acknowledged"
+                );
+
+                return hasNotAcknowledged;
+              },
+            },
             // {
             //   target: "gameRules",
             //   cond: () => {
@@ -548,6 +559,13 @@ export function startGame(authContext: Options) {
         //     },
         //   },
         // },
+        goldenCrop: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
         playing: {
           entry: "clearTransactionId",
           invoke: {
