@@ -40,6 +40,7 @@ import { Cooldown } from "./components/Cooldown";
 import { Migrate } from "./components/Migrate";
 import { GoblinWar } from "features/war/GoblinWar";
 import { MoonSeekers } from "./components/MoonSeekers";
+import { GoldenCrop } from "./components/GoldenCrop";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -139,6 +140,7 @@ export const Game: React.FC = () => {
           {gameState.matches("swarming") && <Swarming />}
           {gameState.matches("coolingDown") && <Cooldown />}
           {/* {gameState.matches("gameRules") && <Rules />} */}
+          {gameState.matches("goldenCrop") && <GoldenCrop />}
         </Panel>
       </Modal>
       {/* check local storage and show modal if not read */}
