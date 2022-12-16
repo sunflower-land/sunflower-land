@@ -583,14 +583,19 @@ export const authMachine = createMachine<
   {
     services: {
       initMetamask: async () => {
-        // TODO add type support
-        if ((window as any).ethereum) {
-          const provider = (window as any).ethereum;
-          await provider.enable();
+        const _window = window as any;
+        // await (provider as any).request({ method: "eth_requestAccounts" });
 
-          return { wallet: "METAMASK", provider };
-        } else if ((window as any).web3) {
-          const provider = (window as any).web3.currentProvider;
+        // TODO add type support
+        if (_window.ethereum) {
+          const provider = _window.ethereum;
+
+          if (provider.isPhantom) {
+            throw new Error(ERRORS.PHANTOM_WALLET_NOT_SUPPORTED);
+          }
+          await provider.request({
+            method: "eth_requestAccounts",
+          });
 
           return { wallet: "METAMASK", provider };
         } else {
