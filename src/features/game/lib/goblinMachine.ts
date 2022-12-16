@@ -89,6 +89,7 @@ type UpdateSession = {
   inventory: Inventory;
   balance: Decimal;
   sessionId: string;
+  deviceTrackerId: string;
 };
 
 export type BlockchainEvent =
@@ -390,6 +391,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                   inventory: event.inventory,
                   balance: event.balance,
                   sessionId: event.sessionId,
+                  deviceTrackerId: event.deviceTrackerId,
                 }),
               }),
             },
