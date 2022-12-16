@@ -25,7 +25,7 @@ export type ConsumableName =
   | "Orange Cake"
   | "Honey Cake"
   | "Sunflower Crunch"
-  | "Reindeer Carrot"
+  // | "Reindeer Carrot"
   | Cake;
 
 export type Consumable = {
@@ -429,15 +429,15 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 224,
   },
-  "Reindeer Carrot": {
-    name: "Reindeer Carrot",
-    description: "Rudolph can't stop eating them!",
-    building: "Fire Pit",
-    cookingSeconds: 60 * 5,
-    experience: 10,
-    ingredients: {
-      Carrot: new Decimal(5),
-    },
-    marketRate: 0,
-  },
+  // "Reindeer Carrot": {
+  //   name: "Reindeer Carrot",
+  //   description: "Rudolph can't stop eating them!",
+  //   building: "Fire Pit",
+  //   cookingSeconds: 60 * 5,
+  //   experience: 10,
+  //   ingredients: {
+  //     Carrot: new Decimal(5),
+  //   },
+  //   marketRate: 0,
+  // },
 };
