@@ -20,7 +20,11 @@ type Options = {
 
 export function pickSide({ state, action }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { inventory } = stateCopy;
+  const { inventory, migrated } = stateCopy;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
 
   if (
     inventory["Goblin War Banner"]?.gt(0) ||

@@ -68,6 +68,12 @@ export function feedChicken({
 
   const chickens = stateCopy.chickens || {};
   const chicken = chickens[action.index];
+
+  const migrated = stateCopy.migrated;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
   if (
     !chicken &&
     (!stateCopy.inventory?.Chicken ||

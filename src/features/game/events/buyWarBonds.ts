@@ -28,6 +28,11 @@ export function getWarBonds(inventory: Inventory, amount: number) {
 export function buyWarBonds({ state }: Options): GameState {
   const game = cloneDeep(state);
   const offer = game.warCollectionOffer;
+  const migrated = game.migrated;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
   if (!offer) {
     throw new Error("No war bonds available");
   }

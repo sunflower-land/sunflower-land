@@ -112,4 +112,16 @@ describe("chop", () => {
     expect(game.trees["0"].wood.toNumber()).toBeGreaterThan(2);
     expect(game.trees["1"].wood.toNumber()).toBeGreaterThan(2);
   });
+  it("throws an error if migrated", () => {
+    expect(() =>
+      chop({
+        state: { ...GAME_STATE, migrated: true },
+        action: {
+          type: "tree.chopped",
+          item: "Sunflower Statue",
+          index: 0,
+        },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

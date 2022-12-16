@@ -60,4 +60,17 @@ describe("pickSide", () => {
       "Human War Banner": new Decimal(1),
     });
   });
+
+  it("cannot pick a side if they have already migrated", () => {
+    expect(() => {
+      pickSide({
+        state: {
+          ...TEST_FARM,
+          inventory: { "Human War Banner": new Decimal(1) },
+          migrated: true,
+        },
+        action: { type: "side.picked", side: WarSide.Goblin },
+      });
+    }).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

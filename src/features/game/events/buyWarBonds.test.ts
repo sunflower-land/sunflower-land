@@ -194,4 +194,17 @@ describe("buyWarBonds", () => {
     expect(state.inventory["Human War Point"]).toEqual(new Decimal(11));
     expect(state.inventory["War Bond"]).toEqual(new Decimal(11));
   });
+
+  it("throws if land is migrated", () => {
+    expect(() =>
+      buyWarBonds({
+        state: {
+          ...TEST_FARM,
+          migrated: true,
+          warCollectionOffer: undefined,
+        },
+        action: { type: "warBonds.bought" },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

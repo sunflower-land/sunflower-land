@@ -140,4 +140,17 @@ describe("sell", () => {
       new Decimal(CROPS().Cauliflower.sellPrice ?? 0)
     );
   });
+
+  it("does not sell when migrated", () => {
+    expect(() =>
+      sell({
+        state: { ...GAME_STATE, migrated: true },
+        action: {
+          type: "item.sell",
+          item: "Axe" as SellableName,
+          amount: new Decimal(1),
+        },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

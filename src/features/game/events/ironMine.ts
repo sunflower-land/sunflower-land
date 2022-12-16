@@ -33,6 +33,12 @@ export function mineIron({
   const stateCopy = cloneDeep(state);
   const rock = stateCopy.iron[action.index];
 
+  const migrated = stateCopy.migrated;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
+
   if (!rock) {
     throw new Error(MINE_ERRORS.NO_ROCK);
   }
