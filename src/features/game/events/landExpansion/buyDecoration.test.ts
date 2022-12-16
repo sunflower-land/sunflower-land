@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "../lib/constants";
-import { DecorationName, DECORATIONS } from "../types/decorations";
-import { GameState } from "../types/game";
+import { TEST_FARM } from "../../lib/constants";
+import { DecorationName, DECORATIONS } from "../../types/decorations";
+import { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
 const GAME_STATE: GameState = TEST_FARM;

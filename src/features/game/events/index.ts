@@ -85,7 +85,10 @@ import {
 } from "./landExpansion/fulfillGrubOrder";
 import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
 import { LandExpansionMigrateAction, migrate } from "./landExpansion/migrate";
-import { buyDecoration, buyDecorationAction } from "./buyDecoration";
+import {
+  buyDecoration,
+  buyDecorationAction,
+} from "./landExpansion/buyDecoration";
 import { sellCrop, SellCropAction } from "./landExpansion/sellCrop";
 import {
   fertiliseCrop as landExpansionFertilise,
