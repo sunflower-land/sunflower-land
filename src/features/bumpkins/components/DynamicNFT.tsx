@@ -67,14 +67,22 @@ export const DynamicNFT: React.FC<Props> = ({
         {showBackground && (
           <div className="h-full w-full absolute  bg-slate-800 opacity-50" />
         )}
-        <img src={silhouette} alt="bumpkin" className="relative w-full" />
+        <img
+          src={silhouette}
+          alt="bumpkin"
+          className="relative w-full  opacity-80"
+        />
       </div>
     );
   }
 
   return (
     <div className="relative w-full">
-      <img src={silhouette} alt="bumpkin" className="relative w-full" />
+      <img
+        src={silhouette}
+        alt="bumpkin"
+        className="relative w-full opacity-80"
+      />
       {showBackground && (
         <div className="h-full w-full absolute left-0 top-0 bg-slate-800 opacity-50" />
       )}
