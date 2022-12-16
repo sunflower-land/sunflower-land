@@ -25,6 +25,7 @@ export type ConsumableName =
   | "Orange Cake"
   | "Honey Cake"
   | "Sunflower Crunch"
+  | "Reindeer Carrot"
   | Cake;
 
 export type Consumable = {
@@ -36,6 +37,7 @@ export type Consumable = {
   building: BuildingName;
   // SFL sell rate
   marketRate: number;
+  disabled?: boolean;
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
@@ -427,5 +429,17 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
       Cabbage: new Decimal(20),
     },
     marketRate: 224,
+  },
+  "Reindeer Carrot": {
+    name: "Reindeer Carrot",
+    description: "Rudolph can't stop eating them!",
+    building: "Fire Pit",
+    cookingSeconds: 60 * 5,
+    experience: 10,
+    ingredients: {
+      Carrot: new Decimal(5),
+    },
+    marketRate: 0,
+    disabled: true,
   },
 };
