@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  HashRouter,
+  Navigate,
+  useSearchParams,
+  createSearchParams,
+} from "react-router-dom";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -15,6 +22,21 @@ import { CONFIG } from "lib/config";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
+
+/**
+ * FarmID must always be passed to the /retreat/:id route.
+ * The problem is that when deep-linking to goblin trader, the FarmID will not be present.
+ * This reacter-router helper component will compute correct route and navigate to retreat.
+ */
+const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
+  const [params] = useSearchParams();
+
+  if (!farmId) return null;
+
+  return (
+    <Navigate to={`/retreat/${farmId}?${createSearchParams(params)}`} replace />
+  );
+};
 
 /**
  * Entry point for game which reflects the user session state
@@ -95,7 +117,15 @@ export const Navigation: React.FC = () => {
             {/* {CONFIG.NETWORK !== "mainnet" && (
               <Route path="/helios/:id" element={<Helios key="helios" />} />
             )} */}
-            <Route path="/retreat/:id" element={<Retreat key="helios" />} />
+            <Route path="/retreat">
+              <Route
+                index
+                element={
+                  <TraderDeeplinkHandler farmId={authState.context.farmId} />
+                }
+              />
+              <Route path=":id" element={<Retreat key="helios" />} />
+            </Route>
             {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
             )}

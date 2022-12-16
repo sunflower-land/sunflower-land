@@ -438,9 +438,7 @@ export const authMachine = createMachine<
           readyToStart: {
             invoke: {
               src: async () => ({
-                skipSplash:
-                  window.location.hash.includes("goblins") ||
-                  window.location.hash.includes("retreat"),
+                skipSplash: window.location.hash.includes("retreat"),
               }),
               onDone: {
                 cond: (_, event) => event.data.skipSplash,
@@ -474,7 +472,7 @@ export const authMachine = createMachine<
             entry: [
               "clearTransactionId",
               (context, event) => {
-                if (window.location.hash.includes("goblins")) return;
+                if (window.location.hash.includes("retreat")) return;
 
                 // When no 'screen' parameter is given to the event
                 const defaultScreen = window.location.hash.includes("land")
