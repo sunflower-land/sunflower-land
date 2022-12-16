@@ -459,6 +459,10 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "123",
         readyAt: 0,
+        crafting: {
+          name: "Reindeer Carrot",
+          readyAt: 1671116097193,
+        },
         coordinates: {
           x: 4,
           y: 8,

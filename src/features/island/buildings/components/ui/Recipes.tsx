@@ -90,7 +90,7 @@ export const Recipes: React.FC<Props> = ({
     return (
       <>
         <Button
-          disabled={lessIngredients() || crafting}
+          disabled={lessIngredients() || crafting || selected.disabled}
           className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
           onClick={() => cook()}
         >
