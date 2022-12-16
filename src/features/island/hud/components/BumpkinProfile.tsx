@@ -12,6 +12,7 @@ import { Context } from "features/game/GameProvider";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
+  isMaxLevel,
 } from "features/game/lib/level";
 import {
   acknowledgeSkillPoints,
@@ -53,7 +54,7 @@ const DIMENSIONS = {
   },
 };
 
-const SPRITE_STEPS = 50;
+const SPRITE_STEPS = 51;
 
 interface AvatarProps {
   bumpkin?: Bumpkin;
@@ -83,12 +84,12 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
 
       let percent = currentExperienceProgress / experienceToNextLevel;
       // Progress bar cant go futher than 100%
-      if (percent > 1) {
+      if (isMaxLevel(experience)) {
         percent = 1;
       }
 
       const scaledToProgress = percent * (SPRITE_STEPS - 1);
-      progressBarEl.current.goToAndPause(Math.round(scaledToProgress));
+      progressBarEl.current.goToAndPause(Math.floor(scaledToProgress));
     }
   };
 
