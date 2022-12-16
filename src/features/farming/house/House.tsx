@@ -129,7 +129,6 @@ export const House: React.FC<Props> = ({
           <InnerPanel className="w-full md:w-1/3 p-2 flex flex-col items-center mb-2 md:mb-0">
             {state.bumpkin ? (
               <DynamicNFT
-                className="mb-2"
                 showBackground
                 bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
               />

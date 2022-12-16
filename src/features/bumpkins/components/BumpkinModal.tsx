@@ -85,13 +85,17 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
 
   const hasAvaliableSP = getAvailableBumpkinSkillPoints(state.bumpkin) > 0;
 
-  const progressWidth = Math.min(
-    Math.floor(
-      (PROGRESS_BAR_DIMENSIONS.innerWidth * currentExperienceProgress) /
-        experienceToNextLevel
-    ),
-    PROGRESS_BAR_DIMENSIONS.innerWidth
-  );
+  const getProgressWidth = () => {
+    let progressRatio = 1;
+    if (!maxLevel) {
+      progressRatio = Math.min(
+        1,
+        currentExperienceProgress / experienceToNextLevel
+      );
+    }
+
+    return Math.floor(PROGRESS_BAR_DIMENSIONS.innerWidth * progressRatio);
+  };
 
   return (
     <Panel>
@@ -183,23 +187,27 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                         left: `${
                           PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
                         }px`,
-                        width: `${PIXEL_SCALE * progressWidth}px`,
+                        width: `${PIXEL_SCALE * getProgressWidth()}px`,
                         height: `${
                           PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
                         }px`,
                       }}
                     />
                   </div>
-                  <p
-                    className="text-xxs mt-0.5"
-                    style={{
-                      marginLeft: `${
-                        PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
-                      }px`,
-                    }}
-                  >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
-                    experienceToNextLevel
-                  )} XP`}</p>
+
+                  {/* XP progress text */}
+                  {!maxLevel && (
+                    <p
+                      className="text-xxs mt-0.5"
+                      style={{
+                        marginLeft: `${
+                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
+                        }px`,
+                      }}
+                    >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
+                      experienceToNextLevel
+                    )} XP`}</p>
+                  )}
                 </div>
               </div>
             </div>
