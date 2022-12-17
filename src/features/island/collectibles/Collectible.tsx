@@ -74,6 +74,7 @@ import { Context } from "features/game/GameProvider";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
 import { isBean } from "features/game/types/beans";
 import { ChristmasBear } from "./components/ChristmasBear";
+import { RainbowArtistBear } from "./components/RainbowArtistBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -162,7 +163,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Rich Bear": RichBear,
   "Sunflower Bear": SunflowerBear,
   "Christmas Bear": ChristmasBear,
-
+  "Rainbow Artist Bear": RainbowArtistBear,
   "Victoria Sisters": VictoriaSisters,
 
   "Golden Bean": Bean,
