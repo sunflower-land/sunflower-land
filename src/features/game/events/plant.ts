@@ -131,7 +131,11 @@ export function getMultiplier({ crop, inventory }: GetFieldArgs): number {
 
 export function plant({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
-  const { fields } = stateCopy;
+  const { fields, migrated } = stateCopy;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
 
   if (action.index < 0) {
     throw new Error("Field does not exist");

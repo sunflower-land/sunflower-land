@@ -67,6 +67,13 @@ export function chop({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const requiredAxes = getRequiredAxeAmount(stateCopy.inventory);
+
+  const migrated = stateCopy.migrated;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
+
   if (action.item !== "Axe" && requiredAxes.gt(0)) {
     throw new Error(CHOP_ERRORS.MISSING_AXE);
   }

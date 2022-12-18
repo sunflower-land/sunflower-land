@@ -27,6 +27,12 @@ export function harvest({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
   const fields = { ...stateCopy.fields };
 
+  const migrated = stateCopy.migrated;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
+
   if (action.index < 0) {
     throw new Error("Field does not exist");
   }

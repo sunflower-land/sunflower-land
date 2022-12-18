@@ -122,4 +122,16 @@ describe("mineIron", () => {
     expect(game.inventory["Stone Pickaxe"]).toEqual(new Decimal(0));
     expect(game.inventory.Iron?.toNumber()).toBeGreaterThanOrEqual(2);
   });
+
+  it("throws an error if account is migrated", () => {
+    expect(() =>
+      mineIron({
+        state: { ...EMPTY, migrated: true },
+        action: {
+          type: "iron.mined",
+          index: 0,
+        },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });
