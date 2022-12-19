@@ -72,7 +72,6 @@ export const AudioMenu: React.FC<Props> = ({
         musicPlayer.current.muted = false;
       }
     }
-    console.log(musicPaused);
     cacheAudioSetting(AudioLocalStorageKeys.musicPaused, musicPaused);
   }, [musicPaused]);
 
