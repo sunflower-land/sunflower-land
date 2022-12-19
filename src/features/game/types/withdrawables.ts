@@ -44,25 +44,25 @@ function areAnyCropsPlanted(game: GoblinState): boolean {
 
 function areAnyTreesChopped(game: GoblinState): boolean {
   return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.trees ?? {}).some((tree) => canChop(tree))
+    Object.values(expansion.trees ?? {}).some((tree) => !canChop(tree))
   );
 }
 
 function areAnyStonesMined(game: GoblinState): boolean {
   return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.stones ?? {}).some((stone) => canMine(stone))
+    Object.values(expansion.stones ?? {}).some((stone) => !canMine(stone))
   );
 }
 
 function areAnyIronsMined(game: GoblinState): boolean {
   return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.iron ?? {}).some((iron) => canMine(iron))
+    Object.values(expansion.iron ?? {}).some((iron) => !canMine(iron))
   );
 }
 
 function areAnyGoldsMined(game: GoblinState): boolean {
   return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.gold ?? {}).some((gold) => canMine(gold))
+    Object.values(expansion.gold ?? {}).some((gold) => !canMine(gold))
   );
 }
 
