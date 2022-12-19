@@ -1,6 +1,7 @@
 import React from "react";
 
-import nancy from "assets/sfts/nancy.png";
+// import nancy from "assets/sfts/nancy.png";
+import nancy from "assets/events/christmas/sfts/nancy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const Nancy: React.FC = () => {
   return (
