@@ -100,7 +100,7 @@ export const Navigation: React.FC = () => {
             <Route
               path="/farm/:id"
               element={
-                authState.context.migrated ? (
+                authState.context.migrated === true ? (
                   <Navigate to={`/land/${authState.context.farmId}`} />
                 ) : (
                   <Humans key="farm" />
