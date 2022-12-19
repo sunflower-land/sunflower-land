@@ -6,12 +6,12 @@ import {
   InventoryItemName,
 } from "../../types/game";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
-import { isSeed } from "features/game/events/plant";
 import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { Consumable } from "features/game/types/consumables";
+import { SEEDS } from "features/game/types/seeds";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -69,7 +69,7 @@ type HasBoostArgs = {
  */
 export const hasBoost = ({ item, collectibles }: HasBoostArgs) => {
   if (
-    isSeed(item) &&
+    item in SEEDS() &&
     (isCollectibleBuilt("Nancy", collectibles) ||
       isCollectibleBuilt("Scarecrow", collectibles) ||
       isCollectibleBuilt("Kuebiko", collectibles))

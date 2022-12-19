@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { hasBoost } from "features/game/lib/boosts";
-import { InventoryItemName } from "features/game/types/game";
-import { Inventory } from "../InventoryItems";
+import { GameState, InventoryItemName } from "features/game/types/game";
+import { hasBoost } from "features/game/expansion/lib/boosts";
 
 interface Args {
   selectedItem?: InventoryItemName;
-  inventory: Inventory;
+  collectibles: GameState["collectibles"];
 }
 
 /**
@@ -15,7 +14,7 @@ interface Args {
  * @returns bool
  */
 
-export const useHasBoostForItem = ({ selectedItem, inventory }: Args) => {
+export const useHasBoostForItem = ({ selectedItem, collectibles }: Args) => {
   const [isTimeBoosted, setIsTimeBoosted] = useState(false);
 
   useEffect(() => {
@@ -24,10 +23,10 @@ export const useHasBoostForItem = ({ selectedItem, inventory }: Args) => {
     setIsTimeBoosted(
       hasBoost({
         item: selectedItem as InventoryItemName,
-        inventory,
+        collectibles,
       })
     );
-  }, [selectedItem, inventory]);
+  }, [selectedItem, collectibles]);
 
   return isTimeBoosted;
 };

@@ -1,19 +1,7 @@
-import { craft, CraftAction } from "./craft";
-import { sell, SellAction } from "./sell";
-import { plant, PlantAction } from "./plant";
-import { harvest, HarvestAction } from "./harvest";
-import { removeCrop, RemoveCropAction } from "./removeCrop";
-import { mineGold, GoldMineAction } from "./goldMine";
-import { mineStone, StoneMineAction } from "./stoneMine";
-import { mineIron, IronMineAction } from "./ironMine";
-import { chop, ChopAction } from "./chop";
-import { openReward, OpenRewardAction } from "./rewarded";
 import {
   collectEggs as landExpansionCollectEggs,
   LandExpansionCollectEggAction as LandExpansionCollectEggsAction,
 } from "./landExpansion/collectEgg";
-import { collectEggs, CollectAction } from "./collectEgg";
-import { feedChicken, FeedAction } from "./feedChicken";
 import {
   LandExpansionPlantAction,
   plant as landExpansionPlant,
@@ -48,7 +36,6 @@ import {
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
 import { reveal, RevealAction } from "./revealExpansion";
-import { fertiliseCrop, FertiliseCropAction } from "./fertiliseCrop";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
   placeBuilding,
@@ -62,8 +49,6 @@ import {
   placeCollectible,
   PlaceCollectibleAction,
 } from "./landExpansion/placeCollectible";
-import { buyWarBonds, CollectWarBonds as BuyWarBonds } from "./buyWarBonds";
-import { pickSide, PickSide } from "./pickSide";
 import { cook, RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -84,7 +69,6 @@ import {
   FulFillGrubOrderAction,
 } from "./landExpansion/fulfillGrubOrder";
 import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
-import { LandExpansionMigrateAction, migrate } from "./landExpansion/migrate";
 import {
   buyDecoration,
   buyDecorationAction,
@@ -121,18 +105,6 @@ import {
 } from "./landExpansion/removeChicken";
 
 export type PlayingEvent =
-  | CraftAction
-  | SellAction
-  | PlantAction
-  | HarvestAction
-  | StoneMineAction
-  | IronMineAction
-  | GoldMineAction
-  | ChopAction
-  | OpenRewardAction
-  | FeedAction
-  | RemoveCropAction
-  | CollectAction
   | TradeAction
   | LandExpansionPlantAction
   | LandExpansionFertiliseCropAction
@@ -144,10 +116,7 @@ export type PlayingEvent =
   | LandExpansionMineGoldAction
   | TradeAction
   | RevealAction
-  | FertiliseCropAction
   | ClaimAirdropAction
-  | BuyWarBonds
-  | PickSide
   | RecipeCookedAction
   | CollectRecipeAction
   | FeedBumpkinAction
@@ -158,7 +127,6 @@ export type PlayingEvent =
   | FulFillGrubOrderAction
   | LandExpansionFeedChickenAction
   | CraftToolAction
-  | LandExpansionMigrateAction
   | buyDecorationAction
   | SellCropAction
   | RemoveBuildingAction
@@ -191,25 +159,9 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
-  "item.planted": plant,
-  "item.harvested": harvest,
-  "item.crafted": craft,
-  "item.sell": sell,
-  "stone.mined": mineStone,
-  "iron.mined": mineIron,
-  "gold.mined": mineGold,
-  "tree.chopped": chop,
-  "reward.opened": openReward,
-  "chicken.harvested": collectEggs,
-  "chicken.feed": feedChicken,
   "item.traded": trade,
-  "item.removed": removeCrop,
   "airdrop.claimed": claimAirdrop,
-  "warBonds.bought": buyWarBonds,
-  "item.fertilised": fertiliseCrop,
-  "side.picked": pickSide,
   "bot.detected": detectBot,
-  // Land Expansion Handlers
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,
   "crop.fertilised": landExpansionFertilise,
@@ -229,7 +181,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "grubOrder.fulfilled": fulfillGrubOrder,
   "chicken.fed": LandExpansionFeedChicken,
   "tool.crafted": craftTool,
-  "game.migrated": migrate,
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
   "building.removed": removeBuilding,

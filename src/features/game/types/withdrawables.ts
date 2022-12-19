@@ -1,14 +1,12 @@
 import { KNOWN_IDS } from ".";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
-import { canChop } from "features/game/events/chop";
-import { canMine as canMineStone } from "features/game/events/stoneMine";
-import { canMine as canMineIron } from "features/game/events/ironMine";
-import { canMine as canMineGold } from "features/game/events/goldMine";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { EASTER_EGGS, Inventory, InventoryItemName } from "./game";
 import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
 import { RESOURCES } from "./resources";
+import { canChop } from "../events/landExpansion/chop";
+import { canMine } from "../events/landExpansion/stoneMine";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -45,19 +43,27 @@ function areAnyCropsPlanted(game: GoblinState): boolean {
 }
 
 function areAnyTreesChopped(game: GoblinState): boolean {
-  return Object.values(game?.trees).some((tree) => !canChop(tree));
+  return Object.values(game?.expansions).some((expansion) =>
+    Object.values(expansion.trees ?? {}).some((tree) => canChop(tree))
+  );
 }
 
 function areAnyStonesMined(game: GoblinState): boolean {
-  return Object.values(game?.stones).some((stone) => !canMineStone(stone));
+  return Object.values(game?.expansions).some((expansion) =>
+    Object.values(expansion.stones ?? {}).some((stone) => canMine(stone))
+  );
 }
 
 function areAnyIronsMined(game: GoblinState): boolean {
-  return Object.values(game?.iron).some((iron) => !canMineIron(iron));
+  return Object.values(game?.expansions).some((expansion) =>
+    Object.values(expansion.iron ?? {}).some((iron) => canMine(iron))
+  );
 }
 
 function areAnyGoldsMined(game: GoblinState): boolean {
-  return Object.values(game?.gold).some((gold) => !canMineGold(gold));
+  return Object.values(game?.expansions).some((expansion) =>
+    Object.values(expansion.gold ?? {}).some((iron) => canMine(gold))
+  );
 }
 
 function areAnyChickensFed(game: GoblinState): boolean {

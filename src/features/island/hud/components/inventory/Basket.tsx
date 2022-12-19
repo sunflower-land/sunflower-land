@@ -17,8 +17,10 @@ import lightning from "assets/icons/lightning.png";
 import basket from "assets/icons/basket.png";
 
 import { secondsToString } from "lib/utils/time";
-import { getCropTime } from "features/game/events/plant";
-import { getCropTime as getCropTimeLandExpansion } from "features/game/events/landExpansion/plant";
+import {
+  getCropTime,
+  getCropTime as getCropTimeLandExpansion,
+} from "features/game/events/landExpansion/plant";
 import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
@@ -45,7 +47,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const basketMap = getBasketItems(inventory);
   const isTimeBoosted = useHasBoostForItem({
     selectedItem: selected,
-    inventory,
+    collectibles,
   });
 
   const getCropHarvestTime = (seedName = "") => {
@@ -65,7 +67,17 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       );
     }
 
-    return secondsToString(getCropTime(crop, inventory), { length: "medium" });
+    return secondsToString(
+      getCropTime(
+        crop,
+        gameState.inventory,
+        gameState.collectibles,
+        gameState.bumpkin as Bumpkin
+      ),
+      {
+        length: "medium",
+      }
+    );
   };
 
   const handleItemClick = (item: InventoryItemName) => {

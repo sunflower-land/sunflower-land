@@ -8,10 +8,10 @@ import {
   Inventory,
   InventoryItemName,
 } from "../../types/game";
-import { isSeed } from "../plant";
 import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
+import { SEEDS } from "features/game/types/seeds";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -262,7 +262,7 @@ export function plant({
     throw new Error("No seed selected");
   }
 
-  if (!isSeed(action.item)) {
+  if (!(action.item in SEEDS())) {
     throw new Error("Not a seed");
   }
 

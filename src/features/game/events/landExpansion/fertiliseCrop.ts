@@ -3,7 +3,7 @@ import { screenTracker } from "lib/utils/screen";
 import cloneDeep from "lodash.clonedeep";
 import { CROPS } from "../../types/crops";
 import { Fertiliser, GameState, InventoryItemName } from "../../types/game";
-import { isReadyToHarvest } from "../harvest";
+import { isReadyToHarvest } from "./harvest";
 
 export type LandExpansionFertiliseCropAction = {
   type: "crop.fertilised";

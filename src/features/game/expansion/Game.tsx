@@ -65,9 +65,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   // gameRules: true,
   goldenCrop: true,
   randomising: false,
-  migrated: false,
-  migrating: false,
-  offerMigration: false,
   visiting: false,
   loadLandToVisit: true,
   landToVisitNotFound: true,
@@ -154,10 +151,6 @@ export const Game: React.FC = () => {
                 <div className="flex flex-col items-center">
                   <h2 className="text-center">Island Not Found!</h2>
                   <img src={land} className="h-9 my-3" />
-                  <p className="mb-3">
-                    It looks like this player has not migrated over to Sunflower
-                    Isles yet!
-                  </p>
                 </div>
                 <VisitLandExpansionForm />
               </Panel>

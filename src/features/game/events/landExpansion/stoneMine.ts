@@ -22,7 +22,11 @@ type GetMinedAtArgs = {
   createdAt: number;
 };
 
-export function canMine(rock: LandExpansionRock, now: number = Date.now()) {
+export function canMine(rock?: LandExpansionRock, now: number = Date.now()) {
+  if (!rock) {
+    return false;
+  }
+
   const recoveryTime = STONE_RECOVERY_TIME;
   return now - rock.stone.minedAt > recoveryTime * 1000;
 }

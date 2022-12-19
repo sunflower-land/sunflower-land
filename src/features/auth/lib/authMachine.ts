@@ -19,7 +19,6 @@ import {
 } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
-import { checkMigrationStatus } from "features/game/actions/checkMigrationStatus";
 import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
@@ -58,7 +57,6 @@ export interface Context {
   captcha?: string;
   blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
   verificationUrl?: string;
-  migrated?: boolean;
   wallet?: "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
   provider?: any;
 }
@@ -113,7 +111,6 @@ export type BlockchainEvent =
   | {
       type: "LOGOUT";
     }
-  | { type: "MIGRATE" }
   | {
       type: "CHOOSE_CHARITY";
     }
@@ -365,7 +362,7 @@ export const authMachine = createMachine<
                 {
                   target: "authorised",
                   actions: (context) => {
-                    window.location.href = `${window.location.pathname}#/farm/${context.farmId}`;
+                    window.location.href = `${window.location.pathname}#/land/${context.farmId}`;
                   },
                   cond: "hasFarm",
                 },
@@ -474,10 +471,7 @@ export const authMachine = createMachine<
               (context, event) => {
                 if (window.location.hash.includes("retreat")) return;
 
-                // When no 'screen' parameter is given to the event
-                const defaultScreen = window.location.hash.includes("land")
-                  ? "land"
-                  : "farm";
+                const defaultScreen = "land";
 
                 const { screen = defaultScreen } = event as StartEvent;
 
@@ -499,11 +493,6 @@ export const authMachine = createMachine<
               },
               VISIT: {
                 target: "visitingContributor",
-              },
-              MIGRATE: {
-                actions: assign({
-                  migrated: (_context) => true,
-                }),
               },
               LOGOUT: {
                 target: "#idle",
@@ -626,9 +615,7 @@ export const authMachine = createMachine<
 
         return { wallet: "SEQUENCE", provider };
       },
-      loadFarm: async (
-        context
-      ): Promise<(Farm & { migrated: boolean }) | undefined> => {
+      loadFarm: async (context): Promise<Farm | undefined> => {
         const farmAccounts = await wallet.getFarm()?.getFarms();
 
         if (farmAccounts?.length === 0) {
@@ -648,20 +635,12 @@ export const authMachine = createMachine<
           context.transactionId as string
         );
 
-        // Call migrated end point to see if migrated
-        const { migrated } = await checkMigrationStatus(
-          farmAccount.tokenId,
-          context.rawToken as string,
-          context.transactionId as string
-        );
-
         return {
           farmId: parseInt(farmAccount.tokenId),
           address: farmAccount.account,
           createdAt,
           blacklistStatus: botStatus ?? isBanned ? "BANNED" : "OK",
           verificationUrl,
-          migrated,
         };
       },
       createFarm: async (context: Context, event: any): Promise<Context> => {
@@ -719,7 +698,6 @@ export const authMachine = createMachine<
         address: (_context, event) => event.data.address,
         blacklistStatus: (_context, event) => event.data.blacklistStatus,
         verificationUrl: (_context, event) => event.data.verificationUrl,
-        migrated: (_context, event) => event.data.migrated,
       }),
       assignToken: assign<Context, any>({
         token: (_context, event) => decodeToken(event.data.token),

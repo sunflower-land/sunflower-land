@@ -362,6 +362,7 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  // TODO remove when old events are deleted
   migrated?: boolean;
 }
 
