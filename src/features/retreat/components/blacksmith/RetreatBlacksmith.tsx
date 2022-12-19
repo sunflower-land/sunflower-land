@@ -5,8 +5,9 @@ import icon from "assets/icons/hammer.png";
 import { Action } from "components/ui/Action";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { blacksmithAudio } from "lib/utils/sfx";
-import { ItemsModal } from "features/goblins/blacksmith/ItemsModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
 
 export const RetreatBlacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -44,7 +45,9 @@ export const RetreatBlacksmith: React.FC = () => {
           <Action className="pointer-events-none" text="Craft" icon={icon} />
         </div>
       </div>
-      <ItemsModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <Panel>Coming soon</Panel>
+      </Modal>
     </MapPlacement>
   );
 };

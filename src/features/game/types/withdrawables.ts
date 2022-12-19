@@ -62,7 +62,7 @@ function areAnyIronsMined(game: GoblinState): boolean {
 
 function areAnyGoldsMined(game: GoblinState): boolean {
   return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.gold ?? {}).some((iron) => canMine(gold))
+    Object.values(expansion.gold ?? {}).some((gold) => canMine(gold))
   );
 }
 
