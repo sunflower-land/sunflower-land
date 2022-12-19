@@ -1395,7 +1395,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Trading Ticket",
     description:
       "This ticket grants the owner a free ride in the hot air balloon (a free trade).\n\nUsed automatically when posting a trade.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/713.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
@@ -2387,14 +2387,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Angel Bear": {
     description:
       "Time to transcend peasant farming. Harvest 1 million crops to unlock this bear.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1207.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Apple Pie": {
     description: "Bumpkin Betty's famous recipe. Cook this at the bakery",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/524.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2402,14 +2402,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Badass Bear": {
     description:
       "Nothing stands in your way. Chop 5,000 trees to unlock this bear",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1208.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Basic Bear": {
     description: "A basic bear. Use this to craft advanced bears!",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1204.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2417,7 +2417,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Bear Trap": {
     description:
       "It's a trap! Unlock the high roller achievement to claim this bear",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1209.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2425,7 +2425,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Blueberry Jam": {
     description:
       "Goblins will do anything for this jam. You can cook this at the Deli.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/525.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2433,14 +2433,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Boiled Eggs": {
     description:
       "Boiled Eggs are great for breakfast. You can cook this at the Fire Pit.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/515.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
   "Brilliant Bear": {
     description: "Pure brilliance! Reach lvl 20 to claim this bear",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1210.png",
     attributes: [{ trait_type: "Purpose", value: "Decoraton" }],
@@ -2448,7 +2448,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Bumpkin Broth": {
     description:
       "A perfect broth for a cold day. You can cook this at the Fire Pit.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/516.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2456,21 +2456,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Bumpkin Salad": {
     description:
       "Gotta keep your Bumpkin healthy! You can cook this at the Kitchen.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/517.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
   "Cabbage Boy": {
     description: "Don't wake the baby!",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Cabbage Girl": {
     description: "Don't wake the baby!",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
@@ -2478,7 +2478,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Cauliflower Burger": {
     description:
       "Calling all cauliflower lovers! You can cook this at the Kitchen.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/520.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2486,14 +2486,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Chef Bear": {
     description:
       "Every chef needs a helping hand! Bake 13 cakes to unlock this bear.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1205.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Christmas Bear": {
     description: "Santa's favourite.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1217.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2501,7 +2501,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Classy Bear": {
     description:
       "More SFL than you know what to do with it! Mine 500 gold rocks to claim this bear",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1211.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2509,7 +2509,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Construction Bear": {
     description:
       "Always build in a bear market. Build 10 buildings to claim this bear",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1206.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2517,7 +2517,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Farmer Bear": {
     description:
       "Nothing quite like a hard day's work! Harvest 10,000 crops to unlock this bear",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1212.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2525,14 +2525,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Rich Bear": {
     description:
       "A prized possession. Unlock the Bumpkin Billionaire achievement to claim this bear",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1214.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Rainbow Artist Bear": {
     description: "The owner is a beautiful bear artist!",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1218.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2540,7 +2540,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Sunflower Bear": {
     description:
       "A Bear's cherished crop. Harvest 100,000 Sunflowers to unlock this bear.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1213.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2548,14 +2548,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Club Sandwich": {
     description:
       "Filled with Carrots and Roasted Sunflower Seeds. You can cook this at the Kitchen",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/521.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
   "Fermented Carrots": {
     description: "Got a surplus of carrots? You can cook this at the Deli.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2563,14 +2563,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Goblin's Treat": {
     description:
       "Goblins go crazy for this stuff! You can cook this at the Kitchen.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/518.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
   "Honey Cake": {
     description: "A scrumptious cake! You can cook this at the Bakery",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/527.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2578,7 +2578,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Kale & Mushroom Pie": {
     description:
       "A traditional Sapphiron recipe. You can cook this at the Bakery",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/528.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2586,14 +2586,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Kale Stew": {
     description:
       "A perfect Bumpkin Booster. You can cook this at the Fire Pit.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/529.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
   "Mashed Potato": {
     description: "My life is potato. You can cook this at the Fire Pit.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/519.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2601,7 +2601,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Mushroom Jacket Potatoes": {
     description:
       "Cram them taters with what ya got! You can cook this at the Kitchen.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/530.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2609,7 +2609,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Mushroom Soup": {
     description:
       "Warm your Bumpkin's soul. You can can cook these at the Fire Pit.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/531.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2617,7 +2617,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Reindeer Carrot": {
     description:
       "Rudolph can't stop eating them! You can can cook these at the Fire Pit.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/534.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2625,7 +2625,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Roast Veggies": {
     description:
       "Even Goblins need to eat their veggies! You can can cook these at the Fire Pit.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/522.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2633,7 +2633,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Sunflower Crunch": {
     description:
       "Crunchy goodness. Try not to burn it! You can can cook these at the Fire Pit.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/533.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2641,7 +2641,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Orange Cake": {
     description:
       "Orange you glad we aren't cooking apples. You can can cook these at the Bakery.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/532.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2649,7 +2649,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Pancakes: {
     description:
       "A great start to a Bumpkins day. You can can cook these at the Kithcen.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/523.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
@@ -2657,7 +2657,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Potted Potato": {
     description:
       "Potato blood runs through your Bumpkin. You can craft this at the Decorations shop at Helios.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1215.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2665,7 +2665,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Potted Pumpkin": {
     description:
       "Pumpkins for Bumpkins. You can craft this at the Decorations shop at Helios.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1216.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2673,7 +2673,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Potted Sunflower": {
     description:
       "Brighten up your land. You can craft this at the Decorations shop at Helios.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1202.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2681,7 +2681,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "White Tulips": {
     description:
       "Keep the smell of goblins away. You can craft this at the Decorations shop at Helios.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1201.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2689,7 +2689,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Cactus: {
     description:
       "Saves water and makes your farm look stunning! You can craft this at the Decorations shop at Helios.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1203.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2704,35 +2704,35 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Peaceful Potato": {
     description: "Coming Soon",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Colossal Crop": {
     description: "Coming Soon",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Golden Bean": {
     description: "Coming Soon",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Peeled Potato": {
     description: "A prized possesion. Discover a bonus potato 20% of harvests.",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/433.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Perky Pumpkin": {
     description: "Coming Soon",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
@@ -2740,21 +2740,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
 
   "Stellar Sunflower": {
     description: "Coming Soon",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Wood Nymph Wendy": {
     description: "Coming Soon",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Shiny Bean": {
     description: "Coming Soon",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
@@ -2762,7 +2762,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Magic Bean": {
     description:
       "Plant, wait and discover rare items, mutant crops & more surprises!",
-    decimals: 1,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/115.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
