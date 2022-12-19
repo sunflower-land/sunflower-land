@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useContext } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import * as Auth from "features/auth/lib/Provider";
 
-import ocean from "assets/decorations/ocean.webp";
+//import ocean from "assets/decorations/ocean.webp";
 
 import { ToastProvider } from "../toast/ToastQueueProvider";
 import mapMovement from "../lib/mapMovement";
@@ -11,6 +11,8 @@ import { useActor } from "@xstate/react";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
+//christimas event ocean
+import ocean from "assets/events/christmas/decorations/ocean.png";
 
 export const LandExpansion: React.FC = () => {
   const { authService } = useContext(Auth.Context);
