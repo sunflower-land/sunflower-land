@@ -165,7 +165,7 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
   },
   "Badass Bear": {
     name: "Basic Bear",
-    description: "Nothing stands in your way",
+    description: "Nothing stands in your way.",
     ingredients: {},
   },
   "Bear Trap": {
