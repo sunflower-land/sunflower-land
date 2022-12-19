@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { GameState } from "../../types/game";
+import { GameState, LandExpansionRock } from "../../types/game";
 import { GRID_WIDTH_PX } from "../../lib/constants";
 
 import golemSheet from "assets/sfts/rock_golem.png";
@@ -15,7 +15,7 @@ export const RockGolem: React.FC<{ state: GameState }> = ({ state }) => {
   const golemGif = useRef<SpriteSheetInstance>();
   const golemClosingGif = useRef<SpriteSheetInstance>();
 
-  const canMineRock = canMine(stone);
+  const canMineRock = canMine(stone as LandExpansionRock);
 
   return (
     <>
