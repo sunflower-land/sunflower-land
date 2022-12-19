@@ -2,7 +2,14 @@ import harvesting from "./harvesting.mp3";
 import willow_tree from "./willow_tree.mp3";
 import mountain_escape from "./mountain_escape.mp3";
 // Playlist hardcoded, but eventually it will be fetched from the server
-const farming_songs = [
+
+export interface Song {
+  artist: string;
+  name: string;
+  path: string;
+}
+
+const farming_songs: Song[] = [
   {
     artist: "Romy & Rick",
     name: "Harvesting",
