@@ -435,6 +435,7 @@ export const OFFLINE_FARM: GameState = {
     //   }),
     //   {}
     // ),
+    "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
@@ -459,6 +460,10 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "123",
         readyAt: 0,
+        crafting: {
+          name: "Reindeer Carrot",
+          readyAt: 1671116097193,
+        },
         coordinates: {
           x: 4,
           y: 8,

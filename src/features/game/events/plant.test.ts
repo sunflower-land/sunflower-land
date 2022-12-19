@@ -245,6 +245,19 @@ describe("plant", () => {
     });
   });
 
+  it("does not plant (old action) after migration to LE", () => {
+    expect(() =>
+      plant({
+        state: { ...GAME_STATE, migrated: true },
+        action: {
+          type: "item.planted",
+          index: -1,
+          item: "Sunflower Seed",
+        },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
+
   describe("getCropTime", () => {
     it("plants a normal carrot", () => {
       const time = getCropTime("Carrot", {});

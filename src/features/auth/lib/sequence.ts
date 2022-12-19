@@ -4,8 +4,8 @@ export const SEQUENCE_CONNECT_OPTIONS: ConnectOptions = {
   app: "Sunflower Land",
   settings: {
     theme: "dark",
-    bannerUrl: `${window.origin}/brand/sequence_banner.png`,
-    includedPaymentProviders: ["moonpay", "ramp"],
+    bannerUrl: "https://sunflower-land.com/play/brand/sequence_banner.png",
+    includedPaymentProviders: ["ramp"],
     lockFundingCurrencyToDefault: true,
     defaultFundingCurrency: "matic",
   },

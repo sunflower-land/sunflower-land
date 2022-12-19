@@ -85,7 +85,10 @@ import {
 } from "./landExpansion/fulfillGrubOrder";
 import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
 import { LandExpansionMigrateAction, migrate } from "./landExpansion/migrate";
-import { buyDecoration, buyDecorationAction } from "./buyDecoration";
+import {
+  buyDecoration,
+  buyDecorationAction,
+} from "./landExpansion/buyDecoration";
 import { sellCrop, SellCropAction } from "./landExpansion/sellCrop";
 import {
   fertiliseCrop as landExpansionFertilise,
@@ -198,12 +201,12 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "tree.chopped": chop,
   "reward.opened": openReward,
   "chicken.harvested": collectEggs,
-  "chicken.collectEgg": landExpansionCollectEggs,
   "chicken.feed": feedChicken,
   "item.traded": trade,
   "item.removed": removeCrop,
   "airdrop.claimed": claimAirdrop,
   "warBonds.bought": buyWarBonds,
+  "item.fertilised": fertiliseCrop,
   "side.picked": pickSide,
   "bot.detected": detectBot,
   // Land Expansion Handlers
@@ -211,12 +214,12 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crop.harvested": landExpansionHarvest,
   "crop.fertilised": landExpansionFertilise,
   "crop.removed": landExpasionRemoveCrop,
+  "chicken.collectEgg": landExpansionCollectEggs,
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,
   "expansion.revealed": reveal,
   "timber.chopped": landExpansionChop,
-  "item.fertilised": fertiliseCrop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,
   "bumpkin.feed": feedBumpkin,

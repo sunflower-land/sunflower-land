@@ -169,4 +169,13 @@ describe("collect eggs", () => {
 
     expect(newState.inventory["Rich Chicken"]).toStrictEqual(new Decimal(1));
   });
+
+  it("throws an error if migrated to LE", () => {
+    expect(() =>
+      collectEggs({
+        state: { ...GAME_STATE, migrated: true },
+        action: { type: "chicken.harvested", index: 3 },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

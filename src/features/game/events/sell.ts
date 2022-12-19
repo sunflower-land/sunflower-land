@@ -27,6 +27,12 @@ type Options = {
 export function sell({ state, action }: Options): GameState {
   const stateCopy = cloneDeep(state);
 
+  const migrated = stateCopy.migrated;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
+
   if (!(action.item in SELLABLE)) {
     throw new Error("Not for sale");
   }

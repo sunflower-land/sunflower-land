@@ -64,6 +64,12 @@ type Options = {
 export function craft({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
 
+  const migrated = stateCopy.migrated;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
+
   if (!isCraftable(action.item, VALID_ITEMS)) {
     throw new Error(`This item is not craftable: ${action.item}`);
   }

@@ -232,6 +232,10 @@ export const tradingPostMachine = createMachine<
                 inventory: event.data.inventory,
                 balance: event.data.balance,
                 sessionId: event.data.sessionId,
+                deviceTrackerId: event.data.deviceTrackerId,
+              })),
+              assign((_, event) => ({
+                deviceTrackerId: event.data.deviceTrackerId,
               })),
             ],
           },

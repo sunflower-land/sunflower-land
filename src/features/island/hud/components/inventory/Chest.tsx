@@ -3,7 +3,6 @@ import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import {
   CollectibleName,
   getKeys,
@@ -35,8 +34,6 @@ export const Chest: React.FC<Props> = ({
   closeModal,
   onPlace,
 }: Props) => {
-  const [scrollIntoView] = useScrollIntoView();
-
   const divRef = useRef<HTMLDivElement>(null);
 
   const chestMap = getChestItems(state);
@@ -72,15 +69,10 @@ export const Chest: React.FC<Props> = ({
     onPlace && onPlace(selected);
 
     closeModal();
-    scrollIntoView(Section.GenesisBlock);
   };
 
   const handleItemClick = (item: InventoryItemName) => {
     setSelected(item);
-
-    if (item && ITEM_DETAILS[item].section) {
-      scrollIntoView(ITEM_DETAILS[item].section);
-    }
   };
 
   const basketIsEmpty = getKeys(collectibles).length === 0;

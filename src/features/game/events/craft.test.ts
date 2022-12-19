@@ -250,4 +250,17 @@ describe("craft", () => {
 
     expect(result.inventory["Carrot Seed"]).toEqual(new Decimal(1));
   });
+
+  it("throws an error if account has been migrated", () => {
+    expect(() =>
+      craft({
+        state: { ...GAME_STATE, migrated: true },
+        action: {
+          type: "item.crafted",
+          item: "Sunflower Statue",
+          amount: 1,
+        },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

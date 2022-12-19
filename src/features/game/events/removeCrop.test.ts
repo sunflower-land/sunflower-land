@@ -163,4 +163,17 @@ describe("removeCrop", () => {
     expect(state.inventory["Sunflower Seed"]).toBeFalsy();
     expect(state.fields[1]).toBeFalsy();
   });
+
+  it("does not remove on migrated account", () => {
+    expect(() =>
+      removeCrop({
+        state: { ...GAME_STATE, migrated: true },
+        action: {
+          type: "item.removed",
+          item: "Shovel",
+          fieldIndex: -1,
+        },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

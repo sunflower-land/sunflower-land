@@ -158,4 +158,13 @@ describe("feed chickens", () => {
 
     expect(newState.inventory.Wheat).toEqual(new Decimal(0.1));
   });
+
+  it("throws an error if account is migrated", () => {
+    expect(() =>
+      feedChicken({
+        state: { ...GAME_STATE, migrated: true },
+        action: { type: "chicken.feed", index: 1 },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

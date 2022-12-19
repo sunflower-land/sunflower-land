@@ -38,7 +38,7 @@ export const Panel: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 100}px`,
           }}
         >
-          <DynamicNFT bumpkinParts={bumpkinParts} showDropShadow={false} />
+          <DynamicNFT bumpkinParts={bumpkinParts} />
         </div>
       )}
       <OuterPanel className={className} style={style} hasTabs={hasTabs}>

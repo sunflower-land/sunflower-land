@@ -281,8 +281,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sfl: marketRate(500),
   },
   Contractor: {
-    description: "Construct 10 buildings",
-    progress: (gameState: GameState) => getKeys(gameState.buildings).length,
+    description: "Have 10 buildings constructed on your land",
+    progress: (gameState: GameState) => {
+      const totalBuildingsOnLand = getKeys(gameState.buildings).reduce(
+        (a, b) => a + (gameState.buildings[b]?.length ?? 0),
+        0
+      );
+      return totalBuildingsOnLand;
+    },
     requirement: 10,
     sfl: marketRate(0),
     rewards: {
@@ -306,7 +312,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sfl: marketRate(500),
   },
   Museum: {
-    description: "Place 10 rare items",
+    description: "Have 10 different kinds of rare items placed on your land",
     progress: (gameState: GameState) => getKeys(gameState.collectibles).length,
     requirement: 10,
     sfl: marketRate(500),

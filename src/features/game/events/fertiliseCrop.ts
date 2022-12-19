@@ -21,6 +21,12 @@ export function fertiliseCrop({
 }: Options): GameState {
   const field = state.fields[action.fieldIndex];
 
+  const migrated = state.migrated;
+
+  if (migrated) {
+    throw new Error("Cannot perform this action, account has been migrated");
+  }
+
   if (!field) {
     throw new Error("Cannot fertilise an empty field");
   }

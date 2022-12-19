@@ -257,6 +257,7 @@ import sunflowerCrunch from "assets/food/sunflower_crunch.png";
 import applePie from "assets/food/apple_pie.png";
 import mushroomJacketPotato from "assets/food/mushroom_jacket_potato.png";
 import kaleMushroomPie from "assets/food/mushroom_kale_pie.png";
+import reindeerCarrot from "assets/food/reindeer_carrot.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -313,6 +314,7 @@ import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
 import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
+import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -891,10 +893,7 @@ export const ITEM_DETAILS: Items = {
     description: "A display of allegiance",
     image: questionMark,
   },
-  "Player Experience": {
-    description: "Blood, sweat and tears",
-    image: questionMark,
-  },
+
   "Human War Banner": {
     description: "A display of allegiance to the Human cause",
     image: humanBanner,
@@ -1290,6 +1289,10 @@ export const ITEM_DETAILS: Items = {
     image: roastVeggies,
     description: "Got a surplus of carrots?",
   },
+  "Reindeer Carrot": {
+    image: reindeerCarrot,
+    description: "Rudolph can't stop eating them!",
+  },
 
   Explorer: {
     image: explorer,
@@ -1500,6 +1503,10 @@ export const ITEM_DETAILS: Items = {
   "Christmas Bear": {
     ...SALESMAN_ITEMS["Christmas Bear"],
     image: christmasBear,
+  },
+  "Rainbow Artist Bear": {
+    image: rainbowArtistBear,
+    description: DECORATIONS()["Rainbow Artist Bear"].description,
   },
 
   "Cabbage Boy": {

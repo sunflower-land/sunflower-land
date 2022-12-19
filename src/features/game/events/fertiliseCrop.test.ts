@@ -151,4 +151,21 @@ describe("fertiliseCrop", () => {
 
     expect(gameState.inventory["Rapid Growth"]).toEqual(new Decimal(4));
   });
+
+  it("does not fertilise on migrated account", () => {
+    expect(() =>
+      fertiliseCrop({
+        state: {
+          ...TEST_FARM,
+          migrated: true,
+          fields: {},
+        },
+        action: {
+          fieldIndex: 3,
+          type: "item.fertilised",
+          fertiliser: "Rapid Growth",
+        },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });

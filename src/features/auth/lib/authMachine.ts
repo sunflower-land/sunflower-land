@@ -438,9 +438,7 @@ export const authMachine = createMachine<
           readyToStart: {
             invoke: {
               src: async () => ({
-                skipSplash:
-                  window.location.hash.includes("goblins") ||
-                  window.location.hash.includes("retreat"),
+                skipSplash: window.location.hash.includes("retreat"),
               }),
               onDone: {
                 cond: (_, event) => event.data.skipSplash,
@@ -474,7 +472,7 @@ export const authMachine = createMachine<
             entry: [
               "clearTransactionId",
               (context, event) => {
-                if (window.location.hash.includes("goblins")) return;
+                if (window.location.hash.includes("retreat")) return;
 
                 // When no 'screen' parameter is given to the event
                 const defaultScreen = window.location.hash.includes("land")
@@ -583,14 +581,18 @@ export const authMachine = createMachine<
   {
     services: {
       initMetamask: async () => {
-        // TODO add type support
-        if ((window as any).ethereum) {
-          const provider = (window as any).ethereum;
-          await provider.enable();
+        const _window = window as any;
 
-          return { wallet: "METAMASK", provider };
-        } else if ((window as any).web3) {
-          const provider = (window as any).web3.currentProvider;
+        // TODO add type support
+        if (_window.ethereum) {
+          const provider = _window.ethereum;
+
+          if (provider.isPhantom) {
+            throw new Error(ERRORS.PHANTOM_WALLET_NOT_SUPPORTED);
+          }
+          await provider.request({
+            method: "eth_requestAccounts",
+          });
 
           return { wallet: "METAMASK", provider };
         } else {

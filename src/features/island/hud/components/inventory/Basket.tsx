@@ -17,7 +17,6 @@ import lightning from "assets/icons/lightning.png";
 import basket from "assets/icons/basket.png";
 
 import { secondsToString } from "lib/utils/time";
-import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { getCropTime } from "features/game/events/plant";
 import { getCropTime as getCropTimeLandExpansion } from "features/game/events/landExpansion/plant";
 import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
@@ -40,8 +39,6 @@ interface Prop {
 }
 
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
-  const [scrollIntoView] = useScrollIntoView();
-
   const divRef = useRef<HTMLDivElement>(null);
 
   const { inventory, bumpkin, collectibles } = gameState;
@@ -73,10 +70,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const handleItemClick = (item: InventoryItemName) => {
     onSelect(item);
-
-    if (item && ITEM_DETAILS[item].section) {
-      scrollIntoView(ITEM_DETAILS[item].section);
-    }
   };
 
   const basketIsEmpty = Object.values(basketMap).length === 0;

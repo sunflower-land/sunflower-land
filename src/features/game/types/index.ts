@@ -131,6 +131,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Mushroom Soup": 531,
   "Orange Cake": 532,
   "Sunflower Crunch": 533,
+  "Reindeer Carrot": 534,
 
   Wood: 601,
   Stone: 602,
@@ -230,7 +231,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Human War Point": 919,
   "Human War Banner": 920,
   "Goblin War Banner": 921,
-  "Player Experience": 922,
   "Jack-o-lantern": 923,
   //Golden crop event
   "Golden Crop": 924,
@@ -280,6 +280,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Potted Potato": 1215,
   "Potted Pumpkin": 1216,
   "Christmas Bear": 1217,
+  "Rainbow Artist Bear": 1218,
 };
 
 // The reverse of above

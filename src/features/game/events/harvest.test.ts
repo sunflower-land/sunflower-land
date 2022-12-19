@@ -164,4 +164,16 @@ describe("harvest", () => {
 
     expect(state.inventory.Parsnip).toEqual(new Decimal(1));
   });
+
+  it("does not harvest on migrated account", () => {
+    expect(() =>
+      harvest({
+        state: { ...GAME_STATE, migrated: true },
+        action: {
+          type: "item.harvested",
+          index: -1,
+        },
+      })
+    ).toThrow("Cannot perform this action, account has been migrated");
+  });
 });
