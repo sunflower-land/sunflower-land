@@ -1,5 +1,3 @@
-import { removeSession } from "features/auth/actions/login";
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
@@ -125,7 +123,7 @@ export async function autosave(request: Request) {
   }
 
   if (response.status === 401) {
-    removeSession(wallet.myAccount as string);
+    throw new Error(ERRORS.SESSION_EXPIRED);
   }
 
   if (response.status === 429) {
