@@ -19,6 +19,8 @@ function generate() {
 
     metadata.image_url = `https://sunflower-land.com/play/erc1155/images/${imageFileName}`;
 
+    metadata.name = name;
+
     const jsonPath = path.join(
       __dirname,
       `../public/erc1155/${KNOWN_IDS[name]}.json`
