@@ -15,7 +15,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Sunflower Seed",
     description:
       "A seed used to grow sunflowers. The most basic resource used to start your farming empire.\n\nYou can buy sunflower seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/101.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -24,7 +24,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Beetroot Seed",
     description:
       "A seed used to grow beetroot.\n\nYou can buy beetroot seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/106.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -33,7 +33,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Potato Seed",
     description:
       "A seed used to grow potatoes. All great hustlers start with a potato seed.\n\nYou can buy potato seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/102.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -42,7 +42,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Cabbage Seed",
     description:
       "A seed used to grow cabbage.\n\nYou can buy cabbage seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/105.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -51,7 +51,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Pumpkin Seed",
     description:
       "A seed used to grow pumpkins. A goblin's favourite!\n\nYou can buy pumpkin seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/103.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -60,7 +60,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Carrot Seed",
     description:
       "A seed used to grow carrots. An easy to grow and staple vegetable in all Bumpkin's diets!\n\nYou can buy carrot seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/104.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -69,7 +69,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Parsnip Seed",
     description:
       "A seed used to grow parsnip.\n\nYou can buy parsnip seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/108.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -78,7 +78,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Wheat Seed",
     description:
       "A seed used to grow wheat.\n\nYou can buy wheat seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/110.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -87,7 +87,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Radish Seed",
     description:
       "A seed used to grow radishes.\n\nYou can buy radish seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/109.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -96,7 +96,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Kale Seed",
     description:
       "A seed used to grow kale.\n\nYou can buy kale seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/111.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -114,7 +114,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Cauliflower Seed",
     description:
       "A seed used to grow cauliflower.\n\nYou can buy cauliflower seeds in game at the market.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/107.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
@@ -122,7 +122,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Sunflower: {
     name: "Sunflower",
     description: "A crop grown at Sunflower Land.\n\nA sunny flower.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/201.png",
     attributes: [
@@ -152,7 +152,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Beetroot",
     description:
       "A crop grown at Sunflower Land.\n\nApparently, they’re an aphrodisiac...",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/206.png",
     attributes: [
@@ -163,7 +163,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Pumpkin: {
     name: "Pumpkin",
     description: "A crop grown at Sunflower Land.\n\nOoooh, spoookyy",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/203.png",
     attributes: [
@@ -175,7 +175,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Cauliflower",
     description:
       "A crop grown at Sunflower Land.\n\nNow in 4 different colours!",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/207.png",
     attributes: [
@@ -187,7 +187,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Potato",
     description:
       "A crop grown at Sunflower Land.\n\nHealthier than you might think!",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/202.png",
     attributes: [
@@ -199,7 +199,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Cabbage",
     description:
       "A crop grown at Sunflower Land.\n\nOnce a luxury, now a food for many.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/205.png",
     attributes: [
@@ -211,7 +211,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Parsnip",
     description:
       "A crop grown at Sunflower Land.\n\nNot to be mistaken for carrots.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/208.png",
     attributes: [
@@ -223,7 +223,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Wheat",
     description:
       "A crop grown at Sunflower Land.\n\nTraditionally only grown by Goblins.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/210.png",
     attributes: [
@@ -234,7 +234,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Kale: {
     name: "Kale",
     description: "A crop grown at Sunflower Land.\n\nA Bumpkin Power Food!",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/211.png",
     attributes: [
@@ -246,7 +246,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Carrot",
     description:
       "A crop grown at Sunflower Land.\n\nThey’re good for your eyes!",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/204.png",
     attributes: [
@@ -258,7 +258,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Axe",
     description:
       "A tool used to chop wood. It is burnt after use.\n\nYou can craft an axe at the Blacksmith in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/301.png",
     attributes: [
@@ -305,7 +305,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Pickaxe",
     description:
       "A tool used to mine stone. It is burnt after use.\n\nYou can craft a pickaxe at the Blacksmith in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/302.png",
     attributes: [
@@ -317,7 +317,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Radish",
     description:
       "A crop grown at Sunflower Land.\n\nLegend says these were once used in melee combat.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/209.png",
     attributes: [
@@ -329,7 +329,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Stone Pickaxe",
     description:
       "A tool used to mine iron. It is burnt after use.\n\nYou can craft a stone pickaxe at the Blacksmith in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/303.png",
     attributes: [
@@ -341,7 +341,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Iron Pickaxe",
     description:
       "A tool used to mine gold. It is burnt after use.\n\nYou can craft an iron pickaxe at the Blacksmith in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/304.png",
     attributes: [
@@ -353,7 +353,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Hammer",
     description:
       "A tool used to upgrade buildings.\n\nYou can craft a hammer at the Blacksmith in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/305.png",
     attributes: [{ trait_type: "Purpose", value: "Tool" }],
@@ -362,7 +362,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Rod",
     description:
       "A tool used to capture fish.\n\nYou can craft a rod at the Blacksmith in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/306.png",
     attributes: [{ trait_type: "Purpose", value: "Tool" }],
@@ -371,7 +371,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Shovel",
     description:
       "A tool used to remove unwanted crops.\n\nYou can craft a shovel at the Workbench in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/308.png",
     attributes: [{ trait_type: "Purpose", value: "Tool" }],
@@ -380,7 +380,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Sunflower Statue",
     description:
       "A symbol of the holy Sunflower Land Token. Flex your loyalty and farming status with this rare statue.\n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/401.png",
     attributes: [
@@ -392,7 +392,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Power Shovel",
     description:
       "Used for landscaping\n\nYou can craft a power shovel at the Workbench in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/309.png",
     attributes: [{ trait_type: "Purpose", value: "Tool" }],
@@ -401,7 +401,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Christmas Tree",
     description:
       "A rare collectible that provides holders with an airdrop on Christmas day.\n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/403.png",
     attributes: [
@@ -413,7 +413,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Scarecrow",
     description:
       "Ensures your crops grow faster when placed on your farm.\n\nRumour has it that it is crafted with a Goblin head from the great war.\n\nIncludes boosts from [Nancy](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/420).",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/404.png",
     attributes: [
@@ -435,7 +435,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Farm Dog",
     description:
       "Sheep are no longer lazy when this farm dog is around. Increases wool production. Currently used for decoration purposes.\n\n~~You can craft a dog at the Goblin Farmer in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/406.gif",
     attributes: [
@@ -447,7 +447,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Potato Statue",
     description:
       "A rare collectible for the potato hustlers of Sunflower Land.\n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/402.png",
     attributes: [
@@ -459,7 +459,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Gnome",
     description:
       "A lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the Gobblin Blacksmith in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/407.gif",
     attributes: [
@@ -471,7 +471,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Rusty Shovel",
     description:
       "Used to remove buildings and collectibles\n\nYou can craft a rusty shovel at the Workbench in the game.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/307.png",
     attributes: [{ trait_type: "Purpose", value: "Tool" }],
@@ -480,7 +480,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Chicken Coop",
     description:
       "A chicken coop that can be used to raise chickens. Increase egg production with this rare coop on your farm.\n\n~~You can craft a chicken coop at the Goblin Farmer in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/408.png",
     attributes: [
@@ -502,7 +502,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Gold Egg",
     description:
       "A golden egg. What lays inside is a mystery but it looks like it will hatch soon.\n\nYou can craft a golden egg at the Goblin Farmer in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/409.png",
     attributes: [
@@ -514,7 +514,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Sunflower Tombstone",
     description:
       "A commemorative homage to Sunflower Farmers, the prototype which birthed Sunflower Land.\n\nThis item was airdropped to anyone who maxed out their farm to level 5.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/411.png",
     attributes: [
@@ -526,7 +526,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Golden Cauliflower",
     description:
       "It is rumoured that a farmer created a golden fertiliser which produced this magical Cauliflower.\n\nFor some reason, when this Cauliflower is on your farm you receive twice the rewards from growing Cauliflowers.\n\n~~You can craft a Golden Cauliflower at the Goblin Farmer in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/410.png",
     attributes: [
@@ -543,7 +543,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Farm Cat",
     description:
       "Keep the rats away with this rare item. Currently used for decoration purposes.\n\n~~You can craft a Cat at the Goblin Farmer in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/405.gif",
     attributes: [
@@ -555,7 +555,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Sunflower Rock",
     description:
       "Remember the time Sunflower Farmers 'broke' Polygon? Those days are gone with Sunflower Land!\n\nThis is an extremely rare decoration for your farm.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/412.png",
     attributes: [
@@ -567,7 +567,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Fountain",
     description:
       "A beautiful fountain that relaxes all Bumpkins.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/414.gif",
     attributes: [
@@ -579,7 +579,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Woody the Beaver",
     description:
       "During the great wood shortage, Bumpkins created an alliance with the Beaver population.\n\nIncreases wood production.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/415.gif",
     attributes: [
@@ -596,7 +596,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Goblin Crown",
     description:
       "Summon the Goblin leader and reveal who the mastermind is behind the Goblin resistance.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/413.png",
     attributes: [
@@ -608,7 +608,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Apprentice Beaver",
     description:
       "A well trained Beaver who has aspirations of creating a wood monopoly.\n\nIncreases wood replenishment rates.\n\nYou can craft this item at the Goblin Blacksmith in the game.\n\nIncludes boosts from [Woody the Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/415).",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/416.gif",
     attributes: [
@@ -630,7 +630,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Mysterious Parsnip",
     description:
       "No one knows where this parsnip came from, but when it is on your farm Parsnips grow 50% faster.\n\n~~You can craft this item at the Goblin Farmer in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/418.png",
     attributes: [
@@ -647,7 +647,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Foreman Beaver",
     description:
       "A master of construction, carving and all things wood related.\n\nChop trees without axes.\n\nIncludes boosts from [Apprentice Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/416) and [Woody the Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/415).",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/417.gif",
     attributes: [
@@ -674,7 +674,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Nancy",
     description:
       "A brave scarecrow that keeps your crops safe from crows. Ensures your crops grow faster when placed on your farm.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/420.png",
     attributes: [
@@ -691,7 +691,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Farmer Bath",
     description:
       "A beetroot scented bath for your farmer.\n\nAfter a long day of farming potatoes and fighting off Goblins, this is the perfect relaxation device for your hard working farmer.\n\nYou can craft the Farmer Bath at the Goblin Blacksmith in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/423.png",
     attributes: [
@@ -703,7 +703,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Carrot Sword",
     description:
       "Legend has it that only a true farmer can yield this sword.\n\nIncreases the chance of finding a mutant crop!\n\n~~You can craft this item at the Goblin Farmer in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/419.png",
     attributes: [
@@ -715,7 +715,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Kuebiko",
     description:
       "An extremely rare item in Sunflower Land. This scarecrow cannot move but has in-depth knowledge of the history of the Sunflower Wars.\n\nThis scarecrow is so scary that it even frightens Bumpkins. If you have this item, all seeds are free from the market.\n\nIncludes boosts from [Scarecrow](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/404) and [Nancy](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/420).",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/421.gif",
     attributes: [
@@ -738,7 +738,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Rock Golem",
     description:
       "The Rock Golem is the protector of Stone.\n\nMining stone causes the Golem to be become enraged giving a 10% chance to get 3x stone from stone mines.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/427.gif",
     attributes: [
@@ -755,7 +755,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Nyon Statue",
     description:
       "A homage to Sir Nyon who died at the battle of the Goblin mines.\n\n~~You can craft the Nyon Statue at the Goblin Blacksmith in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/422.png",
     attributes: [
@@ -767,7 +767,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Homeless Tent",
     description:
       "A nice and cozy tent.\n\n~~You can craft the Homeless Tent at the Goblin Blacksmith in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/424.png",
     attributes: [
@@ -779,7 +779,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Mysterious Head",
     description:
       "A Mysterious Head said to protect farmers.\n\nYou can craft the Mysterious Head at the Goblin Blacksmith in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/425.png",
     attributes: [
@@ -791,7 +791,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Golden Bonsai",
     description:
       "The pinnacle of goblin style and sophistication. A Golden Bonsai is the perfect piece to tie your farm together.\n\n~~You can only get this item trading with the Traveling Salesman in the game. ~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/426.png",
     attributes: [
@@ -803,7 +803,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Tunnel Mole",
     description:
       "The tunnel mole gives a 25% increase to stone mines.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/428.gif",
     attributes: [
@@ -820,7 +820,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Rocky the Mole",
     description:
       "\"Life's not about how much iron you can mine... it's about how much more you can mine, and still keep mining.\" - Rocky the Mole\n\nRocky the Mole gives a 25% increase to iron mines.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/429.gif",
     attributes: [
@@ -837,7 +837,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Victoria Sisters",
     description:
       "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.\n\nTo craft this item you must collect 50 Jack-o-lantern's and trade with the travelling salesman.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/432.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
@@ -846,7 +846,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Nugget",
     description:
       "Seldom seen above ground, this gold digger burrows day and night searching for the next gold rush.\n\nStrike gold with this little critter! Eureka!\n\nNugget gives a 25% increase to gold mines.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/430.gif",
     attributes: [
@@ -863,7 +863,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Wicker Man",
     description:
       "Join hands and make a chain, the shadow of the Wicker Man will rise up again.\n\nYou can only get this item trading with the Traveling Salesman in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/431.png",
     attributes: [
@@ -875,7 +875,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Roasted Cauliflower",
     description:
       "A Goblin’s favourite! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/502.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -884,7 +884,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Pumpkin Soup",
     description:
       "A creamy soup that Goblins love! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/501.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -893,7 +893,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Sauerkraut",
     description:
       "Fermented Cabbage! Owning this item unlocks fields and new seeds.\n\nYou can craft this at the Kitchen in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/503.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -902,7 +902,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Sunflower Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/505.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -911,7 +911,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Radish Pie",
     description:
       "Despised by humans, loved by Goblins! Owning this item unlocks crop seeds.\n\nYou can craft this item at the Kitchen in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/504.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -920,7 +920,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Carrot Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/508.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -929,7 +929,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Potato Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/506.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -938,7 +938,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Cabbage Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/509.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -947,7 +947,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Pumpkin Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/507.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -956,7 +956,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Beetroot Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/510.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -965,7 +965,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Parsnip Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/512.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -974,7 +974,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Cauliflower Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/511.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -983,7 +983,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Radish Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/513.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -992,7 +992,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Wheat Cake",
     description:
       "A special cake that is only available during certain times of the year for the great bake off!\n\nYou can bake a cake at the in-game Kitchen using eggs, wheat and the necessary crops.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/514.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
@@ -1001,7 +1001,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Stone",
     description:
       "A resource collected by mining stone mines.\n\nIt is used in a range of different crafting recipes.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/602.png",
     attributes: [
@@ -1013,7 +1013,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Wood",
     description:
       "A resource collected by chopping down trees.\n\nIt is used in a range of different crafting recipes.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/601.png",
     attributes: [
@@ -1025,7 +1025,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Iron",
     description:
       "A resource collected by mining iron mines.\n\nIt is used in a range of different crafting recipes.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/603.png",
     attributes: [
@@ -1037,7 +1037,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Egg",
     description:
       "A resource collected by taking care of chickens.\n\nIt is used in a range of different crafting recipes.\n\nAt Sunflower Land, the egg came first.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/605.png",
     attributes: [
@@ -1049,7 +1049,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Gold",
     description:
       "A resource collected by mining gold mines.\n\nIt is used in a range of different crafting recipes.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/604.png",
     attributes: [
@@ -1061,7 +1061,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Chicken",
     description:
       "A resource used to collect eggs.\n\nIt can be purchased at the barn.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/606.png",
     attributes: [
@@ -1073,7 +1073,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Speed Chicken",
     description:
       "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant increases the speed of egg production by 10%.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/610.gif",
     attributes: [
@@ -1114,7 +1114,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Fat Chicken",
     description:
       "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant reduces the wheat required to feed a chicken by 10%.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/611.gif",
     attributes: [
@@ -1131,7 +1131,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Rich Chicken",
     description:
       "A mutant chicken that can be found by chance when collecting an egg.\n\nThis mutant adds a boost of 10% higher egg yield.\n\nThere is a 1/1000 chance of producing a mutant chicken.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/612.gif",
     attributes: [
@@ -1148,7 +1148,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Rooster",
     description:
       "Rooster increases the chance of getting a mutant chicken 2x.\n\nYou can craft this item at the Goblin Farmer in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/613.gif",
     attributes: [
@@ -1164,7 +1164,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Honey: {
     name: "Honey",
     description: "Used to sweeten your cooking.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/614.png",
     attributes: [
@@ -1175,7 +1175,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Magic Mushroom": {
     name: "Magic Mushroom",
     description: "Used to cook advanced recipes.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/616.png",
     attributes: [
@@ -1186,7 +1186,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Wild Mushroom": {
     name: "Wild Mushroom",
     description: "Used to cook basic recipes.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/615.png",
     attributes: [
@@ -1198,7 +1198,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Diamond",
     description:
       "A resource collected by mining diamond mines.\n\nIt is used in a range of different crafting recipes.",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/617.png",
     attributes: [
@@ -1210,7 +1210,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Green Thumb",
     description:
       "A skill that can be earned when reaching level 5 in farming.\n\nIt can be minted only through gameplay.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/701.png",
     attributes: [
@@ -1226,7 +1226,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Barn Manager",
     description:
       "A skill that can be earned when reaching level 5 in farming.\n\nIt can be minted only through gameplay.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/702.png",
     attributes: [
@@ -1254,7 +1254,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Seed Specialist",
     description:
       "A skill that can be earned when reaching level 10 in farming.\n\nIt can be minted only through gameplay.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/703.png",
     attributes: [
@@ -1270,7 +1270,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Wrangler",
     description:
       "A skill that can be learnt when reaching level 10 in farming.\n\nIt can be minted only through gameplay.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/704.png",
     attributes: [
@@ -1286,7 +1286,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Lumberjack",
     description:
       "A skill that can be earned when reaching level 5 in gathering.\n\nIt can be minted only through gameplay.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/705.png",
     attributes: [
@@ -1302,7 +1302,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Prospector",
     description:
       "A skill that can be earned when reaching level 5 in gathering.\n\nIt can be minted only through gameplay.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/706.png",
     attributes: [
@@ -1318,7 +1318,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Gold Rush",
     description:
       "A skill that can be earned when reaching level 10 in gathering.\n\nIt can be minted only through gameplay.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/708.png",
     attributes: [
@@ -1333,7 +1333,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Coder: {
     name: "Coder",
     description: "A skill that can be earned by contributing code to the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/710.png",
     attributes: [
@@ -1348,7 +1348,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Artist: {
     name: "Artist",
     description: "A skill that can be earned by contributing art to the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/709.png",
     attributes: [
@@ -1364,7 +1364,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Logger",
     description:
       "A skill that can be earned when reaching level 10 in gathering.\n\nIt can be minted only through gameplay.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/707.png",
     attributes: [
@@ -1379,7 +1379,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Discord Mod": {
     name: "Discord Mod",
     description: "A skill that can be earned by moderating Discord.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/712.png",
     attributes: [
@@ -1403,7 +1403,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Liquidity Provider": {
     name: "Liquidity Provider",
     description: "A skill that can be earned by providing liquidity.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/711.png",
     attributes: [
@@ -1419,7 +1419,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Belgian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/802.gif",
     attributes: [
@@ -1431,7 +1431,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Australian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/801.gif",
     attributes: [
@@ -1443,7 +1443,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Brazilian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/803.gif",
     attributes: [
@@ -1455,7 +1455,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Indonesian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/808.gif",
     attributes: [
@@ -1466,7 +1466,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Warrior: {
     name: "Warrior",
     description: "A skill earned by the top 10 warriors each week.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/714.png",
     attributes: [{ trait_type: "Purpose", value: "Skill" }],
@@ -1475,7 +1475,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "French Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/806.gif",
     attributes: [
@@ -1487,7 +1487,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Finnish Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/805.gif",
     attributes: [
@@ -1499,7 +1499,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Indian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/809.gif",
     attributes: [
@@ -1511,7 +1511,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "German Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/807.gif",
     attributes: [
@@ -1523,7 +1523,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Iranian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/810.gif",
     attributes: [
@@ -1535,7 +1535,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Italian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/811.gif",
     attributes: [
@@ -1547,7 +1547,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Japanese Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/812.gif",
     attributes: [
@@ -1559,7 +1559,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Moroccan Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/813.gif",
     attributes: [
@@ -1571,7 +1571,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Chinese Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/804.gif",
     attributes: [
@@ -1583,7 +1583,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Philippine Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/815.gif",
     attributes: [
@@ -1595,7 +1595,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Dutch Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/814.gif",
     attributes: [
@@ -1607,7 +1607,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Polish Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/816.gif",
     attributes: [
@@ -1619,7 +1619,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Russian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/818.gif",
     attributes: [
@@ -1631,7 +1631,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Saudi Arabian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/819.gif",
     attributes: [
@@ -1643,7 +1643,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Portuguese Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/817.gif",
     attributes: [
@@ -1655,7 +1655,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Spanish Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/821.gif",
     attributes: [
@@ -1667,7 +1667,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Thai Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/823.gif",
     attributes: [
@@ -1679,7 +1679,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Turkish Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/824.gif",
     attributes: [
@@ -1691,7 +1691,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "South Korean Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/820.gif",
     attributes: [
@@ -1703,7 +1703,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Ukrainian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/825.gif",
     attributes: [
@@ -1715,7 +1715,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Vietnamese Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/827.gif",
     attributes: [
@@ -1727,7 +1727,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "American Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/826.gif",
     attributes: [
@@ -1739,7 +1739,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Canadian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/828.gif",
     attributes: [
@@ -1751,7 +1751,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Singaporean Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/829.gif",
     attributes: [
@@ -1763,7 +1763,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Sierra Leone Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/831.gif",
     attributes: [
@@ -1775,7 +1775,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "British Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/830.gif",
     attributes: [
@@ -1787,7 +1787,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Romanian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/832.gif",
     attributes: [
@@ -1799,7 +1799,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Pirate Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/835.gif",
     attributes: [
@@ -1811,7 +1811,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Mexican Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/837.gif",
     attributes: [
@@ -1823,7 +1823,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Rainbow Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/833.gif",
     attributes: [
@@ -1835,7 +1835,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Dominican Republic Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/838.gif",
     attributes: [
@@ -1847,7 +1847,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Algerian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/836.gif",
     attributes: [
@@ -1859,7 +1859,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Argentinian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/839.gif",
     attributes: [
@@ -1871,7 +1871,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Sunflower Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/822.gif",
     attributes: [
@@ -1883,7 +1883,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Colombian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/842.gif",
     attributes: [
@@ -1895,7 +1895,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Malaysian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/841.gif",
     attributes: [
@@ -1907,7 +1907,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Egg Basket",
     description:
       "An item that starts the Easter Egg Hunt.\n\nYou have 7 days to collect the 7 eggs. Every few hours an egg may appear on your farm to collect. Limited edition item!",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/901.png",
     attributes: [{ value: "Tradable" }],
@@ -1916,7 +1916,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Red Egg",
     description:
       "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/902.png",
     attributes: [{ value: "Tradable" }],
@@ -1925,7 +1925,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Blue Egg",
     description:
       "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/903.png",
     attributes: [{ value: "Tradable" }],
@@ -1934,7 +1934,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Yellow Egg",
     description:
       "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/904.png",
     attributes: [{ value: "Tradable" }],
@@ -1943,7 +1943,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Pink Egg",
     description:
       "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/905.png",
     attributes: [{ value: "Tradable" }],
@@ -1952,7 +1952,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Purple Egg",
     description:
       "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/906.png",
     attributes: [{ value: "Tradable" }],
@@ -1961,7 +1961,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Orange Egg",
     description:
       "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/907.png",
     attributes: [{ value: "Tradable" }],
@@ -1970,7 +1970,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Lithuanian Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/840.gif",
     attributes: [
@@ -1982,7 +1982,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Green Egg",
     description:
       "A limited edition easter egg that can be found on your farm during Easter.\n\nCollect the 7 special eggs to mint an Easter surprise.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/908.png",
     attributes: [{ value: "Tradable" }],
@@ -1991,7 +1991,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Observatory",
     description:
       "A limited edition Observatory gained from completing the mission from Million on Mars x Sunflower Land crossover event.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/911.gif",
     attributes: [
@@ -2007,7 +2007,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Engine Core",
     description:
       "An exclusive event item for Million on Mars x Sunflower Land cross-over.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/910.png",
     attributes: [],
@@ -2015,7 +2015,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Ancient Goblin Sword": {
     name: "Ancient Goblin Sword",
     description: "An Ancient Goblin Sword",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/914.png",
     attributes: [],
@@ -2023,7 +2023,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Ancient Human Warhammer": {
     name: "Ancient Human Warhammer",
     description: "An Ancient Human Warhammer",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/915.png",
     attributes: [],
@@ -2032,7 +2032,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "War Bond",
     description:
       "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nWill you show your support?\n\nFor a limited time, the war collectors are offering rare War Bonds in exchange for resources. You can use these to buy rare items in Goblin Village.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/917.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
@@ -2040,7 +2040,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Rapid Growth": {
     name: "Rapid Growth",
     description: "A rare fertiliser. Apply to your crops to grow twice as fast",
-    decimals: 1,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/916.png",
     attributes: [
@@ -2055,7 +2055,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Sunflower Key": {
     name: "Sunflower Key",
     description: "A Sunflower Key",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/913.png",
     attributes: [],
@@ -2064,7 +2064,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Human War Point",
     description:
       "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nHere you can view the support team Human is providing.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/919.png",
     attributes: [],
@@ -2073,7 +2073,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Easter Bunny",
     description:
       "A limited edition bunny that can be crafted by those who collect all 7 eggs in the Easter Egg Hunt.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/909.gif",
     attributes: [
@@ -2090,7 +2090,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Goblin Flag",
     description:
       "A limited edition flag to fly proudly on your farm\n\nYou can craft this item at the Goblin Tailor in the game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/834.gif",
     attributes: [
@@ -2101,7 +2101,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Goblin Key": {
     name: "Goblin Key",
     description: "A Goblin Key",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/912.png",
     attributes: [],
@@ -2110,7 +2110,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Goblin War Point",
     description:
       "A war is brewing in Sunflower Land and both sides are preparing resources to crush their enemies.\n\nHere you can view the support team Goblin is providing.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/918.png",
     attributes: [],
@@ -2119,7 +2119,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Human War Banner",
     description:
       "A war is brewing in Sunflower Land.\n\nThis banner represents an allegiance to the Human cause.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/920.png",
     attributes: [],
@@ -2127,7 +2127,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Market: {
     name: "Market",
     description: "A market used to buy seeds and sell crops in game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1001.png",
     attributes: [],
@@ -2135,7 +2135,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Jack-o-lantern": {
     name: "Jack-o-lantern",
     description: "A Halloween special event item.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/923.png",
     attributes: [],
@@ -2143,7 +2143,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Golden Crop": {
     name: "Golden Crop",
     description: "A shiny golden crop",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/924.gif",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
@@ -2151,7 +2151,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Fire Pit": {
     name: "Fire Pit",
     description: "A fire pit used to cook basic recipes in game.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1002.png",
     attributes: [],
@@ -2160,7 +2160,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Tent",
     description:
       "Every Bumpkin needs a tent. Adding a tent to your land supports adding more Bumpkins (coming soon) to your land.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1004.png",
     attributes: [],
@@ -2168,7 +2168,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Workbench: {
     name: "Workbench",
     description: "A workbench used to craft tools in Sunflower Land.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1003.png",
     attributes: [],
@@ -2177,7 +2177,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Goblin War Banner",
     description:
       "A war is brewing in Sunflower Land.\n\nThis banner represents an allegiance to the Goblin cause.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/921.png",
     attributes: [],
@@ -2185,7 +2185,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Bakery: {
     name: "Bakery",
     description: "A bakery used to cook recipes in Sunflower Land.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1007.png",
     attributes: [],
@@ -2193,7 +2193,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Kitchen: {
     name: "Kitchen",
     description: "A kitchen used to cook recipes in Sunflower Land.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1008.png",
     attributes: [],
@@ -2201,7 +2201,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Chef Apron": {
     name: "Chef Apron",
     description: "Legacy item, do not buy.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1101.png",
     attributes: [
@@ -2217,7 +2217,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Water Well": {
     name: "Water Well",
     description: "A water well to support more crops in Sunflower Land.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1005.png",
     attributes: [],
@@ -2225,7 +2225,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Deli: {
     name: "Deli",
     description: "A deli used to cook advanced recipes at Sunflower Land.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1009.png",
     attributes: [],
@@ -2233,7 +2233,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Sunflower Amulet": {
     name: "Sunflower Amulet",
     description: "10% increased Sunflower yield",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1103.png",
     attributes: [
@@ -2248,7 +2248,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Chef Hat": {
     name: "Chef Hat",
     description: "Legacy item, do not buy.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1102.png",
     attributes: [],
@@ -2256,7 +2256,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Carrot Amulet": {
     name: "Carrot Amulet",
     description: "Legacy item, do not buy.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1104.png",
     attributes: [
@@ -2271,7 +2271,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Beetroot Amulet": {
     name: "Beetroot Amulet",
     description: "Legacy item, do not buy.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1105.png",
     attributes: [
@@ -2286,7 +2286,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Warrior Shirt": {
     name: "Warrior Shirt",
     description: "A mark of a true warrior",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1107.png",
     attributes: [],
@@ -2294,7 +2294,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Green Amulet": {
     name: "Green Amulet",
     description: "Legacy item, do not buy.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1106.png",
     attributes: [
@@ -2309,7 +2309,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Warrior Pants": {
     name: "Warrior Pants",
     description: "Protect your thighs",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1109.png",
     attributes: [],
@@ -2317,7 +2317,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Skull Hat": {
     name: "Skull Hat",
     description: "A rare hat for your Bumpkin.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1111.png",
     attributes: [],
@@ -2325,7 +2325,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Sunflower Shield": {
     name: "Sunflower Shield",
     description: "A hero of Sunflower Land. Free Sunflower Seeds!",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1110.png",
     attributes: [
@@ -2340,7 +2340,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "War Tombstone": {
     name: "War Tombstone",
     description: "R.I.P",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1113.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2348,7 +2348,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "War Skull": {
     name: "War Skull",
     description: "Decorate the land with the bones of your enemies.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1112.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
@@ -2356,7 +2356,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Hen House": {
     name: "Hen House",
     description: "A hen house used to support chickens.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1006.png",
     attributes: [],
@@ -2364,7 +2364,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Undead Rooster": {
     name: "Undead Rooster",
     description: "An unfortunate casualty of the war. 10% increased egg yield.",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1114.gif",
     attributes: [
@@ -2379,7 +2379,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Warrior Helmet": {
     name: "Warrior Helmet",
     description: "Immune to arrows",
-    decimals: 18,
+    decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1108.png",
     attributes: [],
