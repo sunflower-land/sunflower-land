@@ -18,6 +18,11 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
 import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
+//Icebergs
+import iceberg1 from "assets/events/christmas/decorations/icebergs/iceberg_1.gif";
+import iceberg2 from "assets/events/christmas/decorations/icebergs/iceberg_2.gif";
+import iceberg3 from "assets/events/christmas/decorations/icebergs/iceberg_3.gif";
+import iceberg4 from "assets/events/christmas/decorations/icebergs/iceberg_4.gif";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
@@ -144,6 +149,39 @@ export const Water: React.FC<Props> = ({ level }) => {
           src={snowIsland}
           style={{
             width: `${PIXEL_SCALE * 82}px`,
+          }}
+        />
+      </MapPlacement>
+
+      <MapPlacement x={-15} y={-10} width={6}>
+        <img
+          src={iceberg1}
+          style={{
+            width: `${PIXEL_SCALE * 50}px`,
+          }}
+        />
+      </MapPlacement>
+      <MapPlacement x={-12} y={16} width={6}>
+        <img
+          src={iceberg2}
+          style={{
+            width: `${PIXEL_SCALE * 50}px`,
+          }}
+        />
+      </MapPlacement>
+      <MapPlacement x={18} y={18} width={6}>
+        <img
+          src={iceberg3}
+          style={{
+            width: `${PIXEL_SCALE * 50}px`,
+          }}
+        />
+      </MapPlacement>
+      <MapPlacement x={4} y={-13} width={12}>
+        <img
+          src={iceberg4}
+          style={{
+            width: `${PIXEL_SCALE * 96}px`,
           }}
         />
       </MapPlacement>
