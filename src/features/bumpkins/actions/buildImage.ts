@@ -2,7 +2,7 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
-const API_URL = CONFIG.API_URL;
+const API_URL = CONFIG.API_URL ?? "https://api-dev.sunflower-land.com";
 
 type Request = {
   parts: BumpkinParts;

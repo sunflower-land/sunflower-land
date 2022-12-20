@@ -32,6 +32,7 @@ export type Release = {
 };
 
 export function getImageUrl(wearableId: number) {
+  console.log({ wearableId });
   if (CONFIG.NETWORK === "mainnet") {
     return `https://bumpkins.io/erc1155/images/${wearableId}.png`;
   }

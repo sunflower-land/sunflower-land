@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import progressBarEdge from "assets/ui/progress/transparent_bar_edge.png";
 import progressBar from "assets/ui/progress/transparent_bar_long.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { QUESTS } from "features/game/types/quests";
+import { QuestName, QUESTS } from "features/game/types/quests";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
@@ -22,18 +22,18 @@ const PROGRESS_BAR_DIMENSIONS = {
   innerRight: 2,
 };
 
-export const FarmerQuestProgress: React.FC = () => {
+interface Props {
+  questName: QuestName;
+  onClaim: () => void;
+}
+export const QuestProgress: React.FC<Props> = ({ questName, onClaim }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
     context: { state },
   } = gameState;
 
-  const claim = () => {
-    console.log("mint a free item for the player");
-  };
-
-  const quest = QUESTS()["Farmer Quest 1"];
+  const quest = QUESTS[questName];
   const progress = quest.progress(state);
   const isComplete = progress >= quest.requirement;
 
@@ -54,7 +54,7 @@ export const FarmerQuestProgress: React.FC = () => {
         className="w-1/3 my-2 rounded-lg"
       />
 
-      <span>Harvest 1000 Sunflowers</span>
+      <span className="text-sm">{quest.description}</span>
       <div className="flex items-center justify-center pt-1 w-full">
         <div className="flex items-center mt-2 mb-1">
           <div
@@ -132,8 +132,12 @@ export const FarmerQuestProgress: React.FC = () => {
       </div>
 
       <div className="w-1/2">
-        <Button className="text-xs mt-2" onClick={claim} disabled={!isComplete}>
-          <span>Claim</span>
+        <Button
+          className="text-xs mt-2"
+          onClick={onClaim}
+          disabled={!isComplete}
+        >
+          <span>Mint Free Wearable</span>
         </Button>
       </div>
     </div>

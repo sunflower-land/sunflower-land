@@ -4,7 +4,9 @@ export type BumpkinBackground =
   | "Forest Background"
   | "Cemetery Background"
   | "Space Background"
-  | "Jail Background";
+  | "Jail Background"
+  | "Christmas Background"
+  | "Mountain View Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -24,7 +26,9 @@ export type BumpkinHair =
   | "White Long Hair"
   | "Teal Mohawk"
   | "Red Long Hair"
-  | "Blacksmith Hair";
+  | "Blacksmith Hair"
+  | "Fire Hair"
+  | "Lucious Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -40,13 +44,16 @@ export type BumpkinShirt =
   | "Fire Shirt";
 
 export type BumpkinCoat = "Chef Apron";
+
 export type BumpkinTool =
   | "Farmer Pitchfork"
   | "Sword"
   | "Axe"
   | "Parsnip"
   | "Golden Spatula"
-  | "Hammer";
+  | "Hammer"
+  | "Ancient War Hammer"
+  | "Ancient Goblin Sword";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -61,7 +68,12 @@ export type BumpkinNecklace =
   | "Green Amulet"
   | "Artist Scarf";
 
-export type BumpkinHat = "Farmer Hat" | "Chef Hat" | "Warrior Helmet";
+export type BumpkinHat =
+  | "Farmer Hat"
+  | "Chef Hat"
+  | "Warrior Helmet"
+  | "Skull Hat"
+  | "Reindeer Antlers";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -76,6 +88,13 @@ export type BumpkinPant =
 
 export type BumpkinSecondaryTool = "Sunflower Shield";
 
+// Goes over clothes + head
+export type BumpkinOnesie = "Snowman Onesie" | "Shark Onesie";
+
+// Goes over clothes
+export type BumpkinSuit = "Reindeer Suit";
+
+export type BumpkinWings = "Angel Wings" | "Devil Wings";
 export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
@@ -87,7 +106,10 @@ export type BumpkinItem =
   | BumpkinNecklace
   | BumpkinSecondaryTool
   | BumpkinBackground
-  | BumpkinCoat;
+  | BumpkinCoat
+  | BumpkinOnesie
+  | BumpkinSuit
+  | BumpkinWings;
 
 export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Beige Farmer Potion": 1,
@@ -152,6 +174,19 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Bumpkin Boots": 65,
   "Fire Shirt": 66,
   "Red Long Hair": 67,
+  "Snowman Onesie": 68,
+  "Reindeer Suit": 69,
+  "Shark Onesie": 70,
+  "Christmas Background": 71,
+  "Devil Wings": 72,
+  "Angel Wings": 73,
+  "Fire Hair": 74,
+  "Lucious Hair": 75,
+  "Ancient War Hammer": 76,
+  "Ancient Goblin Sword": 77,
+  "Mountain View Background": 78,
+  "Skull Hat": 79,
+  "Reindeer Antlers": 80,
 };
 
 // The reverse of above
@@ -175,6 +210,9 @@ export type Wallet = {
   coat: BumpkinCoat[];
   hat: BumpkinHat[];
   secondaryTool: BumpkinSecondaryTool[];
+  onesie: BumpkinOnesie[];
+  suit: BumpkinSuit[];
+  wings: BumpkinWings[];
 };
 
 export type Equipped = {
@@ -189,6 +227,9 @@ export type Equipped = {
   coat?: BumpkinCoat;
   hat?: BumpkinHat;
   secondaryTool?: BumpkinSecondaryTool;
+  onesie?: BumpkinOnesie;
+  suit?: BumpkinSuit;
+  wings?: BumpkinWings;
 };
 
 export type BumpkinPart = keyof Equipped;

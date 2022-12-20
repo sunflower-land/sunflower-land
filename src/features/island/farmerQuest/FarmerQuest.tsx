@@ -9,7 +9,7 @@ import island from "assets/land/islands/farmer_island.webp";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { FarmerQuestProgress } from "./components/FarmerQuestProgress";
+import { QuestProgress } from "./components/QuestProgress";
 
 export const FarmerQuest: React.FC = () => {
   const [state, setState] = useState<"closed" | "introduction" | "progress">(
@@ -36,7 +36,7 @@ export const FarmerQuest: React.FC = () => {
     }
 
     if (state === "progress") {
-      return <FarmerQuestProgress />;
+      return <QuestProgress />;
     }
 
     // Empty div
