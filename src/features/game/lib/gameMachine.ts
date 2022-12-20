@@ -831,7 +831,7 @@ export function startGame(authContext: Options) {
         expanding: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
+            src: async (context) => {
               // Autosave just in case
               if (context.actions.length > 0) {
                 await autosave({
