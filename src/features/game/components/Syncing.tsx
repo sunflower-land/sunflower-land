@@ -15,7 +15,7 @@ export const Syncing: React.FC = () => {
         Please bear with us while we sync all of your data on chain.
       </span>
       <span className="text-shadow text-sm text-center mt-2">
-        DO NOT REFRESH YOUR BROWSER!
+        Do not refresh your browser!
       </span>
     </div>
   );
