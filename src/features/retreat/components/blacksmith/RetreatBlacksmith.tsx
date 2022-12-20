@@ -45,7 +45,7 @@ export const RetreatBlacksmith: React.FC = () => {
           <Action className="pointer-events-none" text="Craft" icon={icon} />
         </div>
       </div>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Panel>Coming soon</Panel>
       </Modal>
     </MapPlacement>
