@@ -1,11 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
-import lightning from "assets/icons/lightning.png";
 import heart from "assets/icons/level_up.png";
 import lock from "assets/skills/lock.png";
 
@@ -22,7 +21,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
-import { hasBoost } from "features/game/expansion/lib/boosts";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
@@ -58,7 +56,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const [isTimeBoosted, setIsTimeBoosted] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
   const inventory = state.inventory;
@@ -112,17 +109,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
-
-  useEffect(
-    () =>
-      setIsTimeBoosted(
-        hasBoost({
-          item: selectedName,
-          collectibles,
-        })
-      ),
-    [inventory, selectedName, state.inventory]
-  );
 
   if (showCaptcha) {
     return (
@@ -256,9 +242,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col sm:space-y-2 sm:items-center">
             <div className="flex space-x-1 items-center sm:justify-center">
               <img src={timer} className="h-4 sm:h-5" />
-              {isTimeBoosted && (
-                <img src={lightning} className="h-5 sm:h-6 mr-2" />
-              )}
               <span className="text-xs text-center">
                 {secondsToString(
                   getCropTime(
