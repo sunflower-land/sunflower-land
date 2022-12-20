@@ -2,9 +2,9 @@
  * Legacy tool settings can be found in craftables.ts
  */
 
-import { Inventory } from "components/InventoryItems";
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
+import { Inventory } from "./game";
 
 export type WorkbenchToolName =
   | "Axe"

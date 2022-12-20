@@ -13,7 +13,6 @@ import { Box } from "components/ui/Box";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getBuyPrice } from "features/game/events/craft";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -52,7 +51,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const workingCapacityFull =
     workingChickenCount.greaterThanOrEqualTo(availableSpots);
 
-  const price = getBuyPrice(ANIMALS()["Chicken"], inventory);
+  const price = ANIMALS()["Chicken"].tokenAmount;
   const lessFunds = () => {
     if (price === undefined) return true;
     return state.balance.lessThan(price);
