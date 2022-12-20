@@ -13,7 +13,6 @@ import {
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 
 import timer from "assets/icons/timer.png";
-import lightning from "assets/icons/lightning.png";
 import basket from "assets/icons/basket.png";
 
 import { secondsToString } from "lib/utils/time";
@@ -22,7 +21,6 @@ import {
   getCropTime as getCropTimeLandExpansion,
 } from "features/game/events/landExpansion/plant";
 import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
-import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
 import { RESOURCES } from "features/game/types/resources";
 import { CONSUMABLES } from "features/game/types/consumables";
@@ -45,10 +43,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const { inventory, bumpkin, collectibles } = gameState;
   const basketMap = getBasketItems(inventory);
-  const isTimeBoosted = useHasBoostForItem({
-    selectedItem: selected,
-    collectibles,
-  });
 
   const getCropHarvestTime = (seedName = "") => {
     const crop = seedName.split(" ")[0] as CropName;
@@ -140,9 +134,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                 <div className="w-full pt-1">
                   <div className="flex justify-center items-end">
                     <img src={timer} className="h-5 me-2" />
-                    {isTimeBoosted && (
-                      <img src={lightning} className="h-6 me-2" />
-                    )}
                     <span className="text-xs mt-2 ">
                       {getCropHarvestTime(selected)}
                     </span>
