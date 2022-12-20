@@ -5,7 +5,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import dragonfly from "assets/decorations/dragonfly.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
-import swimmer from "assets/npcs/swimmer.gif";
+// import swimmer from "assets/npcs/swimmer.gif";
+import swimmer from "assets/events/christmas/npcs/swimmer.gif";
 import cossies from "assets/decorations/cossies.png";
 import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
@@ -89,17 +90,17 @@ export const Water: React.FC<Props> = ({ level }) => {
 
       <SharkBumpkin level={level} />
 
-      <MapPlacement x={offset + 4} y={6} width={1}>
+      <MapPlacement x={offset + 4} y={6} width={3}>
         <img
           src={swimmer}
           style={{
-            width: `${1 * GRID_WIDTH_PX}px`,
+            width: `${16 * GRID_WIDTH_PX}px`,
             transform: "scaleX(-1)",
             zIndex: 2,
           }}
         />
       </MapPlacement>
-      <MapPlacement x={offset + 4} y={6} width={1}>
+      <MapPlacement x={offset + 6} y={6} width={1}>
         <img
           src={cossies}
           style={{
