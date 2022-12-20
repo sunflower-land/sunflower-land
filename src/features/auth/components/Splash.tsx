@@ -1,6 +1,6 @@
 import React from "react";
 
-import ocean from "assets/decorations/ocean.webp";
+// import ocean from "assets/decorations/ocean.webp";
 import sandIslandOne from "assets/brand/sand_island_one.webp";
 import sandIslandOneShore from "assets/brand/sand_island_one_shore.webp";
 import sandIslandTwo from "assets/brand/sand_island_two.webp";
@@ -8,9 +8,11 @@ import sandIslandTwoShore from "assets/brand/sand_island_two_shore.webp";
 import sunflowerIslandOne from "assets/brand/sunflower_island_one.webp";
 import watering from "assets/npcs/watering.gif";
 import shadow from "assets/npcs/shadow.png";
-import swimmer from "assets/npcs/swimmer.gif";
-import cossies from "assets/decorations/cossies.png";
+// import swimmer from "assets/npcs/swimmer.gif";
+// import cossies from "assets/decorations/cossies.png";
 import goblinSwimming from "assets/npcs/goblin_farting.gif";
+import ocean from "assets/events/christmas/decorations/ocean.png";
+import swimmer from "assets/events/christmas/npcs/swimmer.gif";
 
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -50,21 +52,21 @@ export const Splash: React.FC = ({ children }) => {
       <img
         src={swimmer}
         style={{
-          width: `${16 * PIXEL_SCALE}px`,
+          width: `${42 * PIXEL_SCALE}px`,
           left: `${40 * PIXEL_SCALE}px`,
           bottom: `${80 * PIXEL_SCALE}px`,
         }}
         className="absolute"
       />
-      <img
-        src={cossies}
-        style={{
-          width: `${16 * PIXEL_SCALE}px`,
-          left: `${20 * PIXEL_SCALE}px`,
-          bottom: `${80 * PIXEL_SCALE}px`,
-        }}
-        className="absolute"
-      />
+      {/*<img*/}
+      {/*  src={cossies}*/}
+      {/*  style={{*/}
+      {/*    width: `${16 * PIXEL_SCALE}px`,*/}
+      {/*    left: `${20 * PIXEL_SCALE}px`,*/}
+      {/*    bottom: `${80 * PIXEL_SCALE}px`,*/}
+      {/*  }}*/}
+      {/*  className="absolute"*/}
+      {/*/>*/}
       <img
         src={sandIslandOneShore}
         style={{
