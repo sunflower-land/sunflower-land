@@ -6,8 +6,8 @@ import { Context } from "features/game/GameProvider";
 
 import { ProgressBar } from "components/ui/ProgressBar";
 
-import pontoon from "assets/land/levels/pontoon.gif";
-
+// import pontoon from "assets/land/levels/pontoon.gif";
+import pontoon from "assets/events/christmas/land/levels/pontoon.gif";
 interface Props {
   expansion: LandExpansion;
 }

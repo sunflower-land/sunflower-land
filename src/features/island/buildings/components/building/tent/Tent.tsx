@@ -1,6 +1,7 @@
 import React from "react";
 
-import tent from "assets/buildings/tent.png";
+// import tent from "assets/buildings/tent.png";
+import tent from "assets/events/christmas/buildings/tent.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";

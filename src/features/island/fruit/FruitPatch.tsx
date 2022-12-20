@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
-import appleTree from "assets/fruit/apple/apple_tree.png";
+// import appleTree from "assets/fruit/apple/apple_tree.png";
+import appleTree from "assets/events/christmas/fruit/apple/apple_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
 
-import fruitPatch from "assets/fruit/grass_patch.png";
+// import fruitPatch from "assets/fruit/grass_patch.png";
 import basket from "assets/fruit/fruit_basket.png";
 import close from "assets/icons/close.png";
 
@@ -62,15 +63,15 @@ export const FruitPatch: React.FC<Props> = ({ fruit }) => {
         className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={() => setShowModal(true)}
       >
-        <img
-          src={fruitPatch}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 30}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            top: `${PIXEL_SCALE * 1}px`,
-          }}
-        />
+        {/*<img*/}
+        {/*  src={fruitPatch}*/}
+        {/*  className="absolute"*/}
+        {/*  style={{*/}
+        {/*    width: `${PIXEL_SCALE * 30}px`,*/}
+        {/*    left: `${PIXEL_SCALE * 1}px`,*/}
+        {/*    top: `${PIXEL_SCALE * 1}px`,*/}
+        {/*  }}*/}
+        {/*/>*/}
         {fruit && fruits[fruit]({})}
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
