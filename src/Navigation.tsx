@@ -1,13 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  HashRouter,
+  Navigate,
+  useSearchParams,
+  createSearchParams,
+} from "react-router-dom";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
-import { Humans } from "features/game/Humans";
-import { Goblins } from "features/game/Goblins";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
@@ -15,6 +20,21 @@ import { CONFIG } from "lib/config";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
+
+/**
+ * FarmID must always be passed to the /retreat/:id route.
+ * The problem is that when deep-linking to goblin trader, the FarmID will not be present.
+ * This reacter-router helper component will compute correct route and navigate to retreat.
+ */
+const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
+  const [params] = useSearchParams();
+
+  if (!farmId) return null;
+
+  return (
+    <Navigate to={`/retreat/${farmId}?${createSearchParams(params)}`} replace />
+  );
+};
 
 /**
  * Entry point for game which reflects the user session state
@@ -61,11 +81,9 @@ export const Navigation: React.FC = () => {
       {showGame ? (
         <HashRouter>
           <Routes>
-            <Route path="/" element={<Humans />} />
-            {/* Forbid entry to Goblin Village when in Visiting State or when a player has migrated to LE, show Forbidden screen */}
-            {!authState.matches("visiting") && !authState.context.migrated ? (
-              <Route path="/goblins" element={<Goblins />} />
-            ) : (
+            <Route path="/" element={<LandExpansion />} />
+            {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+            {!authState.matches("visiting") && (
               <Route
                 path="/goblins"
                 element={
@@ -75,27 +93,18 @@ export const Navigation: React.FC = () => {
                 }
               />
             )}
-            <Route
-              path="/farm/:id"
-              element={
-                authState.context.migrated ? (
-                  <Navigate to={`/land/${authState.context.farmId}`} />
-                ) : (
-                  <Humans key="farm" />
-                )
-              }
-            />
+
             <Route path="/visit/*" element={<LandExpansion key="visit" />} />
-            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
+            <Route path="/land/:id/*" element={<LandExpansion key="land" />} />
+            <Route path="/retreat">
               <Route
-                path="/land/:id/*"
-                element={<LandExpansion key="land" />}
+                index
+                element={
+                  <TraderDeeplinkHandler farmId={authState.context.farmId} />
+                }
               />
-            )}
-            {/* {CONFIG.NETWORK !== "mainnet" && (
-              <Route path="/helios/:id" element={<Helios key="helios" />} />
-            )} */}
-            <Route path="/retreat/:id" element={<Retreat key="helios" />} />
+              <Route path=":id" element={<Retreat key="retreat" />} />
+            </Route>
             {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
             )}
@@ -104,8 +113,6 @@ export const Navigation: React.FC = () => {
               path="/community-garden/:id"
               element={<Community key="community" />}
             />
-            {/* Fallback */}
-            <Route element={<Humans />} />
           </Routes>
         </HashRouter>
       ) : (

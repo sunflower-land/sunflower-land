@@ -2,6 +2,7 @@ import "lib/__mocks__/configMock.ts";
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { canWithdraw } from "./bankUtils";
+import { LandExpansion } from "features/game/types/game";
 
 describe("canWithdraw", () => {
   describe("prevents", () => {
@@ -290,17 +291,22 @@ describe("canWithdraw", () => {
         item: "Woody the Beaver",
         game: {
           ...TEST_FARM,
-          trees: {
-            0: {
-              // Just been chopped
-              choppedAt: Date.now(),
-              wood: new Decimal(3),
-              x: 0,
-              y: 0,
-              width: 2,
-              height: 2,
-            },
-          },
+          expansions: [
+            {
+              trees: {
+                0: {
+                  height: 1,
+                  width: 1,
+                  x: 1,
+                  y: 1,
+                  wood: {
+                    amount: 1,
+                    choppedAt: Date.now(),
+                  },
+                },
+              },
+            } as any as LandExpansion,
+          ],
         },
       });
 
@@ -312,17 +318,22 @@ describe("canWithdraw", () => {
         item: "Apprentice Beaver",
         game: {
           ...TEST_FARM,
-          trees: {
-            0: {
-              // Just been chopped
-              choppedAt: Date.now(),
-              wood: new Decimal(3),
-              x: 0,
-              y: 0,
-              width: 2,
-              height: 2,
-            },
-          },
+          expansions: [
+            {
+              trees: {
+                0: {
+                  height: 1,
+                  width: 1,
+                  x: 1,
+                  y: 1,
+                  wood: {
+                    amount: 1,
+                    choppedAt: Date.now(),
+                  },
+                },
+              },
+            } as any as LandExpansion,
+          ],
         },
       });
 
@@ -334,6 +345,22 @@ describe("canWithdraw", () => {
         item: "Foreman Beaver",
         game: {
           ...TEST_FARM,
+          expansions: [
+            {
+              trees: {
+                0: {
+                  height: 1,
+                  width: 1,
+                  x: 1,
+                  y: 1,
+                  wood: {
+                    amount: 1,
+                    choppedAt: Date.now(),
+                  },
+                },
+              },
+            } as any as LandExpansion,
+          ],
           trees: {
             0: {
               // Just been chopped
@@ -371,13 +398,23 @@ describe("canWithdraw", () => {
         item: "Rock Golem",
         game: {
           ...TEST_FARM,
-          stones: {
-            0: {
-              // Just been mined
-              minedAt: Date.now(),
-              amount: new Decimal(3),
-            },
-          },
+          expansions: [
+            {
+              stones: {
+                0: {
+                  height: 1,
+                  width: 1,
+                  x: 1,
+                  y: 1,
+                  // Just been mined
+                  stone: {
+                    minedAt: Date.now(),
+                    amount: 3,
+                  },
+                },
+              },
+            } as any as LandExpansion,
+          ],
         },
       });
 
@@ -389,13 +426,23 @@ describe("canWithdraw", () => {
         item: "Tunnel Mole",
         game: {
           ...TEST_FARM,
-          stones: {
-            0: {
-              // Just been mined
-              minedAt: Date.now(),
-              amount: new Decimal(3),
-            },
-          },
+          expansions: [
+            {
+              stones: {
+                0: {
+                  height: 1,
+                  width: 1,
+                  x: 1,
+                  y: 1,
+                  // Just been mined
+                  stone: {
+                    minedAt: Date.now(),
+                    amount: 3,
+                  },
+                },
+              },
+            } as any as LandExpansion,
+          ],
         },
       });
 
@@ -407,6 +454,23 @@ describe("canWithdraw", () => {
         item: "Rocky the Mole",
         game: {
           ...TEST_FARM,
+          expansions: [
+            {
+              iron: {
+                0: {
+                  height: 1,
+                  width: 1,
+                  x: 1,
+                  y: 1,
+                  // Just been mined
+                  stone: {
+                    minedAt: Date.now(),
+                    amount: 3,
+                  },
+                },
+              },
+            } as any as LandExpansion,
+          ],
           iron: {
             0: {
               // Just been mined
@@ -425,13 +489,23 @@ describe("canWithdraw", () => {
         item: "Nugget",
         game: {
           ...TEST_FARM,
-          gold: {
-            0: {
-              // Just been mined
-              minedAt: Date.now(),
-              amount: new Decimal(1),
-            },
-          },
+          expansions: [
+            {
+              gold: {
+                0: {
+                  height: 1,
+                  width: 1,
+                  x: 1,
+                  y: 1,
+                  // Just been mined
+                  stone: {
+                    minedAt: Date.now(),
+                    amount: 3,
+                  },
+                },
+              },
+            } as any as LandExpansion,
+          ],
         },
       });
 

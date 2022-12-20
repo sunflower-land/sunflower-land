@@ -314,6 +314,7 @@ import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
 import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
+import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -892,10 +893,7 @@ export const ITEM_DETAILS: Items = {
     description: "A display of allegiance",
     image: questionMark,
   },
-  "Player Experience": {
-    description: "Blood, sweat and tears",
-    image: questionMark,
-  },
+
   "Human War Banner": {
     description: "A display of allegiance to the Human cause",
     image: humanBanner,
@@ -1505,6 +1503,10 @@ export const ITEM_DETAILS: Items = {
   "Christmas Bear": {
     ...SALESMAN_ITEMS["Christmas Bear"],
     image: christmasBear,
+  },
+  "Rainbow Artist Bear": {
+    image: rainbowArtistBear,
+    description: DECORATIONS()["Rainbow Artist Bear"].description,
   },
 
   "Cabbage Boy": {

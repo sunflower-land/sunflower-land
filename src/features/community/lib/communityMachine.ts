@@ -12,7 +12,6 @@ import { randomID } from "lib/utils/random";
 export interface Context {
   balance: Decimal;
   farmId: number;
-  migrated: boolean;
   bumpkin?: Bumpkin;
   transactionId?: string;
 }
@@ -40,7 +39,6 @@ export function startCommunityMachine(authContext: AuthContext) {
       context: {
         balance: new Decimal(0),
         farmId: 0,
-        migrated: false,
       },
       states: {
         loading: {
@@ -76,7 +74,6 @@ export function startCommunityMachine(authContext: AuthContext) {
               return {
                 balance: new Decimal(fromWei(balance)),
                 farmId,
-                migrated: authContext.migrated,
                 bumpkin: response?.game.bumpkin,
               };
             },
@@ -85,7 +82,6 @@ export function startCommunityMachine(authContext: AuthContext) {
               actions: assign({
                 balance: (_, event) => event.data.balance,
                 farmId: (_, event) => event.data.farmId,
-                migrated: (_, event) => event.data.migrated,
                 bumpkin: (_, event) => event.data.bumpkin,
               }),
             },

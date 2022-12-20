@@ -15,7 +15,7 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 export const CommunityGarden: React.FC = () => {
   const { communityService } = useContext(Context);
   const [state] = useActor(communityService);
-  const { bumpkin, migrated } = state.context;
+  const { bumpkin } = state.context;
 
   return (
     <>
@@ -37,7 +37,7 @@ export const CommunityGarden: React.FC = () => {
       <ProjectDignityFrogs />
       <Arcade left={31} top={27} />
 
-      {migrated && <IslandTravel bumpkin={bumpkin} x={-4} y={-9} />}
+      <IslandTravel bumpkin={bumpkin} x={-4} y={-9} />
     </>
   );
 };

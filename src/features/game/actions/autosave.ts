@@ -1,15 +1,12 @@
-import { removeSession } from "features/auth/actions/login";
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import { GameEventName, PlacementEvent, PlayingEvent } from "../events";
-import { SellAction } from "../events/sell";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
-import { CraftAction } from "../types/craftables";
 import { getSessionId } from "./loadSession";
 import Decimal from "decimal.js-light";
+import { SeedBoughtAction } from "../events/landExpansion/seedBought";
 
 type Request = {
   actions: PastAction[];
@@ -43,9 +40,7 @@ function squashEvents(events: PastAction[]): PastAction[] {
       const previous = items[items.length - 1];
 
       const isShopEvent =
-        (event.type === "item.crafted" && previous.type === "item.crafted") ||
-        (event.type === "item.sell" && previous.type === "item.sell") ||
-        (event.type === "seed.bought" && previous.type === "seed.bought");
+        event.type === "seed.bought" && previous.type === "seed.bought";
 
       // We can combine the amounts when buying/selling the same item
       if (isShopEvent && event.item === previous.item) {
@@ -53,9 +48,9 @@ function squashEvents(events: PastAction[]): PastAction[] {
           ...items.slice(0, -1),
           {
             ...event,
-            amount: new Decimal(
-              (previous as SellAction | CraftAction).amount
-            ).plus(new Decimal(event.amount)),
+            amount: new Decimal((previous as SeedBoughtAction).amount)
+              .plus(new Decimal(event.amount))
+              .toNumber(),
           } as PastAction,
         ];
       }
@@ -125,7 +120,7 @@ export async function autosave(request: Request) {
   }
 
   if (response.status === 401) {
-    removeSession(wallet.myAccount as string);
+    throw new Error(ERRORS.SESSION_EXPIRED);
   }
 
   if (response.status === 429) {

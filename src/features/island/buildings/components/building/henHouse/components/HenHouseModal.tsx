@@ -13,10 +13,8 @@ import { Box } from "components/ui/Box";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getBuyPrice } from "features/game/events/craft";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
 import { Label } from "components/ui/Label";
@@ -34,7 +32,6 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const [scrollIntoView] = useScrollIntoView();
 
   const inventory = state.inventory;
 
@@ -54,7 +51,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const workingCapacityFull =
     workingChickenCount.greaterThanOrEqualTo(availableSpots);
 
-  const price = getBuyPrice(ANIMALS()["Chicken"], inventory);
+  const price = ANIMALS()["Chicken"].tokenAmount;
   const lessFunds = () => {
     if (price === undefined) return true;
     return state.balance.lessThan(price);
@@ -73,7 +70,6 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       placeable: "Chicken",
       action: "chicken.bought",
     });
-    scrollIntoView(Section.GenesisBlock);
     onClose();
   };
 
@@ -82,7 +78,6 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       placeable: "Chicken",
       action: "chicken.placed",
     });
-    scrollIntoView(Section.GenesisBlock);
     onClose();
   };
 

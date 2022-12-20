@@ -18,7 +18,8 @@ import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { Loading } from "features/auth/components";
+import { Loading, Splash } from "features/auth/components";
+import { Forbidden } from "features/auth/components/Forbidden";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { ErrorCode } from "lib/errors";
 import {
@@ -115,7 +116,7 @@ export const Game = () => {
                 imageRendering: "pixelated",
               }}
             />
-            {hasRequiredLevel && (
+            {hasRequiredLevel && !goblinState.matches("loading") && (
               <div
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                 style={{
@@ -140,6 +141,11 @@ export const Game = () => {
                 <IslandTravelWrapper />
                 <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
               </div>
+            )}
+            {!hasRequiredLevel && !goblinState.matches("loading") && (
+              <Splash>
+                <Forbidden />
+              </Splash>
             )}
           </div>
         </ScrollContainer>

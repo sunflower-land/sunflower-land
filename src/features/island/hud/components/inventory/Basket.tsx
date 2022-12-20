@@ -17,9 +17,10 @@ import lightning from "assets/icons/lightning.png";
 import basket from "assets/icons/basket.png";
 
 import { secondsToString } from "lib/utils/time";
-import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { getCropTime } from "features/game/events/plant";
-import { getCropTime as getCropTimeLandExpansion } from "features/game/events/landExpansion/plant";
+import {
+  getCropTime,
+  getCropTime as getCropTimeLandExpansion,
+} from "features/game/events/landExpansion/plant";
 import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { useHasBoostForItem } from "components/hooks/useHasBoostForItem";
 import { getBasketItems } from "./utils/inventory";
@@ -40,15 +41,13 @@ interface Prop {
 }
 
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
-  const [scrollIntoView] = useScrollIntoView();
-
   const divRef = useRef<HTMLDivElement>(null);
 
   const { inventory, bumpkin, collectibles } = gameState;
   const basketMap = getBasketItems(inventory);
   const isTimeBoosted = useHasBoostForItem({
     selectedItem: selected,
-    inventory,
+    collectibles,
   });
 
   const getCropHarvestTime = (seedName = "") => {
@@ -68,15 +67,21 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       );
     }
 
-    return secondsToString(getCropTime(crop, inventory), { length: "medium" });
+    return secondsToString(
+      getCropTime(
+        crop,
+        gameState.inventory,
+        gameState.collectibles,
+        gameState.bumpkin as Bumpkin
+      ),
+      {
+        length: "medium",
+      }
+    );
   };
 
   const handleItemClick = (item: InventoryItemName) => {
     onSelect(item);
-
-    if (item && ITEM_DETAILS[item].section) {
-      scrollIntoView(ITEM_DETAILS[item].section);
-    }
   };
 
   const basketIsEmpty = Object.values(basketMap).length === 0;

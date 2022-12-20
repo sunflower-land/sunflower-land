@@ -1,4 +1,3 @@
-import { Inventory } from "components/InventoryItems";
 import Decimal from "decimal.js-light";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
@@ -6,7 +5,7 @@ import {
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import { GameState, Inventory } from "features/game/types/game";
 import { setPrecision } from "lib/utils/formatNumber";
 
 const PLACEABLE_DIMENSIONS = {
