@@ -22,6 +22,7 @@ import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 import { Salesman } from "features/farming/salesman/Salesman";
+import { ReindeerQuest } from "./ReindeerQuest";
 
 const spawn = [
   [40.1, -3],
@@ -120,6 +121,7 @@ export const Water: React.FC<Props> = ({ level }) => {
       <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
 
       <FarmerQuest />
+      <ReindeerQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
         <img

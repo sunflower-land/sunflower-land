@@ -409,7 +409,9 @@ const INITIAL_BUMPKIN: Bumpkin = {
   achievements: {
     "Busy Bumpkin": 1,
   },
-  activity: {},
+  activity: {
+    "Reindeer Carrot Fed": 50,
+  },
 };
 
 export const OFFLINE_FARM: GameState = {
