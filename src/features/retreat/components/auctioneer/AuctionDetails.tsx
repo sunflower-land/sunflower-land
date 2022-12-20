@@ -155,7 +155,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
     return (
       <Label type="info" className="mb-2">
-        {`Supply: ${currentSupply}`}
+        {`Supply: ${remainingSupply}`}
       </Label>
     );
   };
@@ -180,8 +180,6 @@ export const AuctionDetails: React.FC<Props> = ({
       </Button>
     );
   };
-
-  console.log({ isUpcomingItem });
 
   const releasesList = isUpcomingItem ? releases : releases.slice(1);
   const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
