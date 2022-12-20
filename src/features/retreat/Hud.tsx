@@ -7,6 +7,7 @@ import { BumpkinAvatar } from "features/island/hud/components/BumpkinProfile";
 import { LandId } from "features/island/hud/components/LandId";
 import { GameState } from "features/game/types/game";
 import { GoblinInventory } from "./components/hud/GoblinInventory";
+import { Settings } from "features/island/hud/components/Settings";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -26,6 +27,7 @@ export const Hud: React.FC = () => {
         <GoblinInventory state={gameState.context.state as GameState} />
         {landId && <LandId landId={landId} />}
         <BumpkinAvatar bumpkin={state.bumpkin} />
+        <Settings isFarming={false} />
       </>
     </div>
   );

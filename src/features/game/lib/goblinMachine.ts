@@ -89,6 +89,7 @@ type UpdateSession = {
   inventory: Inventory;
   balance: Decimal;
   sessionId: string;
+  deviceTrackerId: string;
 };
 
 export type BlockchainEvent =
@@ -234,8 +235,6 @@ export function startGoblinVillage(authContext: AuthContext) {
               {
                 target: "levelRequirementNotReached",
                 cond: (_, event) => {
-                  if (!authContext.migrated) return false;
-
                   const { bumpkin } = event.data.state;
 
                   if (!bumpkin) return true;
@@ -390,6 +389,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                   inventory: event.inventory,
                   balance: event.balance,
                   sessionId: event.sessionId,
+                  deviceTrackerId: event.deviceTrackerId,
                 }),
               }),
             },

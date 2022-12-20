@@ -23,6 +23,7 @@ export const loadUpdatedSession = async (
   });
 
   const game = response?.game as GameState;
+  const deviceTrackerId = response?.deviceTrackerId as string;
 
   // Whatever is lower, on chain or offchain
   const { inventory, balance } = getLowestGameState({
@@ -30,5 +31,5 @@ export const loadUpdatedSession = async (
     second: game,
   });
 
-  return { inventory, balance, sessionId };
+  return { inventory, balance, sessionId, deviceTrackerId };
 };

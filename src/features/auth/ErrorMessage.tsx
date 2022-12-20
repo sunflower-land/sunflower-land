@@ -16,6 +16,7 @@ import { TooManyRequests } from "./components/TooManyRequests";
 import { Maintenance } from "./components/Maintenance";
 import { MultipleDevices } from "./components/MultipleDevices";
 import { Blocked } from "./components/Blocked";
+import { PhantomWalletNotSupported } from "./components/PhantomWalletNotSupported";
 
 interface Props {
   errorCode: ErrorCode;
@@ -80,6 +81,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.MULTIPLE_DEVICES_OPEN) {
     return <MultipleDevices />;
+  }
+
+  if (errorCode === ERRORS.PHANTOM_WALLET_NOT_SUPPORTED) {
+    return <PhantomWalletNotSupported />;
   }
 
   return <SomethingWentWrong />;

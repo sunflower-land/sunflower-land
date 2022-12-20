@@ -115,7 +115,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
 };
 
-type Points = "Human War Point" | "Goblin War Point" | "Player Experience";
+type Points = "Human War Point" | "Goblin War Point";
 
 type WarBanner = "Human War Banner" | "Goblin War Banner";
 
@@ -362,6 +362,7 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  // TODO remove when old events are deleted
   migrated?: boolean;
 }
 

@@ -23,5 +23,5 @@
       "components/*": ["src/components/*"]
     }
   },
-  "include": ["./src"]
+  "include": ["./src", "./metadata"]
 }

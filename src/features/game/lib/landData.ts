@@ -435,6 +435,7 @@ export const OFFLINE_FARM: GameState = {
     //   }),
     //   {}
     // ),
+    "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),

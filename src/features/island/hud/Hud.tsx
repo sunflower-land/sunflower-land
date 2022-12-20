@@ -26,7 +26,6 @@ export const Hud: React.FC = () => {
 
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
-      <Settings />
       {isEditing ? (
         <PlaceableController />
       ) : (
@@ -48,9 +47,9 @@ export const Hud: React.FC = () => {
           <Buildings />
           <Save />
           <BumpkinProfile />
+          <Settings isFarming={true} />
         </>
       )}
-      {/* <AudioPlayer isFarming /> */}
     </div>
   );
 };

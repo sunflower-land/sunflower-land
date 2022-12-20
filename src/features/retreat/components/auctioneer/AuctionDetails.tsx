@@ -155,12 +155,31 @@ export const AuctionDetails: React.FC<Props> = ({
 
     return (
       <Label type="info" className="mb-2">
-        {`Supply: ${currentSupply}`}
+        {`Supply: ${remainingSupply}`}
       </Label>
     );
   };
 
-  console.log({ isUpcomingItem });
+  const MintButton = () => {
+    if (isUpcomingItem || isSoldOut) {
+      return null;
+    }
+
+    if (game.inventory[name]) {
+      return <span className="text-sm">Already minted</span>;
+    }
+
+    return (
+      <Button
+        disabled={
+          !isMintStarted || isMintComplete || isMinting || !hasIngredients
+        }
+        onClick={onMint}
+      >
+        Mint
+      </Button>
+    );
+  };
 
   const releasesList = isUpcomingItem ? releases : releases.slice(1);
   const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
@@ -206,16 +225,7 @@ export const AuctionDetails: React.FC<Props> = ({
         {makeIngredients(currentRelease?.ingredients)}
       </div>
 
-      {!isUpcomingItem && !isSoldOut && (
-        <Button
-          disabled={
-            !isMintStarted || isMintComplete || isMinting || !hasIngredients
-          }
-          onClick={onMint}
-        >
-          Mint
-        </Button>
-      )}
+      {MintButton()}
 
       {releasesList.length > 0 && (
         <div
