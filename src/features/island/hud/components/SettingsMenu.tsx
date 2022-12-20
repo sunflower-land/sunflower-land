@@ -22,7 +22,6 @@ import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { LandExpansionRole } from "./LandExpansionRole";
 import { Loading } from "features/auth/components";
 import { sequence } from "0xsequence";
 import { OpenWalletIntent } from "0xsequence/dist/declarations/src/provider";
@@ -239,13 +238,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
       />
-
-      {CONFIG.NETWORK === "mainnet" && (
-        <LandExpansionRole
-          isOpen={showLandExpansionModal}
-          onClose={() => setShowLandExpansionModal(false)}
-        />
-      )}
 
       {showCaptcha && (
         <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>
