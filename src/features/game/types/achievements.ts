@@ -1,9 +1,8 @@
-import { Inventory } from "components/InventoryItems";
 import Decimal from "decimal.js-light";
 import { INITIAL_EXPANSIONS } from "../lib/constants";
 import { marketRate } from "../lib/halvening";
 import { getBumpkinLevel } from "../lib/level";
-import { GameState } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
 import { CONSUMABLES } from "./consumables";
 import { CAKES, getKeys, TOOLS } from "./craftables";

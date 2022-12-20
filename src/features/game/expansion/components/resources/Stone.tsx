@@ -24,12 +24,12 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
 import { LandExpansionRock } from "features/game/types/game";
-import { MINE_ERRORS } from "features/game/events/stoneMine";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
+import { MINE_ERRORS } from "features/game/events/landExpansion/ironMine";
 
 const HITS = 3;
 

@@ -39,10 +39,7 @@ import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
-import {
-  canMigrate,
-  LandExpansionMigrateAction,
-} from "../events/landExpansion/migrate";
+
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
@@ -135,10 +132,6 @@ export type BlockchainEvent =
       type: "SKIP_MIGRATION";
     }
   | { type: "END_VISIT" }
-  | {
-      type: "game.migrated";
-      action: LandExpansionMigrateAction;
-    }
   | WithdrawEvent
   | GameEvent
   | MintEvent
@@ -244,9 +237,6 @@ export type BlockchainState = {
     | "editing"
     | "noBumpkinFound"
     | "coolingDown"
-    | "offerMigration"
-    | "migrating"
-    | "migrated"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -471,79 +461,13 @@ export function startGame(authContext: Options) {
                 !context.state.bumpkin &&
                 window.location.hash.includes("/land"),
             },
-            {
-              target: "offerMigration",
-              cond: (context) => {
-                const landRoute = window.location.hash.includes("/land");
 
-                if (landRoute) return false;
-
-                return (
-                  !authContext.migrated &&
-                  (canMigrate(context.state) ||
-                    !!authContext.token?.userAccess.landExpansion)
-                );
-              },
-            },
             {
               target: "playing",
             },
           ],
         },
-        offerMigration: {
-          on: {
-            SKIP_MIGRATION: {
-              target: "playing",
-            },
-            "game.migrated": {
-              target: "migrating",
-              actions: assign(
-                (context: Context, event: LandExpansionMigrateAction) => ({
-                  state: processEvent({
-                    state: context.state as GameState,
-                    action: event,
-                  }) as GameState,
-                  actions: [
-                    ...context.actions,
-                    {
-                      ...event,
-                      createdAt: new Date(),
-                    },
-                  ],
-                })
-              ),
-            },
-          },
-        },
-        migrating: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context) => {
-              await autosave({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                actions: context.actions,
-                token: authContext.rawToken as string,
-                offset: context.offset,
-                fingerprint: context.fingerprint as string,
-                deviceTrackerId: context.deviceTrackerId as string,
-                transactionId: context.transactionId as string,
-              });
 
-              return true;
-            },
-            onDone: {
-              target: "migrated",
-            },
-          },
-        },
-        migrated: {
-          entry: () => {
-            window.location.replace(
-              `${window.location.pathname}#/land/${authContext.farmId}`
-            );
-          },
-        },
         noBumpkinFound: {},
         deposited: {
           on: {
@@ -907,7 +831,7 @@ export function startGame(authContext: Options) {
         expanding: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context, event) => {
+            src: async (context) => {
               // Autosave just in case
               if (context.actions.length > 0) {
                 await autosave({

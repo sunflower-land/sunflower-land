@@ -63,7 +63,7 @@ export const Save: React.FC = () => {
       })}
       style={{
         right: `${PIXEL_SCALE * 3}px`,
-        bottom: `${PIXEL_SCALE * 52.3}px`,
+        bottom: `${PIXEL_SCALE * 52}px`,
         width: `${PIXEL_SCALE * 22}px`,
       }}
     >
@@ -80,7 +80,7 @@ export const Save: React.FC = () => {
           src={saveIcon}
           className="absolute"
           style={{
-            top: `${PIXEL_SCALE * 4.2}px`,
+            top: `${PIXEL_SCALE * 4}px`,
             left: `${PIXEL_SCALE * 5}px`,
             width: `${PIXEL_SCALE * 12}px`,
           }}
@@ -102,7 +102,7 @@ export const Save: React.FC = () => {
           src={savedIcon}
           className="absolute"
           style={{
-            top: `${PIXEL_SCALE * 4.2}px`,
+            top: `${PIXEL_SCALE * 5}px`,
             left: `${PIXEL_SCALE * 5}px`,
             width: `${PIXEL_SCALE * 12}px`,
           }}

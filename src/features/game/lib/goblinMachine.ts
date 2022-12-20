@@ -235,8 +235,6 @@ export function startGoblinVillage(authContext: AuthContext) {
               {
                 target: "levelRequirementNotReached",
                 cond: (_, event) => {
-                  if (!authContext.migrated) return false;
-
                   const { bumpkin } = event.data.state;
 
                   if (!bumpkin) return true;

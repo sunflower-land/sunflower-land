@@ -27,7 +27,6 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import { MutantChicken } from "features/game/types/craftables";
-import { getWheatRequiredToFeed } from "features/game/events/feedChicken";
 import {
   ChickenContext,
   chickenMachine,
@@ -38,6 +37,7 @@ import { MutantChickenModal } from "features/farming/animals/components/MutantCh
 import { Modal } from "react-bootstrap";
 import { RemoveChickenModal } from "features/farming/animals/components/RemoveChickenModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
+import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 interface Props {
   id: string;
 }
@@ -204,7 +204,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
 
   const feed = async () => {
     const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
-    const wheatRequired = getWheatRequiredToFeed(state.inventory);
+    const wheatRequired = getWheatRequiredToFeed(state.collectibles);
 
     if (selectedItem !== "Wheat" || currentWheatAmount.lt(wheatRequired)) {
       setShowPopover(true);

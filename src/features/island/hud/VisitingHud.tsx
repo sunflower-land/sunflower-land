@@ -8,6 +8,7 @@ import { Inventory } from "./components/inventory/Inventory";
 import { InnerPanel } from "components/ui/Panel";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { InventoryItemName } from "features/game/types/game";
+import { Settings } from "./components/Settings";
 
 /**
  * Heads up display - a concept used in games for the small overlayed display of information.
@@ -33,6 +34,7 @@ export const VisitingHud: React.FC = () => {
           isFarming={false}
         />
         <BumpkinProfile />
+        <Settings isFarming={false} />
       </div>
     </>
   );

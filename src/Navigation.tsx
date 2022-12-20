@@ -13,8 +13,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
-import { Humans } from "features/game/Humans";
-import { Goblins } from "features/game/Goblins";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
@@ -83,11 +81,9 @@ export const Navigation: React.FC = () => {
       {showGame ? (
         <HashRouter>
           <Routes>
-            <Route path="/" element={<Humans />} />
-            {/* Forbid entry to Goblin Village when in Visiting State or when a player has migrated to LE, show Forbidden screen */}
-            {!authState.matches("visiting") && !authState.context.migrated ? (
-              <Route path="/goblins" element={<Goblins />} />
-            ) : (
+            <Route path="/" element={<LandExpansion />} />
+            {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+            {!authState.matches("visiting") && (
               <Route
                 path="/goblins"
                 element={
@@ -97,26 +93,9 @@ export const Navigation: React.FC = () => {
                 }
               />
             )}
-            <Route
-              path="/farm/:id"
-              element={
-                authState.context.migrated ? (
-                  <Navigate to={`/land/${authState.context.farmId}`} />
-                ) : (
-                  <Humans key="farm" />
-                )
-              }
-            />
+
             <Route path="/visit/*" element={<LandExpansion key="visit" />} />
-            {(CONFIG.NETWORK === "mumbai" || authState.context.migrated) && (
-              <Route
-                path="/land/:id/*"
-                element={<LandExpansion key="land" />}
-              />
-            )}
-            {/* {CONFIG.NETWORK !== "mainnet" && (
-              <Route path="/helios/:id" element={<Helios key="helios" />} />
-            )} */}
+            <Route path="/land/:id/*" element={<LandExpansion key="land" />} />
             <Route path="/retreat">
               <Route
                 index
@@ -124,7 +103,7 @@ export const Navigation: React.FC = () => {
                   <TraderDeeplinkHandler farmId={authState.context.farmId} />
                 }
               />
-              <Route path=":id" element={<Retreat key="helios" />} />
+              <Route path=":id" element={<Retreat key="retreat" />} />
             </Route>
             {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
@@ -134,8 +113,6 @@ export const Navigation: React.FC = () => {
               path="/community-garden/:id"
               element={<Community key="community" />}
             />
-            {/* Fallback */}
-            <Route element={<Humans />} />
           </Routes>
         </HashRouter>
       ) : (
