@@ -15,7 +15,6 @@ import ocean from "assets/events/christmas/decorations/ocean.png";
 import swimmer from "assets/events/christmas/npcs/swimmer.gif";
 
 import sandIslandOne from "assets/events/christmas/brand/islandTwo.png";
-import sandIslandTwo from "assets/events/christmas/brand/islandThree.png";
 import sunflowerIslandOne from "assets/events/christmas/brand/islandOne.png";
 
 import { CONFIG } from "lib/config";
@@ -56,7 +55,7 @@ export const Splash: React.FC = ({ children }) => {
       <img
         src={swimmer}
         style={{
-          width: `${42 * PIXEL_SCALE}px`,
+          width: `${53 * PIXEL_SCALE}px`,
           left: `${380 * PIXEL_SCALE}px`,
           bottom: `${80 * PIXEL_SCALE}px`,
         }}
@@ -92,21 +91,23 @@ export const Splash: React.FC = ({ children }) => {
       <img
         src={sandIslandOne}
         style={{
-          width: `${87 * PIXEL_SCALE}px`,
+          width: `${70 * PIXEL_SCALE}px`,
           left: 0,
           bottom: 0,
         }}
         className="absolute"
       />
+      {/*
+      overlapping on mobile
       <img
         src={sandIslandTwo}
         style={{
-          width: `${71 * PIXEL_SCALE}px`,
+          width: `${129 * PIXEL_SCALE}px`,
           right: 0,
           bottom: 0,
         }}
         className="absolute"
-      />
+      /> */}
       <img
         src={watering}
         style={{
