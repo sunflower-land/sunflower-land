@@ -170,7 +170,7 @@ const NoWish = ({
           className="underline"
           href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           provide liquidity
         </a>
@@ -196,7 +196,7 @@ const NoWish = ({
             className="underline"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             providing liquidity
           </a>

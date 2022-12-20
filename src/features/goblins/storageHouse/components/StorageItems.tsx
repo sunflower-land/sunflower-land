@@ -88,7 +88,7 @@ export const StorageItems: React.FC = () => {
           <a
             href="https://opensea.io/Goblin_Treasury"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="underline"
           >
             OpenSea

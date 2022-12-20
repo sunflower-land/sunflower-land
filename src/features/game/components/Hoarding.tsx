@@ -73,7 +73,7 @@ export const Hoarding: React.FC = () => {
               <a
                 href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 Read more
               </a>

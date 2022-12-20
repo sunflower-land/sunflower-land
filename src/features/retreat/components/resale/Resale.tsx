@@ -28,7 +28,7 @@ export const Resale: React.FC = () => {
               Players can trade special items they crafted in-game.
             </p>
             <p className="text-sm mb-3">
-              You can purchase these on secondary marketplaces like Open Sea.
+              You can purchase these on secondary marketplaces like OpenSea.
             </p>
 
             <Button
@@ -39,7 +39,7 @@ export const Resale: React.FC = () => {
                 );
               }}
             >
-              View items on Open Sea
+              View items on OpenSea
             </Button>
           </div>
         </CloseButtonPanel>

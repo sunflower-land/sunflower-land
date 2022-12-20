@@ -41,9 +41,9 @@ export const SomethingWentWrong: React.FC = () => {
             contacting our{" "}
             <a
               className="underline"
-              target="_blank"
               href="https://sunflowerland.freshdesk.com"
-              rel="noreferrer"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               support team{" "}
             </a>
