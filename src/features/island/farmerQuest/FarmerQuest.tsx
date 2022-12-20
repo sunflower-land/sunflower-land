@@ -36,7 +36,7 @@ export const FarmerQuest: React.FC = () => {
     }
 
     if (state === "progress") {
-      return <QuestProgress />;
+      return <QuestProgress questName="Farmer Quest 1" onClaim={console.log} />;
     }
 
     // Empty div

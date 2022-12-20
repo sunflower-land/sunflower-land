@@ -1,14 +1,17 @@
 import React, { useContext, useState } from "react";
-
-import npc from "assets/npcs/idle.gif";
-import { MapPlacement } from "./MapPlacement";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
-import { Quest, QuestName, QUESTS } from "features/game/types/quests";
-import { useInterpret } from "@xstate/react";
-import { MachineInterpreter, questMachine } from "../lib/quest/questMachine";
 import { useActor } from "@xstate/react";
+import { useInterpret } from "@xstate/react";
+
+import npc from "assets/npcs/reindeer.gif";
+import shadow from "assets/npcs/shadow.png";
+import closeIcon from "assets/icons/close.png";
+import carrots from "assets/food/reindeer_carrot.png";
+import firePit from "assets/buildings/fire_pit.png";
+
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { Panel } from "components/ui/Panel";
+import { QuestName, QUESTS } from "features/game/types/quests";
 import { Button } from "components/ui/Button";
 import { QuestProgress } from "features/island/farmerQuest/components/QuestProgress";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
@@ -16,13 +19,18 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { Context } from "features/game/GameProvider";
 
+import { MachineInterpreter, questMachine } from "../lib/quest/questMachine";
+
 const REINDEER_QUESTS: QuestName[] = [
   "Reindeer Quest 1",
   "Reindeer Quest 2",
   "Reindeer Quest 3",
 ];
 
-export const ReindeerModal: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+export const ReindeerModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -35,16 +43,40 @@ export const ReindeerModal: React.FC = () => {
 
   const [state, send] = useActor(questService);
 
+  const close = () => {
+    if (state.matches("loading") || state.matches("minting")) {
+      return;
+    }
+
+    onClose();
+  };
   const Content = () => {
-    console.log({ value: state.value });
     if (state.matches("introduction")) {
       return (
-        <div className="p-1">
-          <p className="mb-3">I love Reindeer Carrots!</p>
+        <div className="py-1 pl-1 flex flex-col justify-center pr-4">
           <p className="mb-3">
-            I will share some gifts for those that can eat enough Reindeer
-            Carrots.
+            Oh ohhhh. I ate too many carrots and turned into a Reindeer.
           </p>
+          <p className="mb-3">
+            I need some friends. If you eat some Reindeer Carrots I will give
+            you free Bumpkin clothing.
+          </p>
+          <div className="flex justify-center mb-2">
+            <img
+              src={firePit}
+              className="mr-2 img-highlight"
+              style={{
+                height: `${PIXEL_SCALE * 20}px`,
+              }}
+            />
+            <img
+              src={carrots}
+              className="img-highlight"
+              style={{
+                height: `${PIXEL_SCALE * 20}px`,
+              }}
+            />
+          </div>
           <Button onClick={() => send("CONTINUE")}>Continue</Button>
         </div>
       );
@@ -69,18 +101,22 @@ export const ReindeerModal: React.FC = () => {
     }
 
     if (state.matches("error")) {
-      return <span>Something went wrong!</span>;
+      return (
+        <div className="h-24">
+          <span className="">Something went wrong!</span>
+        </div>
+      );
     }
 
     if (state.matches("complete")) {
       return (
-        <div>
+        <div className="pr-4">
           <p className="mb-3">
             Wow, you really do love Reindeer Carrots as much as I do!
           </p>
           <p>
-            I have no more gifts for you. Don't forget to wear your new
-            clothing!
+            {`I have no more gifts for you. Don't forget to wear your new
+            clothing!`}
           </p>
         </div>
       );
@@ -140,29 +176,53 @@ export const ReindeerModal: React.FC = () => {
         tool: "Farmer Pitchfork",
       }}
     >
+      <img
+        src={closeIcon}
+        className="absolute cursor-pointer z-20"
+        onClick={close}
+        style={{
+          top: `${PIXEL_SCALE * 6}px`,
+          right: `${PIXEL_SCALE * 6}px`,
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+      />
       {Content()}
     </Panel>
   );
 };
 
 export const ReindeerQuest: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <MapPlacement x={5} y={-5}>
+      <div
+        className="absolute z-20"
+        style={{
+          left: `${GRID_WIDTH_PX * 16}px`,
+          top: `${GRID_WIDTH_PX * 35}px`,
+        }}
+      >
         <img
-          src={npc}
-          className="cursor-pointer hover:img-highlight"
-          onClick={() => setShowModal(true)}
+          src={shadow}
+          className="absolute z-10"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * -2}px`,
           }}
         />
-      </MapPlacement>
+        <img
+          src={npc}
+          className="relative left-0 top-0 cursor-pointer hover:img-highlight z-20"
+          onClick={() => setShowModal(true)}
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+          }}
+        />
+      </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <ReindeerModal />
+        <ReindeerModal onClose={() => setShowModal(false)} />
       </Modal>
     </>
   );

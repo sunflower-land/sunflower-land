@@ -511,7 +511,13 @@ export const OFFLINE_FARM: GameState = {
   },
   mysteryPrizes: {},
   bumpkin: INITIAL_BUMPKIN,
-
+  tradeOffer: {
+    amount: 1,
+    endAt: new Date(Date.now() + 100000000000000).toISOString(),
+    startAt: new Date().toISOString(),
+    name: "Algerian Flag",
+    ingredients: [],
+  },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
     closesAt: new Date("2022-10-08").getTime(),
