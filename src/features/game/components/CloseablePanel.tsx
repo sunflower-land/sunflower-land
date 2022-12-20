@@ -114,6 +114,18 @@ export const CloseButtonPanel: React.FC<Props> = ({
           </div>
         )}
         {children}
+        {showCloseButton && !tabs && !title && (
+          <img
+            src={close}
+            className="absolute cursor-pointer z-20"
+            onClick={onClose}
+            style={{
+              top: `${PIXEL_SCALE * 4}px`,
+              right: `${PIXEL_SCALE * 4}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
+        )}
       </div>
     </Panel>
   );
