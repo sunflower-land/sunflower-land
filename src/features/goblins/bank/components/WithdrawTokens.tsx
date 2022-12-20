@@ -152,7 +152,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
                 className="underline ml-2"
                 href="https://docs.sunflower-land.com/fundamentals/withdrawing"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 (Read more)
               </a>

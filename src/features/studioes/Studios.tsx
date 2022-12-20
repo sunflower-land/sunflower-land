@@ -20,9 +20,9 @@ import laptop from "assets/decorations/laptop.png";
 import shadow from "assets/npcs/shadow.png";
 
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 export const Studios: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
@@ -201,25 +201,27 @@ export const Studios: React.FC = () => {
       />
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <Panel>
+        <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="p-2">
             <p className="mb-2">
               The team are preparing for a live Twitch stream.
             </p>
             <Button
               onClick={() => {
-                window.location.href =
-                  "https://www.twitch.tv/0xsunflowerstudios";
+                window.open(
+                  "https://www.twitch.tv/0xsunflowerstudios",
+                  "_blank"
+                );
               }}
             >
               Go to Twitch
             </Button>
           </div>
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
 
       <Modal centered show={showDiggle} onHide={() => setShowDiggle(false)}>
-        <Panel>
+        <CloseButtonPanel onClose={() => setShowDiggle(false)}>
           <div className="p-2">
             <p className="mb-2">{`Hi I'm Daniel!`}</p>
             <p className="mb-2">I am the designer of the base asset pack.</p>
@@ -228,13 +230,13 @@ export const Studios: React.FC = () => {
             </p>
             <Button
               onClick={() => {
-                window.location.href = "https://twitter.com/DanielDiggle";
+                window.open("https://twitter.com/DanielDiggle", "_blank");
               }}
             >
               Twitter
             </Button>
           </div>
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
 
       <MapPlacement x={-7.5} y={7.5} height={1} width={1}>

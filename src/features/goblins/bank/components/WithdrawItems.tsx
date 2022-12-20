@@ -155,7 +155,7 @@ export const WithdrawItems: React.FC<Props> = ({
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="underline"
             >
               {"in use"}
@@ -164,7 +164,7 @@ export const WithdrawItems: React.FC<Props> = ({
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="underline"
             >
               {"still being built"}
@@ -254,7 +254,7 @@ export const WithdrawItems: React.FC<Props> = ({
             className="underline"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Read more
           </a>

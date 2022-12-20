@@ -28,7 +28,7 @@ export const LetsGo: React.FC<Props> = ({ onClose, onBack }) => {
             className="text-xs sm:text-sm underline"
             href="https://docs.sunflower-land.com"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             official docs
           </a>

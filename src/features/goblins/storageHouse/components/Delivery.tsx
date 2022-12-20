@@ -32,7 +32,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
               className="underline"
               href="https://docs.sunflower-land.com/economy/goblin-community-treasury"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Goblin community treasury
             </a>

@@ -31,7 +31,7 @@ export const Withdrawn: React.FC = () => {
             className="underline hover:text-white"
             href="https://opensea.io/account?search[resultModel]=ASSETS&search[sortBy]=LAST_TRANSFER_DATE&search[query]=sunflower%20land"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             OpenSea
           </a>
@@ -50,7 +50,7 @@ export const Withdrawn: React.FC = () => {
             className="underline hover:text-white"
             href={`https://polygonscan.com/address/${wallet.myAccount}#tokentxnsErc1155`}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             PolygonScan
           </a>

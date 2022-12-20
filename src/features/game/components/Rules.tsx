@@ -49,7 +49,7 @@ export const Rules: React.FC = () => {
         <a
           href="https://docs.sunflower-land.com/support/terms-of-service"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="text-center"
         >
           Terms of Service

@@ -87,7 +87,7 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
       <a
         href={announcement.link}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         className="text-xs"
       >
         Read more

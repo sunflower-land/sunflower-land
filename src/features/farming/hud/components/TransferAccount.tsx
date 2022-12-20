@@ -117,9 +117,9 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
         </Button>
         <a
           href="https://docs.sunflower-land.com/support/faq#how-can-i-send-my-account-to-a-new-wallet"
-          target="_blank"
           className="underline text-xxs"
-          rel="noreferrer"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Read more
         </a>

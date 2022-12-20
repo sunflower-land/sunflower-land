@@ -128,7 +128,7 @@ export const Incubator: React.FC = () => {
               <a
                 href={`${projectDignity}/project-dignity/members`}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 Project Dignity
               </a>
@@ -170,7 +170,7 @@ export const Incubator: React.FC = () => {
                 href={`${projectDignity}/project-dignity/members`}
                 className="underline"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 Project Dignity
               </a>

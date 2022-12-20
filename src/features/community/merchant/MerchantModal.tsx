@@ -49,7 +49,11 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
           </p>
           <p className="text-xxs mb-4\2 mt-2 text-center">
             initiated by{" "}
-            <a href={`${projectDignity}/team`} target="_blank" rel="noreferrer">
+            <a
+              href={`${projectDignity}/team`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Project Dignity
             </a>
           </p>
