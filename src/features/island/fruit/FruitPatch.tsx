@@ -89,10 +89,10 @@ export const FruitPatch: React.FC<Props> = ({ fruit }) => {
           <div className="flex flex-col justify-center items-center">
             <p className="text-lg">Missing Basket</p>
             <img src={basket} className="w-1/4 mt-2" />
-            <p className="text-sm text-center mt-2">
+            <p className="text-sm my-2">
               {`You can't pick fruit without a basket.`}
             </p>
-            <p className="mt-2">Coming soon!</p>
+            <p className="text-sm mb-2">Coming soon!</p>
           </div>
         </Panel>
       </Modal>

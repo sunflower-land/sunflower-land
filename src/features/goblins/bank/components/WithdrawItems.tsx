@@ -249,7 +249,16 @@ export const WithdrawItems: React.FC<Props> = ({
         </div>
 
         <span className="text-sm mb-4">
-          Once withdrawn, you will be able to view your items on OpenSea.
+          Once withdrawn, you will be able to view your items on OpenSea.{" "}
+          <a
+            className="underline"
+            href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Read more
+          </a>
+          .
         </span>
       </div>
 
@@ -260,16 +269,6 @@ export const WithdrawItems: React.FC<Props> = ({
       >
         Withdraw
       </Button>
-
-      <span className="text-xs underline mt-2">
-        <a
-          href="https://docs.sunflower-land.com/fundamentals/withdrawing"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Read more
-        </a>
-      </span>
     </>
   );
 };

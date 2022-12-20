@@ -19,7 +19,7 @@ export const UpcomingAuctions: React.FC = () => {
   if (upcoming.length === 0) {
     return (
       <div className="flex flex-col">
-        <span>Coming soon...</span>
+        <span className="mt-1 ml-2">Coming soon...</span>
       </div>
     );
   }

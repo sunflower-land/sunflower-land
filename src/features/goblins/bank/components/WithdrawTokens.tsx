@@ -161,7 +161,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         )}
       </div>
 
-      <div className="flex items-center mt-3">
+      <div className="flex items-center mt-4">
         <span className="">
           {`You will receive: ${safeAmount(amount)
             .mul((100 - tax) / 100)

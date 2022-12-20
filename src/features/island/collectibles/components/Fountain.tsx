@@ -17,7 +17,7 @@ export const Fountain: React.FC = () => {
           fountainAudio.play();
         }
       }}
-      className="absolute hover:img-highlight cursor-pointer"
+      className="absolute"
       src={fountain}
       alt="Fountain"
     />

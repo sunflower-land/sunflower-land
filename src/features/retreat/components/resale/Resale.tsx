@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 
 export const Resale: React.FC = () => {
@@ -19,9 +19,11 @@ export const Resale: React.FC = () => {
   return (
     <>
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
-        <Panel>
+        <CloseButtonPanel
+          onClose={() => setIsOpen(false)}
+          title="Looking for rare items?"
+        >
           <div className="p-2">
-            <p className="mb-3">Looking for rare items?</p>
             <p className="text-sm mb-3">
               Players can trade special items they crafted in-game.
             </p>
@@ -31,14 +33,16 @@ export const Resale: React.FC = () => {
 
             <Button
               onClick={() => {
-                window.location.href =
-                  "https://opensea.io/collection/sunflower-land-collectibles";
+                window.open(
+                  "https://opensea.io/collection/sunflower-land-collectibles",
+                  "_blank"
+                );
               }}
             >
               View items on Open Sea
             </Button>
           </div>
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
       <MapPlacement x={1} y={-7} height={5} width={4}>
         <div
