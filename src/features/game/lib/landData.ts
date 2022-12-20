@@ -483,17 +483,7 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
-  airdrops: [
-    {
-      createdAt: Date.now(),
-      id: "123",
-      items: {
-        "Rapid Growth": 5,
-      },
-      sfl: 3,
-      message: "You are a legend!",
-    },
-  ],
+  airdrops: [],
   collectibles: {
     "Magic Bean": [
       {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 
 import { Inbox } from "./components/Inbox";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Message } from "./types/message";
 import {
@@ -12,11 +12,12 @@ import {
   updateCache,
 } from "./lib/mail";
 
-import baldMan from "assets/npcs/bald_man.gif";
+import mailbox from "assets/decorations/mailbox.png";
 import alerted from "assets/icons/expression_alerted.png";
+import classNames from "classnames";
 
-export const Mail: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const LetterBox: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inbox, setInbox] = useState<Message[]>([]);
   const [hasUnread, setHasUnread] = useState<boolean>(false);
@@ -68,21 +69,37 @@ export const Mail: React.FC = () => {
 
   return (
     <div
-      className="z-5 absolute align-items-center w-10"
+      className="absolute"
+      id="letterbox"
       style={{
-        left: `${GRID_WIDTH_PX * 10.5}px`,
-        top: `${GRID_WIDTH_PX * 3.5}px`,
+        top: `${PIXEL_SCALE * -1}px`,
+        right: `${PIXEL_SCALE * 1}px`,
+        width: `${GRID_WIDTH_PX}px`,
       }}
     >
-      {hasUnread && (
-        <img src={alerted} className="w-3 mx-3 pb-2 animate-float" />
-      )}
       <img
-        src={baldMan}
-        className="absolute w-10 z-10 hover:cursor-pointer hover:img-highlight npc-shadow"
+        src={alerted}
+        className="w-3 absolute  animate-float"
+        style={{
+          width: `${PIXEL_SCALE * 3}px`,
+          top: `${PIXEL_SCALE * -12}px`,
+          left: `${PIXEL_SCALE * 2}px`,
+        }}
+      />
+      <img
+        src={mailbox}
+        className={classNames(
+          "absolute cursor-pointer hover:img-highlight left-0 right-0",
+          {
+            "img-highlight-heavy": hasUnread,
+          }
+        )}
+        style={{
+          width: `${PIXEL_SCALE * 8}px`,
+        }}
         onClick={() => setIsOpen(true)}
       />
-      <span className="npc-shadow" />
+
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <Inbox inbox={inbox} isLoading={isLoading} onRead={onRead} />
       </Modal>
