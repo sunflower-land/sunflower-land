@@ -1,6 +1,7 @@
 import React from "react";
 
-import scarecrow from "assets/sfts/scarecrow.png";
+// import scarecrow from "assets/sfts/scarecrow.png";
+import scarecrow from "assets/events/christmas/sfts/nancy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const Scarecrow: React.FC = () => {
   return (
