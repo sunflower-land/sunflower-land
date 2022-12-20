@@ -249,7 +249,7 @@ export const WithdrawItems: React.FC<Props> = ({
         </div>
 
         <span className="text-sm mb-4">
-          Once withdrawn, you will be able to view your items on OpenSea,{" "}
+          Once withdrawn, you will be able to view your items on OpenSea.{" "}
           <a
             className="underline"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
