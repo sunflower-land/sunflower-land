@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import appleTree from "assets/fruit/apple/apple_tree.png";
+// import appleTree from "assets/fruit/apple/apple_tree.png";
+import appleTree from "assets/events/christmas/fruit/apple/apple_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
 
