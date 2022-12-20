@@ -1,19 +1,19 @@
 import React, { useContext, useState } from "react";
-
-import * as AuthProvider from "features/auth/lib/Provider";
-
-import alerted from "assets/icons/expression_alerted.png";
-import { Button } from "components/ui/Button";
-import { transferAccount } from "../actions/transfer";
 import { useActor } from "@xstate/react";
 import { isAddress } from "web3-utils";
+import { Modal } from "react-bootstrap";
+
+import alerted from "assets/icons/expression_alerted.png";
 import close from "assets/icons/close.png";
 import transferring from "assets/npcs/minting.gif";
 import farmImg from "assets/brand/nft.png";
-import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
+
+import * as AuthProvider from "features/auth/lib/Provider";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { transferAccount } from "features/farming/hud/actions/transfer";
+import { Button } from "components/ui/Button";
+import { Panel } from "components/ui/Panel";
 
 interface Props {
   isOpen: boolean;

@@ -9,7 +9,7 @@ import sound_on from "assets/icons/sound_on.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
-import { SettingsMenu } from "./SettingsMenu";
+import { SettingsMenu } from "./settings-menu/SettingsMenu";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
   getFarmingSong,

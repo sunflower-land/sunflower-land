@@ -6,7 +6,7 @@ import npc from "assets/events/christmas/npcs/community_garden.gif";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { merchantAudio } from "lib/utils/sfx";
-import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
+import { CommunityGardenModal } from "features/community/components/CommunityGardenModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const CommunityGardenEntry: React.FC = () => {
