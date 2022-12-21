@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
@@ -33,7 +33,7 @@ interface Props {
 }
 export const ReindeerModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const [gameState, sendGameEvent] = useActor(gameService);
 
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -56,6 +56,11 @@ export const ReindeerModal: React.FC<Props> = ({ onClose }) => {
 
     onClose();
   };
+
+  useEffect(() => {
+    sendGameEvent("SAVE");
+  }, []);
+
   const Content = () => {
     if (state.matches("introduction")) {
       return (
