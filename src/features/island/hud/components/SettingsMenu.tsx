@@ -26,6 +26,7 @@ import { Loading } from "features/auth/components";
 import { sequence } from "0xsequence";
 import { OpenWalletIntent } from "0xsequence/dist/declarations/src/provider";
 import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
+import { AddSFL } from "./AddSFL";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -42,6 +43,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
   const { gameService } = useContext(GameContext);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showAddSFLModal, setShowAddSFLModal] = useState(false);
   const [showLandExpansionModal, setShowLandExpansionModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
@@ -94,6 +96,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
     // Wait for the closing animation to finish
     await new Promise((res) => setTimeout(res, 150));
     setLoadingOnRamp(false);
+  };
+
+  const handleAddSFL = () => {
+    setShowAddSFLModal(true);
+    onClose();
   };
 
   const handleSettingsClick = () => {
@@ -187,6 +194,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
                     </Button>
                   </li>
                   <li className="p-1">
+                    <Button onClick={handleAddSFL}>
+                      <span>Add SFL</span>
+                    </Button>
+                  </li>
+                  <li className="p-1">
                     <Button onClick={handleSettingsClick}>
                       <span>Settings</span>
                     </Button>
@@ -237,6 +249,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
       <Settings
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
+      />
+
+      <AddSFL
+        isOpen={showAddSFLModal}
+        onClose={() => setShowAddSFLModal(false)}
       />
 
       {showCaptcha && (
