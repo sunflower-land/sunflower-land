@@ -151,6 +151,26 @@ export class CommunityContracts {
       throw parsed;
     }
   }
+
+  public async christimasDonate(
+    donation: number,
+    to = CONFIG.FROG_DONATION as string
+  ) {
+    const gasPrice = await estimateGasPrice(this.web3 as Web3);
+
+    try {
+      await this.web3?.eth.sendTransaction({
+        from: communityContracts.myAccount as string,
+        to,
+        value: toHex(toWei(donation.toString(), "ether")),
+        gasPrice,
+      });
+    } catch (error: any) {
+      const parsed = parseMetamaskError(error);
+
+      throw parsed;
+    }
+  }
 }
 
 export const communityContracts = new CommunityContracts();
