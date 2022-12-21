@@ -27,7 +27,7 @@ const PROGRESS_BAR_DIMENSIONS = {
 interface Props {
   questName: QuestName;
   onClaim: () => void;
-  secondsLeft: number;
+  secondsLeft?: number;
 }
 export const QuestProgress: React.FC<Props> = ({
   questName,
