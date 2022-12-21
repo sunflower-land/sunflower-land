@@ -11,6 +11,8 @@ import { Button } from "components/ui/Button";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { setPrecision } from "lib/utils/formatNumber";
+import { secondsToString } from "lib/utils/time";
+import stopwatch from "assets/icons/stopwatch.png";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -25,8 +27,13 @@ const PROGRESS_BAR_DIMENSIONS = {
 interface Props {
   questName: QuestName;
   onClaim: () => void;
+  secondsLeft: number;
 }
-export const QuestProgress: React.FC<Props> = ({ questName, onClaim }) => {
+export const QuestProgress: React.FC<Props> = ({
+  questName,
+  onClaim,
+  secondsLeft = 0,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -48,13 +55,20 @@ export const QuestProgress: React.FC<Props> = ({ questName, onClaim }) => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <span>{quest.wearable}</span>
+      <span className="mb-2">{quest.wearable}</span>
+      <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center p-[3px] rounded-md whitespace-nowrap">
+        <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
+        <span className="mt-[2px]">{`${secondsToString(secondsLeft as number, {
+          length: "medium",
+        })} left`}</span>
+      </span>
       <img
         src={getImageUrl(bumpkinWearableId)}
         className="w-1/3 my-2 rounded-lg"
       />
 
       <span className="text-sm">{quest.description}</span>
+
       <div className="flex items-center justify-center pt-1 w-full">
         <div className="flex items-center mt-2 mb-1">
           <div
