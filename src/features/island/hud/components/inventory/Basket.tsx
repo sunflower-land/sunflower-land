@@ -25,7 +25,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
-import { SplitScreenContent } from "features/game/components/SplitScreenContent";
+import { SplitScreenView } from "features/game/components/SplitScreenView";
 
 const ITEM_CARD_MIN_HEIGHT = "120px";
 
@@ -112,7 +112,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const allTools = [...tools, ...shovels];
 
   return (
-    <SplitScreenContent
+    <SplitScreenView
       divRef={divRef}
       tallMobileContent={true}
       showHeader={!basketIsEmpty && !!selected}

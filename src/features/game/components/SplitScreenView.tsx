@@ -10,7 +10,7 @@ interface Props {
   content: JSX.Element;
 }
 
-export const SplitScreenContent: React.FC<Props> = ({
+export const SplitScreenView: React.FC<Props> = ({
   divRef,
   tallMobileContent = false,
   showHeader = true,

@@ -17,7 +17,7 @@ import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
-import { SplitScreenContent } from "features/game/components/SplitScreenContent";
+import { SplitScreenView } from "features/game/components/SplitScreenView";
 
 const ITEM_CARD_MIN_HEIGHT = "120px";
 
@@ -91,7 +91,7 @@ export const Chest: React.FC<Props> = ({
   }
 
   return (
-    <SplitScreenContent
+    <SplitScreenView
       divRef={divRef}
       tallMobileContent={true}
       showHeader={!chestIsEmpty && !!selected}
