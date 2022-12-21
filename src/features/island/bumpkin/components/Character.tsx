@@ -40,7 +40,6 @@ import shadow from "assets/npcs/shadow.png";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 import patch from "assets/land/bumpkin_patch.png";
-import mailbox from "assets/decorations/mailbox.png";
 
 import {
   BumpkinBody,
@@ -53,6 +52,7 @@ import { Context } from "features/game/GameProvider";
 import { ConsumableName } from "features/game/types/consumables";
 import { FeedModal } from "./FeedModal";
 import { Airdrop } from "features/game/expansion/components/Airdrop";
+import { LetterBox } from "features/farming/mail/LetterBox";
 
 type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
 
@@ -165,15 +165,8 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
           left: 0,
         }}
       />
-      <img
-        src={mailbox}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 8}px`,
-          top: `${PIXEL_SCALE * -1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      />
+
+      <LetterBox />
       <div
         className="relative cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
