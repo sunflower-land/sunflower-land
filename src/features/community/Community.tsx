@@ -15,7 +15,6 @@ export const Community: React.FC = () => {
 
   useEffect(() => {
     // Start with crops centered
-    //scrollIntoView(Section.Merchant, "auto");
     scrollIntoView(Section.Merchant, "auto");
   }, [scrollIntoView]);
 

@@ -16,7 +16,6 @@ export const CommunityNorthPole: React.FC = () => {
 
   useEffect(() => {
     // Start with crops centered
-    //scrollIntoView(Section.Merchant, "auto");
     scrollIntoView(Section.NorthPole, "auto");
   }, [scrollIntoView]);
 
