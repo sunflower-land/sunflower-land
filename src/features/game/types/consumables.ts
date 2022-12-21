@@ -440,6 +440,5 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
       Carrot: new Decimal(5),
     },
     marketRate: 0,
-    disabled: true,
   },
 };

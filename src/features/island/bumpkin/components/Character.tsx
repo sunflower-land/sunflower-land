@@ -61,7 +61,7 @@ const FRAME_HEIGHT = 19;
 const STEP_MS = 70;
 const STEPS = 9;
 
-const PARTS: Record<VisiblePart, string> = {
+const PARTS: Partial<Record<VisiblePart, string>> = {
   // Bodies
   "Beige Farmer Potion": beigeBody,
   "Dark Brown Farmer Potion": darkBrownBody,

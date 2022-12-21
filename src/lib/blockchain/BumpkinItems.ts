@@ -43,4 +43,25 @@ export class BumpkinItems {
       throw error;
     }
   }
+
+  public async balanceOf(id: number, attempts = 0): Promise<number> {
+    await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+    console.log({ account: this.account, id });
+    try {
+      const balance: string = await this.contract.methods
+        .balanceOf(this.account, id)
+        .call({ from: this.account });
+
+      console.log({ balance });
+      return Number(balance);
+    } catch (e) {
+      const error = parseMetamaskError(e);
+      if (attempts < 3) {
+        return this.balanceOf(id, attempts + 1);
+      }
+
+      throw error;
+    }
+  }
 }
