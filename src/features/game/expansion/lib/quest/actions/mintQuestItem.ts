@@ -1,12 +1,7 @@
 import { wallet } from "lib/blockchain/wallet";
-import {
-  BUMPKIN_QUEST_IDS,
-  QuestName,
-  QUESTS,
-} from "features/game/types/quests";
+import { QuestName } from "features/game/types/quests";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { ITEM_IDS } from "features/game/types/bumpkin";
 
 async function waitForQuest(questId: number, bumpkinId: number): Promise<void> {
   const statuses = await wallet
@@ -77,10 +72,6 @@ export async function mintQuestItem({
 }) {
   await new Promise((res) => setTimeout(res, 1000));
 
-  // Wait for item to exist in wallet.
-  const id = BUMPKIN_QUEST_IDS[quest];
-  const wearableId = ITEM_IDS[QUESTS[quest].wearable];
-
   const { bumpkinId, deadline, questId, signature } =
     await questSignatureRequest({
       questName: quest,
@@ -88,7 +79,6 @@ export async function mintQuestItem({
       farmId,
     });
 
-  console.log({ signature });
   await wallet.getQuests().mintQuestItem({
     bumpkinId,
     deadline,
@@ -96,7 +86,6 @@ export async function mintQuestItem({
     signature,
   });
 
-  console.log("minted");
   await waitForQuest(questId, bumpkinId);
 
   return true;
