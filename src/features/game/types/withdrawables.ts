@@ -146,7 +146,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
-  "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
