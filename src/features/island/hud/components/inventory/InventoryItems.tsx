@@ -21,6 +21,7 @@ interface Props {
   selected: InventoryItemName;
   onSelect: (name: InventoryItemName) => void;
   onPlace?: (name: InventoryItemName) => void;
+  isSaving?: boolean;
 }
 
 export type TabItems = Record<string, { items: object }>;
@@ -33,6 +34,7 @@ export const InventoryItems: React.FC<Props> = ({
   selected,
   onSelect,
   onPlace,
+  isSaving,
 }) => {
   const [currentTab, setCurrentTab] = useState<Tab>("basket");
 
@@ -82,7 +84,12 @@ export const InventoryItems: React.FC<Props> = ({
         <Basket gameState={state} onSelect={onSelect} selected={selected} />
       )}
       {currentTab === "chest" && (
-        <Chest state={state} closeModal={onClose} onPlace={onPlace} />
+        <Chest
+          state={state}
+          closeModal={onClose}
+          onPlace={onPlace}
+          isSaving={isSaving}
+        />
       )}
     </Panel>
   );

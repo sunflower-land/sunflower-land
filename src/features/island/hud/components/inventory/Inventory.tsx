@@ -20,6 +20,7 @@ interface Props {
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;
   isFarming?: boolean;
+  isSaving?: boolean;
 }
 
 export const Inventory: React.FC<Props> = ({
@@ -27,6 +28,7 @@ export const Inventory: React.FC<Props> = ({
   selectedItem,
   shortcutItem,
   isFarming,
+  isSaving,
   onPlace,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -85,6 +87,7 @@ export const Inventory: React.FC<Props> = ({
           onSelect={handleItemClick}
           selected={selectedItem}
           onPlace={onPlace}
+          isSaving={isSaving}
         />
       </Modal>
 
