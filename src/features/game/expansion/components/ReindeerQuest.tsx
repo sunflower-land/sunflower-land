@@ -9,6 +9,7 @@ import closeIcon from "assets/icons/close.png";
 import carrots from "assets/food/reindeer_carrot.png";
 import firePit from "assets/buildings/fire_pit.png";
 
+import * as AuthProvider from "features/auth/lib/Provider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { QuestName, QUESTS } from "features/game/types/quests";
@@ -34,10 +35,15 @@ export const ReindeerModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
+
   const questService = useInterpret(questMachine, {
     context: {
       quests: REINDEER_QUESTS,
       bumpkinId: gameState.context.state.bumpkin?.id as number,
+      jwt: authState.context.rawToken,
+      farmId: authState.context.farmId,
     },
   }) as unknown as MachineInterpreter;
 
@@ -110,7 +116,7 @@ export const ReindeerModal: React.FC<Props> = ({ onClose }) => {
 
     if (state.matches("complete")) {
       return (
-        <div className="pr-4">
+        <div className="pr-4 pl-2 py-2">
           <p className="mb-3">
             Wow, you really do love Reindeer Carrots as much as I do!
           </p>

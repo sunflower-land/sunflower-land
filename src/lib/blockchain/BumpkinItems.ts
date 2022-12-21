@@ -47,6 +47,7 @@ export class BumpkinItems {
   public async balanceOf(id: number, attempts = 0): Promise<number> {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
 
+    console.log({ account: this.account, id });
     try {
       const balance: string = await this.contract.methods
         .balanceOf(this.account, id)

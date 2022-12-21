@@ -2,7 +2,7 @@ import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import ABI from "./abis/Quest.json";
 import { CONFIG } from "lib/config";
-import { parseMetamaskError } from "./utils";
+import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { BumpkinQuest } from "./types/BumpkinQuest";
 
 const address = CONFIG.QUEST_CONTRACT;
@@ -46,5 +46,48 @@ export class QuestContract {
 
       throw error;
     }
+  }
+
+  public async mintQuestItem({
+    questId,
+    bumpkinId,
+    deadline,
+    signature,
+  }: {
+    questId: number;
+    bumpkinId: number;
+    deadline: number;
+    signature: string;
+  }): Promise<void> {
+    const gasPrice = await estimateGasPrice(this.web3);
+
+    await new Promise((resolve, reject) => {
+      this.contract.methods
+        .mint(signature, questId, bumpkinId, deadline)
+        .send({ from: this.account, gasPrice })
+        .on("error", function (error: any) {
+          console.log({ error });
+          const parsed = parseMetamaskError(error);
+          reject(parsed);
+        })
+        .on("transactionHash", async (transactionHash: any) => {
+          console.log({ transactionHash });
+          try {
+            // Sequence wallet doesn't resolve the receipt. Therefore
+            // We try to fetch it after we have a tx hash returned
+            // From Sequence.
+            const receipt: any = await this.web3.eth.getTransactionReceipt(
+              transactionHash
+            );
+
+            if (receipt) resolve(receipt);
+          } catch (e) {
+            reject(e);
+          }
+        })
+        .on("receipt", function (receipt: any) {
+          resolve(receipt);
+        });
+    });
   }
 }

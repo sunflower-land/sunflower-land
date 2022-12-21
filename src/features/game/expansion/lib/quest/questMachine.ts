@@ -4,9 +4,11 @@ import { loadQuests } from "./actions/loadQuests";
 import { mintQuestItem } from "./actions/mintQuestItem";
 
 export interface Context {
+  jwt: string;
   quests: QuestName[];
   currentQuest?: QuestName;
   bumpkinId: number;
+  farmId: number;
 }
 
 export type BlockchainEvent =
@@ -97,7 +99,11 @@ export const questMachine = createMachine<
     minting: {
       invoke: {
         src: async (context) => {
-          await mintQuestItem(context.currentQuest as QuestName);
+          await mintQuestItem({
+            quest: context.currentQuest as QuestName,
+            jwt: context.jwt,
+            farmId: context.farmId,
+          });
         },
         onDone: {
           target: "minted",
