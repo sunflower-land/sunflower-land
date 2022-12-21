@@ -23,24 +23,24 @@ export const QUESTS: Record<QuestName, Quest> = {
     wearable: "Red Farmer Shirt",
   },
   "Reindeer Quest 1": {
-    description: "Eat 10 Reindeer Carrots",
+    description: "Eat 20 Reindeer Carrots",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Reindeer Carrot Fed"] || 0,
-    requirement: 10,
+    requirement: 20,
     wearable: "Reindeer Suit",
   },
   "Reindeer Quest 2": {
-    description: "Eat 50 Reindeer Carrots",
+    description: "Eat 120 Reindeer Carrots",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Reindeer Carrot Fed"] || 0,
-    requirement: 50,
+    requirement: 120,
     wearable: "Reindeer Antlers",
   },
   "Reindeer Quest 3": {
-    description: "Eat 100 Reindeer Carrots",
+    description: "Eat 500 Reindeer Carrots",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Reindeer Carrot Fed"] || 0,
-    requirement: 100,
+    requirement: 500,
     wearable: "Christmas Background",
   },
 };
