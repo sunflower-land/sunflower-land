@@ -9,10 +9,9 @@ import { Announcement } from "features/announcements/Announcement";
 interface Props {
   inbox: Message[];
   isLoading: boolean;
-  onRead: (index: number) => void;
 }
 
-export const Inbox: React.FC<Props> = ({ inbox, isLoading, onRead }) => {
+export const Inbox: React.FC<Props> = ({ inbox, isLoading }) => {
   return (
     <OuterPanel className="relative">
       {isLoading ? (

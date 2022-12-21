@@ -57,7 +57,7 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
     {announcement.image && (
       <img
         src={announcement.image}
-        className="w-full rounded-sm mb-1 object-contain"
+        className="w-full rounded-lg mb-1 object-contain"
         alt={announcement.title}
         style={{
           maxHeight: "10rem",
