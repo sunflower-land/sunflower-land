@@ -18,7 +18,6 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
 import { Label } from "components/ui/Label";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: () => void;
@@ -190,7 +189,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
         <div className="flex flex-col-reverse sm:flex-row">
           <div
             className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-            style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+            style={{ maxHeight: 400 }}
           >
             <div className="flex flex-wrap">
               <Box

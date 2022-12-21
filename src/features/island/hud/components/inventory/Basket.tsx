@@ -27,8 +27,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
 import { SplitScreenContent } from "features/game/components/SplitScreenContent";
 
-export const TAB_CONTENT_HEIGHT = 400;
-const ITEM_CARD_MIN_HEIGHT = "100px";
+const ITEM_CARD_MIN_HEIGHT = "120px";
 
 const isSeed = (selected: InventoryItemName) => selected in CROP_SEEDS();
 
@@ -116,7 +115,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     <SplitScreenContent
       divRef={divRef}
       tallMobileContent={true}
-      showHeader={!basketIsEmpty}
+      showHeader={!basketIsEmpty && !!selected}
       header={
         selected && (
           <div

@@ -28,7 +28,6 @@ import active_incubator from "features/community/assets/incubator/algae-small.gi
 import token from "features/community/assets/icons/token.png";
 import close from "assets/icons/close.png";
 
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 import { setPrecision } from "lib/utils/formatNumber";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -272,7 +271,7 @@ export const Incubator: React.FC = () => {
           <div className="flex flex-col-reverse sm:flex-row">
             <div
               className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-              style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+              style={{ maxHeight: 400 }}
             >
               <div className="flex flex-col mb-2">
                 <p className="mb-2">Empty Incubator</p>

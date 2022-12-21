@@ -19,7 +19,6 @@ import { TreasureToolName, TREASURE_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -163,7 +162,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
       <div className="flex flex-col-reverse sm:flex-row">
         <div
           className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-          style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+          style={{ maxHeight: 400 }}
         >
           {getKeys(TREASURE_TOOLS).map((toolName) => (
             <Box

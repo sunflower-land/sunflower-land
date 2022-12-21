@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { Box } from "components/ui/Box";
-import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import {
@@ -18,16 +17,15 @@ import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
+import { SplitScreenContent } from "features/game/components/SplitScreenContent";
 
-const ITEM_CARD_MIN_HEIGHT = "148px";
+const ITEM_CARD_MIN_HEIGHT = "120px";
 
 interface Props {
   state: GameState;
   closeModal: () => void;
   onPlace?: (name: InventoryItemName) => void;
 }
-
-const TAB_CONTENT_HEIGHT = 400;
 
 export const Chest: React.FC<Props> = ({
   state,
@@ -75,9 +73,9 @@ export const Chest: React.FC<Props> = ({
     setSelected(item);
   };
 
-  const basketIsEmpty = getKeys(collectibles).length === 0;
+  const chestIsEmpty = getKeys(collectibles).length === 0;
 
-  if (basketIsEmpty) {
+  if (chestIsEmpty) {
     return (
       <div
         style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
@@ -92,67 +90,69 @@ export const Chest: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex flex-col">
-      <OuterPanel className="flex-1 mb-3">
-        {selected && (
+    <SplitScreenContent
+      divRef={divRef}
+      tallMobileContent={true}
+      showHeader={!chestIsEmpty && !!selected}
+      header={
+        selected && (
           <>
             <div
               style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-              className="flex flex-col justify-evenly text-center items-center p-2"
+              className="flex flex-col justify-center p-2 pb-0"
             >
-              <span>{selected}</span>
-              <img
-                src={ITEM_DETAILS[selected].image}
-                className="h-12 mt-2"
-                alt={selected}
-              />
-              <span className="text-xs mt-2 w-80">
+              <div className="flex space-x-2 justify-start mb-1 sm:items-center sm:flex-col-reverse md:space-x-0">
+                <img
+                  src={ITEM_DETAILS[selected].image}
+                  className="w-5 object-contain sm:w-8 sm:mt-2"
+                  alt={selected}
+                />
+                <span className="sm:text-center">{selected}</span>
+              </div>
+              <span className="text-xs sm:text-center">
                 {ITEM_DETAILS[selected].description}
               </span>
+              <div className="border-t border-white w-full my-2 pt-1 flex justify-between sm:flex-col sm:items-center">
+                <a
+                  href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[selected]}`}
+                  className="underline text-xxs hover:text-blue-500 p-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  OpenSea
+                </a>
+              </div>
             </div>
-            <div className="flex flex-col items-center justify-center">
-              <a
-                href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[selected]}`}
-                className="underline text-xxs hover:text-blue-500 p-2 mb-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                OpenSea
-              </a>
-            </div>
-
             {onPlace && (
               <Button className="text-xs w-full mb-1" onClick={handlePlace}>
                 Place on map
               </Button>
             )}
           </>
-        )}
-      </OuterPanel>
-      <div
-        ref={divRef}
-        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
-        className="overflow-y-auto scrollable overflow-x-hidden"
-      >
-        {Object.values(collectibles) && (
-          <div className="flex flex-col pl-2" key={"Collectibles"}>
-            <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
-              {getKeys(collectibles)
-                .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
-                .map((item) => (
-                  <Box
-                    count={getItemCount(item)}
-                    isSelected={selected === item}
-                    key={item}
-                    onClick={() => handleItemClick(item)}
-                    image={ITEM_DETAILS[item].image}
-                    parentDivRef={divRef}
-                  />
-                ))}
+        )
+      }
+      content={
+        <>
+          {Object.values(collectibles) && (
+            <div className="flex flex-col pl-2" key={"Collectibles"}>
+              <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
+                {getKeys(collectibles)
+                  .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
+                  .map((item) => (
+                    <Box
+                      count={getItemCount(item)}
+                      isSelected={selected === item}
+                      key={item}
+                      onClick={() => handleItemClick(item)}
+                      image={ITEM_DETAILS[item].image}
+                      parentDivRef={divRef}
+                    />
+                  ))}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-    </div>
+          )}
+        </>
+      }
+    />
   );
 };

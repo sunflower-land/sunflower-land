@@ -13,7 +13,6 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import heart from "assets/icons/level_up.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 import { Bumpkin } from "features/game/types/game";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 
 interface Props {
   food: Consumable[];
@@ -60,7 +59,7 @@ export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
     <div className="flex flex-col-reverse sm:flex-row">
       <div
         className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-        style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+        style={{ maxHeight: 400 }}
       >
         {selected !== undefined &&
           food.map((item) => (
