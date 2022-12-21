@@ -71,15 +71,18 @@ export const CloseButtonPanel: React.FC<Props> = ({
               </span>
             </Tab>
           ))}
+          <div className="grow" />
           {showCloseButton && (
             <img
               src={close}
-              className="absolute cursor-pointer z-20"
+              className="flex-none cursor-pointer"
               onClick={onClose}
               style={{
-                top: `${PIXEL_SCALE * 1}px`,
-                right: `${PIXEL_SCALE * 1}px`,
                 width: `${PIXEL_SCALE * 11}px`,
+                height: `${PIXEL_SCALE * 11}px`,
+                marginTop: `${PIXEL_SCALE * 1}px`,
+                marginLeft: `${PIXEL_SCALE * 2}px`,
+                marginRight: `${PIXEL_SCALE * 1}px`,
               }}
             />
           )}
