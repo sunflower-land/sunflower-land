@@ -41,6 +41,7 @@ export const Hud: React.FC = () => {
                 action: "collectible.placed",
               });
             }}
+            isSaving={gameState.matches("autosaving")}
             isFarming
           />
           {landId && <LandId landId={landId} />}
