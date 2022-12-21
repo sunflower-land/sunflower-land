@@ -47,6 +47,7 @@ export const Chest: React.FC<Props> = ({
 
   const collectibles = getKeys(chestMap)
     .filter((item) => getItemCount(item).greaterThan(0))
+    .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
     .reduce((acc, item) => {
       if (
         item in LIMITED_ITEMS ||
@@ -136,18 +137,16 @@ export const Chest: React.FC<Props> = ({
           {Object.values(collectibles) && (
             <div className="flex flex-col pl-2" key={"Collectibles"}>
               <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
-                {getKeys(collectibles)
-                  .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
-                  .map((item) => (
-                    <Box
-                      count={getItemCount(item)}
-                      isSelected={selected === item}
-                      key={item}
-                      onClick={() => handleItemClick(item)}
-                      image={ITEM_DETAILS[item].image}
-                      parentDivRef={divRef}
-                    />
-                  ))}
+                {getKeys(collectibles).map((item) => (
+                  <Box
+                    count={getItemCount(item)}
+                    isSelected={selected === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
               </div>
             </div>
           )}

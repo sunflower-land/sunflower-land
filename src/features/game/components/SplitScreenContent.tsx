@@ -22,7 +22,7 @@ export const SplitScreenContent: React.FC<Props> = ({
       <div
         className={classNames(
           "w-full sm:w-3/5 h-fit sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap",
-          { "max-h-96": tallMobileContent },
+          { "max-h-80": tallMobileContent },
           { "max-h-48": !tallMobileContent }
         )}
         ref={divRef}
