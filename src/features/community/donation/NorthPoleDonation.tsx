@@ -93,14 +93,15 @@ export const NorthPoleDonation: React.FC = () => {
               />
               <div className="flex flex-col text-shadow items-center">
                 <h2 className="text-sm sm:text-base mb-2 text-center pb-2">
-                  Want to support more community events?
+                  Would you like more seasonal events?
                 </h2>
                 <p className="sm:text-sm mb-3 text-center">
-                  Happy holidays! The community designers & developers have yet
-                  once again brought back another map update.
+                  All the work from the community team here is funded by your
+                  donations.
                 </p>
                 <p className="sm:text-sm mb-3 text-center">
-                  If you wish to support them, donate some matic
+                  If you wanted to say thanks for this latest update, please
+                  consider a donation.
                 </p>
                 <p className="sm:text-sm  mb-3 text-center">
                   Every little bit counts!
