@@ -235,7 +235,7 @@ export const ReindeerQuest: React.FC = () => {
         />
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Modal show={showModal} centered>
         <ReindeerModal onClose={() => setShowModal(false)} />
       </Modal>
     </>
