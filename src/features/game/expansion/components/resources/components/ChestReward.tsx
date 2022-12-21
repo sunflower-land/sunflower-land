@@ -82,22 +82,22 @@ export const ChestReward: React.FC<Props> = ({
                   }`;
 
                   return (
-                    <div key={item.name} className="flex items-center">
+                    <div key={item.name} className="flex items-center my-2">
                       <img
-                        className="w-8 img-highlight mr-2"
+                        className="w-5 img-highlight mr-2"
                         src={ITEM_DETAILS[item.name].image}
                       />
-                      <span className="text-center mb-2">{name}</span>
+                      <span className="text-center">{name}</span>
                     </div>
                   );
                 })}
               {sfl && (
                 <div key="sfl" className="flex items-center my-2">
-                  <img className="w-8 img-highlight mr-2" src={token} />
-                  <span className="text-center mb-2">{`${sfl} SFL`}</span>
+                  <img className="w-5 img-highlight mr-2" src={token} />
+                  <span className="text-center">{`${sfl} SFL`}</span>
                 </div>
               )}
-              <Button onClick={() => close(true)} className="w-full mt-3">
+              <Button onClick={() => close(true)} className="w-full mt-1">
                 Close
               </Button>
             </>

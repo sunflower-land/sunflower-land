@@ -103,7 +103,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   return (
     <>
       <div className="flex flex-wrap mt-3">
-        <span className="mb-3 text-base">Choose amount to withdraw</span>
+        <span className="mb-3 text-sm">Choose amount to withdraw</span>
       </div>
       <span className="text-sm">
         {balance.toFixed(2)}SFL is available on-chain

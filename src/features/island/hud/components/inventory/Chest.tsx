@@ -25,6 +25,7 @@ interface Props {
   state: GameState;
   closeModal: () => void;
   onPlace?: (name: InventoryItemName) => void;
+  isSaving?: boolean;
 }
 
 const TAB_CONTENT_HEIGHT = 400;
@@ -32,6 +33,7 @@ const TAB_CONTENT_HEIGHT = 400;
 export const Chest: React.FC<Props> = ({
   state,
   closeModal,
+  isSaving,
   onPlace,
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -122,8 +124,12 @@ export const Chest: React.FC<Props> = ({
             </div>
 
             {onPlace && (
-              <Button className="text-xs w-full mb-1" onClick={handlePlace}>
-                Place on map
+              <Button
+                className="text-xs w-full mb-1"
+                onClick={handlePlace}
+                disabled={isSaving}
+              >
+                {isSaving ? "Saving..." : "Place on map"}
               </Button>
             )}
           </>

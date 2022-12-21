@@ -40,7 +40,7 @@ export const Withdrawn: React.FC = () => {
         <span className="mb-7">
           You can view your tokens by importing the SFL Token to your wallet.
         </span>
-        <Button className="mb-7 sm:w-3/4" onClick={handleAddToken}>
+        <Button className="mb-7 sm:w-3/4 text-xs" onClick={handleAddToken}>
           Import SFL Token to MetaMask
         </Button>
         <span className="mb-4">
