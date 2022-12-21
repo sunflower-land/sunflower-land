@@ -28,6 +28,7 @@ import artMerch from "assets/npc-layers/art_merch.png";
 import fancyTop from "assets/npc-layers/fancy_top.png";
 import maidenTop from "assets/npc-layers/maiden_top.png";
 import whiteShirt from "assets/npc-layers/white_shirt.png";
+import fireShirt from "assets/npc-layers/fire_shirt.png";
 
 import farmerPants from "assets/npc-layers/farmer_pants.png";
 import blueOveralls from "assets/npc-layers/blue_overalls.png";
@@ -36,25 +37,36 @@ import fancyPants from "assets/npc-layers/fancy_pants.png";
 import warriorPants from "assets/npc-layers/warrior_pants.png";
 import skirt from "assets/npc-layers/skirt.png";
 
+import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
+import reindeerAntlers from "assets/npc-layers/reindeer_antlers.png";
+
 import shadow from "assets/npcs/shadow.png";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 import patch from "assets/land/bumpkin_patch.png";
-import mailbox from "assets/decorations/mailbox.png";
 
 import {
   BumpkinBody,
   BumpkinPant,
   BumpkinShirt,
   BumpkinHair,
+  BumpkinSuit,
+  BumpkinHat,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName } from "features/game/types/consumables";
 import { FeedModal } from "./FeedModal";
 import { Airdrop } from "features/game/expansion/components/Airdrop";
+import { LetterBox } from "features/farming/mail/LetterBox";
 
-type VisiblePart = BumpkinBody | BumpkinHair | BumpkinShirt | BumpkinPant;
+type VisiblePart =
+  | BumpkinBody
+  | BumpkinHair
+  | BumpkinShirt
+  | BumpkinPant
+  | BumpkinSuit
+  | BumpkinHat;
 
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
@@ -93,7 +105,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Project Dignity Hoodie": dignityHoodie,
   "SFL T-Shirt": sflShirt,
   "Warrior Shirt": warriorShirt,
-  "Fire Shirt": sflShirt,
+  "Fire Shirt": fireShirt,
 
   // Pants
   "Farmer Overalls": blueOveralls,
@@ -105,6 +117,12 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Maiden Skirt": skirt,
   "Peasant Skirt": skirt,
   "Warrior Pants": warriorPants,
+
+  // Suits
+  "Reindeer Suit": reindeerSuit,
+
+  // Hats
+  "Reindeer Antlers": reindeerAntlers,
 };
 
 interface Props {
@@ -112,9 +130,18 @@ interface Props {
   hair: BumpkinHair;
   shirt: BumpkinShirt;
   pants: BumpkinPant;
+  hat?: BumpkinHat;
+  suit?: BumpkinSuit;
 }
 
-export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
+export const Character: React.FC<Props> = ({
+  body,
+  hair,
+  shirt,
+  pants,
+  hat,
+  suit,
+}) => {
   const { gameService } = useContext(Context);
 
   const [open, setOpen] = useState(false);
@@ -124,6 +151,8 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
   const hairRef = useRef<Spritesheet>(null);
   const shirtRef = useRef<Spritesheet>(null);
   const pantsRef = useRef<Spritesheet>(null);
+  const suitRef = useRef<Spritesheet>(null);
+  const hatRef = useRef<Spritesheet>(null);
 
   const eat = (food: ConsumableName) => {
     gameService.send("bumpkin.feed", { food });
@@ -152,7 +181,16 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
     hairRef.current?.goToAndPause(frame);
     shirtRef.current?.goToAndPause(frame);
     pantsRef.current?.goToAndPause(frame);
+
+    if (suitRef.current) {
+      suitRef.current?.goToAndPause(frame);
+    }
+    if (hatRef.current) {
+      hatRef.current?.goToAndPause(frame);
+    }
   }, [timer]);
+
+  console.log({ suit });
 
   return (
     <>
@@ -165,15 +203,8 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
           left: 0,
         }}
       />
-      <img
-        src={mailbox}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 8}px`,
-          top: `${PIXEL_SCALE * -1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      />
+
+      <LetterBox />
       <div
         className="relative cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
@@ -201,16 +232,7 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
           steps={STEPS}
           fps={0}
         />
-        <Spritesheet
-          ref={hairRef}
-          className="absolute w-full inset-0"
-          style={bodyPartStyle}
-          image={PARTS[hair] ?? sunSpots}
-          widthFrame={FRAME_WIDTH}
-          heightFrame={FRAME_HEIGHT}
-          steps={STEPS}
-          fps={0}
-        />
+
         <Spritesheet
           ref={shirtRef}
           className="absolute w-full inset-0"
@@ -231,6 +253,43 @@ export const Character: React.FC<Props> = ({ body, hair, shirt, pants }) => {
           steps={STEPS}
           fps={0}
         />
+
+        {PARTS[suit as BumpkinSuit] && (
+          <Spritesheet
+            ref={suitRef}
+            className="absolute w-full inset-0"
+            style={bodyPartStyle}
+            image={PARTS[suit as BumpkinSuit] as string}
+            widthFrame={FRAME_WIDTH}
+            heightFrame={FRAME_HEIGHT}
+            steps={STEPS}
+            fps={0}
+          />
+        )}
+
+        <Spritesheet
+          ref={hairRef}
+          className="absolute w-full inset-0"
+          style={bodyPartStyle}
+          image={PARTS[hair] ?? sunSpots}
+          widthFrame={FRAME_WIDTH}
+          heightFrame={FRAME_HEIGHT}
+          steps={STEPS}
+          fps={0}
+        />
+
+        {PARTS[hat as BumpkinHat] && (
+          <Spritesheet
+            ref={hatRef}
+            className="absolute w-full inset-0"
+            style={bodyPartStyle}
+            image={PARTS[hat as BumpkinHat] as string}
+            widthFrame={FRAME_WIDTH}
+            heightFrame={FRAME_HEIGHT}
+            steps={STEPS}
+            fps={0}
+          />
+        )}
       </div>
       <Airdrop />
       <FeedModal

@@ -22,6 +22,8 @@ import { Context } from "features/game/GameProvider";
 
 import { MachineInterpreter, questMachine } from "../lib/quest/questMachine";
 
+const END_DATE = new Date("2022-12-28");
+
 const REINDEER_QUESTS: QuestName[] = [
   "Reindeer Quest 1",
   "Reindeer Quest 2",
@@ -138,6 +140,7 @@ export const ReindeerModal: React.FC<Props> = ({ onClose }) => {
         <QuestProgress
           onClaim={() => send("MINT")}
           questName={state.context.currentQuest as QuestName}
+          secondsLeft={Math.floor((END_DATE.getTime() - Date.now()) / 1000)}
         />
       );
     }
