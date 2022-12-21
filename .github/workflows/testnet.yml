@@ -55,6 +55,7 @@ jobs:
           VITE_INCUBATOR_CONTRACT: "0xd19b1Ab87D650fc9e9c73F02F6FAe647bcC50c96"
           VITE_WHITELIST_TOKEN_CONTRACT: "0x49c37423A304A07d9b51748aF86Fe16BA64d972E"
           VITE_QUEST_CONTRACT: "0x842695E88dB4143281AA4617017baFaB74Fb5Ee1"
+          VITE_NORTHPOLE_DONATION: "0x94fb1b13d67fbc094a031f91b57d9ac8db251287"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
