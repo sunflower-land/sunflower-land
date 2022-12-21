@@ -666,6 +666,35 @@ describe("canWithdraw", () => {
 
       expect(enabled).toBeFalsy();
     });
+
+    it("prevents a user from withdrawing a peeled potato when potato's are planted", () => {
+      const enabled = canWithdraw({
+        item: "Peeled Potato",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Peeled Potato": new Decimal(2),
+          },
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
+                },
+              },
+            },
+          ],
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
   });
 
   describe("enables", () => {
@@ -1284,5 +1313,34 @@ describe("canWithdraw", () => {
 
       expect(enabled).toBeTruthy();
     });
+  });
+
+  it("enables a user to withdraw a peeled potato when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Peeled Potato",
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Peeled Potato": new Decimal(2),
+        },
+        expansions: [
+          {
+            createdAt: 0,
+            readyAt: 0,
+            plots: {
+              0: {
+                x: -2,
+                y: -1,
+                height: 1,
+                width: 1,
+                crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    expect(enabled).toBeTruthy();
   });
 });
