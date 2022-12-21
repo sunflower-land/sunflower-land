@@ -77,15 +77,18 @@ export const LetterBox: React.FC = () => {
         width: `${GRID_WIDTH_PX}px`,
       }}
     >
-      <img
-        src={alerted}
-        className="w-3 absolute  animate-float"
-        style={{
-          width: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * -12}px`,
-          left: `${PIXEL_SCALE * 2}px`,
-        }}
-      />
+      {hasUnread && (
+        <img
+          src={alerted}
+          className="w-3 absolute  animate-float"
+          style={{
+            width: `${PIXEL_SCALE * 3}px`,
+            top: `${PIXEL_SCALE * -12}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
+      )}
+
       <img
         src={mailbox}
         className={classNames(
