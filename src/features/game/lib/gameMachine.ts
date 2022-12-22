@@ -25,7 +25,7 @@ import { CollectibleName, LimitedItemName } from "../types/craftables";
 import { syncProgress } from "../actions/sync";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
-import { makeGame, updateGame } from "./transforms";
+import { makeGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
@@ -606,9 +606,13 @@ export function startGame(authContext: Options) {
                       action.createdAt.getTime() > event.data.saveAt.getTime()
                   );
 
+                  const updatedState = recentActions.reduce((state, action) => {
+                    return processEvent({ state, action });
+                  }, event.data.farm);
+
                   return {
                     actions: recentActions,
-                    state: updateGame(event.data.farm, context.state),
+                    state: updatedState,
                   };
                 }),
               },
