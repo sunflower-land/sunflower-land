@@ -25,6 +25,7 @@ interface Props {
 
 export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const [
     {
@@ -80,6 +81,8 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
+  const isSaving = gameState.matches("autosaving");
+
   const Details = () => {
     if (selectedChicken === "buy") {
       return (
@@ -107,11 +110,11 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               </div>
             </div>
             <Button
-              disabled={!canBuyChicken}
+              disabled={!canBuyChicken || isSaving}
               className="text-xs mt-3 whitespace-nowrap"
               onClick={handleBuy}
             >
-              Buy
+              {isSaving ? "Saving..." : "Buy"}
             </Button>
           </>
         </div>
@@ -136,9 +139,9 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           <Button
             className="text-xs mt-3 whitespace-nowrap"
             onClick={handlePlace}
-            disabled={!canPlaceLazyChicken}
+            disabled={!canPlaceLazyChicken || isSaving}
           >
-            Place
+            {isSaving ? "Saving..." : "Place"}
           </Button>
         </div>
       );

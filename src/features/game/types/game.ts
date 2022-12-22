@@ -231,6 +231,7 @@ export type Wood = {
 };
 
 export type PlantedCrop = {
+  id?: string;
   name: CropName;
   plantedAt: number;
   amount?: number;

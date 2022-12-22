@@ -102,6 +102,7 @@ export type QuestItem =
 
 export type GoblinRetreatItemName =
   | "Peeled Potato"
+  | "Christmas Snow Globe"
   | "Cabbage Boy"
   | "Cabbage Girl"
   | "Wood Nymph Wendy";
@@ -991,6 +992,9 @@ export const GOBLIN_RETREAT_ITEMS: Record<
   "Wood Nymph Wendy": {
     description: "Cast an enchantment to entice the fairies",
   },
+  "Christmas Snow Globe": {
+    description: "Swirl the snow and watch it come to life",
+  },
 };
 
 export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
@@ -1241,6 +1245,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Colossal Crop": { height: 1, width: 1 },
 
   "Christmas Bear": { height: 1, width: 1 },
+  "Christmas Snow Globe": { height: 2, width: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

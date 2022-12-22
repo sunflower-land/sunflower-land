@@ -297,6 +297,7 @@ import jackOLanternItem from "src/assets/sfts/jack_o_lantern.png";
 import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
 
 //Decorations
+import snowglobe from "src/assets/decorations/snowglobe.gif";
 import pottedSunflower from "src/assets/decorations/potted_sunflower.png";
 import pottedPumpkin from "src/assets/decorations/potted_pumpkin.webp";
 import pottedPotato from "src/assets/decorations/potted_potato.png";
@@ -1556,5 +1557,9 @@ export const ITEM_DETAILS: Items = {
   "Golden Crop": {
     image: goldenCrop,
     description: "A shiny golden crop",
+  },
+  "Christmas Snow Globe": {
+    image: snowglobe,
+    description: "Swirl the snow and watch it come to life",
   },
 };

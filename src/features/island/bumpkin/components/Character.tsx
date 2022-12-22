@@ -190,8 +190,6 @@ export const Character: React.FC<Props> = ({
     }
   }, [timer]);
 
-  console.log({ suit });
-
   return (
     <>
       <img

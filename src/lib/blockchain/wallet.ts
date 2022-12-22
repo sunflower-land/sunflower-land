@@ -375,6 +375,10 @@ export class Wallet {
       throw parsed;
     }
   }
+
+  public get web3Provider() {
+    return this.web3;
+  }
 }
 
 export const wallet = new Wallet();

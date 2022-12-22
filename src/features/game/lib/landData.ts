@@ -429,6 +429,7 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Girl": new Decimal(1),
     "Basic Bear": new Decimal(1),
     "Magic Bean": new Decimal(5),
+    "Christmas Snow Globe": new Decimal(1),
     // Every item for testing
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({

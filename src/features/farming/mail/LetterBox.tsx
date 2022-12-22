@@ -1,71 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import { Inbox } from "./components/Inbox";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-
-import { Message } from "./types/message";
-import {
-  cleanupCache,
-  getInbox,
-  getReadMessages,
-  updateCache,
-} from "./lib/mail";
-
 import mailbox from "assets/decorations/mailbox.png";
 import alerted from "assets/icons/expression_alerted.png";
 import classNames from "classnames";
+import {
+  acknowledgeRead,
+  hasAnnouncements,
+  PAST_ANNOUNCEMENTS,
+} from "features/announcements/announcementsStorage";
+import { Announcement } from "features/announcements/Announcement";
+import { Panel } from "components/ui/Panel";
 
 export const LetterBox: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [inbox, setInbox] = useState<Message[]>([]);
-  const [hasUnread, setHasUnread] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const getMessages = async () => {
-    setIsLoading(true);
-
-    const readMessages = getReadMessages();
-
-    let _inbox: any = await getInbox();
-
-    _inbox = _inbox.map((msg: Message) => ({
-      ...msg,
-      unread: !readMessages?.includes(msg.id),
-    }));
-
-    setInbox(_inbox);
-    cleanupCache(_inbox);
-    setIsLoading(false);
+  const close = () => {
+    acknowledgeRead();
+    setIsOpen(false);
   };
 
-  const onRead = (index: number) => {
-    if (!inbox[index].unread) return;
-
-    const newInbox = [...inbox];
-
-    newInbox[index].unread = false;
-    setInbox(newInbox);
-
-    updateCache(newInbox[index].id);
-  };
-
-  useEffect(() => {
-    getMessages();
-  }, []);
-
-  // refresh data
-  useEffect(() => {
-    if (isOpen) {
-      getMessages();
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const _hasUnread = inbox.some((msg) => msg.unread);
-
-    setHasUnread(_hasUnread);
-  }, [inbox]);
+  const hasUnread = hasAnnouncements();
 
   return (
     <div
@@ -77,15 +33,18 @@ export const LetterBox: React.FC = () => {
         width: `${GRID_WIDTH_PX}px`,
       }}
     >
-      <img
-        src={alerted}
-        className="w-3 absolute  animate-float"
-        style={{
-          width: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * -12}px`,
-          left: `${PIXEL_SCALE * 2}px`,
-        }}
-      />
+      {hasUnread && (
+        <img
+          src={alerted}
+          className="w-3 absolute  animate-float"
+          style={{
+            width: `${PIXEL_SCALE * 3}px`,
+            top: `${PIXEL_SCALE * -12}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
+      )}
+
       <img
         src={mailbox}
         className={classNames(
@@ -100,8 +59,14 @@ export const LetterBox: React.FC = () => {
         onClick={() => setIsOpen(true)}
       />
 
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Inbox inbox={inbox} isLoading={isLoading} onRead={onRead} />
+      <Modal centered show={isOpen} onHide={close}>
+        <Panel>
+          <div className="text-sm mt-2 text-shadow text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-y-auto scrollable p-1">
+            {PAST_ANNOUNCEMENTS.map((announcement, index) => (
+              <Announcement key={index} announcement={announcement} />
+            ))}
+          </div>
+        </Panel>
       </Modal>
     </div>
   );

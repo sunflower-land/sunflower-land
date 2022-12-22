@@ -2724,7 +2724,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Peeled Potato": {
-    description: "A prized possesion. Discover a bonus potato 20% of harvests.",
+    description:
+      "A prized possession. Discover a bonus potato 20% of harvests.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/433.gif",
@@ -2766,5 +2767,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/115.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Christmas Snow Globe": {
+    description:
+      "Swirl the snow and watch it come to life. A Christmas collectible.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1219.gif",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
 };

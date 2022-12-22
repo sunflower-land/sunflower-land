@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -18,16 +18,19 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
 import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
-//Icebergs
+//Icebergs and north pole
 import iceberg1 from "assets/events/christmas/decorations/icebergs/iceberg_1.gif";
 import iceberg2 from "assets/events/christmas/decorations/icebergs/iceberg_2.gif";
 import iceberg3 from "assets/events/christmas/decorations/icebergs/iceberg_3.gif";
 import iceberg4 from "assets/events/christmas/decorations/icebergs/iceberg_4.gif";
+import northPole from "assets/events/christmas/land/north_pole.gif";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 import { Salesman } from "features/farming/salesman/Salesman";
 import { ReindeerQuest } from "./ReindeerQuest";
+import { merchantAudio } from "lib/utils/sfx";
+import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
 
 const spawn = [
   [40.1, -3],
@@ -49,8 +52,17 @@ interface Props {
 
 export const Water: React.FC<Props> = ({ level }) => {
   // As the land gets bigger, push the water decorations out
+  const [showModal, setShowModal] = useState(false);
   const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
   const [sealSpawn, setSealSpawn] = React.useState(getRandomSpawn());
+
+  const openMerchant = () => {
+    setShowModal(true);
+    //Checks if merchantAudio is playing, if false, plays the sound
+    if (!merchantAudio.playing()) {
+      merchantAudio.play();
+    }
+  };
 
   return (
     // Container
@@ -187,7 +199,22 @@ export const Water: React.FC<Props> = ({ level }) => {
           }}
         />
       </MapPlacement>
-
+      <MapPlacement x={0} y={30} width={12}>
+        <div>
+          <img
+            className="hover:img-highlight cursor-pointer"
+            onClick={openMerchant}
+            src={northPole}
+            style={{
+              width: `${PIXEL_SCALE * 144}px`,
+            }}
+          />
+          <CommunityGardenModal
+            isOpen={showModal}
+            onClose={() => setShowModal(false)}
+          />
+        </div>
+      </MapPlacement>
       <Salesman />
     </div>
   );

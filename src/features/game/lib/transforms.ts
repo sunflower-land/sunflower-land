@@ -155,6 +155,8 @@ function updatePlots(
 
     const hasCrop = oldCrop && newCrop;
 
+    const reward = oldCrop?.id === newCrop?.id ? newCrop?.reward : undefined;
+
     return {
       ...plots,
       [plotId]: {
@@ -163,7 +165,7 @@ function updatePlots(
           crop: {
             ...oldCrop,
             amount: newCrop.amount,
-            ...(newCrop.reward && { reward: newCrop.reward }),
+            ...(reward && { reward }),
           },
         }),
       },
