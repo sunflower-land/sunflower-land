@@ -11,6 +11,8 @@ import rightChickenBlock from "assets/community/arcade/chicken_fight/images/righ
 import rightChickenHit from "assets/community/arcade/chicken_fight/images/right_chicken_hit.gif";
 import referee from "assets/community/arcade/chicken_fight/images/referee.gif";
 import audience from "assets/community/arcade/chicken_fight/images/audience.gif";
+import heart from "assets/community/arcade/chicken_fight/images/heart.png";
+import emptyHeart from "assets/community/arcade/chicken_fight/images/heart_empty.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import disc from "assets/icons/disc.png";
@@ -282,6 +284,22 @@ export const ChickenFight: React.FC = () => {
               left: `${leftChicken.position}px`,
             }}
           />
+          {Array(3)
+            .fill(<></>)
+            .map((_, index) => (
+              <img
+                key={index}
+                src={index < leftChicken.lives ? heart : emptyHeart}
+                alt="left-lives"
+                style={{
+                  position: "absolute",
+                  height: "30px",
+                  width: "30px",
+                  bottom: "35px",
+                  left: `${40 + index * 25}px`,
+                }}
+              />
+            ))}
           <img
             src={ACTIONS_TO_IMAGES["right"][rightChicken.action]}
             alt="right-chicken"
@@ -293,9 +311,25 @@ export const ChickenFight: React.FC = () => {
               bottom: "110px",
             }}
           />
+          {Array(3)
+            .fill(<></>)
+            .map((_, index) => (
+              <img
+                key={index}
+                src={index < rightChicken.lives ? heart : emptyHeart}
+                alt="left-lives"
+                style={{
+                  position: "absolute",
+                  height: "30px",
+                  width: "30px",
+                  bottom: "35px",
+                  right: `${40 + index * 25}px`,
+                }}
+              />
+            ))}
           <img
             src={audience}
-            alt="left-chicken"
+            alt="audience"
             style={{
               position: "absolute",
               width: `${CANVAS_WIDTH}px`,
