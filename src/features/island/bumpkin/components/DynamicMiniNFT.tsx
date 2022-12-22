@@ -202,11 +202,11 @@ export const DynamicMiniNFT: React.FC<Props> = ({
             top: `${PIXEL_SCALE * 20}px`,
             left: `${PIXEL_SCALE * 1}px`,
           }}
-          className="absolute"
+          className="absolute pointer-events-none"
         />
         <Spritesheet
           ref={bodyRef}
-          className="absolute w-full inset-0"
+          className="absolute w-full inset-0 pointer-events-none"
           style={bodyPartStyle}
           image={PARTS[body] ?? beigeBody}
           widthFrame={FRAME_WIDTH}
@@ -217,7 +217,7 @@ export const DynamicMiniNFT: React.FC<Props> = ({
 
         <Spritesheet
           ref={shirtRef}
-          className="absolute w-full inset-0"
+          className="absolute w-full inset-0 pointer-events-none"
           style={bodyPartStyle}
           image={PARTS[shirt] ?? whiteShirt}
           widthFrame={FRAME_WIDTH}
@@ -227,7 +227,7 @@ export const DynamicMiniNFT: React.FC<Props> = ({
         />
         <Spritesheet
           ref={pantsRef}
-          className="absolute w-full inset-0"
+          className="absolute w-full inset-0 pointer-events-none"
           style={bodyPartStyle}
           image={PARTS[pants] ?? farmerPants}
           widthFrame={FRAME_WIDTH}
@@ -239,7 +239,7 @@ export const DynamicMiniNFT: React.FC<Props> = ({
         {PARTS[suit as BumpkinSuit] && (
           <Spritesheet
             ref={suitRef}
-            className="absolute w-full inset-0"
+            className="absolute w-full inset-0 pointer-events-none"
             style={bodyPartStyle}
             image={PARTS[suit as BumpkinSuit] as string}
             widthFrame={FRAME_WIDTH}
@@ -251,7 +251,7 @@ export const DynamicMiniNFT: React.FC<Props> = ({
 
         <Spritesheet
           ref={hairRef}
-          className="absolute w-full inset-0"
+          className="absolute w-full inset-0 pointer-events-none"
           style={bodyPartStyle}
           image={PARTS[hair] ?? sunSpots}
           widthFrame={FRAME_WIDTH}
@@ -263,7 +263,7 @@ export const DynamicMiniNFT: React.FC<Props> = ({
         {PARTS[hat as BumpkinHat] && (
           <Spritesheet
             ref={hatRef}
-            className="absolute w-full inset-0"
+            className="absolute w-full inset-0 pointer-events-none"
             style={bodyPartStyle}
             image={PARTS[hat as BumpkinHat] as string}
             widthFrame={FRAME_WIDTH}
