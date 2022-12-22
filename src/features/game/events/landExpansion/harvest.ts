@@ -76,24 +76,6 @@ export function harvest({
     throw new Error("Not ready");
   }
 
-  // Collect any rewards
-  if (reward) {
-    if (reward.sfl) {
-      stateCopy.balance = stateCopy.balance.add(reward.sfl);
-    }
-
-    if (reward.items) {
-      stateCopy.inventory = reward.items.reduce((acc, item) => {
-        const amount = acc[item.name] || new Decimal(0);
-
-        return {
-          ...acc,
-          [item.name]: amount.add(item.amount),
-        };
-      }, stateCopy.inventory);
-    }
-  }
-
   const activityName: BumpkinActivityName = `${cropName} Harvested`;
 
   bumpkin.activity = trackActivity(activityName, bumpkin.activity);

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
+import { v4 as uuidv4 } from "uuid";
 
 import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
@@ -241,6 +242,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           expansionIndex,
           item: selectedItem,
           analytics,
+          cropId: uuidv4(),
         });
 
         plantAudio.play();

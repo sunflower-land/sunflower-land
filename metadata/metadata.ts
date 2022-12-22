@@ -2724,7 +2724,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Peeled Potato": {
-    description: "A prized possesion. Discover a bonus potato 20% of harvests.",
+    description:
+      "A prized possession. Discover a bonus potato 20% of harvests.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/433.gif",
