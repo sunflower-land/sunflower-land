@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-import gameBackground from "assets/community/arcade/chicken_sabong/images/boxing_ring.png";
-import leftChickenIdle from "assets/community/arcade/chicken_sabong/images/left_chicken_idle.gif";
-import leftChickenPunch from "assets/community/arcade/chicken_sabong/images/left_chicken_punch.gif";
-import rightChickenIdle from "assets/community/arcade/chicken_sabong/images/right_chicken_idle.gif";
-import rightChickenPunch from "assets/community/arcade/chicken_sabong/images/right_chicken_punch.gif";
-import referee from "assets/community/arcade/chicken_sabong/images/referee.gif";
-import audience from "assets/community/arcade/chicken_sabong/images/audience.gif";
+import gameBackground from "assets/community/arcade/chicken_fight/images/boxing_ring.png";
+import leftChickenIdle from "assets/community/arcade/chicken_fight/images/left_chicken_idle.gif";
+import leftChickenPunch from "assets/community/arcade/chicken_fight/images/left_chicken_punch.gif";
+import rightChickenIdle from "assets/community/arcade/chicken_fight/images/right_chicken_idle.gif";
+import rightChickenPunch from "assets/community/arcade/chicken_fight/images/right_chicken_punch.gif";
+import referee from "assets/community/arcade/chicken_fight/images/referee.gif";
+import audience from "assets/community/arcade/chicken_fight/images/audience.gif";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import disc from "assets/icons/disc.png";
@@ -44,13 +44,13 @@ const ACTIONS_TO_IMAGES: Record<string, Record<string, any>> = {
 const DiscButton: React.FC<DiscButtonProps> = ({ letter, onClick, alt }) => {
   return (
     <div className="relative cursor-pointer" onClick={onClick}>
-      <img src={disc} alt={alt} className="h-8 w-8" />
-      <span className="absolute top-1 right-2">{letter}</span>
+      <img src={disc} alt={alt} className="h-10 w-10" />
+      <span className="absolute top-1 right-3">{letter}</span>
     </div>
   );
 };
 
-export const ChickenSabong: React.FC = () => {
+export const ChickenFight: React.FC = () => {
   const [leftChicken, setLeftChicken] = useState<Chicken>({
     action: "idle",
     position: 60,
@@ -205,7 +205,7 @@ export const ChickenSabong: React.FC = () => {
           />
         </div>
       </div>
-      <div className="flex pt-1">
+      <div className="flex p-4">
         <div className="w-1/2 flex justify-around">
           <img
             src={leftArrow}

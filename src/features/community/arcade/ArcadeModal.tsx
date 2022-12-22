@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 import { GreedyGoblin } from "features/community/arcade/games/GreedyGoblin";
-import { ChickenSabong } from "features/community/arcade/games/ChickenSabong";
+import { ChickenFight } from "features/community/arcade/games/ChickenFight";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
@@ -16,11 +17,12 @@ interface Props {
 
 enum GAMES {
   GREEDY_GOBLIN = "Greedy Goblin",
-  CHICKEN_SABONG = "Chicken Sabong",
+  CHICKEN_FIGHT = "Chicken Fight (PC, 2p)",
 }
 
 export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [currentGame, setCurrentGame] = useState<GAMES | null>(null);
+  const [isMobile] = useIsMobile();
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
@@ -52,16 +54,17 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <li className="p-1">
               <Button
                 className="text-sm"
-                onClick={() => setCurrentGame(GAMES.CHICKEN_SABONG)}
+                disabled={isMobile}
+                onClick={() => setCurrentGame(GAMES.CHICKEN_FIGHT)}
               >
-                {GAMES.CHICKEN_SABONG}
+                {GAMES.CHICKEN_FIGHT}
               </Button>
             </li>
           </ul>
         )}
 
         {currentGame === GAMES.GREEDY_GOBLIN && <GreedyGoblin />}
-        {currentGame === GAMES.CHICKEN_SABONG && <ChickenSabong />}
+        {!isMobile && currentGame === GAMES.CHICKEN_FIGHT && <ChickenFight />}
       </Panel>
     </Modal>
   );
