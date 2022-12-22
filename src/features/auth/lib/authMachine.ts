@@ -612,6 +612,14 @@ export const authMachine = createMachine<
         //  Enable session (triggers QR Code modal)
         await provider.enable();
 
+        if (CONFIG.ALCHEMY_RPC) {
+          const web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC, {
+            writeProvider: provider,
+          });
+
+          return { wallet: "WALLET_CONNECT", provider: web3 };
+        }
+
         return { wallet: "WALLET_CONNECT", provider };
       },
       initSequence: async () => {
@@ -625,6 +633,14 @@ export const authMachine = createMachine<
         }
 
         const provider = sequenceWallet.getProvider();
+
+        if (CONFIG.ALCHEMY_RPC) {
+          const web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC, {
+            writeProvider: provider,
+          });
+
+          return { wallet: "SEQUENCE", provider: web3 };
+        }
 
         return { wallet: "SEQUENCE", provider };
       },
