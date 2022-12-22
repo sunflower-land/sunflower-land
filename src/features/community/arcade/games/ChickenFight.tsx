@@ -1,3 +1,16 @@
+/**
+ * ---------- CHICKEN FIGHT ----------
+ * Credits:
+ *  Art - Jc Eii, Vergel, Deeefault
+ *  Audio - Jc Eii
+ *  Code - Beastrong
+ *
+ * Objectives:
+ * Well, defeat enemy :)
+ *
+ * Supports PC (keyboard) platform for now since mobile device might not support multi touch (also not tested / in scope)
+ */
+
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import gameBackground from "assets/community/arcade/chicken_fight/images/boxing_ring.png";
@@ -13,10 +26,12 @@ import referee from "assets/community/arcade/chicken_fight/images/referee.gif";
 import audience from "assets/community/arcade/chicken_fight/images/audience.gif";
 import heart from "assets/community/arcade/chicken_fight/images/heart.png";
 import emptyHeart from "assets/community/arcade/chicken_fight/images/heart_empty.png";
-import gameOver from "assets/community/arcade/game_over.png";
+import gameOver from "assets/community/arcade/images/game_over.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import disc from "assets/icons/disc.png";
+
+import { chickenFightAudio } from "src/lib/utils/sfx";
 
 const CANVAS_WIDTH = 300;
 const CANVAS_HEIGHT = 300;
@@ -132,8 +147,17 @@ export const ChickenFight: React.FC = () => {
    * @param id left or right
    */
   const punch = (id: Id) => {
-    const setters = [setLeftChicken, setRightChicken];
     const isLeftChicken = id === "left";
+
+    // ignore button mash
+    if (
+      (isLeftChicken && leftChicken.action === "punch") ||
+      (!isLeftChicken && rightChicken.action === "punch")
+    ) {
+      return;
+    }
+
+    const setters = [setLeftChicken, setRightChicken];
     const [actorSetter, enemySetter] = isLeftChicken
       ? setters
       : setters.reverse();
@@ -142,20 +166,26 @@ export const ChickenFight: React.FC = () => {
 
     actorSetter((prev) => ({ ...prev, action: "punch" }));
 
-    if (isAdjacent && !isEnemyBlocking) {
+    if (!isGameOver && isAdjacent && !isEnemyBlocking) {
       // hit, decrease enemy life
       enemySetter((prev) => ({
         ...prev,
         action: "hit",
         lives: Math.max(0, prev.lives - 1),
       }));
-      setTimeout(
-        () => enemySetter((prev) => ({ ...prev, action: "idle" })),
-        300
-      );
+      chickenFightAudio.chickenFightHitAudio.play();
+      setTimeout(() => {
+        enemySetter((prev) => ({ ...prev, action: "idle" }));
+        chickenFightAudio.chickenFightHitAudio.stop();
+      }, 300);
+    } else {
+      chickenFightAudio.chickenFightPunchAudio.play();
     }
 
-    setTimeout(() => actorSetter((prev) => ({ ...prev, action: "idle" })), 500);
+    setTimeout(() => {
+      actorSetter((prev) => ({ ...prev, action: "idle" }));
+      chickenFightAudio.chickenFightPunchAudio.stop();
+    }, 500);
   };
 
   /**
@@ -231,7 +261,17 @@ export const ChickenFight: React.FC = () => {
     setIsGameOver(false);
     setLeftChicken(INITIAL_CHICKEN);
     setRightChicken(INITIAL_CHICKEN);
+
+    chickenFightAudio.chickenFightPlayingAudio.play();
   };
+
+  useEffect(() => {
+    chickenFightAudio.chickenFightPlayingAudio.play();
+
+    return () => {
+      Object.values(chickenFightAudio).forEach((audio) => audio.stop());
+    };
+  }, []);
 
   /**
    * Attaches/updates listener on keydown
@@ -246,11 +286,13 @@ export const ChickenFight: React.FC = () => {
 
   /**
    * Watches chicken lives for game over
-   * @todo game over logic, cleanup
    */
   useEffect(() => {
     if (!(leftChicken.lives && rightChicken.lives)) {
       setIsGameOver(true);
+
+      chickenFightAudio.chickenFightPlayingAudio.stop();
+      chickenFightAudio.chickenFightGameOverAudio.play();
     }
   }, [leftChicken.lives, rightChicken.lives]);
 
