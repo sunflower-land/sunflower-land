@@ -12,17 +12,6 @@ export const NorthPole: React.FC = () => {
 
   return (
     <>
-      {/*<Modal show={state.matches("loading")} centered>*/}
-      {/*  <Panel className="text-shadow">*/}
-      {/*    <span className="loading">Loading</span>*/}
-      {/*  </Panel>*/}
-      {/*</Modal>*/}
-      {/*<Modal show={state.matches("error")} centered>*/}
-      {/*  <Panel className="text-shadow">*/}
-      {/*    <span className="loading">Loading</span>*/}
-      {/*  </Panel>*/}
-      {/*</Modal>*/}
-
       <NorthPoleDonation />
 
       <IslandTravel bumpkin={bumpkin} x={2} y={-9} />

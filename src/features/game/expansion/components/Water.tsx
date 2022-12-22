@@ -30,7 +30,7 @@ import { LostSeal } from "features/community/seal/Seal";
 import { Salesman } from "features/farming/salesman/Salesman";
 import { ReindeerQuest } from "./ReindeerQuest";
 import { merchantAudio } from "lib/utils/sfx";
-import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
+import { NorthPoleModal } from "features/community/northpole/NorthPoleModal";
 
 const spawn = [
   [40.1, -3],
@@ -209,7 +209,7 @@ export const Water: React.FC<Props> = ({ level }) => {
               width: `${PIXEL_SCALE * 144}px`,
             }}
           />
-          <CommunityGardenModal
+          <NorthPoleModal
             isOpen={showModal}
             onClose={() => setShowModal(false)}
           />
