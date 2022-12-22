@@ -97,7 +97,7 @@ describe("transform", () => {
       );
     });
 
-    it("adds a reward to a crop", () => {
+    it("adds a reward to a crop with the same id", () => {
       const oldExpansions: LandExpansion[] = [
         {
           createdAt: 0,
@@ -109,6 +109,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
               crop: {
+                id: "123",
                 plantedAt: 10,
                 amount: 1,
                 name: "Sunflower",
@@ -135,6 +136,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
               crop: {
+                id: "123",
                 plantedAt: 10,
                 amount: 1,
                 name: "Sunflower",
@@ -170,6 +172,81 @@ describe("transform", () => {
       expect(expansions[0]?.plots?.["0"]?.crop?.reward?.items?.[0].amount).toBe(
         3
       );
+      expect(expansions[0]?.plots?.["1"]?.crop?.reward).not.toBeDefined();
+    });
+
+    it("does not add a reward to a crop with a different id", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                id: "123",
+                plantedAt: 10,
+                amount: 1,
+                name: "Sunflower",
+              },
+            },
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
+            },
+          } as GameState["plots"],
+        },
+      ];
+
+      const newExpansions: LandExpansion[] = [
+        {
+          createdAt: 4,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                id: "456",
+                plantedAt: 10,
+                amount: 1,
+                name: "Sunflower",
+                reward: {
+                  items: [
+                    {
+                      name: "Sunflower Seed",
+                      amount: 3,
+                    },
+                  ],
+                },
+              },
+            },
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
+            },
+            2: {
+              x: -2,
+              y: -2,
+              height: 1,
+              width: 1,
+            },
+          } as GameState["plots"],
+        },
+      ];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.plots?.["0"]?.crop?.reward).toBeUndefined();
       expect(expansions[0]?.plots?.["1"]?.crop?.reward).not.toBeDefined();
     });
 

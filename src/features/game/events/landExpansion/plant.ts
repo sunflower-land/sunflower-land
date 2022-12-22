@@ -1,5 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
+
 import { CropName, CROPS } from "../../types/crops";
 import {
   Bumpkin,
@@ -18,6 +19,7 @@ export type LandExpansionPlantAction = {
   item: InventoryItemName;
   expansionIndex: number;
   index: number;
+  cropId: string;
 };
 
 type Options = {
@@ -277,6 +279,7 @@ export function plant({
   plots[action.index] = {
     ...plot,
     crop: {
+      id: action.cropId,
       plantedAt: getPlantedAt({
         crop: cropName,
         inventory,
