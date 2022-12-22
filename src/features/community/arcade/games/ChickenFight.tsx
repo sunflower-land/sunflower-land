@@ -3,8 +3,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import gameBackground from "assets/community/arcade/chicken_fight/images/boxing_ring.png";
 import leftChickenIdle from "assets/community/arcade/chicken_fight/images/left_chicken_idle.gif";
 import leftChickenPunch from "assets/community/arcade/chicken_fight/images/left_chicken_punch.gif";
+import leftChickenBlock from "assets/community/arcade/chicken_fight/images/left_chicken_block.png";
+import leftChickenHit from "assets/community/arcade/chicken_fight/images/left_chicken_hit.gif";
 import rightChickenIdle from "assets/community/arcade/chicken_fight/images/right_chicken_idle.gif";
 import rightChickenPunch from "assets/community/arcade/chicken_fight/images/right_chicken_punch.gif";
+import rightChickenBlock from "assets/community/arcade/chicken_fight/images/right_chicken_block.png";
+import rightChickenHit from "assets/community/arcade/chicken_fight/images/right_chicken_hit.gif";
 import referee from "assets/community/arcade/chicken_fight/images/referee.gif";
 import audience from "assets/community/arcade/chicken_fight/images/audience.gif";
 import leftArrow from "assets/icons/arrow_left.png";
@@ -17,7 +21,7 @@ const CHICKEN_SIDE = 50;
 const CHICKEN_MOVE = 10;
 
 type Id = "left" | "right";
-type Action = "idle" | "punch" | "block";
+type Action = "idle" | "punch" | "block" | "hit";
 type Chicken = {
   action: Action;
   position: number;
@@ -34,12 +38,27 @@ const ACTIONS_TO_IMAGES: Record<string, Record<string, any>> = {
   left: {
     idle: leftChickenIdle,
     punch: leftChickenPunch,
+    block: leftChickenBlock,
+    hit: leftChickenHit,
   },
   right: {
     idle: rightChickenIdle,
     punch: rightChickenPunch,
+    block: rightChickenBlock,
+    hit: rightChickenHit,
   },
 };
+
+enum KeyboardButtons {
+  LEFT_MOVE_LEFT = "A",
+  LEFT_MOVE_RIGHT = "D",
+  LEFT_PUNCH = "Q",
+  LEFT_BLOCK = "E",
+  RIGHT_MOVE_LEFT = "J",
+  RIGHT_MOVE_RIGHT = "L",
+  RIGHT_PUNCH = "I",
+  RIGHT_BLOCK = "O",
+}
 
 const DiscButton: React.FC<DiscButtonProps> = ({ letter, onClick, alt }) => {
   return (
@@ -122,16 +141,35 @@ export const ChickenFight: React.FC = () => {
    */
   const punch = (id: Id) => {
     const setters = [setLeftChicken, setRightChicken];
-    const [actorSetter, enemySetter] =
-      id === "left" ? setters : setters.reverse();
+    const isLeftChicken = id === "left";
+    const [actorSetter, enemySetter] = isLeftChicken
+      ? setters
+      : setters.reverse();
+    const isEnemyBlocking =
+      (isLeftChicken ? leftChicken : rightChicken).action === "block";
 
     actorSetter((prev) => ({ ...prev, action: "punch" }));
 
-    if (isAdjacent) {
-      // decrease enemy life
-      enemySetter((prev) => ({ ...prev, lives: Math.max(0, prev.lives - 1) }));
+    if (isAdjacent && !isEnemyBlocking) {
+      // hit, decrease enemy life
+      enemySetter((prev) => ({
+        ...prev,
+        action: "hit",
+        lives: Math.max(0, prev.lives - 1),
+      }));
+      setTimeout(
+        () => enemySetter((prev) => ({ ...prev, action: "idle" })),
+        300
+      );
     }
 
+    setTimeout(() => actorSetter((prev) => ({ ...prev, action: "idle" })), 500);
+  };
+
+  const block = (id: Id) => {
+    const actorSetter = id === "left" ? setLeftChicken : setRightChicken;
+
+    actorSetter((prev) => ({ ...prev, action: "block" }));
     setTimeout(() => actorSetter((prev) => ({ ...prev, action: "idle" })), 500);
   };
 
@@ -214,9 +252,14 @@ export const ChickenFight: React.FC = () => {
             onClick={() => moveChicken("left", false)}
           />
           <DiscButton
-            letter="Q"
+            letter={KeyboardButtons.LEFT_PUNCH}
             alt="left-chicken-punch"
             onClick={() => punch("left")}
+          />
+          <DiscButton
+            letter={KeyboardButtons.LEFT_BLOCK}
+            alt="left-chicken-block"
+            onClick={() => block("left")}
           />
           <img
             src={rightArrow}
@@ -233,9 +276,14 @@ export const ChickenFight: React.FC = () => {
             onClick={() => moveChicken("right", false)}
           />
           <DiscButton
-            letter="I"
+            letter={KeyboardButtons.RIGHT_PUNCH}
             alt="right-chicken-punch"
             onClick={() => punch("right")}
+          />
+          <DiscButton
+            letter={KeyboardButtons.RIGHT_BLOCK}
+            alt="right-chicken-block"
+            onClick={() => block("right")}
           />
           <img
             src={rightArrow}
