@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import mailbox from "assets/decorations/mailbox.png";
 import alerted from "assets/icons/expression_alerted.png";
 import classNames from "classnames";
@@ -11,7 +11,7 @@ import {
   PAST_ANNOUNCEMENTS,
 } from "features/announcements/announcementsStorage";
 import { Announcement } from "features/announcements/Announcement";
-import { Panel } from "components/ui/Panel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 export const LetterBox: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,50 +24,49 @@ export const LetterBox: React.FC = () => {
   const hasUnread = hasAnnouncements();
 
   return (
-    <div
-      className="absolute"
-      id="letterbox"
-      style={{
-        top: `${PIXEL_SCALE * -1}px`,
-        right: `${PIXEL_SCALE * 1}px`,
-        width: `${GRID_WIDTH_PX}px`,
-      }}
-    >
-      {hasUnread && (
+    <>
+      <div
+        className="absolute cursor-pointer hover:img-highlight"
+        id="letterbox"
+        onClick={() => setIsOpen(true)}
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+          height: `${PIXEL_SCALE * 16}px`,
+        }}
+      >
+        {hasUnread && (
+          <img
+            src={alerted}
+            className="absolute animate-float pointer-events-none z-20"
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+              top: `${PIXEL_SCALE * -12}px`,
+              left: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
+
         <img
-          src={alerted}
-          className="w-3 absolute  animate-float"
+          src={mailbox}
+          className={classNames("absolute pointer-events-none", {
+            "img-highlight-heavy": hasUnread,
+          })}
           style={{
-            width: `${PIXEL_SCALE * 3}px`,
-            top: `${PIXEL_SCALE * -12}px`,
-            left: `${PIXEL_SCALE * 2}px`,
+            width: `${PIXEL_SCALE * 8}px`,
+            top: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 4}px`,
           }}
         />
-      )}
-
-      <img
-        src={mailbox}
-        className={classNames(
-          "absolute cursor-pointer hover:img-highlight left-0 right-0",
-          {
-            "img-highlight-heavy": hasUnread,
-          }
-        )}
-        style={{
-          width: `${PIXEL_SCALE * 8}px`,
-        }}
-        onClick={() => setIsOpen(true)}
-      />
-
+      </div>
       <Modal centered show={isOpen} onHide={close}>
-        <Panel>
-          <div className="text-sm mt-2 text-shadow text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-y-auto scrollable p-1">
+        <CloseButtonPanel onClose={close}>
+          <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
             {PAST_ANNOUNCEMENTS.map((announcement, index) => (
               <Announcement key={index} announcement={announcement} />
             ))}
           </div>
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
-    </div>
+    </>
   );
 };

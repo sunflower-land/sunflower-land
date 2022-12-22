@@ -43,7 +43,6 @@ import reindeerAntlers from "assets/npc-layers/reindeer_antlers.png";
 import shadow from "assets/npcs/shadow.png";
 
 import Spritesheet from "components/animation/SpriteAnimator";
-import patch from "assets/land/bumpkin_patch.png";
 
 import {
   BumpkinBody,
@@ -57,8 +56,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName } from "features/game/types/consumables";
 import { FeedModal } from "./FeedModal";
-import { Airdrop } from "features/game/expansion/components/Airdrop";
-import { LetterBox } from "features/farming/mail/LetterBox";
 
 type VisiblePart =
   | BumpkinBody
@@ -134,7 +131,7 @@ interface Props {
   suit?: BumpkinSuit;
 }
 
-export const Character: React.FC<Props> = ({
+export const DynamicMiniNFT: React.FC<Props> = ({
   body,
   hair,
   shirt,
@@ -159,10 +156,8 @@ export const Character: React.FC<Props> = ({
   };
 
   const bodyPartStyle = {
-    transformOrigin: "left top",
-    scale: "calc(20/16)",
-    width: `${PIXEL_SCALE * 16}px`,
-    top: `${PIXEL_SCALE * -4}px`,
+    width: `${PIXEL_SCALE * 20}px`,
+    top: `${PIXEL_SCALE * 5}px`,
     left: `${PIXEL_SCALE * -2}px`,
     imageRendering: "pixelated" as const,
   };
@@ -192,30 +187,19 @@ export const Character: React.FC<Props> = ({
 
   return (
     <>
-      <img
-        src={patch}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 32}px`,
-          top: 0,
-          left: 0,
-        }}
-      />
-
-      <LetterBox />
       <div
-        className="relative cursor-pointer hover:img-highlight"
+        className="absolute cursor-pointer hover:img-highlight"
         onClick={() => setOpen(true)}
         style={{
-          top: `${PIXEL_SCALE * 8}px`,
-          left: `${PIXEL_SCALE * 0}px`,
+          width: `${PIXEL_SCALE * 16}px`,
+          height: `${PIXEL_SCALE * 32}px`,
         }}
       >
         <img
           src={shadow}
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            top: `${PIXEL_SCALE * 11}px`,
+            top: `${PIXEL_SCALE * 20}px`,
             left: `${PIXEL_SCALE * 1}px`,
           }}
           className="absolute"
@@ -289,7 +273,6 @@ export const Character: React.FC<Props> = ({
           />
         )}
       </div>
-      <Airdrop />
       <FeedModal
         isOpen={open}
         onClose={() => setOpen(false)}
