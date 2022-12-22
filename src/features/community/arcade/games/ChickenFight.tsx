@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import gameBackground from "assets/community/arcade/chicken_fight/images/boxing_ring.png";
 import leftChickenIdle from "assets/community/arcade/chicken_fight/images/left_chicken_idle.gif";
@@ -56,7 +56,7 @@ enum KeyboardButtons {
   LEFT_BLOCK = "E",
   RIGHT_MOVE_LEFT = "J",
   RIGHT_MOVE_RIGHT = "L",
-  RIGHT_PUNCH = "I",
+  RIGHT_PUNCH = "U",
   RIGHT_BLOCK = "O",
 }
 
@@ -80,18 +80,6 @@ export const ChickenFight: React.FC = () => {
     position: 60,
     lives: 3,
   });
-
-  /**
-   * Watches chicken lives for game over
-   * @todo game over logic, cleanup
-   */
-  useEffect(() => {
-    if (!(leftChicken.lives && rightChicken.lives)) {
-      console.log("GAME OVER!");
-      console.log("left", leftChicken.lives);
-      console.log("right", rightChicken.lives);
-    }
-  }, [leftChicken.lives, rightChicken.lives]);
 
   /**
    * Move chicken to desired position without overlapping
@@ -118,6 +106,8 @@ export const ChickenFight: React.FC = () => {
    * Checks for collision so chickens don't overlap, switch sides, or go beyond boundary
    * Compare newPos to 0 for boundaries since they are with respect to absolute position side (left or right)
    * Enemy boundaries are computed with respect to left side for both chickens!
+   * @param id left or right
+   * @param newPos new position of moving chicken
    */
   const willCollide = (id: Id, newPos: number): boolean => {
     let collideWithEnemy;
@@ -146,7 +136,7 @@ export const ChickenFight: React.FC = () => {
       ? setters
       : setters.reverse();
     const isEnemyBlocking =
-      (isLeftChicken ? leftChicken : rightChicken).action === "block";
+      (isLeftChicken ? rightChicken : leftChicken).action === "block";
 
     actorSetter((prev) => ({ ...prev, action: "punch" }));
 
@@ -166,12 +156,60 @@ export const ChickenFight: React.FC = () => {
     setTimeout(() => actorSetter((prev) => ({ ...prev, action: "idle" })), 500);
   };
 
+  /**
+   * Block then idle after 500ms
+   * @param id left or right
+   */
   const block = (id: Id) => {
     const actorSetter = id === "left" ? setLeftChicken : setRightChicken;
 
     actorSetter((prev) => ({ ...prev, action: "block" }));
     setTimeout(() => actorSetter((prev) => ({ ...prev, action: "idle" })), 500);
   };
+
+  /**
+   * Handler for keyboard events
+   * Need to check state dependencies and re attach via useEffect
+   * @param event keyboard event
+   */
+  const keyboardListener = useCallback(
+    (event: KeyboardEvent) => {
+      event.stopPropagation();
+      const key = event.key.toUpperCase();
+
+      switch (key) {
+        // left chicken
+        case KeyboardButtons.LEFT_MOVE_LEFT:
+          moveChicken("left", false);
+          break;
+        case KeyboardButtons.LEFT_MOVE_RIGHT:
+          moveChicken("left", true);
+          break;
+        case KeyboardButtons.LEFT_PUNCH:
+          punch("left");
+          break;
+        case KeyboardButtons.LEFT_BLOCK:
+          block("left");
+          break;
+
+        // right chicken
+        case KeyboardButtons.RIGHT_MOVE_LEFT:
+          moveChicken("right", false);
+          break;
+        case KeyboardButtons.RIGHT_MOVE_RIGHT:
+          moveChicken("right", true);
+          break;
+        case KeyboardButtons.RIGHT_PUNCH:
+          punch("right");
+          break;
+        case KeyboardButtons.RIGHT_BLOCK:
+          block("right");
+          break;
+        default:
+      }
+    },
+    [leftChicken, rightChicken]
+  );
 
   /**
    * Check if chickens are adjacent to each other
@@ -183,6 +221,29 @@ export const ChickenFight: React.FC = () => {
       CANVAS_WIDTH - CHICKEN_MOVE
     );
   }, [leftChicken.position, rightChicken.position]);
+
+  /**
+   * Attaches/updates listener on keydown
+   */
+  useEffect(() => {
+    document.addEventListener("keydown", keyboardListener);
+
+    return () => {
+      document.removeEventListener("keydown", keyboardListener);
+    };
+  }, [keyboardListener]);
+
+  /**
+   * Watches chicken lives for game over
+   * @todo game over logic, cleanup
+   */
+  useEffect(() => {
+    if (!(leftChicken.lives && rightChicken.lives)) {
+      console.log("GAME OVER!");
+      console.log("left", leftChicken.lives);
+      console.log("right", rightChicken.lives);
+    }
+  }, [leftChicken.lives, rightChicken.lives]);
 
   return (
     <div>
