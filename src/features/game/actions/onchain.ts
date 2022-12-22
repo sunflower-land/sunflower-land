@@ -45,6 +45,36 @@ export type LimitedItemRecipeWithMintedAt = Recipe & {
   mintedAt: number;
 };
 
+export async function getGameOnChainState({
+  farmAddress,
+  id,
+}: GetStateArgs): Promise<{
+  game: GameState;
+  bumpkin?: OnChainBumpkin;
+}> {
+  if (!CONFIG.API_URL) {
+    return { game: EMPTY };
+  }
+
+  const balance = await wallet.getToken().balanceOf(farmAddress);
+  const balances = await wallet.getInventory().getBalances(farmAddress);
+  const bumpkins = await wallet.getBumpkinDetails().loadBumpkins();
+
+  const inventory = balancesToInventory(balances);
+  const fields = populateFields(inventory);
+
+  return {
+    game: {
+      ...EMPTY,
+      balance: new Decimal(fromWei(balance)),
+      farmAddress,
+      fields,
+      inventory,
+    },
+    bumpkin: bumpkins[0],
+  };
+}
+
 export async function getOnChainState({
   farmAddress,
   id,
@@ -102,7 +132,6 @@ export async function getOnChainState({
     bumpkin: bumpkins[0],
   };
 }
-
 export async function getTreasuryItems() {
   if (!API_URL) return {} as Inventory;
 

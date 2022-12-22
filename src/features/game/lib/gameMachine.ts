@@ -23,7 +23,7 @@ import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName, LimitedItemName } from "../types/craftables";
 import { syncProgress } from "../actions/sync";
-import { getOnChainState } from "../actions/onchain";
+import { getGameOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame, updateGame } from "./transforms";
 import { getFingerPrint } from "./botDetection";
@@ -53,7 +53,6 @@ export interface Context {
   onChain: GameState;
   actions: PastAction[];
   offset: number;
-  owner?: string;
   sessionId?: string;
   errorCode?: ErrorCode;
   transactionId?: string;
@@ -287,11 +286,8 @@ export function startGame(authContext: Options) {
             src: async (context) => {
               const farmId = authContext.farmId as number;
 
-              const {
-                game: onChain,
-                owner,
-                bumpkin,
-              } = await getOnChainState({
+              console.log("loading!");
+              const { game: onChain, bumpkin } = await getGameOnChainState({
                 farmAddress: authContext.address as string,
                 id: farmId,
               });
@@ -345,7 +341,6 @@ export function startGame(authContext: Options) {
                   fingerprint,
                   itemsMintedAt,
                   onChain,
-                  owner,
                   notifications: onChainEvents,
                   deviceTrackerId,
                   status,
@@ -967,7 +962,6 @@ export function startGame(authContext: Options) {
         assignGame: assign<Context, any>({
           state: (_, event) => event.data.state,
           onChain: (_, event) => event.data.onChain,
-          owner: (_, event) => event.data.owner,
           offset: (_, event) => event.data.offset,
           sessionId: (_, event) => event.data.sessionId,
           fingerprint: (_, event) => event.data.fingerprint,

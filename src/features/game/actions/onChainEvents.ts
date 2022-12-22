@@ -147,21 +147,19 @@ export async function unseenEvents({
 
   const lastBlock = getLastBlock();
 
+  const block = await getCurrentBlock();
+
   // First time playing the game, so no new events!
   if (!lastBlock) {
-    const block = await getCurrentBlock();
     storeLastBlock(block);
     return [];
   }
 
-  const [block, pastEvents] = await Promise.all([
-    getCurrentBlock(),
-    loadPastEvents({
-      farmAddress,
-      farmId,
-      block: lastBlock,
-    }),
-  ]);
+  const pastEvents = await loadPastEvents({
+    farmAddress,
+    farmId,
+    block: lastBlock,
+  });
 
   const unseen = pastEvents.filter(
     (event) => event.timestamp > lastBlock.timestamp / 1000
