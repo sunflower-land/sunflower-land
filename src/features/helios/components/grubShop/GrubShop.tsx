@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Modal } from "react-bootstrap";
 
 // import stall from "assets/buildings/grub_shop.png";
-import stall from "assets/events/christmas/buildings/stall.png";
+import stall from "assets/events/christmas/buildings/stall.webp";
 import closeSign from "assets/buildings/close_sign_2.png";
 import goblinChef from "assets/npcs/goblin_chef.gif";
 import shadow from "assets/npcs/shadow.png";

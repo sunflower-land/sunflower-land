@@ -15,7 +15,7 @@ import { LostSunflorian } from "./components/npcs/LostSunflorian";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { RustyShovelSeller } from "./components/rustyShovelSeller/RustyShovelSeller";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
-import background from "assets/events/christmas/land/helios.png";
+import background from "assets/events/christmas/land/helios.webp";
 
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
