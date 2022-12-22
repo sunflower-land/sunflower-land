@@ -64,7 +64,7 @@ const DiscButton: React.FC<DiscButtonProps> = ({ letter, onClick, alt }) => {
   return (
     <div className="relative cursor-pointer" onClick={onClick}>
       <img src={disc} alt={alt} className="h-10 w-10" />
-      <span className="absolute top-1 right-3">{letter}</span>
+      <span className="absolute top-1 left-3">{letter}</span>
     </div>
   );
 };
@@ -304,14 +304,8 @@ export const ChickenFight: React.FC = () => {
           />
         </div>
       </div>
-      <div className="flex p-4">
-        <div className="w-1/2 flex justify-around">
-          <img
-            src={leftArrow}
-            alt="left-chicken-left-arrow"
-            className="h-8 w-8 cursor-pointer"
-            onClick={() => moveChicken("left", false)}
-          />
+      <div className="flex px-8 py-4">
+        <div className="w-1/2 grid grid-cols-2 gap-4 justify-items-center">
           <DiscButton
             letter={KeyboardButtons.LEFT_PUNCH}
             alt="left-chicken-punch"
@@ -322,20 +316,26 @@ export const ChickenFight: React.FC = () => {
             alt="left-chicken-block"
             onClick={() => block("left")}
           />
-          <img
-            src={rightArrow}
-            alt="left-chicken-right-arrow"
-            className="h-8 w-8 cursor-pointer"
-            onClick={() => moveChicken("left", true)}
-          />
+          <div>
+            <img
+              src={leftArrow}
+              alt="left-chicken-left-arrow"
+              className="h-8 w-8 cursor-pointer"
+              onClick={() => moveChicken("left", false)}
+            />
+            <span>{KeyboardButtons.LEFT_MOVE_LEFT}</span>
+          </div>
+          <div>
+            <img
+              src={rightArrow}
+              alt="left-chicken-right-arrow"
+              className="h-8 w-8 cursor-pointer"
+              onClick={() => moveChicken("left", true)}
+            />
+            <span>{KeyboardButtons.LEFT_MOVE_RIGHT}</span>
+          </div>
         </div>
-        <div className="w-1/2 flex justify-around">
-          <img
-            src={leftArrow}
-            alt="right-chicken-left-arrow"
-            className="h-8 w-8 cursor-pointer"
-            onClick={() => moveChicken("right", false)}
-          />
+        <div className="w-1/2 grid grid-cols-2 gap-4 justify-items-center">
           <DiscButton
             letter={KeyboardButtons.RIGHT_PUNCH}
             alt="right-chicken-punch"
@@ -346,12 +346,24 @@ export const ChickenFight: React.FC = () => {
             alt="right-chicken-block"
             onClick={() => block("right")}
           />
-          <img
-            src={rightArrow}
-            alt="right-chicken-right-arrow"
-            className="h-8 w-8 cursor-pointer"
-            onClick={() => moveChicken("right", true)}
-          />
+          <div>
+            <img
+              src={leftArrow}
+              alt="right-chicken-left-arrow"
+              className="h-8 w-8 cursor-pointer"
+              onClick={() => moveChicken("right", false)}
+            />
+            <span>{KeyboardButtons.RIGHT_MOVE_LEFT}</span>
+          </div>
+          <div>
+            <img
+              src={rightArrow}
+              alt="right-chicken-right-arrow"
+              className="h-8 w-8 cursor-pointer"
+              onClick={() => moveChicken("right", true)}
+            />
+            <span>{KeyboardButtons.RIGHT_MOVE_RIGHT}</span>
+          </div>
         </div>
       </div>
     </div>
