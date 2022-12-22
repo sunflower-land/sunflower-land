@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import classNames from "classnames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
@@ -6,6 +6,10 @@ import token from "assets/icons/token_2.png";
 
 import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
+import { wallet } from "lib/blockchain/wallet";
+import { fromWei, toBN, toBN, toWei } from "web3-utils";
+import Decimal from "decimal.js-light";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   isOpen: boolean;
@@ -16,13 +20,36 @@ const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
 
 export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
+  const [maticBalance, setMaticBalance] = useState(0);
   const [maticAmount, setMaticAmount] = useState(0);
   const [SFLAmount, setSFLAmount] = useState(0);
+
+  useEffect(() => {
+    const fetchMaticBalance = async () => {
+      const balance = await wallet.getMaticBalance();
+
+      setMaticBalance(balance);
+    };
+
+    fetchMaticBalance();
+  }, []);
+
+  const getSFLAmount = async () => {
+    const sfl = await wallet.getSFLForMatic(
+      toWei(toBN(maticAmount)).toString()
+    );
+
+    console.log({ sfl });
+
+    setSFLAmount(sfl);
+  };
 
   const handleMaticAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (VALID_NUMBER.test(e.target.value)) {
       setMaticAmount(Number(e.target.value.slice(0, INPUT_MAX_CHAR)));
     }
+
+    getSFLAmount();
   };
 
   const handleSFLAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +61,9 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   const handleAddSFL = () => {
     console.log("adding sfl");
   };
+
+  const maticBalString = fromWei(toBN(maticBalance));
+  const formattedMaticBalance = setPrecision(new Decimal(maticBalString));
 
   return (
     <Modal show={isOpen} centered onHide={onClose}>
@@ -60,7 +90,7 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
                     }
                   )}
                 />
-                <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">{`Balance: 100000`}</span>
+                <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">{`Balance: ${formattedMaticBalance}`}</span>
               </div>
               <div className="w-[10%] flex self-center justify-center">
                 <img src={matic} alt="selected item" className="w-6" />
@@ -82,7 +112,6 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
                     }
                   )}
                 />
-                <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">{`Balance: 10000`}</span>
               </div>
               <div className="w-[10%] flex self-center justify-center">
                 <img className="w-6" src={token} alt="sfl token" />

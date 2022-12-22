@@ -2,13 +2,16 @@ import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 
-import { toHex, toWei } from "web3-utils";
+import { fromWei, toBN, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
 export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
+const UNISWAP_ROUTER = "0xa5e0829caced8ffdd4de3c43696c57f7d7a678ff";
+const WMATIC_ADDRESS = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
+const SFL_TOKEN_ADDRESS = "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05";
+console.log({ CONFIG });
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -317,6 +320,29 @@ export class Wallet {
 
   public get web3Provider() {
     return this.web3 as Web3;
+  }
+
+  public async getSFLForMatic(matic: string) {
+    // Uniswap contract only available on mainnet
+    const web3 = new Web3("https://polygon-rpc.com/");
+
+    const encodedFunctionSignature = web3.eth.abi.encodeFunctionSignature(
+      "getAmountsOut(uint256,address[])"
+    );
+
+    const encodedParameters = web3.eth.abi
+      .encodeParameters(
+        ["uint256", "address[]"],
+        [toBN(matic), [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]]
+      )
+      .substring(2);
+
+    const data = encodedFunctionSignature + encodedParameters;
+
+    const result = await web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = web3.eth.abi.decodeParameter("uint256[]", result);
+
+    return Number(fromWei(toBN(decodedResult[1])));
   }
 }
 
