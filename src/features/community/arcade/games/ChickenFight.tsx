@@ -13,6 +13,7 @@ import referee from "assets/community/arcade/chicken_fight/images/referee.gif";
 import audience from "assets/community/arcade/chicken_fight/images/audience.gif";
 import heart from "assets/community/arcade/chicken_fight/images/heart.png";
 import emptyHeart from "assets/community/arcade/chicken_fight/images/heart_empty.png";
+import gameOver from "assets/community/arcade/game_over.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 import disc from "assets/icons/disc.png";
@@ -51,6 +52,12 @@ const ACTIONS_TO_IMAGES: Record<string, Record<string, any>> = {
   },
 };
 
+const INITIAL_CHICKEN: Chicken = {
+  action: "idle",
+  position: 60,
+  lives: 3,
+};
+
 enum KeyboardButtons {
   LEFT_MOVE_LEFT = "A",
   LEFT_MOVE_RIGHT = "D",
@@ -72,16 +79,9 @@ const DiscButton: React.FC<DiscButtonProps> = ({ letter, onClick, alt }) => {
 };
 
 export const ChickenFight: React.FC = () => {
-  const [leftChicken, setLeftChicken] = useState<Chicken>({
-    action: "idle",
-    position: 60,
-    lives: 3,
-  });
-  const [rightChicken, setRightChicken] = useState<Chicken>({
-    action: "idle",
-    position: 60,
-    lives: 3,
-  });
+  const [leftChicken, setLeftChicken] = useState<Chicken>(INITIAL_CHICKEN);
+  const [rightChicken, setRightChicken] = useState<Chicken>(INITIAL_CHICKEN);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   /**
    * Move chicken to desired position without overlapping
@@ -225,6 +225,15 @@ export const ChickenFight: React.FC = () => {
   }, [leftChicken.position, rightChicken.position]);
 
   /**
+   * Reset the game
+   */
+  const reset = () => {
+    setIsGameOver(false);
+    setLeftChicken(INITIAL_CHICKEN);
+    setRightChicken(INITIAL_CHICKEN);
+  };
+
+  /**
    * Attaches/updates listener on keydown
    */
   useEffect(() => {
@@ -241,9 +250,7 @@ export const ChickenFight: React.FC = () => {
    */
   useEffect(() => {
     if (!(leftChicken.lives && rightChicken.lives)) {
-      console.log("GAME OVER!");
-      console.log("left", leftChicken.lives);
-      console.log("right", rightChicken.lives);
+      setIsGameOver(true);
     }
   }, [leftChicken.lives, rightChicken.lives]);
 
@@ -284,7 +291,7 @@ export const ChickenFight: React.FC = () => {
               left: `${leftChicken.position}px`,
             }}
           />
-          {Array(3)
+          {Array(INITIAL_CHICKEN.lives)
             .fill(<></>)
             .map((_, index) => (
               <img
@@ -311,7 +318,7 @@ export const ChickenFight: React.FC = () => {
               bottom: "110px",
             }}
           />
-          {Array(3)
+          {Array(INITIAL_CHICKEN.lives)
             .fill(<></>)
             .map((_, index) => (
               <img
@@ -336,6 +343,22 @@ export const ChickenFight: React.FC = () => {
               bottom: "0px",
             }}
           />
+          {isGameOver && (
+            <div className="text-center" onClick={reset}>
+              <img
+                src={gameOver}
+                alt="game-over"
+                style={{
+                  position: "absolute",
+                  height: `${CANVAS_HEIGHT * 0.3}px`,
+                  width: `${CANVAS_WIDTH * 0.6}px`,
+                  top: "35px",
+                  left: "55px",
+                }}
+              />
+              <span className="text-sm">click here to play again</span>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex px-8 py-4">
