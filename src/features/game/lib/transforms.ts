@@ -155,6 +155,9 @@ function updatePlots(
 
     const hasCrop = oldCrop && newCrop;
 
+    // Remove a stale reward if one exists
+    if (hasCrop && oldCrop.reward) delete oldCrop.reward;
+
     return {
       ...plots,
       [plotId]: {
