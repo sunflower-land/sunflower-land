@@ -46,7 +46,7 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <span className="text-shadow text-center loading">Minting</span>
             <img src={mintingAnimation} className="w-1/2 mt-2 mb-3" />
             <span className="text-sm">
-              Please be patient while we mint the NFT for you.
+              Please be patient while we mint the SFT for you.
             </span>
           </div>
         </Panel>
