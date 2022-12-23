@@ -6,6 +6,8 @@ import { communityContracts } from "features/community/lib/communityContracts";
 import { mintFrog, approve } from "../actions/mintFrog";
 import { ErrorCode } from "lib/errors";
 import { CONFIG } from "lib/config";
+import { getFarms } from "lib/blockchain/Farm";
+import { isTokenApprovedForContract } from "lib/blockchain/Token";
 
 const frogAddress = CONFIG.FROG_CONTRACT;
 
@@ -140,9 +142,11 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
       check_token: {
         invoke: {
           src: async () => {
-            const isTokenApproved = await wallet
-              .getToken()
-              .isTokenApprovedForContract(frogAddress);
+            const isTokenApproved = await isTokenApprovedForContract(
+              wallet.web3Provider,
+              wallet.myAccount,
+              frogAddress
+            );
 
             return { isTokenApproved };
           },
@@ -194,7 +198,7 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
       minting: {
         invoke: {
           src: async () => {
-            const farm = await wallet.getFarm()?.getFarms();
+            const farm = await getFarms(wallet.web3Provider, wallet.myAccount);
             const mint = await mintFrog({ farmId: Number(farm[0].tokenId) });
 
             return { mint };

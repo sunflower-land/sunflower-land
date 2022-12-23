@@ -1,7 +1,6 @@
 import { fetchAuctioneerSupply } from "features/game/actions/auctioneer";
 import { mint } from "features/game/actions/mint";
 import { GoblinRetreatItemName } from "features/game/types/craftables";
-import { Inventory } from "lib/blockchain/Inventory";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { createMachine, Interpreter, assign } from "xstate";
@@ -9,6 +8,7 @@ import { Item } from "../components/auctioneer/actions/auctioneerItems";
 import { escalate } from "xstate/lib/actions";
 import { wallet } from "lib/blockchain/wallet";
 import { randomID } from "lib/utils/random";
+import { getInventorySupply } from "lib/blockchain/Inventory";
 
 export interface Context {
   farmId: number;
@@ -114,7 +114,6 @@ export const auctioneerMachine = createMachine<
                 "base64"
               ).toString("ascii")}`
             );
-            const inventory = new Inventory(web3, wallet.myAccount as string);
 
             const id = setInterval(async () => {
               if (context.auctioneerItems === undefined) {
@@ -122,7 +121,11 @@ export const auctioneerMachine = createMachine<
               }
 
               const ids = context.auctioneerItems.map((item) => item.id);
-              const supply = await inventory.getSupply(ids);
+              const supply = await getInventorySupply(
+                web3,
+                wallet.myAccount as string,
+                ids
+              );
 
               const auctioneerItems = context.auctioneerItems.map(
                 (item, index) => ({

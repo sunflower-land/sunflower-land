@@ -2,7 +2,7 @@ import { wallet } from "lib/blockchain/wallet";
 
 import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
-import { ListingStatus } from "lib/blockchain/Trader";
+import { getFarmSlots, ListingStatus } from "lib/blockchain/Trader";
 import { CONFIG } from "lib/config";
 
 export type OnChainEvent = {
@@ -36,7 +36,7 @@ async function loadPastEvents({
     // metamask.getInventory().getTransfers(farmAddress, block.blockNumber),
     // metamask.getInventory().getBatchTransfers(farmAddress, block.blockNumber),
     // metamask.getToken().getPastDeposits(farmAddress, block.blockNumber),
-    wallet.getTrader().getFarmSlots(farmId),
+    getFarmSlots(wallet.web3Provider, wallet.myAccount, farmId),
   ]);
 
   const recentPurchases = farmTrades.filter(

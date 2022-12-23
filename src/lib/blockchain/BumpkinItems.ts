@@ -7,61 +7,62 @@ import { BumpkinItems as IBumpkinItems } from "./types/BumpkinItems";
 
 const address = CONFIG.INVENTORY_CONTRACT;
 
-/**
- * Inventory contract
- */
-export class BumpkinItems {
-  private web3: Web3;
-  private account: string;
+export async function loadSupplyBatch(
+  web3: Web3,
+  account: string,
+  ids: number[],
+  attempts = 0
+): Promise<string[]> {
+  await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-  private contract: IBumpkinItems;
+  try {
+    const supplies: string[] = await (
+      new web3.eth.Contract(
+        BumpkinItemsJSON as AbiItem[],
+        address as string
+      ) as unknown as IBumpkinItems
+    ).methods
+      .totalSupplyBatch(ids)
+      .call({ from: account });
 
-  constructor(web3: Web3, account: string) {
-    this.web3 = web3;
-    this.account = account;
-    this.contract = new this.web3.eth.Contract(
-      BumpkinItemsJSON as AbiItem[],
-      address as string
-    ) as unknown as IBumpkinItems;
-  }
-
-  public async loadSupplyBatch(ids: number[], attempts = 0): Promise<string[]> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
-
-    try {
-      const supplies: string[] = await this.contract.methods
-        .totalSupplyBatch(ids)
-        .call({ from: this.account });
-
-      return supplies;
-    } catch (e) {
-      const error = parseMetamaskError(e);
-      if (attempts < 3) {
-        return this.loadSupplyBatch(ids, attempts + 1);
-      }
-
-      throw error;
+    return supplies;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return loadSupplyBatch(web3, account, ids, attempts + 1);
     }
+
+    throw error;
   }
+}
 
-  public async balanceOf(id: number, attempts = 0): Promise<number> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
+export async function balanceOf(
+  web3: Web3,
+  account: string,
+  id: number,
+  attempts = 0
+): Promise<number> {
+  await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-    console.log({ account: this.account, id });
-    try {
-      const balance: string = await this.contract.methods
-        .balanceOf(this.account, id)
-        .call({ from: this.account });
+  console.log({ account: account, id });
+  try {
+    const balance: string = await (
+      new web3.eth.Contract(
+        BumpkinItemsJSON as AbiItem[],
+        address as string
+      ) as unknown as IBumpkinItems
+    ).methods
+      .balanceOf(account, id)
+      .call({ from: account });
 
-      console.log({ balance });
-      return Number(balance);
-    } catch (e) {
-      const error = parseMetamaskError(e);
-      if (attempts < 3) {
-        return this.balanceOf(id, attempts + 1);
-      }
-
-      throw error;
+    console.log({ balance });
+    return Number(balance);
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return balanceOf(web3, account, id, attempts + 1);
     }
+
+    throw error;
   }
 }

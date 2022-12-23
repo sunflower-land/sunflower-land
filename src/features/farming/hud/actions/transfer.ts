@@ -1,3 +1,4 @@
+import { transfer } from "lib/blockchain/Farm";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 
@@ -26,9 +27,12 @@ export async function transferAccount(request: Request) {
 
   const data: { success: boolean } = await response.json();
 
-  await wallet
-    .getFarm()
-    .transfer({ to: request.receiver, tokenId: request.farmId });
+  await transfer({
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+    to: request.receiver,
+    tokenId: request.farmId,
+  });
 
   return data;
 }

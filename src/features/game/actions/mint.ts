@@ -1,3 +1,4 @@
+import { mintCollectible } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -15,10 +16,6 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 export async function mint(request: Request) {
-  return mintCollectible(request);
-}
-
-async function mintCollectible(request: Request) {
   const response = await window.fetch(
     `${API_URL}/mint-collectible/${request.farmId}`,
     {
@@ -46,9 +43,11 @@ async function mintCollectible(request: Request) {
 
   const transaction = await response.json();
 
-  const sessionId = await wallet
-    .getSessionManager()
-    .mintCollectible(transaction);
+  const sessionId = await mintCollectible({
+    ...transaction,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+  });
 
   return { sessionId, verified: true };
 }

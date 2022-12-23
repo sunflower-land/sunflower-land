@@ -22,6 +22,8 @@ import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
+import { getFarm, getFarms } from "lib/blockchain/Farm";
+import { getCreatedAt } from "lib/blockchain/AccountMinter";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -169,7 +171,7 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
-    initial: API_URL ? "idle" : "connected",
+    initial: API_URL ? "connectingToMetamask" : "connected",
     states: {
       idle: {
         id: "idle",
@@ -626,15 +628,20 @@ export const authMachine = createMachine<
         return { wallet: "SEQUENCE", provider };
       },
       loadFarm: async (context): Promise<Farm | undefined> => {
-        const farmAccounts = await wallet.getFarm()?.getFarms();
+        const farmAccounts = await getFarms(
+          wallet.web3Provider,
+          wallet.myAccount
+        );
 
         if (farmAccounts?.length === 0) {
           return;
         }
 
-        const createdAt = await wallet
-          .getAccountMinter()
-          ?.getCreatedAt(wallet.myAccount as string);
+        const createdAt = await getCreatedAt(
+          wallet.web3Provider,
+          wallet.myAccount,
+          wallet.myAccount as string
+        );
 
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
@@ -690,7 +697,11 @@ export const authMachine = createMachine<
         event: any
       ): Promise<Farm | undefined> => {
         const farmId = getFarmIdFromUrl() || (event as VisitEvent).farmId;
-        const farmAccount = await wallet.getFarm()?.getFarm(farmId);
+        const farmAccount = await getFarm(
+          wallet.web3Provider,
+          wallet.myAccount,
+          farmId
+        );
 
         const isBlacklisted = await isFarmBlacklisted(farmId);
 

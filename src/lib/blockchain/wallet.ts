@@ -1,20 +1,11 @@
 import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
-import { SessionManager } from "./Sessions";
-import { Farm } from "./Farm";
-import { AccountMinter } from "./AccountMinter";
-import { Inventory } from "./Inventory";
-import { Pair } from "./Pair";
-import { WishingWell } from "./WishingWell";
-import { Token } from "./Token";
+
 import { toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { Trader } from "./Trader";
-import { BumpkinDetails } from "./BumpkinDetails";
-import { BumpkinItems } from "./BumpkinItems";
-import { QuestContract } from "./Quests";
+
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
 export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
@@ -24,18 +15,6 @@ export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
 export class Wallet {
   private web3: Web3 | null = null;
 
-  private farm: Farm | null = null;
-  private session: SessionManager | null = null;
-  private accountMinter: AccountMinter | null = null;
-  private bumpkinDetails: BumpkinDetails | null = null;
-  private bumpkinItems: BumpkinItems | null = null;
-  private inventory: Inventory | null = null;
-  private pair: Pair | null = null;
-  private wishingWell: WishingWell | null = null;
-  private token: Token | null = null;
-  private trader: Trader | null = null;
-  private quests: QuestContract | null = null;
-
   private account: string | null = null;
 
   private type: WalletType | null = null;
@@ -43,36 +22,7 @@ export class Wallet {
 
   private async initialiseContracts() {
     try {
-      this.farm = new Farm(this.web3 as Web3, this.account as string);
-
-      this.session = new SessionManager(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.accountMinter = new AccountMinter(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.bumpkinDetails = new BumpkinDetails(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.bumpkinItems = new BumpkinItems(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.inventory = new Inventory(this.web3 as Web3, this.account as string);
-      this.pair = new Pair(this.web3 as Web3, this.account as string);
-      this.token = new Token(this.web3 as Web3, this.account as string);
-      this.wishingWell = new WishingWell(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.trader = new Trader(this.web3 as Web3, this.account as string);
-      this.quests = new QuestContract(
-        this.web3 as Web3,
-        this.account as string
-      );
+      // TODO - initialise a test contract???
 
       const isHealthy = await this.healthCheck();
 
@@ -168,7 +118,7 @@ export class Wallet {
   }
 
   public isAlchemy = false;
-  public overrideProvider() {
+  public async overrideProvider() {
     this.isAlchemy = true;
 
     if (CONFIG.ALCHEMY_RPC) {
@@ -185,6 +135,8 @@ export class Wallet {
       }
 
       this.web3 = new Web3(web3 as any);
+
+      await this.initialiseContracts();
     }
   }
 
@@ -318,52 +270,8 @@ export class Wallet {
     }
   }
 
-  public getFarm() {
-    return this.farm as Farm;
-  }
-
-  public getInventory() {
-    return this.inventory as Inventory;
-  }
-
-  public getAccountMinter() {
-    return this.accountMinter as AccountMinter;
-  }
-
-  public getBumpkinDetails() {
-    return this.bumpkinDetails as BumpkinDetails;
-  }
-
-  public getBumpkinItems() {
-    return this.bumpkinItems as BumpkinItems;
-  }
-
-  public getSessionManager() {
-    return this.session as SessionManager;
-  }
-
-  public getPair() {
-    return this.pair as Pair;
-  }
-
-  public getWishingWell() {
-    return this.wishingWell as WishingWell;
-  }
-
-  public getToken() {
-    return this.token as Token;
-  }
-
-  public getTrader() {
-    return this.trader as Trader;
-  }
-
-  public getQuests() {
-    return this.quests as QuestContract;
-  }
-
   public get myAccount() {
-    return this.account;
+    return this.account as string;
   }
 
   public async getBlockNumber() {
@@ -408,7 +316,7 @@ export class Wallet {
   }
 
   public get web3Provider() {
-    return this.web3;
+    return this.web3 as Web3;
   }
 }
 

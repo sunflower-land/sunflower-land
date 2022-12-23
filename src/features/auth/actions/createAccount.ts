@@ -1,3 +1,5 @@
+import { createNewAccount } from "lib/blockchain/AccountMinter";
+import { getNewFarm } from "lib/blockchain/Farm";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -73,9 +75,13 @@ export async function createAccount({
     transactionId,
   });
 
-  await wallet.getAccountMinter().createAccount(transaction);
+  await createNewAccount({
+    ...transaction,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+  });
 
-  const farm = await wallet.getFarm().getNewFarm();
+  const farm = await getNewFarm(wallet.web3Provider, wallet.myAccount);
 
   return farm;
 }

@@ -1,3 +1,4 @@
+import { getFarm } from "lib/blockchain/Farm";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -91,7 +92,11 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
     {
       services: {
         loadFarmToVisit: async (): Promise<Context | undefined> => {
-          const farmAccount = await wallet.getFarm()?.getFarm(farmToVisitID);
+          const farmAccount = await getFarm(
+            wallet.web3Provider,
+            wallet.myAccount,
+            farmToVisitID
+          );
 
           const { game: onChain, owner } = await getOnChainState({
             farmAddress: farmAccount.account,

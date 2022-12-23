@@ -22,7 +22,7 @@ import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName, LimitedItemName } from "../types/craftables";
-import { syncProgress } from "../actions/sync";
+import { sync } from "../actions/sync";
 import { getGameOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
@@ -41,6 +41,9 @@ import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 import { CONFIG } from "lib/config";
+
+import { getSessionId } from "lib/blockchain/Sessions";
+import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 const API_URL = CONFIG.API_URL;
 
@@ -293,7 +296,11 @@ export function startGame(authContext: Options) {
               // Get sessionId
               const sessionId =
                 farmId &&
-                (await wallet.getSessionManager().getSessionId(farmId));
+                (await getSessionId(
+                  wallet.web3Provider,
+                  wallet.myAccount,
+                  farmId
+                ));
 
               // Load the farm session
               if (sessionId) {
@@ -494,16 +501,19 @@ export function startGame(authContext: Options) {
              */
             src: (context) => (cb) => {
               const interval = setInterval(async () => {
-                const sessionID = await wallet
-                  .getSessionManager()
-                  ?.getSessionId(authContext?.farmId as number);
+                const sessionID = await getSessionId(
+                  wallet.web3Provider,
+                  wallet.myAccount,
+                  authContext?.farmId as number
+                );
 
                 if (sessionID !== context.sessionId) {
                   cb("EXPIRED");
                 }
 
                 const bumpkins =
-                  (await wallet.getBumpkinDetails()?.loadBumpkins()) ?? [];
+                  (await loadBumpkins(wallet.web3Provider, wallet.myAccount)) ??
+                  [];
                 const tokenURI = bumpkins[0]?.tokenURI;
 
                 if (tokenURI !== context.state.bumpkin?.tokenUri) {
@@ -643,7 +653,7 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const { sessionId } = await syncProgress({
+              const { sessionId } = await sync({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
