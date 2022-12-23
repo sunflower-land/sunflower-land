@@ -208,7 +208,7 @@ export const greedyGoblinAudio = {
 export const chickenFightAudio = {
   chickenFightPlayingAudio: new Howl({
     src: [chickenFightPlaying],
-    volume: 0.1,
+    volume: 0.2,
     loop: true,
   }),
   chickenFightPunchAudio: new Howl({

@@ -8,7 +8,7 @@
  * Objectives:
  * Well, defeat enemy :)
  *
- * Supports PC (keyboard) platform for now since mobile device might not support multi touch (also not tested / in scope)
+ * Movement controls are only via tap for now :|
  */
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -45,11 +45,21 @@ type Chicken = {
   position: number;
   lives: number;
 };
-
+enum KeyboardButtons {
+  LEFT_MOVE_LEFT = "A",
+  LEFT_MOVE_RIGHT = "D",
+  LEFT_PUNCH = "Q",
+  LEFT_BLOCK = "E",
+  RIGHT_MOVE_LEFT = "J",
+  RIGHT_MOVE_RIGHT = "L",
+  RIGHT_PUNCH = "U",
+  RIGHT_BLOCK = "O",
+}
 interface DiscButtonProps {
   letter: string;
-  onClick: () => void;
   alt?: string;
+  onClick: () => void;
+  onTouchStart: () => void;
 }
 
 const ACTIONS_TO_IMAGES: Record<string, Record<string, any>> = {
@@ -73,20 +83,18 @@ const INITIAL_CHICKEN: Chicken = {
   lives: 3,
 };
 
-enum KeyboardButtons {
-  LEFT_MOVE_LEFT = "A",
-  LEFT_MOVE_RIGHT = "D",
-  LEFT_PUNCH = "Q",
-  LEFT_BLOCK = "E",
-  RIGHT_MOVE_LEFT = "J",
-  RIGHT_MOVE_RIGHT = "L",
-  RIGHT_PUNCH = "U",
-  RIGHT_BLOCK = "O",
-}
-
-const DiscButton: React.FC<DiscButtonProps> = ({ letter, onClick, alt }) => {
+const DiscButton: React.FC<DiscButtonProps> = ({
+  alt,
+  letter,
+  onClick,
+  onTouchStart,
+}) => {
   return (
-    <div className="relative cursor-pointer" onClick={onClick}>
+    <div
+      className="relative cursor-pointer"
+      onClick={onClick}
+      onTouchStart={onTouchStart}
+    >
       <img src={disc} alt={alt} className="h-10 w-10" />
       <span className="absolute top-1 left-3">{letter}</span>
     </div>
@@ -122,7 +130,7 @@ export const ChickenFight: React.FC = () => {
   /**
    * Checks for collision so chickens don't overlap, switch sides, or go beyond boundary
    * Compare newPos to 0 for boundaries since they are with respect to absolute position side (left or right)
-   * Enemy boundaries are computed with respect to left side for both chickens!
+   * Enemy boundaries are computed with respect to left side for both chickens
    * @param id left or right
    * @param newPos new position of moving chicken
    */
@@ -244,17 +252,6 @@ export const ChickenFight: React.FC = () => {
   );
 
   /**
-   * Check if chickens are adjacent to each other
-   * Use move step as buffer when chickens are adjacent near boundary
-   */
-  const isAdjacent = useMemo((): boolean => {
-    return (
-      leftChicken.position + rightChicken.position + 2 * CHICKEN_SIDE ===
-      CANVAS_WIDTH - CHICKEN_MOVE
-    );
-  }, [leftChicken.position, rightChicken.position]);
-
-  /**
    * Reset the game
    */
   const reset = () => {
@@ -264,6 +261,17 @@ export const ChickenFight: React.FC = () => {
 
     chickenFightAudio.chickenFightPlayingAudio.play();
   };
+
+  /**
+   * Check if chickens are adjacent to each other
+   * Use move step as buffer when chickens are adjacent near boundary
+   */
+  const isAdjacent = useMemo((): boolean => {
+    return (
+      leftChicken.position + rightChicken.position + 2 * CHICKEN_SIDE ===
+      CANVAS_WIDTH - CHICKEN_MOVE
+    );
+  }, [leftChicken.position, rightChicken.position]);
 
   useEffect(() => {
     chickenFightAudio.chickenFightPlayingAudio.play();
@@ -403,63 +411,75 @@ export const ChickenFight: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="flex px-8 py-4">
-        <div className="w-1/2 grid grid-cols-2 gap-4 justify-items-center">
+      <div className="flex px-8 py-4 justify-between">
+        <div className="w-1/2 grid grid-cols-2 gap-4 justify-items-start">
           <DiscButton
             letter={KeyboardButtons.LEFT_PUNCH}
             alt="left-chicken-punch"
             onClick={() => punch("left")}
+            onTouchStart={() => punch("left")}
           />
           <DiscButton
             letter={KeyboardButtons.LEFT_BLOCK}
             alt="left-chicken-block"
             onClick={() => block("left")}
+            onTouchStart={() => block("left")}
           />
-          <div>
+          <div
+            onClick={() => moveChicken("left", false)}
+            onTouchStart={() => moveChicken("left", false)}
+          >
             <img
               src={leftArrow}
               alt="left-chicken-left-arrow"
               className="h-8 w-8 cursor-pointer"
-              onClick={() => moveChicken("left", false)}
             />
             <span>{KeyboardButtons.LEFT_MOVE_LEFT}</span>
           </div>
-          <div>
+          <div
+            onClick={() => moveChicken("left", true)}
+            onTouchStart={() => moveChicken("left", true)}
+          >
             <img
               src={rightArrow}
               alt="left-chicken-right-arrow"
               className="h-8 w-8 cursor-pointer"
-              onClick={() => moveChicken("left", true)}
             />
             <span>{KeyboardButtons.LEFT_MOVE_RIGHT}</span>
           </div>
         </div>
-        <div className="w-1/2 grid grid-cols-2 gap-4 justify-items-center">
+        <div className="w-1/2 grid grid-cols-2 gap-4 justify-items-end">
           <DiscButton
             letter={KeyboardButtons.RIGHT_PUNCH}
             alt="right-chicken-punch"
             onClick={() => punch("right")}
+            onTouchStart={() => punch("right")}
           />
           <DiscButton
             letter={KeyboardButtons.RIGHT_BLOCK}
             alt="right-chicken-block"
             onClick={() => block("right")}
+            onTouchStart={() => block("right")}
           />
-          <div>
+          <div
+            onClick={() => moveChicken("right", false)}
+            onTouchStart={() => moveChicken("right", false)}
+          >
             <img
               src={leftArrow}
               alt="right-chicken-left-arrow"
               className="h-8 w-8 cursor-pointer"
-              onClick={() => moveChicken("right", false)}
             />
             <span>{KeyboardButtons.RIGHT_MOVE_LEFT}</span>
           </div>
-          <div>
+          <div
+            onClick={() => moveChicken("right", true)}
+            onTouchStart={() => moveChicken("right", true)}
+          >
             <img
               src={rightArrow}
               alt="right-chicken-right-arrow"
               className="h-8 w-8 cursor-pointer"
-              onClick={() => moveChicken("right", true)}
             />
             <span>{KeyboardButtons.RIGHT_MOVE_RIGHT}</span>
           </div>
