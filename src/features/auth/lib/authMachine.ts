@@ -593,17 +593,6 @@ export const authMachine = createMachine<
             method: "eth_requestAccounts",
           });
 
-          // const chainId = await new Web3(provider).eth.getChainId();
-          // if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
-          //   throw new Error(ERRORS.WRONG_CHAIN);
-          // }
-
-          // if (CONFIG.ALCHEMY_RPC) {
-          //   const web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
-
-          //   return { wallet: "METAMASK", provider: web3 };
-          // }
-
           return { wallet: "METAMASK", provider };
         } else {
           throw new Error(ERRORS.NO_WEB3);
