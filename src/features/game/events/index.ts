@@ -103,6 +103,7 @@ import {
   removeChicken,
   RemoveChickenAction,
 } from "./landExpansion/removeChicken";
+import { plantFruit, PlantFruitAction } from "./landExpansion/fruitPlanted";
 
 export type PlayingEvent =
   | TradeAction
@@ -135,7 +136,8 @@ export type PlayingEvent =
   | BeanBoughtAction
   | CollectCropRewardAction
   | CollectTreeRewardAction
-  | LandExpansionCollectEggsAction;
+  | LandExpansionCollectEggsAction
+  | PlantFruitAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -189,6 +191,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bean.bought": beanBought,
   "cropReward.collected": collectCropReward,
   "treeReward.collected": collectTreeReward,
+  "fruit.planted": plantFruit,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

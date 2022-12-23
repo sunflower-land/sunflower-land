@@ -12,8 +12,7 @@ import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-
-export type FruitName = "Apple" | "Orange" | "Blueberry";
+import { FruitName } from "features/game/types/fruits";
 
 const fruits: Record<FruitName, React.FC> = {
   Apple: () => (
