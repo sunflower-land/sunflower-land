@@ -105,8 +105,8 @@ type VisitEvent = {
 
 type BuySFLEvent = {
   type: "BUY_SFL";
-  maticAmount: number;
-  SFLAmount: number;
+  maticAmount: string;
+  amountOutMin: string;
 };
 
 export type BlockchainEvent =
@@ -592,7 +592,8 @@ export function startGame(authContext: Options) {
                 farmId: Number(authContext.farmId),
                 token: authContext.rawToken as string,
                 transactionId: context.transactionId as string,
-                matic: event.maticAmount,
+                matic: (event as BuySFLEvent).maticAmount,
+                amountOutMin: (event as BuySFLEvent).amountOutMin,
               });
             },
             onDone: {

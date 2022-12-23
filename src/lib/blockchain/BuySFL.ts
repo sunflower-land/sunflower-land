@@ -1,10 +1,11 @@
+import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import BuySFLAbi from "./abis/BuySFL.json";
 import { BuySFL as IBuySFL } from "./types/BuySFL";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
-const address = "0xe4A579BAEEB8cE727937f2AE6dca9334f0a8C1A1";
+const address = CONFIG.BUY_SFL_CONTRACT;
 
 interface BuySFLArgs {
   signature: string;

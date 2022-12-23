@@ -5,20 +5,14 @@ import Web3 from "web3";
 import { fromWei, toBN, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-<<<<<<< HEAD
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
-=======
-import { Trader } from "./Trader";
-import { BumpkinDetails } from "./BumpkinDetails";
-import { BumpkinItems } from "./BumpkinItems";
-import { QuestContract } from "./Quests";
 import { BuySFL } from "./BuySFL";
->>>>>>> 792f5c6d (Add buySFL funtions)
 
 export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
-const UNISWAP_ROUTER = "0xa5e0829caced8ffdd4de3c43696c57f7d7a678ff";
-const WMATIC_ADDRESS = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270";
-const SFL_TOKEN_ADDRESS = "0xD1f9c58e33933a993A3891F8acFe05a68E1afC05";
+const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
+const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
+const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
+
 console.log({ CONFIG });
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -331,16 +325,17 @@ export class Wallet {
   }
 
   public async getSFLForMatic(matic: string) {
-    // Uniswap contract only available on mainnet
-    const web3 = new Web3("https://polygon-rpc.com/");
+    if (!this.web3) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
 
-    const encodedFunctionSignature = web3.eth.abi.encodeFunctionSignature(
+    const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
       "getAmountsOut(uint256,address[])"
     );
 
     const maticMinusFee = toBN(matic).mul(toBN(950)).div(toBN(1000));
 
-    const encodedParameters = web3.eth.abi
+    const encodedParameters = this.web3.eth.abi
       .encodeParameters(
         ["uint256", "address[]"],
         [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]]
@@ -349,21 +344,25 @@ export class Wallet {
 
     const data = encodedFunctionSignature + encodedParameters;
 
-    const result = await web3.eth.call({ to: UNISWAP_ROUTER, data });
-    const decodedResult = web3.eth.abi.decodeParameter("uint256[]", result);
+    const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = this.web3.eth.abi.decodeParameter(
+      "uint256[]",
+      result
+    );
 
     return Number(fromWei(toBN(decodedResult[1])));
   }
 
   public async getMaticForSFL(sfl: string) {
-    // Uniswap contract only available on mainnet
-    const web3 = new Web3("https://polygon-rpc.com/");
+    if (!this.web3) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
 
-    const encodedFunctionSignature = web3.eth.abi.encodeFunctionSignature(
-      "getAmountsOut(uint256,address[])"
+    const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
+      "getAmountsIn(uint256,address[])"
     );
 
-    const encodedParameters = web3.eth.abi
+    const encodedParameters = this.web3.eth.abi
       .encodeParameters(
         ["uint256", "address[]"],
         [toBN(sfl), [SFL_TOKEN_ADDRESS, WMATIC_ADDRESS]]
@@ -372,8 +371,11 @@ export class Wallet {
 
     const data = encodedFunctionSignature + encodedParameters;
 
-    const result = await web3.eth.call({ to: UNISWAP_ROUTER, data });
-    const decodedResult = web3.eth.abi.decodeParameter("uint256[]", result);
+    const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = this.web3.eth.abi.decodeParameter(
+      "uint256[]",
+      result
+    );
 
     const maticWithFee = Number(
       fromWei(toBN(decodedResult[1]).mul(toBN(1050)).div(toBN(1000)))

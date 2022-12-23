@@ -8,8 +8,8 @@ type Options = {
   farmId: number;
   token: string;
   transactionId: string;
-  matic: number;
-  amountOutMin: number;
+  matic: string;
+  amountOutMin: string;
 };
 
 export async function buySFL({

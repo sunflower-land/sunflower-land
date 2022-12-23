@@ -28,7 +28,7 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   const [maticInputError, setMaticInputError] = useState<string | null>(null);
   const [SFLInputError, setSFLInputError] = useState<string | null>(null);
 
-  const minAmountOut = SFLAmount * 0.99;
+  const amountOutMin = SFLAmount * 0.99;
 
   useEffect(() => {
     const fetchMaticBalance = async () => {
@@ -51,6 +51,7 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
 
       setSFLAmount(sfl);
     } catch (error: any) {
+      console.error(error.message);
       if (error.message.includes("INSUFFICIENT_INPUT_AMOUNT")) {
         setMaticInputError("Insufficient input amount");
       }
@@ -68,6 +69,7 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
 
       setMaticAmount(matic);
     } catch (error: any) {
+      console.error(error.message);
       if (error.message.includes("INSUFFICIENT_INPUT_AMOUNT")) {
         setSFLInputError("Insufficient output amount");
       }
@@ -103,7 +105,12 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const handleAddSFL = () => {
-    gameService.send({ type: "BUY_SFL", maticAmount, SFLAmount: minAmountOut });
+    gameService.send({
+      type: "BUY_SFL",
+      maticAmount: toWei(maticAmount.toString()),
+      amountOutMin: toWei(amountOutMin.toString()),
+    });
+    onClose();
   };
 
   const maticBalString = fromWei(toBN(maticBalance));
@@ -175,6 +182,12 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
               </div>
             </div>
             <div className="relative">
+              {!!amountOutMin && (
+                <p className="text-xxs">
+                  Minimum Received:{" "}
+                  {setPrecision(new Decimal(amountOutMin)).toNumber()}
+                </p>
+              )}
               {SFLInputError && (
                 <p className="absolute text-error text-xxs font-error">
                   {SFLInputError}
