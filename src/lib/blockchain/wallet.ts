@@ -17,7 +17,7 @@ import { BumpkinItems } from "./BumpkinItems";
 import { QuestContract } from "./Quests";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
-console.log({ CONFIG });
+export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -37,6 +37,9 @@ export class Wallet {
   private quests: QuestContract | null = null;
 
   private account: string | null = null;
+
+  private type: WalletType | null = null;
+  private rawProvider: any | null = null;
 
   private async initialiseContracts() {
     try {
@@ -127,11 +130,17 @@ export class Wallet {
     return Number(balance);
   }
 
-  public async initialise(provider: any, retryCount = 0): Promise<void> {
+  public async initialise(
+    provider: any,
+    type: WalletType,
+    retryCount = 0
+  ): Promise<void> {
+    this.type = type;
     try {
       // Smooth out the loading state
       await new Promise((res) => setTimeout(res, 1000));
       this.web3 = new Web3(provider);
+      this.rawProvider = provider;
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
@@ -151,7 +160,7 @@ export class Wallet {
       if (retryCount < 3) {
         await new Promise((res) => setTimeout(res, 2000));
 
-        return this.initialise(retryCount + 1);
+        return this.initialise(provider, type, retryCount + 1);
       }
 
       throw e;
@@ -165,9 +174,15 @@ export class Wallet {
     if (CONFIG.ALCHEMY_RPC) {
       console.log("Provider overriden");
 
-      const web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
+      let web3;
 
-      // TODO sequence or wallet connect option here
+      if (this.type === "METAMASK") {
+        web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
+      } else {
+        web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC, {
+          writeProvider: this.rawProvider,
+        });
+      }
 
       this.web3 = new Web3(web3 as any);
     }
