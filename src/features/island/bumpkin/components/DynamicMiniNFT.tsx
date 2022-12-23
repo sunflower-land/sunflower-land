@@ -128,7 +128,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Snowman Onesie": snowman,
 };
 
-interface Props {
+export interface DynamicMiniNFTProps {
   body: BumpkinBody;
   hair: BumpkinHair;
   shirt: BumpkinShirt;
@@ -138,7 +138,7 @@ interface Props {
   onesie?: BumpkinOnesie;
 }
 
-export const DynamicMiniNFT: React.FC<Props> = ({
+export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
   body,
   hair,
   shirt,

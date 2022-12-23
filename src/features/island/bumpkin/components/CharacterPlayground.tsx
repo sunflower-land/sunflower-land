@@ -1,36 +1,18 @@
 import React from "react";
 import patch from "assets/land/bumpkin_patch.png";
-
-import {
-  BumpkinBody,
-  BumpkinPant,
-  BumpkinShirt,
-  BumpkinHair,
-  BumpkinSuit,
-  BumpkinHat,
-} from "features/game/types/bumpkin";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Airdrop } from "features/game/expansion/components/Airdrop";
 import { LetterBox } from "features/farming/mail/LetterBox";
-import { DynamicMiniNFT } from "./DynamicMiniNFT";
+import { DynamicMiniNFT, DynamicMiniNFTProps } from "./DynamicMiniNFT";
 
-interface Props {
-  body: BumpkinBody;
-  hair: BumpkinHair;
-  shirt: BumpkinShirt;
-  pants: BumpkinPant;
-  hat?: BumpkinHat;
-  suit?: BumpkinSuit;
-}
-
-export const CharacterPlayground: React.FC<Props> = ({
+export const CharacterPlayground: React.FC<DynamicMiniNFTProps> = ({
   body,
   hair,
   shirt,
   pants,
   hat,
   suit,
+  onesie,
 }) => {
   return (
     <>
@@ -50,6 +32,7 @@ export const CharacterPlayground: React.FC<Props> = ({
         pants={pants}
         hat={hat}
         suit={suit}
+        onesie={onesie}
       />
       <div
         className="absolute"
