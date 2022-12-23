@@ -30,7 +30,7 @@ import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
 import { getBumpkinLevel } from "features/game/lib/level";
 import ocean from "assets/events/christmas/decorations/ocean.png";
-import background from "assets/events/christmas/land/retreat.png";
+import background from "assets/events/christmas/land/retreat.webp";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";

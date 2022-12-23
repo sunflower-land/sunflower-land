@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
 // import deli from "assets/buildings/deli.png";
-import deli from "assets/events/christmas/buildings/deli.png";
+import deli from "assets/events/christmas/buildings/deli.webp";
 import artisian from "assets/npcs/artisian.gif";
 import artisianDoing from "assets/npcs/artisian_doing.gif";
 import shadow from "assets/npcs/shadow.png";

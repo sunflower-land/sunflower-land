@@ -38,12 +38,17 @@ export async function buildImageRequest({ fileName }: { fileName: string }) {
   return data.image;
 }
 
+const URL =
+  CONFIG.NETWORK === "mainnet"
+    ? "https://images.bumpkins.io/nfts"
+    : "https://testnet-images.bumpkins.io/nfts";
+
 export async function buildImage(request: Request): Promise<string> {
   const tokenUri = tokenUriBuilder(request.parts);
 
   // Grab a small file size and enlarge with CSS
   const size = 100;
-  const url = `https://testnet-images.bumpkins.io/nfts/${tokenUri}x${size}.png`;
+  const url = `${URL}/${tokenUri}x${size}.png`;
   const img = new Image();
   img.src = url;
 

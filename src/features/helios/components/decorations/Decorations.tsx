@@ -3,7 +3,7 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 // import building from "assets/buildings/decorations.png";
-import building from "assets/events/christmas/buildings/decorations.png";
+import building from "assets/events/christmas/buildings/decorations.webp";
 // import retroGirl from "assets/npcs/retro_girl.gif";
 import retroGirl from "assets/events/christmas/npcs/retro_girl.gif";
 import shadow from "assets/npcs/shadow.png";

@@ -1,13 +1,12 @@
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-// import background from "./assets/community_garden.gif";
-import ocean from "assets/events/christmas/decorations/ocean.png";
+import background from "./assets/community_garden.gif";
 import { CommunityHud } from "./components/CommunityHUD";
 import { CommunityProvider } from "./lib/CommunityProvider";
-import { NorthPole } from "features/community/northpole/NorthPole";
+import { CommunityGarden } from "features/community/components/CommunityGarden";
 
 export const Community: React.FC = () => {
   const container = useRef(null);
@@ -16,8 +15,7 @@ export const Community: React.FC = () => {
 
   useEffect(() => {
     // Start with crops centered
-    //scrollIntoView(Section.Merchant, "auto");
-    scrollIntoView(Section.NorthPole, "auto");
+    scrollIntoView(Section.Merchant, "auto");
   }, [scrollIntoView]);
 
   // Load data
@@ -34,17 +32,9 @@ export const Community: React.FC = () => {
             height: `${60 * GRID_WIDTH_PX}px`,
           }}
         >
-          <div
-            className="absolute inset-0 bg-repeat w-full h-full"
-            style={{
-              backgroundImage: `url(${ocean})`,
-              backgroundSize: `${64 * PIXEL_SCALE}px`,
-              imageRendering: "pixelated",
-            }}
-          />
-          {/*<img src={background} className="absolute inset-0 w-full h-full" />*/}
+          <img src={background} className="absolute inset-0 w-full h-full" />
           <CommunityHud />
-          <NorthPole />
+          <CommunityGarden />
         </div>
       </ScrollContainer>
     </CommunityProvider>

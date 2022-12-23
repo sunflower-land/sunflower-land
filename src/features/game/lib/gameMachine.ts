@@ -23,10 +23,9 @@ import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName, LimitedItemName } from "../types/craftables";
 import { syncProgress } from "../actions/sync";
-import { getOnChainState } from "../actions/onchain";
+import { getGameOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
-import { makeGame, updateGame } from "./transforms";
-import { getFingerPrint } from "./botDetection";
+import { makeGame } from "./transforms";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
@@ -53,7 +52,6 @@ export interface Context {
   onChain: GameState;
   actions: PastAction[];
   offset: number;
-  owner?: string;
   sessionId?: string;
   errorCode?: ErrorCode;
   transactionId?: string;
@@ -287,11 +285,7 @@ export function startGame(authContext: Options) {
             src: async (context) => {
               const farmId = authContext.farmId as number;
 
-              const {
-                game: onChain,
-                owner,
-                bumpkin,
-              } = await getOnChainState({
+              const { game: onChain, bumpkin } = await getGameOnChainState({
                 farmAddress: authContext.address as string,
                 id: farmId,
               });
@@ -308,7 +302,7 @@ export function startGame(authContext: Options) {
 
               // Load the farm session
               if (sessionId) {
-                const fingerprint = await getFingerPrint();
+                const fingerprint = "X";
 
                 const response = await loadSession({
                   farmId,
@@ -345,7 +339,6 @@ export function startGame(authContext: Options) {
                   fingerprint,
                   itemsMintedAt,
                   onChain,
-                  owner,
                   notifications: onChainEvents,
                   deviceTrackerId,
                   status,
@@ -358,10 +351,19 @@ export function startGame(authContext: Options) {
               target: "notifying",
               actions: "assignGame",
             },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
+            onError: [
+              {
+                target: "loading",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
         },
         loadLandToVisit: {
@@ -514,16 +516,25 @@ export function startGame(authContext: Options) {
                 if (tokenURI !== context.state.bumpkin?.tokenUri) {
                   cb("EXPIRED");
                 }
-              }, 1000 * 30);
+              }, 1000 * 60 * 2);
 
               return () => {
                 clearInterval(interval);
               };
             },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
+            onError: [
+              {
+                target: "playing",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
           on: {
             ...GAME_EVENT_HANDLERS,
@@ -606,9 +617,13 @@ export function startGame(authContext: Options) {
                       action.createdAt.getTime() > event.data.saveAt.getTime()
                   );
 
+                  const updatedState = recentActions.reduce((state, action) => {
+                    return processEvent({ state, action });
+                  }, event.data.farm);
+
                   return {
                     actions: recentActions,
-                    state: updateGame(event.data.farm, context.state),
+                    state: updatedState,
                   };
                 }),
               },
@@ -716,10 +731,20 @@ export function startGame(authContext: Options) {
                 })),
               },
             ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
+            onError: [
+              {
+                // Kick them back to loading game again
+                target: "loading",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
         },
 
@@ -873,6 +898,14 @@ export function startGame(authContext: Options) {
                 })),
               },
               {
+                // Kick them back to loading game again
+                target: "loading",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
+              },
+              {
                 target: "error",
                 actions: "assignErrorMessage",
               },
@@ -967,7 +1000,6 @@ export function startGame(authContext: Options) {
         assignGame: assign<Context, any>({
           state: (_, event) => event.data.state,
           onChain: (_, event) => event.data.onChain,
-          owner: (_, event) => event.data.owner,
           offset: (_, event) => event.data.offset,
           sessionId: (_, event) => event.data.sessionId,
           fingerprint: (_, event) => event.data.fingerprint,
