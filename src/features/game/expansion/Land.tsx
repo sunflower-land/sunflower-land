@@ -176,7 +176,10 @@ const getExpansions = (
             width={width}
             isEditing={isEditing}
           >
-            <FruitPatch fruit={fruit?.name} />
+            <FruitPatch
+              fruitPatchIndex={index}
+              expansionIndex={expansionIndex}
+            />
           </MapPlacement>
         );
       })
