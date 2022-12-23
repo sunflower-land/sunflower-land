@@ -57,8 +57,11 @@ export async function getGameOnChainState({
   }
 
   const balance = await wallet.getToken().balanceOf(farmAddress);
+  console.log({ balance, farmAddress });
   const balances = await wallet.getInventory().getBalances(farmAddress);
+  console.log({ balances });
   const bumpkins = await wallet.getBumpkinDetails().loadBumpkins();
+  console.log({ bumpkins });
 
   const inventory = balancesToInventory(balances);
   const fields = populateFields(inventory);
