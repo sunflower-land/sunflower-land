@@ -261,7 +261,6 @@ export const authMachine = createMachine<
       setupContracts: {
         invoke: {
           src: async (context, event) => {
-            console.log({ event });
             const type: WalletType = (event as any).data?.wallet ?? "METAMASK";
             await wallet.initialise(context.provider, type);
             await communityContracts.initialise(context.provider);
