@@ -286,7 +286,6 @@ export function startGame(authContext: Options) {
             src: async (context) => {
               const farmId = authContext.farmId as number;
 
-              console.log("loading!");
               const { game: onChain, bumpkin } = await getGameOnChainState({
                 farmAddress: authContext.address as string,
                 id: farmId,
