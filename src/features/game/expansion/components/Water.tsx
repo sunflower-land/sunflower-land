@@ -24,25 +24,12 @@ import iceberg2 from "assets/events/christmas/decorations/icebergs/iceberg_2.gif
 import iceberg3 from "assets/events/christmas/decorations/icebergs/iceberg_3.gif";
 import iceberg4 from "assets/events/christmas/decorations/icebergs/iceberg_4.gif";
 import northPole from "assets/events/christmas/land/north_pole.gif";
-// random seal spawn spots
-import { randomInt } from "lib/utils/random";
-import { LostSeal } from "features/community/seal/Seal";
 import { Salesman } from "features/farming/salesman/Salesman";
 import { ReindeerQuest } from "./ReindeerQuest";
 import { merchantAudio } from "lib/utils/sfx";
 import { NorthPoleModal } from "features/community/northpole/NorthPoleModal";
-
-const spawn = [
-  [40.1, -3],
-  [35, 30],
-  [5, 35],
-  [5, -3],
-];
-
-const getRandomSpawn = () => {
-  const randomSpawn = randomInt(0, 4);
-  return spawn[randomSpawn];
-};
+import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
+import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
 
 export const LAND_WIDTH = 6;
 
@@ -54,7 +41,6 @@ export const Water: React.FC<Props> = ({ level }) => {
   // As the land gets bigger, push the water decorations out
   const [showModal, setShowModal] = useState(false);
   const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
-  const [sealSpawn, setSealSpawn] = React.useState(getRandomSpawn());
 
   const openMerchant = () => {
     setShowModal(true);
@@ -135,8 +121,6 @@ export const Water: React.FC<Props> = ({ level }) => {
       </MapPlacement>
       <Arcade left={40.25} top={-6.375} />
 
-      <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-
       <FarmerQuest />
       <ReindeerQuest />
 
@@ -215,6 +199,12 @@ export const Water: React.FC<Props> = ({ level }) => {
           />
         </div>
       </MapPlacement>
+
+      <MapPlacement x={offset} y={-offset} width={6}>
+        <ProjectDignityFrogs left={0} top={0} />
+      </MapPlacement>
+
+      <ProjectDignitySeals isGarden={false} />
       <Salesman />
     </div>
   );

@@ -30,6 +30,8 @@ import frog4Mp3 from "../../assets/sound-effects/frog/frog-4.mp3";
 import frog5Mp3 from "../../assets/sound-effects/frog/frog-5.mp3";
 import frog6Mp3 from "../../assets/sound-effects/frog/frog-6.mp3";
 
+import sealSound from "../../assets/sound-effects/sealSound.mp3";
+
 // Arcade - Greedy Goblin
 import greedyGoblinIntro from "../../assets/community/arcade/greedy_goblin/audio/intro.mp3";
 import greedyGoblinPlaying from "../../assets/community/arcade/greedy_goblin/audio/playing.mp3";
@@ -78,6 +80,11 @@ export const wishingWellAudio = new Howl({
 
 export const frogAudio = new Howl({
   src: [frog1Mp3],
+  volume: 0.2,
+});
+
+export const sealAudio = new Howl({
+  src: [sealSound],
   volume: 0.2,
 });
 
