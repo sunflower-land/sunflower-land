@@ -5,7 +5,15 @@ import Web3 from "web3";
 import { fromWei, toBN, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
+<<<<<<< HEAD
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+=======
+import { Trader } from "./Trader";
+import { BumpkinDetails } from "./BumpkinDetails";
+import { BumpkinItems } from "./BumpkinItems";
+import { QuestContract } from "./Quests";
+import { BuySFL } from "./BuySFL";
+>>>>>>> 792f5c6d (Add buySFL funtions)
 
 export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
 const UNISWAP_ROUTER = "0xa5e0829caced8ffdd4de3c43696c57f7d7a678ff";
@@ -330,10 +338,12 @@ export class Wallet {
       "getAmountsOut(uint256,address[])"
     );
 
+    const maticMinusFee = toBN(matic).mul(toBN(950)).div(toBN(1000));
+
     const encodedParameters = web3.eth.abi
       .encodeParameters(
         ["uint256", "address[]"],
-        [toBN(matic), [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]]
+        [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]]
       )
       .substring(2);
 
@@ -343,6 +353,33 @@ export class Wallet {
     const decodedResult = web3.eth.abi.decodeParameter("uint256[]", result);
 
     return Number(fromWei(toBN(decodedResult[1])));
+  }
+
+  public async getMaticForSFL(sfl: string) {
+    // Uniswap contract only available on mainnet
+    const web3 = new Web3("https://polygon-rpc.com/");
+
+    const encodedFunctionSignature = web3.eth.abi.encodeFunctionSignature(
+      "getAmountsOut(uint256,address[])"
+    );
+
+    const encodedParameters = web3.eth.abi
+      .encodeParameters(
+        ["uint256", "address[]"],
+        [toBN(sfl), [SFL_TOKEN_ADDRESS, WMATIC_ADDRESS]]
+      )
+      .substring(2);
+
+    const data = encodedFunctionSignature + encodedParameters;
+
+    const result = await web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = web3.eth.abi.decodeParameter("uint256[]", result);
+
+    const maticWithFee = Number(
+      fromWei(toBN(decodedResult[1]).mul(toBN(1050)).div(toBN(1000)))
+    );
+
+    return maticWithFee;
   }
 }
 
