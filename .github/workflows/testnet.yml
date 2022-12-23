@@ -57,6 +57,7 @@ jobs:
           VITE_QUEST_CONTRACT: "0x842695E88dB4143281AA4617017baFaB74Fb5Ee1"
           VITE_NORTHPOLE_DONATION: "0x94fb1b13d67fbc094a031f91b57d9ac8db251287"
           VITE_EASTER_EGG_CONTRACT: "0x52668ebcFE522424F95c26b206cB545513588268"
+          VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9

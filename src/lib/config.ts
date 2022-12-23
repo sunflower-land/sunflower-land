@@ -34,6 +34,8 @@ const BUMPKIN_CONTRACT = import.meta.env.VITE_BUMPKIN_CONTRACT as string;
 const QUEST_CONTRACT = import.meta.env.VITE_QUEST_CONTRACT as string;
 const NORTHPOLE_DONATION = import.meta.env.VITE_NORTHPOLE_DONATION as string;
 const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
+const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
+
 export const CONFIG = {
   NETWORK,
   POLYGON_CHAIN_ID,
@@ -66,4 +68,5 @@ export const CONFIG = {
   QUEST_CONTRACT,
   NORTHPOLE_DONATION,
   EASTER_EGG_CONTRACT,
+  ALCHEMY_RPC,
 };

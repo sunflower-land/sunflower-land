@@ -7,7 +7,7 @@ import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ErrorCode, ERRORS } from "lib/errors";
 
-import { wallet } from "../../../lib/blockchain/wallet";
+import { wallet, WalletType } from "../../../lib/blockchain/wallet";
 import { communityContracts } from "features/community/lib/communityContracts";
 import { createAccount as createFarmAction } from "../actions/createAccount";
 import {
@@ -57,7 +57,7 @@ export interface Context {
   captcha?: string;
   blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
   verificationUrl?: string;
-  wallet?: "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
+  wallet?: WalletType;
   provider?: any;
 }
 
@@ -260,8 +260,9 @@ export const authMachine = createMachine<
       },
       setupContracts: {
         invoke: {
-          src: async (context) => {
-            await wallet.initialise(context.provider);
+          src: async (context, event) => {
+            const type: WalletType = (event as any).data?.wallet ?? "METAMASK";
+            await wallet.initialise(context.provider, type);
             await communityContracts.initialise(context.provider);
           },
           onDone: [
@@ -349,10 +350,19 @@ export const authMachine = createMachine<
 
                 { target: "noFarmLoaded" },
               ],
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
-              },
+              onError: [
+                {
+                  target: "#loadingFarm",
+                  cond: () => !wallet.isAlchemy,
+                  actions: () => {
+                    wallet.overrideProvider();
+                  },
+                },
+                {
+                  target: "#unauthorised",
+                  actions: "assignErrorMessage",
+                },
+              ],
             },
           },
           visitingContributor: {
