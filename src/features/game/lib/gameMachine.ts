@@ -353,10 +353,19 @@ export function startGame(authContext: Options) {
               target: "notifying",
               actions: "assignGame",
             },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
+            onError: [
+              {
+                target: "loading",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
         },
         loadLandToVisit: {
@@ -509,16 +518,25 @@ export function startGame(authContext: Options) {
                 if (tokenURI !== context.state.bumpkin?.tokenUri) {
                   cb("EXPIRED");
                 }
-              }, 1000 * 30);
+              }, 1000 * 60 * 2);
 
               return () => {
                 clearInterval(interval);
               };
             },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
+            onError: [
+              {
+                target: "playing",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
           on: {
             ...GAME_EVENT_HANDLERS,
@@ -711,10 +729,20 @@ export function startGame(authContext: Options) {
                 })),
               },
             ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
+            onError: [
+              {
+                // Kick them back to loading game again
+                target: "loading",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
         },
 
@@ -866,6 +894,14 @@ export function startGame(authContext: Options) {
                 actions: assign((_) => ({
                   actions: [],
                 })),
+              },
+              {
+                // Kick them back to loading game again
+                target: "loading",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
               },
               {
                 target: "error",

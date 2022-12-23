@@ -23,7 +23,6 @@ import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
-import Web3 from "web3";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -351,10 +350,19 @@ export const authMachine = createMachine<
 
                 { target: "noFarmLoaded" },
               ],
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
-              },
+              onError: [
+                {
+                  target: "#loadingFarm",
+                  cond: () => !wallet.isAlchemy,
+                  actions: () => {
+                    wallet.overrideProvider();
+                  },
+                },
+                {
+                  target: "#unauthorised",
+                  actions: "assignErrorMessage",
+                },
+              ],
             },
           },
           visitingContributor: {
@@ -585,16 +593,16 @@ export const authMachine = createMachine<
             method: "eth_requestAccounts",
           });
 
-          const chainId = await new Web3(provider).eth.getChainId();
-          if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
-            throw new Error(ERRORS.WRONG_CHAIN);
-          }
+          // const chainId = await new Web3(provider).eth.getChainId();
+          // if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
+          //   throw new Error(ERRORS.WRONG_CHAIN);
+          // }
 
-          if (CONFIG.ALCHEMY_RPC) {
-            const web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
+          // if (CONFIG.ALCHEMY_RPC) {
+          //   const web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
 
-            return { wallet: "METAMASK", provider: web3 };
-          }
+          //   return { wallet: "METAMASK", provider: web3 };
+          // }
 
           return { wallet: "METAMASK", provider };
         } else {

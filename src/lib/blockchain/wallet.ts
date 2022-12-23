@@ -15,6 +15,7 @@ import { Trader } from "./Trader";
 import { BumpkinDetails } from "./BumpkinDetails";
 import { BumpkinItems } from "./BumpkinItems";
 import { QuestContract } from "./Quests";
+import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
 console.log({ CONFIG });
 /**
@@ -154,6 +155,18 @@ export class Wallet {
       }
 
       throw e;
+    }
+  }
+
+  public isAlchemy = false;
+  public overrideProvider() {
+    this.isAlchemy = true;
+
+    if (CONFIG.ALCHEMY_RPC) {
+      console.log("Provider overriden");
+      const web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
+
+      this.web3 = new Web3(web3 as any);
     }
   }
 
