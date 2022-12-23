@@ -26,7 +26,6 @@ import { syncProgress } from "../actions/sync";
 import { getGameOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
-import { getFingerPrint } from "./botDetection";
 import { SkillName } from "../types/skills";
 import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
@@ -303,7 +302,7 @@ export function startGame(authContext: Options) {
 
               // Load the farm session
               if (sessionId) {
-                const fingerprint = await getFingerPrint();
+                const fingerprint = "X";
 
                 const response = await loadSession({
                   farmId,
