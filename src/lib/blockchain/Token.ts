@@ -30,6 +30,7 @@ export class Token {
    * Keep full wei amount as used for approving/sending
    */
   public async balanceOf(address: string) {
+    console.log({ address, from: this.account });
     const balance = await this.contract.methods
       .balanceOf(address)
       .call({ from: this.account });
