@@ -2,8 +2,12 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import Decimal from "decimal.js-light";
+import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
-import { CONFIG } from "lib/config";
+import { getOnChainState } from "features/game/actions/onchain";
+import { loadSession } from "features/game/actions/loadSession";
+import { Bumpkin } from "features/game/types/game";
+import { randomID } from "lib/utils/random";
 
 export interface Context {
   balance: Decimal;
@@ -27,26 +31,37 @@ export type MachineInterpreter = Interpreter<
   CommmunityMachineState
 >;
 
-const API_URL = CONFIG.API_URL;
-
 export function startCommunityMachine(authContext: AuthContext) {
   return createMachine<Context, any, CommmunityMachineState>(
     {
       id: "communityMachine",
-      initial: API_URL ? "loading" : "idle",
+      initial: "loading",
       context: {
         balance: new Decimal(0),
         farmId: 0,
       },
       states: {
         loading: {
+          entry: "setTransactionId",
           invoke: {
-            src: async () => {
-              // TODO load on chain balances for current wallet
-
-              const balance = await metamask
+            src: async (context) => {
+              const balance = await wallet
                 .getToken()
-                .balanceOf(metamask.myAccount as string);
+                .balanceOf(wallet.myAccount as string);
+
+              const farmId = authContext.farmId as number;
+
+              const onChainStateFn = await getOnChainState({
+                farmAddress: authContext.address as string,
+                id: Number(authContext.farmId),
+              });
+              const sessionIdFn = wallet
+                .getSessionManager()
+                .getSessionId(farmId);
+              const [onChainState, sessionId] = await Promise.all([
+                onChainStateFn,
+                sessionIdFn,
+              ]);
 
               const response = await loadSession({
                 farmId,
