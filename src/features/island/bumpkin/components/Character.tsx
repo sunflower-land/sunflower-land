@@ -37,6 +37,7 @@ import fancyPants from "assets/npc-layers/fancy_pants.png";
 import warriorPants from "assets/npc-layers/warrior_pants.png";
 import skirt from "assets/npc-layers/skirt.png";
 
+import snowman from "assets/npc-layers/snowman-onesie.png";
 import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
 import reindeerAntlers from "assets/npc-layers/reindeer_antlers.png";
 
@@ -52,6 +53,7 @@ import {
   BumpkinHair,
   BumpkinSuit,
   BumpkinHat,
+  BumpkinOnesie,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -66,7 +68,8 @@ type VisiblePart =
   | BumpkinShirt
   | BumpkinPant
   | BumpkinSuit
-  | BumpkinHat;
+  | BumpkinHat
+  | BumpkinOnesie;
 
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
@@ -123,6 +126,9 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
 
   // Hats
   "Reindeer Antlers": reindeerAntlers,
+
+  // Onesie
+  "Snowman Onesie": snowman,
 };
 
 interface Props {
@@ -132,6 +138,7 @@ interface Props {
   pants: BumpkinPant;
   hat?: BumpkinHat;
   suit?: BumpkinSuit;
+  onesie?: BumpkinOnesie;
 }
 
 export const Character: React.FC<Props> = ({
@@ -141,6 +148,7 @@ export const Character: React.FC<Props> = ({
   pants,
   hat,
   suit,
+  onesie,
 }) => {
   const { gameService } = useContext(Context);
 
@@ -153,6 +161,7 @@ export const Character: React.FC<Props> = ({
   const pantsRef = useRef<Spritesheet>(null);
   const suitRef = useRef<Spritesheet>(null);
   const hatRef = useRef<Spritesheet>(null);
+  const onesieRef = useRef<Spritesheet>(null);
 
   const eat = (food: ConsumableName) => {
     gameService.send("bumpkin.feed", { food });
@@ -187,6 +196,9 @@ export const Character: React.FC<Props> = ({
     }
     if (hatRef.current) {
       hatRef.current?.goToAndPause(frame);
+    }
+    if (onesieRef.current) {
+      onesieRef.current?.goToAndPause(frame);
     }
   }, [timer]);
 
@@ -265,18 +277,33 @@ export const Character: React.FC<Props> = ({
           />
         )}
 
-        <Spritesheet
-          ref={hairRef}
-          className="absolute w-full inset-0"
-          style={bodyPartStyle}
-          image={PARTS[hair] ?? sunSpots}
-          widthFrame={FRAME_WIDTH}
-          heightFrame={FRAME_HEIGHT}
-          steps={STEPS}
-          fps={0}
-        />
+        {PARTS[onesie as BumpkinOnesie] && (
+          <Spritesheet
+            ref={onesieRef}
+            className="absolute w-full inset-0"
+            style={bodyPartStyle}
+            image={PARTS[onesie as BumpkinOnesie] as string}
+            widthFrame={FRAME_WIDTH}
+            heightFrame={FRAME_HEIGHT}
+            steps={STEPS}
+            fps={0}
+          />
+        )}
 
-        {PARTS[hat as BumpkinHat] && (
+        {!onesie && (
+          <Spritesheet
+            ref={hairRef}
+            className="absolute w-full inset-0"
+            style={bodyPartStyle}
+            image={PARTS[hair] ?? sunSpots}
+            widthFrame={FRAME_WIDTH}
+            heightFrame={FRAME_HEIGHT}
+            steps={STEPS}
+            fps={0}
+          />
+        )}
+
+        {PARTS[hat as BumpkinHat] && !onesie && (
           <Spritesheet
             ref={hatRef}
             className="absolute w-full inset-0"
