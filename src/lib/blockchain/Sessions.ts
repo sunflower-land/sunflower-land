@@ -88,6 +88,7 @@ export class SessionManager {
     await new Promise((res) => setTimeout(res, 3000 * attempts));
 
     try {
+      console.log({ farmId, attempts, account: this.account });
       const sessionId = await this.contract.methods
         .getSessionId(farmId)
         .call({ from: this.account });

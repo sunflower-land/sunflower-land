@@ -5,6 +5,7 @@ import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
 import { BeanName } from "./beans";
 import { DecorationName } from "./decorations";
+import { FruitSeedName } from "./fruits";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 
@@ -17,6 +18,7 @@ export type HarvestEvent = `${CropName} Harvested`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Recipes} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
+export type PlantFruitEvent = `${FruitSeedName} Planted`;
 export type CraftedEvent = `${
   | ToolName
   | WorkbenchToolName
@@ -32,6 +34,7 @@ export type BumpkinActivityName =
   | ConsumableEvent
   | SellEvent
   | HarvestEvent
+  | PlantFruitEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"

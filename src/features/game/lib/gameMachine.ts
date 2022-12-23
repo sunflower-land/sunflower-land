@@ -285,21 +285,25 @@ export function startGame(authContext: Options) {
             src: async (context) => {
               const farmId = authContext.farmId as number;
 
+              console.log("loading");
               const { game: onChain, bumpkin } = await getGameOnChainState({
                 farmAddress: authContext.address as string,
                 id: farmId,
               });
+              console.log("unseenEvents");
 
               const onChainEvents = await unseenEvents({
                 farmAddress: authContext.address as string,
                 farmId: authContext.farmId as number,
               });
+              console.log("sessionId", farmId);
 
               // Get sessionId
               const sessionId =
                 farmId &&
                 (await wallet.getSessionManager().getSessionId(farmId));
 
+              console.log({ sessionId });
               // Load the farm session
               if (sessionId) {
                 const fingerprint = "X";

@@ -18,9 +18,8 @@ import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { FruitName } from "features/island/fruit/FruitPatch";
 import { BeanName, MutantCropName } from "./beans";
-import { FruitSeedName } from "./fruits";
+import { FruitName, FruitSeedName } from "./fruits";
 
 export type Reward = {
   sfl?: Decimal;
@@ -243,6 +242,8 @@ export type PlantedFruit = {
   name: FruitName;
   plantedAt: number;
   amount: number;
+  harvestsLeft: number;
+  harvestedAt: number;
 };
 
 export type LandExpansionTree = {

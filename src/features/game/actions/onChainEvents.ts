@@ -146,8 +146,9 @@ export async function unseenEvents({
   }
 
   const lastBlock = getLastBlock();
-
+  console.log({ lastBlock });
   const block = await getCurrentBlock();
+  console.log({ block });
 
   // First time playing the game, so no new events!
   if (!lastBlock) {
@@ -160,6 +161,7 @@ export async function unseenEvents({
     farmId,
     block: lastBlock,
   });
+  console.log({ pastEvents });
 
   const unseen = pastEvents.filter(
     (event) => event.timestamp > lastBlock.timestamp / 1000

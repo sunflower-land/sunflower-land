@@ -4,6 +4,7 @@
 
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
+import { getKeys } from "./craftables";
 
 export type FruitName = "Apple" | "Blueberry" | "Orange";
 
@@ -15,6 +16,10 @@ export type FruitSeed = {
   plantSeconds: number;
   bumpkinLevel: number;
 };
+
+export function isFruitSeed(seed: FruitSeedName) {
+  return getKeys(FRUIT_SEEDS()).includes(seed);
+}
 
 export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   "Apple Seed": {
