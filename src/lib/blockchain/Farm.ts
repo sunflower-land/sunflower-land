@@ -20,6 +20,7 @@ export async function getFarms(
 ): Promise<FarmAccount[]> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
+  console.log({ web3, account, attempts });
   try {
     const accounts = await new web3.eth.Contract(
       FarmABI as AbiItem[],

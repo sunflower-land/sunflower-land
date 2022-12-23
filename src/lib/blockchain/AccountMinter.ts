@@ -5,8 +5,6 @@ import MinterABI from "./abis/AccountMinter.json";
 import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 
-const address = CONFIG.ACCOUNT_MINTER_CONTRACT;
-
 export async function getCreatedAt(
   web3: Web3,
   account: string,
@@ -15,11 +13,12 @@ export async function getCreatedAt(
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
+  console.log({ web3, account, address, attempts });
   try {
     const createdAt = await (
       new web3.eth.Contract(
         MinterABI as AbiItem[],
-        address as string
+        CONFIG.ACCOUNT_MINTER_CONTRACT as string
       ) as unknown as IAccountMinter
     ).methods
       .farmCreatedAt(address)
@@ -69,7 +68,7 @@ export async function createNewAccount({
     (
       new web3.eth.Contract(
         MinterABI as AbiItem[],
-        address as string
+        CONFIG.ACCOUNT_MINTER_CONTRACT as string
       ) as unknown as IAccountMinter
     ).methods
       .mintAccount(
@@ -119,7 +118,7 @@ export async function getMaxSupply(
   const maxSupply = await (
     new web3.eth.Contract(
       MinterABI as AbiItem[],
-      address as string
+      CONFIG.ACCOUNT_MINTER_CONTRACT as string
     ) as unknown as IAccountMinter
   ).methods
     .maxSupply()

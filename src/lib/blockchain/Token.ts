@@ -6,8 +6,6 @@ import { SunflowerLandToken, Transfer } from "./types/SunflowerLandToken";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import Decimal from "decimal.js-light";
 
-const address = CONFIG.TOKEN_CONTRACT;
-
 /**
  * Keep full wei amount as used for approving/sending
  */
@@ -20,7 +18,7 @@ export async function sflBalanceOf(
   const balance = await (
     new web3.eth.Contract(
       TokenJSON as AbiItem[],
-      address as string
+      CONFIG.TOKEN_CONTRACT as string
     ) as unknown as SunflowerLandToken
   ).methods
     .balanceOf(address)
@@ -36,7 +34,7 @@ export async function totalSFLSupply(web3: Web3, account: string) {
   const supply = await (
     new web3.eth.Contract(
       TokenJSON as AbiItem[],
-      address as string
+      CONFIG.TOKEN_CONTRACT as string
     ) as unknown as SunflowerLandToken
   ).methods
     .totalSupply()
@@ -55,7 +53,7 @@ export async function getPastDeposits(
     (
       new web3.eth.Contract(
         TokenJSON as AbiItem[],
-        address as string
+        CONFIG.TOKEN_CONTRACT as string
       ) as unknown as SunflowerLandToken
     ).getPastEvents(
       "Transfer",
@@ -98,7 +96,7 @@ export async function approveSFL(
   const approve = await (
     new web3.eth.Contract(
       TokenJSON as AbiItem[],
-      address as string
+      CONFIG.TOKEN_CONTRACT as string
     ) as unknown as SunflowerLandToken
   ).methods
     .approve(address, getWei)
@@ -118,7 +116,7 @@ export async function isTokenApprovedForContract(
     const allowance = await (
       new web3.eth.Contract(
         TokenJSON as AbiItem[],
-        address as string
+        CONFIG.TOKEN_CONTRACT as string
       ) as unknown as SunflowerLandToken
     ).methods
       .allowance(account, address)

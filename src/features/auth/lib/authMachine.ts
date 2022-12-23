@@ -171,7 +171,7 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
-    initial: API_URL ? "connectingToMetamask" : "connected",
+    initial: API_URL ? "idle" : "connected",
     states: {
       idle: {
         id: "idle",
@@ -633,6 +633,7 @@ export const authMachine = createMachine<
           wallet.myAccount
         );
 
+        console.log({ farmAccounts });
         if (farmAccounts?.length === 0) {
           return;
         }
@@ -643,6 +644,7 @@ export const authMachine = createMachine<
           wallet.myAccount as string
         );
 
+        console.log({ createdAt });
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
 
