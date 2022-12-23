@@ -164,7 +164,10 @@ export class Wallet {
 
     if (CONFIG.ALCHEMY_RPC) {
       console.log("Provider overriden");
+
       const web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
+
+      // TODO sequence or wallet connect option here
 
       this.web3 = new Web3(web3 as any);
     }
