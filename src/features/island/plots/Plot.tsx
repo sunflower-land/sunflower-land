@@ -149,18 +149,19 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     }
   };
 
-  const removeCrop = () => {
-    if (!isRemoving) {
-      setIsRemoving(true);
-      return;
-    }
-    gameService.send("crop.removed", {
-      item: selectedItem,
-      index: plotIndex,
-      expansionIndex,
-    });
-    setIsRemoving(false);
-  };
+  // Temp shovel disable
+  // const removeCrop = () => {
+  //   if (!isRemoving) {
+  //     setIsRemoving(true);
+  //     return;
+  //   }
+  //   gameService.send("crop.removed", {
+  //     item: selectedItem,
+  //     index: plotIndex,
+  //     expansionIndex,
+  //   });
+  //   setIsRemoving(false);
+  // };
 
   const onCollectReward = (success: boolean) => {
     setReward(null);
@@ -259,14 +260,15 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       return;
     }
 
+    // Temp shovel disable
     // remove crop
-    if (
-      selectedItem === "Shovel" &&
-      !isReadyToHarvest(now, crop, CROPS()[crop.name])
-    ) {
-      removeCrop();
-      return;
-    }
+    // if (
+    //   selectedItem === "Shovel" &&
+    //   !isReadyToHarvest(now, crop, CROPS()[crop.name])
+    // ) {
+    //   removeCrop();
+    //   return;
+    // }
 
     // apply fertilisers
     if (selectedItem && selectedItem in FERTILISERS) {
