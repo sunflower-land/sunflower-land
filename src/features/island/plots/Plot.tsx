@@ -66,7 +66,10 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     gameState: game.context.state,
   });
 
-  const playing = game.matches("playing") || game.matches("autosaving");
+  const playing =
+    game.matches("playing") ||
+    game.matches("autosaving") ||
+    game.matches("trialling");
 
   // If selected item changes, then stop removing crops
   useEffect(() => setIsRemoving(false), [selectedItem]);

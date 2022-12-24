@@ -147,21 +147,21 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
         width: 1,
       },
       3: {
-        crop: { name: "Sunflower", plantedAt: 0 },
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: -2,
         y: 0,
         height: 1,
         width: 1,
       },
       4: {
-        crop: { name: "Sunflower", plantedAt: 0 },
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: -1,
         y: 0,
         height: 1,
         width: 1,
       },
       5: {
-        crop: { name: "Sunflower", plantedAt: 0 },
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: 0,
         y: 0,
         height: 1,
@@ -496,6 +496,73 @@ export const EMPTY: GameState = {
   collectibles: {},
   mysteryPrizes: {},
   pumpkinPlaza: {},
+};
+
+export const TRIAL_BUMPKIN: Bumpkin = {
+  experience: 0,
+  id: 1,
+  tokenUri: "bla",
+  equipped: {
+    background: "Farm Background",
+    hair: "Basic Hair",
+    body: "Beige Farmer Potion",
+    shirt: "Blue Farmer Shirt",
+    pants: "Farmer Overalls",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  skills: {},
+  achievements: {},
+  activity: {},
+};
+export const TRIAL_FARM: GameState = {
+  balance: new Decimal(0),
+  fields: INITIAL_FIELDS,
+  plots: INITIAL_PLOTS,
+  inventory: {
+    Market: new Decimal(1),
+    "Fire Pit": new Decimal(1),
+  },
+  stock: INITIAL_STOCK,
+  stockExpiry: {},
+  trees: INITIAL_TREES,
+  stones: INITIAL_STONE,
+  iron: INITIAL_IRON,
+  gold: INITIAL_GOLD,
+  chickens: {},
+  skills: {
+    farming: new Decimal(0),
+    gathering: new Decimal(0),
+  },
+  bumpkin: TRIAL_BUMPKIN,
+  expansions: INITIAL_EXPANSIONS,
+  buildings: {
+    "Fire Pit": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 8,
+        },
+        createdAt: 0,
+      },
+    ],
+    Market: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        createdAt: 0,
+      },
+    ],
+  },
+  collectibles: {},
+  mysteryPrizes: {},
+  migrated: true,
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

@@ -25,6 +25,7 @@ import { Connect } from "./components/Connect";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ConnectedToWallet } from "./components/ConnectedToWallet";
 import { Verifying } from "./components/Verifying";
+import { Intro } from "./components/Intro";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -38,6 +39,7 @@ export const Auth: React.FC = () => {
     authState.matches("setupContracts");
 
   console.log(authState.value);
+
   return (
     <Modal
       centered
@@ -63,6 +65,7 @@ export const Auth: React.FC = () => {
           authState.matches("checkFarm") ||
           authState.matches("initialising")) && <Loading />}
         {authState.matches("idle") && <Connect />}
+        {authState.matches("intro") && <Intro />}
         {connecting && <Loading text="Connecting" />}
         {authState.matches("connectedToWallet") && <ConnectedToWallet />}
         {authState.matches("signing") && <Signing />}

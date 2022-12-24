@@ -48,6 +48,7 @@ export const Navigation: React.FC = () => {
   const [showGame, setShowGame] = useState(false);
   useImagePreloader();
 
+  console.log(authState.value);
   /**
    * Listen to web3 account/chain changes
    * TODO: move into a hook
@@ -84,6 +85,7 @@ export const Navigation: React.FC = () => {
     setTimeout(() => setShowGame(_showGame), 20);
   }, [authState, authState.value]);
 
+  console.log({ showGame });
   return (
     <>
       <Auth />

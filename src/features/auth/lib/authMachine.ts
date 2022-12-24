@@ -25,6 +25,7 @@ import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
+import { hasAccount } from "./trial";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -124,12 +125,14 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_WALLET_CONNECT" }
   | { type: "CONNECT_TO_SEQUENCE" }
   | { type: "SIGN" }
-  | { type: "VERIFIED" };
+  | { type: "VERIFIED" }
+  | { type: "TRIAL" };
 
 export type BlockchainState = {
   value:
     | "idle"
     | "initialising"
+    | "intro"
     | "visiting"
     | "connectingToMetamask"
     | "connectingToWalletConnect"
@@ -174,8 +177,32 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
-    initial: API_URL ? "idle" : "connected",
+    initial: "initialising",
     states: {
+      initialising: {
+        always: [
+          // UI Dev mode
+          {
+            target: "connected",
+            cond: () => !API_URL,
+          },
+          {
+            target: "idle",
+            cond: () => hasAccount(),
+          },
+          { target: "intro" },
+        ],
+      },
+      intro: {
+        on: {
+          TRIAL: {
+            target: "connected.authorised",
+          },
+          SKIP: {
+            target: "idle",
+          },
+        },
+      },
       idle: {
         id: "idle",
         on: {

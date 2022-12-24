@@ -47,8 +47,6 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
-import { GoblinBlacksmithItemName } from "../types/collectibles";
-import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -174,19 +172,29 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
           }),
         },
         {
-          actions: assign((context: Context, event: PlayingEvent) => ({
-            state: processEvent({
+          actions: assign((context: Context, event: PlayingEvent) => {
+            const state = processEvent({
               state: context.state as GameState,
               action: event,
-            }) as GameState,
-            actions: [
-              ...context.actions,
-              {
-                ...event,
-                createdAt: new Date(),
-              },
-            ],
-          })),
+            }) as GameState;
+
+            if (!hasAccount()) {
+              // Persist to local storage
+              saveTrial(state);
+              // TODO don't track actions?
+            }
+
+            return {
+              state,
+              actions: [
+                ...context.actions,
+                {
+                  ...event,
+                  createdAt: new Date(),
+                },
+              ],
+            };
+          }),
         },
       ],
     }),
@@ -218,7 +226,7 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
 export type BlockchainState = {
   value:
-    | "checkIsVisiting"
+    | "initialising"
     | "loadLandToVisit"
     | "landToVisitNotFound"
     | "loading"
@@ -228,6 +236,7 @@ export type BlockchainState = {
     | "gameRules"
     | "playing"
     | "autosaving"
+    | "trialling"
     | "syncing"
     | "synced"
     | "buyingSFL"
@@ -268,7 +277,7 @@ export function startGame(authContext: Options) {
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "gameMachine",
-      initial: "checkIsVisiting",
+      initial: "initialising",
       context: {
         actions: [],
         state: EMPTY,
@@ -276,14 +285,35 @@ export function startGame(authContext: Options) {
         sessionId: INITIAL_SESSION,
       },
       states: {
-        checkIsVisiting: {
+        initialising: {
           always: [
             {
               target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
             },
+            {
+              target: "trialling",
+              cond: () => !hasAccount(),
+              actions: assign<Context, any>({
+                state: (_, event) => loadTrialFarm(),
+                onChain: (_, event) => EMPTY,
+                offset: (_, event) => 0,
+                sessionId: (_, event) => "0x",
+              }),
+            },
             { target: "loading" },
           ],
+        },
+        trialling: {
+          on: {
+            ...GAME_EVENT_HANDLERS,
+            // SAVE: {
+            //   target: "autosaving",
+            // },
+            EDIT: {
+              target: "editing",
+            },
+          },
         },
         loading: {
           entry: "setTransactionId",
