@@ -8,7 +8,7 @@ export const Connect: React.FC = () => {
   const { authService } = useContext(Context);
 
   return (
-    <div className="px-4">
+    <div className="px-4 flex flex-col justify-center">
       <p className="text-xs text-white mt-2 mb-3 text-center italic">
         Connect your Web3 wallet to play
       </p>
@@ -67,13 +67,13 @@ export const Connect: React.FC = () => {
       </Button>
 
       <div className="bg-white b-1 w-full h-[1px] my-4" />
-      <div className="flex justify-center relative pb-1">
+      <div className="flex justify-center relative">
         <span className="text-xs text-center bg-[#c28669] px-2 absolute top-[-34px] italic ">
           Connect with an email or social login
         </span>
       </div>
       <Button
-        className="mb-2 py-2 text-sm relative"
+        className="py-2 text-sm relative mb-2"
         onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
       >
         <div className="px-8">
@@ -84,6 +84,12 @@ export const Connect: React.FC = () => {
           Sequence
         </div>
       </Button>
+      <a
+        className="text-xs underline text-center mb-2 cursor-pointer text-white"
+        onClick={() => authService.send("TRIAL")}
+      >
+        Play without a wallet
+      </a>
     </div>
   );
 };

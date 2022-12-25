@@ -536,6 +536,17 @@ export const TRIAL_FARM: GameState = {
   },
   bumpkin: TRIAL_BUMPKIN,
   expansions: INITIAL_EXPANSIONS,
+  expansionRequirements: {
+    bumpkinLevel: 3,
+    resources: [
+      {
+        amount: new Decimal(2),
+        item: "Stone",
+      },
+    ],
+    seconds: 60,
+    sfl: new Decimal(0),
+  },
   buildings: {
     "Fire Pit": [
       {

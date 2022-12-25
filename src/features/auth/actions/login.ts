@@ -88,6 +88,10 @@ export function removeSession(address: string) {
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(sessions));
 }
 
+export function hasConnected() {
+  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
+}
+
 export type Token = {
   address: string;
   exp: number;

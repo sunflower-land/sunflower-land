@@ -47,6 +47,10 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
+<<<<<<< HEAD
+=======
+import { hasAccount, loadTrialFarm, saveTrial } from "features/auth/lib/trial";
+>>>>>>> 771b8696 (Connect wallet flow)
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -70,6 +74,7 @@ export interface Context {
     balance: string;
     inventory: Record<InventoryItemName, string>;
   };
+  isTrialling?: boolean;
 }
 
 type MintEvent = {
@@ -178,7 +183,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
               action: event,
             }) as GameState;
 
-            if (!hasAccount()) {
+            if (context.isTrialling) {
               // Persist to local storage
               saveTrial(state);
               // TODO don't track actions?
@@ -283,6 +288,11 @@ export function startGame(authContext: Options) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
+<<<<<<< HEAD
+=======
+        offset: 0,
+        isTrialling: authContext.isTrialling,
+>>>>>>> 771b8696 (Connect wallet flow)
       },
       states: {
         initialising: {
@@ -293,7 +303,7 @@ export function startGame(authContext: Options) {
             },
             {
               target: "trialling",
-              cond: () => !hasAccount(),
+              cond: (context) => !!context.isTrialling,
               actions: assign<Context, any>({
                 state: (_, event) => loadTrialFarm(),
                 onChain: (_, event) => EMPTY,

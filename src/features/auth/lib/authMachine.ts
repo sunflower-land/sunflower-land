@@ -17,6 +17,7 @@ import {
   removeSession,
   hasValidSession,
   saveSession,
+  hasConnected,
 } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
@@ -25,7 +26,6 @@ import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
-import { hasAccount } from "./trial";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -63,6 +63,7 @@ export interface Context {
   verificationUrl?: string;
   wallet?: WalletType;
   provider?: any;
+  isTrialling?: boolean;
 }
 
 export type Screen = "land" | "farm";
@@ -126,7 +127,8 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_SEQUENCE" }
   | { type: "SIGN" }
   | { type: "VERIFIED" }
-  | { type: "TRIAL" };
+  | { type: "TRIAL" }
+  | { type: "CONNECT" };
 
 export type BlockchainState = {
   value:
@@ -188,7 +190,7 @@ export const authMachine = createMachine<
           },
           {
             target: "idle",
-            cond: () => hasAccount(),
+            cond: () => hasConnected(),
           },
           { target: "intro" },
         ],
@@ -197,6 +199,9 @@ export const authMachine = createMachine<
         on: {
           TRIAL: {
             target: "connected.authorised",
+            actions: assign<Context, any>({
+              isTrialling: () => true,
+            }),
           },
           SKIP: {
             target: "idle",
@@ -214,6 +219,12 @@ export const authMachine = createMachine<
           },
           CONNECT_TO_SEQUENCE: {
             target: "connectingToSequence",
+          },
+          TRIAL: {
+            target: "connected.authorised",
+            actions: assign<Context, any>({
+              isTrialling: () => true,
+            }),
           },
         },
       },
@@ -548,6 +559,9 @@ export const authMachine = createMachine<
                 actions: ["refreshFarm", "deleteFarmIdUrl"],
               },
               REFRESH: {
+                target: "#reconnecting",
+              },
+              CONNECT: {
                 target: "#reconnecting",
               },
               EXPLORE: {

@@ -10,12 +10,16 @@ interface Props {
   gameState: GameState;
   onClose: () => void;
   onExpand: () => void;
+  onConnectWallet: () => void;
+  hasWallet?: boolean;
 }
 
 export const UpcomingExpansionModal: React.FC<Props> = ({
   gameState,
   onClose,
   onExpand,
+  onConnectWallet,
+  hasWallet = true,
 }) => {
   // cannot expand if there is no next expansion
   if (gameState.expansionRequirements === undefined) {
@@ -35,6 +39,21 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
         </div>
         <Button onClick={onClose}>Back</Button>
       </div>
+    );
+  }
+
+  if (!hasWallet) {
+    return (
+      <>
+        <p className="text-xs mt-2">
+          Connect a Web3 wallet to mint an{" "}
+          <span className="underline">NFT</span> piece of land on the
+          blockchain.
+        </p>
+        <Button className="w-52" onClick={onConnectWallet}>
+          Connect Wallet
+        </Button>
+      </>
     );
   }
 

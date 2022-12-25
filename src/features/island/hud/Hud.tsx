@@ -46,9 +46,14 @@ export const Hud: React.FC = () => {
           />
           {landId && <LandId landId={landId} />}
           <Buildings />
-          <Save />
           <BumpkinProfile />
-          <Settings isFarming={true} />
+
+          {!gameState.matches("trialling") && (
+            <>
+              <Save />
+              <Settings isFarming={true} />
+            </>
+          )}
         </>
       )}
     </div>

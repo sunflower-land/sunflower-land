@@ -3,6 +3,8 @@ import { Modal } from "react-bootstrap";
 
 import { GameState } from "features/game/types/game";
 
+import * as AuthProvider from "features/auth/lib/Provider";
+
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
 import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
 import { MapPlacement } from "./MapPlacement";
@@ -22,6 +24,7 @@ interface Props {
  */
 export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthProvider.Context);
 
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
@@ -46,6 +49,10 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
   const onExpand = () => {
     gameService.send("EXPAND");
     setShowBumpkinModal(false);
+  };
+
+  const connectWallet = () => {
+    authService.send("CONNECT");
   };
 
   const nextPosition = EXPANSION_ORIGINS[gameState.expansions.length];
@@ -81,6 +88,8 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
             gameState={gameState}
             onClose={() => setShowBumpkinModal(false)}
             onExpand={onExpand}
+            hasWallet={false}
+            onConnectWallet={connectWallet}
           />
         </CloseButtonPanel>
       </Modal>
