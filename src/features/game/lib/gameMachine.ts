@@ -26,8 +26,6 @@ import { syncProgress } from "../actions/sync";
 import { getGameOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
-import { SkillName } from "../types/skills";
-import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
@@ -42,6 +40,9 @@ import { generateTestLand } from "../expansion/actions/generateLand";
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
+import { CONFIG } from "lib/config";
+
+const API_URL = CONFIG.API_URL;
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -72,11 +73,6 @@ type MintEvent = {
   type: "MINT";
   item: LimitedItemName;
   captcha: string;
-};
-
-type LevelUpEvent = {
-  type: "LEVEL_UP";
-  skill: SkillName;
 };
 
 type WithdrawEvent = {
@@ -133,7 +129,6 @@ export type BlockchainEvent =
   | WithdrawEvent
   | GameEvent
   | MintEvent
-  | LevelUpEvent
   | EditEvent
   | VisitEvent
   | { type: "EXPAND" }
@@ -225,7 +220,6 @@ export type BlockchainState = {
     | "synced"
     | "expanding"
     | "expanded"
-    | "levelling"
     | "revealing"
     | "revealed"
     | "error"
@@ -283,27 +277,24 @@ export function startGame(authContext: Options) {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
+              const farmAddress = authContext.address as string;
               const farmId = authContext.farmId as number;
 
-              console.log("loading");
               const { game: onChain, bumpkin } = await getGameOnChainState({
-                farmAddress: authContext.address as string,
+                farmAddress,
                 id: farmId,
               });
-              console.log("unseenEvents");
 
               const onChainEvents = await unseenEvents({
-                farmAddress: authContext.address as string,
-                farmId: authContext.farmId as number,
+                farmAddress,
+                farmId,
               });
-              console.log("sessionId", farmId);
 
               // Get sessionId
               const sessionId =
                 farmId &&
                 (await wallet.getSessionManager().getSessionId(farmId));
 
-              console.log({ sessionId });
               // Load the farm session
               if (sessionId) {
                 const fingerprint = "X";
@@ -329,13 +320,11 @@ export function startGame(authContext: Options) {
                   status,
                 } = response;
 
-                // add farm address
-                game.farmAddress = authContext.address;
-
                 return {
                   state: {
                     ...game,
-                    id: Number(authContext.farmId),
+                    farmAddress,
+                    id: farmId,
                   },
                   sessionId,
                   offset,
@@ -548,9 +537,6 @@ export function startGame(authContext: Options) {
             SYNC: {
               target: "syncing",
             },
-            LEVEL_UP: {
-              target: "levelling",
-            },
             REVEAL: {
               target: "revealing",
             },
@@ -586,7 +572,8 @@ export function startGame(authContext: Options) {
             src: async (context, event) => {
               const saveAt = (event as any)?.data?.saveAt || new Date();
 
-              if (context.actions.length === 0) {
+              // Skip autosave when no actions were produced and if there is no API_URL
+              if (context.actions.length === 0 || !API_URL) {
                 return { verified: true, saveAt, farm: context.state };
               }
 
@@ -691,67 +678,6 @@ export function startGame(authContext: Options) {
             ],
           },
         },
-        levelling: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(authContext.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.rawToken as string,
-                  offset: context.offset,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
-
-              const { farm } = await levelUp({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
-                fingerprint: context.fingerprint as string,
-                skill: (event as LevelUpEvent).skill,
-                offset: context.offset,
-                deviceTrackerId: context.deviceTrackerId as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return {
-                farm,
-              };
-            },
-            onDone: [
-              {
-                target: "playing",
-                actions: assign((_, event) => ({
-                  // Remove events
-                  actions: [],
-                  // Update immediately with state from server
-                  state: event.data.farm,
-                })),
-              },
-            ],
-            onError: [
-              {
-                // Kick them back to loading game again
-                target: "loading",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
-
         // Similar to autosaving, but for events that are only processed server side
         revealing: {
           entry: "setTransactionId",
