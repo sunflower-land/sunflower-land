@@ -52,7 +52,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   syncing: true,
   synced: true,
   error: true,
-  levelling: false,
   refreshing: true,
   deposited: true,
   expanding: true,
