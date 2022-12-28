@@ -1,6 +1,7 @@
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { buySFL as buySFLOnChain } from "lib/blockchain/BuySFL";
+import { wallet } from "lib/blockchain/wallet";
 
 const API_URL = CONFIG.API_URL;
 
@@ -39,9 +40,13 @@ export async function buySFL({
   const transaction = await response.json();
 
   // Do contract call
-  const receipt = await wallet
-    .getBuySFL()
-    .buySFL({ ...transaction, matic, amountOutMin });
+  const receipt = await buySFLOnChain({
+    ...transaction,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+    matic,
+    amountOutMin,
+  });
 
   return receipt;
 }

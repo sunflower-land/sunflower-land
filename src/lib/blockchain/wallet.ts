@@ -6,7 +6,6 @@ import { fromWei, toBN, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
-import { BuySFL } from "./BuySFL";
 
 export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
