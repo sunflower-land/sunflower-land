@@ -198,7 +198,11 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         muted={true}
         controls
       />
-      <SettingsMenu show={openSettingsMenu} onClose={handleCloseSettingsMenu} />
+      <SettingsMenu
+        show={openSettingsMenu}
+        onClose={handleCloseSettingsMenu}
+        isFarming={isFarming}
+      />
       <AudioMenu
         musicPlayer={musicPlayer}
         song={song}
