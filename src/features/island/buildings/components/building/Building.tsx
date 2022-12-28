@@ -23,6 +23,7 @@ import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePl
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
+import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 
 interface Prop {
   name: BuildingName;
@@ -74,6 +75,20 @@ export const BUILDING_COMPONENTS: Record<
   Deli: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
       <Deli buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+    </WithCraftingMachine>
+  ),
+  "Smoothie Shack": ({
+    buildingId,
+    craftingState,
+    isBuilt,
+    onRemove,
+  }: BuildingProps) => (
+    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+      <SmoothieShack
+        buildingId={buildingId}
+        isBuilt={isBuilt}
+        onRemove={onRemove}
+      />
     </WithCraftingMachine>
   ),
 };
