@@ -1400,6 +1400,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/713.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
+  "Beta Pass": {
+    name: "Beta Pass",
+    description: "Gain early access to features for testing.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/715.png",
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
+  },
   "Liquidity Provider": {
     name: "Liquidity Provider",
     description: "A skill that can be earned by providing liquidity.",

@@ -97,7 +97,8 @@ export type Coupons =
   | "Trading Ticket"
   | "War Bond"
   | "Jack-o-lantern"
-  | "Golden Crop";
+  | "Golden Crop"
+  | "Beta Pass";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -111,6 +112,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Golden Crop": {
     description: "A shiny golden crop",
+  },
+  "Beta Pass": {
+    description: "Gain early access to features for testing.",
   },
 };
 

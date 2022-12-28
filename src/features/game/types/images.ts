@@ -204,6 +204,7 @@ import highRoller from "assets/achievements/high_roller.png";
 // Coupons
 import ticket from "assets/icons/ticket.png";
 import warBond from "assets/icons/warBond.png";
+import betaPass from "assets/icons/beta_pass.png";
 
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
@@ -877,6 +878,10 @@ export const ITEM_DETAILS: Items = {
   "Trading Ticket": {
     description: "Free trades! Woohoo!",
     image: ticket,
+  },
+  "Beta Pass": {
+    description: "Gain early access to features for testing.",
+    image: betaPass,
   },
   "War Bond": {
     description: "A mark of a true warrior",
