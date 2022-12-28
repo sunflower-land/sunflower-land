@@ -26,8 +26,8 @@ import { Loading } from "features/auth/components";
 import { sequence } from "0xsequence";
 import { OpenWalletIntent } from "0xsequence/dist/declarations/src/provider";
 import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
-import { AddSFL } from "./AddSFL";
 import { Discord } from "./DiscordModal";
+import { AddSFL } from "../AddSFL";
 
 enum MENU_LEVELS {
   ROOT = "root",
