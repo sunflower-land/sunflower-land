@@ -26,6 +26,7 @@ import { Context } from "features/game/GoblinProvider";
 import { setPrecision } from "lib/utils/formatNumber";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { mintTestnetTokens } from "lib/blockchain/Pair";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -216,7 +217,9 @@ const NoWish = ({
       <div>
         <Button
           className="text-xs mt-2"
-          onClick={() => wallet.getPair().mintTestnetTokens()}
+          onClick={() =>
+            mintTestnetTokens(wallet.web3Provider, wallet.myAccount)
+          }
         >
           Mint testnet LP tokens
         </Button>

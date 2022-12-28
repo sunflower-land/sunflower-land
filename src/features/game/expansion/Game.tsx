@@ -214,7 +214,6 @@ export const Game: React.FC = () => {
     );
   };
 
-  console.log({ state: gameState.value });
   return (
     <>
       <ToastManager />

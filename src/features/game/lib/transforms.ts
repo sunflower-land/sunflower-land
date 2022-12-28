@@ -17,7 +17,6 @@ import {
  * Converts API response into a game state
  */
 export function makeGame(farm: any): GameState {
-  console.log({ farm });
   return {
     inventory: Object.keys(farm.inventory).reduce(
       (items, item) => ({

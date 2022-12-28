@@ -1,4 +1,5 @@
 import { wallet } from "lib/blockchain/wallet";
+import { collectFromWellOnChain } from "lib/blockchain/WishingWell";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -59,7 +60,11 @@ export async function signCollectFromWell({
 }
 
 export async function collectFromWell(transaction: SignedTransaction) {
-  const receipt = await wallet.getWishingWell().collectFromWell(transaction);
+  const receipt = await collectFromWellOnChain({
+    ...transaction,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+  });
 
   return receipt;
 }

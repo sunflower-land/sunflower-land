@@ -1,3 +1,4 @@
+import { withdrawItems } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -50,7 +51,11 @@ export async function withdraw({
 
   const transaction = await response.json();
 
-  const newSessionId = await wallet.getSessionManager().withdraw(transaction);
+  const newSessionId = await withdrawItems({
+    ...transaction,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+  });
 
   return { sessionId: newSessionId, verified: true };
 }
