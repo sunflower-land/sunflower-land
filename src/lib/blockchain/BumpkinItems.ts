@@ -44,7 +44,6 @@ export async function balanceOf(
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-  console.log({ account: account, id });
   try {
     const balance: string = await (
       new web3.eth.Contract(

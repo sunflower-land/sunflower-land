@@ -14,7 +14,6 @@ export async function sflBalanceOf(
   account: string,
   address: string
 ) {
-  console.log({ address, from: account });
   const balance = await (
     new web3.eth.Contract(
       TokenJSON as AbiItem[],

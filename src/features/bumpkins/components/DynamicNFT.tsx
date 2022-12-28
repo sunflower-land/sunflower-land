@@ -39,7 +39,6 @@ export const DynamicNFT: React.FC<Props> = ({
     return null;
   }
 
-  console.log({ showBackground });
   if (!showBackground) {
     delete parts.background;
   }

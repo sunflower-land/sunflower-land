@@ -11,7 +11,6 @@ export async function loadQuests(quests: QuestName[], bumpkinId: number) {
     IDS,
     bumpkinId
   );
-  console.log({ statuses });
   return quests.map((name, index) => ({
     name,
     isComplete: statuses[index],

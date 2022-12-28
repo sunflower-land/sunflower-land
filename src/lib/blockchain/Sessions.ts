@@ -84,7 +84,6 @@ export async function getSessionId(
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
-    console.log({ farmId, attempts, account });
     const sessionId = await contract.methods
       .getSessionId(farmId)
       .call({ from: account });

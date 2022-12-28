@@ -64,15 +64,12 @@ export async function getGameOnChainState({
     wallet.myAccount,
     farmAddress
   );
-  console.log({ balance, farmAddress });
   const balances = await getInventoryBalances(
     wallet.web3Provider,
     wallet.myAccount,
     farmAddress
   );
-  console.log({ balances });
   const bumpkins = await loadBumpkins(wallet.web3Provider, wallet.myAccount);
-  console.log({ bumpkins });
 
   const inventory = balancesToInventory(balances);
   const fields = populateFields(inventory);

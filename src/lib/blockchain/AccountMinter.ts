@@ -13,7 +13,6 @@ export async function getCreatedAt(
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-  console.log({ web3, account, address, attempts });
   try {
     const createdAt = await (
       new web3.eth.Contract(
@@ -56,14 +55,6 @@ export async function createNewAccount({
 }): Promise<string> {
   const gasPrice = await estimateGasPrice(web3);
 
-  console.log({
-    signature,
-    charity,
-    deadline,
-    fee,
-    bumpkinWearableIds,
-    bumpkinTokenUri,
-  });
   return new Promise((resolve, reject) => {
     (
       new web3.eth.Contract(
