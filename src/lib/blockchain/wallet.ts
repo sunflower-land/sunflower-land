@@ -2,13 +2,18 @@ import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
 
-import { toHex, toWei } from "web3-utils";
+import { fromWei, toBN, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+import Decimal from "decimal.js-light";
 
 export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
+const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
+const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
+const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
+
+console.log({ CONFIG });
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -77,7 +82,7 @@ export class Wallet {
 
     const balance = await this.web3?.eth.getBalance(this.account as string);
 
-    return Number(balance);
+    return new Decimal(balance);
   }
 
   public async initialise(
@@ -317,6 +322,66 @@ export class Wallet {
 
   public get web3Provider() {
     return this.web3 as Web3;
+  }
+
+  public async getSFLForMatic(matic: string) {
+    if (!this.web3) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
+
+    const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
+      "getAmountsOut(uint256,address[])"
+    );
+
+    const maticMinusFee = toBN(matic).mul(toBN(950)).div(toBN(1000));
+
+    const encodedParameters = this.web3.eth.abi
+      .encodeParameters(
+        ["uint256", "address[]"],
+        [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]]
+      )
+      .substring(2);
+
+    const data = encodedFunctionSignature + encodedParameters;
+
+    const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = this.web3.eth.abi.decodeParameter(
+      "uint256[]",
+      result
+    );
+
+    return Number(fromWei(toBN(decodedResult[1])));
+  }
+
+  public async getMaticForSFL(sfl: string) {
+    if (!this.web3) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
+
+    const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
+      "getAmountsIn(uint256,address[])"
+    );
+
+    const encodedParameters = this.web3.eth.abi
+      .encodeParameters(
+        ["uint256", "address[]"],
+        [toBN(sfl), [SFL_TOKEN_ADDRESS, WMATIC_ADDRESS]]
+      )
+      .substring(2);
+
+    const data = encodedFunctionSignature + encodedParameters;
+
+    const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = this.web3.eth.abi.decodeParameter(
+      "uint256[]",
+      result
+    );
+
+    const maticWithFee = Number(
+      fromWei(toBN(decodedResult[1]).mul(toBN(1050)).div(toBN(1000)))
+    );
+
+    return maticWithFee;
   }
 }
 

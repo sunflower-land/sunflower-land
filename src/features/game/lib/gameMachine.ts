@@ -46,6 +46,7 @@ import { getSessionId } from "lib/blockchain/Sessions";
 import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 const API_URL = CONFIG.API_URL;
+import { buySFL } from "../actions/buySFL";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -102,6 +103,12 @@ type VisitEvent = {
   landId: number;
 };
 
+type BuySFLEvent = {
+  type: "BUY_SFL";
+  maticAmount: string;
+  amountOutMin: string;
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -134,6 +141,7 @@ export type BlockchainEvent =
   | MintEvent
   | EditEvent
   | VisitEvent
+  | BuySFLEvent
   | { type: "EXPAND" }
   | { type: "RANDOMISE" }; // Test only
 
@@ -221,6 +229,7 @@ export type BlockchainState = {
     | "autosaving"
     | "syncing"
     | "synced"
+    | "buyingSFL"
     | "expanding"
     | "expanded"
     | "revealing"
@@ -469,7 +478,6 @@ export function startGame(authContext: Options) {
             },
           ],
         },
-
         noBumpkinFound: {},
         deposited: {
           on: {
@@ -570,6 +578,30 @@ export function startGame(authContext: Options) {
             },
             RANDOMISE: {
               target: "randomising",
+            },
+            BUY_SFL: {
+              target: "buyingSFL",
+            },
+          },
+        },
+        buyingSFL: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              await buySFL({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+                transactionId: context.transactionId as string,
+                matic: (event as BuySFLEvent).maticAmount,
+                amountOutMin: (event as BuySFLEvent).amountOutMin,
+              });
+            },
+            onDone: {
+              target: "refreshing",
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
             },
           },
         },

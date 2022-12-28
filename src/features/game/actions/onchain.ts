@@ -31,6 +31,7 @@ async function loadMetadata(id: number) {
 
   return data;
 }
+
 type GetStateArgs = {
   farmAddress: string;
   id: number;

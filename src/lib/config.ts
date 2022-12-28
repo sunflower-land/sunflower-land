@@ -30,8 +30,12 @@ const TADPOLE_CONTRACT = import.meta.env.VITE_TADPOLE_CONTRACT as string;
 const INCUBATOR_CONTRACT = import.meta.env.VITE_INCUBATOR_CONTRACT as string;
 const WHITELIST_TOKEN_CONTRACT = import.meta.env
   .VITE_WHITELIST_TOKEN_CONTRACT as string;
+const BUY_SFL_CONTRACT = import.meta.env.VITE_BUY_SFL_CONTRACT as string;
 const BUMPKIN_CONTRACT = import.meta.env.VITE_BUMPKIN_CONTRACT as string;
 const QUEST_CONTRACT = import.meta.env.VITE_QUEST_CONTRACT as string;
+const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
+  .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
+const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
 const NORTHPOLE_DONATION = import.meta.env.VITE_NORTHPOLE_DONATION as string;
 const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
@@ -66,6 +70,9 @@ export const CONFIG = {
   WHITELIST_TOKEN_CONTRACT,
   BUMPKIN_CONTRACT,
   QUEST_CONTRACT,
+  BUY_SFL_CONTRACT,
+  QUICKSWAP_ROUTER_CONTRACT,
+  WMATIC_CONTRACT,
   NORTHPOLE_DONATION,
   EASTER_EGG_CONTRACT,
   ALCHEMY_RPC,
