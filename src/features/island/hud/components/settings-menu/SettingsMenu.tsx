@@ -37,9 +37,10 @@ enum MENU_LEVELS {
 interface Props {
   show: boolean;
   onClose: () => void;
+  isFarming: boolean;
 }
 
-export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
+export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const { authService } = useContext(AuthContext);
   const { gameService } = useContext(GameContext);
 
@@ -245,10 +246,12 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
         onClose={() => setShowHowToPlay(false)}
       />
 
-      <Discord
-        isOpen={showDiscordModal}
-        onClose={() => setShowDiscordModal(false)}
-      />
+      {isFarming && (
+        <Discord
+          isOpen={showDiscordModal}
+          onClose={() => setShowDiscordModal(false)}
+        />
+      )}
 
       <SubSettings
         isOpen={showSettingsModal}
