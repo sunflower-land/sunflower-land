@@ -22,7 +22,8 @@ const INPUT_MAX_CHAR = 10;
 
 export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);
-  const [maticBalance, setMaticBalance] = useState(0);
+  const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
+  const [isLoading, setIsLoading] = useState(true);
   const [maticAmount, setMaticAmount] = useState(0);
   const [SFLAmount, setSFLAmount] = useState(0);
   const [maticInputError, setMaticInputError] = useState<string | null>(null);
@@ -31,13 +32,17 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const fetchMaticBalance = async () => {
+      setIsLoading(true);
       const balance = await wallet.getMaticBalance();
 
       setMaticBalance(balance);
+      setIsLoading(false);
     };
 
-    fetchMaticBalance();
-  }, []);
+    if (isOpen) {
+      fetchMaticBalance();
+    }
+  }, [isOpen]);
 
   const getSFLForMaticAmount = async (amount: number) => {
     try {
@@ -81,18 +86,22 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const maticBalString = fromWei(toBN(maticBalance));
+  const maticBalString = fromWei(toBN(maticBalance.toString()));
   const formattedMaticBalance = setPrecision(
     new Decimal(maticBalString)
   ).toString();
 
   const amountGreaterThanBalance = toBN(toWei(maticAmount.toString())).gt(
-    toBN(maticBalance)
+    toBN(maticBalance.toString())
   );
 
-  return (
-    <Modal show={isOpen} centered onHide={onClose}>
-      <CloseButtonPanel title="Add SFL" onClose={onClose}>
+  const Content = () => {
+    if (isLoading) {
+      return <span className="loading">Loading</span>;
+    }
+
+    return (
+      <>
         <div className="p-2 pt-1 mb-2">
           <p className="mb-2 text-xs sm:text-sm">
             Sunflower Land provides a quick way to swap Matic for SFL via{" "}
@@ -173,6 +182,13 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
             Add SFL
           </Button>
         </div>
+      </>
+    );
+  };
+  return (
+    <Modal show={isOpen} centered onHide={onClose}>
+      <CloseButtonPanel title="Add SFL" onClose={onClose}>
+        {Content()}
       </CloseButtonPanel>
     </Modal>
   );

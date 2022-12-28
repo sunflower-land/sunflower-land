@@ -6,6 +6,7 @@ import { fromWei, toBN, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+import Decimal from "decimal.js-light";
 
 export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
@@ -81,7 +82,7 @@ export class Wallet {
 
     const balance = await this.web3?.eth.getBalance(this.account as string);
 
-    return Number(balance);
+    return new Decimal(balance);
   }
 
   public async initialise(
