@@ -148,6 +148,43 @@ describe("fruitHarvested", () => {
     ).toThrow("Not ready");
   });
 
+  it("does not harvest if the fruit is still replenishing", () => {
+    const expansion = GAME_STATE.expansions[3];
+    const { fruitPatches } = expansion;
+    const fruitPatch = (fruitPatches as Record<number, LandExpansionPlot>)[0];
+
+    expect(() =>
+      harvestFruit({
+        state: {
+          ...GAME_STATE,
+          expansions: [
+            {
+              ...expansion,
+              fruitPatches: {
+                0: {
+                  ...fruitPatch,
+                  fruit: {
+                    name: "Apple",
+                    plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+                    amount: 1,
+                    harvestsLeft: 1,
+                    harvestedAt: Date.now() - 100,
+                  },
+                },
+              },
+            },
+          ],
+        },
+        action: {
+          type: "fruit.harvested",
+          expansionIndex: 0,
+          index: 0,
+        },
+        createdAt: dateNow,
+      })
+    ).toThrow("Fruit is still replenishing");
+  });
+
   it("does not harvest if no harvest left", () => {
     const expansion = GAME_STATE.expansions[3];
     const { fruitPatches } = expansion;

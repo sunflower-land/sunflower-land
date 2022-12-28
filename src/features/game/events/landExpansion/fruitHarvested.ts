@@ -52,12 +52,16 @@ export function harvestFruit({
     throw new Error("Nothing was planted");
   }
 
-  const { name, plantedAt, harvestsLeft } = patch.fruit;
+  const { name, plantedAt, harvestsLeft, harvestedAt } = patch.fruit;
 
   const { harvestSeconds } = FRUIT()[name];
 
   if (createdAt - plantedAt < harvestSeconds * 1000) {
     throw new Error("Not ready");
+  }
+
+  if (createdAt - harvestedAt < harvestSeconds * 1000) {
+    throw new Error("Fruit is still replenishing");
   }
 
   if (!harvestsLeft) {
