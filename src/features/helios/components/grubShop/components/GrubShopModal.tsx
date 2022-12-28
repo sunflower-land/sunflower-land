@@ -130,8 +130,8 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
           <div className="flex flex-col-reverse sm:flex-row">
             <div className="flex md:flex-row flex-wrap w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
               {isAllFullFilled && (
-                <div className="flex items-start my-2 mb-2 md:mt-2">
-                  <p className="text-xs mb-1 mr-2">More orders in</p>
+                <div className="flex items-center mb-2">
+                  <p className="text-xs mr-2">More orders in</p>
                   <Label type="info" className="flex flex-row items-center">
                     <img src={stopwatch} className="w-3 left-0 mr-1" />
                     {`${secondsToString(secondsLeft as number, {
