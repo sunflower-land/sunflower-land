@@ -18,6 +18,7 @@ import { Stock } from "components/ui/Stock";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { Delayed } from "features/island/buildings/components/building/market/Delayed";
 
 export const RustyShovelSeller: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
@@ -59,16 +60,7 @@ export const RustyShovelSeller: React.FC = () => {
 
   const Action = () => {
     if (stock.equals(0)) {
-      return (
-        <div className="my-1">
-          <p className="text-xxs text-center mb-2">
-            Sync your farm on chain to restock.
-          </p>
-          <Button className="text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
-        </div>
-      );
+      return <Delayed restock={restock}></Delayed>;
     }
 
     return <Button onClick={() => craft(1)}>Buy 1</Button>;

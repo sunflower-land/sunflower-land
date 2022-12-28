@@ -22,6 +22,7 @@ import { CONFIG } from "lib/config";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { secondsToString } from "lib/utils/time";
+import { Delayed } from "features/island/buildings/components/building/market/Delayed";
 
 interface Props {
   onClose: () => void;
@@ -128,16 +129,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
   const Action = () => {
     if (stock?.equals(0)) {
-      return (
-        <div>
-          <p className="text-xxs sm:text-xs mb-1 sm:text-center">
-            Sync your farm on chain to restock
-          </p>
-          <Button className="text-xxs sm:text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
-        </div>
-      );
+      return <Delayed restock={restock}></Delayed>;
     }
 
     if (inventoryFull) {
