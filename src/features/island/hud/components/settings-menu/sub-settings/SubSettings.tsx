@@ -16,7 +16,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const Settings: React.FC<Props> = ({ isOpen, onClose }) => {
+export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
 
   const { gameService } = useContext(Context);

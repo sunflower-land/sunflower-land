@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { CONFIG } from "lib/config";
 
@@ -8,29 +8,30 @@ import { Panel } from "components/ui/Panel";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
 
-import { Share } from "components/Share";
+import { Share } from "features/island/hud/components/settings-menu/Share";
 
 import questionMark from "assets/icons/expression_confused.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import close from "assets/icons/close.png";
 
 import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
-import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
-import { HowToPlay } from "features/farming/hud/components/howToPlay/HowToPlay";
-import { Settings } from "features/farming/hud/components/Settings";
-import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
-import { CommunityGardenModal } from "features/farming/town/components/CommunityGardenModal";
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
+import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
+import { HowToPlay } from "./howToPlay/HowToPlay";
+import { SubSettings } from "./sub-settings/SubSettings";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { CommunityGardenModal } from "features/community/components/CommunityGardenModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Loading } from "features/auth/components";
 import { sequence } from "0xsequence";
 import { OpenWalletIntent } from "0xsequence/dist/declarations/src/provider";
 import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
-import { AddSFL } from "./AddSFL";
+import { Discord } from "./DiscordModal";
+import { AddSFL } from "../AddSFL";
 
 enum MENU_LEVELS {
   ROOT = "root",
-  VIEW = "view",
+  COMMUNITY = "community",
 }
 
 interface Props {
@@ -41,15 +42,16 @@ interface Props {
 export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
   const { authService } = useContext(AuthContext);
   const { gameService } = useContext(GameContext);
+
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showAddSFLModal, setShowAddSFLModal] = useState(false);
   const [showLandExpansionModal, setShowLandExpansionModal] = useState(false);
+  const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
-  const [farmURL, setFarmURL] = useState("");
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
 
@@ -58,9 +60,16 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
     onClose();
   };
 
+  const handleCommunityGardenClick = () => {
+    setShowCommunityGardenModal(true);
+    onClose();
+    setMenuLevel(MENU_LEVELS.ROOT);
+  };
+
   const handleShareClick = () => {
     setShowShareModal(true);
     onClose();
+    setMenuLevel(MENU_LEVELS.ROOT);
   };
 
   const handleAddMatic = async () => {
@@ -108,8 +117,8 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
     onClose();
   };
 
-  const handleLandExpansionClick = () => {
-    setShowLandExpansionModal(true);
+  const handleDiscordClick = () => {
+    setShowDiscordModal(true);
     onClose();
   };
 
@@ -123,7 +132,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
   };
 
   const onCaptchaSolved = async (captcha: string | null) => {
-    console.log({ captcha });
     await new Promise((res) => setTimeout(res, 1000));
 
     gameService.send("SYNC", { captcha });
@@ -131,34 +139,31 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
     setShowCaptcha(false);
   };
 
-  // Handles closing the menu if someone clicks outside
-  useEffect(() => {
-    const _farmURL = window.location.href.replace("/farm", "/visit");
-
-    setFarmURL(_farmURL);
-  }, []);
+  const onHide = () => {
+    onClose();
+    setMenuLevel(MENU_LEVELS.ROOT);
+  };
 
   return (
     <>
-      <Modal show={show} centered onHide={onClose}>
+      <Modal show={show} centered onHide={onHide}>
         <Panel>
           {loadingOnRamp && <Loading />}
           {!loadingOnRamp && (
             <ul className="list-none pt-1">
-              {CONFIG.NETWORK === "mumbai" && (
-                <>
-                  <li className="p-1">
-                    <DEV_BurnLandButton />
-                  </li>
-                  <li className="p-1">
-                    <DEV_GenerateLandButton />
-                  </li>
-                </>
-              )}
-
               {/* Root menu */}
               {menuLevel === MENU_LEVELS.ROOT && (
                 <>
+                  {CONFIG.NETWORK === "mumbai" && (
+                    <>
+                      <li className="p-1">
+                        <DEV_BurnLandButton />
+                      </li>
+                      <li className="p-1">
+                        <DEV_GenerateLandButton />
+                      </li>
+                    </>
+                  )}
                   <li className="p-1">
                     <Button onClick={syncOnChain}>
                       <span>Sync on chain</span>
@@ -177,17 +182,15 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
                     </Button>
                   </li>
                   <li className="p-1">
-                    <Button onClick={() => setMenuLevel(MENU_LEVELS.VIEW)}>
+                    <Button onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}>
                       <span>Community</span>
                     </Button>
                   </li>
-                  {CONFIG.NETWORK === "mainnet" && (
-                    <li className="p-1">
-                      <Button onClick={handleLandExpansionClick}>
-                        <span>Discord</span>
-                      </Button>
-                    </li>
-                  )}
+                  <li className="p-1">
+                    <Button onClick={handleDiscordClick}>
+                      <span>Discord</span>
+                    </Button>
+                  </li>
                   <li className="p-1">
                     <Button onClick={handleAddMatic}>
                       <span>Add Matic</span>
@@ -216,10 +219,10 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
               )}
 
               {/* Community menu */}
-              {menuLevel === MENU_LEVELS.VIEW && (
+              {menuLevel === MENU_LEVELS.COMMUNITY && (
                 <>
                   <li className="p-1">
-                    <Button onClick={() => setShowCommunityGardenModal(true)}>
+                    <Button onClick={handleCommunityGardenClick}>
                       <span>Community Garden</span>
                     </Button>
                   </li>
@@ -235,18 +238,19 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose }) => {
         </Panel>
       </Modal>
 
-      <Share
-        isOpen={showShareModal}
-        onClose={() => setShowShareModal(false)}
-        farmURL={farmURL}
-      />
+      <Share isOpen={showShareModal} onClose={() => setShowShareModal(false)} />
 
       <HowToPlay
         isOpen={showHowToPlay}
         onClose={() => setShowHowToPlay(false)}
       />
 
-      <Settings
+      <Discord
+        isOpen={showDiscordModal}
+        onClose={() => setShowDiscordModal(false)}
+      />
+
+      <SubSettings
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
       />

@@ -11,16 +11,17 @@ import { CopyField } from "components/ui/CopyField";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
-  farmURL: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const Share: React.FC<Props> = ({ farmURL, isOpen, onClose }) => {
+export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
+  const farmUrl = window.location.href.replace("/land", "/visit");
+
   const handleTweetClick = () => {
     window.open(
       `https://twitter.com/intent/tweet?text=Visit My Sunflower Land Farm \uD83D\uDC47\n${encodeURIComponent(
-        farmURL
+        farmUrl
       )}&ref_src=https://sunflower-land.com`,
       "_blank"
     );
@@ -58,7 +59,7 @@ export const Share: React.FC<Props> = ({ farmURL, isOpen, onClose }) => {
               />
             </div>
           </div>
-          <CopyField text={farmURL} copyFieldMessage={"Copy farm URL"} />
+          <CopyField text={farmUrl} copyFieldMessage={"Copy farm URL"} />
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           <Button className="text-s w-1/4 px-1" onClick={handleTweetClick}>
@@ -66,7 +67,7 @@ export const Share: React.FC<Props> = ({ farmURL, isOpen, onClose }) => {
           </Button>
           <Button
             className="text-s w-1/4 px-1"
-            onClick={() => window.open(farmURL, "_blank")}
+            onClick={() => window.open(farmUrl, "_blank")}
           >
             Visit
           </Button>
