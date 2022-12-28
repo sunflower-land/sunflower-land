@@ -41,7 +41,7 @@ const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
   );
 };
 
-export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
+export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
     useState<TreasureToolName>("Sand Shovel");
   const { setToast } = useContext(ToastContext);

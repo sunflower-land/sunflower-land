@@ -10,7 +10,7 @@ import shadow from "assets/npcs/shadow.png";
 import { IslandTravelWrapper } from "./components/IslandTravelWrapper";
 import { SandHills } from "./components/SandHills";
 import { GoblinDigging } from "./components/GoblinDigging";
-import { ShovelShop } from "./components/ShovelShop";
+import { TreasureShop } from "./components/TreasureShop";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const TreasureIsland: React.FC = () => {
@@ -38,7 +38,7 @@ export const TreasureIsland: React.FC = () => {
       <IslandTravelWrapper />
       <SandHills />
       <GoblinDigging />
-      <ShovelShop />
+      <TreasureShop />
 
       <MapPlacement x={-8} y={10} height={1} width={1}>
         <img

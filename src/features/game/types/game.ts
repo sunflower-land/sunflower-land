@@ -20,6 +20,7 @@ import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
+import { TreasureName } from "./treasure";
 
 export type Reward = {
   sfl?: Decimal;
@@ -168,7 +169,8 @@ export type InventoryItemName =
   | ConsumableName
   | DecorationName
   | GoblinRetreatItemName
-  | GoldenCropEventItem;
+  | GoldenCropEventItem
+  | TreasureName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

@@ -150,6 +150,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wild Mushroom": 615,
   "Magic Mushroom": 616,
   Diamond: 617,
+  "Clam Shell": 618,
+  "Sea Cucumber": 619,
+  Coral: 620,
+  Crab: 621,
+  Starfish: 622,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

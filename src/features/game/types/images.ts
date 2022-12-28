@@ -319,6 +319,13 @@ import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
 
+// Treasure
+import starfish from "assets/resources/beach/starfish.png";
+import coral from "assets/resources/beach/coral.png";
+import seaCucumber from "assets/resources/beach/sea_cucumber.png";
+import clamShell from "assets/resources/beach/clam_shell.png";
+import crab from "assets/resources/beach/crab.png";
+
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -1565,5 +1572,26 @@ export const ITEM_DETAILS: Items = {
   "Christmas Snow Globe": {
     image: snowglobe,
     description: "Swirl the snow and watch it come to life",
+  },
+
+  "Clam Shell": {
+    image: clamShell,
+    description: "?",
+  },
+  "Sea Cucumber": {
+    image: seaCucumber,
+    description: "?",
+  },
+  Coral: {
+    image: coral,
+    description: "?",
+  },
+  Crab: {
+    image: crab,
+    description: "?",
+  },
+  Starfish: {
+    image: starfish,
+    description: "?",
   },
 };
