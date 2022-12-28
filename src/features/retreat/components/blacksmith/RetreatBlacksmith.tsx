@@ -7,7 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { blacksmithAudio } from "lib/utils/sfx";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 export const RetreatBlacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -46,7 +46,9 @@ export const RetreatBlacksmith: React.FC = () => {
         </div>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Panel>Coming soon</Panel>
+        <CloseButtonPanel>
+          <div className="mx-2 mt-1 mb-2">Coming soon...</div>
+        </CloseButtonPanel>
       </Modal>
     </MapPlacement>
   );
