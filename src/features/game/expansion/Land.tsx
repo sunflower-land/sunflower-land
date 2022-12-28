@@ -19,7 +19,7 @@ import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
-import { Character } from "features/island/bumpkin/components/Character";
+import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
 import { Gold } from "./components/resources/Gold";
 import { Iron } from "./components/resources/Iron";
 import { Collectible } from "features/island/collectibles/Collectible";
@@ -271,7 +271,7 @@ const getIslandElements = ({
         height={2}
         isEditing={isEditing}
       >
-        <Character
+        <CharacterPlayground
           body={bumpkinParts.body}
           hair={bumpkinParts.hair}
           shirt={bumpkinParts.shirt}
