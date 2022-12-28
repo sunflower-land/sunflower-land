@@ -13,7 +13,7 @@ export type FruitSeedName = `${FruitName} Seed`;
 export type FruitSeed = {
   sfl: Decimal;
   description: string;
-  harvestSeconds: number;
+  plantSeconds: number;
   bumpkinLevel: number;
 };
 
@@ -25,19 +25,19 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   "Apple Seed": {
     sfl: marketRate(20),
     description: "Perfect for homemade Apple Pie",
-    harvestSeconds: 2 * 24 * 60 * 60,
+    plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 13,
   },
   "Blueberry Seed": {
     sfl: marketRate(25),
     description: "A Goblin's weakness",
-    harvestSeconds: 2 * 24 * 60 * 60,
+    plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 14,
   },
   "Orange Seed": {
     sfl: marketRate(30),
     description: "Vitamin C to keep your Bumpkin Healthy",
-    harvestSeconds: 2 * 24 * 60 * 60,
+    plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 15,
   },
 });
