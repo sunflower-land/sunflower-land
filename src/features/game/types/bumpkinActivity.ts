@@ -5,7 +5,7 @@ import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
 import { BeanName } from "./beans";
 import { DecorationName } from "./decorations";
-import { FruitSeedName } from "./fruits";
+import { FruitName, FruitSeedName } from "./fruits";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 
@@ -14,7 +14,7 @@ type SellableName = CropName | Food;
 
 type Recipes = Food | ConsumableName;
 
-export type HarvestEvent = `${CropName} Harvested`;
+export type HarvestEvent = `${CropName | FruitName} Harvested`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Recipes} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
