@@ -2,15 +2,19 @@ import React, { useState } from "react";
 
 import goblin from "assets/npcs/shovel_seller.gif";
 import shadow from "assets/npcs/shadow.png";
+import sandShovel from "assets/tools/sand_shovel.png";
+import starfish from "assets/resources/beach/starfish.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
-import { ShovelShopItems } from "./ShovelShopItems";
+import { TreasureShopBuy as TreasureShopItems } from "./TreasureShopBuy";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { TreasureShopSell } from "./TreasureShopSell";
 
-export const ShovelShop: React.FC = () => {
+export const TreasureShop: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const [tab, setTab] = useState(0);
 
   return (
     <MapPlacement x={-5} y={-2} height={1} width={1}>
@@ -38,7 +42,8 @@ export const ShovelShop: React.FC = () => {
       </div>
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <Panel
+        <CloseButtonPanel
+          onClose={() => setShowModal(false)}
           bumpkinParts={{
             body: "Goblin Potion",
             hair: "Teal Mohawk",
@@ -48,9 +53,24 @@ export const ShovelShop: React.FC = () => {
             background: "Farm Background",
             shoes: "Black Farmer Boots",
           }}
+          currentTab={tab}
+          setCurrentTab={setTab}
+          tabs={[
+            {
+              icon: sandShovel,
+              name: "Buy",
+            },
+            {
+              icon: starfish,
+              name: "Sell",
+            },
+          ]}
         >
-          <ShovelShopItems onClose={() => setShowModal(false)} />
-        </Panel>
+          {tab === 0 && (
+            <TreasureShopItems onClose={() => setShowModal(false)} />
+          )}
+          {tab === 1 && <TreasureShopSell />}
+        </CloseButtonPanel>
       </Modal>
     </MapPlacement>
   );
