@@ -13,7 +13,7 @@ export const Delayed: React.FC<Props> = ({ restock }) => {
       setIsDisabled(false);
     }, 500);
     return () => clearTimeout(timer);
-  });
+  }, []);
 
   return (
     <div className="my-1">
