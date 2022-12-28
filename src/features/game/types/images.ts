@@ -546,6 +546,31 @@ export const ITEM_DETAILS: Items = {
     description: RESOURCES["Honey"].description,
     image: honey,
   },
+  "Apple Juice": {
+    description: CONSUMABLES["Apple Juice"].description,
+    // image: appleJuice,
+    image: apple,
+  },
+  "Orange Juice": {
+    description: CONSUMABLES["Orange Juice"].description,
+    // image: orangeJuice,
+    image: orange,
+  },
+  "Purple Smoothie": {
+    description: CONSUMABLES["Purple Smoothie"].description,
+    // image: purpleSmoothie,
+    image: blueberry,
+  },
+  "Bumpkin Detox": {
+    description: CONSUMABLES["Bumpkin Detox"].description,
+    // image: bumpkinDetox,
+    image: honey,
+  },
+  "Power Smoothie": {
+    description: CONSUMABLES["Power Smoothie"].description,
+    // image: powerSmoothie,
+    image: sunflowerCrunch,
+  },
 
   // Resources
   Wood: {
@@ -1194,6 +1219,10 @@ export const ITEM_DETAILS: Items = {
   Deli: {
     image: deli,
     description: "Satisfy your appetite with these delicatessen foods!",
+  },
+  "Smoothie Shack": {
+    image: deli,
+    description: "Freshly squeezed!",
   },
 
   "Sunflower Amulet": {

@@ -132,6 +132,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Orange Cake": 532,
   "Sunflower Crunch": 533,
   "Reindeer Carrot": 534,
+  "Apple Juice": 535,
+  "Orange Juice": 536,
+  "Purple Smoothie": 537,
+  "Power Smoothie": 538,
+  "Bumpkin Detox": 539,
 
   Wood: 601,
   Stone: 602,
@@ -245,6 +250,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Bakery: 1007,
   Kitchen: 1008,
   Deli: 1009,
+  "Smoothie Shack": 1010,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,

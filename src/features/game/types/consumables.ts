@@ -3,6 +3,13 @@ import { BuildingName } from "./buildings";
 import { Cake } from "./craftables";
 import { Inventory } from "./game";
 
+type JuiceName =
+  | "Apple Juice"
+  | "Orange Juice"
+  | "Purple Smoothie"
+  | "Power Smoothie"
+  | "Bumpkin Detox";
+
 export type ConsumableName =
   | "Mashed Potato"
   | "Pumpkin Soup"
@@ -26,7 +33,8 @@ export type ConsumableName =
   | "Honey Cake"
   | "Sunflower Crunch"
   | "Reindeer Carrot"
-  | Cake;
+  | Cake
+  | JuiceName;
 
 export type Consumable = {
   experience: number;
@@ -438,6 +446,70 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     experience: 10,
     ingredients: {
       Carrot: new Decimal(5),
+    },
+    marketRate: 0,
+  },
+
+  "Apple Juice": {
+    name: "Apple Juice",
+    description: "A crisp refreshing beverage",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 30,
+    experience: 10,
+    ingredients: {
+      Apple: new Decimal(5),
+    },
+    marketRate: 0,
+  },
+
+  "Orange Juice": {
+    name: "Orange Juice",
+    description: "OJ matches perfectly with a Club Sandwich",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 30,
+    experience: 10,
+    ingredients: {
+      Orange: new Decimal(5),
+    },
+    marketRate: 0,
+  },
+
+  "Purple Smoothie": {
+    name: "Purple Smoothie",
+    description: "You can hardly taste the Cabbage",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 30,
+    experience: 10,
+    ingredients: {
+      Blueberry: new Decimal(10),
+      Cabbage: new Decimal(20),
+    },
+    marketRate: 0,
+  },
+
+  "Power Smoothie": {
+    name: "Power Smoothie",
+    description: "Official drink of the Bumpkin Powerlifting Society",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 30,
+    experience: 10,
+    ingredients: {
+      Blueberry: new Decimal(10),
+      Kale: new Decimal(5),
+    },
+    marketRate: 0,
+  },
+
+  "Bumpkin Detox": {
+    name: "Bumpkin Detox",
+    description: "Wash away the sins of last night",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 30,
+    experience: 10,
+    ingredients: {
+      Apple: new Decimal(5),
+      Orange: new Decimal(5),
+      Carrot: new Decimal(20),
     },
     marketRate: 0,
   },
