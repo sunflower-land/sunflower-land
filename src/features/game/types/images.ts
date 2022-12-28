@@ -85,7 +85,6 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 
 // Foods
-import cabbageSoup from "assets/sfts/saurrerkrat.png";
 import roastedCaulfilower from "assets/sfts/roasted_cauliflower.png";
 import radishPie from "assets/sfts/radish_pie.png";
 
@@ -258,6 +257,8 @@ import applePie from "assets/food/apple_pie.png";
 import mushroomJacketPotato from "assets/food/mushroom_jacket_potato.png";
 import kaleMushroomPie from "assets/food/mushroom_kale_pie.png";
 import reindeerCarrot from "assets/food/reindeer_carrot.png";
+import fermentedCarrots from "assets/food/fermented_carrots.png";
+import sauerkraut from "assets/food/sauerkraut.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -766,11 +767,6 @@ export const ITEM_DETAILS: Items = {
   "Pumpkin Soup": {
     ...FOODS()["Pumpkin Soup"],
     image: pumpkinSoup,
-  },
-
-  Sauerkraut: {
-    ...FOODS()["Sauerkraut"],
-    image: cabbageSoup,
   },
   "Roasted Cauliflower": {
     ...FOODS()["Roasted Cauliflower"],
@@ -1286,9 +1282,12 @@ export const ITEM_DETAILS: Items = {
     description: "A great start to a Bumpkins day",
   },
   "Fermented Carrots": {
-    // TODO
-    image: roastVeggies,
+    image: fermentedCarrots,
     description: "Got a surplus of carrots?",
+  },
+  Sauerkraut: {
+    ...FOODS()["Sauerkraut"],
+    image: sauerkraut,
   },
   "Reindeer Carrot": {
     image: reindeerCarrot,

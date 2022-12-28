@@ -1,36 +1,32 @@
-import { syncProgress } from "lib/blockchain/Sessions";
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { buySFL as buySFLOnChain } from "lib/blockchain/BuySFL";
+import { wallet } from "lib/blockchain/wallet";
 
 const API_URL = CONFIG.API_URL;
 
 type Options = {
   farmId: number;
-  sessionId: string;
   token: string;
-  captcha?: string;
   transactionId: string;
+  matic: string;
+  amountOutMin: string;
 };
 
-export async function sync({
+export async function buySFL({
   farmId,
-  sessionId,
   token,
-  captcha,
   transactionId,
+  matic,
+  amountOutMin,
 }: Options) {
-  const response = await window.fetch(`${API_URL}/sync-progress/${farmId}`, {
+  const response = await window.fetch(`${API_URL}/buy-sfl/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${token}`,
       "X-Transaction-ID": transactionId,
     },
-    body: JSON.stringify({
-      sessionId: sessionId,
-      captcha,
-    }),
   });
 
   if (response.status === 429) {
@@ -43,12 +39,14 @@ export async function sync({
 
   const transaction = await response.json();
 
-  // TODO
-  const newSessionId = await syncProgress({
+  // Do contract call
+  const receipt = await buySFLOnChain({
     ...transaction,
     web3: wallet.web3Provider,
     account: wallet.myAccount,
+    matic,
+    amountOutMin,
   });
 
-  return { verified: true, sessionId: newSessionId };
+  return receipt;
 }

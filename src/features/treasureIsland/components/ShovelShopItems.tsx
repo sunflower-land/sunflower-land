@@ -20,6 +20,7 @@ import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
+import { Delayed } from "features/island/buildings/components/building/market/Delayed";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -124,19 +125,7 @@ export const ShovelShopItems: React.FC<Props> = ({ onClose }) => {
 
   const Action = () => {
     if (stock?.equals(0)) {
-      return (
-        <div className="w-full">
-          <p className="text-xxs no-wrap text-center my-1 underline">
-            Sold out
-          </p>
-          <p className="text-xxs text-center">
-            Sync your farm on chain to restock
-          </p>
-          <Button className="text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
-        </div>
-      );
+      return <Delayed restock={restock}></Delayed>;
     }
 
     return (

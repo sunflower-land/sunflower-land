@@ -28,7 +28,6 @@ import northPole from "assets/events/christmas/land/north_pole.gif";
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 import { Salesman } from "features/farming/salesman/Salesman";
-import { ReindeerQuest } from "./ReindeerQuest";
 import { merchantAudio } from "lib/utils/sfx";
 import { NorthPoleModal } from "features/community/northpole/NorthPoleModal";
 
@@ -138,7 +137,6 @@ export const Water: React.FC<Props> = ({ level }) => {
       <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
 
       <FarmerQuest />
-      <ReindeerQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
         <img

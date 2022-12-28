@@ -1,3 +1,4 @@
+import { cancelTrade } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -61,7 +62,10 @@ export async function cancelRequest(request: Request): Promise<Response> {
 export async function cancel(request: Request) {
   const response = await cancelRequest(request);
 
-  await wallet
-    .getSessionManager()
-    .cancelTrade({ ...response.payload, signature: response.signature });
+  await cancelTrade({
+    ...response.payload,
+    signature: response.signature,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+  });
 }

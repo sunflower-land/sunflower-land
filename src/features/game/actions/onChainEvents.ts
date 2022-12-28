@@ -2,7 +2,7 @@ import { wallet } from "lib/blockchain/wallet";
 
 import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
-import { ListingStatus } from "lib/blockchain/Trader";
+import { getFarmSlots, ListingStatus } from "lib/blockchain/Trader";
 import { CONFIG } from "lib/config";
 
 export type OnChainEvent = {
@@ -36,7 +36,7 @@ async function loadPastEvents({
     // metamask.getInventory().getTransfers(farmAddress, block.blockNumber),
     // metamask.getInventory().getBatchTransfers(farmAddress, block.blockNumber),
     // metamask.getToken().getPastDeposits(farmAddress, block.blockNumber),
-    wallet.getTrader().getFarmSlots(farmId),
+    getFarmSlots(wallet.web3Provider, wallet.myAccount, farmId),
   ]);
 
   const recentPurchases = farmTrades.filter(
@@ -146,9 +146,7 @@ export async function unseenEvents({
   }
 
   const lastBlock = getLastBlock();
-  console.log({ lastBlock });
   const block = await getCurrentBlock();
-  console.log({ block });
 
   // First time playing the game, so no new events!
   if (!lastBlock) {
@@ -161,7 +159,6 @@ export async function unseenEvents({
     farmId,
     block: lastBlock,
   });
-  console.log({ pastEvents });
 
   const unseen = pastEvents.filter(
     (event) => event.timestamp > lastBlock.timestamp / 1000

@@ -20,6 +20,7 @@ import { reset } from "features/farming/hud/actions/reset";
 import { fromWei } from "web3-utils";
 import { loadSession } from "features/game/actions/loadSession";
 import { randomID } from "lib/utils/random";
+import { wish } from "lib/blockchain/WishingWell";
 
 export interface Context {
   state: WishingWellTokens;
@@ -159,7 +160,7 @@ export const wishingWellMachine = createMachine<
       wishing: {
         invoke: {
           src: async () => {
-            await wallet.getWishingWell().wish();
+            await wish(wallet.web3Provider, wallet.myAccount);
           },
           onDone: {
             target: "wished",

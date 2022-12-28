@@ -9,8 +9,11 @@ import { LIMITED_ITEM_NAMES } from "../types/craftables";
 import { EMPTY } from "../lib/constants";
 import { CONFIG } from "lib/config";
 import { KNOWN_IDS } from "../types";
-import { Recipe } from "lib/blockchain/Sessions";
-import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
+import { getMintedAtBatch, getRecipes, Recipe } from "lib/blockchain/Sessions";
+import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
+import { sflBalanceOf } from "lib/blockchain/Token";
+import { getInventoryBalances } from "lib/blockchain/Inventory";
+import { getFarm } from "lib/blockchain/Farm";
 
 const API_URL = CONFIG.API_URL;
 
@@ -28,6 +31,7 @@ async function loadMetadata(id: number) {
 
   return data;
 }
+
 type GetStateArgs = {
   farmAddress: string;
   id: number;
@@ -56,12 +60,17 @@ export async function getGameOnChainState({
     return { game: EMPTY };
   }
 
-  const balance = await wallet.getToken().balanceOf(farmAddress);
-  console.log({ balance, farmAddress });
-  const balances = await wallet.getInventory().getBalances(farmAddress);
-  console.log({ balances });
-  const bumpkins = await wallet.getBumpkinDetails().loadBumpkins();
-  console.log({ bumpkins });
+  const balance = await sflBalanceOf(
+    wallet.web3Provider,
+    wallet.myAccount,
+    farmAddress
+  );
+  const balances = await getInventoryBalances(
+    wallet.web3Provider,
+    wallet.myAccount,
+    farmAddress
+  );
+  const bumpkins = await loadBumpkins(wallet.web3Provider, wallet.myAccount);
 
   const inventory = balancesToInventory(balances);
   const fields = populateFields(inventory);
@@ -91,17 +100,32 @@ export async function getOnChainState({
     return { game: EMPTY, owner: "", limitedItems: [] };
   }
 
-  const balanceFn = wallet.getToken().balanceOf(farmAddress);
-  const balancesFn = wallet.getInventory().getBalances(farmAddress);
-  const farmFn = wallet.getFarm().getFarm(id);
-  const bumpkinFn = wallet.getBumpkinDetails().loadBumpkins();
+  const balanceFn = sflBalanceOf(
+    wallet.web3Provider,
+    wallet.myAccount,
+    farmAddress
+  );
+  const balancesFn = getInventoryBalances(
+    wallet.web3Provider,
+    wallet.myAccount,
+    farmAddress
+  );
+  const farmFn = getFarm(wallet.web3Provider, wallet.myAccount, id);
+  const bumpkinFn = loadBumpkins(wallet.web3Provider, wallet.myAccount);
 
   // Short term workaround to get data from session contract
-  const recipesFn = wallet.getSessionManager().getRecipes(RECIPES_IDS);
+  const recipesFn = getRecipes(
+    wallet.web3Provider,
+    wallet.myAccount,
+    RECIPES_IDS
+  );
 
-  const mintedAtsFn = wallet
-    .getSessionManager()
-    .getMintedAtBatch(id, RECIPES_IDS);
+  const mintedAtsFn = getMintedAtBatch(
+    wallet.web3Provider,
+    wallet.myAccount,
+    id,
+    RECIPES_IDS
+  );
 
   // Promise all
   const [balance, balances, farm, recipes, mintedAts, bumpkins] =
@@ -138,9 +162,11 @@ export async function getOnChainState({
 export async function getTreasuryItems() {
   if (!API_URL) return {} as Inventory;
 
-  const treasuryItems = await wallet
-    .getInventory()
-    .getBalances(CONFIG.TREASURY_ADDRESS);
+  const treasuryItems = await getInventoryBalances(
+    wallet.web3Provider,
+    wallet.myAccount,
+    CONFIG.TREASURY_ADDRESS
+  );
 
   return balancesToInventory(treasuryItems);
 }

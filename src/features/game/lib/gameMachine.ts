@@ -22,12 +22,10 @@ import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName, LimitedItemName } from "../types/craftables";
-import { syncProgress } from "../actions/sync";
+import { sync } from "../actions/sync";
 import { getGameOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
-import { SkillName } from "../types/skills";
-import { levelUp } from "../actions/levelUp";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
@@ -42,6 +40,13 @@ import { generateTestLand } from "../expansion/actions/generateLand";
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
+import { CONFIG } from "lib/config";
+
+import { getSessionId } from "lib/blockchain/Sessions";
+import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
+
+const API_URL = CONFIG.API_URL;
+import { buySFL } from "../actions/buySFL";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -74,11 +79,6 @@ type MintEvent = {
   captcha: string;
 };
 
-type LevelUpEvent = {
-  type: "LEVEL_UP";
-  skill: SkillName;
-};
-
 type WithdrawEvent = {
   type: "WITHDRAW";
   sfl: number;
@@ -101,6 +101,12 @@ type EditEvent = {
 type VisitEvent = {
   type: "VISIT";
   landId: number;
+};
+
+type BuySFLEvent = {
+  type: "BUY_SFL";
+  maticAmount: string;
+  amountOutMin: string;
 };
 
 export type BlockchainEvent =
@@ -133,9 +139,9 @@ export type BlockchainEvent =
   | WithdrawEvent
   | GameEvent
   | MintEvent
-  | LevelUpEvent
   | EditEvent
   | VisitEvent
+  | BuySFLEvent
   | { type: "EXPAND" }
   | { type: "RANDOMISE" }; // Test only
 
@@ -223,9 +229,9 @@ export type BlockchainState = {
     | "autosaving"
     | "syncing"
     | "synced"
+    | "buyingSFL"
     | "expanding"
     | "expanded"
-    | "levelling"
     | "revealing"
     | "revealed"
     | "error"
@@ -283,27 +289,28 @@ export function startGame(authContext: Options) {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
+              const farmAddress = authContext.address as string;
               const farmId = authContext.farmId as number;
 
-              console.log("loading");
               const { game: onChain, bumpkin } = await getGameOnChainState({
-                farmAddress: authContext.address as string,
+                farmAddress,
                 id: farmId,
               });
-              console.log("unseenEvents");
 
               const onChainEvents = await unseenEvents({
-                farmAddress: authContext.address as string,
-                farmId: authContext.farmId as number,
+                farmAddress,
+                farmId,
               });
-              console.log("sessionId", farmId);
 
               // Get sessionId
               const sessionId =
                 farmId &&
-                (await wallet.getSessionManager().getSessionId(farmId));
+                (await getSessionId(
+                  wallet.web3Provider,
+                  wallet.myAccount,
+                  farmId
+                ));
 
-              console.log({ sessionId });
               // Load the farm session
               if (sessionId) {
                 const fingerprint = "X";
@@ -329,13 +336,11 @@ export function startGame(authContext: Options) {
                   status,
                 } = response;
 
-                // add farm address
-                game.farmAddress = authContext.address;
-
                 return {
                   state: {
                     ...game,
-                    id: Number(authContext.farmId),
+                    farmAddress,
+                    id: farmId,
                   },
                   sessionId,
                   offset,
@@ -473,7 +478,6 @@ export function startGame(authContext: Options) {
             },
           ],
         },
-
         noBumpkinFound: {},
         deposited: {
           on: {
@@ -505,16 +509,19 @@ export function startGame(authContext: Options) {
              */
             src: (context) => (cb) => {
               const interval = setInterval(async () => {
-                const sessionID = await wallet
-                  .getSessionManager()
-                  ?.getSessionId(authContext?.farmId as number);
+                const sessionID = await getSessionId(
+                  wallet.web3Provider,
+                  wallet.myAccount,
+                  authContext?.farmId as number
+                );
 
                 if (sessionID !== context.sessionId) {
                   cb("EXPIRED");
                 }
 
                 const bumpkins =
-                  (await wallet.getBumpkinDetails()?.loadBumpkins()) ?? [];
+                  (await loadBumpkins(wallet.web3Provider, wallet.myAccount)) ??
+                  [];
                 const tokenURI = bumpkins[0]?.tokenURI;
 
                 if (tokenURI !== context.state.bumpkin?.tokenUri) {
@@ -548,9 +555,6 @@ export function startGame(authContext: Options) {
             SYNC: {
               target: "syncing",
             },
-            LEVEL_UP: {
-              target: "levelling",
-            },
             REVEAL: {
               target: "revealing",
             },
@@ -575,6 +579,30 @@ export function startGame(authContext: Options) {
             RANDOMISE: {
               target: "randomising",
             },
+            BUY_SFL: {
+              target: "buyingSFL",
+            },
+          },
+        },
+        buyingSFL: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              await buySFL({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+                transactionId: context.transactionId as string,
+                matic: (event as BuySFLEvent).maticAmount,
+                amountOutMin: (event as BuySFLEvent).amountOutMin,
+              });
+            },
+            onDone: {
+              target: "refreshing",
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
           },
         },
         autosaving: {
@@ -586,7 +614,8 @@ export function startGame(authContext: Options) {
             src: async (context, event) => {
               const saveAt = (event as any)?.data?.saveAt || new Date();
 
-              if (context.actions.length === 0) {
+              // Skip autosave when no actions were produced and if there is no API_URL
+              if (context.actions.length === 0 || !API_URL) {
                 return { verified: true, saveAt, farm: context.state };
               }
 
@@ -656,7 +685,7 @@ export function startGame(authContext: Options) {
                 });
               }
 
-              const { sessionId } = await syncProgress({
+              const { sessionId } = await sync({
                 farmId: Number(authContext.farmId),
                 sessionId: context.sessionId as string,
                 token: authContext.rawToken as string,
@@ -691,67 +720,6 @@ export function startGame(authContext: Options) {
             ],
           },
         },
-        levelling: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(authContext.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.rawToken as string,
-                  offset: context.offset,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
-
-              const { farm } = await levelUp({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
-                fingerprint: context.fingerprint as string,
-                skill: (event as LevelUpEvent).skill,
-                offset: context.offset,
-                deviceTrackerId: context.deviceTrackerId as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return {
-                farm,
-              };
-            },
-            onDone: [
-              {
-                target: "playing",
-                actions: assign((_, event) => ({
-                  // Remove events
-                  actions: [],
-                  // Update immediately with state from server
-                  state: event.data.farm,
-                })),
-              },
-            ],
-            onError: [
-              {
-                // Kick them back to loading game again
-                target: "loading",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
-
         // Similar to autosaving, but for events that are only processed server side
         revealing: {
           entry: "setTransactionId",

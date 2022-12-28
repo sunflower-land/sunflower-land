@@ -6,6 +6,7 @@ import { ERRORS } from "lib/errors";
 
 import { Draft } from "../../../selling/lib/sellingMachine";
 import { getItemUnit } from "features/game/lib/conversion";
+import { listTrade } from "lib/blockchain/Sessions";
 
 const API_URL = CONFIG.API_URL;
 
@@ -77,7 +78,10 @@ export async function listRequest(request: Request): Promise<Response> {
 export async function list(request: Request) {
   const response = await listRequest(request);
 
-  await wallet
-    .getSessionManager()
-    .listTrade({ ...response.payload, signature: response.signature });
+  await listTrade({
+    ...response.payload,
+    signature: response.signature,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+  });
 }

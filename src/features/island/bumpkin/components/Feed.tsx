@@ -17,11 +17,10 @@ import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Bas
 
 interface Props {
   food: Consumable[];
-  onClose: () => void;
   onFeed: (name: ConsumableName) => void;
 }
 
-export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
+export const Feed: React.FC<Props> = ({ food, onFeed }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);

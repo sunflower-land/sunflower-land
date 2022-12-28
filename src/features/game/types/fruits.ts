@@ -44,20 +44,24 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
 
 export type Fruit = {
   description: string;
-  plantSeconds: number;
+  harvestSeconds: number;
+  name: FruitName;
 };
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({
   Apple: {
     description: "Perfect for homemade Apple Pie",
-    plantSeconds: 2 * 24 * 60 * 60,
+    harvestSeconds: 2 * 24 * 60 * 60,
+    name: "Apple",
   },
   Blueberry: {
     description: "A Goblin's weakness",
-    plantSeconds: 2 * 24 * 60 * 60,
+    harvestSeconds: 2 * 24 * 60 * 60,
+    name: "Blueberry",
   },
   Orange: {
     description: "Vitamin C to keep your Bumpkin Healthy",
-    plantSeconds: 2 * 24 * 60 * 60,
+    harvestSeconds: 2 * 24 * 60 * 60,
+    name: "Blueberry",
   },
 });

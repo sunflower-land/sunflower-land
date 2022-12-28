@@ -2,6 +2,7 @@ import { loadSession } from "features/game/actions/loadSession";
 import { getOnChainState } from "features/game/actions/onchain";
 import { getLowestGameState } from "features/game/lib/transforms";
 import { GameState } from "features/game/types/game";
+import { getSessionId } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 
 export const loadUpdatedSession = async (
@@ -12,7 +13,11 @@ export const loadUpdatedSession = async (
 ) => {
   const onChainState = await getOnChainState({ farmAddress, id: farmId });
 
-  const sessionId = await wallet.getSessionManager().getSessionId(farmId);
+  const sessionId = await getSessionId(
+    wallet.web3Provider,
+    wallet.myAccount,
+    farmId
+  );
 
   const response = await loadSession({
     farmId,
