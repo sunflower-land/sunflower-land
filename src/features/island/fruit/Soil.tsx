@@ -58,7 +58,7 @@ export const Soil: React.FC<Props> = ({
     const isHalfway = growPercentage >= 25 && !isAlmostReady;
 
     return (
-      <div className="relative w-full h-full">
+      <div className="relative w-full h-full flex justify-center">
         {getFruitImage(
           isAlmostReady
             ? lifecycle.almost
@@ -71,7 +71,7 @@ export const Soil: React.FC<Props> = ({
           <div
             className="absolute"
             style={{
-              top: `${PIXEL_SCALE * 9}px`,
+              top: `${PIXEL_SCALE * 18}px`,
               width: `${PIXEL_SCALE * 15}px`,
             }}
           >

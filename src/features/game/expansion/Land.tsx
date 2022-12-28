@@ -163,7 +163,7 @@ const getExpansions = (
 
   if (expansionProps?.fruitPatches) {
     mapPlacements.push(
-      ...getKeys(expansionProps.fruitPatches).map((index) => {
+      ...getKeys(expansionProps.fruitPatches).map((index: number) => {
         const { x, y, width, height, fruit } =
           expansionProps.fruitPatches![index];
 
@@ -177,7 +177,7 @@ const getExpansions = (
             isEditing={isEditing}
           >
             <FruitPatch
-              fruitPatchIndex={index}
+              fruitPatchIndex={Number(index)}
               expansionIndex={expansionIndex}
             />
           </MapPlacement>
