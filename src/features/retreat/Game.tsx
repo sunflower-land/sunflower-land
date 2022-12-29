@@ -34,7 +34,6 @@ import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 
 import { Hud } from "./Hud";
-import { Hat } from "assets/events/christmas/decorations/Hat";
 
 const spawn = [
   [35, 15],
@@ -140,9 +139,6 @@ export const Game = () => {
                 <RetreatWishingWell />
                 <IslandTravelWrapper />
                 <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-                <Hat
-                  bumpkinId={goblinState.context.state.bumpkin?.id as number}
-                />
               </div>
             )}
             {!hasRequiredLevel && !goblinState.matches("loading") && (
