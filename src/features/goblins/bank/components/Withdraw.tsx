@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
@@ -10,16 +10,38 @@ import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
 
 import { Context } from "features/game/GoblinProvider";
+import { loadBanDetails } from "features/game/actions/bans";
+import { Jigger, JiggerStatus } from "features/game/components/Jigger";
 
 interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
   const [authState] = useActor(authService);
+  const [jiggerState, setJiggerState] =
+    useState<{ url: string; status: JiggerStatus }>();
 
   const [page, setPage] = useState<"tokens" | "items">();
+
+  useEffect(() => {
+    const load = async () => {
+      const check = await loadBanDetails(
+        authState.context.farmId?.toString() as string,
+        authState.context.rawToken as string,
+        authState.context.transactionId as string
+      );
+
+      setJiggerState({
+        url: check.verificationUrl,
+        status: check.botStatus as JiggerStatus,
+      });
+    };
+
+    load();
+  }, []);
 
   const withdrawAmount = useRef({
     ids: [] as number[],
@@ -56,6 +78,16 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     });
     onClose();
   };
+
+  if (jiggerState) {
+    return (
+      <Jigger
+        onClose={onClose}
+        status={jiggerState.status}
+        verificationUrl={jiggerState.url}
+      />
+    );
+  }
 
   const isBlacklisted = authState.context.blacklistStatus !== "OK";
 
