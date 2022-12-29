@@ -26,7 +26,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 
 export const ITEM_CARD_MIN_HEIGHT = "148px";
 export const TAB_CONTENT_HEIGHT = 400;
@@ -111,6 +111,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
   const fruitSeeds = getItems(FRUIT_SEEDS());
+  const fruits = getItems(FRUIT());
 
   const allTools = [...tools, ...shovels];
 
@@ -227,6 +228,23 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             {<p className="mb-2">Crops</p>}
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {crops.map((item) => (
+                <Box
+                  count={inventory[item]}
+                  isSelected={selected === item}
+                  key={item}
+                  onClick={() => handleItemClick(item)}
+                  image={ITEM_DETAILS[item].image}
+                  parentDivRef={divRef}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!fruits.length && (
+          <div className="flex flex-col pl-2 mb-2" key={"Fruits"}>
+            {<p className="mb-2">Fruits</p>}
+            <div className="flex mb-2 flex-wrap -ml-1.5">
+              {fruits.map((item) => (
                 <Box
                   count={inventory[item]}
                   isSelected={selected === item}

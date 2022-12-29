@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { plantAudio } from "lib/utils/sfx";
+import { plantAudio, harvestAudio } from "lib/utils/sfx";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { PlantedFruit } from "features/game/types/game";
 import { Fruit, FRUIT, FruitName } from "features/game/types/fruits";
@@ -18,12 +18,10 @@ import { Soil } from "./Soil";
 
 export const isReadyToHarvest = (
   createdAt: number,
-  plantedFruit: PlantedFruit,
+  actionTime: number,
   fruitDetails: Fruit
 ) => {
-  return (
-    createdAt - plantedFruit.plantedAt >= fruitDetails.harvestSeconds * 1000
-  );
+  return createdAt - actionTime >= fruitDetails.harvestSeconds * 1000;
 };
 
 interface Props {
@@ -40,7 +38,7 @@ export const FruitPatch: React.FC<Props> = ({
   const clickedAt = useRef<number>(0);
   const [showPopover, setShowPopover] = useState(false);
   const [showSelectBox, setShowSelectBox] = useState(false);
-  const [showCropDetails, setShowCropDetails] = useState(false);
+  const [showFruitDetails, setShowFruitDetails] = useState(false);
   const [isMobile] = useIsMobile();
   const expansion = game.context.state.expansions[expansionIndex];
   const patch = expansion.fruitPatches?.[fruitPatchIndex];
@@ -63,20 +61,63 @@ export const FruitPatch: React.FC<Props> = ({
     }
 
     const now = Date.now();
-    const isReady = isReadyToHarvest(now, fruit, FRUIT()[fruit.name]);
+    const actionTime = fruit.harvestedAt || fruit.plantedAt;
+    const isReady = isReadyToHarvest(now, actionTime, FRUIT()[fruit.name]);
     const isJustPlanted = now - fruit.plantedAt < 1000;
 
     // show details if field is NOT ready and NOT just planted
     if (!isReady && !isJustPlanted) {
       // set state to show details
-      setShowCropDetails(true);
+      setShowFruitDetails(true);
     }
   };
 
   const handleMouseLeave = () => {
     // set state to hide details
-    setShowCropDetails(false);
+    setShowFruitDetails(false);
     setShowSelectBox(false);
+  };
+
+  const harvestFruit = (fruit: PlantedFruit) => {
+    try {
+      const newState = gameService.send("fruit.harvested", {
+        index: fruitPatchIndex,
+        expansionIndex,
+      });
+
+      if (!newState.matches("hoarding")) {
+        harvestAudio.play();
+
+        setToast({
+          icon: ITEM_DETAILS[fruit.name].image,
+          content: `+${fruit.amount || 1}`,
+        });
+      }
+    } catch (e: any) {
+      // TODO - catch more elaborate errors
+      displayPopover();
+    }
+  };
+
+  const removeTree = () => {
+    try {
+      const newState = gameService.send("fruitTree.removed", {
+        index: fruitPatchIndex,
+        expansionIndex,
+      });
+
+      if (!newState.matches("hoarding")) {
+        harvestAudio.play();
+
+        setToast({
+          icon: ITEM_DETAILS.Wood.image,
+          content: `+1`,
+        });
+      }
+    } catch (e: any) {
+      // TODO - catch more elaborate errors
+      displayPopover();
+    }
   };
 
   const onClick = () => {
@@ -110,13 +151,17 @@ export const FruitPatch: React.FC<Props> = ({
       return;
     }
 
-    // harvest crop
-    // try {
-    //   harvestCrop(crop);
-    // } catch (e: any) {
-    //   // TODO - catch more elaborate errors
-    //   displayPopover();
-    // }
+    //harvest crop
+    try {
+      if (fruit.harvestsLeft) {
+        harvestFruit(fruit);
+      } else {
+        removeTree();
+      }
+    } catch (e: any) {
+      // TODO - catch more elaborate errors
+      displayPopover();
+    }
   };
 
   return (
@@ -130,7 +175,7 @@ export const FruitPatch: React.FC<Props> = ({
         <Soil
           showTimers={showTimers}
           plantedFruit={fruit}
-          showFruitDetails={showCropDetails}
+          showFruitDetails={showFruitDetails}
         />
       </div>
 

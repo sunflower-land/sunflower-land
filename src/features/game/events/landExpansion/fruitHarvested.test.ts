@@ -313,7 +313,7 @@ describe("fruitHarvested", () => {
 
     const fruitAfterHarvest = state.expansions[0].fruitPatches?.[0].fruit;
 
-    expect(fruitAfterHarvest).not.toBeDefined();
+    expect(fruitAfterHarvest?.harvestsLeft).toEqual(0);
   });
 
   it("increments Apple Harvested activity by 1", () => {
