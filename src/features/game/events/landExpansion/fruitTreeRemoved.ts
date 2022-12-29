@@ -11,9 +11,14 @@ export type RemoveFruitTreeAction = {
 type Options = {
   state: Readonly<GameState>;
   action: RemoveFruitTreeAction;
+  createdAt?: number;
 };
 
-export function removeFruitTree({ state, action }: Options): GameState {
+export function removeFruitTree({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   const stateCopy = cloneDeep(state);
   const { expansions, bumpkin } = stateCopy;
   const expansion = expansions[action.expansionIndex];
