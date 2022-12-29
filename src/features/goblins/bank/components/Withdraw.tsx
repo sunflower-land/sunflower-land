@@ -17,27 +17,31 @@ interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
   const [authState] = useActor(authService);
+  const [page, setPage] = useState<"tokens" | "items">();
+
   const [jiggerState, setJiggerState] =
     useState<{ url: string; status: JiggerStatus }>();
-
-  const [page, setPage] = useState<"tokens" | "items">();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
+      setIsLoading(true);
       const check = await loadBanDetails(
         authState.context.farmId?.toString() as string,
         authState.context.rawToken as string,
         authState.context.transactionId as string
       );
 
-      setJiggerState({
-        url: check.verificationUrl,
-        status: check.botStatus as JiggerStatus,
-      });
+      if (check.verificationUrl) {
+        setJiggerState({
+          url: check.verificationUrl,
+          status: check.botStatus as JiggerStatus,
+        });
+      }
+      setIsLoading(false);
     };
 
     load();
@@ -78,6 +82,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     });
     onClose();
   };
+
+  if (isLoading) {
+    return <span className="loading">Loading</span>;
+  }
 
   if (jiggerState) {
     return (
