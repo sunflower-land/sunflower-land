@@ -8,14 +8,14 @@ import { Inventory } from "features/game/types/game";
 
 interface RemnantProps {
   lessIngredient: boolean;
-  inventoryAmount: Decimal;
+  inventoryAmount: number | Decimal;
   requiredAmount: Decimal;
 }
 
 interface Props {
   ingredients: Inventory;
   inventory: Inventory;
-  extraIngredientCount: number;
+  extraIngredientCount?: number;
 }
 
 export const IngredientRemnants: React.FC<RemnantProps> = ({
@@ -51,33 +51,37 @@ export const PanelIngredients: React.FC<Props> = ({
   const ingredientKeys = getKeys(ingredients);
   const ingredientCount = ingredientKeys.length + extraIngredientCount;
 
-  return getKeys(ingredients).map((name, index) => {
-    const item = ITEM_DETAILS[name];
-    const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
-    const requiredAmount =
-      ingredients[name]?.toDecimalPlaces(1) || new Decimal(0);
+  return (
+    <>
+      {ingredientKeys.map((name, index) => {
+        const item = ITEM_DETAILS[name];
+        const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
+        const requiredAmount =
+          ingredients[name]?.toDecimalPlaces(1) || new Decimal(0);
 
-    // Ingredient difference
-    const lessIngredient = new Decimal(inventoryAmount).lessThan(
-      requiredAmount
-    );
+        // Ingredient difference
+        const lessIngredient = new Decimal(inventoryAmount).lessThan(
+          requiredAmount
+        );
 
-    return (
-      <div
-        className={`flex items-center space-x-1 ${
-          ingredientCount > 2 ? "w-1/2" : "w-full"
-        } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
-        key={index}
-      >
-        <div className="w-5">
-          <img src={item.image} className="h-5" />
-        </div>
-        <IngredientRemnants
-          lessIngredient={lessIngredient}
-          inventoryAmount={inventoryAmount}
-          requiredAmount={requiredAmount}
-        />
-      </div>
-    );
-  });
+        return (
+          <div
+            className={`flex items-center space-x-1 ${
+              ingredientCount > 2 ? "w-1/2" : "w-full"
+            } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
+            key={index}
+          >
+            <div className="w-5">
+              <img src={item.image} className="h-5" />
+            </div>
+            <IngredientRemnants
+              lessIngredient={lessIngredient}
+              inventoryAmount={inventoryAmount}
+              requiredAmount={requiredAmount}
+            />
+          </div>
+        );
+      })}
+    </>
+  );
 };
