@@ -109,7 +109,7 @@ import {
   HarvestFruitAction,
 } from "./landExpansion/fruitHarvested";
 import {
-  ChopFruitTreeAction,
+  RemoveFruitTreeAction,
   removeFruitTree,
 } from "./landExpansion/fruitTreeRemoved";
 
@@ -147,7 +147,7 @@ export type PlayingEvent =
   | LandExpansionCollectEggsAction
   | PlantFruitAction
   | HarvestFruitAction
-  | ChopFruitTreeAction;
+  | RemoveFruitTreeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction

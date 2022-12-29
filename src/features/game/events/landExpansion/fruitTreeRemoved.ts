@@ -1,7 +1,8 @@
+import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
-export type ChopFruitTreeAction = {
+export type RemoveFruitTreeAction = {
   type: "fruitTree.removed";
   expansionIndex: number;
   index: number;
@@ -9,7 +10,7 @@ export type ChopFruitTreeAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: ChopFruitTreeAction;
+  action: RemoveFruitTreeAction;
 };
 
 export function removeFruitTree({ state, action }: Options): GameState {
@@ -49,7 +50,7 @@ export function removeFruitTree({ state, action }: Options): GameState {
 
   delete patch.fruit;
 
-  stateCopy.inventory.Wood = stateCopy.inventory.Wood?.add(1);
+  stateCopy.inventory.Wood = stateCopy.inventory.Wood?.add(1) || new Decimal(1);
 
   return stateCopy;
 }

@@ -39,7 +39,7 @@ const GAME_STATE: GameState = {
   ],
 };
 
-describe("fruitHarvested", () => {
+describe("fruitTreeRemoved", () => {
   it("throws an error if the player doesn't have a bumpkin", () => {
     expect(() =>
       removeFruitTree({
@@ -56,7 +56,7 @@ describe("fruitHarvested", () => {
     ).toThrow("You do not have a Bumpkin");
   });
 
-  it("does not chop fruit tree on a non existent expansion", () => {
+  it("does not remove fruit tree on a non existent expansion", () => {
     expect(() =>
       removeFruitTree({
         state: { ...GAME_STATE, expansions: [] },
@@ -69,7 +69,7 @@ describe("fruitHarvested", () => {
     ).toThrow("Expansion does not exist");
   });
 
-  it("does not chop on a an expansion with no fruit patches", () => {
+  it("does not remove on a an expansion with no fruit patches", () => {
     expect(() =>
       removeFruitTree({
         state: GAME_STATE,
@@ -82,7 +82,7 @@ describe("fruitHarvested", () => {
     ).toThrow("Expansion does not have any fruit patches");
   });
 
-  it("does not chop on non-existent fruit patch", () => {
+  it("does not remove on non-existent fruit patch", () => {
     expect(() =>
       removeFruitTree({
         state: GAME_STATE,
@@ -95,7 +95,7 @@ describe("fruitHarvested", () => {
     ).toThrow("Fruit patch does not exist");
   });
 
-  it("does not chop empty air", () => {
+  it("does not remove empty air", () => {
     expect(() =>
       removeFruitTree({
         state: GAME_STATE,
@@ -108,7 +108,7 @@ describe("fruitHarvested", () => {
     ).toThrow("Nothing was planted");
   });
 
-  it("does not chop if harvest is available", () => {
+  it("does not remove if harvest is available", () => {
     expect(() =>
       removeFruitTree({
         state: {
@@ -144,7 +144,7 @@ describe("fruitHarvested", () => {
     ).toThrow("Fruit is still available");
   });
 
-  it("chops the dead tree", () => {
+  it("removes the dead tree", () => {
     const state = removeFruitTree({
       state: GAME_STATE,
       action: {
