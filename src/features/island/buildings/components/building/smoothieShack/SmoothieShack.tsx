@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-import smoothieShack from "assets/events/christmas/buildings/tent.webp";
+import smoothieShack from "assets/buildings/smoothie_shack.webp";
 import artisian from "assets/npcs/artisian.gif";
 import artisianDoing from "assets/npcs/artisian_doing.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -139,13 +139,13 @@ export const SmoothieShack: React.FC<Props> = ({
                 return;
               }
 
-              const right = Math.floor(8 - img.naturalWidth / 2);
+              const right = Math.floor(24 - img.naturalWidth / 2);
               img.style.right = `${PIXEL_SCALE * right}px`;
               setImageWidth(img);
             }}
             style={{
               opacity: 0,
-              bottom: `${PIXEL_SCALE * 8}px`,
+              bottom: `${PIXEL_SCALE * 13}px`,
             }}
           />
         )}

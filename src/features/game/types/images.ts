@@ -278,6 +278,7 @@ import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/hen_house.png";
 import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
+import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -1221,7 +1222,7 @@ export const ITEM_DETAILS: Items = {
     description: "Satisfy your appetite with these delicatessen foods!",
   },
   "Smoothie Shack": {
-    image: deli,
+    image: smoothieShack,
     description: "Freshly squeezed!",
   },
 
