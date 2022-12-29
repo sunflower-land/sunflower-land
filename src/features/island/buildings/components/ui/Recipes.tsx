@@ -166,7 +166,7 @@ export const Recipes: React.FC<Props> = ({
 
                 return (
                   <span className="text-xs text-center">
-                    {`${requiredAmount}`}
+                    {`${inventoryAmount}/${requiredAmount}`}
                   </span>
                 );
               };
