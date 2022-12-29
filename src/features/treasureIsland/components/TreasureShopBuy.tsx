@@ -21,6 +21,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { PanelIngredients } from "features/island/buildings/components/ui/PanelIngredients";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -178,48 +179,10 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
             </span>
 
             <div className="border-t border-white w-full mt-2 pt-1">
-              {getKeys(selected.ingredients).map((ingredientName, index) => {
-                const item = ITEM_DETAILS[ingredientName];
-                const inventoryAmount =
-                  inventory[ingredientName]?.toDecimalPlaces(1) || 0;
-                const requiredAmount =
-                  selected.ingredients[ingredientName]?.toDecimalPlaces(1) || 0;
-
-                // Ingredient difference
-                const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                  requiredAmount
-                );
-
-                // rendering item remenants
-                const renderRemnants = () => {
-                  if (lessIngredient) {
-                    // if inventory items is less than required items
-                    return (
-                      <Label type="danger">
-                        {`${inventoryAmount}/${requiredAmount}`}
-                      </Label>
-                    );
-                  } else {
-                    // if inventory items is equal to required items
-                    return (
-                      <span className="text-xs text-center mt-2">
-                        {`${requiredAmount}`}
-                      </span>
-                    );
-                  }
-                };
-
-                return (
-                  <div
-                    className="flex justify-center flex-wrap items-end"
-                    key={index}
-                  >
-                    <img src={item.image} className="h-5 me-2" />
-                    {renderRemnants()}
-                  </div>
-                );
-              })}
-
+              <PanelIngredients
+                ingredients={selected.ingredients}
+                inventory={inventory}
+              />
               {/* SFL requirement */}
               {price?.gt(0) && (
                 <div className="flex justify-center items-end">

@@ -26,6 +26,7 @@ import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { PanelIngredients } from "../../../ui/PanelIngredients";
 
 interface Props {
   isOpen: boolean;
@@ -184,8 +185,6 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
-  // Price is added as an ingredient for layout purposes
-  const ingredientCount = getKeys(selected.ingredients).length + 1;
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
@@ -252,52 +251,12 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         </span>
                       </div>
                     )}
-                    {getKeys(selected.ingredients).map(
-                      (ingredientName, index) => {
-                        const item = ITEM_DETAILS[ingredientName];
-                        const inventoryAmount =
-                          inventory[ingredientName]?.toDecimalPlaces(1) || 0;
-                        const requiredAmount =
-                          selected.ingredients[ingredientName]?.toDecimalPlaces(
-                            1
-                          ) || 0;
-
-                        // Ingredient difference
-                        const lessIngredient = new Decimal(
-                          inventoryAmount
-                        ).lessThan(requiredAmount);
-
-                        // rendering item remnants
-                        const renderRemnants = () => {
-                          if (lessIngredient) {
-                            // if inventory items is less than required items
-                            return (
-                              <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-                            );
-                          }
-                          // if inventory items is equal to required items
-                          return (
-                            <span className="text-xs text-center">
-                              {`${requiredAmount}`}
-                            </span>
-                          );
-                        };
-
-                        return (
-                          <div
-                            className={`flex items-center space-x-1 ${
-                              ingredientCount > 2 ? "w-1/2" : "w-full"
-                            } shrink-0 sm:justify-center my-[1px] sm:mb-1 sm:w-full`}
-                            key={index}
-                          >
-                            <div className="w-5">
-                              <img src={item.image} className="h-5" />
-                            </div>
-                            {renderRemnants()}
-                          </div>
-                        );
-                      }
-                    )}
+                    <PanelIngredients
+                      ingredients={selected.ingredients}
+                      inventory={inventory}
+                      // Price is added as an ingredient for layout purposes
+                      extraIngredientCount={1}
+                    />
                   </div>
                 </div>
               </div>

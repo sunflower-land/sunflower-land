@@ -23,6 +23,7 @@ import { INITIAL_STOCK } from "features/game/lib/constants";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { secondsToString } from "lib/utils/time";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { PanelIngredients } from "features/island/buildings/components/ui/PanelIngredients";
 
 interface Props {
   onClose: () => void;
@@ -166,8 +167,6 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
-  const ingredientCount = getKeys(selected.ingredients).length;
-
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
@@ -197,47 +196,10 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
           <div className="border-t border-white w-full my-2" />
           <div className="flex w-full justify-between px-1 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
             <div className="flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
-              {getKeys(selected.ingredients).map((ingredientName, index) => {
-                const item = ITEM_DETAILS[ingredientName];
-                const inventoryAmount =
-                  inventory[ingredientName]?.toDecimalPlaces(1) || 0;
-                const requiredAmount =
-                  selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
-                  new Decimal(0);
-
-                // Ingredient difference
-                const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                  requiredAmount
-                );
-
-                // rendering item remnants
-                const renderRemnants = () => {
-                  if (lessIngredient) {
-                    return (
-                      <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-                    );
-                  } else {
-                    // if inventory items is equal to required items
-                    return (
-                      <span className="text-xs text-center">
-                        {`${requiredAmount}`}
-                      </span>
-                    );
-                  }
-                };
-
-                return (
-                  <div
-                    className={`flex items-center space-x-1 ${
-                      ingredientCount > 2 ? "w-1/2" : "w-full"
-                    } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
-                    key={index}
-                  >
-                    <img src={item.image} className="h-5 me-2" />
-                    {renderRemnants()}
-                  </div>
-                );
-              })}
+              <PanelIngredients
+                ingredients={selected.ingredients}
+                inventory={inventory}
+              />
             </div>
             <div className="flex flex-col space-y-2 items-start w-[30%] sm:w-full sm:items-center sm:mb-1">
               <div className="flex space-x-1">

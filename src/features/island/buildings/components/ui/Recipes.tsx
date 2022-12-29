@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { useActor } from "@xstate/react";
-import Decimal from "decimal.js-light";
 
 import levelup from "assets/icons/level_up.png";
 import watch from "assets/icons/stopwatch.png";
@@ -17,10 +16,10 @@ import {
   ConsumableName,
   CONSUMABLES,
 } from "features/game/types/consumables";
-import { Label } from "components/ui/Label";
 
 import { InProgressInfo } from "../building/InProgressInfo";
 import { MachineInterpreter } from "../../lib/craftingMachine";
+import { PanelIngredients } from "./PanelIngredients";
 import {
   getCookingTime,
   getFoodExpBoost,
@@ -103,8 +102,6 @@ export const Recipes: React.FC<Props> = ({
     );
   };
 
-  const ingredientCount = getKeys(selected.ingredients).length;
-
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
@@ -143,48 +140,10 @@ export const Recipes: React.FC<Props> = ({
         <div className="border-t border-white w-full my-2" />
         <div className="flex justify-between px-1 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
           <div className="mb-1 flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
-            {getKeys(selected.ingredients).map((name, index) => {
-              const item = ITEM_DETAILS[name];
-              const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
-              const requiredAmount =
-                selected.ingredients[name]?.toDecimalPlaces(1) ||
-                new Decimal(0);
-
-              // Ingredient difference
-              const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                requiredAmount
-              );
-
-              // rendering item remnants
-              const renderRemnants = () => {
-                if (lessIngredient) {
-                  // if inventory items is less than required items
-                  return (
-                    <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-                  );
-                }
-
-                return (
-                  <span className="text-xs text-center">
-                    {`${inventoryAmount}/${requiredAmount}`}
-                  </span>
-                );
-              };
-
-              return (
-                <div
-                  className={`flex items-center space-x-1 ${
-                    ingredientCount > 2 ? "w-1/2" : "w-full"
-                  } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
-                  key={index}
-                >
-                  <div className="w-5">
-                    <img src={item.image} className="h-5" />
-                  </div>
-                  {renderRemnants()}
-                </div>
-              );
-            })}
+            <PanelIngredients
+              ingredients={selected.ingredients}
+              inventory={inventory}
+            />
           </div>
           <div className="flex flex-col space-y-2 items-start w-[30%] sm:w-full sm:items-center sm:mb-1">
             <div className="flex justify-between">
