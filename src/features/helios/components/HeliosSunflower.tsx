@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-// import sunflower from "assets/decorations/helios_sunflower.png";
+import sunflower from "assets/decorations/helios_sunflower.png";
 import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import sunflower from "assets/events/christmas/decorations/helios_sunflower.png";
+
 export const HeliosSunflower: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   return (

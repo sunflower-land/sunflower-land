@@ -2,8 +2,7 @@ import React from "react";
 
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
-// import workbench from "assets/buildings/workbench.png";
-import workbench from "assets/events/christmas/buildings/workbench.webp";
+import workbench from "assets/buildings/workbench.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
