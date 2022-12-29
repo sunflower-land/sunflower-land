@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import classNames from "classnames";
 
 import selectBox from "assets/ui/select/select_box.png";
+import cancel from "assets/icons/cancel.png";
 import fruitPatch from "assets/fruit/fruit_patch.png";
 
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
@@ -23,46 +24,6 @@ export const isReadyToHarvest = (
   return (
     createdAt - plantedFruit.plantedAt >= fruitDetails.harvestSeconds * 1000
   );
-};
-
-import appleTree from "assets/fruit/apple/apple_tree.png";
-import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
-import orangeTree from "assets/fruit/orange/orange_tree.png";
-
-const fruits: Record<FruitName, React.FC> = {
-  Apple: () => (
-    <img
-      src={appleTree}
-      className="absolute"
-      style={{
-        width: `${PIXEL_SCALE * 26}px`,
-        bottom: `${PIXEL_SCALE * 4}px`,
-        left: `${PIXEL_SCALE * 3}px`,
-      }}
-    />
-  ),
-  Blueberry: () => (
-    <img
-      src={blueberryBush}
-      className="absolute"
-      style={{
-        width: `${PIXEL_SCALE * 25}px`,
-        bottom: `${PIXEL_SCALE * 8}px`,
-        left: `${PIXEL_SCALE * 3}px`,
-      }}
-    />
-  ),
-  Orange: () => (
-    <img
-      src={orangeTree}
-      className="absolute"
-      style={{
-        width: `${PIXEL_SCALE * 26}px`,
-        bottom: `${PIXEL_SCALE * 8}px`,
-        left: `${PIXEL_SCALE * 3}px`,
-      }}
-    />
-  ),
 };
 
 interface Props {
@@ -183,16 +144,7 @@ export const FruitPatch: React.FC<Props> = ({
           }
         )}
       >
-        <img
-          src={fruitPatch}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 30}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            top: `${PIXEL_SCALE * 1}px`,
-          }}
-        />
-        {fruit && fruits[fruit.name]({})}
+        <img className="w-5" src={cancel} />
       </div>
 
       {/* Select box */}
