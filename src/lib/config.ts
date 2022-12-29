@@ -36,7 +36,6 @@ const QUEST_CONTRACT = import.meta.env.VITE_QUEST_CONTRACT as string;
 const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
-const NORTHPOLE_DONATION = import.meta.env.VITE_NORTHPOLE_DONATION as string;
 const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
 
@@ -73,7 +72,6 @@ export const CONFIG = {
   BUY_SFL_CONTRACT,
   QUICKSWAP_ROUTER_CONTRACT,
   WMATIC_CONTRACT,
-  NORTHPOLE_DONATION,
   EASTER_EGG_CONTRACT,
   ALCHEMY_RPC,
 };

@@ -20,7 +20,6 @@ import { CONFIG } from "lib/config";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
-import { CommunityNorthPole } from "features/community/NorthPole";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -121,10 +120,6 @@ export const Navigation: React.FC = () => {
             <Route
               path="/community-garden/:id"
               element={<Community key="community" />}
-            />
-            <Route
-              path="/north-pole/:id"
-              element={<CommunityNorthPole key="community-north-pole" />}
             />
           </Routes>
         </HashRouter>

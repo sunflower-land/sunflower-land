@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-// import boat from "assets/npcs/island_boat_pirate.png";
+import boat from "assets/npcs/island_boat_pirate.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Bumpkin } from "features/game/types/game";
 import { IslandTravelModal } from "./IslandTravelModal";
-import boat from "assets/events/christmas/npcs/island_boat_pirate.png";
+
 interface Props {
   bumpkin: Bumpkin | undefined;
   isVisiting?: boolean;

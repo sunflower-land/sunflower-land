@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
 import shadow from "assets/npcs/shadow.png";
-//import npc from "assets/npcs/community_garden.gif";
-import npc from "assets/events/christmas/npcs/community_garden.gif";
+import npc from "assets/npcs/community_garden.gif";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { merchantAudio } from "lib/utils/sfx";

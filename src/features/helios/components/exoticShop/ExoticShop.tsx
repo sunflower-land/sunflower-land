@@ -3,10 +3,8 @@ import { Modal } from "react-bootstrap";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-// import building from "assets/buildings/farmersMarket.png";
-import building from "assets/events/christmas/buildings/farmersMarket.webp";
-// import retroGirl from "assets/npcs/exotic_girl.gif";
-import retroGirl from "assets/events/christmas/npcs/exotic_girl.gif";
+import building from "assets/buildings/farmersMarket.png";
+import retroGirl from "assets/npcs/exotic_girl.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { ExoticShopItems } from "./component/ExoticShopItems";
