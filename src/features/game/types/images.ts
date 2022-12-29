@@ -259,6 +259,11 @@ import kaleMushroomPie from "assets/food/mushroom_kale_pie.png";
 import reindeerCarrot from "assets/food/reindeer_carrot.png";
 import fermentedCarrots from "assets/food/fermented_carrots.png";
 import sauerkraut from "assets/food/sauerkraut.png";
+import appleJuice from "assets/food/apple_juice.png";
+import orangeJuice from "assets/food/orange_juice.png";
+import purpleSmoothie from "assets/food/purple_smoothie.png";
+import bumpkinDetox from "assets/food/bumpkin_detox.png";
+import powerSmoothie from "assets/food/power_smoothie.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -549,28 +554,23 @@ export const ITEM_DETAILS: Items = {
   },
   "Apple Juice": {
     description: CONSUMABLES["Apple Juice"].description,
-    // image: appleJuice,
-    image: apple,
+    image: appleJuice,
   },
   "Orange Juice": {
     description: CONSUMABLES["Orange Juice"].description,
-    // image: orangeJuice,
-    image: orange,
+    image: orangeJuice,
   },
   "Purple Smoothie": {
     description: CONSUMABLES["Purple Smoothie"].description,
-    // image: purpleSmoothie,
-    image: blueberry,
+    image: purpleSmoothie,
   },
   "Bumpkin Detox": {
     description: CONSUMABLES["Bumpkin Detox"].description,
-    // image: bumpkinDetox,
-    image: honey,
+    image: bumpkinDetox,
   },
   "Power Smoothie": {
     description: CONSUMABLES["Power Smoothie"].description,
-    // image: powerSmoothie,
-    image: sunflowerCrunch,
+    image: powerSmoothie,
   },
 
   // Resources

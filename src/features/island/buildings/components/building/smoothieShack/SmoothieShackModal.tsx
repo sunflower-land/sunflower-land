@@ -48,11 +48,11 @@ export const SmoothieShackModal: React.FC<Props> = ({
     <Modal show={isOpen} onHide={onClose} centered>
       <Panel
         bumpkinParts={{
-          body: "Beige Farmer Potion",
-          hair: "Parlour Hair",
-          pants: "Farmer Overalls",
-          shirt: "Bumpkin Art Competition Merch",
-          tool: "Farmer Pitchfork",
+          body: "Light Brown Farmer Potion",
+          hair: "Explorer Hair",
+          pants: "Lumberjack Overalls",
+          shirt: "Blue Farmer Shirt",
+          tool: "Golden Spatula",
           background: "Farm Background",
           shoes: "Black Farmer Boots",
         }}

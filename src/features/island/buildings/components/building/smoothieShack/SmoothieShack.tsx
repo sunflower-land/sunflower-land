@@ -2,9 +2,8 @@ import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
 import smoothieShack from "assets/buildings/smoothie_shack.webp";
-import artisian from "assets/npcs/artisian.gif";
-import artisianDoing from "assets/npcs/artisian_doing.gif";
-import shadow from "assets/npcs/shadow.png";
+import chef from "assets/npcs/chef.gif";
+import chefDoing from "assets/npcs/chef_doing.gif";
 
 import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -89,34 +88,25 @@ export const SmoothieShack: React.FC<Props> = ({
             height: `${PIXEL_SCALE * 54}px`,
           }}
         />
-        <img
-          src={shadow}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            right: `${PIXEL_SCALE * 2.5}px`,
-            bottom: `${PIXEL_SCALE * 15}px`,
-          }}
-        />
         {crafting ? (
           <img
-            src={artisianDoing}
+            src={chefDoing}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 20}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-              bottom: `${PIXEL_SCALE * 17}px`,
+              width: `${PIXEL_SCALE * 16}px`,
+              right: `${PIXEL_SCALE * 16}px`,
+              bottom: `${PIXEL_SCALE * 20}px`,
               transform: "scaleX(-1)",
             }}
           />
         ) : (
           <img
-            src={artisian}
+            src={chef}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 16}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-              bottom: `${PIXEL_SCALE * 17}px`,
+              width: `${PIXEL_SCALE * 15}px`,
+              right: `${PIXEL_SCALE * 17}px`,
+              bottom: `${PIXEL_SCALE * 20}px`,
               transform: "scaleX(-1)",
             }}
           />
