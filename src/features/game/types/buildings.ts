@@ -151,23 +151,23 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
     constructionSeconds: 60 * 60 * 12,
   },
   "Smoothie Shack": {
-    unlocksAtLevels: [12],
+    unlocksAtLevels: [15],
     ingredients: [
       {
         item: "Wood",
-        amount: new Decimal(1),
+        amount: new Decimal(25),
       },
       {
         item: "Stone",
-        amount: new Decimal(1),
+        amount: new Decimal(25),
       },
       {
-        item: "Gold",
-        amount: new Decimal(1),
+        item: "Iron",
+        amount: new Decimal(10),
       },
     ],
-    sfl: marketRate(100),
-    constructionSeconds: 10,
+    sfl: new Decimal(0),
+    constructionSeconds: 60 * 60 * 12,
   },
 });
 

@@ -454,12 +454,12 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Apple Juice",
     description: "A crisp refreshing beverage",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 30,
-    experience: 10,
+    cookingSeconds: 60 * 60 * 1.5,
+    experience: 340,
     ingredients: {
       Apple: new Decimal(5),
     },
-    marketRate: 0,
+    marketRate: 280,
   },
 
   "Orange Juice": {
@@ -467,37 +467,37 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "OJ matches perfectly with a Club Sandwich",
     building: "Smoothie Shack",
     cookingSeconds: 60 * 30,
-    experience: 10,
+    experience: 300,
     ingredients: {
       Orange: new Decimal(5),
     },
-    marketRate: 0,
+    marketRate: 250,
   },
 
   "Purple Smoothie": {
     name: "Purple Smoothie",
     description: "You can hardly taste the Cabbage",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 30,
-    experience: 10,
+    cookingSeconds: 60 * 60 * 4.5,
+    experience: 280,
     ingredients: {
-      Blueberry: new Decimal(10),
-      Cabbage: new Decimal(20),
+      Blueberry: new Decimal(5),
+      Cabbage: new Decimal(10),
     },
-    marketRate: 0,
+    marketRate: 220,
   },
 
   "Power Smoothie": {
     name: "Power Smoothie",
     description: "Official drink of the Bumpkin Powerlifting Society",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 30,
-    experience: 10,
+    cookingSeconds: 60 * 60 * 2.5,
+    experience: 410,
     ingredients: {
       Blueberry: new Decimal(10),
       Kale: new Decimal(5),
     },
-    marketRate: 0,
+    marketRate: 400,
   },
 
   "Bumpkin Detox": {
@@ -505,12 +505,12 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Wash away the sins of last night",
     building: "Smoothie Shack",
     cookingSeconds: 60 * 30,
-    experience: 10,
+    experience: 500,
     ingredients: {
       Apple: new Decimal(5),
       Orange: new Decimal(5),
-      Carrot: new Decimal(20),
+      Carrot: new Decimal(10),
     },
-    marketRate: 0,
+    marketRate: 500,
   },
 };
