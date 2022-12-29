@@ -5,10 +5,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import { Inventory } from "features/game/types/game";
+import { shortenCount } from "lib/utils/formatNumber";
 
 interface RemnantProps {
   lessIngredient: boolean;
-  inventoryAmount: number | Decimal;
+  inventoryAmount: Decimal | undefined;
   requiredAmount: Decimal;
 }
 
@@ -18,7 +19,7 @@ interface Props {
   extraIngredientCount?: number;
 }
 
-export const IngredientRemnants: React.FC<RemnantProps> = ({
+const IngredientRemnants: React.FC<RemnantProps> = ({
   lessIngredient,
   inventoryAmount,
   requiredAmount,
@@ -32,7 +33,7 @@ export const IngredientRemnants: React.FC<RemnantProps> = ({
 
   return (
     <span className="text-xs text-center">
-      {`${inventoryAmount}/${requiredAmount}`}
+      {`${shortenCount(inventoryAmount)}/${requiredAmount}`}
     </span>
   );
 };
@@ -55,7 +56,8 @@ export const PanelIngredients: React.FC<Props> = ({
     <>
       {ingredientKeys.map((name, index) => {
         const item = ITEM_DETAILS[name];
-        const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
+        const inventoryAmount =
+          inventory[name]?.toDecimalPlaces(1) || new Decimal(0);
         const requiredAmount =
           ingredients[name]?.toDecimalPlaces(1) || new Decimal(0);
 
