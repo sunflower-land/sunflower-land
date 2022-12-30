@@ -4,6 +4,7 @@ import { assign, createMachine, Interpreter } from "xstate";
 import { escalate } from "xstate/lib/actions";
 import { signTransaction } from "../actions/createAccount";
 import { CharityAddress } from "../components";
+import { loadTrialFarm } from "./trial";
 
 export interface Context {
   token?: string;
@@ -101,11 +102,14 @@ export const createFarmMachine = createMachine<
   {
     services: {
       loadBalance: async (context) => {
+        const trialProgress = loadTrialFarm();
+
         const { fee } = await signTransaction({
           charity: CharityAddress.TheWaterProject,
           token: context.token as string,
           captcha: context.transactionId as string,
           transactionId: context.transactionId as string,
+          trialProgress,
         });
         const maticFee = Number(fee);
         const maticBalance = await wallet.getMaticBalance();

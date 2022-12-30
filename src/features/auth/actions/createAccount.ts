@@ -1,20 +1,66 @@
 import { createNewAccount } from "lib/blockchain/AccountMinter";
 import { getNewFarm } from "lib/blockchain/Farm";
+import { BuildingName } from "features/game/types/buildings";
+import { getKeys } from "features/game/types/craftables";
+import { GameState, Inventory } from "features/game/types/game";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { CharityAddress } from "../components/CreateFarm";
 
+type TrialRequest = {
+  balance: string;
+  experience: number;
+  // TODO string numierc?
+  inventory: Inventory;
+  buildings: {
+    name: BuildingName;
+    x: number;
+    y: number;
+  }[];
+};
+
 type Request = {
   charity: string;
   token: string;
   captcha: string;
+  trialProgress?: GameState;
   transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;
 
+function prepareTrialProgress(game: GameState): TrialRequest {
+  return {
+    balance: game.balance.toString(),
+    experience: game.bumpkin?.experience ?? 0,
+    inventory: game.inventory,
+    buildings: getKeys(game.buildings).reduce(
+      (acc, name) => [
+        ...acc,
+        {
+          name,
+          x: game.buildings[name]?.[0].coordinates.x ?? 0,
+          y: game.buildings[name]?.[0].coordinates.y ?? 0,
+        },
+      ],
+      [] as TrialRequest["buildings"]
+    ),
+  };
+}
+
 export async function signTransaction(request: Request) {
+  const body: Pick<Request, "charity" | "captcha"> & {
+    trialProgress?: TrialRequest;
+  } = {
+    charity: request.charity,
+    captcha: request.captcha,
+  };
+
+  if (request.trialProgress) {
+    body.trialProgress = prepareTrialProgress(request.trialProgress);
+  }
+
   const response = await window.fetch(`${API_URL}/account`, {
     method: "POST",
     headers: {
