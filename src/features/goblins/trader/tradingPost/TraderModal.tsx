@@ -79,7 +79,7 @@ export const TraderModal: React.FC<TraderModalProps> = ({
       return <span className="loading">Loading</span>;
     }
 
-    if (jiggerState) {
+    if (isTrading && isSelling && jiggerState) {
       return (
         <Jigger
           onClose={onClose}
