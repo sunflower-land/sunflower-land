@@ -25,22 +25,19 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   "Apple Seed": {
     sfl: marketRate(20),
     description: "Perfect for homemade Apple Pie",
-    // plantSeconds: 2 * 24 * 60 * 60,
-    plantSeconds: 20,
+    plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 13,
   },
   "Blueberry Seed": {
     sfl: marketRate(25),
     description: "A Goblin's weakness",
-    // plantSeconds: 2 * 24 * 60 * 60,
-    plantSeconds: 20,
+    plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 14,
   },
   "Orange Seed": {
     sfl: marketRate(30),
     description: "Vitamin C to keep your Bumpkin Healthy",
-    // plantSeconds: 2 * 24 * 60 * 60,
-    plantSeconds: 20,
+    plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 15,
   },
 });
@@ -49,27 +46,22 @@ export type Fruit = {
   description: string;
   harvestSeconds: number;
   name: FruitName;
-  isBush?: boolean;
 };
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({
   Apple: {
     description: "Perfect for homemade Apple Pie",
-    // harvestSeconds: 2 * 24 * 60 * 60,
-    harvestSeconds: 20,
+    harvestSeconds: 2 * 24 * 60 * 60,
     name: "Apple",
   },
   Blueberry: {
     description: "A Goblin's weakness",
-    // harvestSeconds: 2 * 24 * 60 * 60,
-    harvestSeconds: 20,
+    harvestSeconds: 2 * 24 * 60 * 60,
     name: "Blueberry",
-    isBush: true,
   },
   Orange: {
     description: "Vitamin C to keep your Bumpkin Healthy",
-    // harvestSeconds: 2 * 24 * 60 * 60,
-    harvestSeconds: 20,
+    harvestSeconds: 2 * 24 * 60 * 60,
     name: "Blueberry",
   },
 });

@@ -41,7 +41,7 @@ export const FruitTree: React.FC<Props> = ({
   if (!plantedFruit.harvestsLeft) {
     return (
       <img
-        className="relative cursor-pointer"
+        className="relative cursor-pointer hover:img-highlight"
         style={{
           bottom: "-10px",
           zIndex: "1",
@@ -80,7 +80,7 @@ export const FruitTree: React.FC<Props> = ({
 
   // Ready tree
   return (
-    <div className="flex justify-center cursor-pointer h-full w-full">
+    <div className="flex justify-center cursor-pointer h-full w-full hover:img-highlight">
       <img
         className="relative"
         style={{
