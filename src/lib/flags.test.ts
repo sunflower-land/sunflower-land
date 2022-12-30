@@ -1,3 +1,4 @@
+import "./__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { hasBetaAccess } from "./flags";
 
