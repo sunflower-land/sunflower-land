@@ -26,4 +26,19 @@ export const configMock = jest.fn(() => ({
   },
 }));
 
-jest.doMock("../config", configMock);
+jest.mock("../config", () => ({
+  get CONFIG() {
+    return {
+      NETWORK,
+      POLYGON_CHAIN_ID,
+      DONATION_ADDRESS,
+      WISHING_WELL_CONTRACT,
+      ACCOUNT_MINTER_CONTRACT,
+      FARM_CONTRACT,
+      INVENTORY_CONTRACT,
+      PAIR_CONTRACT,
+      SESSION_CONTRACT,
+      TOKEN_CONTRACT,
+    }; // set some default value
+  },
+}));
