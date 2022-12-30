@@ -128,6 +128,7 @@ export const TraderModal: React.FC<TraderModalProps> = ({
           setIsSelling={setIsSelling}
           onClose={handleClose}
         />
+        <Content />
       </Panel>
     </Modal>
   );
