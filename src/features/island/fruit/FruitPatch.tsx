@@ -1,11 +1,10 @@
 import React, { useContext, useRef, useState } from "react";
 import classNames from "classnames";
 
-import selectBox from "assets/ui/select/select_box.png";
 import cancel from "assets/icons/cancel.png";
 import fruitPatch from "assets/fruit/fruit_patch.png";
 
-import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
+import { POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -14,7 +13,7 @@ import { plantAudio, harvestAudio } from "lib/utils/sfx";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { PlantedFruit } from "features/game/types/game";
 import { Fruit, FRUIT, FruitName } from "features/game/types/fruits";
-import { Soil } from "./Soil";
+import { FruitTree } from "./FruitTree";
 
 export const isReadyToHarvest = (
   createdAt: number,
@@ -37,7 +36,6 @@ export const FruitPatch: React.FC<Props> = ({
   const { setToast } = useContext(ToastContext);
   const clickedAt = useRef<number>(0);
   const [showPopover, setShowPopover] = useState(false);
-  const [showSelectBox, setShowSelectBox] = useState(false);
   const [showFruitDetails, setShowFruitDetails] = useState(false);
   const [isMobile] = useIsMobile();
   const expansion = game.context.state.expansions[expansionIndex];
@@ -54,8 +52,6 @@ export const FruitPatch: React.FC<Props> = ({
   };
 
   const handleMouseHover = () => {
-    setShowSelectBox(!isMobile);
-
     if (!fruit) {
       return;
     }
@@ -75,7 +71,6 @@ export const FruitPatch: React.FC<Props> = ({
   const handleMouseLeave = () => {
     // set state to hide details
     setShowFruitDetails(false);
-    setShowSelectBox(false);
   };
 
   const harvestFruit = (fruit: PlantedFruit) => {
@@ -170,12 +165,15 @@ export const FruitPatch: React.FC<Props> = ({
       onMouseLeave={handleMouseLeave}
       className="w-full h-full relative flex justify-center items-center"
     >
-      <div className="absolute pointer-events-none w-full h-full flex justify-center">
+      {/* Displays the image */}
+      <div className="absolute w-full h-full flex justify-center">
         <img src={fruitPatch} className="h-full absolute" />
-        <Soil
+        <FruitTree
           showTimers={showTimers}
           plantedFruit={fruit}
           showFruitDetails={showFruitDetails}
+          onClick={onClick}
+          playing={playing}
         />
       </div>
 
@@ -191,21 +189,6 @@ export const FruitPatch: React.FC<Props> = ({
       >
         <img className="w-5" src={cancel} />
       </div>
-
-      {/* Select box */}
-      {playing && (
-        <img
-          src={selectBox}
-          className={classNames("relative z-40 cursor-pointer", {
-            "opacity-100": showSelectBox,
-            "opacity-0": !showSelectBox,
-          })}
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-          }}
-          onClick={() => onClick()}
-        />
-      )}
     </div>
   );
 };
