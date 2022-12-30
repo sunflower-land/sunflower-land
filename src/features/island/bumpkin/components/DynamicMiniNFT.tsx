@@ -29,6 +29,8 @@ import fancyTop from "assets/npc-layers/fancy_top.png";
 import maidenTop from "assets/npc-layers/maiden_top.png";
 import whiteShirt from "assets/npc-layers/white_shirt.png";
 import fireShirt from "assets/npc-layers/fire_shirt.png";
+import fireHair from "assets/npc-layers/fire_hair.png";
+import lusciousHair from "assets/npc-layers/luscious_hair.png";
 
 import farmerPants from "assets/npc-layers/farmer_pants.png";
 import blueOveralls from "assets/npc-layers/blue_overalls.png";
@@ -93,6 +95,8 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "White Long Hair": longWhiteHair,
   Blondie: blondie,
   "Red Long Hair": longRedHair,
+  "Fire Hair": fireHair,
+  "Luscious Hair": lusciousHair,
 
   // Shirts
   "Red Farmer Shirt": redShirt,

@@ -28,7 +28,7 @@ export type BumpkinHair =
   | "Red Long Hair"
   | "Blacksmith Hair"
   | "Fire Hair"
-  | "Lucious Hair";
+  | "Luscious Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -181,7 +181,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Devil Wings": 72,
   "Angel Wings": 73,
   "Fire Hair": 74,
-  "Lucious Hair": 75,
+  "Luscious Hair": 75,
   "Ancient War Hammer": 76,
   "Ancient Goblin Sword": 77,
   "Mountain View Background": 78,
