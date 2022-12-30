@@ -46,6 +46,7 @@ export type Fruit = {
   description: string;
   harvestSeconds: number;
   name: FruitName;
+  isBush?: boolean;
 };
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({
@@ -58,10 +59,11 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     description: "A Goblin's weakness",
     harvestSeconds: 2 * 24 * 60 * 60,
     name: "Blueberry",
+    isBush: true,
   },
   Orange: {
     description: "Vitamin C to keep your Bumpkin Healthy",
     harvestSeconds: 2 * 24 * 60 * 60,
-    name: "Blueberry",
+    name: "Orange",
   },
 });
