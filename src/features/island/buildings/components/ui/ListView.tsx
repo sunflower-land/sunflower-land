@@ -11,6 +11,7 @@ import { GameState } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
+import { hasFeatureAccess } from "lib/flags";
 
 const CONTENT_HEIGHT = 380;
 
@@ -20,10 +21,16 @@ export const ListView: React.FC<{
 }> = ({ state, onClick }) => {
   const { bumpkin, inventory } = state;
 
-  const buildings = getKeys(BUILDINGS()).sort((a, b) =>
+  let buildings = getKeys(BUILDINGS()).sort((a, b) =>
     BUILDINGS()[a].unlocksAtLevels[0] > BUILDINGS()[b].unlocksAtLevels[0]
       ? 1
       : -1
+  );
+
+  // Filter out feature flagged building
+  buildings = buildings.filter(
+    (building) =>
+      building !== "Smoothie Shack" || hasFeatureAccess(inventory, "FRUIT")
   );
 
   return (
