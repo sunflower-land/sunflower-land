@@ -10,11 +10,12 @@ import { FRUIT } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover } from "./Popover";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 interface Props {
   playing: boolean;
-  onClick: () => void;
   plantedFruit: PlantedFruit;
+  onClick: () => void;
 }
 
 export const getFruitImage = (imageSource: any): JSX.Element => {
@@ -34,10 +35,11 @@ export const getFruitImage = (imageSource: any): JSX.Element => {
 
 export const Seedling: React.FC<Props> = ({
   playing,
-  onClick,
   plantedFruit,
+  onClick,
 }) => {
   const { showTimers } = useContext(Context);
+  const [isMobile] = useIsMobile();
   const [showHoverState, setShowHoverState] = useState(false);
   const { plantedAt, name } = plantedFruit;
   const { harvestSeconds } = FRUIT()[name];
@@ -51,9 +53,10 @@ export const Seedling: React.FC<Props> = ({
 
   return (
     <div
-      onMouseEnter={() => setShowHoverState(true)}
+      onMouseEnter={() => setShowHoverState(!isMobile)}
       onMouseLeave={() => setShowHoverState(false)}
       className="flex justify-center"
+      onClick={onClick}
     >
       {getFruitImage(
         isAlmostReady
@@ -99,7 +102,6 @@ export const Seedling: React.FC<Props> = ({
             top: "21px",
             width: `${PIXEL_SCALE * 16}px`,
           }}
-          onClick={() => onClick()}
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
 import cancel from "assets/icons/cancel.png";
@@ -10,9 +10,7 @@ import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { plantAudio, harvestAudio } from "lib/utils/sfx";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
-import { PlantedFruit } from "features/game/types/game";
-import { Fruit, FRUIT, FruitName } from "features/game/types/fruits";
+import { Fruit, FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 
 export const isReadyToHarvest = (
@@ -31,13 +29,10 @@ export const FruitPatch: React.FC<Props> = ({
   fruitPatchIndex,
   expansionIndex,
 }) => {
-  const { gameService, selectedItem, showTimers } = useContext(Context);
+  const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
-  const clickedAt = useRef<number>(0);
-  const [showPopover, setShowPopover] = useState(false);
-  const [showFruitDetails, setShowFruitDetails] = useState(false);
-  const [isMobile] = useIsMobile();
+  const [showError, setShowError] = useState(false);
   const expansion = game.context.state.expansions[expansionIndex];
   const patch = expansion.fruitPatches?.[fruitPatchIndex];
 
@@ -45,35 +40,15 @@ export const FruitPatch: React.FC<Props> = ({
 
   const playing = game.matches("playing") || game.matches("autosaving");
 
-  const displayPopover = async () => {
-    setShowPopover(true);
+  const displayError = async () => {
+    setShowError(true);
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
-    setShowPopover(false);
+    setShowError(false);
   };
 
-  const handleMouseHover = () => {
-    if (!fruit) {
-      return;
-    }
+  const harvestFruit = () => {
+    if (!fruit) return;
 
-    const now = Date.now();
-    const actionTime = fruit.harvestedAt || fruit.plantedAt;
-    const isReady = isReadyToHarvest(now, actionTime, FRUIT()[fruit.name]);
-    const isJustPlanted = now - fruit.plantedAt < 1000;
-
-    // show details if field is NOT ready and NOT just planted
-    if (!isReady && !isJustPlanted) {
-      // set state to show details
-      setShowFruitDetails(true);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    // set state to hide details
-    setShowFruitDetails(false);
-  };
-
-  const harvestFruit = (fruit: PlantedFruit) => {
     try {
       const newState = gameService.send("fruit.harvested", {
         index: fruitPatchIndex,
@@ -90,7 +65,7 @@ export const FruitPatch: React.FC<Props> = ({
       }
     } catch (e: any) {
       // TODO - catch more elaborate errors
-      displayPopover();
+      displayError();
     }
   };
 
@@ -111,79 +86,51 @@ export const FruitPatch: React.FC<Props> = ({
       }
     } catch (e: any) {
       // TODO - catch more elaborate errors
-      displayPopover();
+      displayError();
     }
   };
 
-  const onClick = () => {
-    // small buffer to prevent accidental double clicks
-    const now = Date.now();
-    if (now - clickedAt.current < 100) {
-      return;
-    }
-
-    clickedAt.current = now;
-
-    // plant
-    if (!fruit) {
-      try {
-        gameService.send("fruit.planted", {
-          index: fruitPatchIndex,
-          expansionIndex,
-          seed: selectedItem,
-        });
-
-        plantAudio.play();
-
-        setToast({
-          icon: ITEM_DETAILS[selectedItem as FruitName].image,
-          content: `-1`,
-        });
-      } catch (e: any) {
-        // TODO - catch more elaborate errors
-        displayPopover();
-      }
-      return;
-    }
-
-    //harvest crop
+  const plantTree = () => {
     try {
-      if (fruit.harvestsLeft) {
-        harvestFruit(fruit);
-      } else {
-        removeTree();
-      }
+      gameService.send("fruit.planted", {
+        index: fruitPatchIndex,
+        expansionIndex,
+        seed: selectedItem,
+      });
+
+      plantAudio.play();
+
+      setToast({
+        icon: ITEM_DETAILS[selectedItem as FruitName].image,
+        content: `-1`,
+      });
     } catch (e: any) {
       // TODO - catch more elaborate errors
-      displayPopover();
+      displayError();
     }
   };
 
   return (
-    <div
-      onMouseEnter={handleMouseHover}
-      onMouseLeave={handleMouseLeave}
-      className="w-full h-full relative flex justify-center items-center"
-    >
-      {/* Displays the image */}
+    <div className="w-full h-full relative flex justify-center items-center">
       <div className="absolute w-full h-full flex justify-center">
         <img src={fruitPatch} className="h-full absolute" />
         <FruitTree
-          showTimers={showTimers}
           plantedFruit={fruit}
-          showFruitDetails={showFruitDetails}
-          onClick={onClick}
+          plantTree={plantTree}
+          harvestFruit={harvestFruit}
+          removeTree={removeTree}
+          onError={displayError}
           playing={playing}
         />
       </div>
 
-      {/* Popover */}
+      {/* Error Icon */}
       <div
         className={classNames(
-          "transition-opacity absolute top-6 w-full z-40 pointer-events-none flex justify-center",
+          "transition-opacity absolute top-10 w-full z-40 pointer-events-none flex justify-center",
           {
-            "opacity-100": showPopover,
-            "opacity-0": !showPopover,
+            "opacity-100": showError,
+            "opacity-0": !showError,
           }
         )}
       >

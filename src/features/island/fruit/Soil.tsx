@@ -4,6 +4,7 @@ import soil from "assets/land/soil2.png";
 import selectBox from "assets/ui/select/select_box.png";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 interface Props {
   playing: boolean;
@@ -11,12 +12,13 @@ interface Props {
 }
 
 export const Soil: React.FC<Props> = ({ playing, onClick }) => {
+  const [isMobile] = useIsMobile();
   const [showSelectBox, setShowSelectBox] = useState(false);
 
   return (
     <div
       className="flex justify-center"
-      onMouseEnter={() => setShowSelectBox(true)}
+      onMouseEnter={() => setShowSelectBox(!isMobile)}
       onMouseLeave={() => setShowSelectBox(false)}
     >
       <img

@@ -22,7 +22,7 @@ export const Popover = ({
   return (
     <InnerPanel
       className={classNames(
-        "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 -bottom-2 w-fit left-1 z-50 pointer-events-none",
+        "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 bottom-12 w-fit left-7 z-50 pointer-events-none",
         {
           "opacity-100": showFruitDetails,
           "opacity-0": !showFruitDetails,
