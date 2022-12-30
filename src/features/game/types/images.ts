@@ -260,6 +260,11 @@ import kaleMushroomPie from "assets/food/mushroom_kale_pie.png";
 import reindeerCarrot from "assets/food/reindeer_carrot.png";
 import fermentedCarrots from "assets/food/fermented_carrots.png";
 import sauerkraut from "assets/food/sauerkraut.png";
+import appleJuice from "assets/food/apple_juice.png";
+import orangeJuice from "assets/food/orange_juice.png";
+import purpleSmoothie from "assets/food/purple_smoothie.png";
+import bumpkinDetox from "assets/food/bumpkin_detox.png";
+import powerSmoothie from "assets/food/power_smoothie.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -279,6 +284,7 @@ import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/hen_house.png";
 import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
+import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -553,6 +559,26 @@ export const ITEM_DETAILS: Items = {
   Honey: {
     description: RESOURCES["Honey"].description,
     image: honey,
+  },
+  "Apple Juice": {
+    description: CONSUMABLES["Apple Juice"].description,
+    image: appleJuice,
+  },
+  "Orange Juice": {
+    description: CONSUMABLES["Orange Juice"].description,
+    image: orangeJuice,
+  },
+  "Purple Smoothie": {
+    description: CONSUMABLES["Purple Smoothie"].description,
+    image: purpleSmoothie,
+  },
+  "Bumpkin Detox": {
+    description: CONSUMABLES["Bumpkin Detox"].description,
+    image: bumpkinDetox,
+  },
+  "Power Smoothie": {
+    description: CONSUMABLES["Power Smoothie"].description,
+    image: powerSmoothie,
   },
 
   // Resources
@@ -1206,6 +1232,10 @@ export const ITEM_DETAILS: Items = {
   Deli: {
     image: deli,
     description: "Satisfy your appetite with these delicatessen foods!",
+  },
+  "Smoothie Shack": {
+    image: smoothieShack,
+    description: "Freshly squeezed!",
   },
 
   "Sunflower Amulet": {

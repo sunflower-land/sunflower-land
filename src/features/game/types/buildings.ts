@@ -12,7 +12,8 @@ export type BuildingName =
   | "Water Well"
   | "Bakery"
   | "Hen House"
-  | "Deli";
+  | "Deli"
+  | "Smoothie Shack";
 
 export type BuildingBluePrint = {
   unlocksAtLevels: number[];
@@ -149,6 +150,25 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
     sfl: marketRate(300),
     constructionSeconds: 60 * 60 * 12,
   },
+  "Smoothie Shack": {
+    unlocksAtLevels: [15],
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(25),
+      },
+      {
+        item: "Stone",
+        amount: new Decimal(25),
+      },
+      {
+        item: "Iron",
+        amount: new Decimal(10),
+      },
+    ],
+    sfl: new Decimal(0),
+    constructionSeconds: 60 * 60 * 12,
+  },
 });
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
@@ -161,4 +181,5 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Tent: { height: 2, width: 3 },
   "Hen House": { height: 3, width: 4 },
   Deli: { height: 3, width: 4 },
+  "Smoothie Shack": { height: 2, width: 3 },
 };
