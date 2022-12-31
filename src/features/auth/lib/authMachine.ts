@@ -26,6 +26,7 @@ import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
+import { loadTrialFarm } from "./trial";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -471,6 +472,9 @@ export const authMachine = createMachine<
               src: "createFarm",
               onDone: {
                 target: "#reconnecting",
+                actions: assign<Context, any>({
+                  isTrialling: () => false,
+                }),
               },
               onError: {
                 target: "#unauthorised",
@@ -727,11 +731,14 @@ export const authMachine = createMachine<
       createFarm: async (context: Context, event: any): Promise<Context> => {
         const { charityAddress, donation, captcha } = event as CreateFarmEvent;
 
+        const trial = loadTrialFarm();
+
         const newFarm = await createFarmAction({
           charity: charityAddress,
           token: context.rawToken as string,
           captcha: captcha,
           transactionId: context.transactionId as string,
+          trialProgress: trial,
         });
 
         return {

@@ -68,10 +68,7 @@ export async function signTransaction(request: Request) {
       Authorization: `Bearer ${request.token}`,
       "X-Transaction-ID": request.transactionId,
     },
-    body: JSON.stringify({
-      charity: request.charity,
-      captcha: request.captcha,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (response.status === 429) {
@@ -106,6 +103,7 @@ type CreateFarmOptions = {
   token: string;
   captcha: string;
   transactionId: string;
+  trialProgress?: GameState;
 };
 
 export async function createAccount({
@@ -113,12 +111,14 @@ export async function createAccount({
   token,
   captcha,
   transactionId,
+  trialProgress,
 }: CreateFarmOptions) {
   const transaction = await signTransaction({
     charity,
     token,
     captcha,
     transactionId,
+    trialProgress,
   });
 
   await createNewAccount({
