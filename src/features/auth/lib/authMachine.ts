@@ -16,6 +16,7 @@ import {
   decodeToken,
   removeSession,
   hasValidSession,
+  saveSession,
 } from "../actions/login";
 import { oauthorise, redirectOAuth } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
@@ -122,7 +123,8 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_METAMASK" }
   | { type: "CONNECT_TO_WALLET_CONNECT" }
   | { type: "CONNECT_TO_SEQUENCE" }
-  | { type: "SIGN" };
+  | { type: "SIGN" }
+  | { type: "VERIFIED" };
 
 export type BlockchainState = {
   value:
@@ -137,6 +139,7 @@ export type BlockchainState = {
     | "reconnecting"
     | "connected"
     | "signing"
+    | "verifying"
     | "oauthorising"
     | "blacklisted"
     | { connected: "loadingFarm" }
@@ -301,12 +304,30 @@ export const authMachine = createMachine<
             },
             {
               target: "connected",
+              cond: (_, event) =>
+                !!decodeToken(event.data.token).userAccess.verified,
+              actions: "assignToken",
+            },
+            {
+              target: "verifying",
               actions: "assignToken",
             },
           ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
+          },
+        },
+      },
+      verifying: {
+        on: {
+          VERIFIED: {
+            target: "connected",
+            actions: [
+              "assignToken",
+              (_, event) =>
+                saveSession(wallet.myAccount, { token: event.data.token }),
+            ],
           },
         },
       },
