@@ -1,8 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-// import building from "assets/buildings/hen_house.png";
-import building from "assets/events/christmas/buildings/hen_house.webp";
+import building from "assets/buildings/hen_house.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HenHouseModal } from "./components/HenHouseModal";

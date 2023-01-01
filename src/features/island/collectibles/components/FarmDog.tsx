@@ -1,7 +1,6 @@
 import React from "react";
 
-// import farmDog from "assets/sfts/farm_dog.gif";
-import farmDog from "assets/events/christmas/sfts/farm_dog.gif";
+import farmDog from "assets/sfts/farm_dog.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const FarmDog: React.FC = () => {

@@ -20,7 +20,6 @@ type Response = {
   isBlacklisted?: boolean;
   whitelistedAt?: string;
   itemsMintedAt?: MintedAt;
-  blacklistStatus?: "investigating" | "permanent";
   deviceTrackerId: string;
   status?: "COOL_DOWN";
 };
@@ -70,7 +69,6 @@ export async function loadSession(
     isBlacklisted,
     whitelistedAt,
     itemsMintedAt,
-    blacklistStatus,
     deviceTrackerId,
     status,
   } = await sanitizeHTTPResponse<{
@@ -79,7 +77,6 @@ export async function loadSession(
     isBlacklisted: boolean;
     whitelistedAt: string;
     itemsMintedAt: MintedAt;
-    blacklistStatus: Response["blacklistStatus"];
     deviceTrackerId: string;
     status?: "COOL_DOWN";
   }>(response);
@@ -100,7 +97,6 @@ export async function loadSession(
     isBlacklisted,
     whitelistedAt,
     itemsMintedAt,
-    blacklistStatus,
     deviceTrackerId,
     status,
   };

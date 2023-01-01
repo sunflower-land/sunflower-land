@@ -656,7 +656,7 @@ export const authMachine = createMachine<
           farmId: parseInt(farmAccount.tokenId),
           address: farmAccount.account,
           createdAt,
-          blacklistStatus: botStatus ?? isBanned ? "BANNED" : "OK",
+          blacklistStatus: isBanned ? "BANNED" : "OK",
           verificationUrl,
         };
       },
