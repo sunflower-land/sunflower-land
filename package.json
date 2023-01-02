@@ -25,6 +25,7 @@
     "@alch/alchemy-web3": "^1.4.7",
     "@types/uuid": "^9.0.0",
     "@walletconnect/web3-provider": "^1.8.0",
+    "@widgetbot/react-embed": "^1.4.0",
     "@xstate/inspect": "^0.6.2",
     "@xstate/react": "^3.0.1",
     "browserify-zlib": "^0.2.0",
