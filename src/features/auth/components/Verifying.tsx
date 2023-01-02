@@ -10,37 +10,42 @@ export const Verifying: React.FC = () => {
   const [authState] = useActor(authService);
 
   useEffect(() => {
-    const eventMethod = window.addEventListener
-      ? "addEventListener"
-      : "attachEvent";
-    const eventer = window[eventMethod as any] as unknown as (
-      name: any,
-      fn: (event: MessageEvent) => void,
-      propogate: boolean
-    ) => void;
-    const messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    const setup = () => {
+      const eventMethod = window.addEventListener
+        ? "addEventListener"
+        : "attachEvent";
 
-    // Listen to message from child window
-    eventer(
-      messageEvent,
-      function (e: MessageEvent) {
-        const frame = document.getElementById("iframe") as HTMLIFrameElement;
+      const eventer = window[eventMethod as any] as unknown as (
+        name: any,
+        fn: (event: MessageEvent) => void,
+        propogate: boolean
+      ) => void;
+      const messageEvent =
+        eventMethod == "attachEvent" ? "onmessage" : "message";
 
-        // Only listen to events from the IFrame in focus
-        if (
-          e.origin.includes(CONFIG.API_URL as string) ||
-          (e.origin === "null" && e.source === frame?.contentWindow)
-        ) {
-          console.log("parent received message!:  ", e.data);
-          authService.send("VERIFIED", {
-            data: {
-              token: e.data,
-            },
-          });
-        }
-      },
-      false
-    );
+      // Listen to message from child window
+      eventer(
+        messageEvent,
+        function (e: MessageEvent) {
+          const frame = document.getElementById("iframe") as HTMLIFrameElement;
+
+          // Only listen to events from the IFrame in focus
+          if (
+            e.origin.includes(CONFIG.API_URL as string) ||
+            (e.origin === "null" && e.source === frame?.contentWindow)
+          ) {
+            authService.send("VERIFIED", {
+              data: {
+                token: e.data,
+              },
+            });
+          }
+        },
+        false
+      );
+    };
+
+    setup();
   }, []);
 
   return (
@@ -50,7 +55,6 @@ export const Verifying: React.FC = () => {
         src={`${CONFIG.API_URL}/auth/verify?token=${authState.context.rawToken}`}
         title="Yeeeet!"
         id="iframe"
-        sandbox="allow-scripts"
       ></iframe>
       <span className="text-shadow loading">Signing you in</span>
       <span className="text-shadow block my-2 mx-2 sm:text-sm">
