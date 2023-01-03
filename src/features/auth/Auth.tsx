@@ -24,6 +24,7 @@ import { Blacklisted } from "features/game/components/Blacklisted";
 import { Connect } from "./components/Connect";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ConnectedToWallet } from "./components/ConnectedToWallet";
+import { Verifying } from "./components/Verifying";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -65,6 +66,7 @@ export const Auth: React.FC = () => {
         {connecting && <Loading text="Connecting" />}
         {authState.matches("connectedToWallet") && <ConnectedToWallet />}
         {authState.matches("signing") && <Signing />}
+        {authState.matches("verifying") && <Verifying />}
         {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
         {authState.matches("oauthorising") && <Loading />}
         {authState.matches({ connected: "donating" }) && <CreateFarm />}
