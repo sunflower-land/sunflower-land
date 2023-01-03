@@ -11,9 +11,8 @@ export const Verifying: React.FC = () => {
 
   useEffect(() => {
     const setup = () => {
-      const eventMethod = window.addEventListener
-        ? "addEventListener"
-        : "attachEvent";
+      const eventMethod =
+        !!window.addEventListener === true ? "addEventListener" : "attachEvent";
 
       const eventer = window[eventMethod as any] as unknown as (
         name: any,
