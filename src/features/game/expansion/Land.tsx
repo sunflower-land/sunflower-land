@@ -34,6 +34,7 @@ import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
+import { AnimationExample } from "./components/AnimationExample";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -409,6 +410,10 @@ export const Land: React.FC = () => {
         <DirtRenderer
           expansions={expansions.filter((e) => e.readyAt < Date.now())}
         />
+
+        <MapPlacement x={7} y={5} width={1} height={1}>
+          <AnimationExample />
+        </MapPlacement>
 
         <Water level={expandedCount} />
 
