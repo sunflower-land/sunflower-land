@@ -67,6 +67,7 @@ export const ReplenishingTree: React.FC<Props> = ({
         dropImageProps={{
           src: getFruitImage(name),
         }}
+        isBush={plantedFruit.name === "Blueberry"}
       />
       {showTimers && (
         <div

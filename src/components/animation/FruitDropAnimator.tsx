@@ -1,19 +1,32 @@
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 
 interface Props {
-  dropImageProps?: React.ImgHTMLAttributes<HTMLImageElement>;
+  dropImageProps: React.ImgHTMLAttributes<HTMLImageElement>;
   wrapperClassName?: string;
-  mainImageProps?: React.ImgHTMLAttributes<HTMLImageElement>;
-  mainImageStyles?: Record<any, string | number>;
+  isBush: boolean;
+  mainImageProps: React.ImgHTMLAttributes<HTMLImageElement>;
 }
 
 export const FruitDropAnimator = ({
   dropImageProps,
   wrapperClassName,
+  isBush,
   mainImageProps,
 }: Props) => {
   const [dropFruits, setDropFruits] = useState(false);
   const [hideFruits, setHideFruits] = useState(false);
+
+  const getClassName = (number: number) => {
+    return classNames(`absolute ${dropImageProps?.className} drop-transition`, {
+      [`fruit-${number}`]: !dropFruits && !isBush,
+      [`bush-fruit-${number}`]: !dropFruits && isBush,
+      [`fruit-${number}-dropped`]: dropFruits && !isBush,
+      [`bush-fruit-${number}-dropped`]: dropFruits && isBush,
+      "opacity-0": hideFruits,
+      "opacity-100": !hideFruits,
+    });
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -25,35 +38,12 @@ export const FruitDropAnimator = ({
   }, []);
 
   return (
-    <div className={`${wrapperClassName} relative`}>
-      <img
-        {...mainImageProps}
-        className={`${mainImageProps?.className} tree-shake-animation`}
-      />
-      <img
-        {...dropImageProps}
-        className={`absolute ${dropImageProps?.className} drop-transition ${
-          dropFruits ? "fruit-one-dropped" : "fruit-one"
-        } ${hideFruits ? "opacity-0" : "opacity-100"}`}
-      />
-      <img
-        {...dropImageProps}
-        className={`absolute ${dropImageProps?.className} drop-transition ${
-          dropFruits ? "fruit-two-dropped" : "fruit-two"
-        } ${hideFruits ? "opacity-0" : "opacity-100"}`}
-      />
-      <img
-        {...dropImageProps}
-        className={`absolute ${dropImageProps?.className} drop-transition ${
-          dropFruits ? "fruit-three-dropped" : "fruit-three"
-        } ${hideFruits ? "opacity-0" : "opacity-100"}`}
-      />
-      <img
-        {...dropImageProps}
-        className={`absolute ${dropImageProps?.className} drop-transition ${
-          dropFruits ? "fruit-four-dropped" : "fruit-four"
-        } ${hideFruits ? "opacity-0" : "opacity-100"}`}
-      />
+    <div className={`${wrapperClassName} relative tree-shake-animation`}>
+      <img {...mainImageProps} className={`${mainImageProps?.className}`} />
+      <img {...dropImageProps} className={getClassName(1)} />
+      <img {...dropImageProps} className={getClassName(2)} />
+      <img {...dropImageProps} className={getClassName(3)} />
+      <img {...dropImageProps} className={getClassName(4)} />
     </div>
   );
 };

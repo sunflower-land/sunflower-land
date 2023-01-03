@@ -1,38 +1,38 @@
-.fruit-one {
+.fruit-1 {
   left: 8px;
   top: -10px;
   z-index: 2;
 }
-.fruit-two {
+.fruit-2 {
   left: 13px;
   top: 9px;
   z-index: 2;
 }
-.fruit-three {
+.fruit-3 {
   left: 47px;
   top: 1px;
   z-index: 2;
 }
-.fruit-four {
+.fruit-4 {
   left: 36px;
   top: 16px;
   z-index: 2;
 }
-.fruit-one-dropped {
+.fruit-1-dropped {
   left: 8px;
   top: 42px;
   transform: rotate(-40deg);
 }
-.fruit-two-dropped {
+.fruit-2-dropped {
   left: 13px;
   top: 56px;
   transform: rotate(45deg);
 }
-.fruit-three-dropped {
+.fruit-3-dropped {
   left: 47px;
   top: 43px;
 }
-.fruit-four-dropped {
+.fruit-4-dropped {
   left: 36px;
   top: 60px;
   transform: rotate(-48deg);
