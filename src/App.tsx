@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
 import { initialise } from "lib/utils/init";
@@ -18,6 +18,13 @@ import { Button } from "components/ui/Button";
  */
 export const App: React.FC = () => {
   const api = useRef<Client>();
+
+  // useEffect(() => {
+  //   // Listen for discord message events
+  //   crate.on("message", ({ message, channel }) => {
+  //     console.log(`New message: ${message.content}`);
+  //   });
+  // }, []);
   // useEffect(() => {
   //   const load = async () => {
   //     await new Promise((res) => setTimeout(res, 2000));
@@ -63,24 +70,24 @@ export const App: React.FC = () => {
     // });
   };
 
-  const onClick = () => {
-    // console.log({ api: api.current?.emit });
-    crate.notify("GHello");
-    // console.log("Sent!", { crate: crate.emit });
-    const res = crate.emit("sendMessage");
-    console.log({ res });
-  };
+  // const onClick = () => {
+  //   // console.log({ api: api.current?.emit });
+  //   crate.notify("GHello");
+  //   // console.log("Sent!", { crate: crate.emit });
+  //   const res = crate.emit("sendMessage");
+  //   console.log({ res });
+  // };
   return (
     <Auth.Provider>
       <ErrorBoundary>
         <Navigation />
-        <div
+        {/* <div
           className="fixed inset-0 z-50"
           style={{
             zIndex: 100000000,
           }}
         >
-          {/* <WidgetBot
+          <WidgetBot
             height={500}
             server="880987707214544966"
             channel="880987707692687381"
@@ -88,9 +95,9 @@ export const App: React.FC = () => {
             onAPI={onApi}
             username={`Bumpkin #1`}
             avatar="https://testnet-images.bumpkins.io/nfts/32_1_6_13_20_22_23x128.png"
-          /> */}
+          />
           <Button onClick={onClick}>Send Message</Button>
-        </div>
+        </div> */}
       </ErrorBoundary>
     </Auth.Provider>
   );
