@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
@@ -58,6 +58,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
   const [showCaptcha, setShowCaptcha] = useState(false);
+  // The initial stock is used to determine if the sync
+  // button should be delayed
+  const { current: initialStocks } = useRef(state.stock);
 
   const inventory = state.inventory;
   const collectibles = state.collectibles;
@@ -69,6 +72,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     collectibles,
     state.bumpkin as Bumpkin
   );
+
+  const stock = state.stock[selectedName] || new Decimal(0);
+  const initialStock = initialStocks[selectedName] || new Decimal(0);
+
+  const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 
   const buy = (amount = 1) => {
     gameService.send("seed.bought", {
@@ -107,9 +115,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     return state.balance.lessThan(price.mul(amount).toString());
   };
-
-  const stock = state.stock[selectedName] || new Decimal(0);
-  const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 
   if (showCaptcha) {
     return (
@@ -156,7 +161,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     if (stock?.equals(0)) {
-      return <Delayed restock={restock}></Delayed>;
+      console.log(initialStock.toString());
+      return <Delayed restock={restock} isDelayed={initialStock.gt(0)} />;
     }
 
     const max = INITIAL_STOCK[selectedName];

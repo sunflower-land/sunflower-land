@@ -3,10 +3,11 @@ import { Button } from "components/ui/Button";
 
 interface Props {
   restock: (event: SyntheticEvent) => void;
+  isDelayed: boolean;
 }
 
-export const Delayed: React.FC<Props> = ({ restock }) => {
-  const [isDisabled, setIsDisabled] = useState(true);
+export const Delayed: React.FC<Props> = ({ restock, isDelayed }) => {
+  const [isDisabled, setIsDisabled] = useState(isDelayed);
 
   useEffect(() => {
     const timer = setTimeout(() => {
