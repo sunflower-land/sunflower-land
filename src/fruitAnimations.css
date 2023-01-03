@@ -1,0 +1,74 @@
+.fruit-one {
+  left: 8px;
+  top: -10px;
+  z-index: 2;
+}
+.fruit-two {
+  left: 13px;
+  top: 9px;
+  z-index: 2;
+}
+.fruit-three {
+  left: 47px;
+  top: 1px;
+  z-index: 2;
+}
+.fruit-four {
+  left: 36px;
+  top: 16px;
+  z-index: 2;
+}
+.fruit-one-dropped {
+  left: 8px;
+  top: 42px;
+  transform: rotate(-40deg);
+}
+.fruit-two-dropped {
+  left: 13px;
+  top: 56px;
+  transform: rotate(45deg);
+}
+.fruit-three-dropped {
+  left: 47px;
+  top: 43px;
+}
+.fruit-four-dropped {
+  left: 36px;
+  top: 60px;
+  transform: rotate(-48deg);
+}
+
+.tree-shake-animation {
+  animation: tree-shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes tree-shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-3px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(3px, 0, 0);
+  }
+}
+
+.drop-transition {
+  transition: all 0.3s ease-in-out;
+  z-index: 2;
+}
