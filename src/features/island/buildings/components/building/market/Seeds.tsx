@@ -73,11 +73,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     state.bumpkin as Bumpkin
   );
 
-  const stock = state.stock[selectedName] || new Decimal(0);
-  const initialStock = initialStocks[selectedName] || new Decimal(0);
-
-  const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
-
   const buy = (amount = 1) => {
     gameService.send("seed.bought", {
       item: selectedName,
@@ -115,6 +110,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     return state.balance.lessThan(price.mul(amount).toString());
   };
+
+  const stock = state.stock[selectedName] || new Decimal(0);
+  const initialStock = initialStocks[selectedName] || new Decimal(0);
+  const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 
   if (showCaptcha) {
     return (
@@ -161,7 +160,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     if (stock?.equals(0)) {
-      console.log(initialStock.toString());
       return <Delayed restock={restock} isDelayed={initialStock.gt(0)} />;
     }
 
