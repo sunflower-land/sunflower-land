@@ -19,8 +19,6 @@ import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SplitScreenView } from "features/game/components/SplitScreenView";
 
-const ITEM_CARD_MIN_HEIGHT = "120px";
-
 interface Props {
   state: GameState;
   closeModal: () => void;
@@ -80,10 +78,7 @@ export const Chest: React.FC<Props> = ({
 
   if (chestIsEmpty) {
     return (
-      <div
-        style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-        className="flex flex-col justify-evenly items-center p-2"
-      >
+      <div className="flex flex-col justify-evenly items-center p-2">
         <img src={chest} className="h-12" alt="Empty Chest" />
         <span className="text-xs text-center mt-2 w-80">
           Your chest is empty, discover rare items today!
@@ -100,10 +95,7 @@ export const Chest: React.FC<Props> = ({
       header={
         selected && (
           <>
-            <div
-              style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-              className="flex flex-col justify-center p-2 pb-0"
-            >
+            <div className="flex flex-col justify-center p-2 pb-0">
               <div className="flex space-x-2 justify-start mb-1 sm:items-center sm:flex-col-reverse md:space-x-0">
                 <img
                   src={ITEM_DETAILS[selected].image}
@@ -127,11 +119,7 @@ export const Chest: React.FC<Props> = ({
               </div>
             </div>
             {onPlace && (
-              <Button
-                className="text-xs w-full mb-1"
-                onClick={handlePlace}
-                disabled={isSaving}
-              >
+              <Button onClick={handlePlace} disabled={isSaving}>
                 {isSaving ? "Saving..." : "Place on map"}
               </Button>
             )}

@@ -28,8 +28,6 @@ import { BEANS } from "features/game/types/beans";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "features/game/components/SplitScreenView";
 
-const ITEM_CARD_MIN_HEIGHT = "120px";
-
 const isSeed = (selected: InventoryItemName) => selected in CROP_SEEDS();
 
 interface Prop {
@@ -82,10 +80,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   if (basketIsEmpty) {
     return (
-      <div
-        style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-        className="flex flex-col justify-evenly items-center p-2"
-      >
+      <div className="flex flex-col justify-evenly items-center p-2">
         <img src={basket} className="h-12" alt="Empty Chest" />
         <span className="text-xs text-center mt-2 w-80">
           Your basket is empty!
@@ -121,10 +116,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       showHeader={!basketIsEmpty && !!selected}
       header={
         selected && (
-          <div
-            style={{ minHeight: ITEM_CARD_MIN_HEIGHT }}
-            className="flex flex-col justify-center p-2 pb-0"
-          >
+          <div className="flex flex-col justify-center p-2 pb-0">
             <div className="flex space-x-2 justify-start mb-1 sm:items-center sm:flex-col-reverse md:space-x-0">
               <img
                 src={ITEM_DETAILS[selected].image}
