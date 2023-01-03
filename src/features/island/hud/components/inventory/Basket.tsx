@@ -173,16 +173,16 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                     parentDivRef={divRef}
                   />
                 ))}
-              {fruitSeeds.map((item) => (
-                <Box
-                  count={inventory[item]}
-                  isSelected={selected === item}
-                  key={item}
-                  onClick={() => handleItemClick(item)}
-                  image={ITEM_DETAILS[item].image}
-                  parentDivRef={divRef}
-                />
-              ))}
+                {fruitSeeds.map((item) => (
+                  <Box
+                    count={inventory[item]}
+                    isSelected={selected === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
               </div>
             </div>
           )}
@@ -237,23 +237,23 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
               </div>
             </div>
           )}
-        {!!fruits.length && (
-          <div className="flex flex-col pl-2 mb-2" key={"Fruits"}>
-            {<p className="mb-2">Fruits</p>}
-            <div className="flex mb-2 flex-wrap -ml-1.5">
-              {fruits.map((item) => (
-                <Box
-                  count={inventory[item]}
-                  isSelected={selected === item}
-                  key={item}
-                  onClick={() => handleItemClick(item)}
-                  image={ITEM_DETAILS[item].image}
-                  parentDivRef={divRef}
-                />
-              ))}
+          {!!fruits.length && (
+            <div className="flex flex-col pl-2 mb-2" key={"Fruits"}>
+              {<p className="mb-2">Fruits</p>}
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {fruits.map((item) => (
+                  <Box
+                    count={inventory[item]}
+                    isSelected={selected === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
           {!!exotic.length && (
             <div className="flex flex-col pl-2 mb-2 w-full" key={"Exotic"}>
               {<p className="mb-2">Exotic</p>}
