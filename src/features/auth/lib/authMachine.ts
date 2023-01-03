@@ -326,7 +326,9 @@ export const authMachine = createMachine<
             actions: [
               "assignToken",
               (_, event) =>
-                saveSession(wallet.myAccount, { token: event.data.token }),
+                saveSession(wallet.myAccount, {
+                  token: (event as any).data.token,
+                }),
             ],
           },
         },
