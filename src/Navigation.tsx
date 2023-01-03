@@ -53,13 +53,21 @@ export const Navigation: React.FC = () => {
    */
   useEffect(() => {
     if (provider) {
-      provider.on("chainChanged", () => {
-        send("CHAIN_CHANGED");
-      });
-
-      provider.on("accountsChanged", function () {
-        send("ACCOUNT_CHANGED");
-      });
+      if (provider.on) {
+        provider.on("chainChanged", () => {
+          send("CHAIN_CHANGED");
+        });
+        provider.on("accountsChanged", function () {
+          send("ACCOUNT_CHANGED");
+        });
+      } else if (provider.givenProvider) {
+        provider.givenProvider.on("chainChanged", () => {
+          send("CHAIN_CHANGED");
+        });
+        provider.givenProvider.on("accountsChanged", function () {
+          send("ACCOUNT_CHANGED");
+        });
+      }
     }
   }, [provider]);
 

@@ -1,9 +1,9 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-// import fountain from "assets/sfts/fountain.gif";
+import fountain from "assets/sfts/fountain.gif";
 import { fountainAudio } from "lib/utils/sfx";
-import fountain from "assets/events/christmas/sfts/fountain.png";
+
 export const Fountain: React.FC = () => {
   return (
     <img

@@ -117,7 +117,7 @@ export const createFarmMachine = createMachine<
         const maticBalance = await wallet.getMaticBalance();
 
         console.log({ maticBalance });
-        return { maticBalance };
+        return { maticBalance: maticBalance.toNumber() };
       },
     },
     actions: {

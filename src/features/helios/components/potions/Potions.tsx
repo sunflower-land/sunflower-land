@@ -2,10 +2,8 @@ import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-// import building from "assets/buildings/fertilisers.png";
-// import potionMaster from "assets/npcs/potion_master.gif";
-import building from "assets/events/christmas/buildings/fertilisers.png";
-import potionMaster from "assets/events/christmas/npcs/potion_master.gif";
+import building from "assets/buildings/fertilisers.png";
+import potionMaster from "assets/npcs/potion_master.gif";
 import shadow from "assets/npcs/shadow.png";
 import close from "assets/icons/close.png";
 

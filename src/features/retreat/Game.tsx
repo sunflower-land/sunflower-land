@@ -1,8 +1,8 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
-// import ocean from "assets/decorations/ocean.webp";
-// import background from "assets/land/retreat.webp";
+import ocean from "assets/decorations/ocean.webp";
+import background from "assets/land/retreat.webp";
 import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import { RetreatBank } from "./components/bank/RetreatBank";
 import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHouse";
@@ -29,14 +29,11 @@ import {
 import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
 import { getBumpkinLevel } from "features/game/lib/level";
-import ocean from "assets/events/christmas/decorations/ocean.png";
-import background from "assets/events/christmas/land/retreat.png";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 
 import { Hud } from "./Hud";
-import { Hat } from "assets/events/christmas/decorations/Hat";
 
 const spawn = [
   [35, 15],
@@ -142,9 +139,6 @@ export const Game = () => {
                 <RetreatWishingWell />
                 <IslandTravelWrapper />
                 <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-                <Hat
-                  bumpkinId={goblinState.context.state.bumpkin?.id as number}
-                />
               </div>
             )}
             {!hasRequiredLevel && !goblinState.matches("loading") && (

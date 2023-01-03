@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-// import bakery from "assets/buildings/bakery.png";
-import bakery from "assets/events/christmas/buildings/bakery.png";
+import bakery from "assets/buildings/bakery.png";
 import smoke from "assets/buildings/smoke.gif";
 import goblinChef from "assets/npcs/goblin_chef.gif";
 import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";

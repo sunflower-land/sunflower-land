@@ -1400,6 +1400,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/713.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
+  "Beta Pass": {
+    name: "Beta Pass",
+    description: "Gain early access to features for testing.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/715.png",
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
+  },
   "Liquidity Provider": {
     name: "Liquidity Provider",
     description: "A skill that can be earned by providing liquidity.",
@@ -2230,6 +2238,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1009.png",
     attributes: [],
   },
+  "Smoothie Shack": {
+    name: "Smoothie Shack",
+    description:
+      "A Smoothie Shack is used to prepare juices in Sunflower Land.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1010.png",
+    attributes: [],
+  },
+
   "Sunflower Amulet": {
     name: "Sunflower Amulet",
     description: "10% increased Sunflower yield",
@@ -2648,12 +2666,56 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Pancakes: {
     description:
-      "A great start to a Bumpkins day. You can can cook these at the Kithcen.",
+      "A great start to a Bumpkins day. You can can cook these at the Kitchen.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/523.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
+  "Apple Juice": {
+    description:
+      "A crisp refreshing beverage. You can can prepare these at the Smoothie Shack.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/535.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+
+  "Orange Juice": {
+    description:
+      "OJ matches perfectly with a Club Sandwich. You can can prepare these at the Smoothie Shack.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/536.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+
+  "Purple Smoothie": {
+    description:
+      "You can hardly taste the Cabbage. You can can prepare these at the Smoothie Shack.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/537.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Power Smoothie": {
+    description:
+      "Official drink of the Bumpkin Powerlifting Society. You can can prepare these at the Smoothie Shack.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/538.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+
+  "Bumpkin Detox": {
+    description:
+      "Wash away the sins of last night. You can can prepare these at the Smoothie Shack.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/539.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+
   "Potted Potato": {
     description:
       "Potato blood runs through your Bumpkin. You can craft this at the Decorations shop at Helios.",
@@ -2775,5 +2837,40 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1219.gif",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Clam Shell": {
+    description: "Find at Treasure Island ???",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/618.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Sea Cucumber": {
+    description: "Find at Treasure Island ???",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/619.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  Coral: {
+    description: "Find at Treasure Island ???",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/620.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  Crab: {
+    description: "Find at Treasure Island ???",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/621.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  Starfish: {
+    description: "Find at Treasure Island ???",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/622.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
   },
 };

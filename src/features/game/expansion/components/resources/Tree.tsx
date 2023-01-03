@@ -6,8 +6,7 @@ import Spritesheet, {
 
 import Decimal from "decimal.js-light";
 
-// import shakeSheet from "assets/resources/tree/shake_sheet.png";
-import shakeSheet from "assets/events/christmas/resources/tree/shake_sheet.png";
+import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";

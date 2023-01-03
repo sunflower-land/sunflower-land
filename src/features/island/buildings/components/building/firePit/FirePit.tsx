@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 
-// import firePit from "assets/buildings/fire_pit.png";
-import firePit from "assets/events/christmas/buildings/fire_pit.png";
+import firePit from "assets/buildings/fire_pit.png";
 import npc from "assets/npcs/cook.gif";
 import doing from "assets/npcs/cook_doing.gif";
 import shadow from "assets/npcs/shadow.png";

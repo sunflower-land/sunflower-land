@@ -7,7 +7,7 @@ import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ErrorCode, ERRORS } from "lib/errors";
 
-import { wallet } from "../../../lib/blockchain/wallet";
+import { wallet, WalletType } from "../../../lib/blockchain/wallet";
 import { communityContracts } from "features/community/lib/communityContracts";
 import { createAccount as createFarmAction } from "../actions/createAccount";
 import {
@@ -22,6 +22,8 @@ import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
+import { getFarm, getFarms } from "lib/blockchain/Farm";
+import { getCreatedAt } from "lib/blockchain/AccountMinter";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -57,7 +59,7 @@ export interface Context {
   captcha?: string;
   blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
   verificationUrl?: string;
-  wallet?: "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
+  wallet?: WalletType;
   provider?: any;
 }
 
@@ -260,8 +262,9 @@ export const authMachine = createMachine<
       },
       setupContracts: {
         invoke: {
-          src: async (context) => {
-            await wallet.initialise(context.provider);
+          src: async (context, event) => {
+            const type: WalletType = (event as any).data?.wallet ?? "METAMASK";
+            await wallet.initialise(context.provider, type);
             await communityContracts.initialise(context.provider);
           },
           onDone: [
@@ -349,10 +352,19 @@ export const authMachine = createMachine<
 
                 { target: "noFarmLoaded" },
               ],
-              onError: {
-                target: "#unauthorised",
-                actions: "assignErrorMessage",
-              },
+              onError: [
+                {
+                  target: "#loadingFarm",
+                  cond: () => !wallet.isAlchemy,
+                  actions: () => {
+                    wallet.overrideProvider();
+                  },
+                },
+                {
+                  target: "#unauthorised",
+                  actions: "assignErrorMessage",
+                },
+              ],
             },
           },
           visitingContributor: {
@@ -616,15 +628,20 @@ export const authMachine = createMachine<
         return { wallet: "SEQUENCE", provider };
       },
       loadFarm: async (context): Promise<Farm | undefined> => {
-        const farmAccounts = await wallet.getFarm()?.getFarms();
+        const farmAccounts = await getFarms(
+          wallet.web3Provider,
+          wallet.myAccount
+        );
 
         if (farmAccounts?.length === 0) {
           return;
         }
 
-        const createdAt = await wallet
-          .getAccountMinter()
-          ?.getCreatedAt(wallet.myAccount as string);
+        const createdAt = await getCreatedAt(
+          wallet.web3Provider,
+          wallet.myAccount,
+          wallet.myAccount as string
+        );
 
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
@@ -639,7 +656,7 @@ export const authMachine = createMachine<
           farmId: parseInt(farmAccount.tokenId),
           address: farmAccount.account,
           createdAt,
-          blacklistStatus: botStatus ?? isBanned ? "BANNED" : "OK",
+          blacklistStatus: isBanned ? "BANNED" : "OK",
           verificationUrl,
         };
       },
@@ -680,7 +697,11 @@ export const authMachine = createMachine<
         event: any
       ): Promise<Farm | undefined> => {
         const farmId = getFarmIdFromUrl() || (event as VisitEvent).farmId;
-        const farmAccount = await wallet.getFarm()?.getFarm(farmId);
+        const farmAccount = await getFarm(
+          wallet.web3Provider,
+          wallet.myAccount,
+          farmId
+        );
 
         const isBlacklisted = await isFarmBlacklisted(farmId);
 

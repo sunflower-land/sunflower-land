@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-// import kitchen from "assets/buildings/kitchen.png";
-import kitchen from "assets/events/christmas/buildings/kitchen.png";
+import kitchen from "assets/buildings/kitchen.png";
 import npc from "assets/npcs/chef.gif";
 import doing from "assets/npcs/chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";

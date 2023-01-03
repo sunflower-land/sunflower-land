@@ -1,3 +1,4 @@
+import { purchaseTrade } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -70,7 +71,10 @@ export async function purchaseRequest(request: Request): Promise<Response> {
 export async function purchase(request: Request) {
   const response = await purchaseRequest(request);
 
-  await wallet
-    .getSessionManager()
-    .purchaseTrade({ ...response.payload, signature: response.signature });
+  await purchaseTrade({
+    ...response.payload,
+    signature: response.signature,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+  });
 }

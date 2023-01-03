@@ -1,7 +1,6 @@
 import React from "react";
 
-// import market from "assets/buildings/market.png";
-import market from "assets/events/christmas/buildings/market.png";
+import market from "assets/buildings/market.png";
 import betty from "assets/npcs/betty.gif";
 import shadow from "assets/npcs/shadow.png";
 

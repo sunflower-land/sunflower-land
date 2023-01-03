@@ -16,11 +16,10 @@ import { Bumpkin } from "features/game/types/game";
 
 interface Props {
   food: Consumable[];
-  onClose: () => void;
   onFeed: (name: ConsumableName) => void;
 }
 
-export const Feed: React.FC<Props> = ({ food, onClose, onFeed }) => {
+export const Feed: React.FC<Props> = ({ food, onFeed }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);

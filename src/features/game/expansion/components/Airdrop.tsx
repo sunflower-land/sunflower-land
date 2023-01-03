@@ -1,18 +1,17 @@
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
-import { Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import chest from "src/assets/decorations/treasure_chest.png";
 import token from "src/assets/icons/token_2.png";
 import alerted from "assets/icons/expression_alerted.png";
-import close from "assets/icons/close.png";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 export const Airdrop: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -55,21 +54,10 @@ export const Airdrop: React.FC = () => {
   return (
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <Panel>
-          <img
-            src={close}
-            className="absolute cursor-pointer z-20"
-            onClick={() => setShowModal(false)}
-            style={{
-              top: `${PIXEL_SCALE * 6}px`,
-              right: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-          <p className="text-center">
-            {airdrop.message ?? "Congratulations, you found a reward!"}
-          </p>
-
+        <CloseButtonPanel
+          title={airdrop.message ?? "Congratulations, you found a reward!"}
+          onClose={() => setShowModal(false)}
+        >
           <div className="flex flex-col pt-4">
             {!!airdrop.sfl && (
               <div className="flex items-center justify-center mb-2">
@@ -95,27 +83,27 @@ export const Airdrop: React.FC = () => {
           <Button onClick={claim} className="mt-2">
             Claim
           </Button>
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
 
       <div
-        className="absolute w-full"
+        className="absolute cursor-pointer hover:img-highlight"
+        onClick={() => setShowModal(true)}
         style={{
-          left: `${PIXEL_SCALE * 15}px`,
-          top: `${PIXEL_SCALE * 16}px`,
+          width: `${PIXEL_SCALE * 16}px`,
+          height: `${PIXEL_SCALE * 16}px`,
         }}
       >
         <img
           src={chest}
-          className="absolute cursor-pointer hover:img-highlight bulge-repeat"
-          onClick={() => setShowModal(true)}
+          className="absolute bulge-repeat pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
           }}
         />
         <img
           src={alerted}
-          className="absolute animate-float"
+          className="absolute animate-float pointer-events-none"
           style={{
             left: `${PIXEL_SCALE * 6}px`,
             top: `${PIXEL_SCALE * -12}px`,

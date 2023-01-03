@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "0xsequence": "^0.43.2",
+    "@alch/alchemy-web3": "^1.4.7",
     "@types/uuid": "^9.0.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "@xstate/inspect": "^0.6.2",

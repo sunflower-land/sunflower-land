@@ -2,8 +2,7 @@ import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-// import building from "assets/buildings/blacksmith_building.gif";
-import building from "assets/events/christmas/buildings/blacksmith_building.gif";
+import building from "assets/buildings/blacksmith_building.gif";
 import close from "assets/icons/close.png";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";

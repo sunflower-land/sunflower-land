@@ -9,22 +9,22 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 
-interface Props {
-  className?: string;
+interface OuterPanelProps extends React.HTMLAttributes<HTMLDivElement> {
   hasTabs?: boolean;
+}
+
+interface PanelProps extends OuterPanelProps {
   bumpkinParts?: Partial<Equipped>;
-  style?: React.CSSProperties;
 }
 
 /**
  * Default panel has the double layered pixel effect
  */
-export const Panel: React.FC<Props> = ({
+export const Panel: React.FC<PanelProps> = ({
   children,
-  className,
   hasTabs,
   bumpkinParts,
-  style,
+  ...divProps
 }) => {
   return (
     <>
@@ -41,8 +41,8 @@ export const Panel: React.FC<Props> = ({
           <DynamicNFT bumpkinParts={bumpkinParts} />
         </div>
       )}
-      <OuterPanel className={className} style={style} hasTabs={hasTabs}>
-        <InnerPanel hasTabs={hasTabs}>{children}</InnerPanel>
+      <OuterPanel hasTabs={hasTabs} {...divProps}>
+        <InnerPanel>{children}</InnerPanel>
       </OuterPanel>
     </>
   );
@@ -51,7 +51,11 @@ export const Panel: React.FC<Props> = ({
 /**
  * Light panel with border effect
  */
-export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
+export const InnerPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  children,
+  ...divProps
+}) => {
+  const { className, style, ...otherDivProps } = divProps;
   return (
     <div
       className={classNames("bg-brown-300", className)}
@@ -60,6 +64,7 @@ export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
         padding: `${PIXEL_SCALE * 1}px`,
         ...style,
       }}
+      {...otherDivProps}
     >
       {children}
     </div>
@@ -69,12 +74,12 @@ export const InnerPanel: React.FC<Props> = ({ children, className, style }) => {
 /**
  * A panel with a single layered pixel effect
  */
-export const OuterPanel: React.FC<Props> = ({
+export const OuterPanel: React.FC<OuterPanelProps> = ({
   children,
-  className,
   hasTabs,
-  style,
+  ...divProps
 }) => {
+  const { className, style, ...otherDivProps } = divProps;
   return (
     <div
       className={classNames("bg-brown-600 text-white", className)}
@@ -84,6 +89,7 @@ export const OuterPanel: React.FC<Props> = ({
         ...(hasTabs ? { paddingTop: `${PIXEL_SCALE * 15}px` } : {}),
         ...style,
       }}
+      {...otherDivProps}
     >
       {children}
     </div>
