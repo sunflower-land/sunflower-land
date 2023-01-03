@@ -124,19 +124,19 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
       },
     },
 
-    trees: {
+    fruitPatches: {
       0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-          reward: {
-            sfl: new Decimal(3),
-          },
-        },
         x: -3,
         y: 3,
         height: 2,
         width: 2,
+        fruit: {
+          amount: 1,
+          harvestedAt: 0,
+          harvestsLeft: 1,
+          name: "Apple",
+          plantedAt: 0,
+        },
       },
     },
     stones: {
