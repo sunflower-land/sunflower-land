@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-import smoothieShack from "assets/buildings/smoothie_shack.webp";
+import smoothieShack from "assets/buildings/smoothie_shack_background.webp";
+import smoothieShackDesk from "assets/buildings/smoothie_shack_desk.webp";
 import chef from "assets/npcs/chef.gif";
 import chefDoing from "assets/npcs/chef_doing.gif";
 
@@ -84,10 +85,11 @@ export const SmoothieShack: React.FC<Props> = ({
             "opacity-80": crafting,
           })}
           style={{
-            width: `${PIXEL_SCALE * 64}px`,
-            height: `${PIXEL_SCALE * 54}px`,
+            width: `${PIXEL_SCALE * 48}px`,
+            height: `${PIXEL_SCALE * 35}px`,
           }}
         />
+
         {crafting ? (
           <img
             src={chefDoing}
@@ -95,8 +97,7 @@ export const SmoothieShack: React.FC<Props> = ({
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               right: `${PIXEL_SCALE * 16}px`,
-              bottom: `${PIXEL_SCALE * 20}px`,
-              transform: "scaleX(-1)",
+              bottom: `${PIXEL_SCALE * 11}px`,
             }}
           />
         ) : (
@@ -106,11 +107,24 @@ export const SmoothieShack: React.FC<Props> = ({
             style={{
               width: `${PIXEL_SCALE * 15}px`,
               right: `${PIXEL_SCALE * 17}px`,
-              bottom: `${PIXEL_SCALE * 20}px`,
-              transform: "scaleX(-1)",
+              bottom: `${PIXEL_SCALE * 11}px`,
             }}
           />
         )}
+
+        <img
+          src={smoothieShackDesk}
+          className={classNames("absolute", {
+            "opacity-100": !crafting,
+            "opacity-80": crafting,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 24}px`,
+            height: `${PIXEL_SCALE * 32}px`,
+            right: `${PIXEL_SCALE * 12}px`,
+            top: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
 
         {(crafting || ready) && name && (
           <img
@@ -135,7 +149,7 @@ export const SmoothieShack: React.FC<Props> = ({
             }}
             style={{
               opacity: 0,
-              bottom: `${PIXEL_SCALE * 13}px`,
+              bottom: `${PIXEL_SCALE * 4}px`,
             }}
           />
         )}
