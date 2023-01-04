@@ -44,6 +44,8 @@ const INITIAL_STOCK: Inventory = {
   "Magic Bean": new Decimal(5),
   "Shiny Bean": new Decimal(5),
   "Golden Bean": new Decimal(5),
+
+  "Immortal Pear": new Decimal(1),
 };
 
 const INITIAL_FIELDS: GameState["fields"] = {
@@ -442,6 +444,8 @@ export const OFFLINE_FARM: GameState = {
     Coder: new Decimal(0),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
+    Gold: new Decimal(50),
+    "Immortal Pear": new Decimal(1),
   },
   migrated: true,
   stock: INITIAL_STOCK,

@@ -2873,4 +2873,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/622.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
   },
+  "Immortal Pear": {
+    description:
+      "This long-lived pear ensures your fruit tree survives +1 bonus harvest.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
 };
