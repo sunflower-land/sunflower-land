@@ -6,7 +6,6 @@ import {
   CraftableName,
   Food,
   GoblinRetreatItemName,
-  HeliosBlacksmithItem,
   Ingredient,
 } from "./craftables";
 import { ResourceName } from "./resources";
@@ -22,6 +21,7 @@ import { DecorationName } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
+import { HeliosBlacksmithItem } from "./collectibles";
 
 export type Reward = {
   sfl?: Decimal;
