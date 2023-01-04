@@ -11,6 +11,7 @@ import { CollectibleName, getKeys } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { KNOWN_IDS } from "features/game/types";
+import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 
 interface Props {
   state: GameState;
@@ -29,7 +30,7 @@ export const GoblinInventory: React.FC<Props> = ({ state }) => {
   };
 
   const [selected, setSelected] = useState<InventoryItemName>(
-    getKeys(inventory)
+    getKeys(getBasketItems(inventory))
       .filter((item) => getItemCount(item).greaterThan(0))
       .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
   );
