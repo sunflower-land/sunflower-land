@@ -445,6 +445,7 @@ export const OFFLINE_FARM: GameState = {
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
     Gold: new Decimal(50),
+    "Immortal Pear": new Decimal(1),
   },
   migrated: true,
   stock: INITIAL_STOCK,

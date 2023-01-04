@@ -40,7 +40,7 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
 
   const craft = () => {
     gameService.send("collectible.crafted", {
-      item: selected,
+      name: selected,
     });
 
     shortcutItem(selected);
