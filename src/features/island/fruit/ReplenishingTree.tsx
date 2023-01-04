@@ -6,29 +6,29 @@ import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover } from "./Popover";
-import { FRUIT } from "features/game/types/fruits";
+import { FRUIT, FruitName } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { setImageWidth } from "lib/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
+import apple from "/src/assets/resources/apple.png";
+import orange from "/src/assets/resources/orange.png";
+import blueberry from "/src/assets/resources/blueberry.png";
 
 interface Props {
   plantedFruit: PlantedFruit;
   onClick: () => void;
 }
 
-export const getFruitImage = (imageSource: any): JSX.Element => {
-  return (
-    <img
-      className="relative"
-      style={{
-        bottom: "9px",
-        zIndex: "1",
-        width: `${PIXEL_SCALE * 16}px`,
-        height: `${PIXEL_SCALE * 26}px`,
-      }}
-      src={imageSource}
-    />
-  );
+export const getFruitImage = (fruitName: FruitName): string => {
+  switch (fruitName) {
+    case "Apple":
+      return apple;
+    case "Orange":
+      return orange;
+    case "Blueberry":
+      return blueberry;
+  }
 };
 
 export const ReplenishingTree: React.FC<Props> = ({
@@ -37,8 +37,8 @@ export const ReplenishingTree: React.FC<Props> = ({
 }) => {
   const { showTimers } = useContext(Context);
   const [isMobile] = useIsMobile();
-  const [showFruitDetails, setFruitDetails] = useState(true);
-  const { harvestedAt, name } = plantedFruit;
+  const [showFruitDetails, setFruitDetails] = useState(false);
+  const { harvestedAt, name, amount } = plantedFruit;
   const lifecycle = FRUIT_LIFECYCLE[name];
 
   const { harvestSeconds, isBush } = FRUIT()[name];
@@ -53,15 +53,21 @@ export const ReplenishingTree: React.FC<Props> = ({
       onMouseLeave={() => setFruitDetails(false)}
       className="flex justify-center"
     >
-      <img
-        className="relative"
-        style={{
-          bottom: `${isBush ? "-11px" : "25px"}`,
-          zIndex: "1",
+      <FruitDropAnimator
+        mainImageProps={{
+          src: lifecycle.harvested,
+          className: "relative",
+          style: {
+            bottom: `${isBush ? "-11px" : "25px"}`,
+            zIndex: "1",
+          },
+          onLoad: (e) => setImageWidth(e.currentTarget),
+          onClick: onClick,
         }}
-        src={lifecycle.harvested}
-        onLoad={(e) => setImageWidth(e.currentTarget)}
-        onClick={onClick}
+        dropImageProps={{
+          src: getFruitImage(name),
+        }}
+        dropCount={amount}
       />
       {showTimers && (
         <div
