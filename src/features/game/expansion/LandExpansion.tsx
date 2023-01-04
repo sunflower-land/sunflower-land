@@ -5,7 +5,7 @@ import * as Auth from "features/auth/lib/Provider";
 import ocean from "assets/decorations/ocean.webp";
 
 import { ToastProvider } from "../toast/ToastQueueProvider";
-import mapMovement from "../lib/mapMovement";
+// import mapMovement from "../lib/mapMovement";
 import { useParams } from "react-router-dom";
 import { useActor } from "@xstate/react";
 import { GameProvider } from "../GameProvider";
@@ -28,12 +28,12 @@ export const LandExpansion: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    mapMovement.addListeners(container.current);
-    return () => {
-      mapMovement.removeListeners();
-    };
-  }, [container]);
+  // useEffect(() => {
+  //   mapMovement.addListeners(container.current);
+  //   return () => {
+  //     mapMovement.removeListeners();
+  //   };
+  // }, [container]);
 
   // Load data
   return (

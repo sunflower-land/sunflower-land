@@ -1,4 +1,7 @@
 import { useActor } from "@xstate/react";
+import WidgetBot from "@widgetbot/react-embed";
+import { Client } from "@widgetbot/embed-api";
+
 import { Button } from "components/ui/Button";
 import {
   Coordinates,
@@ -13,110 +16,166 @@ import React, {
   useRef,
   useContext,
 } from "react";
-import { ChatPlaceable } from "./Placeable";
 
-const URL = "wss://6yh0w2g4jb.execute-api.us-east-1.amazonaws.com/hannigan";
+const URL = "wss://40f11abuhg.execute-api.us-east-1.amazonaws.com/hannigan";
+
+type Connection = {
+  id: string;
+  bumpkinId?: number;
+  coordinates?: Coordinates;
+};
 
 type LiveBumpkin = {
-  id: number;
+  bumpkinId: number;
   coordinates: Coordinates;
 };
 
-export const Chat: React.FC = () => {
+type WebSocketMessage =
+  | {
+      action: "loadPlayers";
+    }
+  | {
+      action: "sendLocation";
+      data: LiveBumpkin;
+    };
+
+export type Message = {
+  id: string;
+
+  bumpkinId: number;
+  text: string;
+  createdAt: number;
+};
+
+interface Props {
+  messages: Message[];
+  bumpkinId: number;
+}
+
+export const Chat: React.FC<Props> = ({ messages, bumpkinId }) => {
   const socket = useRef<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [bumpkins, setBumpkins] = useState<LiveBumpkin[]>([]);
 
+  const [position, setPosition] = useState<Coordinates>({ x: 0, y: 0 });
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const start = () => {
-    gameService.send("EDIT", {
-      placeable: "Chicken",
-      action: "chicken.placed",
-    });
+  const sendMessage = (message: WebSocketMessage) => {
+    socket.current?.send(JSON.stringify(message));
   };
   const onSocketOpen = useCallback((dataStr, doubles) => {
-    console.log("Opened");
     setIsConnected(true);
-    console.log({ dataStr, doubles });
+
+    sendMessage({
+      action: "loadPlayers",
+    });
     // const name = prompt("Enter your name");
     // socket.current?.send(JSON.stringify({ action: "setName", name }));
   }, []);
 
-  const onSocketClose = useCallback(() => {
-    setIsConnected(false);
-  }, []);
+  const closeSocket = useCallback(() => {
+    if (socket.current) {
+      socket.current.close();
+      socket.current = null;
+    }
+  }, [socket]);
 
-  const onSocketMessage = useCallback((dataStr) => {
+  const onSocketMessage = useCallback((data) => {
     console.log("onSocketMessage");
     // const data = JSON.parse(dataStr);
-    console.log({ dataStr });
+    console.log({ data });
+    const converted: LiveBumpkin[] = JSON.parse(data).connections;
+
+    console.log({ all: converted.length, bumpkinId });
+
+    const otherBumpkins = converted.filter(
+      (c) => !!c.bumpkinId && c.bumpkinId !== bumpkinId
+    );
+    console.log({ otherBumpkins: otherBumpkins.length });
+    setBumpkins(otherBumpkins);
   }, []);
+
+  const keyDownListener = (event: KeyboardEvent) => {
+    setPosition((old) => {
+      const coordinates = { ...old };
+      const key = event.key.toLowerCase();
+
+      console.log({ key });
+      if (key === "arrowup") {
+        coordinates.y += 1;
+      } else if (key === "arrowleft") {
+        coordinates.x -= 1;
+      } else if (key === "arrowdown") {
+        coordinates.y -= 1;
+      } else if (key === "arrowright") {
+        coordinates.x += 1;
+      }
+
+      console.log({ coordinatesSet: coordinates });
+      sendMessage({
+        action: "sendLocation",
+        data: {
+          bumpkinId: bumpkinId,
+          coordinates,
+        },
+      });
+
+      return coordinates;
+    });
+  };
 
   useEffect(() => {
     if (socket.current?.readyState !== WebSocket.OPEN) {
       socket.current = new WebSocket(URL);
       socket.current.addEventListener("open", onSocketOpen);
-      socket.current.addEventListener("close", onSocketClose);
+      socket.current.addEventListener("close", closeSocket);
       socket.current.addEventListener("message", (event) => {
+        console.log({ event });
         onSocketMessage(event.data);
       });
     }
 
-    return () => {
-      if (isConnected) {
-        socket.current?.close();
-      }
-    };
-  }, [isConnected]);
+    window.addEventListener("keydown", keyDownListener);
 
-  const onSendPublicMessage = useCallback(() => {
-    const message = prompt("Enter public message");
-    socket.current?.send(
-      JSON.stringify({
-        action: "sendPublic",
-        message,
-        bumpkinId: 1,
-        coordinates: {
-          x: 1,
-          y: 1,
-        },
-      })
-    );
+    return () => {
+      closeSocket();
+
+      window.removeEventListener("keydown", keyDownListener);
+    };
   }, []);
 
   const coords = new Array(5).fill(null);
 
+  if (!isConnected) {
+    return null;
+  }
+  const freshMessages = messages
+    .filter((m) => Date.now() - m.createdAt < 5 * 1000)
+    .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
+  console.log({ position });
   return (
-    <div className="absolute inset-0" style={{ zIndex: 999999 }}>
-      <div className="fixed left-0 top-0" style={{ zIndex: 999999 }}>
-        <Button className="" onClick={onSendPublicMessage}>
-          Click
-        </Button>
-      </div>
-      <div className="fixed left-0 top-0" style={{ zIndex: 999999 }}>
-        <Button className="" onClick={start}>
-          Start
-        </Button>
-      </div>
-      {coords.map((_, y) =>
-        coords.map((_, x) => (
-          <MapPlacement x={x} y={y} height={1} width={1}>
-            <div
-              id={`x: ${x},y:${y}`}
-              className="absolute inset-0 bg-red-300 cursor-pointer hover:bg-red-400"
-            />
-          </MapPlacement>
-        ))
-      )}
-      {bumpkins.map((bumpkin) => (
+    <>
+      <div className="absolute w-full h-full translate-x-1/2 translate-y-1/2"></div>
+      <div className="absolute inset-0" style={{ zIndex: 99999 }}>
+        {coords.map((_, y) =>
+          coords.map((_, x) => (
+            <MapPlacement x={x} y={y} height={1} width={1}>
+              <div
+                id={`x: ${x},y:${y}`}
+                className="absolute inset-0 bg-red-300 cursor-pointer hover:bg-red-400"
+              />
+            </MapPlacement>
+          ))
+        )}
+
         <MapPlacement
-          x={bumpkin.coordinates.x}
-          y={bumpkin.coordinates.y}
+          x={position?.x as number}
+          y={position?.y as number}
           height={1}
           width={1}
         >
+          <div id={`bumpkin: ${bumpkinId}`} />
           <DynamicMiniNFT
             body="Beige Farmer Potion"
             hair="Basic Hair"
@@ -124,7 +183,32 @@ export const Chat: React.FC = () => {
             shirt="Project Dignity Hoodie"
           />
         </MapPlacement>
-      ))}
-    </div>
+
+        {bumpkins
+          .filter((b) => !!b.coordinates)
+          .map((bumpkin) => (
+            <MapPlacement
+              x={bumpkin.coordinates?.x as number}
+              y={bumpkin.coordinates?.y as number}
+              height={1}
+              width={1}
+            >
+              <div id={`bumpkin: ${bumpkin.bumpkinId}`} />
+              <span className="absolute top-0 h-4">
+                {
+                  freshMessages.find((m) => m.bumpkinId === bumpkin.bumpkinId)
+                    ?.text
+                }
+              </span>
+              <DynamicMiniNFT
+                body="Beige Farmer Potion"
+                hair="Basic Hair"
+                pants="Blue Suspenders"
+                shirt="Project Dignity Hoodie"
+              />
+            </MapPlacement>
+          ))}
+      </div>
+    </>
   );
 };
