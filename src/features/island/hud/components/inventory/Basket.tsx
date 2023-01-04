@@ -27,6 +27,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "features/game/components/SplitScreenView";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const isSeed = (selected: InventoryItemName) => selected in CROP_SEEDS();
 
@@ -117,12 +118,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       header={
         selected && (
           <div className="flex flex-col justify-center p-2 pb-0">
-            <div className="flex space-x-2 justify-start mb-1 sm:items-center sm:flex-col-reverse md:space-x-0">
-              <img
-                src={ITEM_DETAILS[selected].image}
-                className="w-5 object-contain sm:w-8 sm:mt-2"
-                alt={selected}
-              />
+            <div className="flex space-x-2 justify-start mb-1 items-center sm:flex-col-reverse md:space-x-0">
+              <div className="sm:mt-2">
+                <SquareIcon icon={ITEM_DETAILS[selected].image} width={14} />
+              </div>
               <span className="sm:text-center">{selected}</span>
             </div>
             <span className="text-xs sm:text-center">

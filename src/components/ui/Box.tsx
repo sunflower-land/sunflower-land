@@ -14,6 +14,7 @@ import { setPrecision, shortenCount } from "lib/utils/formatNumber";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SquareIcon } from "./SquareIcon";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SIHFT_PX = -6 * PIXEL_SCALE;
@@ -168,46 +169,7 @@ export const Box: React.FC<BoxProps> = ({
         }}
       >
         <div className="absolute flex justify-center items-center w-full h-full">
-          <img
-            src={image}
-            className="absolute object-contain"
-            alt="item"
-            style={{
-              opacity: "0",
-            }}
-            onLoad={(e) => {
-              // get max dimension
-              const width = e.currentTarget?.naturalWidth;
-              const height = e.currentTarget?.naturalHeight;
-              if (!width || !height) {
-                return;
-              }
-              const maxDimension = Math.max(width, height);
-
-              // image scale to match pixel size or fit inner box
-              let scale = 1;
-
-              // scale image to match pixel scale if image is small enough
-              if (maxDimension < INNER_CANVAS_WIDTH) {
-                scale = PIXEL_SCALE;
-              }
-
-              // scale image to fit inner frame if image is scaling image to pixel scale will overflow the inner frame
-              else if (maxDimension < INNER_CANVAS_WIDTH * PIXEL_SCALE) {
-                scale = (PIXEL_SCALE * INNER_CANVAS_WIDTH) / maxDimension;
-              }
-
-              // shrink image to fit inner frame if image is large and height is greater than width
-              else if (height > width) {
-                scale = width / height;
-              }
-
-              // scale and show image
-              e.currentTarget.style.transform = `scale(${scale})`;
-              e.currentTarget.style.opacity = "1";
-            }}
-          />
-
+          <SquareIcon icon={image} width={INNER_CANVAS_WIDTH} />
           {secondaryImage && (
             <img
               src={secondaryImage}

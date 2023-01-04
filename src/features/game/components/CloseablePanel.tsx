@@ -5,6 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tab } from "components/ui/Tab";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 export interface PanelTabs {
   icon: string;
@@ -65,8 +66,8 @@ export const CloseButtonPanel: React.FC<Props> = ({
               isActive={currentTab === index}
               onClick={() => handleTabClick(index)}
             >
-              <img src={tab.icon} className="h-4 sm:h-5 mr-2" />
-              <span className="text-xs sm:text-sm overflow-hidden text-ellipsis">
+              <SquareIcon icon={tab.icon} width={7} />
+              <span className="text-xs sm:text-sm overflow-hidden text-ellipsis ml-2">
                 {tab.name}
               </span>
             </Tab>
