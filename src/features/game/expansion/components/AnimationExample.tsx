@@ -5,7 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 export const AnimationExample: React.FC = () => {
   return (
     <>
-      {/* <svg
+      <svg
         viewBox="0 0 640 640"
         height={640}
         width={640}
@@ -20,7 +20,7 @@ export const AnimationExample: React.FC = () => {
             overflow: "visible",
           }}
         />
-      </svg> */}
+      </svg>
       <img
         src={apple}
         className="drop img-highlight-heavy"
