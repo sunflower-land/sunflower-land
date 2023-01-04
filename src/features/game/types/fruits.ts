@@ -15,6 +15,7 @@ export type FruitSeed = {
   description: string;
   plantSeconds: number;
   bumpkinLevel: number;
+  yield: FruitName;
 };
 
 export function isFruitSeed(seed: FruitSeedName) {
@@ -27,18 +28,21 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     description: "Perfect for homemade Apple Pie",
     plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 13,
+    yield: "Apple",
   },
   "Blueberry Seed": {
     sfl: marketRate(25),
     description: "A Goblin's weakness",
     plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 14,
+    yield: "Blueberry",
   },
   "Orange Seed": {
     sfl: marketRate(30),
     description: "Vitamin C to keep your Bumpkin Healthy",
     plantSeconds: 2 * 24 * 60 * 60,
     bumpkinLevel: 15,
+    yield: "Orange",
   },
 });
 
