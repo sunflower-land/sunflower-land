@@ -8,7 +8,7 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
 import { Seeds } from "./Seeds";
-import { Crops } from "./Crops";
+import { CropsAndFruits } from "./CropsAndFruits";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
@@ -78,7 +78,7 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
       </div>
 
       {tab === "buy" && <Seeds onClose={onClose} />}
-      {tab === "sell" && <Crops />}
+      {tab === "sell" && <CropsAndFruits />}
     </Panel>
   );
 };
