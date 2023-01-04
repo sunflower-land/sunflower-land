@@ -47,6 +47,7 @@ export type Fruit = {
   harvestSeconds: number;
   name: FruitName;
   isBush?: boolean;
+  sellPrice: Decimal;
 };
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({
@@ -54,16 +55,19 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     description: "Perfect for homemade Apple Pie",
     harvestSeconds: 2 * 24 * 60 * 60,
     name: "Apple",
+    sellPrice: marketRate(12),
   },
   Blueberry: {
     description: "A Goblin's weakness",
     harvestSeconds: 2 * 24 * 60 * 60,
     name: "Blueberry",
     isBush: true,
+    sellPrice: marketRate(25),
   },
   Orange: {
     description: "Vitamin C to keep your Bumpkin Healthy",
     harvestSeconds: 2 * 24 * 60 * 60,
     name: "Orange",
+    sellPrice: marketRate(18),
   },
 });

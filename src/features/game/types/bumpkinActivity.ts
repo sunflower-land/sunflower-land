@@ -10,7 +10,7 @@ import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
-type SellableName = CropName | Food;
+type SellableName = CropName | Food | FruitName;
 
 type Recipes = Food | ConsumableName;
 
