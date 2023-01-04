@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CropSeedName, CROP_SEEDS } from "../types/crops";
+import { CropSeedName } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
@@ -9,6 +9,7 @@ import { OnChainLimitedItems } from "../lib/goblinMachine";
 import { isArray } from "lodash";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
+import { HeliosBlacksmithItem } from "./collectibles";
 
 export { FLAGS };
 
@@ -28,6 +29,7 @@ export type CraftableName =
   | Shovel
   | TravelingSalesmanItem
   | WarBanner
+  | HeliosBlacksmithItem
   // TEMP
   | "Chef Apron";
 
@@ -182,6 +184,7 @@ export type CollectibleName =
   | DecorationName
   | GoblinRetreatItemName
   | BeanName
+  | HeliosBlacksmithItem
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -1027,26 +1030,6 @@ export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   },
 });
 
-type Craftables = Record<CraftableName, CraftableItem>;
-
-export const CRAFTABLES: () => Craftables = () => ({
-  ...TOOLS,
-  ...SHOVELS,
-  ...BLACKSMITH_ITEMS,
-  ...BARN_ITEMS,
-  ...MARKET_ITEMS,
-  ...CROP_SEEDS(),
-  ...FOODS(),
-  ...ANIMALS(),
-  ...FLAGS,
-  ...ROCKET_ITEMS,
-  ...QUEST_ITEMS,
-  ...MUTANT_CHICKENS,
-  ...SALESMAN_ITEMS,
-  ...WAR_BANNERS,
-  ...WAR_TENT_ITEMS,
-});
-
 /**
  * getKeys is a ref to Object.keys, but the return is typed literally.
  */
@@ -1202,6 +1185,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Tunnel Mole": { width: 1, height: 1 },
   "Rocky the Mole": { width: 1, height: 1 },
   Nugget: { width: 1, height: 1 },
+  "Immortal Pear": { width: 2, height: 2 },
 
   // Market Items
   Scarecrow: { height: 2, width: 2 },

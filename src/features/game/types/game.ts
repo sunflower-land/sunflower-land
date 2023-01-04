@@ -6,6 +6,7 @@ import {
   CraftableName,
   Food,
   GoblinRetreatItemName,
+  HeliosBlacksmithItem,
   Ingredient,
 } from "./craftables";
 import { ResourceName } from "./resources";
@@ -170,7 +171,8 @@ export type InventoryItemName =
   | DecorationName
   | GoblinRetreatItemName
   | GoldenCropEventItem
-  | TreasureName;
+  | TreasureName
+  | HeliosBlacksmithItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
