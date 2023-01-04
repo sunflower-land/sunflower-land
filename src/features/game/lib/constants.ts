@@ -58,8 +58,8 @@ export const INITIAL_STOCK: Inventory = {
   "Orange Seed": new Decimal(10),
   "Blueberry Seed": new Decimal(10),
 
-  Axe: new Decimal(50),
-  Pickaxe: new Decimal(30),
+  Axe: new Decimal(125),
+  Pickaxe: new Decimal(50),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
 
