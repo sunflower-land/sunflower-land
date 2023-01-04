@@ -97,7 +97,7 @@ export const SmoothieShack: React.FC<Props> = ({
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               right: `${PIXEL_SCALE * 16}px`,
-              bottom: `${PIXEL_SCALE * 9}px`,
+              bottom: `${PIXEL_SCALE * 11}px`,
             }}
           />
         ) : (
@@ -107,7 +107,7 @@ export const SmoothieShack: React.FC<Props> = ({
             style={{
               width: `${PIXEL_SCALE * 15}px`,
               right: `${PIXEL_SCALE * 17}px`,
-              bottom: `${PIXEL_SCALE * 9}px`,
+              bottom: `${PIXEL_SCALE * 11}px`,
             }}
           />
         )}
