@@ -37,7 +37,7 @@ export const ReplenishingTree: React.FC<Props> = ({
 }) => {
   const { showTimers } = useContext(Context);
   const [isMobile] = useIsMobile();
-  const [showFruitDetails, setFruitDetails] = useState(true);
+  const [showFruitDetails, setFruitDetails] = useState(false);
   const { harvestedAt, name, amount } = plantedFruit;
   const lifecycle = FRUIT_LIFECYCLE[name];
 

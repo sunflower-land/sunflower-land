@@ -21,7 +21,7 @@ export const FruitDropAnimator = ({
   useEffect(() => {
     setTimeout(() => {
       setHideFruits(true);
-    }, 1350);
+    }, 1500);
   }, []);
 
   return (
@@ -32,7 +32,7 @@ export const FruitDropAnimator = ({
       />
       <div
         className={classNames("absolute fruit-wrapper", {
-          invisible: hideFruits,
+          "opacity-0": hideFruits,
           "drop-animation-left": current === 1,
           "drop-animation-right": current === 2,
         })}
