@@ -38,7 +38,7 @@ export const ReplenishingTree: React.FC<Props> = ({
   const { showTimers } = useContext(Context);
   const [isMobile] = useIsMobile();
   const [showFruitDetails, setFruitDetails] = useState(true);
-  const { harvestedAt, name } = plantedFruit;
+  const { harvestedAt, name, amount } = plantedFruit;
   const lifecycle = FRUIT_LIFECYCLE[name];
 
   const { harvestSeconds, isBush } = FRUIT()[name];
@@ -67,7 +67,7 @@ export const ReplenishingTree: React.FC<Props> = ({
         dropImageProps={{
           src: getFruitImage(name),
         }}
-        isBush={plantedFruit.name === "Blueberry"}
+        dropCount={amount}
       />
       {showTimers && (
         <div

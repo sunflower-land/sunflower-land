@@ -1,43 +1,3 @@
-.fruit-1 {
-  left: 8px;
-  top: -10px;
-  z-index: 2;
-}
-.fruit-2 {
-  left: 13px;
-  top: 9px;
-  z-index: 2;
-}
-.fruit-3 {
-  left: 47px;
-  top: 1px;
-  z-index: 2;
-}
-.fruit-4 {
-  left: 36px;
-  top: 16px;
-  z-index: 2;
-}
-.fruit-1-dropped {
-  left: 8px;
-  top: 42px;
-  transform: rotate(-40deg);
-}
-.fruit-2-dropped {
-  left: 13px;
-  top: 56px;
-  transform: rotate(45deg);
-}
-.fruit-3-dropped {
-  left: 47px;
-  top: 43px;
-}
-.fruit-4-dropped {
-  left: 36px;
-  top: 60px;
-  transform: rotate(-48deg);
-}
-
 .tree-shake-animation {
   animation: tree-shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: translate3d(0, 0, 0);
@@ -68,7 +28,40 @@
   }
 }
 
-.drop-transition {
-  transition: all 0.3s ease-in-out;
+.fruit-wrapper {
+  top: 30%;
   z-index: 2;
+}
+
+.drop-animation-left {
+  left: -100%;
+  offset-path: path(
+    "M 22.31468 -12.7853 L 21.87229 -12.729709999999999 C 10.99438 -11.362749999999998 2.2299000000000007 -3.1541099999999993 0.15416000000000096 7.61106 L -0.843529999999999 12.7853 L -4.219169999999999 8.4386 L -4.219169999999999 8.4386 C -4.8607 7.612519999999999 -5.838709999999999 7.1174599999999995 -6.884269999999999 7.089549999999999 C -7.929829999999999 7.061639999999999 -8.932859999999998 7.503809999999999 -9.61756 8.29449 L -13.506419999999999 12.7853 L -16.09248 10.49483 L -16.09248 10.49483 C -17.334639999999997 9.39465 -19.226979999999998 9.48367 -20.36038 10.695590000000001 L -22.31469 12.785300000000001"
+  );
+  animation: drop 600ms both;
+  offset-rotate: 0deg;
+}
+
+.drop-animation-right {
+  right: -100%;
+  offset-path: path(
+    "M -35.6605 -2.48423 C -11.685469999999999 -24.46134 7.627740000000003 9.836269999999999 7.627740000000003 9.836269999999999 C 7.627740000000003 9.836269999999999 19.217380000000002 -4.14916 28.272900000000003 9.836269999999999 C 32.77078 6.541929999999999 34.50938000000001 7.820059999999999 35.660500000000006 9.836269999999999"
+  );
+  animation: drop 600ms both;
+  offset-rotate: 0deg;
+}
+
+@keyframes drop {
+  0% {
+    offset-distance: 0%;
+  }
+  50% {
+    offset-distance: 85%;
+  }
+  70% {
+    offset-distance: 95%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
 }
