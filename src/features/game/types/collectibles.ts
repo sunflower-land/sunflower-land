@@ -14,11 +14,10 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
   CraftableCollectible
 > = {
   "Immortal Pear": {
-    description:
-      "This long-lived pear ensures your fruit tree survives +1 bonus harvest.",
+    description: "A long-lived pear that makes fruit trees last longer.",
     ingredients: {
       Gold: new Decimal(25),
     },
-    boost: "Fruit lasts +1 harvest",
+    boost: "+1 harvest",
   },
 };

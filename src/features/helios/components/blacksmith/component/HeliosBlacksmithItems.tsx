@@ -117,6 +117,10 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
             />
             <span className="sm:text-center mb-1">{selected}</span>
           </div>
+          <span className="text-xs sm:text-center mb-1">
+            {item.description}
+          </span>
+
           <Label className="mt-1 md:text-center" type="info">
             {item.boost}
           </Label>
