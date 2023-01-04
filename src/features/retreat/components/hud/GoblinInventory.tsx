@@ -30,9 +30,9 @@ export const GoblinInventory: React.FC<Props> = ({ state }) => {
   };
 
   const [selected, setSelected] = useState<InventoryItemName>(
-    getKeys(getBasketItems(inventory))
-      .filter((item) => getItemCount(item).greaterThan(0))
-      .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
+    getKeys(getBasketItems(inventory)).sort(
+      (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]
+    )[0]
   );
   return (
     <div
