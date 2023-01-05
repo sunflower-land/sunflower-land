@@ -98,6 +98,7 @@ export type Token = {
     mintCollectible: boolean;
     admin?: boolean;
     landExpansion?: boolean;
+    verified?: boolean;
   };
   discordId?: string;
 };
@@ -155,8 +156,6 @@ export async function login(transactionId: string): Promise<{ token: string }> {
     signature,
     transactionId,
   });
-
-  saveSession(address, { token });
 
   return { token };
 }

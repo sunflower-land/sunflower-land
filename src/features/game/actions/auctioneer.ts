@@ -1,4 +1,5 @@
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
+import { getInventorySupply } from "lib/blockchain/Inventory";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -77,5 +78,5 @@ export const fetchAuctioneerDrops = async (
 };
 
 export const fetchAuctioneerSupply = (ids: number[]) => {
-  return wallet.getInventory().getSupply(ids);
+  return getInventorySupply(wallet.web3Provider, wallet.myAccount, ids);
 };

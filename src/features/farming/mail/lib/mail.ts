@@ -4,6 +4,7 @@ import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
 import { Message } from "../types/message";
 import { CONFIG } from "lib/config";
+import { sflBalanceOf, totalSFLSupply } from "lib/blockchain/Token";
 
 const MESSAGES_KEY = "readMessages";
 
@@ -18,10 +19,12 @@ const API_URL = CONFIG.API_URL;
 async function getSFLSupply() {
   const [total, burned] = API_URL
     ? await Promise.all([
-        wallet.getToken().totalSupply(),
-        wallet
-          .getToken()
-          .balanceOf("0x000000000000000000000000000000000000dead"),
+        totalSFLSupply(wallet.web3Provider, wallet.myAccount),
+        sflBalanceOf(
+          wallet.web3Provider,
+          wallet.myAccount,
+          "0x000000000000000000000000000000000000dead"
+        ),
       ])
     : [toBN(0), toBN(0)];
 

@@ -2,7 +2,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect, useState } from "react";
 
-// import background from "assets/land/helios.webp";
+import background from "assets/land/helios.webp";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { Potions } from "./components/potions/Potions";
@@ -15,7 +15,6 @@ import { LostSunflorian } from "./components/npcs/LostSunflorian";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { RustyShovelSeller } from "./components/rustyShovelSeller/RustyShovelSeller";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
-import background from "assets/events/christmas/land/helios.webp";
 
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
@@ -64,7 +63,7 @@ export const Helios: React.FC = () => {
         />
         <Decorations />
         <GrubShop />
-        <HeliosBlacksmith />
+        <HeliosBlacksmith inventory={gameState.context.state.inventory} />
         <Potions />
         <ExoticShop />
         <HeliosSunflower />

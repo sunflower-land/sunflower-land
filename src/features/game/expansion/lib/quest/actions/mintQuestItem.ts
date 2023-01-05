@@ -2,11 +2,15 @@ import { wallet } from "lib/blockchain/wallet";
 import { QuestName } from "features/game/types/quests";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { hasCompletedQuest, mintQuestItemOnChain } from "lib/blockchain/Quests";
 
 async function waitForQuest(questId: number, bumpkinId: number): Promise<void> {
-  const statuses = await wallet
-    .getQuests()
-    .hasCompletedQuest([questId], bumpkinId);
+  const statuses = await hasCompletedQuest(
+    wallet.web3Provider,
+    wallet.myAccount,
+    [questId],
+    bumpkinId
+  );
 
   console.log({ statuses: statuses, questId });
   if (statuses[0] === false) {
@@ -79,7 +83,9 @@ export async function mintQuestItem({
       farmId,
     });
 
-  await wallet.getQuests().mintQuestItem({
+  await mintQuestItemOnChain({
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
     bumpkinId,
     deadline,
     questId,

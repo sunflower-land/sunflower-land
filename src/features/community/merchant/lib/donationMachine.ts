@@ -6,7 +6,6 @@ import { ErrorCode } from "lib/errors";
 import { CONFIG } from "lib/config";
 
 const frogDonationAddress = CONFIG.FROG_DONATION;
-const northPoleAddress = CONFIG.NORTHPOLE_DONATION;
 
 export interface Context {
   hasDonated: boolean;
@@ -19,21 +18,10 @@ type DonateEvent = {
   to?: string;
 };
 
-type Event =
-  | DonateEvent
-  | { type: "BOTTLE_CLICK" }
-  | { type: "NORTHPOLE_CLICK" }
-  | { type: "CLOSE" };
+type Event = DonateEvent | { type: "BOTTLE_CLICK" } | { type: "CLOSE" };
 
 export type DonationState = {
-  value:
-    | "idle"
-    | "floating"
-    | "northpolefloating"
-    | "donating"
-    | "northpoledonating"
-    | "donated"
-    | "error";
+  value: "idle" | "floating" | "donating" | "donated" | "error";
   context: Context;
 };
 
@@ -60,9 +48,6 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
         BOTTLE_CLICK: {
           target: "floating",
         },
-        NORTHPOLE_CLICK: {
-          target: "northpolefloating",
-        },
       },
     },
     floating: {
@@ -75,39 +60,12 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
         },
       },
     },
-    northpolefloating: {
-      on: {
-        DONATE: {
-          target: "northpoledonating",
-        },
-        CLOSE: {
-          target: "idle",
-        },
-      },
-    },
     donating: {
       invoke: {
         src: async (_context: Context, event: any): Promise<void> => {
           const { donation } = event as DonateEvent;
 
           await communityContracts.donate(donation, frogDonationAddress);
-        },
-        onDone: {
-          target: "donated",
-          actions: assign({ hasDonated: (_context, _event) => true }),
-        },
-        onError: {
-          target: "error",
-          actions: assignErrorMessage,
-        },
-      },
-    },
-    northpoledonating: {
-      invoke: {
-        src: async (_context: Context, event: any): Promise<void> => {
-          const { donation } = event as DonateEvent;
-
-          await communityContracts.christimasDonate(donation, northPoleAddress);
         },
         onDone: {
           target: "donated",

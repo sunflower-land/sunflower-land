@@ -18,28 +18,16 @@ export type OnChainBumpkin = {
   wardrobe: string;
 };
 
-/*
- * Bumpkin details contract
- */
-export class BumpkinDetails {
-  private web3: Web3;
-  private account: string;
-
-  private contract: IBumpkinDetails;
-
-  constructor(web3: Web3, account: string) {
-    this.web3 = web3;
-    this.account = account;
-
-    this.contract = new this.web3.eth.Contract(
+export async function loadBumpkins(
+  web3: Web3,
+  account: string
+): Promise<OnChainBumpkin[]> {
+  return (
+    new web3.eth.Contract(
       BumpkinDetailsABI as AbiItem[],
       address as string
-    ) as unknown as IBumpkinDetails;
-  }
-
-  public async loadBumpkins(): Promise<OnChainBumpkin[]> {
-    return this.contract.methods
-      .loadBumpkins(wallet.myAccount as string)
-      .call({ from: this.account });
-  }
+    ) as unknown as IBumpkinDetails
+  ).methods
+    .loadBumpkins(wallet.myAccount as string)
+    .call({ from: account });
 }

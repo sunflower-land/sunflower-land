@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-// import boat from "assets/npcs/island_boat_pirate.png";
+import boat from "assets/npcs/island_boat_pirate.png";
 import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -10,7 +10,6 @@ import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
 import { Bumpkin } from "features/game/types/game";
-import boat from "assets/events/christmas/npcs/island_boat_pirate.png";
 
 interface Props {
   isOpen: boolean;

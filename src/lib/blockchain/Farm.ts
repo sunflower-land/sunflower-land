@@ -12,137 +12,152 @@ type FarmAccount = {
   tokenId: string;
 };
 
-type FarmCreatedEvent = {
-  owner: string;
-  landAddress: string;
-  tokenId: number;
-};
-/**
- * Farm NFT contract
- */
-export class Farm {
-  private web3: Web3;
-  private account: string;
+// TODO - simplify the smart contract to fetch this in 1 call
+export async function getFarms(
+  web3: Web3,
+  account: string,
+  attempts = 0
+): Promise<FarmAccount[]> {
+  await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-  private farm: any;
-
-  constructor(web3: Web3, account: string) {
-    this.web3 = web3;
-    this.account = account;
-    this.farm = new this.web3.eth.Contract(
+  try {
+    const accounts = await new web3.eth.Contract(
       FarmABI as AbiItem[],
       address as string
-    );
-  }
+    ).methods
+      .getFarms(account)
+      .call({ from: account });
 
-  // TODO - simplify the smart contract to fetch this in 1 call
-  public async getFarms(attempts = 0): Promise<FarmAccount[]> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
-
-    try {
-      const accounts = await this.farm.methods
-        .getFarms(this.account)
-        .call({ from: this.account });
-
-      return accounts;
-    } catch (e) {
-      const error = parseMetamaskError(e);
-      if (attempts < 3) {
-        return this.getFarms(attempts + 1);
-      }
-
-      throw error;
-    }
-  }
-
-  public async ownerOf(tokenId: string): Promise<string> {
-    const account = await this.farm.methods.ownerOf(tokenId).call();
-
-    return account;
-  }
-
-  public async getFarm(tokenId: number): Promise<FarmAccount> {
-    const account = await this.farm.methods.getFarm(tokenId).call();
-
-    return account;
-  }
-
-  public async getNewFarm(): Promise<FarmAccount> {
-    await new Promise((res) => setTimeout(res, 3000));
-
-    const farms = await this.getFarms();
-
-    // Try again
-    if (farms.length === 0) {
-      return this.getNewFarm();
+    return accounts;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return getFarms(web3, account, attempts + 1);
     }
 
-    // Double check they are the owner
-    const owner = await this.ownerOf(farms[0].tokenId);
-    if (owner !== this.account) {
-      return this.getNewFarm();
+    throw error;
+  }
+}
+
+export async function ownerOf(
+  web3: Web3,
+  account: string,
+  tokenId: string
+): Promise<string> {
+  const owner = await new web3.eth.Contract(
+    FarmABI as AbiItem[],
+    address as string
+  ).methods
+    .ownerOf(tokenId)
+    .call();
+
+  return owner;
+}
+
+export async function getFarm(
+  web3: Web3,
+  account: string,
+  tokenId: number
+): Promise<FarmAccount> {
+  const farm = await new web3.eth.Contract(
+    FarmABI as AbiItem[],
+    address as string
+  ).methods
+    .getFarm(tokenId)
+    .call();
+
+  return farm;
+}
+
+export async function getNewFarm(
+  web3: Web3,
+  account: string
+): Promise<FarmAccount> {
+  await new Promise((res) => setTimeout(res, 3000));
+
+  const farms = await getFarms(web3, account);
+
+  // Try again
+  if (farms.length === 0) {
+    return getNewFarm(web3, account);
+  }
+
+  // Double check they are the owner
+  const owner = await ownerOf(web3, account, farms[0].tokenId);
+  if (owner !== account) {
+    return getNewFarm(web3, account);
+  }
+
+  return farms[0];
+}
+
+export async function getTotalSupply(
+  web3: Web3,
+  account: string,
+  attempts = 0
+): Promise<number> {
+  await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+  try {
+    const accounts = await new web3.eth.Contract(
+      FarmABI as AbiItem[],
+      address as string
+    ).methods
+      .totalSupply()
+      .call({ from: account });
+
+    return accounts;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return getTotalSupply(web3, account, attempts + 1);
     }
 
-    return farms[0];
+    throw error;
   }
+}
 
-  public async getTotalSupply(attempts = 0): Promise<number> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
+export async function transfer({
+  web3,
+  account,
+  to,
+  tokenId,
+}: {
+  web3: Web3;
+  account: string;
+  to: string;
+  tokenId: number;
+}): Promise<string> {
+  const gasPrice = await estimateGasPrice(web3);
 
-    try {
-      const accounts = await this.farm.methods
-        .totalSupply()
-        .call({ from: this.account });
+  return new Promise((resolve, reject) => {
+    new web3.eth.Contract(FarmABI as AbiItem[], address as string).methods
+      .transferFrom(account, to, tokenId)
+      .send({ from: account, gasPrice })
+      .on("error", function (error: any) {
+        console.log({ error });
+        const parsed = parseMetamaskError(error);
 
-      return accounts;
-    } catch (e) {
-      const error = parseMetamaskError(e);
-      if (attempts < 3) {
-        return this.getTotalSupply(attempts + 1);
-      }
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-      throw error;
-    }
-  }
-
-  public async transfer({
-    to,
-    tokenId,
-  }: {
-    to: string;
-    tokenId: number;
-  }): Promise<string> {
-    const gasPrice = await estimateGasPrice(this.web3);
-
-    return new Promise((resolve, reject) => {
-      this.farm.methods
-        .transferFrom(this.account, to, tokenId)
-        .send({ from: this.account, gasPrice })
-        .on("error", function (error: any) {
-          console.log({ error });
-          const parsed = parseMetamaskError(error);
-
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
-
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
-  }
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        console.log({ receipt });
+        resolve(receipt);
+      });
+  });
 }

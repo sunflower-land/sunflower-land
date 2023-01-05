@@ -4,23 +4,27 @@ import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
 import { BeanName } from "./beans";
+import { HeliosBlacksmithItem } from "./collectibles";
 import { DecorationName } from "./decorations";
+import { FruitName, FruitSeedName } from "./fruits";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
-type SellableName = CropName | Food;
+type SellableName = CropName | Food | FruitName;
 
 type Recipes = Food | ConsumableName;
 
-export type HarvestEvent = `${CropName} Harvested`;
+export type HarvestEvent = `${CropName | FruitName} Harvested`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Recipes} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
+export type PlantFruitEvent = `${FruitSeedName} Planted`;
 export type CraftedEvent = `${
   | ToolName
   | WorkbenchToolName
-  | TreasureToolName} Crafted`;
+  | TreasureToolName
+  | HeliosBlacksmithItem} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 
@@ -32,6 +36,7 @@ export type BumpkinActivityName =
   | ConsumableEvent
   | SellEvent
   | HarvestEvent
+  | PlantFruitEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"

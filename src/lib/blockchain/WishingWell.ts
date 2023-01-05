@@ -6,134 +6,146 @@ import { estimateGasPrice } from "./utils";
 
 const address = CONFIG.WISHING_WELL_CONTRACT;
 
-/**
- * WishingWell contract
- */
-export class WishingWell {
-  private web3: Web3;
-  private account: string;
-
-  private contract: any;
-
-  constructor(web3: Web3, account: string) {
-    this.web3 = web3;
-    this.account = account;
-    this.contract = new this.web3.eth.Contract(
+export async function wish(web3: Web3, account: string) {
+  const gasPrice = await estimateGasPrice(web3);
+  return new Promise((resolve, reject) => {
+    new web3.eth.Contract(
       WishingWellJSON as AbiItem[],
       address as string
-    );
-  }
+    ).methods
+      .wish()
+      .send({ from: account, gasPrice })
+      .on("error", function (error: any) {
+        console.log({ error });
 
-  public async wish() {
-    const gasPrice = await estimateGasPrice(this.web3);
-    return new Promise((resolve, reject) => {
-      this.contract.methods
-        .wish()
-        .send({ from: this.account, gasPrice })
-        .on("error", function (error: any) {
-          console.log({ error });
+        reject(error);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-          reject(error);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        console.log({ receipt });
+        resolve(receipt);
+      });
+  });
+}
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
+export async function collectFromWellOnChain({
+  web3,
+  account,
+  signature,
+  tokens,
+  deadline,
+  farmId,
+}: {
+  web3: Web3;
+  account: string;
+  signature: string;
+  tokens: string;
+  deadline: number;
+  farmId: number;
+}) {
+  const gasPrice = await estimateGasPrice(web3);
+
+  return new Promise((resolve, reject) => {
+    new web3.eth.Contract(
+      WishingWellJSON as AbiItem[],
+      address as string
+    ).methods
+      .collectFromWell(signature, tokens, deadline, farmId)
+      .send({ from: account, gasPrice })
+      .on("error", function (error: any) {
+        console.log({ error });
+
+        reject(error);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
+
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      // This event is fired once the tx has been mined and not reverted. The first time when confNumber == 0 is the actual block in which it was mined.
+      // This event will fire 24 times in total with a new confirmation number each time.
+      // The higher the confirmation number the more confident you can be that the chain will not be undone.
+      .on("confirmation", function (confNumber: number, receipt: any) {
+        if (confNumber === 3) {
           resolve(receipt);
-        });
-    });
-  }
+        }
+      });
+  });
+}
 
-  public async collectFromWell({
-    signature,
-    tokens,
-    deadline,
-    farmId,
-  }: {
-    signature: string;
-    tokens: string;
-    deadline: number;
-    farmId: number;
-  }) {
-    const gasPrice = await estimateGasPrice(this.web3);
+export async function getWellBalance(web3: Web3, account: string) {
+  const balance = await new web3.eth.Contract(
+    WishingWellJSON as AbiItem[],
+    address as string
+  ).methods
+    .balanceOf(account)
+    .call({ from: account });
 
-    return new Promise((resolve, reject) => {
-      this.contract.methods
-        .collectFromWell(signature, tokens, deadline, farmId)
-        .send({ from: this.account, gasPrice })
-        .on("error", function (error: any) {
-          console.log({ error });
+  return balance;
+}
 
-          reject(error);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+export async function canCollectFromWell(
+  web3: Web3,
+  account: string
+): Promise<boolean> {
+  const canCollect = await new web3.eth.Contract(
+    WishingWellJSON as AbiItem[],
+    address as string
+  ).methods
+    .canCollect(account)
+    .call({ from: account });
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        // This event is fired once the tx has been mined and not reverted. The first time when confNumber == 0 is the actual block in which it was mined.
-        // This event will fire 24 times in total with a new confirmation number each time.
-        // The higher the confirmation number the more confident you can be that the chain will not be undone.
-        .on("confirmation", function (confNumber: number, receipt: any) {
-          if (confNumber === 3) {
-            resolve(receipt);
-          }
-        });
-    });
-  }
+  return canCollect;
+}
 
-  public async getBalance() {
-    const balance = await this.contract.methods
-      .balanceOf(this.account)
-      .call({ from: this.account });
+export async function lastCollectedFromWell(
+  web3: Web3,
+  account: string
+): Promise<number> {
+  const lastUpdatedAt = await new web3.eth.Contract(
+    WishingWellJSON as AbiItem[],
+    address as string
+  ).methods
+    .lastUpdatedAt(account)
+    .call({ from: account });
 
-    return balance;
-  }
+  return lastUpdatedAt;
+}
 
-  public async canCollect(): Promise<boolean> {
-    const canCollect = await this.contract.methods
-      .canCollect(this.account)
-      .call({ from: this.account });
+export async function getLockedPeriod(
+  web3: Web3,
+  account: string
+): Promise<number> {
+  const getLockedPeriod = await new web3.eth.Contract(
+    WishingWellJSON as AbiItem[],
+    address as string
+  ).methods
+    .getLockedPeriod()
+    .call({ from: account });
 
-    return canCollect;
-  }
-
-  public async lastCollected(): Promise<number> {
-    const lastUpdatedAt = await this.contract.methods
-      .lastUpdatedAt(this.account)
-      .call({ from: this.account });
-
-    return lastUpdatedAt;
-  }
-
-  public async getLockedPeriod(): Promise<number> {
-    const getLockedPeriod = await this.contract.methods
-      .getLockedPeriod()
-      .call({ from: this.account });
-
-    return getLockedPeriod;
-  }
+  return getLockedPeriod;
 }

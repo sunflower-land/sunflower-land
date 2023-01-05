@@ -27,6 +27,8 @@ export type LandExpansionData = {
 };
 
 export type SyncProgressArgs = {
+  web3: Web3;
+  account: string;
   signature: string;
   sender: string;
   farmId: number;
@@ -40,6 +42,8 @@ export type SyncProgressArgs = {
 };
 
 export type MintCollectibleArgs = {
+  web3: Web3;
+  account: string;
   signature: string;
   sessionId: string;
   nextSessionId: string;
@@ -66,646 +70,712 @@ export type Recipe = {
   releaseDate?: number;
 };
 
-/**
- * Sessions contract
- */
-export class SessionManager {
-  private web3: Web3;
-  private account: string;
+export async function getSessionId(
+  web3: Web3,
+  account: string,
+  farmId: number,
+  attempts = 0
+): Promise<string> {
+  const contract = new web3.eth.Contract(
+    SessionABI as AbiItem[],
+    address as string
+  );
 
-  private contract: any;
-  private sessionABI = SessionABI;
-  constructor(web3: Web3, account: string) {
-    this.web3 = web3;
-    this.account = account;
-    this.contract = new this.web3.eth.Contract(
-      this.sessionABI as AbiItem[],
-      address as string
-    );
-  }
+  await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-  public async getSessionId(farmId: number, attempts = 0): Promise<string> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
-
-    try {
-      const sessionId = await this.contract.methods
-        .getSessionId(farmId)
-        .call({ from: this.account });
-
-      return sessionId;
-    } catch (e) {
-      const error = parseMetamaskError(e);
-      if (attempts < 3) {
-        return this.getSessionId(farmId, attempts + 1);
-      }
-
-      throw error;
-    }
-  }
-
-  /**
-   * Poll until data is ready
-   */
-  public async getNextSessionId(
-    farmId: number,
-    oldSessionId: string
-  ): Promise<string> {
-    await new Promise((res) => setTimeout(res, 3000));
-
-    const sessionId = await this.getSessionId(farmId);
-
-    // Try again
-    if (sessionId === oldSessionId) {
-      return this.getNextSessionId(farmId, oldSessionId);
-    }
+  try {
+    const sessionId = await contract.methods
+      .getSessionId(farmId)
+      .call({ from: account });
 
     return sessionId;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return getSessionId(web3, account, farmId, attempts + 1);
+    }
+
+    throw error;
+  }
+}
+
+/**
+ * Poll until data is ready
+ */
+export async function getNextSessionId(
+  web3: Web3,
+  account: string,
+  farmId: number,
+  oldSessionId: string
+): Promise<string> {
+  await new Promise((res) => setTimeout(res, 3000));
+
+  const sessionId = await getSessionId(web3, account, farmId);
+
+  // Try again
+  if (sessionId === oldSessionId) {
+    return getNextSessionId(web3, account, farmId, oldSessionId);
   }
 
-  public async getRecipes(ids: number[], attempts = 0): Promise<Recipe[]> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
+  return sessionId;
+}
 
-    try {
-      const recipes: Recipe[] = await this.contract.methods
-        .getRecipeBatch(ids)
-        .call({ from: this.account });
+export async function getRecipes(
+  web3: Web3,
+  account: string,
+  ids: number[],
+  attempts = 0
+): Promise<Recipe[]> {
+  await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-      // Undefined recipes come back with ID 0. Map the provided ID into the recipe.
-      const recipesWithIds = recipes.map((recipe, i) => ({
-        ...recipe,
-        mintId: ids[i],
-      }));
+  try {
+    const contract = new web3.eth.Contract(
+      SessionABI as AbiItem[],
+      address as string
+    );
+    const recipes: Recipe[] = await new web3.eth.Contract(
+      SessionABI as AbiItem[],
+      address as string
+    ).methods
+      .getRecipeBatch(ids)
+      .call({ from: account });
 
-      // For UI purposes, do not show the wei values
-      const ethBasedRecipes = recipesWithIds.map((recipe) => {
-        if (CONFIG.NETWORK === "mumbai") {
-          return {
-            ...recipe,
-            cooldownSeconds: Number(recipe.cooldownSeconds),
-          };
-        }
+    // Undefined recipes come back with ID 0. Map the provided ID into the recipe.
+    const recipesWithIds = recipes.map((recipe, i) => ({
+      ...recipe,
+      mintId: ids[i],
+    }));
 
-        const {
-          tokenAmount,
-          ingredientAmounts = [],
-          ingredientIds = [],
-        } = recipe;
-
+    // For UI purposes, do not show the wei values
+    const ethBasedRecipes = recipesWithIds.map((recipe) => {
+      if (CONFIG.NETWORK === "mumbai") {
         return {
           ...recipe,
-          tokenAmount: tokenAmount
-            ? Number(fromWei(tokenAmount.toString()))
-            : 0,
-          ingredientAmounts: ingredientAmounts.map((amount, index) =>
-            Number(
-              fromWei(
-                amount.toString(),
-                getItemUnit(KNOWN_ITEMS[ingredientIds[index]])
-              )
-            )
-          ),
           cooldownSeconds: Number(recipe.cooldownSeconds),
         };
+      }
+
+      const {
+        tokenAmount,
+        ingredientAmounts = [],
+        ingredientIds = [],
+      } = recipe;
+
+      return {
+        ...recipe,
+        tokenAmount: tokenAmount ? Number(fromWei(tokenAmount.toString())) : 0,
+        ingredientAmounts: ingredientAmounts.map((amount, index) =>
+          Number(
+            fromWei(
+              amount.toString(),
+              getItemUnit(KNOWN_ITEMS[ingredientIds[index]])
+            )
+          )
+        ),
+        cooldownSeconds: Number(recipe.cooldownSeconds),
+      };
+    });
+
+    return ethBasedRecipes;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return getRecipes(web3, account, ids, attempts + 1);
+    }
+
+    throw error;
+  }
+}
+
+export async function getMintedAtBatch(
+  web3: Web3,
+  account: string,
+  farmId: number,
+  ids: number[],
+  attempts = 0
+): Promise<number[]> {
+  await new Promise((res) => setTimeout(res, 3000 * attempts));
+
+  try {
+    const mintedAts: number[] = await new web3.eth.Contract(
+      SessionABI as AbiItem[],
+      address as string
+    ).methods
+      .getMintedAtBatch(farmId, ids)
+      .call({ from: account });
+
+    return mintedAts;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+
+    if (attempts < 3) {
+      return getMintedAtBatch(web3, account, farmId, ids, attempts + 1);
+    }
+
+    throw error;
+  }
+}
+
+export async function syncProgress({
+  web3,
+  account,
+  signature,
+  sessionId,
+  nextSessionId,
+  deadline,
+  farmId,
+  bumpkinId,
+  progress,
+  fee,
+  expansion,
+}: SyncProgressArgs): Promise<string> {
+  const oldSessionId = await getSessionId(web3, account, farmId);
+  const gasPrice = await estimateGasPrice(web3);
+
+  await new Promise((resolve, reject) => {
+    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+      .syncProgress({
+        signature,
+        farmId,
+        bumpkinId,
+        deadline,
+        sessionId,
+        nextSessionId,
+        progress,
+        expansion,
+        fee,
+      })
+      .send({ from: account, value: fee, gasPrice })
+      .on("error", function (error: any) {
+        const parsed = parseMetamaskError(error);
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt = await web3.eth.getTransactionReceipt(transactionHash);
+
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        resolve(receipt);
       });
+  });
 
-      return ethBasedRecipes;
-    } catch (e) {
-      const error = parseMetamaskError(e);
-      if (attempts < 3) {
-        return this.getRecipes(ids, attempts + 1);
-      }
-
-      throw error;
-    }
-  }
-
-  public async getMintedAtBatch(
-    farmId: number,
-    ids: number[],
-    attempts = 0
-  ): Promise<number[]> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
-
-    try {
-      const mintedAts: number[] = await this.contract.methods
-        .getMintedAtBatch(farmId, ids)
-        .call({ from: this.account });
-
-      return mintedAts;
-    } catch (e) {
-      const error = parseMetamaskError(e);
-
-      if (attempts < 3) {
-        return this.getMintedAtBatch(farmId, ids, attempts + 1);
-      }
-
-      throw error;
-    }
-  }
-
-  public async syncProgress({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
+  const newSessionId = await getNextSessionId(
+    web3,
+    account,
     farmId,
-    bumpkinId,
-    progress,
-    fee,
-    expansion,
-  }: SyncProgressArgs): Promise<string> {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
+    oldSessionId
+  );
+  return newSessionId;
+}
 
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .syncProgress({
-          signature,
-          farmId,
-          bumpkinId,
-          deadline,
-          sessionId,
-          nextSessionId,
-          progress,
-          expansion,
-          fee,
-        })
-        .send({ from: this.account, value: fee, gasPrice })
-        .on("error", function (error: any) {
-          const parsed = parseMetamaskError(error);
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+export async function mint({
+  web3,
+  account,
+  signature,
+  sessionId,
+  nextSessionId,
+  deadline,
+  farmId,
+  mintId,
+  fee,
+}: {
+  web3: Web3;
+  account: string;
+  signature: string;
+  sessionId: string;
+  nextSessionId: string;
+  deadline: number;
+  // Data
+  farmId: number;
+  mintId: number;
+  fee: string;
+}): Promise<string> {
+  const oldSessionId = await getSessionId(web3, account, farmId);
+  const gasPrice = await estimateGasPrice(web3);
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          resolve(receipt);
-        });
-    });
+  await new Promise((resolve, reject) => {
+    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+      .mint(signature, sessionId, nextSessionId, deadline, farmId, mintId, fee)
+      .send({ from: account, value: fee, gasPrice })
+      .on("error", function (error: any) {
+        console.log({ error });
+        const parsed = parseMetamaskError(error);
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        resolve(receipt);
+      });
+  });
 
-  public async mint({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
+  const newSessionId = await getNextSessionId(
+    web3,
+    account,
     farmId,
-    mintId,
-    fee,
-  }: {
-    signature: string;
-    sessionId: string;
-    nextSessionId: string;
-    deadline: number;
-    // Data
-    farmId: number;
-    mintId: number;
-    fee: string;
-  }): Promise<string> {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
+    oldSessionId
+  );
+  return newSessionId;
+}
 
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .mint(
-          signature,
-          sessionId,
-          nextSessionId,
-          deadline,
-          farmId,
-          mintId,
-          fee
-        )
-        .send({ from: this.account, value: fee, gasPrice })
-        .on("error", function (error: any) {
-          console.log({ error });
-          const parsed = parseMetamaskError(error);
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+export async function mintCollectible({
+  web3,
+  account,
+  signature,
+  sessionId,
+  nextSessionId,
+  deadline,
+  farmId,
+  fee,
+  mintData,
+}: MintCollectibleArgs): Promise<string> {
+  const oldSessionId = await getSessionId(web3, account, farmId);
+  const gasPrice = await estimateGasPrice(web3);
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          resolve(receipt);
-        });
-    });
+  await new Promise((resolve, reject) => {
+    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+      .mintCollectible(
+        signature,
+        sessionId,
+        nextSessionId,
+        deadline,
+        farmId,
+        fee,
+        mintData
+      )
+      .send({ from: account, value: fee, gasPrice })
+      .on("error", function (error: any) {
+        console.log({ error });
+        const parsed = parseMetamaskError(error);
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        resolve(receipt);
+      });
+  });
 
-  public async mintCollectible({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
+  const newSessionId = await getNextSessionId(
+    web3,
+    account,
     farmId,
-    fee,
-    mintData,
-  }: MintCollectibleArgs): Promise<string> {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
+    oldSessionId
+  );
+  return newSessionId;
+}
 
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .mintCollectible(
-          signature,
-          sessionId,
-          nextSessionId,
-          deadline,
-          farmId,
-          fee,
-          mintData
-        )
-        .send({ from: this.account, value: fee, gasPrice })
-        .on("error", function (error: any) {
-          console.log({ error });
-          const parsed = parseMetamaskError(error);
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+export async function withdrawItems({
+  web3,
+  account,
+  signature,
+  sessionId,
+  nextSessionId,
+  deadline,
+  farmId,
+  ids,
+  amounts,
+  tax,
+  sfl,
+}: {
+  web3: Web3;
+  account: string;
+  signature: string;
+  sessionId: string;
+  nextSessionId: string;
+  deadline: number;
+  // Data
+  farmId: number;
+  ids: number[];
+  amounts: number[];
+  sfl: number;
+  tax: number;
+}): Promise<string> {
+  const oldSessionId = await getSessionId(web3, account, farmId);
+  const gasPrice = await estimateGasPrice(web3);
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          resolve(receipt);
-        });
-    });
+  await new Promise((resolve, reject) => {
+    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+      .withdraw(
+        signature,
+        sessionId,
+        nextSessionId,
+        deadline,
+        farmId,
+        ids,
+        amounts,
+        sfl,
+        tax
+      )
+      .send({ from: account, gasPrice })
+      .on("error", function (error: any) {
+        const parsed = parseMetamaskError(error);
+        console.log({ parsedIt: parsed });
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        console.log({ receipt });
+        resolve(receipt);
+      });
+  });
 
-  public async withdraw({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
+  const newSessionId = await getNextSessionId(
+    web3,
+    account,
     farmId,
-    ids,
-    amounts,
-    tax,
-    sfl,
-  }: {
-    signature: string;
-    sessionId: string;
-    nextSessionId: string;
-    deadline: number;
-    // Data
-    farmId: number;
-    ids: number[];
-    amounts: number[];
-    sfl: number;
-    tax: number;
-  }): Promise<string> {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
+    oldSessionId
+  );
+  return newSessionId;
+}
 
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .withdraw(
-          signature,
-          sessionId,
-          nextSessionId,
-          deadline,
-          farmId,
-          ids,
-          amounts,
-          sfl,
-          tax
-        )
-        .send({ from: this.account, gasPrice })
-        .on("error", function (error: any) {
-          const parsed = parseMetamaskError(error);
-          console.log({ parsedIt: parsed });
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+export async function listTrade({
+  web3,
+  account,
+  signature,
+  farmId,
+  fee,
+  resourceAmount,
+  resourceId,
+  sessionId,
+  sfl,
+  slotId,
+  tax,
+  deadline,
+  nextSessionId,
+}: {
+  web3: Web3;
+  account: string;
+  signature: string;
+  farmId: number;
+  fee: string;
+  resourceAmount: string;
+  resourceId: number;
+  sender: string;
+  sessionId: string;
+  sfl: string;
+  slotId: number;
+  tax: number;
+  deadline: number;
+  nextSessionId: string;
+}) {
+  const oldSessionId = await getSessionId(web3, account, farmId);
+  const gasPrice = await estimateGasPrice(web3);
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
+  await new Promise((resolve, reject) => {
+    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+      .listTrade(
+        signature,
+        sessionId,
+        nextSessionId,
+        deadline,
+        slotId,
+        farmId,
+        resourceId,
+        resourceAmount,
+        sfl,
+        tax,
+        fee
+      )
+      .send({ from: account, value: fee, gasPrice })
+      .on("error", function (error: any) {
+        const parsed = parseMetamaskError(error);
+        console.log({ parsedIt: parsed });
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        console.log({ receipt });
+        resolve(receipt);
+      });
+  });
 
-  public async listTrade({
-    signature,
+  const newSessionId = await getNextSessionId(
+    web3,
+    account,
     farmId,
-    fee,
-    resourceAmount,
-    resourceId,
-    sessionId,
-    sfl,
-    slotId,
-    tax,
-    deadline,
-    nextSessionId,
-  }: {
-    signature: string;
-    farmId: number;
-    fee: string;
-    resourceAmount: string;
-    resourceId: number;
-    sender: string;
-    sessionId: string;
-    sfl: string;
-    slotId: number;
-    tax: number;
-    deadline: number;
-    nextSessionId: string;
-  }) {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
+    oldSessionId
+  );
+  return newSessionId;
+}
 
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .listTrade(
-          signature,
-          sessionId,
-          nextSessionId,
-          deadline,
-          slotId,
-          farmId,
-          resourceId,
-          resourceAmount,
-          sfl,
-          tax,
-          fee
-        )
-        .send({ from: this.account, value: fee, gasPrice })
-        .on("error", function (error: any) {
-          const parsed = parseMetamaskError(error);
-          console.log({ parsedIt: parsed });
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+export async function cancelTrade({
+  web3,
+  account,
+  signature,
+  sessionId,
+  nextSessionId,
+  deadline,
+  farmId,
+  listingId,
+}: {
+  web3: Web3;
+  account: string;
+  signature: string;
+  sessionId: string;
+  nextSessionId: string;
+  deadline: number;
+  farmId: number;
+  listingId: number;
+}) {
+  const oldSessionId = await getSessionId(web3, account, farmId);
+  const gasPrice = await estimateGasPrice(web3);
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
+  await new Promise((resolve, reject) => {
+    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+      .cancelTrade(
+        signature,
+        sessionId,
+        nextSessionId,
+        deadline,
+        farmId,
+        listingId
+      )
+      .send({ from: account, gasPrice })
+      .on("error", function (error: any) {
+        const parsed = parseMetamaskError(error);
+        console.log({ parsedIt: parsed });
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        console.log({ receipt });
+        resolve(receipt);
+      });
+  });
 
-  public async cancelTrade({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
+  const newSessionId = await getNextSessionId(
+    web3,
+    account,
     farmId,
-    listingId,
-  }: {
-    signature: string;
-    sessionId: string;
-    nextSessionId: string;
-    deadline: number;
-    farmId: number;
-    listingId: number;
-  }) {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
+    oldSessionId
+  );
+  return newSessionId;
+}
 
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .cancelTrade(
-          signature,
-          sessionId,
-          nextSessionId,
-          deadline,
-          farmId,
-          listingId
-        )
-        .send({ from: this.account, gasPrice })
-        .on("error", function (error: any) {
-          const parsed = parseMetamaskError(error);
-          console.log({ parsedIt: parsed });
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+export async function purchaseTrade({
+  web3,
+  account,
+  signature,
+  sessionId,
+  nextSessionId,
+  deadline,
+  farmId,
+  listingId,
+  sfl,
+}: {
+  web3: Web3;
+  account: string;
+  signature: string;
+  sessionId: string;
+  nextSessionId: string;
+  deadline: number;
+  farmId: number;
+  listingId: number;
+  sfl: number;
+}) {
+  const oldSessionId = await getSessionId(web3, account, farmId);
+  const gasPrice = await estimateGasPrice(web3);
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
+  await new Promise((resolve, reject) => {
+    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+      .purchaseTrade(
+        signature,
+        sessionId,
+        nextSessionId,
+        deadline,
+        farmId,
+        listingId,
+        sfl
+      )
+      .send({ from: account, gasPrice })
+      .on("error", function (error: any) {
+        const parsed = parseMetamaskError(error);
+        console.log({ parsedIt: parsed });
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        console.log({ receipt });
+        resolve(receipt);
+      });
+  });
 
-  public async purchaseTrade({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
+  const newSessionId = await getNextSessionId(
+    web3,
+    account,
     farmId,
-    listingId,
-    sfl,
-  }: {
-    signature: string;
-    sessionId: string;
-    nextSessionId: string;
-    deadline: number;
-    farmId: number;
-    listingId: number;
-    sfl: number;
-  }) {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
+    oldSessionId
+  );
+  return newSessionId;
+}
 
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .purchaseTrade(
-          signature,
-          sessionId,
-          nextSessionId,
-          deadline,
-          farmId,
-          listingId,
-          sfl
-        )
-        .send({ from: this.account, gasPrice })
-        .on("error", function (error: any) {
-          const parsed = parseMetamaskError(error);
-          console.log({ parsedIt: parsed });
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
+export async function expandLand({
+  web3,
+  account,
+  signature,
+  sessionId,
+  nextSessionId,
+  deadline,
+  farmId,
+  sfl,
+  nonce,
+  metadata,
+  resourceIds,
+  resourceAmounts,
+}: {
+  web3: Web3;
+  account: string;
+  signature: string;
+  sessionId: string;
+  nextSessionId: string;
+  deadline: number;
+  farmId: number;
+  sfl: string;
+  nonce: string;
+  metadata: string;
+  resourceIds: number[];
+  resourceAmounts: string[];
+}) {
+  const oldSessionId = await getSessionId(web3, account, farmId);
+  const gasPrice = await estimateGasPrice(web3);
 
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
+  await new Promise((resolve, reject) => {
+    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+      .expandLand(
+        signature,
+        sessionId,
+        nextSessionId,
+        deadline,
+        farmId,
+        nonce,
+        metadata,
+        sfl,
+        resourceIds,
+        resourceAmounts
+      )
+      .send({ from: account, gasPrice })
+      .on("error", function (error: any) {
+        const parsed = parseMetamaskError(error);
+        console.log({ parsedIt: parsed });
+        reject(parsed);
+      })
+      .on("transactionHash", async (transactionHash: any) => {
+        console.log({ transactionHash });
+        try {
+          // Sequence wallet doesn't resolve the receipt. Therefore
+          // We try to fetch it after we have a tx hash returned
+          // From Sequence.
+          const receipt: any = await web3.eth.getTransactionReceipt(
+            transactionHash
+          );
 
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
+          if (receipt) resolve(receipt);
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .on("receipt", function (receipt: any) {
+        console.log({ receipt });
+        resolve(receipt);
+      });
+  });
 
-  public async expandLand({
-    signature,
-    sessionId,
-    nextSessionId,
-    deadline,
+  const newSessionId = await getNextSessionId(
+    web3,
+    account,
     farmId,
-    sfl,
-    nonce,
-    metadata,
-    resourceIds,
-    resourceAmounts,
-  }: {
-    signature: string;
-    sessionId: string;
-    nextSessionId: string;
-    deadline: number;
-    farmId: number;
-    sfl: string;
-    nonce: string;
-    metadata: string;
-    resourceIds: number[];
-    resourceAmounts: string[];
-  }) {
-    const oldSessionId = await this.getSessionId(farmId);
-    const gasPrice = await estimateGasPrice(this.web3);
-
-    await new Promise((resolve, reject) => {
-      this.contract.methods
-        .expandLand(
-          signature,
-          sessionId,
-          nextSessionId,
-          deadline,
-          farmId,
-          nonce,
-          metadata,
-          sfl,
-          resourceIds,
-          resourceAmounts
-        )
-        .send({ from: this.account, gasPrice })
-        .on("error", function (error: any) {
-          const parsed = parseMetamaskError(error);
-          console.log({ parsedIt: parsed });
-          reject(parsed);
-        })
-        .on("transactionHash", async (transactionHash: any) => {
-          console.log({ transactionHash });
-          try {
-            // Sequence wallet doesn't resolve the receipt. Therefore
-            // We try to fetch it after we have a tx hash returned
-            // From Sequence.
-            const receipt: any = await this.web3.eth.getTransactionReceipt(
-              transactionHash
-            );
-
-            if (receipt) resolve(receipt);
-          } catch (e) {
-            reject(e);
-          }
-        })
-        .on("receipt", function (receipt: any) {
-          console.log({ receipt });
-          resolve(receipt);
-        });
-    });
-
-    const newSessionId = await this.getNextSessionId(farmId, oldSessionId);
-    return newSessionId;
-  }
+    oldSessionId
+  );
+  return newSessionId;
 }

@@ -10,6 +10,7 @@ import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
+import { AddingSFL } from "features/auth/components/AddingSFL";
 import { Context } from "../GameProvider";
 import { INITIAL_SESSION, StateValues } from "../lib/gameMachine";
 import { ToastManager } from "../toast/ToastManager";
@@ -52,7 +53,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   syncing: true,
   synced: true,
   error: true,
-  levelling: false,
   refreshing: true,
   deposited: true,
   expanding: true,
@@ -71,6 +71,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   checkIsVisiting: false,
   revealing: true,
   revealed: true,
+  buyingSFL: true,
 };
 
 export const Game: React.FC = () => {
@@ -215,7 +216,6 @@ export const Game: React.FC = () => {
     );
   };
 
-  console.log({ state: gameState.value });
   return (
     <>
       <ToastManager />
@@ -224,6 +224,7 @@ export const Game: React.FC = () => {
         <Panel>
           {gameState.matches("loading") && <Loading />}
           {gameState.matches("refreshing") && <Refreshing />}
+          {gameState.matches("buyingSFL") && <AddingSFL />}
           {gameState.matches("deposited") && <Notifications />}
           {gameState.matches("error") && (
             <ErrorMessage

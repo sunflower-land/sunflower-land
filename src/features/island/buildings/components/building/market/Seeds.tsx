@@ -28,16 +28,22 @@ import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
-import { Bumpkin } from "features/game/types/game";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
+import { Bumpkin, Inventory } from "features/game/types/game";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
+import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
 }
 
-function isSeedLocked(bumpkin: Bumpkin | undefined, seedName: SeedName) {
-  if (seedName in FRUIT_SEEDS()) {
+function isSeedLocked(
+  inventory: Inventory,
+  bumpkin: Bumpkin | undefined,
+  seedName: SeedName
+) {
+  if (seedName in FRUIT_SEEDS() && !hasFeatureAccess(inventory, "FRUIT")) {
     return true;
   }
 
@@ -139,7 +145,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const Action = () => {
-    if (isSeedLocked(state.bumpkin, selectedName)) {
+    if (isSeedLocked(inventory, state.bumpkin, selectedName)) {
       return (
         <div className="flex items-center justify-center mt-2">
           <img src={heart} className="h-4 mr-1" />
@@ -155,16 +161,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     if (stock?.equals(0)) {
-      return (
-        <div className="my-1">
-          <p className="text-xxs text-center">
-            Sync your farm on chain to restock
-          </p>
-          <Button className="text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
-        </div>
-      );
+      return <Delayed restock={restock}></Delayed>;
     }
 
     const max = INITIAL_STOCK[selectedName];
@@ -201,8 +198,29 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
-  const cropName = selectedName.split(" ")[0] as CropName;
-  const crop = CROPS()[cropName];
+  const getPlantSeconds = () => {
+    const yields = SEEDS()[selectedName].yield;
+
+    if (yields in FRUIT())
+      return secondsToString(SEEDS()[selectedName].plantSeconds, {
+        length: "medium",
+        removeTrailingZeros: true,
+      });
+
+    if (yields in CROPS())
+      return secondsToString(
+        getCropTime(
+          yields as CropName,
+          inventory,
+          collectibles,
+          state.bumpkin as Bumpkin
+        ),
+        {
+          length: "medium",
+          removeTrailingZeros: true,
+        }
+      );
+  };
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -213,7 +231,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
-            showOverlay={isSeedLocked(state.bumpkin, name)}
+            showOverlay={isSeedLocked(inventory, state.bumpkin, name)}
             overlayIcon={
               <img
                 src={lock}
@@ -240,23 +258,12 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <span className="text-center mb-1">{selectedName}</span>
           </div>
           <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col sm:space-y-2 sm:items-center">
-            <div className="flex space-x-1 items-center sm:justify-center">
-              <img src={timer} className="h-4 sm:h-5" />
-              <span className="text-xs text-center">
-                {secondsToString(
-                  getCropTime(
-                    crop?.name,
-                    inventory,
-                    collectibles,
-                    state.bumpkin as Bumpkin
-                  ),
-                  {
-                    length: "medium",
-                    removeTrailingZeros: true,
-                  }
-                )}
-              </span>
-            </div>
+            {getPlantSeconds() && (
+              <div className="flex space-x-1 items-center sm:justify-center">
+                <img src={timer} className="h-4 sm:h-5" />
+                <span className="text-xs text-center">{getPlantSeconds()}</span>
+              </div>
+            )}
             <div className="flex space-x-1 justify-center items-center">
               <img src={token} className="h-4 sm:h-5" />
               <span

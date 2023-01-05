@@ -1,3 +1,4 @@
+import { syncProgress } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -12,7 +13,7 @@ type Options = {
   transactionId: string;
 };
 
-export async function syncProgress({
+export async function sync({
   farmId,
   sessionId,
   token,
@@ -43,9 +44,11 @@ export async function syncProgress({
   const transaction = await response.json();
 
   // TODO
-  const newSessionId = await wallet
-    .getSessionManager()
-    .syncProgress(transaction);
+  const newSessionId = await syncProgress({
+    ...transaction,
+    web3: wallet.web3Provider,
+    account: wallet.myAccount,
+  });
 
   return { verified: true, sessionId: newSessionId };
 }

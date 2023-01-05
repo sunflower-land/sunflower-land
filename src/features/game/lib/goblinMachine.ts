@@ -31,6 +31,7 @@ import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine
 import { getBumpkinLevel } from "./level";
 import { randomID } from "lib/utils/random";
 import { OFFLINE_FARM } from "./landData";
+import { getSessionId } from "lib/blockchain/Sessions";
 
 const API_URL = CONFIG.API_URL;
 
@@ -186,9 +187,11 @@ export function startGoblinVillage(authContext: AuthContext) {
               );
 
               // Get session id
-              const sessionIdFn = wallet
-                .getSessionManager()
-                .getSessionId(farmId);
+              const sessionIdFn = getSessionId(
+                wallet.web3Provider,
+                wallet.myAccount,
+                farmId
+              );
 
               const [onChainState, { id, items }, sessionId] =
                 await Promise.all([

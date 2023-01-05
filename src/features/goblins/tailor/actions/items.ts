@@ -4,6 +4,7 @@ import { BumpkinItem, BumpkinPart } from "features/game/types/bumpkin";
 import { Release } from "../TabContent";
 import { MOCK_SHOP } from "./mockShopItems";
 import { wallet } from "lib/blockchain/wallet";
+import { loadSupplyBatch } from "lib/blockchain/BumpkinItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -124,7 +125,7 @@ async function loadItems(): Promise<BumpkinShopItem[]> {
   let supply: string[] = [];
 
   try {
-    supply = await wallet.getBumpkinItems().loadSupplyBatch(ids);
+    supply = await loadSupplyBatch(wallet.web3Provider, wallet.myAccount, ids);
   } catch (e) {
     console.log("Loading supply failed: ", e);
   }

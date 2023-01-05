@@ -18,9 +18,10 @@ import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { FruitName } from "features/island/fruit/FruitPatch";
 import { BeanName, MutantCropName } from "./beans";
-import { FruitSeedName } from "./fruits";
+import { FruitName, FruitSeedName } from "./fruits";
+import { TreasureName } from "./treasure";
+import { HeliosBlacksmithItem } from "./collectibles";
 
 export type Reward = {
   sfl?: Decimal;
@@ -98,7 +99,8 @@ export type Coupons =
   | "Trading Ticket"
   | "War Bond"
   | "Jack-o-lantern"
-  | "Golden Crop";
+  | "Golden Crop"
+  | "Beta Pass";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -112,6 +114,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Golden Crop": {
     description: "A shiny golden crop",
+  },
+  "Beta Pass": {
+    description: "Gain early access to features for testing.",
   },
 };
 
@@ -165,7 +170,9 @@ export type InventoryItemName =
   | ConsumableName
   | DecorationName
   | GoblinRetreatItemName
-  | GoldenCropEventItem;
+  | GoldenCropEventItem
+  | TreasureName
+  | HeliosBlacksmithItem;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -243,6 +250,8 @@ export type PlantedFruit = {
   name: FruitName;
   plantedAt: number;
   amount: number;
+  harvestsLeft: number;
+  harvestedAt: number;
 };
 
 export type LandExpansionTree = {

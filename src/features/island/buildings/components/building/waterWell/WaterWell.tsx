@@ -1,7 +1,6 @@
 import React from "react";
 
-//import well from "assets/buildings/well1.png";
-import well from "assets/events/christmas/buildings/well1.webp";
+import well from "assets/buildings/well1.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";

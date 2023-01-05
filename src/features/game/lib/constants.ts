@@ -58,8 +58,8 @@ export const INITIAL_STOCK: Inventory = {
   "Orange Seed": new Decimal(10),
   "Blueberry Seed": new Decimal(10),
 
-  Axe: new Decimal(50),
-  Pickaxe: new Decimal(30),
+  Axe: new Decimal(125),
+  Pickaxe: new Decimal(50),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
 
@@ -84,6 +84,8 @@ export const INITIAL_STOCK: Inventory = {
   "Magic Bean": new Decimal(5),
   "Shiny Bean": new Decimal(5),
   "Golden Bean": new Decimal(5),
+
+  "Immortal Pear": new Decimal(1),
 };
 
 export const INITIAL_FIELDS: GameState["fields"] = {

@@ -15,36 +15,31 @@ interface Props {
 }
 
 export const Balance: React.FC<Props> = ({ balance }) => {
-  const [isShown, setIsShown] = useState(false);
+  const [showFullBalance, setShowFullBalance] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
 
   return (
     <>
       <InnerPanel
-        className="fixed z-50 flex items-center cursor-pointer"
+        className="fixed z-50 flex items-center cursor-pointer gap-2 p-1"
         style={{
           top: `${PIXEL_SCALE * 3}px`,
           right: `${PIXEL_SCALE * 3}px`,
         }}
+        onMouseEnter={() => setShowFullBalance(true)}
+        onMouseLeave={() => setShowFullBalance(false)}
+        onClick={() => setShowDepositModal(true)}
       >
         <img
           src={token}
           style={{
             width: `${PIXEL_SCALE * 10}px`,
-            margin: `${PIXEL_SCALE * 1}px`,
           }}
         />
-        <span
-          className="text-white text-base h-7 mx-1"
-          onMouseEnter={() => setIsShown(true)}
-          onMouseLeave={() => setIsShown(false)}
-          onClick={() => setShowDepositModal(true)}
-        >
-          {isShown === false ? (
-            <small>{setPrecision(balance).toString()}</small>
-          ) : (
-            <small>{balance.toString()}</small>
-          )}
+        <span className="text-white text-sm">
+          {showFullBalance
+            ? balance.toString()
+            : setPrecision(balance).toString()}
         </span>
       </InnerPanel>
       <Modal

@@ -6,110 +6,130 @@ import { SunflowerLandToken, Transfer } from "./types/SunflowerLandToken";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import Decimal from "decimal.js-light";
 
-const address = CONFIG.TOKEN_CONTRACT;
+/**
+ * Keep full wei amount as used for approving/sending
+ */
+export async function sflBalanceOf(
+  web3: Web3,
+  account: string,
+  address: string
+) {
+  const balance = await (
+    new web3.eth.Contract(
+      TokenJSON as AbiItem[],
+      CONFIG.TOKEN_CONTRACT as string
+    ) as unknown as SunflowerLandToken
+  ).methods
+    .balanceOf(address)
+    .call({ from: account });
+
+  return balance;
+}
 
 /**
- * Token contract
+ * Onchain SFL balance
  */
-export class Token {
-  private web3: Web3;
-  private account: string;
-
-  private contract: SunflowerLandToken;
-
-  constructor(web3: Web3, account: string) {
-    this.web3 = web3;
-    this.account = account;
-    this.contract = new this.web3.eth.Contract(
+export async function totalSFLSupply(web3: Web3, account: string) {
+  const supply = await (
+    new web3.eth.Contract(
       TokenJSON as AbiItem[],
-      address as string
-    ) as unknown as SunflowerLandToken;
-  }
+      CONFIG.TOKEN_CONTRACT as string
+    ) as unknown as SunflowerLandToken
+  ).methods
+    .totalSupply()
+    .call({ from: account });
 
-  /**
-   * Keep full wei amount as used for approving/sending
-   */
-  public async balanceOf(address: string) {
-    const balance = await this.contract.methods
-      .balanceOf(address)
-      .call({ from: this.account });
+  return supply;
+}
 
-    return balance;
-  }
-
-  /**
-   * Onchain SFL balance
-   */
-  public async totalSupply() {
-    const supply = await this.contract.methods
-      .totalSupply()
-      .call({ from: this.account });
-
-    return supply;
-  }
-
-  public async getPastDeposits(farmAddress: string, fromBlock: number) {
-    const events: Transfer[] = await new Promise((res, rej) => {
-      this.contract.getPastEvents(
-        "Transfer",
-        {
-          filter: {
-            to: farmAddress,
-          },
-          fromBlock,
-          toBlock: "latest",
+export async function getPastDeposits(
+  web3: Web3,
+  account: string,
+  farmAddress: string,
+  fromBlock: number
+) {
+  const events: Transfer[] = await new Promise((res, rej) => {
+    (
+      new web3.eth.Contract(
+        TokenJSON as AbiItem[],
+        CONFIG.TOKEN_CONTRACT as string
+      ) as unknown as SunflowerLandToken
+    ).getPastEvents(
+      "Transfer",
+      {
+        filter: {
+          to: farmAddress,
         },
-        function (error, events) {
-          if (error) {
-            rej(error);
-          }
-
-          res(events as unknown as Transfer[]);
+        fromBlock,
+        toBlock: "latest",
+      },
+      function (error, events) {
+        if (error) {
+          rej(error);
         }
-      );
-    });
 
-    // Exclude game mints/burns
-    const externalEvents = events.filter(
-      (event) =>
-        event.returnValues.from !==
-          "0x0000000000000000000000000000000000000000" &&
-        Number(event.returnValues.value) > 0
-    );
-
-    return externalEvents;
-  }
-
-  public async approve(address: string, value: number) {
-    const gasPrice = await estimateGasPrice(this.web3);
-    const getWei = toWei(value.toString());
-    const approve = await this.contract.methods
-      .approve(address, getWei)
-      .send({ from: this.account, gasPrice });
-
-    return approve;
-  }
-
-  public async isTokenApprovedForContract(
-    address: string,
-    attempts = 0
-  ): Promise<boolean> {
-    await new Promise((res) => setTimeout(res, 3000 * attempts));
-    try {
-      const allowance = await this.contract.methods
-        .allowance(this.account, address)
-        .call({ from: this.account });
-      const allowanceNumber = new Decimal(fromWei(allowance));
-      const isApproved = allowanceNumber.gte(100);
-
-      return isApproved;
-    } catch (e) {
-      const error = parseMetamaskError(e);
-      if (attempts < 3) {
-        return this.isTokenApprovedForContract(address, attempts + 1);
+        res(events as unknown as Transfer[]);
       }
+    );
+  });
 
-      throw error;
+  // Exclude game mints/burns
+  const externalEvents = events.filter(
+    (event) =>
+      event.returnValues.from !==
+        "0x0000000000000000000000000000000000000000" &&
+      Number(event.returnValues.value) > 0
+  );
+
+  return externalEvents;
+}
+
+export async function approveSFL(
+  web3: Web3,
+  account: string,
+  address: string,
+  value: number
+) {
+  const gasPrice = await estimateGasPrice(web3);
+  const getWei = toWei(value.toString());
+  const approve = await (
+    new web3.eth.Contract(
+      TokenJSON as AbiItem[],
+      CONFIG.TOKEN_CONTRACT as string
+    ) as unknown as SunflowerLandToken
+  ).methods
+    .approve(address, getWei)
+    .send({ from: account, gasPrice });
+
+  return approve;
+}
+
+export async function isTokenApprovedForContract(
+  web3: Web3,
+  account: string,
+  address: string,
+  attempts = 0
+): Promise<boolean> {
+  await new Promise((res) => setTimeout(res, 3000 * attempts));
+  try {
+    const allowance = await (
+      new web3.eth.Contract(
+        TokenJSON as AbiItem[],
+        CONFIG.TOKEN_CONTRACT as string
+      ) as unknown as SunflowerLandToken
+    ).methods
+      .allowance(account, address)
+      .call({ from: account });
+    const allowanceNumber = new Decimal(fromWei(allowance));
+    const isApproved = allowanceNumber.gte(100);
+
+    return isApproved;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return isTokenApprovedForContract(web3, account, address, attempts + 1);
     }
+
+    throw error;
   }
 }

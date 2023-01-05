@@ -5,12 +5,11 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import dragonfly from "assets/decorations/dragonfly.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
-// import swimmer from "assets/npcs/swimmer.gif";
-import swimmer from "assets/events/christmas/npcs/swimmer.gif";
+import swimmer from "assets/npcs/swimmer.gif";
+import cossies from "assets/decorations/cossies.png";
 import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
 import abandonedLand from "assets/land/abandoned_land.webp";
-import snowIsland from "assets/land/snow_island.webp";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -18,16 +17,7 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
 import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
-//Icebergs and north pole
-import iceberg1 from "assets/events/christmas/decorations/icebergs/iceberg_1.gif";
-import iceberg2 from "assets/events/christmas/decorations/icebergs/iceberg_2.gif";
-import iceberg3 from "assets/events/christmas/decorations/icebergs/iceberg_3.gif";
-import iceberg4 from "assets/events/christmas/decorations/icebergs/iceberg_4.gif";
-import northPole from "assets/events/christmas/land/north_pole.gif";
-import { Salesman } from "features/farming/salesman/Salesman";
-import { ReindeerQuest } from "./ReindeerQuest";
 import { merchantAudio } from "lib/utils/sfx";
-import { NorthPoleModal } from "features/community/northpole/NorthPoleModal";
 import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
 import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
 
@@ -88,28 +78,28 @@ export const Water: React.FC<Props> = ({ level }) => {
 
       <SharkBumpkin level={level} />
 
-      <MapPlacement x={offset + 4} y={6} width={3}>
+      <MapPlacement x={offset + 4} y={6} width={1}>
         <img
           src={swimmer}
           style={{
-            width: `${16 * GRID_WIDTH_PX}px`,
+            width: `${1 * GRID_WIDTH_PX}px`,
             transform: "scaleX(-1)",
             zIndex: 2,
           }}
         />
       </MapPlacement>
-      {/*<MapPlacement x={offset + 6} y={6} width={1}>*/}
-      {/*  <img*/}
-      {/*    src={cossies}*/}
-      {/*    style={{*/}
-      {/*      width: `${GRID_WIDTH_PX}px`,*/}
-      {/*      transform: "scaleX(-1)",*/}
-      {/*      position: "relative",*/}
-      {/*      left: `${16 * PIXEL_SCALE}px`,*/}
-      {/*      zIndex: 2,*/}
-      {/*    }}*/}
-      {/*  />*/}
-      {/*</MapPlacement>*/}
+      <MapPlacement x={offset + 4} y={6} width={1}>
+        <img
+          src={cossies}
+          style={{
+            width: `${GRID_WIDTH_PX}px`,
+            transform: "scaleX(-1)",
+            position: "relative",
+            left: `${16 * PIXEL_SCALE}px`,
+            zIndex: 2,
+          }}
+        />
+      </MapPlacement>
 
       <MapPlacement x={20} y={25} width={6}>
         <img
@@ -122,7 +112,6 @@ export const Water: React.FC<Props> = ({ level }) => {
       <Arcade left={40.25} top={-6.375} />
 
       <FarmerQuest />
-      <ReindeerQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
         <img
@@ -141,71 +130,11 @@ export const Water: React.FC<Props> = ({ level }) => {
           }}
         />
       </MapPlacement>
-
-      <MapPlacement x={-5} y={-16} width={6}>
-        <img
-          src={snowIsland}
-          style={{
-            width: `${PIXEL_SCALE * 82}px`,
-          }}
-        />
-      </MapPlacement>
-
-      <MapPlacement x={-15} y={-10} width={6}>
-        <img
-          src={iceberg1}
-          style={{
-            width: `${PIXEL_SCALE * 50}px`,
-          }}
-        />
-      </MapPlacement>
-      <MapPlacement x={-12} y={16} width={6}>
-        <img
-          src={iceberg2}
-          style={{
-            width: `${PIXEL_SCALE * 50}px`,
-          }}
-        />
-      </MapPlacement>
-      <MapPlacement x={18} y={18} width={6}>
-        <img
-          src={iceberg3}
-          style={{
-            width: `${PIXEL_SCALE * 50}px`,
-          }}
-        />
-      </MapPlacement>
-      <MapPlacement x={4} y={-13} width={12}>
-        <img
-          src={iceberg4}
-          style={{
-            width: `${PIXEL_SCALE * 96}px`,
-          }}
-        />
-      </MapPlacement>
-      <MapPlacement x={0} y={30} width={12}>
-        <div>
-          <img
-            className="hover:img-highlight cursor-pointer"
-            onClick={openMerchant}
-            src={northPole}
-            style={{
-              width: `${PIXEL_SCALE * 144}px`,
-            }}
-          />
-          <NorthPoleModal
-            isOpen={showModal}
-            onClose={() => setShowModal(false)}
-          />
-        </div>
-      </MapPlacement>
-
       <MapPlacement x={offset} y={-offset} width={6}>
         <ProjectDignityFrogs left={0} top={0} />
       </MapPlacement>
 
       <ProjectDignitySeals isGarden={false} />
-      <Salesman />
     </div>
   );
 };

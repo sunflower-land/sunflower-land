@@ -9,7 +9,7 @@ import sound_on from "assets/icons/sound_on.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
-import { SettingsMenu } from "./SettingsMenu";
+import { SettingsMenu } from "./settings-menu/SettingsMenu";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
   getFarmingSong,
@@ -198,7 +198,11 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         muted={true}
         controls
       />
-      <SettingsMenu show={openSettingsMenu} onClose={handleCloseSettingsMenu} />
+      <SettingsMenu
+        show={openSettingsMenu}
+        onClose={handleCloseSettingsMenu}
+        isFarming={isFarming}
+      />
       <AudioMenu
         musicPlayer={musicPlayer}
         song={song}
