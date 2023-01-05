@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
-  FruitName,
   FruitSeedName,
+  FRUIT_SEEDS,
   isFruitSeed,
 } from "features/game/types/fruits";
 import { GameState } from "features/game/types/game";
@@ -74,7 +74,7 @@ export function plantFruit({
 
   stateCopy.inventory[action.seed] = stateCopy.inventory[action.seed]?.minus(1);
 
-  const fruitName = action.seed.split(" ")[0] as FruitName;
+  const fruitName = FRUIT_SEEDS()[action.seed].yield;
 
   patch.fruit = {
     name: fruitName,

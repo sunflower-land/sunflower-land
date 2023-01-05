@@ -78,6 +78,7 @@ import wendy from "assets/sfts/wood_nymph_wendy.png";
 import cabbageBoy from "assets/sfts/cabbage_boy.png";
 import cabbageGirl from "assets/sfts/cabbage_girl.png";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
+import immortalPear from "assets/sfts/immortal_pear.png";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -343,7 +344,6 @@ import {
   MARKET_ITEMS,
   BARN_ITEMS,
   ROCKET_ITEMS,
-  CRAFTABLES,
   LimitedItem,
   MUTANT_CHICKENS,
   SALESMAN_ITEMS,
@@ -360,6 +360,7 @@ import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
+import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1111,11 +1112,11 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Egg Basket": {
-    ...CRAFTABLES()["Egg Basket"],
+    description: "Easter Event",
     image: easterBasket,
   },
   "Easter Bunny": {
-    ...CRAFTABLES()["Easter Bunny"],
+    description: "A rare Easter item",
     image: easterBunny,
   },
   "Blue Egg": {
@@ -1624,4 +1625,9 @@ export const ITEM_DETAILS: Items = {
     image: starfish,
     description: "?",
   },
+  "Immortal Pear": {
+    image: immortalPear,
+    description: HELIOS_BLACKSMITH_ITEMS["Immortal Pear"].description,
+  },
 };
+34;

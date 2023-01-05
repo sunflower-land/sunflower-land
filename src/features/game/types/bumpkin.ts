@@ -28,7 +28,7 @@ export type BumpkinHair =
   | "Red Long Hair"
   | "Blacksmith Hair"
   | "Fire Hair"
-  | "Lucious Hair";
+  | "Luscious Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -41,7 +41,8 @@ export type BumpkinShirt =
   | "Project Dignity Hoodie"
   | "Developer Hoodie"
   | "Bumpkin Art Competition Merch"
-  | "Fire Shirt";
+  | "Fire Shirt"
+  | "Pineapple Shirt";
 
 export type BumpkinCoat = "Chef Apron";
 
@@ -73,7 +74,8 @@ export type BumpkinHat =
   | "Chef Hat"
   | "Warrior Helmet"
   | "Skull Hat"
-  | "Reindeer Antlers";
+  | "Reindeer Antlers"
+  | "Santa Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -181,12 +183,14 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Devil Wings": 72,
   "Angel Wings": 73,
   "Fire Hair": 74,
-  "Lucious Hair": 75,
+  "Luscious Hair": 75,
   "Ancient War Hammer": 76,
   "Ancient Goblin Sword": 77,
   "Mountain View Background": 78,
   "Skull Hat": 79,
   "Reindeer Antlers": 80,
+  "Santa Hat": 81,
+  "Pineapple Shirt": 82,
 };
 
 // The reverse of above

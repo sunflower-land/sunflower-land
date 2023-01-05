@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import { GreedyGoblin } from "features/community/arcade/games/GreedyGoblin";
+import { ChickenFight } from "features/community/arcade/games/ChickenFight";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
@@ -15,6 +16,7 @@ interface Props {
 
 enum GAMES {
   GREEDY_GOBLIN = "Greedy Goblin",
+  CHICKEN_FIGHT = "Chicken Fight (2P)",
 }
 
 export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
@@ -47,10 +49,19 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 {GAMES.GREEDY_GOBLIN}
               </Button>
             </li>
+            <li className="p-1">
+              <Button
+                className="text-sm"
+                onClick={() => setCurrentGame(GAMES.CHICKEN_FIGHT)}
+              >
+                {GAMES.CHICKEN_FIGHT}
+              </Button>
+            </li>
           </ul>
         )}
 
         {currentGame === GAMES.GREEDY_GOBLIN && <GreedyGoblin />}
+        {currentGame === GAMES.CHICKEN_FIGHT && <ChickenFight />}
       </Panel>
     </Modal>
   );

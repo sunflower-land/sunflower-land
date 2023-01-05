@@ -49,10 +49,10 @@ export const SmoothieShackModal: React.FC<Props> = ({
       <Panel
         bumpkinParts={{
           body: "Light Brown Farmer Potion",
-          hair: "Explorer Hair",
-          pants: "Lumberjack Overalls",
-          shirt: "Blue Farmer Shirt",
-          tool: "Golden Spatula",
+          hair: "Brown Long Hair",
+          pants: "Farmer Pants",
+          shirt: "Pineapple Shirt",
+          tool: "Parsnip",
           background: "Farm Background",
           shoes: "Black Farmer Boots",
         }}

@@ -15,6 +15,7 @@ export type FruitSeed = {
   description: string;
   plantSeconds: number;
   bumpkinLevel: number;
+  yield: FruitName;
 };
 
 export function isFruitSeed(seed: FruitSeedName) {
@@ -22,23 +23,26 @@ export function isFruitSeed(seed: FruitSeedName) {
 }
 
 export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
-  "Apple Seed": {
-    sfl: marketRate(20),
-    description: "Perfect for homemade Apple Pie",
-    plantSeconds: 2 * 24 * 60 * 60,
-    bumpkinLevel: 13,
-  },
   "Blueberry Seed": {
-    sfl: marketRate(25),
+    sfl: marketRate(30),
     description: "A Goblin's weakness",
-    plantSeconds: 2 * 24 * 60 * 60,
-    bumpkinLevel: 14,
+    plantSeconds: 12 * 60 * 60,
+    bumpkinLevel: 13,
+    yield: "Blueberry",
   },
   "Orange Seed": {
-    sfl: marketRate(30),
+    sfl: marketRate(50),
     description: "Vitamin C to keep your Bumpkin Healthy",
-    plantSeconds: 2 * 24 * 60 * 60,
+    plantSeconds: 12 * 60 * 60,
+    bumpkinLevel: 14,
+    yield: "Orange",
+  },
+  "Apple Seed": {
+    sfl: marketRate(70),
+    description: "Perfect for homemade Apple Pie",
+    plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 15,
+    yield: "Apple",
   },
 });
 
@@ -47,23 +51,27 @@ export type Fruit = {
   harvestSeconds: number;
   name: FruitName;
   isBush?: boolean;
+  sellPrice: Decimal;
 };
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({
-  Apple: {
-    description: "Perfect for homemade Apple Pie",
-    harvestSeconds: 2 * 24 * 60 * 60,
-    name: "Apple",
-  },
   Blueberry: {
     description: "A Goblin's weakness",
-    harvestSeconds: 2 * 24 * 60 * 60,
+    harvestSeconds: 4 * 60 * 60,
     name: "Blueberry",
+    sellPrice: marketRate(12),
     isBush: true,
   },
   Orange: {
     description: "Vitamin C to keep your Bumpkin Healthy",
-    harvestSeconds: 2 * 24 * 60 * 60,
+    harvestSeconds: 6 * 60 * 60,
     name: "Orange",
+    sellPrice: marketRate(18),
+  },
+  Apple: {
+    description: "Perfect for homemade Apple Pie",
+    harvestSeconds: 12 * 60 * 60,
+    name: "Apple",
+    sellPrice: marketRate(25),
   },
 });

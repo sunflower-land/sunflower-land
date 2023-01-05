@@ -6,21 +6,22 @@ import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Cake } from "features/game/types/craftables";
+import { FRUIT, FruitName } from "features/game/types/fruits";
 
 export type SellCropAction = {
   type: "crop.sold";
-  crop: CropName;
+  crop: CropName | FruitName;
   amount: number;
 };
 
-export type SellableName = CropName | Cake;
+export type SellableName = CropName | Cake | FruitName;
 
 export type SellableItem = {
   name: SellableName;
   sellPrice?: Decimal;
 };
 
-export const SELLABLE = { ...CROPS() };
+export const SELLABLE = { ...CROPS(), ...FRUIT() };
 
 type Options = {
   state: GameState;

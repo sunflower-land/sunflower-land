@@ -76,6 +76,7 @@ import { isBean } from "features/game/types/beans";
 import { ChristmasBear } from "./components/ChristmasBear";
 import { RainbowArtistBear } from "./components/RainbowArtistBear";
 import { SnowGlobe } from "./components/SnowGlobe";
+import { ImmortalPear } from "./components/ImmortalPear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -180,6 +181,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Perky Pumpkin": () => null,
   "Stellar Sunflower": () => null,
   "Christmas Snow Globe": SnowGlobe,
+  "Immortal Pear": ImmortalPear,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

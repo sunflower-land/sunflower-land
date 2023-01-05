@@ -63,7 +63,7 @@ export const Helios: React.FC = () => {
         />
         <Decorations />
         <GrubShop />
-        <HeliosBlacksmith />
+        <HeliosBlacksmith inventory={gameState.context.state.inventory} />
         <Potions />
         <ExoticShop />
         <HeliosSunflower />
