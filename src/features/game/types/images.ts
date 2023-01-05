@@ -1629,5 +1629,8 @@ export const ITEM_DETAILS: Items = {
     image: immortalPear,
     description: HELIOS_BLACKSMITH_ITEMS["Immortal Pear"].description,
   },
+  "Lady Bug": {
+    image: questionMark,
+    description: "?",
+  },
 };
-34;
