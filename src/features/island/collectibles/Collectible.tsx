@@ -182,6 +182,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Stellar Sunflower": () => null,
   "Christmas Snow Globe": SnowGlobe,
   "Immortal Pear": ImmortalPear,
+  "Lady Bug": () => null,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

@@ -3,7 +3,7 @@ import { Context } from "features/game/GoblinProvider";
 
 import { getValidAuctionItems } from "./actions/auctioneerItems";
 import { useActor } from "@xstate/react";
-import { GoblinRetreatItemName } from "features/game/types/craftables";
+import { AuctioneerItemName } from "features/game/types/craftables";
 import { MachineInterpreter } from "features/retreat/auctioneer/auctioneerMachine";
 import { AuctionDetails } from "./AuctionDetails";
 
@@ -19,7 +19,7 @@ export const AuctioneerContent = () => {
 
   const upcoming = getValidAuctionItems(auctioneerItems);
 
-  const mint = (item: GoblinRetreatItemName) => {
+  const mint = (item: AuctioneerItemName) => {
     send({ type: "MINT", item, captcha: "" });
   };
 

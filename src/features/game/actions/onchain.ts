@@ -4,16 +4,17 @@ import Decimal from "decimal.js-light";
 
 import { balancesToInventory, populateFields } from "lib/utils/visitUtils";
 
-import { GameState, Inventory } from "../types/game";
-import { LIMITED_ITEM_NAMES } from "../types/craftables";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
+import { getKeys } from "../types/craftables";
 import { EMPTY } from "../lib/constants";
 import { CONFIG } from "lib/config";
-import { KNOWN_IDS } from "../types";
-import { getMintedAtBatch, getRecipes, Recipe } from "lib/blockchain/Sessions";
+import { KNOWN_IDS, KNOWN_ITEMS } from "../types";
+import { getMintedAtBatch, Recipe } from "lib/blockchain/Sessions";
 import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { getFarm } from "lib/blockchain/Farm";
+import { GOBLIN_BLACKSMITH_ITEMS } from "../types/collectibles";
 
 const API_URL = CONFIG.API_URL;
 
@@ -43,7 +44,9 @@ export async function isFarmBlacklisted(id: number) {
   return metadata.image.includes("banned");
 }
 
-const RECIPES_IDS = LIMITED_ITEM_NAMES.map((name) => KNOWN_IDS[name]);
+const RECIPES_IDS = getKeys(GOBLIN_BLACKSMITH_ITEMS).map(
+  (name) => KNOWN_IDS[name]
+);
 
 export type LimitedItemRecipeWithMintedAt = Recipe & {
   mintedAt: number;
@@ -93,11 +96,11 @@ export async function getOnChainState({
 }: GetStateArgs): Promise<{
   game: GameState;
   owner: string;
-  limitedItems: LimitedItemRecipeWithMintedAt[];
+  mintedAtTimes: Partial<Record<InventoryItemName, number>>;
   bumpkin?: OnChainBumpkin;
 }> {
   if (!CONFIG.API_URL) {
-    return { game: EMPTY, owner: "", limitedItems: [] };
+    return { game: EMPTY, owner: "", mintedAtTimes: {} };
   }
 
   const balanceFn = sflBalanceOf(
@@ -113,13 +116,6 @@ export async function getOnChainState({
   const farmFn = getFarm(wallet.web3Provider, wallet.myAccount, id);
   const bumpkinFn = loadBumpkins(wallet.web3Provider, wallet.myAccount);
 
-  // Short term workaround to get data from session contract
-  const recipesFn = getRecipes(
-    wallet.web3Provider,
-    wallet.myAccount,
-    RECIPES_IDS
-  );
-
   const mintedAtsFn = getMintedAtBatch(
     wallet.web3Provider,
     wallet.myAccount,
@@ -128,20 +124,22 @@ export async function getOnChainState({
   );
 
   // Promise all
-  const [balance, balances, farm, recipes, mintedAts, bumpkins] =
-    await Promise.all([
-      balanceFn,
-      balancesFn,
-      farmFn,
-      recipesFn,
-      mintedAtsFn,
-      bumpkinFn,
-    ]);
+  const [balance, balances, farm, mintedAts, bumpkins] = await Promise.all([
+    balanceFn,
+    balancesFn,
+    farmFn,
+    mintedAtsFn,
+    bumpkinFn,
+  ]);
 
-  const limitedItems = recipes.map((recipe, index) => ({
-    ...recipe,
-    mintedAt: mintedAts[index],
-  }));
+  console.log({ mintedAts });
+  const mintedAtTimes = mintedAts.reduce(
+    (acc, mintedAt, index) => ({
+      ...acc,
+      [KNOWN_ITEMS[RECIPES_IDS[index]]]: Number(mintedAt),
+    }),
+    {}
+  );
 
   const inventory = balancesToInventory(balances);
   const fields = populateFields(inventory);
@@ -155,7 +153,7 @@ export async function getOnChainState({
       inventory,
     },
     owner: farm.owner,
-    limitedItems,
+    mintedAtTimes,
     bumpkin: bumpkins[0],
   };
 }

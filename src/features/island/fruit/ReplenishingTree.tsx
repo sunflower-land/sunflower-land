@@ -6,7 +6,7 @@ import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover } from "./Popover";
-import { FRUIT } from "features/game/types/fruits";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { setImageWidth } from "lib/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
@@ -30,11 +30,12 @@ export const ReplenishingTree: React.FC<Props> = ({
   const { harvestedAt, name, amount } = plantedFruit;
   const lifecycle = FRUIT_LIFECYCLE[name];
 
-  const { harvestSeconds, isBush } = FRUIT()[name];
+  const { seed, isBush } = FRUIT()[name];
+  const { replenishSeconds } = FRUIT_SEEDS()[seed];
 
-  const replenishingTimeLeft = getTimeLeft(harvestedAt, harvestSeconds);
+  const replenishingTimeLeft = getTimeLeft(harvestedAt, replenishSeconds);
   const replenishPercentage =
-    100 - (replenishingTimeLeft / harvestSeconds) * 100;
+    100 - (replenishingTimeLeft / replenishSeconds) * 100;
 
   return (
     <div

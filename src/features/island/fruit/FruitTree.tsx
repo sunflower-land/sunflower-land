@@ -4,7 +4,7 @@ import { getTimeLeft } from "lib/utils/time";
 import { setImageWidth } from "lib/images";
 import { PlantedFruit } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { Soil } from "./Soil";
 
@@ -62,7 +62,8 @@ export const FruitTree: React.FC<Props> = ({
   }
 
   const { name, amount, harvestsLeft, harvestedAt, plantedAt } = plantedFruit;
-  const { harvestSeconds, isBush } = FRUIT()[name];
+  const { seed, isBush } = FRUIT()[name];
+  const { plantSeconds, replenishSeconds } = FRUIT_SEEDS()[seed];
   const lifecycle = FRUIT_LIFECYCLE[name];
 
   // Dead tree
@@ -91,7 +92,7 @@ export const FruitTree: React.FC<Props> = ({
 
   // Replenishing tree
   if (harvestedAt) {
-    const replenishingTimeLeft = getTimeLeft(harvestedAt, harvestSeconds);
+    const replenishingTimeLeft = getTimeLeft(harvestedAt, replenishSeconds);
 
     if (replenishingTimeLeft > 0) {
       return (
@@ -105,7 +106,7 @@ export const FruitTree: React.FC<Props> = ({
   }
 
   // Seedling
-  const growingTimeLeft = getTimeLeft(plantedAt, harvestSeconds);
+  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
 
   if (growingTimeLeft > 0) {
     return (

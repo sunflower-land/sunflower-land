@@ -7,7 +7,6 @@ import {
   CollectibleName,
   getKeys,
   GOBLIN_RETREAT_ITEMS,
-  LimitedItemName,
   LIMITED_ITEMS,
 } from "features/game/types/craftables";
 import { getChestItems } from "./utils/inventory";
@@ -18,7 +17,10 @@ import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
-import { HELIOS_BLACKSMITH_ITEMS } from "features/game/types/collectibles";
+import {
+  GOBLIN_BLACKSMITH_ITEMS,
+  HELIOS_BLACKSMITH_ITEMS,
+} from "features/game/types/collectibles";
 
 const ITEM_CARD_MIN_HEIGHT = "148px";
 
@@ -58,12 +60,13 @@ export const Chest: React.FC<Props> = ({
         item in DECORATIONS() ||
         item in GOBLIN_RETREAT_ITEMS ||
         item in BEANS() ||
-        item in HELIOS_BLACKSMITH_ITEMS
+        item in HELIOS_BLACKSMITH_ITEMS ||
+        item in GOBLIN_BLACKSMITH_ITEMS
       ) {
         return { ...acc, [item]: chestMap[item] };
       }
       return acc;
-    }, {} as Record<LimitedItemName, Decimal>);
+    }, {} as Record<CollectibleName, Decimal>);
 
   const [selected, setSelected] = useState<InventoryItemName>(
     getKeys(collectibles)[0]
