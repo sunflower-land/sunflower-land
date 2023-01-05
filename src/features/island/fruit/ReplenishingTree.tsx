@@ -10,7 +10,7 @@ import { FRUIT } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { setImageWidth } from "lib/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
-import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
+import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
 import { getFruitImage } from "./FruitTree";
 
 interface Props {
@@ -42,7 +42,7 @@ export const ReplenishingTree: React.FC<Props> = ({
       onMouseLeave={() => setFruitDetails(false)}
       className="flex justify-center"
     >
-      <FruitDropAnimator
+      <ResourceDropAnimator
         mainImageProps={{
           src: lifecycle.harvested,
           className: "relative hover:img-highlight",

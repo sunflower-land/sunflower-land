@@ -5,7 +5,6 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 
 import sparkSheet from "assets/resources/stone/stone_rock_spark.png";
-import dropSheet from "assets/resources/stone/stone_rock_drop.png";
 import hitbox from "assets/resources/small_stone.png";
 import stone from "assets/resources/stone.png";
 import pickaxe from "assets/tools/wood_pickaxe.png";
@@ -30,6 +29,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { MINE_ERRORS } from "features/game/events/landExpansion/ironMine";
+import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
 
 const HITS = 3;
 
@@ -49,6 +49,9 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the stone that pops out
   const [collecting, setCollecting] = useState(false);
+  // Play drop animation only when chop action is performed and not everytime
+  // on page load
+  const [playAnimation, setPlayAnimation] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkGif = useRef<SpriteSheetInstance>();
@@ -60,6 +63,11 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const expansion = game.context.state.expansions[expansionIndex];
   const rock = expansion.stones?.[rockIndex] as LandExpansionRock;
   const tool = "Pickaxe";
+
+  //This value gets changed once the event is called
+  // which causes issues in showing drop amount as the event hard code
+  // it to 1 after the chopping action is performed.
+  const dropAmount = useRef(rock.stone.amount);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -128,20 +136,8 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
       if (!newState.matches("hoarding")) {
         setCollecting(true);
+        setPlayAnimation(true);
         minedGif.current?.goToAndPlay(0);
-
-        displayPopover(
-          <div className="flex">
-            <img
-              src={stone}
-              className="mr-2"
-              style={{
-                width: `${PIXEL_SCALE * 10}px`,
-              }}
-            />
-            <span className="text-sm text-white">{`+${rock.stone.amount}`}</span>
-          </div>
-        );
 
         setToast({
           icon: stone,
@@ -239,33 +235,6 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         </div>
       )}
 
-      <Spritesheet
-        style={{
-          position: "absolute",
-          left: `${PIXEL_SCALE * -33}px`,
-          top: `${PIXEL_SCALE * -19}px`,
-          opacity: collecting ? 1 : 0,
-          transition: "opacity 0.2s ease-in",
-          width: `${GRID_WIDTH_PX * 7}px`,
-          imageRendering: "pixelated",
-        }}
-        className="pointer-events-none z-40"
-        getInstance={(spritesheet) => {
-          minedGif.current = spritesheet;
-        }}
-        image={dropSheet}
-        widthFrame={112}
-        heightFrame={48}
-        fps={18}
-        steps={10}
-        direction={`forward`}
-        autoplay={false}
-        loop={false}
-        onLoopComplete={(spritesheet) => {
-          spritesheet.pause();
-        }}
-      />
-
       {/* Mined stone  */}
       {mined && (
         <>
@@ -275,6 +244,23 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
             style={{
               width: `${GRID_WIDTH_PX}px`,
             }}
+          />
+          <ResourceDropAnimator
+            wrapperClassName="h-full w-full"
+            mainImageProps={{
+              src: hitbox,
+              className: "absolute opacity-50",
+              style: {
+                width: `${GRID_WIDTH_PX}px`,
+              },
+            }}
+            dropImageProps={{
+              src: stone,
+              className: "w-8",
+            }}
+            dropCount={dropAmount.current}
+            playDropAnimation={playAnimation}
+            playShakeAnimation={false}
           />
         </>
       )}

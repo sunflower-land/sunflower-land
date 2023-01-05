@@ -11,7 +11,7 @@ interface Props {
   playShakeAnimation?: boolean;
 }
 
-export const FruitDropAnimator = ({
+export const ResourceDropAnimator = ({
   wrapperClassName,
   mainImageProps,
   dropImageProps,
@@ -19,12 +19,12 @@ export const FruitDropAnimator = ({
   playDropAnimation = true,
   playShakeAnimation = true,
 }: Props) => {
-  const [hideFruits, setHideFruits] = useState(false);
+  const [hideItem, setHideItems] = useState(false);
   const { current } = useRef(randomInt(1, 3));
 
   useEffect(() => {
     setTimeout(() => {
-      setHideFruits(true);
+      setHideItems(true);
     }, 1500);
   }, []);
 
@@ -38,8 +38,8 @@ export const FruitDropAnimator = ({
       />
       {playDropAnimation && (
         <div
-          className={classNames("absolute fruit-wrapper", {
-            "opacity-0": hideFruits,
+          className={classNames("absolute item-wrapper", {
+            "opacity-0": hideItem,
             "drop-animation-left": current === 1,
             "drop-animation-right": current === 2,
           })}
@@ -47,14 +47,17 @@ export const FruitDropAnimator = ({
           {dropCount && (
             <span className="text-sm text-white absolute -top-6">{`+${dropCount}`}</span>
           )}
-          <img {...dropImageProps} className={`w-5 relative img-highlight`} />
           <img
             {...dropImageProps}
-            className={`w-5 absolute top-2 left-2 img-highlight`}
+            className={`w-5 relative img-highlight ${dropImageProps.className}`}
           />
           <img
             {...dropImageProps}
-            className={`w-5 absolute top-3 -left-2 img-highlight`}
+            className={`w-5 absolute top-2 left-2 img-highlight ${dropImageProps.className}`}
+          />
+          <img
+            {...dropImageProps}
+            className={`w-5 absolute top-3 -left-2 img-highlight ${dropImageProps.className}`}
           />
         </div>
       )}

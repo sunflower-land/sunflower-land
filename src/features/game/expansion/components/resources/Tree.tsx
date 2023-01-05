@@ -7,7 +7,6 @@ import Spritesheet, {
 import Decimal from "decimal.js-light";
 
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
-import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
 import wood from "assets/resources/wood.png";
 import sfltoken from "assets/icons/token_2.png";
@@ -37,15 +36,13 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
+import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
 
 const HITS = 3;
 const tool = "Axe";
 
 const SHAKE_SHEET_FRAME_WIDTH = 448 / 7;
 const SHAKE_SHEET_FRAME_HEIGHT = 48;
-
-const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
-const CHOPPED_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
   treeIndex: number;
@@ -63,6 +60,9 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
+  // Play drop animation only when chop action is performed and not everytime
+  // on page load
+  const [playAnimation, setPlayAnimation] = useState(false);
 
   const treeRef = useRef<HTMLDivElement>(null);
   const shakeGif = useRef<SpriteSheetInstance>();
@@ -74,6 +74,11 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const expansion = game.context.state.expansions[expansionIndex];
   const tree = expansion.trees?.[treeIndex] as LandExpansionTree;
   const woodObj = expansion.trees?.[treeIndex].wood as Wood;
+
+  //This value gets changed once the event is called
+  // which causes issues in showing drop amount as the event hard code
+  // it to 1 after the chopping action is performed.
+  const dropAmount = useRef(tree.wood.amount);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -188,20 +193,8 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       if (!newState.matches("hoarding")) {
         setCollecting(true);
+        setPlayAnimation(true);
         choppedGif.current?.goToAndPlay(0);
-
-        displayPopover(
-          <div className="flex">
-            <img
-              src={wood}
-              className="mr-2"
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
-            <span className="text-sm text-white">{`+${tree.wood.amount}`}</span>
-          </div>
-        );
 
         setToast({
           icon: wood,
@@ -296,37 +289,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         </>
       )}
 
-      <Spritesheet
-        style={{
-          opacity: collecting ? 1 : 0,
-          transition: "opacity 0.2s ease-in",
-
-          width: `${CHOPPED_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
-          height: `${CHOPPED_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
-          imageRendering: "pixelated",
-
-          // Adjust the base of tree to be perfectly aligned to
-          // on a grid point.
-          bottom: `${PIXEL_SCALE * 4}px`,
-          right: `${PIXEL_SCALE * -6}px`,
-        }}
-        className="absolute pointer-events-none z-40"
-        getInstance={(spritesheet) => {
-          choppedGif.current = spritesheet;
-        }}
-        image={choppedSheet}
-        widthFrame={CHOPPED_SHEET_FRAME_WIDTH}
-        heightFrame={CHOPPED_SHEET_FRAME_HEIGHT}
-        fps={20}
-        steps={11}
-        direction={`forward`}
-        autoplay={false}
-        loop={true}
-        onLoopComplete={(spritesheet) => {
-          spritesheet.pause();
-        }}
-      />
-
       {chopped && (
         <div
           style={{
@@ -336,16 +298,26 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
             bottom: 0,
           }}
         >
-          <img
-            src={stump}
-            className="absolute opacity-50"
-            style={{
-              width: `${GRID_WIDTH_PX}px`,
-              bottom: `${PIXEL_SCALE * 5}px`,
-              left: `${PIXEL_SCALE * 8}px`,
+          <ResourceDropAnimator
+            wrapperClassName="h-full w-full"
+            mainImageProps={{
+              src: stump,
+              className: "absolute opacity-50",
+              style: {
+                width: `${GRID_WIDTH_PX}px`,
+                bottom: `${PIXEL_SCALE * 5}px`,
+                left: `${PIXEL_SCALE * 8}px`,
+              },
+              onMouseEnter: handleMouseHoverStump,
+              onMouseLeave: handleMouseLeaveStump,
             }}
-            onMouseEnter={handleMouseHoverStump}
-            onMouseLeave={handleMouseLeaveStump}
+            dropImageProps={{
+              src: wood,
+              className: "w-8 z-40",
+            }}
+            dropCount={dropAmount.current}
+            playDropAnimation={playAnimation}
+            playShakeAnimation={false}
           />
           <div
             className="flex justify-center absolute w-full pointer-events-none"
