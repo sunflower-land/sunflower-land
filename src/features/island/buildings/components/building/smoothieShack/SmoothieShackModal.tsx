@@ -52,7 +52,7 @@ export const SmoothieShackModal: React.FC<Props> = ({
           hair: "Brown Long Hair",
           pants: "Farmer Pants",
           shirt: "Pineapple Shirt",
-          tool: "Golden Spatula",
+          tool: "Parsnip",
           background: "Farm Background",
           shoes: "Black Farmer Boots",
         }}
