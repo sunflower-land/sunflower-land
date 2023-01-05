@@ -38,7 +38,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
             />
             <div className="flex flex-col items-center justify-center m-2">
               <img src={foreman} alt="Foreman Beaver" className="w-1/3" />
-              <span className="text-shadow mt-2 block text-center">
+              <span className="mt-2 block text-center">
                 Have you got any radishes?
               </span>
             </div>
@@ -69,7 +69,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
             />
             <div className="flex flex-col items-center justify-center m-2">
               <img src={apprentice} alt="Apprentice Beaver" className="w-1/3" />
-              <span className="text-shadow mt-2 block text-center">
+              <span className="mt-2 block text-center">
                 Have you got any radishes?
               </span>
             </div>
