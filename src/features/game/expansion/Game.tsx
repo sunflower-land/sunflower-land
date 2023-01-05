@@ -180,7 +180,7 @@ export const Game: React.FC = () => {
 
     return (
       <>
-        <div className="absolute z-10 w-full h-full">
+        <div className="absolute w-full h-full z-100">
           <PlaceableOverlay>
             <Routes>
               <Route path="/" element={<Land />} />
