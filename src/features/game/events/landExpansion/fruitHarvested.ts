@@ -3,7 +3,7 @@ import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
-import { FRUIT } from "features/game/types/fruits";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -54,13 +54,14 @@ export function harvestFruit({
 
   const { name, plantedAt, harvestsLeft, harvestedAt } = patch.fruit;
 
-  const { harvestSeconds } = FRUIT()[name];
+  const { seed } = FRUIT()[name];
+  const { plantSeconds, replenishSeconds } = FRUIT_SEEDS()[seed];
 
-  if (createdAt - plantedAt < harvestSeconds * 1000) {
+  if (createdAt - plantedAt < plantSeconds * 1000) {
     throw new Error("Not ready");
   }
 
-  if (createdAt - harvestedAt < harvestSeconds * 1000) {
+  if (createdAt - harvestedAt < replenishSeconds * 1000) {
     throw new Error("Fruit is still replenishing");
   }
 
