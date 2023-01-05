@@ -2881,4 +2881,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
+  "Lady Bug": {
+    description:
+      "An incredible bug that feeds on aphids. Improves Apple quality. +0.25 Apples each harvest",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
 };

@@ -10,19 +10,11 @@ import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { plantAudio, harvestAudio } from "lib/utils/sfx";
-import { Fruit, FruitName } from "features/game/types/fruits";
+import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { hasFeatureAccess } from "lib/flags";
 import { setImageWidth } from "lib/images";
-
-export const isReadyToHarvest = (
-  createdAt: number,
-  actionTime: number,
-  fruitDetails: Fruit
-) => {
-  return createdAt - actionTime >= fruitDetails.harvestSeconds * 1000;
-};
 
 interface Props {
   fruitPatchIndex: number;

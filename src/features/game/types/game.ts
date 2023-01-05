@@ -5,7 +5,7 @@ import {
   CollectibleName,
   CraftableName,
   Food,
-  GoblinRetreatItemName,
+  AuctioneerItemName,
   Ingredient,
 } from "./craftables";
 import { ResourceName } from "./resources";
@@ -21,7 +21,7 @@ import { DecorationName } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
-import { HeliosBlacksmithItem } from "./collectibles";
+import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
 
 export type Reward = {
   sfl?: Decimal;
@@ -169,10 +169,11 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | GoblinRetreatItemName
+  | AuctioneerItemName
   | GoldenCropEventItem
   | TreasureName
-  | HeliosBlacksmithItem;
+  | HeliosBlacksmithItem
+  | GoblinBlacksmithItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
