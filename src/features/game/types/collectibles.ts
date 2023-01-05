@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 import { Inventory } from "./game";
 
 export type HeliosBlacksmithItem = "Immortal Pear";
@@ -26,6 +27,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
 
 export type GoblinBlacksmithCraftable = CraftableCollectible & {
   supply: number;
+  disabled?: boolean;
 };
 
 export const GOBLIN_BLACKSMITH_ITEMS: Record<
@@ -41,5 +43,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     },
     supply: 2500,
     boost: "+0.25 Apples",
+    disabled: CONFIG.NETWORK === "mainnet",
   },
 };
