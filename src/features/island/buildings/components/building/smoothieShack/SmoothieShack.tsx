@@ -3,8 +3,8 @@ import classNames from "classnames";
 
 import smoothieShack from "assets/buildings/smoothie_shack_background.webp";
 import smoothieShackDesk from "assets/buildings/smoothie_shack_desk.webp";
-import chef from "assets/npcs/chef.gif";
-import chefDoing from "assets/npcs/chef_doing.gif";
+import smoothie from "assets/npcs/smoothie.gif";
+import smoothieMaking from "assets/npcs/smoothie_making.gif";
 
 import { ConsumableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -92,7 +92,7 @@ export const SmoothieShack: React.FC<Props> = ({
 
         {crafting ? (
           <img
-            src={chefDoing}
+            src={smoothieMaking}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
@@ -102,7 +102,7 @@ export const SmoothieShack: React.FC<Props> = ({
           />
         ) : (
           <img
-            src={chef}
+            src={smoothie}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 15}px`,
