@@ -20,6 +20,7 @@ import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 import { merchantAudio } from "lib/utils/sfx";
 import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
 import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
+import CommunityBoundary from "features/community/components/CommunityBoundary";
 
 export const LAND_WIDTH = 6;
 
@@ -130,11 +131,15 @@ export const Water: React.FC<Props> = ({ level }) => {
           }}
         />
       </MapPlacement>
-      <MapPlacement x={offset} y={-offset} width={6}>
-        <ProjectDignityFrogs left={0} top={0} />
-      </MapPlacement>
 
-      <ProjectDignitySeals isGarden={false} />
+      {/* Community Assets */}
+      <CommunityBoundary>
+        <MapPlacement x={offset} y={-offset} width={6}>
+          <ProjectDignityFrogs left={0} top={0} />
+        </MapPlacement>
+
+        <ProjectDignitySeals isGarden={false} />
+      </CommunityBoundary>
     </div>
   );
 };
