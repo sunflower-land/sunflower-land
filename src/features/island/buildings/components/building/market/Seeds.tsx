@@ -29,7 +29,7 @@ import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin, Inventory } from "features/game/types/game";
-import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
 import { hasFeatureAccess } from "lib/flags";
@@ -198,11 +198,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
-  const getHarvestSeconds = () => {
+  const getPlantSeconds = () => {
     const yields = SEEDS()[selectedName].yield;
 
     if (yields in FRUIT())
-      return secondsToString(FRUIT()[yields as FruitName].harvestSeconds, {
+      return secondsToString(SEEDS()[selectedName].plantSeconds, {
         length: "medium",
         removeTrailingZeros: true,
       });
@@ -258,12 +258,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <span className="text-center mb-1">{selectedName}</span>
           </div>
           <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col sm:space-y-2 sm:items-center">
-            {getHarvestSeconds() && (
+            {getPlantSeconds() && (
               <div className="flex space-x-1 items-center sm:justify-center">
                 <img src={timer} className="h-4 sm:h-5" />
-                <span className="text-xs text-center">
-                  {getHarvestSeconds()}
-                </span>
+                <span className="text-xs text-center">{getPlantSeconds()}</span>
               </div>
             )}
             <div className="flex space-x-1 justify-center items-center">
