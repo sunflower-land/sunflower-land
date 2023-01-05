@@ -65,6 +65,7 @@ export const RetreatBlacksmith: React.FC<Props> = ({ inventory }) => {
               shoes: "Black Farmer Boots",
             }}
             tabs={[{ name: "Craft", icon }]}
+            onClose={() => setIsOpen(false)}
           >
             <GoblinBlacksmithItems onClose={() => setIsOpen(false)} />
           </CloseButtonPanel>
