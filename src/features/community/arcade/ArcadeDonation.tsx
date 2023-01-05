@@ -6,8 +6,9 @@ export const ArcadeDonation: React.FC = () => {
   return (
     <div className="flex flex-col mb-1 p-2 text-sm">
       <p className="my-2">
-        Thank you for donating! Kindly send MATIC (via wallet provider) to the
-        address of the game that you like.
+        Thank you for donating! Kindly send{" "}
+        <span className="underline">MATIC</span> (via wallet) to the address of
+        the game that you like.
       </p>
       {Object.values(ARCADE_GAMES).map(({ title, donationAddress }) => (
         <div className="my-2" key={title}>
