@@ -54,6 +54,7 @@ import { WoodNymphWendy } from "./components/WoodNymphWendy";
 import { ChefBear } from "./components/ChefBear";
 import { ConstructionBear } from "./components/ConstructionBear";
 import { AngelBear } from "./components/AngelBear";
+import { DevilBear } from "./components/DevilBear";
 import { BearTrap } from "./components/BearTrap";
 import { BrilliantBear } from "./components/BrilliantBear";
 import { ClassyBear } from "./components/ClassyBear";
@@ -167,6 +168,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Christmas Bear": ChristmasBear,
   "Rainbow Artist Bear": RainbowArtistBear,
   "Victoria Sisters": VictoriaSisters,
+  "Devil Bear": DevilBear,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,

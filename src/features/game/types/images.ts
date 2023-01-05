@@ -201,6 +201,10 @@ import breadWinner from "assets/achievements/bread_winner.png";
 import explorer from "assets/achievements/explorer.png";
 import farmHand from "assets/achievements/farm_hand.png";
 import highRoller from "assets/achievements/high_roller.png";
+import orangeSqueeze from "assets/achievements/orange_squeeze.png";
+import appleOfMyEye from "assets/achievements/apple_of_my_eye.png";
+import blueChip from "assets/achievements/blue_chip.png";
+import fruitPlatter from "assets/achievements/fruit_platter.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
@@ -316,6 +320,7 @@ import basicBear from "src/assets/sfts/bears/basic_bear.png";
 import chefBear from "src/assets/sfts/bears/chef_bear.png";
 import constructionBear from "src/assets/sfts/bears/construction_bear.png";
 import angelBear from "src/assets/sfts/bears/angel_bear.png";
+import devilBear from "src/assets/sfts/bears/devil_bear.png";
 import badassBear from "src/assets/sfts/bears/badass_bear.png";
 import sunflowerBear from "src/assets/sfts/bears/sunflower_bear.png";
 import brilliantBear from "src/assets/sfts/bears/brilliant_bear.png";
@@ -1632,5 +1637,25 @@ export const ITEM_DETAILS: Items = {
   "Lady Bug": {
     image: questionMark,
     description: "?",
+  },
+  "Devil Bear": {
+    image: devilBear,
+    description: DECORATIONS()["Devil Bear"].description,
+  },
+  "Orange Squeeze": {
+    image: orangeSqueeze,
+    description: ACHIEVEMENTS()["Orange Squeeze"].description,
+  },
+  "Apple of my Eye": {
+    image: appleOfMyEye,
+    description: ACHIEVEMENTS()["Apple of my Eye"].description,
+  },
+  "Blue Chip": {
+    image: blueChip,
+    description: ACHIEVEMENTS()["Blue Chip"].description,
+  },
+  "Fruit Platter": {
+    image: fruitPlatter,
+    description: ACHIEVEMENTS()["Fruit Platter"].description,
   },
 };

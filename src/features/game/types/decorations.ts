@@ -14,7 +14,8 @@ export type AchievementDecorationName =
   | "Badass Bear"
   | "Classy Bear"
   | "Rich Bear"
-  | "Rainbow Artist Bear";
+  | "Rainbow Artist Bear"
+  | "Devil Bear";
 
 export type ShopDecorationName =
   | "White Tulips"
@@ -94,6 +95,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Rainbow Artist Bear": {
     width: 1,
     height: 1,
+  },
+  "Devil Bear": {
+    height: 1,
+    width: 1,
   },
 };
 
@@ -202,5 +207,10 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
     name: "Rainbow Artist Bear",
     description: "The owner is a beautiful bear artist!",
     ingredients: {},
+  },
+  "Devil Bear": {
+    name: "Devil Bear",
+    ingredients: {},
+    description: "Better the Devil you know than the Devil you don't",
   },
 });
