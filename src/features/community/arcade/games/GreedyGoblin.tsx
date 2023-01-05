@@ -1,7 +1,9 @@
 /**
  * ---------- GREEDY GOBLIN ----------
- * Credits to Boden, Vergel for the art
- * Credits to Jc Eii for the audio
+ * Credits:
+ *  Art - Boden, Vergel
+ *  Audio - Jc Eii
+ *  Code - Beastrong, Polysemouse
  *
  * Objectives:
  * Collect SFL and avoid skulls. Game over when SFL touches the ground or you caught a skull
@@ -14,10 +16,10 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import gameBackground from "assets/community/arcade/greedy_goblin/images/greedy_goblin_background.png";
-import gameOver from "assets/community/arcade/greedy_goblin/images/game_over.png";
 import goblin from "assets/community/arcade/greedy_goblin/images/goblin_catch.png";
 import token from "assets/community/arcade/greedy_goblin/images/coin.png";
 import skull from "assets/community/arcade/greedy_goblin/images/skull.png";
+import gameOver from "assets/community/arcade/images/game_over.png";
 import leftArrow from "assets/icons/arrow_left.png";
 import rightArrow from "assets/icons/arrow_right.png";
 
