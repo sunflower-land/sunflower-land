@@ -10,12 +10,30 @@ import { getKeys } from "features/game/types/craftables";
 import goblin1 from "assets/npcs/goblin.gif";
 import goblin2 from "assets/npcs/goblin_carry.gif";
 import goblin3 from "assets/npcs/goblin_chef.gif";
-import goblin4 from "assets/npcs/goblin_doing.gif";
-import goblin5 from "assets/npcs/goblin_farmer.gif";
-import goblin6 from "assets/npcs/goblin_female.gif";
-import goblin7 from "assets/npcs/wheat_goblin.gif";
-import { randomDouble, randomInt } from "lib/utils/random";
+import goblin4 from "assets/npcs/goblin_chef_doing.gif";
+import goblin5 from "assets/npcs/goblin_digger.gif";
+import goblin6 from "assets/npcs/goblin_doing.gif";
+import goblin7 from "assets/npcs/goblin_farmer.gif";
+import goblin8 from "assets/npcs/goblin_head.png";
+import goblin9 from "assets/npcs/goblin_jump_rusty_shovel.gif";
+import goblin10 from "assets/npcs/goblin_snorkling.gif";
+import goblin11 from "assets/npcs/goblin_treasure.gif";
+import goblin12 from "assets/npcs/pirate_goblin.gif";
+import goblin13 from "assets/npcs/suspicious_goblin.gif";
+import goblin14 from "assets/npcs/watering.gif";
+import goblin15 from "assets/npcs/wheat_goblin.gif";
+
+import moonSeeker1 from "assets/npcs/skeleton_walk.gif";
+import moonSeeker2 from "assets/npcs/skeleton2.png";
+import moonSeeker3 from "assets/npcs/skeleton3.png";
+import moonSeeker4 from "assets/npcs/skeleton4.png";
+import moonSeeker5 from "assets/npcs/skeleton5.png";
+
+import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { Label } from "components/ui/Label";
+import { FRUIT } from "features/game/types/fruits";
+import { CONSUMABLES } from "features/game/types/consumables";
+import { RESOURCES } from "features/game/types/resources";
 
 const ITEM_COUNT = 16;
 const MAX_ATTEMPTS = 3;
@@ -27,11 +45,35 @@ type Item = {
   rotation: { x: number; y: number };
   skew: number;
   scale: number;
+  flip: boolean;
 };
 
-const GOBLINS = [goblin1, goblin2, goblin3, goblin4, goblin5, goblin6, goblin7];
+const goblins = [
+  goblin1,
+  goblin2,
+  goblin3,
+  goblin4,
+  goblin5,
+  goblin6,
+  goblin7,
+  goblin8,
+  goblin9,
+  goblin10,
+  goblin11,
+  goblin12,
+  goblin13,
+  goblin14,
+  goblin15,
+];
+const moonSeekers = [
+  moonSeeker1,
+  moonSeeker2,
+  moonSeeker3,
+  moonSeeker4,
+  moonSeeker5,
+];
 
-const generateImages = () => {
+const generateImages = (isMoonSeekerMode: boolean) => {
   const newImageItem = (src: any, isGoblin: boolean): Item => {
     return {
       src: src,
@@ -42,23 +84,28 @@ const generateImages = () => {
       },
       skew: randomInt(-5, 6),
       scale: randomDouble(1.0, 1.2),
+      flip: randomBoolean(),
     };
   };
 
   const items: Item[] = [];
-  const cropImages = getKeys(CROPS());
-  const availableCropImages = cropImages.map(
+  const resourceImages = isMoonSeekerMode
+    ? [...getKeys(CROPS()), ...getKeys(FRUIT()), ...getKeys(RESOURCES)]
+    : getKeys(CONSUMABLES);
+  const availableResourceImages = resourceImages.map(
     (name) => ITEM_DETAILS[name].image
   );
 
+  const enemies = isMoonSeekerMode ? moonSeekers : goblins;
+
   while (items.length < GOBLIN_COUNT) {
-    const randomIndex = randomInt(0, GOBLINS.length);
-    items.push(newImageItem(GOBLINS[randomIndex], true));
+    const randomIndex = randomInt(0, enemies.length);
+    items.push(newImageItem(enemies[randomIndex], true));
   }
 
   while (items.length < ITEM_COUNT) {
-    const randomIndex = randomInt(0, availableCropImages.length);
-    items.push(newImageItem(availableCropImages[randomIndex], false));
+    const randomIndex = randomInt(0, availableResourceImages.length);
+    items.push(newImageItem(availableResourceImages[randomIndex], false));
   }
 
   // shuffle positions
@@ -74,7 +121,8 @@ interface Props {
 export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
   const [wrongAttempts, setWrongAttempts] = useState(new Set<number>());
   const [correctAttempts, setCorrectAttempts] = useState(new Set<number>());
-  const [items] = useState(generateImages());
+  const [isMoonSeekerMode] = useState(randomBoolean());
+  const [items] = useState(generateImages(isMoonSeekerMode));
 
   const attemptsLeft = MAX_ATTEMPTS - wrongAttempts.size;
 
@@ -100,7 +148,9 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
 
   return (
     <div className="flex flex-col justify-center">
-      <span className="text-center mb-2">Stop the Goblins!</span>
+      <span className="text-center mb-2">
+        {isMoonSeekerMode ? "Stop the Moon Seekers!" : "Stop the Goblins!"}
+      </span>
       <div className="flex flex-wrap justify-center items-center">
         {items.map((item, index) => {
           const failed = wrongAttempts.has(index);
@@ -123,7 +173,13 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
                   className="h-full object-contain"
                   onLoad={(e) => addNoise(e.currentTarget)}
                   style={{
-                    transform: `perspective(9cm) skew(${item.skew}deg, ${item.skew}deg) rotateX(${item.rotation.x}deg) rotateY(${item.rotation.y}deg) scale(${item.scale})`,
+                    transform: `perspective(9cm) skew(${item.skew}deg, ${
+                      item.skew
+                    }deg) rotateX(${item.rotation.x}deg) rotateY(${
+                      item.rotation.y
+                    }deg) scaleX(${item.scale * (item.flip ? -1 : 1)}) scaleY(${
+                      item.scale
+                    })`,
                   }}
                 />
               )}
@@ -131,7 +187,9 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
           );
         })}
         <span className="text-sm mt-2 text-center">
-          Tap the Goblins before they eat your crops
+          {isMoonSeekerMode
+            ? "Tap the Moon Seekers before they steal your resources"
+            : "Tap the Goblins before they eat your food"}
         </span>
 
         <Label

@@ -6,8 +6,12 @@ import background3 from "assets/captcha/chest_background_3.png";
 import background4 from "assets/captcha/chest_background_4.png";
 import background5 from "assets/captcha/chest_background_5.png";
 import background6 from "assets/captcha/chest_background_6.png";
+import background7 from "assets/captcha/chest_background_7.png";
+import background8 from "assets/captcha/chest_background_8.png";
 
-import secure from "assets/npcs/synced.gif";
+import chest1 from "assets/npcs/synced.gif";
+import chest2 from "assets/decorations/treasure_chest.png";
+
 import cancel from "assets/icons/cancel.png";
 
 import { addNoise } from "lib/images";
@@ -20,6 +24,8 @@ interface Props {
 
 const ATTEMPTS = 3;
 
+const chests = [chest1, chest2];
+
 const backgrounds = [
   background1,
   background2,
@@ -27,6 +33,8 @@ const backgrounds = [
   background4,
   background5,
   background6,
+  background7,
+  background8,
 ];
 
 export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
@@ -40,6 +48,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const skew = useRef(randomInt(-3, 4));
   const scale = useRef(randomDouble(0.8, 1));
   const background = useRef(backgrounds[randomInt(0, backgrounds.length)]);
+  const chest = useRef(chests[randomInt(0, chests.length)]);
 
   const miss = () => {
     setFailedCount((prev) => prev + 1);
@@ -61,7 +70,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
           className="w-full rounded-md"
         />
         <img
-          src={secure}
+          src={chest.current}
           className="absolute w-16"
           style={{
             transform: `perspective(9cm) skew(${skew.current}deg, ${skew.current}deg) rotateX(${rotateX.current}deg) rotateY(${rotateY.current}deg) scale(${scale.current})`,
