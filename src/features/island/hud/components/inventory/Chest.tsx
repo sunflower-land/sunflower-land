@@ -7,7 +7,6 @@ import {
   CollectibleName,
   getKeys,
   GOBLIN_RETREAT_ITEMS,
-  LimitedItemName,
   LIMITED_ITEMS,
 } from "features/game/types/craftables";
 import { getChestItems } from "./utils/inventory";
@@ -63,7 +62,7 @@ export const Chest: React.FC<Props> = ({
         return { ...acc, [item]: chestMap[item] };
       }
       return acc;
-    }, {} as Record<LimitedItemName, Decimal>);
+    }, {} as Record<CollectibleName, Decimal>);
 
   const [selected, setSelected] = useState<InventoryItemName>(
     getKeys(collectibles)[0]

@@ -2,6 +2,7 @@ import { FERTILISERS, InventoryItemName } from "../types/game";
 import { SHOVELS, TOOLS } from "../types/craftables";
 import { CROPS, CROP_SEEDS } from "../types/crops";
 import { RESOURCES } from "../types/resources";
+import { FRUIT } from "../types/fruits";
 
 /**
  * Tradeable items use 18 decimals for decimal point storage
@@ -10,6 +11,7 @@ import { RESOURCES } from "../types/resources";
 export function getItemUnit(name: InventoryItemName) {
   if (
     name in CROPS() ||
+    name in FRUIT() ||
     name in RESOURCES ||
     name in CROP_SEEDS() ||
     name in TOOLS ||
