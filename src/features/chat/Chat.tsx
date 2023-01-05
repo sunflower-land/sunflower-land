@@ -99,6 +99,7 @@ export const Chat: React.FC<Props> = ({ messages, bumpkinId }) => {
 
     return () => {
       window.removeEventListener("keydown", keyDownListener);
+      chatService.send("DISCONNECT");
     };
   }, []);
 

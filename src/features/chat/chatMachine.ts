@@ -7,6 +7,7 @@ import { send } from "xstate/lib/actions";
 type LiveBumpkin = {
   bumpkinId: number;
   coordinates: Coordinates;
+  updatedAt: number;
 };
 
 export interface ChatContext {
@@ -108,6 +109,17 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
             });
           });
 
+          // Broadcast initial location
+          context.socket?.send(
+            JSON.stringify({
+              action: "sendLocation",
+              data: {
+                bumpkinId: context.bumpkinId,
+                coordinates: { x: 0, y: 0 },
+              },
+            })
+          );
+
           console.log({ set: bumpkins });
           return { bumpkins };
         },
@@ -180,7 +192,21 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
           actions: assign({
             bumpkins: (context, event) => {
               console.log("PLAYERS_UPDTED", { event: event });
-              return event.bumpkins.filter(
+              // Ensure they are up to date
+              const updated = event.bumpkins.map((newBumpkin) => {
+                const oldBumpkin = context.bumpkins.find(
+                  (b) => b.bumpkinId === newBumpkin.bumpkinId
+                );
+
+                // Hmm, the older Bumpkin is more up to date!
+                if (oldBumpkin && oldBumpkin.updatedAt > newBumpkin.updatedAt) {
+                  return oldBumpkin;
+                }
+
+                return newBumpkin;
+              });
+
+              return updated.filter(
                 (bumpkin) => bumpkin.bumpkinId !== context.bumpkinId
               );
             },
