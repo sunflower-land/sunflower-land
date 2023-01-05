@@ -1,14 +1,14 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
+import { Equipped } from "features/game/types/bumpkin";
 import { Bumpkin } from "features/game/types/game";
-import { randomInt } from "lib/utils/random";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { assign, createMachine, Interpreter, State } from "xstate";
-import { send } from "xstate/lib/actions";
 
-type LiveBumpkin = {
+export type LiveBumpkin = {
   bumpkinId: number;
   coordinates: Coordinates;
   updatedAt: number;
+  parts: Equipped;
 };
 
 export interface ChatContext {
@@ -169,7 +169,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
                   action: "sendLocation",
                   data: {
                     bumpkinId: context.bumpkin.id,
-                    tokenUri: context.bumpkin.tokenUri,
+                    wearables: context.bumpkin.equipped,
                     coordinates: event.coordinates,
                   },
                 })
@@ -210,7 +210,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
               });
 
               return updated.filter(
-                (bumpkin) => bumpkin.bumpkinId !== context.bumpkinId
+                (bumpkin) => bumpkin.bumpkinId !== context.bumpkin.id
               );
             },
           }),

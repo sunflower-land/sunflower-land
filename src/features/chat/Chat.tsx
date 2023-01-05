@@ -4,18 +4,10 @@ import {
   MapPlacement,
 } from "features/game/expansion/components/MapPlacement";
 import { Bumpkin } from "features/game/types/game";
-import {
-  DynamicMiniNFT,
-  NPC,
-} from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { chatMachine, MachineInterpreter } from "./chatMachine";
-
-type LiveBumpkin = {
-  bumpkinId: number;
-  coordinates: Coordinates;
-};
+import { LiveBumpkin, MachineInterpreter } from "./chatMachine";
 
 export type Message = {
   id: string;
@@ -81,48 +73,44 @@ export const Chat: React.FC<Props> = ({
               </span>
             )}
 
-            <NPC
-              body="Beige Farmer Potion"
-              hair="Basic Hair"
-              pants="Blue Suspenders"
-              shirt="Project Dignity Hoodie"
-            />
+            <NPC {...bumpkin.equipped} />
           </MapPlacement>
         )}
 
         {bumpkins
           .filter((b) => !!b.coordinates)
-          .map((otherBumpkin) => (
-            <MapPlacement
-              x={otherBumpkin.coordinates?.x as number}
-              y={otherBumpkin.coordinates?.y as number}
-              height={1}
-              width={1}
-            >
-              <span
-                className="absolute  text-white text-xs"
-                style={{
-                  bottom: "29px",
-                  left: "-58px",
-                  width: "158px",
-                  textAlign: "center",
-                }}
+          .map((otherBumpkin) => {
+            return (
+              <MapPlacement
+                x={otherBumpkin.coordinates?.x as number}
+                y={otherBumpkin.coordinates?.y as number}
+                height={1}
+                width={1}
               >
-                {
-                  freshMessages.find(
-                    (m) => m.bumpkinId === otherBumpkin.bumpkinId
-                  )?.text
-                }
-              </span>
-              <NPC
-                body="Beige Farmer Potion"
-                hair="Basic Hair"
-                pants="Blue Suspenders"
-                shirt="Project Dignity Hoodie"
-                onClick={() => setSelectedBumpkin(otherBumpkin.bumpkinId)}
-              />
-            </MapPlacement>
-          ))}
+                <span
+                  className="absolute  text-white text-xs"
+                  style={{
+                    bottom: "29px",
+                    left: "-58px",
+                    width: "158px",
+                    textAlign: "center",
+                  }}
+                >
+                  {
+                    freshMessages.find(
+                      (m) => m.bumpkinId === otherBumpkin.bumpkinId
+                    )?.text
+                  }
+                </span>
+                <NPC
+                  {...otherBumpkin.parts}
+                  onClick={() =>
+                    setSelectedBumpkin(otherBumpkin.bumpkinId.toString())
+                  }
+                />
+              </MapPlacement>
+            );
+          })}
       </div>
     </>
   );

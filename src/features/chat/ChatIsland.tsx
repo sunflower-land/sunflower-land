@@ -15,6 +15,7 @@ import { chatMachine, MachineInterpreter } from "./chatMachine";
 import { PlaceableBumpkin } from "./PlaceableBumpkin";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { Bumpkin } from "features/game/types/game";
 
 export const ChatIsland: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -23,7 +24,7 @@ export const ChatIsland: React.FC = () => {
 
   const chatService = useInterpret(chatMachine, {
     context: {
-      bumpkinId: randomId,
+      bumpkin: state.bumpkin,
     },
   }) as unknown as MachineInterpreter;
 
@@ -105,7 +106,7 @@ export const ChatIsland: React.FC = () => {
 
         <Chat
           messages={messages}
-          bumpkin={gameState.context.state.bumpkin}
+          bumpkin={gameState.context.state.bumpkin as Bumpkin}
           chatService={chatService}
           position={chatState.context.currentPosition}
           bumpkins={chatState.context.bumpkins}
