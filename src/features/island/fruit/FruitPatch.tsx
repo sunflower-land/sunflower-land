@@ -36,6 +36,7 @@ export const FruitPatch: React.FC<Props> = ({
   const [game] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
   const [showError, setShowError] = useState(false);
+  const [playAnimation, setPlayAnimation] = useState(false);
   const expansion = game.context.state.expansions[expansionIndex];
   const patch = expansion.fruitPatches?.[fruitPatchIndex];
 
@@ -51,7 +52,6 @@ export const FruitPatch: React.FC<Props> = ({
 
   const harvestFruit = () => {
     if (!fruit) return;
-
     try {
       const newState = gameService.send("fruit.harvested", {
         index: fruitPatchIndex,
@@ -60,7 +60,7 @@ export const FruitPatch: React.FC<Props> = ({
 
       if (!newState.matches("hoarding")) {
         harvestAudio.play();
-
+        setPlayAnimation(true);
         setToast({
           icon: ITEM_DETAILS[fruit.name].image,
           content: `+${fruit.amount || 1}`,
@@ -125,6 +125,7 @@ export const FruitPatch: React.FC<Props> = ({
             removeTree={removeTree}
             onError={displayError}
             playing={playing}
+            playAnimation={playAnimation}
           />
         ) : (
           <img

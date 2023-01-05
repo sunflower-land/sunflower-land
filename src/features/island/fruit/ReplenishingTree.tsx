@@ -6,34 +6,23 @@ import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover } from "./Popover";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { FRUIT } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { setImageWidth } from "lib/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
-import apple from "/src/assets/resources/apple.png";
-import orange from "/src/assets/resources/orange.png";
-import blueberry from "/src/assets/resources/blueberry.png";
+import { getFruitImage } from "./FruitTree";
 
 interface Props {
   plantedFruit: PlantedFruit;
   onClick: () => void;
+  playAnimation: boolean;
 }
-
-export const getFruitImage = (fruitName: FruitName): string => {
-  switch (fruitName) {
-    case "Apple":
-      return apple;
-    case "Orange":
-      return orange;
-    case "Blueberry":
-      return blueberry;
-  }
-};
 
 export const ReplenishingTree: React.FC<Props> = ({
   plantedFruit,
   onClick,
+  playAnimation,
 }) => {
   const { showTimers } = useContext(Context);
   const [isMobile] = useIsMobile();
@@ -56,7 +45,7 @@ export const ReplenishingTree: React.FC<Props> = ({
       <FruitDropAnimator
         mainImageProps={{
           src: lifecycle.harvested,
-          className: "relative",
+          className: "relative hover:img-highlight",
           style: {
             bottom: `${isBush ? "-11px" : "25px"}`,
             zIndex: "1",
@@ -68,6 +57,8 @@ export const ReplenishingTree: React.FC<Props> = ({
           src: getFruitImage(name),
         }}
         dropCount={amount}
+        playDropAnimation={playAnimation}
+        playShakeAnimation={playAnimation}
       />
       {showTimers && (
         <div
