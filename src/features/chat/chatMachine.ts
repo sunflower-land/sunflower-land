@@ -1,5 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
+import { Bumpkin } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { send } from "xstate/lib/actions";
@@ -11,8 +12,9 @@ type LiveBumpkin = {
 };
 
 export interface ChatContext {
-  bumpkinId: number;
   bumpkins: LiveBumpkin[];
+  currentPosition?: Coordinates;
+  bumpkin: Bumpkin;
   socket?: WebSocket;
 }
 
@@ -58,7 +60,7 @@ function parseWebsocketMessage(data: string): PlayersUpdatedEvent {
 export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
   initial: "connecting",
   context: {
-    bumpkinId: 0,
+    bumpkin: {} as Bumpkin,
     bumpkins: [],
   },
   states: {
@@ -68,6 +70,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
         src: async () => {
           const socket = new WebSocket(URL);
 
+          console.log("Connect");
           await new Promise((res) => {
             socket.addEventListener("open", res);
           });
@@ -89,6 +92,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
       invoke: {
         id: "loadingPlayers",
         src: async (context) => {
+          console.log("Load players");
           context.socket?.send(
             JSON.stringify({
               action: "loadPlayers",
@@ -96,7 +100,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
           );
 
           const bumpkins: LiveBumpkin[] = await new Promise((res) => {
-            context.socket?.addEventListener("message", function (event) {
+            const listener = function (event: any) {
               const body = parseWebsocketMessage(event.data);
 
               if (body.type !== "playersUpdated") {
@@ -105,20 +109,13 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
 
               console.log({ received: event });
 
-              res(body.connections);
-            });
-          });
+              context.socket?.removeEventListener("message", listener);
 
-          // Broadcast initial location
-          context.socket?.send(
-            JSON.stringify({
-              action: "sendLocation",
-              data: {
-                bumpkinId: context.bumpkinId,
-                coordinates: { x: 0, y: 0 },
-              },
-            })
-          );
+              res(body.connections);
+            };
+
+            context.socket?.addEventListener("message", listener);
+          });
 
           console.log({ set: bumpkins });
           return { bumpkins };
@@ -164,18 +161,24 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
       on: {
         // Player event
         SEND_LOCATION: {
-          actions: (context, event: SendLocationEvent) => {
-            JSON.stringify({ send: event });
-            context.socket?.send(
-              JSON.stringify({
-                action: "sendLocation",
-                data: {
-                  bumpkinId: context.bumpkinId,
-                  coordinates: event.coordinates,
-                },
-              })
-            );
-          },
+          actions: [
+            (context, event: SendLocationEvent) => {
+              JSON.stringify({ sendEvent: event });
+              context.socket?.send(
+                JSON.stringify({
+                  action: "sendLocation",
+                  data: {
+                    bumpkinId: context.bumpkin.id,
+                    tokenUri: context.bumpkin.tokenUri,
+                    coordinates: event.coordinates,
+                  },
+                })
+              );
+            },
+            assign({
+              currentPosition: (_, event) => event.coordinates,
+            }),
+          ],
         },
         // Player event
         DISCONNECT: {

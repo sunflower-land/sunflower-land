@@ -185,7 +185,9 @@ export const Game: React.FC = () => {
             <Routes>
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
-              <Route path="/chat" element={<ChatIsland key="chat" />} />
+              {!!gameState.context.state.inventory["Beta Pass"] && (
+                <Route path="/chat" element={<ChatIsland key="chat" />} />
+              )}
               {level >= 10 && (
                 <Route
                   path="/treasure-island"
