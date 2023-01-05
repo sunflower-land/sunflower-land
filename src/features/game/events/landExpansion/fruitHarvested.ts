@@ -68,14 +68,8 @@ export function harvestFruit({
     throw new Error("No harvest left");
   }
 
-  const harvestAvailable = patch.fruit.harvestsLeft - 1;
-
-  if (!harvestAvailable) {
-    delete patch.fruit;
-  } else {
-    patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-    patch.fruit.harvestedAt = createdAt;
-  }
+  patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
+  patch.fruit.harvestedAt = createdAt;
 
   stateCopy.inventory[name] =
     stateCopy.inventory[name]?.add(1) || new Decimal(1);

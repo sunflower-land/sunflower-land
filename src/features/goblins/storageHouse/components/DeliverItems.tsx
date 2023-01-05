@@ -7,6 +7,7 @@ import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
@@ -21,6 +22,8 @@ import { wallet } from "lib/blockchain/wallet";
 import { getKeys } from "features/game/types/craftables";
 import { getDeliverableItems } from "../lib/storageItems";
 import { shortAddress } from "lib/utils/shortAddress";
+import { loadBanDetails } from "features/game/actions/bans";
+import { Jigger, JiggerStatus } from "features/game/components/Jigger";
 
 interface Props {
   onWithdraw: () => void;
@@ -62,9 +65,36 @@ const DELIVERY_FEE = 30;
 export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
 
   const [inventory, setInventory] = useState<Inventory>({});
   const [selected, setSelected] = useState<Inventory>({});
+
+  const [jiggerState, setJiggerState] =
+    useState<{ url: string; status: JiggerStatus }>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      setIsLoading(true);
+      const check = await loadBanDetails(
+        authState.context.farmId?.toString() as string,
+        authState.context.rawToken as string,
+        authState.context.transactionId as string
+      );
+
+      if (check.verificationUrl) {
+        setJiggerState({
+          url: check.verificationUrl,
+          status: check.botStatus as JiggerStatus,
+        });
+      }
+      setIsLoading(false);
+    };
+
+    load();
+  }, []);
 
   useEffect(() => {
     // Only grab the deliverable items
@@ -148,6 +178,20 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
       [itemName]: new Decimal(0),
     }));
   };
+
+  if (isLoading) {
+    return <span className="loading">Loading</span>;
+  }
+
+  if (jiggerState) {
+    return (
+      <Jigger
+        onClose={onWithdraw}
+        status={jiggerState.status}
+        verificationUrl={jiggerState.url}
+      />
+    );
+  }
 
   const inventoryItems = getKeys(inventory).filter((item) =>
     inventory[item]?.gt(0)

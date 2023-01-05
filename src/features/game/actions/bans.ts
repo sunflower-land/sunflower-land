@@ -1,5 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { JiggerStatus } from "../components/Jigger";
 
 const API_URL = CONFIG.API_URL;
 
@@ -10,7 +11,7 @@ export async function loadBanDetails(
 ): Promise<{
   isBanned: boolean;
   verificationUrl: string;
-  botStatus?: "VERIFY" | "PENDING" | "REJECTED";
+  botStatus?: JiggerStatus;
 }> {
   // Go and fetch the metadata file for this farm
   const url = `${API_URL}/bans/${id}`;

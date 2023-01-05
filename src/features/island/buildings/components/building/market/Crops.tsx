@@ -19,9 +19,13 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice, hasSellBoost } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Bumpkin } from "features/game/types/game";
+import { Fruit, FRUIT } from "features/game/types/fruits";
 
 export const Crops: React.FC = () => {
-  const [selected, setSelected] = useState<Crop>(CROPS().Sunflower);
+  const cropsAndFruits = { ...CROPS(), ...FRUIT() };
+  const [selected, setSelected] = useState<Crop | Fruit>(
+    cropsAndFruits.Sunflower
+  );
   const { setToast } = useContext(ToastContext);
   const [isSellAllModalOpen, showSellAllModal] = React.useState(false);
   const { gameService } = useContext(Context);
@@ -49,7 +53,7 @@ export const Crops: React.FC = () => {
 
   const cropAmount = setPrecision(new Decimal(inventory[selected.name] || 0));
   const noCrop = cropAmount.lessThanOrEqualTo(0);
-  const displaySellPrice = (crop: Crop) =>
+  const displaySellPrice = (crop: Crop | Fruit) =>
     getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
 
   const handleSellOneOrLess = () => {
@@ -96,7 +100,7 @@ export const Crops: React.FC = () => {
         className="w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
         ref={divRef}
       >
-        {Object.values(CROPS())
+        {Object.values(cropsAndFruits)
           .filter((crop) => !!crop.sellPrice)
           .map((item) => (
             <Box

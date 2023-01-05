@@ -3,6 +3,8 @@ import * as Auth from "features/auth/lib/Provider";
 
 import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
+import { wallet } from "lib/blockchain/wallet";
+import { removeSession } from "../actions/login";
 
 export const SessionExpired: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -17,7 +19,14 @@ export const SessionExpired: React.FC = () => {
       <p className="text-center mb-4 text-xs">
         {`It looks like your session has expired. Please refresh the page to continue playing.`}
       </p>
-      <Button onClick={() => authService.send("REFRESH")}>Refresh</Button>
+      <Button
+        onClick={() => {
+          removeSession(wallet.myAccount as string);
+          authService.send("REFRESH");
+        }}
+      >
+        Refresh
+      </Button>
     </div>
   );
 };

@@ -41,7 +41,8 @@ export type BumpkinShirt =
   | "Project Dignity Hoodie"
   | "Developer Hoodie"
   | "Bumpkin Art Competition Merch"
-  | "Fire Shirt";
+  | "Fire Shirt"
+  | "Pineapple Shirt";
 
 export type BumpkinCoat = "Chef Apron";
 
@@ -73,7 +74,8 @@ export type BumpkinHat =
   | "Chef Hat"
   | "Warrior Helmet"
   | "Skull Hat"
-  | "Reindeer Antlers";
+  | "Reindeer Antlers"
+  | "Santa Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -187,6 +189,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Mountain View Background": 78,
   "Skull Hat": 79,
   "Reindeer Antlers": 80,
+  "Santa Hat": 81,
+  "Pineapple Shirt": 82,
 };
 
 // The reverse of above

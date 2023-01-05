@@ -34,6 +34,9 @@ export const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   Deli: getKeys(CONSUMABLES).filter(
     (name) => CONSUMABLES[name].building === "Deli"
   ),
+  "Smoothie Shack": getKeys(CONSUMABLES).filter(
+    (name) => CONSUMABLES[name].building === "Smoothie Shack"
+  ),
   Workbench: getKeys(WORKBENCH_TOOLS),
   "Hen House": ["Chicken", "Egg"],
   "Water Well": [],
