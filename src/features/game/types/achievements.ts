@@ -473,9 +473,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 500,
     sfl: marketRate(400),
-    rewards: {
-      "Angel Bear": new Decimal(1),
-    },
   },
 
   "Blue Chip": {
