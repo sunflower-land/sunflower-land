@@ -2,7 +2,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { fromWei } from "web3-utils";
 import Decimal from "decimal.js-light";
 
-import { balancesToInventory, populateFields } from "lib/utils/visitUtils";
+import { balancesToInventory } from "lib/utils/visitUtils";
 
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { getKeys } from "../types/craftables";
@@ -76,14 +76,12 @@ export async function getGameOnChainState({
   const bumpkins = await loadBumpkins(wallet.web3Provider, wallet.myAccount);
 
   const inventory = balancesToInventory(balances);
-  const fields = populateFields(inventory);
 
   return {
     game: {
       ...EMPTY,
       balance: new Decimal(fromWei(balance)),
       farmAddress,
-      fields,
       inventory,
     },
     bumpkin: bumpkins[0],
@@ -132,7 +130,6 @@ export async function getOnChainState({
     bumpkinFn,
   ]);
 
-  console.log({ mintedAts });
   const mintedAtTimes = mintedAts.reduce(
     (acc, mintedAt, index) => ({
       ...acc,
@@ -142,14 +139,12 @@ export async function getOnChainState({
   );
 
   const inventory = balancesToInventory(balances);
-  const fields = populateFields(inventory);
 
   return {
     game: {
       ...EMPTY,
       balance: new Decimal(fromWei(balance)),
       farmAddress,
-      fields,
       inventory,
     },
     owner: farm.owner,

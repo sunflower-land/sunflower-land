@@ -333,30 +333,20 @@ export type Reveal = {
 export interface GameState {
   id?: number;
   balance: Decimal;
-  fields: Fields;
-
-  trees: Record<number, Tree>;
-  stones: Record<number, Rock>;
-  iron: Record<number, Rock>;
-  gold: Record<number, Rock>;
-  chickens: Record<string, Chicken>;
-
-  plots: Record<number, LandExpansionPlot>;
+  airdrops?: Airdrop[];
+  farmAddress?: string;
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
-  airdrops?: Airdrop[];
-
   warCollectionOffer?: WarCollectionOffer;
 
+  chickens: Record<string, Chicken>;
   inventory: Inventory;
   stock: Inventory;
   stockExpiry: StockExpiry;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
-
-  farmAddress?: string;
 
   skills: {
     farming: Decimal;

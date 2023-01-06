@@ -8,11 +8,8 @@ import { FRUIT } from "features/game/types/fruits";
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
-  fields: {},
   balance: new Decimal(0),
-
   inventory: {},
-  trees: {},
 };
 
 describe("sell", () => {
