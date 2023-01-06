@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -10,8 +10,16 @@ import { Quest } from "features/game/expansion/components/Quest";
 import appleTree from "assets/fruit/apple/apple_tree.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
+import close from "assets/icons/close.png";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { Panel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
 
 export const FarmerQuest: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [game] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
 
   const ModalDescription = () => {
@@ -107,24 +115,60 @@ export const FarmerQuest: React.FC = () => {
         />
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Quest
-          quests={[
-            "Fruit Quest 1",
-            "Fruit Quest 2",
-            "Fruit Quest 3",
-            "Fruit Quest 4",
-          ]}
-          onClose={() => setShowModal(false)}
-          questDescription={ModalDescription()}
-          bumpkinParts={{
-            body: "Beige Farmer Potion",
-            hair: "Basic Hair",
-            pants: "Blue Suspenders",
-            shirt: "Red Farmer Shirt",
-            tool: "Farmer Pitchfork",
-          }}
-          questCompletionScreen={QuestCompletion()}
-        />
+        {/*TODO: Once the fruit quest wearables are ready, remove this flag along with the false 
+        part of this turnory operator.*/}
+        {hasFeatureAccess(game.context.state.inventory, "FRUIT_QUEST") ? (
+          <Quest
+            quests={[
+              "Fruit Quest 1",
+              "Fruit Quest 2",
+              "Fruit Quest 3",
+              "Fruit Quest 4",
+            ]}
+            onClose={() => setShowModal(false)}
+            questDescription={ModalDescription()}
+            bumpkinParts={{
+              body: "Beige Farmer Potion",
+              hair: "Basic Hair",
+              pants: "Blue Suspenders",
+              shirt: "Red Farmer Shirt",
+              tool: "Farmer Pitchfork",
+            }}
+            questCompletionScreen={QuestCompletion()}
+          />
+        ) : (
+          <Panel
+            bumpkinParts={{
+              body: "Beige Farmer Potion",
+              hair: "Basic Hair",
+              pants: "Blue Suspenders",
+              shirt: "Red Farmer Shirt",
+              tool: "Farmer Pitchfork",
+            }}
+          >
+            <img
+              src={close}
+              className="absolute cursor-pointer z-20"
+              onClick={() => setShowModal(false)}
+              style={{
+                top: `${PIXEL_SCALE * 6}px`,
+                right: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+            />
+            <div className="p-1">
+              <p>Howdy farmer!</p>
+              <p className="mt-4">
+                {`I'm looking for expert farmers to trial some free Bumpkin clothing.`}
+              </p>
+              <p className="mt-4 mb-2">
+                If you prove you are a hardworking Bumpkin, I will give you rare
+                Farmer clothing.
+              </p>
+              <Button disabled>Continue</Button>
+            </div>
+          </Panel>
+        )}
       </Modal>
     </>
   );
