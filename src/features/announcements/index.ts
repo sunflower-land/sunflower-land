@@ -29,5 +29,6 @@ export const ANNOUNCEMENTS: Announcement[] = [
       "Once you've collected enough fruit, you can sell it or turn it into them fancy smoothies at the smoothie shack!",
     ],
     image: fruit,
+    link: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting/fruit",
   },
 ];
