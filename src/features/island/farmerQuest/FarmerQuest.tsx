@@ -25,21 +25,21 @@ export const FarmerQuest: React.FC = () => {
   const ModalDescription = () => {
     return (
       <>
-        <p className="mb-3">
+        <p className="mb-4">
           {`Hey there friend! Are you looking to earn yourself some bumpkin items?
           I've got a tip for ya.`}
         </p>
-        <p className="mb-3">
+        <p className="mb-4">
           {`See, by harvesting fruit from the trees around here, you can earn
           yourself some pretty neat bumpkin items. Just grab a basket and get to
           work! It's as simple as that.`}
         </p>
-        <p className="mb-3">
+        <p className="mb-4">
           And who knows, you might just learn a thing or two about the different
           types of fruit we have in these parts.
         </p>
-        <p className="mb-3">Happy harvesting!</p>
-        <div className="flex justify-center mb-2">
+        <p className="mb-4">Happy harvesting!</p>
+        <div className="flex justify-center mb-4">
           <img
             src={appleTree}
             className="mr-2 img-highlight"
