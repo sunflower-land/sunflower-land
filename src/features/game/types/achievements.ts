@@ -7,6 +7,7 @@ import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
 import { CONSUMABLES } from "./consumables";
 import { CAKES, getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
+import { FRUIT } from "./fruits";
 
 export type AchievementName =
   | "Explorer"
@@ -43,7 +44,11 @@ export type AchievementName =
   | "Craftmanship"
   | "Time to chop"
   | "Contractor"
-  | "Museum";
+  | "Museum"
+  | "Orange Squeeze"
+  | "Apple of my Eye"
+  | "Blue Chip"
+  | "Fruit Platter";
 
 export type Achievement = {
   description: string;
@@ -415,6 +420,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       "Classy Bear": new Decimal(1),
     },
   },
+
   "Crop Champion": {
     description: "Harvest 1 million crops",
     progress: (gameState: GameState) => {
@@ -432,6 +438,77 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sfl: marketRate(0),
     rewards: {
       "Angel Bear": new Decimal(1),
+    },
+  },
+
+  "Orange Squeeze": {
+    description: "Harvest Oranges 100 times",
+    progress: (gameState: GameState) => {
+      const harvestEvents = getKeys(FRUIT()).map(
+        (name) => `${name} Harvested` as HarvestEvent
+      );
+
+      return harvestEvents.reduce((count, activityName) => {
+        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+
+        return count + amount;
+      }, 0);
+    },
+    requirement: 100,
+    sfl: marketRate(10),
+  },
+
+  "Apple of my Eye": {
+    description: "Harvest Apples 500 times",
+    progress: (gameState: GameState) => {
+      const harvestEvents = getKeys(FRUIT()).map(
+        (name) => `${name} Harvested` as HarvestEvent
+      );
+
+      return harvestEvents.reduce((count, activityName) => {
+        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+
+        return count + amount;
+      }, 0);
+    },
+    requirement: 500,
+    sfl: marketRate(400),
+  },
+
+  "Blue Chip": {
+    description: "Harvest Blueberries 5,000 times",
+    progress: (gameState: GameState) => {
+      const harvestEvents = getKeys(FRUIT()).map(
+        (name) => `${name} Harvested` as HarvestEvent
+      );
+
+      return harvestEvents.reduce((count, activityName) => {
+        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+
+        return count + amount;
+      }, 0);
+    },
+    requirement: 5000,
+    sfl: marketRate(800),
+  },
+
+  "Fruit Platter": {
+    description: "Harvest 50,000 fruits ",
+    progress: (gameState: GameState) => {
+      const harvestEvents = getKeys(FRUIT()).map(
+        (name) => `${name} Harvested` as HarvestEvent
+      );
+
+      return harvestEvents.reduce((count, activityName) => {
+        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
+
+        return count + amount;
+      }, 0);
+    },
+    requirement: 50000,
+    sfl: marketRate(0),
+    rewards: {
+      "Devil Bear": new Decimal(1),
     },
   },
 });
