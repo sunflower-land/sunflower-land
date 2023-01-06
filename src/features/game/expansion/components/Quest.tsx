@@ -106,6 +106,13 @@ export const Quest: React.FC<Props> = ({
         <QuestProgress
           onClaim={() => send("MINT")}
           questName={state.context.currentQuest as QuestName}
+          secondsLeft={
+            quest.deadline
+              ? Math.floor(
+                  (new Date(quest.deadline).getTime() - Date.now()) / 1000
+                )
+              : 0
+          }
         />
       );
     }

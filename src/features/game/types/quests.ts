@@ -13,6 +13,7 @@ export type Quest = {
   progress: (game: GameState) => number;
   requirement: number;
   wearable: BumpkinItem;
+  deadline?: string;
 };
 
 export const QUESTS: Record<QuestName, Quest> = {
@@ -29,6 +30,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 10,
     wearable: "Red Farmer Shirt",
+    deadline: new Date(Date.now() + 1000000099).toISOString(),
   },
   "Fruit Quest 2": {
     description: "Harvest 100 Oranges",
@@ -36,6 +38,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
     requirement: 100,
     wearable: "Farmer Overalls",
+    deadline: new Date(Date.now() + 1000000099).toISOString(),
   },
   "Fruit Quest 3": {
     description: "Harvest 200 Apples",
@@ -43,6 +46,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 200,
     wearable: "Farmer Hat",
+    deadline: new Date(Date.now() + 1000000099).toISOString(),
   },
   "Fruit Quest 4": {
     description: "Harvest 1200 Blueberries",
@@ -50,6 +54,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 1200,
     wearable: "Farmer Pitchfork",
+    deadline: new Date(Date.now() + 1000000099).toISOString(),
   },
 };
 
