@@ -1638,6 +1638,14 @@ export const ITEM_DETAILS: Items = {
     image: questionMark,
     description: "?",
   },
+  "Squirrel Monkey": {
+    image: questionMark,
+    description: "?",
+  },
+  "Black Bearry": {
+    image: questionMark,
+    description: "?",
+  },
   "Devil Bear": {
     image: devilBear,
     description: DECORATIONS()["Devil Bear"].description,
