@@ -459,7 +459,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     ingredients: {
       Apple: new Decimal(5),
     },
-    marketRate: 280,
+    marketRate: 420,
   },
 
   "Orange Juice": {
@@ -471,7 +471,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     ingredients: {
       Orange: new Decimal(5),
     },
-    marketRate: 250,
+    marketRate: 300,
   },
 
   "Purple Smoothie": {
@@ -484,7 +484,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
       Blueberry: new Decimal(5),
       Cabbage: new Decimal(10),
     },
-    marketRate: 220,
+    marketRate: 250,
   },
 
   "Power Smoothie": {
@@ -497,7 +497,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
       Blueberry: new Decimal(10),
       Kale: new Decimal(5),
     },
-    marketRate: 400,
+    marketRate: 600,
   },
 
   "Bumpkin Detox": {
@@ -511,6 +511,6 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
       Orange: new Decimal(5),
       Carrot: new Decimal(10),
     },
-    marketRate: 500,
+    marketRate: 800,
   },
 };
