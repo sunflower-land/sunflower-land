@@ -1,4 +1,4 @@
-name: Testnet deploy
+name: Chat POC deploy
 
 on:
   push:
