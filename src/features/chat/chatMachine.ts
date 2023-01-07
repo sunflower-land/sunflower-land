@@ -1,6 +1,7 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Equipped } from "features/game/types/bumpkin";
 import { Bumpkin } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
 export type Player = {
@@ -55,8 +56,6 @@ export type MachineInterpreter = Interpreter<
   ChatState
 >;
 
-const URL = "wss://5193z7l7da.execute-api.us-east-1.amazonaws.com/hannigan";
-
 type LoadAllPlayersMessage = {
   type: "playersLoaded";
   connections: Player[];
@@ -106,7 +105,11 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
       invoke: {
         id: "socket",
         src: async () => {
-          const socket = new WebSocket(URL);
+          if (!CONFIG.WEBSOCKET_URL) {
+            throw new Error("No websocket URL provided");
+          }
+
+          const socket = new WebSocket(CONFIG.WEBSOCKET_URL as string);
 
           console.log("Connect");
           await new Promise((res) => {
