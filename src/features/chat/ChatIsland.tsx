@@ -16,6 +16,7 @@ import { ChatUI } from "./ChatUI";
 import { Bumpkin } from "features/game/types/game";
 
 import { randomInt } from "lib/utils/random";
+import { getInitialCorodinates } from "features/game/expansion/placeable/Placeable";
 
 const randomId = randomInt(0, 99999);
 export const ChatIsland: React.FC = () => {
