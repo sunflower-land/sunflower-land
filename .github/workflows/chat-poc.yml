@@ -29,6 +29,8 @@ jobs:
         env:
           CI: false
           VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
+
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mumbai
           VITE_ACCOUNT_MINTER_CONTRACT: "0x6918C16938095E6247dC3B552B4b14f553be06D4"
