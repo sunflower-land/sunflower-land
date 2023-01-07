@@ -170,6 +170,17 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
           target: "error",
         },
       },
+      on: {
+        DISCONNECT: {
+          target: "disconnected",
+          actions: [
+            (context) => context.socket?.close(),
+            assign({
+              socket: (_) => undefined,
+            }),
+          ],
+        },
+      },
     },
     connected: {
       invoke: {
