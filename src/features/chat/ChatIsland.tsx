@@ -33,18 +33,10 @@ export const ChatIsland: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
-    // Start with island centered
     scrollIntoView(Section.HeliosBackGround, "auto");
-
-    // const interval = setInterval(() => {
-    //   chatService.send("SEND_CHAT_MESSAGE", {
-    //     text: `M: ${randomInt(0, 1000)}`,
-    //   });
-    // }, 5000);
 
     return () => {
       chatService.send("DISCONNECT");
-      // clearInterval(interval);
     };
   }, []);
 
