@@ -26,6 +26,7 @@ import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { makeBulkSeedBuyAmount } from "features/island/buildings/components/building/market/lib/makeBulkSeedBuyAmount";
 
 interface Props {
   isOpen: boolean;
@@ -105,6 +106,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     event.stopPropagation();
     gameService.send("tool.crafted", {
       tool: selectedName,
+      amount,
     });
 
     setToast({
@@ -146,13 +148,16 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   if (showCaptcha) {
     return (
       <CloudFlareCaptcha
-        action="carfting-sync"
+        action="crafting-sync"
         onDone={onCaptchaSolved}
         onExpire={() => setShowCaptcha(false)}
         onError={() => setShowCaptcha(false)}
       />
     );
   }
+
+  const stock = state.stock[selectedName] || new Decimal(0);
+  const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 
   const labelState = () => {
     if (stock?.equals(0)) {
@@ -179,11 +184,23 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           Craft 1
         </Button>
+        {bulkSeedBuyAmount > 1 && (
+          <Button
+            disabled={
+              lessFunds(bulkSeedBuyAmount) ||
+              lessIngredients(bulkSeedBuyAmount) ||
+              stock?.lessThan(bulkSeedBuyAmount)
+            }
+            className="text-xxs sm:text-xs"
+            onClick={(e) => craft(e, bulkSeedBuyAmount)}
+          >
+            Buy {bulkSeedBuyAmount}
+          </Button>
+        )}
       </>
     );
   };
 
-  const stock = state.stock[selectedName] || new Decimal(0);
   // Price is added as an ingredient for layout purposes
   const ingredientCount = getKeys(selected.ingredients).length + 1;
 

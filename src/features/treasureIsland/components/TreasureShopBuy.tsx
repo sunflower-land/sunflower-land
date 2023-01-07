@@ -115,7 +115,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   if (showCaptcha) {
     return (
       <CloudFlareCaptcha
-        action="carfting-sync"
+        action="crafting-sync"
         onDone={onCaptchaSolved}
         onExpire={() => setShowCaptcha(false)}
         onError={() => setShowCaptcha(false)}
