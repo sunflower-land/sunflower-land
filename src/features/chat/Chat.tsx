@@ -71,6 +71,7 @@ export const Chat: React.FC<Props> = ({
           .map((otherBumpkin) => {
             return (
               <MapPlacement
+                key={otherBumpkin.bumpkinId}
                 x={otherBumpkin.coordinates?.x as number}
                 y={otherBumpkin.coordinates?.y as number}
                 height={1}

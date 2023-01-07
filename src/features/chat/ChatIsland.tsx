@@ -13,13 +13,14 @@ import { PlaceableBumpkin } from "./PlaceableBumpkin";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { ChatUI } from "./ChatUI";
+import { Bumpkin } from "features/game/types/game";
 
 export const ChatIsland: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  const myBumpkin = state.bumpkin;
+  const myBumpkin = state.bumpkin as Bumpkin;
 
   const chatService = useInterpret(chatMachine, {
     context: {
