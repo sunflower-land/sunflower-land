@@ -443,51 +443,24 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   "Orange Squeeze": {
     description: "Harvest Oranges 100 times",
-    progress: (gameState: GameState) => {
-      const harvestEvents = getKeys(FRUIT()).map(
-        (name) => `${name} Harvested` as HarvestEvent
-      );
-
-      return harvestEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
-
-        return count + amount;
-      }, 0);
-    },
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
     requirement: 100,
     sfl: marketRate(10),
   },
 
   "Apple of my Eye": {
     description: "Harvest Apples 500 times",
-    progress: (gameState: GameState) => {
-      const harvestEvents = getKeys(FRUIT()).map(
-        (name) => `${name} Harvested` as HarvestEvent
-      );
-
-      return harvestEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
-
-        return count + amount;
-      }, 0);
-    },
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 500,
     sfl: marketRate(400),
   },
 
   "Blue Chip": {
     description: "Harvest Blueberries 5,000 times",
-    progress: (gameState: GameState) => {
-      const harvestEvents = getKeys(FRUIT()).map(
-        (name) => `${name} Harvested` as HarvestEvent
-      );
-
-      return harvestEvents.reduce((count, activityName) => {
-        const amount = gameState.bumpkin?.activity?.[activityName] || 0;
-
-        return count + amount;
-      }, 0);
-    },
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 5000,
     sfl: marketRate(800),
   },
