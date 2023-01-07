@@ -1,33 +1,25 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-import WidgetBot from "@widgetbot/react-embed";
-import { Client } from "@widgetbot/embed-api";
 import background from "assets/land/levels/level_2.webp";
 
 import { Context } from "features/game/GameProvider";
 import { Chat } from "./Chat";
-import { randomInt } from "lib/utils/random";
 import { chatMachine, MachineInterpreter } from "./chatMachine";
 import { PlaceableBumpkin } from "./PlaceableBumpkin";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { Bumpkin } from "features/game/types/game";
+import { ChatUI } from "./ChatUI";
 
-const randomId = randomInt(0, 1000000);
 export const ChatIsland: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  // Randomise ID for local testing
-  const myBumpkin = {
-    ...state.bumpkin,
-    id: randomId,
-  } as Bumpkin;
+  const myBumpkin = state.bumpkin;
 
   const chatService = useInterpret(chatMachine, {
     context: {
@@ -43,15 +35,15 @@ export const ChatIsland: React.FC = () => {
     // Start with island centered
     scrollIntoView(Section.HeliosBackGround, "auto");
 
-    const interval = setInterval(() => {
-      chatService.send("SEND_CHAT_MESSAGE", {
-        text: `M: ${randomInt(0, 1000)}`,
-      });
-    }, 5000);
+    // const interval = setInterval(() => {
+    //   chatService.send("SEND_CHAT_MESSAGE", {
+    //     text: `M: ${randomInt(0, 1000)}`,
+    //   });
+    // }, 5000);
 
     return () => {
       chatService.send("DISCONNECT");
-      clearInterval(interval);
+      // clearInterval(interval);
     };
   }, []);
 
@@ -108,20 +100,15 @@ export const ChatIsland: React.FC = () => {
           bumpkin={myBumpkin}
         />
       )}
-      {/* 
       {chatState.context.currentPosition && (
-        <WidgetBot
-          height={500}
-          server="880987707214544966"
-          channel="1059720957427724388"
-          shard="https://emerald.widgetbot.io"
-          onAPI={onApi}
-          username={`Bumpkin #${gameState.context.state.bumpkin?.id as Number}`}
-          className="fixed right-0 bottom-0"
-          style={{ zIndex: 999999 }}
-          // avatar="https://testnet-images.bumpkins.io/nfts/32_1_6_13_20_22_23x128.png"
+        <ChatUI
+          onMessage={(text) => {
+            chatService.send("SEND_CHAT_MESSAGE", {
+              text,
+            });
+          }}
         />
-      )} */}
+      )}
     </>
   );
 };
