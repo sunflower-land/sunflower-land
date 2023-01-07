@@ -442,7 +442,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Orange Squeeze": {
-    description: "Harvest Oranges 100 times",
+    description: "Harvest Orange 100 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
     requirement: 100,
@@ -450,7 +450,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Apple of my Eye": {
-    description: "Harvest Apples 500 times",
+    description: "Harvest Apple 500 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 500,
@@ -458,7 +458,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Blue Chip": {
-    description: "Harvest Blueberries 5,000 times",
+    description: "Harvest Blueberry 5,000 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 5000,
@@ -466,7 +466,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
 
   "Fruit Platter": {
-    description: "Harvest 50,000 fruits ",
+    description: "Harvest 50,000 fruits",
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(FRUIT()).map(
         (name) => `${name} Harvested` as HarvestEvent
