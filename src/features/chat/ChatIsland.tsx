@@ -15,12 +15,20 @@ import { Panel } from "components/ui/Panel";
 import { ChatUI } from "./ChatUI";
 import { Bumpkin } from "features/game/types/game";
 
+import { randomInt } from "lib/utils/random";
+import { getInitialCorodinates } from "features/game/expansion/placeable/Placeable";
+
+const randomId = randomInt(0, 99999);
 export const ChatIsland: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  const myBumpkin = state.bumpkin as Bumpkin;
+  const myBumpkin = {
+    ...(state.bumpkin as Bumpkin),
+    // Testing for solo sessions
+    id: randomId,
+  };
 
   const chatService = useInterpret(chatMachine, {
     context: {
@@ -40,6 +48,21 @@ export const ChatIsland: React.FC = () => {
     };
   }, []);
 
+  const walk = (e: React.MouseEvent<HTMLElement>) => {
+    const coords = getInitialCorodinates();
+    const x = e.clientX;
+    const y = e.clientY;
+    const distanceX = x - coords[0];
+    const distanceY = coords[1] - y;
+
+    const gridX = distanceX / GRID_WIDTH_PX;
+    const gridY = distanceY / GRID_WIDTH_PX;
+
+    chatService.send("SEND_LOCATION", {
+      coordinates: { x: gridX, y: gridY },
+    });
+  };
+
   // Load data
   return (
     <>
@@ -51,6 +74,7 @@ export const ChatIsland: React.FC = () => {
           style={{
             width: `${36 * GRID_WIDTH_PX}px`,
           }}
+          onClick={walk}
         />
 
         <Modal show={chatState.matches("connecting")} centered>

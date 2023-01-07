@@ -1,8 +1,6 @@
 import { Panel } from "components/ui/Panel";
-import {
-  Coordinates,
-  MapPlacement,
-} from "features/game/expansion/components/MapPlacement";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Bumpkin } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import React, { useState } from "react";
@@ -26,6 +24,8 @@ export const Chat: React.FC<Props> = ({
   const [selectedBumpkin, setSelectedBumpkin] = useState<string>();
   const freshMessages = messages;
 
+  console.log({ freshMessages });
+  console.log({ bumpkin: bumpkin.id });
   const myMessage = freshMessages.find((m) => m.bumpkinId === bumpkin.id);
   return (
     <>
@@ -40,13 +40,20 @@ export const Chat: React.FC<Props> = ({
       </Modal>
 
       <div className="absolute w-full h-full translate-x-1/2 translate-y-1/2"></div>
-      <div className="absolute inset-0" style={{ zIndex: 99999 }}>
+      <div>
         {position && (
-          <MapPlacement
-            x={position?.x as number}
-            y={position?.y as number}
-            height={1}
-            width={1}
+          <div
+            key={bumpkin.id}
+            className="absolute runner"
+            style={{
+              top: `50%`,
+              left: `50%`,
+              transform: `translate(${GRID_WIDTH_PX * position.x}px,${
+                -GRID_WIDTH_PX * position.y
+              }px)`,
+              height: `${GRID_WIDTH_PX}px`,
+              width: `${GRID_WIDTH_PX}px`,
+            }}
           >
             {myMessage && (
               <span
@@ -63,19 +70,25 @@ export const Chat: React.FC<Props> = ({
             )}
 
             <NPC {...bumpkin.equipped} />
-          </MapPlacement>
+          </div>
         )}
 
         {bumpkins
           .filter((b) => !!b.coordinates)
           .map((otherBumpkin) => {
             return (
-              <MapPlacement
+              <div
                 key={otherBumpkin.bumpkinId}
-                x={otherBumpkin.coordinates?.x as number}
-                y={otherBumpkin.coordinates?.y as number}
-                height={1}
-                width={1}
+                className="absolute runner"
+                style={{
+                  top: `50%`,
+                  left: `50%`,
+                  transform: `translate(${
+                    GRID_WIDTH_PX * otherBumpkin.coordinates.x
+                  }px,${-GRID_WIDTH_PX * otherBumpkin.coordinates.y}px)`,
+                  height: `${GRID_WIDTH_PX}px`,
+                  width: `${GRID_WIDTH_PX}px`,
+                }}
               >
                 <span
                   className="absolute  text-white text-xs"
@@ -98,7 +111,7 @@ export const Chat: React.FC<Props> = ({
                     setSelectedBumpkin(otherBumpkin.bumpkinId.toString())
                   }
                 />
-              </MapPlacement>
+              </div>
             );
           })}
       </div>
