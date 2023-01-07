@@ -15,6 +15,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { DynamicMiniNFT } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { Bumpkin } from "features/game/types/game";
 
 // Map is not aligned to center 0,0
 const MAP_OFFSET = [-10, -10];
@@ -58,8 +59,9 @@ const getInitialCorodinates = () => {
 
 interface Props {
   onPlace: (coords: Coordinates) => void;
+  bumpkin: Bumpkin;
 }
-export const PlaceableBumpkin: React.FC<Props> = ({ onPlace }) => {
+export const PlaceableBumpkin: React.FC<Props> = ({ onPlace, bumpkin }) => {
   const nodeRef = useRef(null);
 
   const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] = getInitialCorodinates();
@@ -194,12 +196,7 @@ export const PlaceableBumpkin: React.FC<Props> = ({ onPlace }) => {
               }}
             >
               <div style={{ position: "relative", bottom: "42px" }}>
-                <DynamicMiniNFT
-                  body="Beige Farmer Potion"
-                  hair="Basic Hair"
-                  pants="Blue Suspenders"
-                  shirt="Project Dignity Hoodie"
-                />
+                <DynamicMiniNFT {...bumpkin.equipped} />
               </div>
             </div>
           </div>

@@ -7,22 +7,14 @@ import { Bumpkin } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { LiveBumpkin, MachineInterpreter } from "./chatMachine";
-
-export type Message = {
-  id: string;
-
-  bumpkinId: number;
-  text: string;
-  createdAt: number;
-};
+import { Player, MachineInterpreter, ChatMessage } from "./chatMachine";
 
 interface Props {
-  messages: Message[];
+  messages: ChatMessage[];
   bumpkin: Bumpkin;
   chatService: MachineInterpreter;
   position?: Coordinates;
-  bumpkins: LiveBumpkin[];
+  bumpkins: Player[];
 }
 
 export const Chat: React.FC<Props> = ({
@@ -32,11 +24,8 @@ export const Chat: React.FC<Props> = ({
   bumpkins,
 }) => {
   const [selectedBumpkin, setSelectedBumpkin] = useState<string>();
-  const freshMessages = messages
-    .filter((m) => Date.now() - m.createdAt < 5 * 1000)
-    .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
+  const freshMessages = messages;
 
-  console.log({ messages, freshMessages });
   const myMessage = freshMessages.find((m) => m.bumpkinId === bumpkin.id);
   return (
     <>
@@ -103,7 +92,7 @@ export const Chat: React.FC<Props> = ({
                   }
                 </span>
                 <NPC
-                  {...otherBumpkin.parts}
+                  {...otherBumpkin.wearables}
                   onClick={() =>
                     setSelectedBumpkin(otherBumpkin.bumpkinId.toString())
                   }

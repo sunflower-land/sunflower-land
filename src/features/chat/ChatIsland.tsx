@@ -9,7 +9,7 @@ import { Client } from "@widgetbot/embed-api";
 import background from "assets/land/levels/level_2.webp";
 
 import { Context } from "features/game/GameProvider";
-import { Chat, Message } from "./Chat";
+import { Chat } from "./Chat";
 import { randomInt } from "lib/utils/random";
 import { chatMachine, MachineInterpreter } from "./chatMachine";
 import { PlaceableBumpkin } from "./PlaceableBumpkin";
@@ -17,20 +17,25 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Bumpkin } from "features/game/types/game";
 
+const randomId = randomInt(0, 1000000);
 export const ChatIsland: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
+  // Randomise ID for local testing
+  const myBumpkin = {
+    ...state.bumpkin,
+    id: randomId,
+  } as Bumpkin;
+
   const chatService = useInterpret(chatMachine, {
     context: {
-      bumpkin: state.bumpkin,
+      bumpkin: myBumpkin,
     },
   }) as unknown as MachineInterpreter;
 
   const [chatState] = useActor(chatService);
-
-  const [messages, setMessages] = useState<Message[]>([]);
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -38,35 +43,17 @@ export const ChatIsland: React.FC = () => {
     // Start with island centered
     scrollIntoView(Section.HeliosBackGround, "auto");
 
+    const interval = setInterval(() => {
+      chatService.send("SEND_CHAT_MESSAGE", {
+        text: `M: ${randomInt(0, 1000)}`,
+      });
+    }, 5000);
+
     return () => {
       chatService.send("DISCONNECT");
+      clearInterval(interval);
     };
   }, []);
-
-  const onApi = async (client: Client) => {
-    console.log("Init API");
-    // Listen for discord message events
-    client.on("message", ({ message, channel }) => {
-      if (!message.author.name.startsWith("Bumpkin #")) {
-        console.log("NOT A BUMPKIN MESSAGE");
-      }
-
-      const [prefix, bumpkinId] = message.author.name.split("Bumpkin #");
-      console.log(`New message in ${channel}`, message);
-      const newMessage: Message = {
-        id: message.id,
-        bumpkinId: Number(bumpkinId),
-        createdAt: Date.now(),
-        text: message.content,
-      };
-
-      setMessages((prev) => [...prev, newMessage]);
-    });
-
-    client.on("signIn", (user) => {
-      console.log(`Guest signed in as ${user.username}`, user);
-    });
-  };
 
   // Load data
   return (
@@ -105,8 +92,8 @@ export const ChatIsland: React.FC = () => {
         </Modal>
 
         <Chat
-          messages={messages}
-          bumpkin={gameState.context.state.bumpkin as Bumpkin}
+          messages={chatState.context.messages}
+          bumpkin={myBumpkin}
           chatService={chatService}
           position={chatState.context.currentPosition}
           bumpkins={chatState.context.bumpkins}
@@ -118,9 +105,10 @@ export const ChatIsland: React.FC = () => {
             console.log("Send", coordinates);
             chatService.send("SEND_LOCATION", { coordinates });
           }}
+          bumpkin={myBumpkin}
         />
       )}
-
+      {/* 
       {chatState.context.currentPosition && (
         <WidgetBot
           height={500}
@@ -133,7 +121,7 @@ export const ChatIsland: React.FC = () => {
           style={{ zIndex: 999999 }}
           // avatar="https://testnet-images.bumpkins.io/nfts/32_1_6_13_20_22_23x128.png"
         />
-      )}
+      )} */}
     </>
   );
 };
