@@ -63,7 +63,7 @@ export const FruitTree: React.FC<Props> = ({
 
   const { name, amount, harvestsLeft, harvestedAt, plantedAt } = plantedFruit;
   const { seed, isBush } = FRUIT()[name];
-  const { plantSeconds, replenishSeconds } = FRUIT_SEEDS()[seed];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
   const lifecycle = FRUIT_LIFECYCLE[name];
 
   // Dead tree
@@ -92,7 +92,7 @@ export const FruitTree: React.FC<Props> = ({
 
   // Replenishing tree
   if (harvestedAt) {
-    const replenishingTimeLeft = getTimeLeft(harvestedAt, replenishSeconds);
+    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
 
     if (replenishingTimeLeft > 0) {
       return (
