@@ -16,10 +16,7 @@ import timer from "assets/icons/timer.png";
 import basket from "assets/icons/basket.png";
 
 import { secondsToString } from "lib/utils/time";
-import {
-  getCropTime,
-  getCropTime as getCropTimeLandExpansion,
-} from "features/game/events/landExpansion/plant";
+import { getCropTime } from "features/game/events/landExpansion/plant";
 import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
 import { RESOURCES } from "features/game/types/resources";
@@ -48,27 +45,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const getCropHarvestTime = (seedName = "") => {
     const crop = seedName.split(" ")[0] as CropName;
 
-    if (bumpkin) {
-      return secondsToString(
-        getCropTimeLandExpansion(
-          crop,
-          inventory,
-          collectibles,
-          bumpkin as Bumpkin
-        ),
-        {
-          length: "medium",
-        }
-      );
-    }
-
     return secondsToString(
-      getCropTime(
-        crop,
-        gameState.inventory,
-        gameState.collectibles,
-        gameState.bumpkin as Bumpkin
-      ),
+      getCropTime(crop, inventory, collectibles, bumpkin as Bumpkin),
       {
         length: "medium",
       }

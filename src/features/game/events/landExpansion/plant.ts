@@ -79,8 +79,6 @@ export const getCropTime = (
   collectibles: Collectibles,
   bumpkin: Bumpkin
 ) => {
-  const { skills, equipped } = bumpkin;
-  const { necklace } = equipped;
   let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
 
   if (inventory["Seed Specialist"]?.gte(1)) {
@@ -93,10 +91,6 @@ export const getCropTime = (
   ) {
     seconds = seconds * 0.5;
   }
-  //Bumpkin Wearable Boost
-  if (crop === "Carrot" && necklace === "Carrot Amulet") {
-    seconds = seconds * 0.8;
-  }
 
   // Scarecrow: 15% reduction
   if (
@@ -107,8 +101,15 @@ export const getCropTime = (
     seconds = seconds * 0.85;
   }
 
-  if (skills["Cultivator"]) {
-    seconds = seconds * 0.95;
+  if (bumpkin) {
+    //Bumpkin Wearable Boost
+    if (crop === "Carrot" && bumpkin.equipped.necklace === "Carrot Amulet") {
+      seconds = seconds * 0.8;
+    }
+
+    if (bumpkin.skills["Cultivator"]) {
+      seconds = seconds * 0.95;
+    }
   }
 
   return seconds;
