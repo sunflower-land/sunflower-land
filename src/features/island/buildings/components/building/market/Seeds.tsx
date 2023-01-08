@@ -209,12 +209,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     if (yields in CROPS())
       return secondsToString(
-        getCropTime(
-          yields as CropName,
-          inventory,
-          collectibles,
-          state.bumpkin as Bumpkin
-        ),
+        getCropTime(yields as CropName, inventory, collectibles, state.bumpkin),
         {
           length: "medium",
           removeTrailingZeros: true,

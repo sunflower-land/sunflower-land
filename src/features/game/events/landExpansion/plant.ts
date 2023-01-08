@@ -77,7 +77,7 @@ export const getCropTime = (
   crop: CropName,
   inventory: Inventory,
   collectibles: Collectibles,
-  bumpkin: Bumpkin
+  bumpkin: Bumpkin | undefined
 ) => {
   let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
 

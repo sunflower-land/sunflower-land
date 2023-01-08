@@ -6,7 +6,6 @@ import {
   InventoryItemName,
   FERTILISERS,
   COUPONS,
-  Bumpkin,
   GameState,
 } from "features/game/types/game";
 
@@ -46,7 +45,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     const crop = seedName.split(" ")[0] as CropName;
 
     return secondsToString(
-      getCropTime(crop, inventory, collectibles, bumpkin as Bumpkin),
+      getCropTime(crop, inventory, collectibles, bumpkin),
       {
         length: "medium",
       }
