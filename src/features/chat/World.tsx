@@ -14,7 +14,6 @@ export const World: React.FC = () => {
   const { id } = useParams();
 
   useLayoutEffect(() => {
-    console.log({ scrollHeight: container.current.scrollHeight });
     container.current?.scrollTo(400, container.current.scrollHeight);
   }, []);
 
