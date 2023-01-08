@@ -36,9 +36,9 @@ const coordinates = [
     { top: 34, left: 18 },
   ], // 13-15
   [
-    { top: 31, left: 19 },
-    { top: 28, left: 23 },
-    { top: 33, left: 27 },
+    { top: -5, left: 21 },
+    { top: -2, left: 18 },
+    { top: -5, left: 15 },
   ], // 16-18
 ];
 

@@ -10,6 +10,7 @@ import cossies from "assets/decorations/cossies.png";
 import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
 import abandonedLand from "assets/land/abandoned_land.webp";
+import smallIsland from "assets/land/small_island.png";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -39,6 +40,11 @@ export const Water: React.FC<Props> = ({ level }) => {
     if (!merchantAudio.playing()) {
       merchantAudio.play();
     }
+  };
+
+  const frogCoordinates = {
+    x: level >= 7 ? -2 : 5,
+    y: level >= 7 ? -10.5 : -4.5,
   };
 
   return (
@@ -132,9 +138,18 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
+      <MapPlacement x={-5} y={-16} width={6}>
+        <img
+          src={smallIsland}
+          style={{
+            width: `${PIXEL_SCALE * 82}px`,
+          }}
+        />
+      </MapPlacement>
+
       {/* Community Assets */}
       <CommunityBoundary>
-        <MapPlacement x={offset} y={-offset} width={6}>
+        <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y} width={6}>
           <ProjectDignityFrogs left={0} top={0} />
         </MapPlacement>
 
