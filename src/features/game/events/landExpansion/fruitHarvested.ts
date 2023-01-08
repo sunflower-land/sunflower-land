@@ -1,10 +1,11 @@
 import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
-import { GameState } from "features/game/types/game";
+import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
+import { Collectibles, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type HarvestFruitAction = {
@@ -18,6 +19,21 @@ type Options = {
   action: HarvestFruitAction;
   createdAt?: number;
 };
+
+export function getFruitYield(name: FruitName, collectibles: Collectibles) {
+  if (name === "Apple" && isCollectibleBuilt("Lady Bug", collectibles)) {
+    return 1.25;
+  }
+
+  if (
+    name === "Blueberry" &&
+    isCollectibleBuilt("Black Bearry", collectibles)
+  ) {
+    return 2;
+  }
+
+  return 1;
+}
 
 export function harvestFruit({
   state,
@@ -71,6 +87,8 @@ export function harvestFruit({
 
   patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
   patch.fruit.harvestedAt = createdAt;
+
+  patch.fruit.amount = getFruitYield(name, stateCopy.collectibles);
 
   stateCopy.inventory[name] =
     stateCopy.inventory[name]?.add(1) || new Decimal(1);

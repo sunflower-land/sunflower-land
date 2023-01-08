@@ -185,6 +185,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Christmas Snow Globe": SnowGlobe,
   "Immortal Pear": ImmortalPear,
   "Lady Bug": () => null,
+  "Squirrel Monkey": () => null,
+  "Black Bearry": () => null,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
