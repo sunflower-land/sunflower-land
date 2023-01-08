@@ -27,7 +27,6 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     sfl: marketRate(30),
     description: "A Goblin's weakness",
     plantSeconds: 6 * 60 * 60,
-    replenishSeconds: 4 * 60 * 60,
     bumpkinLevel: 13,
     yield: "Blueberry",
   },

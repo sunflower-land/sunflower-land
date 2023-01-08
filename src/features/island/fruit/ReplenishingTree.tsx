@@ -29,11 +29,10 @@ export const ReplenishingTree: React.FC<Props> = ({
   const lifecycle = FRUIT_LIFECYCLE[name];
 
   const { seed, isBush } = FRUIT()[name];
-  const { replenishSeconds } = FRUIT_SEEDS()[seed];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
 
-  const replenishingTimeLeft = getTimeLeft(harvestedAt, replenishSeconds);
-  const replenishPercentage =
-    100 - (replenishingTimeLeft / replenishSeconds) * 100;
+  const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
+  const replenishPercentage = 100 - (replenishingTimeLeft / plantSeconds) * 100;
 
   return (
     <div

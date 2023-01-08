@@ -55,13 +55,13 @@ export function harvestFruit({
   const { name, plantedAt, harvestsLeft, harvestedAt } = patch.fruit;
 
   const { seed } = FRUIT()[name];
-  const { plantSeconds, replenishSeconds } = FRUIT_SEEDS()[seed];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
 
   if (createdAt - plantedAt < plantSeconds * 1000) {
     throw new Error("Not ready");
   }
 
-  if (createdAt - harvestedAt < replenishSeconds * 1000) {
+  if (createdAt - harvestedAt < plantSeconds * 1000) {
     throw new Error("Fruit is still replenishing");
   }
 
