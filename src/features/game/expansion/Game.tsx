@@ -43,7 +43,6 @@ import { IslandNotFound } from "./components/IslandNotFound";
 import { Studios } from "features/studioes/Studios";
 import { Rules } from "../components/Rules";
 import { ChatIsland } from "features/chat/ChatIsland";
-import { hasFeatureAccess } from "lib/flags";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -186,9 +185,6 @@ export const Game: React.FC = () => {
             <Routes>
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
-              {hasFeatureAccess(gameState.context.state.inventory, "CHAT") && (
-                <Route path="/chat" element={<WorldNavigation key="chat" />} />
-              )}
               {level >= 10 && (
                 <Route
                   path="/treasure-island"
