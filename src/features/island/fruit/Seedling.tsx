@@ -9,7 +9,7 @@ import { PlantedFruit } from "features/game/types/game";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { PlantTimerPopover } from "../common/PlantTimerPopover";
+import { TimerPopover } from "../common/TimerPopover";
 
 interface Props {
   playing: boolean;
@@ -82,11 +82,12 @@ export const Seedling: React.FC<Props> = ({
         </div>
       )}
 
-      <PlantTimerPopover
+      <TimerPopover
         showPopover={showHoverState}
         image={lifecycle.ready}
         name={plantedFruit.name}
         timeLeft={growingTimeLeft}
+        position={{ top: 8, left: 32 }}
       />
 
       {/* Select box */}

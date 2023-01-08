@@ -11,7 +11,7 @@ import { PlantedCrop } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { PlantTimerPopover } from "features/island/common/PlantTimerPopover";
+import { TimerPopover } from "features/island/common/TimerPopover";
 
 interface Props {
   showCropDetails: boolean;
@@ -107,7 +107,7 @@ export const Soil: React.FC<Props> = ({
           </div>
         )}
 
-        <PlantTimerPopover
+        <TimerPopover
           image={lifecycle.ready}
           name={plantedCrop.name}
           showPopover={showCropDetails}

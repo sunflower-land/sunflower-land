@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 
+import pontoon from "assets/land/levels/pontoon.gif";
+import island from "assets/land/islands/island.webp";
+
 import { LandExpansion } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-
 import { ProgressBar } from "components/ui/ProgressBar";
-
-import pontoon from "assets/land/levels/pontoon.gif";
+import { TimerPopover } from "features/island/common/TimerPopover";
 
 interface Props {
   expansion: LandExpansion;
@@ -18,6 +19,7 @@ interface Props {
 export const Pontoon: React.FC<Props> = ({ expansion }) => {
   const { gameService, showTimers } = useContext(Context);
 
+  const [showPopover, setShowPopover] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(
     (expansion.readyAt - Date.now()) / 1000
   );
@@ -42,33 +44,38 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
   );
 
   return (
-    <div className="w-full h-full relative">
-      <div className="w-max h-full relative">
-        <img
-          src={pontoon}
-          width={129 * PIXEL_SCALE}
-          style={{
-            top: `${PIXEL_SCALE * 21}px`,
-            right: `${PIXEL_SCALE * 17}px`,
-          }}
-          className="relative"
-        />
-      </div>
+    <div
+      onMouseEnter={() => setShowPopover(true)}
+      onMouseLeave={() => setShowPopover(false)}
+      className="w-full h-full"
+    >
+      <img
+        src={pontoon}
+        style={{
+          top: `${PIXEL_SCALE * 20}px`,
+          left: `${PIXEL_SCALE * -10}px`,
+          width: `${PIXEL_SCALE * 129}px`,
+        }}
+        className="relative max-w-none"
+      />
+      <TimerPopover
+        image={island}
+        name="Next Expansion"
+        showPopover={showPopover}
+        timeLeft={secondsLeft}
+        position={{ top: 10, left: 23 }}
+      />
       {showTimers && (
-        <div
-          className="absolute"
+        <ProgressBar
+          seconds={secondsLeft}
+          percentage={secondsLeft / constructionTime}
+          type="progress"
+          formatLength="medium"
           style={{
-            top: `${PIXEL_SCALE * 83}px`,
-            left: `${PIXEL_SCALE * 40}px`,
+            top: `${PIXEL_SCALE * 82}px`,
+            left: `${PIXEL_SCALE * 45}px`,
           }}
-        >
-          <ProgressBar
-            seconds={secondsLeft}
-            percentage={secondsLeft / constructionTime}
-            type="progress"
-            formatLength="medium"
-          />
-        </div>
+        />
       )}
     </div>
   );

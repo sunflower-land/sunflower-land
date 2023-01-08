@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { PlantTimerPopover } from "../common/PlantTimerPopover";
+import { TimerPopover } from "../common/TimerPopover";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { setImageWidth } from "lib/images";
@@ -76,11 +76,12 @@ export const ReplenishingTree: React.FC<Props> = ({
         </div>
       )}
 
-      <PlantTimerPopover
+      <TimerPopover
         showPopover={showFruitDetails}
         image={lifecycle.ready}
         name={name}
         timeLeft={replenishingTimeLeft}
+        position={{ top: 8, left: 32 }}
       />
     </div>
   );
