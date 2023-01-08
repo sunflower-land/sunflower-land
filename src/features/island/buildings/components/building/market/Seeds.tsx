@@ -34,6 +34,7 @@ import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
 import { hasFeatureAccess } from "lib/flags";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   onClose: () => void;
@@ -228,7 +229,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return null;
     }
 
-    // TODO - immortal pear, wait for PR to be merged in
+    if (isCollectibleBuilt("Immortal Pear", collectibles)) {
+      return [4, 6];
+    }
 
     return [3, 5];
   };
