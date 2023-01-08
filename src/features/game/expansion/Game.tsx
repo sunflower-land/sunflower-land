@@ -187,7 +187,7 @@ export const Game: React.FC = () => {
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
               {hasFeatureAccess(gameState.context.state.inventory, "CHAT") && (
-                <Route path="/chat" element={<ChatIsland key="chat" />} />
+                <Route path="/chat" element={<WorldNavigation key="chat" />} />
               )}
               {level >= 10 && (
                 <Route

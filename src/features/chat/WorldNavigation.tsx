@@ -1,25 +1,27 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-import background from "assets/land/levels/level_2.webp";
+import background from "assets/land/world.png";
 
 import { Context } from "features/game/GameProvider";
-import { Chat } from "./Chat";
+import { Bumpkins } from "./Bumpkins";
 import { chatMachine, MachineInterpreter } from "./chatMachine";
-import { PlaceableBumpkin } from "./PlaceableBumpkin";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { ChatUI } from "./ChatUI";
 import { Bumpkin } from "features/game/types/game";
 
 import { randomInt } from "lib/utils/random";
-import { getInitialCorodinates } from "features/game/expansion/placeable/Placeable";
 
 const randomId = randomInt(0, 99999);
-export const ChatIsland: React.FC = () => {
+
+interface Props {
+  scrollContainer: HTMLElement;
+}
+export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
@@ -40,41 +42,58 @@ export const ChatIsland: React.FC = () => {
 
   const [scrollIntoView] = useScrollIntoView();
 
-  useLayoutEffect(() => {
-    scrollIntoView(Section.HeliosBackGround, "auto");
+  useEffect(() => {
+    if (!chatState.context.currentPosition) {
+      console.log("SEND!");
+      chatService.send("SEND_LOCATION", {
+        coordinates: { x: 740, y: 1400 },
+      });
+    }
+  }, [chatState.value]);
 
+  useEffect(() => {
     return () => {
       chatService.send("DISCONNECT");
     };
   }, []);
 
   const walk = (e: React.MouseEvent<HTMLElement>) => {
-    const coords = getInitialCorodinates();
-    const x = e.clientX;
-    const y = e.clientY;
-    const distanceX = x - coords[0];
-    const distanceY = coords[1] - y;
+    // const coords = getInitialCorodinates();
+    console.log({
+      scrolLeft: scrollContainer.scrollLeft,
+      scrollTop: scrollContainer.scrollTop,
+      pageX: e.pageX,
+      pageY: e.pageY,
+      clientX: e.clientX,
+      clientY: e.clientY,
+    });
+    const x = e.pageX + scrollContainer.scrollLeft;
+    const y = scrollContainer.scrollTop + e.pageY;
 
-    const gridX = distanceX / GRID_WIDTH_PX;
-    const gridY = distanceY / GRID_WIDTH_PX;
+    console.log({ x, y });
+    console.log({ e });
+    // const distanceX = x - coords[0];
+    // const distanceY = coords[1] - y;
+
+    // const gridX = distanceX / GRID_WIDTH_PX;
+    // const gridY = distanceY / GRID_WIDTH_PX;
 
     chatService.send("SEND_LOCATION", {
-      coordinates: { x: gridX, y: gridY },
+      coordinates: { x: x, y: y },
     });
   };
 
   // Load data
   return (
     <>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute inset-0" onClick={walk}>
         <img
           src={background}
           id={Section.HeliosBackGround}
-          className="h-auto"
+          className="h-auto absolute"
           style={{
-            width: `${36 * GRID_WIDTH_PX}px`,
+            width: `${40 * GRID_WIDTH_PX}px`,
           }}
-          onClick={walk}
         />
 
         <Modal show={chatState.matches("connecting")} centered>
@@ -100,7 +119,7 @@ export const ChatIsland: React.FC = () => {
           </Panel>
         </Modal>
 
-        <Chat
+        <Bumpkins
           messages={chatState.context.messages}
           bumpkin={myBumpkin}
           chatService={chatService}
@@ -108,7 +127,7 @@ export const ChatIsland: React.FC = () => {
           bumpkins={chatState.context.bumpkins}
         />
       </div>
-      {chatState.matches("connected") && !chatState.context.currentPosition && (
+      {/* {chatState.matches("connected") && !chatState.context.currentPosition && (
         <PlaceableBumpkin
           onPlace={(coordinates) => {
             console.log("Send", coordinates);
@@ -116,7 +135,7 @@ export const ChatIsland: React.FC = () => {
           }}
           bumpkin={myBumpkin}
         />
-      )}
+      )} */}
       {chatState.context.currentPosition && (
         <ChatUI
           onMessage={(text) => {

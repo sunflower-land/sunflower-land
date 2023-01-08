@@ -45,6 +45,7 @@ type ChatEvent =
   | { type: "CHAT_MESSAGE_RECEIVED"; connectionId: string; text: string }
   | SendLocationEvent
   | SendChatMessageEvent
+  | { type: "TICK" }
   | { type: "DISCONNECT" };
 
 export type MachineState = State<ChatContext, ChatEvent, ChatState>;
@@ -215,8 +216,13 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
             }
           });
 
+          const messageCleanup = setInterval(() => {
+            cb("TICK");
+          }, 5000);
+
           return () => {
             console.log("Clean up?");
+            clearInterval(messageCleanup);
           };
         },
         onError: [
@@ -318,6 +324,15 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
         PLAYERS_LOADED: {
           actions: assign({
             bumpkins: (context, event) => event.players,
+          }),
+        },
+        // Basic cleanup behaviour
+        TICK: {
+          actions: assign({
+            messages: (context) =>
+              context.messages.filter(
+                (m) => m.createdAt > Date.now() - 5 * 1000
+              ),
           }),
         },
         CHAT_MESSAGE_RECEIVED: {
