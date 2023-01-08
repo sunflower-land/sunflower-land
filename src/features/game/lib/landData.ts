@@ -392,6 +392,18 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
       },
     },
   },
+  {
+    createdAt: 5,
+    readyAt: 0,
+    fruitPatches: {
+      0: {
+        height: 2,
+        width: 2,
+        x: 1,
+        y: 1,
+      },
+    },
+  },
 ];
 
 const INITIAL_BUMPKIN: Bumpkin = {

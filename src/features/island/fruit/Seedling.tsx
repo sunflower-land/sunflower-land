@@ -9,8 +9,7 @@ import { PlantedFruit } from "features/game/types/game";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { Popover } from "./Popover";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { PlantTimerPopover } from "../common/PlantTimerPopover";
 
 interface Props {
   playing: boolean;
@@ -39,7 +38,6 @@ export const Seedling: React.FC<Props> = ({
   onClick,
 }) => {
   const { showTimers } = useContext(Context);
-  const [isMobile] = useIsMobile();
   const [showHoverState, setShowHoverState] = useState(false);
   const { plantedAt, name } = plantedFruit;
   const { seed } = FRUIT()[name];
@@ -54,7 +52,7 @@ export const Seedling: React.FC<Props> = ({
 
   return (
     <div
-      onMouseEnter={() => setShowHoverState(!isMobile)}
+      onMouseEnter={() => setShowHoverState(true)}
       onMouseLeave={() => setShowHoverState(false)}
       className="flex justify-center"
       onClick={onClick}
@@ -84,10 +82,10 @@ export const Seedling: React.FC<Props> = ({
         </div>
       )}
 
-      <Popover
-        showFruitDetails={showHoverState}
-        lifecycle={lifecycle}
-        plantedFruitName={plantedFruit.name}
+      <PlantTimerPopover
+        showPopover={showHoverState}
+        image={lifecycle.ready}
+        name={plantedFruit.name}
         timeLeft={growingTimeLeft}
       />
 

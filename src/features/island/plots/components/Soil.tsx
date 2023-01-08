@@ -1,27 +1,23 @@
 import React from "react";
 
-import classNames from "classnames";
 import soil from "assets/land/soil2.png";
 
-import { getTimeLeft, secondsToString } from "lib/utils/time";
-
+import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { InnerPanel } from "components/ui/Panel";
-
 import { CROPS } from "features/game/types/crops";
 import { addNoise } from "lib/images";
-
 import { LIFECYCLE } from "../lib/plant";
 import { PlantedCrop } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { PlantTimerPopover } from "features/island/common/PlantTimerPopover";
 
 interface Props {
-  plantedCrop?: PlantedCrop;
-  showCropDetails?: boolean;
-  isRemoving?: boolean;
+  showCropDetails: boolean;
   showTimers: boolean;
+  isRemoving?: boolean;
+  plantedCrop?: PlantedCrop;
 }
 
 const CROP_NOISE_LEVEL = 0.1;
@@ -111,25 +107,12 @@ export const Soil: React.FC<Props> = ({
           </div>
         )}
 
-        <InnerPanel
-          className={classNames(
-            "ml-10 transition-opacity absolute whitespace-nowrap sm:opacity-0 -bottom-2 w-fit left-1 z-50 pointer-events-none",
-            {
-              "opacity-100": showCropDetails,
-              "opacity-0": !showCropDetails,
-            }
-          )}
-        >
-          <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
-            <div className="flex flex-1 items-center justify-center">
-              <img src={lifecycle.ready} className="w-4 mr-1" />
-              <span>{plantedCrop.name}</span>
-            </div>
-            <span className="flex-1">
-              {secondsToString(timeLeft, { length: "medium" })}
-            </span>
-          </div>
-        </InnerPanel>
+        <PlantTimerPopover
+          image={lifecycle.ready}
+          name={plantedCrop.name}
+          showPopover={showCropDetails}
+          timeLeft={timeLeft}
+        />
       </div>
     );
   }

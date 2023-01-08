@@ -20,17 +20,17 @@ import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { Soil } from "features/farming/crops/components/Soil";
+import { Soil } from "features/island/plots/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import { isPlotFertile } from "features/game/events/landExpansion/plant";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import Spritesheet from "components/animation/SpriteAnimator";
-import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
+import { HARVEST_PROC_ANIMATION } from "features/island/plots/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
-import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
+import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { GoldenCropModal } from "features/island/plots/components/GoldenCropModal";
 import golden_crop_sheet from "assets/events/golden_crop/golden_crop_sheet.png";
 interface Props {
@@ -427,7 +427,6 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       )}
 
       {/* Crop reward */}
-
       {!showGoldenCropModal && (
         <ChestReward
           reward={reward}

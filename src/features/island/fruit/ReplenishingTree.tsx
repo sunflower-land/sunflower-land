@@ -5,11 +5,10 @@ import { Context } from "features/game/GameProvider";
 import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { Popover } from "./Popover";
+import { PlantTimerPopover } from "../common/PlantTimerPopover";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { setImageWidth } from "lib/images";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
 import { getFruitImage } from "./FruitTree";
 
@@ -25,7 +24,6 @@ export const ReplenishingTree: React.FC<Props> = ({
   playAnimation,
 }) => {
   const { showTimers } = useContext(Context);
-  const [isMobile] = useIsMobile();
   const [showFruitDetails, setFruitDetails] = useState(false);
   const { harvestedAt, name, amount } = plantedFruit;
   const lifecycle = FRUIT_LIFECYCLE[name];
@@ -39,7 +37,7 @@ export const ReplenishingTree: React.FC<Props> = ({
 
   return (
     <div
-      onMouseEnter={() => setFruitDetails(!isMobile)}
+      onMouseEnter={() => setFruitDetails(true)}
       onMouseLeave={() => setFruitDetails(false)}
       className="flex justify-center"
     >
@@ -78,10 +76,10 @@ export const ReplenishingTree: React.FC<Props> = ({
         </div>
       )}
 
-      <Popover
-        showFruitDetails={showFruitDetails}
-        lifecycle={lifecycle}
-        plantedFruitName={name}
+      <PlantTimerPopover
+        showPopover={showFruitDetails}
+        image={lifecycle.ready}
+        name={name}
         timeLeft={replenishingTimeLeft}
       />
     </div>
