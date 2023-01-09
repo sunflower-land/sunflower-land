@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
-import { Cake } from "./craftables";
+import { Cake, getKeys } from "./craftables";
 import { Inventory } from "./game";
 
 type JuiceName =
@@ -9,15 +9,6 @@ type JuiceName =
   | "Purple Smoothie"
   | "Power Smoothie"
   | "Bumpkin Detox";
-
-const Juices: JuiceName[] = [
-  "Apple Juice",
-  "Orange Juice",
-  "Orange Juice",
-  "Purple Smoothie",
-  "Power Smoothie",
-  "Bumpkin Detox",
-];
 
 export type ConsumableName =
   | "Mashed Potato"
@@ -56,10 +47,6 @@ export type Consumable = {
   marketRate: number;
   disabled?: boolean;
 };
-
-export function isJuice(item: any) {
-  return Juices.includes(item);
-}
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Mashed Potato": {
@@ -527,3 +514,11 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 500,
   },
 };
+
+const Juices = getKeys(CONSUMABLES).filter(
+  (name) => CONSUMABLES[name].building === "Smoothie Shack"
+);
+
+export function isJuice(item: any) {
+  return Juices.includes(item);
+}
