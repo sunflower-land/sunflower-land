@@ -17,22 +17,10 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
 import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
-// random seal spawn spots
-import { randomInt } from "lib/utils/random";
-import { LostSeal } from "features/community/seal/Seal";
 import { merchantAudio } from "lib/utils/sfx";
-
-const spawn = [
-  [40.1, -3],
-  [35, 30],
-  [5, 35],
-  [5, -3],
-];
-
-const getRandomSpawn = () => {
-  const randomSpawn = randomInt(0, 4);
-  return spawn[randomSpawn];
-};
+import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
+import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
+import CommunityBoundary from "features/community/components/CommunityBoundary";
 
 export const LAND_WIDTH = 6;
 
@@ -44,7 +32,6 @@ export const Water: React.FC<Props> = ({ level }) => {
   // As the land gets bigger, push the water decorations out
   const [showModal, setShowModal] = useState(false);
   const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
-  const [sealSpawn, setSealSpawn] = React.useState(getRandomSpawn());
 
   const openMerchant = () => {
     setShowModal(true);
@@ -52,6 +39,11 @@ export const Water: React.FC<Props> = ({ level }) => {
     if (!merchantAudio.playing()) {
       merchantAudio.play();
     }
+  };
+
+  const frogCoordinates = {
+    x: level >= 7 ? -2 : 5,
+    y: level >= 7 ? -10.5 : -4.5,
   };
 
   return (
@@ -125,8 +117,6 @@ export const Water: React.FC<Props> = ({ level }) => {
       </MapPlacement>
       <Arcade left={40.25} top={-6.375} />
 
-      <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-
       <FarmerQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
@@ -146,6 +136,24 @@ export const Water: React.FC<Props> = ({ level }) => {
           }}
         />
       </MapPlacement>
+
+      {/* <MapPlacement x={-5} y={-16} width={6}>
+        <img
+          src={smallIsland}
+          style={{
+            width: `${PIXEL_SCALE * 82}px`,
+          }}
+        />
+      </MapPlacement> */}
+
+      {/* Community Assets */}
+      <CommunityBoundary>
+        <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y} width={6}>
+          <ProjectDignityFrogs left={0} top={0} />
+        </MapPlacement>
+
+        <ProjectDignitySeals isGarden={false} />
+      </CommunityBoundary>
     </div>
   );
 };
