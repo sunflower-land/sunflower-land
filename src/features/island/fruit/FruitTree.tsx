@@ -14,7 +14,7 @@ import { ReplenishingTree } from "./ReplenishingTree";
 import apple from "/src/assets/resources/apple.png";
 import orange from "/src/assets/resources/orange.png";
 import blueberry from "/src/assets/resources/blueberry.png";
-import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
+import { DeadTree } from "./DeadTree";
 
 export const getFruitImage = (fruitName: FruitName): string => {
   switch (fruitName) {
@@ -75,23 +75,9 @@ export const FruitTree: React.FC<Props> = ({
   // Dead tree
   if (!harvestsLeft) {
     return (
-      <FruitDropAnimator
-        mainImageProps={{
-          src: lifecycle.dead,
-          className: "relative cursor-pointer hover:img-highlight",
-          style: {
-            bottom: "-9px",
-            zIndex: "1",
-          },
-          onLoad: (e) => setImageWidth(e.currentTarget),
-          onClick: removeTree,
-        }}
-        dropImageProps={{
-          src: getFruitImage(name),
-        }}
-        dropCount={amount}
-        playDropAnimation={playAnimation}
-        playShakeAnimation={false}
+      <DeadTree
+        fruitImage={getFruitImage(name)}
+        {...{ amount, playAnimation, removeTree, lifecycle }}
       />
     );
   }
