@@ -10,7 +10,6 @@ import cossies from "assets/decorations/cossies.png";
 import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
 import abandonedLand from "assets/land/abandoned_land.webp";
-import smallIsland from "assets/land/small_island.png";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -138,14 +137,14 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      <MapPlacement x={-5} y={-16} width={6}>
+      {/* <MapPlacement x={-5} y={-16} width={6}>
         <img
           src={smallIsland}
           style={{
             width: `${PIXEL_SCALE * 82}px`,
           }}
         />
-      </MapPlacement>
+      </MapPlacement> */}
 
       {/* Community Assets */}
       <CommunityBoundary>
