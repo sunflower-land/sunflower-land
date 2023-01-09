@@ -1,11 +1,12 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type RemoveFruitTreeAction = {
   type: "fruitTree.removed";
   expansionIndex: number;
   index: number;
+  item: InventoryItemName;
 };
 
 type Options = {
@@ -20,7 +21,7 @@ export function removeFruitTree({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin } = stateCopy;
+  const { expansions, bumpkin, inventory } = stateCopy;
   const expansion = expansions[action.expansionIndex];
 
   if (!bumpkin) {
@@ -33,6 +34,16 @@ export function removeFruitTree({
 
   if (!expansion.fruitPatches) {
     throw new Error("Expansion does not have any fruit patches");
+  }
+
+  if (action.item !== "Axe") {
+    throw new Error("No axe");
+  }
+
+  const axeAmount = inventory.Axe || new Decimal(0);
+
+  if (axeAmount.lessThan(1)) {
+    throw new Error("No axes left");
   }
 
   const { fruitPatches } = expansion;
@@ -55,6 +66,7 @@ export function removeFruitTree({
 
   delete patch.fruit;
 
+  inventory.Axe = axeAmount.sub(1);
   stateCopy.inventory.Wood = stateCopy.inventory.Wood?.add(1) || new Decimal(1);
 
   return stateCopy;

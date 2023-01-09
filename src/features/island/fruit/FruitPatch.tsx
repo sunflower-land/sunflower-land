@@ -69,6 +69,7 @@ export const FruitPatch: React.FC<Props> = ({
       const newState = gameService.send("fruitTree.removed", {
         index: fruitPatchIndex,
         expansionIndex,
+        item: selectedItem,
       });
 
       if (!newState.matches("hoarding")) {

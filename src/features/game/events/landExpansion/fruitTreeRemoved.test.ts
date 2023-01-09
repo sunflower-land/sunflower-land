@@ -8,6 +8,7 @@ const GAME_STATE: GameState = {
   bumpkin: INITIAL_BUMPKIN,
   inventory: {
     Wood: new Decimal(1),
+    Axe: new Decimal(1),
   },
   expansions: [
     ...TEST_FARM.expansions,
@@ -51,6 +52,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           expansionIndex: 3,
           index: 0,
+          item: "Axe",
         },
       })
     ).toThrow("You do not have a Bumpkin");
@@ -64,6 +66,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           expansionIndex: 3,
           index: 0,
+          item: "Axe",
         },
       })
     ).toThrow("Expansion does not exist");
@@ -77,6 +80,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           index: 0,
           expansionIndex: 0,
+          item: "Axe",
         },
       })
     ).toThrow("Expansion does not have any fruit patches");
@@ -90,6 +94,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           index: -1,
           expansionIndex: 3,
+          item: "Axe",
         },
       })
     ).toThrow("Fruit patch does not exist");
@@ -103,6 +108,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           index: 1,
           expansionIndex: 3,
+          item: "Axe",
         },
       })
     ).toThrow("Nothing was planted");
@@ -139,6 +145,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           index: 0,
           expansionIndex: 0,
+          item: "Axe",
         },
       })
     ).toThrow("Fruit is still available");
@@ -151,6 +158,7 @@ describe("fruitTreeRemoved", () => {
         type: "fruitTree.removed",
         index: 0,
         expansionIndex: 3,
+        item: "Axe",
       },
     });
 
@@ -158,5 +166,50 @@ describe("fruitTreeRemoved", () => {
     expect(fruitAfterChop).toBeUndefined();
 
     expect(state.inventory.Wood).toStrictEqual(new Decimal(2));
+  });
+  it("throws an error if axe is not selected", () => {
+    expect(() =>
+      removeFruitTree({
+        state: {
+          ...GAME_STATE,
+        },
+        createdAt: Date.now(),
+        action: {
+          type: "fruitTree.removed",
+          item: "Sunflower Statue",
+          expansionIndex: 3,
+          index: 0,
+        },
+      })
+    ).toThrow("No axe");
+  });
+
+  it("throws an error if no axes are left", () => {
+    expect(() =>
+      removeFruitTree({
+        state: { ...GAME_STATE, inventory: { Axe: new Decimal(0) } },
+        createdAt: Date.now(),
+        action: {
+          type: "fruitTree.removed",
+          item: "Axe",
+          expansionIndex: 3,
+          index: 0,
+        },
+      })
+    ).toThrow("No axes left");
+  });
+
+  it("deducts ONE axe from inventory", () => {
+    const state = removeFruitTree({
+      state: GAME_STATE,
+      action: {
+        type: "fruitTree.removed",
+        index: 0,
+        expansionIndex: 3,
+        item: "Axe",
+      },
+    });
+
+    expect(state.inventory.Axe).toStrictEqual(new Decimal(0));
   });
 });
