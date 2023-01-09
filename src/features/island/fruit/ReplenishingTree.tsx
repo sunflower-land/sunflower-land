@@ -6,22 +6,33 @@ import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT, FRUIT_SEEDS, FruitName } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { setImageWidth } from "lib/images";
 import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
 import { getFruitImage } from "./FruitTree";
 
+const pluralisedNames: Record<FruitName, string> = {
+  Orange: "Oranges",
+  Blueberry: "Blueberries",
+  Apple: "Apples",
+};
+
 interface Props {
   plantedFruit: PlantedFruit;
   onClick: () => void;
   playAnimation: boolean;
+  /**
+   * Handles showing "hover" information on mobile or "error" on click action information
+   */
+  showOnClickInfo: boolean;
 }
 
 export const ReplenishingTree: React.FC<Props> = ({
   plantedFruit,
   onClick,
   playAnimation,
+  showOnClickInfo,
 }) => {
   const { showTimers } = useContext(Context);
   const [showFruitDetails, setFruitDetails] = useState(false);
@@ -76,11 +87,11 @@ export const ReplenishingTree: React.FC<Props> = ({
       )}
 
       <TimerPopover
-        showPopover={showFruitDetails}
+        showPopover={showFruitDetails || showOnClickInfo}
         image={lifecycle.ready}
-        name={name}
+        name={`${pluralisedNames[name]} Replenishing`}
         timeLeft={replenishingTimeLeft}
-        position={{ top: 8, left: 32 }}
+        position={{ top: 6, left: 30 }}
       />
     </div>
   );

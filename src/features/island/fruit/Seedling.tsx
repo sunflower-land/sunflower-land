@@ -15,6 +15,10 @@ interface Props {
   playing: boolean;
   plantedFruit: PlantedFruit;
   onClick: () => void;
+  /**
+   * Handles showing "hover" information on mobile or "error" on click action information
+   */
+  showOnClickInfo: boolean;
 }
 
 export const getFruitImage = (imageSource: any): JSX.Element => {
@@ -36,6 +40,7 @@ export const Seedling: React.FC<Props> = ({
   playing,
   plantedFruit,
   onClick,
+  showOnClickInfo,
 }) => {
   const { showTimers } = useContext(Context);
   const [showHoverState, setShowHoverState] = useState(false);
@@ -83,11 +88,11 @@ export const Seedling: React.FC<Props> = ({
       )}
 
       <TimerPopover
-        showPopover={showHoverState}
+        showPopover={showHoverState || showOnClickInfo}
         image={lifecycle.ready}
-        name={plantedFruit.name}
+        name={`${plantedFruit.name} Tree Growing`}
         timeLeft={growingTimeLeft}
-        position={{ top: 8, left: 32 }}
+        position={{ top: 8, left: 25 }}
       />
 
       {/* Select box */}

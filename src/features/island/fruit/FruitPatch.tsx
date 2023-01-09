@@ -20,6 +20,7 @@ interface Props {
   fruitPatchIndex: number;
   expansionIndex: number;
 }
+
 export const FruitPatch: React.FC<Props> = ({
   fruitPatchIndex,
   expansionIndex,
@@ -27,7 +28,8 @@ export const FruitPatch: React.FC<Props> = ({
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
-  const [showError, setShowError] = useState(false);
+  const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
+  const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
   const expansion = game.context.state.expansions[expansionIndex];
   const patch = expansion.fruitPatches?.[fruitPatchIndex];
@@ -36,10 +38,14 @@ export const FruitPatch: React.FC<Props> = ({
 
   const playing = game.matches("playing") || game.matches("autosaving");
 
-  const displayError = async () => {
-    setShowError(true);
+  const displayInformation = async () => {
+    // First click show error
+    // Second click show panel with information
+    setShowInfo(true);
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
-    setShowError(false);
+    setShowInfo(false);
+
+    infoToShow === "error" ? setInfoToShow("info") : setInfoToShow("error");
   };
 
   const harvestFruit = () => {
@@ -59,13 +65,18 @@ export const FruitPatch: React.FC<Props> = ({
         });
       }
     } catch (e: any) {
-      // TODO - catch more elaborate errors
-      displayError();
+      displayInformation();
     }
   };
 
   const removeTree = () => {
     try {
+      const { inventory } = game.context.state;
+
+      if (selectedItem !== "Axe" || inventory.Axe?.lt(1)) {
+        return displayInformation();
+      }
+
       const newState = gameService.send("fruitTree.removed", {
         index: fruitPatchIndex,
         expansionIndex,
@@ -81,8 +92,7 @@ export const FruitPatch: React.FC<Props> = ({
         });
       }
     } catch (e: any) {
-      // TODO - catch more elaborate errors
-      displayError();
+      displayInformation();
     }
   };
 
@@ -102,9 +112,11 @@ export const FruitPatch: React.FC<Props> = ({
       });
     } catch (e: any) {
       // TODO - catch more elaborate errors
-      displayError();
+      displayInformation();
     }
   };
+
+  const showError = showInfo && infoToShow === "error";
 
   return (
     <div className="w-full h-full relative flex justify-center items-center">
@@ -116,9 +128,10 @@ export const FruitPatch: React.FC<Props> = ({
             plantTree={plantTree}
             harvestFruit={harvestFruit}
             removeTree={removeTree}
-            onError={displayError}
+            onError={displayInformation}
             playing={playing}
             playAnimation={playAnimation}
+            showOnClickInfo={showInfo && infoToShow === "info"}
           />
         ) : (
           <img
