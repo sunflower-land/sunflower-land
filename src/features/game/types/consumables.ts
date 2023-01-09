@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
-import { Cake } from "./craftables";
+import { Cake, getKeys } from "./craftables";
 import { Inventory } from "./game";
 
 type JuiceName =
@@ -514,3 +514,11 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 500,
   },
 };
+
+const Juices = getKeys(CONSUMABLES).filter(
+  (name) => CONSUMABLES[name].building === "Smoothie Shack"
+);
+
+export function isJuice(item: any) {
+  return Juices.includes(item);
+}
