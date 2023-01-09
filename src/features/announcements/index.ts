@@ -21,7 +21,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
     image: reindeer,
   },
   {
-    date: new Date("2023-01-10T00:00:00"),
+    date: new Date("2023-01-17T00:00:00"),
     title: "Fruit Trees are here!",
     notes: [
       "Apple, orange, and blueberry seeds are now available! Seeds grow into fruit trees, which can be harvested a random amount of times to collect fruit!",
