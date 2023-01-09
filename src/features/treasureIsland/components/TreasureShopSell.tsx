@@ -81,10 +81,7 @@ export const TreasureShopSell: React.FC = () => {
         ))}
       </div>
       <OuterPanel className="w-full flex-1">
-        <div
-          className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative"
-          style={{ minHeight: "150px" }}
-        >
+        <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
           <div className="flex space-x-2 items-center mt-1 sm:flex-col-reverse md:space-x-0">
             <img
               src={ITEM_DETAILS[selectedName].image}
