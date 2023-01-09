@@ -455,7 +455,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "A crisp refreshing beverage",
     building: "Smoothie Shack",
     cookingSeconds: 60 * 60 * 1.5,
-    experience: 340,
+    experience: 420,
     ingredients: {
       Apple: new Decimal(5),
     },
@@ -479,7 +479,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "You can hardly taste the Cabbage",
     building: "Smoothie Shack",
     cookingSeconds: 60 * 60 * 4.5,
-    experience: 280,
+    experience: 250,
     ingredients: {
       Blueberry: new Decimal(5),
       Cabbage: new Decimal(10),
@@ -492,7 +492,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Official drink of the Bumpkin Powerlifting Society",
     building: "Smoothie Shack",
     cookingSeconds: 60 * 60 * 2.5,
-    experience: 410,
+    experience: 600,
     ingredients: {
       Blueberry: new Decimal(10),
       Kale: new Decimal(5),
@@ -505,7 +505,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     description: "Wash away the sins of last night",
     building: "Smoothie Shack",
     cookingSeconds: 60 * 30,
-    experience: 500,
+    experience: 800,
     ingredients: {
       Apple: new Decimal(5),
       Orange: new Decimal(5),

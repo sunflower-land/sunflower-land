@@ -5,11 +5,10 @@ import { Context } from "features/game/GameProvider";
 import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { Popover } from "./Popover";
+import { TimerPopover } from "../common/TimerPopover";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { setImageWidth } from "lib/images";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
 import { getFruitImage } from "./FruitTree";
 
@@ -25,21 +24,19 @@ export const ReplenishingTree: React.FC<Props> = ({
   playAnimation,
 }) => {
   const { showTimers } = useContext(Context);
-  const [isMobile] = useIsMobile();
   const [showFruitDetails, setFruitDetails] = useState(false);
   const { harvestedAt, name, amount } = plantedFruit;
   const lifecycle = FRUIT_LIFECYCLE[name];
 
   const { seed, isBush } = FRUIT()[name];
-  const { replenishSeconds } = FRUIT_SEEDS()[seed];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
 
-  const replenishingTimeLeft = getTimeLeft(harvestedAt, replenishSeconds);
-  const replenishPercentage =
-    100 - (replenishingTimeLeft / replenishSeconds) * 100;
+  const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
+  const replenishPercentage = 100 - (replenishingTimeLeft / plantSeconds) * 100;
 
   return (
     <div
-      onMouseEnter={() => setFruitDetails(!isMobile)}
+      onMouseEnter={() => setFruitDetails(true)}
       onMouseLeave={() => setFruitDetails(false)}
       className="flex justify-center"
     >
@@ -78,11 +75,12 @@ export const ReplenishingTree: React.FC<Props> = ({
         </div>
       )}
 
-      <Popover
-        showFruitDetails={showFruitDetails}
-        lifecycle={lifecycle}
-        plantedFruitName={name}
+      <TimerPopover
+        showPopover={showFruitDetails}
+        image={lifecycle.ready}
+        name={name}
         timeLeft={replenishingTimeLeft}
+        position={{ top: 8, left: 32 }}
       />
     </div>
   );

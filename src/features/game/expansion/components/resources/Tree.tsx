@@ -36,7 +36,7 @@ import {
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
-import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
+import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 
 const HITS = 3;
 const tool = "Axe";
