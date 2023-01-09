@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, LandExpansion } from "../types/game";
+import { LandExpansion } from "../types/game";
 import { TEST_FARM } from "./constants";
 import { getLowestGameState, updateExpansions } from "./transforms";
 
@@ -84,7 +84,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -121,7 +121,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -162,7 +162,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -199,7 +199,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -240,7 +240,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -273,7 +273,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -313,7 +313,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
