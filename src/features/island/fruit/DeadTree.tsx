@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
 import { InnerPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
-import { getRequiredAxeAmount } from "features/game/events/landExpansion/chop";
 import { Context } from "features/game/GameProvider";
 import { setImageWidth } from "lib/images";
 import React, { useContext, useState } from "react";
@@ -28,29 +27,39 @@ export const DeadTree = ({
   const [game] = useActor(gameService);
 
   const [errorLabel, setErrorLabel] = useState<"noAxe">();
+  const [showError, setShowError] = useState<boolean>(false);
 
-  const axesNeeded = getRequiredAxeAmount(
-    game.context.state.inventory,
-    game.context.state.collectibles
-  );
   const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
 
-  const hasAxes =
-    (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
+  const hasAxes = selectedItem === "Axe" && axeAmount.gte(1);
 
   const handleHover = () => {
-    //code for AXE
+    if (!hasAxes) {
+      setShowError(true);
+      setErrorLabel("noAxe");
+    }
   };
 
   const handleMouseLeave = () => {
-    //code for AXE
+    setShowError(false);
+    setErrorLabel(undefined);
   };
   return (
-    <div onMouseEnter={handleHover} onMouseLeave={handleMouseLeave}>
+    <div
+      className={`${showError ? "cursor-not-allowed" : ""}`}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleMouseLeave}
+      onMouseOver={handleHover}
+    >
       <FruitDropAnimator
+        wrapperClassName="h-full"
         mainImageProps={{
           src: lifecycle.dead,
-          className: "relative cursor-pointer hover:img-highlight",
+          className: `relative ${
+            showError
+              ? "cursor-not-allowed pointer-events-none"
+              : "cursor-pointer hover:img-highlight"
+          }`,
           style: {
             bottom: "-9px",
             zIndex: "1",
