@@ -8,6 +8,7 @@ import { Frog } from "./Frog";
 import { Tadpole } from "./Tadpole";
 import { Incubator } from "./Incubator";
 import { WhitelistToken } from "./WhitelistToken";
+import { Seal } from "./Seal";
 
 /**
  * A wrapper of Web3 which handles retries and other common errors.
@@ -18,6 +19,7 @@ export class CommunityContracts {
   private tadpole: Tadpole | null = null;
   private incubator: Incubator | null = null;
   private whitelist_token: WhitelistToken | null = null;
+  private seal: Seal | null = null;
 
   private account: string | null = null;
 
@@ -34,6 +36,7 @@ export class CommunityContracts {
           this.web3 as Web3,
           this.account as string
         );
+        this.seal = new Seal(this.web3 as Web3, this.account as string);
       } catch (e) {
         console.error("Unable to initialise frog contract", e);
       }
@@ -129,6 +132,10 @@ export class CommunityContracts {
 
   public getWhitelistToken() {
     return this.whitelist_token as WhitelistToken;
+  }
+
+  public getSeal() {
+    return this.seal as Seal;
   }
 
   public get myAccount() {

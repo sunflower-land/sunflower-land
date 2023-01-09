@@ -5,7 +5,6 @@ import { trade } from "./trade";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
-  fields: {},
   balance: new Decimal(0),
   inventory: {},
 };

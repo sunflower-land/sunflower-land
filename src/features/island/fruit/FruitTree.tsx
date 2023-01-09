@@ -35,6 +35,10 @@ interface Props {
   removeTree: () => void;
   onError: () => void;
   playAnimation: boolean;
+  /**
+   * Handles showing "hover" information on mobile or "error" on click action information
+   */
+  showOnClickInfo: boolean;
 }
 
 export const FruitTree: React.FC<Props> = ({
@@ -45,6 +49,7 @@ export const FruitTree: React.FC<Props> = ({
   onError,
   playing,
   playAnimation,
+  showOnClickInfo,
 }) => {
   useUiRefresher({ active: !!plantedFruit });
   //UI Refresher reloads this component after a regular time intervals.
@@ -60,6 +65,7 @@ export const FruitTree: React.FC<Props> = ({
   if (!plantedFruit) {
     return (
       <Soil
+        showOnClickInfo={showOnClickInfo}
         playing={playing}
         onClick={plantTree}
         playAnimation={playAnimation}
@@ -77,6 +83,7 @@ export const FruitTree: React.FC<Props> = ({
     return (
       <DeadTree
         fruitImage={getFruitImage(name)}
+        showOnClickInfo={showOnClickInfo}
         {...{ amount, playAnimation, removeTree, lifecycle }}
       />
     );
@@ -92,6 +99,7 @@ export const FruitTree: React.FC<Props> = ({
           onClick={onError}
           plantedFruit={plantedFruit}
           playAnimation={playAnimation}
+          showOnClickInfo={showOnClickInfo}
         />
       );
     }
@@ -106,6 +114,7 @@ export const FruitTree: React.FC<Props> = ({
         onClick={onError}
         playing={playing}
         plantedFruit={plantedFruit}
+        showOnClickInfo={showOnClickInfo}
       />
     );
   }

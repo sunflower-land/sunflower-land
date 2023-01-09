@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "./assets/community_garden.gif";
+
 import { CommunityHud } from "./components/CommunityHUD";
 import { CommunityProvider } from "./lib/CommunityProvider";
 import { CommunityGarden } from "features/community/components/CommunityGarden";
