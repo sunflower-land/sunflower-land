@@ -10,6 +10,15 @@ type JuiceName =
   | "Power Smoothie"
   | "Bumpkin Detox";
 
+const Juices: JuiceName[] = [
+  "Apple Juice",
+  "Orange Juice",
+  "Orange Juice",
+  "Purple Smoothie",
+  "Power Smoothie",
+  "Bumpkin Detox",
+];
+
 export type ConsumableName =
   | "Mashed Potato"
   | "Pumpkin Soup"
@@ -47,6 +56,10 @@ export type Consumable = {
   marketRate: number;
   disabled?: boolean;
 };
+
+export function isJuice(item: any) {
+  return Juices.includes(item);
+}
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Mashed Potato": {
