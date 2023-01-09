@@ -58,7 +58,13 @@ export const FruitTree: React.FC<Props> = ({
   };
 
   if (!plantedFruit) {
-    return <Soil playing={playing} onClick={plantTree} />;
+    return (
+      <Soil
+        playing={playing}
+        onClick={plantTree}
+        playAnimation={playAnimation}
+      />
+    );
   }
 
   const { name, amount, harvestsLeft, harvestedAt, plantedAt } = plantedFruit;
