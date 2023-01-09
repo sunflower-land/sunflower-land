@@ -6,7 +6,7 @@ export type RemoveFruitTreeAction = {
   type: "fruitTree.removed";
   expansionIndex: number;
   index: number;
-  item: InventoryItemName;
+  selectedItem: InventoryItemName;
 };
 
 type Options = {
@@ -36,8 +36,8 @@ export function removeFruitTree({
     throw new Error("Expansion does not have any fruit patches");
   }
 
-  if (action.item !== "Axe") {
-    throw new Error("No axe");
+  if (action.selectedItem !== "Axe") {
+    throw new Error("No axe selected");
   }
 
   const axeAmount = inventory.Axe || new Decimal(0);

@@ -52,7 +52,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           expansionIndex: 3,
           index: 0,
-          item: "Axe",
+          selectedItem: "Axe",
         },
       })
     ).toThrow("You do not have a Bumpkin");
@@ -66,7 +66,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           expansionIndex: 3,
           index: 0,
-          item: "Axe",
+          selectedItem: "Axe",
         },
       })
     ).toThrow("Expansion does not exist");
@@ -80,7 +80,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           index: 0,
           expansionIndex: 0,
-          item: "Axe",
+          selectedItem: "Axe",
         },
       })
     ).toThrow("Expansion does not have any fruit patches");
@@ -94,7 +94,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           index: -1,
           expansionIndex: 3,
-          item: "Axe",
+          selectedItem: "Axe",
         },
       })
     ).toThrow("Fruit patch does not exist");
@@ -108,7 +108,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           index: 1,
           expansionIndex: 3,
-          item: "Axe",
+          selectedItem: "Axe",
         },
       })
     ).toThrow("Nothing was planted");
@@ -145,7 +145,7 @@ describe("fruitTreeRemoved", () => {
           type: "fruitTree.removed",
           index: 0,
           expansionIndex: 0,
-          item: "Axe",
+          selectedItem: "Axe",
         },
       })
     ).toThrow("Fruit is still available");
@@ -158,7 +158,7 @@ describe("fruitTreeRemoved", () => {
         type: "fruitTree.removed",
         index: 0,
         expansionIndex: 3,
-        item: "Axe",
+        selectedItem: "Axe",
       },
     });
 
@@ -176,7 +176,7 @@ describe("fruitTreeRemoved", () => {
         createdAt: Date.now(),
         action: {
           type: "fruitTree.removed",
-          item: "Sunflower Statue",
+          selectedItem: "Sunflower Statue",
           expansionIndex: 3,
           index: 0,
         },
@@ -191,7 +191,7 @@ describe("fruitTreeRemoved", () => {
         createdAt: Date.now(),
         action: {
           type: "fruitTree.removed",
-          item: "Axe",
+          selectedItem: "Axe",
           expansionIndex: 3,
           index: 0,
         },
@@ -206,7 +206,7 @@ describe("fruitTreeRemoved", () => {
         type: "fruitTree.removed",
         index: 0,
         expansionIndex: 3,
-        item: "Axe",
+        selectedItem: "Axe",
       },
     });
 
