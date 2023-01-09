@@ -16,12 +16,17 @@ interface Props {
   plantedFruit: PlantedFruit;
   onClick: () => void;
   playAnimation: boolean;
+  /**
+   * Handles showing "hover" information on mobile or "error" on click action information
+   */
+  showOnClickInfo: boolean;
 }
 
 export const ReplenishingTree: React.FC<Props> = ({
   plantedFruit,
   onClick,
   playAnimation,
+  showOnClickInfo,
 }) => {
   const { showTimers } = useContext(Context);
   const [showFruitDetails, setFruitDetails] = useState(false);
@@ -76,11 +81,11 @@ export const ReplenishingTree: React.FC<Props> = ({
       )}
 
       <TimerPopover
-        showPopover={showFruitDetails}
+        showPopover={showFruitDetails || showOnClickInfo}
         image={lifecycle.ready}
-        name={name}
+        name="Fruits Replenishing"
         timeLeft={replenishingTimeLeft}
-        position={{ top: 8, left: 32 }}
+        position={{ top: 6, left: 30 }}
       />
     </div>
   );

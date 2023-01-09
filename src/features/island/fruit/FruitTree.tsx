@@ -10,11 +10,13 @@ import { Soil } from "./Soil";
 
 import { Seedling } from "./Seedling";
 import { ReplenishingTree } from "./ReplenishingTree";
+import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
 
 import apple from "/src/assets/resources/apple.png";
 import orange from "/src/assets/resources/orange.png";
 import blueberry from "/src/assets/resources/blueberry.png";
-import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
+import axe from "assets/tools/axe.png";
+import { InfoPopover } from "../common/InfoPopover";
 
 export const getFruitImage = (fruitName: FruitName): string => {
   switch (fruitName) {
@@ -35,6 +37,10 @@ interface Props {
   removeTree: () => void;
   onError: () => void;
   playAnimation: boolean;
+  /**
+   * Handles showing "hover" information on mobile or "error" on click action information
+   */
+  showOnClickInfo: boolean;
 }
 
 export const FruitTree: React.FC<Props> = ({
@@ -45,6 +51,7 @@ export const FruitTree: React.FC<Props> = ({
   onError,
   playing,
   playAnimation,
+  showOnClickInfo,
 }) => {
   useUiRefresher({ active: !!plantedFruit });
   //UI Refresher reloads this component after a regular time intervals.
@@ -58,7 +65,13 @@ export const FruitTree: React.FC<Props> = ({
   };
 
   if (!plantedFruit) {
-    return <Soil playing={playing} onClick={plantTree} />;
+    return (
+      <Soil
+        showOnClickInfo={showOnClickInfo}
+        playing={playing}
+        onClick={plantTree}
+      />
+    );
   }
 
   const { name, amount, harvestsLeft, harvestedAt, plantedAt } = plantedFruit;
@@ -69,24 +82,36 @@ export const FruitTree: React.FC<Props> = ({
   // Dead tree
   if (!harvestsLeft) {
     return (
-      <FruitDropAnimator
-        mainImageProps={{
-          src: lifecycle.dead,
-          className: "relative cursor-pointer hover:img-highlight",
-          style: {
-            bottom: "-9px",
-            zIndex: "1",
-          },
-          onLoad: (e) => setImageWidth(e.currentTarget),
-          onClick: removeTree,
-        }}
-        dropImageProps={{
-          src: getFruitImage(name),
-        }}
-        dropCount={amount}
-        playDropAnimation={playAnimation}
-        playShakeAnimation={false}
-      />
+      <>
+        <FruitDropAnimator
+          mainImageProps={{
+            src: lifecycle.dead,
+            className: "relative cursor-pointer hover:img-highlight",
+            style: {
+              bottom: "-9px",
+              zIndex: "1",
+            },
+            onLoad: (e) => setImageWidth(e.currentTarget),
+            onClick: removeTree,
+          }}
+          dropImageProps={{
+            src: getFruitImage(name),
+          }}
+          dropCount={amount}
+          playDropAnimation={playAnimation}
+          playShakeAnimation={false}
+        />
+
+        <InfoPopover
+          showPopover={showOnClickInfo}
+          position={{ top: -2, left: 23 }}
+        >
+          <div className="flex flex-1 items-center text-xxs justify-center text-white px-2 py-1 whitespace-nowrap">
+            <img src={axe} className="w-4 mr-1" />
+            <span>No Axe Selected!</span>
+          </div>
+        </InfoPopover>
+      </>
     );
   }
 
@@ -100,6 +125,7 @@ export const FruitTree: React.FC<Props> = ({
           onClick={onError}
           plantedFruit={plantedFruit}
           playAnimation={playAnimation}
+          showOnClickInfo={showOnClickInfo}
         />
       );
     }
@@ -114,6 +140,7 @@ export const FruitTree: React.FC<Props> = ({
         onClick={onError}
         playing={playing}
         plantedFruit={plantedFruit}
+        showOnClickInfo={showOnClickInfo}
       />
     );
   }
