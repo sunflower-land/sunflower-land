@@ -51,6 +51,10 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
         content: `-${item.ingredients[name]}`,
       });
     });
+    setToast({
+      icon: ITEM_DETAILS[selected].image,
+      content: "+1",
+    });
 
     shortcutItem(selected);
   };
