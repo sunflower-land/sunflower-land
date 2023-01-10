@@ -83,6 +83,7 @@ export const FruitTree: React.FC<Props> = ({
     return (
       <DeadTree
         fruitImage={getFruitImage(name)}
+        fruit={name}
         showOnClickInfo={showOnClickInfo}
         {...{ amount, playAnimation, removeTree, lifecycle }}
       />

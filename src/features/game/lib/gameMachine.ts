@@ -629,6 +629,7 @@ export function startGame(authContext: Options) {
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
                 transactionId: context.transactionId as string,
+                metadata: context.state.metadata,
               });
 
               // This gives the UI time to indicate that a save is taking place both when clicking save
