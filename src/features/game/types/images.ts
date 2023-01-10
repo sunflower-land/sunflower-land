@@ -52,7 +52,7 @@ import scarecrow from "assets/sfts/scarecrow.png";
 import sunflowerStatue from "assets/sfts/sunflower_statue.png";
 import sunflowerRock from "assets/sfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/sfts/sunflower_tombstone.png";
-import goldenCauliflower from "assets/sfts/golden_cauliflower.png";
+import goldenCauliflower from "assets/sfts/golden_cauliflower.webp";
 import crown from "assets/sfts/goblin_crown.png";
 import fountain from "assets/sfts/fountain.gif";
 import beaver from "assets/sfts/beaver.gif";
