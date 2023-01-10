@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const FruitDropAnimator = ({
-  wrapperClassName,
+  wrapperClassName = "",
   mainImageProps,
   dropImageProps,
   dropCount,
@@ -36,10 +36,9 @@ export const FruitDropAnimator = ({
           "tree-shake-animation": playShakeAnimation,
         })}
       />
-      {playDropAnimation && (
+      {playDropAnimation && !hideFruits && (
         <div
           className={classNames("absolute fruit-wrapper", {
-            "opacity-0": hideFruits,
             "drop-animation-left": current === 1,
             "drop-animation-right": current === 2,
           })}
