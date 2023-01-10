@@ -37,10 +37,23 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
   const inventory = state.inventory;
 
   const item = HELIOS_BLACKSMITH_ITEMS[selected];
+  const isAlreadyCrafted = state.inventory[selected]?.greaterThanOrEqualTo(1);
 
   const craft = () => {
     gameService.send("collectible.crafted", {
       name: selected,
+    });
+
+    getKeys(item.ingredients).map((name) => {
+      const ingredient = ITEM_DETAILS[name];
+      setToast({
+        icon: ingredient.image,
+        content: `-${item.ingredients[name]}`,
+      });
+    });
+    setToast({
+      icon: ITEM_DETAILS[selected].image,
+      content: "+1",
     });
 
     shortcutItem(selected);
@@ -163,13 +176,19 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
             </div>
           </div>
         </div>
-        <Button
-          disabled={stock?.lessThan(1) || lessIngredients()}
-          className="text-xxs sm:text-xs mt-1"
-          onClick={() => craft()}
-        >
-          Craft
-        </Button>
+        {isAlreadyCrafted ? (
+          <p className="text-xxs sm:text-xs text-center my-1">
+            Already crafted!
+          </p>
+        ) : (
+          <Button
+            disabled={stock?.lessThan(1) || lessIngredients()}
+            className="text-xxs sm:text-xs mt-1"
+            onClick={() => craft()}
+          >
+            Craft
+          </Button>
+        )}
       </OuterPanel>
     </div>
   );
