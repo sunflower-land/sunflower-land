@@ -88,6 +88,10 @@ export const FruitPatch: React.FC<Props> = ({
         setPlayAnimation(true);
 
         setToast({
+          icon: ITEM_DETAILS.Axe.image,
+          content: `-1`,
+        });
+        setToast({
           icon: ITEM_DETAILS.Wood.image,
           content: `+1`,
         });
