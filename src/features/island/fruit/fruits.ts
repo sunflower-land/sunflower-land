@@ -7,6 +7,7 @@ import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
 import harvestedTree from "assets/fruit/harvested_tree.png";
 import harvestedBush from "assets/fruit/harvested_bush.png";
 import deadTree from "assets/fruit/dead_tree.webp";
+import bushShrub from "assets/fruit/bush_shrub.png";
 import { FruitName } from "features/game/types/fruits";
 
 export type FruitLifecycle = {
@@ -45,6 +46,6 @@ export const FRUIT_LIFECYCLE: Record<FruitName, FruitLifecycle> = {
     almost: sunflowerAlmostDone,
     ready: blueberryBush,
     harvested: harvestedBush,
-    dead: deadTree,
+    dead: bushShrub,
   },
 };

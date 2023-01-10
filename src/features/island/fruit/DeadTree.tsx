@@ -8,9 +8,11 @@ import { InfoPopover } from "../common/InfoPopover";
 import { FruitLifecycle } from "./fruits";
 import axe from "assets/tools/axe.png";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { FruitName } from "features/game/types/fruits";
 
 interface Props {
   lifecycle: FruitLifecycle;
+  fruit: FruitName;
   removeTree: () => void;
   fruitImage: string;
   amount: number;
@@ -20,6 +22,7 @@ interface Props {
 
 export const DeadTree = ({
   lifecycle,
+  fruit,
   removeTree,
   fruitImage,
   amount,
@@ -62,7 +65,7 @@ export const DeadTree = ({
               : "cursor-pointer hover:img-highlight"
           }`,
           style: {
-            bottom: "-9px",
+            bottom: fruit === "Blueberry" ? "-4px" : "-9px",
             zIndex: "1",
           },
           onLoad: (e) => setImageWidth(e.currentTarget),
