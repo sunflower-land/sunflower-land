@@ -10,13 +10,11 @@ import { Soil } from "./Soil";
 
 import { Seedling } from "./Seedling";
 import { ReplenishingTree } from "./ReplenishingTree";
-import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
 
 import apple from "/src/assets/resources/apple.png";
 import orange from "/src/assets/resources/orange.png";
 import blueberry from "/src/assets/resources/blueberry.png";
-import axe from "assets/tools/axe.png";
-import { InfoPopover } from "../common/InfoPopover";
+import { DeadTree } from "./DeadTree";
 
 export const getFruitImage = (fruitName: FruitName): string => {
   switch (fruitName) {
@@ -70,6 +68,7 @@ export const FruitTree: React.FC<Props> = ({
         showOnClickInfo={showOnClickInfo}
         playing={playing}
         onClick={plantTree}
+        playAnimation={playAnimation}
       />
     );
   }
@@ -82,36 +81,11 @@ export const FruitTree: React.FC<Props> = ({
   // Dead tree
   if (!harvestsLeft) {
     return (
-      <>
-        <FruitDropAnimator
-          mainImageProps={{
-            src: lifecycle.dead,
-            className: "relative cursor-pointer hover:img-highlight",
-            style: {
-              bottom: "-9px",
-              zIndex: "1",
-            },
-            onLoad: (e) => setImageWidth(e.currentTarget),
-            onClick: removeTree,
-          }}
-          dropImageProps={{
-            src: getFruitImage(name),
-          }}
-          dropCount={amount}
-          playDropAnimation={playAnimation}
-          playShakeAnimation={false}
-        />
-
-        <InfoPopover
-          showPopover={showOnClickInfo}
-          position={{ top: -2, left: 23 }}
-        >
-          <div className="flex flex-1 items-center text-xxs justify-center text-white px-2 py-1 whitespace-nowrap">
-            <img src={axe} className="w-4 mr-1" />
-            <span>No Axe Selected!</span>
-          </div>
-        </InfoPopover>
-      </>
+      <DeadTree
+        fruitImage={getFruitImage(name)}
+        showOnClickInfo={showOnClickInfo}
+        {...{ amount, playAnimation, removeTree, lifecycle }}
+      />
     );
   }
 
