@@ -1,12 +1,13 @@
 import { useActor } from "@xstate/react";
-import classNames from "classnames";
 import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
-import { InnerPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { setImageWidth } from "lib/images";
 import React, { useContext, useState } from "react";
+import { InfoPopover } from "../common/InfoPopover";
 import { FruitLifecycle } from "./fruits";
+import axe from "assets/tools/axe.png";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 interface Props {
   lifecycle: FruitLifecycle;
@@ -14,6 +15,7 @@ interface Props {
   fruitImage: string;
   amount: number;
   playAnimation: boolean;
+  showOnClickInfo: boolean;
 }
 
 export const DeadTree = ({
@@ -22,11 +24,12 @@ export const DeadTree = ({
   fruitImage,
   amount,
   playAnimation,
+  showOnClickInfo,
 }: Props) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
+  const [isMobile] = useIsMobile();
 
-  const [errorLabel, setErrorLabel] = useState<"noAxe">();
   const [showError, setShowError] = useState<boolean>(false);
 
   const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
@@ -36,13 +39,11 @@ export const DeadTree = ({
   const handleHover = () => {
     if (!hasAxes) {
       setShowError(true);
-      setErrorLabel("noAxe");
     }
   };
 
   const handleMouseLeave = () => {
     setShowError(false);
-    setErrorLabel(undefined);
   };
   return (
     <div
@@ -57,7 +58,7 @@ export const DeadTree = ({
           src: lifecycle.dead,
           className: `relative ${
             showError
-              ? "cursor-not-allowed pointer-events-none"
+              ? "cursor-not-allowed"
               : "cursor-pointer hover:img-highlight"
           }`,
           style: {
@@ -74,19 +75,15 @@ export const DeadTree = ({
         playDropAnimation={playAnimation}
         playShakeAnimation={false}
       />
-      <InnerPanel
-        className={classNames(
-          "transition-opacity absolute top-2 w-fit left-20 ml-2 z-50 pointer-events-none p-1",
-          {
-            "opacity-100": errorLabel === "noAxe",
-            "opacity-0": errorLabel !== "noAxe",
-          }
-        )}
+      <InfoPopover
+        showPopover={isMobile ? showOnClickInfo : showError}
+        position={{ top: -2, left: 23 }}
       >
-        <div className="text-xxs text-white mx-1">
-          <span>Equip {"axe"}</span>
+        <div className="flex flex-1 items-center text-xxs justify-center text-white px-2 py-1 whitespace-nowrap">
+          <img src={axe} className="w-4 mr-1" />
+          <span>No Axe Selected!</span>
         </div>
-      </InnerPanel>
+      </InfoPopover>
     </div>
   );
 };

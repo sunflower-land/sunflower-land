@@ -49,7 +49,7 @@ export const FruitDropAnimator = ({
           )}
           <img
             {...dropImageProps}
-            className={`w-5 relative img-highlight-heavy ${dropImageProps.className}`}
+            className={`w-5 relative img-highlight-extra-heavy ${dropImageProps.className}`}
           />
         </div>
       )}
