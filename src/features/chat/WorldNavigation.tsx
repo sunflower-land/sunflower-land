@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
+import PF from "pathfinding";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
@@ -15,8 +16,38 @@ import { ChatUI } from "./ChatUI";
 import { Bumpkin } from "features/game/types/game";
 
 import { randomInt } from "lib/utils/random";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 const randomId = randomInt(0, 99999);
+
+const BLOCKED: Coordinates[] = [
+  {
+    x: 16,
+    y: 10,
+  },
+  {
+    x: 17,
+    y: 10,
+  },
+  {
+    x: 18,
+    y: 10,
+  },
+  {
+    x: 19,
+    y: 10,
+  },
+  {
+    x: 20,
+    y: 10,
+  },
+];
+
+const grid = new PF.Grid(40, 40);
+
+BLOCKED.forEach((coords) => {
+  grid.setWalkableAt(coords.x, coords.y, false);
+});
 
 interface Props {
   scrollContainer: HTMLElement;
@@ -25,6 +56,8 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
+
+  const [path, setPath] = useState<Coordinates[]>([]);
 
   const myBumpkin = {
     ...(state.bumpkin as Bumpkin),
@@ -62,6 +95,7 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
     console.log({
       scrolLeft: scrollContainer.scrollLeft,
       scrollTop: scrollContainer.scrollTop,
+      height: scrollContainer.scrollHeight,
       pageX: e.pageX,
       pageY: e.pageY,
       clientX: e.clientX,
@@ -81,6 +115,25 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
     chatService.send("SEND_LOCATION", {
       coordinates: { x: x, y: y },
     });
+
+    const newGridX = Math.floor(x / GRID_WIDTH_PX);
+    const newGridY = Math.floor(
+      (scrollContainer.scrollHeight - y) / GRID_WIDTH_PX
+    );
+
+    const { x: oldX, y: oldY } = chatState.context
+      .currentPosition as Coordinates;
+    const oldGridX = Math.floor(oldX / GRID_WIDTH_PX);
+    const oldGridY = Math.floor(
+      (scrollContainer.scrollHeight - oldY) / GRID_WIDTH_PX
+    );
+
+    console.log({ newGridX, newGridY });
+
+    var finder = new PF.AStarFinder();
+    const path = finder.findPath(oldGridX, oldGridY, newGridX, newGridY, grid);
+    setPath(path.map((coords) => ({ x: coords[0], y: coords[1] })));
+    console.log({ path });
   };
 
   // Load data
@@ -95,6 +148,30 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
             width: `${40 * GRID_WIDTH_PX}px`,
           }}
         />
+
+        {BLOCKED.map((coords) => (
+          <div
+            className={"absolute bg-red-background/80"}
+            style={{
+              bottom: `${GRID_WIDTH_PX * coords.y}px`,
+              left: `${GRID_WIDTH_PX * coords.x}px`,
+              height: `${GRID_WIDTH_PX}px`,
+              width: `${GRID_WIDTH_PX}px`,
+            }}
+          />
+        ))}
+
+        {path.map((coords) => (
+          <div
+            className={"absolute bg-blue-500"}
+            style={{
+              bottom: `${GRID_WIDTH_PX * coords.y}px`,
+              left: `${GRID_WIDTH_PX * coords.x}px`,
+              height: `${GRID_WIDTH_PX}px`,
+              width: `${GRID_WIDTH_PX}px`,
+            }}
+          />
+        ))}
 
         <Modal show={chatState.matches("connecting")} centered>
           <Panel>
@@ -125,6 +202,7 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
           chatService={chatService}
           position={chatState.context.currentPosition}
           bumpkins={chatState.context.bumpkins}
+          path={path}
         />
       </div>
       {/* {chatState.matches("connected") && !chatState.context.currentPosition && (

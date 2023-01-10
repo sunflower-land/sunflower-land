@@ -13,6 +13,7 @@ interface Props {
   chatService: MachineInterpreter;
   position?: Coordinates;
   bumpkins: Player[];
+  path: Coordinates[];
 }
 
 export const Bumpkins: React.FC<Props> = ({
