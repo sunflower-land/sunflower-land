@@ -136,7 +136,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Mysterious Head": true,
   "Golden Bonsai": true,
   "Wicker Man": true,
-  "Engine Core": true,
+  "Engine Core": false,
   Observatory: true,
   "Christmas Snow Globe": true,
   "Cabbage Boy": true,
