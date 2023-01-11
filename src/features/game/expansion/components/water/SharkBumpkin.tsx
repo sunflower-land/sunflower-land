@@ -15,14 +15,12 @@ import { Panel } from "components/ui/Panel";
 export const LAND_WIDTH = 6;
 
 interface Props {
-  level: number;
+  x: number;
+  y: number;
 }
 
-export const SharkBumpkin: React.FC<Props> = ({ level }) => {
+export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
   const [showModal, setShowModal] = useState(false);
-  // As the land gets bigger, push the water decorations out
-  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
-
   const [showFin, setShowFin] = useState(false);
 
   useEffect(() => {
@@ -59,7 +57,7 @@ export const SharkBumpkin: React.FC<Props> = ({ level }) => {
           </div>
         </Panel>
       </Modal>
-      <MapPlacement x={-8} y={offset + 5} width={8}>
+      <MapPlacement x={x} y={y} width={8}>
         {showFin && (
           <Spritesheet
             onClick={() => setShowModal(true)}
