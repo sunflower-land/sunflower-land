@@ -12,6 +12,8 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
+import Decimal from "decimal.js-light";
+import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
 
 interface Props {
   fruitPatchIndex: number;
@@ -68,9 +70,21 @@ export const FruitPatch: React.FC<Props> = ({
 
   const removeTree = () => {
     try {
-      const { inventory } = game.context.state;
+      const { inventory, collectibles } = game.context.state;
 
-      if (selectedItem !== "Axe" || inventory.Axe?.lt(1)) {
+      const axesNeeded = getRequiredAxeAmount(
+        fruit?.name as FruitName,
+        inventory,
+        collectibles
+      );
+      const axeAmount = inventory.Axe || new Decimal(0);
+
+      // Has enough axes to chop the tree
+      const hasAxes =
+        (selectedItem === "Axe" || axesNeeded.eq(0)) &&
+        axeAmount.gte(axesNeeded);
+
+      if (!hasAxes) {
         return displayInformation();
       }
 

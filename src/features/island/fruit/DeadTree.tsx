@@ -9,6 +9,7 @@ import { FruitLifecycle } from "./fruits";
 import axe from "assets/tools/axe.png";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { FruitName } from "features/game/types/fruits";
+import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
 
 interface Props {
   lifecycle: FruitLifecycle;
@@ -35,9 +36,14 @@ export const DeadTree = ({
 
   const [showError, setShowError] = useState<boolean>(false);
 
-  const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
+  const { inventory, collectibles } = game.context.state;
 
-  const hasAxes = selectedItem === "Axe" && axeAmount.gte(1);
+  const axesNeeded = getRequiredAxeAmount(fruit, inventory, collectibles);
+  const axeAmount = inventory.Axe || new Decimal(0);
+
+  // Has enough axes to chop the tree
+  const hasAxes =
+    (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
 
   const handleHover = () => {
     if (!hasAxes) {
