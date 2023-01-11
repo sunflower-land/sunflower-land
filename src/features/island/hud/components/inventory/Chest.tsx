@@ -97,6 +97,7 @@ export const Chest: React.FC<Props> = ({
     <SplitScreenView
       divRef={divRef}
       tallMobileContent={true}
+      wideModal={true}
       showHeader={!chestIsEmpty && !!selected}
       header={
         selected && (

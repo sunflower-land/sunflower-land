@@ -80,7 +80,7 @@ export const Inventory: React.FC<Props> = ({
         />
       </div>
 
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal size="lg" centered show={isOpen} onHide={() => setIsOpen(false)}>
         <InventoryItems
           state={state}
           onClose={() => setIsOpen(false)}
