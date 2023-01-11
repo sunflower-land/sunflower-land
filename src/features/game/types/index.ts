@@ -102,7 +102,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Squirrel Monkey": 443,
   "Black Bearry": 444,
   "Ayam Cemani": 445,
-  "Maneki neko": 446,
+  "Maneki Neko": 446,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

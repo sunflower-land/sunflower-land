@@ -1682,7 +1682,7 @@ export const ITEM_DETAILS: Items = {
     image: cyborgBear,
     description: "Hasta la vista, bear",
   },
-  "Maneki neko": {
+  "Maneki Neko": {
     image: manekiNeko,
     description: "The beckoning cat. Pull it's arm and good luck will come",
   },

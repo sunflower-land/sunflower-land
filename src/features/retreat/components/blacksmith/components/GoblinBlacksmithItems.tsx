@@ -142,7 +142,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
     if (soldOut) return null;
 
     if (selected.disabled) {
-      return <span className="text-sm">Coming soon</span>;
+      return <span className="text-xs text-center">Coming soon</span>;
     }
 
     console.log({ mintedAtTimes });

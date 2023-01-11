@@ -2912,4 +2912,41 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1220.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Ayam Cemani": {
+    description: "The rarest chicken in Sunflower Land",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/445.gif",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Maneki Neko": {
+    description:
+      "The beckoning cat. Pull it's arm and good luck will come. A special event item from Chinese New Years!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/446.gif",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Collectible Bear": {
+    description: "A prized bear, still in mint condition!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1221.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Cyborg Bear": {
+    description: "Hasta la vista, bear",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1222.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Red Envelope": {
+    description:
+      "Wow, you are lucky! An item from the Chinese New Years special event.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/716.png",
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
+  },
 };

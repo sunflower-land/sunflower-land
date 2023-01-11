@@ -196,7 +196,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Ayam Cemani": AyamCemani,
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,
-  "Maneki neko": ManekiNeko,
+  "Maneki Neko": ManekiNeko,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
