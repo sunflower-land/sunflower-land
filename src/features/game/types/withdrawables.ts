@@ -99,7 +99,8 @@ const globalDefaults = Object.keys(KNOWN_IDS).reduce(
 
 // Group withdraw conditions for common items
 const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
-const fruitDefaults = buildDefaults(Object.keys(FRUIT()), true);
+//Fruits will be disabled untill all the fruit SFT's are sold out
+const fruitDefaults = buildDefaults(Object.keys(FRUIT()), false);
 const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
 const mutantChickenDefaults = buildDefaults(
   Object.keys(MUTANT_CHICKENS),
