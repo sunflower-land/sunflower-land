@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "../../lib/constants";
-import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { observatoryAnimationAudio } from "lib/utils/sfx";
-
-import close from "assets/icons/close.png";
 import observatory from "assets/sfts/mom/observatory.gif";
 import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.gif";
+
+import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { observatoryAnimationAudio } from "lib/utils/sfx";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 export const Observatory: React.FC = () => {
   // Using rand value helps force-replay gifs.
@@ -36,9 +35,8 @@ export const Observatory: React.FC = () => {
     <>
       <img
         style={{
-          width: `${PIXEL_SCALE * 29}px`,
-          left: `${GRID_WIDTH_PX * 47.5}px`,
-          top: `${GRID_WIDTH_PX * 2}px`,
+          width: `${PIXEL_SCALE * 31}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
         }}
         id={Section.Observatory}
         className="absolute hover:img-highlight cursor-pointer"
@@ -47,25 +45,12 @@ export const Observatory: React.FC = () => {
         alt="Observatory"
       />
       <Modal centered show={!!modalTimer} onHide={handleCloseTelescope}>
-        <OuterPanel>
-          <InnerPanel style={{ backgroundColor: "#1b1c1b" }}>
-            <img
-              src={close}
-              className="absolute cursor-pointer z-20"
-              onClick={handleCloseTelescope}
-              style={{
-                top: `${PIXEL_SCALE * 6}px`,
-                right: `${PIXEL_SCALE * 6}px`,
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
-
-            <img
-              src={`${observatoryAnimation}?rand=${playRand}`} // Breaks cache and force replays the gif animation.
-              alt="Telescope Animation"
-            />
-          </InnerPanel>
-        </OuterPanel>
+        <CloseButtonPanel onClose={handleCloseTelescope}>
+          <img
+            src={`${observatoryAnimation}?rand=${playRand}`} // Breaks cache and force replays the gif animation.
+            alt="Telescope Animation"
+          />
+        </CloseButtonPanel>
       </Modal>
     </>
   );

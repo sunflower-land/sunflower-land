@@ -2006,7 +2006,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Experience Boost",
-        value: 15,
+        value: 5,
       },
       { trait_type: "Purpose", value: "Boost" },
     ],

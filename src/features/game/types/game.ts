@@ -7,6 +7,7 @@ import {
   Food,
   AuctioneerItemName,
   Ingredient,
+  MOMEventItem,
 } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
@@ -90,8 +91,6 @@ export const EASTER_EGGS: EasterEgg[] = [
 ];
 
 export type EasterBunny = "Easter Bunny";
-
-export type MOMEventItem = "Engine Core";
 
 export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
 

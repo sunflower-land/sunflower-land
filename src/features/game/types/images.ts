@@ -348,7 +348,7 @@ import {
   BLACKSMITH_ITEMS,
   MARKET_ITEMS,
   BARN_ITEMS,
-  ROCKET_ITEMS,
+  MOM_EVENT_ITEMS,
   LimitedItem,
   MUTANT_CHICKENS,
   SALESMAN_ITEMS,
@@ -673,7 +673,7 @@ export const ITEM_DETAILS: Items = {
     image: sandShovel,
   },
 
-  // NFTs
+  // SFTs
   "Sunflower Statue": {
     ...BLACKSMITH_ITEMS["Sunflower Statue"],
     image: sunflowerStatue,
@@ -1152,14 +1152,12 @@ export const ITEM_DETAILS: Items = {
     description: "A purple easter egg",
     image: purpleEgg,
   },
-
   "Engine Core": {
-    description: "The power of the sunflower",
+    ...MOM_EVENT_ITEMS["Engine Core"],
     image: momCoreEngine,
   },
   Observatory: {
-    ...ROCKET_ITEMS["Observatory"],
-    description: "Reach the stars and increase XP",
+    ...MOM_EVENT_ITEMS["Observatory"],
     image: observatory,
   },
   "Goblin Key": {
