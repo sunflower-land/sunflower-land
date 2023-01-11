@@ -142,7 +142,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
     if (soldOut) return null;
 
     if (selected.disabled) {
-      return <span className="text-xs text-center">Coming soon</span>;
+      return <span className="text-xs text-center block">Coming soon</span>;
     }
 
     console.log({ mintedAtTimes });
@@ -197,11 +197,11 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
           <span className="text-xs sm:text-center mb-1">
             {selected.description}
           </span>
-
-          <Label className="mt-1 md:text-center" type="info">
-            {selected.boost}
-          </Label>
-
+          {!!selected.boost && (
+            <Label className="mt-1 md:text-center" type="info">
+              {selected.boost}
+            </Label>
+          )}
           <div className="border-t border-white w-full mt-2 pt-1 text-center">
             {getKeys(selected.ingredients).map((ingredientName, index) => {
               const details = ITEM_DETAILS[ingredientName];
