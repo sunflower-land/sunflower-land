@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import PF from "pathfinding";
 
@@ -90,78 +90,27 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
     };
   }, []);
 
-  const walk = (e: React.MouseEvent<HTMLElement>) => {
-    // const coords = getInitialCorodinates();
-    console.log({
-      scrolLeft: scrollContainer.scrollLeft,
-      scrollTop: scrollContainer.scrollTop,
-      height: scrollContainer.scrollHeight,
-      pageX: e.pageX,
-      pageY: e.pageY,
-      clientX: e.clientX,
-      clientY: e.clientY,
-    });
-    const x = e.pageX + scrollContainer.scrollLeft;
-    const y = scrollContainer.scrollTop + e.pageY;
+  const walk = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      // const coords = getInitialCorodinates();
+      console.log({
+        scrolLeft: scrollContainer.scrollLeft,
+        scrollTop: scrollContainer.scrollTop,
+        height: scrollContainer.scrollHeight,
+        pageX: e.pageX,
+        pageY: e.pageY,
+        clientX: e.clientX,
+        clientY: e.clientY,
+      });
+      const x = e.pageX + scrollContainer.scrollLeft;
+      const y = scrollContainer.scrollTop + e.pageY;
 
-    console.log({ x, y });
-    console.log({ e });
-    // const distanceX = x - coords[0];
-    // const distanceY = coords[1] - y;
-
-    // const gridX = distanceX / GRID_WIDTH_PX;
-    // const gridY = distanceY / GRID_WIDTH_PX;
-
-    // chatService.send("SEND_LOCATION", {
-    //   coordinates: { x: x, y: y },
-    // });
-
-    const newGridX = Math.floor(x / GRID_WIDTH_PX);
-    const newGridY = Math.floor(
-      (scrollContainer.scrollHeight - y) / GRID_WIDTH_PX
-    );
-
-    const { x: oldX, y: oldY } = chatState.context
-      .currentPosition as Coordinates;
-    const oldGridX = Math.floor(oldX / GRID_WIDTH_PX);
-    const oldGridY = Math.floor(
-      (scrollContainer.scrollHeight - oldY) / GRID_WIDTH_PX
-    );
-
-    console.log({ newGridX, newGridY });
-
-    var finder = new PF.AStarFinder();
-    const path = finder.findPath(oldGridX, oldGridY, newGridX, newGridY, grid);
-    setPath(path.map((coords) => ({ x: coords[0], y: coords[1] })));
-    console.log({ path });
-
-    addAnimation(path);
-  };
-
-  const addAnimation = (path: Coordinates[]) => {
-    let animationName = `bumpkin-runner-${myBumpkin.id}`;
-
-    let keyframes = `
-    @-webkit-keyframes ${animationName} {
-        10% {-webkit-transform:translate(${Math.random() * 300}px, ${
-      Math.random() * 300
-    }px)} 
-        90% {-webkit-transform:translate(${Math.random() * 300}px, ${
-      Math.random() * 300
-    }px)}
-        100% {-webkit-transform:translate(${Math.random() * 300}px, ${
-      Math.random() * 300
-    }px)}
-    }`;
-
-    const styleEl = document.createElement("style");
-    document.head.appendChild(styleEl);
-    const styleSheet = styleEl.sheet;
-    console.log({ styleSheet });
-    styleSheet?.insertRule(keyframes, 0);
-
-    console.log({ styleEl });
-  };
+      chatService.send("SEND_LOCATION", {
+        coordinates: { x: x, y: y },
+      });
+    },
+    [scrollContainer]
+  );
 
   // Load data
   return (
@@ -175,30 +124,6 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
             width: `${40 * GRID_WIDTH_PX}px`,
           }}
         />
-
-        {BLOCKED.map((coords) => (
-          <div
-            className={"absolute bg-red-background/80"}
-            style={{
-              bottom: `${GRID_WIDTH_PX * coords.y}px`,
-              left: `${GRID_WIDTH_PX * coords.x}px`,
-              height: `${GRID_WIDTH_PX}px`,
-              width: `${GRID_WIDTH_PX}px`,
-            }}
-          />
-        ))}
-
-        {path.map((coords) => (
-          <div
-            className={"absolute bg-blue-500"}
-            style={{
-              bottom: `${GRID_WIDTH_PX * coords.y}px`,
-              left: `${GRID_WIDTH_PX * coords.x}px`,
-              height: `${GRID_WIDTH_PX}px`,
-              width: `${GRID_WIDTH_PX}px`,
-            }}
-          />
-        ))}
 
         <Modal show={chatState.matches("connecting")} centered>
           <Panel>
