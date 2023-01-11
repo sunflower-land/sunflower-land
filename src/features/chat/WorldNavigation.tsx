@@ -62,7 +62,7 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
   const myBumpkin = {
     ...(state.bumpkin as Bumpkin),
     // Testing for solo sessions
-    id: randomId,
+    // id: randomId,
   };
 
   const chatService = useInterpret(chatMachine, {
