@@ -96,20 +96,6 @@ describe("canWithdraw", () => {
       expect(enabled).toBeFalsy();
     });
 
-    it("[TEMP] prevents a user from withdrawing chickens", () => {
-      const enabled = canWithdraw({
-        item: "Chicken",
-        game: {
-          ...TEST_FARM,
-          inventory: {
-            Chicken: new Decimal(1),
-          },
-        },
-      });
-
-      expect(enabled).toBeFalsy();
-    });
-
     it("prevents a user from withdrawing mutant chickens if some chicken is fed", () => {
       const enabled = canWithdraw({
         item: "Rich Chicken",
