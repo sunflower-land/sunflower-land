@@ -17,6 +17,7 @@ import { setImageWidth } from "lib/images";
 import { formatDateTime, secondsToString } from "lib/utils/time";
 import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
+import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 
 type Props = {
   isMinting: boolean;
@@ -184,10 +185,16 @@ export const AuctionDetails: React.FC<Props> = ({
   const releasesList = isUpcomingItem ? releases : releases.slice(1);
   const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
 
+  const boost = AUCTIONEER_ITEMS[name].boost;
   return (
     <div className="w-full p-2 flex flex-col items-center">
       <div className="w-full p-2 flex flex-col items-center mx-auto">
         <p className="mb-2">{name}</p>
+        {boost && (
+          <Label className="mt-1 md:text-center" type="info">
+            {boost}
+          </Label>
+        )}
         <p className="text-center text-sm mb-2">
           {ITEM_DETAILS[name].description}
         </p>

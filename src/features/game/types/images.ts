@@ -1676,7 +1676,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Collectible Bear": {
     image: collectibleBear,
-    description: "A prize bear, still in mint condition!",
+    description: "A prized bear, still in mint condition!",
   },
   "Cyborg Bear": {
     image: cyborgBear,
