@@ -7,6 +7,7 @@ import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
 import { RESOURCES } from "./resources";
 import { canChop } from "../events/landExpansion/chop";
 import { canMine } from "../events/landExpansion/stoneMine";
+import { AchievementName } from "./achievements";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -79,6 +80,13 @@ function areAnyChickensFed(game: GoblinState): boolean {
   );
 }
 
+function hasCompletedAchievment(
+  game: GoblinState,
+  achievement: AchievementName
+): boolean {
+  return Object.keys(game.bumpkin?.achievements ?? []).includes(achievement);
+}
+
 // Everything is non-withdrawable by default
 const globalDefaults = Object.keys(KNOWN_IDS).reduce(
   (prev, cur) => ({
@@ -126,6 +134,18 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Golden Bonsai": true,
   "Wicker Man": true,
   Observatory: true,
+  "Chef Bear": true,
+  "Construction Bear": true,
+  "Angel Bear": true,
+  "Badass Bear": true,
+  "Bear Trap": true,
+  "Brilliant Bear": true,
+  "Classy Bear": true,
+  "Farmer Bear": true,
+  "Sunflower Bear": true,
+  "Rich Bear": true,
+  "Rainbow Artist Bear": true,
+  "Devil Bear": true,
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
@@ -146,6 +166,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
+  "Basic Bear": (game) => hasCompletedAchievment(game, "Sun Seeker"),
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
