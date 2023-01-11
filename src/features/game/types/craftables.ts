@@ -1131,7 +1131,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "War Tombstone": { height: 1, width: 1 },
   "Undead Rooster": { height: 1, width: 1 },
 
-  Observatory: { height: 3, width: 2 },
+  Observatory: { height: 2, width: 2 },
   "Victoria Sisters": { height: 2, width: 2 },
   "Basic Bear": { height: 1, width: 1 },
   "Peeled Potato": { height: 1, width: 1 },
