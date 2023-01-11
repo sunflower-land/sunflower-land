@@ -2,11 +2,13 @@ import { KNOWN_IDS } from ".";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { CROPS, CROP_SEEDS } from "./crops";
+import { FRUIT } from "./fruits";
 import { EASTER_EGGS, Inventory, InventoryItemName } from "./game";
 import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
 import { RESOURCES } from "./resources";
 import { canChop } from "../events/landExpansion/chop";
 import { canMine } from "../events/landExpansion/stoneMine";
+import { AchievementName } from "./achievements";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -79,6 +81,13 @@ function areAnyChickensFed(game: GoblinState): boolean {
   );
 }
 
+function hasCompletedAchievment(
+  game: GoblinState,
+  achievement: AchievementName
+): boolean {
+  return Object.keys(game.bumpkin?.achievements ?? []).includes(achievement);
+}
+
 // Everything is non-withdrawable by default
 const globalDefaults = Object.keys(KNOWN_IDS).reduce(
   (prev, cur) => ({
@@ -90,6 +99,8 @@ const globalDefaults = Object.keys(KNOWN_IDS).reduce(
 
 // Group withdraw conditions for common items
 const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
+//Fruits will be disabled untill all the fruit SFT's are sold out
+const fruitDefaults = buildDefaults(Object.keys(FRUIT()), false);
 const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
 const mutantChickenDefaults = buildDefaults(
   Object.keys(MUTANT_CHICKENS),
@@ -101,13 +112,14 @@ const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], true);
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...globalDefaults,
   ...cropDefaults,
+  ...fruitDefaults,
   ...resourceDefaults,
   ...mutantChickenDefaults,
   ...flagDefaults,
   ...easterEggDefaults,
 
   // Explicit Rules
-  Chicken: false, // Temporarily disabled until land expansion
+  Chicken: true,
   "Farm Cat": true,
   "Farm Dog": true,
   "Gold Egg": true,
@@ -125,7 +137,25 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Mysterious Head": true,
   "Golden Bonsai": true,
   "Wicker Man": true,
+  "Engine Core": false,
   Observatory: true,
+  "Christmas Snow Globe": true,
+  "Cabbage Boy": true,
+  "Cabbage Girl": true,
+  "Wood Nymph Wendy": true,
+  "Chef Bear": true,
+  "Construction Bear": true,
+  "Angel Bear": true,
+  "Badass Bear": true,
+  "Bear Trap": true,
+  "Brilliant Bear": true,
+  "Classy Bear": true,
+  "Farmer Bear": true,
+  "Sunflower Bear": true,
+  "Rich Bear": true,
+  "Rainbow Artist Bear": true,
+  "Devil Bear": true,
+  "Christmas Bear": true,
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
@@ -146,6 +176,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
+  "Basic Bear": (game) => hasCompletedAchievment(game, "Sun Seeker"),
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
