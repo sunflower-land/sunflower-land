@@ -62,7 +62,7 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
   const myBumpkin = {
     ...(state.bumpkin as Bumpkin),
     // Testing for solo sessions
-    // id: randomId,
+    id: randomId,
   };
 
   const chatService = useInterpret(chatMachine, {
@@ -112,9 +112,9 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
     // const gridX = distanceX / GRID_WIDTH_PX;
     // const gridY = distanceY / GRID_WIDTH_PX;
 
-    chatService.send("SEND_LOCATION", {
-      coordinates: { x: x, y: y },
-    });
+    // chatService.send("SEND_LOCATION", {
+    //   coordinates: { x: x, y: y },
+    // });
 
     const newGridX = Math.floor(x / GRID_WIDTH_PX);
     const newGridY = Math.floor(
@@ -134,6 +134,33 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
     const path = finder.findPath(oldGridX, oldGridY, newGridX, newGridY, grid);
     setPath(path.map((coords) => ({ x: coords[0], y: coords[1] })));
     console.log({ path });
+
+    addAnimation(path);
+  };
+
+  const addAnimation = (path: Coordinates[]) => {
+    let animationName = `bumpkin-runner-${myBumpkin.id}`;
+
+    let keyframes = `
+    @-webkit-keyframes ${animationName} {
+        10% {-webkit-transform:translate(${Math.random() * 300}px, ${
+      Math.random() * 300
+    }px)} 
+        90% {-webkit-transform:translate(${Math.random() * 300}px, ${
+      Math.random() * 300
+    }px)}
+        100% {-webkit-transform:translate(${Math.random() * 300}px, ${
+      Math.random() * 300
+    }px)}
+    }`;
+
+    const styleEl = document.createElement("style");
+    document.head.appendChild(styleEl);
+    const styleSheet = styleEl.sheet;
+    console.log({ styleSheet });
+    styleSheet?.insertRule(keyframes, 0);
+
+    console.log({ styleEl });
   };
 
   // Load data

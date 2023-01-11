@@ -3,7 +3,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Bumpkin } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Player, MachineInterpreter, ChatMessage } from "./chatMachine";
 
@@ -21,11 +21,22 @@ export const Bumpkins: React.FC<Props> = ({
   bumpkin,
   position,
   bumpkins,
+  path,
 }) => {
   const [selectedBumpkin, setSelectedBumpkin] = useState<string>();
   const freshMessages = messages;
   const myMessage = freshMessages.find((m) => m.bumpkinId === bumpkin.id);
 
+  useEffect(() => {
+    if (path.length) {
+      const pathIndex = path.find(
+        (coords) => coords.x === position?.x && coords.y === position?.y
+      );
+      console.log({ pathIndex });
+    }
+  }, [path]);
+  if (path) {
+  }
   return (
     <>
       <Modal
@@ -46,6 +57,8 @@ export const Bumpkins: React.FC<Props> = ({
             transform: `translate(${position.x}px,${position.y}px)`,
             height: `${GRID_WIDTH_PX}px`,
             width: `${GRID_WIDTH_PX}px`,
+            left: "-27px",
+            top: "-47px",
           }}
         >
           {myMessage && (
