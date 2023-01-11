@@ -8,7 +8,6 @@ import { blacksmithAudio } from "lib/utils/sfx";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { hasFeatureAccess } from "lib/flags";
 import { Inventory } from "features/game/types/game";
 import { GoblinBlacksmithItems } from "./components/GoblinBlacksmithItems";
 
@@ -53,27 +52,21 @@ export const RetreatBlacksmith: React.FC<Props> = ({ inventory }) => {
         </div>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        {hasFeatureAccess(inventory, "FRUIT") ? (
-          <CloseButtonPanel
-            bumpkinParts={{
-              body: "Goblin Potion",
-              hair: "Blacksmith Hair",
-              pants: "Brown Suspenders",
-              shirt: "Yellow Farmer Shirt",
-              tool: "Hammer",
-              background: "Farm Background",
-              shoes: "Black Farmer Boots",
-            }}
-            tabs={[{ name: "Craft", icon }]}
-            onClose={() => setIsOpen(false)}
-          >
-            <GoblinBlacksmithItems onClose={() => setIsOpen(false)} />
-          </CloseButtonPanel>
-        ) : (
-          <CloseButtonPanel>
-            <div className="mx-2 mt-1 mb-2">Coming soon...</div>
-          </CloseButtonPanel>
-        )}
+        <CloseButtonPanel
+          bumpkinParts={{
+            body: "Goblin Potion",
+            hair: "Blacksmith Hair",
+            pants: "Brown Suspenders",
+            shirt: "Yellow Farmer Shirt",
+            tool: "Hammer",
+            background: "Farm Background",
+            shoes: "Black Farmer Boots",
+          }}
+          tabs={[{ name: "Craft", icon }]}
+          onClose={() => setIsOpen(false)}
+        >
+          <GoblinBlacksmithItems onClose={() => setIsOpen(false)} />
+        </CloseButtonPanel>
       </Modal>
     </MapPlacement>
   );

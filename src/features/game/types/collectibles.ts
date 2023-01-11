@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { Inventory } from "./game";
 
 export type HeliosBlacksmithItem = "Immortal Pear";
@@ -44,9 +43,8 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       Gold: new Decimal(25),
       Apple: new Decimal(100),
     },
-    supply: 2500,
+    supply: 2535,
     boost: "+0.25 Apples",
-    disabled: CONFIG.NETWORK === "mainnet",
   },
   "Squirrel Monkey": {
     description:
@@ -55,9 +53,8 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       Gold: new Decimal(25),
       Orange: new Decimal(300),
     },
-    supply: 1000,
+    supply: 1035,
     boost: "1/2 Orange Tree grow time",
-    disabled: CONFIG.NETWORK === "mainnet",
   },
   "Black Bearry": {
     description:
@@ -66,8 +63,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       Gold: new Decimal(25),
       Blueberry: new Decimal(700),
     },
-    supply: 500,
+    supply: 535,
     boost: "+1 Blueberry",
-    disabled: CONFIG.NETWORK === "mainnet",
   },
 };

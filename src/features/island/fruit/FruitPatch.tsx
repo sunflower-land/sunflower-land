@@ -12,9 +12,6 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
-import { FRUIT_LIFECYCLE } from "./fruits";
-import { hasFeatureAccess } from "lib/flags";
-import { setImageWidth } from "lib/images";
 
 interface Props {
   fruitPatchIndex: number;
@@ -127,28 +124,16 @@ export const FruitPatch: React.FC<Props> = ({
     <div className="w-full h-full relative flex justify-center items-center">
       <div className="absolute w-full h-full flex justify-center">
         <img src={fruitPatch} className="h-full absolute" />
-        {hasFeatureAccess(game.context.state.inventory, "FRUIT") ? (
-          <FruitTree
-            plantedFruit={fruit}
-            plantTree={plantTree}
-            harvestFruit={harvestFruit}
-            removeTree={removeTree}
-            onError={displayInformation}
-            playing={playing}
-            playAnimation={playAnimation}
-            showOnClickInfo={showInfo && infoToShow === "info"}
-          />
-        ) : (
-          <img
-            className="relative"
-            style={{
-              bottom: "25px",
-              zIndex: "1",
-            }}
-            src={FRUIT_LIFECYCLE.Apple.ready}
-            onLoad={(e) => setImageWidth(e.currentTarget)}
-          />
-        )}
+        <FruitTree
+          plantedFruit={fruit}
+          plantTree={plantTree}
+          harvestFruit={harvestFruit}
+          removeTree={removeTree}
+          onError={displayInformation}
+          playing={playing}
+          playAnimation={playAnimation}
+          showOnClickInfo={showInfo && infoToShow === "info"}
+        />
       </div>
 
       {/* Error Icon */}

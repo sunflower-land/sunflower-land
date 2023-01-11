@@ -30,10 +30,9 @@ import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin, Inventory } from "features/game/types/game";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
-import { hasFeatureAccess } from "lib/flags";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 interface Props {
@@ -45,10 +44,6 @@ function isSeedLocked(
   bumpkin: Bumpkin | undefined,
   seedName: SeedName
 ) {
-  if (seedName in FRUIT_SEEDS() && !hasFeatureAccess(inventory, "FRUIT")) {
-    return true;
-  }
-
   const seed = SEEDS()[seedName];
   return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
 }
