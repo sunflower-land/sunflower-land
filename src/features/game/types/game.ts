@@ -1,11 +1,11 @@
 import { Decimal } from "decimal.js-light";
 
 import { CropName, CropSeedName } from "./crops";
+
 import {
   CollectibleName,
   CraftableName,
   Food,
-  AuctioneerItemName,
   Ingredient,
   MOMEventItem,
 } from "./craftables";
@@ -23,6 +23,7 @@ import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import { AuctioneerItemName } from "./auctioneer";
 
 export type Reward = {
   sfl?: Decimal;
@@ -92,14 +93,21 @@ export const EASTER_EGGS: EasterEgg[] = [
 
 export type EasterBunny = "Easter Bunny";
 
-export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+export type MOMEventItem = "Engine Core";
+
+export type MutantChicken =
+  | "Speed Chicken"
+  | "Rich Chicken"
+  | "Fat Chicken"
+  | "Ayam Cemani";
 
 export type Coupons =
   | "Trading Ticket"
   | "War Bond"
   | "Jack-o-lantern"
   | "Golden Crop"
-  | "Beta Pass";
+  | "Beta Pass"
+  | "Red Envelope";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -116,6 +124,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Beta Pass": {
     description: "Gain early access to features for testing.",
+  },
+  "Red Envelope": {
+    description: "Someone was lucky!",
   },
 };
 

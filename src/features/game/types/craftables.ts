@@ -8,6 +8,7 @@ import { LimitedItemType } from ".";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import { AuctioneerItemName } from "./auctioneer";
 
 export { FLAGS };
 
@@ -75,7 +76,11 @@ export interface CraftableItem {
   mintReleaseDate?: number;
 }
 
-export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+export type MutantChicken =
+  | "Speed Chicken"
+  | "Rich Chicken"
+  | "Fat Chicken"
+  | "Ayam Cemani";
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -99,13 +104,6 @@ export type QuestItem =
   | "Sunflower Key"
   | "Ancient Goblin Sword"
   | "Ancient Human Warhammer";
-
-export type AuctioneerItemName =
-  | "Peeled Potato"
-  | "Christmas Snow Globe"
-  | "Cabbage Boy"
-  | "Cabbage Girl"
-  | "Wood Nymph Wendy";
 
 export type LegacyItem =
   | "Sunflower Statue"
@@ -741,19 +739,21 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   "Speed Chicken": {
     name: "Speed Chicken",
     description: "Produces eggs 10% faster",
-    section: Section["Speed Chicken"],
     type: LimitedItemType.MutantChicken,
   },
   "Fat Chicken": {
     name: "Fat Chicken",
     description: "10% less wheat needed to feed a chicken",
-    section: Section["Fat Chicken"],
     type: LimitedItemType.MutantChicken,
   },
   "Rich Chicken": {
     name: "Rich Chicken",
     description: "Yields 10% more eggs",
-    section: Section["Rich Chicken"],
+    type: LimitedItemType.MutantChicken,
+  },
+  "Ayam Cemani": {
+    name: "Ayam Cemani",
+    description: "The rarest chicken in Sunflower Land.",
     type: LimitedItemType.MutantChicken,
   },
 };
@@ -972,32 +972,6 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
 };
 
-// TODO
-type GoblinRetreatItem = {
-  description: string;
-};
-
-export const GOBLIN_RETREAT_ITEMS: Record<
-  AuctioneerItemName,
-  GoblinRetreatItem
-> = {
-  "Peeled Potato": {
-    description: "A precious potato, encourages bonus potatoes on harvest.",
-  },
-  "Cabbage Boy": {
-    description: "Don't wake the baby!",
-  },
-  "Cabbage Girl": {
-    description: "Shhh it's sleeping",
-  },
-  "Wood Nymph Wendy": {
-    description: "Cast an enchantment to entice the fairies",
-  },
-  "Christmas Snow Globe": {
-    description: "Swirl the snow and watch it come to life",
-  },
-};
-
 export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   Chicken: {
     name: "Chicken",
@@ -1125,6 +1099,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Fat Chicken": { height: 1, width: 1 },
   "Rich Chicken": { height: 1, width: 1 },
   "Speed Chicken": { height: 1, width: 1 },
+  "Ayam Cemani": { height: 1, width: 1 },
 
   // War Tent Items
   "War Skull": { height: 1, width: 1 },
@@ -1153,6 +1128,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lady Bug": { height: 1, width: 1 },
   "Squirrel Monkey": { height: 1, width: 1 },
   "Black Bearry": { height: 1, width: 1 },
+
+  "Maneki neko": { height: 1, width: 1 },
+  "Collectible Bear": { height: 2, width: 2 },
+  "Cyborg Bear": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

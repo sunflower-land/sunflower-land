@@ -101,6 +101,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Lady Bug": 442,
   "Squirrel Monkey": 443,
   "Black Bearry": 444,
+  "Ayam Cemani": 445,
+  "Maneki neko": 446,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -180,6 +182,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Trading Ticket": 713,
   Warrior: 714,
   "Beta Pass": 715,
+  "Red Envelope": 716,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -299,6 +302,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Rainbow Artist Bear": 1218,
   "Christmas Snow Globe": 1219,
   "Devil Bear": 1220,
+  "Collectible Bear": 1221,
+  "Cyborg Bear": 1222,
 };
 
 // The reverse of above

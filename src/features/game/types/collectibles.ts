@@ -6,12 +6,13 @@ export type HeliosBlacksmithItem = "Immortal Pear";
 export type GoblinBlacksmithItemName =
   | "Lady Bug"
   | "Squirrel Monkey"
-  | "Black Bearry";
+  | "Black Bearry"
+  | "Maneki neko";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
   description: string;
-  boost: string;
+  boost?: string;
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<
@@ -65,5 +66,13 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     },
     supply: 535,
     boost: "+1 Blueberry",
+  },
+  "Maneki neko": {
+    description: "The beckoning cat. Pull it's arm and good luck will come",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Red Envelope": new Decimal(50),
+    },
+    supply: 30000,
   },
 };

@@ -2,8 +2,8 @@ import { mintCollectible } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { AuctioneerItemName } from "../types/auctioneer";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
-import { AuctioneerItemName } from "../types/craftables";
 
 type Request = {
   farmId: number;

@@ -331,6 +331,12 @@ import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
 
+import cyborgBear from "src/assets/sfts/cyborg_bear.png";
+import collectibleBear from "src/assets/sfts/collectible_bear.png";
+import manekiNeko from "src/assets/sfts/maneki_neko.gif";
+import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
+import redEnvelope from "src/assets/icons/red_envelope.png";
+
 // Treasure
 import starfish from "assets/resources/beach/starfish.png";
 import coral from "assets/resources/beach/coral.png";
@@ -352,7 +358,6 @@ import {
   LimitedItem,
   MUTANT_CHICKENS,
   SALESMAN_ITEMS,
-  GOBLIN_RETREAT_ITEMS,
 } from "./craftables";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -366,6 +371,7 @@ import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
+import { AUCTIONEER_ITEMS } from "./auctioneer";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1557,22 +1563,22 @@ export const ITEM_DETAILS: Items = {
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: GOBLIN_RETREAT_ITEMS["Cabbage Boy"].description,
+    description: AUCTIONEER_ITEMS["Cabbage Boy"].description,
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: GOBLIN_RETREAT_ITEMS["Cabbage Girl"].description,
+    description: AUCTIONEER_ITEMS["Cabbage Girl"].description,
   },
 
   "Wood Nymph Wendy": {
     image: wendy,
-    description: GOBLIN_RETREAT_ITEMS["Wood Nymph Wendy"].description,
+    description: AUCTIONEER_ITEMS["Wood Nymph Wendy"].description,
   },
 
   "Peeled Potato": {
     image: prizedPotato,
-    description: GOBLIN_RETREAT_ITEMS["Peeled Potato"].description,
+    description: AUCTIONEER_ITEMS["Peeled Potato"].description,
   },
 
   "Colossal Crop": {
@@ -1663,5 +1669,25 @@ export const ITEM_DETAILS: Items = {
   "Fruit Platter": {
     image: fruitPlatter,
     description: ACHIEVEMENTS()["Fruit Platter"].description,
+  },
+  "Ayam Cemani": {
+    image: ayamCemani,
+    description: "The rarest chicken alive!",
+  },
+  "Collectible Bear": {
+    image: collectibleBear,
+    description: "A prize bear, still in mint condition!",
+  },
+  "Cyborg Bear": {
+    image: cyborgBear,
+    description: "Hasta la vista, bear",
+  },
+  "Maneki neko": {
+    image: manekiNeko,
+    description: "The beckoning cat. Pull it's arm and good luck will come",
+  },
+  "Red Envelope": {
+    image: redEnvelope,
+    description: "Wow, you are lucky!",
   },
 };

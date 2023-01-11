@@ -3,9 +3,9 @@ import { Context } from "features/game/GoblinProvider";
 
 import { getValidAuctionItems } from "./actions/auctioneerItems";
 import { useActor } from "@xstate/react";
-import { AuctioneerItemName } from "features/game/types/craftables";
 import { MachineInterpreter } from "features/retreat/auctioneer/auctioneerMachine";
 import { AuctionDetails } from "./AuctionDetails";
+import { AuctioneerItemName } from "features/game/types/auctioneer";
 
 export const AuctioneerContent = () => {
   const { goblinService } = useContext(Context);
