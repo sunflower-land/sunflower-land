@@ -8,15 +8,24 @@ import { FrogComponent } from "./FrogComponent";
 interface Props {
   frogs: Frog[];
   farmId: number | undefined;
+  position?: { left: string; top: string };
 }
 
-export const FrogContainer: React.FC<Props> = ({ frogs, farmId }) => {
+export const FrogContainer: React.FC<Props> = ({ frogs, farmId, position }) => {
+  if (!position) {
+    position = {
+      left: `${GRID_WIDTH_PX * 12}px`,
+      top: `${GRID_WIDTH_PX * 2.2}px`,
+    };
+  }
+
   return (
     <div
       style={{
         width: `${GRID_WIDTH_PX * 8 * 2}px`, // Max 8(7 frogs + 1 statue), each takes 2x grid width
+        ...position,
       }}
-      className="flex absolute justify-center left-0 top-0"
+      className="flex absolute justify-center"
     >
       {farmId === 143560 && (
         <img

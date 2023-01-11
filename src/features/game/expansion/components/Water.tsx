@@ -43,7 +43,7 @@ export const Water: React.FC<Props> = ({ level }) => {
   };
 
   const frogCoordinates = {
-    x: level >= 7 ? 0 : 5,
+    x: level >= 7 ? -2 : 5,
     y: level >= 7 ? -11 : -5,
   };
 
@@ -145,7 +145,7 @@ export const Water: React.FC<Props> = ({ level }) => {
       {/* Community Assets */}
       <CommunityBoundary>
         <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y}>
-          <ProjectDignityFrogs />
+          <ProjectDignityFrogs left={0} top={0} />
         </MapPlacement>
 
         <ProjectDignitySeals isGarden={false} />
