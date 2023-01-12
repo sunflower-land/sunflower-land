@@ -23,6 +23,8 @@ export interface ChatContext {
   socket?: WebSocket;
   bumpkins: Player[];
   messages: ChatMessage[];
+  jwt: string;
+  accountId: number;
 }
 
 export type ChatState = {
@@ -100,17 +102,26 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
     bumpkin: {} as Bumpkin,
     bumpkins: [],
     messages: [],
+    accountId: 0,
+    jwt: "",
   },
   states: {
     connecting: {
       invoke: {
         id: "socket",
-        src: async () => {
+        src: async (context) => {
           if (!CONFIG.WEBSOCKET_URL) {
             throw new Error("No websocket URL provided");
           }
 
-          const socket = new WebSocket(CONFIG.WEBSOCKET_URL as string);
+          const TESTNET_JWT =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHhENzU1OTg0RjRBNUQ4ODU5MTk0NTFlRDI1ZTFhODU0ZGFhNTA4NkM5IiwidXNlckFjY2VzcyI6eyJzeW5jIjp0cnVlLCJ3aXRoZHJhdyI6dHJ1ZSwibWludENvbGxlY3RpYmxlIjp0cnVlLCJjcmVhdGVGYXJtIjp0cnVlLCJhZG1pbiI6dHJ1ZSwidmVyaWZpZWQiOnRydWV9LCJpYXQiOjE2NzM1NTI4NzQsImV4cCI6MTY3MzYzOTI3NH0.k52__eSS77PgAofjp3YbIviTzPuphMCbN_yjxz03qUk";
+
+          const FARM_ID = 118;
+
+          const socket = new WebSocket(
+            `${CONFIG.WEBSOCKET_URL}?token=${TESTNET_JWT}&farmId=${FARM_ID}&x=${context.currentPosition?.x}&y=${context.currentPosition?.y}`
+          );
 
           console.log("Connect");
           await new Promise((res) => {

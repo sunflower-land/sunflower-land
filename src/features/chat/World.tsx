@@ -29,7 +29,7 @@ export const World: React.FC = () => {
         <div
           className="relative"
           style={{
-            width: `${40 * GRID_WIDTH_PX}px`,
+            width: `${60 * GRID_WIDTH_PX}px`,
             height: `${40 * GRID_WIDTH_PX}px`,
           }}
           // TODO dynamic game board size based on tile dimensions

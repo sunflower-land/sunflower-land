@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import PF from "pathfinding";
+import { Modal } from "react-bootstrap";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
@@ -10,13 +11,14 @@ import background from "assets/land/world.png";
 import { Context } from "features/game/GameProvider";
 import { Bumpkins } from "./Bumpkins";
 import { chatMachine, MachineInterpreter } from "./chatMachine";
-import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { ChatUI } from "./ChatUI";
 import { Bumpkin } from "features/game/types/game";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { randomInt } from "lib/utils/random";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+
+import { ChatUI } from "./ChatUI";
 
 const randomId = randomInt(0, 99999);
 
@@ -53,6 +55,9 @@ interface Props {
   scrollContainer: HTMLElement;
 }
 export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState, send] = useActor(authService);
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
@@ -68,6 +73,9 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
   const chatService = useInterpret(chatMachine, {
     context: {
       bumpkin: myBumpkin,
+      currentPosition: { x: 740, y: 1400 },
+      accountId: authState.context.farmId as number,
+      jwt: authState.context.rawToken,
     },
   }) as unknown as MachineInterpreter;
 
@@ -75,14 +83,14 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
 
   const [scrollIntoView] = useScrollIntoView();
 
-  useEffect(() => {
-    if (!chatState.context.currentPosition) {
-      console.log("SEND!");
-      chatService.send("SEND_LOCATION", {
-        coordinates: { x: 740, y: 1400 },
-      });
-    }
-  }, [chatState.value]);
+  // useEffect(() => {
+  //   if (!chatState.context.currentPosition) {
+  //     console.log("SEND!");
+  //     chatService.send("SEND_LOCATION", {
+  //       coordinates: { x: 740, y: 1400 },
+  //     });
+  //   }
+  // }, [chatState.value]);
 
   useEffect(() => {
     return () => {
@@ -121,7 +129,7 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
           id={Section.HeliosBackGround}
           className="h-auto absolute"
           style={{
-            width: `${40 * GRID_WIDTH_PX}px`,
+            width: `${60 * GRID_WIDTH_PX}px`,
           }}
         />
 
