@@ -16,7 +16,6 @@ type Request = {
   fingerprint: string;
   deviceTrackerId: string;
   transactionId: string;
-  metadata?: any[];
 };
 
 const API_URL = CONFIG.API_URL;
@@ -92,7 +91,6 @@ export async function autosaveRequest(
       clientVersion: CONFIG.CLIENT_VERSION as string,
       cachedKey,
       deviceTrackerId: request.deviceTrackerId,
-      metadata: request.metadata,
     }),
   });
 }

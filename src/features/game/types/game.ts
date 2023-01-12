@@ -369,7 +369,6 @@ export interface GameState {
   }[];
   // TODO remove when old events are deleted
   migrated?: boolean;
-  metadata?: any[];
 }
 
 export interface Context {
