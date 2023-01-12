@@ -14,8 +14,6 @@ import {
   BumpkinSuit,
   BumpkinOnesie,
   BumpkinWings,
-  Equipped,
-  BUMPKIN_PARTS,
 } from "features/game/types/bumpkin";
 
 export type BumpkinParts = {
@@ -79,24 +77,4 @@ export function tokenUriBuilder(parts: BumpkinParts) {
   const uriFormat = validIds.join("_");
 
   return uriFormat;
-}
-
-/**
- * Grabs the equipment from a token URI
- */
-export function interpretTokenUri(tokenUri: string): Equipped {
-  // Remove the baseUri (sunflower-land.com/testnet/)
-  const urlParts = tokenUri.split("/");
-  const tokenPart = urlParts[urlParts.length - 1];
-  const [_tokenId, _version, ...ids] = tokenPart
-    .split("_")
-    .map((val) => (!val.startsWith("v") ? Number(val) : val));
-
-  return ids.reduce(
-    (acc, id) => ({
-      ...acc,
-      [BUMPKIN_PARTS[id]]: ITEM_IDS[id],
-    }),
-    {} as Equipped
-  );
 }

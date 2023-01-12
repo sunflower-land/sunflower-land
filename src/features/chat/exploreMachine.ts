@@ -5,13 +5,9 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 
-import { loadGameStateForVisit } from "features/game/actions/loadGameStateForVisit";
-
 import { assign, createMachine, Interpreter, State } from "xstate";
-import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { loadSession } from "features/game/actions/loadSession";
 import { randomID } from "lib/utils/random";
-import { getGameOnChainState } from "features/game/actions/onchain";
 import { getSessionId } from "lib/blockchain/Sessions";
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { ReactionName } from "./lib/reactions";
