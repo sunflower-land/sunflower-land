@@ -1,33 +1,22 @@
 import { Panel } from "components/ui/Panel";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 
 import chatIcon from "assets/icons/expression_chat.png";
+import heartIcon from "assets/icons/heart.png";
+import backIcon from "assets/icons/arrow_left.png";
 import disc from "assets/icons/disc.png";
+import { ChatText } from "./ChatText";
+import { ChatReactions } from "./ChatReactions";
+import { ReactionName } from "./lib/reactions";
+import { GameState } from "features/game/types/game";
 
 interface Props {
-  onMessage: (text: string) => void;
+  game: GameState;
+  onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
 }
-export const ChatUI: React.FC<Props> = ({ onMessage }) => {
-  const ref = useRef<HTMLTextAreaElement>();
-  const [text, setText] = useState("");
-  const send = (event?: React.SyntheticEvent) => {
-    event?.preventDefault();
-    onMessage(text);
-    setText("");
-  };
+export const ChatUI: React.FC<Props> = ({ onMessage, game }) => {
+  const [tab, setTab] = useState<"text" | "reactions">("reactions");
 
-  useEffect(() => {
-    const keyDownListener = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        send();
-      }
-    };
-
-    window.addEventListener("keydown", keyDownListener);
-
-    return () => window.removeEventListener("keydown", keyDownListener);
-  });
   return (
     <div
       className="w-full flex justify-center fixed bottom-4 pl-2 md:pr-2 pr-20"
@@ -35,41 +24,46 @@ export const ChatUI: React.FC<Props> = ({ onMessage }) => {
       onClick={() => console.log("parent clicked")}
     >
       <Panel className="md:w-1/2 w-full">
-        <form onSubmit={send}>
-          <div className="flex items-center">
-            <img src={chatIcon} className="h-6 mr-2" />
-            <span className="text-sm">Bumpkin chat</span>
-          </div>
+        <div className="flex justify-between">
+          {tab === "text" && (
+            <>
+              <div className="flex items-center">
+                <img src={chatIcon} className="h-6 mr-2" />
+                <span className="text-sm">Bumpkin chat</span>
+              </div>
+              <div
+                className="flex items-center"
+                onClick={() => setTab("reactions")}
+              >
+                <span className="text-xs underline">Reactions</span>
+                <img src={heartIcon} className="h-4 ml-2" />
+              </div>
+            </>
+          )}
 
-          <div
-            className="w-full relative mt-2"
-            onClick={() => console.log("text div clicked")}
-          >
-            <textarea
-              name="message"
-              value={text}
-              disabled={false}
-              ref={(r) => (ref.current = r as HTMLTextAreaElement)}
-              onFocus={() => console.log("Focus")}
-              onClick={() => ref.current?.focus()}
-              onInput={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                setText(e.target.value)
-              }
-              style={{
-                border: "1px solid #ead4aa",
-                fontFamily: "monospace",
-              }}
-              placeholder="Type here..."
-              className="text-sm placeholder-white w-full  mono rounded-md  bg-brown-200 pr-10 pl-2 py-2"
-            />
+          {tab === "reactions" && (
+            <>
+              <div className="flex items-center">
+                <img src={heartIcon} className="h-6 mr-2" />
+                <span className="text-sm">Reactions</span>
+              </div>
+              <div className="flex items-center" onClick={() => setTab("text")}>
+                <img src={backIcon} className="h-4 mr-2" />
+                <span className="text-xs underline">Back</span>
+              </div>
+            </>
+          )}
+        </div>
 
-            <img
-              src={disc}
-              className="absolute right-1 top-1 cursor-pointer w-8"
-              onClick={send}
-            />
-          </div>
-        </form>
+        {tab === "text" && (
+          <ChatText onMessage={(text) => onMessage({ text })} />
+        )}
+        {tab === "reactions" && (
+          <ChatReactions
+            onReact={(reaction) => onMessage({ reaction })}
+            game={game}
+          />
+        )}
       </Panel>
     </div>
   );

@@ -4,11 +4,15 @@ import * as Auth from "features/auth/lib/Provider";
 
 import { useParams } from "react-router-dom";
 import { WorldNavigation } from "./WorldNavigation";
-import { GameProvider } from "features/game/GameProvider";
+import { Context, GameProvider } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+
+import background from "assets/land/world.png";
+import { useActor } from "@xstate/react";
 
 export const World: React.FC = () => {
   const { authService } = useContext(Auth.Context);
+
   // catching and passing scroll container to keyboard listeners
   const [container, setContainer] = useState<HTMLElement>();
   const { id } = useParams();
@@ -19,25 +23,29 @@ export const World: React.FC = () => {
 
   // Load data
   return (
-    <GameProvider key={id}>
-      {/* <ToastProvider> */}
-      <ScrollContainer
-        className="bg-green-500 overflow-scroll relative w-full h-full page-scroll-container"
-        innerRef={(container) => setContainer(container as HTMLElement)}
-        ignoreElements={"*[data-prevent-drag-scroll]"}
+    <ScrollContainer
+      className="bg-green-500 overflow-scroll relative w-full h-full page-scroll-container"
+      innerRef={(container) => setContainer(container as HTMLElement)}
+      ignoreElements={"*[data-prevent-drag-scroll]"}
+    >
+      <div
+        className="relative"
+        style={{
+          width: `${60 * GRID_WIDTH_PX}px`,
+          height: `${40 * GRID_WIDTH_PX}px`,
+        }}
+        // TODO dynamic game board size based on tile dimensions
       >
-        <div
-          className="relative"
+        <img
+          src={background}
+          className="h-auto absolute"
           style={{
             width: `${60 * GRID_WIDTH_PX}px`,
-            height: `${40 * GRID_WIDTH_PX}px`,
           }}
-          // TODO dynamic game board size based on tile dimensions
-        >
-          <WorldNavigation scrollContainer={container as HTMLElement} />
-        </div>
-      </ScrollContainer>
-      {/* </ToastProvider> */}
-    </GameProvider>
+        />
+
+        <WorldNavigation scrollContainer={container as HTMLElement} />
+      </div>
+    </ScrollContainer>
   );
 };

@@ -1,8 +1,20 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Equipped } from "features/game/types/bumpkin";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
+import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
+import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
+
+import { loadGameStateForVisit } from "features/game/actions/loadGameStateForVisit";
+
 import { assign, createMachine, Interpreter, State } from "xstate";
+import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
+import { loadSession } from "features/game/actions/loadSession";
+import { randomID } from "lib/utils/random";
+import { getGameOnChainState } from "features/game/actions/onchain";
+import { getSessionId } from "lib/blockchain/Sessions";
+import { OFFLINE_FARM } from "features/game/lib/landData";
+import { ReactionName } from "./lib/reactions";
 
 export type Player = {
   connectionId: string;
@@ -14,21 +26,25 @@ export type Player = {
 
 export type ChatMessage = {
   bumpkinId: number;
-  text: string;
+  text?: string;
+  reaction?: ReactionName;
   createdAt: number;
 };
+
 export interface ChatContext {
-  currentPosition?: Coordinates;
+  currentPosition: Coordinates;
   bumpkin: Bumpkin;
   socket?: WebSocket;
   bumpkins: Player[];
   messages: ChatMessage[];
-  jwt: string;
   accountId: number;
+  jwt: string;
+  game: GameState;
 }
 
 export type ChatState = {
   value:
+    | "initialising"
     | "connecting"
     | "loadingPlayers"
     | "connected"
@@ -39,12 +55,21 @@ export type ChatState = {
 };
 
 type SendLocationEvent = { type: "SEND_LOCATION"; coordinates: Coordinates };
-type SendChatMessageEvent = { type: "SEND_CHAT_MESSAGE"; text: string };
+type SendChatMessageEvent = {
+  type: "SEND_CHAT_MESSAGE";
+  text: string;
+  reaction: ReactionName;
+};
 type ChatEvent =
   | { type: "PLAYER_UPDATED"; player: Player }
   | { type: "PLAYERS_LOADED"; players: Player[] }
   | { type: "PLAYER_QUIT"; connectionId: string }
-  | { type: "CHAT_MESSAGE_RECEIVED"; connectionId: string; text: string }
+  | {
+      type: "CHAT_MESSAGE_RECEIVED";
+      connectionId: string;
+      text?: string;
+      reaction?: ReactionName;
+    }
   | SendLocationEvent
   | SendChatMessageEvent
   | { type: "TICK" }
@@ -81,7 +106,8 @@ type PlayerQuitMessage = {
 type ChatSentMessage = {
   type: "chatSent";
   connectionId: string;
-  text: string;
+  text?: string;
+  reaction?: ReactionName;
 };
 
 type SendMessage =
@@ -96,31 +122,70 @@ function parseWebsocketMessage(data: string): SendMessage {
 /**
  * Machine which handles both player events and reacts to web socket events
  */
-export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
-  initial: "connecting",
+export const exploreMachine = createMachine<ChatContext, ChatEvent, ChatState>({
+  initial: "initialising",
   context: {
     bumpkin: {} as Bumpkin,
     bumpkins: [],
     messages: [],
     accountId: 0,
     jwt: "",
+    currentPosition: { x: 0, y: 0 },
+    game: OFFLINE_FARM,
   },
   states: {
+    initialising: {
+      invoke: {
+        id: "init",
+        src: async (context) => {
+          const bumpkins = await loadBumpkins(
+            wallet.web3Provider,
+            wallet.myAccount
+          );
+
+          // Get sessionId
+          const sessionId = await getSessionId(
+            wallet.web3Provider,
+            wallet.myAccount,
+            context.accountId
+          );
+
+          const response = await loadSession({
+            farmId: context.accountId,
+            bumpkinTokenUri: bumpkins[0]?.tokenURI,
+            sessionId,
+            token: context.jwt as string,
+            transactionId: randomID(),
+          });
+
+          return {
+            bumpkin: response?.game.bumpkin,
+            game: response?.game,
+          };
+        },
+        onDone: {
+          target: "connecting",
+          actions: assign({
+            bumpkin: (_, event) => event.data.bumpkin,
+            game: (_, event) => event.data.game,
+          }),
+        },
+        onError: {
+          target: "error",
+        },
+      },
+    },
     connecting: {
       invoke: {
         id: "socket",
         src: async (context) => {
+          console.log({ context });
           if (!CONFIG.WEBSOCKET_URL) {
             throw new Error("No websocket URL provided");
           }
 
-          const TESTNET_JWT =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHhENzU1OTg0RjRBNUQ4ODU5MTk0NTFlRDI1ZTFhODU0ZGFhNTA4NkM5IiwidXNlckFjY2VzcyI6eyJzeW5jIjp0cnVlLCJ3aXRoZHJhdyI6dHJ1ZSwibWludENvbGxlY3RpYmxlIjp0cnVlLCJjcmVhdGVGYXJtIjp0cnVlLCJhZG1pbiI6dHJ1ZSwidmVyaWZpZWQiOnRydWV9LCJpYXQiOjE2NzM1NTI4NzQsImV4cCI6MTY3MzYzOTI3NH0.k52__eSS77PgAofjp3YbIviTzPuphMCbN_yjxz03qUk";
-
-          const FARM_ID = 118;
-
           const socket = new WebSocket(
-            `${CONFIG.WEBSOCKET_URL}?token=${TESTNET_JWT}&farmId=${FARM_ID}&x=${context.currentPosition?.x}&y=${context.currentPosition?.y}`
+            `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&farmId=${context.accountId}&x=${context.currentPosition?.x}&y=${context.currentPosition?.y}`
           );
 
           console.log("Connect");
@@ -175,7 +240,10 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
         onDone: {
           target: "connected",
           actions: assign({
-            bumpkins: (_, event) => event.data.bumpkins,
+            bumpkins: (context, event) =>
+              (event.data.bumpkins as Player[]).filter(
+                (bumpkin) => bumpkin.bumpkinId !== context.bumpkin.id
+              ),
           }),
         },
         onError: {
@@ -222,6 +290,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
               cb({
                 type: "CHAT_MESSAGE_RECEIVED",
                 text: body.text,
+                reaction: body.reaction,
                 connectionId: body.connectionId,
               });
             }
@@ -274,6 +343,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
                   action: "sendChatMessage",
                   data: {
                     text: event.text,
+                    reaction: event.reaction,
                   },
                 })
               );
@@ -284,6 +354,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
                   bumpkinId: context.bumpkin.id,
                   createdAt: Date.now(),
                   text: event.text,
+                  reaction: event.reaction,
                 },
                 ...context.messages,
               ],
@@ -334,7 +405,10 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
         },
         PLAYERS_LOADED: {
           actions: assign({
-            bumpkins: (context, event) => event.players,
+            bumpkins: (context, event) =>
+              event.players.filter(
+                (player) => player.bumpkinId !== context.bumpkin.id
+              ),
           }),
         },
         // Basic cleanup behaviour
@@ -363,6 +437,7 @@ export const chatMachine = createMachine<ChatContext, ChatEvent, ChatState>({
               return [
                 {
                   text: event.text,
+                  reaction: event.reaction,
                   createdAt: Date.now(),
                   bumpkinId: bumpkinId,
                 },

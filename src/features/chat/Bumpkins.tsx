@@ -1,20 +1,56 @@
 import { Panel } from "components/ui/Panel";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Bumpkin } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { Player, MachineInterpreter, ChatMessage } from "./chatMachine";
+import { Player, MachineInterpreter, ChatMessage } from "./exploreMachine";
+import { ReactionName, REACTIONS } from "./lib/reactions";
 
 interface Props {
   messages: ChatMessage[];
   bumpkin: Bumpkin;
   chatService: MachineInterpreter;
-  position?: Coordinates;
+  position: Coordinates;
   bumpkins: Player[];
   path: Coordinates[];
 }
+
+const Message: React.FC<ChatMessage> = ({ text, reaction }) => {
+  if (text) {
+    return (
+      <span
+        className="absolute  text-white text-xs"
+        style={{
+          bottom: "29px",
+          left: "-58px",
+          width: "158px",
+          textAlign: "center",
+        }}
+      >
+        {text}
+      </span>
+    );
+  }
+
+  if (reaction) {
+    return (
+      <img
+        src={REACTIONS.find((r) => r.name === reaction)?.icon}
+        className="absolute"
+        style={{
+          bottom: "29px",
+          left: "12px",
+          width: `${PIXEL_SCALE * 8}px`,
+          textAlign: "center",
+        }}
+      />
+    );
+  }
+
+  return null;
+};
 
 export const Bumpkins: React.FC<Props> = ({
   messages,
@@ -27,6 +63,7 @@ export const Bumpkins: React.FC<Props> = ({
   const freshMessages = messages;
   const myMessage = freshMessages.find((m) => m.bumpkinId === bumpkin.id);
 
+  console.log({ freshMessages, myMessage, bumpkin, bumpkins });
   useEffect(() => {
     if (path.length) {
       const pathIndex = path.find(
@@ -49,31 +86,19 @@ export const Bumpkins: React.FC<Props> = ({
         </Panel>
       </Modal>
 
-      {position && (
+      {bumpkin && (
         <div
           key={bumpkin.id}
           className="absolute runner"
           style={{
-            transform: `translate(${position.x}px,${position.y}px)`,
+            transform: `translate(${position?.x}px,${position?.y}px)`,
             height: `${GRID_WIDTH_PX}px`,
             width: `${GRID_WIDTH_PX}px`,
             left: "-27px",
             top: "-47px",
           }}
         >
-          {myMessage && (
-            <span
-              className="absolute  text-white text-xs"
-              style={{
-                bottom: "29px",
-                left: "-58px",
-                width: "158px",
-                textAlign: "center",
-              }}
-            >
-              {myMessage.text}
-            </span>
-          )}
+          {myMessage && <Message {...myMessage} />}
 
           <NPC {...bumpkin.equipped} />
         </div>
@@ -82,6 +107,9 @@ export const Bumpkins: React.FC<Props> = ({
       {bumpkins
         .filter((b) => !!b.coordinates)
         .map((otherBumpkin) => {
+          const message = freshMessages.find(
+            (m) => m.bumpkinId === otherBumpkin.bumpkinId
+          );
           return (
             <div
               key={otherBumpkin.bumpkinId}
@@ -92,21 +120,8 @@ export const Bumpkins: React.FC<Props> = ({
                 width: `${GRID_WIDTH_PX}px`,
               }}
             >
-              <span
-                className="absolute  text-white text-xs"
-                style={{
-                  bottom: "29px",
-                  left: "-58px",
-                  width: "158px",
-                  textAlign: "center",
-                }}
-              >
-                {
-                  freshMessages.find(
-                    (m) => m.bumpkinId === otherBumpkin.bumpkinId
-                  )?.text
-                }
-              </span>
+              {message && <Message {...message} />}
+
               <NPC
                 {...otherBumpkin.wearables}
                 onClick={() =>

@@ -10,7 +10,7 @@ import background from "assets/land/world.png";
 
 import { Context } from "features/game/GameProvider";
 import { Bumpkins } from "./Bumpkins";
-import { chatMachine, MachineInterpreter } from "./chatMachine";
+import { exploreMachine, MachineInterpreter } from "./exploreMachine";
 import { Panel } from "components/ui/Panel";
 import { Bumpkin } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -58,22 +58,11 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { state } = gameState.context;
-
   const [path, setPath] = useState<Coordinates[]>([]);
 
-  const myBumpkin = {
-    ...(state.bumpkin as Bumpkin),
-    // Testing for solo sessions
-    // id: randomId,
-  };
-
-  const chatService = useInterpret(chatMachine, {
+  const chatService = useInterpret(exploreMachine, {
     context: {
-      bumpkin: myBumpkin,
-      currentPosition: { x: 740, y: 1400 },
+      currentPosition: { x: 1200, y: 1400 },
       accountId: authState.context.farmId as number,
       jwt: authState.context.rawToken,
     },
@@ -82,15 +71,6 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
   const [chatState] = useActor(chatService);
 
   const [scrollIntoView] = useScrollIntoView();
-
-  // useEffect(() => {
-  //   if (!chatState.context.currentPosition) {
-  //     console.log("SEND!");
-  //     chatService.send("SEND_LOCATION", {
-  //       coordinates: { x: 740, y: 1400 },
-  //     });
-  //   }
-  // }, [chatState.value]);
 
   useEffect(() => {
     return () => {
@@ -124,16 +104,12 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
   return (
     <>
       <div className="absolute inset-0" onClick={walk}>
-        <img
-          src={background}
-          id={Section.HeliosBackGround}
-          className="h-auto absolute"
-          style={{
-            width: `${60 * GRID_WIDTH_PX}px`,
-          }}
-        />
-
-        <Modal show={chatState.matches("connecting")} centered>
+        <Modal
+          show={
+            chatState.matches("initialising") || chatState.matches("connecting")
+          }
+          centered
+        >
           <Panel>
             <span className="loading">Connecting</span>
           </Panel>
@@ -158,7 +134,7 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
 
         <Bumpkins
           messages={chatState.context.messages}
-          bumpkin={myBumpkin}
+          bumpkin={chatState.context.bumpkin}
           chatService={chatService}
           position={chatState.context.currentPosition}
           bumpkins={chatState.context.bumpkins}
@@ -174,15 +150,17 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
           bumpkin={myBumpkin}
         />
       )} */}
-      {chatState.context.currentPosition && (
-        <ChatUI
-          onMessage={(text) => {
-            chatService.send("SEND_CHAT_MESSAGE", {
-              text,
-            });
-          }}
-        />
-      )}
+      {/* {chatState.matches("connected") && ( */}
+      <ChatUI
+        onMessage={({ reaction, text }) => {
+          chatService.send("SEND_CHAT_MESSAGE", {
+            text,
+            reaction,
+          });
+        }}
+        game={chatState.context.game}
+      />
+      {/* )} */}
     </>
   );
 };
