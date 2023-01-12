@@ -13,7 +13,11 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
   "Foreman Beaver": 60 * 60 * 8,
   Kuebiko: 60 * 60 * 24,
   Scarecrow: 5 * 60,
+<<<<<<< HEAD
   "Maneki Neko": 24 * 60 * 60,
+=======
+  "Gold Egg": 60 * 60 * 6,
+>>>>>>> 4dba8250 ([FEAT] Update Gold Egg metadata)
 };
 
 export type PlaceCollectibleAction = {
