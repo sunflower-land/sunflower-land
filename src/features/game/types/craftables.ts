@@ -1099,7 +1099,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Fat Chicken": { width: 1, height: 1 },
   "Rich Chicken": { width: 1, height: 1 },
   "Speed Chicken": { width: 1, height: 1 },
-  "Ayam Cemani": { height: 1, width: 1 },
+  "Ayam Cemani": { width: 1, height: 1 },
   // War Tent Items
   "War Skull": { width: 1, height: 1 },
   "War Tombstone": { width: 1, height: 1 },
@@ -1128,9 +1128,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Squirrel Monkey": { width: 1, height: 1 },
   "Black Bearry": { width: 1, height: 1 },
 
-  "Maneki Neko": { height: 1, width: 1 },
-  "Collectible Bear": { height: 2, width: 2 },
-  "Cyborg Bear": { height: 1, width: 1 },
+  "Maneki Neko": { width: 1, height: 1 },
+  "Collectible Bear": { width: 2, height: 2 },
+  "Cyborg Bear": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
