@@ -13,6 +13,7 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
   "Foreman Beaver": 60 * 60 * 8,
   Kuebiko: 60 * 60 * 24,
   Scarecrow: 5 * 60,
+  "Maneki Neko": 24 * 60 * 60,
 };
 
 export type PlaceCollectibleAction = {
