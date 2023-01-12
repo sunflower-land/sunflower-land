@@ -48,6 +48,9 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
         BOTTLE_CLICK: {
           target: "floating",
         },
+        DONATE: {
+          target: "donating",
+        },
       },
     },
     floating: {
@@ -63,9 +66,9 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
     donating: {
       invoke: {
         src: async (_context: Context, event: any): Promise<void> => {
-          const { donation } = event as DonateEvent;
+          const { donation, to } = event as DonateEvent;
 
-          await communityContracts.donate(donation, frogDonationAddress);
+          await communityContracts.donate(donation, to || frogDonationAddress);
         },
         onDone: {
           target: "donated",
