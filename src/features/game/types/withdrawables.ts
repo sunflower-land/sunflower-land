@@ -99,7 +99,7 @@ const globalDefaults = Object.keys(KNOWN_IDS).reduce(
 
 // Group withdraw conditions for common items
 const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
-//Fruits will be disabled untill all the fruit SFT's are sold out
+// Fruits will be disabled untill all the fruit SFT's are sold out
 const fruitDefaults = buildDefaults(Object.keys(FRUIT()), false);
 const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
 const mutantChickenDefaults = buildDefaults(
@@ -119,7 +119,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...easterEggDefaults,
 
   // Explicit Rules
-  Chicken: true,
+  Chicken: false,
+  "Basic Bear": false,
   "Farm Cat": true,
   "Farm Dog": true,
   "Gold Egg": true,
@@ -176,7 +177,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
-  "Basic Bear": (game) => hasCompletedAchievment(game, "Sun Seeker"),
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
