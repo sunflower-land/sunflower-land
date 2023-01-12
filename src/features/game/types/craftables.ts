@@ -1041,8 +1041,8 @@ const flagsDimension = getKeys(FLAGS).reduce(
   (previous, flagName) => ({
     ...previous,
     [flagName]: {
-      height: 1,
       width: 1,
+      height: 1,
     },
   }),
   {} as Record<Flag, Dimensions>
@@ -1050,8 +1050,8 @@ const flagsDimension = getKeys(FLAGS).reduce(
 
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Salesman Items
-  "Wicker Man": { height: 1, width: 1 },
-  "Golden Bonsai": { height: 1, width: 1 },
+  "Wicker Man": { width: 1, height: 1 },
+  "Golden Bonsai": { width: 1, height: 1 },
 
   // Flags
   ...flagsDimension,
@@ -1081,7 +1081,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Immortal Pear": { width: 2, height: 2 },
 
   // Market Items
-  Scarecrow: { height: 2, width: 2 },
+  Scarecrow: { width: 2, height: 2 },
   Nancy: { width: 1, height: 2 },
   Kuebiko: { width: 2, height: 2 },
   "Golden Cauliflower": { width: 2, height: 2 },
@@ -1094,49 +1094,48 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Chicken Coop": { width: 2, height: 2 },
   "Gold Egg": { width: 1, height: 1 },
   "Easter Bunny": { width: 2, height: 1 },
-  Rooster: { height: 1, width: 1 },
-  "Egg Basket": { height: 1, width: 1 },
-  "Fat Chicken": { height: 1, width: 1 },
-  "Rich Chicken": { height: 1, width: 1 },
-  "Speed Chicken": { height: 1, width: 1 },
-  "Ayam Cemani": { height: 1, width: 1 },
-
+  Rooster: { width: 1, height: 1 },
+  "Egg Basket": { width: 1, height: 1 },
+  "Fat Chicken": { width: 1, height: 1 },
+  "Rich Chicken": { width: 1, height: 1 },
+  "Speed Chicken": { width: 1, height: 1 },
+  "Ayam Cemani": { width: 1, height: 1 },
   // War Tent Items
-  "War Skull": { height: 1, width: 1 },
-  "War Tombstone": { height: 1, width: 1 },
-  "Undead Rooster": { height: 1, width: 1 },
+  "War Skull": { width: 1, height: 1 },
+  "War Tombstone": { width: 1, height: 1 },
+  "Undead Rooster": { width: 1, height: 1 },
 
-  Observatory: { height: 2, width: 2 },
-  "Victoria Sisters": { height: 2, width: 2 },
-  "Basic Bear": { height: 1, width: 1 },
-  "Peeled Potato": { height: 1, width: 1 },
-  "Wood Nymph Wendy": { height: 2, width: 1 },
-  "Cabbage Boy": { height: 1, width: 1 },
-  "Cabbage Girl": { height: 1, width: 1 },
+  Observatory: { width: 2, height: 2 },
+  "Victoria Sisters": { width: 2, height: 2 },
+  "Basic Bear": { width: 1, height: 1 },
+  "Peeled Potato": { width: 1, height: 1 },
+  "Wood Nymph Wendy": { width: 1, height: 2 },
+  "Cabbage Boy": { width: 1, height: 1 },
+  "Cabbage Girl": { width: 1, height: 1 },
 
-  "Magic Bean": { height: 2, width: 2 },
-  "Shiny Bean": { height: 2, width: 2 },
-  "Golden Bean": { height: 2, width: 2 },
+  "Magic Bean": { width: 2, height: 2 },
+  "Shiny Bean": { width: 2, height: 2 },
+  "Golden Bean": { width: 2, height: 2 },
 
-  "Stellar Sunflower": { height: 1, width: 1 },
-  "Peaceful Potato": { height: 1, width: 1 },
-  "Perky Pumpkin": { height: 1, width: 1 },
-  "Colossal Crop": { height: 1, width: 1 },
+  "Stellar Sunflower": { width: 1, height: 1 },
+  "Peaceful Potato": { width: 1, height: 1 },
+  "Perky Pumpkin": { width: 1, height: 1 },
+  "Colossal Crop": { width: 1, height: 1 },
 
-  "Christmas Bear": { height: 1, width: 1 },
-  "Christmas Snow Globe": { height: 2, width: 2 },
-  "Lady Bug": { height: 1, width: 1 },
-  "Squirrel Monkey": { height: 1, width: 1 },
-  "Black Bearry": { height: 1, width: 1 },
+  "Christmas Bear": { width: 1, height: 1 },
+  "Christmas Snow Globe": { width: 2, height: 2 },
+  "Lady Bug": { width: 1, height: 1 },
+  "Squirrel Monkey": { width: 1, height: 1 },
+  "Black Bearry": { width: 1, height: 1 },
 
-  "Maneki Neko": { height: 1, width: 1 },
-  "Collectible Bear": { height: 2, width: 2 },
-  "Cyborg Bear": { height: 1, width: 1 },
+  "Maneki Neko": { width: 1, height: 1 },
+  "Collectible Bear": { width: 2, height: 2 },
+  "Cyborg Bear": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
   Chicken: {
-    height: 1,
     width: 1,
+    height: 1,
   },
 };
