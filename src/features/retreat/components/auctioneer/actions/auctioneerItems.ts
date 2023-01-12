@@ -1,4 +1,4 @@
-import { AuctioneerItemName } from "features/game/types/craftables";
+import { AuctioneerItemName } from "features/game/types/auctioneer";
 import { InventoryItemName } from "features/game/types/game";
 
 export type Release = {

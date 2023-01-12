@@ -6,6 +6,8 @@ import { Inventory, MutantChicken } from "features/game/types/game";
 import richChicken from "assets/animals/chickens/rich_chicken.png";
 import fatChicken from "assets/animals/chickens/fat_chicken.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.png";
+import ayamCemani from "assets/animals/chickens/ayam_cemani.png";
+
 import { Button } from "components/ui/Button";
 
 const mutants: Record<MutantChicken, Record<string, string>> = {
@@ -20,6 +22,10 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
   "Rich Chicken": {
     description: "Your chickens will now yield 10% more eggs.",
     image: richChicken,
+  },
+  "Ayam Cemani": {
+    description: "The rarest chicken in existence!",
+    image: ayamCemani,
   },
 };
 

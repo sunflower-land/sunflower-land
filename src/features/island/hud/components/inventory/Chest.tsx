@@ -5,7 +5,6 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import {
   CollectibleName,
   getKeys,
-  GOBLIN_RETREAT_ITEMS,
   LIMITED_ITEMS,
 } from "features/game/types/craftables";
 import { getChestItems } from "./utils/inventory";
@@ -22,6 +21,7 @@ import {
 } from "features/game/types/collectibles";
 import { SplitScreenView } from "features/game/components/SplitScreenView";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 
 interface Props {
   state: GameState;
@@ -56,7 +56,7 @@ export const Chest: React.FC<Props> = ({
       if (
         item in LIMITED_ITEMS ||
         item in DECORATIONS() ||
-        item in GOBLIN_RETREAT_ITEMS ||
+        item in AUCTIONEER_ITEMS ||
         item in BEANS() ||
         item in HELIOS_BLACKSMITH_ITEMS ||
         item in GOBLIN_BLACKSMITH_ITEMS

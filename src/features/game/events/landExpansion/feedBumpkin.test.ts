@@ -99,7 +99,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it.only("provides 5% more experience when player has Observatory placed", () => {
+  it("provides 5% more experience when player has Observatory placed", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
