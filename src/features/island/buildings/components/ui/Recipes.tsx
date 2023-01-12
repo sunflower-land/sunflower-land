@@ -1,10 +1,6 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
-
-import levelup from "assets/icons/level_up.png";
-import watch from "assets/icons/stopwatch.png";
-
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -17,8 +13,6 @@ import {
   ConsumableName,
   CONSUMABLES,
 } from "features/game/types/consumables";
-import { Label } from "components/ui/Label";
-
 import { InProgressInfo } from "../building/InProgressInfo";
 import { MachineInterpreter } from "../../lib/craftingMachine";
 import {
@@ -26,7 +20,7 @@ import {
   getFoodExpBoost,
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
-import { secondsToString } from "lib/utils/time";
+import { RequirementLabel } from "components/ui/RequirementLabel";
 
 interface Props {
   selected: Consumable;
@@ -40,8 +34,8 @@ interface Props {
 
 /**
  * The recipes of a food producing building.
- * @selected The selected food in the interface.  This prop is set in the parent so closing the modal will not reset the selected state.
- * @setSelected Sets the selected food in the interface.  This prop is set in the parent so closing the modal will not reset the selected state.
+ * @selected The selected food in the interface. This prop is set in the parent so closing the modal will not reset the selected state.
+ * @setSelected Sets the selected food in the interface. This prop is set in the parent so closing the modal will not reset the selected state.
  * @recipes The list of available recipes.
  * @onClose The close action.
  * @onCook The cook action.
@@ -89,6 +83,9 @@ export const Recipes: React.FC<Props> = ({
   const Action = () => {
     return (
       <>
+        {crafting && (
+          <p className="text-xxs sm:text-xs text-center my-1">Chef is busy</p>
+        )}
         <Button
           disabled={lessIngredients() || crafting || selected.disabled}
           className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
@@ -96,14 +93,9 @@ export const Recipes: React.FC<Props> = ({
         >
           Cook
         </Button>
-        {crafting && (
-          <p className="text-xxs sm:text-xs text-center my-1">Chef is busy</p>
-        )}
       </>
     );
   };
-
-  const ingredientCount = getKeys(selected.ingredients).length;
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -140,81 +132,35 @@ export const Recipes: React.FC<Props> = ({
             </span>
           </div>
         </div>
-        <div className="border-t border-white w-full my-2" />
-        <div className="flex justify-between px-1 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
-          <div className="mb-1 flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
-            {getKeys(selected.ingredients).map((name, index) => {
-              const item = ITEM_DETAILS[name];
-              const inventoryAmount =
-                inventory[name]?.toDecimalPlaces(1, Decimal.ROUND_FLOOR) || 0;
-              const requiredAmount =
-                selected.ingredients[name]?.toDecimalPlaces(
-                  1,
-                  Decimal.ROUND_FLOOR
-                ) || new Decimal(0);
 
-              // Ingredient difference
-              const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                requiredAmount
-              );
-
-              // rendering item remnants
-              const renderRemnants = () => {
-                if (lessIngredient) {
-                  // if inventory items is less than required items
-                  return (
-                    <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-                  );
-                }
-
-                return (
-                  <span className="text-xs text-center">
-                    {`${requiredAmount}`}
-                  </span>
-                );
-              };
-
-              return (
-                <div
-                  className={`flex items-center space-x-1 ${
-                    ingredientCount > 2 ? "w-1/2" : "w-full"
-                  } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
-                  key={index}
-                >
-                  <div className="w-5">
-                    <img src={item.image} className="h-5" />
-                  </div>
-                  {renderRemnants()}
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex flex-col space-y-2 items-start w-[30%] sm:w-full sm:items-center sm:mb-1">
-            <div className="flex justify-between">
-              <img src={levelup} className="h-5 mr-2" />
-              <span className="text-xs whitespace-nowrap">
-                {getFoodExpBoost(
+        <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+          {getKeys(selected.ingredients).map((ingredientName, index) => (
+            <RequirementLabel
+              key={index}
+              type="item"
+              item={ingredientName}
+              balance={inventory[ingredientName] || new Decimal(0)}
+              requirement={
+                selected.ingredients?.[ingredientName] || new Decimal(0)
+              }
+            />
+          ))}
+          <RequirementLabel
+            type="xp"
+            xp={
+              new Decimal(
+                getFoodExpBoost(
                   selected,
                   state.bumpkin as Bumpkin,
                   state.collectibles
-                )}
-                xp
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <img src={watch} className="h-5 mr-1" />
-              <span className="text-xs whitespace-nowrap">
-                {secondsToString(
-                  getCookingTime(selected.cookingSeconds, state.bumpkin),
-                  {
-                    length: "medium",
-                    isShortFormat: true,
-                    removeTrailingZeros: true,
-                  }
-                )}
-              </span>
-            </div>
-          </div>
+                )
+              )
+            }
+          />
+          <RequirementLabel
+            type="time"
+            waitSeconds={getCookingTime(selected.cookingSeconds, state.bumpkin)}
+          />
         </div>
         {Action()}
       </OuterPanel>

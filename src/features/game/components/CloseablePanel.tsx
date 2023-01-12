@@ -67,7 +67,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
               onClick={() => handleTabClick(index)}
             >
               <SquareIcon icon={tab.icon} width={7} />
-              <span className="text-xs sm:text-sm overflow-hidden text-ellipsis ml-2">
+              <span className="text-xs sm:text-sm overflow-hidden text-ellipsis ml-1 p-1">
                 {tab.name}
               </span>
             </Tab>

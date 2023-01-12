@@ -1,14 +1,8 @@
 import React, { useContext, useState } from "react";
-import classNames from "classnames";
 import { useActor } from "@xstate/react";
-
-import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
-import timer from "assets/icons/timer.png";
-
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
-
 import { Context } from "features/game/GameProvider";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -21,8 +15,8 @@ import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
-import { secondsToString } from "lib/utils/time";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { RequirementLabel } from "components/ui/RequirementLabel";
 
 interface Props {
   onClose: () => void;
@@ -142,31 +136,26 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
     if (CONFIG.NETWORK === "mainnet" || selected.name !== "Magic Bean") {
       return (
-        <span className="text-xs text-center mb-2 whitespace-nowrap">
+        <span className="text-xxs sm:text-xs text-center my-1 whitespace-nowrap">
           Coming soon
         </span>
       );
     }
 
     return (
-      <>
-        <Button
-          disabled={
-            lessFunds() ||
-            lessIngredients() ||
-            stock?.lessThan(1) ||
-            inventoryFull
-          }
-          className="text-xxs sm:text-xs mt-1"
-          onClick={() => buy(1)}
-        >
-          Buy 1
-        </Button>
-      </>
+      <Button
+        disabled={
+          lessFunds() ||
+          lessIngredients() ||
+          stock?.lessThan(1) ||
+          inventoryFull
+        }
+        onClick={() => buy(1)}
+      >
+        Buy 1
+      </Button>
     );
   };
-
-  const ingredientCount = getKeys(selected.ingredients).length;
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -194,72 +183,27 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             />
             <span className="sm:text-center mb-1">{selected.name}</span>
           </div>
-          <div className="border-t border-white w-full my-2" />
-          <div className="flex w-full justify-between px-1 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
-            <div className="flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
-              {getKeys(selected.ingredients).map((ingredientName, index) => {
-                const item = ITEM_DETAILS[ingredientName];
-                const inventoryAmount =
-                  inventory[ingredientName]?.toDecimalPlaces(1) || 0;
-                const requiredAmount =
-                  selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
-                  new Decimal(0);
 
-                // Ingredient difference
-                const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                  requiredAmount
-                );
-
-                // rendering item remnants
-                const renderRemnants = () => {
-                  if (lessIngredient) {
-                    return (
-                      <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-                    );
-                  } else {
-                    // if inventory items is equal to required items
-                    return (
-                      <span className="text-xs text-center">
-                        {`${requiredAmount}`}
-                      </span>
-                    );
-                  }
-                };
-
-                return (
-                  <div
-                    className={`flex items-center space-x-1 ${
-                      ingredientCount > 2 ? "w-1/2" : "w-full"
-                    } shrink-0 sm:justify-center my-[1px] sm:w-full sm:mb-1`}
-                    key={index}
-                  >
-                    <img src={item.image} className="h-5 me-2" />
-                    {renderRemnants()}
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex flex-col space-y-2 items-start w-[30%] sm:w-full sm:items-center sm:mb-1">
-              <div className="flex space-x-1">
-                <img src={timer} className="h-4 sm:h-5" />
-                <span className="text-xs text-center">
-                  {secondsToString(selected.plantSeconds, {
-                    length: "medium",
-                    isShortFormat: true,
-                  })}
-                </span>
-              </div>
-              <div className="flex items-end space-x-1">
-                <img src={token} className="h-4 sm:h-5" />
-                {lessFunds() ? (
-                  <Label type="danger">{`${price}`}</Label>
-                ) : (
-                  <span className={classNames("text-xs text-center")}>
-                    {`${price}`}
-                  </span>
-                )}
-              </div>
-            </div>
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+            {getKeys(selected.ingredients).map((ingredientName, index) => (
+              <RequirementLabel
+                key={index}
+                type="item"
+                item={ingredientName}
+                balance={inventory[ingredientName] || new Decimal(0)}
+                requirement={
+                  selected.ingredients?.[ingredientName] || new Decimal(0)
+                }
+              />
+            ))}
+            {price.greaterThan(0) && (
+              <RequirementLabel
+                type="sfl"
+                balance={state.balance}
+                requirement={price}
+              />
+            )}
+            <RequirementLabel type="time" waitSeconds={selected.plantSeconds} />
           </div>
         </div>
         {Action()}

@@ -36,7 +36,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
             width: `${PIXEL_SCALE * 10}px`,
           }}
         />
-        <span className="text-white text-sm">
+        <span className="text-sm pb-1">
           {showFullBalance
             ? balance.toString()
             : setPrecision(balance).toString()}

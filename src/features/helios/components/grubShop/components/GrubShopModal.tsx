@@ -100,7 +100,6 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
         <img src={stopwatch} className="w-3 left-0 mr-1" />
         {`${secondsToString(secondsLeft as number, {
           length: "medium",
-          isShortFormat: true,
         })} left`}
       </Label>
     );

@@ -2,50 +2,30 @@ import React, { SyntheticEvent, useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { Modal } from "react-bootstrap";
-
 import token from "assets/icons/token_2.png";
 import hammer from "assets/icons/hammer.png";
-import close from "assets/icons/close.png";
-
 import { Box } from "components/ui/Box";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-
 import { Stock } from "components/ui/Stock";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
-import { Tab } from "components/ui/Tab";
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
-import classNames from "classnames";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { RequirementLabel } from "components/ui/RequirementLabel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   isOpen: boolean;
   onClose: (e?: SyntheticEvent) => void;
 }
-
-const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
-  return (
-    <img
-      src={close}
-      className="absolute cursor-pointer z-20"
-      onClick={onClose}
-      style={{
-        top: `${PIXEL_SCALE * 1}px`,
-        right: `${PIXEL_SCALE * 1}px`,
-        width: `${PIXEL_SCALE * 11}px`,
-      }}
-    />
-  );
-};
 
 export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
@@ -174,7 +154,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
       <>
         <Button
           disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+          className="whitespace-nowrap"
           onClick={(e) => craft(e)}
         >
           Craft 1
@@ -184,26 +164,14 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
-  // Price is added as an ingredient for layout purposes
-  const ingredientCount = getKeys(selected.ingredients).length + 1;
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
-      <Panel className="relative" hasTabs bumpkinParts={bumpkinParts}>
-        <div
-          className="absolute flex"
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-          }}
-        >
-          <Tab isActive>
-            <img src={hammer} className="h-5 mr-2" />
-            <span className="text-sm">Tools</span>
-          </Tab>
-          <CloseButton onClose={onClose} />
-        </div>
+      <CloseButtonPanel
+        bumpkinParts={bumpkinParts}
+        tabs={[{ icon: hammer, name: "Tools" }]}
+        onClose={onClose}
+      >
         <div
           style={{
             minHeight: "200px",
@@ -232,80 +200,39 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   />
                   <span className="text-center mb-1">{selectedName}</span>
                 </div>
-                <span className="text-xs sm:text-sm sm:text-center">
+                <span className="text-xs sm:text-center">
                   {selected.description}
                 </span>
-                <div className="border-t border-white w-full my-2" />
-                <div className="flex w-full justify-between max-h-14 sm:max-h-full sm:flex-col sm:items-center">
-                  <div className="mb-1 flex flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
-                    {price?.gt(0) && (
-                      <div className="flex items-center space-x-1 shrink-0 w-1/2 sm:w-full sm:justify-center my-[1px] sm:mb-1">
-                        <div className="w-5">
-                          <img src={token} className="h-5 mr-1" />
-                        </div>
-                        <span
-                          className={classNames("text-xs text-center", {
-                            "text-red-500": lessFunds(),
-                          })}
-                        >
-                          {`${price?.toNumber()}`}
-                        </span>
-                      </div>
-                    )}
-                    {getKeys(selected.ingredients).map(
-                      (ingredientName, index) => {
-                        const item = ITEM_DETAILS[ingredientName];
-                        const inventoryAmount =
-                          inventory[ingredientName]?.toDecimalPlaces(1) || 0;
-                        const requiredAmount =
-                          selected.ingredients[ingredientName]?.toDecimalPlaces(
-                            1
-                          ) || 0;
 
-                        // Ingredient difference
-                        const lessIngredient = new Decimal(
-                          inventoryAmount
-                        ).lessThan(requiredAmount);
-
-                        // rendering item remnants
-                        const renderRemnants = () => {
-                          if (lessIngredient) {
-                            // if inventory items is less than required items
-                            return (
-                              <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-                            );
-                          }
-                          // if inventory items is equal to required items
-                          return (
-                            <span className="text-xs text-center">
-                              {`${requiredAmount}`}
-                            </span>
-                          );
-                        };
-
-                        return (
-                          <div
-                            className={`flex items-center space-x-1 ${
-                              ingredientCount > 2 ? "w-1/2" : "w-full"
-                            } shrink-0 sm:justify-center my-[1px] sm:mb-1 sm:w-full`}
-                            key={index}
-                          >
-                            <div className="w-5">
-                              <img src={item.image} className="h-5" />
-                            </div>
-                            {renderRemnants()}
-                          </div>
-                        );
-                      }
-                    )}
-                  </div>
+                <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+                  {getKeys(selected.ingredients).map(
+                    (ingredientName, index) => (
+                      <RequirementLabel
+                        key={index}
+                        type="item"
+                        item={ingredientName}
+                        balance={inventory[ingredientName] || new Decimal(0)}
+                        requirement={
+                          selected.ingredients?.[ingredientName] ||
+                          new Decimal(0)
+                        }
+                      />
+                    )
+                  )}
+                  {price.greaterThan(0) && (
+                    <RequirementLabel
+                      type="sfl"
+                      balance={state.balance}
+                      requirement={price}
+                    />
+                  )}
                 </div>
+                {Action()}
               </div>
-              {Action()}
             </OuterPanel>
           </div>
         </div>
-      </Panel>
+      </CloseButtonPanel>
     </Modal>
   );
 };

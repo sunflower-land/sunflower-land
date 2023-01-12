@@ -1,20 +1,10 @@
 import React, { useContext, useState } from "react";
-import classNames from "classnames";
 import { useActor } from "@xstate/react";
-
-import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
-import timer from "assets/icons/timer.png";
-import heart from "assets/icons/level_up.png";
-import seedling from "assets/icons/seedling.png";
 import lock from "assets/skills/lock.png";
-
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-
-import { secondsToString } from "lib/utils/time";
-
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { CropName, CROPS } from "features/game/types/crops";
@@ -29,24 +19,25 @@ import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
-import { Bumpkin, Inventory } from "features/game/types/game";
+import { Bumpkin } from "features/game/types/game";
 import { FRUIT } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { RequirementLabel } from "components/ui/RequirementLabel";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 interface Props {
   onClose: () => void;
 }
 
-function isSeedLocked(
-  inventory: Inventory,
-  bumpkin: Bumpkin | undefined,
-  seedName: SeedName
-) {
-  const seed = SEEDS()[seedName];
-  return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
-}
+const getRequiredLevel = (seed: SeedName) => {
+  return SEEDS()[seed].bumpkinLevel;
+};
+
+const isSeedLocked = (currentLevel: number, seed: SeedName) => {
+  return currentLevel < getRequiredLevel(seed);
+};
 
 export const Seeds: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
@@ -63,6 +54,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const inventory = state.inventory;
   const collectibles = state.collectibles;
+
+  const currentLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
   const price = getBuyPrice(
     selectedName,
@@ -142,17 +135,16 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const Action = () => {
-    if (isSeedLocked(inventory, state.bumpkin, selectedName)) {
+    if (isSeedLocked(currentLevel, selectedName)) {
       return (
-        <div className="flex items-center justify-center mt-2">
-          <img src={heart} className="h-4 mr-1" />
-          <span
-            className="bg-error border text-xs p-1 rounded-md"
-            style={{ lineHeight: "12px", height: "23px" }}
-          >
-            Lvl {selected.bumpkinLevel ?? 0}
-          </span>
-          <img src={lock} className="h-4 ml-1" />
+        <div className="flex items-center justify-center my-1">
+          <RequirementLabel
+            className="mr-1"
+            type="level"
+            currentLevel={currentLevel}
+            requirement={getRequiredLevel(selectedName)}
+          />
+          <SquareIcon icon={lock} width={7} />
         </div>
       );
     }
@@ -198,38 +190,30 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const yields = SEEDS()[selectedName].yield;
 
   const getPlantSeconds = () => {
-    if (yields in FRUIT())
-      return secondsToString(SEEDS()[selectedName].plantSeconds, {
-        length: "medium",
-        removeTrailingZeros: true,
-      });
+    if (yields in FRUIT()) return SEEDS()[selectedName].plantSeconds;
 
     if (yields in CROPS())
-      return secondsToString(
-        getCropTime(
-          yields as CropName,
-          inventory,
-          collectibles,
-          state.bumpkin as Bumpkin
-        ),
-        {
-          length: "medium",
-          removeTrailingZeros: true,
-        }
+      return getCropTime(
+        yields as CropName,
+        inventory,
+        collectibles,
+        state.bumpkin as Bumpkin
       );
   };
+  const plantSeconds = getPlantSeconds();
 
-  const harvestCount = () => {
+  const getHarvestRequirements = () => {
     if (!(yields in FRUIT())) {
       return null;
     }
 
     if (isCollectibleBuilt("Immortal Pear", collectibles)) {
-      return [4, 6];
+      return { min: 4, max: 6 };
     }
 
-    return [3, 5];
+    return { min: 3, max: 5 };
   };
+  const harvestRequirements = getHarvestRequirements();
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -240,7 +224,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
-            showOverlay={isSeedLocked(inventory, state.bumpkin, name)}
+            showOverlay={isSeedLocked(currentLevel, name)}
             overlayIcon={
               <img
                 src={lock}
@@ -258,39 +242,26 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
           {labelState()}
-          <div className="flex space-x-2 items-center mt-1 sm:flex-col-reverse md:space-x-0">
-            <img
-              src={ITEM_DETAILS[selectedName].image}
-              className="w-5 sm:w-8 sm:my-1"
-              alt={selectedName}
-            />
+          <div className="flex space-x-1 items-center mt-1 sm:flex-col-reverse md:space-x-0">
+            <SquareIcon icon={ITEM_DETAILS[selectedName].image} width={14} />
             <span className="text-center mb-1">{selectedName}</span>
           </div>
-          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col sm:space-y-2 sm:items-center">
-            {getPlantSeconds() && (
-              <div className="flex space-x-1 items-center sm:justify-center">
-                <img src={timer} className="h-4 sm:h-5" />
-                <span className="text-xs text-center">{getPlantSeconds()}</span>
-              </div>
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+            {plantSeconds && (
+              <RequirementLabel type="time" waitSeconds={plantSeconds} />
             )}
-            {harvestCount() && (
-              <div className="flex space-x-1 items-center sm:justify-center">
-                <img src={seedling} className="h-4 sm:h-5" />
-                <span className="text-xs text-center">{`${harvestCount()?.join(
-                  "-"
-                )} harvests`}</span>
-              </div>
+            {harvestRequirements && (
+              <RequirementLabel
+                type="harvests"
+                minHarvest={harvestRequirements.min}
+                maxHarvest={harvestRequirements.max}
+              />
             )}
-            <div className="flex space-x-1 justify-center items-center">
-              <img src={token} className="h-4 sm:h-5" />
-              <span
-                className={classNames("text-xs text-center", {
-                  "text-red-500": lessFunds(),
-                })}
-              >
-                {price.equals(0) ? `Free` : `${price}`}
-              </span>
-            </div>
+            <RequirementLabel
+              type="sfl"
+              balance={state.balance}
+              requirement={price}
+            />
           </div>
         </div>
         {Action()}

@@ -4,10 +4,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { OuterPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Bumpkin } from "features/game/types/game";
-
 import lock from "assets/skills/lock.png";
-import heart from "assets/icons/level_up.png";
-
 import goblin from "assets/buildings/goblin_sign.png";
 import farm from "assets/crops/sunflower/planted.png";
 import helios from "assets/land/islands/helios_icon.png";
@@ -18,8 +15,9 @@ import snowman from "assets/npcs/snowman.png";
 import land from "assets/land/islands/island.webp";
 import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
-import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
+import { RequirementLabel } from "components/ui/RequirementLabel";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const CONTENT_HEIGHT = 380;
 
@@ -47,8 +45,8 @@ const Island = ({
 }: Props) => {
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
-  const notEnoughLevel =
-    !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
+  const currentLevel = getBumpkinLevel(bumpkin?.experience || 0);
+  const notEnoughLevel = !bumpkin || currentLevel < levelRequired;
   const cannotNavigate = notEnoughLevel || onSameIsland || comingSoon;
 
   if (cannotNavigate) {
@@ -78,14 +76,17 @@ const Island = ({
             {/* Level requirement */}
             {(notEnoughLevel || comingSoon) && (
               <div className="flex items-center">
-                <img src={heart} className="h-4 mr-1" />
-                <Label type="danger">Lvl {levelRequired}</Label>
-
-                <img src={lock} className="h-4 ml-1" />
-
-                {/* Coming soon */}
+                {notEnoughLevel && (
+                  <RequirementLabel
+                    className="mr-1"
+                    type="level"
+                    currentLevel={currentLevel}
+                    requirement={levelRequired}
+                  />
+                )}
+                <SquareIcon icon={lock} width={7} />
                 {comingSoon && (
-                  <span className="text-xxs ml-2 italic">Coming soon</span>
+                  <span className="text-xxs ml-1 italic">Coming soon</span>
                 )}
               </div>
             )}

@@ -18,6 +18,7 @@ import {
 } from "features/game/types/collectibles";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { Stock } from "components/ui/Stock";
+import { RequirementLabel } from "components/ui/RequirementLabel";
 
 interface Props {
   onClose: () => void;
@@ -31,7 +32,6 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
   const [
     {
       context: { state },
-      value,
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
@@ -59,22 +59,6 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selected);
   };
 
-  const renderRemnants = (
-    missingIngredients: boolean,
-    inventoryAmount: Decimal,
-    requiredAmount: Decimal
-  ) => {
-    if (missingIngredients) {
-      // if inventory items is less than required items
-      return (
-        <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-      );
-    } else {
-      // if inventory items is equal to required items
-      return <span className="text-xs text-center">{`${requiredAmount}`}</span>;
-    }
-  };
-
   const stock = state.stock[selected] || new Decimal(0);
 
   const labelState = () => {
@@ -95,16 +79,12 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
 
   const lessIngredients = () => {
     return getKeys(item.ingredients).some((ingredientName) => {
-      const inventoryAmount =
-        inventory[ingredientName]?.toDecimalPlaces(1) || new Decimal(0);
+      const inventoryAmount = inventory[ingredientName] || new Decimal(0);
       const requiredAmount =
-        item.ingredients[ingredientName]?.toDecimalPlaces(1) || new Decimal(0);
+        item.ingredients?.[ingredientName] || new Decimal(0);
       return new Decimal(inventoryAmount).lessThan(requiredAmount);
     });
   };
-
-  // Price is added as an ingredient for layout purposes
-  const ingredientCount = getKeys(item.ingredients).length + 1;
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -138,42 +118,18 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
             {item.boost}
           </Label>
 
-          <div className="border-t border-white w-full my-2" />
-          <div className="flex w-full justify-between max-h-14 sm:max-h-full sm:flex-col sm:items-center">
-            <div className="mb-1 flex flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
-              {getKeys(item.ingredients).map((ingredientName, index) => {
-                const details = ITEM_DETAILS[ingredientName];
-                const inventoryAmount =
-                  inventory[ingredientName]?.toDecimalPlaces(1) ||
-                  new Decimal(0);
-                const requiredAmount =
-                  item.ingredients?.[ingredientName]?.toDecimalPlaces(1) ||
-                  new Decimal(0);
-
-                // Ingredient difference
-                const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                  requiredAmount
-                );
-
-                return (
-                  <div
-                    className={`flex items-center space-x-1 ${
-                      ingredientCount > 2 ? "w-1/2" : "w-full"
-                    } shrink-0 sm:justify-center my-[1px] sm:mb-1 sm:w-full`}
-                    key={index}
-                  >
-                    <div className="w-5">
-                      <img src={details.image} className="h-5" />
-                    </div>
-                    {renderRemnants(
-                      lessIngredient,
-                      inventoryAmount,
-                      requiredAmount
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+            {getKeys(item.ingredients).map((ingredientName, index) => (
+              <RequirementLabel
+                key={index}
+                type="item"
+                item={ingredientName}
+                balance={inventory[ingredientName] || new Decimal(0)}
+                requirement={
+                  item.ingredients?.[ingredientName] || new Decimal(0)
+                }
+              />
+            ))}
           </div>
         </div>
         {isAlreadyCrafted ? (

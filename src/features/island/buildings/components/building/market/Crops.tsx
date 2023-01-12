@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Decimal from "decimal.js-light";
-
-import token from "assets/icons/token_2.png";
-import lightning from "assets/icons/lightning.png";
 import tokenStatic from "assets/icons/token_2.png";
 
 import { Box } from "components/ui/Box";
@@ -20,6 +17,8 @@ import { getSellPrice, hasSellBoost } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Bumpkin } from "features/game/types/game";
 import { Fruit, FRUIT } from "features/game/types/fruits";
+import { RequirementLabel } from "components/ui/RequirementLabel";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 export const Crops: React.FC = () => {
   const cropsAndFruits = { ...CROPS(), ...FRUIT() };
@@ -115,25 +114,16 @@ export const Crops: React.FC = () => {
       </div>
       <OuterPanel className="w-full flex-1">
         <div className="flex flex-col justify-center p-2 pb-0">
-          <div className="flex space-x-2 justify-start mb-1 sm:items-center sm:flex-col-reverse md:space-x-0">
-            <img
-              src={ITEM_DETAILS[selected.name].image}
-              className="w-5 object-contain sm:w-8 sm:my-1"
-              alt={selected.name}
-            />
-            <span>{selected.name}</span>
+          <div className="flex space-x-1 items-center mt-1 sm:flex-col-reverse md:space-x-0">
+            <SquareIcon icon={ITEM_DETAILS[selected.name].image} width={14} />
+            <span className="text-center mb-1">{selected.name}</span>
           </div>
-          <span className="text-xs sm:text-sm sm:text-center">
-            {selected.description}
-          </span>
-          <div className="border-t border-white w-full my-2 pt-1 flex justify-between sm:flex-col sm:items-center">
-            <div className="flex justify-center space-x-1 items-center sm:justify-center">
-              <img src={token} className="h-4 sm:h-5" />
-              {isPriceBoosted && <img src={lightning} className="h-5 sm:h-6" />}
-              <span className="text-xs text-shadow text-center">
-                {`${displaySellPrice(selected)}`}
-              </span>
-            </div>
+          <span className="text-xs sm:text-center">{selected.description}</span>
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+            <RequirementLabel
+              type="sellForSfl"
+              requirement={displaySellPrice(selected)}
+            />
           </div>
         </div>
         <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">

@@ -8,9 +8,7 @@ import boxChicken from "assets/animals/chickens/box_chicken.png";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { ANIMALS, getKeys } from "features/game/types/craftables";
-import token from "assets/icons/token_2.png";
 import { Box } from "components/ui/Box";
-import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
@@ -18,6 +16,7 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
 import { Label } from "components/ui/Label";
+import { RequirementLabel } from "components/ui/RequirementLabel";
 
 interface Props {
   onClose: () => void;
@@ -51,9 +50,9 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const workingCapacityFull =
     workingChickenCount.greaterThanOrEqualTo(availableSpots);
 
-  const price = ANIMALS()["Chicken"].tokenAmount;
+  const price = ANIMALS()["Chicken"].tokenAmount || new Decimal(0);
   const lessFunds = () => {
-    if (price === undefined) return true;
+    if (price.equals(0)) return true;
     return state.balance.lessThan(price);
   };
 
@@ -86,56 +85,52 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const Details = () => {
     if (selectedChicken === "buy") {
       return (
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-center">Chicken</span>
-          <img
-            src={chicken}
-            className="h-16 img-highlight mt-1"
-            alt="chicken"
-          />
-          <span className="text-center mt-2 text-sm">
-            Feed wheat and collect eggs
-          </span>
-          <>
-            <div className="border-t border-white w-full mt-2 pt-1">
-              <div className="flex justify-center items-end">
-                <img src={token} className="h-5 mr-1" />
-                <span
-                  className={classNames("text-xs text-center mt-2 ", {
-                    "text-red-500": lessFunds(),
-                  })}
-                >
-                  {`${price?.toString()}`}
-                </span>
-              </div>
+        <>
+          <div className="flex flex-col justify-center items-center p-2 pb-0 relative">
+            <span className="text-center">Chicken</span>
+            <img
+              src={chicken}
+              className="h-16 img-highlight mt-1"
+              alt="chicken"
+            />
+            <span className="text-center mt-2 text-xs">
+              Feed wheat and collect eggs
+            </span>
+            <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+              <RequirementLabel
+                type="sfl"
+                balance={state.balance}
+                requirement={price}
+              />
             </div>
-            <Button
-              disabled={!canBuyChicken || isSaving}
-              className="text-xs mt-3 whitespace-nowrap"
-              onClick={handleBuy}
-            >
-              {isSaving ? "Saving..." : "Buy"}
-            </Button>
-          </>
-        </div>
+          </div>
+          <Button
+            disabled={!canBuyChicken || isSaving}
+            className="whitespace-nowrap"
+            onClick={handleBuy}
+          >
+            {isSaving ? "Saving..." : "Buy"}
+          </Button>
+        </>
       );
     }
 
     if (selectedChicken === "lazy") {
       return (
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-center">Lazy Chicken</span>
-          <img
-            src={boxChicken}
-            className="h-16 img-highlight mt-1"
-            alt="chicken"
-          />
-          <div className="flex mt-2 relative">
-            <span className="text-center text-sm">
-              Put your chicken to work to start collecting eggs!
-            </span>
+        <>
+          <div className="flex flex-col justify-center items-center p-2 pb-0 relative">
+            <span className="text-center">Lazy Chicken</span>
+            <img
+              src={boxChicken}
+              className="h-16 img-highlight mt-1"
+              alt="chicken"
+            />
+            <div className="flex mt-2 relative">
+              <span className="text-center text-xs">
+                Put your chicken to work to start collecting eggs!
+              </span>
+            </div>
           </div>
-
           <Button
             className="text-xs mt-3 whitespace-nowrap"
             onClick={handlePlace}
@@ -143,7 +138,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           >
             {isSaving ? "Saving..." : "Place"}
           </Button>
-        </div>
+        </>
       );
     }
 
@@ -151,7 +146,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       <div className="flex flex-col justify-center items-center p-2 relative">
         <span className="text-center">Working Chicken</span>
         <img src={chicken} className="h-16 img-highlight mt-1" alt="chicken" />
-        <span className="text-center mt-2 text-sm">
+        <span className="text-center mt-2 text-xs">
           Already placed and working hard!
         </span>
       </div>

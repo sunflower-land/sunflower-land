@@ -1,13 +1,8 @@
 import React, { useContext, useState } from "react";
-import classNames from "classnames";
 import { useActor } from "@xstate/react";
-
-import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
-
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
-
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -19,7 +14,7 @@ import {
   DECORATIONS,
 } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
+import { RequirementLabel } from "components/ui/RequirementLabel";
 
 interface Props {
   onClose: () => void;
@@ -44,12 +39,11 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
   const [
     {
       context: { state },
-      value,
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const price = selected.sfl;
+  const price = selected.sfl || new Decimal(0);
   const buy = () => {
     gameService.send("decoration.bought", {
       item: selected.name,
@@ -64,40 +58,17 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
   };
 
   const lessFunds = () => {
-    if (!price) return false;
-
     return state.balance.lessThan(price.toString());
-  };
-
-  const renderRemnants = (
-    missingIngredients: boolean,
-    inventoryAmount: Decimal,
-    requiredAmount: Decimal
-  ) => {
-    if (missingIngredients) {
-      // if inventory items is less than required items
-      return (
-        <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-      );
-    } else {
-      // if inventory items is equal to required items
-      return <span className="text-xs text-center">{`${requiredAmount}`}</span>;
-    }
   };
 
   const lessIngredients = () => {
     return getKeys(selected.ingredients).some((ingredientName) => {
-      const inventoryAmount =
-        inventory[ingredientName]?.toDecimalPlaces(1) || new Decimal(0);
+      const inventoryAmount = inventory[ingredientName] || new Decimal(0);
       const requiredAmount =
-        selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
-        new Decimal(0);
+        selected.ingredients[ingredientName] || new Decimal(0);
       return new Decimal(inventoryAmount).lessThan(requiredAmount);
     });
   };
-
-  // Price is added as an ingredient for layout purposes
-  const ingredientCount = getKeys(selected.ingredients).length + 1;
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -122,54 +93,26 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
             />
             <span className="sm:text-center mb-1">{selected.name}</span>
           </div>
-          <div className="border-t border-white w-full my-2" />
-          <div className="flex w-full justify-between max-h-14 sm:max-h-full sm:flex-col sm:items-center">
-            <div className="mb-1 flex flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
-              <div className="flex items-center space-x-1 shrink-0 w-1/2 sm:w-full sm:justify-center my-[1px] sm:mb-1">
-                <div className="w-5">
-                  <img src={token} className="h-5 mr-1" />
-                </div>
-                <span
-                  className={classNames("text-xs text-center", {
-                    "text-red-500": lessFunds(),
-                  })}
-                >
-                  {`${price}`}
-                </span>
-              </div>
-              {getKeys(selected.ingredients).map((ingredientName, index) => {
-                const item = ITEM_DETAILS[ingredientName];
-                const inventoryAmount =
-                  inventory[ingredientName]?.toDecimalPlaces(1) ||
-                  new Decimal(0);
-                const requiredAmount =
-                  selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
-                  new Decimal(0);
 
-                // Ingredient difference
-                const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                  requiredAmount
-                );
-
-                return (
-                  <div
-                    className={`flex items-center space-x-1 ${
-                      ingredientCount > 2 ? "w-1/2" : "w-full"
-                    } shrink-0 sm:justify-center my-[1px] sm:mb-1 sm:w-full`}
-                    key={index}
-                  >
-                    <div className="w-5">
-                      <img src={item.image} className="h-5" />
-                    </div>
-                    {renderRemnants(
-                      lessIngredient,
-                      inventoryAmount,
-                      requiredAmount
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+            {getKeys(selected.ingredients).map((ingredientName, index) => (
+              <RequirementLabel
+                key={index}
+                type="item"
+                item={ingredientName}
+                balance={inventory[ingredientName] || new Decimal(0)}
+                requirement={
+                  selected.ingredients?.[ingredientName] || new Decimal(0)
+                }
+              />
+            ))}
+            {price.greaterThan(0) && (
+              <RequirementLabel
+                type="sfl"
+                balance={state.balance}
+                requirement={price}
+              />
+            )}
           </div>
         </div>
         <Button

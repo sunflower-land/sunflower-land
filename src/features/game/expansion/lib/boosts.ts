@@ -79,12 +79,12 @@ export const getCookingTime = (
 };
 
 /**
- * Get boosted exp from Bumpkin skills.
+ * Get boosted XP from Bumpkin skills.
  * Decimal mul for precision.
  * @todo add "Curer" skill once "Fermented Goods" are finalized
  * @param foodExp value to be increased
  * @param bumpkin to check for skills
- * @returns boosted food exp
+ * @returns boosted food XP
  */
 export const getFoodExpBoost = (
   food: Consumable,

@@ -104,7 +104,7 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
                       selected,
                       state.bumpkin as Bumpkin,
                       state.collectibles
-                    )} EXP`}
+                    )} XP`}
                   </span>
                 </div>
               </div>

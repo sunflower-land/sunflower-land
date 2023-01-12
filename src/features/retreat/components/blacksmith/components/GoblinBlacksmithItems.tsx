@@ -19,6 +19,7 @@ import {
   GoblinBlacksmithItemName,
   GOBLIN_BLACKSMITH_ITEMS,
 } from "features/game/types/collectibles";
+import { RequirementLabel } from "components/ui/RequirementLabel";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -122,47 +123,28 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
 
   const soldOut = amountLeft <= 0;
 
-  const renderRemnants = (
-    missingIngredients: boolean,
-    inventoryAmount: Decimal,
-    requiredAmount: Decimal
-  ) => {
-    if (missingIngredients) {
-      // if inventory items is less than required items
-      return (
-        <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
-      );
-    } else {
-      // if inventory items is equal to required items
-      return <span className="text-xs text-center">{`${requiredAmount}`}</span>;
-    }
-  };
-
   const Action = () => {
     if (soldOut) return null;
 
     if (selected.disabled) {
-      return <span className="text-xs text-center block">Coming soon</span>;
+      return (
+        <span className="text-xxs text-center block my-1">Coming soon</span>
+      );
     }
 
     console.log({ mintedAtTimes });
     if (mintedAtTimes[selectedName])
       return (
-        <div className="flex flex-col text-center mt-2 border-y border-white w-full">
-          <p className="text-xxs my-2">Already minted!</p>
-        </div>
+        <span className="text-xxs text-center block my-1">Already minted!</span>
       );
 
     return (
-      <>
-        <Button
-          disabled={lessIngredients() || selected.ingredients === undefined}
-          className="text-xs mt-1"
-          onClick={() => craft()}
-        >
-          Craft
-        </Button>
-      </>
+      <Button
+        disabled={lessIngredients() || selected.ingredients === undefined}
+        onClick={() => craft()}
+      >
+        Craft
+      </Button>
     );
   };
 
@@ -202,40 +184,19 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
               {selected.boost}
             </Label>
           )}
-          <div className="border-t border-white w-full mt-2 pt-1 text-center">
-            {getKeys(selected.ingredients).map((ingredientName, index) => {
-              const details = ITEM_DETAILS[ingredientName];
-              const inventoryAmount =
-                inventory[ingredientName]?.toDecimalPlaces(1) || new Decimal(0);
-              const requiredAmount =
-                selected.ingredients?.[ingredientName]?.toDecimalPlaces(1) ||
-                new Decimal(0);
 
-              // Ingredient difference
-              const lessIngredient = new Decimal(inventoryAmount).lessThan(
-                requiredAmount
-              );
-
-              const ingredientCount = getKeys(selected.ingredients).length + 1;
-
-              return (
-                <div
-                  className={`flex items-center space-x-1 ${
-                    ingredientCount > 2 ? "w-1/2" : "w-full"
-                  } shrink-0 sm:justify-center my-[1px] sm:mb-1 sm:w-full`}
-                  key={index}
-                >
-                  <div className="w-5">
-                    <img src={details.image} className="h-5" />
-                  </div>
-                  {renderRemnants(
-                    lessIngredient,
-                    inventoryAmount,
-                    requiredAmount
-                  )}
-                </div>
-              );
-            })}
+          <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+            {getKeys(selected.ingredients).map((ingredientName, index) => (
+              <RequirementLabel
+                key={index}
+                type="item"
+                item={ingredientName}
+                balance={inventory[ingredientName] || new Decimal(0)}
+                requirement={
+                  selected.ingredients?.[ingredientName] || new Decimal(0)
+                }
+              />
+            ))}
           </div>
         </div>
         {Action()}
