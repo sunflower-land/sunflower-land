@@ -79,6 +79,10 @@ import { RainbowArtistBear } from "./components/RainbowArtistBear";
 import { Observatory } from "./components/Observatory";
 import { SnowGlobe } from "./components/SnowGlobe";
 import { ImmortalPear } from "./components/ImmortalPear";
+import { AyamCemani } from "./components/AyamCemani";
+import { CollectibleBear } from "./components/CollectibleBear";
+import { CyborgBear } from "./components/CyborgBear";
+import { ManekiNeko } from "./components/ManekiNeko";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -189,6 +193,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Lady Bug": () => null,
   "Squirrel Monkey": () => null,
   "Black Bearry": () => null,
+  "Ayam Cemani": AyamCemani,
+  "Collectible Bear": CollectibleBear,
+  "Cyborg Bear": CyborgBear,
+  "Maneki Neko": ManekiNeko,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
