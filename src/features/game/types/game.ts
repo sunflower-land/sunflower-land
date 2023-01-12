@@ -2,13 +2,7 @@ import { Decimal } from "decimal.js-light";
 
 import { CropName, CropSeedName } from "./crops";
 
-import {
-  CollectibleName,
-  CraftableName,
-  Food,
-  Ingredient,
-  MOMEventItem,
-} from "./craftables";
+import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
