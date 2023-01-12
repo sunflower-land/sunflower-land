@@ -2,19 +2,11 @@ import { createMachine, Interpreter, assign } from "xstate";
 
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 
-import { GameState, Inventory } from "../types/game";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { mint } from "../actions/mint";
-import {
-  LimitedItem,
-  LimitedItemName,
-  LIMITED_ITEMS,
-  makeLimitedItemsByName,
-} from "../types/craftables";
+
 import { withdraw } from "../actions/withdraw";
-import {
-  getOnChainState,
-  LimitedItemRecipeWithMintedAt,
-} from "../actions/onchain";
+import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { EMPTY } from "./constants";
 import { loadSession } from "../actions/loadSession";
@@ -32,12 +24,11 @@ import { getBumpkinLevel } from "./level";
 import { randomID } from "lib/utils/random";
 import { OFFLINE_FARM } from "./landData";
 import { getSessionId } from "lib/blockchain/Sessions";
+import { GoblinBlacksmithItemName } from "../types/collectibles";
 
 const API_URL = CONFIG.API_URL;
 
 export type GoblinState = Omit<GameState, "skills">;
-
-export type OnChainLimitedItems = Record<number, LimitedItemRecipeWithMintedAt>;
 
 export interface Context {
   state: GoblinState;
@@ -46,19 +37,19 @@ export interface Context {
   transactionId?: string;
   farmAddress?: string;
   deviceTrackerId?: string;
-  limitedItems: Partial<Record<LimitedItemName, LimitedItem>>;
   auctioneerItems: Item[];
   auctioneerId: string;
+  mintedAtTimes: Partial<Record<InventoryItemName, number>>;
 }
 
 type MintEvent = {
   type: "MINT";
-  item: LimitedItemName;
+  item: GoblinBlacksmithItemName;
   captcha: string;
 };
 
 export type MintedEvent = {
-  item: LimitedItemName;
+  item: GoblinBlacksmithItemName;
   sessionId: string;
 };
 
@@ -144,17 +135,6 @@ export type MachineInterpreter = Interpreter<
   GoblinMachineState
 >;
 
-const makeLimitedItemsById = (items: LimitedItemRecipeWithMintedAt[]) => {
-  return items.reduce((obj, item) => {
-    // Strange items showing up in rare items with 0 values and 0 id
-    if (item.mintId > 0) {
-      obj[item.mintId] = item;
-    }
-
-    return obj;
-  }, {} as Record<number, LimitedItemRecipeWithMintedAt>);
-};
-
 export const RETREAT_LEVEL_REQUIREMENT = 5;
 
 export function startGoblinVillage(authContext: AuthContext) {
@@ -165,9 +145,9 @@ export function startGoblinVillage(authContext: AuthContext) {
       context: {
         state: API_URL ? EMPTY : OFFLINE_FARM,
         sessionId: INITIAL_SESSION,
-        limitedItems: {},
         auctioneerId: "",
         auctioneerItems: [],
+        mintedAtTimes: {},
       },
       states: {
         loading: {
@@ -221,13 +201,9 @@ export function startGoblinVillage(authContext: AuthContext) {
               game.inventory = availableState.inventory;
               game.farmAddress = onChainState.game.farmAddress;
 
-              const limitedItemsById = makeLimitedItemsById(
-                onChainState.limitedItems
-              );
-
               return {
                 state: game,
-                limitedItems: limitedItemsById,
+                mintedAtTimes: onChainState.mintedAtTimes,
                 sessionId,
                 deviceTrackerId: response?.deviceTrackerId,
                 auctioneerItems: items,
@@ -251,14 +227,10 @@ export function startGoblinVillage(authContext: AuthContext) {
                 target: "playing",
                 actions: assign({
                   state: (_, event) => event.data.state,
-                  limitedItems: (_, event) =>
-                    makeLimitedItemsByName(
-                      LIMITED_ITEMS,
-                      event.data.limitedItems
-                    ),
                   sessionId: (_, event) => event.data.sessionId,
                   deviceTrackerId: (_, event) => event.data.deviceTrackerId,
                   auctioneerItems: (_, event) => event.data.auctioneerItems,
+                  mintedAtTimes: (_, event) => event.data.mintedAtTimes,
                   auctioneerId: (_, event) => event.data.auctioneerId,
                 }),
               },

@@ -3,6 +3,11 @@ import { Inventory } from "./game";
 
 export type HeliosBlacksmithItem = "Immortal Pear";
 
+export type GoblinBlacksmithItemName =
+  | "Lady Bug"
+  | "Squirrel Monkey"
+  | "Black Bearry";
+
 export type CraftableCollectible = {
   ingredients: Inventory;
   description: string;
@@ -19,5 +24,46 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Gold: new Decimal(25),
     },
     boost: "+1 harvest",
+  },
+};
+
+export type GoblinBlacksmithCraftable = CraftableCollectible & {
+  supply: number;
+  disabled?: boolean;
+};
+
+export const GOBLIN_BLACKSMITH_ITEMS: Record<
+  GoblinBlacksmithItemName,
+  GoblinBlacksmithCraftable
+> = {
+  "Lady Bug": {
+    description:
+      "An incredible bug that feeds on aphids. Improves Apple quality.",
+    ingredients: {
+      Gold: new Decimal(25),
+      Apple: new Decimal(100),
+    },
+    supply: 2535,
+    boost: "+0.25 Apples",
+  },
+  "Squirrel Monkey": {
+    description:
+      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
+    ingredients: {
+      Gold: new Decimal(25),
+      Orange: new Decimal(300),
+    },
+    supply: 1035,
+    boost: "1/2 Orange Tree grow time",
+  },
+  "Black Bearry": {
+    description:
+      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
+    ingredients: {
+      Gold: new Decimal(25),
+      Blueberry: new Decimal(700),
+    },
+    supply: 535,
+    boost: "+1 Blueberry",
   },
 };

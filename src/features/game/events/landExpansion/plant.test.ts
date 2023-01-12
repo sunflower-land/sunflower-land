@@ -12,7 +12,6 @@ const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
-  trees: {},
 };
 
 describe("plant", () => {

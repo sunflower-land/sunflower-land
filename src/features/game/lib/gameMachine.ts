@@ -21,7 +21,7 @@ import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
-import { CollectibleName, LimitedItemName } from "../types/craftables";
+import { CollectibleName } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { getGameOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
@@ -47,6 +47,7 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
+import { GoblinBlacksmithItemName } from "../types/collectibles";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -75,7 +76,7 @@ export interface Context {
 
 type MintEvent = {
   type: "MINT";
-  item: LimitedItemName;
+  item: GoblinBlacksmithItemName;
   captcha: string;
 };
 
@@ -628,6 +629,7 @@ export function startGame(authContext: Options) {
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
                 transactionId: context.transactionId as string,
+                metadata: context.state.metadata,
               });
 
               // This gives the UI time to indicate that a save is taking place both when clicking save

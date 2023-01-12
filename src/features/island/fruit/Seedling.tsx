@@ -6,16 +6,19 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { getTimeLeft } from "lib/utils/time";
 import { PlantedFruit } from "features/game/types/game";
-import { FRUIT } from "features/game/types/fruits";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { Popover } from "./Popover";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { TimerPopover } from "../common/TimerPopover";
 
 interface Props {
   playing: boolean;
   plantedFruit: PlantedFruit;
   onClick: () => void;
+  /**
+   * Handles showing "hover" information on mobile or "error" on click action information
+   */
+  showOnClickInfo: boolean;
 }
 
 export const getFruitImage = (imageSource: any): JSX.Element => {
@@ -37,23 +40,24 @@ export const Seedling: React.FC<Props> = ({
   playing,
   plantedFruit,
   onClick,
+  showOnClickInfo,
 }) => {
   const { showTimers } = useContext(Context);
-  const [isMobile] = useIsMobile();
   const [showHoverState, setShowHoverState] = useState(false);
   const { plantedAt, name } = plantedFruit;
-  const { harvestSeconds } = FRUIT()[name];
+  const { seed } = FRUIT()[name];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
   const lifecycle = FRUIT_LIFECYCLE[name];
 
-  const growingTimeLeft = getTimeLeft(plantedAt, harvestSeconds);
+  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
 
-  const growPercentage = 100 - (growingTimeLeft / harvestSeconds) * 100;
+  const growPercentage = 100 - (growingTimeLeft / plantSeconds) * 100;
   const isAlmostReady = growPercentage >= 50;
   const isHalfway = growPercentage >= 25 && !isAlmostReady;
 
   return (
     <div
-      onMouseEnter={() => setShowHoverState(!isMobile)}
+      onMouseEnter={() => setShowHoverState(true)}
       onMouseLeave={() => setShowHoverState(false)}
       className="flex justify-center"
       onClick={onClick}
@@ -83,11 +87,12 @@ export const Seedling: React.FC<Props> = ({
         </div>
       )}
 
-      <Popover
-        showFruitDetails={showHoverState}
-        lifecycle={lifecycle}
-        plantedFruitName={plantedFruit.name}
+      <TimerPopover
+        showPopover={showHoverState || showOnClickInfo}
+        image={lifecycle.ready}
+        name={`${plantedFruit.name} Tree Growing`}
         timeLeft={growingTimeLeft}
+        position={{ top: 8, left: 25 }}
       />
 
       {/* Select box */}

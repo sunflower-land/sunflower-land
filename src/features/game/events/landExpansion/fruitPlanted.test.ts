@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { FruitSeedName } from "features/game/types/fruits";
+import { FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FruitPatch, GameState } from "features/game/types/game";
 import { plantFruit } from "./fruitPlanted";
 
@@ -272,6 +272,7 @@ describe("fruitPlanted", () => {
         expansionIndex: 3,
         seed: "Apple Seed",
       },
+      harvestsLeft: () => 3,
     });
 
     const fruitPatches = state.expansions[3].fruitPatches;
@@ -283,10 +284,244 @@ describe("fruitPlanted", () => {
           plantedAt: expect.any(Number),
           amount: 1,
           harvestedAt: 0,
-          harvestsLeft: 1,
+          harvestsLeft: 3,
         }),
       })
     );
+  });
+
+  it("includes immortal pear bonus", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = 1;
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Apple Seed": seedAmount,
+          "Immortal Pear": new Decimal(1),
+        },
+        collectibles: {
+          "Immortal Pear": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        expansionIndex: 3,
+        seed: "Apple Seed",
+      },
+      harvestsLeft: () => 3,
+    });
+
+    const fruitPatches = state.expansions[3].fruitPatches;
+
+    expect((fruitPatches as Record<number, FruitPatch>)[patchIndex]).toEqual(
+      expect.objectContaining({
+        fruit: expect.objectContaining({
+          name: "Apple",
+          plantedAt: expect.any(Number),
+          amount: 1,
+          harvestedAt: 0,
+          harvestsLeft: 4,
+        }),
+      })
+    );
+  });
+
+  it("includes lady bug bonus on apples", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = 1;
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Apple Seed": seedAmount,
+          "Lady Bug": new Decimal(1),
+        },
+        collectibles: {
+          "Lady Bug": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        expansionIndex: 3,
+        seed: "Apple Seed",
+      },
+    });
+
+    const fruitPatches = state.expansions[3].fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+    ).toEqual(1.25);
+  });
+
+  it("does not include lady bug bonus on blueberries", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = 1;
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Blueberry Seed": seedAmount,
+          "Lady Bug": new Decimal(1),
+        },
+        collectibles: {
+          "Lady Bug": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        expansionIndex: 3,
+        seed: "Blueberry Seed",
+      },
+    });
+
+    const fruitPatches = state.expansions[3].fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+    ).toEqual(1);
+  });
+
+  it("includes Squirrel Money bonus on Oranges", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = 1;
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Orange Seed": seedAmount,
+          "Squirrel Monkey": new Decimal(1),
+        },
+        collectibles: {
+          "Squirrel Monkey": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        expansionIndex: 3,
+        seed: "Orange Seed",
+      },
+    });
+
+    const fruitPatches = state.expansions[3].fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+    ).toEqual(1);
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt
+    ).toEqual(dateNow + FRUIT_SEEDS()["Orange Seed"].plantSeconds / 2);
+  });
+
+  it("includes Black Bearry bonus on Blueberries", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = 1;
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Blueberry Seed": seedAmount,
+          "Black Bearry": new Decimal(1),
+        },
+        collectibles: {
+          "Black Bearry": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        expansionIndex: 3,
+        seed: "Blueberry Seed",
+      },
+    });
+
+    const fruitPatches = state.expansions[3].fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+    ).toEqual(2);
+  });
+
+  it("does not accept harvests exceeding limits", () => {
+    expect(() =>
+      plantFruit({
+        state: {
+          ...GAME_STATE,
+          bumpkin: INITIAL_BUMPKIN,
+          inventory: {
+            "Apple Seed": new Decimal(3),
+          },
+        },
+        createdAt: dateNow,
+        harvestsLeft: () => 10,
+        action: {
+          type: "fruit.planted",
+          index: 1,
+          expansionIndex: 3,
+          seed: "Apple Seed",
+        },
+      })
+    ).toThrow("Invalid harvests left amount");
   });
 
   it("increments the fruit seed planted activity", () => {

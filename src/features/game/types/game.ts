@@ -5,7 +5,7 @@ import {
   CollectibleName,
   CraftableName,
   Food,
-  GoblinRetreatItemName,
+  AuctioneerItemName,
   Ingredient,
 } from "./craftables";
 import { ResourceName } from "./resources";
@@ -21,7 +21,7 @@ import { DecorationName } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
-import { HeliosBlacksmithItem } from "./collectibles";
+import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
 
 export type Reward = {
   sfl?: Decimal;
@@ -169,10 +169,11 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | GoblinRetreatItemName
+  | AuctioneerItemName
   | GoldenCropEventItem
   | TreasureName
-  | HeliosBlacksmithItem;
+  | HeliosBlacksmithItem
+  | GoblinBlacksmithItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -332,30 +333,20 @@ export type Reveal = {
 export interface GameState {
   id?: number;
   balance: Decimal;
-  fields: Fields;
-
-  trees: Record<number, Tree>;
-  stones: Record<number, Rock>;
-  iron: Record<number, Rock>;
-  gold: Record<number, Rock>;
-  chickens: Record<string, Chicken>;
-
-  plots: Record<number, LandExpansionPlot>;
+  airdrops?: Airdrop[];
+  farmAddress?: string;
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
-  airdrops?: Airdrop[];
-
   warCollectionOffer?: WarCollectionOffer;
 
+  chickens: Record<string, Chicken>;
   inventory: Inventory;
   stock: Inventory;
   stockExpiry: StockExpiry;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
-
-  farmAddress?: string;
 
   skills: {
     farming: Decimal;
@@ -374,6 +365,7 @@ export interface GameState {
   }[];
   // TODO remove when old events are deleted
   migrated?: boolean;
+  metadata?: any[];
 }
 
 export interface Context {

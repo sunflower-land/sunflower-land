@@ -66,7 +66,7 @@ import kaleProcSprite from "assets/crops/kale/proc_sprite.png";
 
 import { CropName } from "features/game/types/crops";
 
-export const HARVEST_PROC_SPRITES: Record<CropName, any> = {
+const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Sunflower: sunflowerProcSprite,
   Potato: potatoProcSprite,
   Pumpkin: pumpkinProcSprite,

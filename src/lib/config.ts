@@ -37,6 +37,7 @@ const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
 const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
+const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
 
 // Arcade Mini Games Donation Addresses
@@ -79,6 +80,7 @@ export const CONFIG = {
   QUICKSWAP_ROUTER_CONTRACT,
   WMATIC_CONTRACT,
   EASTER_EGG_CONTRACT,
+  SEAL_CONTRACT,
   ALCHEMY_RPC,
 
   GREEDY_GOBLIN_DONATION,

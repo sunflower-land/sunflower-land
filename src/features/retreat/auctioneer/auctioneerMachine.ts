@@ -1,6 +1,6 @@
 import { fetchAuctioneerSupply } from "features/game/actions/auctioneer";
 import { mint } from "features/game/actions/mint";
-import { GoblinRetreatItemName } from "features/game/types/craftables";
+import { AuctioneerItemName } from "features/game/types/craftables";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { createMachine, Interpreter, assign } from "xstate";
@@ -21,12 +21,12 @@ export interface Context {
 
 type MintEvent = {
   type: "MINT";
-  item: GoblinRetreatItemName;
+  item: AuctioneerItemName;
   captcha: string;
 };
 
 export type MintedEvent = {
-  item: GoblinRetreatItemName;
+  item: AuctioneerItemName;
   sessionId: string;
 };
 

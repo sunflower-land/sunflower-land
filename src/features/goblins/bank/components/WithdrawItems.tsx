@@ -18,14 +18,8 @@ import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 import { canWithdraw } from "../lib/bankUtils";
 
-import {
-  CollectibleName,
-  getKeys,
-  isLimitedItem,
-  LimitedItemName,
-} from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { isNeverWithdrawable } from "features/game/types/withdrawables";
-import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 
 interface Props {
@@ -101,12 +95,11 @@ export const WithdrawItems: React.FC<Props> = ({
   const makeItemDetails = (itemName: InventoryItemName) => {
     const details = ITEM_DETAILS[itemName];
 
-    return isLimitedItem(itemName)
-      ? {
-          ...goblinState.context.limitedItems[itemName as LimitedItemName],
-          image: details.image,
-        }
-      : details;
+    const mintedAt = goblinState.context.mintedAtTimes[itemName];
+    return {
+      mintedAt: mintedAt,
+      image: details.image,
+    };
   };
 
   const withdrawableItems = getKeys(inventory)
@@ -183,18 +176,10 @@ export const WithdrawItems: React.FC<Props> = ({
               game: gameState,
             });
 
-            const cooldownInProgress =
-              withdrawable &&
-              mintCooldown({
-                cooldownSeconds: details?.cooldownSeconds,
-                mintedAt: details?.mintedAt,
-              }) > 0;
-
             // This amount is used to block withdrawal of chickens who are in the process of laying eggs.
             const totalCountOfItemType = getTotalNumberOfItemType(itemName);
             // Once all the chickens that are available have been added the rest will be locked
-            const locked =
-              !withdrawable || cooldownInProgress || totalCountOfItemType.eq(0);
+            const locked = !withdrawable || totalCountOfItemType.eq(0);
 
             return (
               <Box
@@ -204,7 +189,6 @@ export const WithdrawItems: React.FC<Props> = ({
                 image={details.image}
                 locked={locked}
                 canBeLongPressed={allowLongpressWithdrawal}
-                cooldownInProgress={cooldownInProgress}
               />
             );
           })}

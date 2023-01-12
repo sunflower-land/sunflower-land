@@ -271,6 +271,113 @@ describe("fruitHarvested", () => {
     expect(fruit?.harvestedAt).toEqual(dateNow);
   });
 
+  it("applies Lady Bug Boost", () => {
+    const expansion = GAME_STATE.expansions[3];
+    const { fruitPatches } = expansion;
+    const fruitPatch = (fruitPatches as Record<number, LandExpansionPlot>)[0];
+    const initialHarvest = 2;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Apple: new Decimal(1),
+          "Lady Bug": new Decimal(1),
+        },
+        collectibles: {
+          "Lady Bug": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        expansions: [
+          {
+            ...expansion,
+            fruitPatches: {
+              0: {
+                ...fruitPatch,
+                fruit: {
+                  name: "Apple",
+                  plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+                  amount: 1,
+                  harvestsLeft: initialHarvest,
+                  harvestedAt: 2,
+                },
+              },
+            },
+          },
+        ],
+      },
+      action: {
+        type: "fruit.harvested",
+        expansionIndex: 0,
+        index: 0,
+      },
+      createdAt: dateNow,
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state.expansions[0];
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+    expect(fruit?.amount).toEqual(1.25);
+  });
+
+  it("applies the Black Bearry Boost", () => {
+    const expansion = GAME_STATE.expansions[3];
+    const { fruitPatches } = expansion;
+    const fruitPatch = (fruitPatches as Record<number, LandExpansionPlot>)[0];
+    const initialHarvest = 2;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Black Bearry": new Decimal(1),
+        },
+        collectibles: {
+          "Black Bearry": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        expansions: [
+          {
+            ...expansion,
+            fruitPatches: {
+              0: {
+                ...fruitPatch,
+                fruit: {
+                  name: "Blueberry",
+                  plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+                  amount: 1,
+                  harvestsLeft: initialHarvest,
+                  harvestedAt: 2,
+                },
+              },
+            },
+          },
+        ],
+      },
+      action: {
+        type: "fruit.harvested",
+        expansionIndex: 0,
+        index: 0,
+      },
+      createdAt: dateNow,
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state.expansions[0];
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+    expect(fruit?.amount).toEqual(2);
+  });
+
   it("harvests the fruit when one harvest is left", () => {
     const expansion = GAME_STATE.expansions[3];
     const { fruitPatches } = expansion;

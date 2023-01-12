@@ -23,12 +23,14 @@ import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
 import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
 import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
 
+// Project Dignity Assets Sounds
 import frog1Mp3 from "../../assets/sound-effects/frog/frog-1.mp3";
 import frog2Mp3 from "../../assets/sound-effects/frog/frog-2.mp3";
 import frog3Mp3 from "../../assets/sound-effects/frog/frog-3.mp3";
 import frog4Mp3 from "../../assets/sound-effects/frog/frog-4.mp3";
 import frog5Mp3 from "../../assets/sound-effects/frog/frog-5.mp3";
 import frog6Mp3 from "../../assets/sound-effects/frog/frog-6.mp3";
+import sealSound from "../../assets/sound-effects/sealSound.mp3";
 
 // Arcade - Common - Game Over
 import gameOver from "../../assets/community/arcade/audio/game_over.mp3";
@@ -85,6 +87,11 @@ export const wishingWellAudio = new Howl({
 
 export const frogAudio = new Howl({
   src: [frog1Mp3],
+  volume: 0.2,
+});
+
+export const sealAudio = new Howl({
+  src: [sealSound],
   volume: 0.2,
 });
 

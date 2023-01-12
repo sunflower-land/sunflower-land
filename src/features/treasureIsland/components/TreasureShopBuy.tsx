@@ -4,7 +4,6 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token_2.png";
-import close from "assets/icons/close.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -17,29 +16,12 @@ import { Stock } from "components/ui/Stock";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { TreasureToolName, TREASURE_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
 }
-
-const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
-  return (
-    <img
-      src={close}
-      className="absolute cursor-pointer z-20"
-      onClick={onClose}
-      style={{
-        top: `${PIXEL_SCALE * 1}px`,
-        right: `${PIXEL_SCALE * 1}px`,
-        width: `${PIXEL_SCALE * 11}px`,
-      }}
-    />
-  );
-};
 
 export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
@@ -152,7 +134,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
       <div className="flex flex-col-reverse sm:flex-row">
         <div
           className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-          style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+          style={{ maxHeight: 400 }}
         >
           {getKeys(TREASURE_TOOLS).map((toolName) => (
             <Box
