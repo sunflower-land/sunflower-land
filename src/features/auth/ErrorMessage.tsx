@@ -17,6 +17,7 @@ import { Maintenance } from "./components/Maintenance";
 import { MultipleDevices } from "./components/MultipleDevices";
 import { Blocked } from "./components/Blocked";
 import { PhantomWalletNotSupported } from "./components/PhantomWalletNotSupported";
+import { ClockIssue } from "features/game/components/ClockIssue";
 
 interface Props {
   errorCode: ErrorCode;
@@ -85,6 +86,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.PHANTOM_WALLET_NOT_SUPPORTED) {
     return <PhantomWalletNotSupported />;
+  }
+
+  if (errorCode === ERRORS.AUTOSAVE_CLOCK_ERROR) {
+    return <ClockIssue />;
   }
 
   return <SomethingWentWrong />;
