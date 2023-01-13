@@ -33,7 +33,7 @@ export function constructBuilding({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = cloneDeep(state) as GameState;
   const building = BUILDINGS()[action.name];
   const bumpkin = stateCopy.bumpkin;
 
@@ -46,18 +46,23 @@ export function constructBuilding({
   const allowedBuildings = building.unlocksAtLevels.filter(
     (level) => bumpkinLevel >= level
   ).length;
+  // Index of building level
+  const levelIdx = buildingsPlaced;
 
   if (buildingsPlaced >= allowedBuildings) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   }
 
-  if (stateCopy.balance.lessThan(building.sfl)) {
+  if (stateCopy.balance.lessThan(building.sfl[levelIdx])) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_SFL);
   }
 
-  let missingIngredients: string[] = [];
-  const inventoryMinusIngredients = building.ingredients.reduce(
-    (inventory, ingredient) => {
+  if (building.ingredients) {
+    let missingIngredients: string[] = [];
+
+    const inventoryMinusIngredients = building.ingredients[
+      buildingsPlaced
+    ].reduce((inventory, ingredient) => {
       const count = inventory[ingredient.item] || new Decimal(0);
 
       if (count.lessThan(ingredient.amount)) {
@@ -68,40 +73,35 @@ export function constructBuilding({
         ...inventory,
         [ingredient.item]: count.sub(ingredient.amount),
       };
-    },
-    stateCopy.inventory
-  );
+    }, stateCopy.inventory);
 
-  if (missingIngredients.length > 0) {
-    throw new Error(
-      `${
-        CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
-      }${missingIngredients.join(", ")}`
-    );
+    if (missingIngredients.length > 0) {
+      throw new Error(
+        `${
+          CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS
+        }${missingIngredients.join(", ")}`
+      );
+    }
+
+    stateCopy.inventory = inventoryMinusIngredients;
   }
 
   const buildingInventory = stateCopy.inventory[action.name] || new Decimal(0);
+
   const placed = stateCopy.buildings[action.name] || [];
 
   const newBuilding: PlacedItem = {
     id: action.id,
     createdAt: createdAt,
     coordinates: action.coordinates,
-    readyAt: createdAt + building.constructionSeconds * 1000,
+    readyAt: createdAt + building.constructionSeconds[levelIdx] * 1000,
   };
 
   bumpkin.activity = trackActivity("Building Constructed", bumpkin.activity);
 
-  return {
-    ...stateCopy,
-    balance: stateCopy.balance.sub(building.sfl),
-    inventory: {
-      ...inventoryMinusIngredients,
-      [action.name]: buildingInventory.add(1),
-    },
-    buildings: {
-      ...stateCopy.buildings,
-      [action.name]: [...placed, newBuilding],
-    },
-  };
+  stateCopy.balance = stateCopy.balance.sub(building.sfl[levelIdx]);
+  stateCopy.inventory[action.name] = buildingInventory.add(1);
+  stateCopy.buildings[action.name] = [...placed, newBuilding];
+
+  return stateCopy;
 }
