@@ -151,7 +151,9 @@ export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
             >
               {failed || confirmed ? (
                 <img
-                  src={failed ? cancel : confirm}
+                  src={
+                    failed ? SUNNYSIDE.icons.cancel : SUNNYSIDE.icons.confirm
+                  }
                   className="h-full object-contain"
                 />
               ) : (

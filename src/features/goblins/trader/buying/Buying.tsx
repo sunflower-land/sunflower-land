@@ -64,7 +64,11 @@ export const Buying: React.FC = () => {
   return (
     <>
       <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
-        <img src={SUNNYSIDE.icons.alert} alt="alert" className="mr-2 w-6" />
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          alt="alert"
+          className="mr-2 w-6"
+        />
         <span className="text-xs">{"Something went wrong!"}</span>
       </div>
       <Button onClick={() => tradingPostService.send("CLOSE")}>Close</Button>

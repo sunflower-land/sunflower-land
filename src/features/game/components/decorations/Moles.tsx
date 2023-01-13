@@ -65,7 +65,7 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
         <Modal centered show={showModal} onHide={() => setShowModal(false)}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={() => setShowModal(false)}
               style={{

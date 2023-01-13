@@ -71,7 +71,7 @@ export const KitchenModal: React.FC<Props> = ({
             <span className="text-sm">Kitchen</span>
           </Tab>
           <img
-            src={SUNNYSIDE.icons.cose}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

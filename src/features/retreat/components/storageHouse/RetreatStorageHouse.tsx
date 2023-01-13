@@ -66,7 +66,7 @@ export const RetreatStorageHouse: React.FC = () => {
           <Action
             className="pointer-events-none"
             text="Storage"
-            icon={SUNNYSIDE.icons.wood}
+            icon={SUNNYSIDE.resource.wood}
           />
         </div>
       </div>
