@@ -89,7 +89,7 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
   }
 
   if (errorCode === ERRORS.CLOCK_ERROR) {
-    return <ClockIssue show={true} />;
+    return <ClockIssue />;
   }
 
   return <SomethingWentWrong />;
