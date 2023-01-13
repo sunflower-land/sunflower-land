@@ -17,6 +17,9 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import heart from "assets/icons/level_up.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 import { Bumpkin } from "features/game/types/game";
+import { RequirementLabel } from "components/ui/RequirementLabel";
+import Decimal from "decimal.js-light";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 interface Props {
   food: Consumable[];
@@ -66,7 +69,7 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
     <div className="flex flex-col-reverse sm:flex-row">
       <div
         className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-        style={{ maxHeight: 400 }}
+        style={{ maxHeight: 250 }}
       >
         {selected !== undefined &&
           food.map((item) => (
@@ -83,54 +86,59 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
         )}
       </div>
       <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          {selected !== undefined && (
-            <>
-              <span className="text-center mb-1">{selected.name}</span>
-              <img
-                src={ITEM_DETAILS[selected.name].image}
-                className="h-16 img-highlight mt-2"
-                alt={selected.name}
-              />
-              <span className="text-center mt-2 text-sm">
+        {selected !== undefined && (
+          <>
+            <div className="flex flex-col justify-center p-2 pb-0">
+              <div className="flex space-x-2 justify-start mb-1 items-center sm:flex-col-reverse md:space-x-0">
+                <div className="sm:mt-2">
+                  <SquareIcon
+                    icon={ITEM_DETAILS[selected.name].image}
+                    width={14}
+                  />
+                </div>
+                <span className="sm:text-center">{selected.name}</span>
+              </div>
+              <span className="text-xs sm:text-center">
                 {ITEM_DETAILS[selected.name].description}
               </span>
 
-              <div className="border-t border-white w-full mt-2 pt-1">
-                <div className="flex justify-center flex-wrap items-center">
-                  <img src={heart} className="me-2 w-6" />
-                  <span className="text-xs text-center">
-                    {`${getFoodExpBoost(
-                      selected,
-                      state.bumpkin as Bumpkin,
-                      state.collectibles
-                    )} XP`}
-                  </span>
-                </div>
+              <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col gap-x-3 gap-y-2 sm:items-center flex-wrap sm:flex-nowrap">
+                <RequirementLabel
+                  type="xp"
+                  xp={
+                    new Decimal(
+                      getFoodExpBoost(
+                        selected,
+                        state.bumpkin as Bumpkin,
+                        state.collectibles
+                      )
+                    )
+                  }
+                />
               </div>
-              <Button
-                disabled={!inventory[selected.name]?.gt(0)}
-                className="text-sm mt-1 whitespace-nowrap"
-                onClick={() => feed(selected)}
-              >
-                {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
-              </Button>
-            </>
-          )}
-          {selected === undefined && (
-            <>
-              <span className="text-center">Hungry?</span>
-              <img
-                src={firePit}
-                className="h-16 img-highlight mt-3"
-                alt={"Fire Pit"}
-              />
-              <span className="text-center mt-2 text-sm">
-                You will need to cook food in order to feed your bumpkin
-              </span>
-            </>
-          )}
-        </div>
+            </div>
+            <Button
+              disabled={!inventory[selected.name]?.gt(0)}
+              className="whitespace-nowrap"
+              onClick={() => feed(selected)}
+            >
+              {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
+            </Button>
+          </>
+        )}
+        {selected === undefined && (
+          <div className="flex flex-col justify-center items-center p-2 relative">
+            <span className="text-center">Hungry?</span>
+            <img
+              src={firePit}
+              className="h-16 img-highlight mt-3"
+              alt={"Fire Pit"}
+            />
+            <span className="text-center mt-2 text-xs">
+              You will need to cook food in order to feed your bumpkin
+            </span>
+          </div>
+        )}
       </OuterPanel>
     </div>
   );
