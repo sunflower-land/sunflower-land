@@ -4,10 +4,7 @@ import classNames from "classnames";
 import { v4 as uuidv4 } from "uuid";
 
 import selectBox from "assets/ui/select/select_box.png";
-import cancel from "assets/icons/cancel.png";
-import soilNotFertile from "assets/land/soil_dry.png";
 import well from "assets/buildings/well1.png";
-import close from "assets/icons/close.png";
 
 import { Context } from "features/game/GameProvider";
 import {
@@ -33,6 +30,7 @@ import { Bar } from "components/ui/ProgressBar";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { GoldenCropModal } from "features/island/plots/components/GoldenCropModal";
 import golden_crop_sheet from "assets/events/golden_crop/golden_crop_sheet.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
   plotIndex: number;
   expansionIndex: number;
@@ -305,7 +303,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         <Modal centered show={isFertileModalOpen} onHide={notFertileCallback}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={notFertileCallback}
               style={{
@@ -329,7 +327,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         </Modal>
         <div className="w-full h-full relative cursor-pointer hover:img-highlight">
           <img
-            src={soilNotFertile}
+            src={SUNNYSIDE.soil.soil_dry}
             alt="soil image"
             className="absolute"
             style={{
@@ -397,7 +395,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           }
         )}
       >
-        <img className="w-5" src={cancel} />
+        <img className="w-5" src={SUNNYSIDE.icons.cancel} />
       </div>
 
       {/* Firework animation */}

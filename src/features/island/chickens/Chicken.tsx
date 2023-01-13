@@ -9,9 +9,6 @@ import sleepingChicken from "assets/animals/chickens/sleeping_2.gif";
 import chickenShadow from "assets/animals/chickens/chicken_shadow.png";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet_2.png";
 import wheatOnGround from "assets/animals/chickens/wheat_2.png";
-import cancel from "assets/icons/cancel.png";
-import wheat from "assets/crops/wheat/crop.png";
-import egg from "assets/resources/egg.png";
 
 import { Context } from "features/game/GameProvider";
 
@@ -38,6 +35,8 @@ import { Modal } from "react-bootstrap";
 import { RemoveChickenModal } from "features/farming/animals/components/RemoveChickenModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "../plots/lib/plant";
 interface Props {
   id: string;
 }
@@ -72,7 +71,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
     >
       <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
         <div className="flex flex-1 items-center justify-center">
-          <img src={egg} className="w-4 mr-1" />
+          <img src={SUNNYSIDE.resource.egg} className="w-4 mr-1" />
           <span>Egg</span>
         </div>
         <span className="flex-1">
@@ -228,7 +227,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
     });
 
     setToast({
-      icon: wheat,
+      icon: CROP_LIFECYCLE.Wheat.crop,
       content: `-${wheatRequired}`,
     });
   };
@@ -256,7 +255,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
       chickenService.send("COLLECT");
 
       setToast({
-        icon: egg,
+        icon: SUNNYSIDE.resource.egg,
         content: `+${chicken.multiplier}`,
       });
     }
@@ -295,7 +294,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
                 className="absolute"
               />
               <img
-                src={cancel}
+                src={SUNNYSIDE.icons.cancel}
                 className={classNames("transition-opacity absolute z-20", {
                   "opacity-100": showPopover,
                   "opacity-0": !showPopover,
@@ -307,7 +306,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={wheat}
+                src={CROP_LIFECYCLE.Wheat.crop}
                 className={classNames("transition-opacity absolute z-10", {
                   "opacity-100": showPopover,
                   "opacity-0": !showPopover,

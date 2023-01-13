@@ -5,10 +5,10 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "../../lib/constants";
 import { Inventory } from "../../types/game";
 import { Panel } from "components/ui/Panel";
 
-import close from "assets/icons/close.png";
 import tunnelMole from "assets/sfts/tunnel_mole.gif";
 import rockyMole from "assets/sfts/rocky_mole.gif";
 import nugget from "assets/sfts/nugget.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +28,7 @@ export const Moles: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
         <Modal centered show={showModal} onHide={() => setShowModal(false)}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={() => setShowModal(false)}
               style={{

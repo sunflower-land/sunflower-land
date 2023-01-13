@@ -6,16 +6,15 @@ import sandIslandOneShore from "assets/brand/sand_island_one_shore.webp";
 import sandIslandTwo from "assets/brand/sand_island_two.webp";
 import sandIslandTwoShore from "assets/brand/sand_island_two_shore.webp";
 import sunflowerIslandOne from "assets/brand/sunflower_island_one.webp";
-import watering from "assets/npcs/watering.gif";
-import shadow from "assets/npcs/shadow.png";
-import swimmer from "assets/npcs/swimmer.gif";
 import cossies from "assets/decorations/cossies.png";
 import goblinSwimming from "assets/npcs/goblin_farting.gif";
+import shadow from "assets/npcs/shadow.png";
 
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
@@ -48,7 +47,7 @@ export const Splash: React.FC = ({ children }) => {
         }}
       />
       <img
-        src={swimmer}
+        src={SUNNYSIDE.npcs.swimmer}
         style={{
           width: `${16 * PIXEL_SCALE}px`,
           left: `${40 * PIXEL_SCALE}px`,
@@ -102,7 +101,7 @@ export const Splash: React.FC = ({ children }) => {
         className="absolute"
       />
       <img
-        src={watering}
+        src={SUNNYSIDE.npcs.watering}
         style={{
           width: `${33 * PIXEL_SCALE}px`,
           top: `${10 * PIXEL_SCALE}px`,

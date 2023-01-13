@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import sunflower from "assets/decorations/helios_sunflower.png";
-import close from "assets/icons/close.png";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export const HeliosSunflower: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,7 @@ export const HeliosSunflower: React.FC = () => {
         onClick={() => setShowModal(true)}
       >
         <img
-          src={sunflower}
+          src={CROP_LIFECYCLE.Sunflower.ready}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
@@ -26,7 +27,7 @@ export const HeliosSunflower: React.FC = () => {
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
         <Panel>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
             style={{

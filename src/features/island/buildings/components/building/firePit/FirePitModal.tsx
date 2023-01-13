@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
-import close from "assets/icons/close.png";
+
 import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
@@ -18,6 +18,7 @@ import { MachineInterpreter } from "features/island/buildings/lib/craftingMachin
 import { Equipped } from "features/game/types/bumpkin";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Tutorial } from "./Tutorial";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -90,7 +91,7 @@ export const FirePitModal: React.FC<Props> = ({
             <span className="text-sm whitespace-nowrap">Fire Pit</span>
           </Tab>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import hammer from "assets/icons/hammer.png";
 import { Equipped } from "features/game/types/bumpkin";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -69,7 +69,7 @@ export const Tutorial: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={bumpkinParts}
     >
       <div className="w-full mb-3 flex justify-center">
-        <img src={hammer} className="h-6 md:h-7" />
+        <img src={SUNNYSIDE.icons.hammer} className="h-6 md:h-7" />
       </div>
       {pageNumber === 1 && PageOne()}
       {pageNumber === 2 && PageTwo()}

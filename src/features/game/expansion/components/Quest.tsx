@@ -2,9 +2,6 @@ import React, { ReactElement, useContext } from "react";
 import { useActor } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
 
-import closeIcon from "assets/icons/close.png";
-import mintingAnimation from "assets/npcs/goblin_hammering.gif";
-
 import * as AuthProvider from "features/auth/lib/Provider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
@@ -17,6 +14,7 @@ import { CONFIG } from "lib/config";
 import { Context } from "features/game/GameProvider";
 
 import { MachineInterpreter, questMachine } from "../lib/quest/questMachine";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -81,7 +79,10 @@ export const Quest: React.FC<Props> = ({
       return (
         <div className="flex flex-col items-center p-2">
           <span className="text-shadow text-center loading">Minting</span>
-          <img src={mintingAnimation} className="w-1/2 mt-2 mb-3" />
+          <img
+            src={SUNNYSIDE.npcs.goblin_hammering}
+            className="w-1/2 mt-2 mb-3"
+          />
           <span className="text-sm">
             Please be patient while we mint the SFT for you.
           </span>
@@ -154,7 +155,7 @@ export const Quest: React.FC<Props> = ({
   return (
     <Panel bumpkinParts={bumpkinParts}>
       <img
-        src={closeIcon}
+        src={SUNNYSIDE.icons.close}
         className="absolute cursor-pointer z-20"
         onClick={close}
         style={{

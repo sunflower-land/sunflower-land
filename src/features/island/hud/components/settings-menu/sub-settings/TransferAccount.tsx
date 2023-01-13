@@ -3,8 +3,6 @@ import { useActor } from "@xstate/react";
 import { isAddress } from "web3-utils";
 import { Modal } from "react-bootstrap";
 
-import alerted from "assets/icons/expression_alerted.png";
-import close from "assets/icons/close.png";
 import transferring from "assets/npcs/minting.gif";
 import farmImg from "assets/brand/nft.png";
 
@@ -14,6 +12,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { transferAccount } from "features/farming/hud/actions/transfer";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -101,7 +100,10 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           onChange={(e) => setWallet({ address: e.target.value })}
         />
         <div className="flex items-start">
-          <img src={alerted} className="h-6 pt-2 pr-2" />
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="h-6 pt-2 pr-2"
+          />
           <span className="text-xs mt-2">
             Please ensure that the address you provided is on the Polygon
             Blockchain, is correct and is owned by you. There is no recovery
@@ -124,7 +126,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           Read more
         </a>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{

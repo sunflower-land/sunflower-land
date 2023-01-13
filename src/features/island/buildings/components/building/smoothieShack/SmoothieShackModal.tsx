@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
-import close from "assets/icons/close.png";
 import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
@@ -15,6 +14,7 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Tab } from "components/ui/Tab";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -72,7 +72,7 @@ export const SmoothieShackModal: React.FC<Props> = ({
             <span className="text-sm">Smoothie Shack</span>
           </Tab>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

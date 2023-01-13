@@ -1,10 +1,5 @@
 import React from "react";
 
-import skeleton from "assets/npcs/skeleton_walk.gif";
-
-import stopwatch from "assets/icons/stopwatch.png";
-import hammer from "assets/icons/hammer.png";
-import close from "assets/icons/close.png";
 import heart from "assets/icons/level_up.png";
 import lock from "assets/skills/lock.png";
 
@@ -15,6 +10,7 @@ import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   gameState: GameState;
@@ -33,7 +29,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     return (
       <div>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{
@@ -49,7 +45,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
         </div>
         <div className="flex justify-center w-1/2 my-3">
           <img
-            src={skeleton}
+            src={SUNNYSIDE.npcs.moonseeker_walk}
             className="running"
             style={{
               height: `${PIXEL_SCALE * 17}px`,
@@ -75,7 +71,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   return (
     <div className="p-1">
       <img
-        src={close}
+        src={SUNNYSIDE.icons.close}
         className="absolute cursor-pointer z-20"
         onClick={onClose}
         style={{
@@ -117,8 +113,8 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
 
         <div className="flex flex-col items-end">
           <div className="flex items-center mb-1">
-            <img src={hammer} className="w-4 mr-2" />
-            <img src={stopwatch} className="w-4 mr-2" />
+            <img src={SUNNYSIDE.icons.hammer} className="w-4 mr-2" />
+            <img src={SUNNYSIDE.icons.stopwatch} className="w-4 mr-2" />
             <span className="text-sm">
               {secondsToString(gameState.expansionRequirements.seconds, {
                 length: "medium",

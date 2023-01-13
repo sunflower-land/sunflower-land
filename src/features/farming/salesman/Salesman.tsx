@@ -6,7 +6,6 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import close from "assets/icons/close.png";
 
 import salesmanImage from "assets/npcs/salesman.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -16,6 +15,7 @@ import { TradeOffer } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import stopwatch from "assets/icons/stopwatch.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const Content: React.FC<{ title: string }> = ({ title, children }) => {
   return (
@@ -176,7 +176,7 @@ export const Salesman: React.FC = () => {
       <Modal centered show={showModal} onHide={handleCloseModal}>
         <Panel>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={handleCloseModal}
             style={{

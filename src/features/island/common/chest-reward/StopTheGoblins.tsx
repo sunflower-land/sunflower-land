@@ -2,38 +2,25 @@ import React, { useState } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { addNoise } from "lib/images";
 
-import cancel from "assets/icons/cancel.png";
-import confirm from "assets/icons/confirm.png";
 import { CROPS } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
 
-import goblin1 from "assets/npcs/goblin.gif";
-import goblin2 from "assets/npcs/goblin_carry.gif";
 import goblin3 from "assets/npcs/goblin_chef.gif";
 import goblin4 from "assets/npcs/goblin_chef_doing.gif";
 import goblin5 from "assets/npcs/goblin_digger.gif";
-import goblin6 from "assets/npcs/goblin_doing.gif";
 import goblin7 from "assets/npcs/goblin_farmer.gif";
 import goblin8 from "assets/npcs/goblin_head.png";
 import goblin9 from "assets/npcs/goblin_jump_rusty_shovel.gif";
 import goblin10 from "assets/npcs/goblin_snorkling.gif";
-import goblin11 from "assets/npcs/goblin_treasure.gif";
 import goblin12 from "assets/npcs/pirate_goblin.gif";
 import goblin13 from "assets/npcs/suspicious_goblin.gif";
-import goblin14 from "assets/npcs/watering.gif";
-import goblin15 from "assets/npcs/wheat_goblin.gif";
-
-import moonSeeker1 from "assets/npcs/skeleton_walk.gif";
-import moonSeeker2 from "assets/npcs/skeleton2.png";
-import moonSeeker3 from "assets/npcs/skeleton3.png";
-import moonSeeker4 from "assets/npcs/skeleton4.png";
-import moonSeeker5 from "assets/npcs/skeleton5.png";
 
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { FRUIT } from "features/game/types/fruits";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { RESOURCES } from "features/game/types/resources";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const ITEM_COUNT = 16;
 const MAX_ATTEMPTS = 3;
@@ -49,28 +36,28 @@ type Item = {
 };
 
 const goblins = [
-  goblin1,
-  goblin2,
+  SUNNYSIDE.npcs.goblin,
+  SUNNYSIDE.npcs.goblin_carry,
   goblin3,
   goblin4,
   goblin5,
-  goblin6,
+  SUNNYSIDE.npcs.goblin_doing,
   goblin7,
   goblin8,
   goblin9,
   goblin10,
-  goblin11,
+  SUNNYSIDE.npcs.goblin_treasure,
   goblin12,
   goblin13,
-  goblin14,
-  goblin15,
+  SUNNYSIDE.npcs.goblin_watering,
+  SUNNYSIDE.npcs.wheat_goblin,
 ];
 const moonSeekers = [
-  moonSeeker1,
-  moonSeeker2,
-  moonSeeker3,
-  moonSeeker4,
-  moonSeeker5,
+  SUNNYSIDE.npcs.moonseeker_walk,
+  SUNNYSIDE.npcs.moonseeker2,
+  SUNNYSIDE.npcs.moonseeker3,
+  SUNNYSIDE.npcs.moonseeker4,
+  SUNNYSIDE.npcs.moonseeker5,
 ];
 
 const generateImages = (isMoonSeekerMode: boolean) => {

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
 
-import basket from "assets/icons/basket.png";
 import chest from "assets/icons/chest.png";
 
 import Decimal from "decimal.js-light";
 import { Basket } from "./Basket";
 import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   state: GameState;
@@ -35,7 +35,7 @@ export const InventoryItems: React.FC<Props> = ({
   return (
     <CloseButtonPanel
       tabs={[
-        { icon: basket, name: "Basket" },
+        { icon: SUNNYSIDE.icons.basket, name: "Basket" },
         { icon: chest, name: "Chest" },
       ]}
       currentTab={currentTab}

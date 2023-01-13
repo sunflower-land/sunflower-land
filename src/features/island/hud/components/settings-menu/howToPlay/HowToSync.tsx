@@ -2,8 +2,8 @@ import React from "react";
 
 import { Modal } from "react-bootstrap";
 
-import timer from "assets/icons/timer.png";
 import { HowToModalHeader } from "features/island/hud/components/settings-menu/howToPlay/HowToModalHeader";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -31,7 +31,7 @@ export const HowToSync: React.FC<Props> = ({ onClose, onBack }) => {
         <div className="flex  items-center mt-2 ">
           <p className="text-xs sm:text-sm p-2">{`2. Click "Sync on chain"`}</p>
           <div className="relative">
-            <img src={timer} className="w-4" />
+            <img src={SUNNYSIDE.icons.timer} className="w-4" />
           </div>
         </div>
       </Modal.Body>

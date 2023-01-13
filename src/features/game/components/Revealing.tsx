@@ -1,3 +1,4 @@
+import { SUNNYSIDE } from "assets/sunnyside";
 import React from "react";
 
 import maneki from "assets/sfts/maneki_neko.gif";

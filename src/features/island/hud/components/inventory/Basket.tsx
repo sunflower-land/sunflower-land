@@ -11,9 +11,6 @@ import {
 
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 
-import timer from "assets/icons/timer.png";
-import basket from "assets/icons/basket.png";
-
 import { secondsToString } from "lib/utils/time";
 import {
   getCropTime,
@@ -28,6 +25,7 @@ import { BEANS } from "features/game/types/beans";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "features/game/components/SplitScreenView";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const isSeed = (selected: InventoryItemName) => selected in CROP_SEEDS();
 
@@ -82,7 +80,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   if (basketIsEmpty) {
     return (
       <div className="flex flex-col justify-evenly items-center p-2">
-        <img src={basket} className="h-12" alt="Empty Chest" />
+        <img src={SUNNYSIDE.icons.basket} className="h-12" alt="Empty Chest" />
         <span className="text-xs text-center mt-2 w-80">
           Your basket is empty!
         </span>
@@ -131,7 +129,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             <div className="border-t border-white w-full my-2 pt-1 flex justify-between sm:flex-col sm:items-center">
               {!!isSeed(selected) && (
                 <div className="flex justify-center space-x-1 items-center sm:justify-center">
-                  <img src={timer} className="h-5 mr-1" />
+                  <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
                   <span className="text-xs">
                     {getCropHarvestTime(selected)}
                   </span>

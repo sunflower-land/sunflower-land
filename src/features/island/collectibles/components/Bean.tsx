@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import planted from "assets/crops/bean_planted.png";
 import ready from "assets/crops/bean_ready.png";
 import growing from "assets/crops/bean_growing.png";
-import alerted from "assets/icons/expression_alerted.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
@@ -16,6 +15,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import { InventoryItemName } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const getBeanStates = (name: InventoryItemName, createdAt: number) => {
   const plantSeconds = BEANS()[name as BeanName].plantSeconds;
@@ -54,7 +54,7 @@ export const Bean: React.FC<CollectibleProps> = ({
     return (
       <>
         <img
-          src={alerted}
+          src={SUNNYSIDE.icons.expression_alerted}
           className="animate-float z-10 absolute"
           style={{
             width: `${PIXEL_SCALE * 4}px`,

@@ -1,8 +1,6 @@
 import React from "react";
 
 import resources from "assets/buildings/resources.png";
-import icon from "assets/resources/wood.png";
-import goblin from "assets/npcs/goblin.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { Action } from "components/ui/Action";
@@ -10,6 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { StorageModal } from "features/goblins/storageHouse/components/StorageModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const RetreatStorageHouse: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -50,7 +49,7 @@ export const RetreatStorageHouse: React.FC = () => {
           className="absolute pointer-events-none"
         />
         <img
-          src={goblin}
+          src={SUNNYSIDE.npcs.goblin}
           style={{
             width: `${PIXEL_SCALE * 18}px`,
             bottom: `${PIXEL_SCALE * 22}px`,
@@ -64,7 +63,11 @@ export const RetreatStorageHouse: React.FC = () => {
             bottom: `${PIXEL_SCALE * 3}px`,
           }}
         >
-          <Action className="pointer-events-none" text="Storage" icon={icon} />
+          <Action
+            className="pointer-events-none"
+            text="Storage"
+            icon={SUNNYSIDE.icons.wood}
+          />
         </div>
       </div>
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>

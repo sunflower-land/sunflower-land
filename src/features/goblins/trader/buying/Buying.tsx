@@ -2,8 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
 import { useSearchParams } from "react-router-dom";
 
-import alert from "assets/icons/expression_alerted.png";
-
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GoblinProvider";
 
@@ -11,6 +9,7 @@ import { MachineInterpreter as TradingPostMachineInterpreter } from "../tradingP
 import { MachineInterpreter as BuyingMachineInterpreter } from "./lib/buyingMachine";
 import { Idle } from "./components/Idle";
 import { Confirming } from "./components/Confirming";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Buying: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -65,7 +64,7 @@ export const Buying: React.FC = () => {
   return (
     <>
       <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
-        <img src={alert} alt="alert" className="mr-2 w-6" />
+        <img src={SUNNYSIDE.icons.alert} alt="alert" className="mr-2 w-6" />
         <span className="text-xs">{"Something went wrong!"}</span>
       </div>
       <Button onClick={() => tradingPostService.send("CLOSE")}>Close</Button>

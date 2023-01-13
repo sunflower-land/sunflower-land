@@ -5,9 +5,8 @@ import { OuterPanel } from "components/ui/Panel";
 import { MachineInterpreter } from "features/game/expansion/placeable/editingMachine";
 import { Context } from "features/game/GameProvider";
 
-import confirm from "assets/icons/confirm.png";
-import cancel from "assets/icons/cancel.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -44,7 +43,7 @@ export const PlaceableController: React.FC = () => {
         >
           <Button onClick={handleCancelPlacement}>
             <img
-              src={cancel}
+              src={SUNNYSIDE.icons.cancel}
               alt="cancel"
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
@@ -53,7 +52,7 @@ export const PlaceableController: React.FC = () => {
           </Button>
           <Button disabled={collisionDetected} onClick={handleConfirmPlacement}>
             <img
-              src={confirm}
+              src={SUNNYSIDE.icons.confirm}
               alt="confirm"
               style={{
                 width: `${PIXEL_SCALE * 12}px`,

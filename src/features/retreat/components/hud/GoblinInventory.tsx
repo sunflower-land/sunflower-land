@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import basket from "assets/icons/basket.png";
-import roundButton from "assets/ui/button/round_button.png";
-
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItems } from "features/island/hud/components/inventory/InventoryItems";
@@ -12,6 +9,7 @@ import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { KNOWN_IDS } from "features/game/types";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   state: GameState;
@@ -52,14 +50,14 @@ export const GoblinInventory: React.FC<Props> = ({ state }) => {
         }}
       >
         <img
-          src={roundButton}
+          src={SUNNYSIDE.ui.round_button}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
-          src={basket}
+          src={SUNNYSIDE.icons.basket}
           className="absolute"
           style={{
             top: `${PIXEL_SCALE * 5}px`,
