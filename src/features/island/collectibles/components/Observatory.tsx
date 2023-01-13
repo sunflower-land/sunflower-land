@@ -47,7 +47,6 @@ export const Observatory: React.FC = () => {
           {loading && <Loading />}
           <div
             hidden={loading || !playRand} // render and hide gif so gif have time to load
-            className="flex flex-col items-center justify-between"
           >
             <img
               src={`${observatoryAnimation}?rand=${playRand}`} // Breaks cache and force replays the gif animation.
