@@ -3,139 +3,105 @@
  * If you want access to these, you must download the asset pack from: https://danieldiggle.itch.io/sunnyside
  */
 
+import { CONFIG } from "lib/config";
+
 export const SUNNYSIDE = {
   soil: {
-    sand_dug: "https://sunflower-land.com/testnet-assets/crops/sand_dug.png",
-    sand_hill: "https://sunflower-land.com/testnet-assets/crops/sand_hill.png",
-    soil_dry: "https://sunflower-land.com/testnet-assets/crops/soil_dry.png",
-    soil_not_fertile:
-      "https://sunflower-land.com/testnet-assets/crops/soil_not_fertile.png",
-    soil2: "https://sunflower-land.com/testnet-assets/crops/soil2.png",
+    sand_dug: `${CONFIG.PROTECTED_IMAGE_URL}/crops/sand_dug.png`,
+    sand_hill: `${CONFIG.PROTECTED_IMAGE_URL}/crops/sand_hill.png`,
+    soil_dry: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil_dry.png`,
+    soil_not_fertile: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil_not_fertile.png`,
+    soil2: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil2.png`,
   },
   icons: {
-    arrow_down:
-      "https://sunflower-land.com/testnet-assets/icons/arrow_down.png",
-    arrow_left:
-      "https://sunflower-land.com/testnet-assets/icons/arrow_left.png",
-    arrow_right:
-      "https://sunflower-land.com/testnet-assets/icons/arrow_right.png",
-    arrow_up: "https://sunflower-land.com/testnet-assets/icons/arrow_up.png",
-    basket: "https://sunflower-land.com/testnet-assets/icons/basket.png",
-    cancel: "https://sunflower-land.com/testnet-assets/icons/cancel.png",
-    close: "https://sunflower-land.com/testnet-assets/icons/close.png",
-    confirm: "https://sunflower-land.com/testnet-assets/icons/confirm.png",
-    disc_large:
-      "https://sunflower-land.com/testnet-assets/icons/disc_large.png",
-    disc: "https://sunflower-land.com/testnet-assets/icons/disc.png",
-    drag: "https://sunflower-land.com/testnet-assets/icons/drag.png",
-    expand: "https://sunflower-land.com/testnet-assets/icons/expand.png",
-    expression_alerted:
-      "https://sunflower-land.com/testnet-assets/icons/expression_alerted.png",
-    expression_confused:
-      "https://sunflower-land.com/testnet-assets/icons/expression_confused.png",
-    hammer: "https://sunflower-land.com/testnet-assets/icons/hammer.png",
-    heart: "https://sunflower-land.com/testnet-assets/icons/heart.png",
-    helios: "https://sunflower-land.com/testnet-assets/icons/helios_icon.png",
-    indicator: "https://sunflower-land.com/testnet-assets/icons/indicator.png",
-    plant: "https://sunflower-land.com/testnet-assets/icons/plant.png",
-    player: "https://sunflower-land.com/testnet-assets/icons/player.png",
-    sad: "https://sunflower-land.com/testnet-assets/icons/sad.png",
-    seedling: "https://sunflower-land.com/testnet-assets/icons/seedling.png",
-    seeds: "https://sunflower-land.com/testnet-assets/icons/seeds.png",
-    stopwatch: "https://sunflower-land.com/testnet-assets/icons/stopwatch.png",
-    sunflorea: "https://sunflower-land.com/testnet-assets/icons/sunflorea.png",
-    sword: "https://sunflower-land.com/testnet-assets/icons/sword.png",
-    timer: "https://sunflower-land.com/testnet-assets/icons/timer.png",
-    treasure:
-      "https://sunflower-land.com/testnet-assets/icons/treasure_icon.png",
-    water: "https://sunflower-land.com/testnet-assets/icons/water.png",
+    arrow_down: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_down.png`,
+    arrow_left: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_left.png`,
+    arrow_right: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_right.png`,
+    arrow_up: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_up.png`,
+    basket: `${CONFIG.PROTECTED_IMAGE_URL}/icons/basket.png`,
+    cancel: `${CONFIG.PROTECTED_IMAGE_URL}/icons/cancel.png`,
+    close: `${CONFIG.PROTECTED_IMAGE_URL}/icons/close.png`,
+    confirm: `${CONFIG.PROTECTED_IMAGE_URL}/icons/confirm.png`,
+    disc_large: `${CONFIG.PROTECTED_IMAGE_URL}/icons/disc_large.png`,
+    disc: `${CONFIG.PROTECTED_IMAGE_URL}/icons/disc.png`,
+    drag: `${CONFIG.PROTECTED_IMAGE_URL}/icons/drag.png`,
+    expand: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expand.png`,
+    expression_alerted: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_alerted.png`,
+    expression_confused: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_confused.png`,
+    hammer: `${CONFIG.PROTECTED_IMAGE_URL}/icons/hammer.png`,
+    heart: `${CONFIG.PROTECTED_IMAGE_URL}/icons/heart.png`,
+    helios: `${CONFIG.PROTECTED_IMAGE_URL}/icons/helios_icon.png`,
+    indicator: `${CONFIG.PROTECTED_IMAGE_URL}/icons/indicator.png`,
+    plant: `${CONFIG.PROTECTED_IMAGE_URL}/icons/plant.png`,
+    player: `${CONFIG.PROTECTED_IMAGE_URL}/icons/player.png`,
+    sad: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sad.png`,
+    seedling: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seedling.png`,
+    seeds: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seeds.png`,
+    stopwatch: `${CONFIG.PROTECTED_IMAGE_URL}/icons/stopwatch.png`,
+    sunflorea: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sunflorea.png`,
+    sword: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sword.png`,
+    timer: `${CONFIG.PROTECTED_IMAGE_URL}/icons/timer.png`,
+    treasure: `${CONFIG.PROTECTED_IMAGE_URL}/icons/treasure_icon.png`,
+    water: `${CONFIG.PROTECTED_IMAGE_URL}/icons/water.png`,
   },
   npcs: {
-    betty: "https://sunflower-land.com/testnet-assets/npcs/betty.gif",
-    bumpkin: "https://sunflower-land.com/testnet-assets/npcs/idle.gif",
-    goblin_carry:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_carry.gif",
-    goblin_dig: "https://sunflower-land.com/testnet-assets/npcs/goblin_dig.gif",
-    goblin_doing:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_doing.gif",
-    goblin_farting:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_farting.gif",
-    goblin_hammering:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_hammering.gif",
-    goblin_jumping:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_jumping.gif",
-    goblin_mining:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_mining.gif",
-    goblin_swimming:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_swimming.gif",
-    goblin_treasure:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_treasure.gif",
-    goblin_watering:
-      "https://sunflower-land.com/testnet-assets/npcs/goblin_watering.gif",
-    goblin: "https://sunflower-land.com/testnet-assets/npcs/goblin.gif",
-    human_carry:
-      "https://sunflower-land.com/testnet-assets/npcs/human_carry.gif",
-    idle: "https://sunflower-land.com/testnet-assets/npcs/idle.gif",
-    moonseeker_death:
-      "https://sunflower-land.com/testnet-assets/npcs/skeleton_death.gif",
-    moonseeker_walk:
-      "https://sunflower-land.com/testnet-assets/npcs/skeleton_walk.gif",
-    moonseeker2: "https://sunflower-land.com/testnet-assets/npcs/skeleton2.png",
-    moonseeker3: "https://sunflower-land.com/testnet-assets/npcs/skeleton3.png",
-    moonseeker4: "https://sunflower-land.com/testnet-assets/npcs/skeleton4.png",
-    moonseeker5: "https://sunflower-land.com/testnet-assets/npcs/skeleton5.png",
-    swimmer: "https://sunflower-land.com/testnet-assets/npcs/swimmer.gif",
-    watering: "https://sunflower-land.com/testnet-assets/npcs/watering.gif",
-    wheat_goblin:
-      "https://sunflower-land.com/testnet-assets/npcs/wheat_goblin.gif",
+    betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
+    bumpkin: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/idle.gif`,
+    goblin_carry: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_carry.gif`,
+    goblin_dig: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_dig.gif`,
+    goblin_doing: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_doing.gif`,
+    goblin_farting: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_farting.gif`,
+    goblin_hammering: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_hammering.gif`,
+    goblin_jumping: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_jumping.gif`,
+    goblin_mining: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_mining.gif`,
+    goblin_swimming: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_swimming.gif`,
+    goblin_treasure: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_treasure.gif`,
+    goblin_watering: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_watering.gif`,
+    goblin: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin.gif`,
+    human_carry: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/human_carry.gif`,
+    idle: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/idle.gif`,
+    moonseeker_death: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/skeleton_death.gif`,
+    moonseeker_walk: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/skeleton_walk.gif`,
+    moonseeker2: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/skeleton2.png`,
+    moonseeker3: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/skeleton3.png`,
+    moonseeker4: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/skeleton4.png`,
+    moonseeker5: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/skeleton5.png`,
+    swimmer: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer.gif`,
+    watering: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/watering.gif`,
+    wheat_goblin: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/wheat_goblin.gif`,
   },
   resource: {
-    chicken: "https://sunflower-land.com/testnet-assets/resources/chicken.png",
-    clam_shell:
-      "https://sunflower-land.com/testnet-assets/resources/clam_shell.png",
-    coral: "https://sunflower-land.com/testnet-assets/resources/coral.png",
-    crab: "https://sunflower-land.com/testnet-assets/resources/crab.png",
-    diamond: "https://sunflower-land.com/testnet-assets/resources/diamond.png",
-    egg: "https://sunflower-land.com/testnet-assets/resources/egg.png",
-    magic_mushroom:
-      "https://sunflower-land.com/testnet-assets/resources/magic_mushroom.png",
-    boulder:
-      "https://sunflower-land.com/testnet-assets/resources/rare_mine.png",
-    sea_cucumber:
-      "https://sunflower-land.com/testnet-assets/resources/sea_cucumber.png",
-    small_stone:
-      "https://sunflower-land.com/testnet-assets/resources/small_stone.png",
-    starfish:
-      "https://sunflower-land.com/testnet-assets/resources/starfish.png",
-    stone: "https://sunflower-land.com/testnet-assets/resources/stone.png",
-    stump: "https://sunflower-land.com/testnet-assets/resources/stump.png",
-    tree: "https://sunflower-land.com/testnet-assets/resources/tree.png",
-    wild_mushroom:
-      "https://sunflower-land.com/testnet-assets/resources/wild_mushroom.png",
-    wood: "https://sunflower-land.com/testnet-assets/resources/wood.png",
+    chicken: `${CONFIG.PROTECTED_IMAGE_URL}/resources/chicken.png`,
+    clam_shell: `${CONFIG.PROTECTED_IMAGE_URL}/resources/clam_shell.png`,
+    coral: `${CONFIG.PROTECTED_IMAGE_URL}/resources/coral.png`,
+    crab: `${CONFIG.PROTECTED_IMAGE_URL}/resources/crab.png`,
+    diamond: `${CONFIG.PROTECTED_IMAGE_URL}/resources/diamond.png`,
+    egg: `${CONFIG.PROTECTED_IMAGE_URL}/resources/egg.png`,
+    magic_mushroom: `${CONFIG.PROTECTED_IMAGE_URL}/resources/magic_mushroom.png`,
+    boulder: `${CONFIG.PROTECTED_IMAGE_URL}/resources/rare_mine.png`,
+    sea_cucumber: `${CONFIG.PROTECTED_IMAGE_URL}/resources/sea_cucumber.png`,
+    small_stone: `${CONFIG.PROTECTED_IMAGE_URL}/resources/small_stone.png`,
+    starfish: `${CONFIG.PROTECTED_IMAGE_URL}/resources/starfish.png`,
+    stone: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone.png`,
+    stump: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stump.png`,
+    tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree.png`,
+    wild_mushroom: `${CONFIG.PROTECTED_IMAGE_URL}/resources/wild_mushroom.png`,
+    wood: `${CONFIG.PROTECTED_IMAGE_URL}/resources/wood.png`,
   },
   tools: {
-    axe: "https://sunflower-land.com/testnet-assets/tools/axe.png",
-    fishing_rod:
-      "https://sunflower-land.com/testnet-assets/tools/fishing_rod.png",
-    hammer: "https://sunflower-land.com/testnet-assets/tools/hammer.png",
-    iron_pickaxe:
-      "https://sunflower-land.com/testnet-assets/tools/iron_pickaxe.png",
-    power_shovel:
-      "https://sunflower-land.com/testnet-assets/tools/power_shovel.png",
-    rusty_shovel:
-      "https://sunflower-land.com/testnet-assets/tools/rusty_shovel.png",
-    sand_shovel:
-      "https://sunflower-land.com/testnet-assets/tools/sand_shovel.png",
-    shovel: "https://sunflower-land.com/testnet-assets/tools/shovel.png",
-    stone_pickaxe:
-      "https://sunflower-land.com/testnet-assets/tools/stone_pickaxe.png",
-    wood_pickaxe:
-      "https://sunflower-land.com/testnet-assets/tools/wood_pickaxe.png",
+    axe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/axe.png`,
+    fishing_rod: `${CONFIG.PROTECTED_IMAGE_URL}/tools/fishing_rod.png`,
+    hammer: `${CONFIG.PROTECTED_IMAGE_URL}/tools/hammer.png`,
+    iron_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/iron_pickaxe.png`,
+    power_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/power_shovel.png`,
+    rusty_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/rusty_shovel.png`,
+    sand_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/sand_shovel.png`,
+    shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/shovel.png`,
+    stone_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/stone_pickaxe.png`,
+    wood_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/wood_pickaxe.png`,
   },
   ui: {
-    cursor: "https://sunflower-land.com/testnet-assets/ui/cursor.png",
-    round_button:
-      "https://sunflower-land.com/testnet-assets/ui/round_button.png",
+    cursor: `${CONFIG.PROTECTED_IMAGE_URL}/ui/cursor.png`,
+    round_button: `${CONFIG.PROTECTED_IMAGE_URL}/ui/round_button.png`,
   },
 };

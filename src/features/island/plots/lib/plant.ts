@@ -12,6 +12,7 @@ import kaleProcSprite from "assets/crops/kale/proc_sprite.png";
 
 import { CropName } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
+import { CONFIG } from "lib/config";
 
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Sunflower: sunflowerProcSprite,
@@ -43,8 +44,7 @@ export type Lifecycle = {
   seed: any;
 };
 
-// TODO .env it
-const URL = "https://www.sunflower-land.com/testnet-assets/crops";
+const URL = `${CONFIG.PROTECTED_IMAGE_URL}/crops`;
 
 export const IMAGES: Record<CropName, string> = {
   Sunflower: "sunflower",
