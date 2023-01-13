@@ -24,6 +24,8 @@ import snowKingdom from "assets/land/snow_kingdom.webp";
 import stoneHeaven from "assets/land/stone_haven.webp";
 import silhouette from "assets/bumpkins/silhouette.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { getKeys } from "features/game/types/craftables";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
@@ -40,18 +42,24 @@ const IMAGE_LIST: string[] = [
   walkingChicken,
   sleepingChicken,
   layingEggSheet,
-  SUNNYSIDE.resource.egg,
   richChicken,
   fatChicken,
   speedChicken,
-  SUNNYSIDE.icons.arrow_left,
-  SUNNYSIDE.icons.arrow_right,
   helios,
   retreat,
   treasureIsland,
   snowKingdom,
   stoneHeaven,
   silhouette,
+  ...Object.values(SUNNYSIDE.icons),
+  ...Object.values(SUNNYSIDE.resource),
+  ...Object.values(SUNNYSIDE.soil),
+  ...Object.values(SUNNYSIDE.tools),
+  ...Object.values(SUNNYSIDE.ui),
+  ...getKeys(CROP_LIFECYCLE).reduce(
+    (acc, crop) => [...acc, ...Object.values(CROP_LIFECYCLE[crop])],
+    [] as string[]
+  ),
 ];
 
 function preloadImage(src: string) {
