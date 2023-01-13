@@ -121,6 +121,10 @@ export async function autosave(request: Request) {
     throw new Error(ERRORS.SESSION_EXPIRED);
   }
 
+  if (response.status === 400) {
+    throw new Error(ERRORS.CLOCK_ERROR);
+  }
+
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
