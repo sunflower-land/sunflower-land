@@ -89,11 +89,6 @@ export function harvest({
     ...stateCopy.inventory,
     [cropName]: cropCount.add(amount),
   };
-  // Temp data to help with bug investigation
-  stateCopy.metadata = [
-    ...(stateCopy.metadata ? stateCopy.metadata : []),
-    { name: cropName, plantedAt, harvestSeconds, createdAt },
-  ];
 
   return stateCopy;
 }
