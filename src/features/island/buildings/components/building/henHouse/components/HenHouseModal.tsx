@@ -108,33 +108,34 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
                 </span>
               </div>
             </div>
-            <Button
-              disabled={!canBuyChicken || isSaving}
-              className="text-xs mt-3 whitespace-nowrap"
-              onClick={handleBuy}
-            >
-              {isSaving ? "Saving..." : "Buy"}
-            </Button>
-          </>
-        </div>
+          </div>
+          <Button
+            disabled={!canBuyChicken || isSaving}
+            className="text-xs mt-3 whitespace-nowrap"
+            onClick={handleBuy}
+          >
+            {isSaving ? "Saving..." : "Buy"}
+          </Button>
+        </>
       );
     }
 
     if (selectedChicken === "lazy") {
       return (
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-center">Lazy Chicken</span>
-          <img
-            src={boxChicken}
-            className="h-16 img-highlight mt-1"
-            alt="chicken"
-          />
-          <div className="flex mt-2 relative">
-            <span className="text-center text-sm">
-              Put your chicken to work to start collecting eggs!
-            </span>
+        <>
+          <div className="flex flex-col justify-center items-center p-2 relative">
+            <span className="text-center">Lazy Chicken</span>
+            <img
+              src={boxChicken}
+              className="h-16 img-highlight mt-1"
+              alt="chicken"
+            />
+            <div className="flex mt-2 relative">
+              <span className="text-center text-sm">
+                Put your chicken to work to start collecting eggs!
+              </span>
+            </div>
           </div>
-
           <Button
             className="text-xs mt-3 whitespace-nowrap"
             onClick={handlePlace}
@@ -142,7 +143,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           >
             {isSaving ? "Saving..." : "Place"}
           </Button>
-        </div>
+        </>
       );
     }
 
@@ -194,7 +195,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       >
         <div className="flex flex-col-reverse sm:flex-row">
           <div
-            className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+            className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
             style={{ maxHeight: 400 }}
           >
             <div className="flex flex-wrap">
