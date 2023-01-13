@@ -7,7 +7,6 @@ export const ERRORS = {
   REJECTED_TRANSACTION: "REJECTED_TRANSACTION",
   BLOCKED: "BLOCKED",
   NETWORK_CONGESTED: "NETWORK_CONGESTED",
-  CLOCK_ERROR: "CLOCK_ERROR",
 
   // Blockchain session has changed - they are doing something sneaky refreshing the browser
   SESSION_EXPIRED: "SESSION_EXPIRED",
@@ -20,6 +19,7 @@ export const ERRORS = {
 
   // Server Errors (Named after API endpoint)
   AUTOSAVE_SERVER_ERROR: "AS-001",
+  AUTOSAVE_CLOCK_ERROR: "AS-002",
   SYNC_SERVER_ERROR: "SY-001",
   SESSION_SERVER_ERROR: "SE-001",
   EXPAND_LAND_SERVER_ERROR: "EX-001",

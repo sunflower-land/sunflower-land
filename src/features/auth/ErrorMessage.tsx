@@ -88,7 +88,7 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <PhantomWalletNotSupported />;
   }
 
-  if (errorCode === ERRORS.CLOCK_ERROR) {
+  if (errorCode === ERRORS.AUTOSAVE_CLOCK_ERROR) {
     return <ClockIssue />;
   }
 

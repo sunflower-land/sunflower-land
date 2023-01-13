@@ -122,7 +122,7 @@ export async function autosave(request: Request) {
   }
 
   if (response.status === 400) {
-    throw new Error(ERRORS.CLOCK_ERROR);
+    throw new Error(ERRORS.AUTOSAVE_CLOCK_ERROR);
   }
 
   if (response.status === 429) {
