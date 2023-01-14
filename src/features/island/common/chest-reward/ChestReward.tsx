@@ -9,8 +9,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 
 import token from "assets/icons/token_2.png";
-import { StopTheGoblins } from "features/farming/crops/components/StopTheGoblins";
-import { ChestCaptcha } from "features/farming/crops/components/ChestCaptcha";
+import { StopTheGoblins } from "features/island/common/chest-reward/StopTheGoblins";
+import { ChestCaptcha } from "features/island/common/chest-reward/ChestCaptcha";
 import { Loading } from "features/auth/components";
 
 interface Props {

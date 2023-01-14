@@ -1,6 +1,5 @@
 import { fetchAuctioneerSupply } from "features/game/actions/auctioneer";
 import { mint } from "features/game/actions/mint";
-import { AuctioneerItemName } from "features/game/types/craftables";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { createMachine, Interpreter, assign } from "xstate";
@@ -9,6 +8,7 @@ import { escalate } from "xstate/lib/actions";
 import { wallet } from "lib/blockchain/wallet";
 import { randomID } from "lib/utils/random";
 import { getInventorySupply } from "lib/blockchain/Inventory";
+import { AuctioneerItemName } from "features/game/types/auctioneer";
 
 export interface Context {
   farmId: number;

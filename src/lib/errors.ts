@@ -19,6 +19,7 @@ export const ERRORS = {
 
   // Server Errors (Named after API endpoint)
   AUTOSAVE_SERVER_ERROR: "AS-001",
+  AUTOSAVE_CLOCK_ERROR: "AS-002",
   SYNC_SERVER_ERROR: "SY-001",
   SESSION_SERVER_ERROR: "SE-001",
   EXPAND_LAND_SERVER_ERROR: "EX-001",

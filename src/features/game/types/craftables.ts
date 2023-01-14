@@ -8,6 +8,7 @@ import { LimitedItemType } from ".";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import { AuctioneerItemName } from "./auctioneer";
 
 export { FLAGS };
 
@@ -75,7 +76,11 @@ export interface CraftableItem {
   mintReleaseDate?: number;
 }
 
-export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+export type MutantChicken =
+  | "Speed Chicken"
+  | "Rich Chicken"
+  | "Fat Chicken"
+  | "Ayam Cemani";
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -99,13 +104,6 @@ export type QuestItem =
   | "Sunflower Key"
   | "Ancient Goblin Sword"
   | "Ancient Human Warhammer";
-
-export type AuctioneerItemName =
-  | "Peeled Potato"
-  | "Christmas Snow Globe"
-  | "Cabbage Boy"
-  | "Cabbage Girl"
-  | "Wood Nymph Wendy";
 
 export type LegacyItem =
   | "Sunflower Statue"
@@ -184,6 +182,7 @@ export type CollectibleName =
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | "Observatory"
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -722,7 +721,7 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   },
 };
 
-export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
+export const MOM_EVENT_ITEMS: Record<MOMEventItem, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
     description: "The power of the sunflower",
@@ -740,19 +739,21 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   "Speed Chicken": {
     name: "Speed Chicken",
     description: "Produces eggs 10% faster",
-    section: Section["Speed Chicken"],
     type: LimitedItemType.MutantChicken,
   },
   "Fat Chicken": {
     name: "Fat Chicken",
     description: "10% less wheat needed to feed a chicken",
-    section: Section["Fat Chicken"],
     type: LimitedItemType.MutantChicken,
   },
   "Rich Chicken": {
     name: "Rich Chicken",
     description: "Yields 10% more eggs",
-    section: Section["Rich Chicken"],
+    type: LimitedItemType.MutantChicken,
+  },
+  "Ayam Cemani": {
+    name: "Ayam Cemani",
+    description: "The rarest chicken in Sunflower Land.",
     type: LimitedItemType.MutantChicken,
   },
 };
@@ -971,32 +972,6 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
 };
 
-// TODO
-type GoblinRetreatItem = {
-  description: string;
-};
-
-export const GOBLIN_RETREAT_ITEMS: Record<
-  AuctioneerItemName,
-  GoblinRetreatItem
-> = {
-  "Peeled Potato": {
-    description: "A precious potato, encourages bonus potatoes on harvest.",
-  },
-  "Cabbage Boy": {
-    description: "Don't wake the baby!",
-  },
-  "Cabbage Girl": {
-    description: "Shhh it's sleeping",
-  },
-  "Wood Nymph Wendy": {
-    description: "Cast an enchantment to entice the fairies",
-  },
-  "Christmas Snow Globe": {
-    description: "Swirl the snow and watch it come to life",
-  },
-};
-
 export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   Chicken: {
     name: "Chicken",
@@ -1047,7 +1022,7 @@ export const LIMITED_ITEMS = {
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
   ...FLAGS,
-  ...ROCKET_ITEMS,
+  ...MOM_EVENT_ITEMS,
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
   ...SALESMAN_ITEMS,
@@ -1066,8 +1041,8 @@ const flagsDimension = getKeys(FLAGS).reduce(
   (previous, flagName) => ({
     ...previous,
     [flagName]: {
-      height: 1,
       width: 1,
+      height: 1,
     },
   }),
   {} as Record<Flag, Dimensions>
@@ -1075,8 +1050,8 @@ const flagsDimension = getKeys(FLAGS).reduce(
 
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Salesman Items
-  "Wicker Man": { height: 1, width: 1 },
-  "Golden Bonsai": { height: 1, width: 1 },
+  "Wicker Man": { width: 1, height: 1 },
+  "Golden Bonsai": { width: 1, height: 1 },
 
   // Flags
   ...flagsDimension,
@@ -1106,7 +1081,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Immortal Pear": { width: 2, height: 2 },
 
   // Market Items
-  Scarecrow: { height: 2, width: 2 },
+  Scarecrow: { width: 2, height: 2 },
   Nancy: { width: 1, height: 2 },
   Kuebiko: { width: 2, height: 2 },
   "Golden Cauliflower": { width: 2, height: 2 },
@@ -1119,41 +1094,48 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Chicken Coop": { width: 2, height: 2 },
   "Gold Egg": { width: 1, height: 1 },
   "Easter Bunny": { width: 2, height: 1 },
-  Rooster: { height: 1, width: 1 },
-  "Egg Basket": { height: 1, width: 1 },
-  "Fat Chicken": { height: 1, width: 1 },
-  "Rich Chicken": { height: 1, width: 1 },
-  "Speed Chicken": { height: 1, width: 1 },
-
+  Rooster: { width: 1, height: 1 },
+  "Egg Basket": { width: 1, height: 1 },
+  "Fat Chicken": { width: 1, height: 1 },
+  "Rich Chicken": { width: 1, height: 1 },
+  "Speed Chicken": { width: 1, height: 1 },
+  "Ayam Cemani": { width: 1, height: 1 },
   // War Tent Items
-  "War Skull": { height: 1, width: 1 },
-  "War Tombstone": { height: 1, width: 1 },
-  "Undead Rooster": { height: 1, width: 1 },
+  "War Skull": { width: 1, height: 1 },
+  "War Tombstone": { width: 1, height: 1 },
+  "Undead Rooster": { width: 1, height: 1 },
 
-  "Victoria Sisters": { height: 2, width: 2 },
-  "Basic Bear": { height: 1, width: 1 },
-  "Peeled Potato": { height: 1, width: 1 },
-  "Wood Nymph Wendy": { height: 2, width: 1 },
-  "Cabbage Boy": { height: 1, width: 1 },
-  "Cabbage Girl": { height: 1, width: 1 },
+  Observatory: { width: 2, height: 2 },
+  "Victoria Sisters": { width: 2, height: 2 },
+  "Basic Bear": { width: 1, height: 1 },
+  "Peeled Potato": { width: 1, height: 1 },
+  "Wood Nymph Wendy": { width: 1, height: 2 },
+  "Cabbage Boy": { width: 1, height: 1 },
+  "Cabbage Girl": { width: 1, height: 1 },
 
-  "Magic Bean": { height: 2, width: 2 },
-  "Shiny Bean": { height: 2, width: 2 },
-  "Golden Bean": { height: 2, width: 2 },
+  "Magic Bean": { width: 2, height: 2 },
+  "Shiny Bean": { width: 2, height: 2 },
+  "Golden Bean": { width: 2, height: 2 },
 
-  "Stellar Sunflower": { height: 1, width: 1 },
-  "Peaceful Potato": { height: 1, width: 1 },
-  "Perky Pumpkin": { height: 1, width: 1 },
-  "Colossal Crop": { height: 1, width: 1 },
+  "Stellar Sunflower": { width: 1, height: 1 },
+  "Peaceful Potato": { width: 1, height: 1 },
+  "Perky Pumpkin": { width: 1, height: 1 },
+  "Colossal Crop": { width: 1, height: 1 },
 
-  "Christmas Bear": { height: 1, width: 1 },
-  "Christmas Snow Globe": { height: 2, width: 2 },
-  "Lady Bug": { height: 1, width: 1 },
+  "Christmas Bear": { width: 1, height: 1 },
+  "Christmas Snow Globe": { width: 2, height: 2 },
+  "Lady Bug": { width: 1, height: 1 },
+  "Squirrel Monkey": { width: 1, height: 1 },
+  "Black Bearry": { width: 1, height: 1 },
+
+  "Maneki Neko": { width: 1, height: 1 },
+  "Collectible Bear": { width: 2, height: 2 },
+  "Cyborg Bear": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
   Chicken: {
-    height: 1,
     width: 1,
+    height: 1,
   },
 };

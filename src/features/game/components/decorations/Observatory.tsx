@@ -36,9 +36,9 @@ export const Observatory: React.FC = () => {
     <>
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2.75}px`,
+          width: `${PIXEL_SCALE * 29}px`,
           left: `${GRID_WIDTH_PX * 47.5}px`,
-          top: `${GRID_WIDTH_PX * 1.2}px`,
+          top: `${GRID_WIDTH_PX * 2}px`,
         }}
         id={Section.Observatory}
         className="absolute hover:img-highlight cursor-pointer"

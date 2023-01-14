@@ -57,7 +57,6 @@ export interface Context {
   state: GameState;
   onChain: GameState;
   actions: PastAction[];
-  offset: number;
   sessionId?: string;
   errorCode?: ErrorCode;
   transactionId?: string;
@@ -274,7 +273,6 @@ export function startGame(authContext: Options) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
-        offset: 0,
       },
       states: {
         checkIsVisiting: {
@@ -330,7 +328,6 @@ export function startGame(authContext: Options) {
 
                 const {
                   game,
-                  offset,
                   whitelistedAt,
                   itemsMintedAt,
                   deviceTrackerId,
@@ -344,7 +341,6 @@ export function startGame(authContext: Options) {
                     id: farmId,
                   },
                   sessionId,
-                  offset,
                   whitelistedAt,
                   fingerprint,
                   itemsMintedAt,
@@ -625,7 +621,6 @@ export function startGame(authContext: Options) {
                 sessionId: context.sessionId as string,
                 actions: context.actions,
                 token: authContext.rawToken as string,
-                offset: context.offset,
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
                 transactionId: context.transactionId as string,
@@ -679,7 +674,6 @@ export function startGame(authContext: Options) {
                   sessionId: context.sessionId as string,
                   actions: context.actions,
                   token: authContext.rawToken as string,
-                  offset: context.offset,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
@@ -735,7 +729,6 @@ export function startGame(authContext: Options) {
                   sessionId: context.sessionId as string,
                   actions: context.actions,
                   token: authContext.rawToken as string,
-                  offset: context.offset,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
@@ -747,7 +740,6 @@ export function startGame(authContext: Options) {
                 sessionId: context.sessionId as string,
                 actions: [event],
                 token: authContext.rawToken as string,
-                offset: context.offset,
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
                 transactionId: context.transactionId as string,
@@ -837,7 +829,6 @@ export function startGame(authContext: Options) {
                   sessionId: context.sessionId as string,
                   actions: context.actions,
                   token: authContext.rawToken as string,
-                  offset: context.offset,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
@@ -973,7 +964,6 @@ export function startGame(authContext: Options) {
         assignGame: assign<Context, any>({
           state: (_, event) => event.data.state,
           onChain: (_, event) => event.data.onChain,
-          offset: (_, event) => event.data.offset,
           sessionId: (_, event) => event.data.sessionId,
           fingerprint: (_, event) => event.data.fingerprint,
           itemsMintedAt: (_, event) => event.data.itemsMintedAt,

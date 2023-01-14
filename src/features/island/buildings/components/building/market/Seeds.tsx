@@ -6,6 +6,7 @@ import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
 import timer from "assets/icons/timer.png";
 import heart from "assets/icons/level_up.png";
+import seedling from "assets/icons/seedling.png";
 import lock from "assets/skills/lock.png";
 
 import { Box } from "components/ui/Box";
@@ -29,10 +30,10 @@ import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin, Inventory } from "features/game/types/game";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
-import { hasFeatureAccess } from "lib/flags";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   onClose: () => void;
@@ -43,10 +44,6 @@ function isSeedLocked(
   bumpkin: Bumpkin | undefined,
   seedName: SeedName
 ) {
-  if (seedName in FRUIT_SEEDS() && !hasFeatureAccess(inventory, "FRUIT")) {
-    return true;
-  }
-
   const seed = SEEDS()[seedName];
   return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
 }
@@ -198,9 +195,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
-  const getPlantSeconds = () => {
-    const yields = SEEDS()[selectedName].yield;
+  const yields = SEEDS()[selectedName].yield;
 
+  const getPlantSeconds = () => {
     if (yields in FRUIT())
       return secondsToString(SEEDS()[selectedName].plantSeconds, {
         length: "medium",
@@ -220,6 +217,18 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           removeTrailingZeros: true,
         }
       );
+  };
+
+  const harvestCount = () => {
+    if (!(yields in FRUIT())) {
+      return null;
+    }
+
+    if (isCollectibleBuilt("Immortal Pear", collectibles)) {
+      return [4, 6];
+    }
+
+    return [3, 5];
   };
 
   return (
@@ -262,6 +271,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               <div className="flex space-x-1 items-center sm:justify-center">
                 <img src={timer} className="h-4 sm:h-5" />
                 <span className="text-xs text-center">{getPlantSeconds()}</span>
+              </div>
+            )}
+            {harvestCount() && (
+              <div className="flex space-x-1 items-center sm:justify-center">
+                <img src={seedling} className="h-4 sm:h-5" />
+                <span className="text-xs text-center">{`${harvestCount()?.join(
+                  "-"
+                )} harvests`}</span>
               </div>
             )}
             <div className="flex space-x-1 justify-center items-center">

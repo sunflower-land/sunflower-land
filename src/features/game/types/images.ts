@@ -52,7 +52,7 @@ import scarecrow from "assets/sfts/scarecrow.png";
 import sunflowerStatue from "assets/sfts/sunflower_statue.png";
 import sunflowerRock from "assets/sfts/sunflower_rock.png";
 import sunflowerTombstone from "assets/sfts/sunflower_tombstone.png";
-import goldenCauliflower from "assets/sfts/golden_cauliflower.png";
+import goldenCauliflower from "assets/sfts/golden_cauliflower.webp";
 import crown from "assets/sfts/goblin_crown.png";
 import fountain from "assets/sfts/fountain.gif";
 import beaver from "assets/sfts/beaver.gif";
@@ -201,6 +201,10 @@ import breadWinner from "assets/achievements/bread_winner.png";
 import explorer from "assets/achievements/explorer.png";
 import farmHand from "assets/achievements/farm_hand.png";
 import highRoller from "assets/achievements/high_roller.png";
+import orangeSqueeze from "assets/achievements/orange_squeeze.png";
+import appleOfMyEye from "assets/achievements/apple_of_my_eye.png";
+import blueChip from "assets/achievements/blue_chip.png";
+import fruitPlatter from "assets/achievements/fruit_platter.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
@@ -316,6 +320,7 @@ import basicBear from "src/assets/sfts/bears/basic_bear.png";
 import chefBear from "src/assets/sfts/bears/chef_bear.png";
 import constructionBear from "src/assets/sfts/bears/construction_bear.png";
 import angelBear from "src/assets/sfts/bears/angel_bear.png";
+import devilBear from "src/assets/sfts/bears/devil_bear.png";
 import badassBear from "src/assets/sfts/bears/badass_bear.png";
 import sunflowerBear from "src/assets/sfts/bears/sunflower_bear.png";
 import brilliantBear from "src/assets/sfts/bears/brilliant_bear.png";
@@ -325,6 +330,12 @@ import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
+
+import cyborgBear from "src/assets/sfts/cyborg_bear.png";
+import collectibleBear from "src/assets/sfts/collectible_bear.png";
+import manekiNeko from "src/assets/sfts/maneki_neko.gif";
+import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
+import redEnvelope from "src/assets/icons/red_envelope.png";
 
 // Treasure
 import starfish from "assets/resources/beach/starfish.png";
@@ -343,11 +354,10 @@ import {
   BLACKSMITH_ITEMS,
   MARKET_ITEMS,
   BARN_ITEMS,
-  ROCKET_ITEMS,
+  MOM_EVENT_ITEMS,
   LimitedItem,
   MUTANT_CHICKENS,
   SALESMAN_ITEMS,
-  GOBLIN_RETREAT_ITEMS,
 } from "./craftables";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
@@ -361,6 +371,7 @@ import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
+import { AUCTIONEER_ITEMS } from "./auctioneer";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -668,7 +679,7 @@ export const ITEM_DETAILS: Items = {
     image: sandShovel,
   },
 
-  // NFTs
+  // SFTs
   "Sunflower Statue": {
     ...BLACKSMITH_ITEMS["Sunflower Statue"],
     image: sunflowerStatue,
@@ -1147,14 +1158,12 @@ export const ITEM_DETAILS: Items = {
     description: "A purple easter egg",
     image: purpleEgg,
   },
-
   "Engine Core": {
-    description: "The power of the sunflower",
+    ...MOM_EVENT_ITEMS["Engine Core"],
     image: momCoreEngine,
   },
   Observatory: {
-    ...ROCKET_ITEMS["Observatory"],
-    description: "Reach the stars and increase XP",
+    ...MOM_EVENT_ITEMS["Observatory"],
     image: observatory,
   },
   "Goblin Key": {
@@ -1554,22 +1563,22 @@ export const ITEM_DETAILS: Items = {
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: GOBLIN_RETREAT_ITEMS["Cabbage Boy"].description,
+    description: AUCTIONEER_ITEMS["Cabbage Boy"].description,
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: GOBLIN_RETREAT_ITEMS["Cabbage Girl"].description,
+    description: AUCTIONEER_ITEMS["Cabbage Girl"].description,
   },
 
   "Wood Nymph Wendy": {
     image: wendy,
-    description: GOBLIN_RETREAT_ITEMS["Wood Nymph Wendy"].description,
+    description: AUCTIONEER_ITEMS["Wood Nymph Wendy"].description,
   },
 
   "Peeled Potato": {
     image: prizedPotato,
-    description: GOBLIN_RETREAT_ITEMS["Peeled Potato"].description,
+    description: AUCTIONEER_ITEMS["Peeled Potato"].description,
   },
 
   "Colossal Crop": {
@@ -1632,5 +1641,53 @@ export const ITEM_DETAILS: Items = {
   "Lady Bug": {
     image: questionMark,
     description: "?",
+  },
+  "Squirrel Monkey": {
+    image: questionMark,
+    description: "?",
+  },
+  "Black Bearry": {
+    image: questionMark,
+    description: "?",
+  },
+  "Devil Bear": {
+    image: devilBear,
+    description: DECORATIONS()["Devil Bear"].description,
+  },
+  "Orange Squeeze": {
+    image: orangeSqueeze,
+    description: ACHIEVEMENTS()["Orange Squeeze"].description,
+  },
+  "Apple of my Eye": {
+    image: appleOfMyEye,
+    description: ACHIEVEMENTS()["Apple of my Eye"].description,
+  },
+  "Blue Chip": {
+    image: blueChip,
+    description: ACHIEVEMENTS()["Blue Chip"].description,
+  },
+  "Fruit Platter": {
+    image: fruitPlatter,
+    description: ACHIEVEMENTS()["Fruit Platter"].description,
+  },
+  "Ayam Cemani": {
+    image: ayamCemani,
+    description: "The rarest chicken alive!",
+  },
+  "Collectible Bear": {
+    image: collectibleBear,
+    description: "A prized bear, still in mint condition!",
+  },
+  "Cyborg Bear": {
+    image: cyborgBear,
+    description: "Hasta la vista, bear",
+  },
+  "Maneki Neko": {
+    image: manekiNeko,
+    description: "The beckoning cat. Pull it's arm and good luck will come",
+  },
+  "Red Envelope": {
+    image: redEnvelope,
+    description: "Wow, you are lucky!",
   },
 };

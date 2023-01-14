@@ -1,10 +1,16 @@
 import Decimal from "decimal.js-light";
 
-import { Bumpkin, GrubShopOrder, Inventory } from "../../types/game";
+import {
+  Bumpkin,
+  Collectibles,
+  GrubShopOrder,
+  Inventory,
+} from "../../types/game";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
 import { Consumable } from "features/game/types/consumables";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -80,37 +86,46 @@ export const getCookingTime = (
  * @param bumpkin to check for skills
  * @returns boosted food exp
  */
-export const getFoodExpBoost = (food: Consumable, bumpkin: Bumpkin): number => {
+export const getFoodExpBoost = (
+  food: Consumable,
+  bumpkin: Bumpkin,
+  collectibles: Collectibles
+): number => {
   let boostedExp = new Decimal(food.experience);
   const { skills, equipped } = bumpkin;
-  const { tool } = equipped;
 
   //Bumpkin Skill Boost Kitchen Hand
   if (skills["Kitchen Hand"]) {
     boostedExp = boostedExp.mul(1.05);
   }
+
   //Bumpkin Skill Boost Curer
   if (food.building === "Deli" && skills["Curer"]) {
     boostedExp = boostedExp.mul(1.15);
   }
 
   //Bumpkin Wearable Boost Golden Spatula
-  if (tool === "Golden Spatula") {
+  if (equipped.tool === "Golden Spatula") {
     boostedExp = boostedExp.mul(1.1);
+  }
+
+  //Observatory is placed
+  if (isCollectibleBuilt("Observatory", collectibles)) {
+    boostedExp = boostedExp.mul(1.05);
   }
 
   return boostedExp.toNumber();
 };
 
 export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {
-  const { skills } = bumpkin;
+  const { skills, equipped } = bumpkin;
   let mul = 1;
 
   if (skills["Michelin Stars"]) {
     mul += 0.05;
   }
 
-  if (order.name in CAKES() && bumpkin.equipped.coat === "Chef Apron") {
+  if (order.name in CAKES() && equipped.coat === "Chef Apron") {
     mul += 0.2;
   }
 

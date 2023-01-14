@@ -2006,7 +2006,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Experience Boost",
-        value: 15,
+        value: 5,
       },
       { trait_type: "Purpose", value: "Boost" },
     ],
@@ -2888,5 +2888,65 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Squirrel Monkey": {
+    description:
+      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around. 1/2 Orange Tree grow time.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Black Bearry": {
+    description:
+      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful! +1 Blueberry each Harvest",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Devil Bear": {
+    description: "Better the Devil you know than the Devil you don't",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1220.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Ayam Cemani": {
+    description: "The rarest chicken in Sunflower Land",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/445.gif",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Maneki Neko": {
+    description:
+      "The beckoning cat. Pull it's arm and good luck will come. A special event item from Chinese New Year!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/446.gif",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Collectible Bear": {
+    description: "A prized bear, still in mint condition!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1221.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Cyborg Bear": {
+    description: "Hasta la vista, bear",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1222.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Red Envelope": {
+    description:
+      "Wow, you are lucky! An item from Chinese New Year special event.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/716.png",
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
 };

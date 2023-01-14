@@ -9,17 +9,17 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { plantAudio, harvestAudio } from "lib/utils/sfx";
+import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
-import { FRUIT_LIFECYCLE } from "./fruits";
-import { hasFeatureAccess } from "lib/flags";
-import { setImageWidth } from "lib/images";
+import Decimal from "decimal.js-light";
+import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
 
 interface Props {
   fruitPatchIndex: number;
   expansionIndex: number;
 }
+
 export const FruitPatch: React.FC<Props> = ({
   fruitPatchIndex,
   expansionIndex,
@@ -27,7 +27,8 @@ export const FruitPatch: React.FC<Props> = ({
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
-  const [showError, setShowError] = useState(false);
+  const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
+  const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
   const expansion = game.context.state.expansions[expansionIndex];
   const patch = expansion.fruitPatches?.[fruitPatchIndex];
@@ -36,10 +37,14 @@ export const FruitPatch: React.FC<Props> = ({
 
   const playing = game.matches("playing") || game.matches("autosaving");
 
-  const displayError = async () => {
-    setShowError(true);
+  const displayInformation = async () => {
+    // First click show error
+    // Second click show panel with information
+    setShowInfo(true);
     await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
-    setShowError(false);
+    setShowInfo(false);
+
+    infoToShow === "error" ? setInfoToShow("info") : setInfoToShow("error");
   };
 
   const harvestFruit = () => {
@@ -59,29 +64,51 @@ export const FruitPatch: React.FC<Props> = ({
         });
       }
     } catch (e: any) {
-      // TODO - catch more elaborate errors
-      displayError();
+      displayInformation();
     }
   };
 
   const removeTree = () => {
     try {
+      const { inventory, collectibles } = game.context.state;
+
+      const axesNeeded = getRequiredAxeAmount(
+        fruit?.name as FruitName,
+        inventory,
+        collectibles
+      );
+      const axeAmount = inventory.Axe || new Decimal(0);
+
+      // Has enough axes to chop the tree
+      const hasAxes =
+        (selectedItem === "Axe" || axesNeeded.eq(0)) &&
+        axeAmount.gte(axesNeeded);
+
+      if (!hasAxes) {
+        return displayInformation();
+      }
+
       const newState = gameService.send("fruitTree.removed", {
         index: fruitPatchIndex,
         expansionIndex,
+        selectedItem: selectedItem,
       });
 
       if (!newState.matches("hoarding")) {
-        harvestAudio.play();
+        treeFallAudio.play();
+        setPlayAnimation(true);
 
+        setToast({
+          icon: ITEM_DETAILS.Axe.image,
+          content: `-1`,
+        });
         setToast({
           icon: ITEM_DETAILS.Wood.image,
           content: `+1`,
         });
       }
     } catch (e: any) {
-      // TODO - catch more elaborate errors
-      displayError();
+      displayInformation();
     }
   };
 
@@ -101,35 +128,26 @@ export const FruitPatch: React.FC<Props> = ({
       });
     } catch (e: any) {
       // TODO - catch more elaborate errors
-      displayError();
+      displayInformation();
     }
   };
+
+  const showError = showInfo && infoToShow === "error";
 
   return (
     <div className="w-full h-full relative flex justify-center items-center">
       <div className="absolute w-full h-full flex justify-center">
         <img src={fruitPatch} className="h-full absolute" />
-        {hasFeatureAccess(game.context.state.inventory, "FRUIT") ? (
-          <FruitTree
-            plantedFruit={fruit}
-            plantTree={plantTree}
-            harvestFruit={harvestFruit}
-            removeTree={removeTree}
-            onError={displayError}
-            playing={playing}
-            playAnimation={playAnimation}
-          />
-        ) : (
-          <img
-            className="relative"
-            style={{
-              bottom: "25px",
-              zIndex: "1",
-            }}
-            src={FRUIT_LIFECYCLE.Apple.ready}
-            onLoad={(e) => setImageWidth(e.currentTarget)}
-          />
-        )}
+        <FruitTree
+          plantedFruit={fruit}
+          plantTree={plantTree}
+          harvestFruit={harvestFruit}
+          removeTree={removeTree}
+          onError={displayInformation}
+          playing={playing}
+          playAnimation={playAnimation}
+          showOnClickInfo={showInfo && infoToShow === "info"}
+        />
       </div>
 
       {/* Error Icon */}

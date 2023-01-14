@@ -9,13 +9,16 @@ import { PlantedFruit } from "features/game/types/game";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { Popover } from "./Popover";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { TimerPopover } from "../common/TimerPopover";
 
 interface Props {
   playing: boolean;
   plantedFruit: PlantedFruit;
   onClick: () => void;
+  /**
+   * Handles showing "hover" information on mobile or "error" on click action information
+   */
+  showOnClickInfo: boolean;
 }
 
 export const getFruitImage = (imageSource: any): JSX.Element => {
@@ -37,9 +40,9 @@ export const Seedling: React.FC<Props> = ({
   playing,
   plantedFruit,
   onClick,
+  showOnClickInfo,
 }) => {
   const { showTimers } = useContext(Context);
-  const [isMobile] = useIsMobile();
   const [showHoverState, setShowHoverState] = useState(false);
   const { plantedAt, name } = plantedFruit;
   const { seed } = FRUIT()[name];
@@ -54,7 +57,7 @@ export const Seedling: React.FC<Props> = ({
 
   return (
     <div
-      onMouseEnter={() => setShowHoverState(!isMobile)}
+      onMouseEnter={() => setShowHoverState(true)}
       onMouseLeave={() => setShowHoverState(false)}
       className="flex justify-center"
       onClick={onClick}
@@ -84,11 +87,12 @@ export const Seedling: React.FC<Props> = ({
         </div>
       )}
 
-      <Popover
-        showFruitDetails={showHoverState}
-        lifecycle={lifecycle}
-        plantedFruitName={plantedFruit.name}
+      <TimerPopover
+        showPopover={showHoverState || showOnClickInfo}
+        image={lifecycle.ready}
+        name={`${plantedFruit.name} Tree Growing`}
         timeLeft={growingTimeLeft}
+        position={{ top: 8, left: 25 }}
       />
 
       {/* Select box */}

@@ -1,13 +1,8 @@
 import { Decimal } from "decimal.js-light";
 
 import { CropName, CropSeedName } from "./crops";
-import {
-  CollectibleName,
-  CraftableName,
-  Food,
-  AuctioneerItemName,
-  Ingredient,
-} from "./craftables";
+
+import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
@@ -22,6 +17,7 @@ import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import { AuctioneerItemName } from "./auctioneer";
 
 export type Reward = {
   sfl?: Decimal;
@@ -93,14 +89,19 @@ export type EasterBunny = "Easter Bunny";
 
 export type MOMEventItem = "Engine Core";
 
-export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+export type MutantChicken =
+  | "Speed Chicken"
+  | "Rich Chicken"
+  | "Fat Chicken"
+  | "Ayam Cemani";
 
 export type Coupons =
   | "Trading Ticket"
   | "War Bond"
   | "Jack-o-lantern"
   | "Golden Crop"
-  | "Beta Pass";
+  | "Beta Pass"
+  | "Red Envelope";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -117,6 +118,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Beta Pass": {
     description: "Gain early access to features for testing.",
+  },
+  "Red Envelope": {
+    description: "Someone was lucky!",
   },
 };
 
@@ -333,30 +337,20 @@ export type Reveal = {
 export interface GameState {
   id?: number;
   balance: Decimal;
-  fields: Fields;
-
-  trees: Record<number, Tree>;
-  stones: Record<number, Rock>;
-  iron: Record<number, Rock>;
-  gold: Record<number, Rock>;
-  chickens: Record<string, Chicken>;
-
-  plots: Record<number, LandExpansionPlot>;
+  airdrops?: Airdrop[];
+  farmAddress?: string;
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
-  airdrops?: Airdrop[];
-
   warCollectionOffer?: WarCollectionOffer;
 
+  chickens: Record<string, Chicken>;
   inventory: Inventory;
   stock: Inventory;
   stockExpiry: StockExpiry;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
-
-  farmAddress?: string;
 
   skills: {
     farming: Decimal;

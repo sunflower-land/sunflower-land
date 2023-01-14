@@ -12,7 +12,6 @@ import hammer from "assets/icons/hammer.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { HeliosBlacksmithItems } from "./component/HeliosBlacksmithItems";
-import { hasFeatureAccess } from "lib/flags";
 import { Inventory } from "features/game/types/game";
 
 type Props = {
@@ -27,49 +26,6 @@ export const HeliosBlacksmith: React.FC<Props> = ({ inventory }) => {
   };
 
   const Content = () => {
-    if (hasFeatureAccess(inventory, "FRUIT")) {
-      return (
-        <Panel
-          bumpkinParts={{
-            body: "Beige Farmer Potion",
-            hair: "Blacksmith Hair",
-            pants: "Brown Suspenders",
-            shirt: "Red Farmer Shirt",
-            tool: "Hammer",
-            background: "Farm Background",
-            shoes: "Black Farmer Boots",
-          }}
-          className="relative"
-          hasTabs
-        >
-          <div
-            className="absolute flex"
-            style={{
-              top: `${PIXEL_SCALE * 1}px`,
-              left: `${PIXEL_SCALE * 1}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-            }}
-          >
-            <Tab isActive>
-              <img src={hammer} className="h-5 mr-2" />
-              <span className="text-sm">Craft</span>
-            </Tab>
-            <img
-              src={close}
-              className="absolute cursor-pointer z-20"
-              onClick={() => setIsOpen(false)}
-              style={{
-                top: `${PIXEL_SCALE * 1}px`,
-                right: `${PIXEL_SCALE * 1}px`,
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
-          </div>
-          <HeliosBlacksmithItems onClose={() => setIsOpen(false)} />
-        </Panel>
-      );
-    }
-
     return (
       <Panel
         bumpkinParts={{
@@ -81,21 +37,33 @@ export const HeliosBlacksmith: React.FC<Props> = ({ inventory }) => {
           background: "Farm Background",
           shoes: "Black Farmer Boots",
         }}
+        className="relative"
+        hasTabs
       >
-        <img
-          src={close}
-          className="absolute cursor-pointer z-20"
-          onClick={() => setIsOpen(false)}
+        <div
+          className="absolute flex"
           style={{
-            top: `${PIXEL_SCALE * 6}px`,
-            right: `${PIXEL_SCALE * 6}px`,
-            width: `${PIXEL_SCALE * 11}px`,
+            top: `${PIXEL_SCALE * 1}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
           }}
-        />
-        <div className="px-1 py-2">
-          <p className="mb-4">Please be patient son...</p>
-          <p>Hopefully my back don&apos;t really hurt this much anymore.</p>
+        >
+          <Tab isActive>
+            <img src={hammer} className="h-5 mr-2" />
+            <span className="text-sm">Craft</span>
+          </Tab>
+          <img
+            src={close}
+            className="absolute cursor-pointer z-20"
+            onClick={() => setIsOpen(false)}
+            style={{
+              top: `${PIXEL_SCALE * 1}px`,
+              right: `${PIXEL_SCALE * 1}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
         </div>
+        <HeliosBlacksmithItems onClose={() => setIsOpen(false)} />
       </Panel>
     );
   };

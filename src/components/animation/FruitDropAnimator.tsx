@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const FruitDropAnimator = ({
-  wrapperClassName,
+  wrapperClassName = "",
   mainImageProps,
   dropImageProps,
   dropCount,
@@ -36,10 +36,9 @@ export const FruitDropAnimator = ({
           "tree-shake-animation": playShakeAnimation,
         })}
       />
-      {playDropAnimation && (
+      {playDropAnimation && !hideFruits && (
         <div
           className={classNames("absolute fruit-wrapper", {
-            "opacity-0": hideFruits,
             "drop-animation-left": current === 1,
             "drop-animation-right": current === 2,
           })}
@@ -47,14 +46,9 @@ export const FruitDropAnimator = ({
           {dropCount && (
             <span className="text-sm text-white absolute -top-6">{`+${dropCount}`}</span>
           )}
-          <img {...dropImageProps} className={`w-5 relative img-highlight`} />
           <img
             {...dropImageProps}
-            className={`w-5 absolute top-2 left-2 img-highlight`}
-          />
-          <img
-            {...dropImageProps}
-            className={`w-5 absolute top-3 -left-2 img-highlight`}
+            className={`w-5 relative img-highlight-extra-heavy ${dropImageProps.className}`}
           />
         </div>
       )}

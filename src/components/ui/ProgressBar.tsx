@@ -7,7 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 type progressType = "progress" | "health" | "error";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   percentage: number;
   type: progressType;
   seconds?: number;
@@ -127,9 +127,10 @@ export const ProgressBar: React.FC<Props> = ({
   type,
   formatLength,
   seconds = 0,
+  ...divProps
 }) => {
   return (
-    <div className="absolute">
+    <div className="absolute" {...divProps}>
       {seconds > 0 && (
         <div
           className="flex justify-center absolute w-full pointer-events-none z-30"

@@ -56,12 +56,18 @@ export const QuestProgress: React.FC<Props> = ({
   return (
     <div className="flex flex-col justify-center items-center">
       <span className="mb-2">{quest.wearable}</span>
-      <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center p-[3px] rounded-md whitespace-nowrap">
-        <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
-        <span className="mt-[2px]">{`${secondsToString(secondsLeft as number, {
-          length: "medium",
-        })} left`}</span>
-      </span>
+      {secondsLeft ? (
+        <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center p-[3px] rounded-md whitespace-nowrap">
+          <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
+          <span className="mt-[2px]">{`${secondsToString(
+            secondsLeft as number,
+            {
+              length: "medium",
+            }
+          )} left`}</span>
+        </span>
+      ) : null}
+
       <img
         src={getImageUrl(bumpkinWearableId)}
         className="w-1/3 my-2 rounded-lg"
