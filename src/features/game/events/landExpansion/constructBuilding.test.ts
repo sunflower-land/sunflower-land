@@ -427,7 +427,8 @@ describe("Construct building", () => {
       balance: initialSFL,
     };
 
-    const levelIndex = state.buildings["Hen House"]?.length ?? 0;
+    // Second hen house requirements
+    const levelIndex = 1;
 
     const newState = constructBuilding({
       state,

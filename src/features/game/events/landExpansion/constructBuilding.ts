@@ -35,7 +35,7 @@ export function constructBuilding({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
   const building = BUILDINGS()[action.name];
-  const bumpkin = stateCopy.bumpkin;
+  const { bumpkin, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
@@ -46,8 +46,9 @@ export function constructBuilding({
   const allowedBuildings = building.unlocksAtLevels.filter(
     (level) => bumpkinLevel >= level
   ).length;
+
   // Index of building level
-  const levelIdx = buildingsPlaced;
+  const levelIdx = inventory[action.name]?.toNumber() ?? 0;
 
   if (buildingsPlaced >= allowedBuildings) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
