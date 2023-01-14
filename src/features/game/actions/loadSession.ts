@@ -16,7 +16,6 @@ type Request = {
 export type MintedAt = Partial<Record<InventoryItemName, number>>;
 type Response = {
   game: GameState;
-  offset: number;
   isBlacklisted?: boolean;
   whitelistedAt?: string;
   itemsMintedAt?: MintedAt;
@@ -83,16 +82,7 @@ export async function loadSession(
 
   saveSession(request.farmId);
 
-  const startedTime = new Date(startedAt);
-
-  let offset = 0;
-  // Clock is not in sync with actual UTC time
-  if (Math.abs(startedTime.getTime() - Date.now()) > 1000 * 30) {
-    offset = startedTime.getTime() - Date.now();
-  }
-
   return {
-    offset,
     game: makeGame(farm),
     isBlacklisted,
     whitelistedAt,

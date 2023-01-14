@@ -49,7 +49,8 @@ const Island = ({
   const onSameIsland = path === currentPath;
   const notEnoughLevel =
     !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
-  const cannotNavigate = notEnoughLevel || onSameIsland || comingSoon;
+  const cannotNavigate =
+    (bumpkin && notEnoughLevel) || onSameIsland || comingSoon;
 
   if (cannotNavigate) {
     return (

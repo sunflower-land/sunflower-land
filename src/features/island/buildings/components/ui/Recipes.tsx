@@ -145,10 +145,13 @@ export const Recipes: React.FC<Props> = ({
           <div className="mb-1 flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
             {getKeys(selected.ingredients).map((name, index) => {
               const item = ITEM_DETAILS[name];
-              const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
+              const inventoryAmount =
+                inventory[name]?.toDecimalPlaces(1, Decimal.ROUND_FLOOR) || 0;
               const requiredAmount =
-                selected.ingredients[name]?.toDecimalPlaces(1) ||
-                new Decimal(0);
+                selected.ingredients[name]?.toDecimalPlaces(
+                  1,
+                  Decimal.ROUND_FLOOR
+                ) || new Decimal(0);
 
               // Ingredient difference
               const lessIngredient = new Decimal(inventoryAmount).lessThan(
