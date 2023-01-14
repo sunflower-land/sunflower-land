@@ -21,9 +21,8 @@ export const AUCTIONEER_ITEMS: Record<
     description: "Shhh it's sleeping",
   },
   "Wood Nymph Wendy": {
-    description:
-      "Cast an enchantment to entice the wood fairies. Bonus +0.2 wood each harvest",
-    boost: "+0.2 wood",
+    description: "Cast an enchantment to entice the wood fairies.",
+    boost: "+0.2 Wood",
   },
   "Christmas Snow Globe": {
     description: "Swirl the snow and watch it come to life",

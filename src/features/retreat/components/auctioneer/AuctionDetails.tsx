@@ -213,17 +213,17 @@ export const AuctionDetails: React.FC<Props> = ({
     <div className="w-full p-2 mt-2 flex flex-col items-center">
       <div className="w-full p-2 flex flex-col items-center mx-auto">
         <p className="mb-3">{name}</p>
+        <p className="text-center text-sm mb-3">
+          {ITEM_DETAILS[name].description}
+        </p>
         {boost && (
           <Label className="mb-2 md:text-center" type="info">
             {`Boost: ${boost}`}
           </Label>
         )}
-        <p className="text-center text-sm mb-3">
-          {ITEM_DETAILS[name].description}
-        </p>
         {SupplyLabel()}
-        {ReleaseDateLabel(releaseDate)}
-        {AvailableForLabel(releaseDate, releaseEndDate)}
+        {!isUpcomingItem && ReleaseDateLabel(releaseDate)}
+        {!isUpcomingItem && AvailableForLabel(releaseDate, releaseEndDate)}
         <div className="relative mb-2">
           <img src={bg} className="w-64 object-contain rounded-md" />
           <div className="absolute inset-0">
@@ -252,10 +252,12 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="flex items-center space-x-3 mb-3">
-        {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
-        {makeIngredients(currentRelease?.ingredients)}
-      </div>
+      {!isUpcomingItem && (
+        <div className="flex items-center space-x-3 mb-3">
+          {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
+          {makeIngredients(currentRelease?.ingredients)}
+        </div>
+      )}
 
       {MintButton()}
       {/* More Releases */}
