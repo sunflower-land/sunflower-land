@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Button } from "components/ui/Button";
-import token from "assets/icons/token_2.png";
 import bg from "assets/ui/brown_background.png";
 import calendar from "assets/icons/calendar.png";
 import stopwatch from "assets/icons/stopwatch.png";
@@ -18,6 +17,7 @@ import { formatDateTime, secondsToString } from "lib/utils/time";
 import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
+import { RequirementLabel } from "components/ui/RequirementLabel";
 
 type Props = {
   isMinting: boolean;
@@ -68,21 +68,9 @@ export const AuctionDetails: React.FC<Props> = ({
   const start = useCountdown(releaseDate);
   const end = useCountdown(releaseEndDate);
 
-  const makeSFLRequiredLabel = (sfl: number) => {
-    if (game.balance.lt(sfl)) {
-      <div className="flex items-center space-x-1">
-        <img src={token} className="h-5 mr-1" />
-        <Label type="danger">{`${game.balance.toString()}/${sfl}`}</Label>
-      </div>;
-    }
-
-    return (
-      <div className="flex items-center space-x-1">
-        <img src={token} className="h-5 mr-1" />
-        <span className="text-xxs">{sfl}</span>
-      </div>
-    );
-  };
+  const makeSFLRequiredLabel = (sfl: Decimal) => (
+    <RequirementLabel type="sfl" balance={game.balance} requirement={sfl} />
+  );
 
   const makeIngredients = (
     ingredients?: {
@@ -92,25 +80,18 @@ export const AuctionDetails: React.FC<Props> = ({
   ) => {
     if (!ingredients) return null;
 
-    return ingredients.map((ingredient) => {
+    return ingredients.map((ingredient, index) => {
       const inventoryItemAmount =
         game.inventory[ingredient.item] ?? new Decimal(0);
-      const hasIngredient = inventoryItemAmount.gte(ingredient.amount);
-
-      if (!hasIngredient) {
-        return (
-          <div className="flex items-center space-x-1" key={ingredient.item}>
-            <img src={ITEM_DETAILS[ingredient.item].image} className="h-5" />
-            <Label type="danger">{`${inventoryItemAmount}/${ingredient.amount}`}</Label>
-          </div>
-        );
-      }
 
       return (
-        <div className="flex items-center space-x-1" key={ingredient.item}>
-          <img src={ITEM_DETAILS[ingredient.item].image} className="h-5" />
-          <span className="text-xxs">{ingredient.amount}</span>
-        </div>
+        <RequirementLabel
+          key={index}
+          type="item"
+          item={ingredient.item}
+          balance={inventoryItemAmount}
+          requirement={new Decimal(ingredient.amount)}
+        />
       );
     });
   };
@@ -206,7 +187,7 @@ export const AuctionDetails: React.FC<Props> = ({
   };
 
   const releasesList = isUpcomingItem ? releases : releases.slice(1);
-  const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
+  const currentSflPrice = new Decimal(currentRelease?.price || 0);
   const boost = AUCTIONEER_ITEMS[name].boost;
 
   return (
@@ -254,7 +235,8 @@ export const AuctionDetails: React.FC<Props> = ({
 
       {!isUpcomingItem && (
         <div className="flex items-center space-x-3 mb-3">
-          {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
+          {currentSflPrice.greaterThan(0) &&
+            makeSFLRequiredLabel(currentSflPrice)}
           {makeIngredients(currentRelease?.ingredients)}
         </div>
       )}
@@ -283,7 +265,7 @@ export const AuctionDetails: React.FC<Props> = ({
               availableSupplyForRelease =
                 (release?.supply ?? 0) - previousSupply;
             }
-            const sfl = Number(release.price ?? 0);
+            const sfl = new Decimal(release.price ?? 0);
 
             return (
               <div
@@ -300,7 +282,7 @@ export const AuctionDetails: React.FC<Props> = ({
                 </div>
 
                 <div className="flex items-center space-x-3 mb-1">
-                  {sfl > 0 && makeSFLRequiredLabel(sfl)}
+                  {sfl.greaterThan(0) && makeSFLRequiredLabel(sfl)}
                   {makeIngredients(release.ingredients)}
                 </div>
               </div>
