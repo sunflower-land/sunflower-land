@@ -21,29 +21,23 @@ export const ToastManager: React.FC = () => {
   }, [toastList]);
 
   return (
-    <div>
+    <>
       {listed && (
-        <div
-          className={
-            "flex flex-col items-end sm:block fixed z-[99999] pointer-events-none"
-          }
+        <InnerPanel
+          className="text-white flex flex-col-reverse items-end fixed z-[99999] pointer-events-none"
           style={{
-            top: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 50}px`,
+            bottom: `${PIXEL_SCALE * 22}px`,
+            left: `${PIXEL_SCALE * 3}px`,
           }}
         >
-          <InnerPanel className="text-white">
-            {toastList.map(({ content, id, icon }) => (
-              <div className="flex items-center relative" key={id}>
-                {icon && (
-                  <img className="h-6 mr-1" src={icon} alt="toast-icon" />
-                )}
-                <span className="text-sm mx-1">{content}</span>
-              </div>
-            ))}
-          </InnerPanel>
-        </div>
+          {toastList.map(({ content, id, icon }) => (
+            <div className="flex items-center relative" key={id}>
+              {icon && <img className="h-6 mr-1" src={icon} alt="toast-icon" />}
+              <span className="text-sm mx-1">{content}</span>
+            </div>
+          ))}
+        </InnerPanel>
       )}
-    </div>
+    </>
   );
 };
