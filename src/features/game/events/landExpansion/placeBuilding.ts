@@ -64,7 +64,7 @@ export function placeBuilding({
     id: action.id,
     createdAt: createdAt,
     coordinates: action.coordinates,
-    readyAt: createdAt + building.constructionSeconds * 1000,
+    readyAt: createdAt,
   };
 
   return {

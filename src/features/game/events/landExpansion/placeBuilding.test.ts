@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import { TEST_FARM } from "../../lib/constants";
-import { BUILDINGS } from "../../types/buildings";
+import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { placeBuilding, PLACE_BUILDING_ERRORS } from "./placeBuilding";
 
@@ -10,8 +9,6 @@ const GAME_STATE: GameState = {
   inventory: {},
   buildings: {},
 };
-
-const waterWell = BUILDINGS()["Water Well"];
 
 const dateNow = Date.now();
 
@@ -32,13 +29,14 @@ describe("Place building", () => {
       })
     ).toThrow(PLACE_BUILDING_ERRORS.NO_BUMPKIN);
   });
+
   it("does not place if build level is not reached", () => {
     expect(() =>
       placeBuilding({
         state: {
           ...GAME_STATE,
           bumpkin: {
-            ...GAME_STATE.bumpkin!,
+            ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[1],
           },
         },
@@ -54,13 +52,14 @@ describe("Place building", () => {
       })
     ).toThrow(PLACE_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
+
   it("does not place if max building limit is reached", () => {
     expect(() =>
       placeBuilding({
         state: {
           ...GAME_STATE,
           bumpkin: {
-            ...GAME_STATE.bumpkin!,
+            ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[20],
           },
           inventory: {
@@ -113,7 +112,7 @@ describe("Place building", () => {
       state: {
         ...GAME_STATE,
         bumpkin: {
-          ...GAME_STATE.bumpkin!,
+          ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
@@ -137,27 +136,29 @@ describe("Place building", () => {
   });
 
   it("places multiple buildings", () => {
-    const state = placeBuilding({
-      state: {
-        ...GAME_STATE,
-        bumpkin: {
-          ...GAME_STATE.bumpkin!,
-          experience: LEVEL_EXPERIENCE[20],
-        },
-        inventory: {
-          "Water Well": new Decimal(2),
-        },
-        buildings: {
-          "Water Well": [
-            {
-              id: "123",
-              coordinates: { x: 1, y: 1 },
-              createdAt: dateNow,
-              readyAt: dateNow,
-            },
-          ],
-        },
+    const state = {
+      ...GAME_STATE,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[20],
       },
+      inventory: {
+        "Water Well": new Decimal(2),
+      },
+      buildings: {
+        "Water Well": [
+          {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
+            createdAt: dateNow,
+            readyAt: dateNow,
+          },
+        ],
+      },
+    };
+
+    const newState = placeBuilding({
+      state,
       createdAt: dateNow,
       action: {
         id: "456",
@@ -170,17 +171,17 @@ describe("Place building", () => {
       },
     });
 
-    expect(state.buildings["Water Well"]).toHaveLength(2);
-    expect(state.buildings["Water Well"]?.[0]).toEqual({
+    expect(newState.buildings["Water Well"]).toHaveLength(2);
+    expect(newState.buildings["Water Well"]?.[0]).toEqual({
       id: expect.any(String),
       coordinates: { x: 1, y: 1 },
       readyAt: dateNow,
       createdAt: dateNow,
     });
-    expect(state.buildings["Water Well"]?.[1]).toEqual({
+    expect(newState.buildings["Water Well"]?.[1]).toEqual({
       id: expect.any(String),
       coordinates: { x: 0, y: 0 },
-      readyAt: dateNow + waterWell.constructionSeconds * 1000,
+      readyAt: dateNow,
       createdAt: dateNow,
     });
   });
