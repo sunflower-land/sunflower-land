@@ -135,7 +135,7 @@ export const AuctionDetails: React.FC<Props> = ({
   const remainingSupply = currentSupply - (totalMinted ?? 0);
   const isSoldOut = remainingSupply <= 0;
 
-  const makeLabel = () => {
+  const SupplyLabel = () => {
     if (isUpcomingItem) return null;
 
     if (isMintStarted && remainingSupply > 0) {
@@ -182,14 +182,26 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
+  const AvailableForLabel = (startDate: number, endDate: number) => {
+    return (
+      <div className="flex items-center space-x-2 mb-2">
+        <img src={stopwatch} className="w-4" alt="timer" />
+        <span className="text-xxs">{`Available for ${secondsToString(
+          (endDate - startDate) / 1000,
+          { length: "short" }
+        )}`}</span>
+      </div>
+    );
+  };
+
   const releasesList = isUpcomingItem ? releases : releases.slice(1);
   const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
-
   const boost = AUCTIONEER_ITEMS[name].boost;
+
   return (
     <div className="w-full p-2 flex flex-col items-center">
       <div className="w-full p-2 flex flex-col items-center mx-auto">
-        <p className="mb-2">{name}</p>
+        <p className="mb-3">{name}</p>
         {boost && (
           <Label className="mt-1 md:text-center" type="info">
             {boost}
@@ -198,7 +210,8 @@ export const AuctionDetails: React.FC<Props> = ({
         <p className="text-center text-sm mb-2">
           {ITEM_DETAILS[name].description}
         </p>
-        {makeLabel()}
+        {SupplyLabel()}
+        {AvailableForLabel(releaseDate, releaseEndDate)}
         <div className="relative mb-2">
           <img src={bg} className="w-64 object-contain rounded-md" />
           <div className="absolute inset-0">
@@ -261,7 +274,7 @@ export const AuctionDetails: React.FC<Props> = ({
                 className="border-b last:border-b-0 border-white w-full py-3"
                 key={index}
               >
-                <div className="flex flex-col items-start mb-2 space-y-2 w-full">
+                <div className="flex flex-col items-start space-y-2 w-full">
                   <Label
                     type="info"
                     className="mb-1"
@@ -274,13 +287,7 @@ export const AuctionDetails: React.FC<Props> = ({
                       )}
                     </span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <img src={stopwatch} className="w-4" alt="timer" />
-                    <span className="text-xxs">{`Available for ${secondsToString(
-                      (release.endDate - release.releaseDate) / 1000,
-                      { length: "short" }
-                    )}`}</span>
-                  </div>
+                  {AvailableForLabel(release.releaseDate, release.endDate)}
                 </div>
 
                 <div className="flex items-center space-x-3 mb-1">
