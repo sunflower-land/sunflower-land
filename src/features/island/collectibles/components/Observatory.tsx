@@ -30,14 +30,17 @@ export const Observatory: React.FC = () => {
   };
 
   return (
-    <>
+    <div
+      className="absolute w-full h-full hover:img-highlight cursor-pointer"
+      onClick={handleOpenTelescope}
+    >
       <img
         style={{
           width: `${PIXEL_SCALE * 31}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         id={Section.Observatory}
-        className="absolute hover:img-highlight cursor-pointer"
+        className="absolute pointer-events-none"
         src={observatory}
         onClick={handleOpenTelescope}
         alt="Observatory"
@@ -62,6 +65,6 @@ export const Observatory: React.FC = () => {
           </div>
         </CloseButtonPanel>
       </Modal>
-    </>
+    </div>
   );
 };

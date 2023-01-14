@@ -24,10 +24,10 @@ interface Props {
 export const getFruitImage = (imageSource: any): JSX.Element => {
   return (
     <img
-      className="relative"
+      className="absolute"
       style={{
-        bottom: "9px",
-        zIndex: "1",
+        bottom: `${PIXEL_SCALE * 9}px`,
+        left: `${PIXEL_SCALE * 8}px`,
         width: `${PIXEL_SCALE * 16}px`,
         height: `${PIXEL_SCALE * 26}px`,
       }}
@@ -59,7 +59,7 @@ export const Seedling: React.FC<Props> = ({
     <div
       onMouseEnter={() => setShowHoverState(true)}
       onMouseLeave={() => setShowHoverState(false)}
-      className="flex justify-center"
+      className="absolute w-full h-full cursor-pointer"
       onClick={onClick}
     >
       {getFruitImage(
@@ -74,14 +74,15 @@ export const Seedling: React.FC<Props> = ({
         <div
           className="absolute"
           style={{
-            top: `${PIXEL_SCALE * 24.2}px`,
+            bottom: `${PIXEL_SCALE * 7}px`,
+            left: `${PIXEL_SCALE * 8}px`,
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
           <ProgressBar
             percentage={growPercentage}
             seconds={growingTimeLeft}
-            type={"progress"}
+            type="progress"
             formatLength="short"
           />
         </div>
@@ -99,12 +100,13 @@ export const Seedling: React.FC<Props> = ({
       {playing && (
         <img
           src={selectBox}
-          className={classNames("absolute z-40 cursor-pointer", {
+          className={classNames("absolute z-40", {
             "opacity-100": showHoverState,
             "opacity-0": !showHoverState,
           })}
           style={{
-            top: "21px",
+            top: `${PIXEL_SCALE * 8}px`,
+            left: `${PIXEL_SCALE * 8}px`,
             width: `${PIXEL_SCALE * 16}px`,
           }}
         />
