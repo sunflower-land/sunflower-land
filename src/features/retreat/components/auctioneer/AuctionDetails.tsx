@@ -182,14 +182,25 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
-  const AvailableForLabel = (startDate: number, endDate: number) => {
+  const AvailableForLabel = (releaseDate: number, endDate: number) => {
     return (
       <div className="flex items-center space-x-2 mb-2">
         <img src={stopwatch} className="w-4" alt="timer" />
         <span className="text-xxs">{`Available for ${secondsToString(
-          (endDate - startDate) / 1000,
+          (endDate - releaseDate) / 1000,
           { length: "short" }
         )}`}</span>
+      </div>
+    );
+  };
+
+  const ReleaseDateLabel = (releaseDate: number) => {
+    return (
+      <div className="flex items-center space-x-2 mb-2">
+        <img src={calendar} className="w-4" alt="calendar" />
+        <span className="text-xxs">
+          {formatDateTime(new Date(releaseDate).toISOString())}
+        </span>
       </div>
     );
   };
@@ -199,18 +210,19 @@ export const AuctionDetails: React.FC<Props> = ({
   const boost = AUCTIONEER_ITEMS[name].boost;
 
   return (
-    <div className="w-full p-2 flex flex-col items-center">
+    <div className="w-full p-2 mt-2 flex flex-col items-center">
       <div className="w-full p-2 flex flex-col items-center mx-auto">
         <p className="mb-3">{name}</p>
         {boost && (
-          <Label className="mt-1 md:text-center" type="info">
-            {boost}
+          <Label className="mb-2 md:text-center" type="info">
+            {`Boost: ${boost}`}
           </Label>
         )}
-        <p className="text-center text-sm mb-2">
+        <p className="text-center text-sm mb-3">
           {ITEM_DETAILS[name].description}
         </p>
         {SupplyLabel()}
+        {ReleaseDateLabel(releaseDate)}
         {AvailableForLabel(releaseDate, releaseEndDate)}
         <div className="relative mb-2">
           <img src={bg} className="w-64 object-contain rounded-md" />
@@ -246,7 +258,7 @@ export const AuctionDetails: React.FC<Props> = ({
       </div>
 
       {MintButton()}
-
+      {/* More Releases */}
       {releasesList.length > 0 && (
         <div
           className={classNames("flex flex-col items-start w-full", {
@@ -258,14 +270,16 @@ export const AuctionDetails: React.FC<Props> = ({
           </p>
           {releasesList.map((release, index) => {
             // Upcoming items use full release list - current item slices it so be careful
-            let availableSupply = 0;
+            let availableSupplyForRelease = 0;
 
             if (isUpcomingItem) {
               const previousSupply = index > 0 ? releases[index - 1].supply : 0;
-              availableSupply = (release?.supply ?? 0) - previousSupply;
+              availableSupplyForRelease =
+                (release?.supply ?? 0) - previousSupply;
             } else {
               const previousSupply = releases[index].supply;
-              availableSupply = (release?.supply ?? 0) - previousSupply;
+              availableSupplyForRelease =
+                (release?.supply ?? 0) - previousSupply;
             }
             const sfl = Number(release.price ?? 0);
 
@@ -274,19 +288,12 @@ export const AuctionDetails: React.FC<Props> = ({
                 className="border-b last:border-b-0 border-white w-full py-3"
                 key={index}
               >
-                <div className="flex flex-col items-start space-y-2 w-full">
+                <div className="flex flex-col items-start w-full">
                   <Label
                     type="info"
-                    className="mb-1"
-                  >{`Supply: ${availableSupply}`}</Label>
-                  <div className="flex items-center space-x-2">
-                    <img src={calendar} className="w-4" alt="calendar" />
-                    <span className="text-xxs">
-                      {formatDateTime(
-                        new Date(release.releaseDate).toISOString()
-                      )}
-                    </span>
-                  </div>
+                    className="mb-2"
+                  >{`Supply: ${availableSupplyForRelease}`}</Label>
+                  {ReleaseDateLabel(release.releaseDate)}
                   {AvailableForLabel(release.releaseDate, release.endDate)}
                 </div>
 
