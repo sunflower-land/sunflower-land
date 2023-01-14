@@ -6,7 +6,8 @@ export type BumpkinBackground =
   | "Space Background"
   | "Jail Background"
   | "Christmas Background"
-  | "Mountain View Background";
+  | "Mountain View Background"
+  | "China Town Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -75,7 +76,8 @@ export type BumpkinHat =
   | "Warrior Helmet"
   | "Skull Hat"
   | "Reindeer Antlers"
-  | "Santa Hat";
+  | "Santa Hat"
+  | "Lion Dance Mask";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -191,6 +193,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Reindeer Antlers": 80,
   "Santa Hat": 81,
   "Pineapple Shirt": 82,
+  "China Town Background": 83,
+  "Lion Dance Mask": 84,
 };
 
 // The reverse of above
