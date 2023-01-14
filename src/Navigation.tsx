@@ -20,7 +20,7 @@ import { CONFIG } from "lib/config";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
-import { World } from "features/chat/World";
+import { World } from "features/explore/World";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.

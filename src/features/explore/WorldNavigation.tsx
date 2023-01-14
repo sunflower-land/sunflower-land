@@ -3,13 +3,9 @@ import { useActor, useInterpret } from "@xstate/react";
 import PF from "pathfinding";
 import { Modal } from "react-bootstrap";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-import background from "assets/land/world.png";
-
-import { Context } from "features/game/GameProvider";
-import { Bumpkins } from "./Bumpkins";
+import { Bumpkins } from "./components/Bumpkins";
 import { exploreMachine, MachineInterpreter } from "./exploreMachine";
 import { Panel } from "components/ui/Panel";
 import { Bumpkin } from "features/game/types/game";
@@ -17,8 +13,9 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 import { randomInt } from "lib/utils/random";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-
-import { ChatUI } from "./ChatUI";
+import { ChatUI } from "./components/ChatUI";
+import { Context } from "features/game/GameProvider";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 const randomId = randomInt(0, 99999);
 
@@ -51,12 +48,12 @@ BLOCKED.forEach((coords) => {
   grid.setWalkableAt(coords.x, coords.y, false);
 });
 
-interface Props {
-  scrollContainer: HTMLElement;
-}
-export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
+export const WorldNavigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const [path, setPath] = useState<Coordinates[]>([]);
 
@@ -65,6 +62,7 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
       currentPosition: { x: 1200, y: 1400 },
       accountId: authState.context.farmId as number,
       jwt: authState.context.rawToken,
+      bumpkin: gameState.context.state.bumpkin,
     },
   }) as unknown as MachineInterpreter;
 
@@ -78,27 +76,32 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
     };
   }, []);
 
-  const walk = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
-      // const coords = getInitialCorodinates();
-      console.log({
-        scrolLeft: scrollContainer.scrollLeft,
-        scrollTop: scrollContainer.scrollTop,
-        height: scrollContainer.scrollHeight,
-        pageX: e.pageX,
-        pageY: e.pageY,
-        clientX: e.clientX,
-        clientY: e.clientY,
-      });
-      const x = e.pageX + scrollContainer.scrollLeft;
-      const y = scrollContainer.scrollTop + e.pageY;
+  const walk = (e: React.MouseEvent<HTMLElement>) => {
+    const scrollContainer = document.getElementsByClassName(
+      "page-scroll-container"
+    )[0];
 
-      chatService.send("SEND_LOCATION", {
-        coordinates: { x: x, y: y },
-      });
-    },
-    [scrollContainer]
-  );
+    // const coords = getInitialCorodinates();
+    console.log({
+      scrolLeft: scrollContainer.scrollLeft,
+      scrollTop: scrollContainer.scrollTop,
+      height: scrollContainer.scrollHeight,
+      pageX: e.pageX,
+      pageY: e.pageY,
+      clientX: e.clientX,
+      clientY: e.clientY,
+    });
+    const x = e.pageX + scrollContainer.scrollLeft;
+    const y = scrollContainer.scrollTop + e.pageY;
+
+    chatService.send("SEND_LOCATION", {
+      coordinates: { x: x, y: y },
+    });
+  };
+
+  console.log({
+    discovries: chatState.context.discoveries,
+  });
 
   // Load data
   return (
@@ -134,10 +137,12 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
 
         <Bumpkins
           messages={chatState.context.messages}
+          discoveries={chatState.context.discoveries}
           bumpkin={chatState.context.bumpkin}
           chatService={chatService}
           position={chatState.context.currentPosition}
           bumpkins={chatState.context.bumpkins}
+          onVisit={(id) => gameService.send({ type: "VISIT", landId: id })}
           path={path}
         />
       </div>
@@ -151,6 +156,24 @@ export const WorldNavigation: React.FC<Props> = ({ scrollContainer }) => {
         />
       )} */}
       {/* {chatState.matches("connected") && ( */}
+      <div
+        id="wishing-well"
+        className="bg-red-300 cursor-pointer absolute z-20"
+        style={{
+          width: `${GRID_WIDTH_PX * 1}px`,
+          left: `${GRID_WIDTH_PX * 10}px`,
+          top: `${GRID_WIDTH_PX * 10}px`,
+          height: `${GRID_WIDTH_PX * 1}px`,
+        }}
+        onClick={() => {
+          gameService.send("REVEAL", {
+            event: {
+              type: "well.searched",
+              createdAt: new Date(),
+            },
+          });
+        }}
+      />
       <ChatUI
         onMessage={({ reaction, text }) => {
           chatService.send("SEND_CHAT_MESSAGE", {

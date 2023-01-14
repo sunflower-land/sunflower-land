@@ -20,7 +20,7 @@ import { wallet } from "../../../lib/blockchain/wallet";
 import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
-import { autosave } from "../actions/autosave";
+import { autosave, reveal } from "../actions/autosave";
 import { CollectibleName } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { getGameOnChainState } from "../actions/onchain";
@@ -335,6 +335,7 @@ export function startGame(authContext: Options) {
                   status,
                 } = response;
 
+                console.log("session loaded");
                 return {
                   state: {
                     ...game,
@@ -707,7 +708,10 @@ export function startGame(authContext: Options) {
             src: async (context, e) => {
               // Grab the server side event to fire
               const { event } = e as { event: any; type: "REVEAL" };
+              const saveAt = (event as any)?.data?.saveAt || new Date();
 
+              console.log("first");
+              // TODO: Double save is bad and may fire detections
               if (context.actions.length > 0) {
                 await autosave({
                   farmId: Number(authContext.farmId),
@@ -719,6 +723,8 @@ export function startGame(authContext: Options) {
                   transactionId: context.transactionId as string,
                 });
               }
+
+              console.log("second");
 
               const { farm, changeset } = await autosave({
                 farmId: Number(authContext.farmId),

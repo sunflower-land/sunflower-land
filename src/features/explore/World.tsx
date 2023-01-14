@@ -12,6 +12,7 @@ import { useActor } from "@xstate/react";
 
 export const World: React.FC = () => {
   const { authService } = useContext(Auth.Context);
+  const { gameService } = useContext(Context);
 
   // catching and passing scroll container to keyboard listeners
   const [container, setContainer] = useState<HTMLElement>();
@@ -23,29 +24,24 @@ export const World: React.FC = () => {
 
   // Load data
   return (
-    <ScrollContainer
-      className="bg-green-500 overflow-scroll relative w-full h-full page-scroll-container"
-      innerRef={(container) => setContainer(container as HTMLElement)}
-      ignoreElements={"*[data-prevent-drag-scroll]"}
+    <div
+      className="relative"
+      style={{
+        width: `${60 * GRID_WIDTH_PX}px`,
+        height: `${40 * GRID_WIDTH_PX}px`,
+      }}
+      // TODO dynamic game board size based on tile dimensions
     >
-      <div
-        className="relative"
+      <img
+        src={background}
+        className="h-auto absolute"
         style={{
           width: `${60 * GRID_WIDTH_PX}px`,
           height: `${40 * GRID_WIDTH_PX}px`,
         }}
-        // TODO dynamic game board size based on tile dimensions
-      >
-        <img
-          src={background}
-          className="h-auto absolute"
-          style={{
-            width: `${60 * GRID_WIDTH_PX}px`,
-          }}
-        />
+      />
 
-        <WorldNavigation scrollContainer={container as HTMLElement} />
-      </div>
-    </ScrollContainer>
+      <WorldNavigation />
+    </div>
   );
 };

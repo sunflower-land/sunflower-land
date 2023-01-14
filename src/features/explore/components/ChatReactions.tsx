@@ -1,11 +1,9 @@
-import classNames from "classnames";
 import { GameState } from "features/game/types/game";
 import React from "react";
-import { ReactionName, REACTIONS } from "./lib/reactions";
 
 import lock from "assets/skills/lock.png";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Box } from "components/ui/Box";
+import { ReactionName, REACTIONS } from "../lib/reactions";
 
 interface Props {
   game: GameState;
