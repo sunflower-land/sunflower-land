@@ -1,19 +1,8 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { Equipped } from "features/game/types/bumpkin";
-import {
-  Bumpkin,
-  GameState,
-  Inventory,
-  InventoryItemName,
-} from "features/game/types/game";
-import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
-import { wallet } from "lib/blockchain/wallet";
+import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 import { assign, createMachine, Interpreter, State } from "xstate";
-import { loadSession } from "features/game/actions/loadSession";
-import { randomID } from "lib/utils/random";
-import { getSessionId } from "lib/blockchain/Sessions";
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { ReactionName } from "./lib/reactions";
 
@@ -36,6 +25,7 @@ export type BumpkinDiscovery = {
   bumpkinId: number;
   sfl?: number;
   items: Inventory;
+  createdAt: number;
 };
 
 export interface ChatContext {
@@ -385,7 +375,7 @@ export const websocketMachine = createMachine<
         PLAYER_UPDATED: {
           actions: assign({
             bumpkins: (context, event) => {
-              let bumpkins = context.bumpkins;
+              const bumpkins = context.bumpkins;
               const bumpkin = bumpkins.find(
                 (b) => b.connectionId === event.player.connectionId
               ) as Player;
@@ -424,6 +414,10 @@ export const websocketMachine = createMachine<
               context.messages.filter(
                 (m) => m.createdAt > Date.now() - 5 * 1000
               ),
+            discoveries: (context) =>
+              context.discoveries.filter(
+                (m) => m.createdAt > Date.now() - 5 * 1000
+              ),
           }),
         },
         CHAT_MESSAGE_RECEIVED: {
@@ -455,7 +449,10 @@ export const websocketMachine = createMachine<
         ITEM_MINTED: {
           actions: assign({
             discoveries: (context, event) => {
-              return [event as BumpkinDiscovery, ...context.discoveries];
+              return [
+                { ...event, createdAt: Date.now() },
+                ...context.discoveries,
+              ];
             },
           }),
         },
