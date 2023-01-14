@@ -11,7 +11,7 @@ export const UpcomingAuctions: React.FC = () => {
 
   const child = goblinState.children.auctioneer as MachineInterpreter;
 
-  const [auctioneerState, send] = useActor(child);
+  const [auctioneerState] = useActor(child);
 
   const { auctioneerItems } = auctioneerState.context;
   const upcoming = getValidAuctionItems(auctioneerItems).slice(1);
