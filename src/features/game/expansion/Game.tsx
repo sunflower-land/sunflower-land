@@ -41,8 +41,8 @@ import { getBumpkinLevel } from "../lib/level";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Studios } from "features/studioes/Studios";
-import { World } from "features/explore/World";
 import { Rules } from "../components/Rules";
+import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -185,7 +185,7 @@ export const Game: React.FC = () => {
             <Routes>
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
-              <Route path="/explore" element={<World key="explore" />} />
+              <Route path="/explore" element={<PumpkinPlaza key="explore" />} />
               {level >= 10 && (
                 <Route
                   path="/treasure-island"

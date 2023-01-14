@@ -21,8 +21,8 @@ import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
-import { Bumpkin } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -38,22 +38,28 @@ const PROGRESS_BAR_DIMENSIONS = {
 interface Props {
   initialView: ViewState;
   onClose: () => void;
+  bumpkin: Bumpkin;
+  inventory: Inventory;
+  readonly: boolean;
 }
 
-export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
+export const BumpkinModal: React.FC<Props> = ({
+  initialView,
+  onClose,
+  bumpkin,
+  inventory,
+  readonly,
+}) => {
   const [view, setView] = useState<ViewState>(initialView);
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { state } = gameState.context;
 
   const getVisitBumpkinUrl = () => {
-    if (gameState.matches("visiting")) {
+    if (readonly) {
       const baseUrl =
         CONFIG.NETWORK === "mainnet"
           ? `https://opensea.io/assets/matic`
           : `https://testnets.opensea.io/assets/mumbai`;
 
-      return `${baseUrl}/${CONFIG.BUMPKIN_CONTRACT}/${state.bumpkin?.id}`;
+      return `${baseUrl}/${CONFIG.BUMPKIN_CONTRACT}/${bumpkin?.id}`;
     }
 
     const baseUrl =
@@ -61,28 +67,40 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
         ? `https://bumpkins.io/#/bumpkins`
         : `https://testnet.bumpkins.io/#/bumpkins`;
 
-    return `${baseUrl}/${state.bumpkin?.id}`;
+    return `${baseUrl}/${bumpkin?.id}`;
   };
 
   if (view === "achievements") {
-    return <Achievements onBack={() => setView("home")} onClose={onClose} />;
+    return (
+      <Achievements
+        readonly={readonly}
+        onBack={() => setView("home")}
+        onClose={onClose}
+      />
+    );
   }
 
   if (view === "skills") {
-    return <Skills onBack={() => setView("home")} onClose={onClose} />;
+    return (
+      <Skills
+        readonly={readonly}
+        onBack={() => setView("home")}
+        onClose={onClose}
+      />
+    );
   }
 
   // Do not show soul bound characteristics
-  const { body, hair, background, ...wearables } = state.bumpkin
-    ?.equipped as BumpkinParts;
+  const { body, hair, background, ...wearables } =
+    bumpkin?.equipped as BumpkinParts;
 
-  const experience = state.bumpkin?.experience ?? 0;
+  const experience = bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const maxLevel = isMaxLevel(experience);
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
 
-  const hasAvaliableSP = getAvailableBumpkinSkillPoints(state.bumpkin) > 0;
+  const hasAvaliableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
 
   const getProgressWidth = () => {
     let progressRatio = 1;
@@ -113,7 +131,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
           <div className="w-full rounded-md overflow-hidden mb-1">
             <DynamicNFT
               showBackground
-              bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
+              bumpkinParts={bumpkin?.equipped as BumpkinParts}
             />
           </div>
           <div className="ml-1">
@@ -220,7 +238,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
               <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
-                  {hasAvaliableSP && !gameState.matches("visiting") && (
+                  {hasAvaliableSP && !readonly && (
                     <img
                       src={SUNNYSIDE.icons.expression_alerted}
                       className="h-4 ml-2"
@@ -229,10 +247,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                 </div>
                 <span className="text-xxs underline">View all</span>
               </div>
-              <SkillBadges
-                inventory={state.inventory}
-                bumpkin={state.bumpkin as Bumpkin}
-              />
+              <SkillBadges inventory={inventory} bumpkin={bumpkin as Bumpkin} />
             </InnerPanel>
           </div>
 
@@ -247,7 +262,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                 </div>
                 <span className="text-xxs underline">View all</span>
               </div>
-              <AchievementBadges achievements={state.bumpkin?.achievements} />
+              <AchievementBadges achievements={bumpkin?.achievements} />
             </InnerPanel>
           </div>
         </div>

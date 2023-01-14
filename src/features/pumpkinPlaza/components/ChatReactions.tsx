@@ -12,7 +12,12 @@ interface Props {
 
 export const ChatReactions: React.FC<Props> = ({ game, onReact }) => {
   return (
-    <div className="flex flex-wrap">
+    <div
+      className="flex flex-wrap scrollable overflow-y-scroll"
+      style={{
+        height: "90px",
+      }}
+    >
       {REACTIONS.map((reaction) => {
         const isLocked = !reaction.hasAccess(game);
         return (

@@ -1,18 +1,28 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-
+import Filter from "bad-words";
 import chatIcon from "assets/icons/expression_chat.png";
 import disc from "assets/icons/disc.png";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onMessage: (text: string) => void;
 }
+
 export const ChatText: React.FC<Props> = ({ onMessage }) => {
   const ref = useRef<HTMLTextAreaElement>();
   const [text, setText] = useState("");
 
   const send = (event?: React.SyntheticEvent) => {
     event?.preventDefault();
-    onMessage(text);
+
+    if (text === "") {
+      return;
+    }
+
+    const filter = new Filter();
+
+    const sanitized = filter.clean(text);
+    onMessage(sanitized);
     setText("");
   };
 
@@ -53,11 +63,19 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
           className="text-sm placeholder-white w-full  mono rounded-md  bg-brown-200 pr-10 pl-2 py-2"
         />
 
-        <img
-          src={disc}
+        {text.length > 100 && (
+          <Label className="mt-2 mb-1 float-right" type="danger">
+            Max 100 characters
+          </Label>
+        )}
+
+        <div
           className="absolute right-1 top-1 cursor-pointer w-8"
           onClick={send}
-        />
+        >
+          <img src={disc} className="w-8" />
+          <img src={chatIcon} className="w-4 absolute left-2 top-2" />
+        </div>
       </div>
     </form>
   );

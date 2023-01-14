@@ -23,9 +23,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
   onBack: () => void;
   onClose: () => void;
+  readonly: boolean;
 }
 
-export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
+export const Skills: React.FC<Props> = ({ onBack, onClose, readonly }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -127,7 +128,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
             }}
             onClick={handleBack}
           />
-          {!gameState.matches("visiting") && skillPointsInfo()}
+          {!readonly && skillPointsInfo()}
         </div>
         {!selectedSkillPath && (
           <SkillCategoryList
@@ -138,6 +139,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           <SkillPathDetails
             selectedSkillPath={selectedSkillPath}
             skillsInPath={skillsInPath}
+            readonly
           />
         )}
       </div>

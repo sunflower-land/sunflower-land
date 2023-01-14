@@ -23,9 +23,14 @@ const CONTENT_HEIGHT = 350;
 interface Props {
   onBack: () => void;
   onClose: () => void;
+  readonly: boolean;
 }
 
-export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
+export const Achievements: React.FC<Props> = ({
+  onBack,
+  onClose,
+  readonly,
+}) => {
   const [selected, setSelected] = useState<AchievementName>("Farm Hand");
 
   const { gameService } = useContext(Context);
@@ -98,6 +103,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
           onBack={onBack}
           onClaim={claim}
           state={state}
+          readonly={readonly}
         />
       </div>
       <div className="w-full mt-2">

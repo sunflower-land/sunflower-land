@@ -156,7 +156,11 @@ function parseWebsocketMessage(data: string): SendMessage {
 /**
  * Machine which handles both player events and reacts to web socket events
  */
-export const exploreMachine = createMachine<ChatContext, ChatEvent, ChatState>({
+export const websocketMachine = createMachine<
+  ChatContext,
+  ChatEvent,
+  ChatState
+>({
   initial: "connecting",
   context: {
     bumpkin: {} as Bumpkin,

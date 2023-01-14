@@ -1,7 +1,5 @@
-import { Panel } from "components/ui/Panel";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { Equipped } from "features/game/types/bumpkin";
 import { Bumpkin } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
@@ -15,10 +13,10 @@ import {
   MachineInterpreter,
   ChatMessage,
   BumpkinDiscovery,
-} from "../exploreMachine";
-import { ReactionName, REACTIONS } from "../lib/reactions";
-import { BumpkinPreview } from "./BumpkinPreview";
+} from "../websocketMachine";
+import { REACTIONS } from "../lib/reactions";
 import { getKeys } from "features/game/types/craftables";
+import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 
 interface Props {
   messages: ChatMessage[];
@@ -139,12 +137,12 @@ export const Bumpkins: React.FC<Props> = ({
         onHide={() => setSelectedBumpkin(undefined)}
       >
         {selectedBumpkin && (
-          <BumpkinPreview
-            accountId={selectedBumpkin?.accountId as number}
-            bumpkinId={selectedBumpkin?.bumpkin.id as number}
-            wearables={selectedBumpkin?.bumpkin.equipped as Equipped}
-            experience={100}
-            onVisit={(id) => onVisit(id)}
+          <BumpkinModal
+            bumpkin={selectedBumpkin?.bumpkin as Bumpkin}
+            inventory={{}}
+            onClose={() => setSelectedBumpkin(undefined)}
+            initialView="home"
+            readonly
           />
         )}
       </Modal>
@@ -166,6 +164,21 @@ export const Bumpkins: React.FC<Props> = ({
           {myDiscovery && <Discovery {...myDiscovery} />}
 
           <NPC {...bumpkin.equipped} />
+
+          <div
+            className="absolute text-center "
+            style={{
+              bottom: "-36px",
+              width: "60px",
+              left: "-9px",
+              fontSize: "4px",
+            }}
+          >
+            <span
+              className=" text-white"
+              style={{ fontSize: "10px" }}
+            >{`#${bumpkin.id}`}</span>
+          </div>
         </div>
       )}
 
@@ -197,6 +210,20 @@ export const Bumpkins: React.FC<Props> = ({
                 {...otherBumpkin.bumpkin.equipped}
                 onClick={() => setSelectedBumpkin(otherBumpkin)}
               />
+              <div
+                className="absolute text-center "
+                style={{
+                  bottom: "-36px",
+                  width: "60px",
+                  left: "-9px",
+                  fontSize: "4px",
+                }}
+              >
+                <span
+                  className=" text-white"
+                  style={{ fontSize: "10px" }}
+                >{`#${otherBumpkin.bumpkin.id}`}</span>
+              </div>
             </div>
           );
         })}

@@ -69,11 +69,13 @@ const RequiredSkill = ({
 interface Props {
   selectedSkillPath: BumpkinSkillTree;
   skillsInPath: BumpkinSkill[];
+  readonly: boolean;
 }
 
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
   skillsInPath,
+  readonly,
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -162,34 +164,32 @@ export const SkillPathDetails: React.FC<Props> = ({
               </span>
               {comingSoon && <p className="text-xs mt-1">Coming soon</p>}
 
-              {!hasSelectedSkill &&
-                !gameState.matches("visiting") &&
-                !comingSoon && (
-                  <>
-                    <div className="border-t border-white w-full pt-1 text-center">
-                      <RequiredSkillPoints
-                        missingPointRequirement={missingPointRequirement}
-                        availableSkillPoints={availableSkillPoints}
-                        pointsRequired={pointsRequired}
+              {!hasSelectedSkill && !readonly && !comingSoon && (
+                <>
+                  <div className="border-t border-white w-full pt-1 text-center">
+                    <RequiredSkillPoints
+                      missingPointRequirement={missingPointRequirement}
+                      availableSkillPoints={availableSkillPoints}
+                      pointsRequired={pointsRequired}
+                    />
+                    {skillRequired && (
+                      <RequiredSkill
+                        requiredSkillImage={requiredSkillImage}
+                        missingSkillRequirement={missingSkillRequirement}
                       />
-                      {skillRequired && (
-                        <RequiredSkill
-                          requiredSkillImage={requiredSkillImage}
-                          missingSkillRequirement={missingSkillRequirement}
-                        />
-                      )}
-                    </div>
-                    <Button
-                      onClick={() => setShowConfirmButton(true)}
-                      disabled={
-                        missingPointRequirement || missingSkillRequirement
-                      }
-                      className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-                    >
-                      Claim skill
-                    </Button>
-                  </>
-                )}
+                    )}
+                  </div>
+                  <Button
+                    onClick={() => setShowConfirmButton(true)}
+                    disabled={
+                      missingPointRequirement || missingSkillRequirement
+                    }
+                    className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+                  >
+                    Claim skill
+                  </Button>
+                </>
+              )}
             </>
           )}
         </div>

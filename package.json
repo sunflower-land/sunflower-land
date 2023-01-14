@@ -23,11 +23,13 @@
   "dependencies": {
     "0xsequence": "^0.43.2",
     "@alch/alchemy-web3": "^1.4.7",
+    "@types/bad-words": "^3.0.1",
     "@types/pathfinding": "^0.0.6",
     "@types/uuid": "^9.0.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "@xstate/inspect": "^0.6.2",
     "@xstate/react": "^3.0.1",
+    "bad-words": "^3.0.4",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "classnames": "^2.3.1",

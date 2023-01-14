@@ -6,16 +6,17 @@ import { Modal } from "react-bootstrap";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 import { Bumpkins } from "./components/Bumpkins";
-import { exploreMachine, MachineInterpreter } from "./exploreMachine";
+import { websocketMachine, MachineInterpreter } from "./websocketMachine";
 import { Panel } from "components/ui/Panel";
-import { Bumpkin } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
+import background from "assets/land/world.png";
 
 import { randomInt } from "lib/utils/random";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { ChatUI } from "./components/ChatUI";
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { DailyReward } from "./components/DailyReward";
 
 const randomId = randomInt(0, 99999);
 
@@ -48,7 +49,7 @@ BLOCKED.forEach((coords) => {
   grid.setWalkableAt(coords.x, coords.y, false);
 });
 
-export const WorldNavigation: React.FC = () => {
+export const PumpkinPlaza: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
 
@@ -57,7 +58,7 @@ export const WorldNavigation: React.FC = () => {
 
   const [path, setPath] = useState<Coordinates[]>([]);
 
-  const chatService = useInterpret(exploreMachine, {
+  const chatService = useInterpret(websocketMachine, {
     context: {
       currentPosition: { x: 1200, y: 1400 },
       accountId: authState.context.farmId as number,
@@ -105,7 +106,22 @@ export const WorldNavigation: React.FC = () => {
 
   // Load data
   return (
-    <>
+    <div
+      className="relative"
+      style={{
+        width: `${60 * GRID_WIDTH_PX}px`,
+        height: `${40 * GRID_WIDTH_PX}px`,
+      }}
+      // TODO dynamic game board size based on tile dimensions
+    >
+      <img
+        src={background}
+        className="h-auto absolute"
+        style={{
+          width: `${60 * GRID_WIDTH_PX}px`,
+          height: `${40 * GRID_WIDTH_PX}px`,
+        }}
+      />
       <div className="absolute inset-0" onClick={walk}>
         <Modal
           show={
@@ -156,24 +172,7 @@ export const WorldNavigation: React.FC = () => {
         />
       )} */}
       {/* {chatState.matches("connected") && ( */}
-      <div
-        id="wishing-well"
-        className="bg-red-300 cursor-pointer absolute z-20"
-        style={{
-          width: `${GRID_WIDTH_PX * 1}px`,
-          left: `${GRID_WIDTH_PX * 10}px`,
-          top: `${GRID_WIDTH_PX * 10}px`,
-          height: `${GRID_WIDTH_PX * 1}px`,
-        }}
-        onClick={() => {
-          gameService.send("REVEAL", {
-            event: {
-              type: "well.searched",
-              createdAt: new Date(),
-            },
-          });
-        }}
-      />
+      <DailyReward />
       <ChatUI
         onMessage={({ reaction, text }) => {
           chatService.send("SEND_CHAT_MESSAGE", {
@@ -184,6 +183,6 @@ export const WorldNavigation: React.FC = () => {
         game={chatState.context.game}
       />
       {/* )} */}
-    </>
+    </div>
   );
 };
