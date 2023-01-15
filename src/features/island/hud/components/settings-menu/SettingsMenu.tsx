@@ -10,10 +10,6 @@ import { Context as GameContext } from "features/game/GameProvider";
 
 import { Share } from "features/island/hud/components/settings-menu/Share";
 
-import questionMark from "assets/icons/expression_confused.png";
-import leftArrow from "assets/icons/arrow_left.png";
-import close from "assets/icons/close.png";
-
 import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
@@ -28,6 +24,7 @@ import { OpenWalletIntent } from "0xsequence/dist/declarations/src/provider";
 import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
 import { Discord } from "./DiscordModal";
 import { AddSFL } from "../AddSFL";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -175,7 +172,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       <div className="flex items-center justify-center">
                         <span>How to play</span>
                         <img
-                          src={questionMark}
+                          src={SUNNYSIDE.icons.expression_confused}
                           className="w-3 ml-2"
                           alt="question-mark"
                         />
@@ -214,7 +211,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               {menuLevel !== MENU_LEVELS.ROOT && (
                 <li className="p-1">
                   <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
-                    <img src={leftArrow} className="w-4 mr-2" alt="left" />
+                    <img
+                      src={SUNNYSIDE.icons.arrow_left}
+                      className="w-4 mr-2"
+                      alt="left"
+                    />
                   </Button>
                 </li>
               )}
@@ -267,7 +268,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
         <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               alt="Close Logout Confirmation Modal"
               onClick={() => setShowCaptcha(false)}

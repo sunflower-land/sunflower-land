@@ -12,10 +12,9 @@ import background8 from "assets/captcha/chest_background_8.png";
 import chest1 from "assets/npcs/synced.gif";
 import chest2 from "assets/decorations/treasure_chest.png";
 
-import cancel from "assets/icons/cancel.png";
-
 import { addNoise } from "lib/images";
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onOpen: () => void;
@@ -94,7 +93,11 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
         {Array(failedCount)
           .fill(null)
           .map((_, index) => (
-            <img key={index} src={cancel} className="h-full object-fit mr-2" />
+            <img
+              key={index}
+              src={SUNNYSIDE.icons.cancel}
+              className="h-full object-fit mr-2"
+            />
           ))}
       </div>
 

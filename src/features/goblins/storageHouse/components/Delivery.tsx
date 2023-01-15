@@ -2,9 +2,8 @@ import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
 
-import goblinCarry from "assets/npcs/goblin_carry.gif";
-
 import { DeliverItems } from "./DeliverItems";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onWithdraw: () => void;
@@ -17,7 +16,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
     return (
       <div className="p-2">
         <img
-          src={goblinCarry}
+          src={SUNNYSIDE.npcs.goblin_carry}
           className="h-16 my-2 running relative left-1/4"
         />
 

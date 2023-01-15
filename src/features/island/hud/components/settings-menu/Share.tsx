@@ -5,10 +5,10 @@ import { Panel } from "components/ui/Panel";
 
 import { Modal } from "react-bootstrap";
 
-import close from "assets/icons/close.png";
 import farmImg from "assets/brand/nft.png";
 import { CopyField } from "components/ui/CopyField";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -33,7 +33,7 @@ export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
         <Modal.Header className="justify-content-space-between">
           <h1 className="ml-2">Share Your Farm Link</h1>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

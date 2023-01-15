@@ -5,10 +5,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
-import leftArrow from "assets/icons/arrow_left.png";
 
 import token from "assets/icons/token_2.png";
-import stopwatch from "assets/icons/stopwatch.png";
 import lock from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
@@ -20,6 +18,7 @@ import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SEEDS } from "features/game/types/seeds";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   "Fire Pit": getKeys(CONSUMABLES).filter(
@@ -166,7 +165,7 @@ export const DetailView: React.FC<Props> = ({
           </div>
         )}
         <div className="flex justify-center items-end">
-          <img src={stopwatch} className="h-5 mr-1" />
+          <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
           <span className={classNames("text-xs text-shadow text-center mt-2 ")}>
             {secondsToString(BUILDINGS()[building].constructionSeconds, {
               length: "medium",
@@ -183,7 +182,7 @@ export const DetailView: React.FC<Props> = ({
       <OuterPanel className="flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
-            src={leftArrow}
+            src={SUNNYSIDE.icons.arrow_left}
             className="absolute cursor-pointer"
             style={{
               top: `${PIXEL_SCALE * 2}px`,

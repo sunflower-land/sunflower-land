@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 
-import soil from "assets/land/soil2.png";
-import wood from "assets/resources/wood.png";
-import cancel from "assets/icons/cancel.png";
 import selectBox from "assets/ui/select/select_box.png";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -10,6 +7,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
 import { setImageWidth } from "lib/images";
 import { InfoPopover } from "../common/InfoPopover";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   playing: boolean;
@@ -35,7 +33,7 @@ export const Soil: React.FC<Props> = ({
     >
       <FruitDropAnimator
         mainImageProps={{
-          src: soil,
+          src: SUNNYSIDE.soil.soil2,
           className: "relative",
           style: {
             bottom: "9px",
@@ -46,7 +44,7 @@ export const Soil: React.FC<Props> = ({
           onLoad: (e) => setImageWidth(e.currentTarget),
         }}
         dropImageProps={{
-          src: wood,
+          src: SUNNYSIDE.resource.wood,
           className: "w-8",
         }}
         dropCount={1}
@@ -73,7 +71,7 @@ export const Soil: React.FC<Props> = ({
         position={{ top: 10, left: 22 }}
       >
         <div className="flex flex-1 items-center text-xxs justify-center text-white px-2 py-1 whitespace-nowrap">
-          <img src={cancel} className="w-4 mr-1" />
+          <img src={SUNNYSIDE.icons.cancel} className="w-4 mr-1" />
           <span>Fruit seeds only!</span>
         </div>
       </InfoPopover>

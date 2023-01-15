@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 import goblin from "assets/npcs/shovel_seller.gif";
 import shadow from "assets/npcs/shadow.png";
-import sandShovel from "assets/tools/sand_shovel.png";
-import starfish from "assets/resources/beach/starfish.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
@@ -11,6 +9,7 @@ import { TreasureShopBuy as TreasureShopItems } from "./TreasureShopBuy";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { TreasureShopSell } from "./TreasureShopSell";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const TreasureShop: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -57,11 +56,11 @@ export const TreasureShop: React.FC = () => {
           setCurrentTab={setTab}
           tabs={[
             {
-              icon: sandShovel,
+              icon: SUNNYSIDE.tools.sand_shovel,
               name: "Buy",
             },
             {
-              icon: starfish,
+              icon: SUNNYSIDE.resource.starfish,
               name: "Sell",
             },
           ]}

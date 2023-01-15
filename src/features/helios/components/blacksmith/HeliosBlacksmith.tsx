@@ -6,13 +6,12 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 import building from "assets/buildings/blacksmith_building.gif";
-import close from "assets/icons/close.png";
-import hammer from "assets/icons/hammer.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { HeliosBlacksmithItems } from "./component/HeliosBlacksmithItems";
 import { Inventory } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = {
   inventory: Inventory;
@@ -49,11 +48,11 @@ export const HeliosBlacksmith: React.FC<Props> = ({ inventory }) => {
           }}
         >
           <Tab isActive>
-            <img src={hammer} className="h-5 mr-2" />
+            <img src={SUNNYSIDE.icons.hammer} className="h-5 mr-2" />
             <span className="text-sm">Craft</span>
           </Tab>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setIsOpen(false)}
             style={{

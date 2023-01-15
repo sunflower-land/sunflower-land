@@ -3,8 +3,8 @@ import { useActor } from "@xstate/react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import alert from "assets/icons/expression_alerted.png";
 import { CopyAddress } from "components/ui/CopyAddress";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Deposit: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -33,7 +33,11 @@ export const Deposit: React.FC = () => {
       </div>
 
       <div className="flex items-center border-2 rounded-md border-black p-2 bg-orange-400">
-        <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          alt="alert"
+          className="mr-2 w-5 h-5/6"
+        />
         <span className="text-xs">
           DO NOT SEND MATIC, BUMPKIN ITEMS OR ANY OTHER NON SFL TOKENS TO YOUR
           FARM ADDRESS

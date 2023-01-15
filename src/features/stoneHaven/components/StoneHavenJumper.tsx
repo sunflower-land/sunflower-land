@@ -1,9 +1,9 @@
 import React from "react";
 
-import jumping from "assets/npcs/goblin_jumping.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const StoneHavenJumper: React.FC = () => {
   return (
@@ -28,7 +28,7 @@ export const StoneHavenJumper: React.FC = () => {
           }}
         >
           <img
-            src={jumping}
+            src={SUNNYSIDE.npcs.goblin_jumping}
             style={{
               width: `${PIXEL_SCALE * 18}px`,
             }}

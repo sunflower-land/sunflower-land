@@ -34,13 +34,11 @@ import heart from "assets/community/arcade/chicken_fight/images/heart.png";
 import emptyHeart from "assets/community/arcade/chicken_fight/images/heart_empty.png";
 import p1wins from "assets/community/arcade/chicken_fight/images/p1_wins.png";
 import p2wins from "assets/community/arcade/chicken_fight/images/p2_wins.png";
-import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
-import disc from "assets/icons/disc.png";
 
 import { chickenFightAudio } from "src/lib/utils/sfx";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { randomBoolean } from "lib/utils/random";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const BORDER_WIDTH = PIXEL_SCALE * 2;
 const CANVAS_WIDTH = PIXEL_SCALE * 128;
@@ -121,7 +119,7 @@ const DiscButton: React.FC<ButtonProps> = ({
       }}
     >
       <img
-        src={disc}
+        src={SUNNYSIDE.icons.disc}
         alt={alt}
         className="absolute w-full h-full pointer-events-none"
       />
@@ -152,7 +150,11 @@ const ArrowButton: React.FC<ButtonProps> = ({
       }}
     >
       <img
-        src={direction === "left" ? leftArrow : rightArrow}
+        src={
+          direction === "left"
+            ? SUNNYSIDE.icons.arrow_left
+            : SUNNYSIDE.icons.arrow_right
+        }
         alt={alt}
         className="pointer-events-none my-2"
         style={{

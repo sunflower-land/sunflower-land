@@ -1,6 +1,5 @@
 import React from "react";
 
-import icon from "assets/icons/heart.png";
 import resale from "assets/buildings/resale.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -8,6 +7,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Resale: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -65,7 +65,11 @@ export const Resale: React.FC = () => {
               bottom: `${PIXEL_SCALE * 3}px`,
             }}
           >
-            <Action className="pointer-events-none" text="Resale" icon={icon} />
+            <Action
+              className="pointer-events-none"
+              text="Resale"
+              icon={SUNNYSIDE.icons.heart}
+            />
           </div>
         </div>
       </MapPlacement>

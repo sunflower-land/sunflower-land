@@ -1,9 +1,8 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
-import arrowLeft from "assets/icons/arrow_left.png";
-import close from "assets/icons/close.png";
 import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -20,7 +19,7 @@ export const HowToModalHeader = ({ onClose, onBack, title }: Props) => {
         {onBack && (
           <img
             className="cursor-pointer z-20"
-            src={arrowLeft}
+            src={SUNNYSIDE.icons.arrow_left}
             alt="back"
             style={{
               top: `${PIXEL_SCALE * 6}px`,
@@ -34,7 +33,7 @@ export const HowToModalHeader = ({ onClose, onBack, title }: Props) => {
         <span className="ml-2 mt-1">{title}</span>
         {canClose && (
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

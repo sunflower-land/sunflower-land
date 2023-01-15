@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import close from "assets/icons/close.png";
 import token from "assets/icons/token_2.png";
 
 import { Panel } from "components/ui/Panel";
@@ -9,6 +8,7 @@ import { Tab } from "components/ui/Tab";
 import { Withdraw } from "./Withdraw";
 import { Deposit } from "./Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -36,7 +36,7 @@ export const BankModal: React.FC<Props> = ({ onClose }) => {
           <span className="text-sm">Withdraw</span>
         </Tab>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{

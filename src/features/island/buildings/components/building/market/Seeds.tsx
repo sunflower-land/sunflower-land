@@ -4,9 +4,7 @@ import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
-import timer from "assets/icons/timer.png";
 import heart from "assets/icons/level_up.png";
-import seedling from "assets/icons/seedling.png";
 import lock from "assets/skills/lock.png";
 
 import { Box } from "components/ui/Box";
@@ -34,6 +32,7 @@ import { FRUIT } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -269,13 +268,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col sm:space-y-2 sm:items-center">
             {getPlantSeconds() && (
               <div className="flex space-x-1 items-center sm:justify-center">
-                <img src={timer} className="h-4 sm:h-5" />
+                <img src={SUNNYSIDE.icons.timer} className="h-4 sm:h-5" />
                 <span className="text-xs text-center">{getPlantSeconds()}</span>
               </div>
             )}
             {harvestCount() && (
               <div className="flex space-x-1 items-center sm:justify-center">
-                <img src={seedling} className="h-4 sm:h-5" />
+                <img src={SUNNYSIDE.icons.seedling} className="h-4 sm:h-5" />
                 <span className="text-xs text-center">{`${harvestCount()?.join(
                   "-"
                 )} harvests`}</span>

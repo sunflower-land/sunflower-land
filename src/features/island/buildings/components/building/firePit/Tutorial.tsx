@@ -4,8 +4,8 @@ import { Equipped } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "../../../../../game/components/CloseablePanel";
 
-import hammer from "assets/icons/hammer.png";
 import { UNLOCKABLES } from "../../ui/DetailView";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -105,7 +105,7 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
             Once you are comfortable with cooking and have a few levels in your
             Bumpkin, click on the button with the
             <img
-              src={hammer}
+              src={SUNNYSIDE.icons.hammer}
               className="h-4 inline mx-1"
               style={{ imageRendering: "pixelated" }}
             />

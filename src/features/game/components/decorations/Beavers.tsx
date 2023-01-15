@@ -5,10 +5,10 @@ import { PIXEL_SCALE } from "../../lib/constants";
 import { Inventory } from "../../types/game";
 import { Panel } from "components/ui/Panel";
 
-import close from "assets/icons/close.png";
 import beaver from "assets/sfts/beaver.gif";
 import apprentice from "assets/sfts/apprentice_beaver.gif";
 import foreman from "assets/sfts/construction_beaver.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +27,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
         <Modal centered show={showModal} onHide={() => setShowModal(false)}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={() => setShowModal(false)}
               style={{
@@ -63,7 +63,7 @@ export const Beavers: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
         <Modal centered show={showModal} onHide={() => setShowModal(false)}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="h-6 top-4 right-4 absolute cursor-pointer"
               onClick={() => setShowModal(false)}
             />

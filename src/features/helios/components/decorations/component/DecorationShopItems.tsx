@@ -1,12 +1,10 @@
 import React from "react";
 
-import seeds from "assets/icons/plant.png";
-import close from "assets/icons/close.png";
-
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { DecorationItems } from "./DecorationItems";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -36,11 +34,11 @@ export const DecorationShopItems: React.FC<Props> = ({ onClose }) => {
         }}
       >
         <Tab isActive>
-          <img src={seeds} className="h-5 mr-2" />
+          <img src={SUNNYSIDE.icons.seeds} className="h-5 mr-2" />
           <span className="text-sm">Decorations</span>
         </Tab>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{

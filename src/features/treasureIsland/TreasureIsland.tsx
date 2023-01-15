@@ -3,7 +3,6 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useLayoutEffect } from "react";
 
 import background from "assets/land/treasure_island.webp";
-import placeholderNPC from "assets/npcs/betty.gif";
 import placeholderNPC2 from "assets/npcs/artisian.gif";
 import shadow from "assets/npcs/shadow.png";
 
@@ -12,6 +11,7 @@ import { SandHills } from "./components/SandHills";
 import { GoblinDigging } from "./components/GoblinDigging";
 import { TreasureShop } from "./components/TreasureShop";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const TreasureIsland: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
@@ -51,7 +51,7 @@ export const TreasureIsland: React.FC = () => {
           }}
         />
         <img
-          src={placeholderNPC}
+          src={SUNNYSIDE.npcs.betty}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 16}px`,

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import close from "assets/icons/close.png";
-
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { TabContent } from "./TabContent";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -42,7 +41,7 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <span className="text-sm ml-1">Collection</span>
           </Tab>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

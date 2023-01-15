@@ -6,10 +6,10 @@ import { ChickenFight } from "features/community/arcade/games/ChickenFight";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ArcadeDonation } from "./ArcadeDonation";
 import { ARCADE_GAMES } from "../lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -24,7 +24,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
       <Panel>
         <div className="flex flex-col items-center mt-1 mb-1">
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

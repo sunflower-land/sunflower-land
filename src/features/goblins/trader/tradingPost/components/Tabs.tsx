@@ -1,11 +1,11 @@
 import React from "react";
 
-import close from "assets/icons/close.png";
 import token from "assets/icons/token_2.png";
 
 import { Tab } from "components/ui/Tab";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface TabsProps {
   disabled: boolean;
@@ -51,7 +51,7 @@ export const Tabs: React.FC<TabsProps> = ({
       <span className="text-sm text-ellipsis">Buy</span>
     </Tab>
     <img
-      src={close}
+      src={SUNNYSIDE.icons.close}
       className={classNames("absolute cursor-pointer z-20", {
         "cursor-pointer": !disabled,
         "cursor-not-allowed": disabled,

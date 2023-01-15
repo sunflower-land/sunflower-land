@@ -20,12 +20,11 @@ import goblin from "assets/community/arcade/greedy_goblin/images/goblin_catch.pn
 import token from "assets/community/arcade/greedy_goblin/images/coin.png";
 import skull from "assets/community/arcade/greedy_goblin/images/skull.png";
 import gameOver from "assets/community/arcade/images/game_over.png";
-import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
 
 import { greedyGoblinAudio } from "src/lib/utils/sfx";
 import { randomInt } from "lib/utils/random";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type MoveDirection = "left" | "right";
 type ActionKeys =
@@ -458,7 +457,7 @@ export const GreedyGoblin: React.FC = () => {
         >
           <img
             className="pointer-events-none"
-            src={leftArrow}
+            src={SUNNYSIDE.icons.arrow_left}
             alt="left-arrow"
             style={{
               width: `${PIXEL_SCALE * 11}px`,
@@ -478,7 +477,7 @@ export const GreedyGoblin: React.FC = () => {
         >
           <img
             className="pointer-events-none"
-            src={rightArrow}
+            src={SUNNYSIDE.icons.arrow_right}
             alt="right-arrow"
             style={{
               width: `${PIXEL_SCALE * 11}px`,

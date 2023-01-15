@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-import cancel from "assets/icons/cancel.png";
 import fruitPatch from "assets/fruit/fruit_patch.png";
 
 import { POPOVER_TIME_MS } from "features/game/lib/constants";
@@ -14,6 +13,7 @@ import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 import Decimal from "decimal.js-light";
 import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   fruitPatchIndex: number;
@@ -160,7 +160,7 @@ export const FruitPatch: React.FC<Props> = ({
           }
         )}
       >
-        <img className="w-5" src={cancel} />
+        <img className="w-5" src={SUNNYSIDE.icons.cancel} />
       </div>
     </div>
   );
