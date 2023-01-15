@@ -185,7 +185,7 @@ export const AuctionDetails: React.FC<Props> = ({
   const AvailableForLabel = (releaseDate: number, endDate: number) => {
     return (
       <div className="flex items-center space-x-2 mb-2">
-        <img src={stopwatch} className="w-4" alt="timer" />
+        <img src={SUNNYSIDE.icons.stopwatch} className="w-4" alt="timer" />
         <span className="text-xxs">{`Available for ${secondsToString(
           (endDate - releaseDate) / 1000,
           { length: "short" }
