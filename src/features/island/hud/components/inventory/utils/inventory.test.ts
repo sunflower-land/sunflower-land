@@ -1,5 +1,30 @@
 import Decimal from "decimal.js-light";
-import { getBasketItems } from "./inventory";
+import { TEST_FARM } from "features/game/lib/constants";
+import { GoblinState } from "features/game/lib/goblinMachine";
+import { GameState, InventoryItemName } from "features/game/types/game";
+import { getBasketItems, getUnplacedAmount, hasIngredient } from "./inventory";
+
+const GAME_STATE: GameState = {
+  ...TEST_FARM,
+  balance: new Decimal(0),
+  inventory: {},
+  collectibles: {},
+};
+
+const GOBLIN_STATE: GoblinState = {
+  ...TEST_FARM,
+  balance: new Decimal(0),
+  inventory: {},
+  collectibles: {},
+};
+
+const item: InventoryItemName = "Kuebiko";
+const collectibleProps = {
+  id: "123",
+  createdAt: 1,
+  coordinates: { x: 1, y: 1 },
+  readyAt: 1,
+};
 
 describe("getBasketItems", () => {
   it("creates an empty basket", () => {
@@ -123,5 +148,107 @@ describe("getBasketItems", () => {
     const basket = getBasketItems({ Wheat: new Decimal(0.00009) });
 
     expect(basket).toEqual({});
+  });
+});
+
+describe("getUnplacedAmount", () => {
+  it("returns 0 if all items are placed, GameState", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        [item]: new Decimal(2),
+      },
+      collectibles: {
+        [item]: Array(2).fill(collectibleProps),
+      },
+    };
+    expect(getUnplacedAmount(gameState, item)).toEqual(new Decimal(0));
+  });
+  it("returns 0 if all items are placed, GoblinState", () => {
+    const goblinState = {
+      ...GOBLIN_STATE,
+      inventory: {
+        [item]: new Decimal(3),
+      },
+      collectibles: {
+        [item]: Array(3).fill(collectibleProps),
+      },
+    };
+    expect(getUnplacedAmount(goblinState, item)).toEqual(new Decimal(0));
+  });
+  it("returns unplaced amount if some items are placed, GameState", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        [item]: new Decimal(8),
+      },
+      collectibles: {
+        [item]: Array(5).fill(collectibleProps),
+      },
+    };
+    expect(getUnplacedAmount(gameState, item)).toEqual(new Decimal(3));
+  });
+  it("returns unplaced amount if some items are placed, GoblinState", () => {
+    const goblinState = {
+      ...GOBLIN_STATE,
+      inventory: {
+        [item]: new Decimal(12),
+      },
+      collectibles: {
+        [item]: Array(7).fill(collectibleProps),
+      },
+    };
+    expect(getUnplacedAmount(goblinState, item)).toEqual(new Decimal(5));
+  });
+});
+
+describe("hasIngredient", () => {
+  it("returns true if player has enough unplaced amount, GameState", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        [item]: new Decimal(2),
+      },
+      collectibles: {
+        [item]: Array(1).fill(collectibleProps),
+      },
+    };
+    expect(hasIngredient(gameState, item, 1)).toBeTruthy();
+  });
+  it("returns true if player has enough unplaced amount, GoblinState", () => {
+    const goblinState = {
+      ...GOBLIN_STATE,
+      inventory: {
+        [item]: new Decimal(5),
+      },
+      collectibles: {
+        [item]: Array(1).fill(collectibleProps),
+      },
+    };
+    expect(hasIngredient(goblinState, item, 2)).toBeTruthy();
+  });
+  it("returns false if player do not have enough unplaced amount, GameState", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        [item]: new Decimal(1),
+      },
+      collectibles: {
+        [item]: Array(1).fill(collectibleProps),
+      },
+    };
+    expect(hasIngredient(gameState, item, 1)).toBeFalsy();
+  });
+  it("returns false if player do not have enough unplaced amount, GoblinState", () => {
+    const goblinState = {
+      ...GOBLIN_STATE,
+      inventory: {
+        [item]: new Decimal(2),
+      },
+      collectibles: {
+        [item]: Array(1).fill(collectibleProps),
+      },
+    };
+    expect(hasIngredient(goblinState, item, 2)).toBeFalsy();
   });
 });

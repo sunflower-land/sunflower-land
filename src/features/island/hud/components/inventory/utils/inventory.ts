@@ -1,11 +1,16 @@
 import Decimal from "decimal.js-light";
+import { GoblinState } from "features/game/lib/goblinMachine";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, Inventory } from "features/game/types/game";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { setPrecision } from "lib/utils/formatNumber";
 
 const PLACEABLE_DIMENSIONS = {
@@ -50,4 +55,22 @@ export const getChestItems = (state: GameState) => {
 
     return acc;
   }, {} as Inventory);
+};
+
+export const getUnplacedAmount = (
+  gameState: GameState | GoblinState,
+  item: InventoryItemName
+) => {
+  const inventoryAmount = gameState.inventory[item] ?? new Decimal(0);
+  const placedAmount =
+    gameState.collectibles[item as CollectibleName]?.length ?? 0;
+  return inventoryAmount.minus(placedAmount);
+};
+
+export const hasIngredient = (
+  gameState: GameState | GoblinState,
+  item: InventoryItemName,
+  requirement: Decimal | number
+) => {
+  return getUnplacedAmount(gameState, item).greaterThanOrEqualTo(requirement);
 };

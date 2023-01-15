@@ -11,13 +11,17 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
 import { setImageWidth } from "lib/images";
 import { formatDateTime, secondsToString } from "lib/utils/time";
 import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { RequirementLabel } from "components/ui/RequirementLabel";
+import {
+  getUnplacedAmount,
+  hasIngredient,
+} from "features/island/hud/components/inventory/utils/inventory";
 
 type Props = {
   isMinting: boolean;
@@ -72,13 +76,6 @@ export const AuctionDetails: React.FC<Props> = ({
     <RequirementLabel type="sfl" balance={game.balance} requirement={sfl} />
   );
 
-  const getUnplacedAmount = (item: InventoryItemName) => {
-    const inventoryAmount = game.inventory[item] ?? new Decimal(0);
-    const placedAmount =
-      game.collectibles[item as CollectibleName]?.length ?? 0;
-    return inventoryAmount.minus(placedAmount);
-  };
-
   const makeIngredients = (
     ingredients?: {
       item: InventoryItemName;
@@ -93,7 +90,7 @@ export const AuctionDetails: React.FC<Props> = ({
           key={index}
           type="item"
           item={ingredient.item}
-          balance={getUnplacedAmount(ingredient.item)}
+          balance={getUnplacedAmount(game, ingredient.item)}
           requirement={new Decimal(ingredient.amount)}
         />
       );
@@ -108,7 +105,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
   const hasIngredients =
     currentRelease?.ingredients.every((ingredient) =>
-      getUnplacedAmount(ingredient.item).gte(ingredient.amount)
+      hasIngredient(game, ingredient.item, ingredient.amount)
     ) ?? false;
 
   const focussedRelease = releases.find(

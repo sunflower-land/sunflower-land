@@ -106,7 +106,7 @@ export const Salesman: React.FC = () => {
     if (modalState === "showOffer") {
       return (
         <Offer
-          inventory={state.inventory}
+          gameState={state}
           offer={state.tradeOffer as TradeOffer}
           onCraft={handleTrade}
         />
