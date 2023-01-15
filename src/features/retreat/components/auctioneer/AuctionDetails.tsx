@@ -11,7 +11,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
-import { getKeys } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { setImageWidth } from "lib/images";
 import { formatDateTime, secondsToString } from "lib/utils/time";
 import { InventoryItemName } from "features/game/types/game";
@@ -72,6 +72,13 @@ export const AuctionDetails: React.FC<Props> = ({
     <RequirementLabel type="sfl" balance={game.balance} requirement={sfl} />
   );
 
+  const getUnplacedAmount = (item: InventoryItemName) => {
+    const inventoryAmount = game.inventory[item] ?? new Decimal(0);
+    const placedAmount =
+      game.collectibles[item as CollectibleName]?.length ?? 0;
+    return inventoryAmount.minus(placedAmount);
+  };
+
   const makeIngredients = (
     ingredients?: {
       item: InventoryItemName;
@@ -81,15 +88,12 @@ export const AuctionDetails: React.FC<Props> = ({
     if (!ingredients) return null;
 
     return ingredients.map((ingredient, index) => {
-      const inventoryItemAmount =
-        game.inventory[ingredient.item] ?? new Decimal(0);
-
       return (
         <RequirementLabel
           key={index}
           type="item"
           item={ingredient.item}
-          balance={inventoryItemAmount}
+          balance={getUnplacedAmount(ingredient.item)}
           requirement={new Decimal(ingredient.amount)}
         />
       );
@@ -104,7 +108,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
   const hasIngredients =
     currentRelease?.ingredients.every((ingredient) =>
-      (game.inventory[ingredient.item] ?? new Decimal(0)).gte(ingredient.amount)
+      getUnplacedAmount(ingredient.item).gte(ingredient.amount)
     ) ?? false;
 
   const focussedRelease = releases.find(
