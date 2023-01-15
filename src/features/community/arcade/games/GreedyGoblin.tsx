@@ -164,7 +164,7 @@ export const GreedyGoblin: React.FC = () => {
    * Add to list of active keys when key is down
    * @param event keyboard event
    */
-  const keydownKeboardListener = (event: KeyboardEvent) => {
+  const keydownKeyboardListener = (event: KeyboardEvent) => {
     event.stopPropagation();
     const key = event.key.toLowerCase();
 
@@ -183,7 +183,7 @@ export const GreedyGoblin: React.FC = () => {
    * Remove from list of active keys when key is up
    * @param event keyboard event
    */
-  const keyupKeboardListener = (event: KeyboardEvent) => {
+  const keyupKeyboardListener = (event: KeyboardEvent) => {
     event.stopPropagation();
     const key = event.key.toLowerCase();
 
@@ -221,15 +221,15 @@ export const GreedyGoblin: React.FC = () => {
 
     canvasRef.current?.getContext("2d")?.drawGoblinImage();
 
-    document.addEventListener("keydown", keydownKeboardListener);
-    document.addEventListener("keyup", keyupKeboardListener);
+    document.addEventListener("keydown", keydownKeyboardListener);
+    document.addEventListener("keyup", keyupKeyboardListener);
 
     greedyGoblinAudio.greedyGoblinIntroAudio.play();
 
     return () => {
       intervalIds.current.forEach((id) => clearInterval(id));
-      document.removeEventListener("keydown", keydownKeboardListener);
-      document.removeEventListener("keyup", keyupKeboardListener);
+      document.removeEventListener("keydown", keydownKeyboardListener);
+      document.removeEventListener("keyup", keyupKeyboardListener);
 
       Object.values(greedyGoblinAudio).forEach((audio) => audio.stop());
     };
@@ -378,7 +378,11 @@ export const GreedyGoblin: React.FC = () => {
 
       // clear whole space and draw game over image
       context?.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      context?.drawImage(gameOverImage, 30, CANVAS_HEIGHT / 4);
+      context?.drawImage(
+        gameOverImage,
+        CANVAS_HEIGHT / 2 - 69,
+        CANVAS_HEIGHT / 2 - 40
+      );
       context?.drawGoblinImage();
 
       intervalIds.current.forEach((id) => clearInterval(id));
@@ -417,7 +421,7 @@ export const GreedyGoblin: React.FC = () => {
           style={{
             borderStyle: "solid",
             borderWidth: "5px",
-            borderRadius: "20px",
+            borderRadius: "15px",
             maxWidth: CANVAS_WIDTH,
             maxHeight: CANVAS_HEIGHT,
             backgroundImage: `url(${gameBackground})`,
