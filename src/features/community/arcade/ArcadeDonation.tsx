@@ -5,15 +5,11 @@ import { donationMachine } from "../merchant/lib/donationMachine";
 
 import { Button } from "components/ui/Button";
 
-import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
-import upArrow from "assets/icons/arrow_up.png";
-import downArrow from "assets/icons/arrow_down.png";
-
 import { roundToOneDecimal } from "features/auth/components";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ARCADE_GAMES } from "../lib/constants";
 import { useMachine } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const GAMES = Object.values(ARCADE_GAMES);
 
@@ -66,7 +62,7 @@ export const ArcadeDonation: React.FC = () => {
             onSelect={updateActiveIndex}
             prevIcon={
               <img
-                src={leftArrow}
+                src={SUNNYSIDE.icons.arrow_left}
                 className="absolute cursor-pointer"
                 style={{
                   width: `${PIXEL_SCALE * 11}px`,
@@ -75,7 +71,7 @@ export const ArcadeDonation: React.FC = () => {
             }
             nextIcon={
               <img
-                src={rightArrow}
+                src={SUNNYSIDE.icons.arrow_right}
                 className="absolute cursor-pointer"
                 style={{
                   width: `${PIXEL_SCALE * 11}px`,
@@ -105,13 +101,13 @@ export const ArcadeDonation: React.FC = () => {
               />
               <div className="flex flex-col justify-between">
                 <img
-                  src={upArrow}
+                  src={SUNNYSIDE.icons.arrow_up}
                   alt="increment donation value"
                   className="cursor-pointer"
                   onClick={incrementDonation}
                 />
                 <img
-                  src={downArrow}
+                  src={SUNNYSIDE.icons.arrow_down}
                   alt="decrement donation value"
                   className="cursor-pointer"
                   onClick={decrementDonation}
