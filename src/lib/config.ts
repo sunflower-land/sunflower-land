@@ -40,6 +40,12 @@ const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
 
+// Arcade Mini Games Donation Addresses
+const GREEDY_GOBLIN_DONATION = import.meta.env
+  .VITE_GREEDY_GOBLIN_DONATION as string;
+const CHICKEN_FIGHT_DONATION = import.meta.env
+  .VITE_CHICKEN_FIGHT_DONATION as string;
+
 export const CONFIG = {
   NETWORK,
   POLYGON_CHAIN_ID,
@@ -76,4 +82,7 @@ export const CONFIG = {
   EASTER_EGG_CONTRACT,
   SEAL_CONTRACT,
   ALCHEMY_RPC,
+
+  GREEDY_GOBLIN_DONATION,
+  CHICKEN_FIGHT_DONATION,
 };
