@@ -14,8 +14,6 @@ const GAME_STATE: GameState = {
   buildings: {},
 };
 
-const waterWell = BUILDINGS()["Water Well"];
-
 const dateNow = Date.now();
 
 describe("Construct building", () => {
@@ -170,6 +168,7 @@ describe("Construct building", () => {
   });
 
   it("constructs building", () => {
+    const waterWell = BUILDINGS()["Water Well"][0];
     const initialWood = new Decimal(100);
     const initialStone = new Decimal(101);
     const initialSFL = new Decimal(42);
@@ -201,22 +200,19 @@ describe("Construct building", () => {
     expect(state.inventory["Water Well"]).toEqual(new Decimal(1));
     expect(state.buildings["Water Well"]?.length).toEqual(1);
 
-    // Level for building to be placed
-    const levelIndex = 0;
+    const { ingredients } = waterWell;
 
-    const ingredients = waterWell.ingredients as Ingredient[][];
-
-    const { amount: woodRequired } = ingredients[levelIndex].find(
+    const { amount: woodRequired } = ingredients.find(
       ({ item }) => item === "Wood"
     ) as Ingredient;
 
-    const { amount: stoneRequired } = ingredients[levelIndex].find(
+    const { amount: stoneRequired } = ingredients.find(
       ({ item }) => item === "Stone"
     ) as Ingredient;
 
     expect(state.inventory.Wood).toEqual(initialWood.minus(woodRequired));
     expect(state.inventory.Stone).toEqual(initialStone.minus(stoneRequired));
-    expect(state.balance).toEqual(initialSFL.minus(waterWell.sfl[levelIndex]));
+    expect(state.balance).toEqual(initialSFL.minus(waterWell.sfl));
   });
 
   it("does not affect existing inventory", () => {
@@ -332,8 +328,7 @@ describe("Construct building", () => {
       ],
     };
 
-    const levelIndex = 0;
-
+    const waterWell = BUILDINGS()["Water Well"][0];
     const createdAt = Date.now();
 
     const state = constructBuilding({
@@ -379,7 +374,7 @@ describe("Construct building", () => {
             y: 2,
           },
           createdAt,
-          readyAt: createdAt + waterWell.constructionSeconds[levelIndex] * 1000,
+          readyAt: createdAt + waterWell.constructionSeconds * 1000,
         },
       ],
       Workbench: [
@@ -394,7 +389,8 @@ describe("Construct building", () => {
   });
 
   it("constructs second building using the correct requirements", () => {
-    const building = BUILDINGS()["Hen House"];
+    // Second Hen House
+    const building = BUILDINGS()["Hen House"][1];
     const initialWood = new Decimal(200);
     const initialIron = new Decimal(20);
     const initialGold = new Decimal(20);
@@ -427,9 +423,6 @@ describe("Construct building", () => {
       balance: initialSFL,
     };
 
-    // Second hen house requirements
-    const levelIndex = 1;
-
     const newState = constructBuilding({
       state,
       action: {
@@ -447,21 +440,21 @@ describe("Construct building", () => {
     expect(newState.inventory["Hen House"]).toEqual(new Decimal(2));
     expect(newState.buildings["Hen House"]?.length).toEqual(2);
 
-    const ingredients = building.ingredients as Ingredient[][];
+    const { ingredients } = building;
 
-    const { amount: woodRequired } = ingredients[levelIndex].find(
+    const { amount: woodRequired } = ingredients.find(
       ({ item }) => item === "Wood"
     ) as Ingredient;
 
-    const { amount: ironRequired } = ingredients[levelIndex].find(
+    const { amount: ironRequired } = ingredients.find(
       ({ item }) => item === "Iron"
     ) as Ingredient;
 
-    const { amount: goldRequired } = ingredients[levelIndex].find(
+    const { amount: goldRequired } = ingredients.find(
       ({ item }) => item === "Gold"
     ) as Ingredient;
 
-    const { amount: eggsRequired } = ingredients[levelIndex].find(
+    const { amount: eggsRequired } = ingredients.find(
       ({ item }) => item === "Egg"
     ) as Ingredient;
 
@@ -469,8 +462,6 @@ describe("Construct building", () => {
     expect(newState.inventory.Iron).toEqual(initialIron.minus(ironRequired));
     expect(newState.inventory.Gold).toEqual(initialGold.minus(goldRequired));
     expect(newState.inventory.Egg).toEqual(initialEggs.minus(eggsRequired));
-    expect(newState.balance).toEqual(
-      initialSFL.minus(building.sfl[levelIndex])
-    );
+    expect(newState.balance).toEqual(initialSFL.minus(building.sfl));
   });
 });

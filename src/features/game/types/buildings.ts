@@ -21,36 +21,48 @@ export type Ingredient = {
 };
 
 export type BuildingBluePrint = {
-  unlocksAtLevels: number[];
-  ingredients?: Ingredient[][];
-  sfl: Decimal[];
-  constructionSeconds: number[];
+  unlocksAtLevel: number;
+  ingredients: Ingredient[];
+  sfl: Decimal;
+  constructionSeconds: number;
 };
 
 export type PlaceableName = CollectibleName | BuildingName | "Chicken";
 
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {};
 
-export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
-  Market: {
-    unlocksAtLevels: [1],
-    sfl: [new Decimal(0)],
-    constructionSeconds: [30],
-  },
-  "Fire Pit": {
-    unlocksAtLevels: [1],
-    sfl: [new Decimal(0)],
-    constructionSeconds: [30],
-  },
-  Workbench: {
-    unlocksAtLevels: [3],
-    sfl: [marketRate(5)],
-    constructionSeconds: [60 * 1],
-  },
-  "Water Well": {
-    unlocksAtLevels: [4, 8, 13, 18],
-    ingredients: [
-      [
+export const BUILDINGS: () => Record<
+  BuildingName,
+  BuildingBluePrint[]
+> = () => ({
+  Market: [
+    {
+      unlocksAtLevel: 1,
+      ingredients: [],
+      sfl: new Decimal(0),
+      constructionSeconds: 30,
+    },
+  ],
+  "Fire Pit": [
+    {
+      unlocksAtLevel: 1,
+      ingredients: [],
+      sfl: new Decimal(0),
+      constructionSeconds: 30,
+    },
+  ],
+  Workbench: [
+    {
+      unlocksAtLevel: 3,
+      ingredients: [],
+      sfl: marketRate(5),
+      constructionSeconds: 60 * 1,
+    },
+  ],
+  "Water Well": [
+    {
+      unlocksAtLevel: 4,
+      ingredients: [
         {
           item: "Wood",
           amount: new Decimal(5),
@@ -60,44 +72,50 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
           amount: new Decimal(5),
         },
       ],
-      [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
-      [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
+      sfl: new Decimal(1),
+      constructionSeconds: 60 * 5,
+    },
+    {
+      unlocksAtLevel: 8,
+      ingredients: [
+        { item: "Wood", amount: new Decimal(5) },
         {
           item: "Stone",
           amount: new Decimal(5),
         },
       ],
-      [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
+      sfl: new Decimal(1),
+      constructionSeconds: 60 * 5,
+    },
+    {
+      unlocksAtLevel: 13,
+      ingredients: [
+        { item: "Wood", amount: new Decimal(5) },
         {
           item: "Stone",
           amount: new Decimal(5),
         },
       ],
-    ],
-    sfl: [new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    constructionSeconds: [60 * 5, 60 * 5, 60 * 5, 60 * 5],
-  },
-  Kitchen: {
-    unlocksAtLevels: [5],
-    ingredients: [
-      [
+      sfl: new Decimal(1),
+      constructionSeconds: 60 * 5,
+    },
+    {
+      unlocksAtLevel: 18,
+      ingredients: [
+        { item: "Wood", amount: new Decimal(5) },
+        {
+          item: "Stone",
+          amount: new Decimal(5),
+        },
+      ],
+      sfl: new Decimal(1),
+      constructionSeconds: 60 * 5,
+    },
+  ],
+  Kitchen: [
+    {
+      unlocksAtLevel: 5,
+      ingredients: [
         {
           item: "Wood",
           amount: new Decimal(30),
@@ -107,27 +125,27 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
           amount: new Decimal(5),
         },
       ],
-    ],
-    sfl: [marketRate(10)],
-    constructionSeconds: [60 * 30],
-  },
-  Tent: {
-    unlocksAtLevels: [7],
-    ingredients: [
-      [
+      sfl: marketRate(10),
+      constructionSeconds: 60 * 30,
+    },
+  ],
+  Tent: [
+    {
+      unlocksAtLevel: 7,
+      ingredients: [
         {
           item: "Wood",
           amount: new Decimal(50),
         },
       ],
-    ],
-    sfl: [marketRate(50)],
-    constructionSeconds: [60 * 60],
-  },
-  "Hen House": {
-    unlocksAtLevels: [9, 21],
-    ingredients: [
-      [
+      sfl: marketRate(50),
+      constructionSeconds: 60 * 60,
+    },
+  ],
+  "Hen House": [
+    {
+      unlocksAtLevel: 9,
+      ingredients: [
         {
           item: "Wood",
           amount: new Decimal(30),
@@ -141,32 +159,38 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
           amount: new Decimal(5),
         },
       ],
-      [
+
+      sfl: marketRate(100),
+      constructionSeconds: 60 * 60 * 2,
+    },
+    {
+      unlocksAtLevel: 21,
+      ingredients: [
         {
           item: "Wood",
-          amount: new Decimal(175),
+          amount: new Decimal(200),
         },
         {
           item: "Iron",
-          amount: new Decimal(14),
+          amount: new Decimal(15),
         },
         {
           item: "Gold",
-          amount: new Decimal(14),
+          amount: new Decimal(15),
         },
         {
           item: "Egg",
-          amount: new Decimal(3),
+          amount: new Decimal(300),
         },
       ],
-    ],
-    sfl: [marketRate(100), marketRate(100)],
-    constructionSeconds: [60 * 60 * 2, 60 * 60 * 6],
-  },
-  Bakery: {
-    unlocksAtLevels: [11],
-    ingredients: [
-      [
+      sfl: marketRate(800),
+      constructionSeconds: 60 * 60 * 3,
+    },
+  ],
+  Bakery: [
+    {
+      unlocksAtLevel: 11,
+      ingredients: [
         {
           item: "Wood",
           amount: new Decimal(50),
@@ -180,14 +204,14 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
           amount: new Decimal(5),
         },
       ],
-    ],
-    sfl: [marketRate(200)],
-    constructionSeconds: [60 * 60 * 4],
-  },
-  Deli: {
-    unlocksAtLevels: [13],
-    ingredients: [
-      [
+      sfl: marketRate(200),
+      constructionSeconds: 60 * 60 * 4,
+    },
+  ],
+  Deli: [
+    {
+      unlocksAtLevel: 13,
+      ingredients: [
         {
           item: "Wood",
           amount: new Decimal(50),
@@ -201,14 +225,14 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
           amount: new Decimal(10),
         },
       ],
-    ],
-    sfl: [marketRate(300)],
-    constructionSeconds: [60 * 60 * 12],
-  },
-  "Smoothie Shack": {
-    unlocksAtLevels: [15],
-    ingredients: [
-      [
+      sfl: marketRate(300),
+      constructionSeconds: 60 * 60 * 12,
+    },
+  ],
+  "Smoothie Shack": [
+    {
+      unlocksAtLevel: 15,
+      ingredients: [
         {
           item: "Wood",
           amount: new Decimal(25),
@@ -222,10 +246,10 @@ export const BUILDINGS: () => Record<BuildingName, BuildingBluePrint> = () => ({
           amount: new Decimal(10),
         },
       ],
-    ],
-    sfl: [new Decimal(0)],
-    constructionSeconds: [60 * 60 * 12],
-  },
+      sfl: new Decimal(0),
+      constructionSeconds: 60 * 60 * 12,
+    },
+  ],
 });
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {

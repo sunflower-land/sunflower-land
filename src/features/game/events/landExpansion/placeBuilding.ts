@@ -42,8 +42,8 @@ export function placeBuilding({
 
   const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
   const buildingsPlaced = stateCopy.buildings[action.name]?.length || 0;
-  const allowedBuildings = building.unlocksAtLevels.filter(
-    (level) => bumpkinLevel >= level
+  const allowedBuildings = building.filter(
+    ({ unlocksAtLevel }) => bumpkinLevel >= unlocksAtLevel
   ).length;
 
   if (buildingsPlaced >= allowedBuildings) {
