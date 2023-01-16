@@ -17,13 +17,13 @@ export const Arcade: React.FC<Props> = ({ left, top }) => {
     <div
       className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        height: `${GRID_WIDTH_PX * 3}px`,
+        width: `${GRID_WIDTH_PX * 1}px`,
+        height: `${GRID_WIDTH_PX * 1}px`,
         left: `${GRID_WIDTH_PX * left}px`,
         top: `${GRID_WIDTH_PX * top}px`,
       }}
     >
-      <div className="cursor-pointer hover:img-highlight relative">
+      <div className="cursor-pointer">
         <img
           id="arcade"
           src={arcade}
