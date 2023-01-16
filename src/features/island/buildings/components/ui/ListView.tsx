@@ -21,9 +21,7 @@ export const ListView: React.FC<{
   const { bumpkin, inventory } = state;
 
   const buildings = getKeys(BUILDINGS()).sort((a, b) =>
-    BUILDINGS()[a].unlocksAtLevels[0] > BUILDINGS()[b].unlocksAtLevels[0]
-      ? 1
-      : -1
+    BUILDINGS()[a][0].unlocksAtLevel > BUILDINGS()[b][0].unlocksAtLevel ? 1 : -1
   );
 
   return (
@@ -33,7 +31,9 @@ export const ListView: React.FC<{
     >
       {buildings.map((buildingName, index) => {
         // The unlock at levels for the building
-        const buildingUnlockLevels = BUILDINGS()[buildingName].unlocksAtLevels;
+        const buildingUnlockLevels = BUILDINGS()[buildingName].map(
+          ({ unlocksAtLevel }) => unlocksAtLevel
+        );
         const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
         // Holds how many desired placed buildings (e.g. water wells)
         const buildingsPlaced = new Decimal(
@@ -49,8 +49,9 @@ export const ListView: React.FC<{
           (level) => level > bumpkinLevel
         );
 
-        const buildingLimitReached =
-          buildingsPlaced.greaterThanOrEqualTo(allowedBuildings);
+        const buildingLimitReached = (
+          inventory[buildingName] ?? new Decimal(0)
+        ).greaterThanOrEqualTo(allowedBuildings);
         // true, if the user has unlocked all the levels and completed all the buildings.
         const allBuildingsBuilt =
           !nextLockedLevel &&

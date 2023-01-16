@@ -59,8 +59,10 @@ export const DetailView: React.FC<Props> = ({
   onBuild,
 }) => {
   const { bumpkin, inventory } = state;
-  const building = BUILDINGS()[buildingName];
-  const buildingLevels = building.unlocksAtLevels;
+  const buildingBluePrints = BUILDINGS()[buildingName];
+  const buildingUnlockLevels = buildingBluePrints.map(
+    ({ unlocksAtLevel }) => unlocksAtLevel
+  );
 
   const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
 
@@ -75,18 +77,22 @@ export const DetailView: React.FC<Props> = ({
     .minus(1)
     .greaterThanOrEqualTo(buildingsPlaced);
   // Total number of buildings allowed at the current bumpkin level.
-  const allowedBuildings = buildingLevels.filter(
+  const allowedBuildings = buildingUnlockLevels.filter(
     (level) => bumpkinLevel >= level
   ).length;
   // Next level of building user is yet to unlock.
   // If undefined then player has unlocked all levels for this building.
-  const nextLockedLevel = buildingLevels.find((level) => level > bumpkinLevel);
+  const nextLockedLevel = buildingUnlockLevels.find(
+    (level) => level > bumpkinLevel
+  );
   // true, if player has unlocked all the levels and all buildings are placed.
   const allBuildingsPlaced =
     !nextLockedLevel && buildingsPlaced.greaterThanOrEqualTo(allowedBuildings);
 
-  // Building level index
-  const levelIdx = buildingsPlaced.toNumber();
+  // Index for building details
+  const buildingNumber = buildingsPlaced.toNumber();
+
+  const buildingToConstruct = buildingBluePrints[buildingNumber];
 
   /**
    * @function showBuildButton This function will return true if the player has not completed all the buildings
@@ -105,12 +111,12 @@ export const DetailView: React.FC<Props> = ({
     if (hasUnplacedBuildings) return true;
 
     const hasBalance = state.balance.greaterThanOrEqualTo(
-      building.sfl[levelIdx]
+      buildingToConstruct.sfl
     );
 
-    if (!building.ingredients) return hasBalance;
+    if (buildingToConstruct.ingredients.length === 0) return hasBalance;
 
-    const hasIngredients = building.ingredients[levelIdx].every(
+    const hasIngredients = buildingToConstruct.ingredients.every(
       (ingredient) => {
         const inventoryAmount = inventory[ingredient.item] || new Decimal(0);
         const requiredAmount = ingredient.amount;
@@ -125,11 +131,11 @@ export const DetailView: React.FC<Props> = ({
   };
 
   const showIngredients = () => {
-    if (!building.ingredients || !building.ingredients[levelIdx]) return null;
+    if (buildingToConstruct.ingredients.length === 0) return null;
 
     return (
       <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
-        {building.ingredients[levelIdx].map((ingredient, index) => {
+        {buildingToConstruct.ingredients.map((ingredient, index) => {
           const item = ITEM_DETAILS[ingredient.item];
           const inventoryAmount =
             inventory[ingredient.item]?.toDecimalPlaces(1) || 0;
@@ -162,22 +168,22 @@ export const DetailView: React.FC<Props> = ({
             </div>
           );
         })}
-        {!!building.sfl[levelIdx].toNumber() && (
+        {!!buildingToConstruct.sfl.toNumber() && (
           <div className="flex justify-center items-end">
             <img src={token} className="h-5 mr-1" />
             <span
               className={classNames("text-xs text-center mt-2 ", {
-                "text-red-500": state.balance.lessThan(building.sfl[levelIdx]),
+                "text-red-500": state.balance.lessThan(buildingToConstruct.sfl),
               })}
             >
-              {building.sfl[levelIdx].toNumber()}
+              {buildingToConstruct.sfl.toNumber()}
             </span>
           </div>
         )}
         <div className="flex justify-center items-end">
           <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
           <span className={classNames("text-xs text-shadow text-center mt-2 ")}>
-            {secondsToString(building.constructionSeconds[levelIdx], {
+            {secondsToString(buildingToConstruct.constructionSeconds, {
               length: "medium",
               removeTrailingZeros: true,
             })}

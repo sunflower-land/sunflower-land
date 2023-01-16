@@ -48,19 +48,19 @@ export function constructBuilding({
   const allowedBuildings = building.filter(
     ({ unlocksAtLevel }) => bumpkinLevel >= unlocksAtLevel
   ).length;
-  const buildingToBuild = building[buildingNumber];
+  const buildingToConstruct = building[buildingNumber];
 
   if (buildingsPlaced >= allowedBuildings) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   }
 
-  if (stateCopy.balance.lessThan(buildingToBuild.sfl)) {
+  if (stateCopy.balance.lessThan(buildingToConstruct.sfl)) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_SFL);
   }
 
   let missingIngredients: string[] = [];
 
-  const inventoryMinusIngredients = buildingToBuild.ingredients.reduce(
+  const inventoryMinusIngredients = buildingToConstruct.ingredients.reduce(
     (inventory, ingredient) => {
       const count = inventory[ingredient.item] || new Decimal(0);
 
@@ -91,12 +91,12 @@ export function constructBuilding({
     id: action.id,
     createdAt: createdAt,
     coordinates: action.coordinates,
-    readyAt: createdAt + buildingToBuild.constructionSeconds * 1000,
+    readyAt: createdAt + buildingToConstruct.constructionSeconds * 1000,
   };
 
   bumpkin.activity = trackActivity("Building Constructed", bumpkin.activity);
 
-  stateCopy.balance = stateCopy.balance.sub(buildingToBuild.sfl);
+  stateCopy.balance = stateCopy.balance.sub(buildingToConstruct.sfl);
   stateCopy.inventory = inventoryMinusIngredients;
   stateCopy.inventory[action.name] = buildingInventory.add(1);
   stateCopy.buildings[action.name] = [...placed, newBuilding];
