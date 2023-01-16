@@ -79,7 +79,7 @@ interface LevelProps {
 }
 
 /**
- * The props for time requirement label.
+ * The props for harvests requirement label.
  * @param type The type is harvests.
  * @param minHarvest The minimum number of harvests.
  * @param maxHarvest The maximum number of harvests.
