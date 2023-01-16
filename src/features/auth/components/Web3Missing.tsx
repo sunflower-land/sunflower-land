@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "components/ui/Button";
-
-import alert from "assets/icons/expression_alerted.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Web3Missing: React.FC = () => {
   const goToMetamaskSetupDocs = () => {
@@ -14,7 +13,11 @@ export const Web3Missing: React.FC = () => {
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center">
-        <img src={alert} alt="Warning" className="w-3 mr-3" />
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          alt="Warning"
+          className="w-3 mr-3"
+        />
       </div>
       <p className="text-center mb-3">Web3 Not Found</p>
 

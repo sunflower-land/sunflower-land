@@ -4,7 +4,6 @@ import goblinDonation from "assets/splash/goblin_donation.gif";
 import humanDeath from "assets/npcs/human_death.gif";
 import lightningDeath from "assets/npcs/human_death.gif";
 import minting from "assets/npcs/minting.gif";
-import richBegger from "assets/npcs/rich_begger.gif";
 import syncing from "assets/npcs/syncing.gif";
 import goblinBlacksmith from "assets/buildings/goblin_blacksmith.gif";
 import goblinTailor from "assets/buildings/goblin_tailor.png";
@@ -15,25 +14,24 @@ import happyChicken from "assets/animals/chickens/happy.gif";
 import walkingChicken from "assets/animals/chickens/walking.gif";
 import sleepingChicken from "assets/animals/chickens/sleeping.gif";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet.png";
-import egg from "assets/resources/egg.png";
 import richChicken from "assets/animals/chickens/rich_chicken.png";
 import fatChicken from "assets/animals/chickens/fat_chicken.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.png";
-import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
 import helios from "assets/land/helios.webp";
 import retreat from "assets/land/retreat.webp";
 import treasureIsland from "assets/land/treasure_island.webp";
 import snowKingdom from "assets/land/snow_kingdom.webp";
 import stoneHeaven from "assets/land/stone_haven.webp";
 import silhouette from "assets/bumpkins/silhouette.png";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { getKeys } from "features/game/types/craftables";
 
 const IMAGE_LIST: string[] = [
   goblinDonation,
   humanDeath,
   lightningDeath,
   minting,
-  richBegger,
   syncing,
   goblinBlacksmith,
   goblinTailor,
@@ -44,18 +42,24 @@ const IMAGE_LIST: string[] = [
   walkingChicken,
   sleepingChicken,
   layingEggSheet,
-  egg,
   richChicken,
   fatChicken,
   speedChicken,
-  leftArrow,
-  rightArrow,
   helios,
   retreat,
   treasureIsland,
   snowKingdom,
   stoneHeaven,
   silhouette,
+  ...Object.values(SUNNYSIDE.icons),
+  ...Object.values(SUNNYSIDE.resource),
+  ...Object.values(SUNNYSIDE.soil),
+  ...Object.values(SUNNYSIDE.tools),
+  ...Object.values(SUNNYSIDE.ui),
+  ...getKeys(CROP_LIFECYCLE).reduce(
+    (acc, crop) => [...acc, ...Object.values(CROP_LIFECYCLE[crop])],
+    [] as string[]
+  ),
 ];
 
 function preloadImage(src: string) {

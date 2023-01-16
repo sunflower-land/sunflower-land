@@ -4,7 +4,6 @@ import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
-import timer from "assets/icons/timer.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -23,6 +22,7 @@ import { INITIAL_STOCK } from "features/game/lib/constants";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { secondsToString } from "lib/utils/time";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -241,7 +241,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             </div>
             <div className="flex flex-col space-y-2 items-start w-[30%] sm:w-full sm:items-center sm:mb-1">
               <div className="flex space-x-1">
-                <img src={timer} className="h-4 sm:h-5" />
+                <img src={SUNNYSIDE.icons.timer} className="h-4 sm:h-5" />
                 <span className="text-xs text-center">
                   {secondsToString(selected.plantSeconds, {
                     length: "medium",

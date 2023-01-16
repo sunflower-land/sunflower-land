@@ -6,10 +6,10 @@ import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 
-import questionMark from "assets/icons/expression_confused.png";
 import { Context } from "features/game/GameProvider";
 import { TransferAccount } from "./TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -61,7 +61,10 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
         </Button>
 
         <div className="flex items-start">
-          <img src={questionMark} className="w-12 pt-2 pr-2" />
+          <img
+            src={SUNNYSIDE.icons.expression_confused}
+            className="w-12 pt-2 pr-2"
+          />
           <span className="text-xs mt-2">
             Refresh your session to grab the latest changes from the Blockchain.
             This is useful if you deposited items to your farm.

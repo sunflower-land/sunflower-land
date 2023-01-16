@@ -12,8 +12,6 @@ import { getItemUnit } from "features/game/lib/conversion";
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
 
-import player from "assets/icons/player.png";
-
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 import { canWithdraw } from "../lib/bankUtils";
@@ -21,6 +19,7 @@ import { canWithdraw } from "../lib/bankUtils";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { isNeverWithdrawable } from "features/game/types/withdrawables";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -223,7 +222,7 @@ export const WithdrawItems: React.FC<Props> = ({
 
         <div className="border-white border-t-2 w-full my-3" />
         <div className="flex items-center mt-2 mb-2  border-white">
-          <img src={player} className="h-8 mr-2" />
+          <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
             <p className="text-sm">Send to your wallet</p>
             <p className="text-sm">

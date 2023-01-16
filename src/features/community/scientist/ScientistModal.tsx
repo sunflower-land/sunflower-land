@@ -11,11 +11,11 @@ import { incubateMachine } from "./lib/incubateMachine";
 // images
 import tadpole_icon from "../assets/icons/tadpole.png";
 import incubator from "../assets/incubator/algae-small.gif";
-import close from "assets/icons/close.png";
 
 import { InventoryItems } from "./components/InventoryItems";
 import { Incubator } from "./components/Incubator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -60,7 +60,7 @@ export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <span className="text-sm">Incubator</span>
           </Tab>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

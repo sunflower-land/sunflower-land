@@ -10,12 +10,12 @@ import { Quest } from "features/game/expansion/components/Quest";
 import appleTree from "assets/fruit/apple/apple_tree.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
-import close from "assets/icons/close.png";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const FarmerQuest: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -147,7 +147,7 @@ export const FarmerQuest: React.FC = () => {
             }}
           >
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={() => setShowModal(false)}
               style={{

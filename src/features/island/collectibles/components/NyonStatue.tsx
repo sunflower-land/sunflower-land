@@ -3,9 +3,9 @@ import Modal from "react-bootstrap/Modal";
 
 import { Panel } from "components/ui/Panel";
 
-import close from "assets/icons/close.png";
 import nyonStatue from "assets/sfts/nyon_statue.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const NyonStatue: React.FC = () => {
   const [showNyonLore, setShowNyonLore] = useState(false);
@@ -25,7 +25,7 @@ export const NyonStatue: React.FC = () => {
       <Modal centered show={showNyonLore} onHide={() => setShowNyonLore(false)}>
         <Panel>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowNyonLore(false)}
             style={{

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import alert from "assets/icons/expression_alerted.png";
 import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export type JiggerStatus = "VERIFY" | "PENDING" | "REJECTED";
 interface Props {
@@ -22,7 +22,7 @@ export const Jigger: React.FC<Props> = ({
     return (
       <div className="flex flex-col items-center p-2">
         <span className="text-center">Proof of Humanity</span>
-        <img src={alert} className="w-6 mt-2" />
+        <img src={SUNNYSIDE.icons.expression_alerted} className="w-6 mt-2" />
         <span className="text-sm mt-2 mb-2">
           You will be redirected to a 3rd party service to take a quick selfie.
           Never share any personal information or crypto data.

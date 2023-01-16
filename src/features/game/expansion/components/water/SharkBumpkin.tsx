@@ -4,13 +4,13 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import fin from "assets/decorations/fin_sheet.png";
 import bumpkin from "assets/npcs/shark.png";
-import close from "assets/icons/close.png";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 
 import { MapPlacement } from "../MapPlacement";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LAND_WIDTH = 6;
 
@@ -42,7 +42,7 @@ export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
 
         <Panel>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
             style={{

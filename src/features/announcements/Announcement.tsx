@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { Context } from "features/game/GameProvider";
 import { Announcement as IAnnouncement } from "features/announcements";
 import { acknowledgeRead, getAnnouncements } from "./announcementsStorage";
-import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const CONTENT_HEIGHT = 400;
 
@@ -23,7 +23,7 @@ export const Announcements: React.FC = () => {
         <div className="flex justify-between items-center mb-2 px-2">
           <p className="text-sm">{`What's new!`}</p>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onAcknowledge}
             style={{

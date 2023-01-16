@@ -275,6 +275,7 @@ export const OFFLINE_FARM: GameState = {
     //   }),
     //   {}
     // ),
+    "Maneki Neko": new Decimal(1),
     "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
     "Discord Mod": new Decimal(0),
@@ -322,7 +323,7 @@ export const OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   collectibles: {
-    "Magic Bean": [
+    "Maneki Neko": [
       {
         coordinates: {
           x: 4,

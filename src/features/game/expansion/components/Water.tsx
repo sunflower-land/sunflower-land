@@ -5,7 +5,6 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import dragonfly from "assets/decorations/dragonfly.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
-import swimmer from "assets/npcs/swimmer.gif";
 import cossies from "assets/decorations/cossies.png";
 import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
@@ -21,6 +20,7 @@ import { merchantAudio } from "lib/utils/sfx";
 import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
 import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
 import CommunityBoundary from "features/community/components/CommunityBoundary";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LAND_WIDTH = 6;
 
@@ -83,7 +83,7 @@ export const Water: React.FC<Props> = ({ level }) => {
 
       <MapPlacement x={offset + 8} y={6} width={1}>
         <img
-          src={swimmer}
+          src={SUNNYSIDE.npcs.swimmer}
           className="absolute pointer-events-none"
           style={{
             width: `${1 * GRID_WIDTH_PX}px`,

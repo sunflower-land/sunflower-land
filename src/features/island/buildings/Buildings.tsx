@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 
-import roundButton from "assets/ui/button/round_button.png";
-import hammer from "assets/icons/hammer.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingsModal } from "./BuildingsModal";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Buildings: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,14 +19,14 @@ export const Buildings: React.FC = () => {
         }}
       >
         <img
-          src={roundButton}
+          src={SUNNYSIDE.ui.round_button}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
-          src={hammer}
+          src={SUNNYSIDE.icons.hammer}
           className="absolute"
           style={{
             top: `${PIXEL_SCALE * 4}px`,

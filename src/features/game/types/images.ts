@@ -1,44 +1,11 @@
 // CROPS
-import sunflowerSeed from "assets/crops/sunflower/seed.png";
-import sunflowerCrop from "assets/crops/sunflower/crop.png";
-import potatoSeed from "assets/crops/potato/seed.png";
-import potatoCrop from "assets/crops/potato/crop.png";
-import pumpkinSeed from "assets/crops/pumpkin/seed.png";
-import pumpkinCrop from "assets/crops/pumpkin/crop.png";
-import carrotSeed from "assets/crops/carrot/seed.png";
-import carrotCrop from "assets/crops/carrot/crop.png";
-import cabbageSeed from "assets/crops/cabbage/seed.png";
-import cabbageCrop from "assets/crops/cabbage/crop.png";
-import beetrootSeed from "assets/crops/beetroot/seed.png";
-import beetrootCrop from "assets/crops/beetroot/crop.png";
-import cauliflowerSeed from "assets/crops/cauliflower/seed.png";
-import cauliflowerCrop from "assets/crops/cauliflower/crop.png";
-import parsnipSeed from "assets/crops/parsnip/seed.png";
-import parsnipCrop from "assets/crops/parsnip/crop.png";
-import radishSeed from "assets/crops/radish/seed.png";
-import radishCrop from "assets/crops/radish/crop.png";
-import wheatSeed from "assets/crops/wheat/seed.png";
-import wheatCrop from "assets/crops/wheat/crop.png";
+
 import magicBean from "assets/crops/magic_bean.png";
 import shinyBean from "assets/crops/shiny_bean.png";
 import goldenBean from "assets/crops/golden_bean.png";
-import kaleSeed from "assets/crops/kale/seed.png";
-import kaleCrop from "assets/crops/kale/crop.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
-
-// Tools
-import axe from "assets/tools/axe.png";
-import woodPickaxe from "assets/tools/wood_pickaxe.png";
-import stonePickaxe from "assets/tools/stone_pickaxe.png";
-import ironPickaxe from "assets/tools/iron_pickaxe.png";
-import hammer from "assets/tools/hammer.png";
-import rod from "assets/tools/fishing_rod.png";
-import rustyShovel from "assets/tools/rusty_shovel.png";
-import shovel from "assets/tools/shovel.png";
-import powerShovel from "assets/tools/power_shovel.png";
-import sandShovel from "assets/tools/sand_shovel.png";
 
 // NFTs
 import chickenCoop from "assets/sfts/chicken_coop.png";
@@ -134,20 +101,12 @@ import sierra_leone_flag from "assets/sfts/flags/sierra_leone_flag.gif";
 import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 
 // Resources
-import stone from "assets/resources/stone.png";
-import wood from "assets/resources/wood.png";
-import egg from "assets/resources/egg.png";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
-import diamond from "assets/resources/diamond.png";
-import chicken from "assets/resources/chicken.png";
 import honey from "assets/resources/honey.png";
-import wildMushroom from "assets/resources/wild_mushroom.png";
-import magicMushroom from "assets/resources/magic_mushroom.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
-import questionMark from "assets/icons/expression_confused.png";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -337,13 +296,6 @@ import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
 
-// Treasure
-import starfish from "assets/resources/beach/starfish.png";
-import coral from "assets/resources/beach/coral.png";
-import seaCucumber from "assets/resources/beach/sea_cucumber.png";
-import clamShell from "assets/resources/beach/clam_shell.png";
-import crab from "assets/resources/beach/crab.png";
-
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -372,6 +324,8 @@ import { CONSUMABLES } from "./consumables";
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
 import { AUCTIONEER_ITEMS } from "./auctioneer";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -388,99 +342,99 @@ export const ITEM_DETAILS: Items = {
   // Crops
   Sunflower: {
     ...crops.Sunflower,
-    image: sunflowerCrop,
+    image: CROP_LIFECYCLE.Sunflower.crop,
   },
   Potato: {
     ...crops.Potato,
-    image: potatoCrop,
+    image: CROP_LIFECYCLE.Potato.crop,
   },
   Pumpkin: {
     ...crops.Pumpkin,
-    image: pumpkinCrop,
+    image: CROP_LIFECYCLE.Pumpkin.crop,
   },
   Carrot: {
     ...crops.Carrot,
-    image: carrotCrop,
+    image: CROP_LIFECYCLE.Carrot.crop,
   },
   Cabbage: {
     ...crops.Cabbage,
-    image: cabbageCrop,
+    image: CROP_LIFECYCLE.Cabbage.crop,
   },
   Beetroot: {
     ...crops.Beetroot,
-    image: beetrootCrop,
+    image: CROP_LIFECYCLE.Beetroot.crop,
   },
   Cauliflower: {
     ...crops.Cauliflower,
-    image: cauliflowerCrop,
+    image: CROP_LIFECYCLE.Cauliflower.crop,
   },
   Parsnip: {
     ...crops.Parsnip,
-    image: parsnipCrop,
+    image: CROP_LIFECYCLE.Parsnip.crop,
   },
   Radish: {
     ...crops.Radish,
-    image: radishCrop,
+    image: CROP_LIFECYCLE.Radish.crop,
   },
   Wheat: {
     ...crops.Wheat,
-    image: wheatCrop,
+    image: CROP_LIFECYCLE.Wheat.crop,
   },
   Kale: {
     ...crops.Kale,
-    image: kaleCrop,
+    image: CROP_LIFECYCLE.Kale.crop,
   },
 
   // Seeds
   "Sunflower Seed": {
     ...seeds["Sunflower Seed"],
-    image: sunflowerSeed,
-    secondaryImage: sunflowerCrop,
+    image: CROP_LIFECYCLE.Sunflower.seed,
+    secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
   },
   "Potato Seed": {
     ...seeds["Potato Seed"],
-    image: potatoSeed,
-    secondaryImage: potatoCrop,
+    image: CROP_LIFECYCLE.Potato.seed,
+    secondaryImage: CROP_LIFECYCLE.Potato.crop,
   },
   "Pumpkin Seed": {
     ...seeds["Pumpkin Seed"],
-    image: pumpkinSeed,
-    secondaryImage: pumpkinCrop,
+    image: CROP_LIFECYCLE.Pumpkin.seed,
+    secondaryImage: CROP_LIFECYCLE.Pumpkin.crop,
   },
   "Carrot Seed": {
     ...seeds["Carrot Seed"],
-    image: carrotSeed,
-    secondaryImage: carrotCrop,
+    image: CROP_LIFECYCLE.Carrot.seed,
+    secondaryImage: CROP_LIFECYCLE.Carrot.crop,
   },
   "Cabbage Seed": {
     ...seeds["Cabbage Seed"],
-    image: cabbageSeed,
-    secondaryImage: cabbageCrop,
+    image: CROP_LIFECYCLE.Cabbage.seed,
+    secondaryImage: CROP_LIFECYCLE.Cabbage.crop,
   },
   "Beetroot Seed": {
     ...seeds["Beetroot Seed"],
-    image: beetrootSeed,
-    secondaryImage: beetrootCrop,
+    image: CROP_LIFECYCLE.Beetroot.seed,
+    secondaryImage: CROP_LIFECYCLE.Beetroot.crop,
   },
   "Cauliflower Seed": {
     ...seeds["Cauliflower Seed"],
-    image: cauliflowerSeed,
-    secondaryImage: cauliflowerCrop,
+    image: CROP_LIFECYCLE.Cauliflower.seed,
+    secondaryImage: CROP_LIFECYCLE.Cauliflower.crop,
   },
   "Parsnip Seed": {
     ...seeds["Parsnip Seed"],
-    image: parsnipSeed,
-    secondaryImage: parsnipCrop,
+    image: CROP_LIFECYCLE.Parsnip.seed,
+    secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
   },
   "Radish Seed": {
     ...seeds["Radish Seed"],
-    image: radishSeed,
-    secondaryImage: radishCrop,
+    image: CROP_LIFECYCLE.Radish.seed,
+    secondaryImage: CROP_LIFECYCLE.Radish.crop,
   },
   "Wheat Seed": {
     ...seeds["Wheat Seed"],
-    image: wheatSeed,
-    secondaryImage: wheatCrop,
+    image: CROP_LIFECYCLE.Wheat.seed,
+    secondaryImage: CROP_LIFECYCLE.Wheat.crop,
   },
   "Golden Bean": {
     description: BEANS()["Golden Bean"].description,
@@ -496,7 +450,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Kale Seed": {
     description: CROP_SEEDS()["Kale Seed"].description,
-    image: kaleSeed,
+    image: CROP_LIFECYCLE.Kale.seed,
   },
   "Apple Seed": {
     description: FRUIT_SEEDS()["Apple Seed"].description,
@@ -550,11 +504,11 @@ export const ITEM_DETAILS: Items = {
 
   "Magic Mushroom": {
     description: RESOURCES["Magic Mushroom"].description,
-    image: magicMushroom,
+    image: SUNNYSIDE.resource.magic_mushroom,
   },
   "Wild Mushroom": {
     description: RESOURCES["Wild Mushroom"].description,
-    image: wildMushroom,
+    image: SUNNYSIDE.resource.wild_mushroom,
   },
   Apple: {
     description: FRUIT()["Apple"].description,
@@ -596,11 +550,11 @@ export const ITEM_DETAILS: Items = {
   // Resources
   Wood: {
     ...RESOURCES["Wood"],
-    image: wood,
+    image: SUNNYSIDE.resource.wood,
   },
   Stone: {
     ...RESOURCES["Stone"],
-    image: stone,
+    image: SUNNYSIDE.resource.stone,
   },
   Iron: {
     ...RESOURCES["Iron"],
@@ -612,71 +566,71 @@ export const ITEM_DETAILS: Items = {
   },
   Diamond: {
     ...RESOURCES["Diamond"],
-    image: diamond,
+    image: SUNNYSIDE.resource.diamond,
   },
   Egg: {
     ...RESOURCES["Egg"],
-    image: egg,
+    image: SUNNYSIDE.resource.egg,
   },
   Chicken: {
     ...RESOURCES["Chicken"],
-    image: chicken,
+    image: SUNNYSIDE.resource.chicken,
   },
   Cow: {
     ...RESOURCES["Chicken"],
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
   },
   Sheep: {
     ...RESOURCES["Chicken"],
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
   },
   Pig: {
     ...RESOURCES["Chicken"],
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
   },
 
   // Tools
   Axe: {
     ...TOOLS["Axe"],
-    image: axe,
+    image: SUNNYSIDE.tools.axe,
   },
   Pickaxe: {
     ...TOOLS["Pickaxe"],
-    image: woodPickaxe,
+    image: SUNNYSIDE.tools.wood_pickaxe,
   },
   "Stone Pickaxe": {
     ...TOOLS["Stone Pickaxe"],
-    image: stonePickaxe,
+    image: SUNNYSIDE.tools.stone_pickaxe,
   },
   "Iron Pickaxe": {
     ...TOOLS["Iron Pickaxe"],
-    image: ironPickaxe,
+    image: SUNNYSIDE.tools.iron_pickaxe,
   },
   Hammer: {
     ...TOOLS["Hammer"],
-    image: hammer,
+    image: SUNNYSIDE.tools.hammer,
   },
   Rod: {
     ...TOOLS["Rod"],
-    image: rod,
+    image: SUNNYSIDE.tools.fishing_rod,
   },
 
   // Shovels
   "Rusty Shovel": {
     ...SHOVELS["Rusty Shovel"],
-    image: rustyShovel,
+    image: SUNNYSIDE.tools.rusty_shovel,
   },
   Shovel: {
     ...SHOVELS["Shovel"],
-    image: shovel,
+    image: SUNNYSIDE.tools.shovel,
   },
   "Power Shovel": {
     ...SHOVELS["Power Shovel"],
-    image: powerShovel,
+    image: SUNNYSIDE.tools.power_shovel,
   },
   "Sand Shovel": {
     ...SHOVELS["Sand Shovel"],
-    image: sandShovel,
+    image: SUNNYSIDE.tools.sand_shovel,
   },
 
   // SFTs
@@ -934,11 +888,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Goblin War Point": {
     description: "A display of allegiance",
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
   },
   "Human War Point": {
     description: "A display of allegiance",
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
   },
 
   "Human War Banner": {
@@ -1582,19 +1536,19 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Colossal Crop": {
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "As big as the Empire State building",
   },
   "Peaceful Potato": {
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "Practicioner of spud Yoga",
   },
   "Perky Pumpkin": {
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "???",
   },
   "Stellar Sunflower": {
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "???",
   },
   "Potted Potato": {
@@ -1615,23 +1569,23 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Clam Shell": {
-    image: clamShell,
+    image: SUNNYSIDE.resource.clam_shell,
     description: "?",
   },
   "Sea Cucumber": {
-    image: seaCucumber,
+    image: SUNNYSIDE.resource.sea_cucumber,
     description: "?",
   },
   Coral: {
-    image: coral,
+    image: SUNNYSIDE.resource.coral,
     description: "?",
   },
   Crab: {
-    image: crab,
+    image: SUNNYSIDE.resource.crab,
     description: "?",
   },
   Starfish: {
-    image: starfish,
+    image: SUNNYSIDE.resource.starfish,
     description: "?",
   },
   "Immortal Pear": {
@@ -1639,15 +1593,15 @@ export const ITEM_DETAILS: Items = {
     description: HELIOS_BLACKSMITH_ITEMS["Immortal Pear"].description,
   },
   "Lady Bug": {
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "?",
   },
   "Squirrel Monkey": {
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "?",
   },
   "Black Bearry": {
-    image: questionMark,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "?",
   },
   "Devil Bear": {
