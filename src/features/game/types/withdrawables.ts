@@ -157,6 +157,9 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Rainbow Artist Bear": true,
   "Devil Bear": true,
   "Christmas Bear": true,
+  "War Skull": true,
+  "War Tombstone": true,
+  "Undead Rooster": true,
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
