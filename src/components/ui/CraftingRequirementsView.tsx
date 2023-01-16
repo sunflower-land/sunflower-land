@@ -130,7 +130,7 @@ export const CraftingRequirementsView: React.FC<Props> = ({
           </span>
         </div>
         <span
-          className={classNames("text-xs whitespace-pre-line", {
+          className={classNames("text-xs mt-1 whitespace-pre-line", {
             "sm:text-center": !wideLayout,
           })}
         >

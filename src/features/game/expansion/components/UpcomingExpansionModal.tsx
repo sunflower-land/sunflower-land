@@ -60,7 +60,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       details={{
         type: "nonItem",
         title: "Want to expand your land and discover new resources?",
-        description: "\nEach piece of land is a unique NFT on the blockchain.",
+        description: "Each piece of land is a unique NFT on the blockchain.",
       }}
       requirements={{
         resources: resourcesRequirement,
