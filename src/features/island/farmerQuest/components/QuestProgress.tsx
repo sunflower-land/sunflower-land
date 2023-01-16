@@ -73,9 +73,9 @@ export const QuestProgress: React.FC<Props> = ({
         className="w-1/3 my-2 rounded-lg"
       />
 
-      <span className="text-sm">{quest.description}</span>
+      <span className="text-sm mb-2">{quest.description}</span>
 
-      <div className="flex items-center justify-center pt-1 w-full">
+      <div className="flex items-center justify-center pt-1 w-full mb-2">
         <div className="flex items-center mt-2 mb-1">
           <div
             className="absolute"
@@ -151,7 +151,7 @@ export const QuestProgress: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="w-1/2">
+      <div className="w-full">
         <Button
           className="text-xs mt-2"
           onClick={onClaim}
