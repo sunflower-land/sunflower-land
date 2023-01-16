@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import roundButton from "assets/ui/button/round_button.png";
 import saveIcon from "assets/icons/save.webp";
 import loadingIcon from "assets/icons/timer.gif";
-import savedIcon from "assets/icons/confirm.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type ButtonState = "unsaved" | "inProgress" | "saved";
 
@@ -68,7 +67,7 @@ export const Save: React.FC = () => {
       }}
     >
       <img
-        src={roundButton}
+        src={SUNNYSIDE.ui.round_button}
         className="absolute"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
@@ -99,7 +98,7 @@ export const Save: React.FC = () => {
       )}
       {buttonState === "saved" && (
         <img
-          src={savedIcon}
+          src={SUNNYSIDE.icons.confirm}
           className="absolute"
           style={{
             top: `${PIXEL_SCALE * 5}px`,
@@ -110,7 +109,7 @@ export const Save: React.FC = () => {
       )}
 
       <img
-        src={roundButton}
+        src={SUNNYSIDE.ui.round_button}
         className={classNames("absolute", {
           "opacity-0": enableButton,
           "opacity-40": !enableButton,

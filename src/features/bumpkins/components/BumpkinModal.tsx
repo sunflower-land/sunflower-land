@@ -2,8 +2,6 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
-import close from "assets/icons/close.png";
-import alert from "assets/icons/expression_alerted.png";
 
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 
@@ -24,6 +22,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Bumpkin } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -101,7 +100,7 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
     <Panel>
       <div className="flex flex-wrap">
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{
@@ -222,7 +221,10 @@ export const BumpkinModal: React.FC<Props> = ({ initialView, onClose }) => {
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
                   {hasAvaliableSP && !gameState.matches("visiting") && (
-                    <img src={alert} className="h-4 ml-2" />
+                    <img
+                      src={SUNNYSIDE.icons.expression_alerted}
+                      className="h-4 ml-2"
+                    />
                   )}
                 </div>
                 <span className="text-xxs underline">View all</span>

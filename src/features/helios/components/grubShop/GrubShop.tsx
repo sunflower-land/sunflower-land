@@ -5,7 +5,6 @@ import stall from "assets/buildings/grub_shop.png";
 import closeSign from "assets/buildings/close_sign_2.png";
 import goblinChef from "assets/npcs/goblin_chef.gif";
 import shadow from "assets/npcs/shadow.png";
-import goblin from "assets/npcs/goblin.gif";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -15,6 +14,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ConsumableName } from "features/game/types/consumables";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { setImageWidth } from "lib/images";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const GrubShop: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -103,7 +103,7 @@ export const GrubShop: React.FC = () => {
           }}
         />
         <img
-          src={goblin}
+          src={SUNNYSIDE.npcs.goblin}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 18}px`,
@@ -123,7 +123,7 @@ export const GrubShop: React.FC = () => {
           }}
         />
         <img
-          src={goblin}
+          src={SUNNYSIDE.npcs.goblin}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 18}px`,

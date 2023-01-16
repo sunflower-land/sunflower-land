@@ -13,13 +13,12 @@ import { useActor } from "@xstate/react";
 import { SkillPointsLabel } from "./SkillPointsLabel";
 import { SkillCategoryList } from "./SkillCategoryList";
 
-import close from "assets/icons/close.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
-import arrowLeft from "assets/icons/arrow_left.png";
 import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onBack: () => void;
@@ -97,7 +96,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           <span className="text-sm">Skills</span>
         </Tab>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{
@@ -119,7 +118,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           }}
         >
           <img
-            src={arrowLeft}
+            src={SUNNYSIDE.icons.arrow_left}
             className="cursor-pointer"
             alt="back"
             style={{

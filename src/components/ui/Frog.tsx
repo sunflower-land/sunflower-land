@@ -6,8 +6,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 
 import frog from "assets/animals/frog.png";
-import close from "assets/icons/close.png";
 import { frogAudio } from "lib/utils/sfx";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Frog: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -35,7 +35,7 @@ export const Frog: React.FC = () => {
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
             style={{

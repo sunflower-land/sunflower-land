@@ -13,8 +13,6 @@ import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
 
 import goblinHead from "assets/npcs/goblin_head.png";
-import player from "assets/icons/player.png";
-import remove from "assets/icons/cancel.png";
 
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
@@ -24,6 +22,7 @@ import { getDeliverableItems } from "../lib/storageItems";
 import { shortAddress } from "lib/utils/shortAddress";
 import { loadBanDetails } from "features/game/actions/bans";
 import { Jigger, JiggerStatus } from "features/game/components/Jigger";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onWithdraw: () => void;
@@ -258,7 +257,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
                     </div>
 
                     <img
-                      src={remove}
+                      src={SUNNYSIDE.icons.cancel}
                       className="h-4 cursor-pointer"
                       onClick={() => onRemove(itemName)}
                     />
@@ -270,7 +269,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
 
         <div className="border-white border-t-2 w-full my-3" />
         <div className="flex items-center mt-2 mb-2  border-white">
-          <img src={player} className="h-8 mr-2" />
+          <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
             <p className="text-sm">Deliver to your wallet</p>
             <p className="text-sm">

@@ -4,11 +4,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import bumpkin from "assets/npcs/snorkel_bumpkin.png";
-import close from "assets/icons/close.png";
 
 import { MapPlacement } from "../MapPlacement";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LAND_WIDTH = 6;
 
@@ -33,7 +33,7 @@ export const Snorkler: React.FC<Props> = ({ level }) => {
         <Panel>
           <div className="p-2">
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={() => setShowModal(false)}
               style={{

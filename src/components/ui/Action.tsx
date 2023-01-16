@@ -1,10 +1,10 @@
 import React from "react";
 
-import disc from "assets/icons/disc.png";
 import { InnerPanel } from "./Panel";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   text: string;
@@ -38,7 +38,7 @@ export const Action: React.FC<Props> = ({ text, icon, onClick, className }) => {
         }}
       >
         <img
-          src={disc}
+          src={SUNNYSIDE.icons.disc}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 18}px`,

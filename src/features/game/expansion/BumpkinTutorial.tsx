@@ -3,9 +3,9 @@ import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import sunflower from "assets/crops/sunflower/crop.png";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Modal } from "react-bootstrap";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 interface Props {
   bumpkinParts?: Partial<Equipped>;
@@ -86,7 +86,7 @@ export const BumpkinTutorial: React.FC<Props> = ({ bumpkinParts }) => {
         bumpkinParts={bumpkinParts}
       >
         <div className="w-full mb-3 flex justify-center">
-          <img src={sunflower} className="h-9 md:h-10" />
+          <img src={CROP_LIFECYCLE.Sunflower.crop} className="h-9 md:h-10" />
         </div>
         {pageNumber === 1 && PageOne()}
         {pageNumber === 2 && PageTwo()}

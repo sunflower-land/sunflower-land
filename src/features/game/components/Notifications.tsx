@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import close from "assets/icons/close.png";
-
 import { Context } from "features/game/GameProvider";
 import { OnChainEvent } from "../actions/onChainEvents";
 import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "../lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const CONTENT_HEIGHT = 400;
 
@@ -25,7 +24,7 @@ export const Notifications: React.FC = () => {
       <div className="flex justify-between items-center mb-2 px-2">
         <p className="text-sm">{`Since you've been gone`}</p>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onAcknowledge}
           style={{

@@ -6,28 +6,25 @@ import { ChickenFight } from "features/community/arcade/games/ChickenFight";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ArcadeDonation } from "./ArcadeDonation";
+import { ARCADE_GAMES } from "../lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-enum GAMES {
-  GREEDY_GOBLIN = "Greedy Goblin",
-  CHICKEN_FIGHT = "Chicken Fight (2P)",
-}
-
 export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [currentGame, setCurrentGame] = useState<GAMES | null>(null);
+  const [activeWindow, setActiveWindow] = useState<string | null>(null);
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
       <Panel>
         <div className="flex flex-col items-center mt-1 mb-1">
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{
@@ -36,32 +33,45 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
               width: `${PIXEL_SCALE * 11}px`,
             }}
           />
-          <h1 className="my-2">{currentGame || "Mini SFL Games"}</h1>
+          <h1 className="my-2">{activeWindow || "Mini SFL Games"}</h1>
         </div>
         {/* Menu */}
-        {currentGame === null && (
+        {activeWindow === null && (
           <ul className="list-none">
             <li className="p-1">
               <Button
                 className="text-sm"
-                onClick={() => setCurrentGame(GAMES.GREEDY_GOBLIN)}
+                onClick={() =>
+                  setActiveWindow(ARCADE_GAMES.GREEDY_GOBLIN.title)
+                }
               >
-                {GAMES.GREEDY_GOBLIN}
+                {ARCADE_GAMES.GREEDY_GOBLIN.title}
               </Button>
             </li>
             <li className="p-1">
               <Button
                 className="text-sm"
-                onClick={() => setCurrentGame(GAMES.CHICKEN_FIGHT)}
+                onClick={() =>
+                  setActiveWindow(ARCADE_GAMES.CHICKEN_FIGHT.title)
+                }
               >
-                {GAMES.CHICKEN_FIGHT}
+                {ARCADE_GAMES.CHICKEN_FIGHT.title}
               </Button>
+            </li>
+            <li className="p-1 pb-2 flex justify-content-center">
+              <span
+                className="underline cursor-pointer"
+                onClick={() => setActiveWindow("Donation")}
+              >
+                Donate
+              </span>
             </li>
           </ul>
         )}
 
-        {currentGame === GAMES.GREEDY_GOBLIN && <GreedyGoblin />}
-        {currentGame === GAMES.CHICKEN_FIGHT && <ChickenFight />}
+        {activeWindow === ARCADE_GAMES.GREEDY_GOBLIN.title && <GreedyGoblin />}
+        {activeWindow === ARCADE_GAMES.CHICKEN_FIGHT.title && <ChickenFight />}
+        {activeWindow === "Donation" && <ArcadeDonation />}
       </Panel>
     </Modal>
   );

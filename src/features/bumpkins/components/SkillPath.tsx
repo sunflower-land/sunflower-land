@@ -8,13 +8,13 @@ import {
 } from "features/game/types/bumpkinSkills";
 
 import { Box } from "components/ui/Box";
-import confirm from "assets/icons/confirm.png";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface SkillPathProps {
   skillsInPath: BumpkinSkill[];
@@ -69,7 +69,7 @@ export const SkillPath = ({
                 showOverlay={hasSkill}
                 overlayIcon={
                   <img
-                    src={confirm}
+                    src={SUNNYSIDE.icons.confirm}
                     alt="active skill"
                     className="relative object-contain"
                     style={{

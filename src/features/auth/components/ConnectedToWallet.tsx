@@ -3,8 +3,7 @@ import React, { useContext } from "react";
 import * as Auth from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
-
-import bumpkin from "assets/npcs/bumpkin.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const ConnectedToWallet: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -17,7 +16,7 @@ export const ConnectedToWallet: React.FC = () => {
     <>
       <div className="flex flex-col items-center text-center p-2">
         <span>Wallet Connected!</span>
-        <img src={bumpkin} alt="Warning" className="w-8 m-2" />
+        <img src={SUNNYSIDE.npcs.idle} alt="Warning" className="w-8 m-2" />
         <span className="text-sm mt-2 mb-2">
           Your wallet has been successfully connected!
           <br />

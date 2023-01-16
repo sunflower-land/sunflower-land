@@ -3,7 +3,6 @@ import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
 import levelup from "assets/icons/level_up.png";
-import watch from "assets/icons/stopwatch.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -27,6 +26,7 @@ import {
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   selected: Consumable;
@@ -202,7 +202,7 @@ export const Recipes: React.FC<Props> = ({
               </span>
             </div>
             <div className="flex justify-between">
-              <img src={watch} className="h-5 mr-1" />
+              <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
               <span className="text-xs whitespace-nowrap">
                 {secondsToString(
                   getCookingTime(selected.cookingSeconds, state.bumpkin),

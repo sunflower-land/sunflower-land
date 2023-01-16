@@ -30,7 +30,6 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flags } from "./Flags";
 import { GameState } from "../types/game";
 import { fountainAudio } from "lib/utils/sfx";
-import { Sign } from "./Sign";
 import {
   Beavers,
   Moles,
@@ -245,8 +244,6 @@ export const Decorations: React.FC<{ state: GameState }> = ({ state }) => (
         alt="Homeless Tent"
       />
     )}
-
-    <Sign id={state.id as number} inventory={state.inventory} />
 
     {state.inventory["Farmer Bath"] && (
       <div

@@ -5,9 +5,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
 
-import confirm from "assets/icons/confirm.png";
-import sunflower from "assets/crops/sunflower/crop.png";
-
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
@@ -20,6 +17,8 @@ import { fromWei, toBN } from "web3-utils";
 import { sequence } from "0xsequence";
 import { OpenWalletIntent } from "@0xsequence/provider";
 import { SEQUENCE_CONNECT_OPTIONS } from "../lib/sequence";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -173,7 +172,7 @@ export const CreateFarm: React.FC = () => {
     <div className="flex flex-col items-center">
       <h1 className="text-center mb-1">Getting Started</h1>
       <img
-        src={sunflower}
+        src={CROP_LIFECYCLE.Sunflower.crop}
         className="my-1"
         style={{
           width: `${PIXEL_SCALE * 13}px`,
@@ -206,7 +205,7 @@ export const CreateFarm: React.FC = () => {
                   {!hasEnoughMatic && <span>1.</span>}
                   {hasEnoughMatic && (
                     <img
-                      src={confirm}
+                      src={SUNNYSIDE.icons.confirm}
                       style={{
                         width: `${PIXEL_SCALE * 6}px`,
                       }}
@@ -241,7 +240,7 @@ export const CreateFarm: React.FC = () => {
                   {!hasCharitySelected && <span>2.</span>}
                   {hasCharitySelected && (
                     <img
-                      src={confirm}
+                      src={SUNNYSIDE.icons.confirm}
                       style={{
                         width: `${PIXEL_SCALE * 6}px`,
                       }}

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 
-import alert from "assets/icons/expression_alerted.png";
 import { wallet } from "lib/blockchain/wallet";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { metamaskIcon } from "./WalletIcons";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const WrongChain: React.FC = () => {
   const [isDefaultNetwork, setIsDefaultNetwork] = useState(false);
@@ -34,7 +34,7 @@ export const WrongChain: React.FC = () => {
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex m-2 items-center">
         <img
-          src={alert}
+          src={SUNNYSIDE.icons.expression_alerted}
           alt="Warning"
           style={{
             width: `${PIXEL_SCALE * 4}px`,

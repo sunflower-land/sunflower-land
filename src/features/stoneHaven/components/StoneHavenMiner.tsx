@@ -1,9 +1,9 @@
 import React from "react";
 
-import miner from "assets/npcs/goblin_mining.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const StoneHavenMiner: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ export const StoneHavenMiner: React.FC = () => {
           }}
         />
         <img
-          src={miner}
+          src={SUNNYSIDE.npcs.goblin_mining}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 64}px`,

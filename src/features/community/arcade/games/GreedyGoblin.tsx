@@ -20,12 +20,11 @@ import goblin from "assets/community/arcade/greedy_goblin/images/goblin_catch.pn
 import token from "assets/community/arcade/greedy_goblin/images/coin.png";
 import skull from "assets/community/arcade/greedy_goblin/images/skull.png";
 import gameOver from "assets/community/arcade/images/game_over.png";
-import leftArrow from "assets/icons/arrow_left.png";
-import rightArrow from "assets/icons/arrow_right.png";
 
 import { greedyGoblinAudio } from "src/lib/utils/sfx";
 import { randomInt } from "lib/utils/random";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type MoveDirection = "left" | "right";
 type ActionKeys =
@@ -164,7 +163,7 @@ export const GreedyGoblin: React.FC = () => {
    * Add to list of active keys when key is down
    * @param event keyboard event
    */
-  const keydownKeboardListener = (event: KeyboardEvent) => {
+  const keydownKeyboardListener = (event: KeyboardEvent) => {
     event.stopPropagation();
     const key = event.key.toLowerCase();
 
@@ -183,7 +182,7 @@ export const GreedyGoblin: React.FC = () => {
    * Remove from list of active keys when key is up
    * @param event keyboard event
    */
-  const keyupKeboardListener = (event: KeyboardEvent) => {
+  const keyupKeyboardListener = (event: KeyboardEvent) => {
     event.stopPropagation();
     const key = event.key.toLowerCase();
 
@@ -221,15 +220,15 @@ export const GreedyGoblin: React.FC = () => {
 
     canvasRef.current?.getContext("2d")?.drawGoblinImage();
 
-    document.addEventListener("keydown", keydownKeboardListener);
-    document.addEventListener("keyup", keyupKeboardListener);
+    document.addEventListener("keydown", keydownKeyboardListener);
+    document.addEventListener("keyup", keyupKeyboardListener);
 
     greedyGoblinAudio.greedyGoblinIntroAudio.play();
 
     return () => {
       intervalIds.current.forEach((id) => clearInterval(id));
-      document.removeEventListener("keydown", keydownKeboardListener);
-      document.removeEventListener("keyup", keyupKeboardListener);
+      document.removeEventListener("keydown", keydownKeyboardListener);
+      document.removeEventListener("keyup", keyupKeyboardListener);
 
       Object.values(greedyGoblinAudio).forEach((audio) => audio.stop());
     };
@@ -378,7 +377,11 @@ export const GreedyGoblin: React.FC = () => {
 
       // clear whole space and draw game over image
       context?.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      context?.drawImage(gameOverImage, 30, CANVAS_HEIGHT / 4);
+      context?.drawImage(
+        gameOverImage,
+        CANVAS_HEIGHT / 2 - 69,
+        CANVAS_HEIGHT / 2 - 40
+      );
       context?.drawGoblinImage();
 
       intervalIds.current.forEach((id) => clearInterval(id));
@@ -417,7 +420,7 @@ export const GreedyGoblin: React.FC = () => {
           style={{
             borderStyle: "solid",
             borderWidth: "5px",
-            borderRadius: "20px",
+            borderRadius: "15px",
             maxWidth: CANVAS_WIDTH,
             maxHeight: CANVAS_HEIGHT,
             backgroundImage: `url(${gameBackground})`,
@@ -454,7 +457,7 @@ export const GreedyGoblin: React.FC = () => {
         >
           <img
             className="pointer-events-none"
-            src={leftArrow}
+            src={SUNNYSIDE.icons.arrow_left}
             alt="left-arrow"
             style={{
               width: `${PIXEL_SCALE * 11}px`,
@@ -474,7 +477,7 @@ export const GreedyGoblin: React.FC = () => {
         >
           <img
             className="pointer-events-none"
-            src={rightArrow}
+            src={SUNNYSIDE.icons.arrow_right}
             alt="right-arrow"
             style={{
               width: `${PIXEL_SCALE * 11}px`,
