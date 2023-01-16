@@ -1,11 +1,11 @@
 import React from "react";
 
-import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export interface PanelTabs {
   icon: string;
@@ -75,7 +75,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
           <div className="grow" />
           {showCloseButton && (
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="flex-none cursor-pointer"
               onClick={onClose}
               style={{
@@ -106,7 +106,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
             {showCloseButton && !tabs && (
               <div className="flex-none">
                 <img
-                  src={close}
+                  src={SUNNYSIDE.icons.close}
                   className="cursor-pointer"
                   onClick={onClose}
                   style={{
@@ -120,7 +120,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
         {children}
         {showCloseButton && !tabs && !title && (
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

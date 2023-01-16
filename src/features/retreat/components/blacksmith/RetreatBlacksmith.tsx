@@ -1,6 +1,5 @@
 import React from "react";
 import blacksmith from "assets/buildings/goblin_blacksmith.gif";
-import icon from "assets/icons/hammer.png";
 
 import { Action } from "components/ui/Action";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -10,6 +9,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Inventory } from "features/game/types/game";
 import { GoblinBlacksmithItems } from "./components/GoblinBlacksmithItems";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   inventory: Inventory;
@@ -48,7 +48,11 @@ export const RetreatBlacksmith: React.FC<Props> = ({ inventory }) => {
             bottom: `${PIXEL_SCALE * 3}px`,
           }}
         >
-          <Action className="pointer-events-none" text="Craft" icon={icon} />
+          <Action
+            className="pointer-events-none"
+            text="Craft"
+            icon={SUNNYSIDE.icons.hammer}
+          />
         </div>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
@@ -62,7 +66,7 @@ export const RetreatBlacksmith: React.FC<Props> = ({ inventory }) => {
             background: "Farm Background",
             shoes: "Black Farmer Boots",
           }}
-          tabs={[{ name: "Craft", icon }]}
+          tabs={[{ name: "Craft", icon: SUNNYSIDE.icons.hammer }]}
           onClose={() => setIsOpen(false)}
         >
           <GoblinBlacksmithItems onClose={() => setIsOpen(false)} />

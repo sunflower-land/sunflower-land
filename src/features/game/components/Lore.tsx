@@ -8,8 +8,8 @@ import { Panel } from "components/ui/Panel";
 import greenBook from "assets/decorations/green_book.png";
 import yellowBook from "assets/decorations/yellow_book.png";
 import tombstone from "assets/decorations/tombstone.png";
-import close from "assets/icons/close.png";
 import { battleAudio, diaryAudio } from "lib/utils/sfx";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Lore: React.FC = () => {
   const [showGreenBook, setShowGreenBook] = useState(false);
@@ -56,7 +56,7 @@ export const Lore: React.FC = () => {
         <Modal centered show={showGreenBook} onHide={onCloseBook}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={onCloseBook}
               style={{
@@ -94,7 +94,7 @@ export const Lore: React.FC = () => {
         <Modal centered show={showYellowBook} onHide={onCloseBook}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={onCloseBook}
               style={{
@@ -129,7 +129,7 @@ export const Lore: React.FC = () => {
         <Modal centered show={showChildrensBook} onHide={onCloseBook}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={onCloseBook}
               style={{
@@ -167,7 +167,7 @@ export const Lore: React.FC = () => {
         >
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={() => setShowTombstone(false)}
               style={{

@@ -4,11 +4,10 @@ import { MachineInterpreter } from "../../lib/craftingMachine";
 import Modal from "react-bootstrap/esm/Modal";
 import { Panel } from "components/ui/Panel";
 
-import close from "assets/icons/close.png";
-import stopwatch from "assets/icons/stopwatch.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   service: MachineInterpreter;
@@ -52,7 +51,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
         }}
       >
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{
@@ -70,7 +69,7 @@ export const CraftingTimerModal: React.FC<Props> = ({
             <div className="flex w-full justify-between mt-2">
               <img src={ITEM_DETAILS[name].image} className="h-7" />
               <div className="flex items-center">
-                <img src={stopwatch} className="h-7 mr-2" />
+                <img src={SUNNYSIDE.icons.stopwatch} className="h-7 mr-2" />
                 <p>{secondsToString(secondsTillReady, { length: "medium" })}</p>
               </div>
             </div>

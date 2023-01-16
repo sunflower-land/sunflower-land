@@ -4,7 +4,6 @@ import { Button } from "components/ui/Button";
 import token from "assets/icons/token_2.png";
 import bg from "assets/ui/brown_background.png";
 import calendar from "assets/icons/calendar.png";
-import stopwatch from "assets/icons/stopwatch.png";
 
 import { Label } from "components/ui/Label";
 import { AuctioneerItem } from "./actions/auctioneerItems";
@@ -18,6 +17,7 @@ import { formatDateTime, secondsToString } from "lib/utils/time";
 import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = {
   isMinting: boolean;
@@ -185,7 +185,7 @@ export const AuctionDetails: React.FC<Props> = ({
   const AvailableForLabel = (releaseDate: number, endDate: number) => {
     return (
       <div className="flex items-center space-x-2 mb-2">
-        <img src={stopwatch} className="w-4" alt="timer" />
+        <img src={SUNNYSIDE.icons.stopwatch} className="w-4" alt="timer" />
         <span className="text-xxs">{`Available for ${secondsToString(
           (endDate - releaseDate) / 1000,
           { length: "short" }

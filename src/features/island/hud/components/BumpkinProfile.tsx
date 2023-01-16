@@ -4,7 +4,6 @@ import { useActor } from "@xstate/react";
 
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
 import whiteBg from "assets/ui/profile/bg.png";
-import lvlUp from "assets/icons/expression_alerted.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
@@ -23,6 +22,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const DIMENSIONS = {
   original: 80,
@@ -162,7 +162,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         </div>
         {showSkillPointAlert && (
           <img
-            src={lvlUp}
+            src={SUNNYSIDE.icons.expression_alerted}
             className="col-start-1 row-start-1 animate-float z-30"
             style={{
               width: `${DIMENSIONS.skillsMark.width}px`,

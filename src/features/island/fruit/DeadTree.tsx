@@ -6,10 +6,10 @@ import { setImageWidth } from "lib/images";
 import React, { useContext, useState } from "react";
 import { InfoPopover } from "../common/InfoPopover";
 import { FruitLifecycle } from "./fruits";
-import axe from "assets/tools/axe.png";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { FruitName } from "features/game/types/fruits";
 import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   lifecycle: FruitLifecycle;
@@ -89,7 +89,7 @@ export const DeadTree = ({
         position={{ top: -2, left: 23 }}
       >
         <div className="flex flex-1 items-center text-xxs justify-center text-white px-2 py-1 whitespace-nowrap">
-          <img src={axe} className="w-4 mr-1" />
+          <img src={SUNNYSIDE.tools.axe} className="w-4 mr-1" />
           <span>No Axe Selected!</span>
         </div>
       </InfoPopover>

@@ -18,7 +18,7 @@ As a general rule, only the latest release gets security updates.
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, please get in contact with one of the engineers in the `#devs-chat` in Discord.
+To report a vulnerability, please get in contact with one of the engineers in the `#coders-chat` in Discord.
 
 In the bug report, please include all details necessary to reproduce the vulnerability such as:
 

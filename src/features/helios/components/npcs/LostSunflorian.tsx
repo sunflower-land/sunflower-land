@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 import sunflorian from "assets/npcs/lost_sunflorian.gif";
 import shadow from "assets/npcs/shadow.png";
-import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LostSunflorian: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -48,7 +48,7 @@ export const LostSunflorian: React.FC = () => {
           }}
         >
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
             style={{

@@ -6,9 +6,6 @@ import Spritesheet, {
 
 import sparkSheet from "assets/resources/stone/stone_rock_spark.png";
 import dropSheet from "assets/resources/stone/stone_rock_drop.png";
-import hitbox from "assets/resources/small_stone.png";
-import stone from "assets/resources/stone.png";
-import pickaxe from "assets/tools/wood_pickaxe.png";
 
 import {
   GRID_WIDTH_PX,
@@ -30,6 +27,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { MINE_ERRORS } from "features/game/events/landExpansion/ironMine";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const HITS = 3;
 
@@ -133,7 +131,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         displayPopover(
           <div className="flex">
             <img
-              src={stone}
+              src={SUNNYSIDE.resource.stone}
               className="mr-2"
               style={{
                 width: `${PIXEL_SCALE * 10}px`,
@@ -144,7 +142,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         );
 
         setToast({
-          icon: stone,
+          icon: SUNNYSIDE.resource.stone,
           content: `+${rock.stone.amount}`,
         });
 
@@ -155,7 +153,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       if (e.message === MINE_ERRORS.NO_PICKAXES) {
         displayPopover(
           <div className="flex">
-            <img src={pickaxe} className="w-4 h-4 mr-2" />
+            <img src={SUNNYSIDE.tools.wood_pickaxe} className="w-4 h-4 mr-2" />
             <span className="text-xs text-white">No pickaxes left</span>
           </div>
         );
@@ -270,7 +268,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       {mined && (
         <>
           <img
-            src={hitbox}
+            src={SUNNYSIDE.resource.small_stone}
             className="pointer-events-none absolute opacity-50"
             style={{
               width: `${GRID_WIDTH_PX}px`,

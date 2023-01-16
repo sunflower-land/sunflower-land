@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import sflIcon from "assets/icons/token_2.png";
-import arrowLeft from "assets/icons/arrow_left.png";
 
 import {
   AchievementName,
@@ -21,6 +20,7 @@ import { useActor } from "@xstate/react";
 import { setImageWidth } from "lib/images";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -67,7 +67,7 @@ export const AchievementDetails: React.FC<Props> = ({
       <OuterPanel className="relative flex-1 w-full flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
-            src={arrowLeft}
+            src={SUNNYSIDE.icons.arrow_left}
             className="absolute self-start cursor-pointer"
             style={{
               top: `${PIXEL_SCALE * 2}px`,

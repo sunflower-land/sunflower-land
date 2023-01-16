@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 
-import close from "assets/icons/close.png";
 import token from "assets/icons/token_2.png";
 
 import { Context } from "../GameProvider";
@@ -10,6 +9,7 @@ import { ITEM_DETAILS } from "../types/images";
 import { InventoryItemName } from "../types/game";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { PIXEL_SCALE } from "../lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Hoarding: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -48,7 +48,7 @@ export const Hoarding: React.FC = () => {
       {!showCaptcha ? (
         <>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             alt="Close Hoarding Modal"
             onClick={onAcknowledge}
@@ -84,7 +84,7 @@ export const Hoarding: React.FC = () => {
       ) : (
         <div>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="h-6 top-3 right-4 absolute cursor-pointer"
             alt="Close Captcha Modal"
             onClick={() => setShowCaptcha(false)}

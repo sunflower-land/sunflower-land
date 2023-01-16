@@ -47,6 +47,14 @@ Still not satisfied? Submit a support ticket here: [Submit a ticket](https://sun
 
 Please add a new idea for the community to vote on, here: [SFL Idea Portal](https://sunflower-land.ideas.aha.io/)
 
+# 🎨 Sunnyside Assets
+
+Sunflower Land uses crops, icons and tiles from Daniel Diggle's SunnySide Asset Pack.
+
+These raw assets/tiles are not in this repo. You must purchase the asset pack if you wish to extend these assets or use them elsewhere.
+
+[Download Here](https://danieldiggle.itch.io/sunnyside)
+
 # 👶 Getting Started
 
 Firstly, you will need to clone the repo locally. Once you have it ready navigate into the directory and run the following commands:
@@ -123,4 +131,6 @@ The previous version was used unethically on other Blockchains. The team is work
 
 All media assets (images and music) are not available for use in commercial or private projects.
 
-If you plan on using the repo's assets you must seek permission from the Intellectual property or licence holder. For artists wishing to extend the base asset pack, you must download the SunnySide asset pack listed in the Art contributing docs.
+To access the crops, resources and land tiles, please refer to the [SunnySide Asset Pack](https://danieldiggle.itch.io/sunnyside)
+
+If you wish to use Bumpkin NFTs or custom Sunflower Land collectibles in your own project please reach to the core team on Discord.

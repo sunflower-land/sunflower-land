@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import basket from "assets/icons/basket.png";
-import roundButton from "assets/ui/button/round_button.png";
-
 import { Box } from "components/ui/Box";
 
 import { InventoryItems } from "./InventoryItems";
@@ -13,6 +10,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleName } from "features/game/types/craftables";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   state: GameState;
@@ -63,14 +61,14 @@ export const Inventory: React.FC<Props> = ({
         }}
       >
         <img
-          src={roundButton}
+          src={SUNNYSIDE.ui.round_button}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
-          src={basket}
+          src={SUNNYSIDE.icons.basket}
           className="absolute"
           style={{
             top: `${PIXEL_SCALE * 5}px`,

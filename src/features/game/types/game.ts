@@ -298,7 +298,22 @@ export type PlacedItem = {
 };
 
 export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
-export type Collectibles = Partial<Record<CollectibleName, PlacedItem[]>>;
+
+type PlacedManeki = PlacedItem & { shakenAt?: number };
+
+// Support custom types for collectibles
+type CustomCollectibles = {
+  "Maneki Neko": PlacedManeki[];
+};
+
+// Mapping to determine which type should be used for a placed collectible
+type PlacedTypes<Name extends CollectibleName> = {
+  [key in Name]: key extends keyof CustomCollectibles
+    ? CustomCollectibles[key]
+    : PlacedItem[];
+};
+
+export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
 
 export type LandExpansion = {
   createdAt: number;
