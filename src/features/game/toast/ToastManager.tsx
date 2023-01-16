@@ -28,8 +28,8 @@ export const ToastManager: React.FC = () => {
             "flex flex-col items-end sm:block fixed z-[99999] pointer-events-none"
           }
           style={{
-            top: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 50}px`,
+            top: `${PIXEL_SCALE * 52}px`,
+            left: `${PIXEL_SCALE * 3}px`,
           }}
         >
           <InnerPanel className="text-white">
