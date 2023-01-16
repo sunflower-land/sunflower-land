@@ -32,11 +32,17 @@
 body {
   font-family: "Paytone One", sans-serif;
   overflow: hidden;
-  text-shadow: 1px 1px #1f1f1f;
+  color: white;
   font-size: 22px;
   letter-spacing: -0.4px;
   word-spacing: 3px;
   line-height: 20px;
+}
+
+body,
+button,
+input {
+  text-shadow: 1px 1px #1f1f1f;
 }
 
 button:disabled {
