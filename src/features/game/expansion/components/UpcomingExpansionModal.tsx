@@ -2,9 +2,9 @@ import React from "react";
 import { GameState } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CraftingRequirementsView } from "components/ui/CraftingRequirementsView";
+import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 
 interface Props {
   gameState: GameState;
@@ -17,15 +17,12 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   onClose,
   onExpand,
 }) => {
-  const { bumpkin } = gameState;
   // cannot expand if there is no next expansion
   if (gameState.expansionRequirements === undefined) {
     return (
       <div>
         <div className="flex items-start">
-          <span className="m-2 text-base">
-            More expansions will be available soon...
-          </span>
+          <span className="m-2">More expansions will be available soon...</span>
         </div>
         <div className="flex justify-center w-1/2 mb-2">
           <img
@@ -45,13 +42,11 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   const sflRequirement = gameState.expansionRequirements.sfl;
   const levelRequirement = gameState.expansionRequirements.bumpkinLevel;
 
-  const hasBalance = gameState.balance.gte(gameState.expansionRequirements.sfl);
-  const hasResources = gameState.expansionRequirements.resources.every(
-    ({ item, amount }) => gameState.inventory[item]?.gte(amount)
-  );
-  const hasLevel =
-    getBumpkinLevel(bumpkin?.experience || 0) >= levelRequirement;
-  const canExpand = hasResources && hasBalance && hasLevel;
+  const canExpand = craftingRequirementsMet(gameState, {
+    resources: resourcesRequirement,
+    sfl: sflRequirement,
+    level: levelRequirement,
+  });
 
   return (
     <CraftingRequirementsView
