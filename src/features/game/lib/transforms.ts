@@ -1,4 +1,8 @@
 import Decimal from "decimal.js-light";
+import {
+  getBasketItems,
+  getChestItems,
+} from "features/island/hud/components/inventory/utils/inventory";
 import { getKeys } from "../types/craftables";
 import {
   GameState,
@@ -247,27 +251,32 @@ export function updateGame(
 /**
  * Returns the lowest values out of 2 game states
  */
-export function getLowestGameState({
-  first,
-  second,
+export function getAvailableGameState({
+  onChain,
+  offChain,
 }: {
-  first: GameState;
-  second: GameState;
+  onChain: GameState;
+  offChain: GameState;
 }) {
-  const balance = first.balance.lt(second.balance)
-    ? first.balance
-    : second.balance;
+  // Grab items that are available in inventory(not placed)
+  const chestItems = getChestItems(offChain);
+  const basketItems = getBasketItems(offChain.inventory);
+  const availableItems = { ...chestItems, ...basketItems };
+
+  const balance = onChain.balance.lt(offChain.balance)
+    ? onChain.balance
+    : offChain.balance;
 
   const items = [
     ...new Set([
-      ...(Object.keys(first.inventory) as InventoryItemName[]),
-      ...(Object.keys(second.inventory) as InventoryItemName[]),
+      ...(Object.keys(onChain.inventory) as InventoryItemName[]),
+      ...(Object.keys(availableItems) as InventoryItemName[]),
     ]),
   ];
 
   const inventory: Inventory = items.reduce((inv, name) => {
-    const firstAmount = first.inventory[name] || new Decimal(0);
-    const secondAmount = second.inventory[name] || new Decimal(0);
+    const firstAmount = onChain.inventory[name] || new Decimal(0);
+    const secondAmount = availableItems[name] || new Decimal(0);
 
     const amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
 

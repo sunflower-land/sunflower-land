@@ -16,7 +16,7 @@ import { wishingWellMachine } from "features/goblins/wishingWell/wishingWellMach
 import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/tradingPostMachine";
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
-import { getLowestGameState } from "./transforms";
+import { getAvailableGameState } from "./transforms";
 import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
@@ -191,9 +191,9 @@ export function startGoblinVillage(authContext: AuthContext) {
               const game = response?.game as GameState;
 
               // Show whatever is lower, on chain or offchain
-              const availableState = getLowestGameState({
-                first: onChainState.game,
-                second: game,
+              const availableState = getAvailableGameState({
+                onChain: onChainState.game,
+                offChain: game,
               });
 
               game.id = farmId;
