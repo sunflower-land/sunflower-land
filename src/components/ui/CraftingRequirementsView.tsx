@@ -104,7 +104,9 @@ export const CraftingRequirementsView: React.FC<Props> = ({
     if (details.type === "item") {
       const item = ITEM_DETAILS[details.item];
       icon = item.image;
-      title = details.item;
+      title = details.quantity
+        ? `${details.quantity} x ${details.item}`
+        : details.item;
       description = item.description;
     } else {
       icon = details.icon;
