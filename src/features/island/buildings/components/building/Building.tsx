@@ -24,9 +24,8 @@ import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
+import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
-
-import cancel from "assets/icons/cancel.png";
 
 interface Prop {
   name: BuildingName;
@@ -135,7 +134,7 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
           }
         )}
       >
-        <img className="w-5" src={cancel} />
+        <img className="w-5" src={SUNNYSIDE.icons.cancel} />
       </div>
       {showTimers && (
         <div
