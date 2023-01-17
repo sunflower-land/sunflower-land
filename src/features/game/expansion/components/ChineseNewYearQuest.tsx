@@ -15,13 +15,13 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import luckySign from "assets/quest/luck_sign.png";
 
 const resourceToFindRedEnvelopes: { [key: number]: string } = {
-  17: "beetroots",
-  22: "trees",
-  23: "cauliflowers",
-  24: "potatoes",
-  25: "parsnips",
-  26: "cabbages",
-  27: "sunflowers",
+  20: "beetroots",
+  21: "trees",
+  22: "cauliflowers",
+  23: "potatoes",
+  24: "parsnips",
+  25: "cabbages",
+  26: "sunflowers",
 };
 
 const todaysFind = resourceToFindRedEnvelopes[new Date().getDate()];
@@ -43,7 +43,7 @@ const ModalEventComing = () => {
       </p>
       <p className="mb-2 text-sm text-left">
         {`The festivities start on ${new Date(
-          "2023-01-21T00:00:00+08:00"
+          "2023-01-20T00:00:00+08:00"
         ).toDateString()}`}
       </p>
     </>
@@ -101,7 +101,7 @@ export const ChineseNewYearQuest: React.FC = () => {
     tool: "Sword",
     shoes: "Black Farmer Boots",
     background: "Farm Background",
-    // hat: "Lion Dance Mask",
+    hat: "Lion Dance Mask",
   };
 
   return (
