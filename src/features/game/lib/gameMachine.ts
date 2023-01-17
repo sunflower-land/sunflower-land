@@ -20,7 +20,7 @@ import { wallet } from "../../../lib/blockchain/wallet";
 import { GameState, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
-import { autosave, reveal } from "../actions/autosave";
+import { autosave } from "../actions/autosave";
 import { CollectibleName } from "../types/craftables";
 import { sync } from "../actions/sync";
 import { getGameOnChainState } from "../actions/onchain";

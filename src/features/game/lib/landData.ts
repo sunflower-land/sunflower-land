@@ -335,6 +335,7 @@ export const OFFLINE_FARM: GameState = {
   },
   mysteryPrizes: {},
   bumpkin: INITIAL_BUMPKIN,
+  pumpkinPlaza: {},
   tradeOffer: {
     amount: 1,
     endAt: new Date(Date.now() + 100000000000000).toISOString(),
