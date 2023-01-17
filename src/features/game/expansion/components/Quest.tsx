@@ -157,7 +157,11 @@ export const Quest: React.FC<Props> = ({
   }
 
   return (
-    <CloseButtonPanel title={questTitle} bumpkinParts={bumpkinParts}>
+    <CloseButtonPanel
+      title={questTitle}
+      bumpkinParts={bumpkinParts}
+      onClose={() => close()}
+    >
       {Content()}
     </CloseButtonPanel>
 

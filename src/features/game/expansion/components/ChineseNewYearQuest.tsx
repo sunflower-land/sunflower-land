@@ -14,7 +14,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Equipped } from "features/game/types/bumpkin";
 
 const resourceToFindRedEnvelopes: { [key: number]: string } = {
-  16: "Beetroots",
+  21: "Beetroots",
   22: "Trees",
   23: "Cauliflowers",
   24: "Potatoes",
@@ -46,11 +46,12 @@ const ModalDescription = () => {
     <>
       <div>
         <p className="mb-4">
-          Amid the sound of firecrackers a year has come to an end, The spring
-          wind has wafted warm breath to the Tusu wine.
+          Amid the sound of firecrackers a year has come to an end and to
+          welcome the new year farmers will find Red Envelopes on different
+          places everyday.
         </p>
         <p className="mb-4">
-          {`There are rumours a few lucky farmers are finding Red Envelopes on while harvesting ${todaysFind} today.`}
+          {`There are rumours a few lucky farmers are finding Red Envelopes while harvesting on ${todaysFind} today.`}
         </p>
         <p className="mb-4">萬事如意</p>
         <div className="flex justify-center mb-4">
