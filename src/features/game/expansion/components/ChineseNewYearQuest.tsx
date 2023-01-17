@@ -9,69 +9,77 @@ import island from "assets/events/chinese-new-year/chinese_island.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Quest } from "./Quest";
-import { Panel } from "components/ui/Panel";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Equipped } from "features/game/types/bumpkin";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+
+import luckySign from "assets/quest/luck_sign.png";
 
 const resourceToFindRedEnvelopes: { [key: number]: string } = {
-  21: "Beetroots",
-  22: "Trees",
-  23: "Cauliflowers",
-  24: "Potatoes",
-  25: "Parsnips",
-  26: "Cabbages",
-  27: "Sunflowers",
+  17: "beetroots",
+  22: "trees",
+  23: "cauliflowers",
+  24: "potatoes",
+  25: "parsnips",
+  26: "cabbages",
+  27: "sunflowers",
 };
 
 const todaysFind = resourceToFindRedEnvelopes[new Date().getDate()];
 
 const ModalEventComing = () => {
   return (
-    <div>
-      <p className="mb-4">
+    <>
+      <div className="flex w-full justify-center">
+        <img
+          src={luckySign}
+          alt="lucky sign"
+          className="mb-4"
+          style={{ width: `${PIXEL_SCALE * 31}px` }}
+        />
+      </div>
+      <p className="mb-2 text-sm text-left">
         We are working hard to organise a beautiful Spring Festival for all
         farmers.
       </p>
-      <p className="mb-4">
+      <p className="mb-2 text-sm text-left">
         {`The festivities start on ${new Date(
           "2023-01-21T00:00:00+08:00"
         ).toDateString()}`}
       </p>
-    </div>
+    </>
   );
 };
 
 const ModalDescription = () => {
   return (
     <>
-      <div>
-        <p className="mb-4">
-          Amid the sound of firecrackers a year has come to an end and to
-          welcome the new year farmers will find Red Envelopes on different
-          places everyday.
-        </p>
-        <p className="mb-4">
-          {`There are rumours a few lucky farmers are finding Red Envelopes while harvesting on ${todaysFind} today.`}
-        </p>
-        <p className="mb-4">萬事如意</p>
-        <div className="flex justify-center mb-4">
-          <img
-            src={envelopes}
-            className="mr-2 img-highlight"
-            style={{
-              height: `${PIXEL_SCALE * 20}px`,
-            }}
-          />
-        </div>
+      <div className="flex justify-center mb-3">
+        <img
+          src={envelopes}
+          className="img-highlight"
+          style={{
+            height: `${PIXEL_SCALE * 20}px`,
+          }}
+        />
       </div>
+      <p className="mb-2 text-sm">
+        Amid the sound of firecrackers, a year has come to an end. To celebrate
+        the New Year, some special red envelopes have been hidden among the
+        crops and trees.
+      </p>
+      <p className="mb-4 text-sm">
+        There are rumours a few lucky farmers are finding these envelopes among
+        their <span className="underline">{todaysFind}</span> today.
+      </p>
+      <p className="mb-2 text-sm text-center">萬事如意</p>
     </>
   );
 };
 
 const QuestCompletion = () => {
   return (
-    <div className="pr-4 pl-2 py-2">
-      <p className="mb-3">
+    <div className="p-2">
+      <p className="mb-2">
         Wow, you are really lucky finding all these Red Envelopes!
       </p>
       <p>
@@ -134,19 +142,12 @@ export const ChineseNewYearQuest: React.FC = () => {
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         {!todaysFind ? (
-          <Panel bumpkinParts={bumpkin}>
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="absolute cursor-pointer z-20"
-              onClick={() => setShowModal(false)}
-              style={{
-                top: `${PIXEL_SCALE * 6}px`,
-                right: `${PIXEL_SCALE * 6}px`,
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
+          <CloseButtonPanel
+            title="The New Year is coming!"
+            bumpkinParts={bumpkin}
+          >
             {ModalEventComing()}
-          </Panel>
+          </CloseButtonPanel>
         ) : (
           <Quest
             quests={["Chinese New Year Quest 1", "Chinese New Year Quest 2"]}

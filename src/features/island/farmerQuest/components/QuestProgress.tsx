@@ -55,7 +55,6 @@ export const QuestProgress: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <span className="mb-2">{quest.wearable}</span>
       {secondsLeft ? (
         <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center p-[3px] rounded-md whitespace-nowrap">
           <img src={SUNNYSIDE.icons.timer} className="w-3 left-0 -top-4 mr-1" />
