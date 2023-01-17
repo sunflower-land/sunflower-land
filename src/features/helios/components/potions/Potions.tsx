@@ -5,11 +5,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import building from "assets/buildings/fertilisers.png";
 import potionMaster from "assets/npcs/potion_master.gif";
 import shadow from "assets/npcs/shadow.png";
-import close from "assets/icons/close.png";
 
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Potions: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -65,7 +65,7 @@ export const Potions: React.FC = () => {
           }}
         >
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setIsOpen(false)}
             style={{

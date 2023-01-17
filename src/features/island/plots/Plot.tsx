@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
+import { v4 as uuidv4 } from "uuid";
 
 import selectBox from "assets/ui/select/select_box.png";
-import cancel from "assets/icons/cancel.png";
-import soilNotFertile from "assets/land/soil_dry.png";
 import well from "assets/buildings/well1.png";
-import close from "assets/icons/close.png";
 
 import { Context } from "features/game/GameProvider";
 import {
@@ -19,19 +17,20 @@ import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { Soil } from "features/farming/crops/components/Soil";
+import { Soil } from "features/island/plots/components/Soil";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import { isPlotFertile } from "features/game/events/landExpansion/plant";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import Spritesheet from "components/animation/SpriteAnimator";
-import { HARVEST_PROC_ANIMATION } from "features/farming/crops/lib/plant";
+import { HARVEST_PROC_ANIMATION } from "features/island/plots/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Bar } from "components/ui/ProgressBar";
-import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
+import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { GoldenCropModal } from "features/island/plots/components/GoldenCropModal";
 import golden_crop_sheet from "assets/events/golden_crop/golden_crop_sheet.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
   plotIndex: number;
   expansionIndex: number;
@@ -148,18 +147,19 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     }
   };
 
-  const removeCrop = () => {
-    if (!isRemoving) {
-      setIsRemoving(true);
-      return;
-    }
-    gameService.send("crop.removed", {
-      item: selectedItem,
-      index: plotIndex,
-      expansionIndex,
-    });
-    setIsRemoving(false);
-  };
+  // Temp shovel disable
+  // const removeCrop = () => {
+  //   if (!isRemoving) {
+  //     setIsRemoving(true);
+  //     return;
+  //   }
+  //   gameService.send("crop.removed", {
+  //     item: selectedItem,
+  //     index: plotIndex,
+  //     expansionIndex,
+  //   });
+  //   setIsRemoving(false);
+  // };
 
   const onCollectReward = (success: boolean) => {
     setReward(null);
@@ -241,6 +241,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           expansionIndex,
           item: selectedItem,
           analytics,
+          cropId: uuidv4(),
         });
 
         plantAudio.play();
@@ -257,14 +258,15 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       return;
     }
 
+    // Temp shovel disable
     // remove crop
-    if (
-      selectedItem === "Shovel" &&
-      !isReadyToHarvest(now, crop, CROPS()[crop.name])
-    ) {
-      removeCrop();
-      return;
-    }
+    // if (
+    //   selectedItem === "Shovel" &&
+    //   !isReadyToHarvest(now, crop, CROPS()[crop.name])
+    // ) {
+    //   removeCrop();
+    //   return;
+    // }
 
     // apply fertilisers
     if (selectedItem && selectedItem in FERTILISERS) {
@@ -301,7 +303,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         <Modal centered show={isFertileModalOpen} onHide={notFertileCallback}>
           <Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={notFertileCallback}
               style={{
@@ -325,7 +327,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
         </Modal>
         <div className="w-full h-full relative cursor-pointer hover:img-highlight">
           <img
-            src={soilNotFertile}
+            src={SUNNYSIDE.soil.soil_dry}
             alt="soil image"
             className="absolute"
             style={{
@@ -393,7 +395,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           }
         )}
       >
-        <img className="w-5" src={cancel} />
+        <img className="w-5" src={SUNNYSIDE.icons.cancel} />
       </div>
 
       {/* Firework animation */}
@@ -423,7 +425,6 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
       )}
 
       {/* Crop reward */}
-
       {!showGoldenCropModal && (
         <ChestReward
           reward={reward}

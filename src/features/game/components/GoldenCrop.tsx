@@ -38,7 +38,7 @@ export const GoldenCrop: React.FC = () => {
           <a
             href="https://docs.sunflower-land.com/support/terms-of-service/golden-crop-competition"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="text-center underline"
           >
             Terms and conditions

@@ -7,13 +7,13 @@ import selectBoxBL from "assets/ui/select/selectbox_bl.png";
 import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import timer from "assets/icons/timer.png";
-import cancel from "assets/icons/cancel.png";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { setPrecision, shortenCount } from "lib/utils/formatNumber";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SquareIcon } from "./SquareIcon";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SIHFT_PX = -6 * PIXEL_SCALE;
@@ -82,7 +82,6 @@ export const Box: React.FC<BoxProps> = ({
 
   const longPressEvents = useLongPress(
     (e) => (canClick ? onClick?.() : undefined),
-    undefined,
     precisionCount,
     {
       delay: 500,
@@ -168,46 +167,7 @@ export const Box: React.FC<BoxProps> = ({
         }}
       >
         <div className="absolute flex justify-center items-center w-full h-full">
-          <img
-            src={image}
-            className="absolute object-contain"
-            alt="item"
-            style={{
-              opacity: "0",
-            }}
-            onLoad={(e) => {
-              // get max dimension
-              const width = e.currentTarget?.naturalWidth;
-              const height = e.currentTarget?.naturalHeight;
-              if (!width || !height) {
-                return;
-              }
-              const maxDimension = Math.max(width, height);
-
-              // image scale to match pixel size or fit inner box
-              let scale = 1;
-
-              // scale image to match pixel scale if image is small enough
-              if (maxDimension < INNER_CANVAS_WIDTH) {
-                scale = PIXEL_SCALE;
-              }
-
-              // scale image to fit inner frame if image is scaling image to pixel scale will overflow the inner frame
-              else if (maxDimension < INNER_CANVAS_WIDTH * PIXEL_SCALE) {
-                scale = (PIXEL_SCALE * INNER_CANVAS_WIDTH) / maxDimension;
-              }
-
-              // shrink image to fit inner frame if image is large and height is greater than width
-              else if (height > width) {
-                scale = width / height;
-              }
-
-              // scale and show image
-              e.currentTarget.style.transform = `scale(${scale})`;
-              e.currentTarget.style.opacity = "1";
-            }}
-          />
-
+          <SquareIcon icon={image} width={INNER_CANVAS_WIDTH} />
           {secondaryImage && (
             <img
               src={secondaryImage}
@@ -223,7 +183,7 @@ export const Box: React.FC<BoxProps> = ({
             <div className="absolute flex justify-center w-full h-full pointer-events-none">
               <div className="absolute object-contain bg-overlay-white w-full h-full opacity-50" />
               <img
-                src={timer}
+                src={SUNNYSIDE.icons.timer}
                 alt="item in cooldown period"
                 className="relative object-contain"
                 style={{
@@ -237,7 +197,11 @@ export const Box: React.FC<BoxProps> = ({
         {/* Locked icon */}
         {locked && (
           <img
-            src={cooldownInProgress ? timer : cancel}
+            src={
+              cooldownInProgress
+                ? SUNNYSIDE.icons.timer
+                : SUNNYSIDE.icons.cancel
+            }
             className="absolute z-20"
             style={{
               right: `${PIXEL_SCALE * (cooldownInProgress ? -5 : -6)}px`,

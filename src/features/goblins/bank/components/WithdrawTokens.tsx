@@ -14,12 +14,10 @@ import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
 
 import token from "assets/icons/token_2.png";
-import player from "assets/icons/player.png";
-import upArrow from "assets/icons/arrow_up.png";
-import downArrow from "assets/icons/arrow_down.png";
 import lightning from "assets/icons/lightning.png";
 
 import { getTax } from "lib/utils/tax";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onWithdraw: (sfl: string) => void;
@@ -103,7 +101,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   return (
     <>
       <div className="flex flex-wrap mt-3">
-        <span className="mb-3 text-base">Choose amount to withdraw</span>
+        <span className="mb-3 text-sm">Choose amount to withdraw</span>
       </div>
       <span className="text-sm">
         {balance.toFixed(2)}SFL is available on-chain
@@ -125,13 +123,13 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
               onChange={onWithdrawChange}
             />
             <img
-              src={upArrow}
+              src={SUNNYSIDE.icons.arrow_up}
               alt="increment donation value"
               className="cursor-pointer w-3 absolute -right-4 top-0"
               onClick={incrementWithdraw}
             />
             <img
-              src={downArrow}
+              src={SUNNYSIDE.icons.arrow_down}
               alt="decrement donation value"
               className="cursor-pointer w-3 absolute -right-4 bottom-0"
               onClick={decrementWithdraw}
@@ -152,7 +150,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
                 className="underline ml-2"
                 href="https://docs.sunflower-land.com/fundamentals/withdrawing"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 (Read more)
               </a>
@@ -161,7 +159,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         )}
       </div>
 
-      <div className="flex items-center mt-3">
+      <div className="flex items-center mt-4">
         <span className="">
           {`You will receive: ${safeAmount(amount)
             .mul((100 - tax) / 100)
@@ -171,7 +169,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
       </div>
 
       <div className="flex items-center mt-2 mb-2">
-        <img src={player} className="h-8 mr-2" />
+        <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
         <div>
           <p className="text-sm">Sent to your wallet</p>
           <p className="text-sm">{shortAddress(wallet.myAccount || "XXXX")}</p>

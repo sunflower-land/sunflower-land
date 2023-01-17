@@ -5,10 +5,10 @@ import { useActor } from "@xstate/react";
 import { Context } from "../lib/CommunityProvider";
 import { Panel } from "components/ui/Panel";
 import { Merchant } from "../merchant/Merchant";
-import { Seal } from "../aquatics/Seal";
 import { BottleDonation } from "../donation/BottleDonation";
 import { Scientist } from "../scientist/Scientist";
 import { ProjectDignityFrogs } from "./ProjectDignityFrogs";
+import { ProjectDignitySeals } from "./ProjectDignitySeals";
 import { Arcade } from "../arcade/Arcade";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 
@@ -31,10 +31,10 @@ export const CommunityGarden: React.FC = () => {
       </Modal>
 
       <Merchant />
-      <Seal />
       <BottleDonation />
       <Scientist />
-      <ProjectDignityFrogs />
+      <ProjectDignityFrogs left={22} top={23} />
+      <ProjectDignitySeals isGarden={true} />
       <Arcade left={31} top={27} />
 
       <IslandTravel bumpkin={bumpkin} x={-4} y={-9} />

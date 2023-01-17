@@ -12,21 +12,14 @@ import { getItemUnit } from "features/game/lib/conversion";
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
 
-import player from "assets/icons/player.png";
-
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 import { canWithdraw } from "../lib/bankUtils";
 
-import {
-  CollectibleName,
-  getKeys,
-  isLimitedItem,
-  LimitedItemName,
-} from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { isNeverWithdrawable } from "features/game/types/withdrawables";
-import { mintCooldown } from "features/goblins/blacksmith/lib/mintUtils";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -101,12 +94,11 @@ export const WithdrawItems: React.FC<Props> = ({
   const makeItemDetails = (itemName: InventoryItemName) => {
     const details = ITEM_DETAILS[itemName];
 
-    return isLimitedItem(itemName)
-      ? {
-          ...goblinState.context.limitedItems[itemName as LimitedItemName],
-          image: details.image,
-        }
-      : details;
+    const mintedAt = goblinState.context.mintedAtTimes[itemName];
+    return {
+      mintedAt: mintedAt,
+      image: details.image,
+    };
   };
 
   const withdrawableItems = getKeys(inventory)
@@ -155,7 +147,7 @@ export const WithdrawItems: React.FC<Props> = ({
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="underline"
             >
               {"in use"}
@@ -164,7 +156,7 @@ export const WithdrawItems: React.FC<Props> = ({
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="underline"
             >
               {"still being built"}
@@ -183,18 +175,10 @@ export const WithdrawItems: React.FC<Props> = ({
               game: gameState,
             });
 
-            const cooldownInProgress =
-              withdrawable &&
-              mintCooldown({
-                cooldownSeconds: details?.cooldownSeconds,
-                mintedAt: details?.mintedAt,
-              }) > 0;
-
             // This amount is used to block withdrawal of chickens who are in the process of laying eggs.
             const totalCountOfItemType = getTotalNumberOfItemType(itemName);
             // Once all the chickens that are available have been added the rest will be locked
-            const locked =
-              !withdrawable || cooldownInProgress || totalCountOfItemType.eq(0);
+            const locked = !withdrawable || totalCountOfItemType.eq(0);
 
             return (
               <Box
@@ -204,7 +188,6 @@ export const WithdrawItems: React.FC<Props> = ({
                 image={details.image}
                 locked={locked}
                 canBeLongPressed={allowLongpressWithdrawal}
-                cooldownInProgress={cooldownInProgress}
               />
             );
           })}
@@ -239,7 +222,7 @@ export const WithdrawItems: React.FC<Props> = ({
 
         <div className="border-white border-t-2 w-full my-3" />
         <div className="flex items-center mt-2 mb-2  border-white">
-          <img src={player} className="h-8 mr-2" />
+          <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
             <p className="text-sm">Send to your wallet</p>
             <p className="text-sm">
@@ -249,27 +232,26 @@ export const WithdrawItems: React.FC<Props> = ({
         </div>
 
         <span className="text-sm mb-4">
-          Once withdrawn, you will be able to view your items on OpenSea.
+          Once withdrawn, you will be able to view your items on OpenSea.{" "}
+          <a
+            className="underline"
+            href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read more
+          </a>
+          .
         </span>
       </div>
 
       <Button
-        className="my-3"
+        className="mt-3"
         onClick={withdraw}
         disabled={selectedItems.length <= 0}
       >
         Withdraw
       </Button>
-
-      <span className="text-xs underline mt-2">
-        <a
-          href="https://docs.sunflower-land.com/fundamentals/withdrawing"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Read more
-        </a>
-      </span>
     </>
   );
 };

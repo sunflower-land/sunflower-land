@@ -20,17 +20,15 @@ import { Modal } from "react-bootstrap";
 import { OuterPanel, Panel } from "components/ui/Panel";
 
 // images
-import alert from "assets/icons/expression_alerted.png";
 import frog_revealed from "assets/sfts/frogs/frog_revealed.gif";
 import tadpole_icon from "features/community/assets/icons/tadpole.png";
 import empty_incubator from "features/community/assets/incubator/empty-small.gif";
 import active_incubator from "features/community/assets/incubator/algae-small.gif";
 import token from "features/community/assets/icons/token.png";
-import close from "assets/icons/close.png";
 
-import { TAB_CONTENT_HEIGHT } from "features/island/hud/components/inventory/Basket";
 import { setPrecision } from "lib/utils/formatNumber";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Incubator: React.FC = () => {
   const [machine, send] = useMachine(incubateMachine);
@@ -128,7 +126,7 @@ export const Incubator: React.FC = () => {
               <a
                 href={`${projectDignity}/project-dignity/members`}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 Project Dignity
               </a>
@@ -140,7 +138,11 @@ export const Incubator: React.FC = () => {
               width="200px"
             />
             <div className="flex items-center mt-1 border-2 m-2 rounded-md border-black p-2 bg-[#ffa214]">
-              <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+              <img
+                src={SUNNYSIDE.icons.expression_alerted}
+                alt="alert"
+                className="mr-2 w-5 h-5/6"
+              />
               <span className="text-xs">
                 Before incubating, you will need to Approve All Frogs in your{" "}
                 <u>METAMASK WALLET</u>.
@@ -170,7 +172,7 @@ export const Incubator: React.FC = () => {
                 href={`${projectDignity}/project-dignity/members`}
                 className="underline"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 Project Dignity
               </a>
@@ -182,7 +184,11 @@ export const Incubator: React.FC = () => {
               width="100px"
             />
             <div className="flex items-center mt-1 border-2 m-2 rounded-md border-black p-2 bg-[#ffa214]">
-              <img src={alert} alt="alert" className="mr-2 w-5 h-5/6" />
+              <img
+                src={SUNNYSIDE.icons.expression_alerted}
+                alt="alert"
+                className="mr-2 w-5 h-5/6"
+              />
               <span className="text-xs">
                 Before incubating, you will need to Approve All Tadpoles in your{" "}
                 <u>METAMASK WALLET</u>.
@@ -272,7 +278,7 @@ export const Incubator: React.FC = () => {
           <div className="flex flex-col-reverse sm:flex-row">
             <div
               className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-              style={{ maxHeight: TAB_CONTENT_HEIGHT }}
+              style={{ maxHeight: 400 }}
             >
               <div className="flex flex-col mb-2">
                 <p className="mb-2">Empty Incubator</p>
@@ -429,7 +435,7 @@ export const Incubator: React.FC = () => {
               </div>
             </Panel>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={closeIncubatorModal}
               style={{

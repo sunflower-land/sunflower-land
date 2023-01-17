@@ -1,7 +1,10 @@
 import Decimal from "decimal.js-light";
+import {
+  getBasketItems,
+  getChestItems,
+} from "features/island/hud/components/inventory/utils/inventory";
 import { getKeys } from "../types/craftables";
 import {
-  FieldItem,
   GameState,
   Inventory,
   InventoryItemName,
@@ -10,14 +13,12 @@ import {
   LandExpansionRock,
   LandExpansionTree,
   Rock,
-  Tree,
 } from "../types/game";
 
 /**
  * Converts API response into a game state
  */
 export function makeGame(farm: any): GameState {
-  console.log({ farm });
   return {
     inventory: Object.keys(farm.inventory).reduce(
       (items, item) => ({
@@ -33,46 +34,6 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<InventoryItemName, Decimal>
     ),
-    trees: Object.keys(farm.trees).reduce(
-      (items, item) => ({
-        ...items,
-        [item]: {
-          ...farm.trees[item],
-          wood: new Decimal(farm.trees[item].wood),
-        },
-      }),
-      {} as Record<number, Tree>
-    ),
-    stones: Object.keys(farm.stones).reduce(
-      (items, item) => ({
-        ...items,
-        [item]: {
-          ...farm.stones[item],
-          amount: new Decimal(farm.stones[item].amount),
-        },
-      }),
-      {} as Record<number, Rock>
-    ),
-    iron: Object.keys(farm.iron).reduce(
-      (items, item) => ({
-        ...items,
-        [item]: {
-          ...farm.iron[item],
-          amount: new Decimal(farm.iron[item].amount),
-        },
-      }),
-      {} as Record<number, Rock>
-    ),
-    gold: Object.keys(farm.gold).reduce(
-      (items, item) => ({
-        ...items,
-        [item]: {
-          ...farm.gold[item],
-          amount: new Decimal(farm.gold[item].amount),
-        },
-      }),
-      {} as Record<number, Rock>
-    ),
     chickens: farm.chickens || {},
     stockExpiry: farm.stockExpiry || {},
     skills: {
@@ -80,7 +41,6 @@ export function makeGame(farm: any): GameState {
       gathering: new Decimal(farm.skills.gathering),
     },
     balance: new Decimal(farm.balance),
-    fields: farm.fields,
     id: farm.id,
     tradeOffer: farm.tradeOffer
       ? {
@@ -102,7 +62,6 @@ export function makeGame(farm: any): GameState {
         }
       : undefined,
     tradedAt: farm.tradedAt,
-    plots: farm.plots,
     expansions: farm.expansions,
     expansionRequirements: farm.expansionRequirements
       ? {
@@ -155,6 +114,8 @@ function updatePlots(
 
     const hasCrop = oldCrop && newCrop;
 
+    const reward = oldCrop?.id === newCrop?.id ? newCrop?.reward : undefined;
+
     return {
       ...plots,
       [plotId]: {
@@ -163,7 +124,7 @@ function updatePlots(
           crop: {
             ...oldCrop,
             amount: newCrop.amount,
-            ...(newCrop.reward && { reward: newCrop.reward }),
+            ...(reward && { reward }),
           },
         }),
       },
@@ -274,33 +235,6 @@ export function updateGame(
   try {
     return {
       ...oldGameState,
-      // Update random reward
-      fields: Object.keys(oldGameState.fields).reduce((fields, fieldId) => {
-        const id = Number(fieldId);
-        const field = oldGameState.fields[id];
-        return {
-          ...fields,
-          [id]: {
-            ...field,
-            reward: newGameState.fields[id].reward,
-          },
-        };
-      }, {} as Record<number, FieldItem>),
-      // Update tree with the random amount of wood from the server
-      trees: Object.keys(oldGameState.trees).reduce((trees, treeId) => {
-        const id = Number(treeId);
-        const tree = oldGameState.trees[id];
-        return {
-          ...trees,
-          [id]: {
-            ...tree,
-            wood: newGameState.trees[id].wood,
-          },
-        };
-      }, {} as Record<number, Tree>),
-      stones: updateRocks(oldGameState.stones, newGameState.stones),
-      iron: updateRocks(oldGameState.iron, newGameState.iron),
-      gold: updateRocks(oldGameState.gold, newGameState.gold),
       skills: newGameState.skills,
       chickens: newGameState.chickens,
       expansions: updateExpansions(
@@ -317,27 +251,32 @@ export function updateGame(
 /**
  * Returns the lowest values out of 2 game states
  */
-export function getLowestGameState({
-  first,
-  second,
+export function getAvailableGameState({
+  onChain,
+  offChain,
 }: {
-  first: GameState;
-  second: GameState;
+  onChain: GameState;
+  offChain: GameState;
 }) {
-  const balance = first.balance.lt(second.balance)
-    ? first.balance
-    : second.balance;
+  // Grab items that are available in inventory(not placed)
+  const chestItems = getChestItems(offChain);
+  const basketItems = getBasketItems(offChain.inventory);
+  const availableItems = { ...chestItems, ...basketItems };
+
+  const balance = onChain.balance.lt(offChain.balance)
+    ? onChain.balance
+    : offChain.balance;
 
   const items = [
     ...new Set([
-      ...(Object.keys(first.inventory) as InventoryItemName[]),
-      ...(Object.keys(second.inventory) as InventoryItemName[]),
+      ...(Object.keys(onChain.inventory) as InventoryItemName[]),
+      ...(Object.keys(availableItems) as InventoryItemName[]),
     ]),
   ];
 
   const inventory: Inventory = items.reduce((inv, name) => {
-    const firstAmount = first.inventory[name] || new Decimal(0);
-    const secondAmount = second.inventory[name] || new Decimal(0);
+    const firstAmount = onChain.inventory[name] || new Decimal(0);
+    const secondAmount = availableItems[name] || new Decimal(0);
 
     const amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
 

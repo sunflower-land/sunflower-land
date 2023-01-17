@@ -1,13 +1,8 @@
 import { Decimal } from "decimal.js-light";
 
 import { CropName, CropSeedName } from "./crops";
-import {
-  CollectibleName,
-  CraftableName,
-  Food,
-  GoblinRetreatItemName,
-  Ingredient,
-} from "./craftables";
+
+import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
@@ -18,9 +13,11 @@ import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { FruitName } from "features/island/fruit/FruitPatch";
 import { BeanName, MutantCropName } from "./beans";
-import { FruitSeedName } from "./fruits";
+import { FruitName, FruitSeedName } from "./fruits";
+import { TreasureName } from "./treasure";
+import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import { AuctioneerItemName } from "./auctioneer";
 
 export type Reward = {
   sfl?: Decimal;
@@ -92,13 +89,19 @@ export type EasterBunny = "Easter Bunny";
 
 export type MOMEventItem = "Engine Core";
 
-export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+export type MutantChicken =
+  | "Speed Chicken"
+  | "Rich Chicken"
+  | "Fat Chicken"
+  | "Ayam Cemani";
 
 export type Coupons =
   | "Trading Ticket"
   | "War Bond"
   | "Jack-o-lantern"
-  | "Golden Crop";
+  | "Golden Crop"
+  | "Beta Pass"
+  | "Red Envelope";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -112,6 +115,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Golden Crop": {
     description: "A shiny golden crop",
+  },
+  "Beta Pass": {
+    description: "Gain early access to features for testing.",
+  },
+  "Red Envelope": {
+    description: "Someone was lucky!",
   },
 };
 
@@ -164,8 +173,11 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | GoblinRetreatItemName
-  | GoldenCropEventItem;
+  | AuctioneerItemName
+  | GoldenCropEventItem
+  | TreasureName
+  | HeliosBlacksmithItem
+  | GoblinBlacksmithItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -231,6 +243,7 @@ export type Wood = {
 };
 
 export type PlantedCrop = {
+  id?: string;
   name: CropName;
   plantedAt: number;
   amount?: number;
@@ -242,6 +255,8 @@ export type PlantedFruit = {
   name: FruitName;
   plantedAt: number;
   amount: number;
+  harvestsLeft: number;
+  harvestedAt: number;
 };
 
 export type LandExpansionTree = {
@@ -283,7 +298,22 @@ export type PlacedItem = {
 };
 
 export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
-export type Collectibles = Partial<Record<CollectibleName, PlacedItem[]>>;
+
+type PlacedManeki = PlacedItem & { shakenAt?: number };
+
+// Support custom types for collectibles
+type CustomCollectibles = {
+  "Maneki Neko": PlacedManeki[];
+};
+
+// Mapping to determine which type should be used for a placed collectible
+type PlacedTypes<Name extends CollectibleName> = {
+  [key in Name]: key extends keyof CustomCollectibles
+    ? CustomCollectibles[key]
+    : PlacedItem[];
+};
+
+export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
 
 export type LandExpansion = {
   createdAt: number;
@@ -322,30 +352,20 @@ export type Reveal = {
 export interface GameState {
   id?: number;
   balance: Decimal;
-  fields: Fields;
-
-  trees: Record<number, Tree>;
-  stones: Record<number, Rock>;
-  iron: Record<number, Rock>;
-  gold: Record<number, Rock>;
-  chickens: Record<string, Chicken>;
-
-  plots: Record<number, LandExpansionPlot>;
+  airdrops?: Airdrop[];
+  farmAddress?: string;
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
-  airdrops?: Airdrop[];
-
   warCollectionOffer?: WarCollectionOffer;
 
+  chickens: Record<string, Chicken>;
   inventory: Inventory;
   stock: Inventory;
   stockExpiry: StockExpiry;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
-
-  farmAddress?: string;
 
   skills: {
     farming: Decimal;

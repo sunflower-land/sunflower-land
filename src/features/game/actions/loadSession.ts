@@ -16,11 +16,9 @@ type Request = {
 export type MintedAt = Partial<Record<InventoryItemName, number>>;
 type Response = {
   game: GameState;
-  offset: number;
   isBlacklisted?: boolean;
   whitelistedAt?: string;
   itemsMintedAt?: MintedAt;
-  blacklistStatus?: "investigating" | "permanent";
   deviceTrackerId: string;
   status?: "COOL_DOWN";
 };
@@ -70,7 +68,6 @@ export async function loadSession(
     isBlacklisted,
     whitelistedAt,
     itemsMintedAt,
-    blacklistStatus,
     deviceTrackerId,
     status,
   } = await sanitizeHTTPResponse<{
@@ -79,28 +76,17 @@ export async function loadSession(
     isBlacklisted: boolean;
     whitelistedAt: string;
     itemsMintedAt: MintedAt;
-    blacklistStatus: Response["blacklistStatus"];
     deviceTrackerId: string;
     status?: "COOL_DOWN";
   }>(response);
 
   saveSession(request.farmId);
 
-  const startedTime = new Date(startedAt);
-
-  let offset = 0;
-  // Clock is not in sync with actual UTC time
-  if (Math.abs(startedTime.getTime() - Date.now()) > 1000 * 30) {
-    offset = startedTime.getTime() - Date.now();
-  }
-
   return {
-    offset,
     game: makeGame(farm),
     isBlacklisted,
     whitelistedAt,
     itemsMintedAt,
-    blacklistStatus,
     deviceTrackerId,
     status,
   };

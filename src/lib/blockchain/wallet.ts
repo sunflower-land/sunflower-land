@@ -1,19 +1,17 @@
 import { pingHealthCheck } from "web3-health-check";
 import { ERRORS } from "lib/errors";
 import Web3 from "web3";
-import { SessionManager } from "./Sessions";
-import { Farm } from "./Farm";
-import { AccountMinter } from "./AccountMinter";
-import { Inventory } from "./Inventory";
-import { Pair } from "./Pair";
-import { WishingWell } from "./WishingWell";
-import { Token } from "./Token";
-import { toHex, toWei } from "web3-utils";
+
+import { fromWei, toBN, toHex, toWei } from "web3-utils";
 import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { Trader } from "./Trader";
-import { BumpkinDetails } from "./BumpkinDetails";
-import { BumpkinItems } from "./BumpkinItems";
+import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+import Decimal from "decimal.js-light";
+
+export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
+const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
+const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
+const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
 
 console.log({ CONFIG });
 /**
@@ -22,47 +20,14 @@ console.log({ CONFIG });
 export class Wallet {
   private web3: Web3 | null = null;
 
-  private farm: Farm | null = null;
-  private session: SessionManager | null = null;
-  private accountMinter: AccountMinter | null = null;
-  private bumpkinDetails: BumpkinDetails | null = null;
-  private bumpkinItems: BumpkinItems | null = null;
-  private inventory: Inventory | null = null;
-  private pair: Pair | null = null;
-  private wishingWell: WishingWell | null = null;
-  private token: Token | null = null;
-  private trader: Trader | null = null;
-
   private account: string | null = null;
+
+  private type: WalletType | null = null;
+  private rawProvider: any | null = null;
 
   private async initialiseContracts() {
     try {
-      this.farm = new Farm(this.web3 as Web3, this.account as string);
-
-      this.session = new SessionManager(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.accountMinter = new AccountMinter(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.bumpkinDetails = new BumpkinDetails(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.bumpkinItems = new BumpkinItems(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.inventory = new Inventory(this.web3 as Web3, this.account as string);
-      this.pair = new Pair(this.web3 as Web3, this.account as string);
-      this.token = new Token(this.web3 as Web3, this.account as string);
-      this.wishingWell = new WishingWell(
-        this.web3 as Web3,
-        this.account as string
-      );
-      this.trader = new Trader(this.web3 as Web3, this.account as string);
+      // TODO - initialise a test contract???
 
       const isHealthy = await this.healthCheck();
 
@@ -117,14 +82,20 @@ export class Wallet {
 
     const balance = await this.web3?.eth.getBalance(this.account as string);
 
-    return Number(balance);
+    return new Decimal(balance);
   }
 
-  public async initialise(provider: any, retryCount = 0): Promise<void> {
+  public async initialise(
+    provider: any,
+    type: WalletType,
+    retryCount = 0
+  ): Promise<void> {
+    this.type = type;
     try {
       // Smooth out the loading state
       await new Promise((res) => setTimeout(res, 1000));
       this.web3 = new Web3(provider);
+      this.rawProvider = provider;
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
@@ -144,10 +115,33 @@ export class Wallet {
       if (retryCount < 3) {
         await new Promise((res) => setTimeout(res, 2000));
 
-        return this.initialise(retryCount + 1);
+        return this.initialise(provider, type, retryCount + 1);
       }
 
       throw e;
+    }
+  }
+
+  public isAlchemy = false;
+  public async overrideProvider() {
+    this.isAlchemy = true;
+
+    if (CONFIG.ALCHEMY_RPC) {
+      console.log("Provider overriden");
+
+      let web3;
+
+      if (this.type === "METAMASK") {
+        web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
+      } else {
+        web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC, {
+          writeProvider: this.rawProvider,
+        });
+      }
+
+      this.web3 = new Web3(web3 as any);
+
+      await this.initialiseContracts();
     }
   }
 
@@ -281,48 +275,8 @@ export class Wallet {
     }
   }
 
-  public getFarm() {
-    return this.farm as Farm;
-  }
-
-  public getInventory() {
-    return this.inventory as Inventory;
-  }
-
-  public getAccountMinter() {
-    return this.accountMinter as AccountMinter;
-  }
-
-  public getBumpkinDetails() {
-    return this.bumpkinDetails as BumpkinDetails;
-  }
-
-  public getBumpkinItems() {
-    return this.bumpkinItems as BumpkinItems;
-  }
-
-  public getSessionManager() {
-    return this.session as SessionManager;
-  }
-
-  public getPair() {
-    return this.pair as Pair;
-  }
-
-  public getWishingWell() {
-    return this.wishingWell as WishingWell;
-  }
-
-  public getToken() {
-    return this.token as Token;
-  }
-
-  public getTrader() {
-    return this.trader as Trader;
-  }
-
   public get myAccount() {
-    return this.account;
+    return this.account as string;
   }
 
   public async getBlockNumber() {
@@ -364,6 +318,70 @@ export class Wallet {
 
       throw parsed;
     }
+  }
+
+  public get web3Provider() {
+    return this.web3 as Web3;
+  }
+
+  public async getSFLForMatic(matic: string) {
+    if (!this.web3) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
+
+    const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
+      "getAmountsOut(uint256,address[])"
+    );
+
+    const maticMinusFee = toBN(matic).mul(toBN(950)).div(toBN(1000));
+
+    const encodedParameters = this.web3.eth.abi
+      .encodeParameters(
+        ["uint256", "address[]"],
+        [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]]
+      )
+      .substring(2);
+
+    const data = encodedFunctionSignature + encodedParameters;
+
+    const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = this.web3.eth.abi.decodeParameter(
+      "uint256[]",
+      result
+    );
+
+    return Number(fromWei(toBN(decodedResult[1])));
+  }
+
+  public async getMaticForSFL(sfl: string) {
+    if (!this.web3) {
+      throw new Error(ERRORS.NO_WEB3);
+    }
+
+    const encodedFunctionSignature = this.web3.eth.abi.encodeFunctionSignature(
+      "getAmountsIn(uint256,address[])"
+    );
+
+    const encodedParameters = this.web3.eth.abi
+      .encodeParameters(
+        ["uint256", "address[]"],
+        [toBN(sfl), [SFL_TOKEN_ADDRESS, WMATIC_ADDRESS]]
+      )
+      .substring(2);
+
+    const data = encodedFunctionSignature + encodedParameters;
+
+    const result = await this.web3.eth.call({ to: UNISWAP_ROUTER, data });
+    const decodedResult = this.web3.eth.abi.decodeParameter(
+      "uint256[]",
+      result
+    );
+
+    const maticWithFee = Number(
+      fromWei(toBN(decodedResult[1]).mul(toBN(1050)).div(toBN(1000)))
+    );
+
+    return maticWithFee;
   }
 }
 

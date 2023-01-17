@@ -1,7 +1,14 @@
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
-import { Cake } from "./craftables";
+import { Cake, getKeys } from "./craftables";
 import { Inventory } from "./game";
+
+type JuiceName =
+  | "Apple Juice"
+  | "Orange Juice"
+  | "Purple Smoothie"
+  | "Power Smoothie"
+  | "Bumpkin Detox";
 
 export type ConsumableName =
   | "Mashed Potato"
@@ -26,7 +33,8 @@ export type ConsumableName =
   | "Honey Cake"
   | "Sunflower Crunch"
   | "Reindeer Carrot"
-  | Cake;
+  | Cake
+  | JuiceName;
 
 export type Consumable = {
   experience: number;
@@ -440,6 +448,77 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
       Carrot: new Decimal(5),
     },
     marketRate: 0,
-    disabled: true,
+  },
+
+  "Apple Juice": {
+    name: "Apple Juice",
+    description: "A crisp refreshing beverage",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 60,
+    experience: 500,
+    ingredients: {
+      Apple: new Decimal(5),
+    },
+    marketRate: 336,
+  },
+
+  "Orange Juice": {
+    name: "Orange Juice",
+    description: "OJ matches perfectly with a Club Sandwich",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 45,
+    experience: 375,
+    ingredients: {
+      Orange: new Decimal(5),
+    },
+    marketRate: 256,
+  },
+
+  "Purple Smoothie": {
+    name: "Purple Smoothie",
+    description: "You can hardly taste the Cabbage",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 30,
+    experience: 310,
+    ingredients: {
+      Blueberry: new Decimal(5),
+      Cabbage: new Decimal(10),
+    },
+    marketRate: 200,
+  },
+
+  "Power Smoothie": {
+    name: "Power Smoothie",
+    description: "Official drink of the Bumpkin Powerlifting Society",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 60 * 1.5,
+    experience: 775,
+    ingredients: {
+      Blueberry: new Decimal(10),
+      Kale: new Decimal(5),
+    },
+    marketRate: 496,
+  },
+
+  "Bumpkin Detox": {
+    name: "Bumpkin Detox",
+    description: "Wash away the sins of last night",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 60 * 2,
+    experience: 975,
+    ingredients: {
+      Apple: new Decimal(5),
+      Orange: new Decimal(5),
+      Carrot: new Decimal(10),
+    },
+    marketRate: 640,
   },
 };
+
+const Juices = getKeys(CONSUMABLES).filter(
+  (name) => CONSUMABLES[name].building === "Smoothie Shack"
+);
+
+export function isJuice(item: any) {
+  return Juices.includes(item);
+}

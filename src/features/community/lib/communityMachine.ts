@@ -8,6 +8,8 @@ import { getOnChainState } from "features/game/actions/onchain";
 import { loadSession } from "features/game/actions/loadSession";
 import { Bumpkin } from "features/game/types/game";
 import { randomID } from "lib/utils/random";
+import { getSessionId } from "lib/blockchain/Sessions";
+import { sflBalanceOf } from "lib/blockchain/Token";
 
 export interface Context {
   balance: Decimal;
@@ -45,9 +47,11 @@ export function startCommunityMachine(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
-              const balance = await wallet
-                .getToken()
-                .balanceOf(wallet.myAccount as string);
+              const balance = await sflBalanceOf(
+                wallet.web3Provider,
+                wallet.myAccount,
+                wallet.myAccount as string
+              );
 
               const farmId = authContext.farmId as number;
 
@@ -55,9 +59,11 @@ export function startCommunityMachine(authContext: AuthContext) {
                 farmAddress: authContext.address as string,
                 id: Number(authContext.farmId),
               });
-              const sessionIdFn = wallet
-                .getSessionManager()
-                .getSessionId(farmId);
+              const sessionIdFn = getSessionId(
+                wallet.web3Provider,
+                wallet.myAccount,
+                farmId
+              );
               const [onChainState, sessionId] = await Promise.all([
                 onChainStateFn,
                 sessionIdFn,

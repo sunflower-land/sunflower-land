@@ -16,6 +16,9 @@ const maxItems: Inventory = {
   Parsnip: new Decimal("500"),
   Radish: new Decimal("500"),
   Wheat: new Decimal("500"),
+  Apple: new Decimal("100"),
+  Orange: new Decimal("100"),
+  Blueberry: new Decimal("100"),
 
   Chicken: new Decimal("20"),
   Egg: new Decimal("60"),
@@ -33,6 +36,9 @@ const maxItems: Inventory = {
   "Parsnip Seed": new Decimal(80),
   "Radish Seed": new Decimal(60),
   "Wheat Seed": new Decimal(60),
+  "Apple Seed": new Decimal(50),
+  "Blueberry Seed": new Decimal(50),
+  "Orange Seed": new Decimal(50),
 
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),

@@ -54,6 +54,7 @@ import { WoodNymphWendy } from "./components/WoodNymphWendy";
 import { ChefBear } from "./components/ChefBear";
 import { ConstructionBear } from "./components/ConstructionBear";
 import { AngelBear } from "./components/AngelBear";
+import { DevilBear } from "./components/DevilBear";
 import { BearTrap } from "./components/BearTrap";
 import { BrilliantBear } from "./components/BrilliantBear";
 import { ClassyBear } from "./components/ClassyBear";
@@ -75,6 +76,13 @@ import { PottedPotato } from "features/island/collectibles/components/PottedPota
 import { isBean } from "features/game/types/beans";
 import { ChristmasBear } from "./components/ChristmasBear";
 import { RainbowArtistBear } from "./components/RainbowArtistBear";
+import { Observatory } from "./components/Observatory";
+import { SnowGlobe } from "./components/SnowGlobe";
+import { ImmortalPear } from "./components/ImmortalPear";
+import { AyamCemani } from "./components/AyamCemani";
+import { CollectibleBear } from "./components/CollectibleBear";
+import { CyborgBear } from "./components/CyborgBear";
+import { ManekiNeko } from "./components/ManekiNeko";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -150,7 +158,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "White Tulips": WhiteTulips,
   "Potted Sunflower": PottedSunflower,
   "Potted Pumpkin": PottedPumpkin,
-  Cactus: Cactus,
+  Cactus,
   "Basic Bear": BasicBear,
   "Chef Bear": ChefBear,
   "Construction Bear": ConstructionBear,
@@ -165,6 +173,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Christmas Bear": ChristmasBear,
   "Rainbow Artist Bear": RainbowArtistBear,
   "Victoria Sisters": VictoriaSisters,
+  "Devil Bear": DevilBear,
+  Observatory,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
@@ -178,6 +188,15 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Peaceful Potato": () => null,
   "Perky Pumpkin": () => null,
   "Stellar Sunflower": () => null,
+  "Christmas Snow Globe": SnowGlobe,
+  "Immortal Pear": ImmortalPear,
+  "Lady Bug": () => null,
+  "Squirrel Monkey": () => null,
+  "Black Bearry": () => null,
+  "Ayam Cemani": AyamCemani,
+  "Collectible Bear": CollectibleBear,
+  "Cyborg Bear": CyborgBear,
+  "Maneki Neko": ManekiNeko,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

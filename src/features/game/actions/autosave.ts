@@ -13,7 +13,6 @@ type Request = {
   farmId: number;
   sessionId: string;
   token: string;
-  offset: number;
   fingerprint: string;
   deviceTrackerId: string;
   transactionId: string;
@@ -60,15 +59,15 @@ function squashEvents(events: PastAction[]): PastAction[] {
   }, [] as PastAction[]);
 }
 
-function serialize(events: PastAction[], offset: number) {
+function serialize(events: PastAction[]) {
   return events.map((action) => ({
     ...action,
-    createdAt: new Date(action.createdAt.getTime() + offset).toISOString(),
+    createdAt: new Date(action.createdAt.getTime()).toISOString(),
   }));
 }
 
 export async function autosaveRequest(
-  request: Omit<Request, "actions" | "offset"> & { actions: any[] }
+  request: Omit<Request, "actions"> & { actions: any[] }
 ) {
   const ttl = (window as any)["x-amz-ttl"];
 
@@ -99,12 +98,11 @@ export async function autosaveRequest(
 export async function autosave(request: Request) {
   if (!API_URL) return { verified: true };
 
-  console.log({ events: request.actions });
   // Shorten the payload
   const events = squashEvents(request.actions);
 
   // Serialize values before sending
-  const actions = serialize(events, request.offset);
+  const actions = serialize(events);
 
   if (actions.length === 0) {
     return { verified: true };
@@ -121,6 +119,10 @@ export async function autosave(request: Request) {
 
   if (response.status === 401) {
     throw new Error(ERRORS.SESSION_EXPIRED);
+  }
+
+  if (response.status === 400) {
+    throw new Error(ERRORS.AUTOSAVE_CLOCK_ERROR);
   }
 
   if (response.status === 429) {

@@ -21,7 +21,7 @@ export const SealModal: React.FC<Props> = ({ isOpen, onClose, sealImg }) => {
           <img
             src={sealImg}
             style={{
-              width: `${PIXEL_SCALE * 40}px`,
+              width: `${PIXEL_SCALE * 28}px`,
             }}
           />
         </div>

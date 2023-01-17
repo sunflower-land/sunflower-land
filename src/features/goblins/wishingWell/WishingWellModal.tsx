@@ -4,12 +4,8 @@ import { Modal } from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import wisingWell from "assets/buildings/wishing_well.png";
-import goblinHead from "assets/icons/goblin_head.png";
-import player from "assets/icons/player.png";
-import timer from "assets/icons/timer.png";
-import alert from "assets/icons/expression_alerted.png";
+import goblinHead from "assets/npcs/goblin_head.png";
 import token from "assets/icons/token_2.png";
-import close from "assets/icons/close.png";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -26,6 +22,8 @@ import { Context } from "features/game/GoblinProvider";
 import { setPrecision } from "lib/utils/formatNumber";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { mintTestnetTokens } from "lib/blockchain/Pair";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -125,7 +123,7 @@ const WaitingForWish = ({ lockedTime, onClose }: WaitingForWishArgs) => (
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
         <h1 className="text-lg mb-4 text-center">You have made a wish!</h1>
-        <img src={timer} alt="timer" className="w-8 mb-2" />
+        <img src={SUNNYSIDE.icons.timer} alt="timer" className="w-8 mb-2" />
       </div>
       <p className="mb-4 text-sm">
         Thanks for supporting the project and making a wish.
@@ -138,7 +136,11 @@ const WaitingForWish = ({ lockedTime, onClose }: WaitingForWishArgs) => (
         will be considered when the wish is granted.
       </p>
       <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
-        <img src={alert} alt="alert" className="mr-2 w-6" />
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          alt="alert"
+          className="mr-2 w-6"
+        />
         <span className="text-xs">
           {`If you remove your liquidity during this time you won't receive any
             rewards.`}
@@ -170,7 +172,7 @@ const NoWish = ({
           className="underline"
           href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           provide liquidity
         </a>
@@ -182,7 +184,11 @@ const NoWish = ({
         ).toFixed(2)} SFL worth of rewards in the well!`}
       </p>
       <div className="flex justify-center items-center mb-4">
-        <img src={player} alt="player address" className="w-6" />
+        <img
+          src={SUNNYSIDE.icons.player}
+          alt="player address"
+          className="w-6"
+        />
         <span className="ml-2">{shortAddress(wallet.myAccount as string)}</span>
       </div>
       {hasLPTokens ? (
@@ -196,7 +202,7 @@ const NoWish = ({
             className="underline"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             providing liquidity
           </a>
@@ -216,7 +222,9 @@ const NoWish = ({
       <div>
         <Button
           className="text-xs mt-2"
-          onClick={() => wallet.getPair().mintTestnetTokens()}
+          onClick={() =>
+            mintTestnetTokens(wallet.web3Provider, wallet.myAccount)
+          }
         >
           Mint testnet LP tokens
         </Button>
@@ -275,7 +283,7 @@ export const WishingWellModal: React.FC = () => {
           </div>
         )}
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer m-2 z-20"
           onClick={handleClose}
           style={{

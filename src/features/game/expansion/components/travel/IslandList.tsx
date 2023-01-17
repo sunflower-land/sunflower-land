@@ -9,10 +9,6 @@ import lock from "assets/skills/lock.png";
 import heart from "assets/icons/level_up.png";
 
 import goblin from "assets/buildings/goblin_sign.png";
-import farm from "assets/crops/sunflower/planted.png";
-import helios from "assets/land/islands/helios_icon.png";
-import treasureIsland from "assets/land/islands/treasure_icon.png";
-import stoneHaven from "assets/land/islands/stone_haven.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
 import land from "assets/land/islands/island.webp";
@@ -20,6 +16,8 @@ import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const CONTENT_HEIGHT = 380;
 
@@ -49,7 +47,8 @@ const Island = ({
   const onSameIsland = path === currentPath;
   const notEnoughLevel =
     !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
-  const cannotNavigate = notEnoughLevel || onSameIsland || comingSoon;
+  const cannotNavigate =
+    (bumpkin && notEnoughLevel) || onSameIsland || comingSoon;
 
   if (cannotNavigate) {
     return (
@@ -143,14 +142,14 @@ export const IslandList = ({
   const islands: Island[] = [
     {
       name: "Home",
-      image: farm,
+      image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 0,
       path: `/land/${id}`,
     },
     {
       name: "Helios",
       levelRequired: 1,
-      image: helios,
+      image: SUNNYSIDE.icons.helios,
       path: `/land/${id}/helios`,
     },
     {
@@ -162,14 +161,14 @@ export const IslandList = ({
     {
       name: "Treasure Island",
       levelRequired: 10,
-      image: treasureIsland,
+      image: SUNNYSIDE.icons.treasure,
       path: `/land/${id}/treasure-island`,
       comingSoon: CONFIG.NETWORK === "mainnet",
     },
     {
       name: "Stone Haven",
       levelRequired: 20,
-      image: stoneHaven,
+      image: SUNNYSIDE.resource.boulder,
       path: `/treasure/${id}`,
       comingSoon: true,
     },
@@ -221,7 +220,7 @@ export const IslandList = ({
           {authState.matches({ connected: "authorised" }) && (
             <Island
               name="Home"
-              image={farm}
+              image={CROP_LIFECYCLE.Sunflower.ready}
               levelRequired={0}
               path={`/land/${authState.context.farmId}`}
               bumpkin={bumpkin}

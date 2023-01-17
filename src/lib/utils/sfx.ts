@@ -23,18 +23,27 @@ import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
 import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
 import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
 
+// Project Dignity Assets Sounds
 import frog1Mp3 from "../../assets/sound-effects/frog/frog-1.mp3";
 import frog2Mp3 from "../../assets/sound-effects/frog/frog-2.mp3";
 import frog3Mp3 from "../../assets/sound-effects/frog/frog-3.mp3";
 import frog4Mp3 from "../../assets/sound-effects/frog/frog-4.mp3";
 import frog5Mp3 from "../../assets/sound-effects/frog/frog-5.mp3";
 import frog6Mp3 from "../../assets/sound-effects/frog/frog-6.mp3";
+import sealSound from "../../assets/sound-effects/sealSound.mp3";
+
+// Arcade - Common - Game Over
+import gameOver from "../../assets/community/arcade/audio/game_over.mp3";
 
 // Arcade - Greedy Goblin
 import greedyGoblinIntro from "../../assets/community/arcade/greedy_goblin/audio/intro.mp3";
 import greedyGoblinPlaying from "../../assets/community/arcade/greedy_goblin/audio/playing.mp3";
 import greedyGoblinPick from "../../assets/community/arcade/greedy_goblin/audio/pick.mp3";
-import greedyGoblinGameOver from "../../assets/community/arcade/greedy_goblin/audio/game_over.mp3";
+
+// Arcade - Chicken Fight
+import chickenFightPlaying from "../../assets/community/arcade/chicken_fight/audio/playing.mp3";
+import chickenFightPunch from "../../assets/community/arcade/chicken_fight/audio/punch.mp3";
+import chickenFightHit from "../../assets/community/arcade/chicken_fight/audio/hit.mp3";
 
 export const harvestAudio = new Howl({
   src: [harvestMp3],
@@ -78,6 +87,11 @@ export const wishingWellAudio = new Howl({
 
 export const frogAudio = new Howl({
   src: [frog1Mp3],
+  volume: 0.2,
+});
+
+export const sealAudio = new Howl({
+  src: [sealSound],
   volume: 0.2,
 });
 
@@ -192,7 +206,28 @@ export const greedyGoblinAudio = {
     volume: 0.2,
   }),
   greedyGoblinGameOverAudio: new Howl({
-    src: [greedyGoblinGameOver],
+    src: [gameOver],
+    volume: 0.2,
+  }),
+};
+
+// Arcade - Greedy Goblin
+export const chickenFightAudio = {
+  chickenFightPlayingAudio: new Howl({
+    src: [chickenFightPlaying],
+    volume: 0.2,
+    loop: true,
+  }),
+  chickenFightPunchAudio: new Howl({
+    src: [chickenFightPunch],
+    volume: 0.3,
+  }),
+  chickenFightHitAudio: new Howl({
+    src: [chickenFightHit],
+    volume: 0.2,
+  }),
+  chickenFightGameOverAudio: new Howl({
+    src: [gameOver],
     volume: 0.2,
   }),
 };

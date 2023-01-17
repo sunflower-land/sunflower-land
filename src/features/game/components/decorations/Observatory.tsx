@@ -6,9 +6,9 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { observatoryAnimationAudio } from "lib/utils/sfx";
 
-import close from "assets/icons/close.png";
 import observatory from "assets/sfts/mom/observatory.gif";
 import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Observatory: React.FC = () => {
   // Using rand value helps force-replay gifs.
@@ -36,9 +36,9 @@ export const Observatory: React.FC = () => {
     <>
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 2.75}px`,
+          width: `${PIXEL_SCALE * 29}px`,
           left: `${GRID_WIDTH_PX * 47.5}px`,
-          top: `${GRID_WIDTH_PX * 1.2}px`,
+          top: `${GRID_WIDTH_PX * 2}px`,
         }}
         id={Section.Observatory}
         className="absolute hover:img-highlight cursor-pointer"
@@ -50,7 +50,7 @@ export const Observatory: React.FC = () => {
         <OuterPanel>
           <InnerPanel style={{ backgroundColor: "#1b1c1b" }}>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={handleCloseTelescope}
               style={{

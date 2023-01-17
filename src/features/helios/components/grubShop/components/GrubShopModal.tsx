@@ -1,11 +1,7 @@
 import React, { useContext, useState } from "react";
 
-import close from "assets/icons/close.png";
-import confirm from "assets/icons/confirm.png";
 import token from "assets/icons/token_2.png";
-import questionMark from "assets/icons/expression_confused.png";
 import grubShopIcon from "assets/icons/chef_hat.png";
-import stopwatch from "assets/icons/stopwatch.png";
 
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -22,6 +18,7 @@ import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "../Tutorial";
 import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -97,7 +94,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
 
     return (
       <Label type="info" className="flex space-x-1 -mt-2 mb-1">
-        <img src={stopwatch} className="w-3 left-0 mr-1" />
+        <img src={SUNNYSIDE.icons.stopwatch} className="w-3 left-0 mr-1" />
         {`${secondsToString(secondsLeft as number, {
           length: "medium",
           isShortFormat: true,
@@ -128,7 +125,21 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
           }}
         >
           <div className="flex flex-col-reverse sm:flex-row">
-            <div className="w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
+            <div className="flex md:flex-row flex-wrap w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
+              {isAllFullFilled && (
+                <div className="flex items-center mb-2">
+                  <p className="text-xs mr-2">More orders in</p>
+                  <Label type="info" className="flex flex-row items-center">
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      className="w-3 left-0 mr-1"
+                    />
+                    {`${secondsToString(secondsLeft as number, {
+                      length: "medium",
+                    })}`}
+                  </Label>
+                </div>
+              )}
               <div className="flex flex-wrap">
                 {Object.values(grubShop.orders).map((item, index) => {
                   const isFulfilled = !!state.grubOrdersFulfilled?.find(
@@ -142,12 +153,12 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                       image={
                         index <= hiddenPositionStart
                           ? ITEM_DETAILS[item.name].image
-                          : questionMark
+                          : SUNNYSIDE.icons.expression_confused
                       }
                       showOverlay={isFulfilled}
                       overlayIcon={
                         <img
-                          src={confirm}
+                          src={SUNNYSIDE.icons.confirm}
                           id="confirm"
                           alt="confirm"
                           className="relative object-contain"
@@ -166,18 +177,6 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                   );
                 })}
               </div>
-              {isAllFullFilled && (
-                <div className="flex items-start sm:flex-col ml-2 mt-2">
-                  <p className="text-xs my-1 mr-2">More orders in</p>
-                  <Label type="info" className="flex flex-row items-center">
-                    <img src={stopwatch} className="w-3 left-0 mr-1" />
-                    {`${secondsToString(secondsLeft as number, {
-                      length: "medium",
-                      isShortFormat: true,
-                    })}`}
-                  </Label>
-                </div>
-              )}
             </div>
             {selected && (
               <OuterPanel className="w-full flex-1">
@@ -242,7 +241,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
           <span className="text-sm whitespace-nowrap">Grub Shop</span>
         </Tab>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{

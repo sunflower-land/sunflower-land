@@ -4,8 +4,6 @@ import Decimal from "decimal.js-light";
 import { Modal } from "react-bootstrap";
 
 import token from "assets/icons/token_2.png";
-import hammer from "assets/icons/hammer.png";
-import close from "assets/icons/close.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -26,6 +24,8 @@ import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
+import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -35,7 +35,7 @@ interface Props {
 const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
   return (
     <img
-      src={close}
+      src={SUNNYSIDE.icons.close}
       className="absolute cursor-pointer z-20"
       onClick={onClose}
       style={{
@@ -185,16 +185,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const Action = () => {
     if (stock?.equals(0)) {
-      return (
-        <div className="my-1">
-          <p className="text-xs sm:text-xs sm:text-center px-2">
-            Sync your farm on chain to restock
-          </p>
-          <Button className="text-xxs sm:text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
-        </div>
-      );
+      return <Delayed restock={restock}></Delayed>;
     }
 
     return (
@@ -265,7 +256,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
         >
           <Tab isActive>
-            <img src={hammer} className="h-5 mr-2" />
+            <img src={SUNNYSIDE.icons.hammer} className="h-5 mr-2" />
             <span className="text-sm">Tools</span>
           </Tab>
           <CloseButton onClose={onClose} />

@@ -3,7 +3,6 @@ import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
 import levelup from "assets/icons/level_up.png";
-import watch from "assets/icons/stopwatch.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -27,6 +26,7 @@ import {
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   selected: Consumable;
@@ -145,10 +145,13 @@ export const Recipes: React.FC<Props> = ({
           <div className="mb-1 flex flex-col flex-wrap sm:flex-nowrap w-[70%] sm:w-auto">
             {getKeys(selected.ingredients).map((name, index) => {
               const item = ITEM_DETAILS[name];
-              const inventoryAmount = inventory[name]?.toDecimalPlaces(1) || 0;
+              const inventoryAmount =
+                inventory[name]?.toDecimalPlaces(1, Decimal.ROUND_FLOOR) || 0;
               const requiredAmount =
-                selected.ingredients[name]?.toDecimalPlaces(1) ||
-                new Decimal(0);
+                selected.ingredients[name]?.toDecimalPlaces(
+                  1,
+                  Decimal.ROUND_FLOOR
+                ) || new Decimal(0);
 
               // Ingredient difference
               const lessIngredient = new Decimal(inventoryAmount).lessThan(
@@ -190,11 +193,16 @@ export const Recipes: React.FC<Props> = ({
             <div className="flex justify-between">
               <img src={levelup} className="h-5 mr-2" />
               <span className="text-xs whitespace-nowrap">
-                {getFoodExpBoost(selected, state.bumpkin as Bumpkin)}xp
+                {getFoodExpBoost(
+                  selected,
+                  state.bumpkin as Bumpkin,
+                  state.collectibles
+                )}
+                xp
               </span>
             </div>
             <div className="flex justify-between">
-              <img src={watch} className="h-5 mr-1" />
+              <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
               <span className="text-xs whitespace-nowrap">
                 {secondsToString(
                   getCookingTime(selected.cookingSeconds, state.bumpkin),

@@ -8,7 +8,6 @@ const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
-  trees: {},
   bumpkin: INITIAL_BUMPKIN,
 };
 
@@ -208,102 +207,6 @@ describe("harvest", () => {
     });
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(2));
-  });
-
-  it("collects an SFL reward", () => {
-    const expansion = GAME_STATE.expansions[0];
-    const { plots } = expansion;
-    const plot = (plots as Record<number, LandExpansionPlot>)[0];
-
-    const state = harvest({
-      state: {
-        ...GAME_STATE,
-        expansions: [
-          {
-            ...expansion,
-            plots: {
-              0: {
-                ...plot,
-                crop: {
-                  name: "Sunflower",
-                  plantedAt: Date.now() - 2 * 60 * 1000,
-                  amount: 1,
-                  reward: {
-                    sfl: new Decimal(1),
-                    items: [],
-                  },
-                },
-              },
-            },
-          },
-        ],
-      },
-      action: {
-        type: "crop.harvested",
-        expansionIndex: 0,
-        index: 0,
-      },
-      createdAt: dateNow,
-    });
-
-    expect(state.balance).toEqual(new Decimal(1));
-  });
-
-  it("collects item rewards", () => {
-    const expansion = GAME_STATE.expansions[0];
-    const { plots } = expansion;
-    const plot = (plots as Record<number, LandExpansionPlot>)[0];
-
-    const state = harvest({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          Potato: new Decimal(2),
-          "Pumpkin Seed": new Decimal(5),
-        },
-        expansions: [
-          {
-            ...expansion,
-            plots: {
-              0: {
-                ...plot,
-                crop: {
-                  name: "Sunflower",
-                  plantedAt: Date.now() - 2 * 60 * 1000,
-                  amount: 1,
-                  reward: {
-                    sfl: new Decimal(0),
-                    items: [
-                      {
-                        amount: 1,
-                        name: "Pumpkin Seed",
-                      },
-                      {
-                        amount: 3,
-                        name: "Carrot Seed",
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-          },
-        ],
-      },
-      action: {
-        type: "crop.harvested",
-        expansionIndex: 0,
-        index: 0,
-      },
-      createdAt: dateNow,
-    });
-
-    expect(state.inventory).toEqual({
-      Potato: new Decimal(2),
-      "Pumpkin Seed": new Decimal(6),
-      "Carrot Seed": new Decimal(3),
-      Sunflower: new Decimal(1),
-    });
   });
 
   describe("BumpkinActivity", () => {

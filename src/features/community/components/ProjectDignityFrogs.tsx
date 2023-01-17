@@ -7,7 +7,12 @@ import { Frog } from "features/community/project-dignity/models/frog";
 import { FrogContainer } from "features/community/project-dignity/components/FrogContainer";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
-export const ProjectDignityFrogs: React.FC = () => {
+interface Props {
+  left: number;
+  top: number;
+}
+
+export const ProjectDignityFrogs: React.FC<Props> = ({ left, top }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const [frogData, setFrogData] = useState<Frog[]>([]);
@@ -26,8 +31,8 @@ export const ProjectDignityFrogs: React.FC = () => {
       frogs={frogData}
       farmId={authState.context.farmId}
       position={{
-        left: `${GRID_WIDTH_PX * 22}px`,
-        top: `${GRID_WIDTH_PX * 23}px`,
+        left: `${GRID_WIDTH_PX * left}px`,
+        top: `${GRID_WIDTH_PX * top}px`,
       }}
     />
   );

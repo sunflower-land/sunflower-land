@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { Context } from "features/game/GameProvider";
 import { Announcement as IAnnouncement } from "features/announcements";
 import { acknowledgeRead, getAnnouncements } from "./announcementsStorage";
-import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const CONTENT_HEIGHT = 400;
 
@@ -23,7 +23,7 @@ export const Announcements: React.FC = () => {
         <div className="flex justify-between items-center mb-2 px-2">
           <p className="text-sm">{`What's new!`}</p>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onAcknowledge}
             style={{
@@ -57,7 +57,7 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
     {announcement.image && (
       <img
         src={announcement.image}
-        className="w-full rounded-sm mb-1 object-contain"
+        className="w-full rounded-lg mb-1 object-contain"
         alt={announcement.title}
         style={{
           maxHeight: "10rem",
@@ -76,8 +76,32 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
     {/* Notes */}
     <ul className="mt-2">
       {announcement.notes.map((note, index) => (
-        <li key={index} className="text-xs mb-3">
-          {note}
+        <li key={index} className="text-xs mb-3 flex">
+          <div className="flex">
+            {note.icon && (
+              <div className="w-10 flex justify-start items-start">
+                <img src={note.icon} className="w-6" />
+              </div>
+            )}
+            <div className="flex-1">
+              <p>{note.text}</p>
+              <div className="flex mt-1 items-center">
+                {note.date && (
+                  <p className="text-xxs mr-2">{note.date.toLocaleString()}</p>
+                )}
+                {note.link && (
+                  <a
+                    target="_blank"
+                    className="underline text-xxs"
+                    href={note.link.url}
+                    rel="noreferrer"
+                  >
+                    {note.link.text}
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
         </li>
       ))}
     </ul>
@@ -87,7 +111,7 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
       <a
         href={announcement.link}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         className="text-xs"
       >
         Read more

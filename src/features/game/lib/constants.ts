@@ -58,8 +58,8 @@ export const INITIAL_STOCK: Inventory = {
   "Orange Seed": new Decimal(10),
   "Blueberry Seed": new Decimal(10),
 
-  Axe: new Decimal(50),
-  Pickaxe: new Decimal(30),
+  Axe: new Decimal(125),
+  Pickaxe: new Decimal(50),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
 
@@ -84,100 +84,8 @@ export const INITIAL_STOCK: Inventory = {
   "Magic Bean": new Decimal(5),
   "Shiny Bean": new Decimal(5),
   "Golden Bean": new Decimal(5),
-};
 
-export const INITIAL_FIELDS: GameState["fields"] = {
-  0: {
-    name: "Pumpkin",
-    plantedAt: 0,
-    reward: {
-      items: [
-        {
-          amount: 1,
-          name: "Jack-o-lantern",
-        },
-      ],
-    },
-  },
-  1: {
-    name: "Sunflower",
-    plantedAt: 0,
-  },
-  2: {
-    name: "Sunflower",
-    plantedAt: 0,
-  },
-  5: {
-    name: "Carrot",
-    plantedAt: 0,
-  },
-  6: {
-    name: "Cabbage",
-    plantedAt: 0,
-  },
-  10: {
-    name: "Cauliflower",
-    plantedAt: 0,
-  },
-  11: {
-    name: "Beetroot",
-    plantedAt: 0,
-  },
-  16: {
-    name: "Parsnip",
-    plantedAt: 0,
-  },
-  17: {
-    name: "Radish",
-    plantedAt: 0,
-  },
-};
-
-export const INITIAL_TREES: GameState["trees"] = {
-  0: {
-    wood: new Decimal(3),
-    choppedAt: 0,
-    x: 1,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-  1: {
-    wood: new Decimal(4),
-    choppedAt: 0,
-    // Not used in land expansion testing...yet
-    x: 100,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-  2: {
-    wood: new Decimal(5),
-    choppedAt: 0,
-    // Not used in land expansion testing...yet
-    x: 100,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-  3: {
-    wood: new Decimal(5),
-    choppedAt: 0,
-    // Not used in land expansion testing...yet
-    x: 100,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-  4: {
-    wood: new Decimal(3),
-    choppedAt: 0,
-    // Not used in land expansion testing...yet
-    x: 100,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
+  "Immortal Pear": new Decimal(1),
 };
 
 export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
@@ -206,83 +114,12 @@ export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
   },
 };
 
-export const INITIAL_STONE: GameState["stones"] = {
-  0: {
-    amount: new Decimal(2),
-    minedAt: 0,
-  },
-  1: {
-    amount: new Decimal(3),
-    minedAt: 0,
-  },
-  2: {
-    amount: new Decimal(4),
-    minedAt: 0,
-  },
-};
-
-export const INITIAL_IRON: GameState["iron"] = {
-  0: {
-    amount: new Decimal(2),
-    minedAt: 0,
-  },
-  1: {
-    amount: new Decimal(3),
-    minedAt: 0,
-  },
-};
-
-export const INITIAL_GOLD: GameState["gold"] = {
-  0: {
-    amount: new Decimal(2),
-    minedAt: 0,
-  },
-};
-
-export const INITIAL_PLOTS: GameState["plots"] = {
-  0: {
-    crop: { name: "Sunflower", plantedAt: 0 },
-    x: -1,
-    y: 1,
-    height: 1,
-    width: 1,
-  },
-  1: {
-    crop: { name: "Sunflower", plantedAt: 0 },
-    x: 0,
-    y: 0,
-    height: 1,
-    width: 1,
-  },
-  2: {
-    crop: { name: "Sunflower", plantedAt: 0 },
-    x: -1,
-    y: 0,
-    height: 1,
-    width: 1,
-  },
-  3: {
-    x: -1,
-    y: -1,
-    height: 1,
-    width: 1,
-  },
-  4: {
-    x: -2,
-    y: 0,
-    height: 1,
-    width: 1,
-  },
-};
-
 export const GENESIS_LAND_EXPANSION: LandExpansion = {
   createdAt: 1,
   readyAt: 0,
 
   // gold: INITIAL_GOLD_MINES,
   iron: INITIAL_EXPANSION_IRON,
-
-  plots: INITIAL_PLOTS,
 };
 
 export const INITIAL_EXPANSIONS: LandExpansion[] = [
@@ -437,7 +274,7 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
         height: 1,
         width: 1,
       },
-    } as GameState["plots"],
+    },
 
     trees: {
       0: {
@@ -476,7 +313,6 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 
 export const TEST_FARM: GameState = {
   balance: new Decimal(0),
-  fields: INITIAL_FIELDS,
   inventory: {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
@@ -488,7 +324,6 @@ export const TEST_FARM: GameState = {
     Egg: new Decimal(30),
     "Rusty Shovel": new Decimal(1),
     Axe: new Decimal(3),
-    Observatory: new Decimal(1),
     Pickaxe: new Decimal(3),
     "Stone Pickaxe": new Decimal(3),
     "Iron Pickaxe": new Decimal(5),
@@ -501,10 +336,6 @@ export const TEST_FARM: GameState = {
     "Pumpkin Soup": new Decimal(1),
   },
   stock: INITIAL_STOCK,
-  trees: INITIAL_TREES,
-  stones: INITIAL_STONE,
-  iron: INITIAL_IRON,
-  gold: INITIAL_GOLD,
   chickens: {},
   skills: {
     farming: new Decimal(0),
@@ -523,7 +354,6 @@ export const TEST_FARM: GameState = {
     "Radish Cake": "2025-01-01T00:00:00.000Z",
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
-  plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
   buildings: {
@@ -647,7 +477,6 @@ export const TEST_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
-  fields: {},
   inventory: {
     "Chicken Coop": new Decimal(1),
     Wood: new Decimal(50),
@@ -656,16 +485,11 @@ export const EMPTY: GameState = {
   },
   chickens: {},
   stock: {},
-  trees: INITIAL_TREES,
-  stones: INITIAL_STONE,
-  iron: INITIAL_IRON,
-  gold: INITIAL_GOLD,
   skills: {
     farming: new Decimal(0),
     gathering: new Decimal(0),
   },
   stockExpiry: {},
-  plots: INITIAL_PLOTS,
   expansions: INITIAL_EXPANSIONS,
 
   buildings: {},

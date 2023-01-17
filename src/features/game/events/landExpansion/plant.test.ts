@@ -12,7 +12,6 @@ const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
-  trees: {},
 };
 
 describe("plant", () => {
@@ -30,6 +29,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 0,
           expansionIndex: -1,
           item: "Sunflower Seed",
@@ -52,6 +52,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 0,
           expansionIndex: 0,
           item: "Sunflower Seed",
@@ -73,6 +74,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: -1,
           expansionIndex: 0,
           item: "Sunflower Seed",
@@ -94,6 +96,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 1.2,
           expansionIndex: 0,
           item: "Sunflower Seed",
@@ -111,6 +114,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 1,
           expansionIndex: 0,
           item: "Sunflower Seed",
@@ -132,6 +136,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 200000,
           expansionIndex: 0,
           item: "Sunflower Seed",
@@ -172,6 +177,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 0,
           expansionIndex: 0,
           item: "Sunflower Seed",
@@ -193,6 +199,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 0,
           expansionIndex: 0,
           item: "Pickaxe",
@@ -214,6 +221,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 0,
           expansionIndex: 0,
           item: "Sunflower Seed",
@@ -235,6 +243,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Sunflower Seed",
@@ -267,6 +276,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Cauliflower Seed",
@@ -308,6 +318,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Cauliflower Seed",
@@ -337,6 +348,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Parsnip Seed",
@@ -378,6 +390,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Parsnip Seed",
@@ -417,6 +430,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Parsnip Seed",
@@ -453,6 +467,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Sunflower Seed",
@@ -491,6 +506,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Carrot Seed",
@@ -532,6 +548,7 @@ describe("plant", () => {
       },
       action: {
         type: "seed.planted",
+        cropId: "123",
         index: 0,
         expansionIndex: 0,
         item: "Carrot Seed",
@@ -560,6 +577,7 @@ describe("plant", () => {
         },
         action: {
           type: "seed.planted",
+          cropId: "123",
           index: 0,
           expansionIndex: 0,
           item: "Carrot Seed",

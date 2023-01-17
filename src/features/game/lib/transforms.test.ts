@@ -1,16 +1,16 @@
 import Decimal from "decimal.js-light";
-import { GameState, LandExpansion } from "../types/game";
+import { LandExpansion } from "../types/game";
 import { TEST_FARM } from "./constants";
-import { getLowestGameState, updateExpansions } from "./transforms";
+import { getAvailableGameState, updateExpansions } from "./transforms";
 
 describe("transform", () => {
   it("gets the lowest balance from the first object", () => {
-    const lowest = getLowestGameState({
-      first: {
+    const lowest = getAvailableGameState({
+      onChain: {
         ...TEST_FARM,
         balance: new Decimal(0.5),
       },
-      second: {
+      offChain: {
         ...TEST_FARM,
         balance: new Decimal(5),
       },
@@ -20,12 +20,12 @@ describe("transform", () => {
   });
 
   it("gets the lowest balance from the second object", () => {
-    const lowest = getLowestGameState({
-      first: {
+    const lowest = getAvailableGameState({
+      onChain: {
         ...TEST_FARM,
         balance: new Decimal(2),
       },
-      second: {
+      offChain: {
         ...TEST_FARM,
         balance: new Decimal(105),
       },
@@ -35,8 +35,8 @@ describe("transform", () => {
   });
 
   it("gets the lowest inventory", () => {
-    const lowest = getLowestGameState({
-      first: {
+    const lowest = getAvailableGameState({
+      onChain: {
         ...TEST_FARM,
         inventory: {
           Sunflower: new Decimal(5),
@@ -44,7 +44,7 @@ describe("transform", () => {
           Stone: new Decimal(20),
         },
       },
-      second: {
+      offChain: {
         ...TEST_FARM,
         inventory: {
           Sunflower: new Decimal(10),
@@ -57,6 +57,39 @@ describe("transform", () => {
     expect(lowest.inventory).toEqual({
       Sunflower: new Decimal(5),
       Axe: new Decimal(90),
+    });
+  });
+
+  it("filters out placed items", () => {
+    const lowest = getAvailableGameState({
+      onChain: {
+        ...TEST_FARM,
+        inventory: {
+          "Peeled Potato": new Decimal(1),
+          "Sunflower Rock": new Decimal(1),
+        },
+      },
+      offChain: {
+        ...TEST_FARM,
+        inventory: {
+          "Peeled Potato": new Decimal(1),
+          "Sunflower Rock": new Decimal(1),
+        },
+        collectibles: {
+          "Peeled Potato": [
+            {
+              id: "123",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(lowest.inventory).toEqual({
+      "Sunflower Rock": new Decimal(1),
     });
   });
 
@@ -84,7 +117,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -97,7 +130,7 @@ describe("transform", () => {
       );
     });
 
-    it("adds a reward to a crop", () => {
+    it("adds a reward to a crop with the same id", () => {
       const oldExpansions: LandExpansion[] = [
         {
           createdAt: 0,
@@ -109,6 +142,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
               crop: {
+                id: "123",
                 plantedAt: 10,
                 amount: 1,
                 name: "Sunflower",
@@ -120,7 +154,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -135,6 +169,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
               crop: {
+                id: "123",
                 plantedAt: 10,
                 amount: 1,
                 name: "Sunflower",
@@ -160,7 +195,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -170,6 +205,81 @@ describe("transform", () => {
       expect(expansions[0]?.plots?.["0"]?.crop?.reward?.items?.[0].amount).toBe(
         3
       );
+      expect(expansions[0]?.plots?.["1"]?.crop?.reward).not.toBeDefined();
+    });
+
+    it("does not add a reward to a crop with a different id", () => {
+      const oldExpansions: LandExpansion[] = [
+        {
+          createdAt: 0,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                id: "123",
+                plantedAt: 10,
+                amount: 1,
+                name: "Sunflower",
+              },
+            },
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
+            },
+          },
+        },
+      ];
+
+      const newExpansions: LandExpansion[] = [
+        {
+          createdAt: 4,
+          readyAt: 0,
+          plots: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                id: "456",
+                plantedAt: 10,
+                amount: 1,
+                name: "Sunflower",
+                reward: {
+                  items: [
+                    {
+                      name: "Sunflower Seed",
+                      amount: 3,
+                    },
+                  ],
+                },
+              },
+            },
+            1: {
+              x: -1,
+              y: -1,
+              height: 1,
+              width: 1,
+            },
+            2: {
+              x: -2,
+              y: -2,
+              height: 1,
+              width: 1,
+            },
+          },
+        },
+      ];
+
+      const expansions = updateExpansions(oldExpansions, newExpansions);
+
+      expect(expansions[0]?.plots?.["0"]?.crop?.reward).toBeUndefined();
       expect(expansions[0]?.plots?.["1"]?.crop?.reward).not.toBeDefined();
     });
 
@@ -196,7 +306,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 
@@ -236,7 +346,7 @@ describe("transform", () => {
               height: 1,
               width: 1,
             },
-          } as GameState["plots"],
+          },
         },
       ];
 

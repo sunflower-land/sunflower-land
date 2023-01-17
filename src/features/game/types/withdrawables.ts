@@ -2,11 +2,13 @@ import { KNOWN_IDS } from ".";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { CROPS, CROP_SEEDS } from "./crops";
+import { FRUIT } from "./fruits";
 import { EASTER_EGGS, Inventory, InventoryItemName } from "./game";
 import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
 import { RESOURCES } from "./resources";
 import { canChop } from "../events/landExpansion/chop";
 import { canMine } from "../events/landExpansion/stoneMine";
+import { AchievementName } from "./achievements";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -31,7 +33,11 @@ type CanWithdrawArgs = {
 };
 
 function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
-  return Object.values(game.fields).some((field) => field.name === item);
+  return Object.values(game?.expansions).some((expansion) =>
+    Object.values(expansion.plots ?? {}).some(
+      (plot) => plot.crop && plot.crop.name === item
+    )
+  );
 }
 
 function hasSeeds(inventory: Inventory) {
@@ -39,7 +45,9 @@ function hasSeeds(inventory: Inventory) {
 }
 
 function areAnyCropsPlanted(game: GoblinState): boolean {
-  return Object.values(game.fields).length > 0;
+  return Object.values(game?.expansions).some((expansion) =>
+    Object.values(expansion.plots ?? {}).some((plot) => !!plot.crop)
+  );
 }
 
 function areAnyTreesChopped(game: GoblinState): boolean {
@@ -73,6 +81,13 @@ function areAnyChickensFed(game: GoblinState): boolean {
   );
 }
 
+function hasCompletedAchievment(
+  game: GoblinState,
+  achievement: AchievementName
+): boolean {
+  return Object.keys(game.bumpkin?.achievements ?? []).includes(achievement);
+}
+
 // Everything is non-withdrawable by default
 const globalDefaults = Object.keys(KNOWN_IDS).reduce(
   (prev, cur) => ({
@@ -84,6 +99,8 @@ const globalDefaults = Object.keys(KNOWN_IDS).reduce(
 
 // Group withdraw conditions for common items
 const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
+// Fruits will be disabled untill all the fruit SFT's are sold out
+const fruitDefaults = buildDefaults(Object.keys(FRUIT()), false);
 const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
 const mutantChickenDefaults = buildDefaults(
   Object.keys(MUTANT_CHICKENS),
@@ -95,13 +112,15 @@ const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], true);
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...globalDefaults,
   ...cropDefaults,
+  ...fruitDefaults,
   ...resourceDefaults,
   ...mutantChickenDefaults,
   ...flagDefaults,
   ...easterEggDefaults,
 
   // Explicit Rules
-  Chicken: false, // Temporarily disabled until land expansion
+  Chicken: false,
+  "Basic Bear": false,
   "Farm Cat": true,
   "Farm Dog": true,
   "Gold Egg": true,
@@ -119,15 +138,37 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Mysterious Head": true,
   "Golden Bonsai": true,
   "Wicker Man": true,
+  "Engine Core": false,
   Observatory: true,
+  "Christmas Snow Globe": true,
+  "Cabbage Boy": true,
+  "Cabbage Girl": true,
+  "Wood Nymph Wendy": true,
+  "Chef Bear": true,
+  "Construction Bear": true,
+  "Angel Bear": true,
+  "Badass Bear": true,
+  "Bear Trap": true,
+  "Brilliant Bear": true,
+  "Classy Bear": true,
+  "Farmer Bear": true,
+  "Sunflower Bear": true,
+  "Rich Bear": true,
+  "Rainbow Artist Bear": true,
+  "Devil Bear": true,
+  "Christmas Bear": true,
+  "War Skull": true,
+  "War Tombstone": true,
+  "Undead Rooster": true,
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
   Rooster: (game) => !areAnyChickensFed(game),
+  "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
+  "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
-  "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
   "Carrot Sword": (game) => !areAnyCropsPlanted(game),
   Nancy: (game) => !areAnyCropsPlanted(game),
   Scarecrow: (game) => !areAnyCropsPlanted(game),

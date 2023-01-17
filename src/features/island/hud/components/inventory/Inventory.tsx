@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import basket from "assets/icons/basket.png";
-import roundButton from "assets/ui/button/round_button.png";
-
 import { Box } from "components/ui/Box";
 
 import { InventoryItems } from "./InventoryItems";
@@ -13,6 +10,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleName } from "features/game/types/craftables";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   state: GameState;
@@ -20,6 +18,7 @@ interface Props {
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;
   isFarming?: boolean;
+  isSaving?: boolean;
 }
 
 export const Inventory: React.FC<Props> = ({
@@ -27,6 +26,7 @@ export const Inventory: React.FC<Props> = ({
   selectedItem,
   shortcutItem,
   isFarming,
+  isSaving,
   onPlace,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +48,7 @@ export const Inventory: React.FC<Props> = ({
       className="flex flex-col items-center fixed z-50"
       style={{
         right: `${PIXEL_SCALE * 3}px`,
-        top: `${PIXEL_SCALE * 50}px`,
+        top: isFarming ? `${PIXEL_SCALE * 50}px` : `${PIXEL_SCALE * 25}px`,
       }}
     >
       <div
@@ -61,14 +61,14 @@ export const Inventory: React.FC<Props> = ({
         }}
       >
         <img
-          src={roundButton}
+          src={SUNNYSIDE.ui.round_button}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
-          src={basket}
+          src={SUNNYSIDE.icons.basket}
           className="absolute"
           style={{
             top: `${PIXEL_SCALE * 5}px`,
@@ -78,13 +78,14 @@ export const Inventory: React.FC<Props> = ({
         />
       </div>
 
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal size="lg" centered show={isOpen} onHide={() => setIsOpen(false)}>
         <InventoryItems
           state={state}
           onClose={() => setIsOpen(false)}
           onSelect={handleItemClick}
           selected={selectedItem}
           onPlace={onPlace}
+          isSaving={isSaving}
         />
       </Modal>
 

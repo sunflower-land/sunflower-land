@@ -29,12 +29,13 @@ import {
 import { Withdrawing } from "features/game/components/Withdrawing";
 import { Withdrawn } from "features/game/components/Withdrawn";
 import { getBumpkinLevel } from "features/game/lib/level";
-
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 
 import { Hud } from "./Hud";
+import { Minting } from "features/game/components/Minting";
+import { Minted } from "features/game/components/Minted";
 
 const spawn = [
   [35, 15],
@@ -51,8 +52,8 @@ const getRandomSpawn = () => {
 
 const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
   loading: true,
-  minting: false,
-  minted: false,
+  minting: true,
+  minted: true,
   withdrawing: true,
   withdrawn: true,
   playing: false,
@@ -94,6 +95,8 @@ export const Game = () => {
           {goblinState.matches("withdrawing") && <Withdrawing />}
           {goblinState.matches("loading") && <Loading />}
           {goblinState.matches("withdrawn") && <Withdrawn />}
+          {goblinState.matches("minting") && <Minting />}
+          {goblinState.matches("minted") && <Minted />}
         </Panel>
       </Modal>
       <ToastProvider>
@@ -134,7 +137,9 @@ export const Game = () => {
                 <RetreatStorageHouse />
                 <RetreatHotAirBalloon />
                 <RetreatTailor />
-                <RetreatBlacksmith />
+                <RetreatBlacksmith
+                  inventory={goblinState.context.state.inventory}
+                />
                 <Auctioneer />
                 <Resale />
                 <RetreatWishingWell />

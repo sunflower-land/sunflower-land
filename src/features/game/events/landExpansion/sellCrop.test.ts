@@ -3,15 +3,13 @@ import { GameState } from "../../types/game";
 import { CropName, CROPS } from "../../types/crops";
 import { sellCrop } from "./sellCrop";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
+import { FRUIT } from "features/game/types/fruits";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
-  fields: {},
   balance: new Decimal(0),
-
   inventory: {},
-  trees: {},
 };
 
 describe("sell", () => {
@@ -159,5 +157,23 @@ describe("sell", () => {
     expect(state.bumpkin?.activity?.["SFL Earned"]).toEqual(
       new Decimal(CROPS().Cauliflower.sellPrice ?? 0).toNumber()
     );
+  });
+
+  it("sells an apple for a normal price", () => {
+    const state = sellCrop({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Apple: new Decimal(1),
+        },
+      },
+      action: {
+        type: "crop.sold",
+        crop: "Apple",
+        amount: 1,
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(FRUIT().Apple.sellPrice));
   });
 });

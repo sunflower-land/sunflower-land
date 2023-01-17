@@ -97,6 +97,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Peaceful Potato": 438,
   "Perky Pumpkin": 439,
   "Colossal Crop": 440,
+  "Immortal Pear": 441,
+  "Lady Bug": 442,
+  "Squirrel Monkey": 443,
+  "Black Bearry": 444,
+  "Ayam Cemani": 445,
+  "Maneki Neko": 446,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -132,6 +138,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Orange Cake": 532,
   "Sunflower Crunch": 533,
   "Reindeer Carrot": 534,
+  "Apple Juice": 535,
+  "Orange Juice": 536,
+  "Purple Smoothie": 537,
+  "Power Smoothie": 538,
+  "Bumpkin Detox": 539,
 
   Wood: 601,
   Stone: 602,
@@ -150,6 +161,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wild Mushroom": 615,
   "Magic Mushroom": 616,
   Diamond: 617,
+  "Clam Shell": 618,
+  "Sea Cucumber": 619,
+  Coral: 620,
+  Crab: 621,
+  Starfish: 622,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -165,6 +181,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Discord Mod": 712,
   "Trading Ticket": 713,
   Warrior: 714,
+  "Beta Pass": 715,
+  "Red Envelope": 716,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -245,6 +263,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Bakery: 1007,
   Kitchen: 1008,
   Deli: 1009,
+  "Smoothie Shack": 1010,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
@@ -281,6 +300,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Potted Pumpkin": 1216,
   "Christmas Bear": 1217,
   "Rainbow Artist Bear": 1218,
+  "Christmas Snow Globe": 1219,
+  "Devil Bear": 1220,
+  "Collectible Bear": 1221,
+  "Cyborg Bear": 1222,
 };
 
 // The reverse of above

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import close from "assets/icons/close.png";
 import { Context } from "features/game/GoblinProvider";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -10,12 +9,12 @@ import { UpcomingAuctions } from "./UpcomingAuctions";
 import { useActor } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { MachineInterpreter } from "features/game/lib/goblinMachine";
-import mintingAnimation from "assets/npcs/goblin_hammering.gif";
 import { MintedEvent } from "features/retreat/auctioneer/auctioneerMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -44,9 +43,12 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <Panel className="relative">
           <div className="flex flex-col items-center p-2">
             <span className="text-shadow text-center loading">Minting</span>
-            <img src={mintingAnimation} className="w-1/2 mt-2 mb-3" />
+            <img
+              src={SUNNYSIDE.npcs.goblin_hammering}
+              className="w-1/2 mt-2 mb-3"
+            />
             <span className="text-sm">
-              Please be patient while we mint the NFT for you.
+              Please be patient while we mint the SFT for you.
             </span>
           </div>
         </Panel>
@@ -89,7 +91,7 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <span className="text-sm text-shadow ml-1">Upcoming</span>
             </Tab>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={onClose}
               style={{

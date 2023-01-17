@@ -1,11 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token_2.png";
 import tokenStatic from "assets/icons/token_2.png";
-import timer from "assets/icons/timer.png";
-import lightning from "assets/icons/lightning.png";
 import heart from "assets/icons/level_up.png";
 import lock from "assets/skills/lock.png";
 
@@ -22,7 +20,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
-import { hasBoost } from "features/game/expansion/lib/boosts";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
@@ -30,19 +27,22 @@ import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
-import { Bumpkin } from "features/game/types/game";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
+import { Bumpkin, Inventory } from "features/game/types/game";
+import { FRUIT } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
+import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
 }
 
-function isSeedLocked(bumpkin: Bumpkin | undefined, seedName: SeedName) {
-  if (seedName in FRUIT_SEEDS()) {
-    return true;
-  }
-
+function isSeedLocked(
+  inventory: Inventory,
+  bumpkin: Bumpkin | undefined,
+  seedName: SeedName
+) {
   const seed = SEEDS()[seedName];
   return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
 }
@@ -58,7 +58,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const [isTimeBoosted, setIsTimeBoosted] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
   const inventory = state.inventory;
@@ -113,17 +112,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const stock = state.stock[selectedName] || new Decimal(0);
   const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 
-  useEffect(
-    () =>
-      setIsTimeBoosted(
-        hasBoost({
-          item: selectedName,
-          collectibles,
-        })
-      ),
-    [inventory, selectedName, state.inventory]
-  );
-
   if (showCaptcha) {
     return (
       <CloudFlareCaptcha
@@ -153,32 +141,23 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const Action = () => {
-    if (isSeedLocked(state.bumpkin, selectedName)) {
+    if (isSeedLocked(inventory, state.bumpkin, selectedName)) {
       return (
-        <div className="flex items-center mt-2">
-          <img src={heart} className="h-4 ml-0.5 mr-1" />
+        <div className="flex items-center justify-center mt-2">
+          <img src={heart} className="h-4 mr-1" />
           <span
             className="bg-error border text-xs p-1 rounded-md"
             style={{ lineHeight: "12px", height: "23px" }}
           >
             Lvl {selected.bumpkinLevel ?? 0}
           </span>
-          <img src={lock} className="h-4 ml-0.5 mr-2" />
+          <img src={lock} className="h-4 ml-1" />
         </div>
       );
     }
 
     if (stock?.equals(0)) {
-      return (
-        <div className="my-1">
-          <p className="text-xxs text-center">
-            Sync your farm on chain to restock
-          </p>
-          <Button className="text-xs mt-1" onClick={restock}>
-            Sync
-          </Button>
-        </div>
-      );
+      return <Delayed restock={restock}></Delayed>;
     }
 
     const max = INITIAL_STOCK[selectedName];
@@ -215,8 +194,41 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
-  const cropName = selectedName.split(" ")[0] as CropName;
-  const crop = CROPS()[cropName];
+  const yields = SEEDS()[selectedName].yield;
+
+  const getPlantSeconds = () => {
+    if (yields in FRUIT())
+      return secondsToString(SEEDS()[selectedName].plantSeconds, {
+        length: "medium",
+        removeTrailingZeros: true,
+      });
+
+    if (yields in CROPS())
+      return secondsToString(
+        getCropTime(
+          yields as CropName,
+          inventory,
+          collectibles,
+          state.bumpkin as Bumpkin
+        ),
+        {
+          length: "medium",
+          removeTrailingZeros: true,
+        }
+      );
+  };
+
+  const harvestCount = () => {
+    if (!(yields in FRUIT())) {
+      return null;
+    }
+
+    if (isCollectibleBuilt("Immortal Pear", collectibles)) {
+      return [4, 6];
+    }
+
+    return [3, 5];
+  };
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -227,7 +239,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
-            showOverlay={isSeedLocked(state.bumpkin, name)}
+            showOverlay={isSeedLocked(inventory, state.bumpkin, name)}
             overlayIcon={
               <img
                 src={lock}
@@ -254,26 +266,20 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <span className="text-center mb-1">{selectedName}</span>
           </div>
           <div className="border-t border-white w-full my-2 pt-2 flex justify-between sm:flex-col sm:space-y-2 sm:items-center">
-            <div className="flex space-x-1 items-center sm:justify-center">
-              <img src={timer} className="h-4 sm:h-5" />
-              {isTimeBoosted && (
-                <img src={lightning} className="h-5 sm:h-6 mr-2" />
-              )}
-              <span className="text-xs text-center">
-                {secondsToString(
-                  getCropTime(
-                    crop?.name,
-                    inventory,
-                    collectibles,
-                    state.bumpkin as Bumpkin
-                  ),
-                  {
-                    length: "medium",
-                    removeTrailingZeros: true,
-                  }
-                )}
-              </span>
-            </div>
+            {getPlantSeconds() && (
+              <div className="flex space-x-1 items-center sm:justify-center">
+                <img src={SUNNYSIDE.icons.timer} className="h-4 sm:h-5" />
+                <span className="text-xs text-center">{getPlantSeconds()}</span>
+              </div>
+            )}
+            {harvestCount() && (
+              <div className="flex space-x-1 items-center sm:justify-center">
+                <img src={SUNNYSIDE.icons.seedling} className="h-4 sm:h-5" />
+                <span className="text-xs text-center">{`${harvestCount()?.join(
+                  "-"
+                )} harvests`}</span>
+              </div>
+            )}
             <div className="flex space-x-1 justify-center items-center">
               <img src={token} className="h-4 sm:h-5" />
               <span

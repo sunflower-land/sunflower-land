@@ -31,7 +31,7 @@ export const Withdrawn: React.FC = () => {
             className="underline hover:text-white"
             href="https://opensea.io/account?search[resultModel]=ASSETS&search[sortBy]=LAST_TRANSFER_DATE&search[query]=sunflower%20land"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             OpenSea
           </a>
@@ -40,7 +40,7 @@ export const Withdrawn: React.FC = () => {
         <span className="mb-7">
           You can view your tokens by importing the SFL Token to your wallet.
         </span>
-        <Button className="mb-7 sm:w-3/4" onClick={handleAddToken}>
+        <Button className="mb-7 sm:w-3/4 text-xs" onClick={handleAddToken}>
           Import SFL Token to MetaMask
         </Button>
         <span className="mb-4">
@@ -50,7 +50,7 @@ export const Withdrawn: React.FC = () => {
             className="underline hover:text-white"
             href={`https://polygonscan.com/address/${wallet.myAccount}#tokentxnsErc1155`}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             PolygonScan
           </a>

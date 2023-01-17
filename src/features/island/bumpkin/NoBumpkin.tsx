@@ -1,15 +1,14 @@
 import React from "react";
 
-import heart from "assets/icons/heart.png";
-
 import { CONFIG } from "lib/config";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const NoBumpkin: React.FC = () => {
   return (
     <>
       <div className="flex items-center flex-col p-2">
         <span>You are missing your Bumpkin</span>
-        <img src={heart} className="w-20 my-2" />
+        <img src={SUNNYSIDE.icons.heart} className="w-20 my-2" />
         <p className="text-sm my-2">
           A Bumpkin is an NFT that is minted on the Blockchain.
         </p>

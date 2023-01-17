@@ -2,7 +2,8 @@ import "lib/__mocks__/configMock.ts";
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { canWithdraw } from "./bankUtils";
-import { LandExpansion } from "features/game/types/game";
+import { FRUIT } from "features/game/types/fruits";
+import { getKeys } from "features/game/types/craftables";
 
 describe("canWithdraw", () => {
   describe("prevents", () => {
@@ -97,7 +98,7 @@ describe("canWithdraw", () => {
       expect(enabled).toBeFalsy();
     });
 
-    it("[TEMP] prevents a user from withdrawing chickens", () => {
+    it("prevents a user from withdrawing chickens", () => {
       const enabled = canWithdraw({
         item: "Chicken",
         game: {
@@ -179,12 +180,21 @@ describe("canWithdraw", () => {
           inventory: {
             "Carrot Sword": new Decimal(1),
           },
-          fields: {
-            0: {
-              name: "Sunflower",
-              plantedAt: Date.now(),
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Beetroot", amount: 1, plantedAt: Date.now() },
+                },
+              },
             },
-          },
+          ],
         },
       });
 
@@ -196,12 +206,21 @@ describe("canWithdraw", () => {
         item: "Easter Bunny",
         game: {
           ...TEST_FARM,
-          fields: {
-            0: {
-              name: "Carrot",
-              plantedAt: Date.now(),
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Carrot", plantedAt: Date.now(), amount: 1 },
+                },
+              },
             },
-          },
+          ],
         },
       });
 
@@ -213,12 +232,21 @@ describe("canWithdraw", () => {
         item: "Victoria Sisters",
         game: {
           ...TEST_FARM,
-          fields: {
-            0: {
-              name: "Pumpkin",
-              plantedAt: Date.now(),
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
+                },
+              },
             },
-          },
+          ],
         },
       });
 
@@ -230,12 +258,25 @@ describe("canWithdraw", () => {
         item: "Golden Cauliflower",
         game: {
           ...TEST_FARM,
-          fields: {
-            0: {
-              name: "Cauliflower",
-              plantedAt: Date.now(),
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: {
+                    name: "Cauliflower",
+                    plantedAt: Date.now(),
+                    amount: 1,
+                  },
+                },
+              },
             },
-          },
+          ],
         },
       });
 
@@ -247,12 +288,21 @@ describe("canWithdraw", () => {
         item: "Mysterious Parsnip",
         game: {
           ...TEST_FARM,
-          fields: {
-            0: {
-              name: "Parsnip",
-              plantedAt: Date.now(),
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Parsnip", plantedAt: Date.now(), amount: 1 },
+                },
+              },
             },
-          },
+          ],
         },
       });
 
@@ -262,7 +312,24 @@ describe("canWithdraw", () => {
     it("prevents a user from withdrawing a T1 scarecrow while they have crops", () => {
       const enabled = canWithdraw({
         item: "Nancy",
-        game: TEST_FARM,
+        game: {
+          ...TEST_FARM,
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
+                },
+              },
+            },
+          ],
+        },
       });
 
       expect(enabled).toBeFalsy();
@@ -271,7 +338,24 @@ describe("canWithdraw", () => {
     it("prevents a user from withdrawing a T2 scarecrow while they have crops", () => {
       const enabled = canWithdraw({
         item: "Scarecrow",
-        game: TEST_FARM,
+        game: {
+          ...TEST_FARM,
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
+                },
+              },
+            },
+          ],
+        },
       });
 
       expect(enabled).toBeFalsy();
@@ -280,7 +364,24 @@ describe("canWithdraw", () => {
     it("prevents a user from withdrawing a T3 scarecrow while they have crops", () => {
       const enabled = canWithdraw({
         item: "Kuebiko",
-        game: TEST_FARM,
+        game: {
+          ...TEST_FARM,
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
+                },
+              },
+            },
+          ],
+        },
       });
 
       expect(enabled).toBeFalsy();
@@ -293,19 +394,21 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           expansions: [
             {
+              createdAt: 0,
+              readyAt: 0,
               trees: {
                 0: {
-                  height: 1,
-                  width: 1,
-                  x: 1,
-                  y: 1,
                   wood: {
                     amount: 1,
                     choppedAt: Date.now(),
                   },
+                  x: -3,
+                  y: 3,
+                  height: 2,
+                  width: 2,
                 },
               },
-            } as any as LandExpansion,
+            },
           ],
         },
       });
@@ -320,19 +423,21 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           expansions: [
             {
+              createdAt: 0,
+              readyAt: 0,
               trees: {
                 0: {
-                  height: 1,
-                  width: 1,
-                  x: 1,
-                  y: 1,
                   wood: {
                     amount: 1,
                     choppedAt: Date.now(),
                   },
+                  x: -3,
+                  y: 3,
+                  height: 2,
+                  width: 2,
                 },
               },
-            } as any as LandExpansion,
+            },
           ],
         },
       });
@@ -347,31 +452,22 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           expansions: [
             {
+              createdAt: 0,
+              readyAt: 0,
               trees: {
                 0: {
-                  height: 1,
-                  width: 1,
-                  x: 1,
-                  y: 1,
                   wood: {
                     amount: 1,
                     choppedAt: Date.now(),
                   },
+                  x: -3,
+                  y: 3,
+                  height: 2,
+                  width: 2,
                 },
               },
-            } as any as LandExpansion,
-          ],
-          trees: {
-            0: {
-              // Just been chopped
-              choppedAt: Date.now(),
-              wood: new Decimal(3),
-              x: 0,
-              y: 0,
-              width: 2,
-              height: 2,
             },
-          },
+          ],
         },
       });
 
@@ -383,7 +479,20 @@ describe("canWithdraw", () => {
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          fields: {},
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+          ],
           inventory: {
             "Sunflower Seed": new Decimal(1),
           },
@@ -400,20 +509,21 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           expansions: [
             {
+              createdAt: 0,
+              readyAt: 0,
               stones: {
                 0: {
-                  height: 1,
+                  x: 0,
+                  y: 3,
                   width: 1,
-                  x: 1,
-                  y: 1,
-                  // Just been mined
+                  height: 1,
                   stone: {
+                    amount: 1,
                     minedAt: Date.now(),
-                    amount: 3,
                   },
                 },
               },
-            } as any as LandExpansion,
+            },
           ],
         },
       });
@@ -428,20 +538,21 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           expansions: [
             {
+              createdAt: 0,
+              readyAt: 0,
               stones: {
                 0: {
-                  height: 1,
+                  x: 0,
+                  y: 3,
                   width: 1,
-                  x: 1,
-                  y: 1,
-                  // Just been mined
+                  height: 1,
                   stone: {
+                    amount: 1,
                     minedAt: Date.now(),
-                    amount: 3,
                   },
                 },
               },
-            } as any as LandExpansion,
+            },
           ],
         },
       });
@@ -456,28 +567,22 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           expansions: [
             {
+              createdAt: 0,
+              readyAt: 0,
               iron: {
                 0: {
-                  height: 1,
+                  x: 0,
+                  y: 3,
                   width: 1,
-                  x: 1,
-                  y: 1,
-                  // Just been mined
+                  height: 1,
                   stone: {
+                    amount: 1,
                     minedAt: Date.now(),
-                    amount: 3,
                   },
                 },
               },
-            } as any as LandExpansion,
-          ],
-          iron: {
-            0: {
-              // Just been mined
-              minedAt: Date.now(),
-              amount: new Decimal(2),
             },
-          },
+          ],
         },
       });
 
@@ -491,20 +596,21 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           expansions: [
             {
+              createdAt: 0,
+              readyAt: 0,
               gold: {
                 0: {
-                  height: 1,
+                  x: 0,
+                  y: 3,
                   width: 1,
-                  x: 1,
-                  y: 1,
-                  // Just been mined
+                  height: 1,
                   stone: {
+                    amount: 1,
                     minedAt: Date.now(),
-                    amount: 3,
                   },
                 },
               },
-            } as any as LandExpansion,
+            },
           ],
         },
       });
@@ -557,6 +663,35 @@ describe("canWithdraw", () => {
               },
             ],
           },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
+
+    it("prevents a user from withdrawing a peeled potato when potato's are planted", () => {
+      const enabled = canWithdraw({
+        item: "Peeled Potato",
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Peeled Potato": new Decimal(2),
+          },
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -640,7 +775,20 @@ describe("canWithdraw", () => {
         item: "Easter Bunny",
         game: {
           ...TEST_FARM,
-          fields: {},
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -652,7 +800,20 @@ describe("canWithdraw", () => {
         item: "Victoria Sisters",
         game: {
           ...TEST_FARM,
-          fields: {},
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -664,7 +825,21 @@ describe("canWithdraw", () => {
         item: "Golden Cauliflower",
         game: {
           ...TEST_FARM,
-          fields: {},
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -676,7 +851,21 @@ describe("canWithdraw", () => {
         item: "Mysterious Parsnip",
         game: {
           ...TEST_FARM,
-          fields: {},
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -688,7 +877,23 @@ describe("canWithdraw", () => {
         item: "Nancy",
         game: {
           ...TEST_FARM,
-          fields: {},
+          inventory: {
+            Nancy: new Decimal(1),
+          },
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -700,7 +905,23 @@ describe("canWithdraw", () => {
         item: "Scarecrow",
         game: {
           ...TEST_FARM,
-          fields: {},
+          inventory: {
+            Scarecrow: new Decimal(1),
+          },
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -712,7 +933,21 @@ describe("canWithdraw", () => {
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          fields: {},
+          inventory: { Kuebiko: new Decimal(1) },
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -724,17 +959,27 @@ describe("canWithdraw", () => {
         item: "Woody the Beaver",
         game: {
           ...TEST_FARM,
-          trees: {
-            0: {
-              // ready to be chopped
-              choppedAt: 0,
-              wood: new Decimal(3),
-              x: 0,
-              y: 0,
-              width: 2,
-              height: 2,
-            },
+          inventory: {
+            "Woody the Beaver": new Decimal(1),
           },
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              trees: {
+                0: {
+                  x: 0,
+                  y: 3,
+                  width: 1,
+                  height: 1,
+                  wood: {
+                    amount: 1,
+                    choppedAt: 0,
+                  },
+                },
+              },
+            },
+          ],
         },
       });
 
@@ -746,17 +991,25 @@ describe("canWithdraw", () => {
         item: "Apprentice Beaver",
         game: {
           ...TEST_FARM,
-          trees: {
-            0: {
-              // ready to be chopped
-              choppedAt: 0,
-              wood: new Decimal(3),
-              x: 0,
-              y: 0,
-              width: 2,
-              height: 2,
+          inventory: { "Apprentice Beaver": new Decimal(1) },
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              trees: {
+                0: {
+                  wood: {
+                    amount: 1,
+                    choppedAt: 0,
+                  },
+                  x: -3,
+                  y: 3,
+                  height: 2,
+                  width: 2,
+                },
+              },
             },
-          },
+          ],
         },
       });
 
@@ -768,90 +1021,171 @@ describe("canWithdraw", () => {
         item: "Foreman Beaver",
         game: {
           ...TEST_FARM,
-          trees: {
-            0: {
-              // ready to be chopped
-              choppedAt: 0,
-              wood: new Decimal(3),
-              x: 0,
-              y: 0,
-              width: 2,
-              height: 2,
-            },
+          inventory: {
+            "Foreman Beaver": new Decimal(1),
           },
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              trees: {
+                0: {
+                  x: 0,
+                  y: 3,
+                  width: 1,
+                  height: 1,
+                  wood: {
+                    amount: 1,
+                    choppedAt: 0,
+                  },
+                },
+              },
+            },
+          ],
         },
       });
 
       expect(enabled).toBeTruthy();
     });
 
-    it("enable a user to withdraw kuebiko while they dont have seeds or crops", () => {
+    it("enable a user to withdraw kuebiko while they don't have seeds or crops", () => {
       const enabled = canWithdraw({
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          fields: {},
-          inventory: {},
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+          ],
+          inventory: {
+            Kuebiko: new Decimal(1),
+          },
         },
       });
 
       expect(enabled).toBeTruthy();
     });
 
-    it("enable a user to withdraw Rock Golem while they dont have stones replenishing", () => {
+    it("enable a user to withdraw Rock Golem while they don't have stones replenishing", () => {
       const enabled = canWithdraw({
         item: "Rock Golem",
         game: {
           ...TEST_FARM,
-          stones: {},
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              iron: {
+                0: {
+                  x: 0,
+                  y: 3,
+                  width: 1,
+                  height: 1,
+                  stone: {
+                    amount: 1,
+                    minedAt: 0,
+                  },
+                },
+              },
+            },
+          ],
         },
       });
 
       expect(enabled).toBeTruthy();
     });
 
-    it("enable a user to withdraw Tunnel Mole while they dont have stones replenishing", () => {
+    it("enable a user to withdraw Tunnel Mole while they don't have stones replenishing", () => {
       const enabled = canWithdraw({
         item: "Tunnel Mole",
         game: {
           ...TEST_FARM,
-          stones: {},
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              stones: {
+                0: {
+                  x: 0,
+                  y: 3,
+                  width: 1,
+                  height: 1,
+                  stone: {
+                    amount: 1,
+                    minedAt: 0,
+                  },
+                },
+              },
+            },
+          ],
         },
       });
 
       expect(enabled).toBeTruthy();
     });
 
-    it("enable a user to withdraw Rocky the Mole while they dont have irons replenishing", () => {
+    it("enable a user to withdraw Rocky the Mole while they don't have irons replenishing", () => {
       const iron = canWithdraw({
         item: "Rocky the Mole",
         game: {
           ...TEST_FARM,
-          iron: {
-            0: {
-              // Available to mine
-              minedAt: 0,
-              amount: new Decimal(2),
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              iron: {
+                0: {
+                  x: 0,
+                  y: 3,
+                  width: 1,
+                  height: 1,
+                  stone: {
+                    amount: 1,
+                    minedAt: 0,
+                  },
+                },
+              },
             },
-          },
+          ],
         },
       });
 
       expect(iron).toBeTruthy();
     });
 
-    it("enable a user to withdraw Nugget while they dont have stones replenishing", () => {
+    it("enable a user to withdraw Nugget while they don't have stones replenishing", () => {
       const gold = canWithdraw({
         item: "Nugget",
         game: {
           ...TEST_FARM,
-          gold: {
-            0: {
-              // Available to mine
-              minedAt: 0,
-              amount: new Decimal(2),
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              gold: {
+                0: {
+                  x: 0,
+                  y: 3,
+                  width: 1,
+                  height: 1,
+                  stone: {
+                    amount: 1,
+                    minedAt: 0,
+                  },
+                },
+              },
             },
-          },
+          ],
         },
       });
 
@@ -908,10 +1242,23 @@ describe("canWithdraw", () => {
         item: "Carrot Sword",
         game: {
           ...TEST_FARM,
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                0: {
+                  x: -2,
+                  y: -1,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+          ],
           inventory: {
             "Carrot Sword": new Decimal(1),
           },
-          fields: {},
         },
       });
 
@@ -924,6 +1271,21 @@ describe("canWithdraw", () => {
         game: {
           ...TEST_FARM,
           collectibles: {},
+        },
+      });
+
+      expect(enabled).toBeTruthy();
+    });
+
+    // Hang over from previous bug where we were leaving an empty array against a collectible key if all were removed.
+    it("enables a user to withdraw a collectible that is not placed but has a key in the db with empty array", () => {
+      const enabled = canWithdraw({
+        item: "Apprentice Beaver",
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Apprentice Beaver": [],
+          },
         },
       });
 
@@ -953,5 +1315,78 @@ describe("canWithdraw", () => {
 
       expect(enabled).toBeTruthy();
     });
+  });
+
+  it("enables a user to withdraw a peeled potato when not in use", () => {
+    const enabled = canWithdraw({
+      item: "Peeled Potato",
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Peeled Potato": new Decimal(2),
+        },
+        expansions: [
+          {
+            createdAt: 0,
+            readyAt: 0,
+            plots: {
+              0: {
+                x: -2,
+                y: -1,
+                height: 1,
+                width: 1,
+                crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevents users from withdrawing fruits", () => {
+    getKeys(FRUIT()).map((item) => {
+      const enabled = canWithdraw({
+        item: item,
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            [item]: new Decimal(1),
+          },
+        },
+      });
+
+      expect(enabled).toBeFalsy();
+    });
+  });
+
+  it("prevents users from withdrawing basic bear", () => {
+    const enabled = canWithdraw({
+      item: "Basic Bear",
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Bear": new Decimal(1),
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
+  });
+
+  it("allows users from withdrawing bears other than basic bear", () => {
+    const enabled = canWithdraw({
+      item: "Chef Bear",
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Chef Bear": new Decimal(1),
+        },
+      },
+    });
+
+    expect(enabled).toBeTruthy();
   });
 });

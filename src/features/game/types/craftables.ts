@@ -1,14 +1,14 @@
 import Decimal from "decimal.js-light";
-import { CropSeedName, CROP_SEEDS } from "../types/crops";
+import { CropSeedName } from "../types/crops";
 import { InventoryItemName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
-import { KNOWN_IDS, KNOWN_ITEMS, LimitedItemType } from ".";
-import { OnChainLimitedItems } from "../lib/goblinMachine";
-import { isArray } from "lodash";
+import { LimitedItemType } from ".";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
+import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import { AuctioneerItemName } from "./auctioneer";
 
 export { FLAGS };
 
@@ -28,6 +28,7 @@ export type CraftableName =
   | Shovel
   | TravelingSalesmanItem
   | WarBanner
+  | HeliosBlacksmithItem
   // TEMP
   | "Chef Apron";
 
@@ -75,7 +76,11 @@ export interface CraftableItem {
   mintReleaseDate?: number;
 }
 
-export type MutantChicken = "Speed Chicken" | "Rich Chicken" | "Fat Chicken";
+export type MutantChicken =
+  | "Speed Chicken"
+  | "Rich Chicken"
+  | "Fat Chicken"
+  | "Ayam Cemani";
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -100,13 +105,7 @@ export type QuestItem =
   | "Ancient Goblin Sword"
   | "Ancient Human Warhammer";
 
-export type GoblinRetreatItemName =
-  | "Peeled Potato"
-  | "Cabbage Boy"
-  | "Cabbage Girl"
-  | "Wood Nymph Wendy";
-
-export type BlacksmithItem =
+export type LegacyItem =
   | "Sunflower Statue"
   | "Potato Statue"
   | "Christmas Tree"
@@ -161,7 +160,7 @@ export type WarTentItem =
   | "Undead Rooster";
 
 export type LimitedItemName =
-  | BlacksmithItem
+  | LegacyItem
   | BarnItem
   | MarketItem
   | Flag
@@ -171,7 +170,7 @@ export type LimitedItemName =
   | WarTentItem;
 
 export type CollectibleName =
-  | BlacksmithItem
+  | LegacyItem
   | BarnItem
   | MarketItem
   | Flag
@@ -179,8 +178,11 @@ export type CollectibleName =
   | MutantChicken
   | MutantCropName
   | DecorationName
-  | GoblinRetreatItemName
+  | AuctioneerItemName
   | BeanName
+  | HeliosBlacksmithItem
+  | GoblinBlacksmithItemName
+  | "Observatory"
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster";
@@ -719,7 +721,7 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   },
 };
 
-export const ROCKET_ITEMS: Record<MOMEventItem, LimitedItem> = {
+export const MOM_EVENT_ITEMS: Record<MOMEventItem, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
     description: "The power of the sunflower",
@@ -737,19 +739,21 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   "Speed Chicken": {
     name: "Speed Chicken",
     description: "Produces eggs 10% faster",
-    section: Section["Speed Chicken"],
     type: LimitedItemType.MutantChicken,
   },
   "Fat Chicken": {
     name: "Fat Chicken",
     description: "10% less wheat needed to feed a chicken",
-    section: Section["Fat Chicken"],
     type: LimitedItemType.MutantChicken,
   },
   "Rich Chicken": {
     name: "Rich Chicken",
     description: "Yields 10% more eggs",
-    section: Section["Rich Chicken"],
+    type: LimitedItemType.MutantChicken,
+  },
+  "Ayam Cemani": {
+    name: "Ayam Cemani",
+    description: "The rarest chicken in Sunflower Land.",
     type: LimitedItemType.MutantChicken,
   },
 };
@@ -765,135 +769,133 @@ export const WAR_BANNERS: Record<WarBanner, CraftableItem> = {
   },
 };
 
-export const BLACKSMITH_ITEMS: Record<
-  BlacksmithItem | "Chef Apron",
-  LimitedItem
-> = {
-  "Sunflower Statue": {
-    name: "Sunflower Statue",
-    description: "A symbol of the holy token",
-    section: Section["Sunflower Statue"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Potato Statue": {
-    name: "Potato Statue",
-    description: "The OG potato hustler flex",
-    section: Section["Potato Statue"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Christmas Tree": {
-    name: "Christmas Tree",
-    description: "Receive a Santa Airdrop on Christmas day",
-    section: Section["Christmas Tree"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  Gnome: {
-    name: "Gnome",
-    description: "A lucky gnome",
-    section: Section.Gnome,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Homeless Tent": {
-    name: "Homeless Tent",
-    description: "A nice and cozy tent",
-    section: Section.Tent,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Sunflower Tombstone": {
-    name: "Sunflower Tombstone",
-    description: "In memory of Sunflower Farmers",
-    section: Section["Sunflower Tombstone"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Sunflower Rock": {
-    name: "Sunflower Rock",
-    description: "The game that broke Polygon",
-    section: Section["Sunflower Rock"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Goblin Crown": {
-    name: "Goblin Crown",
-    description: "Summon the leader of the Goblins",
-    section: Section["Goblin Crown"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  Fountain: {
-    name: "Fountain",
-    description: "A relaxing fountain for your farm",
-    section: Section.Fountain,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Nyon Statue": {
-    name: "Nyon Statue",
-    description: "In memory of Nyon Lann",
-    section: Section["Nyon Statue"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Farmer Bath": {
-    name: "Farmer Bath",
-    description: "A beetroot scented bath for the farmers",
-    section: Section["Bath"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Woody the Beaver": {
-    name: "Woody the Beaver",
-    description: "Increase wood drops by 20%",
-    section: Section.Beaver,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Apprentice Beaver": {
-    name: "Apprentice Beaver",
-    description: "Trees recover 50% faster",
-    section: Section.Beaver,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Foreman Beaver": {
-    name: "Foreman Beaver",
-    description: "Cut trees without axes",
-    section: Section.Beaver,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Egg Basket": {
-    name: "Egg Basket",
-    description: "Gives access to the Easter Egg Hunt",
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Mysterious Head": {
-    name: "Mysterious Head",
-    description: "A statue thought to protect farmers",
-    section: Section["Mysterious Head"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Tunnel Mole": {
-    name: "Tunnel Mole",
-    description: "Gives a 25% increase to stone mines",
-    section: Section.Mole,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Rocky the Mole": {
-    name: "Rocky the Mole",
-    description: "Gives a 25% increase to iron mines",
-    section: Section.Mole,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  Nugget: {
-    name: "Nugget",
-    description: "Gives a 25% increase to gold mines",
-    section: Section.Mole,
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Rock Golem": {
-    name: "Rock Golem",
-    description: "Gives a 10% chance to get 3x stone",
-    section: Section["Rock Golem"],
-    type: LimitedItemType.BlacksmithItem,
-  },
-  "Chef Apron": {
-    name: "Chef Apron",
-    description: "Gives 20% extra SFL selling cakes",
-    type: LimitedItemType.BlacksmithItem,
-  },
-};
+export const BLACKSMITH_ITEMS: Record<LegacyItem | "Chef Apron", LimitedItem> =
+  {
+    "Sunflower Statue": {
+      name: "Sunflower Statue",
+      description: "A symbol of the holy token",
+      section: Section["Sunflower Statue"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Potato Statue": {
+      name: "Potato Statue",
+      description: "The OG potato hustler flex",
+      section: Section["Potato Statue"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Christmas Tree": {
+      name: "Christmas Tree",
+      description: "Receive a Santa Airdrop on Christmas day",
+      section: Section["Christmas Tree"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    Gnome: {
+      name: "Gnome",
+      description: "A lucky gnome",
+      section: Section.Gnome,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Homeless Tent": {
+      name: "Homeless Tent",
+      description: "A nice and cozy tent",
+      section: Section.Tent,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Sunflower Tombstone": {
+      name: "Sunflower Tombstone",
+      description: "In memory of Sunflower Farmers",
+      section: Section["Sunflower Tombstone"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Sunflower Rock": {
+      name: "Sunflower Rock",
+      description: "The game that broke Polygon",
+      section: Section["Sunflower Rock"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Goblin Crown": {
+      name: "Goblin Crown",
+      description: "Summon the leader of the Goblins",
+      section: Section["Goblin Crown"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    Fountain: {
+      name: "Fountain",
+      description: "A relaxing fountain for your farm",
+      section: Section.Fountain,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Nyon Statue": {
+      name: "Nyon Statue",
+      description: "In memory of Nyon Lann",
+      section: Section["Nyon Statue"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Farmer Bath": {
+      name: "Farmer Bath",
+      description: "A beetroot scented bath for the farmers",
+      section: Section["Bath"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Woody the Beaver": {
+      name: "Woody the Beaver",
+      description: "Increase wood drops by 20%",
+      section: Section.Beaver,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Apprentice Beaver": {
+      name: "Apprentice Beaver",
+      description: "Trees recover 50% faster",
+      section: Section.Beaver,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Foreman Beaver": {
+      name: "Foreman Beaver",
+      description: "Cut trees without axes",
+      section: Section.Beaver,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Egg Basket": {
+      name: "Egg Basket",
+      description: "Gives access to the Easter Egg Hunt",
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Mysterious Head": {
+      name: "Mysterious Head",
+      description: "A statue thought to protect farmers",
+      section: Section["Mysterious Head"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Tunnel Mole": {
+      name: "Tunnel Mole",
+      description: "Gives a 25% increase to stone mines",
+      section: Section.Mole,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Rocky the Mole": {
+      name: "Rocky the Mole",
+      description: "Gives a 25% increase to iron mines",
+      section: Section.Mole,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    Nugget: {
+      name: "Nugget",
+      description: "Gives a 25% increase to gold mines",
+      section: Section.Mole,
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Rock Golem": {
+      name: "Rock Golem",
+      description: "Gives a 10% chance to get 3x stone",
+      section: Section["Rock Golem"],
+      type: LimitedItemType.BlacksmithItem,
+    },
+    "Chef Apron": {
+      name: "Chef Apron",
+      description: "Gives 20% extra SFL selling cakes",
+      type: LimitedItemType.BlacksmithItem,
+    },
+  };
 
 export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
   Nancy: {
@@ -970,29 +972,6 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
 };
 
-// TODO
-type GoblinRetreatItem = {
-  description: string;
-};
-
-export const GOBLIN_RETREAT_ITEMS: Record<
-  GoblinRetreatItemName,
-  GoblinRetreatItem
-> = {
-  "Peeled Potato": {
-    description: "A precious potato, encourages bonus potatoes on harvest.",
-  },
-  "Cabbage Boy": {
-    description: "Don't wake the baby!",
-  },
-  "Cabbage Girl": {
-    description: "Shhh it's sleeping",
-  },
-  "Wood Nymph Wendy": {
-    description: "Cast an enchantment to entice the fairies",
-  },
-};
-
 export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   Chicken: {
     name: "Chicken",
@@ -1023,26 +1002,6 @@ export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   },
 });
 
-type Craftables = Record<CraftableName, CraftableItem>;
-
-export const CRAFTABLES: () => Craftables = () => ({
-  ...TOOLS,
-  ...SHOVELS,
-  ...BLACKSMITH_ITEMS,
-  ...BARN_ITEMS,
-  ...MARKET_ITEMS,
-  ...CROP_SEEDS(),
-  ...FOODS(),
-  ...ANIMALS(),
-  ...FLAGS,
-  ...ROCKET_ITEMS,
-  ...QUEST_ITEMS,
-  ...MUTANT_CHICKENS,
-  ...SALESMAN_ITEMS,
-  ...WAR_BANNERS,
-  ...WAR_TENT_ITEMS,
-});
-
 /**
  * getKeys is a ref to Object.keys, but the return is typed literally.
  */
@@ -1063,90 +1022,11 @@ export const LIMITED_ITEMS = {
   ...BARN_ITEMS,
   ...MARKET_ITEMS,
   ...FLAGS,
-  ...ROCKET_ITEMS,
+  ...MOM_EVENT_ITEMS,
   ...QUEST_ITEMS,
   ...MUTANT_CHICKENS,
   ...SALESMAN_ITEMS,
   ...WAR_TENT_ITEMS,
-};
-
-export const LIMITED_ITEM_NAMES = getKeys(LIMITED_ITEMS);
-
-export const makeLimitedItemsByName = (
-  items: Record<LimitedItemName, LimitedItem>,
-  onChainItems: OnChainLimitedItems
-) => {
-  return getKeys(items).reduce((limitedItems, itemName) => {
-    const name = itemName as LimitedItemName;
-    // Get id form limited item name
-    const id = KNOWN_IDS[name];
-    // Get onchain item based on id
-    const onChainItem = onChainItems[id];
-
-    if (onChainItem) {
-      const {
-        ingredientAmounts,
-        ingredientIds,
-        cooldownSeconds,
-        maxSupply,
-        mintedAt,
-        tokenAmount,
-        enabled,
-      } = onChainItem;
-
-      const isNewItem = !enabled && Number(maxSupply) === 0;
-
-      //ONLY MAINNET NEEDS INGREDIENTS BUILDING AS TESTNET HAVE DIFFERENT CRAFT STRUCTURE
-      // Build ingredients
-      if ((ingredientAmounts && tokenAmount) || ingredientAmounts) {
-        const ingredients = ingredientIds?.map((id, index) => ({
-          id,
-          item: KNOWN_ITEMS[id],
-          amount: new Decimal(ingredientAmounts[index]),
-        }));
-
-        limitedItems[name] = {
-          id: onChainItem.mintId,
-          name,
-          description: items[name].description,
-          tokenAmount: new Decimal(tokenAmount === undefined ? 0 : tokenAmount),
-          maxSupply,
-          cooldownSeconds,
-          ingredients,
-          mintedAt,
-          type: items[name].type,
-          disabled: !enabled,
-          isPlaceholder: items[name].isPlaceholder || isNewItem,
-          canMintMultiple: items[name].canMintMultiple,
-          mintReleaseDate: items[name].mintReleaseDate || 0,
-        };
-      }
-      return limitedItems;
-    }
-    return limitedItems;
-    // TODO: FIX TYPE
-  }, {} as Record<CraftableName, LimitedItem>);
-};
-
-export const filterLimitedItemsByType = (
-  type: LimitedItemType | LimitedItemType[],
-  limitedItems: Record<LimitedItemName, LimitedItem>
-) => {
-  // Convert `obj` to a key/value array
-  // `[['name', 'Luke Skywalker'], ['title', 'Jedi Knight'], ...]`
-  const asArray = Object.entries(limitedItems);
-
-  const filtered = asArray.filter(([_, value]) => {
-    if (value.type && isArray(type)) {
-      return type.includes(value.type);
-    }
-
-    return value.type === type;
-  });
-
-  // Convert the key/value array back to an object:
-  // `{ name: 'Luke Skywalker', title: 'Jedi Knight' }`
-  return Object.fromEntries(filtered);
 };
 
 export const isLimitedItem = (itemName: any) => {
@@ -1161,8 +1041,8 @@ const flagsDimension = getKeys(FLAGS).reduce(
   (previous, flagName) => ({
     ...previous,
     [flagName]: {
-      height: 1,
       width: 1,
+      height: 1,
     },
   }),
   {} as Record<Flag, Dimensions>
@@ -1170,8 +1050,8 @@ const flagsDimension = getKeys(FLAGS).reduce(
 
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Salesman Items
-  "Wicker Man": { height: 1, width: 1 },
-  "Golden Bonsai": { height: 1, width: 1 },
+  "Wicker Man": { width: 1, height: 1 },
+  "Golden Bonsai": { width: 1, height: 1 },
 
   // Flags
   ...flagsDimension,
@@ -1198,9 +1078,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Tunnel Mole": { width: 1, height: 1 },
   "Rocky the Mole": { width: 1, height: 1 },
   Nugget: { width: 1, height: 1 },
+  "Immortal Pear": { width: 2, height: 2 },
 
   // Market Items
-  Scarecrow: { height: 2, width: 2 },
+  Scarecrow: { width: 2, height: 2 },
   Nancy: { width: 1, height: 2 },
   Kuebiko: { width: 2, height: 2 },
   "Golden Cauliflower": { width: 2, height: 2 },
@@ -1213,39 +1094,48 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Chicken Coop": { width: 2, height: 2 },
   "Gold Egg": { width: 1, height: 1 },
   "Easter Bunny": { width: 2, height: 1 },
-  Rooster: { height: 1, width: 1 },
-  "Egg Basket": { height: 1, width: 1 },
-  "Fat Chicken": { height: 1, width: 1 },
-  "Rich Chicken": { height: 1, width: 1 },
-  "Speed Chicken": { height: 1, width: 1 },
-
+  Rooster: { width: 1, height: 1 },
+  "Egg Basket": { width: 1, height: 1 },
+  "Fat Chicken": { width: 1, height: 1 },
+  "Rich Chicken": { width: 1, height: 1 },
+  "Speed Chicken": { width: 1, height: 1 },
+  "Ayam Cemani": { width: 1, height: 1 },
   // War Tent Items
-  "War Skull": { height: 1, width: 1 },
-  "War Tombstone": { height: 1, width: 1 },
-  "Undead Rooster": { height: 1, width: 1 },
+  "War Skull": { width: 1, height: 1 },
+  "War Tombstone": { width: 1, height: 1 },
+  "Undead Rooster": { width: 1, height: 1 },
 
-  "Victoria Sisters": { height: 2, width: 2 },
-  "Basic Bear": { height: 1, width: 1 },
-  "Peeled Potato": { height: 1, width: 1 },
-  "Wood Nymph Wendy": { height: 2, width: 1 },
-  "Cabbage Boy": { height: 1, width: 1 },
-  "Cabbage Girl": { height: 1, width: 1 },
+  Observatory: { width: 2, height: 2 },
+  "Victoria Sisters": { width: 2, height: 2 },
+  "Basic Bear": { width: 1, height: 1 },
+  "Peeled Potato": { width: 1, height: 1 },
+  "Wood Nymph Wendy": { width: 1, height: 2 },
+  "Cabbage Boy": { width: 1, height: 1 },
+  "Cabbage Girl": { width: 1, height: 1 },
 
-  "Magic Bean": { height: 2, width: 2 },
-  "Shiny Bean": { height: 2, width: 2 },
-  "Golden Bean": { height: 2, width: 2 },
+  "Magic Bean": { width: 2, height: 2 },
+  "Shiny Bean": { width: 2, height: 2 },
+  "Golden Bean": { width: 2, height: 2 },
 
-  "Stellar Sunflower": { height: 1, width: 1 },
-  "Peaceful Potato": { height: 1, width: 1 },
-  "Perky Pumpkin": { height: 1, width: 1 },
-  "Colossal Crop": { height: 1, width: 1 },
+  "Stellar Sunflower": { width: 1, height: 1 },
+  "Peaceful Potato": { width: 1, height: 1 },
+  "Perky Pumpkin": { width: 1, height: 1 },
+  "Colossal Crop": { width: 1, height: 1 },
 
-  "Christmas Bear": { height: 1, width: 1 },
+  "Christmas Bear": { width: 1, height: 1 },
+  "Christmas Snow Globe": { width: 2, height: 2 },
+  "Lady Bug": { width: 1, height: 1 },
+  "Squirrel Monkey": { width: 1, height: 1 },
+  "Black Bearry": { width: 1, height: 1 },
+
+  "Maneki Neko": { width: 1, height: 1 },
+  "Collectible Bear": { width: 2, height: 2 },
+  "Cyborg Bear": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
   Chicken: {
-    height: 1,
     width: 1,
+    height: 1,
   },
 };

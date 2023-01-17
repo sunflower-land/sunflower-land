@@ -4,25 +4,23 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import fin from "assets/decorations/fin_sheet.png";
 import bumpkin from "assets/npcs/shark.png";
-import close from "assets/icons/close.png";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 
 import { MapPlacement } from "../MapPlacement";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LAND_WIDTH = 6;
 
 interface Props {
-  level: number;
+  x: number;
+  y: number;
 }
 
-export const SharkBumpkin: React.FC<Props> = ({ level }) => {
+export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
   const [showModal, setShowModal] = useState(false);
-  // As the land gets bigger, push the water decorations out
-  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
-
   const [showFin, setShowFin] = useState(false);
 
   useEffect(() => {
@@ -44,7 +42,7 @@ export const SharkBumpkin: React.FC<Props> = ({ level }) => {
 
         <Panel>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
             style={{
@@ -59,7 +57,7 @@ export const SharkBumpkin: React.FC<Props> = ({ level }) => {
           </div>
         </Panel>
       </Modal>
-      <MapPlacement x={-8} y={offset + 5} width={8}>
+      <MapPlacement x={x} y={y} width={8}>
         {showFin && (
           <Spritesheet
             onClick={() => setShowModal(true)}

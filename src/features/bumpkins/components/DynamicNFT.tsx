@@ -24,22 +24,28 @@ export const DynamicNFT: React.FC<Props> = ({
   const parts = cloneDeep(bumpkinParts);
 
   useEffect(() => {
+    let isSubscribed = true;
     const load = async () => {
       const image = await buildImage({
         parts,
       });
 
-      setImageSrc(image);
+      if (isSubscribed) {
+        setImageSrc(image);
+      }
     };
 
     load();
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   if (!parts) {
     return null;
   }
 
-  console.log({ showBackground });
   if (!showBackground) {
     delete parts.background;
   }

@@ -44,169 +44,8 @@ const INITIAL_STOCK: Inventory = {
   "Magic Bean": new Decimal(5),
   "Shiny Bean": new Decimal(5),
   "Golden Bean": new Decimal(5),
-};
 
-const INITIAL_FIELDS: GameState["fields"] = {
-  0: {
-    name: "Pumpkin",
-    plantedAt: 0,
-    reward: {
-      items: [
-        {
-          amount: 1,
-          name: "Jack-o-lantern",
-        },
-      ],
-    },
-  },
-  1: {
-    name: "Sunflower",
-    plantedAt: 0,
-  },
-  2: {
-    name: "Sunflower",
-    plantedAt: 0,
-  },
-  5: {
-    name: "Carrot",
-    plantedAt: 0,
-  },
-  6: {
-    name: "Cabbage",
-    plantedAt: 0,
-  },
-  10: {
-    name: "Cauliflower",
-    plantedAt: 0,
-  },
-  11: {
-    name: "Beetroot",
-    plantedAt: 0,
-  },
-  16: {
-    name: "Parsnip",
-    plantedAt: 0,
-  },
-  17: {
-    name: "Radish",
-    plantedAt: 0,
-  },
-};
-
-const INITIAL_TREES: GameState["trees"] = {
-  0: {
-    wood: new Decimal(3),
-    choppedAt: 0,
-    x: 1,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-  1: {
-    wood: new Decimal(4),
-    choppedAt: 0,
-    // Not used in land expansion testing...yet
-    x: 100,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-  2: {
-    wood: new Decimal(5),
-    choppedAt: 0,
-    // Not used in land expansion testing...yet
-    x: 100,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-  3: {
-    wood: new Decimal(5),
-    choppedAt: 0,
-    // Not used in land expansion testing...yet
-    x: 100,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-  4: {
-    wood: new Decimal(3),
-    choppedAt: 0,
-    // Not used in land expansion testing...yet
-    x: 100,
-    y: 3,
-    height: 2,
-    width: 2,
-  },
-};
-
-const INITIAL_STONE: GameState["stones"] = {
-  0: {
-    amount: new Decimal(2),
-    minedAt: 0,
-  },
-  1: {
-    amount: new Decimal(3),
-    minedAt: 0,
-  },
-  2: {
-    amount: new Decimal(4),
-    minedAt: 0,
-  },
-};
-
-const INITIAL_IRON: GameState["iron"] = {
-  0: {
-    amount: new Decimal(2),
-    minedAt: 0,
-  },
-  1: {
-    amount: new Decimal(3),
-    minedAt: 0,
-  },
-};
-
-const INITIAL_GOLD: GameState["gold"] = {
-  0: {
-    amount: new Decimal(2),
-    minedAt: 0,
-  },
-};
-
-const INITIAL_PLOTS: GameState["plots"] = {
-  0: {
-    crop: { name: "Sunflower", plantedAt: 0 },
-    x: -1,
-    y: 1,
-    height: 1,
-    width: 1,
-  },
-  1: {
-    crop: { name: "Sunflower", plantedAt: 0 },
-    x: 0,
-    y: 0,
-    height: 1,
-    width: 1,
-  },
-  2: {
-    crop: { name: "Sunflower", plantedAt: 0 },
-    x: -1,
-    y: 0,
-    height: 1,
-    width: 1,
-  },
-  3: {
-    x: -1,
-    y: -1,
-    height: 1,
-    width: 1,
-  },
-  4: {
-    x: -2,
-    y: 0,
-    height: 1,
-    width: 1,
-  },
+  "Immortal Pear": new Decimal(1),
 };
 
 const INITIAL_EXPANSIONS: LandExpansion[] = [
@@ -375,7 +214,7 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
         height: 1,
         width: 1,
       },
-    } as GameState["plots"],
+    },
 
     trees: {
       0: {
@@ -409,12 +248,13 @@ const INITIAL_BUMPKIN: Bumpkin = {
   achievements: {
     "Busy Bumpkin": 1,
   },
-  activity: {},
+  activity: {
+    "Reindeer Carrot Fed": 50,
+  },
 };
 
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
-  fields: INITIAL_FIELDS,
   inventory: {
     Artist: new Decimal(1),
     Sunflower: new Decimal(5),
@@ -427,7 +267,7 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Girl": new Decimal(1),
     "Basic Bear": new Decimal(1),
     "Magic Bean": new Decimal(5),
-    // Every item for testing
+    "Christmas Snow Globe": new Decimal(1),
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
@@ -435,24 +275,22 @@ export const OFFLINE_FARM: GameState = {
     //   }),
     //   {}
     // ),
+    "Maneki Neko": new Decimal(1),
     "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
+    Gold: new Decimal(50),
+    "Immortal Pear": new Decimal(1),
   },
   migrated: true,
   stock: INITIAL_STOCK,
-  trees: INITIAL_TREES,
-  stones: INITIAL_STONE,
-  iron: INITIAL_IRON,
-  gold: INITIAL_GOLD,
   chickens: {},
   skills: {
     farming: new Decimal(0),
     gathering: new Decimal(0),
   },
   stockExpiry: {},
-  plots: INITIAL_PLOTS,
 
   expansions: INITIAL_EXPANSIONS,
   buildings: {
@@ -483,19 +321,9 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
-  airdrops: [
-    {
-      createdAt: Date.now(),
-      id: "123",
-      items: {
-        "Rapid Growth": 5,
-      },
-      sfl: 3,
-      message: "You are a legend!",
-    },
-  ],
+  airdrops: [],
   collectibles: {
-    "Magic Bean": [
+    "Maneki Neko": [
       {
         coordinates: {
           x: 4,
@@ -509,7 +337,13 @@ export const OFFLINE_FARM: GameState = {
   },
   mysteryPrizes: {},
   bumpkin: INITIAL_BUMPKIN,
-
+  tradeOffer: {
+    amount: 1,
+    endAt: new Date(Date.now() + 100000000000000).toISOString(),
+    startAt: new Date().toISOString(),
+    name: "Algerian Flag",
+    ingredients: [],
+  },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
     closesAt: new Date("2022-10-08").getTime(),

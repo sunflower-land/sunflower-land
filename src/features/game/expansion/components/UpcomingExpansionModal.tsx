@@ -1,20 +1,11 @@
 import React from "react";
-
-import skeleton from "assets/npcs/skeleton_walk.gif";
-
-import stopwatch from "assets/icons/stopwatch.png";
-import hammer from "assets/icons/hammer.png";
-import close from "assets/icons/close.png";
-import heart from "assets/icons/level_up.png";
-import lock from "assets/skills/lock.png";
-
 import { GameState } from "features/game/types/game";
 import { Button } from "components/ui/Button";
-import { Ingredients } from "./Ingredients";
-import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import Decimal from "decimal.js-light";
 
 interface Props {
   gameState: GameState;
@@ -33,7 +24,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     return (
       <div>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{
@@ -49,7 +40,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
         </div>
         <div className="flex justify-center w-1/2 my-3">
           <img
-            src={skeleton}
+            src={SUNNYSIDE.npcs.moonseeker_walk}
             className="running"
             style={{
               height: `${PIXEL_SCALE * 17}px`,
@@ -72,10 +63,12 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     getBumpkinLevel(bumpkin?.experience || 0) >=
       gameState.expansionRequirements.bumpkinLevel;
 
+  const sflRequirement = gameState.expansionRequirements.sfl;
+
   return (
     <div className="p-1">
       <img
-        src={close}
+        src={SUNNYSIDE.icons.close}
         className="absolute cursor-pointer z-20"
         onClick={onClose}
         style={{
@@ -96,35 +89,44 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
         </div>
       </div>
       <div className="my-2 mt-4 flex justify-between items-end">
-        <div>
-          <Ingredients
-            resources={gameState.expansionRequirements.resources}
-            sfl={gameState.expansionRequirements.sfl}
-            gameState={gameState}
-          />
-          {getBumpkinLevel(bumpkin?.experience || 0) <
-            gameState.expansionRequirements.bumpkinLevel && (
-            <div className="flex items-center mt-2">
-              <img src={heart} className="h-6 ml-0.5 mr-1" />
-              <Label type="danger">
-                Lvl {gameState.expansionRequirements.bumpkinLevel}
-              </Label>
-
-              <img src={lock} className="h-6 ml-2" />
-            </div>
+        <div className="flex flex-col space-y-2 items-start">
+          {gameState.expansionRequirements.resources?.map(
+            (ingredient, index) => {
+              return (
+                <RequirementLabel
+                  key={index}
+                  type="item"
+                  item={ingredient.item}
+                  balance={
+                    gameState.inventory[ingredient.item] ?? new Decimal(0)
+                  }
+                  requirement={ingredient.amount}
+                />
+              );
+            }
           )}
+
+          {sflRequirement && sflRequirement.gt(0) && (
+            <RequirementLabel
+              type="sfl"
+              balance={gameState.balance}
+              requirement={sflRequirement}
+            />
+          )}
+
+          <RequirementLabel
+            type="level"
+            currentLevel={getBumpkinLevel(bumpkin?.experience || 0)}
+            requirement={gameState.expansionRequirements.bumpkinLevel}
+          />
         </div>
 
         <div className="flex flex-col items-end">
           <div className="flex items-center mb-1">
-            <img src={hammer} className="w-4 mr-2" />
-            <img src={stopwatch} className="w-4 mr-2" />
-            <span className="text-sm">
-              {secondsToString(gameState.expansionRequirements.seconds, {
-                length: "medium",
-                removeTrailingZeros: true,
-              })}
-            </span>
+            <RequirementLabel
+              type="time"
+              waitSeconds={gameState.expansionRequirements.seconds}
+            />
           </div>
           <Button className="w-40" onClick={onExpand} disabled={!canExpand}>
             Expand

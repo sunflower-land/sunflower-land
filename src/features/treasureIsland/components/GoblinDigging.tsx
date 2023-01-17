@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 
-import goblin from "assets/npcs/goblin_treasure.gif";
 import shadow from "assets/npcs/shadow.png";
-import sandDug from "assets/land/sand_dug.png";
-import close from "assets/icons/close.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const GoblinDigging: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   return (
     <MapPlacement x={3} y={2} height={1} width={2}>
       <img
-        src={sandDug}
+        src={SUNNYSIDE.soil.sand_dug}
         className="absolute"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
@@ -34,7 +32,7 @@ export const GoblinDigging: React.FC = () => {
       />
       <div className="w-max h-full relative">
         <img
-          src={goblin}
+          src={SUNNYSIDE.npcs.goblin_treasure}
           className="relative cursor-pointer hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 33}px`,
@@ -57,7 +55,7 @@ export const GoblinDigging: React.FC = () => {
           }}
         >
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
             style={{

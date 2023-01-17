@@ -4,7 +4,6 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 
 import { GameState } from "features/game/types/game";
-import expandIcon from "assets/icons/expand.png";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
 import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
@@ -13,6 +12,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Pontoon } from "./Pontoon";
 
 import { Context } from "features/game/GameProvider";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   gameState: GameState;
@@ -61,7 +61,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
       >
         <div className="w-full h-full flex items-center justify-center opacity-90 hover:opacity-100">
           <img
-            src={expandIcon}
+            src={SUNNYSIDE.icons.expand}
             width={18 * PIXEL_SCALE}
             className="relative cursor-pointer hover:img-highlight"
             onClick={() => setShowBumpkinModal(true)}

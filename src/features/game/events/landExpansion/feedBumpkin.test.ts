@@ -75,6 +75,7 @@ describe("feedBumpkin", () => {
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.05).toNumber()
     );
   });
+
   it("provides 10% more experience with Golden Spatula Bumpkin Wearable tool", () => {
     const result = feedBumpkin({
       state: {
@@ -95,6 +96,40 @@ describe("feedBumpkin", () => {
 
     expect(result.bumpkin?.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber()
+    );
+  });
+
+  it("provides 5% more experience when player has Observatory placed", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: 0,
+        },
+        inventory: {
+          Observatory: new Decimal(1),
+          "Boiled Eggs": new Decimal(1),
+        },
+        collectibles: {
+          Observatory: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Boiled Eggs"].experience * 1.05
     );
   });
 });

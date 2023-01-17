@@ -9,9 +9,7 @@ import Decimal from "decimal.js-light";
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
-import wood from "assets/resources/wood.png";
 import sfltoken from "assets/icons/token_2.png";
-import axe from "assets/tools/axe.png";
 
 import {
   GRID_WIDTH_PX,
@@ -36,7 +34,8 @@ import {
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
-import { ChestReward } from "features/game/expansion/components/resources/components/ChestReward";
+import { ChestReward } from "features/island/common/chest-reward/ChestReward";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const HITS = 3;
 const tool = "Axe";
@@ -193,7 +192,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         displayPopover(
           <div className="flex">
             <img
-              src={wood}
+              src={SUNNYSIDE.resource.wood}
               className="mr-2"
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
@@ -204,7 +203,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         );
 
         setToast({
-          icon: wood,
+          icon: SUNNYSIDE.resource.wood,
           content: `+${tree.wood.amount}`,
         });
 
@@ -215,7 +214,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
       if (e.message === CHOP_ERRORS.NO_AXES) {
         displayPopover(
           <div className="flex">
-            <img src={axe} className="w-4 h-4 mr-2" />
+            <img src={SUNNYSIDE.tools.axe} className="w-4 h-4 mr-2" />
             <span className="text-xs text-white">No axes left</span>
           </div>
         );
@@ -350,7 +349,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           <div
             className="flex justify-center absolute w-full pointer-events-none"
             style={{
-              top: `${PIXEL_SCALE * -15}px`,
+              top: `${PIXEL_SCALE * -7}px`,
             }}
           >
             <TimeLeftPanel

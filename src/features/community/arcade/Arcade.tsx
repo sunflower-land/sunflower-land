@@ -3,7 +3,7 @@ import React from "react";
 import { ArcadeModal } from "features/community/arcade/ArcadeModal";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import arcade from "assets/community/arcade/arcade_machine.png";
+import arcade from "assets/community/arcade/images/arcade_machine.png";
 
 interface Props {
   left: number;

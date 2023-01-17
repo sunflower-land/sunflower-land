@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import stopwatch from "assets/icons/stopwatch.png";
-
-import goblin1 from "assets/npcs/goblin.gif";
 import goblin3 from "assets/npcs/goblin_female.gif";
 
 import { Context } from "../GameProvider";
@@ -10,6 +7,7 @@ import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { getGoblinSwarm } from "../events/detectBot";
 import { secondsToString } from "lib/utils/time";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Swarming: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -42,7 +40,7 @@ export const Swarming: React.FC = () => {
             Goblin Swarm!
           </span>
           <div className="flex items-end">
-            <img src={goblin1} className="h-12" />
+            <img src={SUNNYSIDE.npcs.goblin} className="h-12" />
             <img
               src={goblin3}
               className="h-16 ml-2"
@@ -60,7 +58,7 @@ export const Swarming: React.FC = () => {
         </div>
         {secondsLeft > 0 ? (
           <div className="flex items-center justify-center">
-            <img src={stopwatch} className="w-6 mr-2" />
+            <img src={SUNNYSIDE.icons.stopwatch} className="w-6 mr-2" />
             <span>{secondsToString(secondsLeft, { length: "full" })}</span>
           </div>
         ) : (

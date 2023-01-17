@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import dragonfly from "assets/decorations/dragonfly.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
-import swimmer from "assets/npcs/swimmer.gif";
 import cossies from "assets/decorations/cossies.png";
 import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
 import abandonedLand from "assets/land/abandoned_land.webp";
-import snowIsland from "assets/land/snow_island.webp";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -18,22 +16,11 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
 import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
 
-// random seal spawn spots
-import { randomInt } from "lib/utils/random";
-import { LostSeal } from "features/community/seal/Seal";
-import { Salesman } from "features/farming/salesman/Salesman";
-
-const spawn = [
-  [40.1, -3],
-  [35, 30],
-  [5, 35],
-  [5, -3],
-];
-
-const getRandomSpawn = () => {
-  const randomSpawn = randomInt(0, 4);
-  return spawn[randomSpawn];
-};
+import { merchantAudio } from "lib/utils/sfx";
+import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
+import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
+import CommunityBoundary from "features/community/components/CommunityBoundary";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LAND_WIDTH = 6;
 
@@ -42,9 +29,23 @@ interface Props {
 }
 
 export const Water: React.FC<Props> = ({ level }) => {
+  const [showModal, setShowModal] = useState(false);
+
   // As the land gets bigger, push the water decorations out
-  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
-  const [sealSpawn, setSealSpawn] = React.useState(getRandomSpawn());
+  const offset = Math.ceil((Math.sqrt(level + 1) * LAND_WIDTH) / 2);
+
+  const openMerchant = () => {
+    setShowModal(true);
+    //Checks if merchantAudio is playing, if false, plays the sound
+    if (!merchantAudio.playing()) {
+      merchantAudio.play();
+    }
+  };
+
+  const frogCoordinates = {
+    x: level >= 7 ? -2 : 5,
+    y: level >= 7 ? -11 : -5,
+  };
 
   return (
     // Container
@@ -53,54 +54,49 @@ export const Water: React.FC<Props> = ({ level }) => {
         height: "inherit",
       }}
     >
-      {/* Above Land */}
-      {/* <Shark side="top" /> */}
-
-      {/* Below Land */}
-      {/* <Shark side="bottom" /> */}
-
       {/* Navigation Center Point */}
 
-      <MapPlacement x={-offset} y={1} width={1.185}>
+      <MapPlacement x={-6 - offset} y={3} width={1}>
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 1.185}px`,
+            width: `${PIXEL_SCALE * 13}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            bottom: `${PIXEL_SCALE * 4}px`,
           }}
           src={dragonfly}
           className="animate-float"
         />
       </MapPlacement>
 
-      <MapPlacement x={-3 - offset} y={-1} width={6.1}>
+      <MapPlacement x={-8 - offset} y={-1} width={6}>
         <img
           src={goblinSwimming}
           style={{
-            width: `${GRID_WIDTH_PX * 6.1}px`,
+            width: `${PIXEL_SCALE * 96}px`,
           }}
         />
       </MapPlacement>
 
-      <Snorkler level={level} />
+      <Snorkler x={-2} y={offset + 9} />
 
-      <SharkBumpkin level={level} />
+      <SharkBumpkin x={-8} y={offset + 12} />
 
-      <MapPlacement x={offset + 4} y={6} width={1}>
+      <MapPlacement x={offset + 8} y={6} width={1}>
         <img
-          src={swimmer}
+          src={SUNNYSIDE.npcs.swimmer}
+          className="absolute pointer-events-none"
           style={{
             width: `${1 * GRID_WIDTH_PX}px`,
             transform: "scaleX(-1)",
             zIndex: 2,
           }}
         />
-      </MapPlacement>
-      <MapPlacement x={offset + 4} y={6} width={1}>
         <img
           src={cossies}
+          className="absolute pointer-events-none"
           style={{
             width: `${GRID_WIDTH_PX}px`,
             transform: "scaleX(-1)",
-            position: "relative",
             left: `${16 * PIXEL_SCALE}px`,
             zIndex: 2,
           }}
@@ -114,10 +110,8 @@ export const Water: React.FC<Props> = ({ level }) => {
             width: `${PIXEL_SCALE * 86}px`,
           }}
         />
+        <Arcade left={3} top={0.625} />
       </MapPlacement>
-      <Arcade left={40.25} top={-6.375} />
-
-      <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
 
       <FarmerQuest />
 
@@ -139,16 +133,23 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      <MapPlacement x={-5} y={-16} width={6}>
+      {/* <MapPlacement x={-5} y={-16} width={6}>
         <img
-          src={snowIsland}
+          src={smallIsland}
           style={{
             width: `${PIXEL_SCALE * 82}px`,
           }}
         />
-      </MapPlacement>
+      </MapPlacement> */}
 
-      <Salesman />
+      {/* Community Assets */}
+      <CommunityBoundary>
+        <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y}>
+          <ProjectDignityFrogs left={0} top={0} />
+        </MapPlacement>
+
+        <ProjectDignitySeals isGarden={false} />
+      </CommunityBoundary>
     </div>
   );
 };

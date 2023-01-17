@@ -1,9 +1,6 @@
 import { getKeys } from "./craftables";
 import greenThumb from "assets/skills/green_thumb.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
-import sunflower from "assets/crops/sunflower/crop.png";
-import radish from "assets/crops/radish/crop.png";
-import wheat from "assets/crops/wheat/crop.png";
 import prospector from "assets/skills/prospector.png";
 import buckaroo from "assets/skills/land/animals/buckaroo.png";
 import coal_face from "assets/skills/land/rocks/coal_face.png";
@@ -21,6 +18,7 @@ import seeker from "assets/skills/land/rocks/seeker.png";
 import stable_hand from "assets/skills/land/animals/stable_hand.png";
 import tough_tree from "assets/skills/land/trees/tough_tree.png";
 import tree_hugger from "assets/skills/land/trees/tree_hugger.png";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -93,7 +91,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Cultivator",
     },
     boosts: "Crops yield 10% more",
-    image: sunflower,
+    image: CROP_LIFECYCLE.Sunflower.crop,
   },
   "Golden Flowers": {
     name: "Golden Flowers",
@@ -113,7 +111,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Master Farmer",
     },
     boosts: "Crops require ?",
-    image: radish,
+    image: CROP_LIFECYCLE.Radish.crop,
     disabled: true,
   },
   "Happy Crop": {
@@ -124,7 +122,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Master Farmer",
     },
     boosts: "Chance to get 2x crops",
-    image: wheat,
+    image: CROP_LIFECYCLE.Wheat.crop,
   },
   Lumberjack: {
     name: "Lumberjack",

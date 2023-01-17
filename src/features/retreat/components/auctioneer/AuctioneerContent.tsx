@@ -3,9 +3,9 @@ import { Context } from "features/game/GoblinProvider";
 
 import { getValidAuctionItems } from "./actions/auctioneerItems";
 import { useActor } from "@xstate/react";
-import { GoblinRetreatItemName } from "features/game/types/craftables";
 import { MachineInterpreter } from "features/retreat/auctioneer/auctioneerMachine";
 import { AuctionDetails } from "./AuctionDetails";
+import { AuctioneerItemName } from "features/game/types/auctioneer";
 
 export const AuctioneerContent = () => {
   const { goblinService } = useContext(Context);
@@ -19,14 +19,14 @@ export const AuctioneerContent = () => {
 
   const upcoming = getValidAuctionItems(auctioneerItems);
 
-  const mint = (item: GoblinRetreatItemName) => {
+  const mint = (item: AuctioneerItemName) => {
     send({ type: "MINT", item, captcha: "" });
   };
 
   if (upcoming.length === 0) {
     return (
       <div className="flex flex-col">
-        <span>Coming soon...</span>
+        <span className="mt-1 ml-2">Coming soon...</span>
       </div>
     );
   }

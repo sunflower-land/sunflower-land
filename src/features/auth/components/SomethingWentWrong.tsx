@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import lightningAnimation from "assets/npcs/human_death.gif";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -8,6 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 
 export const SomethingWentWrong: React.FC = () => {
+  const [date] = useState(new Date().toISOString());
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
 
@@ -41,9 +42,9 @@ export const SomethingWentWrong: React.FC = () => {
             contacting our{" "}
             <a
               className="underline"
-              target="_blank"
               href="https://sunflowerland.freshdesk.com"
-              rel="noreferrer"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               support team{" "}
             </a>
@@ -65,7 +66,7 @@ export const SomethingWentWrong: React.FC = () => {
           {transactionId && (
             <p className="leading-3">Transaction ID: {transactionId}</p>
           )}
-          <p className="leading-3">Date: {new Date().toISOString()}</p>
+          <p className="leading-3">Date: {date}</p>
         </div>
       </div>
       <Button onClick={onAcknowledge}>Refresh</Button>

@@ -4,13 +4,9 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import Draggable from "react-draggable";
 import classNames from "classnames";
 
-import tree from "assets/resources/tree.png";
 import fruitPatch from "assets/fruit/apple/apple_tree.png";
-import smallStone from "assets/resources/small_stone.png";
 import goldStone from "assets/resources/gold_small.png";
 import ironStone from "assets/resources/iron_small.png";
-import boulder from "assets/resources/rare_mine.png";
-import plot from "assets/crops/sunflower/seedling.png";
 
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { ResourceBUttons } from "./ResourceButtons";
@@ -22,6 +18,8 @@ import { Plot } from "features/island/plots/Plot";
 import { Tree } from "features/game/expansion/components/resources/Tree";
 import { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export const RESOURCES: Record<
   keyof Layout,
@@ -33,14 +31,14 @@ export const RESOURCES: Record<
 > = {
   trees: {
     component: () => <Tree expansionIndex={0} treeIndex={0} />,
-    icon: tree,
+    icon: SUNNYSIDE.resource.tree,
     dimensions: {
       height: 2,
       width: 2,
     },
   },
   fruitPatches: {
-    component: () => <FruitPatch fruit="Apple" />,
+    component: () => <FruitPatch expansionIndex={0} fruitPatchIndex={0} />,
     icon: fruitPatch,
     dimensions: {
       height: 2,
@@ -53,7 +51,7 @@ export const RESOURCES: Record<
       height: 1,
       width: 1,
     },
-    icon: smallStone,
+    icon: SUNNYSIDE.resource.small_stone,
   },
   iron: {
     component: () => <Iron expansionIndex={0} ironIndex={0} />,
@@ -77,7 +75,7 @@ export const RESOURCES: Record<
       height: 1,
       width: 1,
     },
-    icon: plot,
+    icon: CROP_LIFECYCLE.Sunflower.seedling,
   },
   boulder: {
     component: () => <Boulder />,
@@ -85,7 +83,7 @@ export const RESOURCES: Record<
       height: 2,
       width: 2,
     },
-    icon: boulder,
+    icon: SUNNYSIDE.resource.boulder,
   },
 };
 

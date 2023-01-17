@@ -7,17 +7,15 @@ import { Panel } from "components/ui/Panel";
 import { roundToOneDecimal } from "features/auth/components";
 import { Button } from "components/ui/Button";
 
-import close from "assets/icons/close.png";
 import bottle from "../assets/bottle.gif";
 import seal from "../assets/seal.png";
-import upArrow from "assets/icons/arrow_up.png";
-import downArrow from "assets/icons/arrow_down.png";
 import team from "assets/npcs/project_dignity.png";
 import humanDeath from "assets/npcs/human_death.gif";
 import { beggarAudio } from "lib/utils/sfx";
 import { Context } from "../lib/CommunityProvider";
 import { donationMachine } from "../merchant/lib/donationMachine";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const BottleDonation: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
@@ -84,7 +82,7 @@ export const BottleDonation: React.FC = () => {
           {state.matches("floating") && (
             <div className="flex flex-col items-center mb-1">
               <img
-                src={close}
+                src={SUNNYSIDE.icons.close}
                 className="absolute cursor-pointer z-20"
                 onClick={() => send("CLOSE")}
                 style={{
@@ -124,13 +122,13 @@ export const BottleDonation: React.FC = () => {
                   }}
                 />
                 <img
-                  src={upArrow}
+                  src={SUNNYSIDE.icons.arrow_up}
                   alt="increment donation value"
                   className="cursor-pointer absolute -right-4 top-0"
                   onClick={incrementDonation}
                 />
                 <img
-                  src={downArrow}
+                  src={SUNNYSIDE.icons.arrow_down}
                   alt="decrement donation value"
                   className="cursor-pointer absolute -right-4 bottom-0"
                   onClick={decrementDonation}

@@ -17,14 +17,9 @@ export type BuyChickenAction = {
 type Options = {
   state: Readonly<GameState>;
   action: BuyChickenAction;
-  createdAt?: number;
 };
 
-export function buyChicken({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function buyChicken({ state, action }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const { bumpkin, inventory } = stateCopy;
 

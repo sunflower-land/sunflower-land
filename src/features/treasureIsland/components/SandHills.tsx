@@ -1,15 +1,12 @@
 import React, { useContext, useState } from "react";
 
-import sandHill from "assets/land/sand_hill.png";
-import sandDug from "assets/land/sand_dug.png";
-import warningIcon from "assets/icons/cancel.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Hill = {
   x: number;
@@ -165,7 +162,7 @@ export const SandHill: React.FC<Hill> = ({ x, y, id }) => {
         onClick={() => dig(id)}
       >
         <img
-          src={warningIcon}
+          src={SUNNYSIDE.icons.cancel}
           className="absolute z-20 transition-opacity"
           style={{
             width: `${PIXEL_SCALE * 11}px`,
@@ -175,7 +172,7 @@ export const SandHill: React.FC<Hill> = ({ x, y, id }) => {
           }}
         />
         <img
-          src={isDug ? sandDug : sandHill}
+          src={isDug ? SUNNYSIDE.soil.sand_dug : SUNNYSIDE.soil.sand_hill}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 16}px`,

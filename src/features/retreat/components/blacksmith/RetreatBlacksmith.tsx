@@ -1,15 +1,21 @@
 import React from "react";
 import blacksmith from "assets/buildings/goblin_blacksmith.gif";
-import icon from "assets/icons/hammer.png";
 
 import { Action } from "components/ui/Action";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { blacksmithAudio } from "lib/utils/sfx";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Inventory } from "features/game/types/game";
+import { GoblinBlacksmithItems } from "./components/GoblinBlacksmithItems";
+import { SUNNYSIDE } from "assets/sunnyside";
 
-export const RetreatBlacksmith: React.FC = () => {
+interface Props {
+  inventory: Inventory;
+}
+
+export const RetreatBlacksmith: React.FC<Props> = ({ inventory }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openBlacksmith = () => {
@@ -42,11 +48,29 @@ export const RetreatBlacksmith: React.FC = () => {
             bottom: `${PIXEL_SCALE * 3}px`,
           }}
         >
-          <Action className="pointer-events-none" text="Craft" icon={icon} />
+          <Action
+            className="pointer-events-none"
+            text="Craft"
+            icon={SUNNYSIDE.icons.hammer}
+          />
         </div>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Panel>Coming soon</Panel>
+        <CloseButtonPanel
+          bumpkinParts={{
+            body: "Goblin Potion",
+            hair: "Blacksmith Hair",
+            pants: "Brown Suspenders",
+            shirt: "Yellow Farmer Shirt",
+            tool: "Hammer",
+            background: "Farm Background",
+            shoes: "Black Farmer Boots",
+          }}
+          tabs={[{ name: "Craft", icon: SUNNYSIDE.icons.hammer }]}
+          onClose={() => setIsOpen(false)}
+        >
+          <GoblinBlacksmithItems onClose={() => setIsOpen(false)} />
+        </CloseButtonPanel>
       </Modal>
     </MapPlacement>
   );

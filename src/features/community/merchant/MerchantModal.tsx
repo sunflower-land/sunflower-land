@@ -10,10 +10,10 @@ import { frogMachine } from "./lib/frogMachine";
 
 // images
 import seal_unrevealed from "features/community/assets/seals/seal_unrevealed.gif";
-import close from "assets/icons/close.png";
 
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -49,7 +49,11 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
           </p>
           <p className="text-xxs mb-4\2 mt-2 text-center">
             initiated by{" "}
-            <a href={`${projectDignity}/team`} target="_blank" rel="noreferrer">
+            <a
+              href={`${projectDignity}/team`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Project Dignity
             </a>
           </p>
@@ -75,7 +79,7 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
             Check on OpenSea
           </Button>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{
