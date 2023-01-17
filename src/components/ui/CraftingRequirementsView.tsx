@@ -58,10 +58,10 @@ interface NonItemDetailsProps {
  * @param sfl The SFL requirements.
  * @param showSflIfFree Whether to show free SFL requirement if SFL cost is 0. Defaults to false.
  * @param sellForSfl The amount of SFL the item can be sold for.
- * @param harvests The min/max harvests for the item.
  * @param level The level requirements.
  * @param xp The XP gained for consuming the item.
  * @param timeSeconds The wait time in seconds for crafting the item.
+ * @param harvests The min/max harvests for the item.
  * @param showOpenSeaLink Whether to show the open sea link or not.
  */
 interface RequirementsProps {
@@ -69,10 +69,10 @@ interface RequirementsProps {
   sfl?: Decimal;
   showSflIfFree?: boolean;
   sellForSfl?: Decimal;
-  harvests?: HarvestsRequirementProps;
   level?: number;
   xp?: Decimal;
   timeSeconds?: number;
+  harvests?: HarvestsRequirementProps;
   showOpenSeaLink?: boolean;
 }
 
@@ -166,7 +166,7 @@ export const CraftingRequirementsView: React.FC<Props> = ({
         })}
 
         {/* SFL requirement */}
-        {requirements.sfl &&
+        {!!requirements.sfl &&
           (requirements.sfl.greaterThan(0) || requirements.showSflIfFree) && (
             <RequirementLabel
               type="sfl"
@@ -176,24 +176,15 @@ export const CraftingRequirementsView: React.FC<Props> = ({
           )}
 
         {/* Sell for SFL display */}
-        {requirements.sellForSfl && (
+        {!!requirements.sellForSfl && (
           <RequirementLabel
             type="sellForSfl"
             requirement={requirements.sellForSfl}
           />
         )}
 
-        {/* Harvests display */}
-        {requirements.harvests && (
-          <RequirementLabel
-            type="harvests"
-            minHarvest={requirements.harvests.minHarvest}
-            maxHarvest={requirements.harvests.maxHarvest}
-          />
-        )}
-
         {/* Level requirement */}
-        {requirements.level && (
+        {!!requirements.level && (
           <RequirementLabel
             type="level"
             currentLevel={getBumpkinLevel(gameState.bumpkin?.experience ?? 0)}
@@ -202,13 +193,24 @@ export const CraftingRequirementsView: React.FC<Props> = ({
         )}
 
         {/* XP display */}
-        {requirements.xp && <RequirementLabel type="xp" xp={requirements.xp} />}
+        {!!requirements.xp && (
+          <RequirementLabel type="xp" xp={requirements.xp} />
+        )}
 
         {/* Time requirement display */}
-        {requirements.timeSeconds && (
+        {!!requirements.timeSeconds && (
           <RequirementLabel
             type="time"
             waitSeconds={requirements.timeSeconds}
+          />
+        )}
+
+        {/* Harvests display */}
+        {!!requirements.harvests && (
+          <RequirementLabel
+            type="harvests"
+            minHarvest={requirements.harvests.minHarvest}
+            maxHarvest={requirements.harvests.maxHarvest}
           />
         )}
 
@@ -218,7 +220,7 @@ export const CraftingRequirementsView: React.FC<Props> = ({
             href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${
               KNOWN_IDS[details.item]
             }`}
-            className="underline text-xxs hover:text-blue-500 p-2"
+            className="underline text-xxs px-1.5 pb-1 pt-0.5 hover:text-blue-500"
             target="_blank"
             rel="noopener noreferrer"
           >
