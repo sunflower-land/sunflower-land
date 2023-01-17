@@ -5,6 +5,10 @@ import npc from "assets/npcs/dragon_hat_npc.gif";
 import shadow from "assets/npcs/shadow.png";
 import envelopes from "assets/icons/red_envelope.png";
 import island from "assets/events/chinese-new-year/chinese_island.png";
+import mrChu from "assets/events/chinese-new-year/mr_chu.gif";
+import incenseLeft from "assets/events/chinese-new-year/incense_left.gif";
+import incenseRight from "assets/events/chinese-new-year/incense_right.gif";
+import lampNpc from "assets/events/chinese-new-year/lamp_npc.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -115,6 +119,60 @@ export const ChineseNewYearQuest: React.FC = () => {
           left: `${GRID_WIDTH_PX * -21}px`,
         }}
       />
+      <img
+        src={incenseLeft}
+        className="absolute z-20"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          bottom: `${GRID_WIDTH_PX * 16.87}px`,
+          left: `${GRID_WIDTH_PX * -16.43}px`,
+        }}
+      />
+
+      <img
+        src={incenseRight}
+        className="absolute z-20"
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          bottom: `${GRID_WIDTH_PX * 16.87}px`,
+          left: `${GRID_WIDTH_PX * -12.5}px`,
+        }}
+      />
+
+      <img
+        src={lampNpc}
+        className="absolute z-20"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          bottom: `${GRID_WIDTH_PX * 13.87}px`,
+          left: `${GRID_WIDTH_PX * -9.12}px`,
+        }}
+      />
+
+      <div
+        className="absolute z-20"
+        style={{
+          top: `${GRID_WIDTH_PX * 23}px`,
+          left: `${GRID_WIDTH_PX * -17}px`,
+        }}
+      >
+        <img
+          src={shadow}
+          className="absolute z-10"
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * 4}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
+        <img
+          src={mrChu}
+          className="relative left-0 top-0 z-20"
+          style={{
+            width: `${PIXEL_SCALE * 21}px`,
+          }}
+        />
+      </div>
       <div
         className="absolute z-20"
         style={{
