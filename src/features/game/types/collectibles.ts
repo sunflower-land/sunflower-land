@@ -22,7 +22,10 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
   "Immortal Pear": {
     description: "A long-lived pear that makes fruit trees last longer.",
     ingredients: {
-      Gold: new Decimal(25),
+      Gold: new Decimal(5),
+      Apple: new Decimal(10),
+      Blueberry: new Decimal(10),
+      Orange: new Decimal(10),
     },
     boost: "+1 harvest",
   },
