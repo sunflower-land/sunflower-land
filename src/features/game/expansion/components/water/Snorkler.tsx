@@ -13,13 +13,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 export const LAND_WIDTH = 6;
 
 interface Props {
-  level: number;
+  x: number;
+  y: number;
 }
 
-export const Snorkler: React.FC<Props> = ({ level }) => {
+export const Snorkler: React.FC<Props> = ({ x, y }) => {
   const [showModal, setShowModal] = useState(false);
-  // As the land gets bigger, push the water decorations out
-  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
 
   return (
     <div
@@ -49,7 +48,7 @@ export const Snorkler: React.FC<Props> = ({ level }) => {
           </div>
         </Panel>
       </Modal>
-      <MapPlacement x={-2} y={offset + 2} width={2}>
+      <MapPlacement x={x} y={y} width={2}>
         <img
           src={goblinSnorkling}
           onClick={() => setShowModal(true)}

@@ -76,8 +76,32 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
     {/* Notes */}
     <ul className="mt-2">
       {announcement.notes.map((note, index) => (
-        <li key={index} className="text-xs mb-3">
-          {note}
+        <li key={index} className="text-xs mb-3 flex">
+          <div className="flex">
+            {note.icon && (
+              <div className="w-10 flex justify-start items-start">
+                <img src={note.icon} className="w-6" />
+              </div>
+            )}
+            <div className="flex-1">
+              <p>{note.text}</p>
+              <div className="flex mt-1 items-center">
+                {note.date && (
+                  <p className="text-xxs mr-2">{note.date.toLocaleString()}</p>
+                )}
+                {note.link && (
+                  <a
+                    target="_blank"
+                    className="underline text-xxs"
+                    href={note.link.url}
+                    rel="noreferrer"
+                  >
+                    {note.link.text}
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
         </li>
       ))}
     </ul>

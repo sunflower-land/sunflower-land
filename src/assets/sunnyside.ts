@@ -27,6 +27,7 @@ export const SUNNYSIDE = {
     drag: `${CONFIG.PROTECTED_IMAGE_URL}/icons/drag.png`,
     expand: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expand.png`,
     expression_alerted: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_alerted.png`,
+    expression_chat: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_chat.png`,
     expression_confused: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_confused.png`,
     hammer: `${CONFIG.PROTECTED_IMAGE_URL}/icons/hammer.png`,
     heart: `${CONFIG.PROTECTED_IMAGE_URL}/icons/heart.png`,
