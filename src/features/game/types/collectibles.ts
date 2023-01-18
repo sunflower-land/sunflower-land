@@ -73,7 +73,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
   "Maneki Neko": {
     description: "The beckoning cat. Pull it's arm and good luck will come",
     ingredients: {
-      Gold: new Decimal(5),
+      Gold: new Decimal(1),
       "Red Envelope": new Decimal(50),
     },
     supply: 30000,
