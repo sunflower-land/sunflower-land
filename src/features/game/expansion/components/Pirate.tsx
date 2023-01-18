@@ -20,14 +20,22 @@ export const Pirate: React.FC = () => {
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="p-1">
-            <p className="mb-2">Ahoy!</p>
+            <p className="mb-2">Ahoy maties!</p>
             <p className="mb-2 text-sm">
-              Have you heard about buried items at Treasure Island?
+              Are you ready to visit Treasure Island?
             </p>
             <p className="text-sm">
-              This feature is currently in progress, so prepare your resources
-              and get ready to dig!
+              This island is almost ready. Gather your resources and prepare for
+              a swashbuckling adventure of a lifetime!
             </p>
+            <a
+              className="underline hover:text-white text-xxs"
+              href="https://docs.sunflower-land.com/player-guides/islands/treasure-island"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Read more
+            </a>
           </div>
         </CloseButtonPanel>
       </Modal>
