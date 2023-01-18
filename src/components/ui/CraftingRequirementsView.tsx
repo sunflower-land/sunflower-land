@@ -3,6 +3,10 @@ import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { KNOWN_IDS } from "features/game/types";
+import {
+  BumpkinSkillName,
+  BUMPKIN_SKILL_TREE,
+} from "features/game/types/bumpkinSkills";
 import { Ingredient } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -21,7 +25,7 @@ import { SquareIcon } from "./SquareIcon";
 interface Props {
   wideLayout?: boolean;
   gameState: GameState | GoblinState;
-  details: ItemDetailsProps | NonItemDetailsProps;
+  details: ItemDetailsProps | AchievementDetailsProps | NonItemDetailsProps;
   requirements?: RequirementsProps;
   actionView?: JSX.Element;
 }
@@ -36,6 +40,16 @@ interface ItemDetailsProps {
   type: "item";
   item: InventoryItemName;
   quantity?: Decimal;
+}
+
+/**
+ * The props for the details for items.
+ * @param type The type is achievement.
+ * @param achievement The achievement.
+ */
+interface AchievementDetailsProps {
+  type: "achievement";
+  achievement: BumpkinSkillName;
 }
 
 /**
@@ -108,6 +122,11 @@ export const CraftingRequirementsView: React.FC<Props> = ({
         ? `${details.quantity} x ${details.item}`
         : details.item;
       description = item.description;
+    } else if (details.type === "achievement") {
+      const achievement = BUMPKIN_SKILL_TREE[details.achievement];
+      icon = achievement.image;
+      title = details.achievement;
+      description = achievement.boosts;
     } else {
       icon = details.icon;
       title = details.title;
