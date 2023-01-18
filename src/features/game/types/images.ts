@@ -45,7 +45,8 @@ import wendy from "assets/sfts/wood_nymph_wendy.png";
 import cabbageBoy from "assets/sfts/cabbage_boy.png";
 import cabbageGirl from "assets/sfts/cabbage_girl.png";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
-import immortalPear from "assets/sfts/immortal_pear.png";
+import immortalPear from "assets/sfts/immortal_pear.gif";
+import ladybug from "assets/sfts/ladybug.gif";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -322,7 +323,10 @@ import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
+import {
+  GOBLIN_BLACKSMITH_ITEMS,
+  HELIOS_BLACKSMITH_ITEMS,
+} from "./collectibles";
 import { AUCTIONEER_ITEMS } from "./auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -1593,8 +1597,8 @@ export const ITEM_DETAILS: Items = {
     description: HELIOS_BLACKSMITH_ITEMS["Immortal Pear"].description,
   },
   "Lady Bug": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    image: ladybug,
+    description: GOBLIN_BLACKSMITH_ITEMS["Lady Bug"].description,
   },
   "Squirrel Monkey": {
     image: SUNNYSIDE.icons.expression_confused,

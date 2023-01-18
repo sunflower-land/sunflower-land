@@ -501,12 +501,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Gold Egg": {
     name: "Gold Egg",
     description:
-      "A golden egg. What lays inside is a mystery but it looks like it will hatch soon.\n\nYou can craft a golden egg at the Goblin Farmer in the game.",
+      "A golden egg. What lays inside is known to be the bearer of good fortune.\n\n\n\nFeed chickens without wheat.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/409.png",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Feed chickens without wheat",
+        value: 1,
+      },
       { value: "Tradable" },
     ],
   },
