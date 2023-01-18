@@ -13,6 +13,7 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { setPrecision } from "lib/utils/formatNumber";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -55,9 +56,8 @@ export const QuestProgress: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <span className="mb-2">{quest.wearable}</span>
       {secondsLeft ? (
-        <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center p-[3px] rounded-md whitespace-nowrap">
+        <Label type="info" className="flex">
           <img src={SUNNYSIDE.icons.timer} className="w-3 left-0 -top-4 mr-1" />
           <span className="mt-[2px]">{`${secondsToString(
             secondsLeft as number,
@@ -65,7 +65,7 @@ export const QuestProgress: React.FC<Props> = ({
               length: "medium",
             }
           )} left`}</span>
-        </span>
+        </Label>
       ) : null}
 
       <img
@@ -73,9 +73,9 @@ export const QuestProgress: React.FC<Props> = ({
         className="w-1/3 my-2 rounded-lg"
       />
 
-      <span className="text-sm">{quest.description}</span>
+      <span className="text-sm mb-2">{quest.description}</span>
 
-      <div className="flex items-center justify-center pt-1 w-full">
+      <div className="flex items-center justify-center pt-1 w-full mb-2">
         <div className="flex items-center mt-2 mb-1">
           <div
             className="absolute"
@@ -151,7 +151,7 @@ export const QuestProgress: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="w-1/2">
+      <div className="w-full">
         <Button
           className="text-xs mt-2"
           onClick={onClaim}

@@ -26,7 +26,7 @@ export const FarmerQuest: React.FC = () => {
     return (
       <>
         <p className="mb-4">
-          {`Hey there friend! Are you looking to earn yourself some bumpkin items?
+          {`Are you looking to earn yourself some bumpkin items?
           I've got a tip for ya.`}
         </p>
         <p className="mb-4">
@@ -125,6 +125,7 @@ export const FarmerQuest: React.FC = () => {
               "Fruit Quest 3",
               "Fruit Quest 4",
             ]}
+            questTitle="Hey there friend!"
             onClose={() => setShowModal(false)}
             questDescription={ModalDescription()}
             bumpkinParts={{
