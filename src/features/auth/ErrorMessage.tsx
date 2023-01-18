@@ -41,7 +41,6 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     };
   }, []);
 
-  console.log({ errorCode });
   if (errorCode === ERRORS.NO_WEB3) {
     return <Web3Missing />;
   }
@@ -95,7 +94,7 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
   }
 
   if (errorCode === ERRORS.SYNC_DAILY_SFL_MINT_EXCEEDED) {
-    return <SFLExceeded onContinue={() => send("REFRESH")} />;
+    return <SFLExceeded />;
   }
 
   return <SomethingWentWrong />;
