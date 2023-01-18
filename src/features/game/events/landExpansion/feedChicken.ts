@@ -50,10 +50,13 @@ const makeFedAt = (
 };
 
 export const getWheatRequiredToFeed = (collectibles: Collectibles) => {
-  const hasFatChicken = isCollectibleBuilt("Fat Chicken", collectibles);
+  if (isCollectibleBuilt("Gold Egg", collectibles)) {
+    return new Decimal(0);
+  }
+
   const defaultAmount = new Decimal(1);
 
-  if (hasFatChicken) {
+  if (isCollectibleBuilt("Fat Chicken", collectibles)) {
     return defaultAmount.minus(defaultAmount.mul(MUTANT_CHICKEN_BOOST_AMOUNT));
   }
 
@@ -88,7 +91,10 @@ export function feedChicken({
 
   const wheatRequired = getWheatRequiredToFeed(collectibles);
 
-  if (!inventory.Wheat || inventory.Wheat.lt(wheatRequired)) {
+  if (
+    wheatRequired.gt(0) &&
+    (!inventory.Wheat || inventory.Wheat.lt(wheatRequired))
+  ) {
     throw new Error("No wheat to feed chickens");
   }
 
