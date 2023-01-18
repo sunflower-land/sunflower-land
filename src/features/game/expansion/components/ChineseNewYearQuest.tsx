@@ -28,7 +28,8 @@ const resourceToFindRedEnvelopes: { [key: number]: string } = {
   26: "sunflowers",
 };
 
-const todaysFind = resourceToFindRedEnvelopes[new Date().getDate()];
+const day = new Date().getUTCDate();
+const todaysFind = resourceToFindRedEnvelopes[day];
 
 const ModalEventComing = () => {
   return (
@@ -42,13 +43,13 @@ const ModalEventComing = () => {
         />
       </div>
       <p className="mb-2 text-sm text-left">
-        We are working hard to organise a beautiful Spring Festival for all
-        farmers.
+        Dragon dance and lion dance, red lantern and fireworks, Chinese New Year
+        event is coming soon.
       </p>
       <p className="mb-2 text-sm text-left">
         {`The festivities start on ${new Date(
-          "2023-01-20T00:00:00+08:00"
-        ).toDateString()}`}
+          "2023-01-20T00:00:00+00:00"
+        ).toLocaleString()}`}
       </p>
     </>
   );
@@ -107,6 +108,10 @@ export const ChineseNewYearQuest: React.FC = () => {
     background: "Farm Background",
     hat: "Lion Dance Mask",
   };
+
+  if (day === 28) {
+    return null;
+  }
 
   return (
     <>
@@ -203,6 +208,7 @@ export const ChineseNewYearQuest: React.FC = () => {
           <CloseButtonPanel
             title="The New Year is coming!"
             bumpkinParts={bumpkin}
+            onClose={() => setShowModal(false)}
           >
             {ModalEventComing()}
           </CloseButtonPanel>
