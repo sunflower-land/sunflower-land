@@ -48,7 +48,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 {ARCADE_GAMES.CHICKEN_FIGHT.title}
               </Button>
             </li>
-            <li className="p-1 pb-2 flex justify-content-center">
+            <li className="p-1 pb-2 text-sm flex justify-content-center">
               <span
                 className="underline cursor-pointer"
                 onClick={() => setActiveWindow("Donation")}
