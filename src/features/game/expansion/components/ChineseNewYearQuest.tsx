@@ -33,7 +33,7 @@ const todaysFind = resourceToFindRedEnvelopes[day];
 
 const ModalEventComing = () => {
   return (
-    <>
+    <div className="p-2">
       <div className="flex w-full justify-center">
         <img
           src={luckySign}
@@ -51,7 +51,7 @@ const ModalEventComing = () => {
           "2023-01-20T00:00:00+00:00"
         ).toLocaleString()}`}
       </p>
-    </>
+    </div>
   );
 };
 
@@ -109,7 +109,7 @@ export const ChineseNewYearQuest: React.FC = () => {
     hat: "Lion Dance Mask",
   };
 
-  if (day === 28) {
+  if (Date.now() >= new Date("2023-01-28T00:00:00+00:00").getTime()) {
     return null;
   }
 
