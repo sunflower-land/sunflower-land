@@ -205,7 +205,10 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
     const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
     const wheatRequired = getWheatRequiredToFeed(state.collectibles);
 
-    if (selectedItem !== "Wheat" || currentWheatAmount.lt(wheatRequired)) {
+    if (
+      (wheatRequired.gt(0) && selectedItem !== "Wheat") ||
+      currentWheatAmount.lt(wheatRequired)
+    ) {
       setShowPopover(true);
       await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
       setShowPopover(false);

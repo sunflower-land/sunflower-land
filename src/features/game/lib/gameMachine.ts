@@ -48,6 +48,7 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
+import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -224,7 +225,7 @@ export type BlockchainState = {
     | "deposited"
     | "visiting"
     // | "gameRules"
-    | "goldenCrop"
+    | "gameRules"
     | "playing"
     | "autosaving"
     | "syncing"
@@ -439,25 +440,15 @@ export function startGame(authContext: Options) {
                 !!context.notifications && context.notifications?.length > 0,
             },
             {
-              target: "goldenCrop",
+              target: "gameRules",
               cond: () => {
-                const hasNotAcknowledged = !localStorage.getItem(
-                  "goldenCrop.acknowledged"
+                const lastRead = getGameRulesLastRead();
+                return (
+                  !lastRead ||
+                  Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
                 );
-
-                return hasNotAcknowledged;
               },
             },
-            // {
-            //   target: "gameRules",
-            //   cond: () => {
-            //     const lastRead = getGameRulesLastRead();
-            //     return (
-            //       !lastRead ||
-            //       Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
-            //     );
-            //   },
-            // },
             {
               target: "swarming",
               cond: () => isSwarming(),
@@ -483,20 +474,14 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        // gameRules: {
-        //   on: {
-        //     ACKNOWLEDGE: {
-        //       target: "notifying",
-        //     },
-        //   },
-        // },
-        goldenCrop: {
+        gameRules: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
             },
           },
         },
+
         playing: {
           entry: "clearTransactionId",
           invoke: {

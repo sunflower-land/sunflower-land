@@ -955,7 +955,7 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
   "Gold Egg": {
     name: "Gold Egg",
-    description: "A rare egg, what lays inside?",
+    description: "Feed chickens without needing wheat",
     type: LimitedItemType.BarnItem,
   },
   "Easter Bunny": {

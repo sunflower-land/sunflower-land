@@ -14,6 +14,7 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
   Kuebiko: 60 * 60 * 24,
   Scarecrow: 5 * 60,
   "Maneki Neko": 24 * 60 * 60,
+  "Gold Egg": 60 * 60 * 6,
 };
 
 export type PlaceCollectibleAction = {
