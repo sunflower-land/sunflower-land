@@ -51,6 +51,14 @@ const ModalEventComing = () => {
           "2023-01-20T00:00:00+00:00"
         ).toLocaleString()}`}
       </p>
+      <a
+        className="mb-4 underline text-sm"
+        href="https://docs.sunflower-land.com/player-guides/special-events/chinese-nye"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Read more
+      </a>
     </div>
   );
 };
@@ -72,10 +80,18 @@ const ModalDescription = () => {
         the New Year, some special red envelopes have been hidden among the
         crops and trees.
       </p>
-      <p className="mb-4 text-sm">
+      <p className="mb-2 text-sm">
         There are rumours a few lucky farmers are finding these envelopes among
         their <span className="underline">{todaysFind}</span> today.
       </p>
+      <a
+        className="mb-4 underline text-sm"
+        href="https://docs.sunflower-land.com/player-guides/special-events/chinese-nye"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Read more
+      </a>
       <p className="mb-2 text-sm text-center">萬事如意</p>
     </>
   );
