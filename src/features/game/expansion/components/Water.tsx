@@ -119,7 +119,15 @@ export const Water: React.FC<Props> = ({ level }) => {
       <ChineseNewYearQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
-        <Pirate />
+        <div
+          className="absolute"
+          style={{
+            top: `${GRID_WIDTH_PX * 3}px`,
+            left: `${GRID_WIDTH_PX * 2}px`,
+          }}
+        >
+          <Pirate />
+        </div>
         <img
           src={pirateIsland}
           style={{
