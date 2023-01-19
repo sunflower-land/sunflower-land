@@ -151,7 +151,6 @@ export const Box: React.FC<BoxProps> = ({
       <div
         className={classNames("bg-brown-600 cursor-pointer relative", {
           "bg-brown-600 cursor-not-allowed": disabled,
-          "bg-brown-200": isSelected,
           "opacity-75": locked,
           "cursor-pointer": canClick,
         })}

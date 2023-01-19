@@ -6,7 +6,9 @@ export type QuestName =
   | "Fruit Quest 1"
   | "Fruit Quest 2"
   | "Fruit Quest 3"
-  | "Fruit Quest 4";
+  | "Fruit Quest 4"
+  | "Chinese New Year Quest 1"
+  | "Chinese New Year Quest 2";
 
 export type Quest = {
   description: string;
@@ -56,6 +58,24 @@ export const QUESTS: Record<QuestName, Quest> = {
     wearable: "Farmer Pitchfork",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
+
+  "Chinese New Year Quest 1": {
+    description: "Collect 25 Red Envelopes",
+    progress: (gameState: GameState) =>
+      gameState.inventory["Red Envelope"]?.toNumber() || 0,
+    requirement: 25,
+    wearable: "China Town Background",
+    deadline: new Date("2023-01-28T00:00:00").toISOString(),
+  },
+
+  "Chinese New Year Quest 2": {
+    description: "Collect 125 Red Envelopes",
+    progress: (gameState: GameState) =>
+      gameState.inventory["Red Envelope"]?.toNumber() || 0,
+    requirement: 125,
+    wearable: "Lion Dance Mask",
+    deadline: new Date("2023-01-28T00:00:00").toISOString(),
+  },
 };
 
 type CompletedQuestName =
@@ -73,4 +93,6 @@ export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
     "Fruit Quest 2": 100006,
     "Fruit Quest 3": 100007,
     "Fruit Quest 4": 100008,
+    "Chinese New Year Quest 1": 100009,
+    "Chinese New Year Quest 2": 100010,
   };

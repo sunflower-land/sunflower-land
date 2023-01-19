@@ -9,26 +9,23 @@ export const LadyBug: React.FC = () => {
     <div
       className="absolute top-0 left-0 h-full"
       style={{
-        width: `${PIXEL_SCALE * 20}px`,
+        width: `${PIXEL_SCALE * 16}px`,
       }}
     >
       <img
         src={shadow}
         style={{
           width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${PIXEL_SCALE * 0.5}px`,
         }}
-        className="absolute left"
+        className="absolute bottom-0 left-0 pointer-events-none"
       />
       <img
         src={ladybug}
         style={{
-          width: `${PIXEL_SCALE * 20}px`,
+          width: `${PIXEL_SCALE * 16}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${-PIXEL_SCALE * 1}px`,
         }}
-        className="absolute"
+        className="absolute left-0 pointer-events-none"
         alt="Lady Bug"
       />
     </div>
