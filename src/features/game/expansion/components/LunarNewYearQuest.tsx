@@ -4,11 +4,11 @@ import { Modal } from "react-bootstrap";
 import npc from "assets/npcs/dragon_hat_npc.gif";
 import shadow from "assets/npcs/shadow.png";
 import envelopes from "assets/icons/red_envelope.png";
-import island from "assets/events/chinese-new-year/chinese_island.png";
-import mrChu from "assets/events/chinese-new-year/mr_chu.gif";
-import incenseLeft from "assets/events/chinese-new-year/incense_left.gif";
-import incenseRight from "assets/events/chinese-new-year/incense_right.gif";
-import lampNpc from "assets/events/chinese-new-year/lamp_npc.gif";
+import island from "assets/events/lunar-new-year/new_year_island.png";
+import mrChu from "assets/events/lunar-new-year/mr_chu.gif";
+import incenseLeft from "assets/events/lunar-new-year/incense_left.gif";
+import incenseRight from "assets/events/lunar-new-year/incense_right.gif";
+import lampNpc from "assets/events/lunar-new-year/lamp_npc.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -43,7 +43,7 @@ const ModalEventComing = () => {
         />
       </div>
       <p className="mb-2 text-sm text-left">
-        Dragon dance and lion dance, red lantern and fireworks, Chinese New Year
+        Dragon dance and lion dance, red lantern and fireworks, Lunar New Year
         event is coming soon.
       </p>
       <p className="mb-2 text-sm text-left">
@@ -53,7 +53,7 @@ const ModalEventComing = () => {
       </p>
       <a
         className="mb-4 underline text-sm"
-        href="https://docs.sunflower-land.com/player-guides/special-events/chinese-nye"
+        href="https://docs.sunflower-land.com/player-guides/special-events/lunar-new-year"
         target="_blank"
         rel="noreferrer"
       >
@@ -86,7 +86,7 @@ const ModalDescription = () => {
       </p>
       <a
         className="mb-4 underline text-sm"
-        href="https://docs.sunflower-land.com/player-guides/special-events/chinese-nye"
+        href="https://docs.sunflower-land.com/player-guides/special-events/lunar-new-year"
         target="_blank"
         rel="noreferrer"
       >
@@ -111,7 +111,7 @@ const QuestCompletion = () => {
   );
 };
 
-export const ChineseNewYearQuest: React.FC = () => {
+export const LunarNewYearQuest: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const bumpkin: Partial<Equipped> = {
@@ -230,9 +230,9 @@ export const ChineseNewYearQuest: React.FC = () => {
           </CloseButtonPanel>
         ) : (
           <Quest
-            quests={["Chinese New Year Quest 1", "Chinese New Year Quest 2"]}
+            quests={["Lunar New Year Quest 1", "Lunar New Year Quest 2"]}
             onClose={() => setShowModal(false)}
-            questTitle="Happy Chinese New Year!"
+            questTitle="Happy Lunar New Year!"
             questDescription={ModalDescription()}
             bumpkinParts={bumpkin}
             questCompletionScreen={QuestCompletion()}
