@@ -46,6 +46,9 @@ const GREEDY_GOBLIN_DONATION = import.meta.env
   .VITE_GREEDY_GOBLIN_DONATION as string;
 const CHICKEN_FIGHT_DONATION = import.meta.env
   .VITE_CHICKEN_FIGHT_DONATION as string;
+// Chinese New Year Event Donation Address
+const CHINESE_NEW_YEAR_DONATION = import.meta.env
+  .VITE_CHINESE_NEW_YEAR_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -86,5 +89,6 @@ export const CONFIG = {
 
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
+  CHINESE_NEW_YEAR_DONATION,
   PROTECTED_IMAGE_URL,
 };
