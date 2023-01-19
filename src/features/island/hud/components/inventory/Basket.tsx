@@ -18,7 +18,7 @@ import { BEANS } from "features/game/types/beans";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CraftingRequirementsView } from "components/ui/CraftingRequirementsView";
+import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
@@ -127,13 +127,11 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       showHeader={!!selected}
       header={
         selected && (
-          <CraftingRequirementsView
-            gameState={gameState}
+          <InventoryItemDetails
             details={{
-              type: "item",
               item: selected,
             }}
-            requirements={{
+            properties={{
               harvests: isFruitSeed(selected)
                 ? {
                     minHarvest: harvestCounts[0],

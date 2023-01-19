@@ -22,7 +22,7 @@ import {
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CraftingRequirementsView } from "components/ui/CraftingRequirementsView";
+import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 
 interface Props {
   state: GameState;
@@ -107,13 +107,11 @@ export const Chest: React.FC<Props> = ({
       showHeader={!!selected}
       header={
         selected && (
-          <CraftingRequirementsView
-            gameState={state}
+          <InventoryItemDetails
             details={{
-              type: "item",
               item: selected,
             }}
-            requirements={{
+            properties={{
               showOpenSeaLink: true,
             }}
             actionView={

@@ -3,8 +3,8 @@ import { GameState } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CraftingRequirementsView } from "components/ui/CraftingRequirementsView";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
+import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
 
 interface Props {
   gameState: GameState;
@@ -49,11 +49,9 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   });
 
   return (
-    <CraftingRequirementsView
-      wideLayout={true}
+    <ExpansionRequirements
       gameState={gameState}
       details={{
-        type: "nonItem",
         title: "Want to expand your land and discover new resources?",
         description: "Each piece of land is a unique NFT on the blockchain.",
       }}
