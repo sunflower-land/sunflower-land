@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { roundToOneDecimal } from "features/auth/components";
 import { useMachine } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import mrChu from "src/assets/events/chinese-new-year/mr_chu.gif";
+import mrChu from "src/assets/events/lunar-new-year/mr_chu.gif";
 import { CONFIG } from "lib/config";
 
 export const ChineseNewYearDonation: React.FC = () => {
