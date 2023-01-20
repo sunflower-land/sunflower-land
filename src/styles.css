@@ -456,3 +456,24 @@ img {
     transform: translate(0, 0);
   }
 }
+
+.treasure-reward {
+  animation: rise-up 1s ease;
+  animation-fill-mode: both;
+  /* animation-delay: 250ms; */
+  transform-origin: bottom center;
+}
+
+@keyframes rise-up {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0.4, 0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* [time of portion of animation in seconds] × 100 ) ÷ [total animation time in seconds ] */

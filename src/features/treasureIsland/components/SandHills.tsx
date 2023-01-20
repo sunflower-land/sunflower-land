@@ -211,7 +211,6 @@ export const SandHills: React.FC = () => {
   // TODO generate daily hills and positions
   const hills = generateSandHills();
 
-  console.log({ hills });
   return (
     <>
       {hills.map((hill) => (

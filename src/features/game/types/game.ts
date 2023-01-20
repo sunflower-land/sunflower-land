@@ -349,6 +349,11 @@ export type Reveal = {
   id: string;
 };
 
+export type TreasureHole = {
+  dugAt: number;
+  discovered: InventoryItemName | null;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -384,6 +389,7 @@ export interface GameState {
   }[];
   // TODO remove when old events are deleted
   migrated?: boolean;
+  treasureIsland?: Record<number, TreasureHole>;
 }
 
 export interface Context {
