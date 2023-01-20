@@ -22,7 +22,7 @@ import { ProjectDignitySeals } from "features/community/components/ProjectDignit
 import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
-import { ChineseNewYearQuest } from "./ChineseNewYearQuest";
+import { LunarNewYearQuest } from "./LunarNewYearQuest";
 
 export const LAND_WIDTH = 6;
 
@@ -116,7 +116,7 @@ export const Water: React.FC<Props> = ({ level }) => {
       </MapPlacement>
 
       <FarmerQuest />
-      <ChineseNewYearQuest />
+      <LunarNewYearQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
         <Pirate />
