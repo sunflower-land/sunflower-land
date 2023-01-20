@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import { BUILDINGS } from "features/game/types/buildings";
-import { TEST_FARM } from "../../lib/constants";
+import { BUILDINGS, Ingredient } from "features/game/types/buildings";
+import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import {
   constructBuilding,
@@ -13,8 +13,6 @@ const GAME_STATE: GameState = {
   inventory: {},
   buildings: {},
 };
-
-const waterWell = BUILDINGS()["Water Well"];
 
 const dateNow = Date.now();
 
@@ -35,13 +33,14 @@ describe("Construct building", () => {
       })
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
   });
+
   it("does not construct if build level is not reached", () => {
     expect(() =>
       constructBuilding({
         state: {
           ...GAME_STATE,
           bumpkin: {
-            ...GAME_STATE.bumpkin!,
+            ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[1],
           },
         },
@@ -57,13 +56,14 @@ describe("Construct building", () => {
       })
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
+
   it("does not construct if max building limit is reached", () => {
     expect(() =>
       constructBuilding({
         state: {
           ...GAME_STATE,
           bumpkin: {
-            ...GAME_STATE.bumpkin!,
+            ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[20],
           },
           inventory: {
@@ -110,13 +110,14 @@ describe("Construct building", () => {
       })
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
+
   it("does not construct if not enough SFL", () => {
     expect(() =>
       constructBuilding({
         state: {
           ...GAME_STATE,
           bumpkin: {
-            ...GAME_STATE.bumpkin!,
+            ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[20],
           },
           inventory: {
@@ -137,13 +138,14 @@ describe("Construct building", () => {
       })
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_SFL);
   });
+
   it("does not construct if not enough ingredients", () => {
     expect(() =>
       constructBuilding({
         state: {
           ...GAME_STATE,
           bumpkin: {
-            ...GAME_STATE.bumpkin!,
+            ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[20],
           },
           inventory: {
@@ -164,22 +166,23 @@ describe("Construct building", () => {
       })
     ).toThrow(`${CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS}Wood, Stone`);
   });
-  it("crafts item with sufficient ingredients and SFL", () => {
+
+  it("constructs building", () => {
+    const waterWell = BUILDINGS()["Water Well"][0];
     const initialWood = new Decimal(100);
     const initialStone = new Decimal(101);
     const initialSFL = new Decimal(42);
-    const initialWishingWell = new Decimal(0.2);
+
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
         bumpkin: {
-          ...GAME_STATE.bumpkin!,
+          ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
           Wood: initialWood,
           Stone: initialStone,
-          "Water Well": initialWishingWell,
         },
         balance: initialSFL,
       },
@@ -194,21 +197,24 @@ describe("Construct building", () => {
       },
     });
 
-    expect(state.inventory["Water Well"]).toEqual(initialWishingWell.add(1));
+    expect(state.inventory["Water Well"]).toEqual(new Decimal(1));
     expect(state.buildings["Water Well"]?.length).toEqual(1);
 
-    const woodRequirements = waterWell.ingredients.find(
-      (x) => x.item === "Wood"
-    )?.amount;
-    const stoneRequirements = waterWell.ingredients.find(
-      (x) => x.item === "Stone"
-    )?.amount;
-    expect(state.inventory.Wood).toEqual(initialWood.minus(woodRequirements!));
-    expect(state.inventory.Stone).toEqual(
-      initialStone.minus(stoneRequirements!)
-    );
+    const { ingredients } = waterWell;
+
+    const { amount: woodRequired } = ingredients.find(
+      ({ item }) => item === "Wood"
+    ) as Ingredient;
+
+    const { amount: stoneRequired } = ingredients.find(
+      ({ item }) => item === "Stone"
+    ) as Ingredient;
+
+    expect(state.inventory.Wood).toEqual(initialWood.minus(woodRequired));
+    expect(state.inventory.Stone).toEqual(initialStone.minus(stoneRequired));
     expect(state.balance).toEqual(initialSFL.minus(waterWell.sfl));
   });
+
   it("does not affect existing inventory", () => {
     const state = constructBuilding({
       state: {
@@ -233,6 +239,7 @@ describe("Construct building", () => {
     expect(state.inventory["Fire Pit"]).toEqual(new Decimal(1));
     expect(state.inventory["Radish"]).toEqual(new Decimal(50));
   });
+
   it("adds the building to the buildings data structure correctly", () => {
     const state = constructBuilding({
       state: {
@@ -261,13 +268,14 @@ describe("Construct building", () => {
       createdAt: dateNow,
     });
   });
+
   it("constructs multiple Water Wells", () => {
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
         balance: new Decimal(100),
         bumpkin: {
-          ...GAME_STATE.bumpkin!,
+          ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
@@ -279,8 +287,8 @@ describe("Construct building", () => {
           "Water Well": [
             {
               coordinates: { x: 1, y: 1 },
-              createdAt: Date.now(),
-              readyAt: Date.now() + 30 * 1000,
+              createdAt: dateNow,
+              readyAt: dateNow + 30 * 1000,
               id: "1",
             },
           ],
@@ -300,7 +308,7 @@ describe("Construct building", () => {
     expect(state.buildings["Water Well"]).toHaveLength(2);
   });
 
-  it("does not affect existing Buildings when constructing new Water Well", () => {
+  it("does not affect existing buildings when constructing new Water Well", () => {
     const buildings = {
       "Water Well": [
         {
@@ -320,12 +328,15 @@ describe("Construct building", () => {
       ],
     };
 
+    const waterWell = BUILDINGS()["Water Well"][0];
+    const createdAt = Date.now();
+
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
         balance: new Decimal(100),
         bumpkin: {
-          ...GAME_STATE.bumpkin!,
+          ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[20],
         },
         inventory: {
@@ -345,8 +356,9 @@ describe("Construct building", () => {
           y: 2,
         },
       },
-      createdAt: dateNow,
+      createdAt,
     });
+
     expect(state.buildings).toEqual({
       "Water Well": [
         {
@@ -361,8 +373,8 @@ describe("Construct building", () => {
             x: 1,
             y: 2,
           },
-          createdAt: dateNow,
-          readyAt: dateNow + waterWell.constructionSeconds * 1000,
+          createdAt,
+          readyAt: createdAt + waterWell.constructionSeconds * 1000,
         },
       ],
       Workbench: [
@@ -374,5 +386,82 @@ describe("Construct building", () => {
         },
       ],
     });
+  });
+
+  it("constructs second building using the correct requirements", () => {
+    // Second Hen House
+    const building = BUILDINGS()["Hen House"][1];
+    const initialWood = new Decimal(200);
+    const initialIron = new Decimal(20);
+    const initialGold = new Decimal(20);
+    const initialEggs = new Decimal(400);
+    const initialSFL = new Decimal(1000);
+
+    const state = {
+      ...GAME_STATE,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[21],
+      },
+      buildings: {
+        "Hen House": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "1",
+          },
+        ],
+      },
+      inventory: {
+        Wood: initialWood,
+        Iron: initialIron,
+        Gold: initialGold,
+        Egg: initialEggs,
+        "Hen House": new Decimal(1),
+      },
+      balance: initialSFL,
+    };
+
+    const newState = constructBuilding({
+      state,
+      action: {
+        id: "123",
+        type: "building.constructed",
+        name: "Hen House",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(newState.inventory["Hen House"]).toEqual(new Decimal(2));
+    expect(newState.buildings["Hen House"]?.length).toEqual(2);
+
+    const { ingredients } = building;
+
+    const { amount: woodRequired } = ingredients.find(
+      ({ item }) => item === "Wood"
+    ) as Ingredient;
+
+    const { amount: ironRequired } = ingredients.find(
+      ({ item }) => item === "Iron"
+    ) as Ingredient;
+
+    const { amount: goldRequired } = ingredients.find(
+      ({ item }) => item === "Gold"
+    ) as Ingredient;
+
+    const { amount: eggsRequired } = ingredients.find(
+      ({ item }) => item === "Egg"
+    ) as Ingredient;
+
+    expect(newState.inventory.Wood).toEqual(initialWood.minus(woodRequired));
+    expect(newState.inventory.Iron).toEqual(initialIron.minus(ironRequired));
+    expect(newState.inventory.Gold).toEqual(initialGold.minus(goldRequired));
+    expect(newState.inventory.Egg).toEqual(initialEggs.minus(eggsRequired));
+    expect(newState.balance).toEqual(initialSFL.minus(building.sfl));
   });
 });

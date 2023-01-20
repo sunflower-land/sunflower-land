@@ -145,6 +145,34 @@ describe("removeBuilding", () => {
     ).toThrow(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   });
 
+  it("does not remove a building if its under construction", () => {
+    expect(() =>
+      removeBuilding({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Rusty Shovel": new Decimal(0),
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: Date.now() + 60 * 1000,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "building.removed",
+          building: "Fire Pit",
+          id: "123",
+        },
+      })
+    ).toThrow(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
+  });
+
   it("removes a building and does not affect buildings of the same type", () => {
     const gameState = removeBuilding({
       state: {

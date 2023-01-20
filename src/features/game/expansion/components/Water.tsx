@@ -21,6 +21,8 @@ import { ProjectDignityFrogs } from "features/community/components/ProjectDignit
 import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
 import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Pirate } from "./Pirate";
+import { LunarNewYearQuest } from "./LunarNewYearQuest";
 
 export const LAND_WIDTH = 6;
 
@@ -114,8 +116,10 @@ export const Water: React.FC<Props> = ({ level }) => {
       </MapPlacement>
 
       <FarmerQuest />
+      <LunarNewYearQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
+        <Pirate />
         <img
           src={pirateIsland}
           style={{

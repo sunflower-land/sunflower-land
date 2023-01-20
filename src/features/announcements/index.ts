@@ -1,5 +1,6 @@
 import calendar from "assets/icons/calendar.png";
 import fruit from "assets/announcements/fruit.gif";
+import luckySign from "assets/events/lunar-new-year/luck_sign.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -24,6 +25,26 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2023-01-18T00:00:00"),
+    title: "Happy Lunar New Year",
+    notes: [
+      { text: "Let's celebrate the year of the Rabbit." },
+      { text: "A special island has appeared west of main land." },
+      {
+        text: "Collect Red Envelopes to mint Bumpkin wearables or craft Maneki Neko on Goblin Retreat's Blacksmith.",
+      },
+      {
+        text: "Each day a different resource will provide Red Envelopes.",
+      },
+      {
+        text: "Visit the new years island NPC to find out more.",
+      },
+    ],
+    image: luckySign,
+    link: "https://docs.sunflower-land.com/player-guides/special-events/lunar-new-year",
+  },
+
   {
     date: new Date("2023-01-16T02:00:00"),
     title: "Weekly news",
@@ -74,9 +95,9 @@ export const ANNOUNCEMENTS: Announcement[] = [
         },
       },
       {
-        text: "A surprise Chinese New Year special is coming...",
+        text: "A surprise Lunar New Year special is coming...",
         icon: calendar,
-        date: new Date("2023-01-21"),
+        date: new Date("2023-01-20"),
         link: {
           text: "Read more",
           url: "https://github.com/sunflower-land/sunflower-land/discussions/1937",
