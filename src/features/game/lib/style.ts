@@ -6,7 +6,6 @@ import greenBorder from "assets/ui/panel/green_border.png";
 import tabBorderStart from "assets/ui/panel/tab_border_start.png";
 import tabBorderMiddle from "assets/ui/panel/tab_border_middle.png";
 import progressBarBorder from "assets/ui/progress/progress_bar_border.png";
-import progressBarBorderOpacity60 from "assets/ui/progress/progress_bar_border_opacity_60.png";
 
 const pixelizedBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
@@ -57,9 +56,4 @@ export const progressBarBorderStyle: React.CSSProperties = {
   borderTopWidth: `${PIXEL_SCALE * 2}px`,
   borderBottomWidth: `${PIXEL_SCALE * 3}px`,
   borderImageSlice: "20% 20% 30%",
-};
-
-export const progressBarBorderOpacity60Style: React.CSSProperties = {
-  ...progressBarBorderStyle,
-  borderImage: `url(${progressBarBorderOpacity60})`,
 };
