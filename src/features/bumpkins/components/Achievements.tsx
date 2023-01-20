@@ -68,31 +68,7 @@ export const Achievements: React.FC<Props> = ({
   };
 
   return (
-    <Panel className="relative" hasTabs>
-      <div
-        className="absolute flex"
-        style={{
-          top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      >
-        <Tab isActive>
-          <img src={SUNNYSIDE.icons.player} className="h-5 mr-2" />
-          <span className="text-sm">Achievements</span>
-        </Tab>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-      </div>
-
+    <>
       <div
         style={{
           minHeight: "200px",
@@ -207,6 +183,42 @@ export const Achievements: React.FC<Props> = ({
           })}
         </div>
       </div>
+    </>
+  );
+};
+
+export const AchievementsModal: React.FC<Props> = ({
+  onBack,
+  onClose,
+  readonly,
+}) => {
+  return (
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab isActive>
+          <img src={SUNNYSIDE.icons.player} className="h-5 mr-2" />
+          <span className="text-sm">Achievements</span>
+        </Tab>
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="absolute cursor-pointer z-20"
+          onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
+      </div>
+
+      <Achievements onBack={onBack} onClose={onClose} readonly={readonly} />
     </Panel>
   );
 };

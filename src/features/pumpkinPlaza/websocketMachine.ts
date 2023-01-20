@@ -152,12 +152,10 @@ export const websocketMachine = createMachine<
             return { socket: null };
           }
 
-          console.log({ jwt: context.jwt });
           const socket = new WebSocket(
             `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&farmId=${context.accountId}&x=${context.currentPosition?.x}&y=${context.currentPosition?.y}`
           );
 
-          console.log("Connect");
           await new Promise((res) => {
             socket.addEventListener("open", res);
           });
@@ -213,10 +211,7 @@ export const websocketMachine = createMachine<
         onDone: {
           target: "connected",
           actions: assign({
-            bumpkins: (context, event) =>
-              (event.data.bumpkins as Player[]).filter(
-                ({ bumpkin }) => bumpkin.id !== context.bumpkin.id
-              ),
+            bumpkins: (context, event) => event.data.bumpkins,
           }),
         },
         onError: {

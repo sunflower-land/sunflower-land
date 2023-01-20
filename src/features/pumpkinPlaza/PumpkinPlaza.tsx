@@ -1,9 +1,9 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import PF from "pathfinding";
 import { Modal } from "react-bootstrap";
 
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
 import { Bumpkins } from "./components/Bumpkins";
 import { websocketMachine, MachineInterpreter } from "./websocketMachine";
@@ -162,16 +162,7 @@ export const PumpkinPlaza: React.FC = () => {
           path={path}
         />
       </div>
-      {/* {chatState.matches("connected") && !chatState.context.currentPosition && (
-        <PlaceableBumpkin
-          onPlace={(coordinates) => {
-            console.log("Send", coordinates);
-            chatService.send("SEND_LOCATION", { coordinates });
-          }}
-          bumpkin={myBumpkin}
-        />
-      )} */}
-      {/* {chatState.matches("connected") && ( */}
+
       <DailyReward />
       <ChatUI
         onMessage={({ reaction, text }) => {

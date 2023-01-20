@@ -1,11 +1,9 @@
-import { useActor } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
 
 import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
 
-import { Context } from "features/game/GameProvider";
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -14,15 +12,15 @@ import {
   getExperienceToNextLevel,
   isMaxLevel,
 } from "features/game/lib/level";
-import { Achievements } from "./Achievements";
+import { AchievementsModal } from "./Achievements";
 import { AchievementBadges } from "./AchievementBadges";
-import { Skills } from "features/bumpkins/components/Skills";
+import { SkillsModal } from "features/bumpkins/components/Skills";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin, GameState, Inventory } from "features/game/types/game";
+import { Bumpkin, Inventory } from "features/game/types/game";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -140,7 +138,7 @@ export const BumpkinModal: React.FC<Props> = ({
 
   if (view === "achievements") {
     return (
-      <Achievements
+      <AchievementsModal
         readonly={readonly}
         onBack={() => setView("home")}
         onClose={onClose}
@@ -150,7 +148,7 @@ export const BumpkinModal: React.FC<Props> = ({
 
   if (view === "skills") {
     return (
-      <Skills
+      <SkillsModal
         readonly={readonly}
         onBack={() => setView("home")}
         onClose={onClose}

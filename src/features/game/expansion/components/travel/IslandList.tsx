@@ -18,6 +18,8 @@ import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GameProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 const CONTENT_HEIGHT = 380;
 
@@ -135,6 +137,10 @@ export const IslandList = ({
 }) => {
   const { authService } = useContext(Auth.Context);
   const [authState, send] = useActor(authService);
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const { id } = useParams();
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");
@@ -193,6 +199,15 @@ export const IslandList = ({
   const islandList = islands.sort((a, b) =>
     a.levelRequired > b.levelRequired ? 1 : -1
   );
+
+  if (hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA")) {
+    islandList.push({
+      name: "Pumpkin Plaza",
+      levelRequired: 1,
+      image: CROP_LIFECYCLE.Pumpkin.crop,
+      path: `/land/${id}/plaza`,
+    });
+  }
 
   // Someone who is visiting without a loaded session
   const unAuthenticatedVisit = authState.matches("visiting");
