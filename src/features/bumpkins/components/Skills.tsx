@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Panel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
 import {
   BumpkinSkill,
   BumpkinSkillTree,
@@ -10,10 +8,8 @@ import {
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { SkillPointsLabel } from "./SkillPointsLabel";
 import { SkillCategoryList } from "./SkillCategoryList";
 
-import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
 import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
@@ -22,10 +18,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onBack: () => void;
-  onClose: () => void;
 }
 
-export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
+export const Skills: React.FC<Props> = ({ onBack }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -66,81 +61,63 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
     const levelRequired = findLevelRequiredForNextSkillPoint(experience);
 
     return (
-      <>
+      <div className="flex flex-wrap gap-x-2 gap-y-2 items-center justify-start">
         {availableSkillPoints > 0 && (
-          <SkillPointsLabel points={availableSkillPoints} />
-        )}
-        {!availableSkillPoints && levelRequired && (
-          <Label type="default">
-            <p className="text-xxs px-1">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
-              experience
-            )}`}</p>
+          <Label type="success">
+            {`Skill Points: ${availableSkillPoints}`}
           </Label>
         )}
-      </>
+        {levelRequired && (
+          <Label type="info">
+            {`Next: Level ${findLevelRequiredForNextSkillPoint(experience)}`}
+          </Label>
+        )}
+      </div>
     );
   };
 
+  const backNavigationView = () => (
+    <div
+      className="flex flex-wrap space-x-2 space-y-2 items-center justify-start"
+      style={{
+        margin: `${PIXEL_SCALE * 2}px`,
+        marginTop: "0px",
+        marginRight: "0px",
+      }}
+    >
+      <img
+        src={SUNNYSIDE.icons.arrow_left}
+        className="cursor-pointer"
+        alt="back"
+        style={{
+          width: `${PIXEL_SCALE * 11}px`,
+          marginTop: `${PIXEL_SCALE * 2.5}px`,
+        }}
+        onClick={handleBack}
+      />
+      {!gameState.matches("visiting") && skillPointsInfo()}
+    </div>
+  );
+
   return (
-    <Panel className="relative" hasTabs>
-      <div
-        className="absolute flex"
-        style={{
-          top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      >
-        <Tab isActive>
-          <img src={seedSpecialist} className="h-5 mr-2" />
-          <span className="text-sm">Skills</span>
-        </Tab>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
+    <div
+      style={{
+        minHeight: "200px",
+      }}
+    >
+      {!selectedSkillPath && (
+        <SkillCategoryList
+          onClick={(category) => onSkillCategoryClickHandler(category)}
+          backNavigationView={backNavigationView()}
         />
-      </div>
-      <div
-        style={{
-          minHeight: "200px",
-        }}
-      >
-        <div
-          className="flex flex-row my-2 items-center"
-          style={{
-            margin: `${PIXEL_SCALE * 2}px`,
-          }}
-        >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="cursor-pointer"
-            alt="back"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              marginRight: `${PIXEL_SCALE * 4}px`,
-            }}
-            onClick={handleBack}
-          />
-          {!gameState.matches("visiting") && skillPointsInfo()}
-        </div>
-        {!selectedSkillPath && (
-          <SkillCategoryList
-            onClick={(category) => onSkillCategoryClickHandler(category)}
-          />
-        )}
-        {selectedSkillPath && (
-          <SkillPathDetails
-            selectedSkillPath={selectedSkillPath}
-            skillsInPath={skillsInPath}
-          />
-        )}
-      </div>
-    </Panel>
+      )}
+      {selectedSkillPath && (
+        <SkillPathDetails
+          selectedSkillPath={selectedSkillPath}
+          skillsInPath={skillsInPath}
+          backNavigationView={backNavigationView()}
+        />
+      )}
+    </div>
   );
 };
