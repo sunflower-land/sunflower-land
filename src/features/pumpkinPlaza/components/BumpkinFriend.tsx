@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Bumpkin } from "features/game/types/game";
-import levelIcon from "assets/icons/level_up.png";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { BumpkinStats } from "./BumpkinStats";
 import { BumpkinTrade } from "./BumpkinTrade";
 

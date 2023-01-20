@@ -11,7 +11,6 @@ import token from "assets/icons/token_2.png";
 import { MachineInterpreter } from "../websocketMachine";
 import { REACTIONS } from "../lib/reactions";
 import { getKeys } from "features/game/types/craftables";
-import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { BumpkinDiscovery, ChatMessage, Player } from "../lib/types";
 import { BumpkinFriend } from "./BumpkinFriend";
 
@@ -108,14 +107,12 @@ export const Bumpkins: React.FC<Props> = ({
   bumpkins,
   path,
   discoveries,
-  onVisit,
 }) => {
-  const [selectedBumpkin, setSelectedBumpkin] = useState<Player>(bumpkins[0]);
+  const [selectedBumpkin, setSelectedBumpkin] = useState<Player>();
   const freshMessages = messages;
   const myMessage = freshMessages.find((m) => m.bumpkinId === bumpkin.id);
   const myDiscovery = discoveries.find((m) => m.bumpkinId === bumpkin.id);
 
-  console.log({ freshMessages, myMessage, bumpkin, bumpkins });
   useEffect(() => {
     if (path.length) {
       const pathIndex = path.find(
@@ -124,8 +121,7 @@ export const Bumpkins: React.FC<Props> = ({
       console.log({ pathIndex });
     }
   }, [path]);
-  if (path) {
-  }
+
   return (
     <>
       <Modal
