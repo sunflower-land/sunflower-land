@@ -6,8 +6,6 @@ import shadow from "assets/npcs/shadow.png";
 import envelopes from "assets/icons/red_envelope.png";
 import island from "assets/events/lunar-new-year/new_year_island.png";
 import mrChu from "assets/events/lunar-new-year/mr_chu.gif";
-import incenseLeft from "assets/events/lunar-new-year/incense_left.gif";
-import incenseRight from "assets/events/lunar-new-year/incense_right.gif";
 import lampNpc from "assets/events/lunar-new-year/lamp_npc.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -137,28 +135,9 @@ export const LunarNewYearQuest: React.FC = () => {
         src={island}
         className="absolute"
         style={{
-          width: `${PIXEL_SCALE * 226}px`,
+          width: `${PIXEL_SCALE * 212}px`,
           bottom: `${GRID_WIDTH_PX * 10}px`,
           left: `${GRID_WIDTH_PX * -21}px`,
-        }}
-      />
-      <img
-        src={incenseLeft}
-        className="absolute z-20"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${GRID_WIDTH_PX * 16.87}px`,
-          left: `${GRID_WIDTH_PX * -16.43}px`,
-        }}
-      />
-
-      <img
-        src={incenseRight}
-        className="absolute z-20"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${GRID_WIDTH_PX * 16.87}px`,
-          left: `${GRID_WIDTH_PX * -12.5}px`,
         }}
       />
 
@@ -168,7 +147,7 @@ export const LunarNewYearQuest: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           bottom: `${GRID_WIDTH_PX * 13.87}px`,
-          left: `${GRID_WIDTH_PX * -9.12}px`,
+          left: `${GRID_WIDTH_PX * -9.42}px`,
         }}
         onClick={() => setShowDonation(true)}
       />
@@ -176,8 +155,8 @@ export const LunarNewYearQuest: React.FC = () => {
       <div
         className="absolute z-20"
         style={{
-          top: `${GRID_WIDTH_PX * 23}px`,
-          left: `${GRID_WIDTH_PX * -17}px`,
+          top: `${GRID_WIDTH_PX * 19}px`,
+          left: `${GRID_WIDTH_PX * -19}px`,
         }}
       >
         <img
@@ -201,7 +180,7 @@ export const LunarNewYearQuest: React.FC = () => {
         className="absolute z-20"
         style={{
           top: `${GRID_WIDTH_PX * 24}px`,
-          left: `${GRID_WIDTH_PX * -12}px`,
+          left: `${GRID_WIDTH_PX * -15}px`,
         }}
       >
         <img
