@@ -106,37 +106,50 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
     getUnclaimedAchievementNames(state).length > 0;
 
   const levelInfo = () => (
-    <div className="flex items-center">
-      <img
-        src={levelIcon}
-        style={{
-          width: `${PIXEL_SCALE * 10}px`,
-          marginRight: `${PIXEL_SCALE * 3}px`,
-        }}
-      />
-      <div>
-        <p className="text-sm mb-1">
-          Level {level}
-          {maxLevel ? " (Max)" : ""}
-        </p>
-        <ResizableBar
-          percentage={(currentExperienceProgress / experienceToNextLevel) * 100}
-          type={"progress"}
-          outerDimensions={{ width: 40, height: 7 }}
+    <div className="flex flex-col items-start sm:items-center space-y-1 sm:mt-10">
+      <div className="flex flex-row items-center space-x-1">
+        {/* Level icon */}
+        <img
+          src={levelIcon}
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            height: `${PIXEL_SCALE * 13}px`,
+          }}
         />
+
+        {/* Level */}
+        <p className="text-sm sm:text-base">
+          {`Level ${level}${maxLevel ? " (Max)" : ""}`}
+        </p>
       </div>
+
+      {/* XP */}
+      <p className="text-xxs mt-2">
+        {`${Math.floor(currentExperienceProgress)}/${
+          maxLevel ? "-" : Math.floor(experienceToNextLevel)
+        } XP`}
+      </p>
+
+      {/* XP bar */}
+      <ResizableBar
+        percentage={(currentExperienceProgress / experienceToNextLevel) * 100}
+        type={"progress"}
+        outerDimensions={{ width: 48, height: 7 }}
+      />
     </div>
   );
 
   const visitBumpkinLink = () => (
-    <a
-      href={getVisitBumpkinUrl()}
-      target="_blank"
-      className="underline text-xxs px-1.5 pb-1 pt-0.5 hover:text-blue-500"
-      rel="noreferrer"
-    >
-      Visit Bumpkin
-    </a>
+    <div className="flex justify-start sm:justify-center">
+      <a
+        href={getVisitBumpkinUrl()}
+        target="_blank"
+        className="underline text-xxs py-1.5 hover:text-blue-500"
+        rel="noreferrer"
+      >
+        Visit Bumpkin
+      </a>
+    </div>
   );
 
   const badgeContainer = (title: "Skills" | "Achievements") => (
@@ -180,9 +193,10 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
               bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
             />
           </div>
-          <div className="flex flex-1 flex-col justify-start ml-2 mb-1 gap-y-3">
-            <div className="flex-1" />
+          <div className="flex flex-1 flex-col justify-end sm:justify-center ml-2 gap-y-1">
+            <div className="flex-1 hidden sm:block" />
             {levelInfo()}
+            <div className="flex-1 hidden sm:block" />
             {visitBumpkinLink()}
           </div>
         </div>
