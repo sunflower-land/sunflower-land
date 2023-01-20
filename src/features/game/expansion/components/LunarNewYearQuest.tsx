@@ -15,7 +15,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import luckySign from "assets/quest/luck_sign.png";
-import { ChineseNewYearDonation } from "features/community/chineseNewYear/ChineseNewYearDonation";
+import { LunarNewYearDonation } from "features/community/lunarNewYear/LunarNewYearDonation";
 
 const resourceToFindRedEnvelopes: { [key: number]: string } = {
   20: "beetroots",
@@ -146,8 +146,8 @@ export const LunarNewYearQuest: React.FC = () => {
         className="absolute z-20 hover:cursor-pointer hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
-          bottom: `${GRID_WIDTH_PX * 13.87}px`,
-          left: `${GRID_WIDTH_PX * -9.42}px`,
+          bottom: `${GRID_WIDTH_PX * 13.98}px`,
+          left: `${GRID_WIDTH_PX * -9.8}px`,
         }}
         onClick={() => setShowDonation(true)}
       />
@@ -233,7 +233,7 @@ export const LunarNewYearQuest: React.FC = () => {
             bumpkinParts={bumpkin}
             onClose={() => setShowDonation(false)}
           >
-            <ChineseNewYearDonation />
+            <LunarNewYearDonation />
           </CloseButtonPanel>
         </Modal>
       )}
