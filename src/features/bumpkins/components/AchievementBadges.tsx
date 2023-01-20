@@ -8,21 +8,31 @@ import { setImageWidth } from "lib/images";
 export const AchievementBadges: React.FC<{
   achievements?: Bumpkin["achievements"];
 }> = ({ achievements = {} }) => {
-  const badges = getKeys(achievements).map((name) => {
-    return (
-      <img
-        key={name}
-        src={ITEM_DETAILS[name].image}
-        alt={name}
-        style={{
-          opacity: 0,
-          marginRight: `${PIXEL_SCALE * 2}px`,
-          marginBottom: `${PIXEL_SCALE * 2}px`,
-        }}
-        onLoad={(e) => setImageWidth(e.currentTarget)}
-      />
-    );
-  });
+  if (!achievements) {
+    return null;
+  }
+
+  const badges = getKeys(achievements)
+    .map((name) => {
+      if ((achievements[name] ?? 0) >= 1) {
+        return (
+          <img
+            key={name}
+            src={ITEM_DETAILS[name].image}
+            alt={name}
+            style={{
+              opacity: 0,
+              marginRight: `${PIXEL_SCALE * 2}px`,
+              marginBottom: `${PIXEL_SCALE * 2}px`,
+            }}
+            onLoad={(e) => setImageWidth(e.currentTarget)}
+          />
+        );
+      }
+
+      return null;
+    })
+    .filter(Boolean);
 
   if (badges.length === 0) {
     return null;

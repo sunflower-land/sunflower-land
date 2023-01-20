@@ -85,8 +85,10 @@ export const OuterPanel: React.FC<OuterPanelProps> = ({
       className={classNames("bg-brown-600 text-white", className)}
       style={{
         ...pixelDarkBorderStyle,
-        padding: `${PIXEL_SCALE * 1}px`,
-        ...(hasTabs ? { paddingTop: `${PIXEL_SCALE * 15}px` } : {}),
+        paddingLeft: `${PIXEL_SCALE * 1}px`,
+        paddingRight: `${PIXEL_SCALE * 1}px`,
+        paddingTop: `${PIXEL_SCALE * (hasTabs ? 15 : 1)}px`,
+        paddingBottom: `${PIXEL_SCALE * 1}px`,
         ...style,
       }}
       {...otherDivProps}

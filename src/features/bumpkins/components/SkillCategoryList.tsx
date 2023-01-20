@@ -10,7 +10,6 @@ import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import animals from "assets/skills/land/skill-tree-icon/animals.png";
@@ -18,6 +17,7 @@ import cooking from "assets/skills/land/skill-tree-icon/cooking.png";
 import crops from "assets/skills/land/skill-tree-icon/crops.png";
 import rocks from "assets/skills/land/skill-tree-icon/rocks.png";
 import trees from "assets/skills/land/skill-tree-icon/trees.png";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const iconList = {
   Crops: crops,
@@ -27,10 +27,14 @@ const iconList = {
   Animals: animals,
 };
 
-export const SkillCategoryList = ({
-  onClick,
-}: {
+interface Props {
   onClick: (category: BumpkinSkillTree) => void;
+  backNavigationView: JSX.Element;
+}
+
+export const SkillCategoryList: React.FC<Props> = ({
+  onClick,
+  backNavigationView,
 }) => {
   const { gameService } = useContext(Context);
   const [
@@ -42,6 +46,7 @@ export const SkillCategoryList = ({
   const { bumpkin } = state;
   return (
     <>
+      {backNavigationView}
       {SKILL_TREE_CATEGORIES.map((category) => {
         const skills = getSkills(category);
         const icon = iconList[skills[0].tree];
@@ -53,21 +58,26 @@ export const SkillCategoryList = ({
 
         return (
           <div key={category} onClick={() => onClick(category)}>
-            <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
+            <OuterPanel
+              className="flex relative items-center cursor-pointer hover:bg-brown-200"
+              style={{
+                marginTop: `${PIXEL_SCALE * 2}px`,
+              }}
+            >
+              <div className="flex justify-center items-center">
+                <SquareIcon icon={icon} width={14} />
+                <span className="text-sm ml-1">{category}</span>
+              </div>
               <Label
                 type="default"
-                className="px-1 text-xxs absolute -top-3 -right-1"
+                className="absolute pointer-events-none"
+                style={{
+                  top: `${PIXEL_SCALE * -5}px`,
+                  right: `${PIXEL_SCALE * -3}px`,
+                }}
               >
                 {`${skillsAcquiredInCategoryCount}/${skills.length}`}
               </Label>
-              <div className="flex justify-center items-center">
-                <img
-                  src={icon}
-                  style={{ opacity: 0, marginRight: `${PIXEL_SCALE * 4}px` }}
-                  onLoad={(e) => setImageWidth(e.currentTarget)}
-                />
-                <span className="text-sm">{category}</span>
-              </div>
             </OuterPanel>
           </div>
         );

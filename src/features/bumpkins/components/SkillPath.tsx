@@ -41,7 +41,7 @@ export const SkillPath = ({
   const skillPath = createSkillPath(skillsInPath);
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto my-1">
       {skillPath.map((level, index) => (
         <div className="flex justify-center" key={index}>
           {level.map((skill) => {

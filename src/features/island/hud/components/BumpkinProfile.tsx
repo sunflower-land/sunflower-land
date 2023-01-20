@@ -5,7 +5,10 @@ import { useActor } from "@xstate/react";
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
 import whiteBg from "assets/ui/profile/bg.png";
 
-import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
+import {
+  BumpkinPanel,
+  ViewState,
+} from "features/bumpkins/components/BumpkinPanel";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
 import {
@@ -13,16 +16,14 @@ import {
   getExperienceToNextLevel,
   isMaxLevel,
 } from "features/game/lib/level";
-import {
-  acknowledgeSkillPoints,
-  hasUnacknowledgedSkillPoints,
-} from "features/island/bumpkin/lib/skillPointStorage";
+import { hasUnacknowledgedSkillPoints } from "features/island/bumpkin/lib/skillPointStorage";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { hasUnacknowledgedAchievements } from "features/island/bumpkin/lib/achievementStorage";
 
 const DIMENSIONS = {
   original: 80,
@@ -58,13 +59,13 @@ const SPRITE_STEPS = 51;
 
 interface AvatarProps {
   bumpkin?: Bumpkin;
-  showSkillPointAlert?: boolean;
+  showAlert?: boolean;
   onClick?: () => void;
 }
 
 export const BumpkinAvatar: React.FC<AvatarProps> = ({
   bumpkin,
-  showSkillPointAlert,
+  showAlert,
   onClick,
 }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
@@ -160,7 +161,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         >
           {level}
         </div>
-        {showSkillPointAlert && (
+        {showAlert && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className="col-start-1 row-start-1 animate-float z-30"
@@ -178,7 +179,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
 
 export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>();
-  const [viewSkillsPage, setViewSkillsPage] = useState(false);
+  const [initialView, setInitialView] = useState<ViewState>("home");
   const [showModal, setShowModal] = useState(false);
 
   const { gameService } = useContext(Context);
@@ -189,18 +190,22 @@ export const BumpkinProfile: React.FC = () => {
 
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
-  const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
+  const showSkillPointAlert = hasUnacknowledgedSkillPoints(state);
+  const showAchievementAlert = hasUnacknowledgedAchievements(state);
 
   useEffect(() => {
     goToProgress();
   }, [level, experience]);
 
   const handleShowHomeModal = () => {
-    setViewSkillsPage(showSkillPointAlert);
+    setInitialView(
+      showAchievementAlert
+        ? "achievements"
+        : showSkillPointAlert
+        ? "skills"
+        : "home"
+    );
     setShowModal(true);
-    if (showSkillPointAlert) {
-      acknowledgeSkillPoints(state.bumpkin);
-    }
   };
 
   const goToProgress = () => {
@@ -228,18 +233,16 @@ export const BumpkinProfile: React.FC = () => {
     <>
       {/* Bumpkin modal */}
       <Modal show={showModal} centered onHide={handleHideModal}>
-        <BumpkinModal
-          initialView={viewSkillsPage ? "skills" : "home"}
-          onClose={handleHideModal}
-        />
+        <BumpkinPanel initialView={initialView} onClose={handleHideModal} />
       </Modal>
 
       {/* Bumpkin profile */}
       <BumpkinAvatar
         bumpkin={state.bumpkin}
         onClick={handleShowHomeModal}
-        showSkillPointAlert={
-          showSkillPointAlert && !gameState.matches("visiting")
+        showAlert={
+          (showSkillPointAlert || showAchievementAlert) &&
+          !gameState.matches("visiting")
         }
       />
     </>

@@ -1,79 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
-import classNames from "classnames";
-import { OuterPanel } from "components/ui/Panel";
 import {
   BumpkinSkill,
   BumpkinSkillName,
   BumpkinSkillTree,
   BUMPKIN_SKILL_TREE,
 } from "features/game/types/bumpkinSkills";
-
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
-import { acknowledgeSkillPoints } from "../../island/bumpkin/lib/skillPointStorage";
 import { SkillPath } from "./SkillPath";
 import { Button } from "components/ui/Button";
-import { setImageWidth } from "lib/images";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-
-const RequiredSkillPoints = ({
-  missingPointRequirement,
-  availableSkillPoints,
-  pointsRequired,
-}: {
-  missingPointRequirement: boolean;
-  availableSkillPoints: number;
-  pointsRequired: number;
-}) => {
-  return (
-    <div
-      className={classNames("flex justify-center flex-wrap items-end mt-2", {
-        "text-error": missingPointRequirement,
-      })}
-    >
-      <span className="text-center text-xxs sm:text-xs">
-        Required Skill Points:&nbsp;
-      </span>
-      <span className="text-xxs sm:text-xs text-center">
-        {`${availableSkillPoints}/${pointsRequired}`}
-      </span>
-    </div>
-  );
-};
-
-const RequiredSkill = ({
-  missingSkillRequirement,
-  requiredSkillImage,
-}: {
-  missingSkillRequirement: boolean;
-  requiredSkillImage?: string;
-}) => {
-  return (
-    <div
-      className={classNames("flex justify-center flex-wrap items-center mt-2", {
-        "text-error": missingSkillRequirement,
-      })}
-    >
-      <span className="text-center text-xxs sm:text-xs">Required Skills:</span>
-      <img
-        src={requiredSkillImage}
-        style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
-        onLoad={(e) => setImageWidth(e.currentTarget)}
-      />
-    </div>
-  );
-};
+import { SplitScreenView } from "components/ui/SplitScreenView";
+import { SkillDetails } from "components/ui/layouts/SkillDetails";
 
 interface Props {
   selectedSkillPath: BumpkinSkillTree;
   skillsInPath: BumpkinSkill[];
+  backNavigationView: JSX.Element;
 }
 
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
   skillsInPath,
+  backNavigationView,
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -104,102 +54,100 @@ export const SkillPathDetails: React.FC<Props> = ({
   const { points: pointsRequired, skill: skillRequired } =
     BUMPKIN_SKILL_TREE[selectedSkill].requirements;
 
-  const requiredSkillImage = skillRequired
-    ? BUMPKIN_SKILL_TREE?.[skillRequired].image
-    : undefined;
-
   const missingSkillRequirement = skillRequired
     ? !getKeys({ ...bumpkin?.skills }).includes(skillRequired)
     : false;
 
   const missingPointRequirement = availableSkillPoints < pointsRequired;
   const comingSoon = !!BUMPKIN_SKILL_TREE[selectedSkill].disabled;
+  const isVisiting = gameState.matches("visiting");
 
   const handleClaim = () => {
     setShowConfirmButton(false);
     gameService.send("skill.picked", { skill: selectedSkill });
-    acknowledgeSkillPoints(gameService.state.context.state.bumpkin);
   };
 
   return (
-    <div className="flex flex-col">
-      <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center">
-        <div className="flex flex-col justify-center items-center p-2 relative w-full">
-          {showConfirmButton && (
-            <div className="flex flex-col">
-              <p className="mx-4 text-center text-sm">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
-              <div className="flex space-x-1">
-                <Button
-                  onClick={() => setShowConfirmButton(false)}
-                  className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleClaim}
-                  className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-                >
-                  Claim
-                </Button>
-              </div>
-            </div>
-          )}
-          {!showConfirmButton && (
-            <>
-              <div className="flex mb-1 items-center">
-                <span className="text-center text-sm sm:text-base">
-                  {selectedSkill}
-                </span>
-                <img
-                  src={BUMPKIN_SKILL_TREE[selectedSkill].image}
-                  style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
-                  onLoad={(e) => setImageWidth(e.currentTarget)}
-                />
-              </div>
-
-              <span className="text-center mt-1 text-xxs sm:text-xs mb-1">
-                {BUMPKIN_SKILL_TREE[selectedSkill].boosts}
-              </span>
-              {comingSoon && <p className="text-xs mt-1">Coming soon</p>}
-
-              {!hasSelectedSkill &&
-                !gameState.matches("visiting") &&
-                !comingSoon && (
+    <>
+      <div className="sm:hidden">{backNavigationView}</div>
+      <SplitScreenView
+        tallMobileContent={true}
+        contentScrollable={false}
+        header={
+          <SkillDetails
+            gameState={gameState.context.state}
+            details={{
+              skill: selectedSkill,
+            }}
+            requirements={
+              isVisiting || hasSelectedSkill
+                ? undefined
+                : {
+                    skillPoints: pointsRequired,
+                    skill: skillRequired
+                      ? BUMPKIN_SKILL_TREE?.[skillRequired].name
+                      : undefined,
+                  }
+            }
+            actionView={
+              <>
+                {comingSoon && (
+                  <p className="text-xxs text-center my-2">Coming soon</p>
+                )}
+                {!hasSelectedSkill && !isVisiting && !comingSoon && (
                   <>
-                    <div className="border-t border-white w-full pt-1 text-center">
-                      <RequiredSkillPoints
-                        missingPointRequirement={missingPointRequirement}
-                        availableSkillPoints={availableSkillPoints}
-                        pointsRequired={pointsRequired}
-                      />
-                      {skillRequired && (
-                        <RequiredSkill
-                          requiredSkillImage={requiredSkillImage}
-                          missingSkillRequirement={missingSkillRequirement}
-                        />
-                      )}
-                    </div>
-                    <Button
-                      onClick={() => setShowConfirmButton(true)}
-                      disabled={
-                        missingPointRequirement || missingSkillRequirement
-                      }
-                      className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
-                    >
-                      Claim skill
-                    </Button>
+                    {!showConfirmButton && (
+                      <Button
+                        onClick={() => setShowConfirmButton(true)}
+                        disabled={
+                          missingPointRequirement || missingSkillRequirement
+                        }
+                        className="whitespace-nowrap"
+                      >
+                        Claim skill
+                      </Button>
+                    )}
+                    {showConfirmButton && (
+                      <div className="flex flex-col">
+                        <p className="m-2 text-center text-sm">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
+                        <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                          <Button
+                            onClick={() => setShowConfirmButton(false)}
+                            className="whitespace-nowrap"
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={handleClaim}
+                            className="whitespace-nowrap"
+                          >
+                            Claim
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </>
                 )}
-            </>
-          )}
-        </div>
-      </OuterPanel>
-      <span className="text-center my-2 text-sm">{`${selectedSkillPath} Skill Path`}</span>
-      <SkillPath
-        skillsInPath={skillsInPath}
-        onClick={(skillName) => setSelectedSkill(skillName)}
-        selectedSkill={selectedSkill}
+              </>
+            }
+          />
+        }
+        content={
+          <>
+            <div className="hidden sm:block -ml-1 -mt-2">
+              {backNavigationView}
+            </div>
+            <span className="text-center mb-2 text-sm">{`${selectedSkillPath} Skill Path`}</span>
+            <div className="overflow-y-auto scrollable overflow-x-hidden flex flex-wrap">
+              <SkillPath
+                skillsInPath={skillsInPath}
+                onClick={(skillName) => setSelectedSkill(skillName)}
+                selectedSkill={selectedSkill}
+              />
+            </div>
+          </>
+        }
       />
-    </div>
+    </>
   );
 };

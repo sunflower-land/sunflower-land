@@ -23,6 +23,8 @@ import treasureIsland from "assets/land/treasure_island.webp";
 import snowKingdom from "assets/land/snow_kingdom.webp";
 import stoneHeaven from "assets/land/stone_haven.webp";
 import silhouette from "assets/bumpkins/silhouette.png";
+import tabBorderStart from "assets/ui/panel/tab_border_start.png";
+import tabBorderMiddle from "assets/ui/panel/tab_border_middle.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { getKeys } from "features/game/types/craftables";
@@ -51,6 +53,8 @@ const IMAGE_LIST: string[] = [
   snowKingdom,
   stoneHeaven,
   silhouette,
+  tabBorderStart,
+  tabBorderMiddle,
   ...Object.values(SUNNYSIDE.icons),
   ...Object.values(SUNNYSIDE.resource),
   ...Object.values(SUNNYSIDE.soil),

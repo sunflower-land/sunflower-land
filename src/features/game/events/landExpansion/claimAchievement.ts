@@ -21,6 +21,38 @@ const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
+export const getAttainableAchievementNames = (state: Readonly<GameState>) => {
+  const achievements = ACHIEVEMENTS();
+  const achievementKeys = getKeys(achievements);
+
+  const attainableAchievementNames = achievementKeys.filter((name) => {
+    const achievement = achievements[name];
+    const progress = achievement.progress(state);
+    const isComplete = progress >= achievement.requirement;
+    return isComplete;
+  });
+
+  return attainableAchievementNames;
+};
+
+export const getUnclaimedAchievementNames = (state: Readonly<GameState>) => {
+  const achievements = ACHIEVEMENTS();
+
+  const bumpkinAchievements = state.bumpkin?.achievements || {};
+  const achievementKeys = getKeys(achievements);
+
+  const unclaimedAchievementNames = achievementKeys.filter((name) => {
+    const achievement = achievements[name];
+    const progress = achievement.progress(state);
+    const isComplete = progress >= achievement.requirement;
+    const isAlreadyClaimed = !!bumpkinAchievements[name];
+
+    return isComplete && !isAlreadyClaimed;
+  });
+
+  return unclaimedAchievementNames;
+};
+
 export function claimAchievement({ state, action }: Options): GameState {
   const stateCopy = clone(state);
   const bumpkin = stateCopy.bumpkin;

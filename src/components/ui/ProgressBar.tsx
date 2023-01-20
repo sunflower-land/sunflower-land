@@ -1,9 +1,9 @@
 import React from "react";
 
 import emptyBar from "assets/ui/progress/empty_bar.png";
-
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { progressBarBorderStyle } from "features/game/lib/style";
 
 type progressType = "progress" | "health" | "error";
 
@@ -41,6 +41,35 @@ const PROGRESS_COLORS: Record<progressType, progressStyle> = {
     color: "#e43b44",
     backgroundColor: "#3e2731",
   },
+};
+
+export const ResizableBar: React.FC<{
+  percentage: number;
+  type: progressType;
+  outerDimensions?: {
+    width: number;
+    height: number;
+  };
+}> = ({ percentage, type, outerDimensions = { width: 15, height: 7 } }) => {
+  const innerWidth = outerDimensions.width - 4;
+  const clampedProgress = Math.max(0, Math.min(percentage, 100)) / 100;
+  const progressFillPercentage =
+    (Math.floor(clampedProgress * innerWidth) / innerWidth) * 100;
+  const colorInfo = PROGRESS_COLORS[type];
+  const backgroundColor = colorInfo.backgroundColor;
+  const color = colorInfo.color;
+
+  return (
+    <div
+      className="relative"
+      style={{
+        ...progressBarBorderStyle,
+        width: `${PIXEL_SCALE * outerDimensions.width}px`,
+        height: `${PIXEL_SCALE * outerDimensions.height}px`,
+        backgroundImage: `linear-gradient(to right, ${color} 0%, ${color} ${progressFillPercentage}%, ${backgroundColor} ${progressFillPercentage}%, ${backgroundColor} 100%)`,
+      }}
+    />
+  );
 };
 
 export const Bar: React.FC<{ percentage: number; type: progressType }> = ({

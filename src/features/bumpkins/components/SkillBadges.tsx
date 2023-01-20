@@ -26,7 +26,7 @@ export const SkillBadges: React.FC<{
   );
 
   const badges = BADGES.map((badge) => {
-    if (inventory[badge]) {
+    if (inventory[badge]?.greaterThanOrEqualTo(1)) {
       return (
         <img
           key={badge}
