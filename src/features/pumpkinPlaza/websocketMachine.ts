@@ -181,7 +181,6 @@ export const websocketMachine = createMachine<
             return { bumpkins: OFFLINE_BUMPKINS };
           }
 
-          console.log("Load players");
           context.socket?.send(
             JSON.stringify({
               action: "loadPlayers",
@@ -191,10 +190,7 @@ export const websocketMachine = createMachine<
           const bumpkins: Player[] = await new Promise((res) => {
             const listener = function (event: any) {
               const body = parseWebsocketMessage(event.data);
-              console.log({ body });
               if (body.type === "playersLoaded") {
-                console.log({ received: event });
-
                 context.socket?.removeEventListener("message", listener);
 
                 res(body.connections);
@@ -205,7 +201,6 @@ export const websocketMachine = createMachine<
             context.socket?.addEventListener("message", listener);
           });
 
-          console.log({ set: bumpkins });
           return { bumpkins };
         },
         onDone: {
@@ -238,8 +233,6 @@ export const websocketMachine = createMachine<
           });
 
           context.socket?.addEventListener("message", function (event) {
-            // process event type ;)
-            console.log({ eventCaught: event });
             const body = parseWebsocketMessage(event.data);
 
             if (body.type === "playerUpdated") {
@@ -282,7 +275,6 @@ export const websocketMachine = createMachine<
           }, 5000);
 
           return () => {
-            console.log("Clean up?");
             clearInterval(messageCleanup);
           };
         },
@@ -408,12 +400,6 @@ export const websocketMachine = createMachine<
                   (b) => b.connectionId === event.connectionId
                 )?.bumpkin.id ?? 0;
 
-              console.log({
-                lookFor: event.connectionId,
-                connections: context.bumpkins,
-              });
-
-              console.log({ bumpkinId });
               return [
                 {
                   text: event.text,

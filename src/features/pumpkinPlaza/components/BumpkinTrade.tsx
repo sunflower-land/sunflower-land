@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 import { useNavigate } from "react-router-dom";
 
 import { wallet } from "lib/blockchain/wallet";
 import { FarmSlot, ListingStatus, getFarmSlots } from "lib/blockchain/Trader";
-import * as AuthProvider from "features/auth/lib/Provider";
 import { KNOWN_ITEMS } from "features/game/types";
 import { Listing } from "features/goblins/trader/buying/components/Listing";
 import { Button } from "components/ui/Button";
-import { useActor } from "@xstate/react";
 
 interface Props {
   accountId: number;
@@ -18,12 +16,8 @@ export const BumpkinTrade: React.FC<Props> = ({ accountId }) => {
   const [listings, setListings] = useState<FarmSlot[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-
   const navigate = useNavigate();
 
-  console.log({ accountId });
   useEffect(() => {
     const load = async () => {
       const items = await getFarmSlots(

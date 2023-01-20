@@ -18,7 +18,6 @@ export const DailyReward: React.FC = () => {
   const collectedAt =
     gameState.context.state.pumpkinPlaza?.rewardCollectedAt ?? 0;
 
-  console.log({ elapsed: Date.now() - collectedAt, collectedAt });
   if (Date.now() - collectedAt < 24 * 60 * 60 * 1000) {
     return (
       <>

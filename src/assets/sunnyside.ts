@@ -46,7 +46,7 @@ export const SUNNYSIDE = {
     water: `${CONFIG.PROTECTED_IMAGE_URL}/icons/water.png`,
     happy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/happy.png`,
     neutral: `${CONFIG.PROTECTED_IMAGE_URL}/icons/neutral.png`,
-    unhappy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/unhappy.png`,
+    unhappy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sad.png`,
     stressed: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_stress.png`,
     death: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_attack.png`,
   },

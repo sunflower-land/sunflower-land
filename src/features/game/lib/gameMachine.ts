@@ -708,9 +708,7 @@ export function startGame(authContext: Options) {
             src: async (context, e) => {
               // Grab the server side event to fire
               const { event } = e as { event: any; type: "REVEAL" };
-              const saveAt = (event as any)?.data?.saveAt || new Date();
 
-              console.log("first");
               // TODO: Double save is bad and may fire detections
               if (context.actions.length > 0) {
                 await autosave({
@@ -723,8 +721,6 @@ export function startGame(authContext: Options) {
                   transactionId: context.transactionId as string,
                 });
               }
-
-              console.log("second");
 
               const { farm, changeset } = await autosave({
                 farmId: Number(authContext.farmId),

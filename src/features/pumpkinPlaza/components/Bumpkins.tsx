@@ -3,7 +3,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Bumpkin } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import token from "assets/icons/token_2.png";
@@ -17,11 +17,10 @@ import { BumpkinFriend } from "./BumpkinFriend";
 interface Props {
   messages: ChatMessage[];
   bumpkin: Bumpkin;
-  chatService: MachineInterpreter;
+  websocketService: MachineInterpreter;
   discoveries: BumpkinDiscovery[];
   position: Coordinates;
   bumpkins: Player[];
-  path: Coordinates[];
   onVisit: (id: number) => void;
 }
 
@@ -105,22 +104,12 @@ export const Bumpkins: React.FC<Props> = ({
   bumpkin,
   position,
   bumpkins,
-  path,
   discoveries,
 }) => {
   const [selectedBumpkin, setSelectedBumpkin] = useState<Player>();
   const freshMessages = messages;
   const myMessage = freshMessages.find((m) => m.bumpkinId === bumpkin.id);
   const myDiscovery = discoveries.find((m) => m.bumpkinId === bumpkin.id);
-
-  useEffect(() => {
-    if (path.length) {
-      const pathIndex = path.find(
-        (coords) => coords.x === position?.x && coords.y === position?.y
-      );
-      console.log({ pathIndex });
-    }
-  }, [path]);
 
   return (
     <>

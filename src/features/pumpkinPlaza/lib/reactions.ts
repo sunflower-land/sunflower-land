@@ -1,15 +1,6 @@
 import { getBumpkinLevel } from "features/game/lib/level";
 import { GameState } from "features/game/types/game";
 
-// import happy from "assets/icons/happy.png";
-// import unhappy from "assets/icons/unhappy.png";
-// import neutral from "assets/icons/neutral.png";
-// import heartIcon from "assets/icons/heart.png";
-// import confusedIcon from "assets/icons/expression_confused.png";
-// import stressed from "assets/icons/expression_stress.png";
-// import tiredIcon from "assets/icons/water.png";
-// import attackIcon from "assets/icons/expression_attack.png";
-// import sunflower from "assets/crops/sunflower/crop.png";
 import crown from "assets/sfts/goblin_crown.png";
 import thumbs_up from "assets/skills/green_thumb.png";
 import { SUNNYSIDE } from "assets/sunnyside";

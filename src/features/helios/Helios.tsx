@@ -19,7 +19,6 @@ import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
-import { Hud } from "features/island/hud/Hud";
 
 const spawn = [
   [30, 15],
@@ -50,10 +49,6 @@ export const Helios: React.FC = () => {
   // Load data
   return (
     <>
-      <div className="absolute z-20">
-        <Hud />
-      </div>
-
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
