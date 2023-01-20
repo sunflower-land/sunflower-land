@@ -176,7 +176,7 @@ export const Bumpkins: React.FC<Props> = ({
       )}
 
       {bumpkins
-        .filter((b) => !!b.coordinates)
+        .filter((b) => !!b.coordinates && !!b.bumpkin)
         .map((otherBumpkin) => {
           const message = freshMessages.find(
             (m) => m.bumpkinId === otherBumpkin.bumpkin.id

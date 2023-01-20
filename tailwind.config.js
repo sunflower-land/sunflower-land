@@ -116,7 +116,6 @@ module.exports = {
       animation: {
         float: "floating 3s ease-in-out infinite",
         pulsate: "pulsate 1s ease-in-out infinite",
-        scaling: "scaler 1s ease-in-out forwards",
       },
       dropShadow: {
         highlight: [
