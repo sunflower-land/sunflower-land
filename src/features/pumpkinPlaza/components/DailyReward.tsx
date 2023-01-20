@@ -24,11 +24,11 @@ export const DailyReward: React.FC = () => {
         <img
           id="daily-reward"
           src={opened}
-          className="cursor-pointer absolute z-20"
+          className="cursor-pointer absolute z-20  hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
-            left: `${GRID_WIDTH_PX * 40}px`,
-            top: `${GRID_WIDTH_PX * 18}px`,
+            left: `${GRID_WIDTH_PX * 52}px`,
+            top: `${GRID_WIDTH_PX * 30}px`,
           }}
           onClick={() => setShowCollectedModal(true)}
         />
@@ -56,11 +56,11 @@ export const DailyReward: React.FC = () => {
       <img
         id="daily-reward"
         src={treasure}
-        className="cursor-pointer absolute z-20"
+        className="cursor-pointer absolute z-20   hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
-          left: `${GRID_WIDTH_PX * 40}px`,
-          top: `${GRID_WIDTH_PX * 18}px`,
+          left: `${GRID_WIDTH_PX * 52}px`,
+          top: `${GRID_WIDTH_PX * 30}px`,
         }}
         onClick={() => {
           gameService.send("REVEAL", {

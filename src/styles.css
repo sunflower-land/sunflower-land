@@ -474,3 +474,16 @@ img {
     transform: scale(1);
   }
 }
+
+.scaling {
+  transition: scaler 1s ease-in-out;
+}
+
+@keyframes scaler {
+  0% {
+    transforms: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

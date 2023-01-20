@@ -6,6 +6,7 @@ export type Player = {
   connectionId: string;
   accountId: number;
   coordinates: Coordinates;
+  oldCoordinates?: Coordinates;
   updatedAt: number;
   bumpkin: Bumpkin;
 };

@@ -10,6 +10,7 @@ import { OFFLINE_BUMPKINS } from "./lib/constants";
 
 export interface ChatContext {
   currentPosition: Coordinates;
+  lastPosition: Coordinates;
   bumpkin: Bumpkin;
   socket?: WebSocket;
   bumpkins: Player[];
@@ -141,6 +142,7 @@ export const websocketMachine = createMachine<
     accountId: 0,
     jwt: "",
     currentPosition: { x: 0, y: 0 },
+    lastPosition: { x: 0, y: 0 },
     game: OFFLINE_FARM,
   },
   states: {
@@ -301,6 +303,7 @@ export const websocketMachine = createMachine<
               );
             },
             assign({
+              lastPosition: (context) => context.currentPosition,
               currentPosition: (_, event) => event.coordinates,
             }),
           ],
@@ -353,6 +356,7 @@ export const websocketMachine = createMachine<
               ) as Player;
 
               if (bumpkin) {
+                bumpkin.oldCoordinates = bumpkin.coordinates;
                 bumpkin.coordinates = event.player.coordinates;
               }
 

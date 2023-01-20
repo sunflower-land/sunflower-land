@@ -48,8 +48,8 @@ export const LandExpansion: React.FC = () => {
             className="relative"
             style={{
               // TODO - keep same as World width
-              width: `${60 * GRID_WIDTH_PX}px`,
-              height: `${40 * GRID_WIDTH_PX}px`,
+              width: `${84 * GRID_WIDTH_PX}px`,
+              height: `${56 * GRID_WIDTH_PX}px`,
             }}
             // TODO dynamic game board size based on tile dimensions
           >

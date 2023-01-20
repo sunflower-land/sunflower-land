@@ -7,6 +7,7 @@ interface Props {
   onMessage: (text: string) => void;
 }
 
+const MAX_CHARACTERS = 100;
 export const ChatText: React.FC<Props> = ({ onMessage }) => {
   const ref = useRef<HTMLTextAreaElement>();
   const [text, setText] = useState("");
@@ -14,7 +15,7 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
   const send = (event?: React.SyntheticEvent) => {
     event?.preventDefault();
 
-    if (text === "") {
+    if (text === "" || text.length > MAX_CHARACTERS) {
       return;
     }
 
@@ -62,9 +63,9 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
           className="text-sm placeholder-white w-full  mono rounded-md  bg-brown-200 pr-10 pl-2 py-2"
         />
 
-        {text.length > 100 && (
+        {text.length > MAX_CHARACTERS && (
           <Label className="mt-2 mb-1 float-right" type="danger">
-            Max 100 characters
+            {`Max ${MAX_CHARACTERS} characters`}
           </Label>
         )}
 

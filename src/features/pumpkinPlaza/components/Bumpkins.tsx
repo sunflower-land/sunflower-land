@@ -13,12 +13,15 @@ import { REACTIONS } from "../lib/reactions";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinDiscovery, ChatMessage, Player } from "../lib/types";
 import { BumpkinFriend } from "./BumpkinFriend";
+import { SelectBox } from "./SelectBox";
+import { getDistance } from "../lib/coordinates";
 
 interface Props {
   messages: ChatMessage[];
   bumpkin: Bumpkin;
   websocketService: MachineInterpreter;
   discoveries: BumpkinDiscovery[];
+  lastPosition: Coordinates;
   position: Coordinates;
   bumpkins: Player[];
   onVisit: (id: number) => void;
@@ -99,10 +102,14 @@ const Discovery: React.FC<BumpkinDiscovery> = ({ items, sfl }) => {
   );
 };
 
+// Pixel per MS
+const WALKING_SPEED = 3;
+
 export const Bumpkins: React.FC<Props> = ({
   messages,
   bumpkin,
   position,
+  lastPosition,
   bumpkins,
   discoveries,
 }) => {
@@ -112,7 +119,7 @@ export const Bumpkins: React.FC<Props> = ({
   const myDiscovery = discoveries.find((m) => m.bumpkinId === bumpkin.id);
 
   return (
-    <>
+    <div className="z-20">
       <Modal
         show={!!selectedBumpkin}
         centered
@@ -127,16 +134,22 @@ export const Bumpkins: React.FC<Props> = ({
         )}
       </Modal>
 
+      <SelectBox position={position} />
+
       {bumpkin && (
         <div
           key={bumpkin.id}
-          className="absolute runner"
+          className="absolute z-30 transition-transform ease-linear"
           style={{
             transform: `translate(${position?.x}px,${position?.y}px)`,
             height: `${GRID_WIDTH_PX}px`,
             width: `${GRID_WIDTH_PX}px`,
             left: "-27px",
             top: "-47px",
+            // speed = distance ÷ time
+            transitionDuration: `${
+              Math.floor(getDistance(lastPosition, position)) * WALKING_SPEED
+            }ms`,
           }}
         >
           {myMessage && <Message {...myMessage} />}
@@ -176,11 +189,20 @@ export const Bumpkins: React.FC<Props> = ({
           return (
             <div
               key={otherBumpkin.bumpkin.id}
-              className="absolute runner"
+              className="absolute z-20 transition-transform ease-linear"
               style={{
                 transform: `translate(${otherBumpkin.coordinates.x}px,${otherBumpkin.coordinates.y}px)`,
                 height: `${GRID_WIDTH_PX}px`,
                 width: `${GRID_WIDTH_PX}px`,
+                // speed = distance ÷ time
+                transitionDuration: `${
+                  Math.floor(
+                    getDistance(
+                      otherBumpkin.oldCoordinates ?? otherBumpkin.coordinates,
+                      otherBumpkin.coordinates
+                    )
+                  ) * WALKING_SPEED
+                }ms`,
               }}
             >
               {message && <Message {...message} />}
@@ -207,6 +229,6 @@ export const Bumpkins: React.FC<Props> = ({
             </div>
           );
         })}
-    </>
+    </div>
   );
 };
