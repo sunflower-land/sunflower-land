@@ -3,12 +3,17 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { removeUnsupportedChickens } from "./removeBuilding";
+import {
+  areUnsupportedChickensBrewing,
+  removeUnsupportedChickens,
+} from "./removeBuilding";
+import { removeItem } from "./utils";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
   NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
   NO_BUMPKIN = "You do not have a Bumpkin",
+  CHICKEN_COOP_REMOVE_BREWING_CHICKEN = "Cannot remove Chicken Coop that causes chickens that are brewing egg to be removed",
 }
 
 export type RemoveCollectibleAction = {
@@ -23,21 +28,7 @@ type Options = {
   createdAt?: number;
 };
 
-function removeItem<T>(arr: Array<T>, value: T): Array<T> | undefined {
-  const index = arr.indexOf(value);
-
-  if (index > -1) {
-    arr.splice(index, 1);
-  }
-
-  return arr.length ? arr : undefined;
-}
-
-export function removeCollectible({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options) {
+export function removeCollectible({ state, action }: Options) {
   const stateCopy = cloneDeep(state) as GameState;
 
   const { collectibles, inventory, bumpkin } = stateCopy;
@@ -76,6 +67,12 @@ export function removeCollectible({
   }
 
   if (action.collectible === "Chicken Coop") {
+    if (areUnsupportedChickensBrewing(stateCopy)) {
+      throw new Error(
+        REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN
+      );
+    }
+
     stateCopy.chickens = removeUnsupportedChickens(stateCopy);
   }
 

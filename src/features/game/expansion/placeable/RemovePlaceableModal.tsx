@@ -5,7 +5,14 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SquareIcon } from "components/ui/SquareIcon";
+import cloneDeep from "lodash.clonedeep";
+import { GameState } from "features/game/types/game";
+import {
+  areUnsupportedChickensBrewing,
+  removeUnsupportedCrops,
+} from "features/game/events/landExpansion/removeBuilding";
+import { removeItem } from "features/game/events/landExpansion/utils";
 
 type PlaceableType = "building" | "collectible";
 
@@ -49,6 +56,58 @@ export const RemovePlaceableModal: React.FC<Props> = ({
     onClose();
   };
 
+  const getCanRemove = () => {
+    const stateCopy = cloneDeep(gameState.context.state) as GameState;
+
+    if (name === "Hen House" || name === "Water Well") {
+      const buildingGroup = stateCopy.buildings[name];
+      if (!buildingGroup) {
+        return false;
+      }
+
+      const buildingIndex = buildingGroup?.findIndex(
+        (building) => building.id == placeableId
+      );
+      if (buildingIndex === -1) {
+        return false;
+      }
+
+      stateCopy.buildings[name] = removeItem(
+        buildingGroup,
+        buildingGroup[buildingIndex]
+      );
+
+      if (name === "Hen House")
+        return !areUnsupportedChickensBrewing(stateCopy);
+
+      const { hasUnsupportedCrops } = removeUnsupportedCrops(stateCopy);
+      return !hasUnsupportedCrops;
+    }
+
+    if (name === "Chicken Coop") {
+      const collectibleGroup = stateCopy.collectibles[name];
+      if (!collectibleGroup) {
+        return false;
+      }
+
+      const buildingIndex = collectibleGroup?.findIndex(
+        (collectible) => collectible.id == placeableId
+      );
+      if (buildingIndex === -1) {
+        return false;
+      }
+
+      stateCopy.collectibles[name] = removeItem(
+        collectibleGroup,
+        collectibleGroup[buildingIndex]
+      );
+      return !areUnsupportedChickensBrewing(stateCopy);
+    }
+
+    return true;
+  };
+  const canRemove = getCanRemove();
+
   const AddedInfo = () => {
     if (!hasRustyShovel) {
       return (
@@ -56,6 +115,37 @@ export const RemovePlaceableModal: React.FC<Props> = ({
           {`It doesn't look like you have any of these shovels in your inventory.`}
         </p>
       );
+    }
+
+    if (!canRemove) {
+      if (name === "Chicken Coop") {
+        return (
+          <p>
+            Your Chicken Coop is currently supporting chickens that are
+            currently brewing eggs. You will need to collect their eggs before
+            you can remove the Chicken Coop.
+          </p>
+        );
+      }
+      if (name === "Hen House") {
+        return (
+          <p>
+            Your Hen House is currently supporting chickens that are currently
+            brewing eggs. You will need to collect their eggs before you can
+            remove the Hen House.
+          </p>
+        );
+      }
+      if (name === "Water Well") {
+        return (
+          <p>
+            Your Water Well is currently supporting crops that are currently
+            growing. You will need to harvest your crops before you can remove
+            the Water Well.
+          </p>
+        );
+      }
+      return <p>{`Your cannot remove this ${type} yet.`}</p>;
     }
 
     if (type === "building") {
@@ -69,12 +159,6 @@ export const RemovePlaceableModal: React.FC<Props> = ({
             If any items placed on your land are dependent on this building they
             will also be sent back to your inventory.
           </p>
-          {name === "Water Well" && (
-            <p className="mt-3">
-              Any crops planted on plots that were supported by this water well
-              will be removed.
-            </p>
-          )}
         </>
       );
     }
@@ -84,12 +168,13 @@ export const RemovePlaceableModal: React.FC<Props> = ({
         <p className="mb-3">
           Removing this collectible will send it back into your chest.
         </p>
-        {name === "Chicken Coop" && (
-          <p className="mb-3">
-            This will reduce your chicken capacity so chickens may be removed
-            and sent back to your inventory.
-          </p>
-        )}
+        {name === "Chicken Coop" ||
+          (name === "Hen House" && (
+            <p className="mb-3">
+              This will reduce your chicken capacity so chickens may be removed
+              and sent back to your inventory.
+            </p>
+          ))}
         <p>
           All associated boosts will lose their effect until you place it again.
         </p>
@@ -98,31 +183,24 @@ export const RemovePlaceableModal: React.FC<Props> = ({
   };
 
   return (
-    <CloseButtonPanel showCloseButton={false} title={`Remove this ${type}?`}>
+    <CloseButtonPanel showCloseButton={false} title={`Remove this ${name}?`}>
       <div className="flex flex-col items-center">
-        <img
-          src={ITEM_DETAILS["Rusty Shovel"].image}
-          alt="Rusty Shovel"
-          className="mb-2"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-          }}
-        />
-        <div className="p-1 mb-3 text-xs sm:text-sm">
+        <div className="flex space-x-2 items-center justify-center mb-2">
+          <SquareIcon icon={ITEM_DETAILS["Rusty Shovel"].image} width={14} />
+          <SquareIcon icon={ITEM_DETAILS[name].image} width={28} />
+        </div>
+        <div className="p-1 mb-2 text-sm">
           <p className="mb-3">
             {`You have the rusty shovel selected which allows you to remove placeable items from your land.`}
           </p>
           {AddedInfo()}
         </div>
-        <div className="flex space-x-2 w-full">
-          <Button className="text-xs sm:text-sm w-full" onClick={onClose}>
+        <div className="flex space-x-1 w-full">
+          <Button className="w-full" onClick={onClose}>
             Close
           </Button>
-          {hasRustyShovel && (
-            <Button
-              className="text-xs sm:text-sm w-full"
-              onClick={handleRemove}
-            >
+          {hasRustyShovel && canRemove && (
+            <Button className="w-full" onClick={handleRemove}>
               Dig it up!
             </Button>
           )}

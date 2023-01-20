@@ -23,3 +23,14 @@ export const getSupportedChickens = (state: Readonly<GameState>) => {
 
   return capacity;
 };
+
+export const removeItem = <T>(
+  arr: Array<T>,
+  value: T
+): Array<T> | undefined => {
+  const index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr.length ? arr : undefined;
+};

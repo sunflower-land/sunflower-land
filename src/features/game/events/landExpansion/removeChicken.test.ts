@@ -27,7 +27,7 @@ const makeChickensStateObject = (numOfChickens: number) => {
 };
 
 describe("removeChicken", () => {
-  it("does not remove non-existent chicken ", () => {
+  it("does not remove non-existent chicken", () => {
     expect(() =>
       removeChicken({
         state: {
@@ -41,6 +41,24 @@ describe("removeChicken", () => {
         },
       })
     ).toThrow(REMOVE_CHICKEN_ERRORS.INVALID_CHICKEN);
+  });
+
+  it("does not remove chicken when egg is brewing", () => {
+    const state = {
+      ...GAME_STATE,
+      collectibles: {},
+      chickens: makeChickensStateObject(1),
+    };
+    state.chickens[0].fedAt = 1;
+    expect(() =>
+      removeChicken({
+        state: state,
+        action: {
+          type: "chicken.removed",
+          id: "0",
+        },
+      })
+    ).toThrow(REMOVE_CHICKEN_ERRORS.CHICKEN_BREWING_EGG);
   });
 
   it("does not remove if not enough Rusty Shovel in inventory", () => {
