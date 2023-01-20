@@ -10,10 +10,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import mrChu from "src/assets/events/lunar-new-year/mr_chu.gif";
 import { CONFIG } from "lib/config";
 
-export const ChineseNewYearDonation: React.FC = () => {
+export const LunarNewYearDonation: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
   const [donation, setDonation] = useState(1);
-  const CHINESE_NEW_YEAR_DONATION_ADDRESS = CONFIG.CHINESE_NEW_YEAR_DONATION;
+  const LUNAR_NEW_YEAR_DONATION_ADDRESS = CONFIG.LUNAR_NEW_YEAR_DONATION;
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // If keyboard input "" convert to 0
     // Typed input validation will happen in onBlur
@@ -33,10 +33,10 @@ export const ChineseNewYearDonation: React.FC = () => {
   };
 
   const donate = () => {
-    console.log(CHINESE_NEW_YEAR_DONATION_ADDRESS);
+    console.log(LUNAR_NEW_YEAR_DONATION_ADDRESS);
     send("DONATE", {
       donation,
-      to: CHINESE_NEW_YEAR_DONATION_ADDRESS,
+      to: LUNAR_NEW_YEAR_DONATION_ADDRESS,
     });
   };
 
