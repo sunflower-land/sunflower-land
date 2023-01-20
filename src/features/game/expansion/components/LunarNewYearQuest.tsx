@@ -4,11 +4,9 @@ import { Modal } from "react-bootstrap";
 import npc from "assets/npcs/dragon_hat_npc.gif";
 import shadow from "assets/npcs/shadow.png";
 import envelopes from "assets/icons/red_envelope.png";
-import island from "assets/events/chinese-new-year/chinese_island.png";
-import mrChu from "assets/events/chinese-new-year/mr_chu.gif";
-import incenseLeft from "assets/events/chinese-new-year/incense_left.gif";
-import incenseRight from "assets/events/chinese-new-year/incense_right.gif";
-import lampNpc from "assets/events/chinese-new-year/lamp_npc.gif";
+import island from "assets/events/lunar-new-year/new_year_island.png";
+import mrChu from "assets/events/lunar-new-year/mr_chu.gif";
+import lampNpc from "assets/events/lunar-new-year/lamp_npc.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -17,6 +15,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import luckySign from "assets/quest/luck_sign.png";
+import { LunarNewYearDonation } from "features/community/lunarNewYear/LunarNewYearDonation";
 
 const resourceToFindRedEnvelopes: { [key: number]: string } = {
   20: "beetroots",
@@ -43,7 +42,7 @@ const ModalEventComing = () => {
         />
       </div>
       <p className="mb-2 text-sm text-left">
-        Dragon dance and lion dance, red lantern and fireworks, Chinese New Year
+        Dragon dance and lion dance, red lantern and fireworks, Lunar New Year
         event is coming soon.
       </p>
       <p className="mb-2 text-sm text-left">
@@ -53,7 +52,7 @@ const ModalEventComing = () => {
       </p>
       <a
         className="mb-4 underline text-sm"
-        href="https://docs.sunflower-land.com/player-guides/special-events/chinese-nye"
+        href="https://docs.sunflower-land.com/player-guides/special-events/lunar-new-year"
         target="_blank"
         rel="noreferrer"
       >
@@ -86,7 +85,7 @@ const ModalDescription = () => {
       </p>
       <a
         className="mb-4 underline text-sm"
-        href="https://docs.sunflower-land.com/player-guides/special-events/chinese-nye"
+        href="https://docs.sunflower-land.com/player-guides/special-events/lunar-new-year"
         target="_blank"
         rel="noreferrer"
       >
@@ -111,8 +110,9 @@ const QuestCompletion = () => {
   );
 };
 
-export const ChineseNewYearQuest: React.FC = () => {
+export const LunarNewYearQuest: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showDonation, setShowDonation] = React.useState(false);
 
   const bumpkin: Partial<Equipped> = {
     body: "Beige Farmer Potion",
@@ -135,46 +135,28 @@ export const ChineseNewYearQuest: React.FC = () => {
         src={island}
         className="absolute"
         style={{
-          width: `${PIXEL_SCALE * 226}px`,
+          width: `${PIXEL_SCALE * 212}px`,
           bottom: `${GRID_WIDTH_PX * 10}px`,
           left: `${GRID_WIDTH_PX * -21}px`,
-        }}
-      />
-      <img
-        src={incenseLeft}
-        className="absolute z-20"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${GRID_WIDTH_PX * 16.87}px`,
-          left: `${GRID_WIDTH_PX * -16.43}px`,
-        }}
-      />
-
-      <img
-        src={incenseRight}
-        className="absolute z-20"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `${GRID_WIDTH_PX * 16.87}px`,
-          left: `${GRID_WIDTH_PX * -12.5}px`,
         }}
       />
 
       <img
         src={lampNpc}
-        className="absolute z-20"
+        className="absolute z-20 hover:cursor-pointer hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
-          bottom: `${GRID_WIDTH_PX * 13.87}px`,
-          left: `${GRID_WIDTH_PX * -9.12}px`,
+          bottom: `${GRID_WIDTH_PX * 13.98}px`,
+          left: `${GRID_WIDTH_PX * -9.8}px`,
         }}
+        onClick={() => setShowDonation(true)}
       />
 
       <div
         className="absolute z-20"
         style={{
-          top: `${GRID_WIDTH_PX * 23}px`,
-          left: `${GRID_WIDTH_PX * -17}px`,
+          top: `${GRID_WIDTH_PX * 19}px`,
+          left: `${GRID_WIDTH_PX * -19}px`,
         }}
       >
         <img
@@ -198,7 +180,7 @@ export const ChineseNewYearQuest: React.FC = () => {
         className="absolute z-20"
         style={{
           top: `${GRID_WIDTH_PX * 24}px`,
-          left: `${GRID_WIDTH_PX * -12}px`,
+          left: `${GRID_WIDTH_PX * -15}px`,
         }}
       >
         <img
@@ -230,15 +212,31 @@ export const ChineseNewYearQuest: React.FC = () => {
           </CloseButtonPanel>
         ) : (
           <Quest
-            quests={["Chinese New Year Quest 1", "Chinese New Year Quest 2"]}
+            quests={["Lunar New Year Quest 1", "Lunar New Year Quest 2"]}
             onClose={() => setShowModal(false)}
-            questTitle="Happy Chinese New Year!"
+            questTitle="Happy Lunar New Year!"
             questDescription={ModalDescription()}
             bumpkinParts={bumpkin}
             questCompletionScreen={QuestCompletion()}
           />
         )}
       </Modal>
+
+      {showDonation && (
+        <Modal
+          show={showDonation}
+          onHide={() => setShowDonation(false)}
+          centered
+        >
+          <CloseButtonPanel
+            title="Wants to support more events like this?!"
+            bumpkinParts={bumpkin}
+            onClose={() => setShowDonation(false)}
+          >
+            <LunarNewYearDonation />
+          </CloseButtonPanel>
+        </Modal>
+      )}
     </>
   );
 };

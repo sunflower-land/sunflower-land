@@ -1,6 +1,6 @@
 import calendar from "assets/icons/calendar.png";
 import fruit from "assets/announcements/fruit.gif";
-import luckySign from "assets/events/chinese-new-year/luck_sign.png";
+import luckySign from "assets/events/lunar-new-year/luck_sign.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -27,7 +27,7 @@ export interface Announcement {
 export const ANNOUNCEMENTS: Announcement[] = [
   {
     date: new Date("2023-01-18T00:00:00"),
-    title: "Happy Chinese New Year",
+    title: "Happy Lunar New Year",
     notes: [
       { text: "Let's celebrate the year of the Rabbit." },
       { text: "A special island has appeared west of main land." },
@@ -38,11 +38,11 @@ export const ANNOUNCEMENTS: Announcement[] = [
         text: "Each day a different resource will provide Red Envelopes.",
       },
       {
-        text: "Visit the chinese island NPC to find out more.",
+        text: "Visit the new years island NPC to find out more.",
       },
     ],
     image: luckySign,
-    link: "https://docs.sunflower-land.com/player-guides/special-events/chinese-new-year",
+    link: "https://docs.sunflower-land.com/player-guides/special-events/lunar-new-year",
   },
 
   {
@@ -95,7 +95,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
         },
       },
       {
-        text: "A surprise Chinese New Year special is coming...",
+        text: "A surprise Lunar New Year special is coming...",
         icon: calendar,
         date: new Date("2023-01-20"),
         link: {
