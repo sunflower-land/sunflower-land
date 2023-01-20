@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 
-import heart from "assets/icons/heart.png";
-import player from "assets/icons/player.png";
 import suspicious from "assets/icons/suspicious.png";
 import { Context } from "../GameProvider";
 import { Button } from "components/ui/Button";
 import { acknowledgeGameRules } from "features/announcements/announcementsStorage";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Rules: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -20,7 +19,7 @@ export const Rules: React.FC = () => {
       <p className="text-lg text-center">Game Rules</p>
       <div className="flex mt-4">
         <div className="w-16 flex justify-center">
-          <img src={player} className="h-8" />
+          <img src={SUNNYSIDE.icons.player} className="h-8" />
         </div>
         <div className="flex-1">
           <p>1 account per player</p>
@@ -36,7 +35,7 @@ export const Rules: React.FC = () => {
       </div>
       <div className="flex mt-4">
         <div className="w-16 flex justify-center">
-          <img src={heart} className="h-8" />
+          <img src={SUNNYSIDE.icons.heart} className="h-8" />
         </div>
         <div className="flex-1">
           <p>This is a game. Not a financial product.</p>

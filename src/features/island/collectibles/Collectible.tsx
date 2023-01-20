@@ -83,6 +83,7 @@ import { AyamCemani } from "./components/AyamCemani";
 import { CollectibleBear } from "./components/CollectibleBear";
 import { CyborgBear } from "./components/CyborgBear";
 import { ManekiNeko } from "./components/ManekiNeko";
+import { LadyBug } from "./components/LadyBug";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -190,7 +191,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Stellar Sunflower": () => null,
   "Christmas Snow Globe": SnowGlobe,
   "Immortal Pear": ImmortalPear,
-  "Lady Bug": () => null,
+  "Lady Bug": LadyBug,
   "Squirrel Monkey": () => null,
   "Black Bearry": () => null,
   "Ayam Cemani": AyamCemani,

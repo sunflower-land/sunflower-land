@@ -10,6 +10,7 @@ export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
   NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
   NO_BUMPKIN = "You do not have a Bumpkin",
+  BUILDING_UNDER_CONSTRUCTION = "Cannot remove a building while its under construction",
 }
 
 export type RemoveBuildingAction = {
@@ -137,6 +138,12 @@ export function removeBuilding({
 
   if (buildingIndex === -1) {
     throw new Error(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
+  }
+
+  const buildingToRemove = buildingGroup[buildingIndex];
+
+  if (buildingToRemove.readyAt > createdAt) {
+    throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
   }
 
   const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);

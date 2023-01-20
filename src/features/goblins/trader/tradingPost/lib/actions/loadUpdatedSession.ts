@@ -1,6 +1,6 @@
 import { loadSession } from "features/game/actions/loadSession";
 import { getOnChainState } from "features/game/actions/onchain";
-import { getLowestGameState } from "features/game/lib/transforms";
+import { getAvailableGameState } from "features/game/lib/transforms";
 import { GameState } from "features/game/types/game";
 import { getSessionId } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
@@ -31,9 +31,9 @@ export const loadUpdatedSession = async (
   const deviceTrackerId = response?.deviceTrackerId as string;
 
   // Whatever is lower, on chain or offchain
-  const { inventory, balance } = getLowestGameState({
-    first: onChainState.game,
-    second: game,
+  const { inventory, balance } = getAvailableGameState({
+    onChain: onChainState.game,
+    offChain: game,
   });
 
   return { inventory, balance, sessionId, deviceTrackerId };

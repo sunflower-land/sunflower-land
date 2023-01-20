@@ -18,6 +18,7 @@ import { MultipleDevices } from "./components/MultipleDevices";
 import { Blocked } from "./components/Blocked";
 import { PhantomWalletNotSupported } from "./components/PhantomWalletNotSupported";
 import { ClockIssue } from "features/game/components/ClockIssue";
+import { SFLExceeded } from "features/game/components/SFLExceded";
 
 interface Props {
   errorCode: ErrorCode;
@@ -90,6 +91,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.AUTOSAVE_CLOCK_ERROR) {
     return <ClockIssue />;
+  }
+
+  if (errorCode === ERRORS.SYNC_DAILY_SFL_MINT_EXCEEDED) {
+    return <SFLExceeded />;
   }
 
   return <SomethingWentWrong />;

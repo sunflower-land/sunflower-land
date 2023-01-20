@@ -81,5 +81,5 @@ export const shortenCount = (count: Decimal | undefined): string => {
   return `${value}${suffix}`;
 };
 
-export const setPrecision = (number: Decimal) =>
-  number.toDecimalPlaces(4, Decimal.ROUND_DOWN);
+export const setPrecision = (number: Decimal, decimalPlaces = 4) =>
+  number.toDecimalPlaces(decimalPlaces, Decimal.ROUND_DOWN);
