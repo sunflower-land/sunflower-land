@@ -62,6 +62,7 @@ jobs:
           VITE_QUICKSWAP_ROUTER_CONTRACT: "0x0AdFd88E8Bbe16A2E94D833Ae7ebe1dbeb9906F6"
           VITE_WMATIC_CONTRACT: "0x2D2D57e23a1F2bBD22e83Bb018D333cae7f70BBA"
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
+          VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
