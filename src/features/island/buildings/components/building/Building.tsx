@@ -21,9 +21,11 @@ import { Deli } from "./deli/Deli";
 import { Modal } from "react-bootstrap";
 import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
+import { SUNNYSIDE } from "assets/sunnyside";
+import classNames from "classnames";
 
 interface Prop {
   name: BuildingName;
@@ -93,9 +95,19 @@ export const BUILDING_COMPONENTS: Record<
   ),
 };
 
-const InProgressBuilding: React.FC<Prop> = ({ building, name, onRemove }) => {
+const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
   const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const shortcuts = getShortcuts();
+  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+
+  const handleClick = async () => {
+    if (hasRustyShovelSelected) setShowError(true);
+    await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
+    setShowError(false);
+  };
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
@@ -108,8 +120,21 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name, onRemove }) => {
         className="w-full h-full opacity-50"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
+        onClick={handleClick}
       >
-        <BuildingPlaced buildingId={building.id} onRemove={onRemove} />
+        <BuildingPlaced buildingId={building.id} />
+      </div>
+      {/* Error Icon */}
+      <div
+        className={classNames(
+          "transition-opacity absolute bottom-1 left-1/2 -translate-x-1/2 w-full z-40 pointer-events-none flex justify-center",
+          {
+            "opacity-100": showError,
+            "opacity-0": !showError,
+          }
+        )}
+      >
+        <img className="w-5" src={SUNNYSIDE.icons.cancel} />
       </div>
       {showTimers && (
         <div
@@ -168,11 +193,7 @@ export const Building: React.FC<Prop> = ({ name, building }) => {
   return (
     <>
       {inProgress ? (
-        <InProgressBuilding
-          building={building}
-          name={name}
-          onRemove={hasRustyShovelSelected ? handleRemove : undefined}
-        />
+        <InProgressBuilding building={building} name={name} />
       ) : (
         <BuildingPlaced
           buildingId={building.id}

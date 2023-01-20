@@ -37,11 +37,16 @@ export async function sync({
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
+  const transaction = await response.json();
+
   if (response.status >= 400) {
+    // Custom message was thrown
+    if (transaction.errorCode) {
+      throw new Error(transaction.errorCode);
+    }
+
     throw new Error(ERRORS.SYNC_SERVER_ERROR);
   }
-
-  const transaction = await response.json();
 
   // TODO
   const newSessionId = await syncProgress({

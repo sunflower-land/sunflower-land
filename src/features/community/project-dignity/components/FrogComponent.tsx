@@ -38,12 +38,16 @@ export const FrogComponent: React.FC<Props> = ({ frog, disableSound }) => {
       />
       <InnerPanel
         className={classNames(
-          "absolute left-16 bottom-12 transition-opacity whitespace-nowrap z-20 pointer-events-none",
+          "absolute transition-opacity whitespace-nowrap z-20 pointer-events-none",
           {
             "opacity-100": showTooltip,
             "opacity-0": !showTooltip,
           }
         )}
+        style={{
+          left: `${PIXEL_SCALE * 22}px`,
+          bottom: `${PIXEL_SCALE * 22}px`,
+        }}
       >
         <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
           <span className="flex-1">{frog.name}</span>

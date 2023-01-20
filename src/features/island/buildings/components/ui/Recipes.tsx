@@ -27,6 +27,7 @@ import {
 import { Bumpkin } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   selected: Consumable;
@@ -104,6 +105,11 @@ export const Recipes: React.FC<Props> = ({
   };
 
   const ingredientCount = getKeys(selected.ingredients).length;
+  const xpAmount = getFoodExpBoost(
+    selected,
+    state.bumpkin as Bumpkin,
+    state.collectibles
+  );
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -193,11 +199,7 @@ export const Recipes: React.FC<Props> = ({
             <div className="flex justify-between">
               <img src={levelup} className="h-5 mr-2" />
               <span className="text-xs whitespace-nowrap">
-                {getFoodExpBoost(
-                  selected,
-                  state.bumpkin as Bumpkin,
-                  state.collectibles
-                )}
+                {setPrecision(new Decimal(xpAmount), 2).toString()}
                 xp
               </span>
             </div>

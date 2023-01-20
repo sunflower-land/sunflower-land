@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { SealModal } from "features/community/seal/SealModal";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { randomInt } from "lib/utils/random";
 
 import seal_1 from "features/community/assets/seals/1.png";
@@ -53,19 +53,19 @@ export const LostSeal: React.FC<Props> = ({ left, top }) => {
     <div
       className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        height: `${GRID_WIDTH_PX * 3}px`,
+        width: `${GRID_WIDTH_PX * 4}px`,
+        height: `${GRID_WIDTH_PX * 4}px`,
         left: `${GRID_WIDTH_PX * left}px`,
         top: `${GRID_WIDTH_PX * top}px`,
       }}
     >
-      <div className="cursor-pointer hover:img-highlight relative">
+      <div className="relative">
         <img
           id="seal"
           src={sealImg}
           className="relative hover:cursor-pointer hover:img-highlight"
           style={{
-            width: `${GRID_WIDTH_PX * 1.25}px`,
+            width: `${PIXEL_SCALE * 28}px`,
             display: showSeal ? "block" : "none",
           }}
           onClick={() => setIsOpen(true)}

@@ -139,8 +139,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 20,
-    sfl: marketRate(100),
-    rewards: {},
+    sfl: marketRate(0),
+    rewards: {
+      "Club Sandwich": new Decimal(1),
+    },
   },
 
   Craftmanship: {
@@ -282,7 +284,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Axe Crafted"] || 0,
     requirement: 500,
-    sfl: marketRate(500),
+    sfl: marketRate(0),
+    rewards: {
+      Axe: new Decimal(25),
+    },
   },
   Contractor: {
     description: "Have 10 buildings constructed on your land",
@@ -319,7 +324,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: "Have 10 different kinds of rare items placed on your land",
     progress: (gameState: GameState) => getKeys(gameState.collectibles).length,
     requirement: 10,
-    sfl: marketRate(500),
+    sfl: marketRate(0),
+    rewards: {
+      "Potted Pumpkin": new Decimal(1),
+    },
   },
   "Something Shiny": {
     description: "Mine 500 iron rocks",

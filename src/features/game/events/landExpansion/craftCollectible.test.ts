@@ -40,7 +40,12 @@ describe("craftCollectible", () => {
       state: {
         ...GAME_STATE,
         balance: new Decimal(1),
-        inventory: { Gold: new Decimal(100) },
+        inventory: {
+          Gold: new Decimal(10),
+          Apple: new Decimal(15),
+          Orange: new Decimal(12),
+          Blueberry: new Decimal(10),
+        },
       },
       action: {
         type: "collectible.crafted",
@@ -49,7 +54,10 @@ describe("craftCollectible", () => {
     });
 
     expect(state.inventory["Immortal Pear"]).toEqual(new Decimal(1));
-    expect(state.inventory["Gold"]).toEqual(new Decimal(75));
+    expect(state.inventory["Gold"]).toEqual(new Decimal(5));
+    expect(state.inventory["Apple"]).toEqual(new Decimal(5));
+    expect(state.inventory["Orange"]).toEqual(new Decimal(2));
+    expect(state.inventory["Blueberry"]).toEqual(new Decimal(0));
   });
 
   it("does not craft an item that is not in stock", () => {
@@ -76,7 +84,10 @@ describe("craftCollectible", () => {
         ...GAME_STATE,
         balance: new Decimal(1),
         inventory: {
-          Gold: new Decimal(100),
+          Gold: new Decimal(10),
+          Apple: new Decimal(15),
+          Orange: new Decimal(12),
+          Blueberry: new Decimal(10),
         },
       },
       action: {

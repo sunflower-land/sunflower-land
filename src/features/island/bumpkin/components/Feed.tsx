@@ -108,13 +108,6 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
                   </span>
                 </div>
               </div>
-              <Button
-                disabled={!inventory[selected.name]?.gt(0)}
-                className="text-sm mt-1 whitespace-nowrap"
-                onClick={() => feed(selected)}
-              >
-                {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
-              </Button>
             </>
           )}
           {selected === undefined && (
@@ -131,6 +124,15 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
             </>
           )}
         </div>
+        {selected !== undefined && (
+          <Button
+            disabled={!inventory[selected.name]?.gt(0)}
+            className="text-sm mt-1 whitespace-nowrap"
+            onClick={() => feed(selected)}
+          >
+            {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
+          </Button>
+        )}
       </OuterPanel>
     </div>
   );

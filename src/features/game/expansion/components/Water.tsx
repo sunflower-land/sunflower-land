@@ -21,6 +21,8 @@ import { ProjectDignityFrogs } from "features/community/components/ProjectDignit
 import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
 import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Pirate } from "./Pirate";
+import { LunarNewYearQuest } from "./LunarNewYearQuest";
 
 export const LAND_WIDTH = 6;
 
@@ -29,9 +31,10 @@ interface Props {
 }
 
 export const Water: React.FC<Props> = ({ level }) => {
-  // As the land gets bigger, push the water decorations out
   const [showModal, setShowModal] = useState(false);
-  const offset = Math.floor(Math.sqrt(level)) * LAND_WIDTH;
+
+  // As the land gets bigger, push the water decorations out
+  const offset = Math.ceil((Math.sqrt(level + 1) * LAND_WIDTH) / 2);
 
   const openMerchant = () => {
     setShowModal(true);
@@ -43,7 +46,7 @@ export const Water: React.FC<Props> = ({ level }) => {
 
   const frogCoordinates = {
     x: level >= 7 ? -2 : 5,
-    y: level >= 7 ? -10.5 : -4.5,
+    y: level >= 7 ? -11 : -5,
   };
 
   return (
@@ -53,54 +56,49 @@ export const Water: React.FC<Props> = ({ level }) => {
         height: "inherit",
       }}
     >
-      {/* Above Land */}
-      {/* <Shark side="top" /> */}
-
-      {/* Below Land */}
-      {/* <Shark side="bottom" /> */}
-
       {/* Navigation Center Point */}
 
-      <MapPlacement x={-offset} y={1} width={1.185}>
+      <MapPlacement x={-6 - offset} y={3} width={1}>
         <img
           style={{
-            width: `${GRID_WIDTH_PX * 1.185}px`,
+            width: `${PIXEL_SCALE * 13}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            bottom: `${PIXEL_SCALE * 4}px`,
           }}
           src={dragonfly}
           className="animate-float"
         />
       </MapPlacement>
 
-      <MapPlacement x={-3 - offset} y={-1} width={6.1}>
+      <MapPlacement x={-8 - offset} y={-1} width={6}>
         <img
           src={goblinSwimming}
           style={{
-            width: `${GRID_WIDTH_PX * 6.1}px`,
+            width: `${PIXEL_SCALE * 96}px`,
           }}
         />
       </MapPlacement>
 
-      <Snorkler level={level} />
+      <Snorkler x={-2} y={offset + 9} />
 
-      <SharkBumpkin level={level} />
+      <SharkBumpkin x={-8} y={offset + 12} />
 
-      <MapPlacement x={offset + 4} y={6} width={1}>
+      <MapPlacement x={offset + 8} y={6} width={1}>
         <img
           src={SUNNYSIDE.npcs.swimmer}
+          className="absolute pointer-events-none"
           style={{
             width: `${1 * GRID_WIDTH_PX}px`,
             transform: "scaleX(-1)",
             zIndex: 2,
           }}
         />
-      </MapPlacement>
-      <MapPlacement x={offset + 4} y={6} width={1}>
         <img
           src={cossies}
+          className="absolute pointer-events-none"
           style={{
             width: `${GRID_WIDTH_PX}px`,
             transform: "scaleX(-1)",
-            position: "relative",
             left: `${16 * PIXEL_SCALE}px`,
             zIndex: 2,
           }}
@@ -114,12 +112,14 @@ export const Water: React.FC<Props> = ({ level }) => {
             width: `${PIXEL_SCALE * 86}px`,
           }}
         />
+        <Arcade left={3} top={0.625} />
       </MapPlacement>
-      <Arcade left={40.25} top={-6.375} />
 
       <FarmerQuest />
+      <LunarNewYearQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
+        <Pirate />
         <img
           src={pirateIsland}
           style={{
@@ -148,7 +148,7 @@ export const Water: React.FC<Props> = ({ level }) => {
 
       {/* Community Assets */}
       <CommunityBoundary>
-        <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y} width={6}>
+        <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y}>
           <ProjectDignityFrogs left={0} top={0} />
         </MapPlacement>
 
