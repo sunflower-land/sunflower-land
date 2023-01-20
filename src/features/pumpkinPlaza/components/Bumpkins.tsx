@@ -8,15 +8,12 @@ import { Modal } from "react-bootstrap";
 
 import token from "assets/icons/token_2.png";
 
-import {
-  Player,
-  MachineInterpreter,
-  ChatMessage,
-  BumpkinDiscovery,
-} from "../websocketMachine";
+import { MachineInterpreter } from "../websocketMachine";
 import { REACTIONS } from "../lib/reactions";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
+import { BumpkinDiscovery, ChatMessage, Player } from "../lib/types";
+import { BumpkinFriend } from "./BumpkinFriend";
 
 interface Props {
   messages: ChatMessage[];
@@ -113,7 +110,7 @@ export const Bumpkins: React.FC<Props> = ({
   discoveries,
   onVisit,
 }) => {
-  const [selectedBumpkin, setSelectedBumpkin] = useState<Player>();
+  const [selectedBumpkin, setSelectedBumpkin] = useState<Player>(bumpkins[0]);
   const freshMessages = messages;
   const myMessage = freshMessages.find((m) => m.bumpkinId === bumpkin.id);
   const myDiscovery = discoveries.find((m) => m.bumpkinId === bumpkin.id);
@@ -137,12 +134,10 @@ export const Bumpkins: React.FC<Props> = ({
         onHide={() => setSelectedBumpkin(undefined)}
       >
         {selectedBumpkin && (
-          <BumpkinModal
+          <BumpkinFriend
+            accountId={selectedBumpkin.accountId}
             bumpkin={selectedBumpkin?.bumpkin as Bumpkin}
-            inventory={{}}
             onClose={() => setSelectedBumpkin(undefined)}
-            initialView="home"
-            readonly
           />
         )}
       </Modal>

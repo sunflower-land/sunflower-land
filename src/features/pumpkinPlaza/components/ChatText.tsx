@@ -1,8 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import Filter from "bad-words";
-import chatIcon from "assets/icons/expression_chat.png";
-import disc from "assets/icons/disc.png";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onMessage: (text: string) => void;
@@ -73,8 +72,11 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
           className="absolute right-1 top-1 cursor-pointer w-8"
           onClick={send}
         >
-          <img src={disc} className="w-8" />
-          <img src={chatIcon} className="w-4 absolute left-2 top-2" />
+          <img src={SUNNYSIDE.icons.disc} className="w-8" />
+          <img
+            src={SUNNYSIDE.icons.expression_chat}
+            className="w-4 absolute left-2 top-2"
+          />
         </div>
       </div>
     </form>

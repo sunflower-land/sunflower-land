@@ -35,6 +35,74 @@ const PROGRESS_BAR_DIMENSIONS = {
   innerLeft: 2,
 };
 
+export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
+  const experience = bumpkin?.experience ?? 0;
+  const maxLevel = isMaxLevel(experience);
+  const { currentExperienceProgress, experienceToNextLevel } =
+    getExperienceToNextLevel(experience);
+
+  const getProgressWidth = () => {
+    let progressRatio = 1;
+    if (!maxLevel) {
+      progressRatio = Math.min(
+        1,
+        currentExperienceProgress / experienceToNextLevel
+      );
+    }
+
+    return Math.floor(PROGRESS_BAR_DIMENSIONS.innerWidth * progressRatio);
+  };
+
+  return (
+    <div className="flex item-center mt-1">
+      <div
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
+        }}
+      >
+        <img
+          src={progressBarSmall}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
+          }}
+        />
+        <div
+          className="absolute bg-[#193c3e]"
+          style={{
+            top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
+            left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
+            width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth}px`,
+            height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight}px`,
+          }}
+        />
+        <div
+          className="absolute bg-[#63c74d]"
+          style={{
+            top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
+            left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
+            width: `${PIXEL_SCALE * getProgressWidth()}px`,
+            height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight}px`,
+          }}
+        />
+      </div>
+
+      {/* XP progress text */}
+      {!maxLevel && (
+        <p
+          className="text-xxs mt-0.5"
+          style={{
+            marginLeft: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8}px`,
+          }}
+        >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
+          experienceToNextLevel
+        )} XP`}</p>
+      )}
+    </div>
+  );
+};
+
 interface Props {
   initialView: ViewState;
   onClose: () => void;
@@ -162,70 +230,7 @@ export const BumpkinModal: React.FC<Props> = ({
                   {maxLevel ? " (Max)" : ""}
                 </p>
                 {/* Progress bar */}
-                <div className="flex item-center mt-1">
-                  <div
-                    className="absolute"
-                    style={{
-                      width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
-                    }}
-                  >
-                    <img
-                      src={progressBarSmall}
-                      className="absolute"
-                      style={{
-                        width: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width
-                        }px`,
-                      }}
-                    />
-                    <div
-                      className="absolute bg-[#193c3e]"
-                      style={{
-                        top: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
-                        }px`,
-                        left: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                        }px`,
-                        width: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
-                        }px`,
-                        height: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
-                        }px`,
-                      }}
-                    />
-                    <div
-                      className="absolute bg-[#63c74d]"
-                      style={{
-                        top: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
-                        }px`,
-                        left: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                        }px`,
-                        width: `${PIXEL_SCALE * getProgressWidth()}px`,
-                        height: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
-                        }px`,
-                      }}
-                    />
-                  </div>
-
-                  {/* XP progress text */}
-                  {!maxLevel && (
-                    <p
-                      className="text-xxs mt-0.5"
-                      style={{
-                        marginLeft: `${
-                          PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
-                        }px`,
-                      }}
-                    >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
-                      experienceToNextLevel
-                    )} XP`}</p>
-                  )}
-                </div>
+                <BumpkinLevel bumpkin={bumpkin} />
               </div>
             </div>
           </div>

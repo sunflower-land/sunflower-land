@@ -185,7 +185,7 @@ export const Game: React.FC = () => {
             <Routes>
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
-              <Route path="/explore" element={<PumpkinPlaza key="explore" />} />
+              <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
               {level >= 10 && (
                 <Route
                   path="/treasure-island"

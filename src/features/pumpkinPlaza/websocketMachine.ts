@@ -5,28 +5,8 @@ import { CONFIG } from "lib/config";
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { ReactionName } from "./lib/reactions";
-
-export type Player = {
-  connectionId: string;
-  accountId: number;
-  coordinates: Coordinates;
-  updatedAt: number;
-  bumpkin: Bumpkin;
-};
-
-export type ChatMessage = {
-  bumpkinId: number;
-  text?: string;
-  reaction?: ReactionName;
-  createdAt: number;
-};
-
-export type BumpkinDiscovery = {
-  bumpkinId: number;
-  sfl?: number;
-  items: Inventory;
-  createdAt: number;
-};
+import { BumpkinDiscovery, ChatMessage, Player } from "./lib/types";
+import { OFFLINE_BUMPKINS } from "./lib/constants";
 
 export interface ChatContext {
   currentPosition: Coordinates;
@@ -143,6 +123,7 @@ type SendMessage =
 function parseWebsocketMessage(data: string): SendMessage {
   return JSON.parse(data);
 }
+
 /**
  * Machine which handles both player events and reacts to web socket events
  */
@@ -167,11 +148,11 @@ export const websocketMachine = createMachine<
       invoke: {
         id: "socket",
         src: async (context) => {
-          console.log({ context });
           if (!CONFIG.WEBSOCKET_URL) {
-            throw new Error("No websocket URL provided");
+            return { socket: null };
           }
 
+          console.log({ jwt: context.jwt });
           const socket = new WebSocket(
             `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&farmId=${context.accountId}&x=${context.currentPosition?.x}&y=${context.currentPosition?.y}`
           );
@@ -198,6 +179,10 @@ export const websocketMachine = createMachine<
       invoke: {
         id: "loadingPlayers",
         src: async (context) => {
+          if (!CONFIG.WEBSOCKET_URL) {
+            return { bumpkins: OFFLINE_BUMPKINS };
+          }
+
           console.log("Load players");
           context.socket?.send(
             JSON.stringify({

@@ -1,13 +1,11 @@
 import { Panel } from "components/ui/Panel";
 import React, { useState } from "react";
 
-import chatIcon from "assets/icons/expression_chat.png";
-import heartIcon from "assets/icons/heart.png";
-import backIcon from "assets/icons/arrow_left.png";
 import { ChatText } from "./ChatText";
 import { ChatReactions } from "./ChatReactions";
 import { GameState } from "features/game/types/game";
 import { ReactionName } from "../lib/reactions";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   game: GameState;
@@ -27,7 +25,10 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game }) => {
           {tab === "text" && (
             <>
               <div className="flex items-center">
-                <img src={chatIcon} className="h-6 mr-2" />
+                <img
+                  src={SUNNYSIDE.icons.expression_chat}
+                  className="h-6 mr-2"
+                />
                 <span className="text-sm">Chat</span>
               </div>
               <div
@@ -35,7 +36,7 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game }) => {
                 onClick={() => setTab("reactions")}
               >
                 <span className="text-xs underline">Reactions</span>
-                <img src={heartIcon} className="h-4 ml-2" />
+                <img src={SUNNYSIDE.icons.heart} className="h-4 ml-2" />
               </div>
             </>
           )}
@@ -43,14 +44,14 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game }) => {
           {tab === "reactions" && (
             <>
               <div className="flex items-center">
-                <img src={heartIcon} className="h-6 mr-2" />
+                <img src={SUNNYSIDE.icons.heart} className="h-6 mr-2" />
                 <span className="text-sm">Reactions</span>
               </div>
               <div
                 className="flex items-center cursor-pointer"
                 onClick={() => setTab("text")}
               >
-                <img src={backIcon} className="h-4 mr-2" />
+                <img src={SUNNYSIDE.icons.arrow_left} className="h-4 mr-2" />
                 <span className="text-xs underline">Back</span>
               </div>
             </>

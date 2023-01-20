@@ -389,7 +389,10 @@ export interface GameState {
   }[];
   // TODO remove when old events are deleted
   migrated?: boolean;
+<<<<<<< HEAD
   treasureIsland?: Record<number, TreasureHole>;
+=======
+>>>>>>> bfee51f9 (Display the trader)
   metadata?: any[];
   pumpkinPlaza: {
     rewardCollectedAt?: number;
