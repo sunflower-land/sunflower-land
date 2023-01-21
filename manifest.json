@@ -1,21 +1,24 @@
 {
-  "name": "Sunflower Land",
   "short_name": "Sunflower Land",
-  "description": "Progressive Web App that lists games submitted to the A-Frame category in the js13kGames 2017 competition.",
   "icons": [
     {
-      "src": "icons/icon-32.png",
-      "sizes": "32x32",
+      "src": "/src/assets/brand/icon_pwa_1.png",
+      "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
+      "src": "/src/assets/brand/logo_with_sunflower_pwa_192.png",
+      "sizes": "192x88",
+      "type": "image/png"
+    },
+    {
+      "src": "/src/assets/brand/logo_with_sunflower_pwa_512.png",
+      "sizes": "512x236",
       "type": "image/png"
     }
   ],
   "start_url": "/",
   "display": "fullscreen",
-  "theme_color": "#B12A34",
-  "background_color": "#B12A34"
+  "theme_color": "#5FC14C",
+  "background_color": "#10A3E3"
 }
