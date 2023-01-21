@@ -8,9 +8,9 @@ import "./styles.css";
 import ErrorBoundary from "features/auth/components/ErrorBoundary";
 
 //Import PWA icons so that they are included in vite build
-import pwaIcon from "./src/assets/brand/icon_pwa_1.png";
-import icon192 from "./src/assets/brand/logo_with_sunflower_pwa_192.png";
-import icon512 from "./src/assets/brand/logo_with_sunflower_pwa_512.png";
+import pwaIcon from "assets/brand/icon_pwa_1.png";
+import icon192 from "assets/brand/logo_with_sunflower_pwa_192.png";
+import icon512 from "assets/brand/logo_with_sunflower_pwa_512.png";
 
 // Initialise Global Settings
 initialise();
