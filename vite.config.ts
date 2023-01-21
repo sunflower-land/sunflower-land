@@ -21,21 +21,22 @@ export default defineConfig({
         short_name: "Sunflower Land",
         icons: [
           {
-            src: "./icon_pwa.png",
+            src: "/src/assets/brand/icon_pwa_1.png",
             sizes: "144x144",
             type: "image/png",
           },
           {
-            src: "./logo_with_sunflower_pwa_192.png",
+            src: "/src/assets/brand/logo_with_sunflower_pwa_192.png",
             sizes: "192x88",
             type: "image/png",
           },
           {
-            src: "./logo_with_sunflower_pwa_512.png",
+            src: "/src/assets/brand/logo_with_sunflower_pwa_512.png",
             sizes: "512x236",
             type: "image/png",
           },
         ],
+        start_url: "https://sunflower-land.com/",
         display: "fullscreen",
         theme_color: "#5FC14C",
         background_color: "#10A3E3",
