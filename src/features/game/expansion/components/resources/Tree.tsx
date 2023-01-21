@@ -152,7 +152,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         return;
       }
       chop();
-      treeFallAudio.play();
       setTouchCount(0);
     }
   };
@@ -191,6 +190,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
       if (!newState.matches("hoarding")) {
         setCollecting(true);
+        treeFallAudio.play();
         choppedGif.current?.goToAndPlay(0);
 
         displayPopover(
