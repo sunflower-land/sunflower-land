@@ -30,11 +30,6 @@ export default defineConfig({
             sizes: "512x236",
             type: "image/png",
           },
-          {
-            src: "./src/assets/brand/icon_pwa.png",
-            sizes: "144x144",
-            type: "image/png",
-          },
         ],
         display: "fullscreen",
         theme_color: "#5FC14C",
