@@ -21,7 +21,7 @@ export default defineConfig({
         short_name: "Sunflower Land",
         icons: [
           {
-            src: "./src/assets/brand/icon_pwa_1.png",
+            src: "./src/assets/brand/icon_pwa.png",
             sizes: "144x144",
             type: "image/png",
           },
