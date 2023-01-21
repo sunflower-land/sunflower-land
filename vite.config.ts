@@ -15,7 +15,33 @@ export default defineConfig({
       // TODO with API environment variables
       injectData: {},
     }),
-    VitePWA({ registerType: "autoUpdate" }),
+    VitePWA({
+      injectRegister: "auto",
+      manifest: {
+        short_name: "Sunflower Land",
+        icons: [
+          {
+            src: "/src/assets/brand/icon_pwa_1.png",
+            sizes: "144x144",
+            type: "image/png",
+          },
+          {
+            src: "/src/assets/brand/logo_with_sunflower_pwa_192.png",
+            sizes: "192x88",
+            type: "image/png",
+          },
+          {
+            src: "/src/assets/brand/logo_with_sunflower_pwa_512.png",
+            sizes: "512x236",
+            type: "image/png",
+          },
+        ],
+        start_url: "https://sunflower-land.com/",
+        display: "fullscreen",
+        theme_color: "#5FC14C",
+        background_color: "#10A3E3",
+      },
+    }),
   ],
   // Addresses web3 issue
   resolve: {
