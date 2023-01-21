@@ -3,34 +3,21 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
 import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
-import { Plot } from "features/island/plots/Plot";
 import {
   ANIMAL_DIMENSIONS,
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "../types/craftables";
-import { Tree } from "./components/resources/Tree";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
-import {
-  GameState,
-  LandExpansion,
-  LandExpansionRock,
-  PlacedItem,
-} from "../types/game";
-import { EXPANSION_ORIGINS } from "./lib/constants";
-import { Stone } from "./components/resources/Stone";
+import { GameState, LandExpansion, PlacedItem } from "../types/game";
 import { Placeable } from "./placeable/Placeable";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
-import { Gold } from "./components/resources/Gold";
-import { Iron } from "./components/resources/Iron";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
-import { FruitPatch } from "features/island/fruit/FruitPatch";
-import { Boulder } from "features/island/boulder/Boulder";
 import { DirtRenderer } from "./components/DirtRenderer";
 import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
@@ -39,67 +26,14 @@ import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
+<<<<<<< HEAD
 import { Hud } from "features/island/hud/Hud";
+=======
+import { Resource } from "features/island/resources/Resource";
+import { ResourceName } from "../types/resources";
+>>>>>>> 8169b8e1 (Remove resources)
 
 type ExpansionProps = Pick<LandExpansion, "createdAt">;
-
-const getExpansions = (
-  expansionProps: ExpansionProps,
-  expansionIndex: number,
-  isEditing?: boolean
-) => {
-  const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
-
-  const mapPlacements: Array<JSX.Element> = [];
-
-  if (expansionProps?.fruitPatches) {
-    mapPlacements.push(
-      ...getKeys(expansionProps.fruitPatches).map((index: number) => {
-        const { x, y, width, height, fruit } =
-          expansionProps.fruitPatches![index];
-
-        return (
-          <MapPlacement
-            key={`${expansionIndex}-fruit-${index}`}
-            x={x + xOffset}
-            y={y + yOffset}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <FruitPatch
-              fruitPatchIndex={Number(index)}
-              expansionIndex={expansionIndex}
-            />
-          </MapPlacement>
-        );
-      })
-    );
-  }
-
-  if (expansionProps?.boulders) {
-    mapPlacements.push(
-      ...getKeys(expansionProps.boulders).map((index) => {
-        const { x, y, width, height } = expansionProps.boulders![index];
-
-        return (
-          <MapPlacement
-            key={`${expansionIndex}-boulder-${index}`}
-            x={x + xOffset}
-            y={y + yOffset}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Boulder />
-          </MapPlacement>
-        );
-      })
-    );
-  }
-
-  return mapPlacements;
-};
 
 const getIslandElements = ({
   expansions,
@@ -119,20 +53,6 @@ const getIslandElements = ({
   isEditing?: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
-
-  mapPlacements.push(
-    ...expansions
-      .filter((expansion) => expansion.readyAt < Date.now())
-      .flatMap(({ createdAt }, index) =>
-        getExpansions(
-          {
-            createdAt: createdAt,
-          },
-          index,
-          isEditing
-        )
-      )
-  );
 
   if (bumpkinParts) {
     mapPlacements.push(
@@ -239,105 +159,38 @@ const getIslandElements = ({
       })
   );
 
-  mapPlacements.push(
-    ...getKeys(resources.iron).map((id) => {
-      const { x, y, width, height } = resources.iron![id] as LandExpansionRock;
-
-      return (
-        <MapPlacement
-          key={`stone-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-          isEditing={isEditing}
-        >
-          <Iron id={id} />
-        </MapPlacement>
-      );
-    })
-  );
-
-  mapPlacements.push(
-    ...getKeys(resources.trees).map((id) => {
-      const { x, y, width, height } = resources.trees![id];
-
-      console.log({ x, y, width, height });
-      return (
-        <MapPlacement
-          key={`tree-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-          isEditing={isEditing}
-        >
-          <Tree id={id} />
-        </MapPlacement>
-      );
-    })
-  );
-
-  if (resources?.plots) {
+  getKeys(resources).map((resourceName) => {
     mapPlacements.push(
-      ...getKeys(resources.plots).map((id) => {
-        const { x, y, width, height } = resources.plots![id];
+      ...getKeys(resources[resourceName]).map((id) => {
+        const { x, y, width, height } = resources[resourceName][id];
+
+        const FIELDS: Record<keyof GameState["resources"], ResourceName> = {
+          plots: "Crop Plot",
+          gold: "Gold Rock",
+          iron: "Iron Rock",
+          stones: "Stone Rock",
+          trees: "Tree",
+          fruitPatches: "Fruit Patch",
+          boulders: "Boulder",
+        };
+
+        const name = FIELDS[resourceName];
 
         return (
           <MapPlacement
-            key={`plot-${id}`}
+            key={`stone-${id}`}
             x={x}
             y={y}
             height={height}
             width={width}
             isEditing={isEditing}
           >
-            <Plot id={id} />
+            <Resource name={name} createdAt={0} readyAt={0} id={id} />
           </MapPlacement>
         );
       })
     );
-  }
-
-  mapPlacements.push(
-    ...getKeys(resources.stones).map((id) => {
-      const { x, y, width, height } = resources.stones![
-        id
-      ] as LandExpansionRock;
-
-      return (
-        <MapPlacement
-          key={`stone-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-          isEditing={isEditing}
-        >
-          <Stone id={id} />
-        </MapPlacement>
-      );
-    })
-  );
-
-  mapPlacements.push(
-    ...getKeys(resources.gold).map((id) => {
-      const { x, y, width, height } = resources.gold![id];
-
-      return (
-        <MapPlacement
-          key={`gold-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-          isEditing={isEditing}
-        >
-          <Gold id={id} />
-        </MapPlacement>
-      );
-    })
-  );
+  });
 
   return mapPlacements;
 };
@@ -347,7 +200,8 @@ export const Land: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  const { expansions, buildings, collectibles, chickens, bumpkin } = state;
+  const { expansions, buildings, collectibles, chickens, bumpkin, resources } =
+    state;
   const [isEditing, setIsEditing] = useState(false);
 
   let expandedCount = expansions.length;
@@ -373,6 +227,7 @@ export const Land: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <div
@@ -408,6 +263,17 @@ export const Land: React.FC = () => {
           x={boatCoordinates.x}
           y={boatCoordinates.y}
         />
+=======
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div
+        className={classNames("relative w-full h-full", {
+          "pointer-events-none": gameState.matches("visiting"),
+        })}
+      >
+        <LandBase expandedCount={expandedCount} />
+        <UpcomingExpansion gameState={state} />
+        <DirtRenderer plots={resources.plots} />
+>>>>>>> 8169b8e1 (Remove resources)
 
 <<<<<<< HEAD
         <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />

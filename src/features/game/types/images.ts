@@ -110,6 +110,7 @@ import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
+import fruitPatch from "assets/fruit/fruit_patch.png";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -1906,7 +1907,7 @@ export const ITEM_DETAILS: Items = {
 
   "Crop Plot": {
     image: SUNNYSIDE.soil.soil2,
-    description: "A free plot to plant crops on",
+    description: "An empty plot to plant crops on",
   },
   "Gold Rock": {
     image: SUNNYSIDE.resource.gold_rock,
@@ -1924,5 +1925,13 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.tree,
     description: "A choppable tree to collect wood",
 >>>>>>> b67f7712 (Move resources onto root level and tokenise)
+  },
+  "Fruit Patch": {
+    image: fruitPatch,
+    description: "An empty plot to plant fruit on",
+  },
+  Boulder: {
+    image: SUNNYSIDE.resource.boulder,
+    description: "A mythical rock that can drop rare minerals",
   },
 };

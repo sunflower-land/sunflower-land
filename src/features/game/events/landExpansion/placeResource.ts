@@ -1,6 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 
-import { GameState, PlacedItem } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   ResourceName,
@@ -23,13 +23,17 @@ type Options = {
   createdAt?: number;
 };
 
-// TODO
-const RESOURCE_FIELDS: Record<ResourceName, keyof GameState["resources"]> = {
+export const RESOURCE_FIELDS: Record<
+  ResourceName,
+  keyof GameState["resources"]
+> = {
   "Crop Plot": "plots",
   "Gold Rock": "gold",
   "Iron Rock": "iron",
   "Stone Rock": "stones",
   Tree: "trees",
+  "Fruit Patch": "fruitPatches",
+  Boulder: "boulders",
 };
 
 function getInitialResource(name: ResourceName) {

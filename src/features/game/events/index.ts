@@ -128,6 +128,10 @@ import {
   placeResource,
   PlaceResourceAction,
 } from "./landExpansion/placeResource";
+import {
+  removeResource,
+  RemoveResourceAction,
+} from "./landExpansion/removeResource";
 
 export type PlayingEvent =
   | TradeAction

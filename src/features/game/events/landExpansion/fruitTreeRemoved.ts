@@ -16,8 +16,7 @@ export enum FRUIT_TREE_REMOVED_ERRORS {
 
 export type RemoveFruitTreeAction = {
   type: "fruitTree.removed";
-  expansionIndex: number;
-  index: number;
+  index: string;
   selectedItem: InventoryItemName;
 };
 
@@ -52,24 +51,13 @@ export function removeFruitTree({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin, inventory, collectibles } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
+  const { resources, bumpkin, inventory, collectibles } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (!expansion) {
-    throw new Error("Expansion does not exist");
-  }
-
-  if (!expansion.fruitPatches) {
-    throw new Error("Expansion does not have any fruit patches");
-  }
-
-  const { fruitPatches } = expansion;
-
-  const patch = fruitPatches[action.index];
+  const patch = resources.fruitPatches[action.index];
 
   if (!patch) {
     throw new Error("Fruit patch does not exist");

@@ -1,20 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import Modal from "react-bootstrap/Modal";
 
-import { Bar } from "components/ui/ProgressBar";
 import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
 import { ResourceName } from "features/game/types/resources";
-import { Soil } from "../plots/components/Soil";
 import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Iron } from "features/game/expansion/components/resources/Iron";
 import { Stone } from "features/game/expansion/components/resources/Stone";
 import { Tree } from "features/game/expansion/components/resources/Tree";
+import fruitPatch from "assets/fruit/fruit_patch.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Plot } from "../plots/Plot";
+import { FruitPatch } from "../fruit/FruitPatch";
+import { Boulder } from "../boulder/Boulder";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -23,7 +24,8 @@ export interface ResourceProps {
   createdAt: number;
 }
 
-export const RESOURCE_COMPONENTS: Record<
+// Used for placing
+export const READONLY_RESOURCE_COMPONENTS: Record<
   ResourceName,
   React.FC<ResourceProps>
 > = {
@@ -73,6 +75,39 @@ export const RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
+  "Fruit Patch": () => (
+    <img
+      src={fruitPatch}
+      className="absolute h-auto w-full"
+      style={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * -4}px`,
+      }}
+    />
+  ),
+  Boulder: () => (
+    <img
+      src={SUNNYSIDE.resource.boulder}
+      className="absolute h-auto w-full"
+      style={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * -4}px`,
+      }}
+    />
+  ),
+};
+
+export const RESOURCE_COMPONENTS: Record<
+  ResourceName,
+  React.FC<ResourceProps>
+> = {
+  "Crop Plot": Plot,
+  "Gold Rock": Gold,
+  "Iron Rock": Iron,
+  "Stone Rock": Stone,
+  Tree: Tree,
+  "Fruit Patch": FruitPatch,
+  Boulder: Boulder,
 };
 
 export const Resource: React.FC<ResourceProps> = ({
@@ -89,13 +124,15 @@ export const Resource: React.FC<ResourceProps> = ({
 
   const shortcuts = getShortcuts();
 
-  const canRemoveOnClick = shortcuts[0] !== "Rusty Shovel";
+  const canRemoveOnClick = shortcuts[0] === "Rusty Shovel";
   const handleOnClick = () => {
-    if (canRemoveOnClick) return;
+    console.log("try remove", canRemoveOnClick);
+    if (!canRemoveOnClick) return;
 
     setShowRemoveModal(true);
   };
 
+  console.log({ canRemoveOnClick, showRemoveModal });
   const Component = RESOURCE_COMPONENTS[name];
   return (
     <>
@@ -126,7 +163,7 @@ export const Resource: React.FC<ResourceProps> = ({
       >
         {showRemoveModal && (
           <RemovePlaceableModal
-            type="collectible"
+            type="resource"
             placeableId={id}
             name={name}
             onClose={() => setShowRemoveModal(false)}

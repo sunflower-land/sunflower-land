@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { Dimensions, CollectibleName } from "./craftables";
 import { InventoryItemName } from "./game";
+import { ResourceName } from "./resources";
 
 export type BuildingName =
   | "Fire Pit"
@@ -29,7 +30,11 @@ export type BuildingBluePrint = {
   constructionSeconds: number;
 };
 
-export type PlaceableName = CollectibleName | BuildingName | "Chicken";
+export type PlaceableName =
+  | CollectibleName
+  | BuildingName
+  | "Chicken"
+  | ResourceName;
 
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {};
 

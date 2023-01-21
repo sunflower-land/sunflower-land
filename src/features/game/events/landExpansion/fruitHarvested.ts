@@ -10,8 +10,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
-  expansionIndex: number;
-  index: number;
+  index: string;
 };
 
 type Options = {
@@ -61,24 +60,13 @@ export function harvestFruit({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
+  const { resources, bumpkin } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (!expansion) {
-    throw new Error("Expansion does not exist");
-  }
-
-  if (!expansion.fruitPatches) {
-    throw new Error("Expansion does not have any fruit patches");
-  }
-
-  const { fruitPatches } = expansion;
-
-  const patch = fruitPatches[action.index];
+  const patch = resources.fruitPatches[action.index];
 
   if (!patch) {
     throw new Error("Fruit patch does not exist");

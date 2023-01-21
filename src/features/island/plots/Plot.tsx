@@ -32,8 +32,7 @@ import { GoldenCropModal } from "features/island/plots/components/GoldenCropModa
 import golden_crop_sheet from "assets/events/golden_crop/golden_crop_sheet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
-  plotIndex: number;
-  expansionIndex: number;
+  id: string;
   onboarding?: boolean;
 }
 
@@ -60,7 +59,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const crop = plot && plot.crop;
 
   const isFertile = isPlotFertile({
-    id,
+    plotIndex: id,
     gameState: game.context.state,
   });
 
