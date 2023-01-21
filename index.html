@@ -80,6 +80,10 @@
           navigator.serviceWorker.register("service-worker.js");
         }
       });
+      window.addEventListener("beforeinstallprompt", (event) => {
+        alert("PWA event fired");
+        event.prompt();
+      });
     </script>
   </body>
 </html>
