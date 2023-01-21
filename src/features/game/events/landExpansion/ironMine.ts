@@ -7,8 +7,7 @@ import { GameState } from "../../types/game";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
-  expansionIndex: number;
-  index: number;
+  index: string;
 };
 
 type Options = {
@@ -32,24 +31,13 @@ export function mineIron({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
+  const { resources, bumpkin } = stateCopy;
 
   if (!bumpkin) {
     throw new Error(MINE_ERRORS.NO_BUMPKIN);
   }
 
-  if (!expansion) {
-    throw new Error(MINE_ERRORS.NO_EXPANSION);
-  }
-
-  const { iron } = expansion;
-
-  if (!iron) {
-    throw new Error(MINE_ERRORS.EXPANSION_HAS_NO_IRON);
-  }
-
-  const ironRock = iron[action.index];
+  const ironRock = resources.iron[action.index];
 
   if (!ironRock) {
     throw new Error(MINE_ERRORS.NO_IRON);

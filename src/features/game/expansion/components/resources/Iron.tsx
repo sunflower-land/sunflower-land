@@ -34,11 +34,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 const HITS = 3;
 
 interface Props {
-  ironIndex: number;
-  expansionIndex: number;
+  id: string;
 }
 
-export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
+export const Iron: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -57,8 +56,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
-  const expansion = game.context.state.expansions[expansionIndex];
-  const ironRock = expansion.iron?.[ironIndex] as LandExpansionRock;
+  const ironRock = game.context.state.resources.iron[id] as LandExpansionRock;
   const tool = "Stone Pickaxe";
 
   // Reset the shake count when clicking outside of the component
@@ -122,8 +120,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
     try {
       const newState = gameService.send("ironRock.mined", {
-        index: ironIndex,
-        expansionIndex,
+        index: id,
       });
 
       if (!newState.matches("hoarding")) {

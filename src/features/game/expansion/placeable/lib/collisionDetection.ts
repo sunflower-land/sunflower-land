@@ -13,6 +13,7 @@ import {
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 type BoundingBox = Position;
 
@@ -35,46 +36,6 @@ const extractBoundingBox = <T extends Record<number, BoundingBox>>(
     width,
   }));
 };
-
-type Resources = Required<Omit<LandExpansion, "createdAt" | "readyAt">>;
-
-const getAllResources = (expansions: LandExpansion[]): Resources[] => {
-  return expansions.map((expansion) => ({
-    trees: expansion.trees ?? {},
-    iron: expansion.iron ?? {},
-    stones: expansion.stones ?? {},
-    plots: expansion.plots ?? {},
-    gold: expansion.gold ?? {},
-    fruitPatches: expansion.fruitPatches ?? {},
-    boulders: expansion.boulders ?? {},
-  }));
-};
-
-export const getBoundingBoxes = (
-  expansionResources: Resources,
-  expansionIndex: number
-) => {
-  const resources = Object.values(expansionResources);
-
-  const boundingBoxes = resources.flatMap((resource) => {
-    return extractBoundingBox(resource, expansionIndex);
-  });
-
-  return boundingBoxes;
-};
-
-/**
- * Extracts the bounding boxes for all resources on all land expansions.
- * @param expansions
- * @returns Array of all bounding boxes
- */
-export function extractResourceBoundingBoxes(
-  expansions: LandExpansion[]
-): BoundingBox[] {
-  const allResources = getAllResources(expansions);
-
-  return allResources.flatMap(getBoundingBoxes);
-}
 
 /**
  * Axis aligned bounding box collision detection
@@ -110,16 +71,6 @@ const splitBoundingBox = (boundingBox: BoundingBox) => {
   }));
 };
 
-function detectResourceCollision(state: GameState, boundingBox: BoundingBox) {
-  const { expansions } = state;
-
-  const resourceBoundingBoxes = extractResourceBoundingBoxes(expansions);
-
-  return resourceBoundingBoxes.some((resourceBoundingBox) =>
-    isOverlapping(boundingBox, resourceBoundingBox)
-  );
-}
-
 function detectWaterCollision(
   expansions: LandExpansion[],
   boundingBox: BoundingBox
@@ -154,6 +105,7 @@ function detectWaterCollision(
 const PLACEABLE_DIMENSIONS = {
   ...BUILDINGS_DIMENSIONS,
   ...COLLECTIBLES_DIMENSIONS,
+  ...RESOURCE_DIMENSIONS,
 };
 
 function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
@@ -332,9 +284,10 @@ export function detectCollision(state: GameState, position: Position) {
     ...(latestLand.readyAt <= Date.now() ? [latestLand] : []),
   ];
 
+  // TODO resource collectoon
+
   return (
     detectWaterCollision(completedExpansions, position) ||
-    detectResourceCollision(state, position) ||
     detectPlaceableCollision(state, position) ||
     detectLandCornerCollision(completedExpansions, position) ||
     detectChickenCollision(state, position) ||

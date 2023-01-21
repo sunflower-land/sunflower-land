@@ -27,8 +27,7 @@ type GetChoppedAtArgs = {
 
 export type LandExpansionChopAction = {
   type: "timber.chopped";
-  index: number;
-  expansionIndex: number;
+  index: string;
   item: InventoryItemName;
 };
 
@@ -89,18 +88,7 @@ export function chop({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin, collectibles, inventory } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
-
-  if (!expansion) {
-    throw new Error("Expansion does not exist");
-  }
-
-  const { trees } = expansion;
-
-  if (!trees) {
-    throw new Error("Expansion has no trees");
-  }
+  const { resources, bumpkin, collectibles, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
@@ -117,7 +105,7 @@ export function chop({
     throw new Error(CHOP_ERRORS.NO_AXES);
   }
 
-  const tree = trees[action.index];
+  const tree = resources.trees[action.index];
 
   if (!tree) {
     throw new Error(CHOP_ERRORS.NO_TREE);

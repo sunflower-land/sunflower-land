@@ -3,7 +3,7 @@ import { Decimal } from "decimal.js-light";
 import { CropName, CropSeedName } from "./crops";
 
 import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
-import { ResourceName } from "./resources";
+import { CommodityName, ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
@@ -182,6 +182,7 @@ export type InventoryItemName =
   | FruitName
   | FruitSeedName
   | CraftableName
+  | CommodityName
   | ResourceName
   | SkillName
   | EasterEgg
@@ -346,14 +347,6 @@ export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
 export type LandExpansion = {
   createdAt: number;
   readyAt: number;
-
-  gold?: Record<number, LandExpansionRock>;
-  iron?: Record<number, LandExpansionRock>;
-  plots?: Record<number, LandExpansionPlot>;
-  fruitPatches?: Record<number, FruitPatch>;
-  boulders?: Record<number, Mine>;
-  trees?: Record<number, LandExpansionTree>;
-  stones?: Record<number, LandExpansionRock>;
 };
 
 interface ExpansionRequirements {
@@ -418,6 +411,24 @@ export interface GameState {
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
 
+<<<<<<< HEAD
+=======
+  skills: {
+    farming: Decimal;
+    gathering: Decimal;
+  };
+
+  resources: {
+    trees: Record<string, LandExpansionTree>;
+    stones: Record<string, LandExpansionRock>;
+    gold: Record<string, LandExpansionRock>;
+    iron: Record<string, LandExpansionRock>;
+    plots: Record<string, LandExpansionPlot>;
+    fruitPatches: Record<string, FruitPatch>;
+    boulders: Record<string, Mine>;
+  };
+
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;
   bumpkin?: Bumpkin;

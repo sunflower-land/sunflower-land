@@ -7,8 +7,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionMineGoldAction = {
   type: "goldRock.mined";
-  expansionIndex: number;
-  index: number;
+  index: string;
 };
 
 type Options = {
@@ -32,25 +31,14 @@ export function mineGold({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin } = stateCopy;
-  const { index, expansionIndex } = action;
-  const expansion = expansions[expansionIndex];
+  const { bumpkin } = stateCopy;
 
+  const { index } = action;
   if (!bumpkin) {
     throw new Error(EVENT_ERRORS.NO_BUMPKIN);
   }
 
-  if (!expansion) {
-    throw new Error(EVENT_ERRORS.NO_EXPANSION);
-  }
-
-  const { gold } = expansion;
-
-  if (!gold) {
-    throw new Error(EVENT_ERRORS.EXPANSION_HAS_NO_GOLD);
-  }
-
-  const goldRock = gold[index];
+  const goldRock = stateCopy.resources.gold[index];
 
   if (!goldRock) {
     throw new Error("No gold rock found.");

@@ -1,4 +1,6 @@
-export type ResourceName =
+import { Dimensions } from "./craftables";
+
+export type CommodityName =
   | "Wood"
   | "Stone"
   | "Iron"
@@ -10,10 +12,11 @@ export type ResourceName =
   | "Wild Mushroom"
   | "Magic Mushroom";
 
-export type Resource = {
+export type Commodity = {
   description: string;
 };
-export const RESOURCES: Record<ResourceName, Resource> = {
+
+export const COMMODITIES: Record<CommodityName, Commodity> = {
   Wood: {
     description: "Used to craft items",
   },
@@ -43,5 +46,35 @@ export const RESOURCES: Record<ResourceName, Resource> = {
   },
   "Magic Mushroom": {
     description: "Used to cook advanced recipes",
+  },
+};
+
+export type ResourceName =
+  | "Tree"
+  | "Stone Rock"
+  | "Iron Rock"
+  | "Gold Rock"
+  | "Crop Plot";
+
+export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
+  "Crop Plot": {
+    width: 1,
+    height: 1,
+  },
+  "Gold Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Iron Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Stone Rock": {
+    width: 1,
+    height: 1,
+  },
+  Tree: {
+    width: 2,
+    height: 2,
   },
 };

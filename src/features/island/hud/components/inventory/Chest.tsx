@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useRef } from "react";
+=======
+import React, { useContext, useRef, useState } from "react";
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
@@ -21,9 +25,14 @@ import {
 } from "features/game/types/collectibles";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
+<<<<<<< HEAD
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { DECORATION_DIMENSIONS } from "features/game/types/decorations";
+=======
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { Context } from "features/game/GameProvider";
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
 
 interface Props {
   state: GameState;
@@ -44,6 +53,8 @@ export const Chest: React.FC<Props> = ({
   onPlace,
   onDepositClick,
 }: Props) => {
+  const { gameService } = useContext(Context);
+
   const divRef = useRef<HTMLDivElement>(null);
   const chestMap = getChestItems(state);
   const { inventory, collectibles: placedItems } = state;
@@ -64,15 +75,44 @@ export const Chest: React.FC<Props> = ({
         item in AUCTIONEER_ITEMS ||
         item in BEANS() ||
         item in HELIOS_BLACKSMITH_ITEMS ||
+<<<<<<< HEAD
         item in GOBLIN_BLACKSMITH_ITEMS ||
         item in GOBLIN_PIRATE_ITEMS ||
         item in DECORATION_DIMENSIONS
+=======
+        item in RESOURCE_DIMENSIONS ||
+        item in GOBLIN_BLACKSMITH_ITEMS
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
       ) {
         return { ...acc, [item]: chestMap[item] };
       }
       return acc;
     }, {} as Record<CollectibleName, Decimal>);
 
+<<<<<<< HEAD
+=======
+  const [selected, setSelected] = useState<InventoryItemName>(
+    getKeys(collectibles)[0]
+  );
+
+  const handlePlace = () => {
+    if (selected in RESOURCE_DIMENSIONS) {
+      gameService.send("EDIT", {
+        action: "resource.placed",
+        placeable: selected,
+      });
+    } else {
+      onPlace && onPlace(selected);
+    }
+
+    closeModal();
+  };
+
+  const handleItemClick = (item: InventoryItemName) => {
+    setSelected(item);
+  };
+
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
   const chestIsEmpty = getKeys(collectibles).length === 0;
 
   if (chestIsEmpty) {

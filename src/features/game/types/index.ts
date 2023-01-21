@@ -178,6 +178,19 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wild Mushroom": 615,
   "Magic Mushroom": 616,
   Diamond: 617,
+<<<<<<< HEAD
+=======
+  "Clam Shell": 618,
+  "Sea Cucumber": 619,
+  Coral: 620,
+  Crab: 621,
+  Starfish: 622,
+  Tree: 623,
+  "Stone Rock": 624,
+  "Iron Rock": 625,
+  "Gold Rock": 626,
+  "Crop Plot": 627,
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
 
   "Green Thumb": 701,
   "Barn Manager": 702,

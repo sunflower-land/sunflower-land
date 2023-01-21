@@ -124,6 +124,10 @@ import {
   completeChore,
   CompleteChoreAction,
 } from "./landExpansion/completeChore";
+import {
+  placeResource,
+  PlaceResourceAction,
+} from "./landExpansion/placeResource";
 
 export type PlayingEvent =
   | TradeAction
@@ -172,7 +176,8 @@ export type PlacementEvent =
   | PlaceBuildingAction
   | PlaceCollectibleAction
   | BuyChickenAction
-  | PlaceChickenAction;
+  | PlaceChickenAction
+  | PlaceResourceAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -236,6 +241,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "collectible.placed": placeCollectible,
   "chicken.bought": buyChicken,
   "chicken.placed": placeChicken,
+  "resource.placed": placeResource,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

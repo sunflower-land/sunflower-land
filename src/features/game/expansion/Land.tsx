@@ -13,7 +13,12 @@ import {
 import { Tree } from "./components/resources/Tree";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
-import { LandExpansion, PlacedItem } from "../types/game";
+import {
+  GameState,
+  LandExpansion,
+  LandExpansionRock,
+  PlacedItem,
+} from "../types/game";
 import { EXPANSION_ORIGINS } from "./lib/constants";
 import { Stone } from "./components/resources/Stone";
 import { Placeable } from "./placeable/Placeable";
@@ -36,17 +41,7 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Hud } from "features/island/hud/Hud";
 
-type ExpansionProps = Pick<
-  LandExpansion,
-  | "plots"
-  | "trees"
-  | "stones"
-  | "iron"
-  | "gold"
-  | "createdAt"
-  | "fruitPatches"
-  | "boulders"
->;
+type ExpansionProps = Pick<LandExpansion, "createdAt">;
 
 const getExpansions = (
   expansionProps: ExpansionProps,
@@ -56,111 +51,6 @@ const getExpansions = (
   const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
 
   const mapPlacements: Array<JSX.Element> = [];
-
-  if (expansionProps?.gold) {
-    mapPlacements.push(
-      ...getKeys(expansionProps.gold).map((index) => {
-        const { x, y, width, height } = expansionProps.gold![index];
-
-        return (
-          <MapPlacement
-            key={`${expansionIndex}-gold-${index}`}
-            x={x + xOffset}
-            y={y + yOffset}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Gold rockIndex={Number(index)} expansionIndex={expansionIndex} />
-          </MapPlacement>
-        );
-      })
-    );
-  }
-
-  if (expansionProps?.plots) {
-    mapPlacements.push(
-      ...getKeys(expansionProps.plots).map((index) => {
-        const { x, y, width, height } = expansionProps.plots![index];
-
-        return (
-          <MapPlacement
-            key={`${expansionIndex}-plot-${index}`}
-            x={x + xOffset}
-            y={y + yOffset}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Plot plotIndex={Number(index)} expansionIndex={expansionIndex} />
-          </MapPlacement>
-        );
-      })
-    );
-  }
-
-  if (expansionProps?.trees) {
-    mapPlacements.push(
-      ...getKeys(expansionProps.trees).map((index) => {
-        const { x, y, width, height } = expansionProps.trees![index];
-
-        return (
-          <MapPlacement
-            key={`${expansionIndex}-tree-${index}`}
-            x={x + xOffset}
-            y={y + yOffset}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Tree treeIndex={Number(index)} expansionIndex={expansionIndex} />
-          </MapPlacement>
-        );
-      })
-    );
-  }
-
-  if (expansionProps?.stones) {
-    mapPlacements.push(
-      ...getKeys(expansionProps.stones).map((index) => {
-        const { x, y, width, height } = expansionProps.stones![index];
-
-        return (
-          <MapPlacement
-            key={`${expansionIndex}-stone-${index}`}
-            x={x + xOffset}
-            y={y + yOffset}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Stone rockIndex={Number(index)} expansionIndex={expansionIndex} />
-          </MapPlacement>
-        );
-      })
-    );
-  }
-
-  if (expansionProps?.iron) {
-    mapPlacements.push(
-      ...getKeys(expansionProps.iron).map((index) => {
-        const { x, y, width, height } = expansionProps.iron![index];
-
-        return (
-          <MapPlacement
-            key={`${expansionIndex}-iron-${index}`}
-            x={x + xOffset}
-            y={y + yOffset}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Iron ironIndex={Number(index)} expansionIndex={expansionIndex} />
-          </MapPlacement>
-        );
-      })
-    );
-  }
 
   if (expansionProps?.fruitPatches) {
     mapPlacements.push(
@@ -216,6 +106,7 @@ const getIslandElements = ({
   buildings,
   collectibles,
   chickens,
+  resources,
   bumpkinParts,
   isEditing,
 }: {
@@ -223,6 +114,7 @@ const getIslandElements = ({
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<string, Chicken>>;
+  resources: GameState["resources"];
   bumpkinParts: BumpkinParts | undefined;
   isEditing?: boolean;
 }) => {
@@ -231,34 +123,14 @@ const getIslandElements = ({
   mapPlacements.push(
     ...expansions
       .filter((expansion) => expansion.readyAt < Date.now())
-      .flatMap(
-        (
+      .flatMap(({ createdAt }, index) =>
+        getExpansions(
           {
-            stones,
-            gold,
-            iron,
-            trees,
-            plots,
-            createdAt,
-            fruitPatches,
-            boulders,
+            createdAt: createdAt,
           },
-          index
-        ) =>
-          getExpansions(
-            {
-              createdAt: createdAt,
-              stones: stones,
-              gold: gold,
-              trees: trees,
-              iron: iron,
-              plots: plots,
-              fruitPatches: fruitPatches,
-              boulders: boulders,
-            },
-            index,
-            isEditing
-          )
+          index,
+          isEditing
+        )
       )
   );
 
@@ -367,6 +239,106 @@ const getIslandElements = ({
       })
   );
 
+  mapPlacements.push(
+    ...getKeys(resources.iron).map((id) => {
+      const { x, y, width, height } = resources.iron![id] as LandExpansionRock;
+
+      return (
+        <MapPlacement
+          key={`stone-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Iron id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(resources.trees).map((id) => {
+      const { x, y, width, height } = resources.trees![id];
+
+      console.log({ x, y, width, height });
+      return (
+        <MapPlacement
+          key={`tree-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Tree id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
+  if (resources?.plots) {
+    mapPlacements.push(
+      ...getKeys(resources.plots).map((id) => {
+        const { x, y, width, height } = resources.plots![id];
+
+        return (
+          <MapPlacement
+            key={`plot-${id}`}
+            x={x}
+            y={y}
+            height={height}
+            width={width}
+            isEditing={isEditing}
+          >
+            <Plot id={id} />
+          </MapPlacement>
+        );
+      })
+    );
+  }
+
+  mapPlacements.push(
+    ...getKeys(resources.stones).map((id) => {
+      const { x, y, width, height } = resources.stones![
+        id
+      ] as LandExpansionRock;
+
+      return (
+        <MapPlacement
+          key={`stone-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Stone id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(resources.gold).map((id) => {
+      const { x, y, width, height } = resources.gold![id];
+
+      return (
+        <MapPlacement
+          key={`gold-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Gold id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
   return mapPlacements;
 };
 
@@ -437,9 +409,24 @@ export const Land: React.FC = () => {
           y={boatCoordinates.y}
         />
 
+<<<<<<< HEAD
         <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
         {gameState.matches("editing") && <Placeable />}
+=======
+        <Water level={expandedCount} />
+
+        {/* Sort island elements by y axis */}
+        {getIslandElements({
+          expansions,
+          buildings,
+          collectibles,
+          chickens,
+          resources: gameState.context.state.resources,
+          bumpkinParts: gameState.context.state.bumpkin?.equipped,
+          isEditing,
+        }).sort((a, b) => b.props.y - a.props.y)}
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
       </div>
       <Hud isFarming />
     </>

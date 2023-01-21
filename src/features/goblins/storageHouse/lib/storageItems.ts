@@ -1,6 +1,6 @@
 import { CROPS } from "features/game/types/crops";
 import { Inventory, InventoryItemName } from "features/game/types/game";
-import { RESOURCES } from "features/game/types/resources";
+import { COMMODITIES } from "features/game/types/resources";
 
 /**
  * Items for the storage house
@@ -10,7 +10,7 @@ export function getDeliverableItems(inventory: Inventory) {
     (acc, itemName) => {
       if (
         itemName in CROPS() ||
-        (itemName in RESOURCES && itemName !== "Chicken")
+        (itemName in COMMODITIES && itemName !== "Chicken")
       ) {
         return {
           ...acc,
@@ -32,7 +32,7 @@ export function getBankItems(inventory: Inventory) {
     (acc, itemName) => {
       if (
         itemName in CROPS() ||
-        (itemName in RESOURCES && itemName !== "Chicken")
+        (itemName in COMMODITIES && itemName !== "Chicken")
       ) {
         return acc;
       }

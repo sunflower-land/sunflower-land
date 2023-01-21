@@ -1,7 +1,12 @@
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { CROPS, CROP_SEEDS } from "./crops";
+<<<<<<< HEAD
 import { FRUIT, FruitName } from "./fruits";
+=======
+import { FRUIT } from "./fruits";
+<<<<<<< HEAD
+>>>>>>> ed2fc011 (Move resources onto root level and tokenise)
 import {
   EASTER_EGGS,
   Inventory,
@@ -21,6 +26,11 @@ import {
   WAR_TENT_ITEMS,
 } from "./craftables";
 import { RESOURCES } from "./resources";
+=======
+import { EASTER_EGGS, Inventory, InventoryItemName } from "./game";
+import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
+import { COMMODITIES } from "./resources";
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
 import { canChop } from "../events/landExpansion/chop";
 import { canMine } from "../events/landExpansion/stoneMine";
 import { AchievementName } from "./achievements";
@@ -130,6 +140,7 @@ function hasCompletedAchievement(
 // Group withdraw conditions for common items
 const cropDefaults = buildDefaults(getKeys(CROPS()), true);
 // Fruits will be disabled untill all the fruit SFT's are sold out
+<<<<<<< HEAD
 const fruitDefaults = buildDefaults(getKeys(FRUIT()), false);
 const seedDefaults = buildDefaults(getKeys(SEEDS()), false);
 const beanDefaults = buildDefaults(getKeys(BEANS()), false);
@@ -147,6 +158,10 @@ const heliosBlacksmithDefaults = buildDefaults(
   false
 );
 const resourceDefaults = buildDefaults(getKeys(RESOURCES), true);
+=======
+const fruitDefaults = buildDefaults(Object.keys(FRUIT()), false);
+const resourceDefaults = buildDefaults(Object.keys(COMMODITIES), true);
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
 const mutantChickenDefaults = buildDefaults(
   getKeys(MUTANT_CHICKENS),
   (game) => !areAnyChickensFed(game)

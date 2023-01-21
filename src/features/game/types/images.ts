@@ -353,7 +353,7 @@ import {
   SALESMAN_ITEMS,
 } from "./craftables";
 import { CROPS, CROP_SEEDS } from "./crops";
-import { RESOURCES } from "./resources";
+import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
@@ -548,11 +548,11 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Magic Mushroom": {
-    description: RESOURCES["Magic Mushroom"].description,
+    description: COMMODITIES["Magic Mushroom"].description,
     image: SUNNYSIDE.resource.magic_mushroom,
   },
   "Wild Mushroom": {
-    description: RESOURCES["Wild Mushroom"].description,
+    description: COMMODITIES["Wild Mushroom"].description,
     image: SUNNYSIDE.resource.wild_mushroom,
   },
   Apple: {
@@ -568,7 +568,7 @@ export const ITEM_DETAILS: Items = {
     image: orange,
   },
   Honey: {
-    description: RESOURCES["Honey"].description,
+    description: COMMODITIES["Honey"].description,
     image: honey,
   },
   "Apple Juice": {
@@ -618,43 +618,43 @@ export const ITEM_DETAILS: Items = {
 
   // Resources
   Wood: {
-    ...RESOURCES["Wood"],
+    ...COMMODITIES["Wood"],
     image: SUNNYSIDE.resource.wood,
   },
   Stone: {
-    ...RESOURCES["Stone"],
+    ...COMMODITIES["Stone"],
     image: SUNNYSIDE.resource.stone,
   },
   Iron: {
-    ...RESOURCES["Iron"],
+    ...COMMODITIES["Iron"],
     image: iron,
   },
   Gold: {
-    ...RESOURCES["Gold"],
+    ...COMMODITIES["Gold"],
     image: gold,
   },
   Diamond: {
-    ...RESOURCES["Diamond"],
+    ...COMMODITIES["Diamond"],
     image: SUNNYSIDE.resource.diamond,
   },
   Egg: {
-    ...RESOURCES["Egg"],
+    ...COMMODITIES["Egg"],
     image: SUNNYSIDE.resource.egg,
   },
   Chicken: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.resource.chicken,
   },
   Cow: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
   Sheep: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
   Pig: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
 
@@ -1720,6 +1720,7 @@ export const ITEM_DETAILS: Items = {
     image: redEnvelope,
     description: "Wow, you are lucky!",
   },
+<<<<<<< HEAD
   "Love Letter": {
     image: loveLetter,
     description: "Convey feelings of love",
@@ -1901,5 +1902,27 @@ export const ITEM_DETAILS: Items = {
   Karkinos: {
     image: karkinos,
     description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
+=======
+
+  "Crop Plot": {
+    image: SUNNYSIDE.soil.soil2,
+    description: "A free plot to plant crops on",
+  },
+  "Gold Rock": {
+    image: SUNNYSIDE.resource.gold_rock,
+    description: "A mineable rock to collect gold",
+  },
+  "Iron Rock": {
+    image: SUNNYSIDE.resource.iron_rock,
+    description: "A mineable rock to collect iron",
+  },
+  "Stone Rock": {
+    image: SUNNYSIDE.resource.stone_rock,
+    description: "A mineable rock to collect stone",
+  },
+  Tree: {
+    image: SUNNYSIDE.resource.tree,
+    description: "A choppable tree to collect wood",
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
   },
 };

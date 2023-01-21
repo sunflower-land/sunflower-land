@@ -55,191 +55,14 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
   {
     createdAt: 2,
     readyAt: 0,
-
-    plots: {
-      0: {
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      2: {
-        x: 0,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      3: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      4: {
-        crop: {
-          name: "Sunflower",
-          plantedAt: 0,
-          reward: {
-            items: [
-              {
-                name: "Sunflower Seed",
-                amount: 1,
-              },
-            ],
-          },
-        },
-        x: -1,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      5: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: 0,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      6: {
-        x: -2,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-      7: {
-        x: -1,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-      8: {
-        x: 0,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-    },
-
-    trees: {
-      0: {
-        x: -3,
-        y: 3,
-        height: 2,
-        width: 2,
-        wood: {
-          amount: 0,
-          choppedAt: 0,
-        },
-      },
-    },
-    stones: {
-      0: {
-        x: 0,
-        y: 3,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
-    iron: {
-      0: {
-        x: 1,
-        y: 3,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
   },
-
   {
     createdAt: 3,
     readyAt: 0,
-
-    plots: {},
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 1,
-        height: 2,
-        width: 2,
-      },
-    },
-
-    stones: {
-      0: {
-        x: 1,
-        y: -2,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
   },
   {
     createdAt: 4,
     readyAt: 0,
-
-    plots: {
-      0: {
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      2: {
-        x: -2,
-        y: -2,
-        height: 1,
-        width: 1,
-      },
-      3: {
-        x: -1,
-        y: -2,
-        height: 1,
-        width: 1,
-      },
-    },
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 1,
-        height: 2,
-        width: 2,
-      },
-    },
   },
 ];
 
@@ -280,6 +103,12 @@ export const OFFLINE_FARM: GameState = {
     "Rusty Shovel": new Decimal(10),
     "Bumpkin Salad": new Decimal(1),
     "Beta Pass": new Decimal(1),
+    Pickaxe: new Decimal(10),
+    "Iron Rock": new Decimal(5),
+    "Stone Rock": new Decimal(5),
+    "Gold Rock": new Decimal(3),
+    "Crop Plot": new Decimal(3),
+    Tree: new Decimal(3),
     "Peeled Potato": new Decimal(1),
     "Wood Nymph Wendy": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
@@ -312,6 +141,7 @@ export const OFFLINE_FARM: GameState = {
     "Heart Balloons": new Decimal(1),
     Karkinos: new Decimal(10),
   },
+  auctioneer: {},
   migrated: true,
   stock: INITIAL_STOCK,
   chickens: {},
@@ -485,16 +315,5 @@ export const OFFLINE_FARM: GameState = {
     ],
     seconds: 60,
     sfl: new Decimal(0),
-  },
-  auctioneer: {
-    bid: {
-      bidAt: Date.now(),
-      ingredients: {
-        Gold: 5,
-      },
-      item: "Peeled Potato",
-      sfl: 10,
-      auctionTickets: 10,
-    },
   },
 };

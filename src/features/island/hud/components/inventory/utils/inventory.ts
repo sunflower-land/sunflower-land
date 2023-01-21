@@ -6,11 +6,13 @@ import {
 } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory } from "features/game/types/game";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { setPrecision } from "lib/utils/formatNumber";
 
 const PLACEABLE_DIMENSIONS = {
   ...BUILDINGS_DIMENSIONS,
   ...COLLECTIBLES_DIMENSIONS,
+  ...RESOURCE_DIMENSIONS,
 };
 
 export const getBasketItems = (inventory: Inventory) => {

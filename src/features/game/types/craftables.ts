@@ -13,7 +13,11 @@ import {
   HeliosBlacksmithItem,
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
+<<<<<<< HEAD
 import { BoostTreasure } from "./treasure";
+=======
+import { RESOURCE_DIMENSIONS } from "./resources";
+>>>>>>> b67f7712 (Move resources onto root level and tokenise)
 
 export { FLAGS };
 
@@ -1048,6 +1052,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   ...flagsDimension,
 
   ...DECORATION_DIMENSIONS,
+
+  ...RESOURCE_DIMENSIONS,
 
   // Blacksmith Items
   "Sunflower Statue": { width: 3, height: 4 },
