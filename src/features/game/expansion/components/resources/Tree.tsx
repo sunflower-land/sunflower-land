@@ -36,6 +36,8 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const HITS = 3;
 const tool = "Axe";
@@ -99,16 +101,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setShowPopover(false);
   };
 
-  // Show/Hide Time left on hover
-
-  const handleMouseHoverStump = () => {
-    setShowStumpTimeLeft(true);
-  };
-
-  const handleMouseLeaveStump = () => {
-    setShowStumpTimeLeft(false);
-  };
-
   const axesNeeded = getRequiredAxeAmount(
     game.context.state.inventory,
     game.context.state.collectibles
@@ -120,13 +112,17 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
 
   const shake = async () => {
+    if (chopped) {
+      return;
+    }
+
     if (!hasAxes) {
       return;
     }
 
-    const isPlaying = shakeGif.current?.getInfo("isPlaying");
+    const spriteFrame = shakeGif.current?.getInfo("frame");
 
-    if (isPlaying) {
+    if (spriteFrame && spriteFrame < 6) {
       return;
     }
 
@@ -165,13 +161,21 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     setReward(null);
     setTouchCount(0);
     if (success && tree) {
-      //Toast for the ChestReward
-      //@NOTE This Toast only supports SFL rewards 😭
-      setToast({
-        icon: sfltoken,
-        content: `+${reward?.sfl?.toString()}`,
-      });
       chop();
+
+      if (reward?.sfl) {
+        setToast({
+          icon: sfltoken,
+          content: `+${reward.sfl.toString()}`,
+        });
+      }
+
+      reward?.items?.forEach((item) => {
+        setToast({
+          icon: ITEM_DETAILS[item.name].image,
+          content: `+${setPrecision(new Decimal(item.amount))}`,
+        });
+      });
     }
   };
 
@@ -226,6 +230,8 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   };
 
   const handleHover = () => {
+    if (chopped) setShowStumpTimeLeft(true);
+
     if (!hasAxes) {
       treeRef.current?.classList["add"]("cursor-not-allowed");
       setErrorLabel("noAxe");
@@ -233,6 +239,8 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   };
 
   const handleMouseLeave = () => {
+    setShowStumpTimeLeft(false);
+
     treeRef.current?.classList["remove"]("cursor-not-allowed");
     setErrorLabel(undefined);
   };
@@ -240,23 +248,26 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_TIME);
 
   return (
-    <div className="relative w-full h-full">
+    <div
+      className="relative w-full h-full"
+      onMouseEnter={handleHover}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Unchopped tree which is choppable */}
       {!chopped && (
         <>
           <div
-            onMouseEnter={handleHover}
-            onMouseLeave={handleMouseLeave}
             ref={treeRef}
             className="group cursor-pointer w-full h-full"
             onClick={shake}
           >
             <Spritesheet
-              className="relative group-hover:img-highlight pointer-events-none transform w-full h-full"
+              className="group-hover:img-highlight pointer-events-none"
               style={{
+                position: "absolute",
                 width: `${SHAKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
                 height: `${SHAKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
                 imageRendering: "pixelated",
-                position: "absolute",
 
                 // Adjust the base of tree to be perfectly aligned to
                 // on a grid point.
@@ -281,14 +292,14 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           </div>
           <InnerPanel
             className={classNames(
-              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-50 pointer-events-none p-1",
+              "transition-opacity absolute top-2 w-fit left-20 ml-2 z-50 pointer-events-none",
               {
                 "opacity-100": errorLabel === "noAxe",
                 "opacity-0": errorLabel !== "noAxe",
               }
             )}
           >
-            <div className="text-xxs text-white mx-1">
+            <div className="text-xxs text-white mx-1 p-1">
               <span>Equip {tool.toLowerCase()}</span>
             </div>
           </InnerPanel>
@@ -326,10 +337,11 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
         }}
       />
 
+      {/* Chopped tree */}
       {chopped && (
         <div
+          className="absolute pointer-events-none"
           style={{
-            position: "absolute",
             width: `${GRID_WIDTH_PX * 2}px`,
             height: `${GRID_WIDTH_PX * 2}px`,
             bottom: 0,
@@ -343,8 +355,6 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
               bottom: `${PIXEL_SCALE * 5}px`,
               left: `${PIXEL_SCALE * 8}px`,
             }}
-            onMouseEnter={handleMouseHoverStump}
-            onMouseLeave={handleMouseLeaveStump}
           />
           <div
             className="flex justify-center absolute w-full pointer-events-none"
