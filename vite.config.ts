@@ -16,17 +16,24 @@ export default defineConfig({
       injectData: {},
     }),
     VitePWA({
-      injectRegister: "auto",
+      // strategies: "injectManifest",
+      // srcDir: "src",
+      // filename: "service-worker.js",
       manifest: {
         short_name: "Sunflower Land",
         icons: [
           {
-            src: "./src/assets/brand/logo_with_sunflower_pwa_192.png",
+            src: "/pwa/icon_pwa_144.png",
+            sizes: "144x144",
+            type: "image/png",
+          },
+          {
+            src: "/pwa/icon_pwa_192.png",
             sizes: "192x88",
             type: "image/png",
           },
           {
-            src: "./src/assets/brand/logo_with_sunflower_pwa_512.png",
+            src: "/pwa/icon_pwa_512.png",
             sizes: "512x236",
             type: "image/png",
           },

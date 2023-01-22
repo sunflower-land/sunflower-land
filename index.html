@@ -74,11 +74,6 @@
       defer
     ></script>
     <script>
-      window.addEventListener("load", () => {
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("service-worker.js");
-        }
-      });
       window.addEventListener("beforeinstallprompt", (event) => {
         alert("PWA event fired");
         event.prompt();

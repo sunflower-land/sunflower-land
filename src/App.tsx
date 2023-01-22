@@ -7,11 +7,6 @@ import { Navigation } from "./Navigation";
 import "./styles.css";
 import ErrorBoundary from "features/auth/components/ErrorBoundary";
 
-//Import PWA icons so that they are included in vite build
-import pwaIcon from "assets/brand/icon_pwa.png";
-import icon192 from "assets/brand/logo_with_sunflower_pwa_192.png";
-import icon512 from "assets/brand/logo_with_sunflower_pwa_512.png";
-
 // Initialise Global Settings
 initialise();
 
@@ -24,11 +19,6 @@ export const App: React.FC = () => {
       <ErrorBoundary>
         <Navigation />
       </ErrorBoundary>
-      <div>
-        <img src={pwaIcon} className="hidden" />
-        <img src={icon192} className="hidden" />
-        <img src={icon512} className="hidden" />
-      </div>
     </Auth.Provider>
   );
 };
