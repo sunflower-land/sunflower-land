@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { minifyHtml, injectHtml } from "vite-plugin-html";
@@ -6,66 +6,70 @@ import inject from "@rollup/plugin-inject";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    reactRefresh(),
-    tsconfigPaths(),
-    minifyHtml(),
-    injectHtml({
-      // TODO with API environment variables
-      injectData: {},
-    }),
-    VitePWA({
-      // strategies: "injectManifest",
-      // srcDir: "src",
-      // filename: "service-worker.js",
-      manifest: {
-        short_name: "Sunflower Land",
-        icons: [
-          {
-            src: `https://sunflower-land.com/pwa-poc/pwa/icon_pwa_144.png`,
-            sizes: "144x144",
-            type: "image/png",
-          },
-          {
-            src: `https://sunflower-land.com/pwa-poc/pwa/icon_pwa_192.png`,
-            sizes: "192x88",
-            type: "image/png",
-          },
-          {
-            src: `https://sunflower-land.com/pwa-poc/pwa/icon_pwa_512.png`,
-            sizes: "512x236",
-            type: "image/png",
-          },
-        ],
-        display: "fullscreen",
-        theme_color: "#5FC14C",
-        background_color: "#10A3E3",
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
+  return {
+    plugins: [
+      reactRefresh(),
+      tsconfigPaths(),
+      minifyHtml(),
+      injectHtml({
+        // TODO with API environment variables
+        injectData: {},
+      }),
+      VitePWA({
+        // strategies: "injectManifest",
+        // srcDir: "src",
+        // filename: "service-worker.js",
+        manifest: {
+          short_name: "Sunflower Land",
+          icons: [
+            {
+              src: `${env.PWA_URL}pwa/icon_pwa_144.png`,
+              sizes: "144x144",
+              type: "image/png",
+            },
+            {
+              src: `${env.PWA_URL}pwa/icon_pwa_192.png`,
+              sizes: "192x88",
+              type: "image/png",
+            },
+            {
+              src: `${env.PWA_URL}pwa/icon_pwa_512.png`,
+              sizes: "512x236",
+              type: "image/png",
+            },
+          ],
+          display: "fullscreen",
+          theme_color: "#5FC14C",
+          background_color: "#10A3E3",
+        },
+      }),
+    ],
+    // Addresses web3 issue
+    resolve: {
+      alias: {
+        web3: "web3/dist/web3.min.js",
+        process: "process/browser",
+        stream: "stream-browserify",
+        zlib: "browserify-zlib",
+        util: "util",
       },
-    }),
-  ],
-  // Addresses web3 issue
-  resolve: {
-    alias: {
-      web3: "web3/dist/web3.min.js",
-      process: "process/browser",
-      stream: "stream-browserify",
-      zlib: "browserify-zlib",
-      util: "util",
     },
-  },
-  css: {
-    modules: {},
-  },
-  base: "./",
-  build: {
-    chunkSizeWarningLimit: 1000,
-    assetsDir: "assets",
-    commonjsOptions: {
-      transformMixedEsModules: true,
+    css: {
+      modules: {},
     },
-    rollupOptions: {
-      plugins: [inject({ Buffer: ["buffer", "Buffer"] })],
+    base: "./",
+    build: {
+      chunkSizeWarningLimit: 1000,
+      assetsDir: "assets",
+      commonjsOptions: {
+        transformMixedEsModules: true,
+      },
+      rollupOptions: {
+        plugins: [inject({ Buffer: ["buffer", "Buffer"] })],
+      },
     },
-  },
+  };
 });
