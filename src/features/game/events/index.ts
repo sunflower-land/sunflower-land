@@ -116,6 +116,10 @@ import {
   craftCollectible,
   CraftCollectibleAction,
 } from "./landExpansion/craftCollectible";
+import {
+  buyResetSkill,
+  ResetSkillAction,
+} from "features/game/events/landExpansion/buyResetSkills";
 
 export type PlayingEvent =
   | TradeAction
@@ -152,7 +156,8 @@ export type PlayingEvent =
   | PlantFruitAction
   | HarvestFruitAction
   | RemoveFruitTreeAction
-  | CraftCollectibleAction;
+  | CraftCollectibleAction
+  | ResetSkillAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -210,6 +215,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "fruit.harvested": harvestFruit,
   "fruitTree.removed": removeFruitTree,
   "collectible.crafted": craftCollectible,
+  "reset.skill": buyResetSkill,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

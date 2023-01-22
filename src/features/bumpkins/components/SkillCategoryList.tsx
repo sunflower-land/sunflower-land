@@ -18,6 +18,10 @@ import cooking from "assets/skills/land/skill-tree-icon/cooking.png";
 import crops from "assets/skills/land/skill-tree-icon/crops.png";
 import rocks from "assets/skills/land/skill-tree-icon/rocks.png";
 import trees from "assets/skills/land/skill-tree-icon/trees.png";
+import { Modal } from "react-bootstrap";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Button } from "components/ui/Button";
+import { ResetSkills } from "features/bumpkins/components/ResetSkills";
 
 const iconList = {
   Crops: crops,
@@ -29,8 +33,10 @@ const iconList = {
 
 export const SkillCategoryList = ({
   onClick,
+  onClose,
 }: {
   onClick: (category: BumpkinSkillTree) => void;
+  onClose: () => void;
 }) => {
   const { gameService } = useContext(Context);
   const [
@@ -40,6 +46,9 @@ export const SkillCategoryList = ({
   ] = useActor(gameService);
 
   const { bumpkin } = state;
+
+  const [showResetSkill, setShowResetSkill] = React.useState(false);
+
   return (
     <>
       {SKILL_TREE_CATEGORIES.map((category) => {
@@ -72,6 +81,28 @@ export const SkillCategoryList = ({
           </div>
         );
       })}
+      <div>
+        <Button
+          className="text-xxs sm:text-xs mt-1"
+          onClick={() => setShowResetSkill(true)}
+        >
+          RESET SKILLS
+        </Button>
+      </div>
+      {showResetSkill && (
+        <Modal
+          show={showResetSkill}
+          onHide={() => setShowResetSkill(false)}
+          centered
+        >
+          <CloseButtonPanel
+            title="Reset Skills"
+            onClose={() => setShowResetSkill(false)}
+          >
+            <ResetSkills bumpkin={bumpkin} onClose={onClose} />
+          </CloseButtonPanel>
+        </Modal>
+      )}
     </>
   );
 };

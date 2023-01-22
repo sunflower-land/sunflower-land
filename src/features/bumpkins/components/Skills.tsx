@@ -132,6 +132,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
         {!selectedSkillPath && (
           <SkillCategoryList
             onClick={(category) => onSkillCategoryClickHandler(category)}
+            onClose={onClose}
           />
         )}
         {selectedSkillPath && (
