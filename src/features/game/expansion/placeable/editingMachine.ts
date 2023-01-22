@@ -71,18 +71,34 @@ export const editingMachine = createMachine<
         DRAG: {
           target: "dragging",
         },
-        PLACE: {
-          target: "placed",
-          actions: sendParent(
-            ({ placeable, action, coordinates: { x, y } }) =>
-              ({
-                type: action,
-                name: placeable,
-                coordinates: { x, y },
-                id: uuidv4(),
-              } as PlacementEvent)
-          ),
-        },
+        PLACE: [
+          {
+            target: "idle",
+            // If they have more to place?
+            cond: () => true,
+            actions: sendParent(
+              ({ placeable, action, coordinates: { x, y } }) =>
+                ({
+                  type: action,
+                  name: placeable,
+                  coordinates: { x, y },
+                  id: uuidv4(),
+                } as PlacementEvent)
+            ),
+          },
+          {
+            target: "close",
+            actions: sendParent(
+              ({ placeable, action, coordinates: { x, y } }) =>
+                ({
+                  type: action,
+                  name: placeable,
+                  coordinates: { x, y },
+                  id: uuidv4(),
+                } as PlacementEvent)
+            ),
+          },
+        ],
       },
     },
     dragging: {
@@ -95,14 +111,6 @@ export const editingMachine = createMachine<
         },
         DROP: {
           target: "idle",
-        },
-      },
-    },
-    placed: {
-      after: {
-        // 300ms allows time for the .bulge animation
-        300: {
-          target: "close",
         },
       },
     },
