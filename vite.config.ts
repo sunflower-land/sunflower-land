@@ -23,17 +23,17 @@ export default defineConfig({
         short_name: "Sunflower Land",
         icons: [
           {
-            src: "/pwa/icon_pwa_144.png",
+            src: `https://sunflower-land.com/pwa-poc/pwa/icon_pwa_144.png`,
             sizes: "144x144",
             type: "image/png",
           },
           {
-            src: "/pwa/icon_pwa_192.png",
+            src: `https://sunflower-land.com/pwa-poc/pwa/icon_pwa_192.png`,
             sizes: "192x88",
             type: "image/png",
           },
           {
-            src: "/pwa/icon_pwa_512.png",
+            src: `https://sunflower-land.com/pwa-poc/pwa/icon_pwa_512.png`,
             sizes: "512x236",
             type: "image/png",
           },
