@@ -21,7 +21,7 @@ const maxItems: Inventory = {
   Blueberry: new Decimal("100"),
 
   Chicken: new Decimal("20"),
-  Egg: new Decimal("60"),
+  Egg: new Decimal("100"),
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
