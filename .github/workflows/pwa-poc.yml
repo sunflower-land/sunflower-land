@@ -63,7 +63,6 @@ jobs:
           VITE_WMATIC_CONTRACT: "0x2D2D57e23a1F2bBD22e83Bb018D333cae7f70BBA"
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
           VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
-          VITE_PWA_URL: "https://sunflower-land.com/pwa-poc/"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
