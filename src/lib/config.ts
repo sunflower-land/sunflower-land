@@ -39,7 +39,6 @@ const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
 const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
-const PWA_URL = import.meta.env.VITE_PWA_URL as string;
 
 export const CONFIG = {
   NETWORK,
@@ -77,5 +76,4 @@ export const CONFIG = {
   EASTER_EGG_CONTRACT,
   SEAL_CONTRACT,
   ALCHEMY_RPC,
-  PWA_URL,
 };
