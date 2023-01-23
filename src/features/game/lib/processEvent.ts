@@ -21,7 +21,7 @@ const maxItems: Inventory = {
   Blueberry: new Decimal("100"),
 
   Chicken: new Decimal("20"),
-  Egg: new Decimal("60"),
+  Egg: new Decimal("100"),
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
@@ -50,6 +50,7 @@ const maxItems: Inventory = {
   "Goblin War Banner": new Decimal(1),
   "Chef Hat": new Decimal(1),
   "Rapid Growth": new Decimal(100),
+  "Red Envelope": new Decimal(100),
 
   // Max of 1000 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(

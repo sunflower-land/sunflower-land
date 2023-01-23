@@ -99,7 +99,7 @@ export const ArcadeDonation: React.FC = () => {
                   if (donation < 0.1) setDonation(0.1);
                 }}
               />
-              <div className="flex flex-col justify-between">
+              <div className="flex flex-col justify-between ml-2">
                 <img
                   src={SUNNYSIDE.icons.arrow_up}
                   alt="increment donation value"
