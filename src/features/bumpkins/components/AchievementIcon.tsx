@@ -49,7 +49,7 @@ export const AchievementIcon: React.FC<Props> = ({
         )}
       >
         <img
-          src={SUNNYSIDE.icons.disc}
+          src={SUNNYSIDE.icons.disc_large}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
