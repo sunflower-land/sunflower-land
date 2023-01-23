@@ -19,17 +19,21 @@ interface Props {
   title?: string;
   showCloseButton?: boolean;
   onClose?: () => void;
+  showBackButton?: boolean;
+  onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
 }
 
 /**
  * A custom panel built for the game.
  * @tabs The tabs of the panel.
- * @title The panel title.
- * @currentTab The current selected tab index.
+ * @currentTab The current selected tab index of the panel. Default is 0.
  * @setCurrentTab Dispatch method to set the current selected tab index.
- * @closeable Whether the close button is shown for the panel.
+ * @title The panel title.
+ * @showCloseButton Whether to show the close button for the panel or not. Default is true.
  * @onClose The close panel method.
+ * @showCloseButton Whether to show the back button for the panel or not. Default is true.
+ * @onClose The back button method.
  * @bumpkinParts The list of bumpkin parts for the modal.
  * @children The panel children content.
  */
@@ -40,6 +44,8 @@ export const CloseButtonPanel: React.FC<Props> = ({
   title,
   showCloseButton = true,
   onClose,
+  showBackButton = false,
+  onBack,
   bumpkinParts,
   children,
 }) => {
@@ -95,25 +101,38 @@ export const CloseButtonPanel: React.FC<Props> = ({
       <div>
         {title && (
           <div className="flex text-center">
-            {showCloseButton && !tabs && (
+            {(showCloseButton || showBackButton) && !tabs && (
               <div
                 className="flex-none"
                 style={{
                   width: `${PIXEL_SCALE * 11}px`,
                 }}
-              />
+              >
+                {showBackButton && (
+                  <img
+                    src={SUNNYSIDE.icons.arrow_left}
+                    className="cursor-pointer"
+                    onClick={onBack}
+                    style={{
+                      width: `${PIXEL_SCALE * 11}px`,
+                    }}
+                  />
+                )}
+              </div>
             )}
             <div className="grow mb-3 text-lg">{title}</div>
-            {showCloseButton && !tabs && (
+            {(showCloseButton || showBackButton) && !tabs && (
               <div className="flex-none">
-                <img
-                  src={SUNNYSIDE.icons.close}
-                  className="cursor-pointer"
-                  onClick={onClose}
-                  style={{
-                    width: `${PIXEL_SCALE * 11}px`,
-                  }}
-                />
+                {showCloseButton && (
+                  <img
+                    src={SUNNYSIDE.icons.close}
+                    className="cursor-pointer"
+                    onClick={onClose}
+                    style={{
+                      width: `${PIXEL_SCALE * 11}px`,
+                    }}
+                  />
+                )}
               </div>
             )}
           </div>

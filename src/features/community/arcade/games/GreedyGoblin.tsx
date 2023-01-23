@@ -55,6 +55,7 @@ const CANVAS_WIDTH = 300;
 const CANVAS_HEIGHT = 300;
 const INIT_GAME_INTERVAL = 2000; // 2s
 const INIT_DROP_INTERVAL = 100; // 100ms
+const INIT_SKULL_DROP_INTERVAL = 3; // drop skull every 3 tokens
 
 const goblinImage = new Image();
 goblinImage.src = goblin;
@@ -85,9 +86,11 @@ export const GreedyGoblin: React.FC = () => {
   const [renderPoints, setRenderPoints] = useState(0); // display
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const gameLogicTimeout = useRef<NodeJS.Timeout>();
   const intervalIds = useRef<IntervalType[]>([]);
   const gameInterval = useRef(INIT_GAME_INTERVAL);
   const dropInterval = useRef(INIT_DROP_INTERVAL);
+  const skullDropInterval = useRef(INIT_SKULL_DROP_INTERVAL);
   const isGameOver = useRef(false);
   const points = useRef(0);
   const goblinPosX = useRef(0);
@@ -227,6 +230,7 @@ export const GreedyGoblin: React.FC = () => {
 
     return () => {
       intervalIds.current.forEach((id) => clearInterval(id));
+      stopGameLogic();
       document.removeEventListener("keydown", keydownKeyboardListener);
       document.removeEventListener("keyup", keyupKeyboardListener);
 
@@ -252,10 +256,8 @@ export const GreedyGoblin: React.FC = () => {
 
     context?.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     context?.drawGoblinImage();
-    dropItem(Token);
 
-    const interval = setInterval(gameLogic, gameInterval.current);
-    intervalIds.current.push(interval);
+    startGameLogic();
   };
 
   /**
@@ -282,20 +284,109 @@ export const GreedyGoblin: React.FC = () => {
   };
 
   /**
+   * Decrease game and drop interval (increase difficulty) as player gain more points
+   */
+  const setDifficulty = () => {
+    if (points.current > 2000) {
+      skullDropInterval.current = 1;
+    } else if (points.current > 1000) {
+      skullDropInterval.current = 2;
+    } else {
+      skullDropInterval.current = INIT_SKULL_DROP_INTERVAL;
+    }
+
+    if (points.current > 4000) {
+      gameInterval.current = 800;
+      dropInterval.current = 40;
+    } else if (points.current > 3500) {
+      gameInterval.current = 900;
+      dropInterval.current = 45;
+    } else if (points.current > 3000) {
+      gameInterval.current = 1000;
+      dropInterval.current = 50;
+    } else if (points.current > 2500) {
+      gameInterval.current = 1100;
+      dropInterval.current = 55;
+    } else if (points.current > 2000) {
+      gameInterval.current = 1200;
+      dropInterval.current = 60;
+    } else if (points.current > 1500) {
+      gameInterval.current = 1300;
+      dropInterval.current = 65;
+    } else if (points.current > 1000) {
+      gameInterval.current = 1400;
+      dropInterval.current = 70;
+    } else if (points.current > 800) {
+      gameInterval.current = 1500;
+      dropInterval.current = 75;
+    } else if (points.current > 500) {
+      gameInterval.current = 1600;
+      dropInterval.current = 80;
+    } else if (points.current > 250) {
+      gameInterval.current = 1700;
+      dropInterval.current = 85;
+    } else if (points.current > 100) {
+      gameInterval.current = 1800;
+      dropInterval.current = 90;
+    } else if (points.current > 50) {
+      gameInterval.current = 1900;
+      dropInterval.current = 95;
+    } else if (points.current > 20) {
+      gameInterval.current = 1950;
+      dropInterval.current = 97.5;
+    } else {
+      gameInterval.current = INIT_GAME_INTERVAL;
+      dropInterval.current = INIT_DROP_INTERVAL;
+    }
+  };
+
+  /**
+   * Start game logic
+   */
+  const startGameLogic = () => {
+    if (!gameLogicTimeout.current) {
+      loopGameLogic();
+    }
+  };
+
+  /**
+   * Loop game logic
+   */
+  const loopGameLogic = () => {
+    setDifficulty();
+    gameLogic();
+
+    // refresh game interval for game logic
+    if (isPlaying) {
+      stopGameLogic();
+      gameLogicTimeout.current = setTimeout(
+        loopGameLogic,
+        gameInterval.current
+      );
+    }
+
+    // loop initial game logic
+    gameLogicTimeout.current = setTimeout(loopGameLogic, gameInterval.current);
+  };
+
+  /**
+   * Stop game logic
+   */
+  const stopGameLogic = () => {
+    if (gameLogicTimeout.current) {
+      clearTimeout(gameLogicTimeout.current);
+      gameLogicTimeout.current = undefined;
+    }
+  };
+
+  /**
    * Perform item drop
-   * Update interval rate
-   * @todo: finalize logic
    */
   const gameLogic = () => {
-    if (points.current > 50 && gameInterval.current === INIT_GAME_INTERVAL) {
-      gameInterval.current = 1600;
-    }
-
-    if (points.current > 4 && dropInterval.current === INIT_DROP_INTERVAL) {
-      dropInterval.current = 75;
-    }
-
-    if (points.current % 3 === 0 && points.current > 0) {
+    if (
+      points.current % skullDropInterval.current === 0 &&
+      points.current > 0
+    ) {
       const items = [Skull, Token].sort(() => 0.5 - Math.random());
       const item1 = items[0];
       const item2 = items[1];
@@ -386,6 +477,7 @@ export const GreedyGoblin: React.FC = () => {
 
       intervalIds.current.forEach((id) => clearInterval(id));
       intervalIds.current = [];
+      stopGameLogic();
       setIsPlaying(false);
     }
 
@@ -398,6 +490,9 @@ export const GreedyGoblin: React.FC = () => {
 
       context?.clearRect(x, y, imgWidth, imgHeight);
       clearInterval(interval);
+      intervalIds.current = [
+        ...intervalIds.current.filter((i) => i !== interval),
+      ];
 
       // redraw goblin after collision
       context?.drawGoblinImage();
@@ -407,6 +502,9 @@ export const GreedyGoblin: React.FC = () => {
     else if (!catchable && collideGround) {
       context?.clearRect(x, y, imgWidth, imgHeight);
       clearInterval(interval);
+      intervalIds.current = [
+        ...intervalIds.current.filter((i) => i !== interval),
+      ];
     }
   };
 
