@@ -22,7 +22,7 @@ import { ProjectDignitySeals } from "features/community/components/ProjectDignit
 import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
-import { ChineseNewYearQuest } from "./ChineseNewYearQuest";
+import { LunarNewYearQuest } from "./LunarNewYearQuest";
 
 export const LAND_WIDTH = 6;
 
@@ -112,20 +112,36 @@ export const Water: React.FC<Props> = ({ level }) => {
             width: `${PIXEL_SCALE * 86}px`,
           }}
         />
-        <Arcade left={3} top={0.625} />
+        <div
+          className="absolute"
+          style={{
+            top: `${GRID_WIDTH_PX * 2 - PIXEL_SCALE * 1}px`,
+            left: `${GRID_WIDTH_PX * 3}px`,
+          }}
+        >
+          <Arcade />
+        </div>
       </MapPlacement>
 
       <FarmerQuest />
-      <ChineseNewYearQuest />
+      <LunarNewYearQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
-        <Pirate />
         <img
           src={pirateIsland}
           style={{
             width: `${PIXEL_SCALE * 78}px`,
           }}
         />
+        <div
+          className="absolute"
+          style={{
+            top: `${GRID_WIDTH_PX * 3}px`,
+            left: `${GRID_WIDTH_PX * 2}px`,
+          }}
+        >
+          <Pirate />
+        </div>
       </MapPlacement>
 
       <MapPlacement x={18} y={-13} width={6}>

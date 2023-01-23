@@ -1,27 +1,19 @@
 import React, { useState } from "react";
-import { Carousel, CarouselItem } from "react-bootstrap";
 
-import { donationMachine } from "../merchant/lib/donationMachine";
+import { donationMachine } from "features/community/merchant/lib/donationMachine";
 
 import { Button } from "components/ui/Button";
 
 import { roundToOneDecimal } from "features/auth/components";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ARCADE_GAMES } from "../lib/constants";
 import { useMachine } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
+import mrChu from "src/assets/events/lunar-new-year/mr_chu.gif";
+import { CONFIG } from "lib/config";
 
-const GAMES = Object.values(ARCADE_GAMES);
-
-export const ArcadeDonation: React.FC = () => {
+export const LunarNewYearDonation: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [donation, setDonation] = useState(1);
-
-  const updateActiveIndex = (newIdx: number) => {
-    setActiveIndex(newIdx % GAMES.length);
-  };
-
+  const LUNAR_NEW_YEAR_DONATION_ADDRESS = CONFIG.LUNAR_NEW_YEAR_DONATION;
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // If keyboard input "" convert to 0
     // Typed input validation will happen in onBlur
@@ -41,9 +33,10 @@ export const ArcadeDonation: React.FC = () => {
   };
 
   const donate = () => {
+    console.log(LUNAR_NEW_YEAR_DONATION_ADDRESS);
     send("DONATE", {
       donation,
-      to: GAMES[activeIndex].donationAddress,
+      to: LUNAR_NEW_YEAR_DONATION_ADDRESS,
     });
   };
 
@@ -52,39 +45,12 @@ export const ArcadeDonation: React.FC = () => {
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
           <p className="my-2">
-            Thank you for your support! Kindly choose the game that you like
-            donate to.
+            Thank you for your support! Kindly choose the amount you want to
+            donate!
           </p>
-          <Carousel
-            activeIndex={activeIndex}
-            interval={null}
-            indicators={false}
-            onSelect={updateActiveIndex}
-            prevIcon={
-              <img
-                src={SUNNYSIDE.icons.arrow_left}
-                className="absolute cursor-pointer"
-                style={{
-                  width: `${PIXEL_SCALE * 11}px`,
-                }}
-              />
-            }
-            nextIcon={
-              <img
-                src={SUNNYSIDE.icons.arrow_right}
-                className="absolute cursor-pointer"
-                style={{
-                  width: `${PIXEL_SCALE * 11}px`,
-                }}
-              />
-            }
-          >
-            {GAMES.map(({ title }) => (
-              <CarouselItem key={title}>
-                <div className="flex justify-center my-4">{title}</div>
-              </CarouselItem>
-            ))}
-          </Carousel>
+          <div className="flex flex-col items-center">
+            <img id="bottle" src={mrChu} className="w-20" />
+          </div>
           <div className="flex flex-col items-center">
             <div className="flex">
               <input
@@ -99,7 +65,7 @@ export const ArcadeDonation: React.FC = () => {
                   if (donation < 0.1) setDonation(0.1);
                 }}
               />
-              <div className="flex flex-col justify-between ml-2">
+              <div className="flex flex-col justify-between">
                 <img
                   src={SUNNYSIDE.icons.arrow_up}
                   alt="increment donation value"
