@@ -13,7 +13,7 @@ export const Revealing: React.FC = () => {
         alt="digging"
         className="my-2"
         style={{
-          width: `${PIXEL_SCALE * 33}px`,
+          width: `${PIXEL_SCALE * 16}px`,
         }}
       />
       <span
