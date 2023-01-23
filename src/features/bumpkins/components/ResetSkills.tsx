@@ -27,19 +27,12 @@ export const ResetSkills: React.FC<Props> = ({ bumpkin }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const buy = (amount = 1) => {
-    gameService.send("reset.skill", {});
+    gameService.send("reset.skill");
 
     setToast({
       icon: tokenStatic,
       content: `-${amount.toString()}`,
     });
-  };
-
-  const reset = (bumpkin: Bumpkin | undefined) => {
-    if (bumpkin?.skills) {
-      bumpkin.skills = {};
-      buy(PRICE);
-    }
   };
 
   const noSKillBumpkin = (bumpkin: Bumpkin | undefined) => {
@@ -74,7 +67,7 @@ export const ResetSkills: React.FC<Props> = ({ bumpkin }) => {
             <div className="flex">
               <Button
                 onClick={() => {
-                  reset(bumpkin);
+                  buy();
                   setIsOpen(false);
                 }}
               >
@@ -87,5 +80,4 @@ export const ResetSkills: React.FC<Props> = ({ bumpkin }) => {
       )}
     </>
   );
-  //}
 };

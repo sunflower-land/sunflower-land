@@ -2,6 +2,7 @@ import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 
 export type ResetSkillAction = {
   type: "reset.skill";
@@ -37,6 +38,10 @@ export function buyResetSkill({ state }: Options) {
 
   if (stateCopy.balance.lessThan(totalExpenses)) {
     throw new Error("Insufficient tokens");
+  }
+
+  for (const key in bumpkin.skills) {
+    delete bumpkin.skills[key as BumpkinSkillName];
   }
 
   return {
