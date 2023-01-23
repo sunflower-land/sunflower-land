@@ -68,7 +68,7 @@ export function harvestFruit({
     throw new Error("Nothing was planted");
   }
 
-  const { name, plantedAt, harvestsLeft, harvestedAt } = patch.fruit;
+  const { name, plantedAt, harvestsLeft, harvestedAt, amount } = patch.fruit;
 
   const { seed } = FRUIT()[name];
   const { plantSeconds } = FRUIT_SEEDS()[seed];
@@ -85,13 +85,13 @@ export function harvestFruit({
     throw new Error("No harvest left");
   }
 
+  stateCopy.inventory[name] =
+    stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
+
   patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
   patch.fruit.harvestedAt = createdAt;
 
   patch.fruit.amount = getFruitYield(name, stateCopy.collectibles);
-
-  stateCopy.inventory[name] =
-    stateCopy.inventory[name]?.add(1) || new Decimal(1);
 
   const activityName: BumpkinActivityName = `${name} Harvested`;
 
