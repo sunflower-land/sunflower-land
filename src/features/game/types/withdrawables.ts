@@ -1,28 +1,51 @@
-import { KNOWN_IDS } from ".";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { FRUIT } from "./fruits";
-import { EASTER_EGGS, Inventory, InventoryItemName } from "./game";
-import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
+import {
+  EASTER_EGGS,
+  Inventory,
+  InventoryItemName,
+  COUPONS,
+  FERTILISERS,
+} from "./game";
+import {
+  FLAGS,
+  FOODS,
+  getKeys,
+  MUTANT_CHICKENS,
+  QUEST_ITEMS,
+  SHOVELS,
+  TOOLS,
+  WAR_BANNERS,
+  WAR_TENT_ITEMS,
+} from "./craftables";
 import { RESOURCES } from "./resources";
 import { canChop } from "../events/landExpansion/chop";
 import { canMine } from "../events/landExpansion/stoneMine";
 import { AchievementName } from "./achievements";
+import { SEEDS } from "./seeds";
+import { BEANS } from "./beans";
+import { TREASURE } from "./treasure";
+import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
+import { SKILL_TREE } from "./skills";
+import { BUILDINGS } from "./buildings";
+import { CONSUMABLES } from "./consumables";
+import { DECORATIONS } from "./decorations";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
 // Helps build withdraw rules for item groups
-function buildDefaults(
-  itemNames: string[],
+function buildDefaults<T extends InventoryItemName>(
+  itemNames: T[],
   withdrawCondition: WithdrawCondition
-): Partial<Record<InventoryItemName, WithdrawCondition>> {
+): Record<T, WithdrawCondition> {
   return itemNames.reduce(
     (prev, cur) => ({
       ...prev,
       [cur]: withdrawCondition,
     }),
-    {}
+    {} as Record<T, WithdrawCondition>
   );
 }
 
@@ -88,38 +111,84 @@ function hasCompletedAchievment(
   return Object.keys(game.bumpkin?.achievements ?? []).includes(achievement);
 }
 
-// Everything is non-withdrawable by default
-const globalDefaults = Object.keys(KNOWN_IDS).reduce(
-  (prev, cur) => ({
-    ...prev,
-    [cur]: false,
-  }),
-  {}
-) as Record<InventoryItemName, WithdrawCondition>;
-
 // Group withdraw conditions for common items
-const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
+const cropDefaults = buildDefaults(getKeys(CROPS()), true);
 // Fruits will be disabled untill all the fruit SFT's are sold out
-const fruitDefaults = buildDefaults(Object.keys(FRUIT()), false);
-const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
+const fruitDefaults = buildDefaults(getKeys(FRUIT()), false);
+const seedDefaults = buildDefaults(getKeys(SEEDS()), false);
+const beanDefaults = buildDefaults(getKeys(BEANS()), false);
+const questItemDefaults = buildDefaults(getKeys(QUEST_ITEMS), false);
+const warTentItemsDefaults = buildDefaults(getKeys(WAR_TENT_ITEMS), false);
+const toolDefaults = buildDefaults(getKeys(TOOLS), false);
+const foodDefaults = buildDefaults(getKeys(FOODS()), false);
+const shovelDefaults = buildDefaults(getKeys(SHOVELS), false);
+const warBannerDefaults = buildDefaults(getKeys(WAR_BANNERS), false);
+const heliosBlacksmithDefaults = buildDefaults(
+  getKeys(HELIOS_BLACKSMITH_ITEMS),
+  false
+);
+const treasureDefaults = buildDefaults(getKeys(TREASURE()), false);
+const resourceDefaults = buildDefaults(getKeys(RESOURCES), true);
 const mutantChickenDefaults = buildDefaults(
-  Object.keys(MUTANT_CHICKENS),
+  getKeys(MUTANT_CHICKENS),
   (game) => !areAnyChickensFed(game)
 );
-const flagDefaults = buildDefaults(Object.keys(FLAGS), true);
+const flagDefaults = buildDefaults(getKeys(FLAGS), true);
 const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], true);
+const skillDefaults = buildDefaults(getKeys(SKILL_TREE), false);
+const couponDefaults = buildDefaults(getKeys(COUPONS), false);
+const buildingDefaults = buildDefaults(getKeys(BUILDINGS()), false);
+const fertiliserDefaults = buildDefaults(getKeys(FERTILISERS), false);
+const consumableDefaults = buildDefaults(getKeys(CONSUMABLES), false);
+const decorationDefaults = buildDefaults(getKeys(DECORATIONS()), false);
+
+const mutantCropDefaults = {
+  "Stellar Sunflower": false,
+  "Peaceful Potato": false,
+  "Perky Pumpkin": false,
+  "Colossal Crop": false,
+};
+const specialEventsDefaults = {
+  "Chef Apron": false,
+  "Chef Hat": false,
+};
+const pointDefaults = {
+  "Human War Point": false,
+  "Goblin War Point": false,
+};
 
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
-  ...globalDefaults,
   ...cropDefaults,
+  ...seedDefaults,
+  ...beanDefaults,
+  ...questItemDefaults,
+  ...warTentItemsDefaults,
+  ...toolDefaults,
+  ...foodDefaults,
+  ...shovelDefaults,
+  ...warBannerDefaults,
+  ...heliosBlacksmithDefaults,
+  ...treasureDefaults,
   ...fruitDefaults,
   ...resourceDefaults,
   ...mutantChickenDefaults,
   ...flagDefaults,
   ...easterEggDefaults,
+  ...skillDefaults,
+  ...couponDefaults,
+  ...buildingDefaults,
+  ...fertiliserDefaults,
+  ...consumableDefaults,
+  ...decorationDefaults,
+  ...mutantCropDefaults,
+  ...specialEventsDefaults,
+  ...pointDefaults,
 
   // Explicit Rules
   Chicken: false,
+  Cow: false,
+  Pig: false,
+  Sheep: false,
   "Basic Bear": false,
   "Farm Cat": true,
   "Farm Dog": true,
@@ -158,6 +227,11 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Christmas Bear": true,
   "War Skull": true,
   "War Tombstone": true,
+  "Maneki Neko": false,
+  "Black Bearry": false,
+  "Squirrel Monkey": false,
+  "Lady Bug": false,
+  "Cyborg Bear": true,
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
@@ -180,6 +254,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
+  "Collectible Bear": () =>
+    Date.now() < new Date("2023-02-01T08:30:00.000Z").getTime(),
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
