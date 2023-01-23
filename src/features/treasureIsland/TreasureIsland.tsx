@@ -9,10 +9,7 @@ import shadow from "assets/npcs/shadow.png";
 import { IslandTravelWrapper } from "./components/IslandTravelWrapper";
 import { GoblinDigging } from "./components/GoblinDigging";
 import { TreasureShop } from "./components/TreasureShop";
-import {
-  Coordinates,
-  MapPlacement,
-} from "features/game/expansion/components/MapPlacement";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SandPlot } from "./components/SandPlot";
 
@@ -446,6 +443,8 @@ const CLICKABLE_COORDINATES: Coordinates[] = [
     y: -4,
   },
 ];
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { TreasureDetector } from "./components/TreasureDetector";
 
 export const TreasureIsland: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
@@ -486,6 +485,7 @@ export const TreasureIsland: React.FC = () => {
         ))}
         <GoblinDigging />
         <TreasureShop />
+        <TreasureDetector />
 
         <MapPlacement x={-7} y={9} height={1} width={1}>
           <img
