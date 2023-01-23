@@ -1,8 +1,17 @@
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   CHICKEN_COOP_MULTIPLIER,
   HEN_HOUSE_CAPACITY,
 } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
+
+export const getFruitHarvests = (state: Readonly<GameState>) => {
+  if (isCollectibleBuilt("Immortal Pear", state.collectibles)) {
+    return [4, 6];
+  }
+
+  return [3, 5];
+};
 
 export const getSupportedChickens = (state: Readonly<GameState>) => {
   const henHouses =

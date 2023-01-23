@@ -31,8 +31,8 @@ import { Bumpkin, Inventory } from "features/game/types/game";
 import { FRUIT } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 
 interface Props {
   onClose: () => void;
@@ -223,11 +223,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return null;
     }
 
-    if (isCollectibleBuilt("Immortal Pear", collectibles)) {
-      return [4, 6];
-    }
-
-    return [3, 5];
+    return getFruitHarvests(state);
   };
 
   return (
