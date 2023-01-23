@@ -33,10 +33,8 @@ const iconList = {
 
 export const SkillCategoryList = ({
   onClick,
-  onClose,
 }: {
   onClick: (category: BumpkinSkillTree) => void;
-  onClose: () => void;
 }) => {
   const { gameService } = useContext(Context);
   const [
@@ -99,7 +97,7 @@ export const SkillCategoryList = ({
             title="Reset Skills"
             onClose={() => setShowResetSkill(false)}
           >
-            <ResetSkills bumpkin={bumpkin} onClose={onClose} />
+            <ResetSkills bumpkin={bumpkin} />
           </CloseButtonPanel>
         </Modal>
       )}

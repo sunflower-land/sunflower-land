@@ -5,15 +5,17 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import tokenStatic from "assets/icons/token_2.png";
 import { Bumpkin } from "features/game/types/game";
 import { Button } from "components/ui/Button";
+import token from "assets/icons/token_2.png";
+import { Modal } from "react-bootstrap";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   bumpkin: Bumpkin | undefined;
-  onClose: () => void;
 }
 
 const PRICE = 100;
 
-export const ResetSkills: React.FC<Props> = ({ bumpkin, onClose }) => {
+export const ResetSkills: React.FC<Props> = ({ bumpkin }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -21,6 +23,8 @@ export const ResetSkills: React.FC<Props> = ({ bumpkin, onClose }) => {
     },
   ] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
+
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const buy = (amount = 1) => {
     gameService.send("reset.skill", {});
@@ -39,31 +43,48 @@ export const ResetSkills: React.FC<Props> = ({ bumpkin, onClose }) => {
   };
 
   const noSKillBumpkin = (bumpkin: Bumpkin | undefined) => {
-    if (bumpkin?.skills == undefined) {
-      return true;
-    }
-    return false;
+    if (JSON.stringify(bumpkin?.skills) === "{}") return true;
   };
 
   return (
     <>
-      <div className="flex-col text-center text-xxs sm:text-xs my-6">
-        <h2>Sure you want to reset your skills?</h2>
-
-        <span>Cost: {PRICE} SFL</span>
+      <div className="flex-col text-center text-xxs lg:text-sm sm:text-xs">
+        <h1 className="mb-2">This will reset all your bumpkin skills</h1>
       </div>
-      <div className="flex justify-center">
+      <div className="flex items-center justify-center space-x-1 sm:w-full mb-2">
+        <div className="w-5">
+          <img src={token} className="h-5 mr-1" />
+        </div>
+        <span>{PRICE}</span>
+      </div>
+      <div className="flex justify-center my-2">
         <Button
           className="w-48"
           disabled={state.balance.lessThan(PRICE) || noSKillBumpkin(bumpkin)}
           onClick={() => {
-            reset(bumpkin);
-            onClose();
+            setIsOpen(true);
           }}
         >
           ACCEPT
         </Button>
       </div>
+      {isOpen && (
+        <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
+          <CloseButtonPanel title="Confirm" onClose={() => setIsOpen(false)}>
+            <div className="flex">
+              <Button
+                onClick={() => {
+                  reset(bumpkin);
+                  setIsOpen(false);
+                }}
+              >
+                YES
+              </Button>
+              <Button onClick={() => setIsOpen(false)}>NO</Button>
+            </div>
+          </CloseButtonPanel>
+        </Modal>
+      )}
     </>
   );
   //}
