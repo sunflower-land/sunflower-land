@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import patch from "assets/land/bumpkin_patch.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Airdrop } from "features/game/expansion/components/Airdrop";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { DynamicMiniNFT, DynamicMiniNFTProps } from "./DynamicMiniNFT";
+import { FeedModal } from "./FeedModal";
+import { ConsumableName } from "features/game/types/consumables";
+import { Context } from "features/game/GameProvider";
 
 export const CharacterPlayground: React.FC<DynamicMiniNFTProps> = ({
   body,
@@ -14,6 +17,13 @@ export const CharacterPlayground: React.FC<DynamicMiniNFTProps> = ({
   suit,
   onesie,
 }) => {
+  const { gameService } = useContext(Context);
+  const [openFeedModal, setOpenFeedModal] = useState(false);
+
+  const eatFood = (food: ConsumableName) => {
+    gameService.send("bumpkin.feed", { food });
+  };
+
   return (
     <>
       <img
@@ -33,6 +43,7 @@ export const CharacterPlayground: React.FC<DynamicMiniNFTProps> = ({
         hat={hat}
         suit={suit}
         onesie={onesie}
+        onClick={() => setOpenFeedModal(true)}
       />
       <div
         className="absolute"
@@ -52,6 +63,11 @@ export const CharacterPlayground: React.FC<DynamicMiniNFTProps> = ({
       >
         <Airdrop />
       </div>
+      <FeedModal
+        isOpen={openFeedModal}
+        onClose={() => setOpenFeedModal(false)}
+        onFeed={(food) => eatFood(food)}
+      />
     </>
   );
 };

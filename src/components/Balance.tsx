@@ -21,7 +21,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
   return (
     <>
       <InnerPanel
-        className="fixed z-50 flex items-center cursor-pointer gap-2 p-1"
+        className="fixed z-50 flex items-center cursor-pointer p-1"
         style={{
           top: `${PIXEL_SCALE * 3}px`,
           right: `${PIXEL_SCALE * 3}px`,
@@ -36,7 +36,7 @@ export const Balance: React.FC<Props> = ({ balance }) => {
             width: `${PIXEL_SCALE * 10}px`,
           }}
         />
-        <span className="text-white text-sm">
+        <span className="text-sm ml-1.5 mb-0.5">
           {showFullBalance
             ? balance.toString()
             : setPrecision(balance).toString()}
