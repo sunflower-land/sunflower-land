@@ -68,9 +68,12 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
   if (!selected) {
     return (
       <div className="flex flex-col items-center p-2">
-        <span className="mb-2">Hungry?</span>
+        <span className="text-base mb-3">Hungry?</span>
+        <span className="text-sm mb-3">
+          You have no food in your inventory.
+        </span>
         <span className="text-sm mb-2">
-          You will need to cook food in order to feed your bumpkin
+          You will need to cook food in order to feed your Bumpkin.
         </span>
         <img
           src={firePit}
