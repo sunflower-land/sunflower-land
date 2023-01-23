@@ -67,8 +67,8 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
 
   if (!selected) {
     return (
-      <div className="flex flex-col items-center p-2">
-        <span className="text-base mb-3">Hungry?</span>
+      <div className="flex flex-col p-2">
+        <span className="text-base text-center mb-4">Hungry?</span>
         <span className="text-sm mb-3">
           You have no food in your inventory.
         </span>
