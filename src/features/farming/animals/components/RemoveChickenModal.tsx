@@ -3,15 +3,20 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 interface Props {
   id?: string;
+  canRemove: boolean;
   onClose: () => void;
 }
 
-export const RemoveChickenModal: React.FC<Props> = ({ id, onClose }) => {
+export const RemoveChickenModal: React.FC<Props> = ({
+  id,
+  canRemove,
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -40,6 +45,15 @@ export const RemoveChickenModal: React.FC<Props> = ({ id, onClose }) => {
       );
     }
 
+    if (!canRemove) {
+      return (
+        <p>
+          Your chicken is currently brewing an egg. You will need to collect the
+          egg before you can remove this chicken.
+        </p>
+      );
+    }
+
     return (
       <>
         <p className="mb-3">
@@ -55,31 +69,24 @@ export const RemoveChickenModal: React.FC<Props> = ({ id, onClose }) => {
   };
 
   return (
-    <CloseButtonPanel showCloseButton={false} title="Remove this chicken?">
+    <CloseButtonPanel showCloseButton={false} title="Remove this Chicken?">
       <div className="flex flex-col items-center">
-        <img
-          src={ITEM_DETAILS["Rusty Shovel"].image}
-          alt="Rusty Shovel"
-          className="mb-2"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-          }}
-        />
-        <div className="p-1 mb-3 text-xs sm:text-sm">
+        <div className="flex space-x-2 items-center justify-center mb-2">
+          <SquareIcon icon={ITEM_DETAILS["Rusty Shovel"].image} width={14} />
+          <SquareIcon icon={ITEM_DETAILS["Chicken"].image} width={28} />
+        </div>
+        <div className="p-1 mb-2 text-sm">
           <p className="mb-3">
             {`You have the rusty shovel selected which allows you to remove placeable items from your land.`}
           </p>
           {AddedInfo()}
         </div>
-        <div className="flex space-x-2 w-full">
-          <Button className="text-xs sm:text-sm w-full" onClick={onClose}>
+        <div className="flex space-x-1 w-full">
+          <Button className="w-full" onClick={onClose}>
             Close
           </Button>
-          {hasRustyShovel && (
-            <Button
-              className="text-xs sm:text-sm w-full"
-              onClick={handleRemove}
-            >
+          {hasRustyShovel && canRemove && (
+            <Button className="w-full" onClick={handleRemove}>
               Remove it!
             </Button>
           )}

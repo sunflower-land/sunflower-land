@@ -9,6 +9,7 @@ import token from "assets/icons/token_2.png";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { setPrecision } from "lib/utils/formatNumber";
 
 /**
  * The props for SFL requirement label.
@@ -79,7 +80,7 @@ interface LevelProps {
 }
 
 /**
- * The props for time requirement label.
+ * The props for harvests requirement label.
  * @param type The type is harvests.
  * @param minHarvest The minimum number of harvests.
  * @param maxHarvest The maximum number of harvests.
@@ -142,14 +143,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return `${props.requirement.toNumber()}`;
       }
       case "item": {
-        const roundedDownInventory = props.balance.toDecimalPlaces(
-          1,
-          Decimal.ROUND_FLOOR
-        );
-        const roundedDownRequirement = props.requirement.toDecimalPlaces(
-          1,
-          Decimal.ROUND_FLOOR
-        );
+        const roundedDownInventory = setPrecision(props.balance, 1);
+        const roundedDownRequirement = setPrecision(props.requirement, 1);
         return `${roundedDownInventory}/${roundedDownRequirement}`;
       }
       case "time": {
@@ -159,7 +154,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         });
       }
       case "xp": {
-        const roundedDownXp = props.xp.toDecimalPlaces(1, Decimal.ROUND_FLOOR);
+        const roundedDownXp = setPrecision(props.xp, 1);
         return `${roundedDownXp} XP`;
       }
       case "level": {
