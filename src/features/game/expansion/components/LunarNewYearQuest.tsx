@@ -126,7 +126,7 @@ export const LunarNewYearQuest: React.FC = () => {
     hat: "Lion Dance Mask",
   };
 
-  if (Date.now() >= new Date("2023-01-28T00:00:00+00:00").getTime()) {
+  if (Date.now() >= new Date("2023-01-29T00:00:00+00:00").getTime()) {
     return null;
   }
 
