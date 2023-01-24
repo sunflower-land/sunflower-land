@@ -39,6 +39,8 @@ export const TreasureDetector: React.FC = () => {
         createdAt: new Date(),
       },
     });
+
+    setShowModal(false);
   };
 
   const dig = (e: React.SyntheticEvent) => {
@@ -47,10 +49,11 @@ export const TreasureDetector: React.FC = () => {
     gameService.send("REVEAL", {
       event: {
         type: "treasure.dug",
-        id: treasureIsland?.rareTreasure?.holeId,
+        id: treasureIsland?.rareTreasure?.holeId.toString(),
         createdAt: new Date(),
       },
     });
+    setShowModal(false);
   };
 
   const ModalContent = () => {
@@ -135,6 +138,7 @@ export const TreasureDetector: React.FC = () => {
 
   const rareTreasure = treasureIsland?.rareTreasure;
 
+  console.log({ rareTreasure });
   return (
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
