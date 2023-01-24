@@ -155,7 +155,7 @@ export const SandPlot: React.FC<{
 
   const handleDig = () => {
     const hasSandShovel =
-      selectedItem === "Sand Shovel" ||
+      selectedItem === "Sand Shovel" &&
       gameState.context.state.inventory["Sand Shovel"]?.gte(1);
 
     if (!hasSandShovel) {
