@@ -1,6 +1,6 @@
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 
 import background from "assets/land/treasure_island.webp";
 import placeholderNPC2 from "assets/npcs/artisian.gif";
@@ -14,48 +14,7 @@ import {
   MapPlacement,
 } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { DiggableSandPlot } from "./components/DiggableSandPlot";
-
-const buildGrid = () => {
-  const cols = Array.from({ length: 40 }, (_, i) => i + 1);
-  const rows = Array.from({ length: 40 }, (_, i) => i + 1);
-
-  return (
-    <div id="shovel-grid">
-      {cols.map((colIndex) =>
-        rows.map((mapIndex) => {
-          return (
-            <div
-              key={`${colIndex} + ${mapIndex}`}
-              style={{
-                boxSizing: "border-box",
-                display: "inline-block",
-                border: "1px solid black",
-                height: GRID_WIDTH_PX,
-                width: GRID_WIDTH_PX,
-                fontFamily: "sans-serif",
-                fontSize: "10px",
-              }}
-              onClick={() => {
-                const y =
-                  colIndex < 21
-                    ? Math.abs(colIndex - 21)
-                    : -Math.abs(colIndex - 21);
-                const x = mapIndex - 21;
-
-                CLICKABLE_COORDINATES.push({ x, y });
-
-                console.log(CLICKABLE_COORDINATES);
-              }}
-            >{`${mapIndex - 21}, ${
-              colIndex < 21 ? Math.abs(colIndex - 21) : -Math.abs(colIndex - 21)
-            }`}</div>
-          );
-        })
-      )}
-    </div>
-  );
-};
+import { SandPlot } from "./components/SandPlot";
 
 const CLICKABLE_COORDINATES: Coordinates[] = [
   {
@@ -490,6 +449,8 @@ const CLICKABLE_COORDINATES: Coordinates[] = [
 
 export const TreasureIsland: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
+  const [shownMissingShovelWarning, setShownMissingShovelWarning] =
+    useState(false);
 
   useLayoutEffect(() => {
     // Start with island centered
@@ -514,7 +475,13 @@ export const TreasureIsland: React.FC = () => {
         <IslandTravelWrapper />
         {CLICKABLE_COORDINATES.map(({ x, y }, index) => (
           <MapPlacement key={`${x}-${y}`} x={x} y={y} height={1} width={1}>
-            <DiggableSandPlot id={index} />
+            <SandPlot
+              id={index}
+              shownMissingShovelModal={shownMissingShovelWarning}
+              onMissingShovelAcknowledge={() =>
+                setShownMissingShovelWarning(true)
+              }
+            />
           </MapPlacement>
         ))}
         <GoblinDigging />
@@ -563,16 +530,6 @@ export const TreasureIsland: React.FC = () => {
           />
         </MapPlacement>
       </div>
-      {/* <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{
-          width: `${40 * GRID_WIDTH_PX}px`,
-          height: `${40 * GRID_WIDTH_PX}px`,
-          fontSize: 0,
-        }}
-      >
-        {buildGrid()}
-      </div> */}
     </>
   );
 };

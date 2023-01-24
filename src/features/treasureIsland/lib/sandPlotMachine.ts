@@ -1,13 +1,13 @@
 import { InventoryItemName } from "features/game/types/game";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
-export interface DiggingContext {
+export interface SandPlotContext {
   id: number;
   discovered?: InventoryItemName | null;
   dugAt?: number;
 }
 
-export type DiggingState = {
+export type SandPlotState = {
   value:
     | "loading"
     | "idle"
@@ -18,7 +18,7 @@ export type DiggingState = {
     | "opacityTransition"
     | "acknowledged"
     | "dug";
-  context: DiggingContext;
+  context: SandPlotContext;
 };
 
 type FinishDiggingEvent = {
@@ -27,19 +27,19 @@ type FinishDiggingEvent = {
   dugAt: number;
 };
 
-type DiggingEvent =
+type SandPlotEvent =
   | FinishDiggingEvent
   | { type: "NO_SHOVEL" }
   | { type: "DIG" }
   | { type: "ACKNOWLEDGE" };
 
-export type MachineState = State<DiggingContext, DiggingEvent, DiggingState>;
+export type MachineState = State<SandPlotContext, SandPlotEvent, SandPlotState>;
 
 export type MachineInterpreter = Interpreter<
-  DiggingContext,
+  SandPlotContext,
   any,
-  DiggingEvent,
-  DiggingState
+  SandPlotEvent,
+  SandPlotState
 >;
 
 export const canDig = (dugAt?: number) => {
@@ -51,12 +51,12 @@ export const canDig = (dugAt?: number) => {
 };
 
 /**
- * Machine to handle digging for treasure UI only
+ * Machine to handle sand plot (UI only)
  */
-export const treasureDigMachine = createMachine<
-  DiggingContext,
-  DiggingEvent,
-  DiggingState
+export const sandPlotMachine = createMachine<
+  SandPlotContext,
+  SandPlotEvent,
+  SandPlotState
 >({
   initial: "loading",
   states: {
@@ -87,17 +87,17 @@ export const treasureDigMachine = createMachine<
         FINISH_DIGGING: [
           {
             target: "treasureFound",
-            cond: (_: DiggingContext, event: FinishDiggingEvent) => {
+            cond: (_: SandPlotContext, event: FinishDiggingEvent) => {
               return !!event.discovered;
             },
-            actions: assign<DiggingContext, FinishDiggingEvent>({
+            actions: assign<SandPlotContext, FinishDiggingEvent>({
               discovered: (_, event) => event.discovered,
               dugAt: (_, event) => event.dugAt,
             }),
           },
           {
             target: "treasureNotFound",
-            actions: assign<DiggingContext, FinishDiggingEvent>({
+            actions: assign<SandPlotContext, FinishDiggingEvent>({
               discovered: (_, event) => event.discovered,
               dugAt: (_, event) => event.dugAt,
             }),

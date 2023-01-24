@@ -458,9 +458,8 @@ img {
 }
 
 .treasure-reward {
-  animation: rise-up 1s ease;
+  animation: rise-up 750ms ease;
   animation-fill-mode: both;
-  /* animation-delay: 250ms; */
   transform-origin: bottom center;
 }
 
