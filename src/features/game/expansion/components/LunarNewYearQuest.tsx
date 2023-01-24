@@ -16,6 +16,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import luckySign from "assets/quest/luck_sign.png";
 import { LunarNewYearDonation } from "features/community/lunarNewYear/LunarNewYearDonation";
+import { MapPlacement } from "./MapPlacement";
 
 const resourceToFindRedEnvelopes: { [key: number]: string } = {
   20: "beetroots",
@@ -110,7 +111,11 @@ const QuestCompletion = () => {
   );
 };
 
-export const LunarNewYearQuest: React.FC = () => {
+interface Props {
+  offset: number;
+}
+
+export const LunarNewYearQuest: React.FC<Props> = ({ offset }) => {
   const [showModal, setShowModal] = useState(false);
   const [showDonation, setShowDonation] = React.useState(false);
 
@@ -131,75 +136,79 @@ export const LunarNewYearQuest: React.FC = () => {
 
   return (
     <>
-      <img
-        src={island}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 212}px`,
-          bottom: `${GRID_WIDTH_PX * 10}px`,
-          left: `${GRID_WIDTH_PX * -21}px`,
-        }}
-      />
+      <MapPlacement width={14} height={15} x={-28 - offset} y={11}>
+        <img
+          src={island}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 212}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * -3}px`,
+          }}
+        />
 
-      <img
-        src={lampNpc}
-        className="absolute z-20 hover:cursor-pointer hover:img-highlight"
-        style={{
-          width: `${PIXEL_SCALE * 22}px`,
-          bottom: `${GRID_WIDTH_PX * 13.98}px`,
-          left: `${GRID_WIDTH_PX * -9.8}px`,
-        }}
-        onClick={() => setShowDonation(true)}
-      />
+        <img
+          src={lampNpc}
+          className="absolute z-20 hover:cursor-pointer hover:img-highlight"
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+            bottom: `${GRID_WIDTH_PX * 4}px`,
+            left: `${GRID_WIDTH_PX * 11}px`,
+          }}
+          onClick={() => setShowDonation(true)}
+        />
 
-      <div
-        className="absolute z-20"
-        style={{
-          top: `${GRID_WIDTH_PX * 19}px`,
-          left: `${GRID_WIDTH_PX * -19}px`,
-        }}
-      >
-        <img
-          src={shadow}
-          className="absolute z-10"
+        <div
+          className="absolute z-20"
           style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            bottom: `${PIXEL_SCALE * 4}px`,
-            left: `${PIXEL_SCALE * 2}px`,
+            bottom: `${GRID_WIDTH_PX * 5.5}px`,
+            left: `${GRID_WIDTH_PX * 2}px`,
           }}
-        />
-        <img
-          src={mrChu}
-          className="relative left-0 top-0 z-20"
+        >
+          <img
+            src={shadow}
+            className="absolute z-10"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              bottom: `${PIXEL_SCALE * 4}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+          <img
+            src={mrChu}
+            className="relative left-0 top-0 z-20"
+            style={{
+              width: `${PIXEL_SCALE * 21}px`,
+            }}
+          />
+        </div>
+
+        <div
+          className="absolute z-20"
           style={{
-            width: `${PIXEL_SCALE * 21}px`,
+            bottom: `${GRID_WIDTH_PX * 1}px`,
+            left: `${GRID_WIDTH_PX * 6}px`,
           }}
-        />
-      </div>
-      <div
-        className="absolute z-20"
-        style={{
-          top: `${GRID_WIDTH_PX * 24}px`,
-          left: `${GRID_WIDTH_PX * -15}px`,
-        }}
-      >
-        <img
-          src={shadow}
-          className="absolute z-10"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * -2}px`,
-          }}
-        />
-        <img
-          src={npc}
-          className="relative left-0 top-0 cursor-pointer hover:img-highlight z-20"
-          onClick={() => setShowModal(true)}
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-          }}
-        />
-      </div>
+        >
+          <img
+            src={shadow}
+            className="absolute z-10"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              bottom: `${PIXEL_SCALE * -2}px`,
+            }}
+          />
+          <img
+            src={npc}
+            className="relative left-0 top-0 cursor-pointer hover:img-highlight z-20"
+            onClick={() => setShowModal(true)}
+            style={{
+              width: `${PIXEL_SCALE * 17}px`,
+              left: `${PIXEL_SCALE * -1}px`,
+            }}
+          />
+        </div>
+      </MapPlacement>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         {!todaysFind ? (

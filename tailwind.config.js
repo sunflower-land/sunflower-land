@@ -102,17 +102,6 @@ module.exports = {
         },
         error: "#e43b44",
       },
-
-      // This is the height and width of the gameboard
-      // background image. Only change here when larger size is added.
-      height: {
-        gameboard: "4200px",
-        goblinGameboard: "1600px",
-      },
-      width: {
-        gameboard: "4200px",
-        goblinGameboard: "3200px",
-      },
       animation: {
         float: "floating 3s ease-in-out infinite",
         pulsate: "pulsate 1s ease-in-out infinite",

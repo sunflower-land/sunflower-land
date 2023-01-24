@@ -23,8 +23,7 @@ import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
 import { LunarNewYearQuest } from "./LunarNewYearQuest";
-
-export const LAND_WIDTH = 6;
+import { LAND_WIDTH } from "../Land";
 
 interface Props {
   level: number;
@@ -56,8 +55,9 @@ export const Water: React.FC<Props> = ({ level }) => {
         height: "inherit",
       }}
     >
-      {/* Navigation Center Point */}
+      {/* Decorations */}
 
+      {/* Dragonfly */}
       <MapPlacement x={-6 - offset} y={3} width={1}>
         <img
           style={{
@@ -70,6 +70,7 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
+      {/* Goblin swimming */}
       <MapPlacement x={-8 - offset} y={-1} width={6}>
         <img
           src={goblinSwimming}
@@ -79,10 +80,13 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      <Snorkler x={-2} y={offset + 9} />
+      {/* Snorkler */}
+      <Snorkler x={-2} y={offset + 7} />
 
-      <SharkBumpkin x={-8} y={offset + 12} />
+      {/* Shark bumpkin */}
+      <SharkBumpkin x={-8} y={offset + 10} />
 
+      {/* Swimmer with cossies */}
       <MapPlacement x={offset + 8} y={6} width={1}>
         <img
           src={SUNNYSIDE.npcs.swimmer}
@@ -105,7 +109,10 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      <MapPlacement x={20} y={25} width={6}>
+      {/* Islands */}
+
+      {/* Top right island */}
+      <MapPlacement x={10 + offset} y={15 + offset} width={6}>
         <img
           src={bearIsland}
           style={{
@@ -123,10 +130,14 @@ export const Water: React.FC<Props> = ({ level }) => {
         </div>
       </MapPlacement>
 
-      <FarmerQuest />
-      <LunarNewYearQuest />
+      {/* Top left island */}
+      <FarmerQuest offset={offset} />
 
-      <MapPlacement x={-20} y={-15} width={6}>
+      {/* Left island */}
+      <LunarNewYearQuest offset={offset} />
+
+      {/* Bottom left island */}
+      <MapPlacement x={-12 - offset} y={-7 - offset} width={6}>
         <img
           src={pirateIsland}
           style={{
@@ -144,7 +155,8 @@ export const Water: React.FC<Props> = ({ level }) => {
         </div>
       </MapPlacement>
 
-      <MapPlacement x={18} y={-13} width={6}>
+      {/* Bottom right island */}
+      <MapPlacement x={12 + offset} y={-7 - offset} width={6}>
         <img
           src={abandonedLand}
           style={{
@@ -153,22 +165,13 @@ export const Water: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      {/* <MapPlacement x={-5} y={-16} width={6}>
-        <img
-          src={smallIsland}
-          style={{
-            width: `${PIXEL_SCALE * 82}px`,
-          }}
-        />
-      </MapPlacement> */}
-
       {/* Community Assets */}
       <CommunityBoundary>
         <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y}>
           <ProjectDignityFrogs left={0} top={0} />
         </MapPlacement>
 
-        <ProjectDignitySeals isGarden={false} />
+        <ProjectDignitySeals isGarden={false} offset={offset} />
       </CommunityBoundary>
     </div>
   );

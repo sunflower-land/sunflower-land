@@ -16,8 +16,13 @@ import { useActor } from "@xstate/react";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
-export const FarmerQuest: React.FC = () => {
+interface Props {
+  offset: number;
+}
+
+export const FarmerQuest: React.FC<Props> = ({ offset }) => {
   const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
@@ -77,43 +82,46 @@ export const FarmerQuest: React.FC = () => {
       </div>
     );
   };
+
   return (
     <>
-      <img
-        src={island}
-        className="absolute"
-        style={{
-          left: `${GRID_WIDTH_PX * -4}px`,
-          top: `${GRID_WIDTH_PX * -4}px`,
-          width: `${PIXEL_SCALE * 94}px`,
-        }}
-      />
-      <div
-        className="absolute cursor-pointer hover:img-highlight"
-        onClick={() => setShowModal(true)}
-        style={{
-          left: `${GRID_WIDTH_PX * -1.5}px`,
-          top: `${GRID_WIDTH_PX * -2}px`,
-          width: `${PIXEL_SCALE * 15}px`,
-        }}
-      >
+      <MapPlacement width={6} height={6} x={-11 - offset} y={11 + offset}>
         <img
-          src={shadow}
+          src={island}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 0}px`,
-            top: `${PIXEL_SCALE * -4}px`,
+            left: `${GRID_WIDTH_PX * -4}px`,
+            top: `${GRID_WIDTH_PX * -4}px`,
+            width: `${PIXEL_SCALE * 94}px`,
           }}
         />
-        <img
-          src={farmerNpc}
-          className="absolute left-0 bottom-0"
+        <div
+          className="absolute cursor-pointer hover:img-highlight"
+          onClick={() => setShowModal(true)}
           style={{
-            width: `${PIXEL_SCALE * 14}px`,
+            left: `${GRID_WIDTH_PX * -1.5}px`,
+            top: `${GRID_WIDTH_PX * -2}px`,
+            width: `${PIXEL_SCALE * 15}px`,
           }}
-        />
-      </div>
+        >
+          <img
+            src={shadow}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              left: `${PIXEL_SCALE * 0}px`,
+              top: `${PIXEL_SCALE * -4}px`,
+            }}
+          />
+          <img
+            src={farmerNpc}
+            className="absolute left-0 bottom-0"
+            style={{
+              width: `${PIXEL_SCALE * 14}px`,
+            }}
+          />
+        </div>
+      </MapPlacement>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         {/*TODO: Once the fruit quest wearables are ready, remove this flag along with the false 
         part of this turnory operator.*/}

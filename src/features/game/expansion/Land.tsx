@@ -34,6 +34,8 @@ import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
+import ocean from "assets/decorations/ocean.webp";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -46,6 +48,8 @@ type ExpansionProps = Pick<
   | "fruitPatches"
   | "boulders"
 >;
+
+export const LAND_WIDTH = 6;
 
 const getExpansions = (
   expansionProps: ExpansionProps,
@@ -382,6 +386,15 @@ export const Land: React.FC = () => {
     expandedCount -= 1;
   }
 
+  // As the land gets bigger, expand the gameboard
+  // The distance between the edge of the gameboard and the edge of island should remain roughly the same for higher expansions
+  const gameboardSizeOffset =
+    Math.ceil((Math.sqrt(expandedCount) * LAND_WIDTH) / 2) * 2; // make sure this is even
+  const gameboardDimensions = {
+    x: 84 + gameboardSizeOffset,
+    y: 56 + gameboardSizeOffset,
+  };
+
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
@@ -398,43 +411,55 @@ export const Land: React.FC = () => {
   };
 
   return (
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div
-        className={classNames("relative w-full h-full", {
-          "pointer-events-none": gameState.matches("visiting"),
-        })}
-      >
-        <LandBase expandedCount={expandedCount} />
-        <UpcomingExpansion gameState={state} />
-        <DirtRenderer
-          expansions={expansions.filter((e) => e.readyAt < Date.now())}
+    <div
+      className="absolute"
+      style={{
+        // dynamic gameboard
+        width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
+        height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
+        backgroundImage: `url(${ocean})`,
+        backgroundSize: `${64 * PIXEL_SCALE}px`,
+        imageRendering: "pixelated",
+      }}
+    >
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div
+          className={classNames("relative w-full h-full", {
+            "pointer-events-none": gameState.matches("visiting"),
+          })}
+        >
+          <LandBase expandedCount={expandedCount} />
+          <UpcomingExpansion gameState={state} />
+          <DirtRenderer
+            expansions={expansions.filter((e) => e.readyAt < Date.now())}
+          />
+
+          <Water level={expandedCount} />
+
+          {/* Sort island elements by y axis */}
+          {getIslandElements({
+            expansions,
+            buildings,
+            collectibles,
+            chickens,
+            bumpkinParts: gameState.context.state.bumpkin?.equipped,
+            isEditing,
+          }).sort((a, b) => b.props.y - a.props.y)}
+        </div>
+        <IslandTravel
+          key="island-travel"
+          bumpkin={bumpkin}
+          isVisiting={gameState.matches("visiting")}
+          isTravelAllowed={!gameState.matches("autosaving")}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
+          x={boatCoordinates.x}
+          y={boatCoordinates.y}
         />
 
-        <Water level={expandedCount} />
+        <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
-        {/* Sort island elements by y axis */}
-        {getIslandElements({
-          expansions,
-          buildings,
-          collectibles,
-          chickens,
-          bumpkinParts: gameState.context.state.bumpkin?.equipped,
-          isEditing,
-        }).sort((a, b) => b.props.y - a.props.y)}
+        {gameState.matches("editing") && <Placeable />}
       </div>
-      <IslandTravel
-        key="island-travel"
-        bumpkin={bumpkin}
-        isVisiting={gameState.matches("visiting")}
-        isTravelAllowed={!gameState.matches("autosaving")}
-        onTravelDialogOpened={() => gameService.send("SAVE")}
-        x={boatCoordinates.x}
-        y={boatCoordinates.y}
-      />
-
-      <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
-
-      {gameState.matches("editing") && <Placeable />}
     </div>
   );
 };
