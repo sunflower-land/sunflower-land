@@ -59,7 +59,7 @@ export const LetterBox: React.FC = () => {
         />
       </div>
       <Modal centered show={isOpen} onHide={close}>
-        <CloseButtonPanel onClose={close}>
+        <CloseButtonPanel title="Announcements" onClose={close}>
           <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
             {PAST_ANNOUNCEMENTS.map((announcement, index) => (
               <Announcement key={index} announcement={announcement} />
