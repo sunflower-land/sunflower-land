@@ -50,40 +50,56 @@ export type TreasureName =
   | DecorationTreasure
   | QuestTreasure
   | BoostTreasure;
-type Treasure = {
-  sfl: Decimal;
+
+export type Treasure = {
+  id: string;
+  weighting: number;
+  type: "average" | "good" | "rare";
+  reward: TreasureName;
 };
 
-// PLACEHOLDERS
-export const BEACH_BOUNTY: () => Record<
-  BeachBountyTreasure,
-  Treasure
-> = () => ({
+export type Treasures = (Treasure | null)[];
+
+export type BeachBounty = {
+  description: string;
+  sellPrice: Decimal;
+};
+
+export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   "Clam Shell": {
-    sfl: marketRate(10),
-  },
-  "Sea Cucumber": {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(500),
   },
   Coral: {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(2000),
   },
   Crab: {
-    sfl: marketRate(10),
-  },
-  Starfish: {
-    sfl: marketRate(10),
-  },
-  "Pirate Bounty": {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(25),
   },
   Pearl: {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(5000),
   },
   Pipi: {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(250),
+  },
+  "Pirate Bounty": {
+    description: "",
+    sellPrice: marketRate(10000),
+  },
+  "Sea Cucumber": {
+    description: "",
+    sellPrice: marketRate(25),
   },
   Seaweed: {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(100),
   },
-});
+  Starfish: {
+    description: "",
+    sellPrice: marketRate(150),
+  },
+};

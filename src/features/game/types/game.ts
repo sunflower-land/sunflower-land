@@ -177,7 +177,8 @@ export type InventoryItemName =
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem
-  | GoblinBlacksmithItemName;
+  | GoblinBlacksmithItemName
+  | TreasureName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
