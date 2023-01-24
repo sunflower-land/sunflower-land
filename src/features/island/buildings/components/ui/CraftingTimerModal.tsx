@@ -4,7 +4,7 @@ import { MachineInterpreter } from "../../lib/craftingMachine";
 import Modal from "react-bootstrap/esm/Modal";
 import { Panel } from "components/ui/Panel";
 
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";

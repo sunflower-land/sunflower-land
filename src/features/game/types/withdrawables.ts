@@ -11,7 +11,7 @@ import {
 } from "./game";
 import {
   FLAGS,
-  FOODS,
+  LEGACY_FOODS,
   getKeys,
   MUTANT_CHICKENS,
   QUEST_ITEMS,
@@ -104,11 +104,11 @@ function areAnyChickensFed(game: GoblinState): boolean {
   );
 }
 
-function hasCompletedAchievment(
+function hasCompletedAchievement(
   game: GoblinState,
   achievement: AchievementName
 ): boolean {
-  return Object.keys(game.bumpkin?.achievements ?? []).includes(achievement);
+  return Object.keys(game.bumpkin?.achievements ?? {}).includes(achievement);
 }
 
 // Group withdraw conditions for common items
@@ -120,7 +120,7 @@ const beanDefaults = buildDefaults(getKeys(BEANS()), false);
 const questItemDefaults = buildDefaults(getKeys(QUEST_ITEMS), false);
 const warTentItemsDefaults = buildDefaults(getKeys(WAR_TENT_ITEMS), false);
 const toolDefaults = buildDefaults(getKeys(TOOLS), false);
-const foodDefaults = buildDefaults(getKeys(FOODS()), false);
+const legacyFoodDefaults = buildDefaults(getKeys(LEGACY_FOODS), false);
 const shovelDefaults = buildDefaults(getKeys(SHOVELS), false);
 const warBannerDefaults = buildDefaults(getKeys(WAR_BANNERS), false);
 const heliosBlacksmithDefaults = buildDefaults(
@@ -164,7 +164,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...questItemDefaults,
   ...warTentItemsDefaults,
   ...toolDefaults,
-  ...foodDefaults,
+  ...legacyFoodDefaults,
   ...shovelDefaults,
   ...warBannerDefaults,
   ...heliosBlacksmithDefaults,

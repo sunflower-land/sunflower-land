@@ -8,17 +8,15 @@ import {
 } from "../../types/game";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { CROPS } from "../../types/crops";
-import { CAKES } from "../../types/craftables";
-import { Consumable } from "features/game/types/consumables";
+import { CAKES, Consumable } from "features/game/types/consumables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const crops = CROPS();
-const cakes = CAKES();
 
 /**
  * How much SFL an item is worth
  */
-export const getSellPrice = (
+export const getMarketSellPrice = (
   item: SellableItem,
   inventory: Inventory,
   bumpkin: Bumpkin
@@ -34,28 +32,7 @@ export const getSellPrice = (
     price = price.mul(1.05);
   }
 
-  // apply Chef Apron 20% boost when selling cakes
-  if (
-    item.name in cakes &&
-    bumpkin.equipped.coat &&
-    bumpkin.equipped.coat === "Chef Apron"
-  ) {
-    price = price.mul(1.2);
-  }
-
   return price;
-};
-
-/**
- * To be used as boolean flag
- * Update if more upcoming boosts
- */
-export const hasSellBoost = (inventory: Inventory) => {
-  if (inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
-    return true;
-  }
-
-  return false;
 };
 
 /**
@@ -117,7 +94,10 @@ export const getFoodExpBoost = (
   return boostedExp.toNumber();
 };
 
-export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {
+export const getGrubShopSellPrice = (
+  bumpkin: Bumpkin,
+  order: GrubShopOrder
+) => {
   const { skills, equipped } = bumpkin;
   let mul = 1;
 
@@ -125,7 +105,7 @@ export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {
     mul += 0.05;
   }
 
-  if (order.name in CAKES() && equipped.coat === "Chef Apron") {
+  if (order.name in CAKES && equipped.coat === "Chef Apron") {
     mul += 0.2;
   }
 

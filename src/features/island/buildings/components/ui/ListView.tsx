@@ -3,7 +3,7 @@ import React from "react";
 import lock from "assets/skills/lock.png";
 import heart from "assets/icons/level_up.png";
 
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { getKeys } from "features/game/types/craftables";
 import { OuterPanel } from "components/ui/Panel";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";

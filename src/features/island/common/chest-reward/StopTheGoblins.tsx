@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { addNoise } from "lib/images";
 
 import { CROPS } from "features/game/types/crops";

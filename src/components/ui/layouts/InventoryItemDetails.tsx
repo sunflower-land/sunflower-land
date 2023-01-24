@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import { InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -15,18 +15,10 @@ import { SquareIcon } from "../SquareIcon";
  * @param actionView The view for displaying the crafting action.
  */
 interface Props {
+  itemName: InventoryItemName;
   wideLayout?: boolean;
-  details: ItemDetailsProps;
   properties?: PropertiesProps;
   actionView?: JSX.Element;
-}
-
-/**
- * The props for the details for items.
- * @param item The item.
- */
-interface ItemDetailsProps {
-  item: InventoryItemName;
 }
 
 /**
@@ -59,15 +51,12 @@ interface HarvestsRequirementProps {
  */
 export const InventoryItemDetails: React.FC<Props> = ({
   wideLayout = false,
-  details,
+  itemName,
   properties,
   actionView,
-}: Props) => {
+}) => {
   const getItemDetail = () => {
-    const item = ITEM_DETAILS[details.item];
-    const icon = item.image;
-    const title = details.item;
-    const description = item.description;
+    const { image, description } = ITEM_DETAILS[itemName];
 
     return (
       <>
@@ -77,13 +66,13 @@ export const InventoryItemDetails: React.FC<Props> = ({
             { "sm:flex-col-reverse md:space-x-0": !wideLayout }
           )}
         >
-          {icon && (
+          {image && (
             <div className={classNames("", { "sm:mt-2": !wideLayout })}>
-              <SquareIcon icon={icon} width={14} />
+              <SquareIcon icon={image} width={14} />
             </div>
           )}
           <span className={classNames("", { "sm:text-center": !wideLayout })}>
-            {title}
+            {itemName}
           </span>
         </div>
         <span
@@ -127,9 +116,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
         {/* OpenSea link */}
         {properties.showOpenSeaLink && (
           <a
-            href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${
-              KNOWN_IDS[details.item]
-            }`}
+            href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${KNOWN_IDS[itemName]}`}
             className="underline text-xxs px-1.5 pb-1 pt-0.5 hover:text-blue-500"
             target="_blank"
             rel="noopener noreferrer"

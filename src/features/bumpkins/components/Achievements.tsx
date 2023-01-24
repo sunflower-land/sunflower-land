@@ -7,7 +7,7 @@ import {
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import classNames from "classnames";
 import { AchievementDetails } from "./AchievementDetails";
 import Decimal from "decimal.js-light";

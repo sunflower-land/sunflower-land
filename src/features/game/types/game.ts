@@ -2,7 +2,12 @@ import { Decimal } from "decimal.js-light";
 
 import { CropName, CropSeedName } from "./crops";
 
-import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
+import {
+  CollectibleName,
+  CraftableName,
+  Ingredient,
+  LegacyFoodName,
+} from "./craftables";
 import { ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
@@ -161,7 +166,7 @@ export type InventoryItemName =
   | SkillName
   | EasterEgg
   | EasterBunny
-  | Food
+  | LegacyFoodName
   | MOMEventItem
   | MutantChicken
   | Coupons

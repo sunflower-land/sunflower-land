@@ -8,7 +8,7 @@ import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { ConsumableName } from "features/game/types/consumables";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";

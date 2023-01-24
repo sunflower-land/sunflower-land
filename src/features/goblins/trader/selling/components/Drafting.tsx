@@ -6,7 +6,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 
 import { Inventory, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { getKeys } from "features/game/types/craftables";
 
 import token from "assets/icons/token_2.png";

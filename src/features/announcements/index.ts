@@ -3,7 +3,7 @@ import fruit from "assets/announcements/fruit.gif";
 import luckySign from "assets/events/lunar-new-year/luck_sign.png";
 import goldenCockerel from "assets/sfts/golden_cockerel.gif";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export interface Announcement {

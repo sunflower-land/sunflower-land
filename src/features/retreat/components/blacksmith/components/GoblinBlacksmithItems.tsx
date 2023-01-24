@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ItemSupply, totalSupply } from "lib/blockchain/Inventory";

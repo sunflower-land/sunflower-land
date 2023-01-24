@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { CloseButtonPanel } from "../../../../../game/components/CloseablePanel";
 
 import token from "assets/icons/token_2.png";

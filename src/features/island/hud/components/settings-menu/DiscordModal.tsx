@@ -10,7 +10,7 @@ import {
   addVipRole as addDiscordRole,
   DiscordRole,
 } from "features/game/actions/discordRole";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { Inventory, TradeOffer } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";

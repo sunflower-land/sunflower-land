@@ -9,7 +9,7 @@ import { AuctioneerModal } from "./AuctioneerModal";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { Item } from "./actions/auctioneerItems";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { setImageWidth } from "lib/images";
 import { SUNNYSIDE } from "assets/sunnyside";

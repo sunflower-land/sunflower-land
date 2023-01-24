@@ -5,7 +5,7 @@ import {
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { SKILL_TREE } from "features/game/types/skills";
 import { setImageWidth } from "lib/images";
 import {

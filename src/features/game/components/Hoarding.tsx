@@ -5,7 +5,7 @@ import token from "assets/icons/token_2.png";
 import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "../types/images";
+import { ITEM_DETAILS } from "../types/items";
 import { InventoryItemName } from "../types/game";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { PIXEL_SCALE } from "../lib/constants";

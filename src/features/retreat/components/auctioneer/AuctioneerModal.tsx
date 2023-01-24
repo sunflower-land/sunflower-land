@@ -11,7 +11,7 @@ import { Loading } from "features/auth/components";
 import { MachineInterpreter } from "features/game/lib/goblinMachine";
 import { MintedEvent } from "features/retreat/auctioneer/auctioneerMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { setImageWidth } from "lib/images";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";

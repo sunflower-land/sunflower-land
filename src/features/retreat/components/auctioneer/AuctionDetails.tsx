@@ -7,7 +7,7 @@ import calendar from "assets/icons/calendar.png";
 
 import { Label } from "components/ui/Label";
 import { AuctioneerItem } from "./actions/auctioneerItems";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";

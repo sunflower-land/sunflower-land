@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GoblinProvider";
 import { Inventory, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 import * as AuthProvider from "features/auth/lib/Provider";

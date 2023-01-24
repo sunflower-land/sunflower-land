@@ -4,7 +4,7 @@ import token from "assets/icons/token_2.png";
 import goblin from "assets/npcs/goblin_head.png";
 
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 
 import { Draft } from "../lib/sellingMachine";
 

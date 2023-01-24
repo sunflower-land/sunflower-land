@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import { Reward } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { Context } from "features/game/GameProvider";
 
 import token from "assets/icons/token_2.png";

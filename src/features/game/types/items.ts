@@ -1,5 +1,4 @@
 // CROPS
-
 import magicBean from "assets/crops/magic_bean.png";
 import shinyBean from "assets/crops/shiny_bean.png";
 import goldenBean from "assets/crops/golden_bean.png";
@@ -7,7 +6,7 @@ import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 
-// NFTs
+// SFTs
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
 import farmCat from "assets/sfts/farm_cat.gif";
@@ -127,7 +126,6 @@ import discord from "assets/skills/discord.png";
 import liquidityProvider from "assets/skills/liquidity_provider.png";
 
 // Achievements
-
 import bumpkinChainsawAmateu from "assets/achievements/bumpkin_chainsaw_amateur.png";
 import twentyTwentyVision from "assets/achievements/20-20-vision.png";
 import bakersDozen from "assets/achievements/bakers_dozen.png";
@@ -191,47 +189,6 @@ import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
 //MOM Event
 import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
 import observatory from "src/assets/sfts/mom/observatory.gif";
-
-// Cakes
-import carrotCake from "src/assets/sfts/cakes/carrot_cake.png";
-import radishCake from "src/assets/sfts/cakes/radish_cake.png";
-import beetrootCake from "src/assets/sfts/cakes/beetroot_cake.png";
-import cabbageCake from "src/assets/sfts/cakes/cabbage_cake.png";
-import cauliflowerCake from "src/assets/sfts/cakes/cauliflower_cake.png";
-import parsnipCake from "src/assets/sfts/cakes/parsnip_cake.png";
-import potatoCake from "src/assets/sfts/cakes/potato_cake.png";
-import pumpkinCake from "src/assets/sfts/cakes/pumpkin_cake.png";
-import sunflowerCake from "src/assets/sfts/cakes/sunflower_cake.png";
-import wheatCake from "src/assets/sfts/cakes/wheat_cake.png";
-
-// Food
-import mashedPotato from "assets/food/mashed_potato.png";
-import pumpkinSoup from "assets/food/pumpkin_soup.png";
-import bumpkinBroth from "assets/food/bumpkin_broth.png";
-import boiledEgg from "assets/food/boiled_eggs.png";
-import goblinsTreat from "assets/food/goblins_treat.png";
-import cauliflowerBurger from "assets/food/cauliflower_burger.png";
-import pancakes from "assets/food/pancakes.png";
-import roastVeggies from "assets/food/roast_veggies.png";
-import clubSandwich from "assets/food/club_sandwich.png";
-import bumpkinSalad from "assets/food/bumpkin_salad.png";
-import blueberryJam from "assets/food/blueberry_jam.png";
-import honeyCake from "assets/food/honey_cake.png";
-import kaleStew from "assets/food/kale_stew.png";
-import mushroomSoup from "assets/food/mushroom_soup.png";
-import orangeCake from "assets/food/orange_cake.png";
-import sunflowerCrunch from "assets/food/sunflower_crunch.png";
-import applePie from "assets/food/apple_pie.png";
-import mushroomJacketPotato from "assets/food/mushroom_jacket_potato.png";
-import kaleMushroomPie from "assets/food/mushroom_kale_pie.png";
-import reindeerCarrot from "assets/food/reindeer_carrot.png";
-import fermentedCarrots from "assets/food/fermented_carrots.png";
-import sauerkraut from "assets/food/sauerkraut.png";
-import appleJuice from "assets/food/apple_juice.png";
-import orangeJuice from "assets/food/orange_juice.png";
-import purpleSmoothie from "assets/food/purple_smoothie.png";
-import bumpkinDetox from "assets/food/bumpkin_detox.png";
-import powerSmoothie from "assets/food/power_smoothie.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -301,8 +258,7 @@ import redEnvelope from "src/assets/icons/red_envelope.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
-  FOODS,
-  CAKES,
+  LEGACY_FOODS,
   TOOLS,
   SHOVELS,
   FLAGS,
@@ -310,13 +266,11 @@ import {
   MARKET_ITEMS,
   BARN_ITEMS,
   MOM_EVENT_ITEMS,
-  LimitedItem,
   MUTANT_CHICKENS,
   SALESMAN_ITEMS,
 } from "./craftables";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { RESOURCES } from "./resources";
-import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
 import { DECORATIONS } from "./decorations";
@@ -333,17 +287,17 @@ import { AUCTIONEER_ITEMS } from "./auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
-export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
+export interface ItemDetails {
   description: string;
-  image: any;
-  secondaryImage?: any;
-  section?: Section;
+  image: string;
+  secondaryImage?: string;
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 const crops = CROPS();
 const seeds = CROP_SEEDS();
+
 export const ITEM_DETAILS: Items = {
   // Crops
   Sunflower: {
@@ -470,44 +424,6 @@ export const ITEM_DETAILS: Items = {
     description: FRUIT_SEEDS()["Orange Seed"].description,
     image: orangeSeed,
   },
-
-  "Apple Pie": {
-    description: CONSUMABLES["Apple Pie"].description,
-    image: applePie,
-  },
-  "Blueberry Jam": {
-    description: CONSUMABLES["Blueberry Jam"].description,
-    image: blueberryJam,
-  },
-  "Honey Cake": {
-    description: CONSUMABLES["Honey Cake"].description,
-    image: honeyCake,
-  },
-  "Kale & Mushroom Pie": {
-    description: CONSUMABLES["Kale & Mushroom Pie"].description,
-    image: kaleMushroomPie,
-  },
-  "Kale Stew": {
-    description: CONSUMABLES["Kale Stew"].description,
-    image: kaleStew,
-  },
-  "Mushroom Jacket Potatoes": {
-    description: CONSUMABLES["Mushroom Jacket Potatoes"].description,
-    image: mushroomJacketPotato,
-  },
-  "Mushroom Soup": {
-    description: CONSUMABLES["Mushroom Soup"].description,
-    image: mushroomSoup,
-  },
-  "Orange Cake": {
-    description: CONSUMABLES["Orange Cake"].description,
-    image: orangeCake,
-  },
-  "Sunflower Crunch": {
-    description: CONSUMABLES["Sunflower Crunch"].description,
-    image: sunflowerCrunch,
-  },
-
   "Magic Mushroom": {
     description: RESOURCES["Magic Mushroom"].description,
     image: SUNNYSIDE.resource.magic_mushroom,
@@ -531,26 +447,6 @@ export const ITEM_DETAILS: Items = {
   Honey: {
     description: RESOURCES["Honey"].description,
     image: honey,
-  },
-  "Apple Juice": {
-    description: CONSUMABLES["Apple Juice"].description,
-    image: appleJuice,
-  },
-  "Orange Juice": {
-    description: CONSUMABLES["Orange Juice"].description,
-    image: orangeJuice,
-  },
-  "Purple Smoothie": {
-    description: CONSUMABLES["Purple Smoothie"].description,
-    image: purpleSmoothie,
-  },
-  "Bumpkin Detox": {
-    description: CONSUMABLES["Bumpkin Detox"].description,
-    image: bumpkinDetox,
-  },
-  "Power Smoothie": {
-    description: CONSUMABLES["Power Smoothie"].description,
-    image: powerSmoothie,
   },
 
   // Resources
@@ -769,65 +665,17 @@ export const ITEM_DETAILS: Items = {
     image: wickerMan,
   },
 
-  // FOOD
-  "Pumpkin Soup": {
-    ...FOODS()["Pumpkin Soup"],
-    image: pumpkinSoup,
-  },
+  // LEGACY FOOD
   "Roasted Cauliflower": {
-    ...FOODS()["Roasted Cauliflower"],
+    ...LEGACY_FOODS["Roasted Cauliflower"],
     image: roastedCaulfilower,
   },
   "Radish Pie": {
-    ...FOODS()["Radish Pie"],
+    ...LEGACY_FOODS["Radish Pie"],
     image: radishPie,
   },
 
-  // Cakes
-  "Beetroot Cake": {
-    ...CAKES()["Beetroot Cake"],
-    image: beetrootCake,
-  },
-  "Cabbage Cake": {
-    ...CAKES()["Cabbage Cake"],
-    image: cabbageCake,
-  },
-  "Carrot Cake": {
-    ...CAKES()["Carrot Cake"],
-    image: carrotCake,
-  },
-  "Cauliflower Cake": {
-    ...CAKES()["Cauliflower Cake"],
-    image: cauliflowerCake,
-  },
-  "Parsnip Cake": {
-    ...CAKES()["Parsnip Cake"],
-    image: parsnipCake,
-  },
-  "Potato Cake": {
-    ...CAKES()["Potato Cake"],
-    image: potatoCake,
-  },
-  "Pumpkin Cake": {
-    ...CAKES()["Pumpkin Cake"],
-    image: pumpkinCake,
-  },
-  "Radish Cake": {
-    ...CAKES()["Radish Cake"],
-    image: radishCake,
-  },
-  "Sunflower Cake": {
-    ...CAKES()["Sunflower Cake"],
-    image: sunflowerCake,
-  },
-  "Wheat Cake": {
-    ...CAKES()["Wheat Cake"],
-    image: wheatCake,
-  },
-
-  /**
-   * Skills
-   */
+  // Skills
   "Green Thumb": {
     description: SKILL_TREE["Green Thumb"].perks[0],
     image: greenThumb,
@@ -900,7 +748,6 @@ export const ITEM_DETAILS: Items = {
     description: "A display of allegiance",
     image: SUNNYSIDE.icons.expression_confused,
   },
-
   "Human War Banner": {
     description: "A display of allegiance to the Human cause",
     image: humanBanner,
@@ -910,9 +757,7 @@ export const ITEM_DETAILS: Items = {
     image: goblinBanner,
   },
 
-  /**
-   * Flags
-   */
+  // Flags
   "Australian Flag": {
     ...FLAGS["Australian Flag"],
     image: australiaFlag,
@@ -1256,56 +1101,6 @@ export const ITEM_DETAILS: Items = {
     image: undeadChicken,
     description: "A fallen soldier during the war",
   },
-
-  "Boiled Eggs": {
-    image: boiledEgg,
-    description: "Don't let the Chickens see!",
-  },
-  "Bumpkin Broth": {
-    image: bumpkinBroth,
-    description: "A nutritious broth to replenish your Bumpkin",
-  },
-  "Mashed Potato": {
-    image: mashedPotato,
-    description: "My life is potato.",
-  },
-  "Bumpkin Salad": {
-    image: bumpkinSalad,
-    description: "Gotta keep your Bumpkin healthy!",
-  },
-  "Goblin's Treat": {
-    image: goblinsTreat,
-    description: "Goblins go crazy for this stuff!",
-  },
-  "Cauliflower Burger": {
-    image: cauliflowerBurger,
-    description: "Calling all cauliflower lovers!",
-  },
-  "Club Sandwich": {
-    image: clubSandwich,
-    description: "Filled with Carrots and Roasted Sunflower Seeds",
-  },
-  "Roast Veggies": {
-    image: roastVeggies,
-    description: "Even Goblins need to eat their veggies!",
-  },
-  Pancakes: {
-    image: pancakes,
-    description: "A great start to a Bumpkins day",
-  },
-  "Fermented Carrots": {
-    image: fermentedCarrots,
-    description: "Got a surplus of carrots?",
-  },
-  Sauerkraut: {
-    ...FOODS()["Sauerkraut"],
-    image: sauerkraut,
-  },
-  "Reindeer Carrot": {
-    image: reindeerCarrot,
-    description: "Rudolph can't stop eating them!",
-  },
-
   Explorer: {
     image: explorer,
     description: ACHIEVEMENTS().Explorer.description,
@@ -1467,7 +1262,6 @@ export const ITEM_DETAILS: Items = {
     description:
       "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.",
   },
-
   "Basic Bear": {
     image: basicBear,
     description: DECORATIONS()["Basic Bear"].description,
@@ -1520,27 +1314,22 @@ export const ITEM_DETAILS: Items = {
     image: rainbowArtistBear,
     description: DECORATIONS()["Rainbow Artist Bear"].description,
   },
-
   "Cabbage Boy": {
     image: cabbageBoy,
     description: AUCTIONEER_ITEMS["Cabbage Boy"].description,
   },
-
   "Cabbage Girl": {
     image: cabbageGirl,
     description: AUCTIONEER_ITEMS["Cabbage Girl"].description,
   },
-
   "Wood Nymph Wendy": {
     image: wendy,
     description: AUCTIONEER_ITEMS["Wood Nymph Wendy"].description,
   },
-
   "Peeled Potato": {
     image: prizedPotato,
     description: AUCTIONEER_ITEMS["Peeled Potato"].description,
   },
-
   "Colossal Crop": {
     image: SUNNYSIDE.icons.expression_confused,
     description: "As big as the Empire State building",
@@ -1573,7 +1362,6 @@ export const ITEM_DETAILS: Items = {
     image: snowglobe,
     description: "Swirl the snow and watch it come to life",
   },
-
   "Clam Shell": {
     image: SUNNYSIDE.resource.clam_shell,
     description: "?",
@@ -1746,4 +1534,5 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: "?",
   },
+  ...CONSUMABLES,
 };

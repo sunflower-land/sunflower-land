@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { CropName, CROPS } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import {

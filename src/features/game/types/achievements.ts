@@ -4,8 +4,8 @@ import { marketRate } from "../lib/halvening";
 import { getBumpkinLevel } from "../lib/level";
 import { GameState, Inventory } from "../types/game";
 import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
-import { CONSUMABLES } from "./consumables";
-import { CAKES, getKeys, TOOLS } from "./craftables";
+import { CAKES, CONSUMABLES } from "./consumables";
+import { getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
 import { FRUIT } from "./fruits";
 
@@ -234,7 +234,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Bakers Dozen": {
     description: "Bake 13 cakes",
     progress: (gameState: GameState) => {
-      const cakeEvents = getKeys(CAKES()).map(
+      const cakeEvents = getKeys(CAKES).map(
         (name) => `${name} Cooked` as CookEvent
       );
 

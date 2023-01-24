@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GoblinProvider";
 import { getTreasuryItems } from "features/game/actions/onchain";
 import { InventoryItemName, Inventory } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { Box } from "components/ui/Box";
 
 import { getDeliverableItems } from "../lib/storageItems";

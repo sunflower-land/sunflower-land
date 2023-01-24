@@ -1,7 +1,7 @@
 import { OuterPanel } from "components/ui/Panel";
 import React from "react";
 
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";

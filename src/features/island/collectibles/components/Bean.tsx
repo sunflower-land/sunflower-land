@@ -12,7 +12,7 @@ import { Modal } from "react-bootstrap";
 import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { setImageWidth } from "lib/images";
 import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";

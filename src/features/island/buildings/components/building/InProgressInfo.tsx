@@ -3,7 +3,7 @@ import { Box } from "components/ui/Box";
 import { Bar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CONSUMABLES } from "features/game/types/consumables";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { secondsToString } from "lib/utils/time";
 import React from "react";
 import { MachineInterpreter } from "../../lib/craftingMachine";

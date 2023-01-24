@@ -6,7 +6,7 @@ import fruitPatch from "assets/fruit/fruit_patch.png";
 import { POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { ConsumableName } from "../types/consumables";
-import { Animal, Food, ToolName } from "../types/craftables";
+import { Animal, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
 import { BeanName } from "./beans";
@@ -11,13 +11,11 @@ import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
-type SellableName = CropName | Food | FruitName;
-
-type Recipes = Food | ConsumableName;
+type SellableName = CropName | FruitName;
 
 export type HarvestEvent = `${CropName | FruitName} Harvested`;
-export type CookEvent = `${Recipes} Cooked`;
-export type FedEvent = `${Recipes} Fed`;
+export type CookEvent = `${ConsumableName} Cooked`;
+export type FedEvent = `${ConsumableName} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
 export type PlantFruitEvent = `${FruitSeedName} Planted`;
 export type CraftedEvent = `${

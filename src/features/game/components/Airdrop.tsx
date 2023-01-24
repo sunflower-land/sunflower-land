@@ -12,7 +12,7 @@ import { Context } from "../GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { ToastContext } from "../toast/ToastQueueProvider";
 import { getKeys } from "../types/craftables";
-import { ITEM_DETAILS } from "../types/images";
+import { ITEM_DETAILS } from "../types/items";
 
 export const Airdrop: React.FC = () => {
   const { gameService } = useContext(Context);

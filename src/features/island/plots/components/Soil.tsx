@@ -6,7 +6,7 @@ import { CROPS } from "features/game/types/crops";
 import { addNoise } from "lib/images";
 import { CROP_LIFECYCLE } from "../lib/plant";
 import { PlantedCrop } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { TimerPopover } from "features/island/common/TimerPopover";

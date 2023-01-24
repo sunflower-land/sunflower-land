@@ -9,7 +9,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { getKeys } from "features/game/types/craftables";
 import {
   Consumable,

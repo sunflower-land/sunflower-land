@@ -6,7 +6,7 @@ import React from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { FLAGS } from "../types/flags";
-import { ITEM_DETAILS } from "../types/images";
+import { ITEM_DETAILS } from "../types/items";
 import { GameState } from "../types/game";
 
 interface Props {

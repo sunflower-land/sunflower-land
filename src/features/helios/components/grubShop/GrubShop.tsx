@@ -10,7 +10,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GrubShopModal } from "./components/GrubShopModal";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { ConsumableName } from "features/game/types/consumables";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { setImageWidth } from "lib/images";

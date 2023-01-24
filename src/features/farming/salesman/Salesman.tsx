@@ -12,7 +12,7 @@ import shadow from "assets/npcs/shadow.png";
 import { hasAlreadyTraded } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { secondsToString } from "lib/utils/time";
 import stopwatch from "assets/icons/stopwatch.png";
 import { SUNNYSIDE } from "assets/sunnyside";

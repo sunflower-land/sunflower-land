@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import {
   CollectibleName,
@@ -108,9 +108,7 @@ export const Chest: React.FC<Props> = ({
       header={
         selected && (
           <InventoryItemDetails
-            details={{
-              item: selected,
-            }}
+            itemName={selected}
             properties={{
               showOpenSeaLink: true,
             }}

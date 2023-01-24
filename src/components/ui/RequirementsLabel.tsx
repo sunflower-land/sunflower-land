@@ -3,7 +3,7 @@ import { InventoryItemName } from "features/game/types/game";
 import React from "react";
 import { Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import levelup from "assets/icons/level_up.png";
 import token from "assets/icons/token_2.png";
 import { secondsToString } from "lib/utils/time";

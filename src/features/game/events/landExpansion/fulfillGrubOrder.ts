@@ -1,7 +1,7 @@
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
+import { getGrubShopSellPrice } from "features/game/expansion/lib/boosts";
 
 export type FulFillGrubOrderAction = {
   type: "grubOrder.fulfilled";
@@ -51,7 +51,7 @@ export function fulfillGrubOrder({
   if (unfulFilledOrders.findIndex((order) => order.id === action.id) >= 4) {
     throw new Error("Order is locked");
   }
-  const sfl = getOrderSellPrice(bumpkin, order);
+  const sfl = getGrubShopSellPrice(bumpkin, order);
 
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
 

@@ -22,7 +22,7 @@ export type CraftableName =
   | LimitedItemName
   | ToolName
   | CropSeedName
-  | Food
+  | LegacyFoodName
   | Animal
   | Flag
   | Shovel
@@ -31,19 +31,6 @@ export type CraftableName =
   | HeliosBlacksmithItem
   // TEMP
   | "Chef Apron";
-
-export interface Craftable {
-  name: CraftableName;
-  description: string;
-  price?: Decimal;
-  sellPrice?: Decimal;
-  ingredients: Ingredient[];
-  limit?: number;
-  supply?: number;
-  disabled?: boolean;
-  requires?: InventoryItemName;
-  section?: Section;
-}
 
 export type Ingredient = {
   id?: number;
@@ -61,19 +48,7 @@ export interface CraftableItem {
   // Hidden for crafting
   hidden?: boolean;
   requires?: InventoryItemName;
-  /**
-   * When enabled, description and price will display as "?"
-   * This is to reduce people viewing placeholder development code and assuming that is the price/buff
-   */
-  isPlaceholder?: boolean;
   bumpkinLevel?: number;
-  canMintMultiple?: boolean;
-  /**
-   * Date the item will be craftable in milliseconds
-   * Date.UTC(YEAR, MONTH, DAY, HOUR?, MINUTE?, SECONDS?, MS?)
-   * REMEMBER MONTHS START IN 0, 0 = JAN, 1 = FEB...
-   */
-  mintReleaseDate?: number;
 }
 
 export type MutantChicken =
@@ -197,51 +172,11 @@ export type ToolName =
 
 export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel" | "Sand Shovel";
 
-export type Food =
-  | "Pumpkin Soup"
-  | "Roasted Cauliflower"
-  | "Sauerkraut"
-  | "Radish Pie"
-  | Cake;
-
-export type Cake =
-  | "Sunflower Cake"
-  | "Potato Cake"
-  | "Pumpkin Cake"
-  | "Carrot Cake"
-  | "Cabbage Cake"
-  | "Beetroot Cake"
-  | "Cauliflower Cake"
-  | "Parsnip Cake"
-  | "Radish Cake"
-  | "Wheat Cake";
+export type LegacyFoodName = "Roasted Cauliflower" | "Radish Pie";
 
 export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 
-export const FOODS: () => Record<Food, CraftableItem> = () => ({
-  "Pumpkin Soup": {
-    name: "Pumpkin Soup",
-    description: "A creamy soup that goblins love",
-    tokenAmount: marketRate(3),
-    ingredients: [
-      {
-        item: "Pumpkin",
-        amount: new Decimal(5),
-      },
-    ],
-    limit: 1,
-  },
-  Sauerkraut: {
-    name: "Sauerkraut",
-    description: "Fermented cabbage",
-    tokenAmount: marketRate(25),
-    ingredients: [
-      {
-        item: "Cabbage",
-        amount: new Decimal(10),
-      },
-    ],
-  },
+export const LEGACY_FOODS: Record<LegacyFoodName, CraftableItem> = {
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
     description: "A Goblin's favourite",
@@ -264,207 +199,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
       },
     ],
   },
-  ...CAKES(),
-});
-
-export const CAKES: () => Record<Cake, Craftable> = () => ({
-  "Sunflower Cake": {
-    name: "Sunflower Cake",
-    description: "Sunflower Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(320),
-    ingredients: [
-      {
-        item: "Sunflower",
-        amount: new Decimal(1000),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Potato Cake": {
-    name: "Potato Cake",
-    description: "Potato Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(320),
-    ingredients: [
-      {
-        item: "Potato",
-        amount: new Decimal(500),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Pumpkin Cake": {
-    name: "Pumpkin Cake",
-    description: "Pumpkin Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(320),
-    ingredients: [
-      {
-        item: "Pumpkin",
-        amount: new Decimal(130),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Carrot Cake": {
-    name: "Carrot Cake",
-    description: "Carrot Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(360),
-    ingredients: [
-      {
-        item: "Carrot",
-        amount: new Decimal(120),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Cabbage Cake": {
-    name: "Cabbage Cake",
-    description: "Cabbage Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(360),
-    ingredients: [
-      {
-        item: "Cabbage",
-        amount: new Decimal(90),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Beetroot Cake": {
-    name: "Beetroot Cake",
-    description: "Beetroot Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
-    ingredients: [
-      {
-        item: "Beetroot",
-        amount: new Decimal(100),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Cauliflower Cake": {
-    name: "Cauliflower Cake",
-    description: "Cauliflower Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
-    ingredients: [
-      {
-        item: "Cauliflower",
-        amount: new Decimal(60),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Parsnip Cake": {
-    name: "Parsnip Cake",
-    description: "Parsnip Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
-    ingredients: [
-      {
-        item: "Parsnip",
-        amount: new Decimal(45),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Radish Cake": {
-    name: "Radish Cake",
-    description: "Radish Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
-    ingredients: [
-      {
-        item: "Radish",
-        amount: new Decimal(25),
-      },
-      {
-        item: "Wheat",
-        amount: new Decimal(10),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-  "Wheat Cake": {
-    name: "Wheat Cake",
-    description: "Wheat Cake",
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
-    ingredients: [
-      {
-        item: "Wheat",
-        amount: new Decimal(35),
-      },
-      {
-        item: "Egg",
-        amount: new Decimal(15),
-      },
-    ],
-  },
-});
+};
 
 export const TOOLS: Record<ToolName, CraftableItem> = {
   Axe: {
@@ -640,19 +375,16 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
     name: "Golden Bonsai",
     description: "Goblins love bonsai too",
     section: Section["Golden Bonsai"],
-    isPlaceholder: true,
   },
   "Victoria Sisters": {
     name: "Victoria Sisters",
     description: "The pumpkin loving sisters",
     section: Section["Golden Bonsai"],
-    isPlaceholder: true,
   },
   "Christmas Bear": {
     name: "Christmas Bear",
     description: "Santa's favorite",
     section: Section["Christmas Bear"],
-    isPlaceholder: true,
   },
 };
 
@@ -706,13 +438,11 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
     name: "War Skull",
     description: "Decorate the land with the bones of your enemies.",
     type: LimitedItemType.WarTentItem,
-    canMintMultiple: true,
   },
   "War Tombstone": {
     name: "War Tombstone",
     description: "R.I.P",
     type: LimitedItemType.WarTentItem,
-    canMintMultiple: true,
   },
   "Undead Rooster": {
     name: "Undead Rooster",

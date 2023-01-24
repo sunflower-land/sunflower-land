@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import {
   InventoryItemName,
   FERTILISERS,
@@ -96,7 +96,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const allTools = [...tools, ...shovels];
 
   const itemsSection = (title: string, items: InventoryItemName[]) => {
-    if (!allSeeds.length) {
+    if (!items.length) {
       return <></>;
     }
 
@@ -128,9 +128,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       header={
         selected && (
           <InventoryItemDetails
-            details={{
-              item: selected,
-            }}
+            itemName={selected}
             properties={{
               harvests: isFruitSeed(selected)
                 ? {

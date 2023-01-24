@@ -6,7 +6,7 @@ import { OuterPanel } from "components/ui/Panel";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 

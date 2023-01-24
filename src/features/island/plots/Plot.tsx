@@ -14,7 +14,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import { CropName, CROPS } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Soil } from "features/island/plots/components/Soil";

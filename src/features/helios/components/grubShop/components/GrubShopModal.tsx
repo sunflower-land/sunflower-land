@@ -6,7 +6,7 @@ import grubShopIcon from "assets/icons/chef_hat.png";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -17,7 +17,7 @@ import { Label } from "components/ui/Label";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "../Tutorial";
-import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
+import { getGrubShopSellPrice } from "features/game/expansion/lib/boosts";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
@@ -198,7 +198,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     <div className="flex justify-center space-x-1 items-center sm:justify-center">
                       <img src={token} className="h-4 sm:h-5" />
                       <span className="text-xs text-shadow text-center">
-                        {`${getOrderSellPrice(
+                        {`${getGrubShopSellPrice(
                           state.bumpkin as Bumpkin,
                           selected
                         )}`}

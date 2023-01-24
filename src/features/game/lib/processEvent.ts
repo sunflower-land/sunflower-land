@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { EVENTS, GameEvent } from "../events";
-import { FOODS, getKeys } from "../types/craftables";
+import { CONSUMABLES } from "../types/consumables";
+import { getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
 
@@ -53,7 +54,7 @@ const maxItems: Inventory = {
   "Red Envelope": new Decimal(100),
 
   // Max of 1000 food item
-  ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
+  ...getKeys(CONSUMABLES).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(1000),
@@ -62,7 +63,7 @@ const maxItems: Inventory = {
   ),
 
   // Max of 1 skill badge
-  ...(Object.keys(SKILL_TREE) as InventoryItemName[]).reduce(
+  ...getKeys(SKILL_TREE).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(1),

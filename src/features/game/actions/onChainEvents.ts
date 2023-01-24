@@ -1,6 +1,6 @@
 import { wallet } from "lib/blockchain/wallet";
 
-import { ITEM_DETAILS } from "../types/images";
+import { ITEM_DETAILS } from "../types/items";
 import { KNOWN_ITEMS } from "../types";
 import { getFarmSlots, ListingStatus } from "lib/blockchain/Trader";
 import { CONFIG } from "lib/config";

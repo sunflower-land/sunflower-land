@@ -21,8 +21,8 @@ const INNER_CANVAS_WIDTH = 14;
 
 export interface BoxProps {
   hideCount?: boolean;
-  image?: any;
-  secondaryImage?: any;
+  image?: string;
+  secondaryImage?: string;
   isSelected?: boolean;
   count?: Decimal;
   onClick?: () => void;
@@ -166,7 +166,7 @@ export const Box: React.FC<BoxProps> = ({
         }}
       >
         <div className="absolute flex justify-center items-center w-full h-full">
-          <SquareIcon icon={image} width={INNER_CANVAS_WIDTH} />
+          {image && <SquareIcon icon={image} width={INNER_CANVAS_WIDTH} />}
           {secondaryImage && (
             <img
               src={secondaryImage}

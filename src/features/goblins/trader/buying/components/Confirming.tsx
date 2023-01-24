@@ -4,7 +4,7 @@ import token from "assets/icons/token_2.png";
 import goblin from "assets/npcs/goblin_head.png";
 
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { Listing } from "lib/blockchain/Trader";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";

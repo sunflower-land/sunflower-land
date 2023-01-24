@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import token from "assets/icons/token_2.png";
-import lightning from "assets/icons/lightning.png";
 import tokenStatic from "assets/icons/token_2.png";
 
 import { Box } from "components/ui/Box";
@@ -14,9 +13,9 @@ import { Context } from "features/game/GameProvider";
 import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { getSellPrice, hasSellBoost } from "features/game/expansion/lib/boosts";
+import { getMarketSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Bumpkin } from "features/game/types/game";
 import { Fruit, FRUIT } from "features/game/types/fruits";
@@ -34,7 +33,6 @@ export const Crops: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const [isPriceBoosted, setIsPriceBoosted] = useState(false);
 
   const inventory = state.inventory;
 
@@ -54,7 +52,7 @@ export const Crops: React.FC = () => {
   const cropAmount = setPrecision(new Decimal(inventory[selected.name] || 0));
   const noCrop = cropAmount.lessThanOrEqualTo(0);
   const displaySellPrice = (crop: Crop | Fruit) =>
-    getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
+    getMarketSellPrice(crop, inventory, state.bumpkin as Bumpkin);
 
   const handleSellOneOrLess = () => {
     const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
@@ -89,10 +87,6 @@ export const Crops: React.FC = () => {
 
     return `Sell ${cropAmount}`;
   };
-
-  useEffect(() => {
-    setIsPriceBoosted(hasSellBoost(inventory));
-  }, [inventory, state.inventory]);
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -129,7 +123,6 @@ export const Crops: React.FC = () => {
           <div className="border-t border-white w-full my-2 pt-1 flex justify-between sm:flex-col sm:items-center">
             <div className="flex justify-center space-x-1 items-center sm:justify-center">
               <img src={token} className="h-4 sm:h-5" />
-              {isPriceBoosted && <img src={lightning} className="h-5 sm:h-6" />}
               <span className="text-xs text-shadow text-center">
                 {`${displaySellPrice(selected)}`}
               </span>

@@ -6,11 +6,11 @@ import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import {
   Consumable,
   ConsumableName,
-  isJuice,
+  JUICES,
 } from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
@@ -130,7 +130,7 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
             className="text-sm mt-1 whitespace-nowrap"
             onClick={() => feed(selected)}
           >
-            {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
+            {selected.name in JUICES ? "Drink 1" : "Eat 1"}
           </Button>
         )}
       </OuterPanel>

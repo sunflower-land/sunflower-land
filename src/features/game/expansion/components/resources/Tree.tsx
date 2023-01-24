@@ -36,7 +36,7 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { setPrecision } from "lib/utils/formatNumber";
 
 const HITS = 3;

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { Button } from "components/ui/Button";
 
 interface ConfirmingCancelProps {

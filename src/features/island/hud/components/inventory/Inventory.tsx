@@ -5,7 +5,7 @@ import { Box } from "components/ui/Box";
 
 import { InventoryItems } from "./InventoryItems";
 
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";

@@ -12,7 +12,7 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { GameState } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";

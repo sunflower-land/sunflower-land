@@ -2,10 +2,9 @@ import Decimal from "decimal.js-light";
 import { CropName, CROPS } from "../../types/crops";
 import { GameState } from "../../types/game";
 import cloneDeep from "lodash.clonedeep";
-import { getSellPrice } from "features/game/expansion/lib/boosts";
+import { getMarketSellPrice } from "features/game/expansion/lib/boosts";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { setPrecision } from "lib/utils/formatNumber";
-import { Cake } from "features/game/types/craftables";
 import { FRUIT, FruitName } from "features/game/types/fruits";
 
 export type SellCropAction = {
@@ -14,7 +13,7 @@ export type SellCropAction = {
   amount: number;
 };
 
-export type SellableName = CropName | Cake | FruitName;
+export type SellableName = CropName | FruitName;
 
 export type SellableItem = {
   name: SellableName;
@@ -53,7 +52,7 @@ export function sellCrop({ state, action }: Options): GameState {
     throw new Error("Insufficient quantity to sell");
   }
 
-  const price = getSellPrice(
+  const price = getMarketSellPrice(
     sellables as SellableItem,
     game.inventory,
     bumpkin

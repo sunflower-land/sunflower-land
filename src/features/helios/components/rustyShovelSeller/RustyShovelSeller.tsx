@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { CRAFTABLE_TOOLS } from "features/game/events/landExpansion/craftTool";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { Stock } from "components/ui/Stock";

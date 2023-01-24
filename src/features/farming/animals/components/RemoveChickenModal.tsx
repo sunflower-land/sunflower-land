@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

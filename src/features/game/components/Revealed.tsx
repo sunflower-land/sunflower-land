@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "../GameProvider";
 import { getKeys } from "../types/craftables";
-import { ITEM_DETAILS } from "../types/images";
+import { ITEM_DETAILS } from "../types/items";
 import { InventoryItemName } from "../types/game";
 import { PIXEL_SCALE } from "../lib/constants";
 import { setImageWidth } from "lib/images";
