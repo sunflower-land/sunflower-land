@@ -37,8 +37,6 @@ import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 import land from "assets/land/islands/island.webp";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { StoneHaven } from "features/stoneHaven/StoneHaven";
-import { Revealing } from "../components/Revealing";
-import { Revealed } from "../components/Revealed";
 import { getBumpkinLevel } from "../lib/level";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
@@ -68,8 +66,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   loadLandToVisit: true,
   landToVisitNotFound: true,
   checkIsVisiting: false,
-  revealing: true,
-  revealed: true,
+  revealing: false,
+  revealed: false,
   buyingSFL: true,
 };
 
@@ -239,8 +237,6 @@ export const Game: React.FC = () => {
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("coolingDown") && <Cooldown />}
           {gameState.matches("gameRules") && <Rules />}
-          {gameState.matches("revealing") && <Revealing />}
-          {gameState.matches("revealed") && <Revealed />}
         </Panel>
       </Modal>
 
