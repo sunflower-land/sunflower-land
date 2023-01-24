@@ -23,8 +23,9 @@ const resourceToFindRedEnvelopes: { [key: number]: string } = {
   22: "cauliflowers",
   23: "potatoes",
   24: "parsnips",
-  25: "cabbages",
-  26: "sunflowers",
+  25: "parsnips",
+  26: "cabbages",
+  27: "sunflowers",
 };
 
 const day = new Date().getUTCDate();
