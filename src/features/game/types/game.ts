@@ -217,6 +217,11 @@ export type WarCollectionOffer = {
   }[];
 };
 
+export type TreasureHole = {
+  dugAt: number;
+  discovered: InventoryItemName | null;
+};
+
 export type GrubShopOrder = {
   id: string;
   name: ConsumableName;
@@ -387,6 +392,15 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  treasureIsland?: {
+    holes: Record<number, TreasureHole>;
+    rareTreasure?: {
+      reward?: InventoryItemName;
+      discoveredAt: number;
+      holeId: number;
+    };
+  };
+
   // TODO remove when old events are deleted
   migrated?: boolean;
   treasureIsland?: Record<number, TreasureHole>;
