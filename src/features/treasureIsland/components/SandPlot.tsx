@@ -190,6 +190,27 @@ export const SandPlot: React.FC<{
     onMissingShovelAcknowledge();
   };
 
+  const handleTreasureCheck = () => {
+    // Each time the sprite sheet gets to the 10th frame (shovel up)
+    // If reward has returned then stop sprite here.
+    if (reward !== undefined) {
+      goblinDiggingRef.current?.pause();
+      setShowGoblinEmotion(true);
+
+      if (!reward.discovered) {
+        // If no reward is found then move the sandPlot machine into
+        // finished state. No user interaction required.
+        setTimeout(() => {
+          sandPlotSend({
+            type: "FINISH_DIGGING",
+            discovered: reward.discovered,
+            dugAt: reward?.dugAt,
+          });
+        }, 2000);
+      }
+    }
+  };
+
   if (sandPlotState.matches("dug")) {
     return (
       <div className="w-full h-full">
@@ -294,22 +315,7 @@ export const SandPlot: React.FC<{
               onEnterFrame={[
                 {
                   frame: 10,
-                  callback: () => {
-                    if (reward !== undefined) {
-                      goblinDiggingRef.current?.pause();
-                      setShowGoblinEmotion(true);
-
-                      if (!reward.discovered) {
-                        setTimeout(() => {
-                          sandPlotSend({
-                            type: "FINISH_DIGGING",
-                            discovered: reward.discovered,
-                            dugAt: reward?.dugAt,
-                          });
-                        }, 2000);
-                      }
-                    }
-                  },
+                  callback: handleTreasureCheck,
                 },
               ]}
             />
