@@ -10,20 +10,19 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
-import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import {
   BeachBountyTreasure,
-  BEACH_BOUNTY,
+  BEACH_BOUNTY_TREASURE,
 } from "features/game/types/treasure";
 
 export const TreasureShopSell: React.FC = () => {
   const [selectedName, setSelectedName] =
     useState<BeachBountyTreasure>("Sea Cucumber");
 
-  const selected = BEACH_BOUNTY()[selectedName];
+  const selected = BEACH_BOUNTY_TREASURE[selectedName];
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -34,14 +33,14 @@ export const TreasureShopSell: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const price = selected.sfl;
+  const price = selected.sellPrice ?? 0;
   const amount = inventory[selectedName] || new Decimal(0);
 
   const sell = (amount = 1) => {
-    // gameService.send("seed.bought", {
-    //   item: selectedName,
-    //   amount,
-    // });
+    gameService.send("treasure.sold", {
+      item: selectedName,
+      amount,
+    });
 
     setToast({
       icon: token,
@@ -50,8 +49,6 @@ export const TreasureShopSell: React.FC = () => {
 
     shortcutItem(selectedName);
   };
-
-  const stock = state.stock[selectedName] || new Decimal(0);
 
   const Action = () => {
     return (
@@ -67,19 +64,16 @@ export const TreasureShopSell: React.FC = () => {
     );
   };
 
-  const cropName = selectedName.split(" ")[0] as CropName;
-  const crop = CROPS()[cropName];
-
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-        {getKeys(BEACH_BOUNTY()).map((name: BeachBountyTreasure) => (
+        {getKeys(BEACH_BOUNTY_TREASURE).map((name: BeachBountyTreasure) => (
           <Box
             isSelected={selectedName === name}
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
-            count={amount}
+            count={inventory[name] || new Decimal(0)}
           />
         ))}
       </div>

@@ -280,6 +280,7 @@ export const OFFLINE_FARM: GameState = {
     Warrior: new Decimal(0),
     Gold: new Decimal(50),
     "Immortal Pear": new Decimal(1),
+    Pipi: new Decimal(1),
   },
   migrated: true,
   stock: INITIAL_STOCK,
