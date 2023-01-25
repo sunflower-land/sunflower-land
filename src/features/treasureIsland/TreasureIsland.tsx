@@ -499,7 +499,7 @@ export const TreasureIsland: React.FC = () => {
           />
           <img
             src={SUNNYSIDE.npcs.betty}
-            className="absolute pointer-events-none"
+            className="absolute pointer-events-none z-10"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               bottom: `${PIXEL_SCALE * 2}px`,
@@ -520,7 +520,7 @@ export const TreasureIsland: React.FC = () => {
           />
           <img
             src={placeholderNPC2}
-            className="absolute pointer-events-none"
+            className="absolute pointer-events-none z-10"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               bottom: `${PIXEL_SCALE * 2}px`,
