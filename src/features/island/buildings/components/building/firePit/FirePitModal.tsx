@@ -70,7 +70,7 @@ export const FirePitModal: React.FC<Props> = ({
   if (showTutorial) {
     return (
       <Modal show={isOpen} onHide={acknowledge} centered>
-        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
+        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />
       </Modal>
     );
   }

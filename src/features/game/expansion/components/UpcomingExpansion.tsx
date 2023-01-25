@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import { Panel } from "components/ui/Panel";
-
 import { GameState } from "features/game/types/game";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
@@ -13,6 +11,7 @@ import { Pontoon } from "./Pontoon";
 
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   gameState: GameState;
@@ -73,13 +72,17 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
         onHide={() => setShowBumpkinModal(false)}
         centered
       >
-        <Panel bumpkinParts={gameState.bumpkin?.equipped}>
+        <CloseButtonPanel
+          bumpkinParts={gameState.bumpkin?.equipped}
+          title="Expand your land"
+          onClose={() => setShowBumpkinModal(false)}
+        >
           <UpcomingExpansionModal
             gameState={gameState}
             onClose={() => setShowBumpkinModal(false)}
             onExpand={onExpand}
           />
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
     </>
   );

@@ -13,8 +13,14 @@ type labelType =
 interface Props {
   className?: string;
   type?: labelType;
+  style?: React.CSSProperties;
 }
-export const Label: React.FC<Props> = ({ children, className, type }) => {
+export const Label: React.FC<Props> = ({
+  children,
+  className,
+  type,
+  style,
+}) => {
   return (
     <>
       {type === "default" && (
@@ -23,7 +29,7 @@ export const Label: React.FC<Props> = ({ children, className, type }) => {
             "bg-silver-300 text-white text-xxs object-contain justify-center items-center flex px-1",
             className
           )}
-          style={pixelWhiteBorderStyle}
+          style={{ ...pixelWhiteBorderStyle, ...style }}
         >
           <span
             style={{
@@ -49,6 +55,7 @@ export const Label: React.FC<Props> = ({ children, className, type }) => {
             },
             className
           )}
+          style={style}
         >
           {children}
         </span>

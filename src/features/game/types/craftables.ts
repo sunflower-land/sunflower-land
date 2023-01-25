@@ -1125,7 +1125,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Christmas Bear": { width: 1, height: 1 },
   "Christmas Snow Globe": { width: 2, height: 2 },
   "Lady Bug": { width: 1, height: 1 },
-  "Squirrel Monkey": { width: 1, height: 1 },
+  "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
 
   "Maneki Neko": { width: 1, height: 1 },

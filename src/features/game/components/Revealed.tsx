@@ -11,49 +11,56 @@ import { InventoryItemName } from "../types/game";
 import { PIXEL_SCALE } from "../lib/constants";
 import { setImageWidth } from "lib/images";
 
-export const Revealed: React.FC = () => {
+export const Revealed: React.FC<{ onAcknowledged?: () => void }> = ({
+  onAcknowledged,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const onAcknowledge = () => {
+  const handleAcknowledge = () => {
     gameService.send("CONTINUE");
+    if (onAcknowledged) onAcknowledged();
   };
 
   const items = getKeys(gameState.context.revealed?.inventory ?? {});
   const sfl = Number(gameState.context.revealed?.balance ?? 0);
 
   return (
-    <div className="flex flex-col items-center p-1">
-      <p className="text-center text-base mb-2">Congratulations!</p>
-      {sfl > 0 && (
-        <>
-          <img
-            src={token}
-            className="mb-2"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-            }}
-          />
-          <p className="text-center text-sm mb-2">{`You found ${sfl} SFL`}</p>
-        </>
-      )}
-
-      {items.length > 0 &&
-        items.map((name, index) => (
-          <div key={`${name}-${index}`} className="flex flex-col items-center">
+    <>
+      <div className="flex flex-col items-center p-2">
+        <p className="text-center text-base mb-2">Congratulations!</p>
+        {sfl > 0 && (
+          <>
             <img
-              src={ITEM_DETAILS[name as InventoryItemName].image}
+              src={token}
               className="mb-2"
-              onLoad={(e) => setImageWidth(e.currentTarget)}
               style={{
-                opacity: 0,
+                width: `${PIXEL_SCALE * 10}px`,
               }}
             />
-            <p className="text-center text-sm mb-2">{`You found a ${name}`}</p>
-          </div>
-        ))}
+            <p className="text-center text-sm mb-2">{`You found ${sfl} SFL`}</p>
+          </>
+        )}
 
-      <Button onClick={onAcknowledge}>Continue</Button>
-    </div>
+        {items.length > 0 &&
+          items.map((name, index) => (
+            <div
+              key={`${name}-${index}`}
+              className="flex flex-col items-center"
+            >
+              <img
+                src={ITEM_DETAILS[name as InventoryItemName].image}
+                className="mb-2"
+                onLoad={(e) => setImageWidth(e.currentTarget)}
+                style={{
+                  opacity: 0,
+                }}
+              />
+              <p className="text-center text-sm mb-2">{`You found a ${name}`}</p>
+            </div>
+          ))}
+      </div>
+      <Button onClick={handleAcknowledge}>Continue</Button>
+    </>
   );
 };
