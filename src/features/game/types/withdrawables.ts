@@ -211,7 +211,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Christmas Snow Globe": true,
   "Cabbage Boy": true,
   "Cabbage Girl": true,
-  "Wood Nymph Wendy": true,
+  "Wood Nymph Wendy": false,
   "Chef Bear": true,
   "Construction Bear": true,
   "Angel Bear": true,
