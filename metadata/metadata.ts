@@ -2899,7 +2899,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around. 1/2 Orange Tree grow time.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/443.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Black Bearry": {
@@ -2907,7 +2907,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful! +1 Blueberry each Harvest",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/444.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Devil Bear": {
