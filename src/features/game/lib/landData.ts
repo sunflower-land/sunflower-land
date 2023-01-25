@@ -332,6 +332,7 @@ export const OFFLINE_FARM: GameState = {
         createdAt: Date.now() - 12 * 60 * 60 * 1000,
         id: "0",
         readyAt: 0,
+        shakenAt: Date.now() - 12 * 60 * 60 * 1000,
       },
     ],
   },
