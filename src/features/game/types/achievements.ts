@@ -336,7 +336,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 500,
     sfl: marketRate(0),
     rewards: {
-      Pickaxe: new Decimal(20),
+      "Stone Pickaxe": new Decimal(20),
     },
   },
 
