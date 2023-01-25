@@ -29,7 +29,6 @@ export const TreasureDetector: React.FC = () => {
 
   const [isSearching, setIsSearching] = useState(false);
 
-  console.log({ state: gameState.value });
   const treasureIsland = gameState.context.state.treasureIsland;
   const acknowledge = () => {
     acknowledgeTutorial("Treasure Detector");
@@ -152,7 +151,6 @@ export const TreasureDetector: React.FC = () => {
 
   const rareTreasure = treasureIsland?.rareTreasure;
 
-  console.log({ rareTreasure });
   return (
     <>
       <Modal centered show={showModal} onHide={closeHandle}>
@@ -169,7 +167,7 @@ export const TreasureDetector: React.FC = () => {
           <ModalContent />
         </CloseButtonPanel>
       </Modal>
-      <MapPlacement x={-8} y={10} height={1} width={1}>
+      <MapPlacement x={-7} y={9} height={1} width={1}>
         {showTutorial && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
