@@ -13,7 +13,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SandPlot } from "./components/SandPlot";
 
-const CLICKABLE_COORDINATES: Coordinates[] = [
+export const CLICKABLE_COORDINATES: Coordinates[] = [
   {
     x: -2,
     y: 12,

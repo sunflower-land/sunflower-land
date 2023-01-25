@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import xMark from "assets/decorations/flag.png";
@@ -16,6 +16,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { getSecondsToTomorrow, secondsToString } from "lib/utils/time";
+import { CLICKABLE_COORDINATES } from "../TreasureIsland";
 
 export const TreasureDetector: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -26,6 +27,15 @@ export const TreasureDetector: React.FC = () => {
     !hasShownTutorial("Treasure Detector")
   );
 
+  const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    if (gameState.matches("revealed")) {
+      setIsSearching(false);
+      setShowModal(false);
+    }
+  }, [gameState.value]);
+
   const treasureIsland = gameState.context.state.treasureIsland;
   const acknowledge = () => {
     acknowledgeTutorial("Treasure Detector");
@@ -33,30 +43,25 @@ export const TreasureDetector: React.FC = () => {
   };
 
   const search = () => {
+    setIsSearching(true);
+
     gameService.send("REVEAL", {
       event: {
         type: "treasure.searched",
         createdAt: new Date(),
       },
     });
-
-    setShowModal(false);
-  };
-
-  const dig = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-
-    gameService.send("REVEAL", {
-      event: {
-        type: "treasure.dug",
-        id: treasureIsland?.rareTreasure?.holeId.toString(),
-        createdAt: new Date(),
-      },
-    });
-    setShowModal(false);
   };
 
   const ModalContent = () => {
+    if (isSearching) {
+      return (
+        <div className="w-full text-center">
+          <p className="loading">Searching</p>
+        </div>
+      );
+    }
+
     if (showTutorial) {
       return (
         <div className="text-left p-1">
@@ -83,9 +88,10 @@ export const TreasureDetector: React.FC = () => {
       );
     }
 
-    const hasDug =
-      new Date(treasureIsland?.rareTreasure?.discoveredAt ?? 0).getUTCDay() ===
-      new Date().getUTCDay();
+    const hasDug = false;
+    // const hasDug =
+    //   new Date(treasureIsland?.rareTreasure?.discoveredAt ?? 0).getUTCDay() ===
+    //   new Date().getUTCDay();
 
     if (hasDug) {
       return (
@@ -188,23 +194,27 @@ export const TreasureDetector: React.FC = () => {
       </MapPlacement>
 
       {rareTreasure?.reward && (
-        <MapPlacement
-          // TODO - coordinates from holeID?
-          x={0}
-          y={5}
-          height={1}
-          width={1}
+        <div
+          className="pointer-events-none absolute"
+          style={{
+            top: `calc(50% - ${
+              GRID_WIDTH_PX * CLICKABLE_COORDINATES[rareTreasure?.holeId].y
+            }px)`,
+            left: `calc(50% + ${
+              GRID_WIDTH_PX * CLICKABLE_COORDINATES[rareTreasure?.holeId].x
+            }px)`,
+            height: `${GRID_WIDTH_PX}px`,
+            width: `${GRID_WIDTH_PX}px`,
+          }}
         >
-          <div className="w-full h-full group cursor-pointer" onClick={dig}>
-            <img
-              src={xMark}
-              style={{
-                width: `${PIXEL_SCALE * 16}px`,
-              }}
-              className=" group-hover:img-highlight absolute bottom-0"
-            />
-          </div>
-        </MapPlacement>
+          <img
+            src={xMark}
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+            }}
+            className="absolute bottom-0"
+          />
+        </div>
       )}
     </>
   );
