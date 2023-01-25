@@ -44,6 +44,9 @@ export const SUNNYSIDE = {
     timer: `${CONFIG.PROTECTED_IMAGE_URL}/icons/timer.png`,
     treasure: `${CONFIG.PROTECTED_IMAGE_URL}/icons/treasure_icon.png`,
     water: `${CONFIG.PROTECTED_IMAGE_URL}/icons/water.png`,
+    happy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/happy.png`,
+    neutral: `${CONFIG.PROTECTED_IMAGE_URL}/icons/neutral.png`,
+    unhappy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sad.png`,
   },
   npcs: {
     betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
