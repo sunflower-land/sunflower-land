@@ -47,6 +47,8 @@ import cabbageGirl from "assets/sfts/cabbage_girl.png";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
 import immortalPear from "assets/sfts/immortal_pear.gif";
 import ladybug from "assets/sfts/ladybug.gif";
+import blackBear from "assets/sfts/black_bear.gif";
+import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -1601,12 +1603,12 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_BLACKSMITH_ITEMS["Lady Bug"].description,
   },
   "Squirrel Monkey": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    image: squirrelMonkey,
+    description: GOBLIN_BLACKSMITH_ITEMS["Squirrel Monkey"].description,
   },
   "Black Bearry": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    image: blackBear,
+    description: GOBLIN_BLACKSMITH_ITEMS["Black Bearry"].description,
   },
   "Devil Bear": {
     image: devilBear,
@@ -1647,5 +1649,101 @@ export const ITEM_DETAILS: Items = {
   "Red Envelope": {
     image: redEnvelope,
     description: "Wow, you are lucky!",
+  },
+  "Abandoned Bear": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Crop Charm": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Fossil 1": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Fossil 2": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Fossil 3": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Goblin Bear": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Golden Bear Head": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Human Bear": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Lifeguard Bear": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Pirate Bear": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Pirate Bounty": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Pirate Cake": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Pirate Hat": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Skeleton King Staff": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Snorkel Bear": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Sunflower Coin": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Treasure Map": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Turtle Bear": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Wood Charm": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  Foliant: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  Galleon: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  Pearl: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  Pipi: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  Seaweed: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
   },
 };

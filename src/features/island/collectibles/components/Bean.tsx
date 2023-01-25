@@ -16,6 +16,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useActor } from "@xstate/react";
+import { Revealing } from "features/game/components/Revealing";
+import { Revealed } from "features/game/components/Revealed";
 
 export const getBeanStates = (name: InventoryItemName, createdAt: number) => {
   const plantSeconds = BEANS()[name as BeanName].plantSeconds;
@@ -33,6 +36,7 @@ export const Bean: React.FC<CollectibleProps> = ({
   name = "Magic Bean",
 }) => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
 
   useUiRefresher();
@@ -49,6 +53,14 @@ export const Bean: React.FC<CollectibleProps> = ({
       },
     });
   };
+
+  if (gameState.matches("revealing")) {
+    return <Revealing />;
+  }
+
+  if (gameState.matches("revealed")) {
+    return <Revealed />;
+  }
 
   if (isReady) {
     return (
