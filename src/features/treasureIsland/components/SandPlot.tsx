@@ -9,7 +9,7 @@ import Spritesheet, {
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import shadow from "assets/npcs/shadow.png";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { InventoryItemName } from "features/game/types/game";
 import { setImageWidth } from "lib/images";
 import classNames from "classnames";
