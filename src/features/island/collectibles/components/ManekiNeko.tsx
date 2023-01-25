@@ -12,6 +12,9 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { Panel } from "components/ui/Panel";
+import { Revealed } from "features/game/components/Revealed";
+import { Revealing } from "features/game/components/Revealing";
 
 interface Props {
   id: string;
@@ -32,9 +35,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
     )
   );
   const readyInSeconds = (shakeableAt - Date.now()) / 1000;
-  const hasShakenRecently = manekiNekos.some(
-    (maneki) => Date.now() < shakeableAt
-  );
+  const hasShakenRecently = Date.now() < shakeableAt;
 
   const [isShaking, setIsShaking] = useState(hasShakenRecently);
   const [showWaitModal, setShowWaitModal] = useState(false);
@@ -125,6 +126,20 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
         />
       </div>
       {waitingModal()}
+      {gameState.matches("revealing") && (
+        <Modal show centered>
+          <Panel>
+            <Revealing />
+          </Panel>
+        </Modal>
+      )}
+      {gameState.matches("revealed") && (
+        <Modal show centered>
+          <Panel>
+            <Revealed />
+          </Panel>
+        </Modal>
+      )}
     </>
   );
 };
