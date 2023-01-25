@@ -47,6 +47,8 @@ import cabbageGirl from "assets/sfts/cabbage_girl.png";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
 import immortalPear from "assets/sfts/immortal_pear.gif";
 import ladybug from "assets/sfts/ladybug.gif";
+import blackBear from "assets/sfts/black_bear.gif";
+import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -1601,12 +1603,12 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_BLACKSMITH_ITEMS["Lady Bug"].description,
   },
   "Squirrel Monkey": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    image: squirrelMonkey,
+    description: GOBLIN_BLACKSMITH_ITEMS["Squirrel Monkey"].description,
   },
   "Black Bearry": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    image: blackBear,
+    description: GOBLIN_BLACKSMITH_ITEMS["Black Bearry"].description,
   },
   "Devil Bear": {
     image: devilBear,
