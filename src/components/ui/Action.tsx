@@ -20,7 +20,7 @@ export const Action: React.FC<Props> = ({ text, icon, onClick, className }) => {
       className={classNames("relative cursor-pointer z-20", className)}
     >
       <InnerPanel
-        className="relative text-white text-xs w-fit"
+        className="relative text-xs w-fit"
         style={{
           height: `${PIXEL_SCALE * 13}px`,
           left: `${PIXEL_SCALE * 5}px`,
