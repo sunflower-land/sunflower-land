@@ -43,6 +43,7 @@ import snowman from "assets/npc-layers/snowman-onesie.png";
 import sharkOnesie from "assets/npc-layers/shark-onesie.png";
 import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
 import reindeerAntlers from "assets/npc-layers/reindeer_antlers.png";
+import lionDanceMask from "assets/npc-layers/lion_dance_mask.png";
 
 import shadow from "assets/npcs/shadow.png";
 
@@ -127,6 +128,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Reindeer Suit": reindeerSuit,
 
   // Hats
+  "Lion Dance Mask": lionDanceMask,
   "Reindeer Antlers": reindeerAntlers,
 
   // Onesie
