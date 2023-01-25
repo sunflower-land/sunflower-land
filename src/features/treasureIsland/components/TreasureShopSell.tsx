@@ -14,13 +14,16 @@ import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
-import { TREASURE, TreasureName } from "features/game/types/treasure";
+import {
+  BeachBountyTreasure,
+  BEACH_BOUNTY,
+} from "features/game/types/treasure";
 
 export const TreasureShopSell: React.FC = () => {
   const [selectedName, setSelectedName] =
-    useState<TreasureName>("Sea Cucumber");
+    useState<BeachBountyTreasure>("Sea Cucumber");
 
-  const selected = TREASURE()[selectedName];
+  const selected = BEACH_BOUNTY()[selectedName];
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -70,7 +73,7 @@ export const TreasureShopSell: React.FC = () => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-        {getKeys(TREASURE()).map((name: TreasureName) => (
+        {getKeys(BEACH_BOUNTY()).map((name: BeachBountyTreasure) => (
           <Box
             isSelected={selectedName === name}
             key={name}

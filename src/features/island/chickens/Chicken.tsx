@@ -92,50 +92,6 @@ const isEggReady = (state: MachineState) => state.matches("eggReady");
 const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
 export const Chicken: React.FC<Props> = ({ id }) => {
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
-
-  const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
-
-  const handleOnClick = () => {
-    if (!hasRustyShovelSelected) return;
-
-    setShowRemoveModal(true);
-  };
-
-  return (
-    <>
-      <div
-        className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": hasRustyShovelSelected,
-        })}
-        onClick={hasRustyShovelSelected ? handleOnClick : undefined}
-      >
-        <div
-          className={classNames("h-full", {
-            "pointer-events-none": hasRustyShovelSelected,
-          })}
-        >
-          <ChickenContent id={id} />
-        </div>
-      </div>
-      <Modal
-        show={showRemoveModal}
-        centered
-        onHide={() => setShowRemoveModal(false)}
-      >
-        {showRemoveModal && (
-          <RemoveChickenModal
-            id={id}
-            onClose={() => setShowRemoveModal(false)}
-          />
-        )}
-      </Modal>
-    </>
-  );
-};
-
-export const ChickenContent: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem, showTimers } = useContext(Context);
   const [
     {
@@ -176,6 +132,10 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
 
+  const shortcuts = getShortcuts();
+  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+
   const handleMouseEnter = () => {
     eggIsBrewing && setShowTimeToEgg(true);
   };
@@ -185,11 +145,6 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
   };
 
   const handleClick = () => {
-    if (hungry) {
-      feed();
-      return;
-    }
-
     if (eggReady) {
       chickenService.send("LAY");
       return;
@@ -197,6 +152,16 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
 
     if (eggLaid) {
       handleCollect();
+      return;
+    }
+
+    if (hasRustyShovelSelected) {
+      setShowRemoveModal(true);
+      return;
+    }
+
+    if (hungry) {
+      feed();
       return;
     }
   };
@@ -268,7 +233,8 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
     <>
       <div
         className={classNames("w-full h-full relative", {
-          "cursor-pointer hover:img-highlight": interactable,
+          "cursor-pointer hover:img-highlight":
+            interactable || hasRustyShovelSelected,
         })}
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
@@ -483,6 +449,22 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
           onContinue={handleContinue}
           inventory={state.inventory}
         />
+      )}
+
+      {showRemoveModal && (
+        <Modal
+          show={showRemoveModal}
+          centered
+          onHide={() => setShowRemoveModal(false)}
+        >
+          {showRemoveModal && (
+            <RemoveChickenModal
+              id={id}
+              canRemove={hungry}
+              onClose={() => setShowRemoveModal(false)}
+            />
+          )}
+        </Modal>
       )}
     </>
   );

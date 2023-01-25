@@ -4,6 +4,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export enum REMOVE_CHICKEN_ERRORS {
   INVALID_CHICKEN = "This chicken does not exist",
+  CHICKEN_BREWING_EGG = "This chicken is brewing an egg",
   NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
 }
 
@@ -15,14 +16,9 @@ export type RemoveChickenAction = {
 type Options = {
   state: Readonly<GameState>;
   action: RemoveChickenAction;
-  createdAt?: number;
 };
 
-export function removeChicken({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options) {
+export function removeChicken({ state, action }: Options) {
   const stateCopy = cloneDeep(state) as GameState;
 
   const { chickens, inventory, bumpkin } = stateCopy;
@@ -33,6 +29,10 @@ export function removeChicken({
 
   if (!chickens[action.id]) {
     throw new Error(REMOVE_CHICKEN_ERRORS.INVALID_CHICKEN);
+  }
+
+  if (chickens[action.id].fedAt) {
+    throw new Error(REMOVE_CHICKEN_ERRORS.CHICKEN_BREWING_EGG);
   }
 
   const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
