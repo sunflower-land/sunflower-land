@@ -8,6 +8,10 @@ import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { COLLECTIBLE_PLACE_SECONDS } from "features/game/events/landExpansion/placeCollectible";
+import { Revealing } from "features/game/components/Revealing";
+import { Revealed } from "features/game/components/Revealed";
+import { Panel } from "components/ui/Panel";
+import Modal from "react-bootstrap/esm/Modal";
 
 interface Props {
   id: string;
@@ -50,6 +54,26 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
     }
   }, [hasShakenRecently]);
 
+  if (gameState.matches("revealing")) {
+    return (
+      <Modal show centered>
+        <Panel>
+          <Revealing />
+        </Panel>
+      </Modal>
+    );
+  }
+
+  if (gameState.matches("revealed")) {
+    return (
+      <Modal show centered>
+        <Panel>
+          <Revealed />
+        </Panel>
+      </Modal>
+    );
+  }
+
   if (isShaking) {
     return (
       <>
@@ -74,6 +98,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
       </>
     );
   }
+
   return (
     <>
       <img
