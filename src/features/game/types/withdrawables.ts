@@ -256,6 +256,38 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   Nugget: (game) => !areAnyGoldsMined(game),
   "Collectible Bear": () =>
     Date.now() < new Date("2023-02-01T08:30:00.000Z").getTime(),
+
+  "Pirate Bounty": false,
+  Pearl: false,
+  Coral: false,
+  "Clam Shell": false,
+  Pipi: false,
+  Starfish: false,
+  Seaweed: false,
+  "Sea Cucumber": false,
+  Crab: false,
+  "Pirate Cake": false,
+
+  //Enable after beta testing
+  "Abandoned Bear": false,
+  "Turtle Bear": false,
+  "Fossil 3": false,
+  "Sunflower Coin": false,
+  Foliant: false,
+  "Skeleton King Staff": false,
+  "Lifeguard Bear": false,
+  "Snorkel Bear": false,
+  "Fossil 2": false,
+  "Golden Bear Head": false,
+  "Pirate Bear": false,
+  "Goblin Bear": false,
+  Galleon: false,
+  "Pirate Hat": false,
+  "Fossil 1": false,
+  "Human Bear": false,
+  "Treasure Map": false,
+  "Wood Charm": false,
+  "Crop Charm": false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
