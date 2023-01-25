@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -29,13 +29,7 @@ export const TreasureDetector: React.FC = () => {
 
   const [isSearching, setIsSearching] = useState(false);
 
-  useEffect(() => {
-    if (gameState.matches("revealed")) {
-      setIsSearching(false);
-      setShowModal(false);
-    }
-  }, [gameState.value]);
-
+  console.log({ state: gameState.value });
   const treasureIsland = gameState.context.state.treasureIsland;
   const acknowledge = () => {
     acknowledgeTutorial("Treasure Detector");
@@ -53,7 +47,30 @@ export const TreasureDetector: React.FC = () => {
     });
   };
 
+  const closeHandle = useCallback(() => {
+    if (gameState.matches("revealing")) {
+      return;
+    }
+
+    if (gameState.matches("revealed")) {
+      gameService.send("CONTINUE");
+      setIsSearching(false);
+    }
+
+    setShowModal(false);
+  }, [gameState.value]);
+
   const ModalContent = () => {
+    if (treasureIsland?.rareTreasure?.reward) {
+      return (
+        <div className="text-center p-1">
+          <img src={xMark} className="w-1/4 m-auto my-2" />
+          <p className="mb-2">Dig at the red flag!</p>
+          <Button onClick={closeHandle}>Continue</Button>
+        </div>
+      );
+    }
+
     if (isSearching) {
       return (
         <div className="w-full text-center">
@@ -75,15 +92,6 @@ export const TreasureDetector: React.FC = () => {
             centuries.`}
           </p>
           <Button onClick={acknowledge}>Continue</Button>
-        </div>
-      );
-    }
-
-    if (treasureIsland?.rareTreasure?.reward) {
-      return (
-        <div className="text-center p-1">
-          <img src={xMark} className="w-1/4 m-auto my-2" />
-          <p className="mb-2">Dig at the red flag!</p>
         </div>
       );
     }
@@ -147,9 +155,9 @@ export const TreasureDetector: React.FC = () => {
   console.log({ rareTreasure });
   return (
     <>
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal centered show={showModal} onHide={closeHandle}>
         <CloseButtonPanel
-          onClose={() => setShowModal(false)}
+          onClose={closeHandle}
           title="Looking for treasure?"
           bumpkinParts={{
             body: "Light Brown Farmer Potion",

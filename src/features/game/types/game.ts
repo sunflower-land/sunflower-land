@@ -217,11 +217,6 @@ export type WarCollectionOffer = {
   }[];
 };
 
-export type TreasureHole = {
-  dugAt: number;
-  discovered: InventoryItemName | null;
-};
-
 export type GrubShopOrder = {
   id: string;
   name: ConsumableName;
@@ -403,7 +398,6 @@ export interface GameState {
 
   // TODO remove when old events are deleted
   migrated?: boolean;
-  treasureIsland?: Record<number, TreasureHole>;
   metadata?: any[];
   pumpkinPlaza: {
     rewardCollectedAt?: number;

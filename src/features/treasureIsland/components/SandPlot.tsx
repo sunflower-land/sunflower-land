@@ -129,7 +129,7 @@ export const SandPlot: React.FC<{
   const [gameState] = useActor(gameService);
 
   const { treasureIsland } = gameState.context.state;
-  const reward = treasureIsland?.[id];
+  const reward = treasureIsland?.holes[id];
 
   const machineContext: Partial<SandPlotContext> = { ...reward, id };
   const sandPlotService = useInterpret(sandPlotMachine, {
