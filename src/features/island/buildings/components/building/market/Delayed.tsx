@@ -17,9 +17,7 @@ export const Delayed: React.FC<Props> = ({ restock }) => {
 
   return (
     <div className="my-1">
-      <p className="text-xxs text-center">
-        Sync your farm to the Blockchain to restock
-      </p>
+      <p className="text-xxs text-center">Sync your farm on chain to restock</p>
       <Button disabled={isDisabled} className="text-xs mt-1" onClick={restock}>
         Sync
       </Button>
