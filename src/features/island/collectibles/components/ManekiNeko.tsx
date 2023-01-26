@@ -12,6 +12,7 @@ import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import Modal from "react-bootstrap/esm/Modal";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
 interface Props {
   id: string;
@@ -20,7 +21,7 @@ interface Props {
 export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
+  const [showTooltip, setShowTooltip] = useState(false);
   const manekiNekos = gameState.context.state.collectibles["Maneki Neko"] ?? [];
   const hasShakenRecently = manekiNekos.some(
     (maneki) =>
@@ -75,8 +76,22 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   }
 
   if (isShaking) {
+    const shakenManekiNeko = manekiNekos
+      .filter((maneki) => {
+        return maneki.shakenAt && 0 < maneki.shakenAt;
+      })
+      .at(0);
+
+    let time = COLLECTIBLE_PLACE_SECONDS["Maneki Neko"] ?? 0;
+    if (shakenManekiNeko && shakenManekiNeko.shakenAt) {
+      time = time - (Date.now() - shakenManekiNeko.shakenAt) / 1000;
+    }
+
     return (
-      <>
+      <div
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
         <img
           src={manekiNekoShaking}
           style={{
@@ -95,7 +110,20 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           }}
           className="absolute"
         />
-      </>
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -20}px`,
+            right: `${PIXEL_SCALE * -20}px`,
+          }}
+        >
+          <TimeLeftPanel
+            text="Ready in:"
+            timeLeft={time}
+            showTimeLeft={showTooltip}
+          />
+        </div>
+      </div>
     );
   }
 

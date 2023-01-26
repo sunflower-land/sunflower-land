@@ -475,4 +475,15 @@ img {
   }
 }
 
-/* [time of portion of animation in seconds] × 100 ) ÷ [total animation time in seconds ] */
+.scaling {
+  transition: scaler 1s ease-in-out;
+}
+
+@keyframes scaler {
+  0% {
+    transforms: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -205,7 +205,13 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
-  const releasesList = isUpcomingItem ? releases : releases.slice(1);
+  const moreReleases = isUpcomingItem
+    ? releases
+    : releases.filter(({ releaseDate }) => {
+        if (releaseDate === currentRelease?.releaseDate) return false;
+
+        return releaseDate > Date.now();
+      });
   const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
   const boost = AUCTIONEER_ITEMS[name].boost;
 
@@ -261,7 +267,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
       {MintButton()}
       {/* More Releases */}
-      {releasesList.length > 0 && (
+      {moreReleases.length > 0 && (
         <div
           className={classNames("flex flex-col items-start w-full", {
             "mt-4": !isUpcomingItem,
@@ -270,7 +276,7 @@ export const AuctionDetails: React.FC<Props> = ({
           <p className="mb-2">
             {isUpcomingItem ? "Releases" : "More Releases"}
           </p>
-          {releasesList.map((release, index) => {
+          {moreReleases.map((release, index) => {
             // Upcoming items use full release list - current item slices it so be careful
             let availableSupplyForRelease = 0;
 

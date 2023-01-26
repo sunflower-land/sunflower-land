@@ -126,17 +126,14 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
 
     trees: {
       0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-          reward: {
-            sfl: new Decimal(3),
-          },
-        },
         x: -3,
         y: 3,
         height: 2,
         width: 2,
+        wood: {
+          amount: 0,
+          choppedAt: 0,
+        },
       },
     },
     stones: {
@@ -261,6 +258,7 @@ export const OFFLINE_FARM: GameState = {
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
+    "Beta Pass": new Decimal(1),
     "Peeled Potato": new Decimal(1),
     "Wood Nymph Wendy": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
@@ -332,11 +330,13 @@ export const OFFLINE_FARM: GameState = {
         createdAt: Date.now() - 12 * 60 * 60 * 1000,
         id: "0",
         readyAt: 0,
+        shakenAt: Date.now() - 12 * 60 * 60 * 1000,
       },
     ],
   },
   mysteryPrizes: {},
   bumpkin: INITIAL_BUMPKIN,
+  pumpkinPlaza: {},
   tradeOffer: {
     amount: 1,
     endAt: new Date(Date.now() + 100000000000000).toISOString(),
