@@ -112,4 +112,8 @@ export const SUNNYSIDE = {
     round_button: `${CONFIG.PROTECTED_IMAGE_URL}/ui/round_button.png`,
     select_box: `${CONFIG.PROTECTED_IMAGE_URL}/ui/select_box.png`,
   },
+  decorations: {
+    treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest.png`,
+    treasure_chest_opened: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest_opened.png`,
+  },
 };

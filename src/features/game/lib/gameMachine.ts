@@ -335,7 +335,6 @@ export function startGame(authContext: Options) {
                   status,
                 } = response;
 
-                console.log("session loaded");
                 return {
                   state: {
                     ...game,
@@ -709,7 +708,6 @@ export function startGame(authContext: Options) {
               // Grab the server side event to fire
               const { event } = e as { event: any; type: "REVEAL" };
 
-              // TODO: Double save is bad and may fire detections
               if (context.actions.length > 0) {
                 await autosave({
                   farmId: Number(authContext.farmId),
