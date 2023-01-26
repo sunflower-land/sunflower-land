@@ -8,12 +8,13 @@ import { IslandList } from "./IslandList";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, Inventory } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
   bumpkin: Bumpkin | undefined;
+  inventory: Inventory;
   isVisiting?: boolean;
   isTravelAllowed?: boolean;
   onShow?: () => void;
@@ -22,6 +23,7 @@ interface Props {
 
 export const IslandTravelModal = ({
   bumpkin,
+  inventory,
   isVisiting = false,
   isTravelAllowed = true,
   isOpen,
@@ -82,7 +84,11 @@ export const IslandTravelModal = ({
           />
         </div>
         {isTravelAllowed && (
-          <IslandList bumpkin={bumpkin} showVisitList={isVisiting} />
+          <IslandList
+            bumpkin={bumpkin}
+            showVisitList={isVisiting}
+            inventory={inventory}
+          />
         )}
         {!isTravelAllowed && <span className="loading">Loading</span>}
       </Panel>

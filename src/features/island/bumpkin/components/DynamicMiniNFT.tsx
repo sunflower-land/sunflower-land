@@ -61,6 +61,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName } from "features/game/types/consumables";
 import { FeedModal } from "./FeedModal";
+import classNames from "classnames";
 
 type VisiblePart =
   | BumpkinBody
@@ -205,9 +206,84 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
 
   return (
     <>
-      <div
-        className="absolute cursor-pointer hover:img-highlight"
+      <NPC
+        body={body}
+        hair={hair}
+        shirt={shirt}
+        pants={pants}
+        hat={hat}
+        suit={suit}
+        onesie={onesie}
         onClick={() => setOpen(true)}
+      />
+      <FeedModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onFeed={(food) => eat(food)}
+      />
+    </>
+  );
+};
+
+export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
+  body,
+  hair,
+  shirt,
+  pants,
+  hat,
+  suit,
+  onesie,
+  onClick,
+}) => {
+  const [frame, setFrame] = useState<number>(0);
+  const bodyRef = useRef<Spritesheet>(null);
+  const hairRef = useRef<Spritesheet>(null);
+  const shirtRef = useRef<Spritesheet>(null);
+  const pantsRef = useRef<Spritesheet>(null);
+  const suitRef = useRef<Spritesheet>(null);
+  const hatRef = useRef<Spritesheet>(null);
+  const onesieRef = useRef<Spritesheet>(null);
+
+  const bodyPartStyle = {
+    width: `${PIXEL_SCALE * 20}px`,
+    top: `${PIXEL_SCALE * 5}px`,
+    left: `${PIXEL_SCALE * -2}px`,
+    imageRendering: "pixelated" as const,
+  };
+
+  const [timer, setTimer] = React.useState<number>(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setTimer(Date.now()), STEP_MS);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  // make sure all body parts are synchronized
+  useEffect(() => {
+    setFrame((frame + 1) % STEPS);
+    bodyRef.current?.goToAndPause(frame);
+    hairRef.current?.goToAndPause(frame);
+    shirtRef.current?.goToAndPause(frame);
+    pantsRef.current?.goToAndPause(frame);
+
+    if (suitRef.current) {
+      suitRef.current?.goToAndPause(frame);
+    }
+    if (hatRef.current) {
+      hatRef.current?.goToAndPause(frame);
+    }
+    if (onesieRef.current) {
+      onesieRef.current?.goToAndPause(frame);
+    }
+  }, [timer]);
+
+  return (
+    <>
+      <div
+        className={classNames(`absolute `, {
+          "cursor-pointer hover:img-highlight": !!onClick,
+        })}
+        onClick={() => !!onClick && onClick()}
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           height: `${PIXEL_SCALE * 32}px`,
@@ -306,11 +382,6 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
           />
         )}
       </div>
-      <FeedModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onFeed={(food) => eat(food)}
-      />
     </>
   );
 };

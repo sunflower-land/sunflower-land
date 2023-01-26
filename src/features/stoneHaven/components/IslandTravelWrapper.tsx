@@ -9,5 +9,12 @@ export const IslandTravelWrapper = () => {
   const { state } = gameState.context;
   const { bumpkin } = state;
 
-  return <IslandTravel bumpkin={bumpkin} x={0} y={-9} />;
+  return (
+    <IslandTravel
+      inventory={gameState.context.state.inventory}
+      bumpkin={bumpkin}
+      x={0}
+      y={-9}
+    />
+  );
 };

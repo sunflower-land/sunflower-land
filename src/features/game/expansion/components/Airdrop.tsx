@@ -3,7 +3,6 @@ import { Button } from "components/ui/Button";
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import chest from "src/assets/decorations/treasure_chest.png";
 import token from "src/assets/icons/token_2.png";
 import { Context } from "features/game/GameProvider";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
@@ -95,7 +94,7 @@ export const Airdrop: React.FC = () => {
         }}
       >
         <img
-          src={chest}
+          src={SUNNYSIDE.decorations.treasure_chest}
           className="absolute bulge-repeat pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
