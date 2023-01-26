@@ -10,7 +10,6 @@ import background7 from "assets/captcha/chest_background_7.png";
 import background8 from "assets/captcha/chest_background_8.png";
 
 import chest1 from "assets/npcs/synced.gif";
-import chest2 from "assets/decorations/treasure_chest.png";
 
 import { addNoise } from "lib/images";
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
@@ -23,7 +22,7 @@ interface Props {
 
 const ATTEMPTS = 3;
 
-const chests = [chest1, chest2];
+const chests = [chest1, SUNNYSIDE.decorations.treasure_chest];
 
 const backgrounds = [
   background1,
