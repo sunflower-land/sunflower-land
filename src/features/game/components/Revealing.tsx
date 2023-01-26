@@ -11,13 +11,13 @@ export const Revealing: React.FC = () => {
       <img
         src={maneki}
         alt="digging"
-        className="my-2"
+        className="mt-3 mb-2"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
         }}
       />
       <span
-        className="text-center text-xs loading mb-2"
+        className="text-center text-xs loading mb-1"
         style={{
           height: "24px",
         }}

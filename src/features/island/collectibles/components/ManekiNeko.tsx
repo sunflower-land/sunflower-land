@@ -3,18 +3,18 @@ import React, { useContext, useEffect, useState } from "react";
 
 import manekiNekoShaking from "assets/sfts/maneki_neko.gif";
 import manekiNeko from "assets/sfts/maneki_neko_idle.gif";
-import shadow from "assets/npcs/shadow.png";
+import shadow from "assets/npcs/shadow16px.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { COLLECTIBLE_PLACE_SECONDS } from "features/game/events/landExpansion/placeCollectible";
-import { Modal } from "react-bootstrap";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { secondsToString } from "lib/utils/time";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { Panel } from "components/ui/Panel";
-import { Revealed } from "features/game/components/Revealed";
 import { Revealing } from "features/game/components/Revealing";
+import { Revealed } from "features/game/components/Revealed";
+import { Panel } from "components/ui/Panel";
+import Modal from "react-bootstrap/esm/Modal";
+import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import classNames from "classnames";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
   id: string;
@@ -23,10 +23,11 @@ interface Props {
 export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const manekiNekos = gameState.context.state.collectibles["Maneki Neko"] ?? [];
 
   useUiRefresher();
 
-  const manekiNekos = gameState.context.state.collectibles["Maneki Neko"] ?? [];
   const shakeableAt = Math.max(
     ...manekiNekos.map(
       (maneki) =>
@@ -38,14 +39,8 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const hasShakenRecently = Date.now() < shakeableAt;
 
   const [isShaking, setIsShaking] = useState(hasShakenRecently);
-  const [showWaitModal, setShowWaitModal] = useState(false);
 
   const shake = () => {
-    if (hasShakenRecently) {
-      setShowWaitModal(true);
-      return;
-    }
-
     setIsShaking(true);
 
     // Can only shake a Maneki every 24 hours (even if you have multiple)
@@ -64,53 +59,24 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
 
   useEffect(() => {
     setIsShaking(hasShakenRecently);
-    if (!hasShakenRecently) {
-      setShowWaitModal(false);
-    }
   }, [hasShakenRecently]);
-
-  const waitingModal = () => {
-    return (
-      <Modal
-        show={showWaitModal}
-        centered
-        onHide={() => setShowWaitModal(false)}
-      >
-        <CloseButtonPanel
-          onClose={() => setShowWaitModal(false)}
-          title={"Maneki Neko"}
-        >
-          <div className="flex flex-col justify-center items-center">
-            <span className="text-center mb-2">
-              {`Your reward will be ready in ${secondsToString(readyInSeconds, {
-                length: "full",
-              })}`}
-            </span>
-            <img
-              src={manekiNekoShaking}
-              className="mb-2"
-              style={{
-                width: `${PIXEL_SCALE * 16}px`,
-              }}
-            />
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-    );
-  };
 
   return (
     <>
       <div
-        className="absolute w-full h-full cursor-pointer hover:img-highlight"
+        onMouseEnter={isShaking ? () => setShowTooltip(true) : undefined}
+        onMouseLeave={() => setShowTooltip(false)}
+        className={classNames("absolute w-full h-full", {
+          "cursor-pointer hover:img-highlight": !isShaking,
+        })}
         onClick={shake}
       >
         <img
           src={shadow}
           style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${-PIXEL_SCALE * 0}px`,
-            left: `${-PIXEL_SCALE * 0}px`,
+            width: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 0}px`,
           }}
           className="absolute pointer-events-none"
         />
@@ -125,7 +91,20 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           alt="Maneki Neko"
         />
       </div>
-      {waitingModal()}
+      {isShaking && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -24}px`,
+          }}
+        >
+          <TimeLeftPanel
+            text="Ready in:"
+            timeLeft={readyInSeconds}
+            showTimeLeft={showTooltip}
+          />
+        </div>
+      )}
       {gameState.matches("revealing") && (
         <Modal show centered>
           <Panel>
