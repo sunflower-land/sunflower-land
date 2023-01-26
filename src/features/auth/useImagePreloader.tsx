@@ -60,6 +60,7 @@ const IMAGE_LIST: string[] = [
   ...Object.values(SUNNYSIDE.soil),
   ...Object.values(SUNNYSIDE.tools),
   ...Object.values(SUNNYSIDE.ui),
+  ...Object.values(SUNNYSIDE.npcs),
   ...getKeys(CROP_LIFECYCLE).reduce(
     (acc, crop) => [...acc, ...Object.values(CROP_LIFECYCLE[crop])],
     [] as string[]

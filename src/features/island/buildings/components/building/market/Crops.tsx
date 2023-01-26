@@ -27,7 +27,7 @@ export const Crops: React.FC = () => {
     cropsAndFruits.Sunflower
   );
   const { setToast } = useContext(ToastContext);
-  const [isSellAllModalOpen, showSellAllModal] = React.useState(false);
+  const [isSellAllModalOpen, showSellAllModal] = useState(false);
   const { gameService } = useContext(Context);
   const [
     {

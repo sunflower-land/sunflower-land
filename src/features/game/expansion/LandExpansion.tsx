@@ -47,6 +47,7 @@ export const LandExpansion: React.FC = () => {
           <div
             className="relative"
             style={{
+              // TODO - keep same as World width
               width: `${84 * GRID_WIDTH_PX}px`,
               height: `${56 * GRID_WIDTH_PX}px`,
             }}

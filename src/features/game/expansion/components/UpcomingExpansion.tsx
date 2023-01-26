@@ -23,7 +23,7 @@ interface Props {
 export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
   const { gameService } = useContext(Context);
 
-  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
+  const [showExpansionModal, setShowExpansionModal] = useState(false);
 
   const latestLand = gameState.expansions[gameState.expansions.length - 1];
 
@@ -45,7 +45,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
 
   const onExpand = () => {
     gameService.send("EXPAND");
-    setShowBumpkinModal(false);
+    setShowExpansionModal(false);
   };
 
   const nextPosition = EXPANSION_ORIGINS[gameState.expansions.length];
@@ -63,23 +63,23 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
             src={SUNNYSIDE.icons.expand}
             width={18 * PIXEL_SCALE}
             className="relative cursor-pointer hover:img-highlight"
-            onClick={() => setShowBumpkinModal(true)}
+            onClick={() => setShowExpansionModal(true)}
           />
         </div>
       </MapPlacement>
       <Modal
-        show={showBumpkinModal}
-        onHide={() => setShowBumpkinModal(false)}
+        show={showExpansionModal}
+        onHide={() => setShowExpansionModal(false)}
         centered
       >
         <CloseButtonPanel
           bumpkinParts={gameState.bumpkin?.equipped}
           title="Expand your land"
-          onClose={() => setShowBumpkinModal(false)}
+          onClose={() => setShowExpansionModal(false)}
         >
           <UpcomingExpansionModal
             gameState={gameState}
-            onClose={() => setShowBumpkinModal(false)}
+            onClose={() => setShowExpansionModal(false)}
             onExpand={onExpand}
           />
         </CloseButtonPanel>

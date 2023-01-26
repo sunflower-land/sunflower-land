@@ -390,6 +390,10 @@ export interface GameState {
   // TODO remove when old events are deleted
   migrated?: boolean;
   treasureIsland?: Record<number, TreasureHole>;
+  metadata?: any[];
+  pumpkinPlaza: {
+    rewardCollectedAt?: number;
+  };
 }
 
 export interface Context {

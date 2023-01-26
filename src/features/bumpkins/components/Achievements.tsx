@@ -20,9 +20,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   onBack: () => void;
+  readonly: boolean;
 }
 
-export const Achievements: React.FC<Props> = ({ onBack }) => {
+export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -45,7 +46,6 @@ export const Achievements: React.FC<Props> = ({ onBack }) => {
   const achievement = ACHIEVEMENTS()[selected];
   const progress = achievement.progress(state);
   const isComplete = progress >= achievement.requirement;
-  const isVisiting = gameService.state.matches("visiting");
   const bumpkinAchievements = state.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[selected];
 
@@ -101,7 +101,7 @@ export const Achievements: React.FC<Props> = ({ onBack }) => {
     <>
       <div className="sm:hidden">{backNavigationView}</div>
       <SplitScreenView
-        tallMobileContent={isVisiting || isAlreadyClaimed}
+        tallMobileContent={readonly || isAlreadyClaimed}
         contentScrollable={false}
         header={
           <AchievementDetails
@@ -109,10 +109,10 @@ export const Achievements: React.FC<Props> = ({ onBack }) => {
             details={{
               achievement: selected as AchievementName,
             }}
-            showRewards={!isVisiting && !isAlreadyClaimed}
+            showRewards={!readonly && !isAlreadyClaimed}
             actionView={
               <>
-                {!isVisiting && (
+                {!readonly && (
                   <>
                     {isAlreadyClaimed ? (
                       <div className="flex w-full items-center justify-center">

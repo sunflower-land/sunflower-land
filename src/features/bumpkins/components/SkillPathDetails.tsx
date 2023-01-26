@@ -18,12 +18,14 @@ interface Props {
   selectedSkillPath: BumpkinSkillTree;
   skillsInPath: BumpkinSkill[];
   backNavigationView: JSX.Element;
+  readonly: boolean;
 }
 
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
   skillsInPath,
   backNavigationView,
+  readonly,
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -60,7 +62,6 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   const missingPointRequirement = availableSkillPoints < pointsRequired;
   const comingSoon = !!BUMPKIN_SKILL_TREE[selectedSkill].disabled;
-  const isVisiting = gameState.matches("visiting");
 
   const handleClaim = () => {
     setShowConfirmButton(false);
@@ -80,7 +81,7 @@ export const SkillPathDetails: React.FC<Props> = ({
               skill: selectedSkill,
             }}
             requirements={
-              isVisiting || hasSelectedSkill
+              readonly || hasSelectedSkill
                 ? undefined
                 : {
                     skillPoints: pointsRequired,
@@ -94,7 +95,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                 {comingSoon && (
                   <p className="text-xxs text-center my-2">Coming soon</p>
                 )}
-                {!hasSelectedSkill && !isVisiting && !comingSoon && (
+                {!hasSelectedSkill && !readonly && !comingSoon && (
                   <>
                     {!showConfirmButton && (
                       <Button

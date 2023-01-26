@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "features/game/GameProvider";
-import { useActor, useMachine } from "@xstate/react";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Spritesheet, {
@@ -8,7 +8,6 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
-import goblinDigging from "assets/npcs/goblin_treasure_sheet.png";
 import shadow from "assets/npcs/shadow.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
@@ -17,7 +16,11 @@ import classNames from "classnames";
 
 import { Modal } from "react-bootstrap";
 import { Revealed } from "features/game/components/Revealed";
-import { SandPlotContext, sandPlotMachine } from "../lib/sandPlotMachine";
+import {
+  MachineState,
+  SandPlotContext,
+  sandPlotMachine,
+} from "../lib/sandPlotMachine";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
@@ -26,21 +29,18 @@ type TreasureReward = {
   dugAt: number;
 };
 
-const Reward: React.FC<{ reward?: TreasureReward; onCollect: () => void }> = ({
-  reward,
-  onCollect,
-}) => {
+const Reward: React.FC<{ reward?: TreasureReward }> = ({ reward }) => {
   if (!reward || !reward.discovered) return null;
 
   return (
     <div
+      id="reward-comp"
       className="absolute h-full w-full flex justify-center items-end cursor-pointer"
       style={{ bottom: 16 }}
-      onClick={onCollect}
     >
       <img
         src={ITEM_DETAILS[reward.discovered].image}
-        className={classNames("img-highlight", {
+        className={classNames("img-highlight-heavy", {
           "treasure-reward": reward.discovered,
         })}
         onLoad={(e) => setImageWidth(e.currentTarget)}
@@ -98,7 +98,7 @@ const GoblinEmotion: React.FC<{ treasure: InventoryItemName | null }> = ({
   return (
     <img
       src={treasure ? SUNNYSIDE.icons.happy : SUNNYSIDE.icons.sad}
-      className={classNames("absolute transition-opacity duration-500", {
+      className={classNames("absolute transition-opacity duration-500 z-50", {
         "opacity-0": !fadeIn,
         "opacity-100": fadeIn,
       })}
@@ -107,6 +107,15 @@ const GoblinEmotion: React.FC<{ treasure: InventoryItemName | null }> = ({
     />
   );
 };
+
+const isDug = (state: MachineState) => state.matches("dug");
+const isTreasureNotFound = (state: MachineState) =>
+  state.matches("treasureNotFound");
+const isTreasureFound = (state: MachineState) => state.matches("treasureFound");
+const isIdle = (state: MachineState) => state.matches("idle");
+const isNoShovel = (state: MachineState) => state.matches("noShovel");
+const isFinishing = (state: MachineState) => state.matches("finishing");
+const discovered = (state: MachineState) => state.context.discovered;
 
 export const SandPlot: React.FC<{
   id: number;
@@ -123,23 +132,36 @@ export const SandPlot: React.FC<{
   const reward = treasureIsland?.[id];
 
   const machineContext: Partial<SandPlotContext> = { ...reward, id };
-  const [sandPlotState, sandPlotSend] = useMachine(sandPlotMachine, {
+  const sandPlotService = useInterpret(sandPlotMachine, {
     context: machineContext,
   });
 
+  const idle = useSelector(sandPlotService, isIdle);
+  const treasureFound = useSelector(sandPlotService, isTreasureFound);
+  const treasureNotFound = useSelector(sandPlotService, isTreasureNotFound);
+  const dug = useSelector(sandPlotService, isDug);
+  const noShovel = useSelector(sandPlotService, isNoShovel);
+  const finishing = useSelector(sandPlotService, isFinishing);
+  const discoveredItem = useSelector(sandPlotService, discovered);
+
+  const [showHoverState, setShowHoverState] = useState(false);
   const [showGoblinEmotion, setShowGoblinEmotion] = useState(false);
   const [showMissingShovelModal, setShowMissingShovelModal] = useState(
     shownMissingShovelModal
   );
 
+  const hasSandShovel =
+    selectedItem === "Sand Shovel" &&
+    gameState.context.state.inventory["Sand Shovel"]?.gte(1);
+
   useEffect(() => {
     // If no treasure is found, move gameMachine back into playing state and
-    if (sandPlotState.value === "treasureNotFound") {
+    if (treasureNotFound) {
       gameService.send("CONTINUE");
-      sandPlotSend("ACKNOWLEDGE");
+      sandPlotService.send("ACKNOWLEDGE");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sandPlotState.value]);
+  }, [treasureNotFound]);
 
   const handleNoShovel = async () => {
     if (!shownMissingShovelModal) {
@@ -150,14 +172,10 @@ export const SandPlot: React.FC<{
     }
 
     // Subsequent clicks with no shovel will just show a popover.
-    sandPlotSend("NO_SHOVEL");
+    sandPlotService.send("NO_SHOVEL");
   };
 
   const handleDig = () => {
-    const hasSandShovel =
-      selectedItem === "Sand Shovel" &&
-      gameState.context.state.inventory["Sand Shovel"]?.gte(1);
-
     if (!hasSandShovel) {
       handleNoShovel();
       return;
@@ -171,21 +189,21 @@ export const SandPlot: React.FC<{
       },
     });
 
-    sandPlotSend("DIG");
+    sandPlotService.send("DIG");
   };
 
-  const acknowledgeTreasureFound = () => {
-    if (!sandPlotState.context.discovered) return;
+  const handleAcknowledgeTreasureFound = () => {
+    if (!discoveredItem) return;
 
     setToast({
-      icon: ITEM_DETAILS[sandPlotState.context.discovered].image,
+      icon: ITEM_DETAILS[discoveredItem].image,
       content: `+1`,
     });
 
-    sandPlotSend("ACKNOWLEDGE");
+    sandPlotService.send("ACKNOWLEDGE");
   };
 
-  const acknowledgeNoSandShovel = () => {
+  const handleAcknowledgeNoSandShovel = () => {
     setShowMissingShovelModal(false);
     onMissingShovelAcknowledge();
   };
@@ -197,51 +215,47 @@ export const SandPlot: React.FC<{
       goblinDiggingRef.current?.pause();
       setShowGoblinEmotion(true);
 
-      if (!reward.discovered) {
-        // If no reward is found then move the sandPlot machine into
-        // finished state. No user interaction required.
-        setTimeout(() => {
-          sandPlotSend({
-            type: "FINISH_DIGGING",
-            discovered: reward.discovered,
-            dugAt: reward?.dugAt,
-          });
-        }, 2000);
-      }
+      setTimeout(() => {
+        sandPlotService.send("FINISH_DIGGING", {
+          discovered: reward.discovered,
+          dugAt: reward?.dugAt,
+        });
+      }, 1500);
     }
   };
 
-  if (sandPlotState.matches("dug")) {
+  if (dug || treasureFound) {
     return (
-      <div className="w-full h-full">
-        <img
-          src={SUNNYSIDE.soil.sand_dug}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            top: `${PIXEL_SCALE * 2}px`,
-          }}
-        />
-      </div>
-    );
-  }
-
-  if (sandPlotState.matches("treasureFound")) {
-    return (
-      <Modal centered show onHide={acknowledgeTreasureFound}>
-        <CloseButtonPanel onClose={acknowledgeTreasureFound}>
-          <Revealed onAcknowledged={acknowledgeTreasureFound} />
-        </CloseButtonPanel>
-      </Modal>
+      <>
+        <div className="w-full h-full">
+          <img
+            src={SUNNYSIDE.soil.sand_dug}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        </div>
+        <Modal
+          centered
+          show={treasureFound}
+          onHide={handleAcknowledgeTreasureFound}
+        >
+          <CloseButtonPanel onClose={handleAcknowledgeTreasureFound}>
+            <Revealed onAcknowledged={handleAcknowledgeTreasureFound} />
+          </CloseButtonPanel>
+        </Modal>
+      </>
     );
   }
 
   if (showMissingShovelModal) {
     return (
-      <Modal centered show onHide={acknowledgeNoSandShovel}>
+      <Modal centered show onHide={handleAcknowledgeNoSandShovel}>
         <CloseButtonPanel
           title="No Sand Shovel!"
-          onClose={acknowledgeNoSandShovel}
+          onClose={handleAcknowledgeNoSandShovel}
         >
           <div className="p-2 pt-0 mb-2 flex flex-col items-center space-y-2">
             <img
@@ -258,42 +272,55 @@ export const SandPlot: React.FC<{
               the southern end of the island.
             </p>
           </div>
-          <Button onClick={acknowledgeNoSandShovel}>Got it</Button>
+          <Button onClick={handleAcknowledgeNoSandShovel}>Got it</Button>
         </CloseButtonPanel>
       </Modal>
     );
   }
 
-  const isDigging =
-    !sandPlotState.matches("idle") &&
-    !sandPlotState.matches("dug") &&
-    !sandPlotState.matches("noShovel");
-
-  const showNoSandShovelPopover = sandPlotState.matches("noShovel");
+  const gameMachinePlaying = gameState.matches("playing");
+  const showShovelGoblin = !idle && !dug && !noShovel;
+  const showSelectBox =
+    showHoverState && !showShovelGoblin && gameMachinePlaying && hasSandShovel;
 
   return (
-    <div className="w-full h-full relative">
-      <NoSandShovel show={showNoSandShovelPopover} />
+    <div
+      className="w-full h-full relative"
+      onMouseEnter={() => setShowHoverState(true)}
+      onMouseLeave={() => setShowHoverState(false)}
+    >
+      <NoSandShovel show={noShovel} />
       <div
         className={classNames("w-full h-full cursor-pointer absolute", {
-          "pointer-events-none": !gameState.matches("playing"),
+          "pointer-events-none": !gameMachinePlaying,
         })}
         onClick={handleDig}
-      />
+      >
+        <img
+          src={SUNNYSIDE.ui.select_box}
+          className={classNames("absolute z-40 cursor-pointer", {
+            "opacity-100": showSelectBox,
+            "opacity-0": !showSelectBox,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+          }}
+        />
+      </div>
 
-      {isDigging && (
+      {showShovelGoblin && (
         <>
           <div
             className={classNames("w-full h-full absolute transition-opacity", {
-              "opacity-100": !sandPlotState.matches("opacityTransition"),
-              "opacity-0": sandPlotState.matches("opacityTransition"),
+              "opacity-100": !finishing,
+              "opacity-0": finishing,
             })}
           >
             {reward && showGoblinEmotion && (
               <GoblinEmotion treasure={reward.discovered} />
             )}
             <Spritesheet
-              className="absolute group-hover:img-highlight pointer-events-none z-10"
+              className="absolute group-hover:img-highlight pointer-events-none z-50"
               style={{
                 width: `${PIXEL_SCALE * 33}px`,
                 imageRendering: "pixelated",
@@ -303,7 +330,7 @@ export const SandPlot: React.FC<{
               getInstance={(spritesheet) => {
                 goblinDiggingRef.current = spritesheet;
               }}
-              image={goblinDigging}
+              image={SUNNYSIDE.npcs.goblin_treasure_sheet}
               widthFrame={33}
               heightFrame={28}
               fps={14}
@@ -338,18 +365,7 @@ export const SandPlot: React.FC<{
                 top: `${PIXEL_SCALE * 2}px`,
               }}
             />
-            <Reward
-              reward={reward}
-              onCollect={() => {
-                if (!reward) return;
-
-                sandPlotSend({
-                  type: "FINISH_DIGGING",
-                  discovered: reward.discovered,
-                  dugAt: reward?.dugAt,
-                });
-              }}
-            />
+            <Reward reward={reward} />
           </div>
         </>
       )}

@@ -29,6 +29,7 @@ jobs:
         env:
           CI: false
           VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mainnet
           VITE_ACCOUNT_MINTER_CONTRACT: "0x8E3e2b16f0aEf0890fE3d9Bb550Ccf10Afdd7CA7"

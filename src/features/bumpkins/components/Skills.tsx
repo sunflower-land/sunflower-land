@@ -18,9 +18,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onBack: () => void;
+  readonly: boolean;
 }
 
-export const Skills: React.FC<Props> = ({ onBack }) => {
+export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -95,7 +96,7 @@ export const Skills: React.FC<Props> = ({ onBack }) => {
         }}
         onClick={handleBack}
       />
-      {!gameState.matches("visiting") && skillPointsInfo()}
+      {!readonly && skillPointsInfo()}
     </div>
   );
 
@@ -116,6 +117,7 @@ export const Skills: React.FC<Props> = ({ onBack }) => {
           selectedSkillPath={selectedSkillPath}
           skillsInPath={skillsInPath}
           backNavigationView={backNavigationView()}
+          readonly={readonly}
         />
       )}
     </div>

@@ -47,6 +47,8 @@ export const SUNNYSIDE = {
     happy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/happy.png`,
     neutral: `${CONFIG.PROTECTED_IMAGE_URL}/icons/neutral.png`,
     unhappy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sad.png`,
+    stressed: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_stress.png`,
+    death: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_attack.png`,
   },
   npcs: {
     betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
@@ -60,6 +62,7 @@ export const SUNNYSIDE = {
     goblin_mining: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_mining.gif`,
     goblin_swimming: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_swimming.gif`,
     goblin_treasure: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_treasure.gif`,
+    goblin_treasure_sheet: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_treasure_sheet.png`,
     goblin_watering: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_watering.gif`,
     goblin: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin.gif`,
     human_carry: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/human_carry.gif`,
@@ -107,5 +110,10 @@ export const SUNNYSIDE = {
   ui: {
     cursor: `${CONFIG.PROTECTED_IMAGE_URL}/ui/cursor.png`,
     round_button: `${CONFIG.PROTECTED_IMAGE_URL}/ui/round_button.png`,
+    select_box: `${CONFIG.PROTECTED_IMAGE_URL}/ui/select_box.png`,
+  },
+  decorations: {
+    treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest.png`,
+    treasure_chest_opened: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest_opened.png`,
   },
 };

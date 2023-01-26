@@ -5,6 +5,8 @@ const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 
 const API_URL = import.meta.env.VITE_API_URL;
+const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
+
 const WISHING_WELL_CONTRACT = import.meta.env.VITE_WISHING_WELL_CONTRACT;
 const ACCOUNT_MINTER_CONTRACT = import.meta.env.VITE_ACCOUNT_MINTER_CONTRACT;
 const FARM_CONTRACT = import.meta.env.VITE_FARM_CONTRACT;
@@ -91,4 +93,5 @@ export const CONFIG = {
   CHICKEN_FIGHT_DONATION,
   LUNAR_NEW_YEAR_DONATION,
   PROTECTED_IMAGE_URL,
+  WEBSOCKET_URL,
 };

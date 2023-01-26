@@ -45,9 +45,10 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
+  const isVisiting = gameState.matches("visiting");
 
   const getVisitBumpkinUrl = () => {
-    if (gameState.matches("visiting")) {
+    if (isVisiting) {
       const baseUrl =
         CONFIG.NETWORK === "mainnet"
           ? `https://opensea.io/assets/matic`
@@ -65,6 +66,8 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
   };
 
   useEffect(() => {
+    if (isVisiting) return;
+
     if (view === "skills" && hasUnacknowledgedSkillPoints(state)) {
       acknowledgeSkillPoints(state);
     } else if (
@@ -86,9 +89,11 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
         currentTab={view === "skills" ? 0 : 1}
         setCurrentTab={(e) => setView(e === 0 ? "skills" : "achievements")}
       >
-        {view === "skills" && <Skills onBack={() => setView("home")} />}
+        {view === "skills" && (
+          <Skills onBack={() => setView("home")} readonly={isVisiting} />
+        )}
         {view === "achievements" && (
-          <Achievements onBack={() => setView("home")} />
+          <Achievements onBack={() => setView("home")} readonly={isVisiting} />
         )}
       </CloseButtonPanel>
     );
@@ -167,7 +172,7 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
           {(title === "Skills"
             ? hasAvaliableSkillPoints
             : hasAvaliableAchievements) &&
-            !gameState.matches("visiting") && (
+            !isVisiting && (
               <SquareIcon icon={SUNNYSIDE.icons.expression_alerted} width={7} />
             )}
         </div>
