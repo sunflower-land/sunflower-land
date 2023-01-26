@@ -230,7 +230,7 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 220501,
+  experience: 0,
   tokenUri: "bla",
   equipped: {
     body: "Light Brown Farmer Potion",
@@ -280,6 +280,8 @@ export const OFFLINE_FARM: GameState = {
     Warrior: new Decimal(0),
     Gold: new Decimal(50),
     "Immortal Pear": new Decimal(1),
+    "Pumpkin Soup": new Decimal(9),
+    "Bumpkin Broth": new Decimal(10),
   },
   migrated: true,
   stock: INITIAL_STOCK,

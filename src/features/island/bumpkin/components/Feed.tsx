@@ -43,20 +43,21 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
     }
   }, [food.length]);
 
-  const feed = (food: Consumable) => {
-    onFeed(food.name);
+  const feed = (food: Consumable, count: number) => {
+    for (let i = 0; i < count; i++) {
+      onFeed(food.name);
+    }
 
     setToast({
       icon: heart,
-      content: `+${getFoodExpBoost(
-        food,
-        state.bumpkin as Bumpkin,
-        state.collectibles
-      )}`,
+      content: `+${
+        getFoodExpBoost(food, state.bumpkin as Bumpkin, state.collectibles) *
+        count
+      }`,
     });
     setToast({
       icon: ITEM_DETAILS[food.name].image,
-      content: `-1`,
+      content: `-${count}`,
     });
 
     shortcutItem(food.name);
@@ -125,13 +126,22 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
           )}
         </div>
         {selected !== undefined && (
-          <Button
-            disabled={!inventory[selected.name]?.gt(0)}
-            className="text-sm mt-1 whitespace-nowrap"
-            onClick={() => feed(selected)}
-          >
-            {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
-          </Button>
+          <>
+            <Button
+              disabled={!inventory[selected.name]?.gt(0)}
+              className="text-sm mt-1 whitespace-nowrap"
+              onClick={() => feed(selected, 1)}
+            >
+              {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
+            </Button>
+            <Button
+              disabled={!inventory[selected.name]?.gt(9)}
+              className="text-sm mt-1 whitespace-nowrap"
+              onClick={() => feed(selected, 10)}
+            >
+              {isJuice(selected.name) ? "Drink 10" : "Eat 10"}
+            </Button>
+          </>
         )}
       </OuterPanel>
     </div>
