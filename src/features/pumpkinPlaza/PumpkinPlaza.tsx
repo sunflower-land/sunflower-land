@@ -36,8 +36,10 @@ export const PumpkinPlaza: React.FC = () => {
 
   const [chatState] = useActor(websocketService);
 
+  console.log({ state: chatState.value });
   useEffect(() => {
     return () => {
+      console.log("Time to disconnect!");
       websocketService.send("DISCONNECT");
     };
   }, []);

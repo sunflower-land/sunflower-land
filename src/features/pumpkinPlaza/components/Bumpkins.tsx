@@ -194,6 +194,8 @@ export const Bumpkins: React.FC<Props> = ({
                 transform: `translate(${otherBumpkin.coordinates.x}px,${otherBumpkin.coordinates.y}px)`,
                 height: `${GRID_WIDTH_PX}px`,
                 width: `${GRID_WIDTH_PX}px`,
+                left: "-27px",
+                top: "-47px",
                 // speed = distance ÷ time
                 transitionDuration: `${
                   Math.floor(

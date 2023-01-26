@@ -1,16 +1,28 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import Filter from "bad-words";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import Filter from "bad-words";
 
 interface Props {
   onMessage: (text: string) => void;
 }
 
 const MAX_CHARACTERS = 100;
+
+/* eslint-disable */
+const URL_REGEX = new RegExp(
+  /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
+);
+/* eslint-enable */
+
+const ALPHA_REGEX = new RegExp(/^[\w*? -]+$/);
+
 export const ChatText: React.FC<Props> = ({ onMessage }) => {
   const ref = useRef<HTMLTextAreaElement>();
   const [text, setText] = useState("");
+
+  const isUrl = URL_REGEX.test(text);
+  const isValidText = text.length === 0 || ALPHA_REGEX.test(text);
 
   const send = (event?: React.SyntheticEvent) => {
     event?.preventDefault();
@@ -19,8 +31,11 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
       return;
     }
 
-    const filter = new Filter();
+    if (isUrl || !isValidText) {
+      return;
+    }
 
+    const filter = new Filter();
     const sanitized = filter.clean(text);
     onMessage(sanitized);
     setText("");
@@ -69,6 +84,17 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
           </Label>
         )}
 
+        {isUrl && (
+          <Label className="mt-2 mb-1 float-right" type="danger">
+            {`No URLs allowed`}
+          </Label>
+        )}
+
+        {!isValidText && (
+          <Label className="mt-2 mb-1 float-right" type="danger">
+            {`Alphanumeric characters only`}
+          </Label>
+        )}
         <div
           className="absolute right-1 top-1 cursor-pointer w-8"
           onClick={send}

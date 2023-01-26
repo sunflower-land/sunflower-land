@@ -277,6 +277,7 @@ export const websocketMachine = createMachine<
           }, 5000);
 
           return () => {
+            context.socket?.close();
             clearInterval(messageCleanup);
           };
         },
