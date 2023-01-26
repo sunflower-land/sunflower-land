@@ -72,9 +72,6 @@ export const Idle: React.FC<IdleProps> = ({
           const resourceName = KNOWN_ITEMS[listing.resourceId];
           const resourceAmount = Math.floor(listing.resourceAmount * 100) / 100;
 
-          console.log("parse" + parseInt(listing.resourceAmount.toFixed(2)));
-          console.log("Without parse" + listing.resourceAmount.toFixed(2));
-
           return (
             <Listing
               onPurchase={() => onPurchase(listing)}
