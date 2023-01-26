@@ -47,6 +47,8 @@ export const SUNNYSIDE = {
     happy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/happy.png`,
     neutral: `${CONFIG.PROTECTED_IMAGE_URL}/icons/neutral.png`,
     unhappy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sad.png`,
+    stressed: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_stress.png`,
+    death: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_attack.png`,
   },
   npcs: {
     betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
@@ -109,5 +111,9 @@ export const SUNNYSIDE = {
     cursor: `${CONFIG.PROTECTED_IMAGE_URL}/ui/cursor.png`,
     round_button: `${CONFIG.PROTECTED_IMAGE_URL}/ui/round_button.png`,
     select_box: `${CONFIG.PROTECTED_IMAGE_URL}/ui/select_box.png`,
+  },
+  decorations: {
+    treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest.png`,
+    treasure_chest_opened: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest_opened.png`,
   },
 };

@@ -37,6 +37,7 @@ interface Props {
   onClaim: () => void;
   name: AchievementName;
   state: GameState;
+  readonly: boolean;
 }
 
 export const AchievementDetails: React.FC<Props> = ({
@@ -44,6 +45,7 @@ export const AchievementDetails: React.FC<Props> = ({
   onClaim,
   name,
   state,
+  readonly,
 }) => {
   const achievement = ACHIEVEMENTS()[name];
   const progress = achievement.progress(state);
@@ -51,7 +53,6 @@ export const AchievementDetails: React.FC<Props> = ({
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const isVisiting = gameState.matches("visiting");
 
   const bumpkinAchievements = state.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[name];
@@ -248,7 +249,7 @@ export const AchievementDetails: React.FC<Props> = ({
                     );
                   })}
                 </div>
-                {!isVisiting && (
+                {!readonly && (
                   <Button
                     className="text-xs mt-2"
                     onClick={onClaim}

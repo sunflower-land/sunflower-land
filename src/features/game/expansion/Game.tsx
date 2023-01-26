@@ -30,7 +30,6 @@ import { PlaceableOverlay } from "./components/PlaceableOverlay";
 import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
 import { Helios } from "features/helios/Helios";
-import { Hud } from "features/island/hud/Hud";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
@@ -42,6 +41,9 @@ import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Studios } from "features/studioes/Studios";
 import { Rules } from "../components/Rules";
+import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
+import { hasFeatureAccess } from "lib/flags";
+import { Hud } from "features/island/hud/Hud";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -179,11 +181,16 @@ export const Game: React.FC = () => {
 
     return (
       <>
-        <div className="absolute z-10 w-full h-full">
+        <div className="absolute w-full h-full z-10">
           <PlaceableOverlay>
             <Routes>
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
+              {hasFeatureAccess(
+                gameState.context.state.inventory,
+                "PUMPKIN_PLAZA"
+              )}
+              <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
               {level >= 10 && (
                 <Route
                   path="/treasure-island"
