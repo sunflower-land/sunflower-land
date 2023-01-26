@@ -22,7 +22,7 @@ export const DailyReward: React.FC = () => {
       <>
         <img
           id="daily-reward"
-          src={opened}
+          src={SUNNYSIDE.decorations.treasure_chest_opened}
           className="cursor-pointer absolute z-20  hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
@@ -58,7 +58,7 @@ export const DailyReward: React.FC = () => {
       <img
         id="daily-reward"
         src={SUNNYSIDE.decorations.treasure_chest}
-        className="cursor-pointer absolute z-20   hover:img-highlight"
+        className="cursor-pointer absolute z-20 hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           left: `${GRID_WIDTH_PX * 52}px`,

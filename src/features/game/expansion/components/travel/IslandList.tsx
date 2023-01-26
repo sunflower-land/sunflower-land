@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import * as Auth from "features/auth/lib/Provider";
 import { OuterPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, Inventory } from "features/game/types/game";
 
 import lock from "assets/skills/lock.png";
 import heart from "assets/icons/level_up.png";
@@ -18,7 +18,6 @@ import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
 import { hasFeatureAccess } from "lib/flags";
 
 const CONTENT_HEIGHT = 380;
@@ -131,15 +130,14 @@ const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
 export const IslandList = ({
   bumpkin,
   showVisitList,
+  inventory,
 }: {
   bumpkin: Bumpkin | undefined;
   showVisitList: boolean;
+  inventory: Inventory;
 }) => {
   const { authService } = useContext(Auth.Context);
   const [authState, send] = useActor(authService);
-
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const { id } = useParams();
   const location = useLocation();
@@ -200,7 +198,7 @@ export const IslandList = ({
     a.levelRequired > b.levelRequired ? 1 : -1
   );
 
-  if (hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA")) {
+  if (hasFeatureAccess(inventory ?? {}, "PUMPKIN_PLAZA")) {
     islandList.push({
       name: "Pumpkin Plaza",
       levelRequired: 1,

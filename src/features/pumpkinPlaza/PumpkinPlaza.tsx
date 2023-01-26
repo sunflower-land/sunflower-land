@@ -118,7 +118,12 @@ export const PumpkinPlaza: React.FC = () => {
 
       <DailyReward />
 
-      <IslandTravel bumpkin={gameState.context.state.bumpkin} x={0} y={-21} />
+      <IslandTravel
+        inventory={gameState.context.state.inventory}
+        bumpkin={gameState.context.state.bumpkin}
+        x={0}
+        y={-21}
+      />
 
       <ChatUI
         onMessage={({ reaction, text }) => {
