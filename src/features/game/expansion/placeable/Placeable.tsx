@@ -35,7 +35,7 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
 // const BOUNDS_MIN_Y = -5
 // const BOUNDS_MAX_Y = 15
 
-const getInitialCorodinates = () => {
+export const getInitialCorodinates = () => {
   // This container helps us to calculate the scroll pixels as in our application
   // window do not scroll but this container dose
   const pageScrollContainer = document.getElementsByClassName(

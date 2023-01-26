@@ -83,6 +83,7 @@ export function makeGame(farm: any): GameState {
     warCollectionOffer: farm.warCollectionOffer,
     mysteryPrizes: farm.mysteryPrizes,
     treasureIsland: farm.treasureIsland,
+    pumpkinPlaza: farm.pumpkinPlaza,
   };
 }
 
