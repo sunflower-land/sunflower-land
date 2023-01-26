@@ -114,6 +114,6 @@ export const SUNNYSIDE = {
   },
   decorations: {
     treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest.png`,
-    treasure_chest_opened: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest_opened.png`,
+    treasure_chest_opened: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_opened.png`,
   },
 };
