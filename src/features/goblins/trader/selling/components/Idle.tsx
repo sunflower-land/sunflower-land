@@ -75,7 +75,7 @@ export const Idle: React.FC<IdleProps> = ({
         const listing = farmSlot.listing;
         const listingId = listing.id;
         const resourceName = KNOWN_ITEMS[listing.resourceId];
-        const resourceAmount = listing.resourceAmount;
+        const resourceAmount = Math.floor(listing.resourceAmount * 100) / 100;
 
         return (
           <Listing
