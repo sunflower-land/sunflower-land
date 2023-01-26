@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import boat from "assets/npcs/island_boat_pirate.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, Inventory } from "features/game/types/game";
 import { IslandTravelModal } from "./IslandTravelModal";
 
 interface Props {
   bumpkin: Bumpkin | undefined;
+  inventory?: Inventory;
   isVisiting?: boolean;
   isTravelAllowed?: boolean;
   onTravelDialogOpened?: () => void;
@@ -16,6 +17,7 @@ interface Props {
 
 export const IslandTravel = ({
   bumpkin,
+  inventory,
   x,
   y,
   isVisiting = false,
@@ -46,6 +48,7 @@ export const IslandTravel = ({
       <IslandTravelModal
         isOpen={openIslandList}
         bumpkin={bumpkin}
+        inventory={inventory ?? {}}
         onShow={onTravelDialogOpened}
         isVisiting={isVisiting}
         isTravelAllowed={isTravelAllowed}

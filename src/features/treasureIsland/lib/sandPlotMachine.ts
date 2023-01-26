@@ -15,7 +15,7 @@ export type SandPlotState = {
     | "noShovel"
     | "treasureFound"
     | "treasureNotFound"
-    | "opacityTransition"
+    | "finishing"
     | "acknowledged"
     | "dug";
   context: SandPlotContext;
@@ -107,15 +107,15 @@ export const sandPlotMachine = createMachine<
     },
     treasureFound: {
       on: {
-        ACKNOWLEDGE: { target: "opacityTransition" },
+        ACKNOWLEDGE: { target: "finishing" },
       },
     },
     treasureNotFound: {
       on: {
-        ACKNOWLEDGE: { target: "opacityTransition" },
+        ACKNOWLEDGE: { target: "finishing" },
       },
     },
-    opacityTransition: {
+    finishing: {
       after: {
         150: { target: "dug" },
       },

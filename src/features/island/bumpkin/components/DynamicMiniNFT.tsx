@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import beigeBody from "assets/npc-layers/beige_body.png";
 import lightBrownBody from "assets/npc-layers/light_brown_body.png";
@@ -58,6 +58,10 @@ import {
   BumpkinOnesie,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Context } from "features/game/GameProvider";
+import { ConsumableName } from "features/game/types/consumables";
+import { FeedModal } from "./FeedModal";
+import classNames from "classnames";
 
 type VisiblePart =
   | BumpkinBody
@@ -139,10 +143,47 @@ export interface DynamicMiniNFTProps {
   hat?: BumpkinHat;
   suit?: BumpkinSuit;
   onesie?: BumpkinOnesie;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
+  body,
+  hair,
+  shirt,
+  pants,
+  hat,
+  suit,
+  onesie,
+}) => {
+  const { gameService } = useContext(Context);
+
+  const [open, setOpen] = useState(false);
+
+  const eat = (food: ConsumableName) => {
+    gameService.send("bumpkin.feed", { food });
+  };
+
+  return (
+    <>
+      <NPC
+        body={body}
+        hair={hair}
+        shirt={shirt}
+        pants={pants}
+        hat={hat}
+        suit={suit}
+        onesie={onesie}
+        onClick={() => setOpen(true)}
+      />
+      <FeedModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onFeed={(food) => eat(food)}
+      />
+    </>
+  );
+};
+
+export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
   body,
   hair,
   shirt,
@@ -197,8 +238,10 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
   return (
     <>
       <div
-        className="absolute cursor-pointer hover:img-highlight"
-        onClick={onClick}
+        className={classNames(`absolute `, {
+          "cursor-pointer hover:img-highlight": !!onClick,
+        })}
+        onClick={() => !!onClick && onClick()}
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           height: `${PIXEL_SCALE * 32}px`,
