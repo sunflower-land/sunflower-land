@@ -27,7 +27,12 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
   const send = (event?: React.SyntheticEvent) => {
     event?.preventDefault();
 
-    if (text === "" || text.length > MAX_CHARACTERS) {
+    if (text?.trim() === "") {
+      setText("");
+      return;
+    }
+
+    if (text.length > MAX_CHARACTERS) {
       return;
     }
 
