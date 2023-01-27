@@ -405,6 +405,14 @@ export interface GameState {
   pumpkinPlaza: {
     rewardCollectedAt?: number;
   };
+  auctioneer: {
+    bid?: {
+      sfl: Decimal;
+      inventory: Inventory;
+      item: AuctioneerItemName;
+      bidAt: number;
+    };
+  };
 }
 
 export interface Context {
