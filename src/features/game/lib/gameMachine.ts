@@ -27,7 +27,7 @@ import { getGameOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
-// import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
+import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
@@ -48,6 +48,7 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
 import { loadTrialFarm, saveTrial } from "features/auth/lib/trial";
+import { GoblinBlacksmithItemName } from "../types/collectibles";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -298,10 +299,9 @@ export function startGame(authContext: Options) {
               target: "trialling",
               cond: (context) => !!context.isTrialling,
               actions: assign<Context, any>({
-                state: (_, event) => loadTrialFarm(),
-                onChain: (_, event) => EMPTY,
-                offset: (_, event) => 0,
-                sessionId: (_, event) => "0x",
+                state: (_) => loadTrialFarm(),
+                onChain: (_) => EMPTY,
+                sessionId: (_) => "0x",
               }),
             },
             { target: "loading" },

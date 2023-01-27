@@ -18,6 +18,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 import { Bar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -37,6 +38,7 @@ export const Achievements: React.FC<Props> = ({
   const [
     {
       context: { state },
+      matches,
     },
   ] = useActor(gameService);
 
@@ -74,6 +76,11 @@ export const Achievements: React.FC<Props> = ({
           minHeight: "200px",
         }}
       >
+        {matches("trialling") && (
+          <div className="h-8">
+            <Label type="danger">Connect a Web3 wallet to unlock skills</Label>
+          </div>
+        )}
         <AchievementDetails
           name={selected as AchievementName}
           onBack={onBack}

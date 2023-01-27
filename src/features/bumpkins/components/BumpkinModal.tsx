@@ -163,22 +163,8 @@ export const BumpkinModal: React.FC<Props> = ({
   const experience = bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const maxLevel = isMaxLevel(experience);
-  const { currentExperienceProgress, experienceToNextLevel } =
-    getExperienceToNextLevel(experience);
 
   const hasAvaliableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
-
-  const getProgressWidth = () => {
-    let progressRatio = 1;
-    if (!maxLevel) {
-      progressRatio = Math.min(
-        1,
-        currentExperienceProgress / experienceToNextLevel
-      );
-    }
-
-    return Math.floor(PROGRESS_BAR_DIMENSIONS.innerWidth * progressRatio);
-  };
 
   return (
     <Panel>

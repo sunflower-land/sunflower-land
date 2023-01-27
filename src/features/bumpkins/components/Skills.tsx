@@ -105,7 +105,13 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
           onClick={handleBack}
         />
         {!readonly && skillPointsInfo()}
+        {gameState.matches("trialling") && (
+          <Label type="danger" className="mb-2">
+            Connect a Web3 wallet to unlock skills
+          </Label>
+        )}
       </div>
+
       {!selectedSkillPath && (
         <SkillCategoryList
           onClick={(category) => onSkillCategoryClickHandler(category)}

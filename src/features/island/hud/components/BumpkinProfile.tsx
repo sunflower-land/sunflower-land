@@ -231,7 +231,9 @@ export const BumpkinProfile: React.FC = () => {
         <BumpkinModal
           initialView={viewSkillsPage ? "skills" : "home"}
           onClose={handleHideModal}
-          readonly={gameState.matches("visiting")}
+          readonly={
+            gameState.matches("visiting") || gameState.matches("trialling")
+          }
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
         />

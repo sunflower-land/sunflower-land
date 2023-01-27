@@ -517,18 +517,12 @@ export const TRIAL_BUMPKIN: Bumpkin = {
 };
 export const TRIAL_FARM: GameState = {
   balance: new Decimal(0),
-  fields: INITIAL_FIELDS,
-  plots: INITIAL_PLOTS,
   inventory: {
     Market: new Decimal(1),
     "Fire Pit": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   stockExpiry: {},
-  trees: INITIAL_TREES,
-  stones: INITIAL_STONE,
-  iron: INITIAL_IRON,
-  gold: INITIAL_GOLD,
   chickens: {},
   skills: {
     farming: new Decimal(0),
@@ -573,6 +567,7 @@ export const TRIAL_FARM: GameState = {
   },
   collectibles: {},
   mysteryPrizes: {},
+  pumpkinPlaza: {},
   migrated: true,
 };
 
