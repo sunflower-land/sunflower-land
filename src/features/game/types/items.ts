@@ -288,6 +288,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export interface ItemDetails {
+  // id is optional until the end of refactor
+  id?: number;
   description: string;
   image: string;
   secondaryImage?: string;

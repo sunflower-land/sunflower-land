@@ -99,6 +99,7 @@ export type ConsumableName =
 
 export const CAKES: Record<CakeName, Consumable> = {
   "Sunflower Cake": {
+    id: 505,
     name: "Sunflower Cake",
     description: "Sunflower Cake",
     image: sunflowerCake,
@@ -113,6 +114,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 440,
   },
   "Potato Cake": {
+    id: 506,
     name: "Potato Cake",
     description: "Potato Cake",
     image: potatoCake,
@@ -127,6 +129,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 560,
   },
   "Pumpkin Cake": {
+    id: 507,
     name: "Pumpkin Cake",
     description: "Pumpkin Cake",
     image: pumpkinCake,
@@ -141,6 +144,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 520,
   },
   "Carrot Cake": {
+    id: 508,
     name: "Carrot Cake",
     description: "Carrot Cake",
     image: carrotCake,
@@ -155,6 +159,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 600,
   },
   "Cabbage Cake": {
+    id: 509,
     name: "Cabbage Cake",
     description: "Cabbage Cake",
     image: cabbageCake,
@@ -169,6 +174,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 720,
   },
   "Beetroot Cake": {
+    id: 510,
     name: "Beetroot Cake",
     description: "Beetroot Cake",
     image: beetrootCake,
@@ -183,6 +189,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 960,
   },
   "Cauliflower Cake": {
+    id: 511,
     name: "Cauliflower Cake",
     description: "Cauliflower Cake",
     image: cauliflowerCake,
@@ -197,6 +204,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 960,
   },
   "Parsnip Cake": {
+    id: 512,
     name: "Parsnip Cake",
     description: "Parsnip Cake",
     image: parsnipCake,
@@ -211,6 +219,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 960,
   },
   "Radish Cake": {
+    id: 513,
     name: "Radish Cake",
     description: "Radish Cake",
     image: radishCake,
@@ -225,6 +234,7 @@ export const CAKES: Record<CakeName, Consumable> = {
     marketRate: 880,
   },
   "Wheat Cake": {
+    id: 514,
     name: "Wheat Cake",
     description: "Wheat Cake",
     image: wheatCake,
@@ -241,6 +251,7 @@ export const CAKES: Record<CakeName, Consumable> = {
 
 export const JUICES: Record<JuiceName, Consumable> = {
   "Apple Juice": {
+    id: 535,
     name: "Apple Juice",
     description: "A crisp refreshing beverage",
     image: appleJuice,
@@ -253,6 +264,7 @@ export const JUICES: Record<JuiceName, Consumable> = {
     marketRate: 336,
   },
   "Orange Juice": {
+    id: 536,
     name: "Orange Juice",
     description: "OJ matches perfectly with a Club Sandwich",
     image: orangeJuice,
@@ -265,6 +277,7 @@ export const JUICES: Record<JuiceName, Consumable> = {
     marketRate: 256,
   },
   "Purple Smoothie": {
+    id: 537,
     name: "Purple Smoothie",
     description: "You can hardly taste the Cabbage",
     image: purpleSmoothie,
@@ -278,6 +291,7 @@ export const JUICES: Record<JuiceName, Consumable> = {
     marketRate: 200,
   },
   "Power Smoothie": {
+    id: 538,
     name: "Power Smoothie",
     description: "Official drink of the Bumpkin Powerlifting Society",
     image: powerSmoothie,
@@ -291,6 +305,7 @@ export const JUICES: Record<JuiceName, Consumable> = {
     marketRate: 496,
   },
   "Bumpkin Detox": {
+    id: 539,
     name: "Bumpkin Detox",
     description: "Wash away the sins of last night",
     image: bumpkinDetox,
@@ -307,19 +322,8 @@ export const JUICES: Record<JuiceName, Consumable> = {
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
-  "Mashed Potato": {
-    name: "Mashed Potato",
-    description: "My life is potato.",
-    image: mashedPotato,
-    experience: 3,
-    building: "Fire Pit",
-    cookingSeconds: 60,
-    ingredients: {
-      Potato: new Decimal(10),
-    },
-    marketRate: 10,
-  },
   "Pumpkin Soup": {
+    id: 501,
     name: "Pumpkin Soup",
     description: "Creamy, orange and healthy!",
     image: pumpkinSoup,
@@ -331,7 +335,34 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 16,
   },
+  Sauerkraut: {
+    id: 503,
+    name: "Sauerkraut",
+    description: "No more boring Cabbage!",
+    image: sauerkraut,
+    building: "Deli",
+    cookingSeconds: 24 * 60 * 60,
+    experience: 500,
+    ingredients: {
+      Cabbage: new Decimal(20),
+    },
+    marketRate: 224,
+  },
+  "Boiled Eggs": {
+    id: 515,
+    name: "Boiled Eggs",
+    description: "Boiled Eggs are great for breakfast",
+    image: boiledEgg,
+    experience: 90,
+    building: "Fire Pit",
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Egg: new Decimal(5),
+    },
+    marketRate: 160,
+  },
   "Bumpkin Broth": {
+    id: 516,
     name: "Bumpkin Broth",
     description: "A perfect broth for a cold day.",
     image: bumpkinBroth,
@@ -344,44 +375,8 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 64,
   },
-  "Boiled Eggs": {
-    name: "Boiled Eggs",
-    description: "Boiled Eggs are great for breakfast",
-    image: boiledEgg,
-    experience: 90,
-    building: "Fire Pit",
-    cookingSeconds: 60 * 60,
-    ingredients: {
-      Egg: new Decimal(5),
-    },
-    marketRate: 160,
-  },
-  "Kale Stew": {
-    name: "Kale Stew",
-    description: "A perfect Bumpkin Booster",
-    image: kaleStew,
-    building: "Fire Pit",
-    cookingSeconds: 60 * 60 * 2,
-    ingredients: {
-      Kale: new Decimal(10),
-    },
-    experience: 400,
-    marketRate: 400,
-  },
-  "Roast Veggies": {
-    name: "Roast Veggies",
-    description: "Even Goblins need to eat their veggies!",
-    image: roastVeggies,
-    experience: 170,
-    building: "Kitchen",
-    cookingSeconds: 60 * 60 * 2,
-    ingredients: {
-      Cauliflower: new Decimal(15),
-      Carrot: new Decimal(10),
-    },
-    marketRate: 240,
-  },
   "Bumpkin Salad": {
+    id: 517,
     name: "Bumpkin Salad",
     description: "Gotta keep your Bumpkin healthy!",
     image: bumpkinSalad,
@@ -395,6 +390,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 400,
   },
   "Goblin's Treat": {
+    id: 518,
     name: "Goblin's Treat",
     description: "Goblins go crazy for this stuff!",
     image: goblinsTreat,
@@ -408,7 +404,21 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 800,
   },
+  "Mashed Potato": {
+    id: 519,
+    name: "Mashed Potato",
+    description: "My life is potato.",
+    image: mashedPotato,
+    experience: 3,
+    building: "Fire Pit",
+    cookingSeconds: 60,
+    ingredients: {
+      Potato: new Decimal(10),
+    },
+    marketRate: 10,
+  },
   "Cauliflower Burger": {
+    id: 520,
     name: "Cauliflower Burger",
     description: "Calling all cauliflower lovers!",
     image: cauliflowerBurger,
@@ -421,20 +431,8 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 304,
   },
-  Pancakes: {
-    name: "Pancakes",
-    description: "A great start to a Bumpkins day",
-    image: pancakes,
-    experience: 480,
-    building: "Kitchen",
-    cookingSeconds: 60 * 20,
-    ingredients: {
-      Wheat: new Decimal(5),
-      Honey: new Decimal(10),
-    },
-    marketRate: 10,
-  },
   "Club Sandwich": {
+    id: 521,
     name: "Club Sandwich",
     description: "Filled with Carrots and Roasted Sunflower Seeds",
     image: clubSandwich,
@@ -448,7 +446,36 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 184,
   },
+  "Roast Veggies": {
+    id: 522,
+    name: "Roast Veggies",
+    description: "Even Goblins need to eat their veggies!",
+    image: roastVeggies,
+    experience: 170,
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 2,
+    ingredients: {
+      Cauliflower: new Decimal(15),
+      Carrot: new Decimal(10),
+    },
+    marketRate: 240,
+  },
+  Pancakes: {
+    id: 523,
+    name: "Pancakes",
+    description: "A great start to a Bumpkins day",
+    image: pancakes,
+    experience: 480,
+    building: "Kitchen",
+    cookingSeconds: 60 * 20,
+    ingredients: {
+      Wheat: new Decimal(5),
+      Honey: new Decimal(10),
+    },
+    marketRate: 10,
+  },
   "Apple Pie": {
+    id: 524,
     name: "Apple Pie",
     description: "Bumpkin Betty's famous recipe",
     image: applePie,
@@ -463,6 +490,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 550,
   },
   "Blueberry Jam": {
+    id: 525,
     name: "Blueberry Jam",
     description: "Goblins will do anything for this jam",
     image: blueberryJam,
@@ -475,6 +503,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 550,
   },
   "Fermented Carrots": {
+    id: 526,
     name: "Fermented Carrots",
     description: "Got a surplus of carrots?",
     image: fermentedCarrots,
@@ -487,6 +516,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 112,
   },
   "Honey Cake": {
+    id: 527,
     name: "Honey Cake",
     description: "A scrumptious cake!",
     image: honeyCake,
@@ -501,6 +531,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 550,
   },
   "Kale & Mushroom Pie": {
+    id: 528,
     name: "Kale & Mushroom Pie",
     description: "A traditional Sapphiron recipe",
     image: kaleMushroomPie,
@@ -514,7 +545,21 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 550,
   },
+  "Kale Stew": {
+    id: 529,
+    name: "Kale Stew",
+    description: "A perfect Bumpkin Booster",
+    image: kaleStew,
+    building: "Fire Pit",
+    cookingSeconds: 60 * 60 * 2,
+    ingredients: {
+      Kale: new Decimal(10),
+    },
+    experience: 400,
+    marketRate: 400,
+  },
   "Mushroom Jacket Potatoes": {
+    id: 530,
     name: "Mushroom Jacket Potatoes",
     description: "Cram them taters with what ya got!",
     image: mushroomJacketPotato,
@@ -528,6 +573,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 240,
   },
   "Mushroom Soup": {
+    id: 531,
     name: "Mushroom Soup",
     description: "Warm your Bumpkin's soul.",
     image: mushroomSoup,
@@ -540,6 +586,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 240,
   },
   "Orange Cake": {
+    id: 532,
     name: "Orange Cake",
     description: "Orange you glad we aren't cooking apples",
     image: orangeCake,
@@ -554,6 +601,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     marketRate: 600,
   },
   "Sunflower Crunch": {
+    id: 533,
     name: "Sunflower Crunch",
     description: "Crunchy goodness. Try not to burn it.",
     image: sunflowerCrunch,
@@ -565,19 +613,8 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 40,
   },
-  Sauerkraut: {
-    name: "Sauerkraut",
-    description: "No more boring Cabbage!",
-    image: sauerkraut,
-    building: "Deli",
-    cookingSeconds: 24 * 60 * 60,
-    experience: 500,
-    ingredients: {
-      Cabbage: new Decimal(20),
-    },
-    marketRate: 224,
-  },
   "Reindeer Carrot": {
+    id: 534,
     name: "Reindeer Carrot",
     description: "Rudolph can't stop eating them!",
     image: reindeerCarrot,
