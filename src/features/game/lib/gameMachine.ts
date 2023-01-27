@@ -47,7 +47,7 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
-import { hasAccount, loadTrialFarm, saveTrial } from "features/auth/lib/trial";
+import { loadTrialFarm, saveTrial } from "features/auth/lib/trial";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -285,7 +285,6 @@ export function startGame(authContext: Options) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
-        offset: 0,
         isTrialling: authContext.isTrialling,
       },
       states: {
