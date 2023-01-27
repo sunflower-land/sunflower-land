@@ -90,7 +90,8 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
           style={{
             border: "1px solid #ead4aa",
             fontFamily: "monospace",
-            maxHeight: "180px",
+            minHeight: "40px",
+            maxHeight: "160px",
           }}
           placeholder="Type here..."
           className="text-sm placeholder-white w-full rounded-md bg-brown-200 pr-10 pl-2 py-2"

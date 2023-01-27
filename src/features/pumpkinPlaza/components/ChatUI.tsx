@@ -16,27 +16,29 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game }) => {
 
   return (
     <div
-      className="w-full flex justify-center fixed bottom-4 pl-2 md:pr-2 pr-20"
+      className="w-full flex justify-center fixed bottom-4 pl-2 pr-[73.5px] md:pr-2"
       style={{ zIndex: 999 }}
       onClick={() => console.log("parent clicked")}
     >
-      <CloseButtonPanel
-        showCloseButton={false}
-        tabs={[
-          { icon: SUNNYSIDE.icons.expression_chat, name: "Chat" },
-          { icon: SUNNYSIDE.icons.heart, name: "Reactions" },
-        ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
-      >
-        {tab === 0 && <ChatText onMessage={(text) => onMessage({ text })} />}
-        {tab === 1 && (
-          <ChatReactions
-            onReact={(reaction) => onMessage({ reaction })}
-            game={game}
-          />
-        )}
-      </CloseButtonPanel>
+      <div className="w-full sm:w-[30rem]">
+        <CloseButtonPanel
+          showCloseButton={false}
+          tabs={[
+            { icon: SUNNYSIDE.icons.expression_chat, name: "Chat" },
+            { icon: SUNNYSIDE.icons.heart, name: "Reactions" },
+          ]}
+          currentTab={tab}
+          setCurrentTab={setTab}
+        >
+          {tab === 0 && <ChatText onMessage={(text) => onMessage({ text })} />}
+          {tab === 1 && (
+            <ChatReactions
+              onReact={(reaction) => onMessage({ reaction })}
+              game={game}
+            />
+          )}
+        </CloseButtonPanel>
+      </div>
     </div>
   );
 };
