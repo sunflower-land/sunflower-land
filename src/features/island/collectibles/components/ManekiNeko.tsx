@@ -84,12 +84,18 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
 
     let time = COLLECTIBLE_PLACE_SECONDS["Maneki Neko"] ?? 0;
     if (shakenManekiNeko && shakenManekiNeko.shakenAt) {
-      time = time - (Date.now() - shakenManekiNeko.shakenAt) / 1000;
+      const timeFromShaken = Date.now() - shakenManekiNeko.shakenAt;
+      time = time - timeFromShaken / 1000;
     }
 
     return (
       <div
-        onMouseEnter={() => setShowTooltip(true)}
+        onMouseEnter={() => {
+          if (time <= 0) {
+            setIsShaking(false);
+          }
+          return setShowTooltip(true);
+        }}
         onMouseLeave={() => setShowTooltip(false)}
       >
         <img
@@ -120,7 +126,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           <TimeLeftPanel
             text="Ready in:"
             timeLeft={time}
-            showTimeLeft={showTooltip}
+            showTimeLeft={showTooltip && time > 0}
           />
         </div>
       </div>
