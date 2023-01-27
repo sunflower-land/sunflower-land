@@ -1,7 +1,7 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Bumpkin } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { ITEM_DETAILS } from "features/game/types/items";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
