@@ -115,7 +115,7 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
         <SkillPathDetails
           selectedSkillPath={selectedSkillPath}
           skillsInPath={skillsInPath}
-          readonly
+          readonly={readonly}
         />
       )}
     </div>
