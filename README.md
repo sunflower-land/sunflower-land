@@ -64,6 +64,8 @@ Firstly, you will need to clone the repo locally. Once you have it ready navigat
 3. `cp .env.sample .env`
 4. `yarn dev`
 
+_**NOTE:** (2023/01/27) If your local install of SFL is showing CORS error messages when trying to load protected image assets the issue can be resolved by copying the new `VITE_PRIVATE_IMAGE_PROXY` variable from `.env.sample` into your existing `.env` file._
+
 # 🧪 Testing
 
 `yarn test`
