@@ -1,4 +1,4 @@
-import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
+import { AuctioneerItem } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 import { getInventorySupply } from "lib/blockchain/Inventory";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
@@ -6,7 +6,7 @@ import { ERRORS } from "lib/errors";
 
 type Cache = {
   cachedAt: number;
-  items: Item[];
+  items: AuctioneerItem[];
   id: string;
 };
 const host = window.location.host.replace(/^www\./, "");
@@ -30,7 +30,7 @@ function loadCachedItems(): Cache | null {
   return cache;
 }
 
-function cacheItems(id: string, items: Item[]) {
+function cacheItems(id: string, items: AuctioneerItem[]) {
   const cache: Cache = {
     cachedAt: Date.now(),
     id,
@@ -68,7 +68,7 @@ export const fetchAuctioneerDrops = async (
     auctioneer: items,
     id,
   }: {
-    auctioneer: Item[];
+    auctioneer: AuctioneerItem[];
     id: string;
   } = await response.json();
 

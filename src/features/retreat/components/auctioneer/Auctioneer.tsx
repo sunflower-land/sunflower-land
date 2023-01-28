@@ -8,19 +8,22 @@ import { Action } from "components/ui/Action";
 import { AuctioneerModal } from "./AuctioneerModal";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
-import { Item } from "./actions/auctioneerItems";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { setImageWidth } from "lib/images";
 import { SUNNYSIDE } from "assets/sunnyside";
+import {
+  AuctioneerItem,
+  getValidAuctionItems,
+} from "./actions/auctioneerItems";
 
 export const Auctioneer: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
-  const upcomingItem: Item | undefined = goblinState.context.auctioneerItems
-    .filter((item) => item.releases.some(({ endDate }) => endDate > Date.now()))
-    .sort((a, b) => a.releases[0].endDate - b.releases[0].endDate)[0];
+  const upcomingItem: AuctioneerItem | undefined = getValidAuctionItems(
+    goblinState.context.auctioneerItems
+  ).at(0);
 
   const isPlaying = goblinState.matches("auctioneer");
 

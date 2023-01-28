@@ -84,7 +84,11 @@ export function makeGame(farm: any): GameState {
     mysteryPrizes: farm.mysteryPrizes,
     treasureIsland: farm.treasureIsland,
     pumpkinPlaza: farm.pumpkinPlaza,
+<<<<<<< HEAD
     dailyRewards: farm.dailyRewards,
+=======
+    auctioneer: farm.auctioneer,
+>>>>>>> 841f5100 (UI flows)
   };
 }
 

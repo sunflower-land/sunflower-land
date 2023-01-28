@@ -1,28 +1,28 @@
-import { fetchAuctioneerSupply } from "features/game/actions/auctioneer";
 import { mint } from "features/game/actions/mint";
-import { CONFIG } from "lib/config";
-import Web3 from "web3";
 import { createMachine, Interpreter, assign } from "xstate";
-import { Item } from "../components/auctioneer/actions/auctioneerItems";
-import { escalate } from "xstate/lib/actions";
-import { wallet } from "lib/blockchain/wallet";
+import { escalate, sendParent } from "xstate/lib/actions";
 import { randomID } from "lib/utils/random";
-import { getInventorySupply } from "lib/blockchain/Inventory";
 import { AuctioneerItemName } from "features/game/types/auctioneer";
+import { bid } from "features/game/actions/bid";
+import { GameState } from "features/game/types/game";
+import { getAuctionResults } from "features/game/actions/getAuctionResults";
+import { autosave } from "features/game/actions/autosave";
+import { AuctioneerItem } from "../components/auctioneer/actions/auctioneerItems";
 
 export interface Context {
   farmId: number;
   sessionId: string;
   token: string;
-  auctioneerItems: Item[];
+  deviceTrackerId: string;
+  bid?: GameState["auctioneer"]["bid"];
+  auctioneerItems: AuctioneerItem[];
   auctioneerId: string;
   transactionId?: string;
 }
 
-type MintEvent = {
-  type: "MINT";
+type BidEvent = {
+  type: "BID";
   item: AuctioneerItemName;
-  captcha: string;
 };
 
 export type MintedEvent = {
@@ -32,17 +32,35 @@ export type MintedEvent = {
 
 type TickEvent = {
   type: "TICK";
-  auctioneerItems: Item[];
+  auctioneerItems: AuctioneerItem[];
 };
 
 type RefreshEvent = {
   type: "REFRESH";
 };
 
-export type BlockchainEvent = TickEvent | MintEvent | RefreshEvent;
+export type BlockchainEvent =
+  | TickEvent
+  | BidEvent
+  | RefreshEvent
+  | { type: "CHECK_RESULTS" }
+  | { type: "MINT" }
+  | { type: "REFUND" };
 
 export type AuctioneerMachineState = {
-  value: "loading" | "playing" | "minting" | "minted" | "error";
+  value:
+    | "initialising"
+    | "playing"
+    | "bidding"
+    | "bidded"
+    | "checkingResults"
+    | "loser"
+    | "refunding"
+    | "refunded"
+    | "pending"
+    | "winner"
+    | "minting"
+    | "minted";
   context: Context;
 };
 
@@ -60,88 +78,55 @@ export const auctioneerMachine = createMachine<
 >(
   {
     id: "auctioneerMachine",
-    initial: "loading",
+    initial: "initialising",
     states: {
-      loading: {
-        invoke: {
-          src: async (context) => {
-            const ids = context.auctioneerItems.map((item) => item.id);
-            const supply = await fetchAuctioneerSupply(ids);
-
-            const auctioneerItems = context.auctioneerItems.map(
-              (item, index) => ({
-                ...item,
-                totalMinted: supply[index],
-              })
-            );
-
-            return { auctioneerItems };
+      initialising: {
+        always: [
+          {
+            target: "bidded",
+            cond: (context) => !!context.bid,
           },
-          onDone: {
+          {
             target: "playing",
-            actions: assign({
-              auctioneerItems: (_, event) => event.data.auctioneerItems,
-            }),
           },
-          onError: {
-            actions: escalate((_, event) => ({
-              message: event.data.message,
-            })),
-          },
-        },
+        ],
       },
       playing: {
         entry: "clearTransactionId",
         on: {
-          MINT: {
-            target: "minting",
-          },
-          TICK: {
-            actions: assign({
-              auctioneerItems: (_, event) => event.auctioneerItems,
-            }),
+          BID: {
+            target: "bidding",
           },
         },
+      },
+      bidding: {
+        entry: "setTransactionId",
         invoke: {
-          src: (context) => (callback) => {
-            if (context.auctioneerId === undefined) {
-              throw Error("Could not find auction id");
-            }
+          src: async (context, event) => {
+            const { item } = event as BidEvent;
 
-            const web3 = new Web3(
-              `wss://polygon-${CONFIG.NETWORK}.g.alchemy.com/v2/${Buffer.from(
-                context.auctioneerId,
-                "base64"
-              ).toString("ascii")}`
-            );
+            const { game } = await bid({
+              farmId: Number(context.farmId),
+              sessionId: context.sessionId as string,
+              token: context.token as string,
+              item,
+              transactionId: context.transactionId as string,
+            });
 
-            const id = setInterval(async () => {
-              if (context.auctioneerItems === undefined) {
-                throw Error("Could not find auction id");
-              }
-
-              const ids = context.auctioneerItems.map((item) => item.id);
-              const supply = await getInventorySupply(
-                web3,
-                wallet.myAccount as string,
-                ids
-              );
-
-              const auctioneerItems = context.auctioneerItems.map(
-                (item, index) => ({
-                  ...item,
-                  totalMinted: supply[index],
-                })
-              );
-
-              callback({
-                type: "TICK",
-                auctioneerItems,
-              });
-            }, 1000);
-
-            // Perform cleanup
-            return () => clearInterval(id);
+            return {
+              inventory: game.inventory,
+              balance: game.balance,
+            };
+          },
+          onDone: {
+            target: "bidded",
+            actions: sendParent((context, event) => ({
+              type: "UPDATE_SESSION",
+              inventory: event.data.inventory,
+              balance: event.data.balance,
+              sessionId: context.sessionId,
+              deviceTrackerId: context.deviceTrackerId,
+            })),
           },
           onError: {
             actions: escalate((_, event) => ({
@@ -150,18 +135,66 @@ export const auctioneerMachine = createMachine<
           },
         },
       },
+      bidded: {
+        on: {
+          CHECK_RESULTS: "checkingResults",
+          REFRESH: "finish",
+        },
+      },
+      checkingResults: {
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context, event) => {
+            const { item } = event as BidEvent;
+
+            const { status } = await getAuctionResults({
+              farmId: Number(context.farmId),
+              token: context.token as string,
+              item,
+              transactionId: context.transactionId as string,
+            });
+
+            return { status };
+          },
+          onDone: [
+            {
+              cond: (_, event) => event.data.status === "winner",
+              target: "winner",
+            },
+            {
+              cond: (_, event) => event.data.status === "loser",
+              target: "loser",
+            },
+            {
+              target: "pending",
+            },
+          ],
+          onError: {
+            actions: escalate((_, event) => ({
+              message: event.data.message,
+            })),
+          },
+        },
+      },
+
+      winner: {
+        on: {
+          MINT: "minting",
+        },
+      },
+
       minting: {
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { item, captcha } = event as MintEvent;
+            const { item } = event as BidEvent;
 
             const { sessionId } = await mint({
               farmId: Number(context.farmId),
               sessionId: context.sessionId as string,
               token: context.token as string,
               item,
-              captcha,
+              captcha: "0x",
               transactionId: context.transactionId as string,
             });
 
@@ -189,6 +222,57 @@ export const auctioneerMachine = createMachine<
           REFRESH: "finish",
         },
       },
+
+      loser: {
+        on: {
+          REFUND: "refunding",
+        },
+      },
+
+      pending: {},
+
+      refunding: {
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context, event) => {
+            const { farm } = await autosave({
+              farmId: Number(context.farmId),
+              sessionId: context.sessionId as string,
+              actions: [
+                {
+                  type: "bid.refunded",
+                } as any,
+              ],
+              token: context.token as string,
+              fingerprint: "0x",
+              deviceTrackerId: context.deviceTrackerId as string,
+              transactionId: context.transactionId as string,
+            });
+
+            return {
+              inventory: farm?.inventory,
+              balance: farm?.balance,
+              sessionId: context.sessionId,
+              deviceTrackerId: context.deviceTrackerId,
+            };
+          },
+          onDone: {
+            target: "refunded",
+          },
+          onError: {
+            actions: escalate((_, event) => ({
+              message: event.data.message,
+            })),
+          },
+        },
+      },
+
+      refunded: {
+        on: {
+          REFRESH: "finish",
+        },
+      },
+
       finish: {
         type: "final",
       },

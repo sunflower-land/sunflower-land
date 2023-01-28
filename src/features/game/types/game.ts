@@ -379,6 +379,13 @@ export type TreasureHole = {
   discovered: InventoryItemName | null;
 };
 
+export type Bid = {
+  sfl: Decimal;
+  inventory: Inventory;
+  item: AuctioneerItemName;
+  bidAt: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -437,12 +444,7 @@ export interface GameState {
     };
   };
   auctioneer: {
-    bid?: {
-      sfl: Decimal;
-      inventory: Inventory;
-      item: AuctioneerItemName;
-      bidAt: number;
-    };
+    bid?: Bid;
   };
 }
 
