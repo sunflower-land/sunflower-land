@@ -359,6 +359,7 @@ export const TEST_FARM: GameState = {
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
   pumpkinPlaza: {},
+  auctioneer: {},
   expansions: INITIAL_EXPANSIONS,
   buildings: {
     "Fire Pit": [
@@ -500,6 +501,7 @@ export const EMPTY: GameState = {
   collectibles: {},
   mysteryPrizes: {},
   pumpkinPlaza: {},
+  auctioneer: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

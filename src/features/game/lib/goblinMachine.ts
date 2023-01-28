@@ -17,7 +17,6 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getAvailableGameState } from "./transforms";
-import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 import { fetchAuctioneerDrops } from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 import { getBumpkinLevel } from "./level";
@@ -25,6 +24,7 @@ import { randomID } from "lib/utils/random";
 import { OFFLINE_FARM } from "./landData";
 import { getSessionId } from "lib/blockchain/Sessions";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
+import { AuctioneerItem } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -37,7 +37,7 @@ export interface Context {
   transactionId?: string;
   farmAddress?: string;
   deviceTrackerId?: string;
-  auctioneerItems: Item[];
+  auctioneerItems: AuctioneerItem[];
   auctioneerId: string;
   mintedAtTimes: Partial<Record<InventoryItemName, number>>;
 }
@@ -273,6 +273,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               sessionId: (context: Context) => context.sessionId,
               auctioneerItems: (context: Context) => context.auctioneerItems,
               auctioneerId: (context: Context) => context.auctioneerId,
+              deviceTrackerId: (context: Context) => context.deviceTrackerId,
             },
             onDone: {
               target: "loading",

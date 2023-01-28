@@ -37,9 +37,9 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const mintedItemName = ((auctioneerState.event as any)?.data as MintedEvent)
     ?.item;
 
-  return (
-    <Modal centered show={isOpen} onHide={onClose} scrollable>
-      {isMinting && (
+  const Content = () => {
+    if (isMinting) {
+      return (
         <Panel className="relative">
           <div className="flex flex-col items-center p-2">
             <span className="text-shadow text-center loading">Minting</span>
@@ -52,8 +52,11 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </span>
           </div>
         </Panel>
-      )}
-      {isMinted && (
+      );
+    }
+
+    if (isMinted) {
+      return (
         <Panel className="relative">
           <div className="flex flex-col items-center">
             <div className="flex flex-col items-center p-2">
@@ -70,55 +73,59 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <Button onClick={() => send("REFRESH")}>Ok</Button>
           </div>
         </Panel>
-      )}
-      {(isPlaying || isLoading) && (
-        <Panel className="relative" hasTabs>
-          <div
-            className="absolute flex"
+      );
+    }
+
+    return (
+      <Panel className="relative" hasTabs>
+        <div
+          className="absolute flex"
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+          }}
+        >
+          <Tab isActive={tab === "auction"} onClick={() => setTab("auction")}>
+            <span className="text-sm text-shadow ml-1">Auctioneer</span>
+          </Tab>
+          <Tab isActive={tab === "upcoming"} onClick={() => setTab("upcoming")}>
+            <span className="text-sm text-shadow ml-1">Upcoming</span>
+          </Tab>
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="absolute cursor-pointer z-20"
+            onClick={onClose}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
-              left: `${PIXEL_SCALE * 1}px`,
               right: `${PIXEL_SCALE * 1}px`,
+              width: `${PIXEL_SCALE * 11}px`,
             }}
-          >
-            <Tab isActive={tab === "auction"} onClick={() => setTab("auction")}>
-              <span className="text-sm text-shadow ml-1">Auctioneer</span>
-            </Tab>
-            <Tab
-              isActive={tab === "upcoming"}
-              onClick={() => setTab("upcoming")}
-            >
-              <span className="text-sm text-shadow ml-1">Upcoming</span>
-            </Tab>
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="absolute cursor-pointer z-20"
-              onClick={onClose}
-              style={{
-                top: `${PIXEL_SCALE * 1}px`,
-                right: `${PIXEL_SCALE * 1}px`,
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
-          </div>
+          />
+        </div>
 
-          <div
-            style={{
-              minHeight: "200px",
-            }}
-          >
-            <div className="flex flex-col">
-              {isLoading && <Loading />}
-              {isPlaying && (
-                <>
-                  {tab === "auction" && <AuctioneerContent />}
-                  {tab === "upcoming" && <UpcomingAuctions />}
-                </>
-              )}
-            </div>
+        <div
+          style={{
+            minHeight: "200px",
+          }}
+        >
+          <div className="flex flex-col">
+            {isLoading && <Loading />}
+            {isPlaying && (
+              <>
+                {tab === "auction" && <AuctioneerContent />}
+                {tab === "upcoming" && <UpcomingAuctions />}
+              </>
+            )}
           </div>
-        </Panel>
-      )}
+        </div>
+      </Panel>
+    );
+  };
+
+  return (
+    <Modal centered show={isOpen} onHide={onClose} scrollable>
+      <Content />
     </Modal>
   );
 };

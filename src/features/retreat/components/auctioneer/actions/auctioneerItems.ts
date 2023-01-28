@@ -1,69 +1,30 @@
 import { AuctioneerItemName } from "features/game/types/auctioneer";
-import { InventoryItemName } from "features/game/types/game";
+import { Inventory } from "features/game/types/game";
 
-export type Release = {
+export type AuctioneerItem = {
+  id: number;
+  tokenId: number;
+  name: AuctioneerItemName;
+  price?: number;
+  ingredients: Inventory;
   releaseDate: number;
   endDate: number;
   supply: number;
-  price: number;
-  ingredients: {
-    item: InventoryItemName;
-    amount: number;
-  }[];
 };
 
-export interface AuctioneerItem {
-  name: AuctioneerItemName;
-  tokenId: number;
-  totalMinted?: number;
-  price?: number;
-  releases: Release[];
-  currentRelease?: Release;
-}
-
-export type Item = {
-  id: number;
-  releases: Release[];
-  name: AuctioneerItemName;
-  totalMinted?: number;
-};
-
-export function getMaxSupply(releases: Release[]) {
-  return releases.reduce((supply, release) => {
-    supply += release.supply;
-
-    return supply;
-  }, 0);
-}
-
-export function getValidAuctionItems(items: Item[]): AuctioneerItem[] {
+export function getValidAuctionItems(
+  items: AuctioneerItem[]
+): AuctioneerItem[] {
   const sortedUpcomingItemNames = items
-    .filter((item) => item.releases.length)
     .filter((item) => {
       const now = Date.now();
-      const { endDate } = item.releases[item.releases.length - 1];
+      const endDate = item.endDate;
 
+      console.log({ now: endDate && endDate > now });
       return endDate && endDate > now;
     })
-    .sort((a, b) => a.releases[0].releaseDate - b.releases[0].releaseDate)
+    .sort((a, b) => a.releaseDate - b.releaseDate)
     .slice(0, 10);
 
-  const upcomingItems = sortedUpcomingItemNames.map((item) => {
-    const currentRelease = item.releases.find((release) => {
-      const { endDate } = release;
-
-      return endDate && endDate > Date.now();
-    });
-
-    return {
-      name: item.name,
-      tokenId: item.id,
-      maxSupply: getMaxSupply(item.releases),
-      releases: item.releases,
-      currentRelease,
-      totalMinted: item.totalMinted,
-    };
-  });
-
-  return upcomingItems;
+  return sortedUpcomingItemNames;
 }

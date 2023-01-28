@@ -412,4 +412,14 @@ export const OFFLINE_FARM: GameState = {
     seconds: 60,
     sfl: new Decimal(0),
   },
+  auctioneer: {
+    // bid: {
+    //   bidAt: Date.now(),
+    //   inventory: {
+    //     Gold: new Decimal(50),
+    //   },
+    //   item: "Peeled Potato",
+    //   sfl: new Decimal(10),
+    // },
+  },
 };
