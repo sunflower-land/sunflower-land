@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
-
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-
 import { Settings } from "./components/Settings";
 import { Buildings } from "../buildings/Buildings";
 import { Inventory } from "./components/inventory/Inventory";
@@ -31,19 +29,6 @@ export const Hud: React.FC = () => {
       ) : (
         <>
           <Balance balance={gameState.context.state.balance} />
-          <Inventory
-            state={gameState.context.state}
-            shortcutItem={shortcutItem}
-            selectedItem={selectedItem as InventoryItemName}
-            onPlace={(selected) => {
-              gameService.send("EDIT", {
-                placeable: selected,
-                action: "collectible.placed",
-              });
-            }}
-            isSaving={gameState.matches("autosaving")}
-            isFarming
-          />
           {landId && <LandId landId={landId} />}
           <Buildings />
           <Save />
@@ -51,6 +36,21 @@ export const Hud: React.FC = () => {
           <Settings isFarming={true} />
         </>
       )}
+      <div hidden={isEditing}>
+        <Inventory
+          state={gameState.context.state}
+          shortcutItem={shortcutItem}
+          selectedItem={selectedItem as InventoryItemName}
+          onPlace={(selected) => {
+            gameService.send("EDIT", {
+              placeable: selected,
+              action: "collectible.placed",
+            });
+          }}
+          isSaving={gameState.matches("autosaving")}
+          isFarming
+        />
+      </div>
     </div>
   );
 };

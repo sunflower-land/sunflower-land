@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
@@ -26,6 +26,8 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 
 interface Props {
   state: GameState;
+  selected: InventoryItemName;
+  onSelect: (name: InventoryItemName) => void;
   closeModal: () => void;
   onPlace?: (name: InventoryItemName) => void;
   isSaving?: boolean;
@@ -33,6 +35,8 @@ interface Props {
 
 export const Chest: React.FC<Props> = ({
   state,
+  selected,
+  onSelect,
   closeModal,
   isSaving,
   onPlace,
@@ -51,7 +55,6 @@ export const Chest: React.FC<Props> = ({
   };
 
   const collectibles = getKeys(chestMap)
-    .filter((item) => getItemCount(item).greaterThan(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
     .reduce((acc, item) => {
       if (
@@ -66,10 +69,6 @@ export const Chest: React.FC<Props> = ({
       }
       return acc;
     }, {} as Record<CollectibleName, Decimal>);
-
-  const [selected, setSelected] = useState<InventoryItemName>(
-    getKeys(collectibles)[0]
-  );
 
   const chestIsEmpty = getKeys(collectibles).length === 0;
   if (chestIsEmpty) {
@@ -89,14 +88,19 @@ export const Chest: React.FC<Props> = ({
     );
   }
 
+  // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
+  const selectedChestItem = collectibles[selected as CollectibleName]
+    ? selected
+    : getKeys(collectibles)[0];
+
   const handlePlace = () => {
-    onPlace && onPlace(selected);
+    onPlace && onPlace(selectedChestItem);
 
     closeModal();
   };
 
   const handleItemClick = (item: InventoryItemName) => {
-    setSelected(item);
+    onSelect(item);
   };
 
   return (
@@ -104,12 +108,12 @@ export const Chest: React.FC<Props> = ({
       divRef={divRef}
       tallMobileContent={true}
       wideModal={true}
-      showHeader={!!selected}
+      showHeader={!!selectedChestItem}
       header={
-        selected && (
+        selectedChestItem && (
           <InventoryItemDetails
             details={{
-              item: selected,
+              item: selectedChestItem,
             }}
             properties={{
               showOpenSeaLink: true,
@@ -131,7 +135,7 @@ export const Chest: React.FC<Props> = ({
               {getKeys(collectibles).map((item) => (
                 <Box
                   count={getItemCount(item)}
-                  isSelected={selected === item}
+                  isSelected={selectedChestItem === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}
