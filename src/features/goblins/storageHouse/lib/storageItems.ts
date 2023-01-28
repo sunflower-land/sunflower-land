@@ -9,7 +9,7 @@ export function getDeliverableItems(inventory: Inventory) {
   return (Object.keys(inventory) as InventoryItemName[]).reduce(
     (acc, itemName) => {
       if (
-        itemName in CROPS() ||
+        itemName in CROPS ||
         (itemName in RESOURCES && itemName !== "Chicken")
       ) {
         return {
@@ -31,7 +31,7 @@ export function getBankItems(inventory: Inventory) {
   return (Object.keys(inventory) as InventoryItemName[]).reduce(
     (acc, itemName) => {
       if (
-        itemName in CROPS() ||
+        itemName in CROPS ||
         (itemName in RESOURCES && itemName !== "Chicken")
       ) {
         return acc;

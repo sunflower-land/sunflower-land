@@ -10,7 +10,6 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
-import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/items";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
@@ -51,8 +50,6 @@ export const TreasureShopSell: React.FC = () => {
     shortcutItem(selectedName);
   };
 
-  const stock = state.stock[selectedName] || new Decimal(0);
-
   const Action = () => {
     return (
       <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
@@ -66,9 +63,6 @@ export const TreasureShopSell: React.FC = () => {
       </div>
     );
   };
-
-  const cropName = selectedName.split(" ")[0] as CropName;
-  const crop = CROPS()[cropName];
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">

@@ -56,7 +56,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const isFruitSeed = (selected: InventoryItemName) =>
     selected in FRUIT_SEEDS();
   const isSeed = (selected: InventoryItemName) =>
-    isFruitSeed(selected) || selected in CROP_SEEDS();
+    isFruitSeed(selected) || selected in CROP_SEEDS;
   const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
 
   const getHarvestTime = (seedName: SeedName) => {
@@ -80,9 +80,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     return getKeys(items).filter((item) => item in basketMap);
   };
 
-  const seeds = getItems(CROP_SEEDS());
+  const seeds = getItems(CROP_SEEDS);
   const fruitSeeds = getItems(FRUIT_SEEDS());
-  const crops = getItems(CROPS());
+  const crops = getItems(CROPS);
   const fruits = getItems(FRUIT());
   const tools = getItems(TOOLS);
   const shovels = getItems(SHOVELS);

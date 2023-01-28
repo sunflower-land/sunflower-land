@@ -21,7 +21,7 @@ import { Bumpkin } from "features/game/types/game";
 import { Fruit, FRUIT } from "features/game/types/fruits";
 
 export const Crops: React.FC = () => {
-  const cropsAndFruits = { ...CROPS(), ...FRUIT() };
+  const cropsAndFruits = { ...CROPS, ...FRUIT() };
   const [selected, setSelected] = useState<Crop | Fruit>(
     cropsAndFruits.Sunflower
   );

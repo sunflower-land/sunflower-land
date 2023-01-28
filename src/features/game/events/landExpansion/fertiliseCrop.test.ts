@@ -260,7 +260,7 @@ describe("fertiliseCrop", () => {
     expect((newPlots as Record<number, LandExpansionPlot>)[0].crop).toEqual({
       name: "Sunflower",
       plantedAt:
-        sunflowerPlantedAt - (CROPS()["Sunflower"].harvestSeconds * 1000) / 2,
+        sunflowerPlantedAt - (CROPS["Sunflower"].harvestSeconds * 1000) / 2,
       fertilisers: [
         {
           name: "Rapid Growth",

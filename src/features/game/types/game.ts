@@ -186,6 +186,12 @@ export type InventoryItemName =
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
+export interface ItemDetails {
+  // id is optional until the end of refactor
+  id?: number;
+  description: string;
+}
+
 export type Fields = Record<number, FieldItem>;
 
 export type Chicken = {

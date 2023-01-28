@@ -74,7 +74,7 @@ describe("sell", () => {
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(4));
     expect(state.balance).toEqual(
-      GAME_STATE.balance.add(CROPS().Sunflower.sellPrice ?? 0)
+      GAME_STATE.balance.add(CROPS.Sunflower.sellPrice ?? 0)
     );
   });
 
@@ -96,7 +96,7 @@ describe("sell", () => {
     expect(state.inventory.Sunflower).toEqual(new Decimal(1));
     expect(state.balance).toEqual(
       GAME_STATE.balance.add(
-        (CROPS().Sunflower.sellPrice ?? new Decimal(0)).mul(10)
+        (CROPS.Sunflower.sellPrice ?? new Decimal(0)).mul(10)
       )
     );
   });
@@ -135,7 +135,7 @@ describe("sell", () => {
     });
 
     expect(state.balance).toEqual(
-      new Decimal(CROPS().Cauliflower.sellPrice ?? 0)
+      new Decimal(CROPS.Cauliflower.sellPrice ?? 0)
     );
   });
 
@@ -155,7 +155,7 @@ describe("sell", () => {
     });
 
     expect(state.bumpkin?.activity?.["SFL Earned"]).toEqual(
-      new Decimal(CROPS().Cauliflower.sellPrice ?? 0).toNumber()
+      new Decimal(CROPS.Cauliflower.sellPrice ?? 0).toNumber()
     );
   });
 

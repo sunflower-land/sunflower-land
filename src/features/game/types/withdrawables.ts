@@ -64,7 +64,7 @@ function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
 }
 
 function hasSeeds(inventory: Inventory) {
-  return getKeys(inventory).some((name) => name in CROP_SEEDS());
+  return getKeys(inventory).some((name) => name in CROP_SEEDS);
 }
 
 function areAnyCropsPlanted(game: GoblinState): boolean {
@@ -112,7 +112,7 @@ function hasCompletedAchievement(
 }
 
 // Group withdraw conditions for common items
-const cropDefaults = buildDefaults(getKeys(CROPS()), true);
+const cropDefaults = buildDefaults(getKeys(CROPS), true);
 // Fruits will be disabled untill all the fruit SFT's are sold out
 const fruitDefaults = buildDefaults(getKeys(FRUIT()), false);
 const seedDefaults = buildDefaults(getKeys(SEEDS()), false);

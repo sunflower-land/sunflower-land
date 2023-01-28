@@ -11,8 +11,6 @@ import { CROPS } from "../../types/crops";
 import { CAKES, Consumable } from "features/game/types/consumables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
-const crops = CROPS();
-
 /**
  * How much SFL an item is worth
  */
@@ -28,7 +26,7 @@ export const getMarketSellPrice = (
   }
 
   // apply Green Thumb boost to crop LEGACY SKILL!
-  if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
+  if (item.name in CROPS && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     price = price.mul(1.05);
   }
 

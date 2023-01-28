@@ -108,7 +108,7 @@ describe("seedBought", () => {
     });
 
     expect(state.balance).toEqual(
-      balance.minus(CROP_SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
+      balance.minus(CROP_SEEDS["Sunflower Seed"].tokenAmount as Decimal)
     );
   });
 
@@ -156,7 +156,7 @@ describe("seedBought", () => {
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
     expect(state.balance).toEqual(
-      balance.minus(CROP_SEEDS()[item].tokenAmount as Decimal)
+      balance.minus(CROP_SEEDS[item].tokenAmount as Decimal)
     );
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
@@ -184,7 +184,7 @@ describe("seedBought", () => {
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
     expect(state.balance).toEqual(
-      balance.minus(CROP_SEEDS()[item].tokenAmount?.mul(amount) as Decimal)
+      balance.minus(CROP_SEEDS[item].tokenAmount?.mul(amount) as Decimal)
     );
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
@@ -218,7 +218,7 @@ describe("seedBought", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      CROP_SEEDS()["Sunflower Seed"].tokenAmount?.toNumber()
+      CROP_SEEDS["Sunflower Seed"].tokenAmount?.toNumber()
     );
   });
 

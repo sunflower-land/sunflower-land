@@ -47,7 +47,7 @@ export const Soil: React.FC<Props> = ({
     return getCropImage(SUNNYSIDE.soil.soil2);
   }
 
-  const { harvestSeconds } = CROPS()[plantedCrop.name];
+  const { harvestSeconds } = CROPS[plantedCrop.name];
   const lifecycle = CROP_LIFECYCLE[plantedCrop.name];
   const timeLeft = getTimeLeft(plantedCrop.plantedAt, harvestSeconds);
 

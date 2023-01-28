@@ -185,7 +185,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     }
 
     const now = Date.now();
-    const isReady = isReadyToHarvest(now, crop, CROPS()[crop.name]);
+    const isReady = isReadyToHarvest(now, crop, CROPS[crop.name]);
     const isJustPlanted = now - crop.plantedAt < 1000;
 
     // show details if field is NOT ready and NOT just planted
@@ -216,7 +216,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     }
 
     // increase touch count if there is a reward
-    if (crop?.reward && isReadyToHarvest(now, crop, CROPS()[crop.name])) {
+    if (crop?.reward && isReadyToHarvest(now, crop, CROPS[crop.name])) {
       if (touchCount < 1) {
         // Add to touch count for reward pickup
         setTouchCount((count) => count + 1);

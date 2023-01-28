@@ -20,7 +20,7 @@ export type SellableItem = {
   sellPrice?: Decimal;
 };
 
-export const SELLABLE = { ...CROPS(), ...FRUIT() };
+export const SELLABLE = { ...CROPS, ...FRUIT() };
 
 type Options = {
   state: GameState;

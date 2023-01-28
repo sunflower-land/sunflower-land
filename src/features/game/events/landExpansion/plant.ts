@@ -81,7 +81,7 @@ export const getCropTime = (
 ) => {
   const { skills, equipped } = bumpkin;
   const { necklace } = equipped;
-  let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
+  let seconds = CROPS[crop]?.harvestSeconds ?? 0;
 
   if (inventory["Seed Specialist"]?.gte(1)) {
     seconds = seconds * 0.9;
@@ -132,7 +132,7 @@ export function getPlantedAt({
   bumpkin,
   createdAt,
 }: GetPlantedAtArgs): number {
-  const item = CROPS()[crop];
+  const item = CROPS[crop];
 
   if (!crop) {
     return 0;

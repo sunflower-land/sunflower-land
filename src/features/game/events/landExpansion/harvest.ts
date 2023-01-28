@@ -68,9 +68,9 @@ export function harvest({
     throw new Error("Nothing was planted");
   }
 
-  const { name: cropName, plantedAt, amount = 1, reward } = plot.crop;
+  const { name: cropName, plantedAt, amount = 1 } = plot.crop;
 
-  const { harvestSeconds } = CROPS()[cropName];
+  const { harvestSeconds } = CROPS[cropName];
 
   if (createdAt - plantedAt < harvestSeconds * 1000) {
     throw new Error("Not ready");

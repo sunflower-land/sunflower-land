@@ -256,7 +256,7 @@ import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
 
-import { FERTILISERS, InventoryItemName } from "./game";
+import { FERTILISERS, InventoryItemName, ItemDetails } from "./game";
 import {
   LEGACY_FOODS,
   TOOLS,
@@ -286,117 +286,128 @@ import {
 import { AUCTIONEER_ITEMS } from "./auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { IMAGES, ItemDetailsWithImages } from "./images";
 
-export interface ItemDetails {
-  // id is optional until the end of refactor
-  id?: number;
-  description: string;
-  image: string;
-  secondaryImage?: string;
-}
+type Items = Record<InventoryItemName | AchievementName, ItemDetailsWithImages>;
 
-type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
-
-const crops = CROPS();
-const seeds = CROP_SEEDS();
+const extendItemGroupWithImage = <K extends string, T extends ItemDetails>(
+  itemGroup: Record<K, T>
+): Record<K, ItemDetailsWithImages> => {
+  return Object.fromEntries(
+    Object.entries<T>(itemGroup).map(([k, v]) => [
+      k,
+      {
+        ...v,
+        // remove ternary when id will be set as required
+        image: v.id
+          ? IMAGES[v.id] || SUNNYSIDE.icons.expression_confused
+          : SUNNYSIDE.icons.expression_confused,
+      } as ItemDetailsWithImages,
+    ])
+  ) as Record<K, ItemDetailsWithImages>;
+};
 
 export const ITEM_DETAILS: Items = {
   // Crops
   Sunflower: {
-    ...crops.Sunflower,
+    ...CROPS.Sunflower,
     image: CROP_LIFECYCLE.Sunflower.crop,
   },
   Potato: {
-    ...crops.Potato,
+    ...CROPS.Potato,
     image: CROP_LIFECYCLE.Potato.crop,
   },
   Pumpkin: {
-    ...crops.Pumpkin,
+    ...CROPS.Pumpkin,
     image: CROP_LIFECYCLE.Pumpkin.crop,
   },
   Carrot: {
-    ...crops.Carrot,
+    ...CROPS.Carrot,
     image: CROP_LIFECYCLE.Carrot.crop,
   },
   Cabbage: {
-    ...crops.Cabbage,
+    ...CROPS.Cabbage,
     image: CROP_LIFECYCLE.Cabbage.crop,
   },
   Beetroot: {
-    ...crops.Beetroot,
+    ...CROPS.Beetroot,
     image: CROP_LIFECYCLE.Beetroot.crop,
   },
   Cauliflower: {
-    ...crops.Cauliflower,
+    ...CROPS.Cauliflower,
     image: CROP_LIFECYCLE.Cauliflower.crop,
   },
   Parsnip: {
-    ...crops.Parsnip,
+    ...CROPS.Parsnip,
     image: CROP_LIFECYCLE.Parsnip.crop,
   },
   Radish: {
-    ...crops.Radish,
+    ...CROPS.Radish,
     image: CROP_LIFECYCLE.Radish.crop,
   },
   Wheat: {
-    ...crops.Wheat,
+    ...CROPS.Wheat,
     image: CROP_LIFECYCLE.Wheat.crop,
   },
   Kale: {
-    ...crops.Kale,
+    ...CROPS.Kale,
     image: CROP_LIFECYCLE.Kale.crop,
   },
 
   // Seeds
   "Sunflower Seed": {
-    ...seeds["Sunflower Seed"],
+    ...CROP_SEEDS["Sunflower Seed"],
     image: CROP_LIFECYCLE.Sunflower.seed,
     secondaryImage: CROP_LIFECYCLE.Sunflower.crop,
   },
   "Potato Seed": {
-    ...seeds["Potato Seed"],
+    ...CROP_SEEDS["Potato Seed"],
     image: CROP_LIFECYCLE.Potato.seed,
     secondaryImage: CROP_LIFECYCLE.Potato.crop,
   },
   "Pumpkin Seed": {
-    ...seeds["Pumpkin Seed"],
+    ...CROP_SEEDS["Pumpkin Seed"],
     image: CROP_LIFECYCLE.Pumpkin.seed,
     secondaryImage: CROP_LIFECYCLE.Pumpkin.crop,
   },
   "Carrot Seed": {
-    ...seeds["Carrot Seed"],
+    ...CROP_SEEDS["Carrot Seed"],
     image: CROP_LIFECYCLE.Carrot.seed,
     secondaryImage: CROP_LIFECYCLE.Carrot.crop,
   },
   "Cabbage Seed": {
-    ...seeds["Cabbage Seed"],
+    ...CROP_SEEDS["Cabbage Seed"],
     image: CROP_LIFECYCLE.Cabbage.seed,
     secondaryImage: CROP_LIFECYCLE.Cabbage.crop,
   },
   "Beetroot Seed": {
-    ...seeds["Beetroot Seed"],
+    ...CROP_SEEDS["Beetroot Seed"],
     image: CROP_LIFECYCLE.Beetroot.seed,
     secondaryImage: CROP_LIFECYCLE.Beetroot.crop,
   },
   "Cauliflower Seed": {
-    ...seeds["Cauliflower Seed"],
+    ...CROP_SEEDS["Cauliflower Seed"],
     image: CROP_LIFECYCLE.Cauliflower.seed,
     secondaryImage: CROP_LIFECYCLE.Cauliflower.crop,
   },
   "Parsnip Seed": {
-    ...seeds["Parsnip Seed"],
+    ...CROP_SEEDS["Parsnip Seed"],
     image: CROP_LIFECYCLE.Parsnip.seed,
     secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
   },
   "Radish Seed": {
-    ...seeds["Radish Seed"],
+    ...CROP_SEEDS["Radish Seed"],
     image: CROP_LIFECYCLE.Radish.seed,
     secondaryImage: CROP_LIFECYCLE.Radish.crop,
   },
   "Wheat Seed": {
-    ...seeds["Wheat Seed"],
+    ...CROP_SEEDS["Wheat Seed"],
     image: CROP_LIFECYCLE.Wheat.seed,
     secondaryImage: CROP_LIFECYCLE.Wheat.crop,
+  },
+  "Kale Seed": {
+    ...CROP_SEEDS["Kale Seed"],
+    image: CROP_LIFECYCLE.Kale.seed,
   },
   "Golden Bean": {
     description: BEANS()["Golden Bean"].description,
@@ -409,10 +420,6 @@ export const ITEM_DETAILS: Items = {
   "Shiny Bean": {
     description: BEANS()["Shiny Bean"].description,
     image: shinyBean,
-  },
-  "Kale Seed": {
-    description: CROP_SEEDS()["Kale Seed"].description,
-    image: CROP_LIFECYCLE.Kale.seed,
   },
   "Apple Seed": {
     description: FRUIT_SEEDS()["Apple Seed"].description,
@@ -1536,5 +1543,5 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: "?",
   },
-  ...CONSUMABLES,
+  ...extendItemGroupWithImage(CONSUMABLES),
 };

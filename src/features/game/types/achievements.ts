@@ -195,7 +195,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Farm Hand": {
     description: "Harvest crops 10,000 times",
     progress: (gameState: GameState) => {
-      const harvestEvents = getKeys(CROPS()).map(
+      const harvestEvents = getKeys(CROPS).map(
         (name) => `${name} Harvested` as HarvestEvent
       );
 
@@ -432,7 +432,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Crop Champion": {
     description: "Harvest 1 million crops",
     progress: (gameState: GameState) => {
-      const harvestEvents = getKeys(CROPS()).map(
+      const harvestEvents = getKeys(CROPS).map(
         (name) => `${name} Harvested` as HarvestEvent
       );
 

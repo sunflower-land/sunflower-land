@@ -203,7 +203,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         removeTrailingZeros: true,
       });
 
-    if (yields in CROPS())
+    if (yields in CROPS)
       return secondsToString(
         getCropTime(
           yields as CropName,

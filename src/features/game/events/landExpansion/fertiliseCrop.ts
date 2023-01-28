@@ -78,7 +78,7 @@ export function fertiliseCrop({
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_CROP);
   }
 
-  const cropDetails = CROPS()[crop.name];
+  const cropDetails = CROPS[crop.name];
   if (isReadyToHarvest(createdAt, crop, cropDetails)) {
     throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
   }

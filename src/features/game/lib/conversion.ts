@@ -10,10 +10,10 @@ import { FRUIT, FRUIT_SEEDS } from "../types/fruits";
  */
 export function getItemUnit(name: InventoryItemName) {
   if (
-    name in CROPS() ||
+    name in CROPS ||
     name in FRUIT() ||
     name in RESOURCES ||
-    name in CROP_SEEDS() ||
+    name in CROP_SEEDS ||
     name in FRUIT_SEEDS() ||
     name in TOOLS ||
     name in SHOVELS ||

@@ -399,7 +399,7 @@ describe("plant", () => {
     });
 
     // Should be twice as fast! (Planted in the past)
-    const parnsipTime = CROPS().Parsnip.harvestSeconds * 1000;
+    const parnsipTime = CROPS.Parsnip.harvestSeconds * 1000;
 
     const plots = state.expansions[0].plots;
 
@@ -515,7 +515,7 @@ describe("plant", () => {
     });
 
     // Should be twice as fast! (Planted in the psat)
-    const carrotTime = CROPS().Carrot.harvestSeconds * 1000;
+    const carrotTime = CROPS.Carrot.harvestSeconds * 1000;
 
     const plots = state.expansions[0].plots;
 

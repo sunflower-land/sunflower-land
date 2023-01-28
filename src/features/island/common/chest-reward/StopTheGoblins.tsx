@@ -77,7 +77,7 @@ const generateImages = (isMoonSeekerMode: boolean) => {
 
   const items: Item[] = [];
   const resourceImages = isMoonSeekerMode
-    ? [...getKeys(CROPS()), ...getKeys(FRUIT()), ...getKeys(RESOURCES)]
+    ? [...getKeys(CROPS), ...getKeys(FRUIT()), ...getKeys(RESOURCES)]
     : getKeys(CONSUMABLES);
   const availableResourceImages = resourceImages.map(
     (name) => ITEM_DETAILS[name].image

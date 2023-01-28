@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
+
 import { marketRate } from "../lib/halvening";
 import { CraftableItem } from "./craftables";
+import { ItemDetails } from "./game";
 
 export type CropName =
   | "Sunflower"
@@ -15,17 +17,16 @@ export type CropName =
   | "Wheat"
   | "Kale";
 
-export type Crop = {
+export interface Crop extends ItemDetails {
   sellPrice: Decimal;
   harvestSeconds: number;
   name: CropName;
-  description: string;
-};
+}
 
 /**
  * Crops and their original prices
  */
-export const CROPS: () => Record<CropName, Crop> = () => ({
+export const CROPS: Record<CropName, Crop> = {
   Sunflower: {
     sellPrice: marketRate(0.02),
     harvestSeconds: 1 * 60,
@@ -92,11 +93,11 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     name: "Kale",
     description: "Bumpkin Power Food",
   },
-});
+};
 
 export type CropSeedName = `${CropName} Seed`;
 
-export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
+export const CROP_SEEDS: Record<CropSeedName, CraftableItem> = {
   "Sunflower Seed": {
     name: "Sunflower Seed",
     tokenAmount: marketRate(0.01),
@@ -172,4 +173,4 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     description: "A Bumpkin Power Food!",
     bumpkinLevel: 7,
   },
-});
+};
