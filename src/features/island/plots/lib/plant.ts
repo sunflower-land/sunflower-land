@@ -44,8 +44,6 @@ export type Lifecycle = {
   seed: any;
 };
 
-const URL = `${CONFIG.PROTECTED_IMAGE_URL}/crops`;
-
 export const IMAGES: Record<CropName, string> = {
   Sunflower: "sunflower",
   Potato: "potato",
@@ -60,22 +58,33 @@ export const IMAGES: Record<CropName, string> = {
   Kale: "kale",
 };
 
+export const CROP_URL = (crop: string) => {
+  if (!crop) throw new Error("A valid crop name is required");
+
+  // check if the proxy path is set and if not serve
+  // images from the protected images endpoint
+  const protectedImageUrl =
+    CONFIG.PROTECTED_IMAGE_PROXY || CONFIG.PROTECTED_IMAGE_URL;
+
+  return `${protectedImageUrl}/crops/${crop}`;
+};
+
 export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
   IMAGES
-).reduce(
-  (acc, name) => ({
+).reduce((acc, name) => {
+  const crop = IMAGES[name];
+  return {
     ...acc,
     [name]: {
-      seedling: `${URL}/${IMAGES[name]}/seedling.png`,
-      halfway: `${URL}/${IMAGES[name]}/halfway.png`,
-      almost: `${URL}/${IMAGES[name]}/almost.png`,
-      ready: `${URL}/${IMAGES[name]}/plant.png`,
-      crop: `${URL}/${IMAGES[name]}/crop.png`,
-      seed: `${URL}/${IMAGES[name]}/seed.png`,
+      seedling: `${CROP_URL(crop)}/seedling.png`,
+      halfway: `${CROP_URL(crop)}/halfway.png`,
+      almost: `${CROP_URL(crop)}/almost.png`,
+      ready: `${CROP_URL(crop)}/plant.png`,
+      crop: `${CROP_URL(crop)}/crop.png`,
+      seed: `${CROP_URL(crop)}/seed.png`,
     },
-  }),
-  {} as Record<CropName, Lifecycle>
-);
+  };
+}, {} as Record<CropName, Lifecycle>);
 
 console.log({
   CROP_LIFECYCLE,

@@ -10,6 +10,8 @@ const INVENTORY_CONTRACT = process.env.VITE_INVENTORY_CONTRACT;
 const PAIR_CONTRACT = process.env.VITE_PAIR_CONTRACT;
 const SESSION_CONTRACT = process.env.VITE_SESSION_CONTRACT;
 const TOKEN_CONTRACT = process.env.VITE_TOKEN_CONTRACT;
+const PROTECTED_IMAGE_URL = process.env.VITE_PRIVATE_IMAGE_URL as string;
+const PROTECTED_IMAGE_PROXY = process.env.VITE_PRIVATE_IMAGE_PROXY as string;
 
 export const configMock = jest.fn(() => ({
   CONFIG: {
@@ -23,6 +25,8 @@ export const configMock = jest.fn(() => ({
     PAIR_CONTRACT,
     SESSION_CONTRACT,
     TOKEN_CONTRACT,
+    PROTECTED_IMAGE_URL,
+    PROTECTED_IMAGE_PROXY,
   },
 }));
 
@@ -39,6 +43,8 @@ jest.mock("../config", () => ({
       PAIR_CONTRACT,
       SESSION_CONTRACT,
       TOKEN_CONTRACT,
+      PROTECTED_IMAGE_URL,
+      PROTECTED_IMAGE_PROXY,
     }; // set some default value
   },
 }));
