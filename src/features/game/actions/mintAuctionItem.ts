@@ -2,22 +2,21 @@ import { mintCollectible } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { GoblinBlacksmithItemName } from "../types/collectibles";
+import { AuctioneerItemName } from "../types/auctioneer";
 
 type Request = {
   farmId: number;
   sessionId: string;
-  item: GoblinBlacksmithItemName;
+  item: AuctioneerItemName;
   token: string;
-  captcha: string;
   transactionId: string;
 };
 
 const API_URL = CONFIG.API_URL;
 
-export async function mint(request: Request) {
+export async function mintAuctionItem(request: Request) {
   const response = await window.fetch(
-    `${API_URL}/mint-collectible/${request.farmId}`,
+    `${API_URL}/mint-auction-item/${request.farmId}`,
     {
       method: "POST",
       headers: {
@@ -28,7 +27,6 @@ export async function mint(request: Request) {
       body: JSON.stringify({
         sessionId: request.sessionId,
         item: request.item,
-        captcha: request.captcha,
       }),
     }
   );

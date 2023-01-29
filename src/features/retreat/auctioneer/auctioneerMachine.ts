@@ -1,4 +1,3 @@
-import { mint } from "features/game/actions/mint";
 import { createMachine, Interpreter, assign } from "xstate";
 import { escalate, sendParent } from "xstate/lib/actions";
 import { randomID } from "lib/utils/random";
@@ -8,6 +7,7 @@ import { GameState } from "features/game/types/game";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
 import { autosave } from "features/game/actions/autosave";
 import { AuctioneerItem } from "../components/auctioneer/actions/auctioneerItems";
+import { mintAuctionItem } from "features/game/actions/mintAuctionItem";
 
 export interface Context {
   farmId: number;
@@ -22,6 +22,11 @@ export interface Context {
 
 type BidEvent = {
   type: "BID";
+  item: AuctioneerItemName;
+};
+
+type MintEvent = {
+  type: "MINT";
   item: AuctioneerItemName;
 };
 
@@ -105,9 +110,9 @@ export const auctioneerMachine = createMachine<
           src: async (context, event) => {
             const { item } = event as BidEvent;
 
+            console.log({ event });
             const { game } = await bid({
               farmId: Number(context.farmId),
-              sessionId: context.sessionId as string,
               token: context.token as string,
               item,
               transactionId: context.transactionId as string,
@@ -116,17 +121,23 @@ export const auctioneerMachine = createMachine<
             return {
               inventory: game.inventory,
               balance: game.balance,
+              bid: game.auctioneer.bid,
             };
           },
           onDone: {
             target: "bidded",
-            actions: sendParent((context, event) => ({
-              type: "UPDATE_SESSION",
-              inventory: event.data.inventory,
-              balance: event.data.balance,
-              sessionId: context.sessionId,
-              deviceTrackerId: context.deviceTrackerId,
-            })),
+            actions: [
+              sendParent((context, event) => ({
+                type: "UPDATE_SESSION",
+                inventory: event.data.inventory,
+                balance: event.data.balance,
+                sessionId: context.sessionId,
+                deviceTrackerId: context.deviceTrackerId,
+              })),
+              assign({
+                bid: (_, event) => event.data.bid,
+              }),
+            ],
           },
           onError: {
             actions: escalate((_, event) => ({
@@ -145,12 +156,10 @@ export const auctioneerMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { item } = event as BidEvent;
-
             const { status } = await getAuctionResults({
               farmId: Number(context.farmId),
               token: context.token as string,
-              item,
+              item: context.bid?.item as AuctioneerItemName,
               transactionId: context.transactionId as string,
             });
 
@@ -187,14 +196,13 @@ export const auctioneerMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { item } = event as BidEvent;
-
-            const { sessionId } = await mint({
+            const { item } = event as MintEvent;
+            console.log({ event });
+            const { sessionId } = await mintAuctionItem({
               farmId: Number(context.farmId),
               sessionId: context.sessionId as string,
               token: context.token as string,
-              item,
-              captcha: "0x",
+              item: context.bid?.item as AuctioneerItemName,
               transactionId: context.transactionId as string,
             });
 

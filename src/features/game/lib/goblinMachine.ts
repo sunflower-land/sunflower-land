@@ -270,6 +270,7 @@ export function startGoblinVillage(authContext: AuthContext) {
             data: {
               token: () => authContext.rawToken,
               farmId: () => authContext.farmId,
+              bid: (context: Context) => context.state.auctioneer.bid,
               sessionId: (context: Context) => context.sessionId,
               auctioneerItems: (context: Context) => context.auctioneerItems,
               auctioneerId: (context: Context) => context.auctioneerId,

@@ -359,7 +359,7 @@ export type TreasureHole = {
 
 export type Bid = {
   sfl: Decimal;
-  inventory: Inventory;
+  ingredients: Inventory;
   item: AuctioneerItemName;
   bidAt: number;
 };

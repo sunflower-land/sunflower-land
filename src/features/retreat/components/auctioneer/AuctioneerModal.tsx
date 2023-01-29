@@ -7,14 +7,13 @@ import { Tab } from "components/ui/Tab";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { UpcomingAuctions } from "./UpcomingAuctions";
 import { useActor } from "@xstate/react";
-import { Loading } from "features/auth/components";
-import { MachineInterpreter } from "features/game/lib/goblinMachine";
-import { MintedEvent } from "features/retreat/auctioneer/auctioneerMachine";
+import { MachineInterpreter } from "features/retreat/auctioneer/auctioneerMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { AuctioneerItemName } from "features/game/types/auctioneer";
 
 interface Props {
   isOpen: boolean;
@@ -29,13 +28,12 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [auctioneerState, send] = useActor(child);
 
-  const isLoading = auctioneerState.matches("loading");
-  const isPlaying = auctioneerState.matches("playing");
   const isMinting = auctioneerState.matches("minting");
   const isMinted = auctioneerState.matches("minted");
 
-  const mintedItemName = ((auctioneerState.event as any)?.data as MintedEvent)
-    ?.item;
+  console.log({ state: auctioneerState.context });
+  const mintedItemName = auctioneerState.context.bid
+    ?.item as AuctioneerItemName;
 
   const Content = () => {
     if (isMinting) {
@@ -110,13 +108,10 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
         >
           <div className="flex flex-col">
-            {isLoading && <Loading />}
-            {isPlaying && (
-              <>
-                {tab === "auction" && <AuctioneerContent />}
-                {tab === "upcoming" && <UpcomingAuctions />}
-              </>
-            )}
+            <>
+              {tab === "auction" && <AuctioneerContent />}
+              {tab === "upcoming" && <UpcomingAuctions />}
+            </>
           </div>
         </div>
       </Panel>

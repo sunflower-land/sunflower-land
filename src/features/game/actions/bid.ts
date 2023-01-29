@@ -5,7 +5,6 @@ import { AuctioneerItemName } from "../types/auctioneer";
 
 type Request = {
   farmId: number;
-  sessionId: string;
   item: AuctioneerItemName;
   token: string;
   transactionId: string;
@@ -14,6 +13,7 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 export async function bid(request: Request) {
+  console.log({ request });
   const response = await window.fetch(`${API_URL}/bid/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -22,7 +22,6 @@ export async function bid(request: Request) {
       "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
-      sessionId: request.sessionId,
       item: request.item,
     }),
   });

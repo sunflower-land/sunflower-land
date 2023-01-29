@@ -84,7 +84,21 @@ export function makeGame(farm: any): GameState {
     mysteryPrizes: farm.mysteryPrizes,
     treasureIsland: farm.treasureIsland,
     pumpkinPlaza: farm.pumpkinPlaza,
-    auctioneer: farm.auctioneer,
+    auctioneer: farm.auctioneer?.bid
+      ? {
+          bid: {
+            ...farm.auctioneer?.bid,
+            ingredients: Object.keys(farm.auctioneer?.bid.ingredients).reduce(
+              (items, item) => ({
+                ...items,
+                [item]: new Decimal(farm.auctioneer?.bid.ingredients[item]),
+              }),
+              {} as Record<InventoryItemName, Decimal>
+            ),
+            sfl: new Decimal(farm.auctioneer?.bid.sfl),
+          },
+        }
+      : {},
   };
 }
 

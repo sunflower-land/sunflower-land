@@ -23,8 +23,10 @@ export const AuctioneerContent = () => {
 
   const { auctioneerItems } = auctioneerState.context;
 
+  console.log({ state: auctioneerState.value });
+  console.log({ bid: auctioneerState.context.bid });
   if (auctioneerState.matches("bidded")) {
-    const bid = goblinState.context.state.auctioneer.bid as Bid;
+    const bid = auctioneerState.context.bid as Bid;
 
     return (
       <div className="flex justify-center flex-col w-full items-center">
@@ -43,10 +45,10 @@ export const AuctioneerContent = () => {
         </span>
 
         <div className="flex flex-wrap">
-          {getKeys(bid.inventory).map((name) => (
+          {getKeys(bid.ingredients).map((name) => (
             <div className="flex items-center mb-2 mr-4" key={name}>
               <img src={ITEM_DETAILS[name].image} className="h-6 mr-1" />
-              <span>{bid.inventory[name]?.toNumber()}</span>
+              <span>{bid.ingredients[name]?.toNumber()}</span>
             </div>
           ))}
 
@@ -63,6 +65,10 @@ export const AuctioneerContent = () => {
         </Button>
       </div>
     );
+  }
+
+  if (auctioneerState.matches("bidding")) {
+    return <span className="loading">Placing bid</span>;
   }
 
   if (auctioneerState.matches("checkingResults")) {
@@ -115,6 +121,7 @@ export const AuctioneerContent = () => {
   }
 
   const item = upcoming[0];
+  console.log({ item });
   return (
     <div
       className="h-full overflow-y-auto scrollable"
@@ -125,7 +132,10 @@ export const AuctioneerContent = () => {
       <AuctionDetails
         item={item}
         game={goblinState.context.state}
-        onBid={() => send("BID", { item: item.name })}
+        onBid={() => {
+          console.log({ item: item.name });
+          child.send("BID", { item: item.name });
+        }}
         isUpcomingItem={false}
       />
     </div>
