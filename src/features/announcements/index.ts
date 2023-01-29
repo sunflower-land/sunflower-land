@@ -28,6 +28,61 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2023-01-30T02:00:00"),
+    title: "Weekly news",
+    notes: [
+      {
+        text: "Over 8,500 players completed the Lunar New Year Event!",
+        icon: ITEM_DETAILS["Red Envelope"].image,
+      },
+      {
+        text: `Treasure Island Beta Testing starts this week`,
+        icon: SUNNYSIDE.icons.treasure,
+      },
+
+      {
+        text: `The team is working on a new Auctioneer system - until then auctions will be paused at the Goblin Retreat`,
+        icon: SUNNYSIDE.icons.neutral,
+      },
+      {
+        text: `Join the weekly team chat on Discord`,
+        icon: SUNNYSIDE.icons.expression_chat,
+        date: new Date("2023-02-31T04:30:00.000Z"),
+        link: {
+          url: "https://discord.com/invite/sunflowerland",
+          text: "Join Discord",
+        },
+      },
+      {
+        text: "Explore the world in the Pumpkin Plaza Prototype ",
+        icon: CROP_LIFECYCLE.Pumpkin.crop,
+        link: {
+          text: "Read more",
+          url: "https://docs.sunflower-land.com/player-guides/islands/pumpkin-plaza",
+        },
+      },
+
+      {
+        text: `Want to become a Blacksmith? Don't miss out on the Blacksmith Hair drop.`,
+        icon: SUNNYSIDE.icons.player,
+        date: new Date("2023-02-01T22:30:00.000Z"),
+        link: {
+          url: "https://bumpkins.io",
+          text: "Bumpkins.io",
+        },
+      },
+      {
+        text: `Watch the team at our Weekly Wrap up`,
+        icon: SUNNYSIDE.icons.expression_chat,
+        date: new Date("2023-02-02T23:00:00.000Z"),
+        link: {
+          url: "https://www.twitch.tv/0xsunflowerstudios",
+          text: "Twitch",
+        },
+      },
+    ],
+  },
+  {
     date: new Date("2023-01-23T02:00:00"),
     title: "Weekly news",
     notes: [
