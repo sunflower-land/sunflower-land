@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useState } from "react";
 
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import xMark from "assets/decorations/flag.png";
@@ -16,7 +16,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { getSecondsToTomorrow, secondsToString } from "lib/utils/time";
-import { CLICKABLE_COORDINATES } from "../TreasureIsland";
 
 export const TreasureDetector: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -198,30 +197,6 @@ export const TreasureDetector: React.FC = () => {
           onClick={() => setShowModal(true)}
         />
       </MapPlacement>
-
-      {rareTreasure?.reward && (
-        <div
-          className="pointer-events-none absolute"
-          style={{
-            top: `calc(50% - ${
-              GRID_WIDTH_PX * CLICKABLE_COORDINATES[rareTreasure?.holeId].y
-            }px)`,
-            left: `calc(50% + ${
-              GRID_WIDTH_PX * CLICKABLE_COORDINATES[rareTreasure?.holeId].x
-            }px)`,
-            height: `${GRID_WIDTH_PX}px`,
-            width: `${GRID_WIDTH_PX}px`,
-          }}
-        >
-          <img
-            src={xMark}
-            style={{
-              width: `${PIXEL_SCALE * 16}px`,
-            }}
-            className="absolute bottom-0"
-          />
-        </div>
-      )}
     </>
   );
 };
