@@ -97,6 +97,21 @@ export const AuctioneerContent = () => {
     );
   }
 
+  if (auctioneerState.matches("refunding")) {
+    return <span className="loading">Loading</span>;
+  }
+
+  if (auctioneerState.matches("refunded")) {
+    return (
+      <div>
+        <p>Your items have been returned to your inventory.</p>
+        <Button className="mt-2" onClick={() => send("REFRESH")}>
+          Continue
+        </Button>
+      </div>
+    );
+  }
+
   if (auctioneerState.matches("winner")) {
     return (
       <div>
