@@ -29,8 +29,8 @@
 }
 
 .fruit-wrapper {
-  top: 30%;
-  z-index: 2;
+  top: 10%;
+  z-index: 40;
   transition: opacity 0.1s ease-out;
 }
 
