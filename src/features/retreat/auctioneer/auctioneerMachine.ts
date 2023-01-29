@@ -243,26 +243,32 @@ export const auctioneerMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { farm } = await autosave({
-              farmId: Number(context.farmId),
-              sessionId: context.sessionId as string,
-              actions: [
-                {
-                  type: "bid.refunded",
-                } as any,
-              ],
-              token: context.token as string,
-              fingerprint: "0x",
-              deviceTrackerId: context.deviceTrackerId as string,
-              transactionId: context.transactionId as string,
-            });
+            console.log({ event });
+            try {
+              const { farm } = await autosave({
+                farmId: Number(context.farmId),
+                sessionId: context.sessionId as string,
+                actions: [
+                  {
+                    type: "bid.refunded",
+                    createdAt: new Date(),
+                  } as any,
+                ],
+                token: context.token as string,
+                fingerprint: "0x",
+                deviceTrackerId: context.deviceTrackerId as string,
+                transactionId: context.transactionId as string,
+              });
 
-            return {
-              inventory: farm?.inventory,
-              balance: farm?.balance,
-              sessionId: context.sessionId,
-              deviceTrackerId: context.deviceTrackerId,
-            };
+              return {
+                inventory: farm?.inventory,
+                balance: farm?.balance,
+                sessionId: context.sessionId,
+                deviceTrackerId: context.deviceTrackerId,
+              };
+            } catch (e) {
+              console.log(`e: `, e);
+            }
           },
           onDone: {
             target: "refunded",
