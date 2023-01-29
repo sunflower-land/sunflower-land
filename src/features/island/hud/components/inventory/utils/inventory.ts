@@ -32,22 +32,28 @@ export const getBasketItems = (inventory: Inventory) => {
 
 export const getChestItems = (state: GameState) => {
   const { collectibles } = state;
-  return getKeys(state.inventory).reduce((acc, itemName) => {
-    const isCollectible = itemName in collectibles;
-    const collectiblesPlaced = new Decimal(
-      collectibles[itemName as CollectibleName]?.length ?? 0
-    );
-    const collectibleInventory = state.inventory[itemName] ?? new Decimal(0);
-    if (
-      itemName in COLLECTIBLES_DIMENSIONS &&
-      !(isCollectible && collectiblesPlaced.eq(collectibleInventory))
-    ) {
-      return {
-        ...acc,
-        [itemName]: state.inventory[itemName],
-      };
-    }
+  return getKeys(state.inventory)
+    .filter((itemName) =>
+      setPrecision(new Decimal(state.inventory[itemName] || 0)).greaterThan(0)
+    )
+    .reduce((acc, itemName) => {
+      const isCollectible = itemName in collectibles;
+      const collectiblesPlaced = new Decimal(
+        collectibles[itemName as CollectibleName]?.length ?? 0
+      );
+      const collectibleInventory = state.inventory[itemName] ?? new Decimal(0);
+      const allItemsPlaced =
+        isCollectible &&
+        setPrecision(
+          collectibleInventory.minus(collectiblesPlaced)
+        ).lessThanOrEqualTo(0);
+      if (itemName in COLLECTIBLES_DIMENSIONS && !allItemsPlaced) {
+        return {
+          ...acc,
+          [itemName]: state.inventory[itemName],
+        };
+      }
 
-    return acc;
-  }, {} as Inventory);
+      return acc;
+    }, {} as Inventory);
 };

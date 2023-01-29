@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-
 import { Box } from "components/ui/Box";
-
-import { InventoryItems } from "./InventoryItems";
-
+import { InventoryItemsModal } from "./InventoryItemsModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleName } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getChestItems } from "./utils/inventory";
+import { KNOWN_IDS } from "features/game/types";
 
 interface Props {
   state: GameState;
@@ -23,7 +21,7 @@ interface Props {
 
 export const Inventory: React.FC<Props> = ({
   state,
-  selectedItem,
+  selectedItem: selectedBasketItem,
   shortcutItem,
   isFarming,
   isSaving,
@@ -31,13 +29,13 @@ export const Inventory: React.FC<Props> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [selectedChestItem, setSelectedChestItem] = useState<InventoryItemName>(
+    getKeys(getChestItems(state)).sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
+  );
+
   const shortcuts = getShortcuts();
 
-  const handleInventoryClick = () => {
-    setIsOpen(true);
-  };
-
-  const handleItemClick = (item: InventoryItemName) => {
+  const handleBasketItemClick = (item: InventoryItemName) => {
     if (!shortcutItem) return;
 
     shortcutItem(item);
@@ -52,7 +50,7 @@ export const Inventory: React.FC<Props> = ({
       }}
     >
       <div
-        onClick={handleInventoryClick}
+        onClick={() => setIsOpen(true)}
         className="relative flex z-50 cursor-pointer hover:img-highlight"
         style={{
           marginLeft: `${PIXEL_SCALE * 2}px`,
@@ -78,16 +76,17 @@ export const Inventory: React.FC<Props> = ({
         />
       </div>
 
-      <Modal size="lg" centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems
-          state={state}
-          onClose={() => setIsOpen(false)}
-          onSelect={handleItemClick}
-          selected={selectedItem}
-          onPlace={onPlace}
-          isSaving={isSaving}
-        />
-      </Modal>
+      <InventoryItemsModal
+        show={isOpen}
+        onHide={() => setIsOpen(false)}
+        state={state}
+        selectedBasketItem={selectedBasketItem}
+        onSelectBasketItem={handleBasketItemClick}
+        selectedChestItem={selectedChestItem}
+        onSelectChestItem={setSelectedChestItem}
+        onPlace={onPlace}
+        isSaving={isSaving}
+      />
 
       {isFarming && (
         <div
@@ -105,7 +104,7 @@ export const Inventory: React.FC<Props> = ({
               count={state.inventory[item]?.sub(
                 state.collectibles[item as CollectibleName]?.length ?? 0
               )}
-              onClick={() => handleItemClick(item)}
+              onClick={() => handleBasketItemClick(item)}
             />
           ))}
         </div>
