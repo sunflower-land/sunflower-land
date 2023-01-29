@@ -79,9 +79,9 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
     name: "Sand Shovel",
     description: "Used for digging treasure",
     ingredients: {
-      Wood: new Decimal(20),
-      Stone: new Decimal(5),
+      Wood: new Decimal(2),
+      Stone: new Decimal(1),
     },
-    sfl: marketRate(25),
+    sfl: marketRate(5),
   },
 };

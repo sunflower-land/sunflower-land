@@ -17,6 +17,7 @@ type CraftableToolName = WorkbenchToolName | TreasureToolName;
 export type CraftToolAction = {
   type: "tool.crafted";
   tool: CraftableToolName;
+  amount?: number;
 };
 
 export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
@@ -34,6 +35,7 @@ export function craftTool({ state, action }: Options) {
   const bumpkin = stateCopy.bumpkin;
 
   const tool = CRAFTABLE_TOOLS[action.tool];
+  const amount = action.amount ?? 1;
 
   if (!tool) {
     throw new Error("Tool does not exist");
@@ -46,7 +48,7 @@ export function craftTool({ state, action }: Options) {
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
   }
-  const price = tool.sfl;
+  const price = tool.sfl.mul(amount);
 
   if (stateCopy.balance.lessThan(price)) {
     throw new Error("Insufficient tokens");
@@ -55,7 +57,8 @@ export function craftTool({ state, action }: Options) {
   const subtractedInventory = getKeys(tool.ingredients).reduce(
     (inventory, ingredientName) => {
       const count = inventory[ingredientName] || new Decimal(0);
-      const totalAmount = tool.ingredients[ingredientName] || new Decimal(0);
+      const totalAmount =
+        tool.ingredients[ingredientName]?.mul(amount) || new Decimal(0);
 
       if (count.lessThan(totalAmount)) {
         throw new Error(`Insufficient ingredient: ${ingredientName}`);
@@ -79,11 +82,11 @@ export function craftTool({ state, action }: Options) {
     balance: stateCopy.balance.sub(price),
     inventory: {
       ...subtractedInventory,
-      [action.tool]: oldAmount.add(1) as Decimal,
+      [action.tool]: oldAmount.add(amount) as Decimal,
     },
     stock: {
       ...stateCopy.stock,
-      [action.tool]: stateCopy.stock[action.tool]?.minus(1) as Decimal,
+      [action.tool]: stateCopy.stock[action.tool]?.minus(amount) as Decimal,
     },
   };
 }

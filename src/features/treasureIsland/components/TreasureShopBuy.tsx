@@ -24,6 +24,9 @@ interface Props {
   onClose: (e?: SyntheticEvent) => void;
 }
 
+// Can only by shovels in amounts of 5
+const BULK_BUY_AMOUNT = 5;
+
 export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
     useState<TreasureToolName>("Sand Shovel");
@@ -40,23 +43,24 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const selected = TREASURE_TOOLS[selectedName];
   const inventory = state.inventory;
 
-  const price = selected.sfl ?? new Decimal(0);
+  const price = selected.sfl.mul(BULK_BUY_AMOUNT) ?? new Decimal(0);
 
-  const lessIngredients = (amount = 1) =>
+  const lessIngredients = (amount = BULK_BUY_AMOUNT) =>
     getKeys(selected.ingredients).some((name) =>
       selected.ingredients[name]?.mul(amount).greaterThan(inventory[name] || 0)
     );
 
-  const lessFunds = (amount = 1) => {
+  const lessFunds = (amount = BULK_BUY_AMOUNT) => {
     if (!price) return;
 
     return state.balance.lessThan(price.mul(amount));
   };
 
-  const craft = (event: SyntheticEvent, amount = 1) => {
+  const craft = (event: SyntheticEvent, amount = BULK_BUY_AMOUNT) => {
     event.stopPropagation();
     gameService.send("tool.crafted", {
       tool: selectedName,
+      amount,
     });
 
     setToast({
@@ -114,11 +118,11 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
     return (
       <>
         <Button
-          disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
+          disabled={lessFunds() || lessIngredients() || stock?.lessThan(5)}
           className="text-xs mt-1 whitespace-nowrap"
           onClick={(e) => craft(e)}
         >
-          Craft 1
+          Craft
         </Button>
       </>
     );
@@ -172,7 +176,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                 className="w-5 sm:w-8 sm:my-1"
                 alt={selectedName}
               />
-              <span className="text-center mb-1">{selectedName}</span>
+              <span className="text-center mb-1">{`${BULK_BUY_AMOUNT} x ${selectedName}`}</span>
             </div>
             <span className="text-xs sm:text-sm sm:text-center">
               {selected.description}
@@ -199,8 +203,9 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
                   const inventoryAmount =
                     inventory[ingredientName]?.toDecimalPlaces(1) || 0;
                   const requiredAmount =
-                    selected.ingredients[ingredientName]?.toDecimalPlaces(1) ||
-                    0;
+                    selected.ingredients[ingredientName]
+                      ?.mul(BULK_BUY_AMOUNT)
+                      ?.toDecimalPlaces(1) || 0;
 
                   // Ingredient difference
                   const lessIngredient = new Decimal(inventoryAmount).lessThan(
