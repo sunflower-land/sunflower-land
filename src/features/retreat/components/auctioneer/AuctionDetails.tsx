@@ -175,7 +175,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
   const name = item.name;
   const currentSflPrice = Number(item?.price || new Decimal(0));
-  const boost = AUCTIONEER_ITEMS[name].boost;
+  const boost = AUCTIONEER_ITEMS[name]?.boost;
 
   return (
     <div className="w-full p-2 mt-2 flex flex-col items-center">
