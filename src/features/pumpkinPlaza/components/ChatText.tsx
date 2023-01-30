@@ -27,7 +27,12 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
   const send = (event?: React.SyntheticEvent) => {
     event?.preventDefault();
 
-    if (text === "" || text.length > MAX_CHARACTERS) {
+    if (text?.trim() === "") {
+      setText("");
+      return;
+    }
+
+    if (text.length > MAX_CHARACTERS) {
       return;
     }
 
@@ -42,6 +47,12 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
   };
 
   useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        ref.current.blur();
+      }
+    };
+
     const keyDownListener = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -49,9 +60,13 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
       }
     };
 
+    document.addEventListener("click", handleClickOutside, true);
     window.addEventListener("keydown", keyDownListener);
 
-    return () => window.removeEventListener("keydown", keyDownListener);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+      window.removeEventListener("keydown", keyDownListener);
+    };
   });
 
   return (
@@ -61,6 +76,8 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
         onClick={() => console.log("text div clicked")}
       >
         <textarea
+          maxLength={MAX_CHARACTERS * 2}
+          data-prevent-drag-scroll
           name="message"
           value={text}
           disabled={false}
@@ -73,25 +90,27 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
           style={{
             border: "1px solid #ead4aa",
             fontFamily: "monospace",
+            minHeight: "40px",
+            maxHeight: "160px",
           }}
           placeholder="Type here..."
-          className="text-sm placeholder-white w-full  mono rounded-md  bg-brown-200 pr-10 pl-2 py-2"
+          className="text-sm placeholder-white w-full rounded-md bg-brown-200 pr-10 pl-2 py-2"
         />
 
         {text.length > MAX_CHARACTERS && (
-          <Label className="mt-2 mb-1 float-right" type="danger">
+          <Label className="mt-3 mb-1 float-right" type="danger">
             {`Max ${MAX_CHARACTERS} characters`}
           </Label>
         )}
 
         {isUrl && (
-          <Label className="mt-2 mb-1 float-right" type="danger">
+          <Label className="mt-3 mb-1 float-right" type="danger">
             {`No URLs allowed`}
           </Label>
         )}
 
         {!isValidText && (
-          <Label className="mt-2 mb-1 float-right" type="danger">
+          <Label className="mt-3 mb-1 float-right" type="danger">
             {`Alphanumeric characters only`}
           </Label>
         )}

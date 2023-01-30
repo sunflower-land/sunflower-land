@@ -130,7 +130,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
             href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${
               KNOWN_IDS[details.item]
             }`}
-            className="underline text-xxs px-1.5 pb-1 pt-0.5 hover:text-blue-500"
+            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
             target="_blank"
             rel="noopener noreferrer"
           >

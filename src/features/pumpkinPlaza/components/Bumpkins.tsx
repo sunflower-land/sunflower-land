@@ -15,6 +15,7 @@ import { BumpkinDiscovery, ChatMessage, Player } from "../lib/types";
 import { BumpkinFriend } from "./BumpkinFriend";
 import { SelectBox } from "./SelectBox";
 import { getDistance } from "../lib/coordinates";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 interface Props {
   messages: ChatMessage[];
@@ -31,7 +32,7 @@ const Message: React.FC<ChatMessage> = ({ text, reaction }) => {
   if (text) {
     return (
       <span
-        className="absolute  text-white text-xs"
+        className="absolute text-xs"
         style={{
           bottom: "29px",
           left: "-58px",
@@ -46,16 +47,18 @@ const Message: React.FC<ChatMessage> = ({ text, reaction }) => {
 
   if (reaction) {
     return (
-      <img
-        src={REACTIONS.find((r) => r.name === reaction)?.icon}
-        className="absolute"
+      <div
+        className="flex justify-center absolute w-full pointer-events-none"
         style={{
-          bottom: "29px",
-          left: "12px",
-          width: `${PIXEL_SCALE * 8}px`,
-          textAlign: "center",
+          top: `${PIXEL_SCALE * -4}px`,
+          left: `${PIXEL_SCALE * 1}px`,
         }}
-      />
+      >
+        <SquareIcon
+          icon={REACTIONS.find((r) => r.name === reaction)?.icon ?? ""}
+          width={8}
+        />
+      </div>
     );
   }
 
@@ -66,15 +69,15 @@ const Discovery: React.FC<BumpkinDiscovery> = ({ items, sfl }) => {
   if (sfl) {
     return (
       <div
-        className="absolute flex  items-center"
+        className="absolute flex items-center"
         style={{
           bottom: "29px",
           left: "8px",
           textAlign: "center",
         }}
       >
-        <img src={token} className="h-8  img-highlight-heavy mr-2" />
-        <span className=" text-white">{sfl}</span>
+        <img src={token} className="h-8 img-highlight-heavy mr-2" />
+        <span>{sfl}</span>
       </div>
     );
   }
@@ -93,7 +96,7 @@ const Discovery: React.FC<BumpkinDiscovery> = ({ items, sfl }) => {
         textAlign: "center",
       }}
     >
-      <span className=" text-white mr-2">+</span>
+      <span className="mr-2">+</span>
       <img
         src={ITEM_DETAILS[names[0]].image}
         className="h-8 img-highlight-heavy"
@@ -139,13 +142,13 @@ export const Bumpkins: React.FC<Props> = ({
       {bumpkin && (
         <div
           key={bumpkin.id}
-          className="absolute z-30 transition-transform ease-linear"
+          className="absolute z-30 transition-transform ease-linear pointer-events-none"
           style={{
             transform: `translate(${position?.x}px,${position?.y}px)`,
             height: `${GRID_WIDTH_PX}px`,
             width: `${GRID_WIDTH_PX}px`,
-            left: "-27px",
-            top: "-47px",
+            left: `${PIXEL_SCALE * -8}px`,
+            top: `${PIXEL_SCALE * -18}px`,
             // speed = distance ÷ time
             transitionDuration: `${
               Math.floor(getDistance(lastPosition, position)) * WALKING_SPEED
@@ -153,13 +156,12 @@ export const Bumpkins: React.FC<Props> = ({
           }}
         >
           {myMessage && <Message {...myMessage} />}
-
           {myDiscovery && <Discovery {...myDiscovery} />}
 
           <NPC {...bumpkin.equipped} />
 
           <div
-            className="absolute text-center "
+            className="absolute text-center"
             style={{
               bottom: "-36px",
               width: "60px",
@@ -167,10 +169,7 @@ export const Bumpkins: React.FC<Props> = ({
               fontSize: "4px",
             }}
           >
-            <span
-              className=" text-white"
-              style={{ fontSize: "10px" }}
-            >{`#${bumpkin.id}`}</span>
+            <span style={{ fontSize: "10px" }}>{`#${bumpkin.id}`}</span>
           </div>
         </div>
       )}
@@ -215,7 +214,7 @@ export const Bumpkins: React.FC<Props> = ({
                 onClick={() => setSelectedBumpkin(otherBumpkin)}
               />
               <div
-                className="absolute text-center "
+                className="absolute text-center"
                 style={{
                   bottom: "-36px",
                   width: "60px",
@@ -224,7 +223,6 @@ export const Bumpkins: React.FC<Props> = ({
                 }}
               >
                 <span
-                  className=" text-white"
                   style={{ fontSize: "10px" }}
                 >{`#${otherBumpkin.bumpkin.id}`}</span>
               </div>

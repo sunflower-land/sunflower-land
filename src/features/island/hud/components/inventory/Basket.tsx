@@ -96,7 +96,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const allTools = [...tools, ...shovels];
 
   const itemsSection = (title: string, items: InventoryItemName[]) => {
-    if (!allSeeds.length) {
+    if (!items.length) {
       return <></>;
     }
 
