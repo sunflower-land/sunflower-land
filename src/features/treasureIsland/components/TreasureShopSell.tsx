@@ -19,8 +19,15 @@ import {
 } from "features/game/types/treasure";
 
 export const TreasureShopSell: React.FC = () => {
-  const [selectedName, setSelectedName] =
-    useState<BeachBountyTreasure>("Sea Cucumber");
+  const beachBountyTreasure = getKeys(BEACH_BOUNTY_TREASURE).sort((a, b) =>
+    BEACH_BOUNTY_TREASURE[a].sellPrice
+      .sub(BEACH_BOUNTY_TREASURE[b].sellPrice)
+      .toNumber()
+  );
+
+  const [selectedName, setSelectedName] = useState<BeachBountyTreasure>(
+    beachBountyTreasure[0]
+  );
 
   const selected = BEACH_BOUNTY_TREASURE[selectedName];
   const { setToast } = useContext(ToastContext);
@@ -67,7 +74,7 @@ export const TreasureShopSell: React.FC = () => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-        {getKeys(BEACH_BOUNTY_TREASURE).map((name: BeachBountyTreasure) => (
+        {beachBountyTreasure.map((name: BeachBountyTreasure) => (
           <Box
             isSelected={selectedName === name}
             key={name}
