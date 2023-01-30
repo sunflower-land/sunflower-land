@@ -1656,8 +1656,8 @@ export const ITEM_DETAILS: Items = {
     description: "The star of the sea.",
   },
   "Pirate Bounty": {
+    image: SUNNYSIDE.resource.pirate_bounty,
     description: "A bounty for a pirate. It's worth a lot of money.",
-    image: SUNNYSIDE.icons.expression_confused,
   },
   "Pirate Cake": {
     description: CONSUMABLES["Pirate Cake"].description,
