@@ -1709,7 +1709,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
   },
   Galleon: {
-    description: "A toy ship loaded with treasure.",
+    description: "A toy ship, still in pretty good nick.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Pirate Hat": {
