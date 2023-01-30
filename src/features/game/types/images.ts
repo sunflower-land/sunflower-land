@@ -1627,7 +1627,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Maneki Neko": {
     image: manekiNeko,
-    description: "The beckoning cat. Pull it's arm and good luck will come",
+    description: "The beckoning cat. Pull its arm and good luck will come",
   },
   "Red Envelope": {
     image: redEnvelope,
@@ -1649,7 +1649,7 @@ export const ITEM_DETAILS: Items = {
   },
   Crab: {
     image: SUNNYSIDE.resource.crab,
-    description: "A crab, watch out for it's claws!",
+    description: "A crab, watch out for its claws!",
   },
   Starfish: {
     image: SUNNYSIDE.resource.starfish,

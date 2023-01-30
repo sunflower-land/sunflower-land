@@ -2942,7 +2942,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Maneki Neko": {
     description:
-      "The beckoning cat. Pull it's arm and good luck will come. A special event item from Lunar New Year!",
+      "The beckoning cat. Pull its arm and good luck will come. A special event item from Lunar New Year!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/446.gif",

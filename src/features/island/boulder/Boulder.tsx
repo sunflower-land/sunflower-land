@@ -40,7 +40,7 @@ export const Boulder: React.FC = () => {
             <p className="text-lg">You found a rare mine!</p>
             <img src={SUNNYSIDE.tools.iron_pickaxe} className="w-1/4 mt-2" />
             <p className="text-sm text-center mt-2">
-              {`Advanced mining on it's way.`}
+              {`Advanced mining on its way.`}
             </p>
             <p className="mt-2">Coming soon...</p>
           </div>
