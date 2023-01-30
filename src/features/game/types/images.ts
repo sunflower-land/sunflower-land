@@ -139,7 +139,7 @@ import craftmanship from "assets/achievements/craftmanship.png";
 import busyBumpkin from "assets/achievements/busy_bumpkin.png";
 import cabbageKing from "assets/achievements/cabbage_king.png";
 import canary from "assets/achievements/canary.png";
-import chefDeCusine from "assets/achievements/chef_de_cusine.png";
+import chefDeCuisine from "assets/achievements/chef_de_cuisine.png";
 import contractor from "assets/achievements/contractor.png";
 import coolCauliflower from "assets/achievements/cool_cauliflower.png";
 import jackOLantern from "assets/achievements/jack_o_lantern.png";
@@ -1427,7 +1427,7 @@ export const ITEM_DETAILS: Items = {
     description: ACHIEVEMENTS()["Bakers Dozen"].description,
   },
   "Chef de Cuisine": {
-    image: chefDeCusine,
+    image: chefDeCuisine,
     description: ACHIEVEMENTS()["Chef de Cuisine"].description,
   },
   Craftmanship: {
