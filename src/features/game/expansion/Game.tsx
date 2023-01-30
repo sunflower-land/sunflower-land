@@ -39,7 +39,7 @@ import { StoneHaven } from "features/stoneHaven/StoneHaven";
 import { getBumpkinLevel } from "../lib/level";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
-import { Studios } from "features/studioes/Studios";
+import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
 import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { hasFeatureAccess } from "lib/flags";
