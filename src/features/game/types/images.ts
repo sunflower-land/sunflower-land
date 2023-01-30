@@ -332,7 +332,6 @@ import {
 import { AUCTIONEER_ITEMS } from "./auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { TREASURES } from "./treasure";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1575,26 +1574,6 @@ export const ITEM_DETAILS: Items = {
     description: "Swirl the snow and watch it come to life",
   },
 
-  "Clam Shell": {
-    image: SUNNYSIDE.resource.clam_shell,
-    description: "?",
-  },
-  "Sea Cucumber": {
-    image: SUNNYSIDE.resource.sea_cucumber,
-    description: "?",
-  },
-  Coral: {
-    image: SUNNYSIDE.resource.coral,
-    description: "?",
-  },
-  Crab: {
-    image: SUNNYSIDE.resource.crab,
-    description: "?",
-  },
-  Starfish: {
-    image: SUNNYSIDE.resource.starfish,
-    description: "?",
-  },
   "Immortal Pear": {
     image: immortalPear,
     description: HELIOS_BLACKSMITH_ITEMS["Immortal Pear"].description,
@@ -1653,100 +1632,121 @@ export const ITEM_DETAILS: Items = {
   },
 
   // Treasure Island
+  "Clam Shell": {
+    image: SUNNYSIDE.resource.clam_shell,
+    description: "A clam shell",
+  },
+  "Sea Cucumber": {
+    image: SUNNYSIDE.resource.sea_cucumber,
+    description: "A sea cucumber",
+  },
+  Coral: {
+    image: SUNNYSIDE.resource.coral,
+    description: "A piece of coral, it's pretty",
+  },
+  Crab: {
+    image: SUNNYSIDE.resource.crab,
+    description: "A crab, watch out for it's claws!",
+  },
+  Starfish: {
+    image: SUNNYSIDE.resource.starfish,
+    description: "The star of the sea",
+  },
   "Pirate Bounty": {
-    ...TREASURES["Pirate Bounty"],
+    description: "A bounty for a pirate. It's worth a lot of money.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Pirate Cake": {
-    ...TREASURES["Pirate Cake"],
+    description: "Great for Pirate themed birthday parties.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Abandoned Bear": {
-    ...TREASURES["Abandoned Bear"],
+    description: "A bear that was left behind on the island.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Turtle Bear": {
-    ...TREASURES["Turtle Bear"],
+    description: "Turtley enough for the turtle club.",
     image: SUNNYSIDE.icons.expression_confused,
   },
-  "Fossil 3": {
-    ...TREASURES["Fossil 3"],
+  "T-Rex Skull": {
+    description: "A skull from a T-Rex! Amazing!",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Sunflower Coin": {
-    ...TREASURES["Sunflower Coin"],
+    description: "A coin made of sunflowers.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   Foliant: {
-    ...TREASURES["Foliant"],
+    description: "A book of spells.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Skeleton King Staff": {
-    ...TREASURES["Skeleton King Staff"],
+    description: "All hail the Skeleton King!",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Lifeguard Bear": {
-    ...TREASURES["Lifeguard Bear"],
+    description: "Lifeguard Bear is here to save the day!",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Snorkel Bear": {
-    ...TREASURES["Snorkel Bear"],
+    description: "Snorkel Bear loves to swim.",
     image: SUNNYSIDE.icons.expression_confused,
   },
-  "Fossil 2": {
-    ...TREASURES["Fossil 2"],
+  "Parasaur Skull": {
+    description: "A skull from a parasaur!",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Goblin Bear": {
-    ...TREASURES["Goblin Bear"],
+    description: "A goblin bear. It's a bit scary.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Golden Bear Head": {
-    ...TREASURES["Golden Bear Head"],
+    description: "Spooky, but cool.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Pirate Bear": {
-    ...TREASURES["Pirate Bear"],
+    description: "Argh, matey! Hug me!",
     image: SUNNYSIDE.icons.expression_confused,
   },
   Galleon: {
-    ...TREASURES["Galleon"],
+    description: "A toy ship loaded with treasure.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Pirate Hat": {
-    ...TREASURES["Pirate Hat"],
+    description:
+      "A dinky old pirate hat. This must have been buried for a long time.",
     image: SUNNYSIDE.icons.expression_confused,
   },
-  "Fossil 1": {
-    ...TREASURES["Fossil 1"],
+  "Dinosaur Fossils": {
+    description: "Dinosaur Fossils! What kind of creature was this?",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Human Bear": {
-    ...TREASURES["Human Bear"],
+    description: "A human bear. Even scarier than a goblin bear.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Treasure Map": {
-    ...TREASURES["Treasure Map"],
+    description: "A treasure map! But this isn't an island I've ever heard of.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Wood Charm": {
-    ...TREASURES["Wood Charm"],
+    description: "A charm made of wood.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Crop Charm": {
-    ...TREASURES["Crop Charm"],
+    description: "A charm made from crops.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   Pearl: {
-    ...TREASURES["Pearl"],
+    description: "Shimmers in the sun.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   Pipi: {
-    ...TREASURES["Pipi"],
+    description: "Plebidonax deltoides, found in the Pacific Ocean.",
     image: SUNNYSIDE.icons.expression_confused,
   },
   Seaweed: {
-    ...TREASURES["Seaweed"],
+    description: "Seaweed.",
     image: SUNNYSIDE.icons.expression_confused,
   },
 };
