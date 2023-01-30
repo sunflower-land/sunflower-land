@@ -112,29 +112,22 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
 
   const levelInfo = () => (
     <div className="flex flex-col items-start">
-      <div className="flex flex-row items-center mt-7">
-        {/* Level icon */}
-        <img
-          src={levelIcon}
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            height: `${PIXEL_SCALE * 13}px`,
-            marginRight: `${PIXEL_SCALE * 2}px`,
-          }}
-        />
+      {/* Level */}
+      <p className="text-base mr-8 mt-1">
+        {`Level ${level}${maxLevel ? " (Max)" : ""}`}
+      </p>
 
-        {/* Level */}
-        <p className="text-sm sm:text-base">
-          {`Level ${level}${maxLevel ? " (Max)" : ""}`}
+      <div className="flex flex-row items-center my-1">
+        {/* Level icon */}
+        <SquareIcon icon={levelIcon} width={7} />
+
+        {/* XP */}
+        <p className="text-xxs ml-1">
+          {`${Math.floor(currentExperienceProgress)}/${
+            maxLevel ? "-" : Math.floor(experienceToNextLevel)
+          } XP`}
         </p>
       </div>
-
-      {/* XP */}
-      <p className="text-xxs my-1">
-        {`${Math.floor(currentExperienceProgress)}/${
-          maxLevel ? "-" : Math.floor(experienceToNextLevel)
-        } XP`}
-      </p>
 
       {/* XP bar */}
       <ResizableBar
