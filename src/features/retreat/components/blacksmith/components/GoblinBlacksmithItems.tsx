@@ -40,15 +40,17 @@ const Items: React.FC<{
       style={{ maxHeight: TAB_CONTENT_HEIGHT }}
     >
       <div className="flex flex-wrap h-fit">
-        {getKeys(items).map((name) => (
-          <Box
-            isSelected={selected === name}
-            key={name}
-            onClick={() => onClick(name)}
-            image={ITEM_DETAILS[name].image}
-            count={inventory[name]}
-          />
-        ))}
+        {getKeys(items)
+          .filter((name) => !GOBLIN_BLACKSMITH_ITEMS[name].disabled)
+          .map((name) => (
+            <Box
+              isSelected={selected === name}
+              key={name}
+              onClick={() => onClick(name)}
+              image={ITEM_DETAILS[name].image}
+              count={inventory[name]}
+            />
+          ))}
       </div>
     </div>
   );

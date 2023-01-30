@@ -18,6 +18,7 @@ import { InventoryItemName } from "features/game/types/game";
 import classNames from "classnames";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CONFIG } from "lib/config";
 
 type Props = {
   isMinting: boolean;
@@ -166,7 +167,7 @@ export const AuctionDetails: React.FC<Props> = ({
       return null;
     }
 
-    if (game.inventory[name]) {
+    if (CONFIG.NETWORK !== "mumbai" && game.inventory[name]) {
       return <span className="text-sm">Already minted</span>;
     }
 

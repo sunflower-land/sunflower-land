@@ -2814,11 +2814,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Wood Nymph Wendy": {
-    description: "Coming Soon",
+    description: "Cast an enchantment to entice the wood fairies.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    image_url: "../public/erc1155/images/436.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Drops",
+        value: 0.2,
+      },
+      { value: "Tradable" },
+    ],
   },
   "Shiny Bean": {
     description: "Coming Soon",
@@ -2891,8 +2899,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "An incredible bug that feeds on aphids. Improves Apple quality. +0.25 Apples each harvest",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    image_url: "../public/erc1155/images/442.gif",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Apple Drops",
+        value: 0.25,
+      },
+      { value: "Tradable" },
+    ],
   },
   "Squirrel Monkey": {
     description:

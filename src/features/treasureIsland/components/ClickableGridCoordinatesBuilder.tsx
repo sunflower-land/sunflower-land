@@ -22,7 +22,7 @@ export const ClickableGridCoordinatesBuilder: React.FC<{
 
   return (
     <div
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
       style={{
         width: `${gridCols * GRID_WIDTH_PX}px`,
         height: `${gridRows * GRID_WIDTH_PX}px`,
@@ -39,7 +39,10 @@ export const ClickableGridCoordinatesBuilder: React.FC<{
               colNum < midX
                 ? -Math.abs(colNum - midX)
                 : Math.abs(colNum - midX);
-            const y = rowNum - midY;
+            const y =
+              rowNum < midY
+                ? Math.abs(rowNum - midY)
+                : -Math.abs(rowNum - midY);
 
             return (
               <div

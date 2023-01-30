@@ -15,7 +15,6 @@ import land from "assets/land/islands/island.webp";
 import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
-import { CONFIG } from "lib/config";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { hasFeatureAccess } from "lib/flags";
@@ -167,7 +166,7 @@ export const IslandList = ({
       levelRequired: 10,
       image: SUNNYSIDE.icons.treasure,
       path: `/land/${id}/treasure-island`,
-      comingSoon: CONFIG.NETWORK === "mainnet",
+      comingSoon: !hasFeatureAccess(inventory, "TREASURE_ISLAND"),
     },
     {
       name: "Stone Haven",
@@ -190,6 +189,16 @@ export const IslandList = ({
       path: `/snow/${id}`,
       comingSoon: true,
     },
+    ...(hasFeatureAccess(inventory, "TREASURE_ISLAND")
+      ? [
+          {
+            name: "Pumpkin Plaza",
+            levelRequired: 1,
+            image: CROP_LIFECYCLE.Pumpkin.crop,
+            path: `/land/${id}/plaza`,
+          },
+        ]
+      : []),
   ];
 
   const handleBackToHomeScreen = () => send("RETURN");
@@ -197,15 +206,6 @@ export const IslandList = ({
   const islandList = islands.sort((a, b) =>
     a.levelRequired > b.levelRequired ? 1 : -1
   );
-
-  if (hasFeatureAccess(inventory ?? {}, "PUMPKIN_PLAZA")) {
-    islandList.push({
-      name: "Pumpkin Plaza",
-      levelRequired: 1,
-      image: CROP_LIFECYCLE.Pumpkin.crop,
-      path: `/land/${id}/plaza`,
-    });
-  }
 
   // Someone who is visiting without a loaded session
   const unAuthenticatedVisit = authState.matches("visiting");

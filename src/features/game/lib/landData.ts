@@ -280,6 +280,7 @@ export const OFFLINE_FARM: GameState = {
     Warrior: new Decimal(0),
     Gold: new Decimal(50),
     "Immortal Pear": new Decimal(1),
+    Pipi: new Decimal(1),
   },
   migrated: true,
   stock: INITIAL_STOCK,
@@ -343,6 +344,14 @@ export const OFFLINE_FARM: GameState = {
     startAt: new Date().toISOString(),
     name: "Algerian Flag",
     ingredients: [],
+  },
+  treasureIsland: {
+    holes: {},
+    rareTreasure: {
+      discoveredAt: 0,
+      holeId: 1,
+      reward: "Sunflower Cake",
+    },
   },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),

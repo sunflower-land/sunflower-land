@@ -27,17 +27,18 @@ export const Soil: React.FC<Props> = ({
 
   return (
     <div
-      className="flex justify-center"
+      className="absolute w-full h-full cursor-pointer"
       onMouseEnter={() => setShowSelectBox(!isMobile)}
       onMouseLeave={() => setShowSelectBox(false)}
+      onClick={() => onClick()}
     >
       <FruitDropAnimator
         mainImageProps={{
           src: SUNNYSIDE.soil.soil2,
-          className: "relative",
+          className: "absolute pointer-events-none",
           style: {
-            bottom: "9px",
-            zIndex: "1",
+            bottom: `${PIXEL_SCALE * 9}px`,
+            left: `${PIXEL_SCALE * 8}px`,
             width: `${PIXEL_SCALE * 16}px`,
             height: `${PIXEL_SCALE * 26}px`,
           },
@@ -45,24 +46,25 @@ export const Soil: React.FC<Props> = ({
         }}
         dropImageProps={{
           src: SUNNYSIDE.resource.wood,
-          className: "w-8",
         }}
         dropCount={1}
         playDropAnimation={playAnimation}
         playShakeAnimation={false}
       />
+
+      {/* Select box */}
       {playing && (
         <img
           src={selectBox}
-          className={classNames("absolute z-40 cursor-pointer", {
+          className={classNames("absolute z-40", {
             "opacity-100": showSelectBox,
             "opacity-0": !showSelectBox,
           })}
           style={{
-            top: "21px",
+            top: `${PIXEL_SCALE * 8}px`,
+            left: `${PIXEL_SCALE * 8}px`,
             width: `${PIXEL_SCALE * 16}px`,
           }}
-          onClick={() => onClick()}
         />
       )}
 
