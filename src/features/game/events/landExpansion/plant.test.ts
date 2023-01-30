@@ -654,7 +654,7 @@ describe("getCropTime", () => {
     expect(time).toEqual(60 * 60 * 0.8);
   });
 
-  it("applies a 10% speed boost with Lunar Calenda placed", () => {
+  it("applies a 10% speed boost with Lunar Calendar placed.", () => {
     const carrotHarvestSeconds = CROPS()["Carrot"].harvestSeconds;
     const time = getCropTime(
       "Carrot",
