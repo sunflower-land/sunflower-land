@@ -222,7 +222,7 @@ export const SandPlot: React.FC<{
           discovered: reward.discovered,
           dugAt: reward?.dugAt,
         });
-      }, 1500);
+      }, 1000);
     }
   };
 
