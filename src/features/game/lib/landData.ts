@@ -345,6 +345,14 @@ export const OFFLINE_FARM: GameState = {
     name: "Algerian Flag",
     ingredients: [],
   },
+  treasureIsland: {
+    holes: {},
+    rareTreasure: {
+      discoveredAt: 0,
+      holeId: 1,
+      reward: "Sunflower Cake",
+    },
+  },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
     closesAt: new Date("2022-10-08").getTime(),

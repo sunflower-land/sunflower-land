@@ -388,9 +388,17 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  treasureIsland?: {
+    holes: Record<number, TreasureHole>;
+    rareTreasure?: {
+      reward?: InventoryItemName;
+      discoveredAt: number;
+      holeId: number;
+    };
+  };
+
   // TODO remove when old events are deleted
   migrated?: boolean;
-  treasureIsland?: Record<number, TreasureHole>;
   metadata?: any[];
   pumpkinPlaza: {
     rewardCollectedAt?: number;
