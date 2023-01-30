@@ -134,9 +134,9 @@ export const TreasureDetector: React.FC = () => {
     }
 
     const hasDug = false;
-    // const hasDug =
-    //   new Date(treasureIsland?.rareTreasure?.discoveredAt ?? 0).getUTCDay() ===
-    //   new Date().getUTCDay();
+    const hasDug =
+      new Date(treasureIsland?.rareTreasure?.discoveredAt ?? 0).getUTCDay() ===
+      new Date().getUTCDay();
 
     if (hasDug) {
       return (
