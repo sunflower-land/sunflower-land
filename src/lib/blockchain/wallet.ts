@@ -127,7 +127,7 @@ export class Wallet {
     this.isAlchemy = true;
 
     if (CONFIG.ALCHEMY_RPC) {
-      console.log("Provider overriden");
+      console.log("Provider overridden");
 
       let web3;
 

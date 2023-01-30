@@ -16,7 +16,7 @@ export type AchievementName =
   | "Sun Seeker"
   | "Sunflower Superstar"
   | "My life is potato"
-  | "Jack O'Latern"
+  | "Jack O'Lantern"
   | "20/20 Vision"
   | "Cabbage King"
   | "Beetroot Beast"

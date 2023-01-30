@@ -18,23 +18,23 @@ export interface Context {
   transactionId?: string;
 }
 
-export type CommmunityMachineState = {
+export type CommunityMachineState = {
   value: "loading" | "idle" | "error";
   context: Context;
 };
 
-export type StateKeys = keyof Omit<CommmunityMachineState, "context">;
-export type StateValues = CommmunityMachineState[StateKeys];
+export type StateKeys = keyof Omit<CommunityMachineState, "context">;
+export type StateValues = CommunityMachineState[StateKeys];
 
 export type MachineInterpreter = Interpreter<
   Context,
   any,
   any,
-  CommmunityMachineState
+  CommunityMachineState
 >;
 
 export function startCommunityMachine(authContext: AuthContext) {
-  return createMachine<Context, any, CommmunityMachineState>(
+  return createMachine<Context, any, CommunityMachineState>(
     {
       id: "communityMachine",
       initial: "loading",

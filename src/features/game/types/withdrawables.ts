@@ -103,7 +103,7 @@ function areAnyChickensFed(game: GoblinState): boolean {
   );
 }
 
-function hasCompletedAchievment(
+function hasCompletedAchievement(
   game: GoblinState,
   achievement: AchievementName
 ): boolean {

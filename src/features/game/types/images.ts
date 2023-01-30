@@ -56,7 +56,7 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 
 // Foods
-import roastedCaulfilower from "assets/sfts/roasted_cauliflower.png";
+import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
 import radishPie from "assets/sfts/radish_pie.png";
 
 // Flags
@@ -128,7 +128,7 @@ import liquidityProvider from "assets/skills/liquidity_provider.png";
 
 // Achievements
 
-import bumpkinChainsawAmateu from "assets/achievements/bumpkin_chainsaw_amateur.png";
+import bumpkinChainsawAmateur from "assets/achievements/bumpkin_chainsaw_amateur.png";
 import twentyTwentyVision from "assets/achievements/20-20-vision.png";
 import bakersDozen from "assets/achievements/bakers_dozen.png";
 import beetrootBeast from "assets/achievements/beetrootBeast.png";
@@ -267,7 +267,7 @@ import skullHat from "src/assets/bumpkins/shop/hats/skull_hat.png";
 import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png";
 
 import skull from "src/assets/decorations/war_skulls.png";
-import warTombston from "src/assets/decorations/war_tombstone.png";
+import warTombstone from "src/assets/decorations/war_tombstone.png";
 import jackOLanternItem from "src/assets/sfts/jack_o_lantern.png";
 import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
 
@@ -779,7 +779,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Roasted Cauliflower": {
     ...FOODS()["Roasted Cauliflower"],
-    image: roastedCaulfilower,
+    image: roastedCauliflower,
   },
   "Radish Pie": {
     ...FOODS()["Radish Pie"],
@@ -1252,7 +1252,7 @@ export const ITEM_DETAILS: Items = {
     description: "3 enemies gone",
   },
   "War Tombstone": {
-    image: warTombston,
+    image: warTombstone,
     description: "A reward for your war efforts",
   },
   "Undead Rooster": {
@@ -1333,9 +1333,9 @@ export const ITEM_DETAILS: Items = {
     image: myLifeIsPotato,
     description: ACHIEVEMENTS()["My life is potato"].description,
   },
-  "Jack O'Latern": {
+  "Jack O'Lantern": {
     image: jackOLantern,
-    description: ACHIEVEMENTS()["Jack O'Latern"].description,
+    description: ACHIEVEMENTS()["Jack O'Lantern"].description,
   },
   "20/20 Vision": {
     image: twentyTwentyVision,
@@ -1394,7 +1394,7 @@ export const ITEM_DETAILS: Items = {
     description: ACHIEVEMENTS().Timbeerrr.description,
   },
   "Bumpkin Chainsaw Amateur": {
-    image: bumpkinChainsawAmateu,
+    image: bumpkinChainsawAmateur,
     description: ACHIEVEMENTS()["Bumpkin Chainsaw Amateur"].description,
   },
   Driller: {

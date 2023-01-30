@@ -79,7 +79,7 @@ import {
   LandExpansionFertiliseCropAction,
 } from "./landExpansion/fertiliseCrop";
 import {
-  removeCrop as landExpasionRemoveCrop,
+  removeCrop as landExpansionRemoveCrop,
   LandExpansionRemoveCropAction,
 } from "./landExpansion/removeCrop";
 import {
@@ -184,7 +184,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,
   "crop.fertilised": landExpansionFertilise,
-  "crop.removed": landExpasionRemoveCrop,
+  "crop.removed": landExpansionRemoveCrop,
   "chicken.collectEgg": landExpansionCollectEggs,
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,

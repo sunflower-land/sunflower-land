@@ -190,7 +190,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Unmined iron which is strikeable */}
+      {/* Unmined iron which is strikable */}
       {!mined && (
         <div
           ref={containerRef}

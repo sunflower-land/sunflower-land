@@ -34,7 +34,7 @@ describe("buyDecoration", () => {
     ).toThrow("Insufficient tokens");
   });
 
-  it("does not craft decoration if requirments are not met", () => {
+  it("does not craft decoration if requirements are not met", () => {
     expect(() =>
       buyDecoration({
         state: {
@@ -93,7 +93,7 @@ describe("buyDecoration", () => {
     expect(state.inventory[item]).toEqual(oldAmount.add(1));
   });
 
-  it("throws an error if the player doesnt have a bumpkin", async () => {
+  it("throws an error if the player doesn't have a bumpkin", async () => {
     expect(() =>
       buyDecoration({
         state: {
@@ -108,7 +108,7 @@ describe("buyDecoration", () => {
     ).toThrow("Bumpkin not found");
   });
 
-  it("increments the sfl spent activity ", () => {
+  it("increments the sfl spent activity", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
@@ -127,7 +127,7 @@ describe("buyDecoration", () => {
     );
   });
 
-  it("increments the decoration bought activity ", () => {
+  it("increments the decoration bought activity", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,

@@ -406,7 +406,7 @@ export const GreedyGoblin: React.FC = () => {
    * At dropInterval, increase y then check for collision
    * @param _.catchable should collide with goblin
    * @param _.image image element
-   * @param x x position of thep drop
+   * @param x x position of the drop
    */
   const dropItem = ({ catchable, image }: DropItem, x?: number) => {
     const context = canvasRef.current?.getContext("2d");
@@ -456,7 +456,7 @@ export const GreedyGoblin: React.FC = () => {
     const collideGoblin =
       imgCenterX >= goblinPosX.current &&
       imgCenterX < goblinPosX.current + goblinImage.width &&
-      // slighty larger hitbox
+      // slightly larger hit-box
       y + 8 >= CANVAS_HEIGHT - goblinImage.height;
 
     // game over check

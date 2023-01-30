@@ -8,7 +8,7 @@ import { Context } from "features/auth/lib/Provider";
 
 const LAND_EXPANSION_ADDRESS = "0xFD205FCdBF77bcA90C3E95bD8cC2A14F166Cc249";
 
-const BALACE_OF_ABI: AbiItem = {
+const BALANCE_OF_ABI: AbiItem = {
   name: "balanceOf",
   type: "function",
   inputs: [
@@ -46,7 +46,7 @@ const GAME_BURN_ABI: AbiItem = {
 };
 
 const loadBalance = async (web3: Web3, address: string) => {
-  const balanceOf = web3.eth.abi.encodeFunctionCall(BALACE_OF_ABI, [address]);
+  const balanceOf = web3.eth.abi.encodeFunctionCall(BALANCE_OF_ABI, [address]);
 
   const balance = await web3.eth.call({
     to: LAND_EXPANSION_ADDRESS,

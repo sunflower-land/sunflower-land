@@ -12,7 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Observatory: React.FC = () => {
   // Using rand value helps force-replay gifs.
-  // Also, putting this in state ensures the gif doesn't replay during random compontent rerenders.
+  // Also, putting this in state ensures the gif doesn't replay during random component rerenders.
   const [playRand, setPlayRand] = useState<number | null>(null);
   const [modalTimer, setModalTimer] = useState<number>();
 

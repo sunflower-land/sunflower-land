@@ -34,7 +34,7 @@ export type NumberInfoType =
   | "width"
   | "height"
   | "scale"
-  | "completeLoopCicles";
+  | "completeLoopCycles";
 export type BooleanInfoType = "isPlaying" | "isPaused";
 
 export interface Props {
@@ -99,7 +99,7 @@ class Spritesheet extends React.Component<Props> {
     this.endAt = this.setEndAt(endAt);
     this.fps = fps;
     this.steps = steps;
-    this.completeLoopCicles = 0;
+    this.completeLoopCycles = 0;
     this.isPlaying = false;
     this.spriteScale = 1;
     this.direction = this.setDirection(direction);
@@ -320,7 +320,7 @@ class Spritesheet extends React.Component<Props> {
       ) {
         if (loop) {
           if (onLoopComplete) onLoopComplete(this.setInstance());
-          this.completeLoopCicles += 1;
+          this.completeLoopCycles += 1;
           this.frame = this.startAt
             ? this.startAt
             : this.direction === "rewind"
@@ -396,8 +396,8 @@ class Spritesheet extends React.Component<Props> {
         return this.isPlaying;
       case "isPaused":
         return !this.isPlaying;
-      case "completeLoopCicles":
-        return this.completeLoopCicles;
+      case "completeLoopCycles":
+        return this.completeLoopCycles;
       default:
         throw new Error(
           `Invalid param \`${param}\` requested by Spritesheet.getinfo(). See the documentation on https://github.com/danilosetra/react-responsive-spritesheet`

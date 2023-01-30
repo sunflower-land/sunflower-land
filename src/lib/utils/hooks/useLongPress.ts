@@ -28,7 +28,7 @@ export const useLongPress = (
       // Clear timeout and timer
       timeout.current && clearTimeout(timeout.current);
       timer.current && clearInterval(timer.current);
-      // Perform normal click if longpress didnt happen or after we hit the limit
+      // Perform normal click if long-press didn't happen or after we hit the limit
       shouldTriggerClick && !longPressTriggered && onClick(e);
       setLongPressTriggered(false);
       if (shouldPreventDefault && target.current) {
@@ -47,9 +47,9 @@ export const useLongPress = (
         target.current = e.target;
       }
       timeout.current = setTimeout(() => {
-        // Remember remaining items count on longpress start
+        // Remember remaining items count on long-press start
         let remaining = count.toNumber();
-        // Call onClick in a loop until we run out of items or longpress is canceled
+        // Call onClick in a loop until we run out of items or long-press is canceled
         timer.current = setInterval(() => {
           if (remaining <= 1) {
             clear(e, false);
