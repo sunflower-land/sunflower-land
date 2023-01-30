@@ -91,7 +91,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 10,
     sfl: marketRate(20),
   },
-  "Jack O'Latern": {
+  "Jack O'Lantern": {
     description: "Harvest Pumpkin 500 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Pumpkin Harvested"] || 0,
