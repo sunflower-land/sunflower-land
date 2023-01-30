@@ -13,10 +13,10 @@ import {
   Coordinates,
   MapPlacement,
 } from "features/game/expansion/components/MapPlacement";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { SandPlot } from "./components/SandPlot";
+import { TreasureDetector } from "./components/TreasureDetector";
 
-const CLICKABLE_COORDINATES: Coordinates[] = [
+export const CLICKABLE_COORDINATES: Coordinates[] = [
   {
     x: -2,
     y: 12,
@@ -486,27 +486,7 @@ export const TreasureIsland: React.FC = () => {
         ))}
         <GoblinDigging />
         <TreasureShop />
-
-        <MapPlacement x={-7} y={9} height={1} width={1}>
-          <img
-            src={shadow}
-            className="absolute pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 15}px`,
-              bottom: `0px`,
-              left: `0px`,
-            }}
-          />
-          <img
-            src={SUNNYSIDE.npcs.betty}
-            className="absolute pointer-events-none z-10"
-            style={{
-              width: `${PIXEL_SCALE * 16}px`,
-              bottom: `${PIXEL_SCALE * 2}px`,
-              left: `${PIXEL_SCALE * -2}px`,
-            }}
-          />
-        </MapPlacement>
+        <TreasureDetector />
 
         <MapPlacement x={-1} y={10} height={1} width={1}>
           <img

@@ -9,9 +9,15 @@ import { DecorationName } from "./decorations";
 import { FruitName, FruitSeedName } from "./fruits";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
+import { BeachBountyTreasure } from "./treasure";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
-type SellableName = CropName | Food | FruitName;
+type SellableName =
+  | CropName
+  | Food
+  | FruitName
+  | BeachBountyTreasure
+  | FruitName;
 
 type Recipes = Food | ConsumableName;
 

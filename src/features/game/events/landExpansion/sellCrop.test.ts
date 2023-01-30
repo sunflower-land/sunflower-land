@@ -176,4 +176,22 @@ describe("sell", () => {
 
     expect(state.balance).toEqual(new Decimal(FRUIT().Apple.sellPrice));
   });
+
+  it("increments the crop sold activity ", () => {
+    const amount = 1;
+    const state = sellCrop({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Apple: new Decimal(1),
+        },
+      },
+      action: {
+        type: "crop.sold",
+        crop: "Apple",
+        amount,
+      },
+    });
+    expect(state.bumpkin?.activity?.["Apple Sold"]).toEqual(amount);
+  });
 });
