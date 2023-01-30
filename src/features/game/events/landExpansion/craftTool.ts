@@ -74,7 +74,11 @@ export function craftTool({ state, action }: Options) {
 
   const oldAmount = stateCopy.inventory[action.tool] || new Decimal(0);
 
-  bumpkin.activity = trackActivity(`${action.tool} Crafted`, bumpkin.activity);
+  bumpkin.activity = trackActivity(
+    `${action.tool} Crafted`,
+    bumpkin.activity,
+    new Decimal(amount)
+  );
   bumpkin.activity = trackActivity("SFL Spent", bumpkin.activity, price);
 
   return {
