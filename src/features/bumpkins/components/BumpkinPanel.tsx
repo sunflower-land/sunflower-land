@@ -111,45 +111,52 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
     getUnclaimedAchievementNames(state).length > 0;
 
   const levelInfo = () => (
-    <div className="flex flex-col items-start sm:items-center space-y-1 sm:mt-10">
-      <div className="flex flex-row items-center space-x-1">
+    <div className="flex flex-col items-start">
+      <div className="flex flex-row items-center">
+        {/* Level */}
+        <p className="text-sm mt-7 sm:mt-8 sm:text-base">
+          {`Level ${level}${maxLevel ? " (Max)" : ""}`}
+        </p>
+      </div>
+      <div className="flex flex-row items-center">
         {/* Level icon */}
         <img
           src={levelIcon}
           style={{
             width: `${PIXEL_SCALE * 10}px`,
             height: `${PIXEL_SCALE * 13}px`,
+            marginRight: `${PIXEL_SCALE * 3}px`,
           }}
         />
 
-        {/* Level */}
-        <p className="text-sm sm:text-base">
-          {`Level ${level}${maxLevel ? " (Max)" : ""}`}
-        </p>
+        <div className="flex flex-col items-start space-y-1">
+          {/* XP */}
+          <p className="text-xxs mt-2">
+            {`${Math.floor(currentExperienceProgress)}/${
+              maxLevel ? "-" : Math.floor(experienceToNextLevel)
+            } XP`}
+          </p>
+
+          {/* XP bar */}
+          <ResizableBar
+            percentage={
+              (currentExperienceProgress / experienceToNextLevel) * 100
+            }
+            type={"progress"}
+            outerDimensions={{ width: 42, height: 7 }}
+          />
+        </div>
       </div>
-
-      {/* XP */}
-      <p className="text-xxs mt-2">
-        {`${Math.floor(currentExperienceProgress)}/${
-          maxLevel ? "-" : Math.floor(experienceToNextLevel)
-        } XP`}
-      </p>
-
-      {/* XP bar */}
-      <ResizableBar
-        percentage={(currentExperienceProgress / experienceToNextLevel) * 100}
-        type={"progress"}
-        outerDimensions={{ width: 48, height: 7 }}
-      />
     </div>
   );
 
   const visitBumpkinLink = () => (
-    <div className="flex justify-start sm:justify-center">
+    <div className="flex flex-col justify-start sm:justify-center">
+      <p className="text-xs sm:text-sm">Bumpkin #{state.bumpkin?.id}</p>
       <a
         href={getVisitBumpkinUrl()}
         target="_blank"
-        className="underline text-xxs py-1.5 hover:text-blue-500"
+        className="underline text-xxs pt-1.5 pb-1 hover:text-blue-500"
         rel="noreferrer"
       >
         Visit Bumpkin
@@ -198,10 +205,9 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
               bumpkinParts={state.bumpkin?.equipped as BumpkinParts}
             />
           </div>
-          <div className="flex flex-1 flex-col justify-end sm:justify-center ml-2 gap-y-1">
-            <div className="flex-1 hidden sm:block" />
+          <div className="flex flex-1 flex-col justify-start ml-2 gap-y-1">
             {levelInfo()}
-            <div className="flex-1 hidden sm:block" />
+            <div className="flex-1" />
             {visitBumpkinLink()}
           </div>
         </div>
