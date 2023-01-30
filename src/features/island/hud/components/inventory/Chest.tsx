@@ -45,6 +45,7 @@ export const Chest: React.FC<Props> = ({
   const divRef = useRef<HTMLDivElement>(null);
 
   const chestMap = getChestItems(state);
+
   const { inventory, collectibles: placedItems } = state;
 
   const getItemCount = (item: InventoryItemName) => {

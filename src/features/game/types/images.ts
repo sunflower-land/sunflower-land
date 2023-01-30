@@ -292,6 +292,7 @@ import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
+import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
 
 import cyborgBear from "src/assets/sfts/cyborg_bear.png";
 import collectibleBear from "src/assets/sfts/collectible_bear.png";
@@ -1665,7 +1666,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Abandoned Bear": {
     description: "A bear that was left behind on the island.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: abandonedBear,
   },
   "Turtle Bear": {
     description: "Turtley enough for the turtle club.",

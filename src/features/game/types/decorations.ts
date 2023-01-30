@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { Dimensions } from "./craftables";
 import { Inventory } from "./game";
+import { BoostTreasure, DecorationTreasure } from "./treasure";
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -25,7 +26,11 @@ export type ShopDecorationName =
   | "Cactus"
   | "Basic Bear";
 
-export type DecorationName = AchievementDecorationName | ShopDecorationName;
+export type DecorationName =
+  | AchievementDecorationName
+  | ShopDecorationName
+  | DecorationTreasure
+  | BoostTreasure;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "White Tulips": {
@@ -97,6 +102,74 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
   },
   "Devil Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Abandoned Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Turtle Bear": {
+    height: 1,
+    width: 1,
+  },
+  "T-Rex Skull": {
+    height: 1,
+    width: 1,
+  },
+  "Sunflower Coin": {
+    height: 1,
+    width: 1,
+  },
+  Foliant: {
+    height: 1,
+    width: 1,
+  },
+  "Skeleton King Staff": {
+    height: 1,
+    width: 1,
+  },
+  "Lifeguard Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Snorkel Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Parasaur Skull": {
+    height: 1,
+    width: 1,
+  },
+  "Golden Bear Head": {
+    height: 1,
+    width: 1,
+  },
+  "Pirate Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Goblin Bear": {
+    height: 1,
+    width: 1,
+  },
+  Galleon: {
+    height: 1,
+    width: 1,
+  },
+  "Dinosaur Fossil": {
+    height: 1,
+    width: 1,
+  },
+  "Human Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Tiki Totem": {
+    height: 1,
+    width: 1,
+  },
+  "Lunar Calendar": {
     height: 1,
     width: 1,
   },

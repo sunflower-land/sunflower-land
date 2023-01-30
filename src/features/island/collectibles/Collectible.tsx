@@ -88,6 +88,7 @@ import { BlackBear } from "./components/BlackBear";
 import { SquirrelMonkey } from "./components/SquirrelMonkey";
 import { TikiTotem } from "./components/TikiTotem";
 import { LunarCalendar } from "./components/LunarCalendar";
+import { AbandonedBear } from "./components/AbandonedBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -203,6 +204,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
 
+  // Treasure
+  "Abandoned Bear": AbandonedBear,
   "Tiki Totem": TikiTotem,
   "Lunar Calendar": LunarCalendar,
 };
