@@ -31,7 +31,7 @@ export const TreasureShopSell: React.FC = () => {
 
   const selected = BEACH_BOUNTY_TREASURE[selectedName];
   const { setToast } = useContext(ToastContext);
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },
@@ -51,10 +51,8 @@ export const TreasureShopSell: React.FC = () => {
 
     setToast({
       icon: token,
-      content: `-${price?.mul(amount).toString()}`,
+      content: `+${price?.mul(amount).toString()}`,
     });
-
-    shortcutItem(selectedName);
   };
 
   const Action = () => {
