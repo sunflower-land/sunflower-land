@@ -332,6 +332,7 @@ import {
 import { AUCTIONEER_ITEMS } from "./auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { TREASURES } from "./treasure";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1650,100 +1651,102 @@ export const ITEM_DETAILS: Items = {
     image: redEnvelope,
     description: "Wow, you are lucky!",
   },
-  "Abandoned Bear": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Crop Charm": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Fossil 1": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Fossil 2": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Fossil 3": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Goblin Bear": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Golden Bear Head": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Human Bear": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Lifeguard Bear": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Pirate Bear": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
+
+  // Treasure Island
   "Pirate Bounty": {
+    ...TREASURES["Pirate Bounty"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
   },
   "Pirate Cake": {
+    ...TREASURES["Pirate Cake"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
   },
-  "Pirate Hat": {
+  "Abandoned Bear": {
+    ...TREASURES["Abandoned Bear"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Skeleton King Staff": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Snorkel Bear": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Sunflower Coin": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
-  },
-  "Treasure Map": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
   },
   "Turtle Bear": {
+    ...TREASURES["Turtle Bear"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
   },
-  "Wood Charm": {
+  "Fossil 3": {
+    ...TREASURES["Fossil 3"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+  },
+  "Sunflower Coin": {
+    ...TREASURES["Sunflower Coin"],
+    image: SUNNYSIDE.icons.expression_confused,
   },
   Foliant: {
+    ...TREASURES["Foliant"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+  },
+  "Skeleton King Staff": {
+    ...TREASURES["Skeleton King Staff"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Lifeguard Bear": {
+    ...TREASURES["Lifeguard Bear"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Snorkel Bear": {
+    ...TREASURES["Snorkel Bear"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Fossil 2": {
+    ...TREASURES["Fossil 2"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Goblin Bear": {
+    ...TREASURES["Goblin Bear"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Golden Bear Head": {
+    ...TREASURES["Golden Bear Head"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Pirate Bear": {
+    ...TREASURES["Pirate Bear"],
+    image: SUNNYSIDE.icons.expression_confused,
   },
   Galleon: {
+    ...TREASURES["Galleon"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+  },
+  "Pirate Hat": {
+    ...TREASURES["Pirate Hat"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Fossil 1": {
+    ...TREASURES["Fossil 1"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Human Bear": {
+    ...TREASURES["Human Bear"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Treasure Map": {
+    ...TREASURES["Treasure Map"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Wood Charm": {
+    ...TREASURES["Wood Charm"],
+    image: SUNNYSIDE.icons.expression_confused,
+  },
+  "Crop Charm": {
+    ...TREASURES["Crop Charm"],
+    image: SUNNYSIDE.icons.expression_confused,
   },
   Pearl: {
+    ...TREASURES["Pearl"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
   },
   Pipi: {
+    ...TREASURES["Pipi"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
   },
   Seaweed: {
+    ...TREASURES["Seaweed"],
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
   },
 };

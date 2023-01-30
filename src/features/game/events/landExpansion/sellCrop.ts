@@ -61,6 +61,11 @@ export function sellCrop({ state, action }: Options): GameState {
 
   const sflEarned = price.mul(action.amount);
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sflEarned);
+  bumpkin.activity = trackActivity(
+    `${action.crop} Sold`,
+    bumpkin?.activity,
+    new Decimal(amount)
+  );
 
   return {
     ...game,

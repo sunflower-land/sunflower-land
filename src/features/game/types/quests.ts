@@ -65,7 +65,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.inventory["Red Envelope"]?.toNumber() || 0,
     requirement: 25,
     wearable: "China Town Background",
-    deadline: new Date("2023-01-28T00:00:00").toISOString(),
+    deadline: new Date("2023-01-29T00:00:00").toISOString(),
   },
 
   "Lunar New Year Quest 2": {
@@ -74,7 +74,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.inventory["Red Envelope"]?.toNumber() || 0,
     requirement: 125,
     wearable: "Lion Dance Mask",
-    deadline: new Date("2023-01-28T00:00:00").toISOString(),
+    deadline: new Date("2023-01-29T00:00:00").toISOString(),
   },
 };
 
