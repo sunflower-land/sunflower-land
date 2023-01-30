@@ -22,7 +22,6 @@ import { ProjectDignitySeals } from "features/community/components/ProjectDignit
 import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
-import { LunarNewYearQuest } from "./LunarNewYearQuest";
 import { LAND_WIDTH } from "../Land";
 
 interface Props {
@@ -132,9 +131,6 @@ export const Water: React.FC<Props> = ({ level }) => {
 
       {/* Top left island */}
       <FarmerQuest offset={offset} />
-
-      {/* Left island */}
-      <LunarNewYearQuest offset={offset} />
 
       {/* Bottom left island */}
       <MapPlacement x={-12 - offset} y={-7 - offset} width={6}>

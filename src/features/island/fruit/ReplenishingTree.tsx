@@ -49,15 +49,15 @@ export const ReplenishingTree: React.FC<Props> = ({
     <div
       onMouseEnter={() => setFruitDetails(true)}
       onMouseLeave={() => setFruitDetails(false)}
-      className="flex justify-center"
+      className="absolute h-full w-full"
     >
       <FruitDropAnimator
         mainImageProps={{
           src: lifecycle.harvested,
-          className: "relative hover:img-highlight",
+          className: "absolute pointer-events-none",
           style: {
-            bottom: `${isBush ? "-11px" : "25px"}`,
-            zIndex: "1",
+            bottom: `${PIXEL_SCALE * 5}px`,
+            left: `${PIXEL_SCALE * (isBush ? 4 : 3)}px`,
           },
           onLoad: (e) => setImageWidth(e.currentTarget),
           onClick: onClick,
@@ -73,7 +73,8 @@ export const ReplenishingTree: React.FC<Props> = ({
         <div
           className="absolute"
           style={{
-            top: `${PIXEL_SCALE * 24.2}px`,
+            bottom: `${PIXEL_SCALE * 7}px`,
+            left: `${PIXEL_SCALE * 8}px`,
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
