@@ -50,40 +50,142 @@ export type TreasureName =
   | DecorationTreasure
   | QuestTreasure
   | BoostTreasure;
-type Treasure = {
-  sfl: Decimal;
+
+export type Treasures = (Treasure | null)[];
+
+export type Treasure = {
+  description: string;
+  sellPrice?: Decimal;
 };
 
-// PLACEHOLDERS
-export const BEACH_BOUNTY: () => Record<
-  BeachBountyTreasure,
-  Treasure
-> = () => ({
+export type BeachBounty = {
+  description: string;
+  sellPrice: Decimal;
+};
+
+export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   "Clam Shell": {
-    sfl: marketRate(10),
-  },
-  "Sea Cucumber": {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(500),
   },
   Coral: {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(2000),
   },
   Crab: {
-    sfl: marketRate(10),
-  },
-  Starfish: {
-    sfl: marketRate(10),
-  },
-  "Pirate Bounty": {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(25),
   },
   Pearl: {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(5000),
   },
   Pipi: {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(250),
+  },
+  "Pirate Bounty": {
+    description: "",
+    sellPrice: marketRate(10000),
+  },
+  "Sea Cucumber": {
+    description: "",
+    sellPrice: marketRate(25),
   },
   Seaweed: {
-    sfl: marketRate(10),
+    description: "",
+    sellPrice: marketRate(100),
   },
-});
+  Starfish: {
+    description: "",
+    sellPrice: marketRate(150),
+  },
+};
+
+export const TREASURES: Record<TreasureName, Treasure> = {
+  ...BEACH_BOUNTY_TREASURE,
+  "Pirate Bounty": {
+    description: "",
+  },
+  "Pirate Cake": {
+    description: "",
+  },
+  "Sunflower Cake": {
+    description: "",
+  },
+  "Radish Cake": {
+    description: "",
+  },
+  "Carrot Cake": {
+    description: "",
+  },
+  "Cauliflower Cake": {
+    description: "",
+  },
+  "Club Sandwich": {
+    description: "",
+  },
+  "Sunflower Crunch": {
+    description: "",
+  },
+  "Pumpkin Soup": {
+    description: "",
+  },
+  "Abandoned Bear": {
+    description: "",
+  },
+  "Turtle Bear": {
+    description: "",
+  },
+  "Fossil 3": {
+    description: "",
+  },
+  "Sunflower Coin": {
+    description: "",
+  },
+  Foliant: {
+    description: "",
+  },
+  "Skeleton King Staff": {
+    description: "",
+  },
+  "Lifeguard Bear": {
+    description: "",
+  },
+  "Snorkel Bear": {
+    description: "",
+  },
+  "Fossil 2": {
+    description: "",
+  },
+  "Goblin Bear": {
+    description: "",
+  },
+  "Golden Bear Head": {
+    description: "",
+  },
+  "Pirate Bear": {
+    description: "",
+  },
+  Galleon: {
+    description: "",
+  },
+  "Pirate Hat": {
+    description: "",
+  },
+  "Fossil 1": {
+    description: "",
+  },
+  "Human Bear": {
+    description: "",
+  },
+  "Treasure Map": {
+    description: "",
+  },
+  "Wood Charm": {
+    description: "",
+  },
+  "Crop Charm": {
+    description: "",
+  },
+};

@@ -26,7 +26,7 @@ import { canMine } from "../events/landExpansion/stoneMine";
 import { AchievementName } from "./achievements";
 import { SEEDS } from "./seeds";
 import { BEANS } from "./beans";
-import { BEACH_BOUNTY } from "./treasure";
+import { TREASURES } from "./treasure";
 import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
 import { SKILL_TREE } from "./skills";
 import { BUILDINGS } from "./buildings";
@@ -127,7 +127,7 @@ const heliosBlacksmithDefaults = buildDefaults(
   getKeys(HELIOS_BLACKSMITH_ITEMS),
   false
 );
-const treasureDefaults = buildDefaults(getKeys(BEACH_BOUNTY()), false);
+const treasureDefaults = buildDefaults(getKeys(TREASURES), false);
 const resourceDefaults = buildDefaults(getKeys(RESOURCES), true);
 const mutantChickenDefaults = buildDefaults(
   getKeys(MUTANT_CHICKENS),

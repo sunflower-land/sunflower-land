@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import goblin from "assets/npcs/shovel_seller.gif";
+import beachBountyShop from "assets/buildings/beach_bounty_shop.webp";
+
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -17,6 +19,18 @@ export const TreasureShop: React.FC = () => {
 
   return (
     <MapPlacement x={-5} y={-2} height={1} width={1}>
+      <div className="w-max h-full relative">
+        <img
+          src={beachBountyShop}
+          className="relative cursor-pointer hover:img-highlight"
+          style={{
+            width: `${PIXEL_SCALE * 64}px`,
+            bottom: `${PIXEL_SCALE * 5}px`,
+            left: `${PIXEL_SCALE * -3}px`,
+          }}
+          onClick={() => setShowModal(true)}
+        />
+      </div>
       <img
         src={shadow}
         className="absolute"
@@ -30,7 +44,6 @@ export const TreasureShop: React.FC = () => {
         <img
           src={goblin}
           className="relative cursor-pointer hover:img-highlight"
-          id="shovel-shop"
           style={{
             width: `${PIXEL_SCALE * 20}px`,
             bottom: `${PIXEL_SCALE * 5}px`,
