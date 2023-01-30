@@ -1717,8 +1717,8 @@ export const ITEM_DETAILS: Items = {
       "A dinky old pirate hat. This must have been buried for a long time.",
     image: SUNNYSIDE.icons.expression_confused,
   },
-  "Dinosaur Fossils": {
-    description: "Dinosaur Fossils! What kind of creature was this?",
+  "Dinosaur Fossil": {
+    description: "A Dinosaur Fossil! What kind of creature was this?",
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Human Bear": {

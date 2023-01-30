@@ -317,7 +317,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Goblin Bear": 1234,
   Galleon: 1235,
   "Pirate Hat": 1236,
-  "Dinosaur Fossils": 1237,
+  "Dinosaur Fossil": 1237,
   "Human Bear": 1238,
 
   //Beach Bounty

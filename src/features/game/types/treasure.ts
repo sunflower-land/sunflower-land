@@ -37,7 +37,7 @@ export type DecorationTreasure =
   | "Goblin Bear"
   | "Galleon"
   | "Pirate Hat"
-  | "Dinosaur Fossils"
+  | "Dinosaur Fossil"
   | "Human Bear";
 
 export type QuestTreasure = "Treasure Map";

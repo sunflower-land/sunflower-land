@@ -280,7 +280,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Goblin Bear": false,
   Galleon: false,
   "Pirate Hat": false,
-  "Dinosaur Fossils": false,
+  "Dinosaur Fossil": false,
   "Human Bear": false,
   "Treasure Map": false,
   "Wood Charm": false,
