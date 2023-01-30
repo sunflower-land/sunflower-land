@@ -112,51 +112,46 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
 
   const levelInfo = () => (
     <div className="flex flex-col items-start">
-      <div className="flex flex-row items-center">
-        {/* Level */}
-        <p className="text-sm mt-7 sm:mt-8 sm:text-base">
-          {`Level ${level}${maxLevel ? " (Max)" : ""}`}
-        </p>
-      </div>
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-center mt-7">
         {/* Level icon */}
         <img
           src={levelIcon}
           style={{
             width: `${PIXEL_SCALE * 10}px`,
             height: `${PIXEL_SCALE * 13}px`,
-            marginRight: `${PIXEL_SCALE * 3}px`,
+            marginRight: `${PIXEL_SCALE * 2}px`,
           }}
         />
 
-        <div className="flex flex-col items-start space-y-1">
-          {/* XP */}
-          <p className="text-xxs mt-2">
-            {`${Math.floor(currentExperienceProgress)}/${
-              maxLevel ? "-" : Math.floor(experienceToNextLevel)
-            } XP`}
-          </p>
-
-          {/* XP bar */}
-          <ResizableBar
-            percentage={
-              (currentExperienceProgress / experienceToNextLevel) * 100
-            }
-            type={"progress"}
-            outerDimensions={{ width: 42, height: 7 }}
-          />
-        </div>
+        {/* Level */}
+        <p className="text-sm sm:text-base">
+          {`Level ${level}${maxLevel ? " (Max)" : ""}`}
+        </p>
       </div>
+
+      {/* XP */}
+      <p className="text-xxs my-1">
+        {`${Math.floor(currentExperienceProgress)}/${
+          maxLevel ? "-" : Math.floor(experienceToNextLevel)
+        } XP`}
+      </p>
+
+      {/* XP bar */}
+      <ResizableBar
+        percentage={(currentExperienceProgress / experienceToNextLevel) * 100}
+        type={"progress"}
+        outerDimensions={{ width: 48, height: 7 }}
+      />
     </div>
   );
 
   const visitBumpkinLink = () => (
     <div className="flex flex-col justify-start sm:justify-center">
-      <p className="text-xs sm:text-sm">Bumpkin #{state.bumpkin?.id}</p>
+      <p className="text-xs sm:text-sm mb-0.5">Bumpkin #{state.bumpkin?.id}</p>
       <a
         href={getVisitBumpkinUrl()}
         target="_blank"
-        className="underline text-xxs pt-1.5 pb-1 hover:text-blue-500"
+        className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
         rel="noreferrer"
       >
         Visit Bumpkin
