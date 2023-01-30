@@ -133,7 +133,6 @@ export const TreasureDetector: React.FC = () => {
       );
     }
 
-    const hasDug = false;
     const hasDug =
       new Date(treasureIsland?.rareTreasure?.discoveredAt ?? 0).getUTCDay() ===
       new Date().getUTCDay();
