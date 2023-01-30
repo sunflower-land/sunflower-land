@@ -18,35 +18,32 @@ export const TreasureShop: React.FC = () => {
   const [tab, setTab] = useState(0);
 
   return (
-    <MapPlacement x={-5} y={-2} height={1} width={1}>
-      <div className="w-max h-full relative">
+    <MapPlacement x={-5} y={1} height={4} width={4}>
+      <div className="w-max h-full relative group">
         <img
           src={beachBountyShop}
-          className="relative cursor-pointer hover:img-highlight"
+          className="relative cursor-pointer group-hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 64}px`,
-            bottom: `${PIXEL_SCALE * 5}px`,
-            left: `${PIXEL_SCALE * -3}px`,
+            top: `${PIXEL_SCALE * 9.5}px`,
+            left: `${PIXEL_SCALE * -6}px`,
           }}
           onClick={() => setShowModal(true)}
         />
-      </div>
-      <img
-        src={shadow}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          bottom: `0px`,
-          left: `0px`,
-        }}
-      />
-      <div className="w-max h-full relative">
+        <img
+          src={shadow}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * -2}px`,
+          }}
+        />
         <img
           src={goblin}
-          className="relative cursor-pointer hover:img-highlight"
+          className="relative cursor-pointer group-hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 20}px`,
-            bottom: `${PIXEL_SCALE * 5}px`,
+            top: `${PIXEL_SCALE * 4.5}px`,
             left: `${PIXEL_SCALE * -3}px`,
           }}
           onClick={() => setShowModal(true)}
