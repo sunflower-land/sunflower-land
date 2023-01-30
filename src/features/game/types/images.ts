@@ -298,6 +298,8 @@ import collectibleBear from "src/assets/sfts/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
+import tikiTotem from "src/assets/sfts/tiki_totem.webp";
+import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -332,6 +334,7 @@ import {
 import { AUCTIONEER_ITEMS } from "./auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { PLACEABLE_TREASURES } from "./treasure";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1729,13 +1732,13 @@ export const ITEM_DETAILS: Items = {
     description: "A treasure map! But this isn't an island I've ever heard of.",
     image: SUNNYSIDE.icons.expression_confused,
   },
-  "Wood Charm": {
-    description: "A charm made of wood.",
-    image: SUNNYSIDE.icons.expression_confused,
+  "Tiki Totem": {
+    description: PLACEABLE_TREASURES["Tiki Totem"].description,
+    image: tikiTotem,
   },
-  "Crop Charm": {
-    description: "A charm made from crops.",
-    image: SUNNYSIDE.icons.expression_confused,
+  "Lunar Calendar": {
+    description: PLACEABLE_TREASURES["Lunar Calendar"].description,
+    image: lunarCalendar,
   },
   Pearl: {
     description: "Shimmers in the sun.",

@@ -86,6 +86,7 @@ import { ManekiNeko } from "./components/ManekiNeko";
 import { LadyBug } from "./components/LadyBug";
 import { BlackBear } from "./components/BlackBear";
 import { SquirrelMonkey } from "./components/SquirrelMonkey";
+import { treasures } from "./components/treasures";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -156,6 +157,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
   // Flags
   ...flags,
+
+  //Treasures
+  ...treasures,
 
   //Decorations
   "White Tulips": WhiteTulips,

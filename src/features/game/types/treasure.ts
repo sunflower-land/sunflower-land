@@ -42,7 +42,7 @@ export type DecorationTreasure =
 
 export type QuestTreasure = "Treasure Map";
 
-export type BoostTreasure = "Wood Charm" | "Crop Charm";
+export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
 
 export type TreasureName =
   | BeachBountyTreasure
@@ -82,5 +82,19 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   },
   Starfish: {
     sellPrice: marketRate(150),
+  },
+};
+
+export type PlaceableTreasures = BoostTreasure;
+
+export const PLACEABLE_TREASURES: Record<
+  PlaceableTreasures,
+  { description: string }
+> = {
+  "Lunar Calendar": {
+    description: "A charm made from crops.",
+  },
+  "Tiki Totem": {
+    description: "A charm made of wood.",
   },
 };
