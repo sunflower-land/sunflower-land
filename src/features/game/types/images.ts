@@ -1634,11 +1634,11 @@ export const ITEM_DETAILS: Items = {
   // Treasure Island
   "Clam Shell": {
     image: SUNNYSIDE.resource.clam_shell,
-    description: "A clam shell",
+    description: "A clam shell.",
   },
   "Sea Cucumber": {
     image: SUNNYSIDE.resource.sea_cucumber,
-    description: "A sea cucumber",
+    description: "A sea cucumber.",
   },
   Coral: {
     image: SUNNYSIDE.resource.coral,
@@ -1650,7 +1650,7 @@ export const ITEM_DETAILS: Items = {
   },
   Starfish: {
     image: SUNNYSIDE.resource.starfish,
-    description: "The star of the sea",
+    description: "The star of the sea.",
   },
   "Pirate Bounty": {
     description: "A bounty for a pirate. It's worth a lot of money.",
