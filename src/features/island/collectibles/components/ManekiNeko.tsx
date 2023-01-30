@@ -76,11 +76,9 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   }
 
   if (isShaking) {
-    const shakenManekiNeko = manekiNekos
-      .filter((maneki) => {
-        return maneki.shakenAt && 0 < maneki.shakenAt;
-      })
-      .at(0);
+    const shakenManekiNeko = manekiNekos.filter((maneki) => {
+      return maneki.shakenAt && 0 < maneki.shakenAt;
+    })[0];
 
     let time = COLLECTIBLE_PLACE_SECONDS["Maneki Neko"] ?? 0;
     if (shakenManekiNeko && shakenManekiNeko.shakenAt) {
