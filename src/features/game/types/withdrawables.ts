@@ -211,7 +211,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Christmas Snow Globe": true,
   "Cabbage Boy": true,
   "Cabbage Girl": true,
-  "Wood Nymph Wendy": false,
   "Chef Bear": true,
   "Construction Bear": true,
   "Angel Bear": true,
@@ -232,6 +231,9 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Squirrel Monkey": false,
   "Lady Bug": false,
   "Cyborg Bear": true,
+  "Collectible Bear": false,
+  // TODO add rule when beans are introduced
+  "Carrot Sword": true,
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
@@ -243,19 +245,17 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
-  "Carrot Sword": (game) => !areAnyCropsPlanted(game),
   Nancy: (game) => !areAnyCropsPlanted(game),
   Scarecrow: (game) => !areAnyCropsPlanted(game),
   Kuebiko: (game) => !areAnyCropsPlanted(game) && !hasSeeds(game.inventory),
   "Woody the Beaver": (game) => !areAnyTreesChopped(game),
   "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
   "Foreman Beaver": (game) => !areAnyTreesChopped(game),
+  "Wood Nymph Wendy": (game) => !areAnyTreesChopped(game),
   "Rock Golem": (game) => !areAnyStonesMined(game),
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
-  "Collectible Bear": () =>
-    Date.now() < new Date("2023-02-01T08:30:00.000Z").getTime(),
 
   "Pirate Bounty": false,
   Pearl: false,
