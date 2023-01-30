@@ -2984,21 +2984,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fossil 1": {
+  "Dinosaur Fossil": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fossil 2": {
+  "Parasaur Skull": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fossil 3": {
+  "T-Rex Skull": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",

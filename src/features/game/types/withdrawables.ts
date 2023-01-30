@@ -26,7 +26,6 @@ import { canMine } from "../events/landExpansion/stoneMine";
 import { AchievementName } from "./achievements";
 import { SEEDS } from "./seeds";
 import { BEANS } from "./beans";
-import { TREASURES } from "./treasure";
 import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
 import { SKILL_TREE } from "./skills";
 import { BUILDINGS } from "./buildings";
@@ -127,7 +126,6 @@ const heliosBlacksmithDefaults = buildDefaults(
   getKeys(HELIOS_BLACKSMITH_ITEMS),
   false
 );
-const treasureDefaults = buildDefaults(getKeys(TREASURES), false);
 const resourceDefaults = buildDefaults(getKeys(RESOURCES), true);
 const mutantChickenDefaults = buildDefaults(
   getKeys(MUTANT_CHICKENS),
@@ -168,7 +166,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...shovelDefaults,
   ...warBannerDefaults,
   ...heliosBlacksmithDefaults,
-  ...treasureDefaults,
   ...fruitDefaults,
   ...resourceDefaults,
   ...mutantChickenDefaults,
@@ -271,19 +268,19 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   //Enable after beta testing
   "Abandoned Bear": false,
   "Turtle Bear": false,
-  "Fossil 3": false,
+  "T-Rex Skull": false,
   "Sunflower Coin": false,
   Foliant: false,
   "Skeleton King Staff": false,
   "Lifeguard Bear": false,
   "Snorkel Bear": false,
-  "Fossil 2": false,
+  "Parasaur Skull": false,
   "Golden Bear Head": false,
   "Pirate Bear": false,
   "Goblin Bear": false,
   Galleon: false,
   "Pirate Hat": false,
-  "Fossil 1": false,
+  "Dinosaur Fossil": false,
   "Human Bear": false,
   "Treasure Map": false,
   "Wood Charm": false,

@@ -6,6 +6,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { CONFIG } from "lib/config";
 
 export const SomethingWentWrong: React.FC = () => {
   const [date] = useState(new Date().toISOString());
@@ -67,6 +68,7 @@ export const SomethingWentWrong: React.FC = () => {
             <p className="leading-3">Transaction ID: {transactionId}</p>
           )}
           <p className="leading-3">Date: {date}</p>
+          <p className="leading-3">Version: {CONFIG.RELEASE_VERSION}</p>
         </div>
       </div>
       <Button onClick={onAcknowledge}>Refresh</Button>
