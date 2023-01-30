@@ -31,6 +31,7 @@ export const TreasureDetector: React.FC = () => {
   const [isSearching, setIsSearching] = useState(false);
 
   const treasureIsland = gameState.context.state.treasureIsland;
+
   const acknowledge = () => {
     acknowledgeTutorial("Treasure Detector");
     setShowTutorial(false);
@@ -59,6 +60,12 @@ export const TreasureDetector: React.FC = () => {
 
     setShowModal(false);
   }, [gameState.value]);
+
+  const handleNPCClick = () => {
+    if (gameState.matches("revealing") || gameState.matches("revealed")) return;
+
+    setShowModal(true);
+  };
 
   const bumpkinParts: Partial<Equipped> = {
     body: "Light Brown Farmer Potion",
@@ -138,11 +145,11 @@ export const TreasureDetector: React.FC = () => {
           title="Looking for treasure?"
           bumpkinParts={bumpkinParts}
         >
-          <div className="text-center p-2">
-            <p className="mb-2 text-sm">
-              You can only search for Treasure once a day.
-            </p>
-            <Label type="info" className="flex w-1/2 mx-auto justify-center">
+          <div className="flex flex-col items-center p-2 pt-0">
+            <Label
+              type="info"
+              className="inline-flex mx-auto justify-center items-center mb-2"
+            >
               <img
                 src={SUNNYSIDE.icons.timer}
                 className="w-3 left-0 -top-4 mr-1"
@@ -154,7 +161,12 @@ export const TreasureDetector: React.FC = () => {
                 }
               )} left`}</span>
             </Label>
+            <p className="mb-2 text-sm text-left">
+              Finding these treasures takes a lot of mental energy. I need some
+              time to rest. Come back tomorrow and I can help you again.
+            </p>
           </div>
+          <Button onClick={closeHandle}>Continue</Button>
         </CloseButtonPanel>
       );
     }
@@ -229,7 +241,7 @@ export const TreasureDetector: React.FC = () => {
             bottom: `${PIXEL_SCALE * 2}px`,
             left: `${PIXEL_SCALE * -2}px`,
           }}
-          onClick={() => setShowModal(true)}
+          onClick={handleNPCClick}
         />
       </MapPlacement>
     </>
