@@ -138,8 +138,8 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Parasaur Skull": {
-    height: 1,
-    width: 1,
+    height: 2,
+    width: 2,
   },
   "Golden Bear Head": {
     height: 1,

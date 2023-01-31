@@ -306,6 +306,7 @@ import pearl from "assets/sfts/treasure/pearl.webp";
 import pipi from "assets/sfts/treasure/pipi.webp";
 import turtleBear from "assets/sfts/bears/turtle_bear.webp";
 import tRexSkull from "assets/sfts/t_rex_skull.webp";
+import parasaurSkull from "assets/sfts/parasaur_skull.webp";
 import clamShell from "assets/sfts/treasure/clam_shell.webp";
 import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
 import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
@@ -1706,7 +1707,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Parasaur Skull": {
     description: "A skull from a parasaur!",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: parasaurSkull,
   },
   "Goblin Bear": {
     description: "A goblin bear. It's a bit scary.",

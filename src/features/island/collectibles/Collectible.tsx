@@ -93,6 +93,7 @@ import { TurtleBear } from "./components/TurtleBear";
 import { TRexSkull } from "./components/TRexSkull";
 import { LifeguardBear } from "./components/LifeguardBear";
 import { SnorkelBear } from "./components/SnorkelBear";
+import { ParasaurSkull } from "./components/ParasaurSkull";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -216,6 +217,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "T-Rex Skull": TRexSkull,
   "Lifeguard Bear": LifeguardBear,
   "Snorkel Bear": SnorkelBear,
+  "Parasaur Skull": ParasaurSkull,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
