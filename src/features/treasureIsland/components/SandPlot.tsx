@@ -222,7 +222,7 @@ export const SandPlot: React.FC<{
           discovered: reward.discovered,
           dugAt: reward?.dugAt,
         });
-      }, 1500);
+      }, 1000);
     }
   };
 
@@ -239,12 +239,8 @@ export const SandPlot: React.FC<{
             }}
           />
         </div>
-        <Modal
-          centered
-          show={treasureFound}
-          onHide={handleAcknowledgeTreasureFound}
-        >
-          <CloseButtonPanel onClose={handleAcknowledgeTreasureFound}>
+        <Modal centered show={treasureFound}>
+          <CloseButtonPanel showCloseButton={false}>
             <Revealed onAcknowledged={handleAcknowledgeTreasureFound} />
           </CloseButtonPanel>
         </Modal>

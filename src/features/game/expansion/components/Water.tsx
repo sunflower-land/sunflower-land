@@ -14,7 +14,7 @@ import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
 import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
-import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
+import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 
 import { merchantAudio } from "lib/utils/sfx";
 import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
@@ -130,7 +130,7 @@ export const Water: React.FC<Props> = ({ level }) => {
       </MapPlacement>
 
       {/* Top left island */}
-      <FarmerQuest offset={offset} />
+      <FruitQuest offset={offset} />
 
       {/* Bottom left island */}
       <MapPlacement x={-12 - offset} y={-7 - offset} width={6}>

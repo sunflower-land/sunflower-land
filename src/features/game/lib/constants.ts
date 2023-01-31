@@ -62,6 +62,10 @@ export const INITIAL_STOCK: Inventory = {
   Pickaxe: new Decimal(50),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
+  Shovel: new Decimal(1),
+  "Rusty Shovel": new Decimal(10),
+  "Power Shovel": new Decimal(5),
+  "Sand Shovel": new Decimal(20),
 
   // One off items
   "Pumpkin Soup": new Decimal(1),
