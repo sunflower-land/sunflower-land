@@ -311,6 +311,8 @@ import clamShell from "assets/sfts/treasure/clam_shell.webp";
 import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
 import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
 import goblinBear from "assets/sfts/bears/goblin_bear.webp";
+import goldenBearHead from "assets/sfts/golden_bear_head.webp";
+import humanBear from "assets/sfts/bears/human_bear.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1716,7 +1718,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Golden Bear Head": {
     description: "Spooky, but cool.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: goldenBearHead,
   },
   "Pirate Bear": {
     description: "Argh, matey! Hug me!",
@@ -1737,7 +1739,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Human Bear": {
     description: "A human bear. Even scarier than a goblin bear.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: humanBear,
   },
   "Treasure Map": {
     description: "A treasure map! But this isn't an island I've ever heard of.",
