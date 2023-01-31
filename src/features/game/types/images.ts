@@ -314,6 +314,7 @@ import goblinBear from "assets/sfts/bears/goblin_bear.webp";
 import goldenBearHead from "assets/sfts/golden_bear_head.webp";
 import humanBear from "assets/sfts/bears/human_bear.webp";
 import pirateBear from "assets/sfts/bears/pirate_bear.webp";
+import seaweed from "assets/sfts/treasure/seaweed.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1764,6 +1765,6 @@ export const ITEM_DETAILS: Items = {
   },
   Seaweed: {
     description: "Seaweed.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: seaweed,
   },
 };
