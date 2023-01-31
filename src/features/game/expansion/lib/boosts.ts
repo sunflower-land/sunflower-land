@@ -100,7 +100,7 @@ export const getFoodExpBoost = (
   }
 
   //Bumpkin Skill Boost Curer
-  if (food.building === "Deli" && skills["Curer"]) {
+  if ("building" in food && food.building === "Deli" && skills["Curer"]) {
     boostedExp = boostedExp.mul(1.15);
   }
 

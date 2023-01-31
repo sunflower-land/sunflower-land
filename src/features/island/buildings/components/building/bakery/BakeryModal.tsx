@@ -7,9 +7,9 @@ import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
-  Consumable,
-  ConsumableName,
-  CONSUMABLES,
+  Cookable,
+  CookableName,
+  COOKABLES,
 } from "features/game/types/consumables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Tab } from "components/ui/Tab";
@@ -19,9 +19,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onCook: (name: ConsumableName) => void;
+  onCook: (name: CookableName) => void;
   crafting: boolean;
-  itemInProgress?: ConsumableName;
+  itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
 }
 export const BakeryModal: React.FC<Props> = ({
@@ -32,14 +32,14 @@ export const BakeryModal: React.FC<Props> = ({
   itemInProgress,
   craftingService,
 }) => {
-  const cakeRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
-    if (CONSUMABLES[name].building !== "Bakery") {
+  const cakeRecipes = getKeys(COOKABLES).reduce((acc, name) => {
+    if (COOKABLES[name].building !== "Bakery") {
       return acc;
     }
 
-    return [...acc, CONSUMABLES[name]];
-  }, [] as Consumable[]);
-  const [selected, setSelected] = useState<Consumable>(
+    return [...acc, COOKABLES[name]];
+  }, [] as Cookable[]);
+  const [selected, setSelected] = useState<Cookable>(
     cakeRecipes.find((recipe) => recipe.name === itemInProgress) ||
       cakeRecipes[0]
   );
