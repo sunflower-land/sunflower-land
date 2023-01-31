@@ -1657,7 +1657,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Pirate Cake": {
-    description: "Great for Pirate themed birthday parties.",
+    description: CONSUMABLES["Pirate Cake"].description,
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Abandoned Bear": {

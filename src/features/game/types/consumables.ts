@@ -10,7 +10,7 @@ type JuiceName =
   | "Power Smoothie"
   | "Bumpkin Detox";
 
-export type ConsumableName =
+export type CookableName =
   | "Mashed Potato"
   | "Pumpkin Soup"
   | "Bumpkin Broth"
@@ -36,9 +36,11 @@ export type ConsumableName =
   | Cake
   | JuiceName;
 
-export type Consumable = {
+export type ConsumableName = CookableName | "Pirate Cake";
+
+export type Cookable = {
   experience: number;
-  name: ConsumableName;
+  name: CookableName;
   description: string;
   ingredients: Inventory;
   cookingSeconds: number;
@@ -48,7 +50,12 @@ export type Consumable = {
   disabled?: boolean;
 };
 
-export const CONSUMABLES: Record<ConsumableName, Consumable> = {
+export type Consumable = Omit<
+  Cookable,
+  "name" | "ingredients" | "cookingSeconds" | "building" | "marketRate"
+> & { name: ConsumableName };
+
+export const COOKABLES: Record<CookableName, Cookable> = {
   "Mashed Potato": {
     name: "Mashed Potato",
     description: "My life is potato.",
@@ -515,10 +522,23 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   },
 };
 
-const Juices = getKeys(CONSUMABLES).filter(
-  (name) => CONSUMABLES[name].building === "Smoothie Shack"
+export const CONSUMABLES: Record<ConsumableName, Consumable> = {
+  ...COOKABLES,
+  "Pirate Cake": {
+    name: "Pirate Cake",
+    description: "Great for Pirate themed birthday parties.",
+    experience: 3000,
+  },
+};
+
+const Juices = getKeys(COOKABLES).filter(
+  (name) => COOKABLES[name].building === "Smoothie Shack"
 );
 
 export function isJuice(item: any) {
   return Juices.includes(item);
+}
+
+export function isCookable(consumeable: Consumable): consumeable is Cookable {
+  return consumeable.name in COOKABLES;
 }
