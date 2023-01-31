@@ -9,7 +9,7 @@ import {
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
-import { Consumable } from "features/game/types/consumables";
+import { Consumable, isCookable } from "features/game/types/consumables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const crops = CROPS();
@@ -100,7 +100,7 @@ export const getFoodExpBoost = (
   }
 
   //Bumpkin Skill Boost Curer
-  if ("building" in food && food.building === "Deli" && skills["Curer"]) {
+  if (isCookable(food) && food.building === "Deli" && skills["Curer"]) {
     boostedExp = boostedExp.mul(1.15);
   }
 
