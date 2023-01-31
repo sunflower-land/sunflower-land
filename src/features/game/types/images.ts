@@ -310,6 +310,7 @@ import parasaurSkull from "assets/sfts/parasaur_skull.webp";
 import clamShell from "assets/sfts/treasure/clam_shell.webp";
 import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
 import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
+import goblinBear from "assets/sfts/bears/goblin_bear.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1711,7 +1712,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Goblin Bear": {
     description: "A goblin bear. It's a bit scary.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: goblinBear,
   },
   "Golden Bear Head": {
     description: "Spooky, but cool.",

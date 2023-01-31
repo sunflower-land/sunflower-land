@@ -94,6 +94,7 @@ import { TRexSkull } from "./components/TRexSkull";
 import { LifeguardBear } from "./components/LifeguardBear";
 import { SnorkelBear } from "./components/SnorkelBear";
 import { ParasaurSkull } from "./components/ParasaurSkull";
+import { GoblinBear } from "./components/GoblinBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -213,6 +214,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Abandoned Bear": AbandonedBear,
   "Tiki Totem": TikiTotem,
   "Lunar Calendar": LunarCalendar,
+  "Goblin Bear": GoblinBear,
   "Turtle Bear": TurtleBear,
   "T-Rex Skull": TRexSkull,
   "Lifeguard Bear": LifeguardBear,
