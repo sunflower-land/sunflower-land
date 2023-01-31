@@ -527,7 +527,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   "Pirate Cake": {
     name: "Pirate Cake",
     description: "Great for Pirate themed birthday parties.",
-    experience: 1500,
+    experience: 3000,
   },
 };
 
