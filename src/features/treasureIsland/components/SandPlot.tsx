@@ -9,6 +9,7 @@ import Spritesheet, {
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import shadow from "assets/npcs/shadow.png";
+import pirate from "assets/npcs/pirate_goblin.gif";
 import xMark from "assets/decorations/flag.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -22,9 +23,11 @@ import {
   MachineState,
   SandPlotContext,
   sandPlotMachine,
+  canDig,
 } from "../lib/sandPlotMachine";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { getKeys } from "features/game/types/craftables";
 
 type TreasureReward = {
   discovered: InventoryItemName | null;
@@ -119,6 +122,8 @@ const isNoShovel = (state: MachineState) => state.matches("noShovel");
 const isFinishing = (state: MachineState) => state.matches("finishing");
 const discovered = (state: MachineState) => state.context.discovered;
 
+const MAX_HOLES_PER_DAY = 3;
+
 export const SandPlot: React.FC<{
   id: number;
   shownMissingShovelModal: boolean;
@@ -151,6 +156,7 @@ export const SandPlot: React.FC<{
   const [showMissingShovelModal, setShowMissingShovelModal] = useState(
     shownMissingShovelModal
   );
+  const [showMaxHolesModal, setShowMaxHolesModal] = useState(false);
 
   const hasSandShovel =
     selectedItem === "Sand Shovel" &&
@@ -178,9 +184,18 @@ export const SandPlot: React.FC<{
   };
 
   const handleDig = () => {
-    console.log({ id });
     if (!hasSandShovel) {
       handleNoShovel();
+      return;
+    }
+
+    const holes = gameState.context.state.treasureIsland?.holes ?? {};
+    const holesDug = getKeys(holes).filter(
+      (holeId) => !canDig(holes[holeId]?.dugAt)
+    ).length;
+
+    if (holesDug >= MAX_HOLES_PER_DAY) {
+      setShowMaxHolesModal(true);
       return;
     }
 
@@ -272,6 +287,32 @@ export const SandPlot: React.FC<{
             </p>
           </div>
           <Button onClick={handleAcknowledgeNoSandShovel}>Got it</Button>
+        </CloseButtonPanel>
+      </Modal>
+    );
+  }
+
+  if (showMaxHolesModal) {
+    return (
+      <Modal centered show onHide={() => setShowMaxHolesModal(false)}>
+        <CloseButtonPanel
+          title="Max holes reached!"
+          onClose={() => setShowMaxHolesModal(false)}
+        >
+          <div className="p-2 pt-0 mb-2 flex flex-col items-center space-y-2">
+            <img
+              src={pirate}
+              alt="Pirate"
+              onLoad={(e) => setImageWidth(e.currentTarget)}
+            />
+            <p className="text-sm text-center">
+              Save some treasure for the rest of us!
+            </p>
+            <p className="text-sm text-center">
+              Come back tomorrow to search for more treasure.
+            </p>
+          </div>
+          <Button onClick={() => setShowMaxHolesModal(false)}>Got it</Button>
         </CloseButtonPanel>
       </Modal>
     );
