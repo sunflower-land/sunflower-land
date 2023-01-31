@@ -86,7 +86,8 @@ import { ManekiNeko } from "./components/ManekiNeko";
 import { LadyBug } from "./components/LadyBug";
 import { BlackBear } from "./components/BlackBear";
 import { SquirrelMonkey } from "./components/SquirrelMonkey";
-import { treasures } from "./components/treasures";
+import { TikiTotem } from "./components/TikiTotem";
+import { LunarCalendar } from "./components/LunarCalendar";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -158,9 +159,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Flags
   ...flags,
 
-  //Treasures
-  ...treasures,
-
   //Decorations
   "White Tulips": WhiteTulips,
   "Potted Sunflower": PottedSunflower,
@@ -204,6 +202,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
+
+  "Tiki Totem": TikiTotem,
+  "Lunar Calendar": LunarCalendar,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
