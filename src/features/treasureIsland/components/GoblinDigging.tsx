@@ -4,17 +4,25 @@ import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
+import { secondsToString } from "lib/utils/time";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 export const GoblinDigging: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
+
+  const date = new Date();
+  const secondsLeft =
+    24 * 60 * 60 -
+    (date.getUTCHours() * 60 * 60 +
+      date.getUTCMinutes() * 60 +
+      date.getUTCSeconds());
 
   return (
     <MapPlacement x={3} y={2} height={1} width={2}>
@@ -52,7 +60,8 @@ export const GoblinDigging: React.FC = () => {
       </div>
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <Panel
+        <CloseButtonPanel
+          onClose={() => setShowModal(false)}
           bumpkinParts={{
             body: "Goblin Potion",
             hair: "Sun Spots",
@@ -62,23 +71,30 @@ export const GoblinDigging: React.FC = () => {
             shoes: "Black Farmer Boots",
           }}
         >
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={() => setShowModal(false)}
-            style={{
-              top: `${PIXEL_SCALE * 6}px`,
-              right: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
           <div className="p-2">
-            <p className="mb-4">
-              My uncle found a diamond ring digging at this beach.
+            <p className="mb-4 text-lg">Wanna try your luck today?</p>
+            <p className="mb-3">
+              My uncle found a diamond ring digging at this beach. All I keep
+              finding is boring SFL coins.
             </p>
-            <p>All I keep finding is boring SFL coins.</p>
+            <p className="mb-3">Just garb a shovel and start digging.</p>
+            <div className="flex justify-center mt-4 items-center">
+              <p className="text-xxs mr-2">Treasures Refreshes in: </p>
+              <div className="flex items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
+                <img
+                  src={SUNNYSIDE.icons.stopwatch}
+                  className="w-3 left-0 mr-1"
+                />
+                <span>
+                  {`${secondsToString(secondsLeft as number, {
+                    length: "medium",
+                    isShortFormat: true,
+                  })}`}
+                </span>
+              </div>
+            </div>
           </div>
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
     </MapPlacement>
   );
