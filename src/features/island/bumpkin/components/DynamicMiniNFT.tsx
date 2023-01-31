@@ -44,6 +44,8 @@ import sharkOnesie from "assets/npc-layers/shark-onesie.png";
 import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
 import reindeerAntlers from "assets/npc-layers/reindeer_antlers.png";
 import lionDanceMask from "assets/npc-layers/lion_dance_mask.png";
+import fruitShirt from "assets/npc-layers/fruit_shirt.png";
+import fruitHat from "assets/npc-layers/fruit_hat.png";
 
 import shadow from "assets/npcs/shadow.png";
 
@@ -113,6 +115,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "SFL T-Shirt": sflShirt,
   "Warrior Shirt": warriorShirt,
   "Fire Shirt": fireShirt,
+  "Fruit Picker Shirt": fruitShirt,
 
   // Pants
   "Farmer Overalls": blueOveralls,
@@ -131,6 +134,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   // Hats
   "Lion Dance Mask": lionDanceMask,
   "Reindeer Antlers": reindeerAntlers,
+  "Fruit Bowl": fruitHat,
 
   // Onesie
   "Snowman Onesie": snowman,
