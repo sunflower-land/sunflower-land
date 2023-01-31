@@ -525,7 +525,7 @@ describe("plant", () => {
     expect(plantedAt).toBe(dateNow - carrotTime * 0.15);
   });
 
-  it("grows faster if Lunar calender is placed", () => {
+  it("grows faster if Lunar calendar is placed.", () => {
     const state = plant({
       state: {
         ...GAME_STATE,
@@ -654,7 +654,7 @@ describe("getCropTime", () => {
     expect(time).toEqual(60 * 60 * 0.8);
   });
 
-  it("applies a 10% speed boost with Lunar Calenda placed", () => {
+  it("applies a 10% speed boost with Lunar Calendar placed.", () => {
     const carrotHarvestSeconds = CROPS()["Carrot"].harvestSeconds;
     const time = getCropTime(
       "Carrot",
