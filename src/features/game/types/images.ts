@@ -305,8 +305,10 @@ import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
 import pearl from "assets/sfts/treasure/pearl.webp";
 import pipi from "assets/sfts/treasure/pipi.webp";
 import turtleBear from "assets/sfts/bears/turtle_bear.webp";
-import tRexSkull from "assets/sfts/t-rex-skull.webp";
-import clamShell from "assets/sfts/treasure/clam-shell.webp";
+import tRexSkull from "assets/sfts/t_rex_skull.webp";
+import clamShell from "assets/sfts/treasure/clam_shell.webp";
+import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
+import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -328,7 +330,6 @@ import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { DECORATIONS } from "./decorations";
 import { DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
@@ -1697,11 +1698,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Lifeguard Bear": {
     description: "Lifeguard Bear is here to save the day!",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: lifeguardBear,
   },
   "Snorkel Bear": {
     description: "Snorkel Bear loves to swim.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: snorkelBear,
   },
   "Parasaur Skull": {
     description: "A skull from a parasaur!",

@@ -91,6 +91,8 @@ import { LunarCalendar } from "./components/LunarCalendar";
 import { AbandonedBear } from "./components/AbandonedBear";
 import { TurtleBear } from "./components/TurtleBear";
 import { TRexSkull } from "./components/TRexSkull";
+import { LifeguardBear } from "./components/LifeguardBear";
+import { SnorkelBear } from "./components/SnorkelBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -212,6 +214,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Lunar Calendar": LunarCalendar,
   "Turtle Bear": TurtleBear,
   "T-Rex Skull": TRexSkull,
+  "Lifeguard Bear": LifeguardBear,
+  "Snorkel Bear": SnorkelBear,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
