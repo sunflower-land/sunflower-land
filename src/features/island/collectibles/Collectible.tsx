@@ -89,6 +89,7 @@ import { SquirrelMonkey } from "./components/SquirrelMonkey";
 import { TikiTotem } from "./components/TikiTotem";
 import { LunarCalendar } from "./components/LunarCalendar";
 import { AbandonedBear } from "./components/AbandonedBear";
+import { TurtleBear } from "./components/TurtleBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -208,6 +209,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Abandoned Bear": AbandonedBear,
   "Tiki Totem": TikiTotem,
   "Lunar Calendar": LunarCalendar,
+  "Turtle Bear": TurtleBear,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
