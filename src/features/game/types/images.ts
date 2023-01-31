@@ -292,8 +292,6 @@ import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
-import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
-
 import cyborgBear from "src/assets/sfts/cyborg_bear.png";
 import collectibleBear from "src/assets/sfts/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
@@ -301,6 +299,11 @@ import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
+
+// Treasure
+import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
+import pearl from "assets/sfts/treasure/pearl.webp";
+import pipi from "assets/sfts/treasure/pipi.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1743,11 +1746,11 @@ export const ITEM_DETAILS: Items = {
   },
   Pearl: {
     description: "Shimmers in the sun.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pearl,
   },
   Pipi: {
     description: "Plebidonax deltoides, found in the Pacific Ocean.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pipi,
   },
   Seaweed: {
     description: "Seaweed.",
