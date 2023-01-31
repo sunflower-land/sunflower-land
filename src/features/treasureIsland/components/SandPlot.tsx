@@ -122,7 +122,7 @@ const isNoShovel = (state: MachineState) => state.matches("noShovel");
 const isFinishing = (state: MachineState) => state.matches("finishing");
 const discovered = (state: MachineState) => state.context.discovered;
 
-const MAX_HOLES_PER_DAY = 3;
+const MAX_HOLES_PER_DAY = 30;
 
 export const SandPlot: React.FC<{
   id: number;
