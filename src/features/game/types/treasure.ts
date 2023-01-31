@@ -92,7 +92,8 @@ export const PLACEABLE_TREASURES: Record<
   { description: string }
 > = {
   "Lunar Calendar": {
-    description: "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
+    description:
+      "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
   },
   "Tiki Totem": {
     description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
