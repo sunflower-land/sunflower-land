@@ -538,3 +538,7 @@ const Juices = getKeys(COOKABLES).filter(
 export function isJuice(item: any) {
   return Juices.includes(item);
 }
+
+export function isCookable(consumeable: Consumable): consumeable is Cookable {
+  return consumeable.name in COOKABLES;
+}
