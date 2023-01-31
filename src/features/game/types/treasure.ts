@@ -107,7 +107,6 @@ export const PLACEABLE_TREASURE: Record<PlaceableTreasure, TreasureDetail> = {
   "Tiki Totem": {
     description: "A charm made of wood.",
   },
-
   "Abandoned Bear": {
     description: "A bear that was left behind on the island.",
   },

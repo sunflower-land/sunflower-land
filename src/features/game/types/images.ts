@@ -304,7 +304,8 @@ import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
 import pearl from "assets/sfts/treasure/pearl.webp";
 import pipi from "assets/sfts/treasure/pipi.webp";
-import turtleBear from "assets/sfts/bears/turtle_bear.png";
+import turtleBear from "assets/sfts/bears/turtle_bear.webp";
+import tRexSkull from "assets/sfts/t-rex-skull.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1678,7 +1679,7 @@ export const ITEM_DETAILS: Items = {
   },
   "T-Rex Skull": {
     description: "A skull from a T-Rex! Amazing!",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: tRexSkull,
   },
   "Sunflower Coin": {
     description: "A coin made of sunflowers.",

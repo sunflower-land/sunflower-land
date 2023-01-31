@@ -1,6 +1,6 @@
 import React from "react";
 
-import turtleBear from "assets/sfts/bears/turtle_bear.png";
+import turtleBear from "assets/sfts/bears/turtle_bear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const TurtleBear: React.FC = () => {
@@ -14,7 +14,7 @@ export const TurtleBear: React.FC = () => {
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
-        alt="Abandoned Bear"
+        alt="Turtle Bear"
       />
     </>
   );

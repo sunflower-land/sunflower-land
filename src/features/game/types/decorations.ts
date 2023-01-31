@@ -114,8 +114,8 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "T-Rex Skull": {
-    height: 1,
-    width: 1,
+    height: 2,
+    width: 2,
   },
   "Sunflower Coin": {
     height: 1,
