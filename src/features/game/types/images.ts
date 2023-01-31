@@ -313,6 +313,7 @@ import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
 import goblinBear from "assets/sfts/bears/goblin_bear.webp";
 import goldenBearHead from "assets/sfts/golden_bear_head.webp";
 import humanBear from "assets/sfts/bears/human_bear.webp";
+import pirateBear from "assets/sfts/bears/pirate_bear.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1722,7 +1723,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Pirate Bear": {
     description: "Argh, matey! Hug me!",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pirateBear,
   },
   Galleon: {
     description: "A toy ship, still in pretty good nick.",
