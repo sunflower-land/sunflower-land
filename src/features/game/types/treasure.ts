@@ -95,6 +95,6 @@ export const PLACEABLE_TREASURES: Record<
     description: "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
   },
   "Tiki Totem": {
-    description: "A charm made of wood.",
+    description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
   },
 };
