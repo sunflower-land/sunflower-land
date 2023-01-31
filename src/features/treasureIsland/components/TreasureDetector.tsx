@@ -212,7 +212,7 @@ export const TreasureDetector: React.FC = () => {
       >
         <ModalContent />
       </Modal>
-      <MapPlacement x={-7} y={9} height={1} width={1}>
+      <MapPlacement x={-5} y={1} height={1} width={1}>
         {showTutorial && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}

@@ -14,7 +14,7 @@ export const IslandTravelWrapper = () => {
       inventory={gameState.context.state.inventory}
       bumpkin={bumpkin}
       x={-2}
-      y={-7}
+      y={-12}
     />
   );
 };

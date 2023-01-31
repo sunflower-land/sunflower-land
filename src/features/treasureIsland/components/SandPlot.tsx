@@ -178,6 +178,7 @@ export const SandPlot: React.FC<{
   };
 
   const handleDig = () => {
+    console.log({ id });
     if (!hasSandShovel) {
       handleNoShovel();
       return;
@@ -278,8 +279,7 @@ export const SandPlot: React.FC<{
 
   const gameMachinePlaying = gameState.matches("playing");
   const showShovelGoblin = !idle && !dug && !noShovel;
-  const showSelectBox =
-    showHoverState && !showShovelGoblin && gameMachinePlaying && hasSandShovel;
+  const showSelectBox = showHoverState && idle && gameMachinePlaying;
 
   return (
     <div
