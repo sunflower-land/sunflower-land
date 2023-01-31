@@ -1,13 +1,13 @@
 import React from "react";
 
-import skull from "assets/sfts/t-rex-skull.webp";
+import skullCase from "assets/sfts/t-rex-skull-case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const TRexSkull: React.FC = () => {
   return (
     <>
       <img
-        src={skull}
+        src={skullCase}
         style={{
           width: `${PIXEL_SCALE * 32}px`,
           bottom: 0,
