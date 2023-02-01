@@ -355,7 +355,6 @@ import {
 import { AUCTIONEER_ITEMS } from "./auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { PLACEABLE_TREASURES } from "./treasure";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1748,11 +1747,12 @@ export const ITEM_DETAILS: Items = {
     image: treasureMap,
   },
   "Tiki Totem": {
-    description: PLACEABLE_TREASURES["Tiki Totem"].description,
+    description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
     image: tikiTotem,
   },
   "Lunar Calendar": {
-    description: PLACEABLE_TREASURES["Lunar Calendar"].description,
+    description:
+      "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
     image: lunarCalendar,
   },
   Pearl: {
