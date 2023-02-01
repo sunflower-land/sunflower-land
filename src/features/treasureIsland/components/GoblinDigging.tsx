@@ -77,7 +77,7 @@ export const GoblinDigging: React.FC = () => {
               My uncle found a diamond ring digging at this beach. All I keep
               finding is boring SFL coins.
             </p>
-            <p className="mb-3">Just garb a shovel and start digging.</p>
+            <p className="mb-3">Just grab a shovel and start digging.</p>
             <div className="flex justify-center mt-4 items-center">
               <p className="text-xxs mr-2">Treasures Refreshes in: </p>
               <div className="flex items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
