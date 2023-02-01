@@ -25,7 +25,7 @@ export const GoblinDigging: React.FC = () => {
       date.getUTCSeconds());
 
   return (
-    <MapPlacement x={3} y={2} height={1} width={2}>
+    <MapPlacement x={6} y={0} height={1} width={2}>
       <img
         src={SUNNYSIDE.soil.sand_dug}
         className="absolute"

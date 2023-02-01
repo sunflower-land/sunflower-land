@@ -18,7 +18,7 @@ export const TreasureShop: React.FC = () => {
   const [tab, setTab] = useState(0);
 
   return (
-    <MapPlacement x={-5} y={1} height={4} width={4}>
+    <MapPlacement x={-5} y={-3} height={4} width={4}>
       <div className="w-max h-full relative group">
         <img
           src={beachBountyShop}
