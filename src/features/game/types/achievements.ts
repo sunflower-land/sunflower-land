@@ -4,7 +4,7 @@ import { marketRate } from "../lib/halvening";
 import { getBumpkinLevel } from "../lib/level";
 import { GameState, Inventory } from "../types/game";
 import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
-import { CONSUMABLES } from "./consumables";
+import { COOKABLES } from "./consumables";
 import { CAKES, getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
 import { FRUIT } from "./fruits";
@@ -128,7 +128,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Kiss the Cook": {
     description: "Cook 20 meals",
     progress: (gameState: GameState) => {
-      const cookEvents = getKeys(CONSUMABLES).map(
+      const cookEvents = getKeys(COOKABLES).map(
         (name) => `${name} Cooked` as CookEvent
       );
 
@@ -373,7 +373,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Chef de Cuisine": {
     description: "Cook 5,000 meals",
     progress: (gameState: GameState) => {
-      const cookEvents = getKeys(CONSUMABLES).map(
+      const cookEvents = getKeys(COOKABLES).map(
         (name) => `${name} Cooked` as CookEvent
       );
 

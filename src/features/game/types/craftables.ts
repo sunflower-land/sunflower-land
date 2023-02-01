@@ -9,6 +9,7 @@ import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
+import { BoostTreasure } from "./treasure";
 
 export { FLAGS };
 
@@ -182,6 +183,7 @@ export type CollectibleName =
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | BoostTreasure
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -195,7 +197,7 @@ export type ToolName =
   | "Hammer"
   | "Rod";
 
-export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel" | "Sand Shovel";
+export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -582,22 +584,6 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
       },
       {
         item: "Gold",
-        amount: new Decimal(5),
-      },
-    ],
-    disabled: true,
-  },
-  "Sand Shovel": {
-    name: "Sand Shovel",
-    description: "Used for digging treasure",
-    tokenAmount: new Decimal(25),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(20),
-      },
-      {
-        item: "Stone",
         amount: new Decimal(5),
       },
     ],
@@ -1131,6 +1117,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
   "Cyborg Bear": { width: 1, height: 1 },
+
+  // Treasure Island SFTs
+  "Tiki Totem": { height: 1, width: 1 },
+  "Lunar Calendar": { height: 1, width: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

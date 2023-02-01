@@ -55,7 +55,7 @@ export const Bean: React.FC<CollectibleProps> = ({
   };
 
   if (gameState.matches("revealing")) {
-    return <Revealing />;
+    return <Revealing icon={ready} />;
   }
 
   if (gameState.matches("revealed")) {

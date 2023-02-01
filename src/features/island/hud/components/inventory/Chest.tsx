@@ -11,7 +11,6 @@ import { getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
-import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -23,6 +22,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
+import { DECORATION_DIMENSIONS } from "features/game/types/decorations";
 
 interface Props {
   state: GameState;
@@ -44,6 +44,7 @@ export const Chest: React.FC<Props> = ({
   const divRef = useRef<HTMLDivElement>(null);
 
   const chestMap = getChestItems(state);
+
   const { inventory, collectibles: placedItems } = state;
 
   const getItemCount = (item: InventoryItemName) => {
@@ -59,11 +60,11 @@ export const Chest: React.FC<Props> = ({
     .reduce((acc, item) => {
       if (
         item in LIMITED_ITEMS ||
-        item in DECORATIONS() ||
         item in AUCTIONEER_ITEMS ||
         item in BEANS() ||
         item in HELIOS_BLACKSMITH_ITEMS ||
-        item in GOBLIN_BLACKSMITH_ITEMS
+        item in GOBLIN_BLACKSMITH_ITEMS ||
+        item in DECORATION_DIMENSIONS
       ) {
         return { ...acc, [item]: chestMap[item] };
       }
