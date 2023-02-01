@@ -15,7 +15,7 @@ interface Props {
   selectedItem: InventoryItemName;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;
-  isFarming?: boolean;
+  isFarming: boolean;
   isSaving?: boolean;
 }
 
@@ -86,6 +86,7 @@ export const Inventory: React.FC<Props> = ({
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
         isSaving={isSaving}
+        isFarming={isFarming}
       />
 
       {isFarming && (
