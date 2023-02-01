@@ -352,7 +352,7 @@ export const SandPlot: React.FC<{
 
   if (drilling) {
     return (
-      <Modal centered show onHide={handleAcknowledgeTreasureFound}>
+      <Modal centered show>
         <Panel>
           <p className="loading">Drilling</p>
         </Panel>
