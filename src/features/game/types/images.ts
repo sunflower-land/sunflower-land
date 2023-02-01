@@ -1358,9 +1358,9 @@ export const ITEM_DETAILS: Items = {
     image: myLifeIsPotato,
     description: ACHIEVEMENTS()["My life is potato"].description,
   },
-  "Jack O'Lantern": {
+  "Jack O'Latern": {
     image: jackOLantern,
-    description: ACHIEVEMENTS()["Jack O'Lantern"].description,
+    description: ACHIEVEMENTS()["Jack O'Latern"].description,
   },
   "20/20 Vision": {
     image: twentyTwentyVision,
