@@ -14,7 +14,7 @@ export type WorkbenchToolName =
   | "Rusty Shovel"
   | "Power Shovel";
 
-export type TreasureToolName = "Sand Shovel";
+export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
 export interface Tool {
   name: string;
@@ -83,5 +83,13 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
       Stone: new Decimal(1),
     },
     sfl: marketRate(5),
+  },
+  "Sand Drill": {
+    name: "Sand Drill",
+    description: "Drill deep for rare treasure",
+    ingredients: {
+      Gold: new Decimal(1),
+    },
+    sfl: marketRate(10),
   },
 };

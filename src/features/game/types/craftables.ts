@@ -197,7 +197,7 @@ export type ToolName =
   | "Hammer"
   | "Rod";
 
-export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel" | "Sand Shovel";
+export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -584,22 +584,6 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
       },
       {
         item: "Gold",
-        amount: new Decimal(5),
-      },
-    ],
-    disabled: true,
-  },
-  "Sand Shovel": {
-    name: "Sand Shovel",
-    description: "Used for digging treasure",
-    tokenAmount: new Decimal(25),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(20),
-      },
-      {
-        item: "Stone",
         amount: new Decimal(5),
       },
     ],
