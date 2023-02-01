@@ -9,7 +9,7 @@ import { DecorationName } from "./decorations";
 import { FruitName, FruitSeedName } from "./fruits";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
-import { BeachBountyTreasure } from "./treasure";
+import { BeachBountyTreasure, TreasureName } from "./treasure";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
 type SellableName =
@@ -34,6 +34,7 @@ export type CraftedEvent = `${
   | HeliosBlacksmithItem} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
+export type TreasureEvent = `${TreasureName} Dug`;
 
 export type BumpkinActivityName =
   | CookEvent
@@ -44,6 +45,7 @@ export type BumpkinActivityName =
   | SellEvent
   | HarvestEvent
   | PlantFruitEvent
+  | TreasureEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"
@@ -60,7 +62,9 @@ export type BumpkinActivityName =
   | "Collectible Removed"
   | "Building Upgraded"
   | "Crop Fertilised"
-  | "Crop Removed";
+  | "Crop Removed"
+  | "Treasure Dug"
+  | "Treasure Searched";
 
 export function trackActivity(
   activityName: BumpkinActivityName,

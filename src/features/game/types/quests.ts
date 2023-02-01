@@ -6,8 +6,10 @@ export type QuestName =
   | "Fruit Quest 1"
   | "Fruit Quest 2"
   | "Fruit Quest 3"
-  | "Lunar New Year Quest 1"
-  | "Lunar New Year Quest 2";
+  | "Pirate Quest 1"
+  | "Pirate Quest 2"
+  | "Pirate Quest 3"
+  | "Pirate Quest 4";
 
 export type Quest = {
   description: string;
@@ -46,21 +48,37 @@ export const QUESTS: Record<QuestName, Quest> = {
     requirement: 750,
     wearable: "Fruit Bowl",
   },
-  "Lunar New Year Quest 1": {
-    description: "Collect 25 Red Envelopes",
+
+  "Pirate Quest 1": {
+    description: "Dig 30 holes",
     progress: (gameState: GameState) =>
-      gameState.inventory["Red Envelope"]?.toNumber() || 0,
-    requirement: 25,
-    wearable: "China Town Background",
+      gameState.bumpkin?.activity?.["Treasure Dug"] || 0,
+    requirement: 30,
+    wearable: "Striped Blue Shirt",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
-
-  "Lunar New Year Quest 2": {
-    description: "Collect 125 Red Envelopes",
+  "Pirate Quest 2": {
+    description: "Collect 10 Seaweed",
     progress: (gameState: GameState) =>
-      gameState.inventory["Red Envelope"]?.toNumber() || 0,
-    requirement: 125,
-    wearable: "Lion Dance Mask",
+      gameState.bumpkin?.activity?.["Seaweed Dug"] || 0,
+    requirement: 10,
+    wearable: "Peg Leg",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
+  },
+  "Pirate Quest 3": {
+    description: "Collect 10 Pipis",
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Pipi Dug"] || 0,
+    requirement: 10,
+    wearable: "Pirate Potion",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
+  },
+  "Pirate Quest 4": {
+    description: "Collect 5 Corals",
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Coral Dug"] || 0,
+    requirement: 5,
+    wearable: "Pirate Hat",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
 };
@@ -68,7 +86,9 @@ export const QUESTS: Record<QuestName, Quest> = {
 type CompletedQuestName =
   | "Reindeer Quest 1"
   | "Reindeer Quest 2"
-  | "Reindeer Quest 3";
+  | "Reindeer Quest 3"
+  | "Lunar New Year Quest 1"
+  | "Lunar New Year Quest 2";
 
 export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
   {
@@ -81,4 +101,8 @@ export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
     "Fruit Quest 3": 100007,
     "Lunar New Year Quest 1": 100009,
     "Lunar New Year Quest 2": 100010,
+    "Pirate Quest 1": 100011,
+    "Pirate Quest 2": 100012,
+    "Pirate Quest 3": 100013,
+    "Pirate Quest 4": 100014,
   };
