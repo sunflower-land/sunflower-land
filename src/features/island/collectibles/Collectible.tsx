@@ -88,6 +88,21 @@ import { BlackBear } from "./components/BlackBear";
 import { SquirrelMonkey } from "./components/SquirrelMonkey";
 import { TikiTotem } from "./components/TikiTotem";
 import { LunarCalendar } from "./components/LunarCalendar";
+import { AbandonedBear } from "./components/AbandonedBear";
+import { TurtleBear } from "./components/TurtleBear";
+import { TRexSkull } from "./components/TRexSkull";
+import { LifeguardBear } from "./components/LifeguardBear";
+import { SnorkelBear } from "./components/SnorkelBear";
+import { ParasaurSkull } from "./components/ParasaurSkull";
+import { GoblinBear } from "./components/GoblinBear";
+import { GoldenBearHead } from "./components/GoldenBearHead";
+import { HumanBear } from "./components/HumanBear";
+import { PirateBear } from "./components/PirateBear";
+import { SunflowerCoin } from "./components/SunflowerCoin";
+import { Galleon } from "./components/Galleon";
+import { SkeletonKingStaff } from "./components/SkeletonKingStaff";
+import { Foliant } from "./components/Foliant";
+import { DinosaurFossil } from "./components/DinosaurFossil";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -96,6 +111,7 @@ export interface CollectibleProps {
   createdAt: number;
 }
 
+// TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName,
   React.FC<CollectibleProps>
@@ -203,8 +219,24 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
 
+  // Treasure
+  "Abandoned Bear": AbandonedBear,
   "Tiki Totem": TikiTotem,
   "Lunar Calendar": LunarCalendar,
+  "Goblin Bear": GoblinBear,
+  "Turtle Bear": TurtleBear,
+  "T-Rex Skull": TRexSkull,
+  "Lifeguard Bear": LifeguardBear,
+  "Snorkel Bear": SnorkelBear,
+  "Parasaur Skull": ParasaurSkull,
+  "Golden Bear Head": GoldenBearHead,
+  "Human Bear": HumanBear,
+  "Pirate Bear": PirateBear,
+  "Sunflower Coin": SunflowerCoin,
+  Galleon: Galleon,
+  "Skeleton King Staff": SkeletonKingStaff,
+  Foliant: Foliant,
+  "Dinosaur Fossil": DinosaurFossil,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

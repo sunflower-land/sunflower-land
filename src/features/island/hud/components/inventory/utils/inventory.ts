@@ -32,6 +32,7 @@ export const getBasketItems = (inventory: Inventory) => {
 
 export const getChestItems = (state: GameState) => {
   const { collectibles } = state;
+
   return getKeys(state.inventory)
     .filter((itemName) =>
       setPrecision(new Decimal(state.inventory[itemName] || 0)).greaterThan(0)

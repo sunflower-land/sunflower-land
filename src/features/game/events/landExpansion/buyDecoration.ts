@@ -1,13 +1,16 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
-import { DecorationName, DECORATIONS } from "features/game/types/decorations";
+import {
+  HELIOS_DECORATIONS,
+  ShopDecorationName,
+} from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
   type: "decoration.bought";
-  item: DecorationName;
+  item: ShopDecorationName;
 };
 
 type Options = {
@@ -15,15 +18,10 @@ type Options = {
   action: buyDecorationAction;
 };
 
-const VALID_DECORATIONS: DecorationName[] = [
-  "White Tulips",
-  "Potted Sunflower",
-];
-
 export function buyDecoration({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
   const { item } = action;
-  const desiredItem = DECORATIONS()[item];
+  const desiredItem = HELIOS_DECORATIONS()[item];
 
   if (!desiredItem) {
     throw new Error("This item is not a decoration");

@@ -28,6 +28,7 @@ import {
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
+import { Panel } from "components/ui/Panel";
 
 type TreasureReward = {
   discovered: InventoryItemName | null;
@@ -120,6 +121,7 @@ const isTreasureFound = (state: MachineState) => state.matches("treasureFound");
 const isIdle = (state: MachineState) => state.matches("idle");
 const isNoShovel = (state: MachineState) => state.matches("noShovel");
 const isFinishing = (state: MachineState) => state.matches("finishing");
+const isDrilling = (state: MachineState) => state.matches("drilling");
 const discovered = (state: MachineState) => state.context.discovered;
 
 const MAX_HOLES_PER_DAY = 30;
@@ -149,6 +151,7 @@ export const SandPlot: React.FC<{
   const dug = useSelector(sandPlotService, isDug);
   const noShovel = useSelector(sandPlotService, isNoShovel);
   const finishing = useSelector(sandPlotService, isFinishing);
+  const drilling = useSelector(sandPlotService, isDrilling);
   const discoveredItem = useSelector(sandPlotService, discovered);
 
   const [showHoverState, setShowHoverState] = useState(false);
@@ -161,6 +164,10 @@ export const SandPlot: React.FC<{
   const hasSandShovel =
     selectedItem === "Sand Shovel" &&
     gameState.context.state.inventory["Sand Shovel"]?.gte(1);
+
+  const hasSandDrill =
+    selectedItem === "Sand Drill" &&
+    gameState.context.state.inventory["Sand Drill"]?.gte(1);
 
   useEffect(() => {
     // If no treasure is found, move gameMachine back into playing state and
@@ -184,11 +191,6 @@ export const SandPlot: React.FC<{
   };
 
   const handleDig = () => {
-    if (!hasSandShovel) {
-      handleNoShovel();
-      return;
-    }
-
     const holes = gameState.context.state.treasureIsland?.holes ?? {};
     const holesDug = getKeys(holes).filter(
       (holeId) => !canDig(holes[holeId]?.dugAt)
@@ -199,15 +201,32 @@ export const SandPlot: React.FC<{
       return;
     }
 
-    gameService.send("REVEAL", {
-      event: {
-        type: "treasure.dug",
-        id,
-        createdAt: new Date(),
-      },
-    });
+    if (hasSandShovel) {
+      gameService.send("REVEAL", {
+        event: {
+          type: "treasure.dug",
+          id,
+          createdAt: new Date(),
+        },
+      });
 
-    sandPlotService.send("DIG");
+      sandPlotService.send("DIG");
+      return;
+    }
+
+    if (hasSandDrill) {
+      gameService.send("REVEAL", {
+        event: {
+          type: "treasure.drilled",
+          id,
+          createdAt: new Date(),
+        },
+      });
+      sandPlotService.send("DRILL");
+      return;
+    }
+
+    handleNoShovel();
   };
 
   const handleAcknowledgeTreasureFound = () => {
@@ -218,6 +237,7 @@ export const SandPlot: React.FC<{
       content: `+1`,
     });
 
+    console.log("acknowledge");
     sandPlotService.send("ACKNOWLEDGE");
   };
 
@@ -226,10 +246,13 @@ export const SandPlot: React.FC<{
     onMissingShovelAcknowledge();
   };
 
+  // Each time the sprite sheet gets to the 10th frame (shovel up)
+  // If reward has returned then stop sprite here.
   const handleTreasureCheck = () => {
-    // Each time the sprite sheet gets to the 10th frame (shovel up)
-    // If reward has returned then stop sprite here.
-    if (reward !== undefined) {
+    // Avoid checking for previous day rewards
+    const hasRecentReward = reward && reward?.dugAt > Date.now() - 60 * 1000;
+
+    if (hasRecentReward) {
       goblinDiggingRef.current?.pause();
       setShowGoblinEmotion(true);
 
@@ -241,6 +264,18 @@ export const SandPlot: React.FC<{
       }, 1000);
     }
   };
+
+  useEffect(() => {
+    // Avoid checking for previous day rewards
+    const hasRecentReward = reward && reward?.dugAt > Date.now() - 60 * 1000;
+
+    if (hasRecentReward && drilling) {
+      sandPlotService.send("FINISH_DIGGING", {
+        discovered: reward.discovered,
+        dugAt: reward?.dugAt,
+      });
+    }
+  }, [drilling, reward]);
 
   if (dug || treasureFound) {
     return (
@@ -318,9 +353,23 @@ export const SandPlot: React.FC<{
     );
   }
 
+  if (drilling) {
+    return (
+      <Modal centered show>
+        <Panel>
+          <p className="loading">Drilling</p>
+        </Panel>
+      </Modal>
+    );
+  }
+
   const gameMachinePlaying = gameState.matches("playing");
   const showShovelGoblin = !idle && !dug && !noShovel;
-  const showSelectBox = showHoverState && idle && gameMachinePlaying;
+  const showSelectBox =
+    showHoverState &&
+    !showShovelGoblin &&
+    gameMachinePlaying &&
+    (hasSandShovel || hasSandDrill);
 
   return (
     <div

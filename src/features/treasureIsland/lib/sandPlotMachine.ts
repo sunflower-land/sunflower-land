@@ -12,6 +12,7 @@ export type SandPlotState = {
     | "loading"
     | "idle"
     | "digging"
+    | "drilling"
     | "noShovel"
     | "treasureFound"
     | "treasureNotFound"
@@ -31,6 +32,7 @@ type SandPlotEvent =
   | FinishDiggingEvent
   | { type: "NO_SHOVEL" }
   | { type: "DIG" }
+  | { type: "DRILL" }
   | { type: "ACKNOWLEDGE" };
 
 export type MachineState = State<SandPlotContext, SandPlotEvent, SandPlotState>;
@@ -72,6 +74,7 @@ export const sandPlotMachine = createMachine<
     idle: {
       on: {
         DIG: { target: "digging" },
+        DRILL: { target: "drilling" },
         NO_SHOVEL: { target: "noShovel" },
       },
     },
@@ -83,6 +86,29 @@ export const sandPlotMachine = createMachine<
       },
     },
     digging: {
+      on: {
+        FINISH_DIGGING: [
+          {
+            target: "treasureFound",
+            cond: (_: SandPlotContext, event: FinishDiggingEvent) => {
+              return !!event.discovered;
+            },
+            actions: assign<SandPlotContext, FinishDiggingEvent>({
+              discovered: (_, event) => event.discovered,
+              dugAt: (_, event) => event.dugAt,
+            }),
+          },
+          {
+            target: "treasureNotFound",
+            actions: assign<SandPlotContext, FinishDiggingEvent>({
+              discovered: (_, event) => event.discovered,
+              dugAt: (_, event) => event.dugAt,
+            }),
+          },
+        ],
+      },
+    },
+    drilling: {
       on: {
         FINISH_DIGGING: [
           {
