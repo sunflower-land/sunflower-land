@@ -1,9 +1,7 @@
-import { InventoryItemName } from "features/game/types/game";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
 export interface SandPlotContext {
   id: number;
-  discovered?: InventoryItemName | null;
   dugAt?: number;
 }
 
@@ -24,7 +22,7 @@ export type SandPlotState = {
 
 type FinishDiggingEvent = {
   type: "FINISH_DIGGING";
-  discovered: InventoryItemName | null;
+  treasureFound: boolean;
   dugAt: number;
 };
 
@@ -91,17 +89,15 @@ export const sandPlotMachine = createMachine<
           {
             target: "treasureFound",
             cond: (_: SandPlotContext, event: FinishDiggingEvent) => {
-              return !!event.discovered;
+              return !!event.treasureFound;
             },
             actions: assign<SandPlotContext, FinishDiggingEvent>({
-              discovered: (_, event) => event.discovered,
               dugAt: (_, event) => event.dugAt,
             }),
           },
           {
             target: "treasureNotFound",
             actions: assign<SandPlotContext, FinishDiggingEvent>({
-              discovered: (_, event) => event.discovered,
               dugAt: (_, event) => event.dugAt,
             }),
           },
@@ -114,17 +110,15 @@ export const sandPlotMachine = createMachine<
           {
             target: "treasureFound",
             cond: (_: SandPlotContext, event: FinishDiggingEvent) => {
-              return !!event.discovered;
+              return event.treasureFound;
             },
             actions: assign<SandPlotContext, FinishDiggingEvent>({
-              discovered: (_, event) => event.discovered,
               dugAt: (_, event) => event.dugAt,
             }),
           },
           {
             target: "treasureNotFound",
             actions: assign<SandPlotContext, FinishDiggingEvent>({
-              discovered: (_, event) => event.discovered,
               dugAt: (_, event) => event.dugAt,
             }),
           },
