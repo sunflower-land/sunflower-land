@@ -12,6 +12,7 @@ export type SandPlotState = {
     | "loading"
     | "idle"
     | "digging"
+    | "drilling"
     | "noShovel"
     | "treasureFound"
     | "treasureNotFound"
@@ -31,6 +32,7 @@ type SandPlotEvent =
   | FinishDiggingEvent
   | { type: "NO_SHOVEL" }
   | { type: "DIG" }
+  | { type: "DRILL" }
   | { type: "ACKNOWLEDGE" };
 
 export type MachineState = State<SandPlotContext, SandPlotEvent, SandPlotState>;
