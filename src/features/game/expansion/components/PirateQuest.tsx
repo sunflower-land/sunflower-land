@@ -30,6 +30,11 @@ const ModalDescription = () => {
   );
 };
 
+// const acknowledge = () => {
+//   acknowledgeTutorial("Treasure Detector");
+//   setShowTutorial(false);
+// };
+
 const QuestCompletion = () => {
   return (
     <div className="p-2">
@@ -56,6 +61,7 @@ export const PirateQuest: React.FC = () => {
     shoes: "Peg Leg",
     background: "Farm Background",
     hat: "Pirate Hat",
+    coat: "Pirate General Coat",
   };
 
   return (
@@ -63,8 +69,8 @@ export const PirateQuest: React.FC = () => {
       <div
         className="absolute z-20"
         style={{
-          top: `${GRID_WIDTH_PX * 1}px`,
-          left: `${GRID_WIDTH_PX * 20}px`,
+          top: `${GRID_WIDTH_PX * 18}px`,
+          left: `${GRID_WIDTH_PX * 30}px`,
         }}
       >
         <img

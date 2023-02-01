@@ -185,6 +185,7 @@ export interface DynamicMiniNFTProps {
   suit?: BumpkinSuit;
   onesie?: BumpkinOnesie;
   wings?: BumpkinWings;
+  coat?: BumpkinCoat;
 }
 
 export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
@@ -196,6 +197,7 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
   suit,
   onesie,
   wings,
+  coat,
 }) => {
   const { gameService } = useContext(Context);
 
@@ -216,6 +218,7 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
         suit={suit}
         onesie={onesie}
         wings={wings}
+        coat={coat}
         onClick={() => setOpen(true)}
       />
       <FeedModal
@@ -235,6 +238,7 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
   hat,
   suit,
   wings,
+  coat,
   onesie,
   onClick,
 }) => {
@@ -247,6 +251,7 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
   const hatRef = useRef<Spritesheet>(null);
   const onesieRef = useRef<Spritesheet>(null);
   const wingsRef = useRef<Spritesheet>(null);
+  const coatRef = useRef<Spritesheet>(null);
 
   const bodyPartStyle = {
     width: `${PIXEL_SCALE * 20}px`,
@@ -281,6 +286,9 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
     }
     if (wingsRef.current) {
       wingsRef.current?.goToAndPause(frame);
+    }
+    if (coatRef.current) {
+      coatRef.current?.goToAndPause(frame);
     }
   }, [timer]);
 
@@ -318,6 +326,7 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
             fps={0}
           />
         )}
+
         <Spritesheet
           ref={bodyRef}
           className="absolute w-full inset-0 pointer-events-none"
@@ -395,6 +404,18 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
             className="absolute w-full inset-0 pointer-events-none"
             style={bodyPartStyle}
             image={PARTS[hat as BumpkinHat] as string}
+            widthFrame={FRAME_WIDTH}
+            heightFrame={FRAME_HEIGHT}
+            steps={STEPS}
+            fps={0}
+          />
+        )}
+        {coat && (
+          <Spritesheet
+            ref={coatRef}
+            className="absolute w-full inset-0 pointer-events-none"
+            style={bodyPartStyle}
+            image={PARTS[coat as BumpkinCoat] as string}
             widthFrame={FRAME_WIDTH}
             heightFrame={FRAME_HEIGHT}
             steps={STEPS}
