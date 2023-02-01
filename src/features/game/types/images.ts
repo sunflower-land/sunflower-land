@@ -321,6 +321,7 @@ import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.png";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurFossil from "assets/sfts/dinosaur_fossil.webp";
+import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1675,12 +1676,12 @@ export const ITEM_DETAILS: Items = {
     description: "The star of the sea.",
   },
   "Pirate Bounty": {
-    image: SUNNYSIDE.resource.pirate_bounty,
     description: "A bounty for a pirate. It's worth a lot of money.",
+    image: SUNNYSIDE.resource.pirate_bounty,
   },
   "Pirate Cake": {
     description: CONSUMABLES["Pirate Cake"].description,
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pirateCake,
   },
   "Abandoned Bear": {
     description: "A bear that was left behind on the island.",
