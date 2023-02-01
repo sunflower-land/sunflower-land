@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import manekiNekoShaking from "assets/sfts/maneki_neko.gif";
 import manekiNeko from "assets/sfts/maneki_neko_idle.gif";
-import shadow from "assets/npcs/shadow.png";
+import shadow from "assets/npcs/shadow16px.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -13,6 +13,8 @@ import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import Modal from "react-bootstrap/esm/Modal";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import classNames from "classnames";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
   id: string;
@@ -23,12 +25,18 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const [gameState] = useActor(gameService);
   const [showTooltip, setShowTooltip] = useState(false);
   const manekiNekos = gameState.context.state.collectibles["Maneki Neko"] ?? [];
-  const hasShakenRecently = manekiNekos.some(
-    (maneki) =>
-      Date.now() <
-      (maneki.shakenAt ?? 0) +
+
+  useUiRefresher();
+
+  const shakeableAt = Math.max(
+    ...manekiNekos.map(
+      (maneki) =>
+        (maneki.shakenAt ?? 0) +
         (COLLECTIBLE_PLACE_SECONDS["Maneki Neko"] ?? 0) * 1000
+    )
   );
+  const readyInSeconds = (shakeableAt - Date.now()) / 1000;
+  const hasShakenRecently = Date.now() < shakeableAt;
 
   const [isShaking, setIsShaking] = useState(hasShakenRecently);
 
@@ -50,108 +58,67 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   };
 
   useEffect(() => {
-    if (hasShakenRecently) {
-      setIsShaking(true);
-    }
+    setIsShaking(hasShakenRecently);
   }, [hasShakenRecently]);
 
-  if (gameState.matches("revealing")) {
-    return (
-      <Modal show centered>
-        <Panel>
-          <Revealing icon={manekiNeko} />
-        </Panel>
-      </Modal>
-    );
-  }
-
-  if (gameState.matches("revealed")) {
-    return (
-      <Modal show centered>
-        <Panel>
-          <Revealed />
-        </Panel>
-      </Modal>
-    );
-  }
-
-  if (isShaking) {
-    const shakenManekiNeko = manekiNekos.filter((maneki) => {
-      return maneki.shakenAt && 0 < maneki.shakenAt;
-    })[0];
-
-    let time = COLLECTIBLE_PLACE_SECONDS["Maneki Neko"] ?? 0;
-    if (shakenManekiNeko && shakenManekiNeko.shakenAt) {
-      const timeFromShaken = Date.now() - shakenManekiNeko.shakenAt;
-      time = time - timeFromShaken / 1000;
-    }
-
-    return (
+  return (
+    <>
       <div
-        onMouseEnter={() => {
-          if (time <= 0) {
-            setIsShaking(false);
-          }
-          return setShowTooltip(true);
-        }}
+        onMouseEnter={isShaking ? () => setShowTooltip(true) : undefined}
         onMouseLeave={() => setShowTooltip(false)}
+        className={classNames("absolute w-full h-full", {
+          "cursor-pointer hover:img-highlight": !isShaking,
+        })}
+        onClick={shake}
       >
         <img
-          src={manekiNekoShaking}
+          src={shadow}
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 0}px`,
+          }}
+          className="absolute pointer-events-none"
+        />
+        <img
+          src={isShaking ? manekiNekoShaking : manekiNeko}
           style={{
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 2}px`,
             left: `${PIXEL_SCALE * 0}px`,
           }}
-          className="absolute z-10"
+          className="absolute pointer-events-none"
           alt="Maneki Neko"
         />
-        <img
-          src={shadow}
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            bottom: `${-PIXEL_SCALE * 0}px`,
-          }}
-          className="absolute"
-        />
+      </div>
+      {isShaking && (
         <div
           className="flex justify-center absolute w-full pointer-events-none"
           style={{
-            top: `${PIXEL_SCALE * -20}px`,
-            right: `${PIXEL_SCALE * -20}px`,
+            top: `${PIXEL_SCALE * -24}px`,
           }}
         >
           <TimeLeftPanel
             text="Ready in:"
-            timeLeft={time}
-            showTimeLeft={showTooltip && time > 0}
+            timeLeft={readyInSeconds}
+            showTimeLeft={showTooltip}
           />
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <img
-        src={manekiNeko}
-        onClick={shake}
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${PIXEL_SCALE * 0}px`,
-        }}
-        className="absolute z-10 cursor-pointer hover:img-highlight"
-        alt="Maneki Neko"
-      />
-      <img
-        src={shadow}
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          bottom: `${-PIXEL_SCALE * 0}px`,
-        }}
-        className="absolute"
-      />
+      )}
+      {gameState.matches("revealing") && (
+        <Modal show centered>
+          <Panel>
+            <Revealing icon={manekiNekoShaking} />
+          </Panel>
+        </Modal>
+      )}
+      {gameState.matches("revealed") && (
+        <Modal show centered>
+          <Panel>
+            <Revealed />
+          </Panel>
+        </Modal>
+      )}
     </>
   );
 };

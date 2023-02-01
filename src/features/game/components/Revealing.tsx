@@ -17,7 +17,7 @@ export const Revealing: React.FC<Props> = ({ icon }) => {
         onLoad={(e) => setImageWidth(e.currentTarget)}
       />
       <span
-        className="text-center text-xs loading mb-2"
+        className="text-center text-xs loading mb-1"
         style={{
           height: "24px",
         }}
