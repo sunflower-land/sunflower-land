@@ -12,9 +12,9 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import {
-  Consumable,
-  ConsumableName,
-  CONSUMABLES,
+  Cookable,
+  CookableName,
+  COOKABLES,
 } from "features/game/types/consumables";
 import { Label } from "components/ui/Label";
 
@@ -30,11 +30,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
-  selected: Consumable;
-  setSelected: Dispatch<SetStateAction<Consumable>>;
-  recipes: Consumable[];
+  selected: Cookable;
+  setSelected: Dispatch<SetStateAction<Cookable>>;
+  recipes: Cookable[];
   onClose: () => void;
-  onCook: (name: ConsumableName) => void;
+  onCook: (name: CookableName) => void;
   craftingService?: MachineInterpreter;
   crafting: boolean;
 }
@@ -142,7 +142,7 @@ export const Recipes: React.FC<Props> = ({
               <p className="sm:text-center sm:mb-1">{selected.name}</p>
             </div>
             <span className="text-xxs mt-2 sm:text-center">
-              {CONSUMABLES[selected.name].description}
+              {COOKABLES[selected.name].description}
             </span>
           </div>
         </div>

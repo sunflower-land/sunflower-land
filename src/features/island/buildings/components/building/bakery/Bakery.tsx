@@ -7,7 +7,7 @@ import goblinChef from "assets/npcs/goblin_chef.gif";
 import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { ConsumableName } from "features/game/types/consumables";
+import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
@@ -33,7 +33,7 @@ export const Bakery: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  const handleCook = (item: ConsumableName) => {
+  const handleCook = (item: CookableName) => {
     craftingService?.send({
       type: "CRAFT",
       event: "recipe.cooked",

@@ -23,6 +23,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
+import { PLACEABLE_TREASURES } from "features/game/types/treasure";
 
 interface Props {
   state: GameState;
@@ -63,7 +64,8 @@ export const Chest: React.FC<Props> = ({
         item in AUCTIONEER_ITEMS ||
         item in BEANS() ||
         item in HELIOS_BLACKSMITH_ITEMS ||
-        item in GOBLIN_BLACKSMITH_ITEMS
+        item in GOBLIN_BLACKSMITH_ITEMS ||
+        item in PLACEABLE_TREASURES
       ) {
         return { ...acc, [item]: chestMap[item] };
       }

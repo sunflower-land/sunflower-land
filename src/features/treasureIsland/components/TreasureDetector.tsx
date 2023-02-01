@@ -114,7 +114,7 @@ export const TreasureDetector: React.FC = () => {
       return (
         <CloseButtonPanel
           onClose={closeHandle}
-          title="Looking for treasure?"
+          title="Looking for a rare treasure?"
           bumpkinParts={bumpkinParts}
         >
           <div className="text-left p-2">
@@ -141,7 +141,7 @@ export const TreasureDetector: React.FC = () => {
       return (
         <CloseButtonPanel
           onClose={closeHandle}
-          title="Looking for treasure?"
+          title="Looking for a rare treasure?"
           bumpkinParts={bumpkinParts}
         >
           <div className="flex flex-col items-center p-2 pt-0">
@@ -176,13 +176,13 @@ export const TreasureDetector: React.FC = () => {
     return (
       <CloseButtonPanel
         onClose={closeHandle}
-        title="Looking for treasure?"
+        title="Looking for a rare treasure?"
         bumpkinParts={bumpkinParts}
       >
         <div className="text-left p-2">
           <p className="mb-2">
-            I can sense the presence of treasure, jewels, and other valuable
-            objects, even if they were buried deep underground.
+            I can sense the presence of great treasures, jewels, and other
+            valuable objects, even if they were buried deep underground.
           </p>
           <p className="mb-3">
             Give me <span className="underline">1 gold</span> and I will show

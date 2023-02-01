@@ -6,7 +6,7 @@ import npc from "assets/npcs/chef.gif";
 import doing from "assets/npcs/chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { ConsumableName } from "features/game/types/consumables";
+import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { InventoryItemName } from "features/game/types/game";
@@ -32,7 +32,7 @@ export const Kitchen: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  const handleCook = (item: ConsumableName) => {
+  const handleCook = (item: CookableName) => {
     craftingService?.send({
       type: "CRAFT",
       event: "recipe.cooked",

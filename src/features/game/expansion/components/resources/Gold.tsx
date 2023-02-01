@@ -99,9 +99,11 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
     if (!hasPickaxes) return;
 
-    const isPlaying = sparkGif.current?.getInfo("isPlaying");
+    const spriteFrame = sparkGif.current?.getInfo("frame");
 
-    if (isPlaying) return;
+    if (spriteFrame && spriteFrame < 6) {
+      return;
+    }
 
     miningAudio.play();
     sparkGif.current?.goToAndPlay(0);

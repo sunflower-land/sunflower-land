@@ -6,7 +6,7 @@ import artisian from "assets/npcs/artisian.gif";
 import artisianDoing from "assets/npcs/artisian_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { ConsumableName } from "features/game/types/consumables";
+import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
@@ -32,7 +32,7 @@ export const Deli: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  const handleCook = (item: ConsumableName) => {
+  const handleCook = (item: CookableName) => {
     craftingService?.send({
       type: "CRAFT",
       event: "recipe.cooked",

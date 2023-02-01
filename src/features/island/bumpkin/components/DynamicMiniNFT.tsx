@@ -31,6 +31,8 @@ import whiteShirt from "assets/npc-layers/white_shirt.png";
 import fireShirt from "assets/npc-layers/fire_shirt.png";
 import fireHair from "assets/npc-layers/fire_hair.png";
 import lusciousHair from "assets/npc-layers/luscious_hair.png";
+import angelWings from "assets/npc-layers/angel_wings.png";
+import devilWings from "assets/npc-layers/devil_wings.png";
 
 import farmerPants from "assets/npc-layers/farmer_pants.png";
 import blueOveralls from "assets/npc-layers/blue_overalls.png";
@@ -44,6 +46,8 @@ import sharkOnesie from "assets/npc-layers/shark-onesie.png";
 import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
 import reindeerAntlers from "assets/npc-layers/reindeer_antlers.png";
 import lionDanceMask from "assets/npc-layers/lion_dance_mask.png";
+import fruitShirt from "assets/npc-layers/fruit_shirt.png";
+import fruitHat from "assets/npc-layers/fruit_hat.png";
 
 import shadow from "assets/npcs/shadow.png";
 
@@ -57,6 +61,7 @@ import {
   BumpkinSuit,
   BumpkinHat,
   BumpkinOnesie,
+  BumpkinWings,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -71,7 +76,8 @@ type VisiblePart =
   | BumpkinPant
   | BumpkinSuit
   | BumpkinHat
-  | BumpkinOnesie;
+  | BumpkinOnesie
+  | BumpkinWings;
 
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
@@ -113,6 +119,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "SFL T-Shirt": sflShirt,
   "Warrior Shirt": warriorShirt,
   "Fire Shirt": fireShirt,
+  "Fruit Picker Shirt": fruitShirt,
 
   // Pants
   "Farmer Overalls": blueOveralls,
@@ -131,10 +138,15 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   // Hats
   "Lion Dance Mask": lionDanceMask,
   "Reindeer Antlers": reindeerAntlers,
+  "Fruit Bowl": fruitHat,
 
   // Onesie
   "Snowman Onesie": snowman,
   "Shark Onesie": sharkOnesie,
+
+  // Wings
+  "Devil Wings": devilWings,
+  "Angel Wings": angelWings,
 };
 
 export interface DynamicMiniNFTProps {
@@ -145,6 +157,7 @@ export interface DynamicMiniNFTProps {
   hat?: BumpkinHat;
   suit?: BumpkinSuit;
   onesie?: BumpkinOnesie;
+  wings?: BumpkinWings;
 }
 
 export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
@@ -155,56 +168,15 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
   hat,
   suit,
   onesie,
+  wings,
 }) => {
   const { gameService } = useContext(Context);
 
   const [open, setOpen] = useState(false);
 
-  const [frame, setFrame] = useState<number>(0);
-  const bodyRef = useRef<Spritesheet>(null);
-  const hairRef = useRef<Spritesheet>(null);
-  const shirtRef = useRef<Spritesheet>(null);
-  const pantsRef = useRef<Spritesheet>(null);
-  const suitRef = useRef<Spritesheet>(null);
-  const hatRef = useRef<Spritesheet>(null);
-  const onesieRef = useRef<Spritesheet>(null);
-
   const eat = (food: ConsumableName) => {
     gameService.send("bumpkin.feed", { food });
   };
-
-  const bodyPartStyle = {
-    width: `${PIXEL_SCALE * 20}px`,
-    top: `${PIXEL_SCALE * 5}px`,
-    left: `${PIXEL_SCALE * -2}px`,
-    imageRendering: "pixelated" as const,
-  };
-
-  const [timer, setTimer] = React.useState<number>(0);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => setTimer(Date.now()), STEP_MS);
-    return () => window.clearInterval(interval);
-  }, []);
-
-  // make sure all body parts are synchronized
-  useEffect(() => {
-    setFrame((frame + 1) % STEPS);
-    bodyRef.current?.goToAndPause(frame);
-    hairRef.current?.goToAndPause(frame);
-    shirtRef.current?.goToAndPause(frame);
-    pantsRef.current?.goToAndPause(frame);
-
-    if (suitRef.current) {
-      suitRef.current?.goToAndPause(frame);
-    }
-    if (hatRef.current) {
-      hatRef.current?.goToAndPause(frame);
-    }
-    if (onesieRef.current) {
-      onesieRef.current?.goToAndPause(frame);
-    }
-  }, [timer]);
 
   return (
     <>
@@ -216,6 +188,7 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
         hat={hat}
         suit={suit}
         onesie={onesie}
+        wings={wings}
         onClick={() => setOpen(true)}
       />
       <FeedModal
@@ -234,6 +207,7 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
   pants,
   hat,
   suit,
+  wings,
   onesie,
   onClick,
 }) => {
@@ -245,6 +219,7 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
   const suitRef = useRef<Spritesheet>(null);
   const hatRef = useRef<Spritesheet>(null);
   const onesieRef = useRef<Spritesheet>(null);
+  const wingsRef = useRef<Spritesheet>(null);
 
   const bodyPartStyle = {
     width: `${PIXEL_SCALE * 20}px`,
@@ -276,6 +251,9 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
     }
     if (onesieRef.current) {
       onesieRef.current?.goToAndPause(frame);
+    }
+    if (wingsRef.current) {
+      wingsRef.current?.goToAndPause(frame);
     }
   }, [timer]);
 
@@ -300,6 +278,19 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
           }}
           className="absolute pointer-events-none"
         />
+
+        {wings && (
+          <Spritesheet
+            ref={wingsRef}
+            className="absolute w-full inset-0 pointer-events-none"
+            style={bodyPartStyle}
+            image={PARTS[wings as BumpkinWings] as string}
+            widthFrame={FRAME_WIDTH}
+            heightFrame={FRAME_HEIGHT}
+            steps={STEPS}
+            fps={0}
+          />
+        )}
         <Spritesheet
           ref={bodyRef}
           className="absolute w-full inset-0 pointer-events-none"

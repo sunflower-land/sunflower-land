@@ -2977,28 +2977,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Crop Charm": {
+  "Lunar Calendar": {
+    description: "A charm made from crops.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Dinosaur Fossil": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fossil 1": {
+  "Parasaur Skull": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fossil 2": {
-    description: "?",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [],
-  },
-  "Fossil 3": {
+  "T-Rex Skull": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -3096,8 +3096,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Wood Charm": {
-    description: "?",
+  "Tiki Totem": {
+    description: "A charm made of wood.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
