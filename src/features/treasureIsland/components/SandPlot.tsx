@@ -237,6 +237,7 @@ export const SandPlot: React.FC<{
       content: `+1`,
     });
 
+    console.log("acknowledge");
     sandPlotService.send("ACKNOWLEDGE");
   };
 
@@ -265,8 +266,10 @@ export const SandPlot: React.FC<{
   };
 
   useEffect(() => {
-    console.log({ reward, drilling });
-    if (reward && drilling) {
+    // Avoid checking for previous day rewards
+    const hasRecentReward = reward && reward?.dugAt > Date.now() - 60 * 1000;
+
+    if (hasRecentReward && drilling) {
       sandPlotService.send("FINISH_DIGGING", {
         discovered: reward.discovered,
         dugAt: reward?.dugAt,

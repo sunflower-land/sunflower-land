@@ -76,7 +76,3 @@ export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(
   }),
   {} as Record<CropName, Lifecycle>
 );
-
-console.log({
-  CROP_LIFECYCLE,
-});
