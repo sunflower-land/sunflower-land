@@ -12,7 +12,7 @@ import { Loading } from "features/auth/components";
 
 export const Observatory: React.FC = () => {
   // Using rand value helps force-replay gifs.
-  // Also, putting this in state ensures the gif doesn't replay during random compontent rerenders.
+  // Also, putting this in state ensures the gif doesn't replay during random component rerenders.
   const [playRand, setPlayRand] = useState<number | undefined>(undefined);
   const [modalTimer, setModalTimer] = useState<number>();
   const [loading, setLoading] = useState(false);

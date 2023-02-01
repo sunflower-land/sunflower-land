@@ -458,7 +458,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Gnome: {
     name: "Gnome",
     description:
-      "A lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the Gobblin Blacksmith in the game.~~ **Sold out!**",
+      "A lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the Goblin Blacksmith in the game.~~ **Sold out!**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/407.gif",
@@ -750,7 +750,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_number",
-        trait_type: "Stone Critical Hit Multipler",
+        trait_type: "Stone Critical Hit Multiplier",
         value: 3,
       },
       { value: "Tradable" },
@@ -841,7 +841,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Victoria Sisters": {
     name: "Victoria Sisters",
     description:
-      "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.\n\nTo craft this item you must collect 50 Jack-o-lantern's and trade with the travelling salesman.",
+      "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.\n\nTo craft this item you must collect 50 Jack-o-lantern's and trade with the Traveling Salesman.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/432.gif",
@@ -2323,7 +2323,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_number",
-        trait_type: "Crop Critical Hit Multipler",
+        trait_type: "Crop Critical Hit Multiplier",
         value: 10,
       },
       { trait_type: "Purpose", value: "Boost" },
@@ -2466,7 +2466,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1210.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoraton" }],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Bumpkin Broth": {
     description:
@@ -2763,7 +2763,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Sand Shovel": {
     description:
-      "There are rumours that the Bumpkin pirares hid their treasure somewhere. These shovels can be used to dig for treasure!",
+      "There are rumours that the Bumpkin pirates hid their treasure somewhere. These shovels can be used to dig for treasure!",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/310.png",
@@ -2942,7 +2942,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Maneki Neko": {
     description:
-      "The beckoning cat. Pull it's arm and good luck will come. A special event item from Lunar New Year!",
+      "The beckoning cat. Pull its arm and good luck will come. A special event item from Lunar New Year!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/446.gif",

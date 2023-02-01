@@ -16,7 +16,7 @@ export type AchievementName =
   | "Sun Seeker"
   | "Sunflower Superstar"
   | "My life is potato"
-  | "Jack O'Latern"
+  | "Jack O'Lantern"
   | "20/20 Vision"
   | "Cabbage King"
   | "Beetroot Beast"
@@ -91,7 +91,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 10,
     sfl: marketRate(20),
   },
-  "Jack O'Latern": {
+  "Jack O'Lantern": {
     description: "Harvest Pumpkin 500 times",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Pumpkin Harvested"] || 0,

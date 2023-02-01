@@ -43,7 +43,7 @@ export const MutantChickenModal = ({
   inventory,
 }: Props) => {
   // Boosts don't stack so only show boost information if the user doesn't already have the mutant
-  const showDescrition = !inventory[type];
+  const showDescription = !inventory[type];
   return (
     <Modal show={show} centered>
       <Panel>
@@ -53,7 +53,7 @@ export const MutantChickenModal = ({
             <img src={mutants[type].image} style={{ width: "50px" }} />
           </div>
           <p className="text-sm mb-2">{`Congratulations, your chicken has laid a very rare mutant chicken!`}</p>
-          {showDescrition && (
+          {showDescription && (
             <p className="text-sm mb-2">{mutants[type].description}</p>
           )}
         </div>

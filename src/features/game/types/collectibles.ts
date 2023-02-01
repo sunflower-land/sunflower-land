@@ -71,7 +71,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     boost: "+1 Blueberry",
   },
   "Maneki Neko": {
-    description: "The beckoning cat. Pull it's arm and good luck will come",
+    description: "The beckoning cat. Pull its arm and good luck will come",
     ingredients: {
       Gold: new Decimal(1),
       "Red Envelope": new Decimal(50),

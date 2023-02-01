@@ -531,7 +531,7 @@ describe("feed chickens", () => {
     expect(newState.inventory.Wheat).toEqual(new Decimal(2));
   });
 
-  it("feeds a chicken when a player has no wheat but has the Gold Egg is placed and its ready", () => {
+  it("feeds a chicken when a player has no wheat but has the Gold Egg is placed and it's ready", () => {
     jest.useRealTimers();
     const state = {
       ...GAME_STATE,

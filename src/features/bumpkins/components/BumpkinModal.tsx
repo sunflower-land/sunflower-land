@@ -166,7 +166,7 @@ export const BumpkinModal: React.FC<Props> = ({
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
 
-  const hasAvaliableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
+  const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
 
   const getProgressWidth = () => {
     let progressRatio = 1;
@@ -241,7 +241,7 @@ export const BumpkinModal: React.FC<Props> = ({
               <div className="flex items-center mb-1 justify-between">
                 <div className="flex items-center">
                   <span className="text-xs">Skills</span>
-                  {hasAvaliableSP && !readonly && (
+                  {hasAvailableSP && !readonly && (
                     <img
                       src={SUNNYSIDE.icons.expression_alerted}
                       className="h-4 ml-2"

@@ -125,7 +125,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
   const eggIsBrewing = happy || sleeping;
   const showEggProgress =
     showTimers && chicken && !eating && !eggLaid && !hungry;
-  const interactable = hungry || eggReady || eggLaid;
+  const interactible = hungry || eggReady || eggLaid;
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
@@ -234,7 +234,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
       <div
         className={classNames("w-full h-full relative", {
           "cursor-pointer hover:img-highlight":
-            interactable || hasRustyShovelSelected,
+            interactible || hasRustyShovelSelected,
         })}
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}

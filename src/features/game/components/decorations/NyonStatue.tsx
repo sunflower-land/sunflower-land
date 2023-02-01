@@ -53,7 +53,7 @@ export const NyonStatue: React.FC = () => {
               <span className="text-shadow block mb-2 text-xs">
                 The legendary knight responsible for clearing the goblins from
                 the mines. Shortly after his victory he died by poisoning from a
-                Goblin conspirator. The Sunflower Citizens erected this statue
+                Goblin conspirator. The Sunflower citizens erected this statue
                 with his armor to commemorate his conquests.
               </span>
             </div>
