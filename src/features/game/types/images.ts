@@ -320,6 +320,7 @@ import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.png";
 import foliant from "assets/sfts/foliant.webp";
+import dinosaurFossil from "assets/sfts/dinosaur_fossil.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1736,7 +1737,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Dinosaur Fossil": {
     description: "A Dinosaur Fossil! What kind of creature was this?",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: dinosaurFossil,
   },
   "Human Bear": {
     description: "A human bear. Even scarier than a goblin bear.",

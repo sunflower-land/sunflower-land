@@ -9,8 +9,10 @@ export const SkeletonKingStaff: React.FC = () => {
       <img
         src={keyStaffCase}
         style={{
-          width: `${PIXEL_SCALE * 32}px`,
+          width: `${PIXEL_SCALE * 22}px`,
           bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
         }}
         className="absolute"
         alt="Skeleton Key Staff"

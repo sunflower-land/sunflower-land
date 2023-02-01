@@ -102,6 +102,7 @@ import { SunflowerCoin } from "./components/SunflowerCoin";
 import { Galleon } from "./components/Galleon";
 import { SkeletonKingStaff } from "./components/SkeletonKingStaff";
 import { Foliant } from "./components/Foliant";
+import { DinosaurFossil } from "./components/DinosaurFossil";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -235,6 +236,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Galleon: Galleon,
   "Skeleton King Staff": SkeletonKingStaff,
   Foliant: Foliant,
+  "Dinosaur Fossil": DinosaurFossil,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

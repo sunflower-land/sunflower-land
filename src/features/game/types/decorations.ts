@@ -122,12 +122,12 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
   },
   Foliant: {
-    height: 1,
-    width: 1,
+    height: 2,
+    width: 2,
   },
   "Skeleton King Staff": {
-    height: 1,
-    width: 1,
+    height: 3,
+    width: 2,
   },
   "Lifeguard Bear": {
     height: 1,
@@ -158,8 +158,8 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
   },
   "Dinosaur Fossil": {
-    height: 1,
-    width: 1,
+    height: 2,
+    width: 2,
   },
   "Human Bear": {
     height: 2,
