@@ -12,7 +12,7 @@ import { Button } from "components/ui/Button";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { CONSUMABLES } from "features/game/types/consumables";
+import { COOKABLES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -21,20 +21,20 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
-  "Fire Pit": getKeys(CONSUMABLES).filter(
-    (name) => CONSUMABLES[name].building === "Fire Pit"
+  "Fire Pit": getKeys(COOKABLES).filter(
+    (name) => COOKABLES[name].building === "Fire Pit"
   ),
-  Kitchen: getKeys(CONSUMABLES).filter(
-    (name) => CONSUMABLES[name].building === "Kitchen"
+  Kitchen: getKeys(COOKABLES).filter(
+    (name) => COOKABLES[name].building === "Kitchen"
   ),
-  Bakery: getKeys(CONSUMABLES).filter(
-    (name) => CONSUMABLES[name].building === "Bakery"
+  Bakery: getKeys(COOKABLES).filter(
+    (name) => COOKABLES[name].building === "Bakery"
   ),
-  Deli: getKeys(CONSUMABLES).filter(
-    (name) => CONSUMABLES[name].building === "Deli"
+  Deli: getKeys(COOKABLES).filter(
+    (name) => COOKABLES[name].building === "Deli"
   ),
-  "Smoothie Shack": getKeys(CONSUMABLES).filter(
-    (name) => CONSUMABLES[name].building === "Smoothie Shack"
+  "Smoothie Shack": getKeys(COOKABLES).filter(
+    (name) => COOKABLES[name].building === "Smoothie Shack"
   ),
   Workbench: getKeys(WORKBENCH_TOOLS),
   "Hen House": ["Chicken", "Egg"],

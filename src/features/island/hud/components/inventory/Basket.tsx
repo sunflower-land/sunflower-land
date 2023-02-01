@@ -24,6 +24,7 @@ import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { BEACH_BOUNTY_TREASURE } from "features/game/types/treasure";
 
 interface Prop {
   gameState: GameState;
@@ -91,6 +92,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const consumables = getItems(CONSUMABLES);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
+  const bounty = getItems(BEACH_BOUNTY_TREASURE);
 
   const allSeeds = [...seeds, ...fruitSeeds];
   const allTools = [...tools, ...shovels];
@@ -165,6 +167,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Exotic", exotic)}
           {itemsSection("Foods", consumables)}
           {itemsSection("Fertilisers", fertilisers)}
+          {itemsSection("Bounty", bounty)}
           {itemsSection("Coupons", coupons)}
         </>
       }

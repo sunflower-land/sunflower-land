@@ -283,6 +283,7 @@ const getIslandElements = ({
           suit={bumpkinParts.suit}
           hat={bumpkinParts.hat}
           onesie={bumpkinParts.onesie}
+          wings={bumpkinParts.wings}
         />
       </MapPlacement>
     );

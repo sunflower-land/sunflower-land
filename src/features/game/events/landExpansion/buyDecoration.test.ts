@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import { DecorationName, DECORATIONS } from "../../types/decorations";
+import {
+  HELIOS_DECORATIONS,
+  ShopDecorationName,
+} from "../../types/decorations";
 import { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
@@ -13,7 +16,7 @@ describe("buyDecoration", () => {
         state: GAME_STATE,
         action: {
           type: "decoration.bought",
-          item: "Goblin Key" as DecorationName,
+          item: "Goblin Key" as ShopDecorationName,
         },
       })
     ).toThrow("This item is not a decoration");
@@ -67,7 +70,7 @@ describe("buyDecoration", () => {
     });
 
     expect(state.balance).toEqual(
-      balance.minus(DECORATIONS()["Potted Sunflower"].sfl as Decimal)
+      balance.minus(HELIOS_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
     );
   });
 
@@ -123,7 +126,7 @@ describe("buyDecoration", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
+      HELIOS_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
     );
   });
 

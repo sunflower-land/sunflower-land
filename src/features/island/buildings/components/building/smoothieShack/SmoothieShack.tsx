@@ -6,7 +6,7 @@ import smoothieShackDesk from "assets/buildings/smoothie_shack_desk.webp";
 import smoothieChef from "assets/npcs/smoothie.gif";
 import smoothieChefMaking from "assets/npcs/smoothie_making.gif";
 
-import { ConsumableName } from "features/game/types/consumables";
+import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
@@ -32,7 +32,7 @@ export const SmoothieShack: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
-  const handleCook = (item: ConsumableName) => {
+  const handleCook = (item: CookableName) => {
     craftingService?.send({
       type: "CRAFT",
       event: "recipe.cooked",

@@ -1,11 +1,11 @@
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { MachineInterpreter as GameServiceMachineInterpreter } from "src/features/game/lib/gameMachine";
 import { GameEventName, PlayingEvent } from "features/game/events";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 export interface CraftingContext {
-  name?: ConsumableName;
+  name?: CookableName;
   buildingId: string;
   readyAt?: number;
   secondsTillReady?: number;
@@ -26,13 +26,13 @@ type CraftingState = {
 type CraftEvent = {
   type: "CRAFT";
   event: GameEventName<PlayingEvent>;
-  item: ConsumableName;
+  item: CookableName;
   buildingId: string;
 };
 
 type CollectEvent = {
   type: "COLLECT";
-  item: ConsumableName;
+  item: CookableName;
   event: GameEventName<PlayingEvent>;
 };
 
@@ -151,7 +151,7 @@ export const craftingMachine = createMachine<
         });
       },
       assignCraftingDetails: assign((context, event) => {
-        const { cookingSeconds } = CONSUMABLES[(event as CraftEvent).item];
+        const { cookingSeconds } = COOKABLES[(event as CraftEvent).item];
         const { bumpkin } = context.gameService.state.context.state;
         const reducedSeconds = getCookingTime(cookingSeconds, bumpkin);
 
@@ -161,7 +161,7 @@ export const craftingMachine = createMachine<
         };
       }),
       sendCollectEventToGameMachine: ({ gameService, buildingId }, event) => {
-        const { building } = CONSUMABLES[(event as CollectEvent).item];
+        const { building } = COOKABLES[(event as CollectEvent).item];
 
         gameService?.send((event as CollectEvent).event, {
           building,

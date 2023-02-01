@@ -30,7 +30,8 @@ import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
 import { SKILL_TREE } from "./skills";
 import { BUILDINGS } from "./buildings";
 import { CONSUMABLES } from "./consumables";
-import { DECORATIONS } from "./decorations";
+import { HELIOS_DECORATIONS } from "./decorations";
+import { TREASURE_TOOLS } from "./tools";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -118,7 +119,10 @@ const seedDefaults = buildDefaults(getKeys(SEEDS()), false);
 const beanDefaults = buildDefaults(getKeys(BEANS()), false);
 const questItemDefaults = buildDefaults(getKeys(QUEST_ITEMS), false);
 const warTentItemsDefaults = buildDefaults(getKeys(WAR_TENT_ITEMS), false);
-const toolDefaults = buildDefaults(getKeys(TOOLS), false);
+const toolDefaults = buildDefaults(
+  getKeys({ ...TOOLS, ...TREASURE_TOOLS }),
+  false
+);
 const foodDefaults = buildDefaults(getKeys(FOODS()), false);
 const shovelDefaults = buildDefaults(getKeys(SHOVELS), false);
 const warBannerDefaults = buildDefaults(getKeys(WAR_BANNERS), false);
@@ -138,7 +142,7 @@ const couponDefaults = buildDefaults(getKeys(COUPONS), false);
 const buildingDefaults = buildDefaults(getKeys(BUILDINGS()), false);
 const fertiliserDefaults = buildDefaults(getKeys(FERTILISERS), false);
 const consumableDefaults = buildDefaults(getKeys(CONSUMABLES), false);
-const decorationDefaults = buildDefaults(getKeys(DECORATIONS()), false);
+const decorationDefaults = buildDefaults(getKeys(HELIOS_DECORATIONS()), false);
 
 const mutantCropDefaults = {
   "Stellar Sunflower": false,
@@ -279,12 +283,11 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Pirate Bear": false,
   "Goblin Bear": false,
   Galleon: false,
-  "Pirate Hat": false,
   "Dinosaur Fossil": false,
   "Human Bear": false,
   "Treasure Map": false,
-  "Wood Charm": false,
-  "Crop Charm": false,
+  "Tiki Totem": false,
+  "Lunar Calendar": false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

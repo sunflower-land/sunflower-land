@@ -86,6 +86,7 @@ export const SUNNYSIDE = {
     egg: `${CONFIG.PROTECTED_IMAGE_URL}/resources/egg.png`,
     magic_mushroom: `${CONFIG.PROTECTED_IMAGE_URL}/resources/magic_mushroom.png`,
     boulder: `${CONFIG.PROTECTED_IMAGE_URL}/resources/rare_mine.png`,
+    pirate_bounty: `${CONFIG.PROTECTED_IMAGE_URL}/resources/pirate_bounty.webp`,
     sea_cucumber: `${CONFIG.PROTECTED_IMAGE_URL}/resources/sea_cucumber.png`,
     small_stone: `${CONFIG.PROTECTED_IMAGE_URL}/resources/small_stone.png`,
     starfish: `${CONFIG.PROTECTED_IMAGE_URL}/resources/starfish.png`,

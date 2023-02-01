@@ -18,7 +18,7 @@ import { MultipleDevices } from "./components/MultipleDevices";
 import { Blocked } from "./components/Blocked";
 import { PhantomWalletNotSupported } from "./components/PhantomWalletNotSupported";
 import { ClockIssue } from "features/game/components/ClockIssue";
-import { SFLExceeded } from "features/game/components/SFLExceded";
+import { SFLExceeded } from "features/game/components/SFLExceeded";
 
 interface Props {
   errorCode: ErrorCode;
