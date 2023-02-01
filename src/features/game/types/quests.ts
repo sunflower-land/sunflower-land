@@ -6,7 +6,6 @@ export type QuestName =
   | "Fruit Quest 1"
   | "Fruit Quest 2"
   | "Fruit Quest 3"
-  | "Fruit Quest 4"
   | "Pirate Quest 1"
   | "Pirate Quest 2"
   | "Pirate Quest 3"
@@ -48,14 +47,6 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 750,
     wearable: "Fruit Bowl",
-  },
-  "Fruit Quest 4": {
-    description: "Harvest 1200 Blueberries",
-    progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
-    requirement: 1200,
-    wearable: "Farmer Pitchfork",
-    deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
 
   "Pirate Quest 1": {
@@ -108,7 +99,6 @@ export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
     "Fruit Quest 1": 100005,
     "Fruit Quest 2": 100006,
     "Fruit Quest 3": 100007,
-    "Fruit Quest 4": 100008,
     "Lunar New Year Quest 1": 100009,
     "Lunar New Year Quest 2": 100010,
     "Pirate Quest 1": 100011,
