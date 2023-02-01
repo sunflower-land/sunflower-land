@@ -90,7 +90,7 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-        {Object.values(HELIOS_DECORATIONS).map((item: Decoration) => (
+        {Object.values(HELIOS_DECORATIONS()).map((item: Decoration) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}
