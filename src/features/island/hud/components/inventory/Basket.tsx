@@ -86,7 +86,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fruitSeeds = getItems(FRUIT_SEEDS());
   const crops = getItems(CROPS());
   const fruits = getItems(FRUIT());
-  const workbenchTools = getItems(WORKBENCH_TOOLS);
+  const workbenchTools = getItems(WORKBENCH_TOOLS());
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(RESOURCES);
