@@ -16,9 +16,8 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game }) => {
 
   return (
     <div
-      className="w-full flex justify-center fixed bottom-4 pl-2 pr-[73.5px] md:pr-2"
-      style={{ zIndex: 999 }}
-      onClick={() => console.log("parent clicked")}
+      className="w-full flex justify-center fixed bottom-14 md:bottom-4 pl-2 pr-[73.5px] md:pr-2 z-40"
+      onClick={console.log}
     >
       <CloseButtonPanel
         className="w-full sm:w-[30rem]"
