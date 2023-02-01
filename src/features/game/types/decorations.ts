@@ -126,7 +126,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
   },
   "Skeleton King Staff": {
-    height: 3,
+    height: 2,
     width: 2,
   },
   "Lifeguard Bear": {
