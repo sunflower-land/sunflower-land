@@ -318,7 +318,8 @@ import seaweed from "assets/sfts/treasure/seaweed.webp";
 import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
 import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
-import skeletonKeyStaff from "assets/sfts/skeleton_key_staff.webp";
+import skeletonKingStaff from "assets/sfts/skeleton_king_staff.png";
+import foliant from "assets/sfts/foliant.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1699,11 +1700,11 @@ export const ITEM_DETAILS: Items = {
   },
   Foliant: {
     description: "A book of spells.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: foliant,
   },
   "Skeleton King Staff": {
     description: "All hail the Skeleton King!",
-    image: skeletonKeyStaff,
+    image: skeletonKingStaff,
   },
   "Lifeguard Bear": {
     description: "Lifeguard Bear is here to save the day!",

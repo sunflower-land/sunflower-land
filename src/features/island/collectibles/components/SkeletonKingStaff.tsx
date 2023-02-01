@@ -3,7 +3,7 @@ import React from "react";
 import keyStaffCase from "assets/sfts/skeleton_key_staff_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const SkeletonKeyStaff: React.FC = () => {
+export const SkeletonKingStaff: React.FC = () => {
   return (
     <>
       <img
