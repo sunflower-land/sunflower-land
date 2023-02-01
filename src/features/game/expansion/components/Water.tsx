@@ -14,7 +14,7 @@ import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
 import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
-import { FarmerQuest } from "features/island/farmerQuest/FarmerQuest";
+import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 
 import { merchantAudio } from "lib/utils/sfx";
 import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
@@ -22,7 +22,6 @@ import { ProjectDignitySeals } from "features/community/components/ProjectDignit
 import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
-import { LunarNewYearQuest } from "./LunarNewYearQuest";
 
 export const LAND_WIDTH = 6;
 
@@ -123,8 +122,7 @@ export const Water: React.FC<Props> = ({ level }) => {
         </div>
       </MapPlacement>
 
-      <FarmerQuest />
-      <LunarNewYearQuest />
+      <FruitQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>
         <img

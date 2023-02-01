@@ -111,6 +111,11 @@ export const getCropTime = (
     seconds = seconds * 0.95;
   }
 
+  //If lunar calender: 10% reduction
+  if (isCollectibleBuilt("Lunar Calendar", collectibles)) {
+    seconds = seconds * 0.9;
+  }
+
   return seconds;
 };
 

@@ -77,6 +77,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Red Envelope": new Decimal(50),
     },
     supply: 30000,
-    disabled: false,
+    disabled: true,
   },
 };

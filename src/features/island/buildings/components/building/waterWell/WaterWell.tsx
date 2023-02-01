@@ -28,7 +28,7 @@ export const WaterWell: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
           bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute"
+        className="absolute pointer-events-none"
       />
     </BuildingImageWrapper>
   );

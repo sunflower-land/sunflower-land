@@ -23,7 +23,7 @@ export const Tent: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <BuildingImageWrapper onClick={handleClick} nonInteractible={!onRemove}>
       <img
         src={tent}
-        className="absolute"
+        className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 46}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

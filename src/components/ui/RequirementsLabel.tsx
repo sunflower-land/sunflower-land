@@ -182,7 +182,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const requirementMet = isRequirementMet();
 
   return (
-    <div className={classNames("flex justify-between", props.className)}>
+    <div className={props.className ?? "flex justify-between"}>
       <SquareIcon icon={getIcon()} width={7} />
       <Label
         className={classNames("whitespace-nowrap", { "ml-1": !requirementMet })}

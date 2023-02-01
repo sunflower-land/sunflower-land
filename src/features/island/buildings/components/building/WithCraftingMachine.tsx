@@ -9,7 +9,7 @@ import {
   MachineState,
 } from "../../lib/craftingMachine";
 import { BuildingProps } from "./Building";
-import { ConsumableName } from "features/game/types/consumables";
+import { CookableName } from "features/game/types/consumables";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isCrafting = (state: MachineState) => state.matches("crafting");
@@ -20,7 +20,7 @@ export interface CraftingMachineChildProps extends BuildingProps {
   idle: boolean;
   crafting: boolean;
   ready: boolean;
-  name?: ConsumableName;
+  name?: CookableName;
   craftingService: MachineInterpreter;
   handleShowCraftingTimer: () => void;
 }

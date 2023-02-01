@@ -1,6 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
@@ -8,7 +8,7 @@ import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
-  item: ConsumableName;
+  item: CookableName;
   buildingId: string;
 };
 
@@ -19,13 +19,13 @@ type Options = {
 };
 
 type GetReadyAtArgs = {
-  item: ConsumableName;
+  item: CookableName;
   bumpkin: Bumpkin;
   createdAt: number;
 };
 
 export const getReadyAt = ({ item, bumpkin, createdAt }: GetReadyAtArgs) => {
-  const seconds = getCookingTime(CONSUMABLES[item].cookingSeconds, bumpkin);
+  const seconds = getCookingTime(COOKABLES[item].cookingSeconds, bumpkin);
 
   return createdAt + seconds * 1000;
 };
@@ -37,7 +37,7 @@ export function cook({
 }: Options): GameState {
   const stateCopy: GameState = cloneDeep(state);
 
-  const { building: requiredBuilding, ingredients } = CONSUMABLES[action.item];
+  const { building: requiredBuilding, ingredients } = COOKABLES[action.item];
   const { buildings, bumpkin } = stateCopy;
   const buildingsOfRequiredType = buildings[requiredBuilding];
 

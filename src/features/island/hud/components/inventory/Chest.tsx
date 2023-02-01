@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
@@ -11,7 +11,6 @@ import { getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
-import { DECORATIONS } from "features/game/types/decorations";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -23,9 +22,12 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
+import { DECORATION_DIMENSIONS } from "features/game/types/decorations";
 
 interface Props {
   state: GameState;
+  selected: InventoryItemName;
+  onSelect: (name: InventoryItemName) => void;
   closeModal: () => void;
   onPlace?: (name: InventoryItemName) => void;
   isSaving?: boolean;
@@ -33,6 +35,8 @@ interface Props {
 
 export const Chest: React.FC<Props> = ({
   state,
+  selected,
+  onSelect,
   closeModal,
   isSaving,
   onPlace,
@@ -40,6 +44,7 @@ export const Chest: React.FC<Props> = ({
   const divRef = useRef<HTMLDivElement>(null);
 
   const chestMap = getChestItems(state);
+
   const { inventory, collectibles: placedItems } = state;
 
   const getItemCount = (item: InventoryItemName) => {
@@ -51,25 +56,20 @@ export const Chest: React.FC<Props> = ({
   };
 
   const collectibles = getKeys(chestMap)
-    .filter((item) => getItemCount(item).greaterThan(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
     .reduce((acc, item) => {
       if (
         item in LIMITED_ITEMS ||
-        item in DECORATIONS() ||
         item in AUCTIONEER_ITEMS ||
         item in BEANS() ||
         item in HELIOS_BLACKSMITH_ITEMS ||
-        item in GOBLIN_BLACKSMITH_ITEMS
+        item in GOBLIN_BLACKSMITH_ITEMS ||
+        item in DECORATION_DIMENSIONS
       ) {
         return { ...acc, [item]: chestMap[item] };
       }
       return acc;
     }, {} as Record<CollectibleName, Decimal>);
-
-  const [selected, setSelected] = useState<InventoryItemName>(
-    getKeys(collectibles)[0]
-  );
 
   const chestIsEmpty = getKeys(collectibles).length === 0;
   if (chestIsEmpty) {
@@ -89,14 +89,19 @@ export const Chest: React.FC<Props> = ({
     );
   }
 
+  // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
+  const selectedChestItem = collectibles[selected as CollectibleName]
+    ? selected
+    : getKeys(collectibles)[0];
+
   const handlePlace = () => {
-    onPlace && onPlace(selected);
+    onPlace && onPlace(selectedChestItem);
 
     closeModal();
   };
 
   const handleItemClick = (item: InventoryItemName) => {
-    setSelected(item);
+    onSelect(item);
   };
 
   return (
@@ -104,12 +109,12 @@ export const Chest: React.FC<Props> = ({
       divRef={divRef}
       tallMobileContent={true}
       wideModal={true}
-      showHeader={!!selected}
+      showHeader={!!selectedChestItem}
       header={
-        selected && (
+        selectedChestItem && (
           <InventoryItemDetails
             details={{
-              item: selected,
+              item: selectedChestItem,
             }}
             properties={{
               showOpenSeaLink: true,
@@ -131,7 +136,7 @@ export const Chest: React.FC<Props> = ({
               {getKeys(collectibles).map((item) => (
                 <Box
                   count={getItemCount(item)}
-                  isSelected={selected === item}
+                  isSelected={selectedChestItem === item}
                   key={item}
                   onClick={() => handleItemClick(item)}
                   image={ITEM_DETAILS[item].image}

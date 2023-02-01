@@ -6,6 +6,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
+import classNames from "classnames";
 
 export interface PanelTabs {
   icon: string;
@@ -22,6 +23,7 @@ interface Props {
   showBackButton?: boolean;
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
+  className?: string;
 }
 
 /**
@@ -35,6 +37,7 @@ interface Props {
  * @showCloseButton Whether to show the back button for the panel or not. Default is true.
  * @onClose The back button method.
  * @bumpkinParts The list of bumpkin parts for the modal.
+ * @className Additional class name for the parent panel.
  * @children The panel children content.
  */
 export const CloseButtonPanel: React.FC<Props> = ({
@@ -48,13 +51,18 @@ export const CloseButtonPanel: React.FC<Props> = ({
   onBack,
   bumpkinParts,
   children,
+  className,
 }) => {
   const handleTabClick = (index: number) => {
     setCurrentTab && setCurrentTab(index);
   };
 
   return (
-    <Panel className="relative" bumpkinParts={bumpkinParts} hasTabs={!!tabs}>
+    <Panel
+      className={classNames("relative", className)}
+      bumpkinParts={bumpkinParts}
+      hasTabs={!!tabs}
+    >
       {/* Tabs */}
       {tabs && (
         <div
