@@ -9,6 +9,7 @@ import Spritesheet, {
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import shadow from "assets/npcs/shadow.png";
+import pirate from "assets/npcs/pirate_goblin.gif";
 import xMark from "assets/decorations/flag.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -22,9 +23,12 @@ import {
   MachineState,
   SandPlotContext,
   sandPlotMachine,
+  canDig,
 } from "../lib/sandPlotMachine";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { getKeys } from "features/game/types/craftables";
+import { Panel } from "components/ui/Panel";
 
 type TreasureReward = {
   discovered: InventoryItemName | null;
@@ -117,7 +121,10 @@ const isTreasureFound = (state: MachineState) => state.matches("treasureFound");
 const isIdle = (state: MachineState) => state.matches("idle");
 const isNoShovel = (state: MachineState) => state.matches("noShovel");
 const isFinishing = (state: MachineState) => state.matches("finishing");
+const isDrilling = (state: MachineState) => state.matches("drilling");
 const discovered = (state: MachineState) => state.context.discovered;
+
+const MAX_HOLES_PER_DAY = 30;
 
 export const SandPlot: React.FC<{
   id: number;
@@ -144,6 +151,7 @@ export const SandPlot: React.FC<{
   const dug = useSelector(sandPlotService, isDug);
   const noShovel = useSelector(sandPlotService, isNoShovel);
   const finishing = useSelector(sandPlotService, isFinishing);
+  const drilling = useSelector(sandPlotService, isDrilling);
   const discoveredItem = useSelector(sandPlotService, discovered);
 
   const [showHoverState, setShowHoverState] = useState(false);
@@ -151,10 +159,15 @@ export const SandPlot: React.FC<{
   const [showMissingShovelModal, setShowMissingShovelModal] = useState(
     shownMissingShovelModal
   );
+  const [showMaxHolesModal, setShowMaxHolesModal] = useState(false);
 
   const hasSandShovel =
     selectedItem === "Sand Shovel" &&
     gameState.context.state.inventory["Sand Shovel"]?.gte(1);
+
+  const hasSandDrill =
+    selectedItem === "Sand Drill" &&
+    gameState.context.state.inventory["Sand Drill"]?.gte(1);
 
   useEffect(() => {
     // If no treasure is found, move gameMachine back into playing state and
@@ -178,20 +191,42 @@ export const SandPlot: React.FC<{
   };
 
   const handleDig = () => {
-    if (!hasSandShovel) {
-      handleNoShovel();
+    const holes = gameState.context.state.treasureIsland?.holes ?? {};
+    const holesDug = getKeys(holes).filter(
+      (holeId) => !canDig(holes[holeId]?.dugAt)
+    ).length;
+
+    if (holesDug >= MAX_HOLES_PER_DAY) {
+      setShowMaxHolesModal(true);
       return;
     }
 
-    gameService.send("REVEAL", {
-      event: {
-        type: "treasure.dug",
-        id,
-        createdAt: new Date(),
-      },
-    });
+    if (hasSandShovel) {
+      gameService.send("REVEAL", {
+        event: {
+          type: "treasure.dug",
+          id,
+          createdAt: new Date(),
+        },
+      });
 
-    sandPlotService.send("DIG");
+      sandPlotService.send("DIG");
+      return;
+    }
+
+    if (hasSandDrill) {
+      gameService.send("REVEAL", {
+        event: {
+          type: "treasure.drilled",
+          id,
+          createdAt: new Date(),
+        },
+      });
+      sandPlotService.send("DRILL");
+      return;
+    }
+
+    handleNoShovel();
   };
 
   const handleAcknowledgeTreasureFound = () => {
@@ -202,6 +237,7 @@ export const SandPlot: React.FC<{
       content: `+1`,
     });
 
+    console.log("acknowledge");
     sandPlotService.send("ACKNOWLEDGE");
   };
 
@@ -210,10 +246,13 @@ export const SandPlot: React.FC<{
     onMissingShovelAcknowledge();
   };
 
+  // Each time the sprite sheet gets to the 10th frame (shovel up)
+  // If reward has returned then stop sprite here.
   const handleTreasureCheck = () => {
-    // Each time the sprite sheet gets to the 10th frame (shovel up)
-    // If reward has returned then stop sprite here.
-    if (reward !== undefined) {
+    // Avoid checking for previous day rewards
+    const hasRecentReward = reward && reward?.dugAt > Date.now() - 60 * 1000;
+
+    if (hasRecentReward) {
       goblinDiggingRef.current?.pause();
       setShowGoblinEmotion(true);
 
@@ -222,9 +261,21 @@ export const SandPlot: React.FC<{
           discovered: reward.discovered,
           dugAt: reward?.dugAt,
         });
-      }, 1500);
+      }, 1000);
     }
   };
+
+  useEffect(() => {
+    // Avoid checking for previous day rewards
+    const hasRecentReward = reward && reward?.dugAt > Date.now() - 60 * 1000;
+
+    if (hasRecentReward && drilling) {
+      sandPlotService.send("FINISH_DIGGING", {
+        discovered: reward.discovered,
+        dugAt: reward?.dugAt,
+      });
+    }
+  }, [drilling, reward]);
 
   if (dug || treasureFound) {
     return (
@@ -239,12 +290,8 @@ export const SandPlot: React.FC<{
             }}
           />
         </div>
-        <Modal
-          centered
-          show={treasureFound}
-          onHide={handleAcknowledgeTreasureFound}
-        >
-          <CloseButtonPanel onClose={handleAcknowledgeTreasureFound}>
+        <Modal centered show={treasureFound}>
+          <CloseButtonPanel showCloseButton={false}>
             <Revealed onAcknowledged={handleAcknowledgeTreasureFound} />
           </CloseButtonPanel>
         </Modal>
@@ -280,10 +327,49 @@ export const SandPlot: React.FC<{
     );
   }
 
+  if (showMaxHolesModal) {
+    return (
+      <Modal centered show onHide={() => setShowMaxHolesModal(false)}>
+        <CloseButtonPanel
+          title="Max holes reached!"
+          onClose={() => setShowMaxHolesModal(false)}
+        >
+          <div className="p-2 pt-0 mb-2 flex flex-col items-center space-y-2">
+            <img
+              src={pirate}
+              alt="Pirate"
+              onLoad={(e) => setImageWidth(e.currentTarget)}
+            />
+            <p className="text-sm text-center">
+              Save some treasure for the rest of us!
+            </p>
+            <p className="text-sm text-center">
+              Come back tomorrow to search for more treasure.
+            </p>
+          </div>
+          <Button onClick={() => setShowMaxHolesModal(false)}>Got it</Button>
+        </CloseButtonPanel>
+      </Modal>
+    );
+  }
+
+  if (drilling) {
+    return (
+      <Modal centered show>
+        <Panel>
+          <p className="loading">Drilling</p>
+        </Panel>
+      </Modal>
+    );
+  }
+
   const gameMachinePlaying = gameState.matches("playing");
   const showShovelGoblin = !idle && !dug && !noShovel;
   const showSelectBox =
-    showHoverState && !showShovelGoblin && gameMachinePlaying && hasSandShovel;
+    showHoverState &&
+    !showShovelGoblin &&
+    gameMachinePlaying &&
+    (hasSandShovel || hasSandDrill);
 
   return (
     <div

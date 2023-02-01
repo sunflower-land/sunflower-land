@@ -139,7 +139,7 @@ import craftmanship from "assets/achievements/craftmanship.png";
 import busyBumpkin from "assets/achievements/busy_bumpkin.png";
 import cabbageKing from "assets/achievements/cabbage_king.png";
 import canary from "assets/achievements/canary.png";
-import chefDeCusine from "assets/achievements/chef_de_cusine.png";
+import chefDeCuisine from "assets/achievements/chef_de_cuisine.png";
 import contractor from "assets/achievements/contractor.png";
 import coolCauliflower from "assets/achievements/cool_cauliflower.png";
 import jackOLantern from "assets/achievements/jack_o_lantern.png";
@@ -292,12 +292,36 @@ import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
-
 import cyborgBear from "src/assets/sfts/cyborg_bear.png";
 import collectibleBear from "src/assets/sfts/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
+import tikiTotem from "src/assets/sfts/tiki_totem.webp";
+import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
+
+// Treasure
+import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
+import pearl from "assets/sfts/treasure/pearl.webp";
+import pipi from "assets/sfts/treasure/pipi.webp";
+import turtleBear from "assets/sfts/bears/turtle_bear.webp";
+import tRexSkull from "assets/sfts/t_rex_skull.webp";
+import parasaurSkull from "assets/sfts/parasaur_skull.webp";
+import clamShell from "assets/sfts/treasure/clam_shell.webp";
+import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
+import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
+import goblinBear from "assets/sfts/bears/goblin_bear.webp";
+import goldenBearHead from "assets/sfts/golden_bear_head.webp";
+import humanBear from "assets/sfts/bears/human_bear.webp";
+import pirateBear from "assets/sfts/bears/pirate_bear.webp";
+import seaweed from "assets/sfts/treasure/seaweed.webp";
+import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
+import galleon from "assets/sfts/galleon.webp";
+import treasureMap from "assets/sfts/treasure/treasure_map.webp";
+import skeletonKingStaff from "assets/sfts/skeleton_king_staff.png";
+import foliant from "assets/sfts/foliant.webp";
+import dinosaurFossil from "assets/sfts/dinosaur_fossil.webp";
+import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -319,7 +343,7 @@ import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { DECORATIONS } from "./decorations";
+import { HELIOS_DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -332,7 +356,6 @@ import {
 import { AUCTIONEER_ITEMS } from "./auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { TREASURES } from "./treasure";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -636,8 +659,12 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.power_shovel,
   },
   "Sand Shovel": {
-    ...SHOVELS["Sand Shovel"],
+    description: "Used for digging treasure",
     image: SUNNYSIDE.tools.sand_shovel,
+  },
+  "Sand Drill": {
+    description: "Drill deep for rare treasure",
+    image: SUNNYSIDE.icons.expression_confused,
   },
 
   // SFTs
@@ -1428,7 +1455,7 @@ export const ITEM_DETAILS: Items = {
     description: ACHIEVEMENTS()["Bakers Dozen"].description,
   },
   "Chef de Cuisine": {
-    image: chefDeCusine,
+    image: chefDeCuisine,
     description: ACHIEVEMENTS()["Chef de Cuisine"].description,
   },
   Craftmanship: {
@@ -1468,50 +1495,49 @@ export const ITEM_DETAILS: Items = {
     description:
       "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.",
   },
-
   "Basic Bear": {
     image: basicBear,
-    description: DECORATIONS()["Basic Bear"].description,
+    description: HELIOS_DECORATIONS()["Basic Bear"].description,
   },
   "Chef Bear": {
     image: chefBear,
-    description: DECORATIONS()["Chef Bear"].description,
+    description: "Every chef needs a helping hand",
   },
   "Construction Bear": {
     image: constructionBear,
-    description: DECORATIONS()["Construction Bear"].description,
+    description: "Always build in a bear market",
   },
   "Angel Bear": {
     image: angelBear,
-    description: DECORATIONS()["Angel Bear"].description,
+    description: "Time to transcend peasant farming",
   },
   "Badass Bear": {
     image: badassBear,
-    description: DECORATIONS()["Badass Bear"].description,
+    description: "Nothing stands in your way.",
   },
   "Bear Trap": {
     image: bearTrap,
-    description: DECORATIONS()["Bear Trap"].description,
+    description: "It's a trap!",
   },
   "Brilliant Bear": {
     image: brilliantBear,
-    description: DECORATIONS()["Brilliant Bear"].description,
+    description: "Pure brilliance!",
   },
   "Classy Bear": {
     image: classyBear,
-    description: DECORATIONS()["Classy Bear"].description,
+    description: "More SFL than you know what to do with it!",
   },
   "Farmer Bear": {
     image: farmerBear,
-    description: DECORATIONS()["Farmer Bear"].description,
+    description: "Nothing quite like a hard day's work!",
   },
   "Rich Bear": {
     image: richBear,
-    description: DECORATIONS()["Rich Bear"].description,
+    description: "A prized possession",
   },
   "Sunflower Bear": {
     image: sunflowerBear,
-    description: DECORATIONS()["Sunflower Bear"].description,
+    description: "A Bear's cherished crop",
   },
   "Christmas Bear": {
     ...SALESMAN_ITEMS["Christmas Bear"],
@@ -1519,7 +1545,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Rainbow Artist Bear": {
     image: rainbowArtistBear,
-    description: DECORATIONS()["Rainbow Artist Bear"].description,
+    description: "The owner is a beautiful bear artist!",
   },
 
   "Cabbage Boy": {
@@ -1564,7 +1590,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
-    description: DECORATIONS()["Potted Pumpkin"].description,
+    description: HELIOS_DECORATIONS()["Potted Pumpkin"].description,
   },
   "Golden Crop": {
     image: goldenCrop,
@@ -1575,26 +1601,6 @@ export const ITEM_DETAILS: Items = {
     description: "Swirl the snow and watch it come to life",
   },
 
-  "Clam Shell": {
-    image: SUNNYSIDE.resource.clam_shell,
-    description: "?",
-  },
-  "Sea Cucumber": {
-    image: SUNNYSIDE.resource.sea_cucumber,
-    description: "?",
-  },
-  Coral: {
-    image: SUNNYSIDE.resource.coral,
-    description: "?",
-  },
-  Crab: {
-    image: SUNNYSIDE.resource.crab,
-    description: "?",
-  },
-  Starfish: {
-    image: SUNNYSIDE.resource.starfish,
-    description: "?",
-  },
   "Immortal Pear": {
     image: immortalPear,
     description: HELIOS_BLACKSMITH_ITEMS["Immortal Pear"].description,
@@ -1613,7 +1619,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Devil Bear": {
     image: devilBear,
-    description: DECORATIONS()["Devil Bear"].description,
+    description: "Better the Devil you know than the Devil you don't",
   },
   "Orange Squeeze": {
     image: orangeSqueeze,
@@ -1653,100 +1659,117 @@ export const ITEM_DETAILS: Items = {
   },
 
   // Treasure Island
+  "Clam Shell": {
+    image: clamShell,
+    description: "A clam shell.",
+  },
+  "Sea Cucumber": {
+    image: SUNNYSIDE.resource.sea_cucumber,
+    description: "A sea cucumber.",
+  },
+  Coral: {
+    image: SUNNYSIDE.resource.coral,
+    description: "A piece of coral, it's pretty",
+  },
+  Crab: {
+    image: SUNNYSIDE.resource.crab,
+    description: "A crab, watch out for it's claws!",
+  },
+  Starfish: {
+    image: SUNNYSIDE.resource.starfish,
+    description: "The star of the sea.",
+  },
   "Pirate Bounty": {
-    ...TREASURES["Pirate Bounty"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "A bounty for a pirate. It's worth a lot of money.",
+    image: SUNNYSIDE.resource.pirate_bounty,
   },
   "Pirate Cake": {
-    ...TREASURES["Pirate Cake"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: CONSUMABLES["Pirate Cake"].description,
+    image: pirateCake,
   },
   "Abandoned Bear": {
-    ...TREASURES["Abandoned Bear"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "A bear that was left behind on the island.",
+    image: abandonedBear,
   },
   "Turtle Bear": {
-    ...TREASURES["Turtle Bear"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "Turtley enough for the turtle club.",
+    image: turtleBear,
   },
-  "Fossil 3": {
-    ...TREASURES["Fossil 3"],
-    image: SUNNYSIDE.icons.expression_confused,
+  "T-Rex Skull": {
+    description: "A skull from a T-Rex! Amazing!",
+    image: tRexSkull,
   },
   "Sunflower Coin": {
-    ...TREASURES["Sunflower Coin"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "A coin made of sunflowers.",
+    image: sunflowerCoin,
   },
   Foliant: {
-    ...TREASURES["Foliant"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "A book of spells.",
+    image: foliant,
   },
   "Skeleton King Staff": {
-    ...TREASURES["Skeleton King Staff"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "All hail the Skeleton King!",
+    image: skeletonKingStaff,
   },
   "Lifeguard Bear": {
-    ...TREASURES["Lifeguard Bear"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "Lifeguard Bear is here to save the day!",
+    image: lifeguardBear,
   },
   "Snorkel Bear": {
-    ...TREASURES["Snorkel Bear"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "Snorkel Bear loves to swim.",
+    image: snorkelBear,
   },
-  "Fossil 2": {
-    ...TREASURES["Fossil 2"],
-    image: SUNNYSIDE.icons.expression_confused,
+  "Parasaur Skull": {
+    description: "A skull from a parasaur!",
+    image: parasaurSkull,
   },
   "Goblin Bear": {
-    ...TREASURES["Goblin Bear"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "A goblin bear. It's a bit scary.",
+    image: goblinBear,
   },
   "Golden Bear Head": {
-    ...TREASURES["Golden Bear Head"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "Spooky, but cool.",
+    image: goldenBearHead,
   },
   "Pirate Bear": {
-    ...TREASURES["Pirate Bear"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "Argh, matey! Hug me!",
+    image: pirateBear,
   },
   Galleon: {
-    ...TREASURES["Galleon"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "A toy ship, still in pretty good nick.",
+    image: galleon,
   },
-  "Pirate Hat": {
-    ...TREASURES["Pirate Hat"],
-    image: SUNNYSIDE.icons.expression_confused,
-  },
-  "Fossil 1": {
-    ...TREASURES["Fossil 1"],
-    image: SUNNYSIDE.icons.expression_confused,
+  "Dinosaur Fossil": {
+    description: "A Dinosaur Fossil! What kind of creature was this?",
+    image: dinosaurFossil,
   },
   "Human Bear": {
-    ...TREASURES["Human Bear"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "A human bear. Even scarier than a goblin bear.",
+    image: humanBear,
   },
   "Treasure Map": {
-    ...TREASURES["Treasure Map"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "A treasure map! But this isn't an island I've ever heard of.",
+    image: treasureMap,
   },
-  "Wood Charm": {
-    ...TREASURES["Wood Charm"],
-    image: SUNNYSIDE.icons.expression_confused,
+  "Tiki Totem": {
+    description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
+    image: tikiTotem,
   },
-  "Crop Charm": {
-    ...TREASURES["Crop Charm"],
-    image: SUNNYSIDE.icons.expression_confused,
+  "Lunar Calendar": {
+    description:
+      "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
+    image: lunarCalendar,
   },
   Pearl: {
-    ...TREASURES["Pearl"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "Shimmers in the sun.",
+    image: pearl,
   },
   Pipi: {
-    ...TREASURES["Pipi"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "Plebidonax deltoides, found in the Pacific Ocean.",
+    image: pipi,
   },
   Seaweed: {
-    ...TREASURES["Seaweed"],
-    image: SUNNYSIDE.icons.expression_confused,
+    description: "Seaweed.",
+    image: seaweed,
   },
 };

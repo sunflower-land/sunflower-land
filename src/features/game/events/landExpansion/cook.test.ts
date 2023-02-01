@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { CONSUMABLES } from "features/game/types/consumables";
+import { COOKABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { cook, getReadyAt } from "./cook";
 
@@ -264,10 +264,10 @@ describe("getReadyAt", () => {
       createdAt: now,
     });
 
-    const boost = CONSUMABLES["Boiled Eggs"].cookingSeconds * 0.1;
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.1;
 
     const readyAt =
-      now + (CONSUMABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
 
     expect(time).toEqual(readyAt);
   });

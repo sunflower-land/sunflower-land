@@ -13,6 +13,7 @@ export const CharacterPlayground: React.FC<DynamicMiniNFTProps> = ({
   hat,
   suit,
   onesie,
+  wings,
 }) => {
   return (
     <>
@@ -33,6 +34,7 @@ export const CharacterPlayground: React.FC<DynamicMiniNFTProps> = ({
         hat={hat}
         suit={suit}
         onesie={onesie}
+        wings={wings}
       />
       <div
         className="absolute"

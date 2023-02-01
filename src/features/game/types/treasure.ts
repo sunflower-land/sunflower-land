@@ -25,24 +25,23 @@ export type ConsumableTreasure =
 export type DecorationTreasure =
   | "Abandoned Bear"
   | "Turtle Bear"
-  | "Fossil 3"
+  | "T-Rex Skull"
   | "Sunflower Coin"
   | "Foliant"
   | "Skeleton King Staff"
   | "Lifeguard Bear"
   | "Snorkel Bear"
-  | "Fossil 2"
+  | "Parasaur Skull"
   | "Golden Bear Head"
   | "Pirate Bear"
   | "Goblin Bear"
   | "Galleon"
-  | "Pirate Hat"
-  | "Fossil 1"
+  | "Dinosaur Fossil"
   | "Human Bear";
 
 export type QuestTreasure = "Treasure Map";
 
-export type BoostTreasure = "Wood Charm" | "Crop Charm";
+export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
 
 export type TreasureName =
   | BeachBountyTreasure
@@ -51,141 +50,79 @@ export type TreasureName =
   | QuestTreasure
   | BoostTreasure;
 
-export type Treasures = (Treasure | null)[];
-
-export type Treasure = {
-  description: string;
-  sellPrice?: Decimal;
-};
+interface TreasureDetail {
+  description?: string;
+}
 
 export type BeachBounty = {
-  description: string;
   sellPrice: Decimal;
-};
+} & TreasureDetail;
 
 export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   "Clam Shell": {
-    description: "",
     sellPrice: marketRate(500),
+    description: "A clam shell.",
   },
   Coral: {
-    description: "",
     sellPrice: marketRate(2000),
+    description: "A piece of coral, it's pretty",
   },
   Crab: {
-    description: "",
     sellPrice: marketRate(25),
+    description: "A crab, watch out for it's claws!",
   },
   Pearl: {
-    description: "",
     sellPrice: marketRate(5000),
+    description: "Shimmers in the sun.",
   },
   Pipi: {
-    description: "",
     sellPrice: marketRate(250),
+    description: "Plebidonax deltoides, found in the Pacific Ocean.",
   },
   "Pirate Bounty": {
-    description: "",
     sellPrice: marketRate(10000),
+    description: "A bounty for a pirate. It's worth a lot of money.",
   },
   "Sea Cucumber": {
-    description: "",
     sellPrice: marketRate(25),
+    description: "A sea cucumber.",
   },
   Seaweed: {
-    description: "",
     sellPrice: marketRate(100),
+    description: "Seaweed.",
   },
   Starfish: {
-    description: "",
     sellPrice: marketRate(150),
+    description: "The star of the sea.",
   },
 };
 
-export const TREASURES: Record<TreasureName, Treasure> = {
+export const TREASURES: Record<TreasureName | ConsumableTreasure, unknown> = {
+  "Pirate Cake": {},
+  "Treasure Map": {},
+  "Carrot Cake": {},
+  "Sunflower Cake": {},
+  "Radish Cake": {},
+  "Cauliflower Cake": {},
+  "Club Sandwich": {},
+  "Sunflower Crunch": {},
+  "Pumpkin Soup": {},
+  "Lunar Calendar": {},
+  "Tiki Totem": {},
+  "Abandoned Bear": {},
+  "Turtle Bear": {},
+  "T-Rex Skull": {},
+  "Sunflower Coin": {},
+  Foliant: {},
+  "Skeleton King Staff": {},
+  "Lifeguard Bear": {},
+  "Snorkel Bear": {},
+  "Parasaur Skull": {},
+  "Goblin Bear": {},
+  "Golden Bear Head": {},
+  "Pirate Bear": {},
+  Galleon: {},
+  "Dinosaur Fossil": {},
+  "Human Bear": {},
   ...BEACH_BOUNTY_TREASURE,
-  "Pirate Bounty": {
-    description: "",
-  },
-  "Pirate Cake": {
-    description: "",
-  },
-  "Sunflower Cake": {
-    description: "",
-  },
-  "Radish Cake": {
-    description: "",
-  },
-  "Carrot Cake": {
-    description: "",
-  },
-  "Cauliflower Cake": {
-    description: "",
-  },
-  "Club Sandwich": {
-    description: "",
-  },
-  "Sunflower Crunch": {
-    description: "",
-  },
-  "Pumpkin Soup": {
-    description: "",
-  },
-  "Abandoned Bear": {
-    description: "",
-  },
-  "Turtle Bear": {
-    description: "",
-  },
-  "Fossil 3": {
-    description: "",
-  },
-  "Sunflower Coin": {
-    description: "",
-  },
-  Foliant: {
-    description: "",
-  },
-  "Skeleton King Staff": {
-    description: "",
-  },
-  "Lifeguard Bear": {
-    description: "",
-  },
-  "Snorkel Bear": {
-    description: "",
-  },
-  "Fossil 2": {
-    description: "",
-  },
-  "Goblin Bear": {
-    description: "",
-  },
-  "Golden Bear Head": {
-    description: "",
-  },
-  "Pirate Bear": {
-    description: "",
-  },
-  Galleon: {
-    description: "",
-  },
-  "Pirate Hat": {
-    description: "",
-  },
-  "Fossil 1": {
-    description: "",
-  },
-  "Human Bear": {
-    description: "",
-  },
-  "Treasure Map": {
-    description: "",
-  },
-  "Wood Charm": {
-    description: "",
-  },
-  "Crop Charm": {
-    description: "",
-  },
 };

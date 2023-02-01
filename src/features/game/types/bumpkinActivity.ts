@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { ConsumableName } from "../types/consumables";
+import { ConsumableName, CookableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
@@ -19,11 +19,12 @@ type SellableName =
   | BeachBountyTreasure
   | FruitName;
 
-type Recipes = Food | ConsumableName;
+type Recipes = Food | CookableName;
+type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${CropName | FruitName} Harvested`;
 export type CookEvent = `${Recipes} Cooked`;
-export type FedEvent = `${Recipes} Fed`;
+export type FedEvent = `${Edibles} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
 export type PlantFruitEvent = `${FruitSeedName} Planted`;
 export type CraftedEvent = `${

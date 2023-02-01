@@ -43,9 +43,10 @@ export type BumpkinShirt =
   | "Developer Hoodie"
   | "Bumpkin Art Competition Merch"
   | "Fire Shirt"
-  | "Pineapple Shirt";
+  | "Pineapple Shirt"
+  | "Fruit Picker Shirt";
 
-export type BumpkinCoat = "Chef Apron";
+export type BumpkinCoat = "Chef Apron" | "Fruit Picker Apron";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -77,7 +78,8 @@ export type BumpkinHat =
   | "Skull Hat"
   | "Reindeer Antlers"
   | "Santa Hat"
-  | "Lion Dance Mask";
+  | "Lion Dance Mask"
+  | "Fruit Bowl";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -195,6 +197,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Pineapple Shirt": 82,
   "China Town Background": 83,
   "Lion Dance Mask": 84,
+  "Fruit Picker Shirt": 85,
+  "Fruit Picker Apron": 86,
+  "Fruit Bowl": 87,
 };
 
 // The reverse of above

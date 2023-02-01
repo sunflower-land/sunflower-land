@@ -31,7 +31,7 @@ export const TreasureShopSell: React.FC = () => {
 
   const selected = BEACH_BOUNTY_TREASURE[selectedName];
   const { setToast } = useContext(ToastContext);
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },
@@ -51,10 +51,8 @@ export const TreasureShopSell: React.FC = () => {
 
     setToast({
       icon: token,
-      content: `-${price?.mul(amount).toString()}`,
+      content: `+${price?.mul(amount).toString()}`,
     });
-
-    shortcutItem(selectedName);
   };
 
   const Action = () => {
@@ -84,7 +82,7 @@ export const TreasureShopSell: React.FC = () => {
           />
         ))}
       </div>
-      <OuterPanel className="w-full flex-1">
+      <OuterPanel className="w-full flex flex-1 flex-col justify-between">
         <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
           <div className="flex space-x-2 items-center mt-1 sm:flex-col-reverse md:space-x-0">
             <img

@@ -2977,28 +2977,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Crop Charm": {
+  "Lunar Calendar": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fossil 1": {
+  "Dinosaur Fossil": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fossil 2": {
+  "Parasaur Skull": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fossil 3": {
+  "T-Rex Skull": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -3054,13 +3054,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Pirate Hat": {
-    description: "?",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [],
-  },
   "Skeleton King Staff": {
     description: "?",
     decimals: 0,
@@ -3096,7 +3089,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Wood Charm": {
+  "Tiki Totem": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -3132,6 +3125,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   Seaweed: {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Sand Drill": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",

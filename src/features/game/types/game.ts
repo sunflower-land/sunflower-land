@@ -8,7 +8,7 @@ import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { Equipped as BumpkinParts } from "./bumpkin";
-import { ConsumableName } from "./consumables";
+import { ConsumableName, CookableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
@@ -18,6 +18,7 @@ import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
+import { TreasureToolName } from "./tools";
 
 export type Reward = {
   sfl?: Decimal;
@@ -178,7 +179,8 @@ export type InventoryItemName =
   | TreasureName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
-  | TreasureName;
+  | TreasureName
+  | TreasureToolName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -220,7 +222,7 @@ export type WarCollectionOffer = {
 
 export type GrubShopOrder = {
   id: string;
-  name: ConsumableName;
+  name: CookableName;
   sfl: Decimal;
 };
 
@@ -285,7 +287,7 @@ export type FruitPatch = {
 export type Mine = Position;
 
 export type BuildingProduct = {
-  name: ConsumableName;
+  name: CookableName;
   readyAt: number;
 };
 

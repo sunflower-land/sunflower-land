@@ -2,7 +2,7 @@ import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Bar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CONSUMABLES } from "features/game/types/consumables";
+import { COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import React from "react";
@@ -29,7 +29,7 @@ export const InProgressInfo: React.FC<Props> = ({
     onClose();
   }
 
-  const { cookingSeconds } = CONSUMABLES[name];
+  const { cookingSeconds } = COOKABLES[name];
 
   return (
     <div className="flex flex-col mb-2">
