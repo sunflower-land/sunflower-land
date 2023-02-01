@@ -14,6 +14,7 @@ import {
 import { SandPlot } from "./components/SandPlot";
 import { BeachConstruction } from "./components/BeachConstruction";
 import { PirateQuest } from "features/game/expansion/components/PirateQuest";
+import { TreasureDropRates } from "./components/TreasureDropRates";
 
 export const CLICKABLE_COORDINATES: Coordinates[] = [];
 
@@ -70,6 +71,7 @@ export const TreasureIsland: React.FC = () => {
         <TreasureShop />
         <BeachConstruction />
         <PirateQuest />
+        <TreasureDropRates />
       </div>
     </>
   );
