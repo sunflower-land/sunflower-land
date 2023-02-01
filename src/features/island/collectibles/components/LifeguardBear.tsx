@@ -9,7 +9,7 @@ export const LifeguardBear: React.FC = () => {
       <img
         src={lifeguardBear}
         style={{
-          width: `${PIXEL_SCALE * 16}px`,
+          width: `${PIXEL_SCALE * 17}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
