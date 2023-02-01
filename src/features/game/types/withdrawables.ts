@@ -30,7 +30,7 @@ import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
 import { SKILL_TREE } from "./skills";
 import { BUILDINGS } from "./buildings";
 import { CONSUMABLES } from "./consumables";
-import { DECORATIONS } from "./decorations";
+import { HELIOS_DECORATIONS } from "./decorations";
 import { TREASURE_TOOLS } from "./tools";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
@@ -142,7 +142,7 @@ const couponDefaults = buildDefaults(getKeys(COUPONS), false);
 const buildingDefaults = buildDefaults(getKeys(BUILDINGS()), false);
 const fertiliserDefaults = buildDefaults(getKeys(FERTILISERS), false);
 const consumableDefaults = buildDefaults(getKeys(CONSUMABLES), false);
-const decorationDefaults = buildDefaults(getKeys(DECORATIONS()), false);
+const decorationDefaults = buildDefaults(getKeys(HELIOS_DECORATIONS()), false);
 
 const mutantCropDefaults = {
   "Stellar Sunflower": false,
@@ -283,7 +283,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Pirate Bear": false,
   "Goblin Bear": false,
   Galleon: false,
-  "Pirate Hat": false,
   "Dinosaur Fossil": false,
   "Human Bear": false,
   "Treasure Map": false,
