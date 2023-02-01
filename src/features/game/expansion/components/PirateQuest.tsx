@@ -21,7 +21,7 @@ const ModalDescription = () => {
       </p>
       <a
         className="mb-4 underline text-sm"
-        href="https://docs.sunflower-land.com/player-guides/special-events/pirate-quest"
+        href="https://docs.sunflower-land.com/player-guides/islands/treasure-island"
         target="_blank"
         rel="noreferrer"
       >
