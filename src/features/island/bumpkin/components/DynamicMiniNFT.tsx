@@ -257,7 +257,6 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
     }
   }, [timer]);
 
-  console.log({ wings });
   return (
     <>
       <div
