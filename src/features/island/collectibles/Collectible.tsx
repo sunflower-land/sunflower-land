@@ -98,6 +98,8 @@ import { GoblinBear } from "./components/GoblinBear";
 import { GoldenBearHead } from "./components/GoldenBearHead";
 import { HumanBear } from "./components/HumanBear";
 import { PirateBear } from "./components/PirateBear";
+import { SunflowerCoin } from "./components/SunflowerCoin";
+import { Galleon } from "./components/Galleon";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -106,6 +108,7 @@ export interface CollectibleProps {
   createdAt: number;
 }
 
+// TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName,
   React.FC<CollectibleProps>
@@ -226,6 +229,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Golden Bear Head": GoldenBearHead,
   "Human Bear": HumanBear,
   "Pirate Bear": PirateBear,
+  "Sunflower Coin": SunflowerCoin,
+  Galleon: Galleon,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

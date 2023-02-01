@@ -315,6 +315,9 @@ import goldenBearHead from "assets/sfts/golden_bear_head.webp";
 import humanBear from "assets/sfts/bears/human_bear.webp";
 import pirateBear from "assets/sfts/bears/pirate_bear.webp";
 import seaweed from "assets/sfts/treasure/seaweed.webp";
+import treasureMap from "assets/sfts/treasure/treasure_map.webp";
+import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
+import galleon from "assets/sfts/galleon.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1692,7 +1695,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Sunflower Coin": {
     description: "A coin made of sunflowers.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: sunflowerCoin,
   },
   Foliant: {
     description: "A book of spells.",
@@ -1728,7 +1731,7 @@ export const ITEM_DETAILS: Items = {
   },
   Galleon: {
     description: "A toy ship, still in pretty good nick.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: galleon,
   },
   "Pirate Hat": {
     description:
@@ -1745,7 +1748,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Treasure Map": {
     description: "A treasure map! But this isn't an island I've ever heard of.",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: treasureMap,
   },
   "Tiki Totem": {
     description: PLACEABLE_TREASURES["Tiki Totem"].description,
