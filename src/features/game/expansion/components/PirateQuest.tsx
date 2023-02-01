@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import shadow from "assets/npcs/shadow.png";
-
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Quest } from "./Quest";
 import { Equipped } from "features/game/types/bumpkin";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
+import { MapPlacement } from "./MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const ModalDescription = () => {
   return (
@@ -30,11 +31,6 @@ const ModalDescription = () => {
   );
 };
 
-// const acknowledge = () => {
-//   acknowledgeTutorial("Treasure Detector");
-//   setShowTutorial(false);
-// };
-
 const QuestCompletion = () => {
   return (
     <div className="p-2">
@@ -52,45 +48,43 @@ const QuestCompletion = () => {
 export const PirateQuest: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
+  const openQuest = () => {
+    setShowModal(true);
+    acknowledgeTutorial("Pirate Quest");
+  };
   const bumpkin: Partial<Equipped> = {
     body: "Pirate Potion",
-    hair: "Basic Hair",
+    hair: "Teal Mohawk",
     pants: "Pirate Pants",
     shirt: "Striped Blue Shirt",
-    tool: "Pirate Scimitar",
+    tool: "Sword",
     shoes: "Peg Leg",
     background: "Farm Background",
     hat: "Pirate Hat",
-    coat: "Pirate General Coat",
   };
 
   return (
     <>
-      <div
-        className="absolute z-20"
-        style={{
-          top: `${GRID_WIDTH_PX * 18}px`,
-          left: `${GRID_WIDTH_PX * 30}px`,
-        }}
-      >
-        <img
-          src={shadow}
-          className="absolute z-10"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * -2}px`,
-            left: `${PIXEL_SCALE * 2.6}px`,
-          }}
-        />
+      <MapPlacement x={11} y={7} height={1} width={1}>
+        {!hasShownTutorial("Pirate Quest") && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="w-2 absolute animate-float"
+            style={{
+              top: `${PIXEL_SCALE * -8}px`,
+              left: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
         <NPC
-          onClick={() => setShowModal(true)}
+          onClick={openQuest}
           pants="Pirate Pants"
           body="Pirate Potion"
           hair="Sun Spots"
           shirt="Striped Blue Shirt"
           hat="Pirate Hat"
         />
-      </div>
+      </MapPlacement>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Quest

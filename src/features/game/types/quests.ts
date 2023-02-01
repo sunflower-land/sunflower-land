@@ -112,7 +112,7 @@ export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
     "Lunar New Year Quest 1": 100009,
     "Lunar New Year Quest 2": 100010,
     "Pirate Quest 1": 100011,
-    "Pirate Quest 2": 100011,
-    "Pirate Quest 3": 100011,
-    "Pirate Quest 4": 100011,
+    "Pirate Quest 2": 100012,
+    "Pirate Quest 3": 100013,
+    "Pirate Quest 4": 100014,
   };
