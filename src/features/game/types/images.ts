@@ -638,8 +638,12 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.power_shovel,
   },
   "Sand Shovel": {
-    ...SHOVELS["Sand Shovel"],
+    description: "Used for digging treasure",
     image: SUNNYSIDE.tools.sand_shovel,
+  },
+  "Sand Drill": {
+    description: "Drill deep for rare treasure",
+    image: SUNNYSIDE.icons.expression_confused,
   },
 
   // SFTs
