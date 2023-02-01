@@ -315,9 +315,10 @@ import goldenBearHead from "assets/sfts/golden_bear_head.webp";
 import humanBear from "assets/sfts/bears/human_bear.webp";
 import pirateBear from "assets/sfts/bears/pirate_bear.webp";
 import seaweed from "assets/sfts/treasure/seaweed.webp";
-import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
 import galleon from "assets/sfts/galleon.webp";
+import treasureMap from "assets/sfts/treasure/treasure_map.webp";
+import skeletonKeyStaff from "assets/sfts/skeleton_key_staff.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -339,7 +340,7 @@ import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { DECORATIONS } from "./decorations";
+import { HELIOS_DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -1488,50 +1489,49 @@ export const ITEM_DETAILS: Items = {
     description:
       "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.",
   },
-
   "Basic Bear": {
     image: basicBear,
-    description: DECORATIONS()["Basic Bear"].description,
+    description: HELIOS_DECORATIONS()["Basic Bear"].description,
   },
   "Chef Bear": {
     image: chefBear,
-    description: DECORATIONS()["Chef Bear"].description,
+    description: "Every chef needs a helping hand",
   },
   "Construction Bear": {
     image: constructionBear,
-    description: DECORATIONS()["Construction Bear"].description,
+    description: "Always build in a bear market",
   },
   "Angel Bear": {
     image: angelBear,
-    description: DECORATIONS()["Angel Bear"].description,
+    description: "Time to transcend peasant farming",
   },
   "Badass Bear": {
     image: badassBear,
-    description: DECORATIONS()["Badass Bear"].description,
+    description: "Nothing stands in your way.",
   },
   "Bear Trap": {
     image: bearTrap,
-    description: DECORATIONS()["Bear Trap"].description,
+    description: "It's a trap!",
   },
   "Brilliant Bear": {
     image: brilliantBear,
-    description: DECORATIONS()["Brilliant Bear"].description,
+    description: "Pure brilliance!",
   },
   "Classy Bear": {
     image: classyBear,
-    description: DECORATIONS()["Classy Bear"].description,
+    description: "More SFL than you know what to do with it!",
   },
   "Farmer Bear": {
     image: farmerBear,
-    description: DECORATIONS()["Farmer Bear"].description,
+    description: "Nothing quite like a hard day's work!",
   },
   "Rich Bear": {
     image: richBear,
-    description: DECORATIONS()["Rich Bear"].description,
+    description: "A prized possession",
   },
   "Sunflower Bear": {
     image: sunflowerBear,
-    description: DECORATIONS()["Sunflower Bear"].description,
+    description: "A Bear's cherished crop",
   },
   "Christmas Bear": {
     ...SALESMAN_ITEMS["Christmas Bear"],
@@ -1539,7 +1539,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Rainbow Artist Bear": {
     image: rainbowArtistBear,
-    description: DECORATIONS()["Rainbow Artist Bear"].description,
+    description: "The owner is a beautiful bear artist!",
   },
 
   "Cabbage Boy": {
@@ -1584,7 +1584,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
-    description: DECORATIONS()["Potted Pumpkin"].description,
+    description: HELIOS_DECORATIONS()["Potted Pumpkin"].description,
   },
   "Golden Crop": {
     image: goldenCrop,
@@ -1613,7 +1613,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Devil Bear": {
     image: devilBear,
-    description: DECORATIONS()["Devil Bear"].description,
+    description: "Better the Devil you know than the Devil you don't",
   },
   "Orange Squeeze": {
     image: orangeSqueeze,
@@ -1703,7 +1703,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Skeleton King Staff": {
     description: "All hail the Skeleton King!",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: skeletonKeyStaff,
   },
   "Lifeguard Bear": {
     description: "Lifeguard Bear is here to save the day!",
@@ -1732,11 +1732,6 @@ export const ITEM_DETAILS: Items = {
   Galleon: {
     description: "A toy ship, still in pretty good nick.",
     image: galleon,
-  },
-  "Pirate Hat": {
-    description:
-      "A dinky old pirate hat. This must have been buried for a long time.",
-    image: SUNNYSIDE.icons.expression_confused,
   },
   "Dinosaur Fossil": {
     description: "A Dinosaur Fossil! What kind of creature was this?",

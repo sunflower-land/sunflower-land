@@ -36,7 +36,6 @@ export type DecorationTreasure =
   | "Pirate Bear"
   | "Goblin Bear"
   | "Galleon"
-  | "Pirate Hat"
   | "Dinosaur Fossil"
   | "Human Bear";
 
@@ -98,76 +97,9 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   },
 };
 
-export type PlaceableTreasure = BoostTreasure | DecorationTreasure;
-
-export const PLACEABLE_TREASURE: Record<PlaceableTreasure, TreasureDetail> = {
-  "Lunar Calendar": {
-    description: "A charm made from crops.",
-  },
-  "Tiki Totem": {
-    description: "A charm made of wood.",
-  },
-  "Abandoned Bear": {
-    description: "A bear that was left behind on the island.",
-  },
-  "Turtle Bear": {
-    description: "Turtley enough for the turtle club.",
-  },
-  "T-Rex Skull": {
-    description: "A skull from a T-Rex! Amazing!",
-  },
-  "Sunflower Coin": {
-    description: "A coin made of sunflowers.",
-  },
-  Foliant: {
-    description: "A book of spells.",
-  },
-  "Skeleton King Staff": {
-    description: "All hail the Skeleton King!",
-  },
-  "Lifeguard Bear": {
-    description: "Lifeguard Bear is here to save the day!",
-  },
-  "Snorkel Bear": {
-    description: "Snorkel Bear loves to swim.",
-  },
-  "Parasaur Skull": {
-    description: "A skull from a parasaur!",
-  },
-  "Goblin Bear": {
-    description: "A goblin bear. It's a bit scary.",
-  },
-  "Golden Bear Head": {
-    description: "Spooky, but cool.",
-  },
-  "Pirate Bear": {
-    description: "Argh, matey! Hug me!",
-  },
-  Galleon: {
-    description: "A toy ship, still in pretty good nick.",
-  },
-  "Pirate Hat": {
-    description:
-      "A dinky old pirate hat. This must have been buried for a long time.",
-  },
-  "Dinosaur Fossil": {
-    description: "A Dinosaur Fossil! What kind of creature was this?",
-  },
-  "Human Bear": {
-    description: "A human bear. Even scarier than a goblin bear.",
-  },
-};
-
-export const TREASURES: Record<
-  TreasureName | ConsumableTreasure,
-  TreasureDetail
-> = {
-  "Pirate Cake": {
-    description: "Great for Pirate themed birthday parties.",
-  },
-  "Treasure Map": {
-    description: "A treasure map! But this isn't an island I've ever heard of.",
-  },
+export const TREASURES: Record<TreasureName | ConsumableTreasure, unknown> = {
+  "Pirate Cake": {},
+  "Treasure Map": {},
   "Carrot Cake": {},
   "Sunflower Cake": {},
   "Radish Cake": {},
@@ -175,6 +107,22 @@ export const TREASURES: Record<
   "Club Sandwich": {},
   "Sunflower Crunch": {},
   "Pumpkin Soup": {},
-  ...PLACEABLE_TREASURE,
+  "Lunar Calendar": {},
+  "Tiki Totem": {},
+  "Abandoned Bear": {},
+  "Turtle Bear": {},
+  "T-Rex Skull": {},
+  "Sunflower Coin": {},
+  Foliant: {},
+  "Skeleton King Staff": {},
+  "Lifeguard Bear": {},
+  "Snorkel Bear": {},
+  "Parasaur Skull": {},
+  "Goblin Bear": {},
+  "Golden Bear Head": {},
+  "Pirate Bear": {},
+  Galleon: {},
+  "Dinosaur Fossil": {},
+  "Human Bear": {},
   ...BEACH_BOUNTY_TREASURE,
 };

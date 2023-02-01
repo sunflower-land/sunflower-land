@@ -183,7 +183,10 @@ export type Decoration = {
   sfl?: Decimal;
 };
 
-export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
+export const HELIOS_DECORATIONS: () => Record<
+  ShopDecorationName,
+  Decoration
+> = () => ({
   "White Tulips": {
     name: "White Tulips",
     sfl: marketRate(20),
@@ -225,65 +228,5 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
     sfl: marketRate(50),
     ingredients: {},
     description: "A basic bear. Use this at Goblin Retreat to build a bear!",
-  },
-  "Chef Bear": {
-    name: "Chef Bear",
-    ingredients: {},
-    description: "Every chef needs a helping hand",
-  },
-  "Construction Bear": {
-    name: "Construction Bear",
-    ingredients: {},
-    description: "Always build in a bear market",
-  },
-  "Angel Bear": {
-    name: "Angel Bear",
-    ingredients: {},
-    description: "Time to transcend peasant farming",
-  },
-  "Badass Bear": {
-    name: "Basic Bear",
-    description: "Nothing stands in your way.",
-    ingredients: {},
-  },
-  "Bear Trap": {
-    name: "Bear Trap",
-    description: "It's a trap!",
-    ingredients: {},
-  },
-  "Brilliant Bear": {
-    name: "Brilliant Bear",
-    description: "Pure brilliance!",
-    ingredients: {},
-  },
-  "Classy Bear": {
-    name: "Classy Bear",
-    description: "More SFL than you know what to do with it!",
-    ingredients: {},
-  },
-  "Farmer Bear": {
-    name: "Farmer Bear",
-    description: "Nothing quite like a hard day's work!",
-    ingredients: {},
-  },
-  "Sunflower Bear": {
-    name: "Sunflower Bear",
-    description: "A Bear's cherished crop",
-    ingredients: {},
-  },
-  "Rich Bear": {
-    name: "Rich Bear",
-    description: "A prized possession",
-    ingredients: {},
-  },
-  "Rainbow Artist Bear": {
-    name: "Rainbow Artist Bear",
-    description: "The owner is a beautiful bear artist!",
-    ingredients: {},
-  },
-  "Devil Bear": {
-    name: "Devil Bear",
-    ingredients: {},
-    description: "Better the Devil you know than the Devil you don't",
   },
 });
