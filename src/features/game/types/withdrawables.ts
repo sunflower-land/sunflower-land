@@ -31,6 +31,7 @@ import { SKILL_TREE } from "./skills";
 import { BUILDINGS } from "./buildings";
 import { CONSUMABLES } from "./consumables";
 import { HELIOS_DECORATIONS } from "./decorations";
+import { TREASURE_TOOLS } from "./tools";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -118,7 +119,10 @@ const seedDefaults = buildDefaults(getKeys(SEEDS()), false);
 const beanDefaults = buildDefaults(getKeys(BEANS()), false);
 const questItemDefaults = buildDefaults(getKeys(QUEST_ITEMS), false);
 const warTentItemsDefaults = buildDefaults(getKeys(WAR_TENT_ITEMS), false);
-const toolDefaults = buildDefaults(getKeys(TOOLS), false);
+const toolDefaults = buildDefaults(
+  getKeys({ ...TOOLS, ...TREASURE_TOOLS }),
+  false
+);
 const foodDefaults = buildDefaults(getKeys(FOODS()), false);
 const shovelDefaults = buildDefaults(getKeys(SHOVELS), false);
 const warBannerDefaults = buildDefaults(getKeys(WAR_BANNERS), false);

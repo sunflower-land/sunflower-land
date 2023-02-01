@@ -18,6 +18,7 @@ import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
+import { TreasureToolName } from "./tools";
 
 export type Reward = {
   sfl?: Decimal;
@@ -178,7 +179,8 @@ export type InventoryItemName =
   | TreasureName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
-  | TreasureName;
+  | TreasureName
+  | TreasureToolName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
