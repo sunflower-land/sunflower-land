@@ -10,7 +10,6 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import shadow from "assets/npcs/shadow.png";
 import pirate from "assets/npcs/pirate_goblin.gif";
-import xMark from "assets/decorations/flag.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
@@ -395,18 +394,6 @@ export const SandPlot: React.FC<{
           }}
         />
       </div>
-
-      {!showShovelGoblin &&
-        gameState.context.state.treasureIsland?.rareTreasure?.holeId === id && (
-          <img
-            src={xMark}
-            style={{
-              width: `${PIXEL_SCALE * 16}px`,
-              bottom: `${PIXEL_SCALE * 2.5}px`,
-            }}
-            className="pointer-events-none absolute"
-          />
-        )}
 
       {showShovelGoblin && (
         <>
