@@ -38,22 +38,32 @@ export const PirateChest: React.FC = () => {
     });
   };
 
-  const onClick = () => {
-    const isPirate =
-      gameState.context.state.bumpkin?.equipped.body === "Pirate Potion";
+  const isPirate =
+    gameState.context.state.bumpkin?.equipped.body === "Pirate Potion";
+  const canOpen = isReady && isPirate;
 
+  const onClick = () => {
     if (!isPirate) {
       setShowNotPirateModal(true);
       return;
     }
 
-    const canOpen = isReady && isPirate;
     canOpen ? reveal() : setShowCollectedModal(true);
   };
 
   return (
     <>
       <MapPlacement x={11} y={6} height={1} width={1}>
+        {canOpen && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="w-2 absolute animate-float"
+            style={{
+              top: `${PIXEL_SCALE * -13}px`,
+              left: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
         <img
           src={
             isReady
