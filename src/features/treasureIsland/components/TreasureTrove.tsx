@@ -74,7 +74,7 @@ const TreasureTroveItem: React.FC<{
 );
 
 export const TreasureTrove: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const bumpkin: Equipped = {
     body: "Pirate Potion",
