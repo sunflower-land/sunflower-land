@@ -3075,7 +3075,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Treasure Map": {
+  "Wooden Compass": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -3090,6 +3090,20 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   "Tiki Totem": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Heart of Davy Jones": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Treasure Map": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",

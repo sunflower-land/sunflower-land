@@ -10,7 +10,8 @@ export type BeachBountyTreasure =
   | "Starfish"
   | "Seaweed"
   | "Sea Cucumber"
-  | "Crab";
+  | "Crab"
+  | "Wooden Compass";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -39,15 +40,12 @@ export type DecorationTreasure =
   | "Dinosaur Fossil"
   | "Human Bear";
 
-export type QuestTreasure = "Treasure Map";
-
 export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
 
 export type TreasureName =
   | BeachBountyTreasure
   | ConsumableTreasure
   | DecorationTreasure
-  | QuestTreasure
   | BoostTreasure;
 
 interface TreasureDetail {
@@ -95,11 +93,14 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
     sellPrice: marketRate(150),
     description: "The star of the sea.",
   },
+  "Wooden Compass": {
+    sellPrice: marketRate(175),
+    description: "?",
+  },
 };
 
 export const TREASURES: Record<TreasureName | ConsumableTreasure, unknown> = {
   "Pirate Cake": {},
-  "Treasure Map": {},
   "Carrot Cake": {},
   "Sunflower Cake": {},
   "Radish Cake": {},
