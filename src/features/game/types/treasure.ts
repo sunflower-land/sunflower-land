@@ -50,12 +50,10 @@ export type TreasureName =
   | QuestTreasure
   | BoostTreasure;
 
-export type Rarity = "average" | "good" | "rare";
-
 interface TreasureDetail {
   description?: string;
   endDate?: number;
-  type: Rarity;
+  type: "average" | "good" | "rare";
 }
 
 export type BeachBounty = {
