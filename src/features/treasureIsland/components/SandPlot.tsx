@@ -288,7 +288,7 @@ export const SandPlot: React.FC<{
           />
         </div>
         <Modal centered show={treasureFound}>
-          <CloseButtonPanel showCloseButton={false}>
+          <CloseButtonPanel>
             <Revealed onAcknowledged={handleAcknowledgeTreasureFound} />
           </CloseButtonPanel>
         </Modal>

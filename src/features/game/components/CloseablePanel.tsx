@@ -13,34 +13,12 @@ export interface PanelTabs {
   name: string;
 }
 
-/**
- * The base props for closeable panels that may have a close button.
- * @param showCloseButton The item resources requirements.
- * @param onClose The SFL requirements.
- */
-interface HasCloseButtonProps {
-  showCloseButton?: boolean;
-  onClose: () => void;
-}
-
-/**
- * The base props for closeable panels that do not have a close button for good.
- * @param showCloseButton The item resources requirements.
- * @param onClose The SFL requirements.
- */
-interface NoCloseButtonProps {
-  showCloseButton: false;
-  onClose?: () => void;
-}
-
-type CloseButtonProps = HasCloseButtonProps | NoCloseButtonProps;
-
 interface Props {
   tabs?: PanelTabs[];
   currentTab?: number;
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
   title?: string;
-  showBackButton?: boolean;
+  onClose?: () => void;
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
@@ -52,30 +30,29 @@ interface Props {
  * @currentTab The current selected tab index of the panel. Default is 0.
  * @setCurrentTab Dispatch method to set the current selected tab index.
  * @title The panel title.
- * @showCloseButton Whether to show the close button for the panel or not. Default is true.
- * @onClose The close panel method.
- * @showCloseButton Whether to show the back button for the panel or not. Default is true.
- * @onClose The back button method.
+ * @onClose The close panel method.  Close button will show if this is set.
+ * @onBack The back button method.  Back button will show if this is set.
  * @bumpkinParts The list of bumpkin parts for the modal.
  * @className Additional class name for the parent panel.
  * @children The panel children content.
  */
-export const CloseButtonPanel: React.FC<Props & CloseButtonProps> = ({
+export const CloseButtonPanel: React.FC<Props> = ({
   tabs,
   currentTab = 0,
   setCurrentTab,
   title,
-  showCloseButton = true,
-  onClose = undefined,
-  showBackButton = false,
+  onClose,
   onBack,
   bumpkinParts,
-  children,
   className,
+  children,
 }) => {
   const handleTabClick = (index: number) => {
     setCurrentTab && setCurrentTab(index);
   };
+
+  const showCloseButton = !!onClose;
+  const showBackButton = !!onBack;
 
   return (
     <Panel
