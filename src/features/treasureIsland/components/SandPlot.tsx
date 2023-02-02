@@ -466,17 +466,6 @@ export const SandPlot: React.FC<{
           </div>
         </>
       )}
-      <div
-        className="text-xxs absolute"
-        style={{
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          zIndex: 10000,
-        }}
-      >
-        {id}
-      </div>
     </div>
   );
 };
