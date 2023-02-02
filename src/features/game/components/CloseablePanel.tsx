@@ -13,13 +13,33 @@ export interface PanelTabs {
   name: string;
 }
 
+/**
+ * The base props for closeable panels that may have a close button.
+ * @param showCloseButton The item resources requirements.
+ * @param onClose The SFL requirements.
+ */
+interface HasCloseButtonProps {
+  showCloseButton?: boolean;
+  onClose: () => void;
+}
+
+/**
+ * The base props for closeable panels that do not have a close button for good.
+ * @param showCloseButton The item resources requirements.
+ * @param onClose The SFL requirements.
+ */
+interface NoCloseButtonProps {
+  showCloseButton: false;
+  onClose?: () => void;
+}
+
+type CloseButtonProps = HasCloseButtonProps | NoCloseButtonProps;
+
 interface Props {
   tabs?: PanelTabs[];
   currentTab?: number;
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
   title?: string;
-  showCloseButton?: boolean;
-  onClose?: () => void;
   showBackButton?: boolean;
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
@@ -40,13 +60,13 @@ interface Props {
  * @className Additional class name for the parent panel.
  * @children The panel children content.
  */
-export const CloseButtonPanel: React.FC<Props> = ({
+export const CloseButtonPanel: React.FC<Props & CloseButtonProps> = ({
   tabs,
   currentTab = 0,
   setCurrentTab,
   title,
   showCloseButton = true,
-  onClose,
+  onClose = undefined,
   showBackButton = false,
   onBack,
   bumpkinParts,
