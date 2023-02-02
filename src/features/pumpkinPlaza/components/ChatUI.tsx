@@ -22,7 +22,6 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game }) => {
     >
       <CloseButtonPanel
         className="w-full sm:w-[30rem]"
-        showCloseButton={false}
         tabs={[
           { icon: SUNNYSIDE.icons.expression_chat, name: "Chat" },
           { icon: SUNNYSIDE.icons.heart, name: "Reactions" },

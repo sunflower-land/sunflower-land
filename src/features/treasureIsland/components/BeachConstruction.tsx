@@ -39,6 +39,7 @@ export const BeachConstruction: React.FC = () => {
             tool: "Hammer",
             hair: "Sun Spots",
           }}
+          onClose={() => setShowModal(false)}
         >
           <div className="p-2">
             <p className="mb-2 text-sm">
