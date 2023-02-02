@@ -76,14 +76,14 @@ export const DailyReward: React.FC = () => {
       </Modal>
       {gameState.matches("revealing") && (
         <Modal show centered>
-          <CloseButtonPanel showCloseButton={false}>
+          <CloseButtonPanel>
             <Revealing icon={SUNNYSIDE.decorations.treasure_chest} />
           </CloseButtonPanel>
         </Modal>
       )}
       {gameState.matches("revealed") && (
         <Modal show centered>
-          <CloseButtonPanel showCloseButton={false}>
+          <CloseButtonPanel>
             <Revealed />
           </CloseButtonPanel>
         </Modal>
