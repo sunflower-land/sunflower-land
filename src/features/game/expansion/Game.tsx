@@ -43,7 +43,6 @@ import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
 import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { hasFeatureAccess } from "lib/flags";
-import { Hud } from "features/island/hud/Hud";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -217,9 +216,6 @@ export const Game: React.FC = () => {
               <Route path="*" element={<IslandNotFound />} />
             </Routes>
           </PlaceableOverlay>
-        </div>
-        <div className="absolute z-20">
-          <Hud />
         </div>
       </>
     );

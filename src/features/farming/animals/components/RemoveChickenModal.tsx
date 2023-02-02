@@ -69,7 +69,7 @@ export const RemoveChickenModal: React.FC<Props> = ({
   };
 
   return (
-    <CloseButtonPanel showCloseButton={false} title="Remove this Chicken?">
+    <CloseButtonPanel title="Remove this Chicken?">
       <div className="flex flex-col items-center">
         <div className="flex space-x-2 items-center justify-center mb-2">
           <SquareIcon icon={ITEM_DETAILS["Rusty Shovel"].image} width={14} />

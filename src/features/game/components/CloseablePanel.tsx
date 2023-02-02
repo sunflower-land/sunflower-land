@@ -18,9 +18,7 @@ interface Props {
   currentTab?: number;
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
   title?: string;
-  showCloseButton?: boolean;
   onClose?: () => void;
-  showBackButton?: boolean;
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
@@ -32,10 +30,8 @@ interface Props {
  * @currentTab The current selected tab index of the panel. Default is 0.
  * @setCurrentTab Dispatch method to set the current selected tab index.
  * @title The panel title.
- * @showCloseButton Whether to show the close button for the panel or not. Default is true.
- * @onClose The close panel method.
- * @showCloseButton Whether to show the back button for the panel or not. Default is true.
- * @onClose The back button method.
+ * @onClose The close panel method.  Close button will show if this is set.
+ * @onBack The back button method.  Back button will show if this is set.
  * @bumpkinParts The list of bumpkin parts for the modal.
  * @className Additional class name for the parent panel.
  * @children The panel children content.
@@ -45,17 +41,18 @@ export const CloseButtonPanel: React.FC<Props> = ({
   currentTab = 0,
   setCurrentTab,
   title,
-  showCloseButton = true,
   onClose,
-  showBackButton = false,
   onBack,
   bumpkinParts,
-  children,
   className,
+  children,
 }) => {
   const handleTabClick = (index: number) => {
     setCurrentTab && setCurrentTab(index);
   };
+
+  const showCloseButton = !!onClose;
+  const showBackButton = !!onBack;
 
   return (
     <Panel

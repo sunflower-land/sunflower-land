@@ -44,7 +44,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showAddSFLModal, setShowAddSFLModal] = useState(false);
-  const [showLandExpansionModal, setShowLandExpansionModal] = useState(false);
   const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);

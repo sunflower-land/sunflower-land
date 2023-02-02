@@ -15,6 +15,7 @@ import { DailyReward } from "./components/DailyReward";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { randomInt } from "lib/utils/random";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Hud } from "features/island/hud/Hud";
 
 // Spawn players in different areas
 const randomXOffset = randomInt(0, 50);
@@ -67,83 +68,86 @@ export const PumpkinPlaza: React.FC = () => {
 
   // Load data
   return (
-    <div
-      className="absolute"
-      style={{
-        width: `${84 * GRID_WIDTH_PX}px`,
-        height: `${56 * GRID_WIDTH_PX}px`,
-      }}
-      // TODO dynamic game board size based on tile dimensions
-    >
-      <img
-        src={background}
-        id={Section.PumpkinPlazaBackGround}
-        className="h-auto absolute "
+    <>
+      <div
+        className="absolute"
         style={{
           width: `${84 * GRID_WIDTH_PX}px`,
           height: `${56 * GRID_WIDTH_PX}px`,
         }}
-      />
-      <Modal
-        show={
-          chatState.matches("initialising") || chatState.matches("connecting")
-        }
-        centered
+        // TODO dynamic game board size based on tile dimensions
       >
-        <Panel>
-          <span className="loading">Connecting</span>
-        </Panel>
-      </Modal>
+        <img
+          src={background}
+          id={Section.PumpkinPlazaBackGround}
+          className="h-auto absolute "
+          style={{
+            width: `${84 * GRID_WIDTH_PX}px`,
+            height: `${56 * GRID_WIDTH_PX}px`,
+          }}
+        />
+        <Modal
+          show={
+            chatState.matches("initialising") || chatState.matches("connecting")
+          }
+          centered
+        >
+          <Panel>
+            <span className="loading">Connecting</span>
+          </Panel>
+        </Modal>
 
-      <Modal show={chatState.matches("loadingPlayers")} centered>
-        <Panel>
-          <span className="loading">Loading Players</span>
-        </Panel>
-      </Modal>
+        <Modal show={chatState.matches("loadingPlayers")} centered>
+          <Panel>
+            <span className="loading">Loading Players</span>
+          </Panel>
+        </Modal>
 
-      <Modal show={chatState.matches("disconnected")} centered>
-        <Panel>
-          <span>Disconnected</span>
-        </Panel>
-      </Modal>
-      <Modal show={chatState.matches("error")} centered>
-        <Panel>
-          <span>Error</span>
-        </Panel>
-      </Modal>
+        <Modal show={chatState.matches("disconnected")} centered>
+          <Panel>
+            <span>Disconnected</span>
+          </Panel>
+        </Modal>
+        <Modal show={chatState.matches("error")} centered>
+          <Panel>
+            <span>Error</span>
+          </Panel>
+        </Modal>
 
-      <div className="absolute inset-0 cursor-pointer" onClick={walk} />
+        <div className="absolute inset-0 cursor-pointer" onClick={walk} />
 
-      <Bumpkins
-        messages={chatState.context.messages}
-        discoveries={chatState.context.discoveries}
-        bumpkin={chatState.context.bumpkin}
-        websocketService={websocketService}
-        position={chatState.context.currentPosition}
-        lastPosition={chatState.context.lastPosition}
-        bumpkins={chatState.context.bumpkins}
-        onVisit={(id) => gameService.send({ type: "VISIT", landId: id })}
-      />
+        <Bumpkins
+          messages={chatState.context.messages}
+          discoveries={chatState.context.discoveries}
+          bumpkin={chatState.context.bumpkin}
+          websocketService={websocketService}
+          position={chatState.context.currentPosition}
+          lastPosition={chatState.context.lastPosition}
+          bumpkins={chatState.context.bumpkins}
+          onVisit={(id) => gameService.send({ type: "VISIT", landId: id })}
+        />
 
-      <DailyReward />
+        <DailyReward />
 
-      <IslandTravel
-        inventory={gameState.context.state.inventory}
-        bumpkin={gameState.context.state.bumpkin}
-        x={-3}
-        y={-22}
-      />
+        <IslandTravel
+          inventory={gameState.context.state.inventory}
+          bumpkin={gameState.context.state.bumpkin}
+          x={-3}
+          y={-22}
+        />
 
-      <ChatUI
-        onMessage={({ reaction, text }) => {
-          websocketService.send("SEND_CHAT_MESSAGE", {
-            text,
-            reaction,
-          });
-        }}
-        game={chatState.context.game}
-      />
-      {/* )} */}
-    </div>
+        <ChatUI
+          onMessage={({ reaction, text }) => {
+            websocketService.send("SEND_CHAT_MESSAGE", {
+              text,
+              reaction,
+            });
+          }}
+          game={chatState.context.game}
+        />
+        {/* )} */}
+      </div>
+      <Hud isFarming={false} />
+    </>
   );
 };

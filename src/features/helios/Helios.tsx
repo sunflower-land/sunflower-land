@@ -19,6 +19,7 @@ import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
+import { Hud } from "features/island/hud/Hud";
 
 const spawn = [
   [30, 15],
@@ -37,7 +38,7 @@ export const Helios: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
   const { bumpkin } = state;
-  const [sealSpawn, setSealSpawn] = useState(getRandomSpawn());
+  const [sealSpawn] = useState(getRandomSpawn());
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -81,6 +82,7 @@ export const Helios: React.FC = () => {
           isTravelAllowed={!gameState.matches("autosaving")}
         />
       </div>
+      <Hud isFarming={false} />
     </>
   );
 };
