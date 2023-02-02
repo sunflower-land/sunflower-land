@@ -24,18 +24,15 @@ export const ToastManager: React.FC = () => {
     <>
       {listed && (
         <InnerPanel
-          className="text-white flex flex-col-reverse items-start fixed z-[99999] pointer-events-none"
+          className="text-white flex flex-col-reverse sm:flex-col bottom-[57.75px] sm:bottom-auto sm:top-[141.75px] items-start fixed z-[99999] pointer-events-none"
           style={{
-            bottom: `${PIXEL_SCALE * 22}px`,
             left: `${PIXEL_SCALE * 3}px`,
           }}
         >
           {toastList.map(({ content, id, icon }) => (
             <div className="flex items-center justify-center" key={id}>
-              {icon && (
-                <img className="h-4 sm:h-6" src={icon} alt="toast-icon" />
-              )}
-              <span className="text-xs sm:text-sm mx-1">{content}</span>
+              {icon && <img className="h-6" src={icon} alt="toast-icon" />}
+              <span className="text-sm mx-1 mb-0.5">{content}</span>
             </div>
           ))}
         </InnerPanel>
