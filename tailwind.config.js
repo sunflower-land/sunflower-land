@@ -98,7 +98,7 @@ module.exports = {
           700: "#945542",
         },
         silver: {
-          300: "#bfcbda",
+          500: "#8b9bb4",
         },
         error: "#e43b44",
       },

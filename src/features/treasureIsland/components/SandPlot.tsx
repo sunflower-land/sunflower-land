@@ -10,7 +10,6 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import shadow from "assets/npcs/shadow.png";
 import pirate from "assets/npcs/pirate_goblin.gif";
-import xMark from "assets/decorations/flag.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
@@ -122,7 +121,6 @@ const isIdle = (state: MachineState) => state.matches("idle");
 const isNoShovel = (state: MachineState) => state.matches("noShovel");
 const isFinishing = (state: MachineState) => state.matches("finishing");
 const isDrilling = (state: MachineState) => state.matches("drilling");
-const discovered = (state: MachineState) => state.context.discovered;
 
 const MAX_HOLES_PER_DAY = 30;
 
@@ -152,7 +150,6 @@ export const SandPlot: React.FC<{
   const noShovel = useSelector(sandPlotService, isNoShovel);
   const finishing = useSelector(sandPlotService, isFinishing);
   const drilling = useSelector(sandPlotService, isDrilling);
-  const discoveredItem = useSelector(sandPlotService, discovered);
 
   const [showHoverState, setShowHoverState] = useState(false);
   const [showGoblinEmotion, setShowGoblinEmotion] = useState(false);
@@ -230,10 +227,10 @@ export const SandPlot: React.FC<{
   };
 
   const handleAcknowledgeTreasureFound = () => {
-    if (!discoveredItem) return;
+    if (!reward?.discovered) return;
 
     setToast({
-      icon: ITEM_DETAILS[discoveredItem].image,
+      icon: ITEM_DETAILS[reward.discovered].image,
       content: `+1`,
     });
 
@@ -258,7 +255,7 @@ export const SandPlot: React.FC<{
 
       setTimeout(() => {
         sandPlotService.send("FINISH_DIGGING", {
-          discovered: reward.discovered,
+          treasureFound: !!reward.discovered,
           dugAt: reward?.dugAt,
         });
       }, 1000);
@@ -271,7 +268,7 @@ export const SandPlot: React.FC<{
 
     if (hasRecentReward && drilling) {
       sandPlotService.send("FINISH_DIGGING", {
-        discovered: reward.discovered,
+        treasureFound: !!reward.discovered,
         dugAt: reward?.dugAt,
       });
     }
@@ -395,18 +392,6 @@ export const SandPlot: React.FC<{
           }}
         />
       </div>
-
-      {!showShovelGoblin &&
-        gameState.context.state.treasureIsland?.rareTreasure?.holeId === id && (
-          <img
-            src={xMark}
-            style={{
-              width: `${PIXEL_SCALE * 16}px`,
-              bottom: `${PIXEL_SCALE * 2.5}px`,
-            }}
-            className="pointer-events-none absolute"
-          />
-        )}
 
       {showShovelGoblin && (
         <>

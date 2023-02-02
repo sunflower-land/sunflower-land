@@ -8,7 +8,8 @@ type TutorialName =
   | "BuildingMenu"
   | "Bumpkin"
   | "Grub Shop"
-  | "Treasure Detector";
+  | "Treasure Detector"
+  | "Pirate Quest";
 
 export function acknowledgeTutorial(tutorialName: TutorialName) {
   const acknowledgements = getAcknowledgements();

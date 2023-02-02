@@ -37,8 +37,6 @@ export const InventoryItemsModal: React.FC<Props> = ({
 }) => {
   const [currentTab, setCurrentTab] = useState<number>(0);
 
-  console.log("rendered");
-
   return (
     <Modal size="lg" centered show={show} onHide={onHide}>
       <CloseButtonPanel

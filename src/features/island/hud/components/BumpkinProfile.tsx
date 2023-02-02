@@ -83,7 +83,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         getExperienceToNextLevel(experience);
 
       let percent = currentExperienceProgress / experienceToNextLevel;
-      // Progress bar cant go futher than 100%
+      // Progress bar cant go further than 100%
       if (isMaxLevel(experience)) {
         percent = 1;
       }
@@ -210,7 +210,7 @@ export const BumpkinProfile: React.FC = () => {
         getExperienceToNextLevel(experience);
 
       let percent = currentExperienceProgress / experienceToNextLevel;
-      // Progress bar cant go futher than 100%
+      // Progress bar cant go further than 100%
       if (percent > 1) {
         percent = 1;
       }

@@ -191,7 +191,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Unmined gold which is strikeable */}
+      {/* Unmined gold which is strikable */}
       {!mined && (
         <div
           ref={containerRef}

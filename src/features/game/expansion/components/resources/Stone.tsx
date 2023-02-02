@@ -190,7 +190,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Unmined stone which is strikeable */}
+      {/* Unmined stone which is strikable */}
       {!mined && (
         <div
           ref={containerRef}

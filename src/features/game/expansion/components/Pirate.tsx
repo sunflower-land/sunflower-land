@@ -42,7 +42,7 @@ export const Pirate: React.FC = () => {
           onClose={() => setShowModal(false)}
         >
           <div className="p-2">
-            <p className="mb-4 text-sm">
+            <p className="mb-3 text-sm">
               Are you ready to visit Treasure Island?
             </p>
             <p className="text-sm">

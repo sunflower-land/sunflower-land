@@ -6,7 +6,7 @@ export const SupplyReached: React.FC = () => {
 
   const [count, setCount] = useState(0);
 
-  const keydownKeboardListener = (event: KeyboardEvent) => {
+  const keydownKeyboardListener = (event: KeyboardEvent) => {
     event.stopPropagation();
     const key = event.key.toLowerCase();
 
@@ -27,10 +27,10 @@ export const SupplyReached: React.FC = () => {
   };
 
   useEffect(() => {
-    document.addEventListener("keydown", keydownKeboardListener);
+    document.addEventListener("keydown", keydownKeyboardListener);
 
     return () =>
-      document.removeEventListener("keydown", keydownKeboardListener);
+      document.removeEventListener("keydown", keydownKeyboardListener);
   }, []);
 
   return (

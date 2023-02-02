@@ -10,7 +10,7 @@ import { GoblinInventory } from "./components/hud/GoblinInventory";
 import { Settings } from "features/island/hud/components/Settings";
 
 /**
- * Heads up display - a concept used in games for the small overlayed display of information.
+ * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {

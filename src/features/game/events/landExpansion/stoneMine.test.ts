@@ -207,7 +207,7 @@ describe("mineStone", () => {
     expect(game.inventory.Stone?.toNumber()).toBeGreaterThan(2);
   });
 
-  it("throws an error if the player doesnt have a bumpkin", async () => {
+  it("throws an error if the player doesn't have a bumpkin", async () => {
     expect(() =>
       mineStone({
         state: {

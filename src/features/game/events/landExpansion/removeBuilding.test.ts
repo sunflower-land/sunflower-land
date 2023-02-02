@@ -150,7 +150,7 @@ describe("removeBuilding", () => {
     ).toThrow(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   });
 
-  it("does not remove a building if its under construction", () => {
+  it("does not remove a building if it's under construction", () => {
     expect(() =>
       removeBuilding({
         state: {

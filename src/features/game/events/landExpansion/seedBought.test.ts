@@ -189,7 +189,7 @@ describe("seedBought", () => {
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 
-  it("throws an error if the player doesnt have a bumpkin", async () => {
+  it("throws an error if the player doesn't have a bumpkin", async () => {
     expect(() =>
       seedBought({
         state: {

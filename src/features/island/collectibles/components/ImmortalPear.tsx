@@ -14,7 +14,7 @@ export const ImmortalPear: React.FC = () => {
           left: `${PIXEL_SCALE * 5}px`,
         }}
         className="absolute"
-        alt="Basic Bear"
+        alt="Immortal Pear"
       />
     </>
   );
