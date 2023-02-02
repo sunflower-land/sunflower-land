@@ -131,8 +131,9 @@ export const DetailView: React.FC<Props> = ({
   };
 
   const showIngredients = () => {
-    if (!buildingToConstruct.ingredients.length && !buildingToConstruct.sfl)
+    if (!buildingToConstruct.ingredients.length && !buildingToConstruct.sfl) {
       return null;
+    }
 
     return (
       <div className="border-t border-white w-full mt-2 pt-1 mb-2 text-center">
