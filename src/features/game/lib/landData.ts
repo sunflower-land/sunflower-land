@@ -275,6 +275,7 @@ export const OFFLINE_FARM: GameState = {
     //   }),
     //   {}
     // ),
+    "Whale Bear": new Decimal(1),
     "Maneki Neko": new Decimal(1),
     "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),

@@ -20,7 +20,11 @@ export type ConsumableTreasure =
   | "Cauliflower Cake"
   | "Club Sandwich"
   | "Sunflower Crunch"
-  | "Pumpkin Soup";
+  | "Pumpkin Soup"
+  | "Boiled Eggs"
+  | "Kale Stew"
+  | "Bumpkin Salad"
+  | "Cauliflower Burger";
 
 export type DecorationTreasure =
   | "Abandoned Bear"
@@ -31,6 +35,7 @@ export type DecorationTreasure =
   | "Skeleton King Staff"
   | "Lifeguard Bear"
   | "Snorkel Bear"
+  | "Whale Bear"
   | "Parasaur Skull"
   | "Golden Bear Head"
   | "Pirate Bear"
@@ -42,13 +47,15 @@ export type DecorationTreasure =
 export type QuestTreasure = "Treasure Map";
 
 export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
+export type MiscenalleousTreasure = "Sand Drill" | "Gold" | "Stone" | "Iron";
 
 export type TreasureName =
   | BeachBountyTreasure
   | ConsumableTreasure
   | DecorationTreasure
   | QuestTreasure
-  | BoostTreasure;
+  | BoostTreasure
+  | MiscenalleousTreasure;
 
 interface TreasureDetail {
   description?: string;
@@ -112,6 +119,9 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
 };
 
 export const TREASURES: Record<TreasureName, TreasureDetail> = {
+  "Whale Bear": {
+    type: "rare",
+  },
   "Pirate Cake": {
     type: "good",
   },
@@ -190,6 +200,31 @@ export const TREASURES: Record<TreasureName, TreasureDetail> = {
   "Human Bear": {
     type: "good",
   },
+  "Boiled Eggs": {
+    type: "average",
+  },
+  "Bumpkin Salad": {
+    type: "average",
+  },
+  "Cauliflower Burger": {
+    type: "average",
+  },
+  "Kale Stew": {
+    type: "average",
+  },
+  "Sand Drill": {
+    type: "good",
+  },
+  Gold: {
+    type: "good",
+  },
+  Iron: {
+    type: "good",
+  },
+  Stone: {
+    type: "average",
+  },
+
   ...BEACH_BOUNTY_TREASURE,
 };
 

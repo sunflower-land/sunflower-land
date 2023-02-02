@@ -137,6 +137,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
     width: 1,
   },
+  "Whale Bear": {
+    height: 1,
+    width: 1,
+  },
   "Parasaur Skull": {
     height: 2,
     width: 2,
