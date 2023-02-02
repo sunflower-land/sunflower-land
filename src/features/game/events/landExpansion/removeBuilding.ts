@@ -10,7 +10,7 @@ export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
   NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
   NO_BUMPKIN = "You do not have a Bumpkin",
-  BUILDING_UNDER_CONSTRUCTION = "Cannot remove a building while its under construction",
+  BUILDING_UNDER_CONSTRUCTION = "Cannot remove a building while it's under construction",
   WATER_WELL_REMOVE_CROPS = "Cannot remove Water Well that causes crops to uproot",
   HEN_HOUSE_REMOVE_BREWING_CHICKEN = "Cannot remove Hen House that causes chickens that are brewing egg to be removed",
 }

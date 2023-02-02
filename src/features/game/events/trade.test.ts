@@ -189,7 +189,7 @@ describe("trade", () => {
     ).toThrow("Already traded");
   });
 
-  it("trades for mulitple items", () => {
+  it("trades for multiple items", () => {
     const state = trade({
       action: {
         type: "item.traded",

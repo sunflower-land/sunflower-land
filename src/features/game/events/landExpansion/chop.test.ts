@@ -155,7 +155,7 @@ describe("chop", () => {
     expect(tree.wood.amount).toBeGreaterThan(0);
   });
 
-  it("chops multiple tree", () => {
+  it("chops multiple trees", () => {
     let game = chop({
       state: {
         ...GAME_STATE,
@@ -354,7 +354,7 @@ describe("chop", () => {
     expect(tree.wood.amount).toBeGreaterThan(0);
   });
 
-  it("throws an error if the player doesnt have a bumpkin", async () => {
+  it("throws an error if the player doesn't have a bumpkin", async () => {
     expect(() =>
       chop({
         state: {

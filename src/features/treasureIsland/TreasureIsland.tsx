@@ -12,7 +12,8 @@ import {
   MapPlacement,
 } from "features/game/expansion/components/MapPlacement";
 import { SandPlot } from "./components/SandPlot";
-import { TreasureDetector } from "./components/TreasureDetector";
+import { BeachConstruction } from "./components/BeachConstruction";
+import { PirateQuest } from "features/game/expansion/components/PirateQuest";
 
 export const CLICKABLE_COORDINATES: Coordinates[] = [];
 
@@ -67,7 +68,8 @@ export const TreasureIsland: React.FC = () => {
         ))}
         <GoblinDigging />
         <TreasureShop />
-        <TreasureDetector />
+        <BeachConstruction />
+        <PirateQuest />
       </div>
     </>
   );

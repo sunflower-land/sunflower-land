@@ -399,7 +399,7 @@ describe("plant", () => {
     });
 
     // Should be twice as fast! (Planted in the past)
-    const parnsipTime = CROPS().Parsnip.harvestSeconds * 1000;
+    const parsnipTime = CROPS().Parsnip.harvestSeconds * 1000;
 
     const plots = state.expansions[0].plots;
 
@@ -408,7 +408,7 @@ describe("plant", () => {
       (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
     console.log(plantedAt);
 
-    expect(plantedAt).toBe(dateNow - parnsipTime * 0.5);
+    expect(plantedAt).toBe(dateNow - parsnipTime * 0.5);
   });
   it("yields 20% more parsnip if bumpkin is equipped with Parsnip Tool", () => {
     const PARSNIP_STATE: GameState = {
@@ -514,7 +514,7 @@ describe("plant", () => {
       createdAt: dateNow,
     });
 
-    // Should be twice as fast! (Planted in the psat)
+    // Should be twice as fast! (Planted in the past)
     const carrotTime = CROPS().Carrot.harvestSeconds * 1000;
 
     const plots = state.expansions[0].plots;
@@ -677,7 +677,7 @@ describe("getCropTime", () => {
 });
 
 describe("isPlotFertile", () => {
-  it("cannot plant on 16th field if a well is not avilable", () => {
+  it("cannot plant on 16th field if a well is not available", () => {
     const fakePlot = {
       x: 1,
       y: 1,

@@ -10,7 +10,7 @@ import {
 } from "features/game/types/game";
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
-import { getKeys, SHOVELS, TOOLS } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
 import { RESOURCES } from "features/game/types/resources";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
@@ -25,6 +25,7 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BEACH_BOUNTY_TREASURE } from "features/game/types/treasure";
+import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 
 interface Prop {
   gameState: GameState;
@@ -85,8 +86,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fruitSeeds = getItems(FRUIT_SEEDS());
   const crops = getItems(CROPS());
   const fruits = getItems(FRUIT());
-  const tools = getItems(TOOLS);
-  const shovels = getItems(SHOVELS);
+  const workbenchTools = getItems(WORKBENCH_TOOLS());
+  const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(RESOURCES);
   const consumables = getItems(CONSUMABLES);
@@ -95,7 +96,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const bounty = getItems(BEACH_BOUNTY_TREASURE);
 
   const allSeeds = [...seeds, ...fruitSeeds];
-  const allTools = [...tools, ...shovels];
+  const allTools = [...workbenchTools, ...treasureTools];
 
   const itemsSection = (title: string, items: InventoryItemName[]) => {
     if (!items.length) {

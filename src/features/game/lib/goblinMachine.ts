@@ -190,7 +190,7 @@ export function startGoblinVillage(authContext: AuthContext) {
 
               const game = response?.game as GameState;
 
-              // Show whatever is lower, on chain or offchain
+              // Show whatever is lower, on chain or off-chain
               const availableState = getAvailableGameState({
                 onChain: onChainState.game,
                 offChain: game,

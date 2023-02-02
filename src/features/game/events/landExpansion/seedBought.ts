@@ -23,12 +23,12 @@ export function getBuyPrice(
   name: SeedName,
   seed: Seed,
   inventory: Inventory,
-  colletibles: Collectibles,
+  collectibles: Collectibles,
   bumpkin: Bumpkin
 ) {
   const { equipped } = bumpkin;
   const { secondaryTool } = equipped;
-  if (isCollectibleBuilt("Kuebiko", colletibles)) {
+  if (isCollectibleBuilt("Kuebiko", collectibles)) {
     return new Decimal(0);
   }
 

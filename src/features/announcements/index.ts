@@ -172,7 +172,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
         },
       },
       {
-        text: "Last week we reached our 100,000th trade listing at the Goblin Hot Air Baloon!",
+        text: "Last week we reached our 100,000th trade listing at the Goblin Hot Air Balloon!",
         icon: SUNNYSIDE.icons.heart,
       },
 
