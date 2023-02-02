@@ -36,6 +36,7 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
+import { Hud } from "features/island/hud/Hud";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -412,56 +413,59 @@ export const Land: React.FC = () => {
   };
 
   return (
-    <div
-      className="absolute"
-      style={{
-        // dynamic gameboard
-        width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
-        height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
-        backgroundImage: `url(${ocean})`,
-        backgroundSize: `${64 * PIXEL_SCALE}px`,
-        imageRendering: "pixelated",
-      }}
-    >
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div
-          className={classNames("relative w-full h-full", {
-            "pointer-events-none": gameState.matches("visiting"),
-          })}
-        >
-          <LandBase expandedCount={expandedCount} />
-          <UpcomingExpansion gameState={state} />
-          <DirtRenderer
-            expansions={expansions.filter((e) => e.readyAt < Date.now())}
+    <>
+      <div
+        className="absolute"
+        style={{
+          // dynamic gameboard
+          width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
+          height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
+          backgroundImage: `url(${ocean})`,
+          backgroundSize: `${64 * PIXEL_SCALE}px`,
+          imageRendering: "pixelated",
+        }}
+      >
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div
+            className={classNames("relative w-full h-full", {
+              "pointer-events-none": gameState.matches("visiting"),
+            })}
+          >
+            <LandBase expandedCount={expandedCount} />
+            <UpcomingExpansion gameState={state} />
+            <DirtRenderer
+              expansions={expansions.filter((e) => e.readyAt < Date.now())}
+            />
+
+            <Water level={expandedCount} />
+
+            {/* Sort island elements by y axis */}
+            {getIslandElements({
+              expansions,
+              buildings,
+              collectibles,
+              chickens,
+              bumpkinParts: gameState.context.state.bumpkin?.equipped,
+              isEditing,
+            }).sort((a, b) => b.props.y - a.props.y)}
+          </div>
+          <IslandTravel
+            key="island-travel"
+            bumpkin={bumpkin}
+            isVisiting={gameState.matches("visiting")}
+            inventory={gameState.context.state.inventory}
+            isTravelAllowed={!gameState.matches("autosaving")}
+            onTravelDialogOpened={() => gameService.send("SAVE")}
+            x={boatCoordinates.x}
+            y={boatCoordinates.y}
           />
 
-          <Water level={expandedCount} />
+          <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
-          {/* Sort island elements by y axis */}
-          {getIslandElements({
-            expansions,
-            buildings,
-            collectibles,
-            chickens,
-            bumpkinParts: gameState.context.state.bumpkin?.equipped,
-            isEditing,
-          }).sort((a, b) => b.props.y - a.props.y)}
+          {gameState.matches("editing") && <Placeable />}
         </div>
-        <IslandTravel
-          key="island-travel"
-          bumpkin={bumpkin}
-          isVisiting={gameState.matches("visiting")}
-          inventory={gameState.context.state.inventory}
-          isTravelAllowed={!gameState.matches("autosaving")}
-          onTravelDialogOpened={() => gameService.send("SAVE")}
-          x={boatCoordinates.x}
-          y={boatCoordinates.y}
-        />
-
-        <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
-
-        {gameState.matches("editing") && <Placeable />}
       </div>
-    </div>
+      <Hud isFarming />
+    </>
   );
 };

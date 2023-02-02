@@ -103,6 +103,7 @@ import { Galleon } from "./components/Galleon";
 import { SkeletonKingStaff } from "./components/SkeletonKingStaff";
 import { Foliant } from "./components/Foliant";
 import { DinosaurFossil } from "./components/DinosaurFossil";
+import { WhaleBear } from "./components/WhaleBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -228,6 +229,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "T-Rex Skull": TRexSkull,
   "Lifeguard Bear": LifeguardBear,
   "Snorkel Bear": SnorkelBear,
+  "Whale Bear": WhaleBear,
   "Parasaur Skull": ParasaurSkull,
   "Golden Bear Head": GoldenBearHead,
   "Human Bear": HumanBear,

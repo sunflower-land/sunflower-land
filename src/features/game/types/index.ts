@@ -320,6 +320,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   // Can be used for pirate hat replacement
   "Dinosaur Fossil": 1237,
   "Human Bear": 1238,
+  "Whale Bear": 1239,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

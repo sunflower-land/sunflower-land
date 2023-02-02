@@ -52,7 +52,7 @@ export const PirateQuest: React.FC = () => {
     setShowModal(true);
     acknowledgeTutorial("Pirate Quest");
   };
-  const bumpkin: Partial<Equipped> = {
+  const bumpkin: Equipped = {
     body: "Pirate Potion",
     hair: "Teal Mohawk",
     pants: "Pirate Pants",
@@ -76,14 +76,9 @@ export const PirateQuest: React.FC = () => {
             }}
           />
         )}
-        <NPC
-          onClick={openQuest}
-          pants="Pirate Pants"
-          body="Pirate Potion"
-          hair="Sun Spots"
-          shirt="Striped Blue Shirt"
-          hat="Pirate Hat"
-        />
+        <div className="-scale-x-100">
+          <NPC onClick={openQuest} {...bumpkin} />
+        </div>
       </MapPlacement>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>

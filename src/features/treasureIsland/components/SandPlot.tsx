@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
@@ -12,7 +13,11 @@ import shadow from "assets/npcs/shadow.png";
 import pirate from "assets/npcs/pirate_goblin.gif";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  InventoryItemName,
+  Reward,
+  TreasureHole,
+} from "features/game/types/game";
 import { setImageWidth } from "lib/images";
 import classNames from "classnames";
 
@@ -29,12 +34,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { Panel } from "components/ui/Panel";
 
-type TreasureReward = {
-  discovered: InventoryItemName | null;
-  dugAt: number;
-};
-
-const Reward: React.FC<{ reward?: TreasureReward }> = ({ reward }) => {
+const Reward: React.FC<{ reward?: TreasureHole }> = ({ reward }) => {
   if (!reward || !reward.discovered) return null;
 
   return (
@@ -136,9 +136,13 @@ export const SandPlot: React.FC<{
   const [gameState] = useActor(gameService);
 
   const { treasureIsland } = gameState.context.state;
-  const reward = treasureIsland?.holes?.[id];
-
-  const machineContext: Partial<SandPlotContext> = { ...reward, id };
+  // Last reward found on this hole
+  const lastReward = treasureIsland?.holes?.[id];
+  // Initialise the plot machine with the current rewards dugAt time
+  const machineContext: Partial<SandPlotContext> = {
+    dugAt: lastReward?.dugAt,
+    id,
+  };
   const sandPlotService = useInterpret(sandPlotMachine, {
     context: machineContext,
   });
@@ -157,6 +161,7 @@ export const SandPlot: React.FC<{
     shownMissingShovelModal
   );
   const [showMaxHolesModal, setShowMaxHolesModal] = useState(false);
+  const [newReward, setNewReward] = useState<TreasureHole | undefined>();
 
   const hasSandShovel =
     selectedItem === "Sand Shovel" &&
@@ -171,9 +176,17 @@ export const SandPlot: React.FC<{
     if (treasureNotFound) {
       gameService.send("CONTINUE");
       sandPlotService.send("ACKNOWLEDGE");
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [treasureNotFound]);
+
+  useEffect(() => {
+    if (!lastReward) return;
+
+    if (lastReward?.dugAt > Date.now() - 60 * 1000) {
+      setNewReward(lastReward);
+    }
+  }, [lastReward]);
 
   const handleNoShovel = async () => {
     if (!shownMissingShovelModal) {
@@ -227,52 +240,50 @@ export const SandPlot: React.FC<{
   };
 
   const handleAcknowledgeTreasureFound = () => {
-    if (!reward?.discovered) return;
+    if (!newReward?.discovered) return;
 
     setToast({
-      icon: ITEM_DETAILS[reward.discovered].image,
+      icon: ITEM_DETAILS[newReward.discovered].image,
       content: `+1`,
     });
 
-    console.log("acknowledge");
     sandPlotService.send("ACKNOWLEDGE");
+    // Modal prevents hover state from resetting
+    setShowHoverState(false);
   };
 
   const handleAcknowledgeNoSandShovel = () => {
     setShowMissingShovelModal(false);
     onMissingShovelAcknowledge();
+    setShowHoverState(false);
   };
 
   // Each time the sprite sheet gets to the 10th frame (shovel up)
   // If reward has returned then stop sprite here.
   const handleTreasureCheck = () => {
     // Avoid checking for previous day rewards
-    const hasRecentReward = reward && reward?.dugAt > Date.now() - 60 * 1000;
 
-    if (hasRecentReward) {
+    if (newReward) {
       goblinDiggingRef.current?.pause();
       setShowGoblinEmotion(true);
 
       setTimeout(() => {
         sandPlotService.send("FINISH_DIGGING", {
-          treasureFound: !!reward.discovered,
-          dugAt: reward?.dugAt,
+          treasureFound: !!newReward.discovered,
+          dugAt: newReward?.dugAt,
         });
       }, 1000);
     }
   };
 
   useEffect(() => {
-    // Avoid checking for previous day rewards
-    const hasRecentReward = reward && reward?.dugAt > Date.now() - 60 * 1000;
-
-    if (hasRecentReward && drilling) {
+    if (newReward && drilling) {
       sandPlotService.send("FINISH_DIGGING", {
-        treasureFound: !!reward.discovered,
-        dugAt: reward?.dugAt,
+        treasureFound: !!newReward.discovered,
+        dugAt: newReward?.dugAt,
       });
     }
-  }, [drilling, reward]);
+  }, [drilling, newReward]);
 
   if (dug || treasureFound) {
     return (
@@ -288,7 +299,7 @@ export const SandPlot: React.FC<{
           />
         </div>
         <Modal centered show={treasureFound}>
-          <CloseButtonPanel showCloseButton={false}>
+          <CloseButtonPanel>
             <Revealed onAcknowledged={handleAcknowledgeTreasureFound} />
           </CloseButtonPanel>
         </Modal>
@@ -370,6 +381,7 @@ export const SandPlot: React.FC<{
 
   return (
     <div
+      id={`${id}`}
       className="w-full h-full relative"
       onMouseEnter={() => setShowHoverState(true)}
       onMouseLeave={() => setShowHoverState(false)}
@@ -401,8 +413,8 @@ export const SandPlot: React.FC<{
               "opacity-0": finishing,
             })}
           >
-            {reward && showGoblinEmotion && (
-              <GoblinEmotion treasure={reward.discovered} />
+            {newReward && showGoblinEmotion && (
+              <GoblinEmotion treasure={newReward.discovered} />
             )}
             <Spritesheet
               className="absolute group-hover:img-highlight pointer-events-none z-50"
@@ -450,7 +462,7 @@ export const SandPlot: React.FC<{
                 top: `${PIXEL_SCALE * 2}px`,
               }}
             />
-            <Reward reward={reward} />
+            <Reward reward={newReward} />
           </div>
         </>
       )}
