@@ -9,6 +9,7 @@ import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getChestItems } from "./utils/inventory";
 import { KNOWN_IDS } from "features/game/types";
+import { useLocation } from "react-router-dom";
 
 interface Props {
   state: GameState;
@@ -28,6 +29,10 @@ export const Inventory: React.FC<Props> = ({
   onPlace,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { pathname } = useLocation();
+  // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
+  const limitedInventory =
+    pathname.includes("retreat") || pathname.includes("visit");
 
   const [selectedChestItem, setSelectedChestItem] = useState<InventoryItemName>(
     getKeys(getChestItems(state)).sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
@@ -89,7 +94,7 @@ export const Inventory: React.FC<Props> = ({
         isFarming={isFarming}
       />
 
-      {isFarming && (
+      {!limitedInventory && (
         <div
           className="flex flex-col items-center"
           style={{
