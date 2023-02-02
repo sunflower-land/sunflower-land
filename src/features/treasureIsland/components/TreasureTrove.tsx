@@ -20,7 +20,9 @@ enum RarityOrder {
 }
 
 const TREASURE_TROVE_ITEMS = getEntries(TREASURES)
+  // Sort by name first
   .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+  // Then sort by rarity
   .sort(
     ([, treasureA], [, treasureB]) =>
       RarityOrder[treasureA.type] - RarityOrder[treasureB.type]
