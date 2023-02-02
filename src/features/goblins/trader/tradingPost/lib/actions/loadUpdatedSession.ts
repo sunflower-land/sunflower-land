@@ -30,7 +30,7 @@ export const loadUpdatedSession = async (
   const game = response?.game as GameState;
   const deviceTrackerId = response?.deviceTrackerId as string;
 
-  // Whatever is lower, on chain or offchain
+  // Whatever is lower, on chain or off-chain
   const { inventory, balance } = getAvailableGameState({
     onChain: onChainState.game,
     offChain: game,

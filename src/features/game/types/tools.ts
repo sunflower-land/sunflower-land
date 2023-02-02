@@ -24,7 +24,7 @@ export interface Tool {
   disabled?: boolean;
 }
 
-export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
+export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
@@ -35,7 +35,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
     name: "Pickaxe",
     description: "Used to collect stone",
     ingredients: {
-      Wood: new Decimal(5),
+      Wood: new Decimal(3),
     },
     sfl: marketRate(5),
   },
@@ -43,7 +43,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
     name: "Stone Pickaxe",
     description: "Used to collect iron",
     ingredients: {
-      Wood: new Decimal(5),
+      Wood: new Decimal(3),
       Stone: new Decimal(5),
     },
     sfl: marketRate(5),
@@ -52,10 +52,10 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
     name: "Iron Axe",
     description: "Used to collect gold",
     ingredients: {
-      Wood: new Decimal(10),
+      Wood: new Decimal(3),
       Iron: new Decimal(5),
     },
-    sfl: marketRate(5),
+    sfl: marketRate(20),
   },
   "Rusty Shovel": {
     name: "Rusty Shovel",
@@ -72,7 +72,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
     },
     sfl: marketRate(5),
   },
-};
+});
 
 export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   "Sand Shovel": {

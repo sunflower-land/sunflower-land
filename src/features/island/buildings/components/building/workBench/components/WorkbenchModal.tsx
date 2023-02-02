@@ -84,7 +84,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     );
   }
 
-  const selected = WORKBENCH_TOOLS[selectedName];
+  const selected = WORKBENCH_TOOLS()[selectedName];
   const inventory = state.inventory;
 
   const price = selected.sfl;
@@ -210,7 +210,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           <div className="flex flex-col-reverse sm:flex-row">
             <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-              {getKeys(WORKBENCH_TOOLS).map((toolName) => (
+              {getKeys(WORKBENCH_TOOLS()).map((toolName) => (
                 <Box
                   isSelected={selectedName === toolName}
                   key={toolName}

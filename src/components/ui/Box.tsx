@@ -16,7 +16,7 @@ import { SquareIcon } from "./SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
-const LABEL_TOP_SIHFT_PX = -6 * PIXEL_SCALE;
+const LABEL_TOP_SHIFT_PX = -6 * PIXEL_SCALE;
 const INNER_CANVAS_WIDTH = 14;
 
 export interface BoxProps {
@@ -220,7 +220,7 @@ export const Box: React.FC<BoxProps> = ({
             })}
             style={{
               right: `${LABEL_RIGHT_SHIFT_PX}px`,
-              top: `${LABEL_TOP_SIHFT_PX}px`,
+              top: `${LABEL_TOP_SHIFT_PX}px`,
               pointerEvents: "none",
             }}
           >
@@ -239,7 +239,7 @@ export const Box: React.FC<BoxProps> = ({
             className="absolute opacity-0"
             style={{
               right: `${LABEL_RIGHT_SHIFT_PX}px`,
-              top: `${LABEL_TOP_SIHFT_PX}px`,
+              top: `${LABEL_TOP_SHIFT_PX}px`,
               pointerEvents: "none",
             }}
           >

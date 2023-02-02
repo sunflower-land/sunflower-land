@@ -37,7 +37,7 @@ export const Buying: React.FC = () => {
     return (
       <Idle
         visitingFarmId={machine.context.visitingFarmId}
-        vistingFarmSlots={machine.context.visitingFarmSlots}
+        visitingFarmSlots={machine.context.visitingFarmSlots}
         balance={goblinState.context.state.balance}
         onVisit={(farmId) => buyingService.send("LOAD_FARM", { farmId })}
         onPurchase={(listing) => buyingService.send("PURCHASE", { listing })}

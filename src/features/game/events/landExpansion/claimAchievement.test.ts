@@ -60,7 +60,7 @@ describe("claim achievements", () => {
       })
     ).toThrow("You already have this achievement");
   });
-  it("claims busy bumpkin achievment", () => {
+  it("claims busy bumpkin achievement", () => {
     const state = claimAchievement({
       state: {
         ...GAME_STATE,

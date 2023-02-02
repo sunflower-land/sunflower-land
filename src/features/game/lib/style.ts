@@ -1,5 +1,5 @@
 import { PIXEL_SCALE } from "./constants";
-import whiteBorder from "assets/ui/panel/white_border.png";
+import grayBorder from "assets/ui/panel/gray_border.png";
 import lightBorder from "assets/ui/panel/light_border.png";
 import darkBorder from "assets/ui/panel/dark_border.png";
 import greenBorder from "assets/ui/panel/green_border.png";
@@ -16,8 +16,8 @@ const pixelizedBorderStyle: React.CSSProperties = {
   borderRadius: `${PIXEL_SCALE * 5}px`,
 };
 
-export const pixelWhiteBorderStyle: React.CSSProperties = {
-  borderImage: `url(${whiteBorder})`,
+export const pixelGrayBorderStyle: React.CSSProperties = {
+  borderImage: `url(${grayBorder})`,
   ...pixelizedBorderStyle,
 };
 

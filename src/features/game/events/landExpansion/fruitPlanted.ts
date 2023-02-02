@@ -117,7 +117,7 @@ export function plantFruit({
     plantedAt: getPlantedAt(fruitName, stateCopy.collectibles, createdAt),
     amount: getFruitYield(fruitName, stateCopy.collectibles),
     harvestedAt: 0,
-    // Value will be overriden by BE
+    // Value will be overridden by BE
     harvestsLeft: harvestCount,
   };
 

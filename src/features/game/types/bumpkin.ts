@@ -13,7 +13,8 @@ export type BumpkinBody =
   | "Beige Farmer Potion"
   | "Light Brown Farmer Potion"
   | "Dark Brown Farmer Potion"
-  | "Goblin Potion";
+  | "Goblin Potion"
+  | "Pirate Potion";
 
 export type BumpkinHair =
   | "Basic Hair"
@@ -44,9 +45,14 @@ export type BumpkinShirt =
   | "Bumpkin Art Competition Merch"
   | "Fire Shirt"
   | "Pineapple Shirt"
-  | "Fruit Picker Shirt";
+  | "Fruit Picker Shirt"
+  | "Striped Blue Shirt"
+  | "Pirate Leather Polo";
 
-export type BumpkinCoat = "Chef Apron" | "Fruit Picker Apron";
+export type BumpkinCoat =
+  | "Chef Apron"
+  | "Fruit Picker Apron"
+  | "Pirate General Coat";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -56,13 +62,15 @@ export type BumpkinTool =
   | "Golden Spatula"
   | "Hammer"
   | "Ancient War Hammer"
-  | "Ancient Goblin Sword";
+  | "Ancient Goblin Sword"
+  | "Pirate Scimitar";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
   | "Brown Boots"
   | "Yellow Boots"
-  | "Bumpkin Boots";
+  | "Bumpkin Boots"
+  | "Peg Leg";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -79,7 +87,8 @@ export type BumpkinHat =
   | "Reindeer Antlers"
   | "Santa Hat"
   | "Lion Dance Mask"
-  | "Fruit Bowl";
+  | "Fruit Bowl"
+  | "Pirate Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -90,9 +99,10 @@ export type BumpkinPant =
   | "Blue Suspenders"
   | "Fancy Pants"
   | "Maiden Skirt"
-  | "Peasant Skirt";
+  | "Peasant Skirt"
+  | "Pirate Pants";
 
-export type BumpkinSecondaryTool = "Sunflower Shield";
+export type BumpkinSecondaryTool = "Sunflower Shield" | "Crab Claw";
 
 // Goes over clothes + head
 export type BumpkinOnesie = "Snowman Onesie" | "Shark Onesie";
@@ -200,6 +210,15 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Fruit Picker Shirt": 85,
   "Fruit Picker Apron": 86,
   "Fruit Bowl": 87,
+  "Striped Blue Shirt": 88,
+  "Peg Leg": 89,
+  "Pirate Potion": 90,
+  "Pirate Hat": 91,
+  "Pirate General Coat": 92,
+  "Pirate Pants": 93,
+  "Pirate Leather Polo": 94,
+  "Crab Claw": 95,
+  "Pirate Scimitar": 96,
 };
 
 // The reverse of above

@@ -283,7 +283,7 @@ export const ChickenFight: React.FC = () => {
   };
 
   /**
-   * Checks for collision so chickens don't overlap, switch sides, or go beyond boundarys
+   * Checks for collision so chickens don't overlap, switch sides, or go beyond boundaries
    * Compare p1NewPosition and p2NewPosition to 0 for boundaries since they are with respect to absolute position side (left or right)
    * Enemy boundaries are computed with respect to left side for both chickens
    * @param p1NewPosition new position of player 1

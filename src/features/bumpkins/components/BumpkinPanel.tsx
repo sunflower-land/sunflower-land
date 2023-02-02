@@ -105,9 +105,9 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
 
-  const hasAvaliableSkillPoints =
+  const hasAvailableSkillPoints =
     getAvailableBumpkinSkillPoints(state.bumpkin) > 0;
-  const hasAvaliableAchievements =
+  const hasAvailableAchievements =
     getUnclaimedAchievementNames(state).length > 0;
 
   const levelInfo = () => (
@@ -165,8 +165,8 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
         <div className="flex items-center">
           <span className="text-xs mx-1">{title}</span>
           {(title === "Skills"
-            ? hasAvaliableSkillPoints
-            : hasAvaliableAchievements) &&
+            ? hasAvailableSkillPoints
+            : hasAvailableAchievements) &&
             !isVisiting && (
               <SquareIcon icon={SUNNYSIDE.icons.expression_alerted} width={7} />
             )}
