@@ -52,9 +52,12 @@ export type TreasureName =
 
 interface TreasureDetail {
   description?: string;
-  endDate?: number;
   type: "average" | "good" | "rare";
 }
+
+type TimeLimitedTreasureDetail = {
+  endDate: number;
+} & TreasureDetail;
 
 export type BeachBounty = {
   sellPrice: Decimal;
@@ -108,10 +111,7 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   },
 };
 
-export const TREASURES: Record<
-  TreasureName | ConsumableTreasure,
-  TreasureDetail
-> = {
+export const TREASURES: Record<TreasureName, TreasureDetail> = {
   "Pirate Cake": {
     type: "good",
   },
@@ -180,7 +180,6 @@ export const TREASURES: Record<
   },
   "Pirate Bear": {
     type: "good",
-    endDate: new Date("2023-05-08T00:00:00.000Z").getTime(),
   },
   Galleon: {
     type: "good",
@@ -192,4 +191,14 @@ export const TREASURES: Record<
     type: "good",
   },
   ...BEACH_BOUNTY_TREASURE,
+};
+
+type TimeLimitedTreasure = {
+  name: TreasureName;
+  endDate: number;
+};
+
+export const TIME_LIMITED_TREASURE: TimeLimitedTreasure = {
+  name: "Pirate Bear",
+  endDate: new Date("2023-05-08T00:00:00.000Z").getTime(),
 };
