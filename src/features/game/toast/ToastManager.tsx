@@ -24,8 +24,9 @@ export const ToastManager: React.FC = () => {
     <>
       {listed && (
         <InnerPanel
-          className="text-white flex flex-col-reverse sm:flex-col bottom-[57.75px] sm:bottom-auto sm:top-[141.75px] items-start fixed z-[99999] pointer-events-none"
+          className="text-white flex flex-col items-start fixed z-[99999] pointer-events-none"
           style={{
+            top: `${PIXEL_SCALE * 54}px`,
             left: `${PIXEL_SCALE * 3}px`,
           }}
         >
