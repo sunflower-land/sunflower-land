@@ -37,7 +37,7 @@ export const UpcomingAuctions: React.FC = () => {
             item={item}
             game={goblinState.context.state}
             // Won't be called
-            onBid={console.log}
+            onDraftBid={console.log}
             isUpcomingItem={true}
           />
         </div>

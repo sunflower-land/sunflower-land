@@ -6,7 +6,7 @@ export type AuctioneerItem = {
   tokenId: number;
   name: AuctioneerItemName;
   price?: number;
-  ingredients: Record<InventoryItemName, number>;
+  ingredients: Partial<Record<InventoryItemName, number>>;
   releaseDate: number;
   endDate: number;
   supply: number;
