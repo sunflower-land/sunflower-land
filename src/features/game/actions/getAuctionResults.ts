@@ -13,9 +13,15 @@ const API_URL = CONFIG.API_URL;
 
 type Status = "pending" | "winner" | "loser";
 
-export async function getAuctionResults(
-  request: Request
-): Promise<{ status: Status }> {
+export async function getAuctionResults(request: Request): Promise<{
+  status: Status;
+  minimum: {
+    lotteryTickets: number;
+    biddedAt: number;
+  };
+  participantCount: number;
+  supply: number;
+}> {
   const response = await window.fetch(
     `${API_URL}/auction/${request.item}/results/${request.farmId}`,
     {
@@ -36,7 +42,7 @@ export async function getAuctionResults(
     throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 
-  const { status } = await response.json();
+  const { status, minimum, supply, participantCount } = await response.json();
 
-  return { status };
+  return { status, minimum, supply, participantCount };
 }

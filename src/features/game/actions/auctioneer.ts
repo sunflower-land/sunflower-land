@@ -3,6 +3,7 @@ import { getInventorySupply } from "lib/blockchain/Inventory";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { KNOWN_IDS } from "../types";
 
 type Cache = {
   cachedAt: number;
@@ -38,6 +39,21 @@ function cacheItems(id: string, items: AuctioneerItem[]) {
   };
   localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
 }
+
+export const OFFLINE_AUCTION_ITEMS: AuctioneerItem[] = [
+  {
+    name: "Cyborg Bear",
+    endDate: Date.now() + 60 * 60 * 1000,
+    id: KNOWN_IDS["Cyborg Bear"],
+    ingredients: {
+      Gold: 3,
+    },
+    releaseDate: Date.now(),
+    supply: 5,
+    tokenId: KNOWN_IDS["Cyborg Bear"],
+    price: 3,
+  },
+];
 
 export const fetchAuctioneerDrops = async (
   token: string,

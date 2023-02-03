@@ -13,7 +13,6 @@ import { GoblinState } from "features/game/lib/goblinMachine";
 import { getKeys } from "features/game/types/craftables";
 import { setImageWidth } from "lib/images";
 import { formatDateTime, secondsToString } from "lib/utils/time";
-import { Inventory } from "features/game/types/game";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
@@ -23,7 +22,7 @@ type Props = {
   item: AuctioneerItem;
   game: GoblinState;
   isUpcomingItem?: boolean;
-  onBid: () => void;
+  onDraftBid: () => void;
 };
 
 type TimeObject = {
@@ -59,7 +58,7 @@ export const AuctionDetails: React.FC<Props> = ({
   game,
   isUpcomingItem,
   item,
-  onBid,
+  onDraftBid,
 }) => {
   const releaseDate = item?.releaseDate as number;
   const releaseEndDate = item?.endDate as number;
@@ -82,7 +81,7 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
-  const makeIngredients = (ingredients?: Inventory) => {
+  const makeIngredients = (ingredients?: AuctioneerItem["ingredients"]) => {
     if (!ingredients) return null;
 
     return getKeys(ingredients).map((name) => {
@@ -143,9 +142,9 @@ export const AuctionDetails: React.FC<Props> = ({
     return (
       <Button
         disabled={!isMintStarted || isMintComplete || !hasIngredients}
-        onClick={onBid}
+        onClick={onDraftBid}
       >
-        Place Bid
+        Bid
       </Button>
     );
   };
@@ -224,6 +223,10 @@ export const AuctionDetails: React.FC<Props> = ({
         <div className="flex items-center space-x-3 mb-3">
           {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
           {makeIngredients(item?.ingredients)}
+          <div className="flex items-center space-x-1" key={name}>
+            <img src={ITEM_DETAILS["Lottery Ticket"].image} className="h-5" />
+            <span className="text-xxs">?</span>
+          </div>
         </div>
       )}
 

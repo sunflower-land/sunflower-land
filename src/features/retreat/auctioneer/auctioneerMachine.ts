@@ -18,11 +18,21 @@ export interface Context {
   auctioneerItems: AuctioneerItem[];
   auctioneerId: string;
   transactionId?: string;
+  results?: {
+    status: "loser" | "winner" | "pending";
+    minimum: {
+      lotteryTickets: number;
+      biddedAt: number;
+    };
+    participantCount: number;
+    supply: number;
+  };
 }
 
 type BidEvent = {
   type: "BID";
   item: AuctioneerItemName;
+  lotteryTickets: number;
 };
 
 type MintEvent = {
@@ -48,6 +58,7 @@ export type BlockchainEvent =
   | TickEvent
   | BidEvent
   | RefreshEvent
+  | { type: "DRAFT_BID" }
   | { type: "CHECK_RESULTS" }
   | { type: "MINT" }
   | { type: "REFUND" };
@@ -56,6 +67,7 @@ export type AuctioneerMachineState = {
   value:
     | "initialising"
     | "playing"
+    | "draftingBid"
     | "bidding"
     | "bidded"
     | "checkingResults"
@@ -99,6 +111,13 @@ export const auctioneerMachine = createMachine<
       playing: {
         entry: "clearTransactionId",
         on: {
+          DRAFT_BID: {
+            target: "draftingBid",
+          },
+        },
+      },
+      draftingBid: {
+        on: {
           BID: {
             target: "bidding",
           },
@@ -108,7 +127,7 @@ export const auctioneerMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { item } = event as BidEvent;
+            const { item, lotteryTickets } = event as BidEvent;
 
             console.log({ event });
             const { game } = await bid({
@@ -116,6 +135,7 @@ export const auctioneerMachine = createMachine<
               token: context.token as string,
               item,
               transactionId: context.transactionId as string,
+              lotteryTickets,
             });
 
             return {
@@ -156,23 +176,26 @@ export const auctioneerMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { status } = await getAuctionResults({
+            const auctionResult = await getAuctionResults({
               farmId: Number(context.farmId),
               token: context.token as string,
               item: context.bid?.item as AuctioneerItemName,
               transactionId: context.transactionId as string,
             });
 
-            return { status };
+            return { auctionResult };
           },
           onDone: [
             {
-              cond: (_, event) => event.data.status === "winner",
+              cond: (_, event) => event.data.auctionResult.status === "winner",
               target: "winner",
             },
             {
-              cond: (_, event) => event.data.status === "loser",
+              cond: (_, event) => event.data.auctionResult.status === "loser",
               target: "loser",
+              actions: assign({
+                results: (_, event) => event.data.auctionResult,
+              }),
             },
             {
               target: "pending",

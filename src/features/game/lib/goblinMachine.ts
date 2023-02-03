@@ -17,7 +17,10 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getAvailableGameState } from "./transforms";
-import { fetchAuctioneerDrops } from "../actions/auctioneer";
+import {
+  fetchAuctioneerDrops,
+  OFFLINE_AUCTION_ITEMS,
+} from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 import { getBumpkinLevel } from "./level";
 import { randomID } from "lib/utils/random";
@@ -157,8 +160,8 @@ export function startGoblinVillage(authContext: AuthContext) {
       context: {
         state: API_URL ? EMPTY : OFFLINE_FARM,
         sessionId: INITIAL_SESSION,
-        auctioneerId: "",
-        auctioneerItems: [],
+        auctioneerId: API_URL ? "" : OFFLINE_AUCTION_ITEMS[0].id.toString(),
+        auctioneerItems: API_URL ? [] : OFFLINE_AUCTION_ITEMS,
         mintedAtTimes: {},
       },
       states: {
@@ -213,6 +216,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               game.inventory = availableState.inventory;
               game.farmAddress = onChainState.game.farmAddress;
 
+              console.log({ items });
               return {
                 state: game,
                 mintedAtTimes: onChainState.mintedAtTimes,
