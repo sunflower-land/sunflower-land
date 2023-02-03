@@ -22,12 +22,26 @@ export const PirateChest: React.FC = () => {
 
   useUiRefresher();
 
-  const cooldown = 24 * 60 * 60 * 1000; // 1 day
-
   const collectedAt =
     gameState.context.state.treasureIsland?.rewardCollectedAt ?? 0;
-  const readyInSeconds = (collectedAt + cooldown - Date.now()) / 1000;
-  const isReady = readyInSeconds <= 0;
+
+  const date = new Date();
+
+  const canCollect = (openedAt?: number) => {
+    if (!openedAt) return true;
+
+    const today = new Date().getUTCDay();
+
+    return new Date(openedAt).getUTCDay() !== today;
+  };
+
+  const nextRefreshInSeconds =
+    24 * 60 * 60 -
+    (date.getUTCHours() * 60 * 60 +
+      date.getUTCMinutes() * 60 +
+      date.getUTCSeconds());
+
+  const isReady = canCollect(collectedAt);
 
   const reveal = () => {
     gameService.send("REVEAL", {
@@ -92,10 +106,24 @@ export const PirateChest: React.FC = () => {
               }}
             />
             <span className="text-center">
-              Ahoy matey! Set sail and come back in{" "}
-              {secondsToString(readyInSeconds, { length: "full" })} for a chest
-              full of swashbuckling rewards!
+              Ahoy matey! Set sail and come back later for a chest full of
+              swashbuckling rewards!
             </span>
+            <div className="flex justify-center mt-4 items-center">
+              <p className="text-xxs mr-2">Chest Refreshes in: </p>
+              <div className="flex items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
+                <img
+                  src={SUNNYSIDE.icons.stopwatch}
+                  className="w-3 left-0 mr-1"
+                />
+                <span>
+                  {`${secondsToString(nextRefreshInSeconds as number, {
+                    length: "medium",
+                    isShortFormat: true,
+                  })}`}
+                </span>
+              </div>
+            </div>
           </div>
         </CloseButtonPanel>
       </Modal>
