@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 
-import seeds from "assets/icons/seeds.png";
-import sunflowerPlant from "assets/crops/sunflower/crop.png";
-import close from "assets/icons/close.png";
-
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 
@@ -13,6 +9,8 @@ import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 interface Props {
   onClose: () => void;
@@ -58,15 +56,15 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
         }}
       >
         <Tab isActive={tab === "buy"} onClick={() => handleTabClick("buy")}>
-          <img src={seeds} className="h-5 mr-2" />
+          <img src={SUNNYSIDE.icons.seeds} className="h-5 mr-2" />
           <span className="text-sm">Buy</span>
         </Tab>
         <Tab isActive={tab === "sell"} onClick={() => handleTabClick("sell")}>
-          <img src={sunflowerPlant} className="h-5 mr-2" />
+          <img src={CROP_LIFECYCLE.Sunflower.crop} className="h-5 mr-2" />
           <span className="text-sm">Sell</span>
         </Tab>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{

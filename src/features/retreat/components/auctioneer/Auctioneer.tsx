@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
 
 import auctioneer from "assets/npcs/trivia.gif";
-import goblin from "assets/npcs/goblin.gif";
 import shadow from "assets/npcs/shadow.png";
-import heart from "assets/icons/heart.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import icon from "assets/icons/player_small.png";
 import { AuctioneerModal } from "./AuctioneerModal";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
@@ -15,6 +12,7 @@ import { Item } from "./actions/auctioneerItems";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { setImageWidth } from "lib/images";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Auctioneer: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -85,7 +83,7 @@ export const Auctioneer: React.FC = () => {
           <Action
             className="pointer-events-none"
             text="Auctioneer"
-            icon={icon}
+            icon={SUNNYSIDE.icons.player}
           />
         </div>
       </div>
@@ -95,7 +93,7 @@ export const Auctioneer: React.FC = () => {
 
       {/* Interested Goblins */}
       <img
-        src={goblin}
+        src={SUNNYSIDE.npcs.goblin}
         className="absolute z-10"
         style={{
           width: `${PIXEL_SCALE * 18}px`,
@@ -113,7 +111,7 @@ export const Auctioneer: React.FC = () => {
         }}
       />
       <img
-        src={heart}
+        src={SUNNYSIDE.icons.heart}
         className="absolute animate-float z-20"
         style={{
           width: `${PIXEL_SCALE * 10}px`,
@@ -123,7 +121,7 @@ export const Auctioneer: React.FC = () => {
       />
 
       <img
-        src={goblin}
+        src={SUNNYSIDE.npcs.goblin}
         className="absolute z-10"
         style={{
           width: `${PIXEL_SCALE * 18}px`,

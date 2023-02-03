@@ -4,7 +4,7 @@ import { marketRate } from "../lib/halvening";
 import { getBumpkinLevel } from "../lib/level";
 import { GameState, Inventory } from "../types/game";
 import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
-import { CONSUMABLES } from "./consumables";
+import { COOKABLES } from "./consumables";
 import { CAKES, getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
 import { FRUIT } from "./fruits";
@@ -128,7 +128,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Kiss the Cook": {
     description: "Cook 20 meals",
     progress: (gameState: GameState) => {
-      const cookEvents = getKeys(CONSUMABLES).map(
+      const cookEvents = getKeys(COOKABLES).map(
         (name) => `${name} Cooked` as CookEvent
       );
 
@@ -139,8 +139,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 20,
-    sfl: marketRate(100),
-    rewards: {},
+    sfl: marketRate(0),
+    rewards: {
+      "Club Sandwich": new Decimal(1),
+    },
   },
 
   Craftmanship: {
@@ -282,7 +284,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Axe Crafted"] || 0,
     requirement: 500,
-    sfl: marketRate(500),
+    sfl: marketRate(0),
+    rewards: {
+      Axe: new Decimal(25),
+    },
   },
   Contractor: {
     description: "Have 10 buildings constructed on your land",
@@ -319,7 +324,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     description: "Have 10 different kinds of rare items placed on your land",
     progress: (gameState: GameState) => getKeys(gameState.collectibles).length,
     requirement: 10,
-    sfl: marketRate(500),
+    sfl: marketRate(0),
+    rewards: {
+      "Potted Pumpkin": new Decimal(1),
+    },
   },
   "Something Shiny": {
     description: "Mine 500 iron rocks",
@@ -328,7 +336,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 500,
     sfl: marketRate(0),
     rewards: {
-      Pickaxe: new Decimal(20),
+      "Stone Pickaxe": new Decimal(20),
     },
   },
 
@@ -365,7 +373,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Chef de Cuisine": {
     description: "Cook 5,000 meals",
     progress: (gameState: GameState) => {
-      const cookEvents = getKeys(CONSUMABLES).map(
+      const cookEvents = getKeys(COOKABLES).map(
         (name) => `${name} Cooked` as CookEvent
       );
 

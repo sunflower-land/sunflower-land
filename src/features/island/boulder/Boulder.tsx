@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 
-import mine from "assets/resources/rare_mine.png";
-import pickaxe from "assets/tools/stone_pickaxe.png";
-import close from "assets/icons/close.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Boulder: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -18,7 +15,7 @@ export const Boulder: React.FC = () => {
         onClick={() => setShowModal(true)}
       >
         <img
-          src={mine}
+          src={SUNNYSIDE.resource.boulder}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 26}px`,
@@ -30,7 +27,7 @@ export const Boulder: React.FC = () => {
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Panel>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowModal(false)}
             style={{
@@ -41,9 +38,9 @@ export const Boulder: React.FC = () => {
           />
           <div className="flex flex-col justify-center items-center">
             <p className="text-lg">You found a rare mine!</p>
-            <img src={pickaxe} className="w-1/4 mt-2" />
+            <img src={SUNNYSIDE.tools.iron_pickaxe} className="w-1/4 mt-2" />
             <p className="text-sm text-center mt-2">
-              {`Advanced mining on it's way.`}
+              {`Advanced mining on its way.`}
             </p>
             <p className="mt-2">Coming soon...</p>
           </div>

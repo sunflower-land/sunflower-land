@@ -1,6 +1,6 @@
 import React from "react";
 
-import immortalPear from "assets/sfts/immortal_pear.png";
+import immortalPear from "assets/sfts/immortal_pear.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ImmortalPear: React.FC = () => {
@@ -14,7 +14,7 @@ export const ImmortalPear: React.FC = () => {
           left: `${PIXEL_SCALE * 5}px`,
         }}
         className="absolute"
-        alt="Basic Bear"
+        alt="Immortal Pear"
       />
     </>
   );

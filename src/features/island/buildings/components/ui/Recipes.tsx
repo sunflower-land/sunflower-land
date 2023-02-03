@@ -3,7 +3,6 @@ import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
 import levelup from "assets/icons/level_up.png";
-import watch from "assets/icons/stopwatch.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -13,9 +12,9 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import {
-  Consumable,
-  ConsumableName,
-  CONSUMABLES,
+  Cookable,
+  CookableName,
+  COOKABLES,
 } from "features/game/types/consumables";
 import { Label } from "components/ui/Label";
 
@@ -27,13 +26,15 @@ import {
 } from "features/game/expansion/lib/boosts";
 import { Bumpkin } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
-  selected: Consumable;
-  setSelected: Dispatch<SetStateAction<Consumable>>;
-  recipes: Consumable[];
+  selected: Cookable;
+  setSelected: Dispatch<SetStateAction<Cookable>>;
+  recipes: Cookable[];
   onClose: () => void;
-  onCook: (name: ConsumableName) => void;
+  onCook: (name: CookableName) => void;
   craftingService?: MachineInterpreter;
   crafting: boolean;
 }
@@ -104,6 +105,11 @@ export const Recipes: React.FC<Props> = ({
   };
 
   const ingredientCount = getKeys(selected.ingredients).length;
+  const xpAmount = getFoodExpBoost(
+    selected,
+    state.bumpkin as Bumpkin,
+    state.collectibles
+  );
 
   return (
     <div className="flex flex-col-reverse sm:flex-row">
@@ -136,7 +142,7 @@ export const Recipes: React.FC<Props> = ({
               <p className="sm:text-center sm:mb-1">{selected.name}</p>
             </div>
             <span className="text-xxs mt-2 sm:text-center">
-              {CONSUMABLES[selected.name].description}
+              {COOKABLES[selected.name].description}
             </span>
           </div>
         </div>
@@ -193,16 +199,12 @@ export const Recipes: React.FC<Props> = ({
             <div className="flex justify-between">
               <img src={levelup} className="h-5 mr-2" />
               <span className="text-xs whitespace-nowrap">
-                {getFoodExpBoost(
-                  selected,
-                  state.bumpkin as Bumpkin,
-                  state.collectibles
-                )}
+                {setPrecision(new Decimal(xpAmount), 2).toString()}
                 xp
               </span>
             </div>
             <div className="flex justify-between">
-              <img src={watch} className="h-5 mr-1" />
+              <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
               <span className="text-xs whitespace-nowrap">
                 {secondsToString(
                   getCookingTime(selected.cookingSeconds, state.bumpkin),

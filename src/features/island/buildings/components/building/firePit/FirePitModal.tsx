@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
-import close from "assets/icons/close.png";
+
 import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
-  Consumable,
-  ConsumableName,
-  CONSUMABLES,
+  Cookable,
+  CookableName,
+  COOKABLES,
 } from "features/game/types/consumables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Tab } from "components/ui/Tab";
@@ -18,13 +18,14 @@ import { MachineInterpreter } from "features/island/buildings/lib/craftingMachin
 import { Equipped } from "features/game/types/bumpkin";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Tutorial } from "./Tutorial";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onCook: (name: ConsumableName) => void;
+  onCook: (name: CookableName) => void;
   crafting: boolean;
-  itemInProgress?: ConsumableName;
+  itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
 }
 export const FirePitModal: React.FC<Props> = ({
@@ -38,14 +39,14 @@ export const FirePitModal: React.FC<Props> = ({
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Fire Pit")
   );
-  const firePitRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
-    if (CONSUMABLES[name].building !== "Fire Pit") {
+  const firePitRecipes = getKeys(COOKABLES).reduce((acc, name) => {
+    if (COOKABLES[name].building !== "Fire Pit") {
       return acc;
     }
 
-    return [...acc, CONSUMABLES[name]];
-  }, [] as Consumable[]);
-  const [selected, setSelected] = useState<Consumable>(
+    return [...acc, COOKABLES[name]];
+  }, [] as Cookable[]);
+  const [selected, setSelected] = useState<Cookable>(
     firePitRecipes.find((recipe) => recipe.name === itemInProgress) ||
       firePitRecipes[0]
   );
@@ -69,7 +70,7 @@ export const FirePitModal: React.FC<Props> = ({
   if (showTutorial) {
     return (
       <Modal show={isOpen} onHide={acknowledge} centered>
-        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
+        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />
       </Modal>
     );
   }
@@ -90,7 +91,7 @@ export const FirePitModal: React.FC<Props> = ({
             <span className="text-sm whitespace-nowrap">Fire Pit</span>
           </Tab>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

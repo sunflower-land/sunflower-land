@@ -32,11 +32,17 @@
 body {
   font-family: "Paytone One", sans-serif;
   overflow: hidden;
-  text-shadow: 1px 1px #1f1f1f;
+  color: white;
   font-size: 22px;
   letter-spacing: -0.4px;
   word-spacing: 3px;
   line-height: 20px;
+}
+
+body,
+button,
+input {
+  text-shadow: 1px 1px #1f1f1f;
 }
 
 button:disabled {
@@ -448,5 +454,36 @@ img {
   }
   100% {
     transform: translate(0, 0);
+  }
+}
+
+.treasure-reward {
+  animation: rise-up 750ms ease;
+  animation-fill-mode: both;
+  transform-origin: bottom center;
+}
+
+@keyframes rise-up {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0.4, 0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.scaling {
+  transition: scaler 1s ease-in-out;
+}
+
+@keyframes scaler {
+  0% {
+    transforms: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
   }
 }

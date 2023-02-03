@@ -1,4 +1,5 @@
 import { useActor } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
@@ -6,7 +7,6 @@ import { Modal } from "react-bootstrap";
 
 import chest from "src/assets/icons/chest.png";
 import token from "src/assets/icons/token_2.png";
-import alerted from "assets/icons/expression_alerted.png";
 
 import { Context } from "../GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
@@ -95,7 +95,10 @@ export const Airdrop: React.FC = () => {
           top: `${GRID_WIDTH_PX * 35}px`,
         }}
       >
-        <img src={alerted} className="w-3 mx-[12px] pb-[12px] animate-float" />
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          className="w-3 mx-[12px] pb-[12px] animate-float"
+        />
         <img
           src={chest}
           className="absolute cursor-pointer hover:img-highlight bulge-repeat"

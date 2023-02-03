@@ -14,7 +14,7 @@ module.exports = {
       xxs: [
         "0.9rem",
         {
-          lineHeight: "0.75rem",
+          lineHeight: "0.9rem",
         },
       ],
       xs: [
@@ -98,7 +98,7 @@ module.exports = {
           700: "#945542",
         },
         silver: {
-          300: "#bfcbda",
+          500: "#8b9bb4",
         },
         error: "#e43b44",
       },

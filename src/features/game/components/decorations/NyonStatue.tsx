@@ -4,8 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../../lib/constants";
 import { Panel } from "components/ui/Panel";
 
-import close from "assets/icons/close.png";
 import nyonStatue from "assets/sfts/nyon_statue.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 // Only show 1 Nyon statue at a time
 export const NyonStatue: React.FC = () => {
@@ -25,7 +25,7 @@ export const NyonStatue: React.FC = () => {
       <Modal centered show={showNyonLore} onHide={() => setShowNyonLore(false)}>
         <Panel>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={() => setShowNyonLore(false)}
             style={{
@@ -53,7 +53,7 @@ export const NyonStatue: React.FC = () => {
               <span className="text-shadow block mb-2 text-xs">
                 The legendary knight responsible for clearing the goblins from
                 the mines. Shortly after his victory he died by poisoning from a
-                Goblin conspirator. The Sunflower Citizens erected this statue
+                Goblin conspirator. The Sunflower citizens erected this statue
                 with his armor to commemorate his conquests.
               </span>
             </div>

@@ -15,6 +15,7 @@ import apple from "/src/assets/resources/apple.png";
 import orange from "/src/assets/resources/orange.png";
 import blueberry from "/src/assets/resources/blueberry.png";
 import { DeadTree } from "./DeadTree";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const getFruitImage = (fruitName: FruitName): string => {
   switch (fruitName) {
@@ -129,16 +130,18 @@ export const FruitTree: React.FC<Props> = ({
 
   // Ready tree
   return (
-    <div className="flex justify-center cursor-pointer h-full w-full hover:img-highlight">
+    <div
+      className="absolute h-full w-full hover:img-highlight cursor-pointer"
+      onClick={harvestFruit}
+    >
       <img
-        className="relative"
+        className="absolute pointer-events-none"
         style={{
-          bottom: `${isBush ? "-11px" : "25px"}`,
-          zIndex: "1",
+          bottom: `${PIXEL_SCALE * 5}px`,
+          left: `${PIXEL_SCALE * (isBush ? 4 : 3)}px`,
         }}
         src={lifecycle.ready}
         onLoad={(e) => setImageWidth(e.currentTarget)}
-        onClick={harvestFruit}
       />
     </div>
   );

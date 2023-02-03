@@ -23,6 +23,8 @@ const INITIAL_STOCK: Inventory = {
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
   "Rusty Shovel": new Decimal(10),
+  "Sand Shovel": new Decimal(30),
+  "Sand Drill": new Decimal(5),
 
   // One off items
   "Pumpkin Soup": new Decimal(1),
@@ -126,17 +128,14 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
 
     trees: {
       0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-          reward: {
-            sfl: new Decimal(3),
-          },
-        },
         x: -3,
         y: 3,
         height: 2,
         width: 2,
+        wood: {
+          amount: 0,
+          choppedAt: 0,
+        },
       },
     },
     stones: {
@@ -261,6 +260,7 @@ export const OFFLINE_FARM: GameState = {
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
+    "Beta Pass": new Decimal(1),
     "Peeled Potato": new Decimal(1),
     "Wood Nymph Wendy": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
@@ -275,12 +275,14 @@ export const OFFLINE_FARM: GameState = {
     //   }),
     //   {}
     // ),
+    "Maneki Neko": new Decimal(1),
     "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
     Gold: new Decimal(50),
     "Immortal Pear": new Decimal(1),
+    Pipi: new Decimal(1),
   },
   migrated: true,
   stock: INITIAL_STOCK,
@@ -322,7 +324,7 @@ export const OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   collectibles: {
-    "Magic Bean": [
+    "Maneki Neko": [
       {
         coordinates: {
           x: 4,
@@ -331,17 +333,27 @@ export const OFFLINE_FARM: GameState = {
         createdAt: Date.now() - 12 * 60 * 60 * 1000,
         id: "0",
         readyAt: 0,
+        shakenAt: Date.now() - 24 * 60 * 60 * 1000 + 60 * 1000,
       },
     ],
   },
   mysteryPrizes: {},
   bumpkin: INITIAL_BUMPKIN,
+  pumpkinPlaza: {},
   tradeOffer: {
     amount: 1,
     endAt: new Date(Date.now() + 100000000000000).toISOString(),
     startAt: new Date().toISOString(),
     name: "Algerian Flag",
     ingredients: [],
+  },
+  treasureIsland: {
+    holes: {},
+    rareTreasure: {
+      discoveredAt: 0,
+      holeId: 1,
+      reward: "Sunflower Cake",
+    },
   },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),

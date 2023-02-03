@@ -9,9 +9,6 @@ import sleepingChicken from "assets/animals/chickens/sleeping_2.gif";
 import chickenShadow from "assets/animals/chickens/chicken_shadow.png";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet_2.png";
 import wheatOnGround from "assets/animals/chickens/wheat_2.png";
-import cancel from "assets/icons/cancel.png";
-import wheat from "assets/crops/wheat/crop.png";
-import egg from "assets/resources/egg.png";
 
 import { Context } from "features/game/GameProvider";
 
@@ -38,6 +35,8 @@ import { Modal } from "react-bootstrap";
 import { RemoveChickenModal } from "features/farming/animals/components/RemoveChickenModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "../plots/lib/plant";
 interface Props {
   id: string;
 }
@@ -72,7 +71,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
     >
       <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
         <div className="flex flex-1 items-center justify-center">
-          <img src={egg} className="w-4 mr-1" />
+          <img src={SUNNYSIDE.resource.egg} className="w-4 mr-1" />
           <span>Egg</span>
         </div>
         <span className="flex-1">
@@ -93,50 +92,6 @@ const isEggReady = (state: MachineState) => state.matches("eggReady");
 const isEggLaid = (state: MachineState) => state.matches("eggLaid");
 
 export const Chicken: React.FC<Props> = ({ id }) => {
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
-
-  const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
-
-  const handleOnClick = () => {
-    if (!hasRustyShovelSelected) return;
-
-    setShowRemoveModal(true);
-  };
-
-  return (
-    <>
-      <div
-        className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": hasRustyShovelSelected,
-        })}
-        onClick={hasRustyShovelSelected ? handleOnClick : undefined}
-      >
-        <div
-          className={classNames("h-full", {
-            "pointer-events-none": hasRustyShovelSelected,
-          })}
-        >
-          <ChickenContent id={id} />
-        </div>
-      </div>
-      <Modal
-        show={showRemoveModal}
-        centered
-        onHide={() => setShowRemoveModal(false)}
-      >
-        {showRemoveModal && (
-          <RemoveChickenModal
-            id={id}
-            onClose={() => setShowRemoveModal(false)}
-          />
-        )}
-      </Modal>
-    </>
-  );
-};
-
-export const ChickenContent: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem, showTimers } = useContext(Context);
   const [
     {
@@ -170,12 +125,16 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
   const eggIsBrewing = happy || sleeping;
   const showEggProgress =
     showTimers && chicken && !eating && !eggLaid && !hungry;
-  const interactable = hungry || eggReady || eggLaid;
+  const interactible = hungry || eggReady || eggLaid;
 
   // Popover is to indicate when player has no wheat or when wheat is not selected.
   const [showPopover, setShowPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
+
+  const shortcuts = getShortcuts();
+  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const handleMouseEnter = () => {
     eggIsBrewing && setShowTimeToEgg(true);
@@ -186,11 +145,6 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
   };
 
   const handleClick = () => {
-    if (hungry) {
-      feed();
-      return;
-    }
-
     if (eggReady) {
       chickenService.send("LAY");
       return;
@@ -200,13 +154,26 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
       handleCollect();
       return;
     }
+
+    if (hasRustyShovelSelected) {
+      setShowRemoveModal(true);
+      return;
+    }
+
+    if (hungry) {
+      feed();
+      return;
+    }
   };
 
   const feed = async () => {
     const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
     const wheatRequired = getWheatRequiredToFeed(state.collectibles);
 
-    if (selectedItem !== "Wheat" || currentWheatAmount.lt(wheatRequired)) {
+    if (
+      (wheatRequired.gt(0) && selectedItem !== "Wheat") ||
+      currentWheatAmount.lt(wheatRequired)
+    ) {
       setShowPopover(true);
       await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
       setShowPopover(false);
@@ -228,7 +195,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
     });
 
     setToast({
-      icon: wheat,
+      icon: CROP_LIFECYCLE.Wheat.crop,
       content: `-${wheatRequired}`,
     });
   };
@@ -256,7 +223,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
       chickenService.send("COLLECT");
 
       setToast({
-        icon: egg,
+        icon: SUNNYSIDE.resource.egg,
         content: `+${chicken.multiplier}`,
       });
     }
@@ -266,7 +233,8 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
     <>
       <div
         className={classNames("w-full h-full relative", {
-          "cursor-pointer hover:img-highlight": interactable,
+          "cursor-pointer hover:img-highlight":
+            interactible || hasRustyShovelSelected,
         })}
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
@@ -295,7 +263,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
                 className="absolute"
               />
               <img
-                src={cancel}
+                src={SUNNYSIDE.icons.cancel}
                 className={classNames("transition-opacity absolute z-20", {
                   "opacity-100": showPopover,
                   "opacity-0": !showPopover,
@@ -307,7 +275,7 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={wheat}
+                src={CROP_LIFECYCLE.Wheat.crop}
                 className={classNames("transition-opacity absolute z-10", {
                   "opacity-100": showPopover,
                   "opacity-0": !showPopover,
@@ -481,6 +449,22 @@ export const ChickenContent: React.FC<Props> = ({ id }) => {
           onContinue={handleContinue}
           inventory={state.inventory}
         />
+      )}
+
+      {showRemoveModal && (
+        <Modal
+          show={showRemoveModal}
+          centered
+          onHide={() => setShowRemoveModal(false)}
+        >
+          {showRemoveModal && (
+            <RemoveChickenModal
+              id={id}
+              canRemove={hungry}
+              onClose={() => setShowRemoveModal(false)}
+            />
+          )}
+        </Modal>
       )}
     </>
   );

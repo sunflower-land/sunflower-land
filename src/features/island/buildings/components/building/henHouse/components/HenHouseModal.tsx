@@ -1,14 +1,12 @@
 import React, { useContext, useState } from "react";
 
-import close from "assets/icons/close.png";
 import plus from "assets/icons/plus.png";
-import chicken from "assets/resources/chicken.png";
 import boxChicken from "assets/animals/chickens/box_chicken.png";
+import token from "assets/icons/token_2.png";
 
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { ANIMALS, getKeys } from "features/game/types/craftables";
-import token from "assets/icons/token_2.png";
 import { Box } from "components/ui/Box";
 import classNames from "classnames";
 import { useActor } from "@xstate/react";
@@ -18,6 +16,7 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -89,7 +88,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
         <div className="flex flex-col justify-center items-center p-2 relative">
           <span className="text-center">Chicken</span>
           <img
-            src={chicken}
+            src={SUNNYSIDE.resource.chicken}
             className="h-16 img-highlight mt-1"
             alt="chicken"
           />
@@ -150,7 +149,11 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     return (
       <div className="flex flex-col justify-center items-center p-2 relative">
         <span className="text-center">Working Chicken</span>
-        <img src={chicken} className="h-16 img-highlight mt-1" alt="chicken" />
+        <img
+          src={SUNNYSIDE.resource.chicken}
+          className="h-16 img-highlight mt-1"
+          alt="chicken"
+        />
         <span className="text-center mt-2 text-sm">
           Already placed and working hard!
         </span>
@@ -169,11 +172,11 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
         }}
       >
         <Tab isActive>
-          <img src={chicken} className="h-5 mr-2" />
+          <img src={SUNNYSIDE.resource.chicken} className="h-5 mr-2" />
           <span className="text-sm">Chickens</span>
         </Tab>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{
@@ -191,7 +194,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       >
         <div className="flex flex-col-reverse sm:flex-row">
           <div
-            className="w-full sm:w-3/5 h-fit h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
+            className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
             style={{ maxHeight: 400 }}
           >
             <div className="flex flex-wrap">
@@ -200,7 +203,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
                 key="working-chicken"
                 count={workingChickenCount}
                 onClick={() => setSelectedChicken("working")}
-                image={chicken}
+                image={SUNNYSIDE.resource.chicken}
               />
               <Box
                 isSelected={selectedChicken === "lazy"}

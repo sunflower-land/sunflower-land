@@ -1,17 +1,16 @@
 import React from "react";
 
-import soil from "assets/land/soil2.png";
-
 import { getTimeLeft } from "lib/utils/time";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { CROPS } from "features/game/types/crops";
 import { addNoise } from "lib/images";
-import { LIFECYCLE } from "../lib/plant";
+import { CROP_LIFECYCLE } from "../lib/plant";
 import { PlantedCrop } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { TimerPopover } from "features/island/common/TimerPopover";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   showCropDetails: boolean;
@@ -45,11 +44,11 @@ export const Soil: React.FC<Props> = ({
   useUiRefresher({ active: !!plantedCrop });
 
   if (!plantedCrop) {
-    return getCropImage(soil);
+    return getCropImage(SUNNYSIDE.soil.soil2);
   }
 
   const { harvestSeconds } = CROPS()[plantedCrop.name];
-  const lifecycle = LIFECYCLE[plantedCrop.name];
+  const lifecycle = CROP_LIFECYCLE[plantedCrop.name];
   const timeLeft = getTimeLeft(plantedCrop.plantedAt, harvestSeconds);
 
   // Seedling

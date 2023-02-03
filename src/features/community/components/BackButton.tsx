@@ -4,8 +4,8 @@ import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { useNavigate } from "react-router-dom";
 
-import arrowLeft from "assets/icons/arrow_left.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const BackButton: React.FC = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export const BackButton: React.FC = () => {
         <div className="flex flex-row items-center justify-center">
           <img
             className="mr-1"
-            src={arrowLeft}
+            src={SUNNYSIDE.icons.arrow_left}
             alt="back-arrow"
             style={{
               width: `${PIXEL_SCALE * 8}px`,

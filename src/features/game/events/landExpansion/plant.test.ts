@@ -399,7 +399,7 @@ describe("plant", () => {
     });
 
     // Should be twice as fast! (Planted in the past)
-    const parnsipTime = CROPS().Parsnip.harvestSeconds * 1000;
+    const parsnipTime = CROPS().Parsnip.harvestSeconds * 1000;
 
     const plots = state.expansions[0].plots;
 
@@ -408,7 +408,7 @@ describe("plant", () => {
       (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
     console.log(plantedAt);
 
-    expect(plantedAt).toBe(dateNow - parnsipTime * 0.5);
+    expect(plantedAt).toBe(dateNow - parsnipTime * 0.5);
   });
   it("yields 20% more parsnip if bumpkin is equipped with Parsnip Tool", () => {
     const PARSNIP_STATE: GameState = {
@@ -514,7 +514,7 @@ describe("plant", () => {
       createdAt: dateNow,
     });
 
-    // Should be twice as fast! (Planted in the psat)
+    // Should be twice as fast! (Planted in the past)
     const carrotTime = CROPS().Carrot.harvestSeconds * 1000;
 
     const plots = state.expansions[0].plots;
@@ -523,6 +523,47 @@ describe("plant", () => {
     const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
 
     expect(plantedAt).toBe(dateNow - carrotTime * 0.15);
+  });
+
+  it("grows faster if Lunar calendar is placed.", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Lunar Calendar": new Decimal(1),
+        },
+        collectibles: {
+          "Lunar Calendar": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: 0,
+        expansionIndex: 0,
+        item: "Sunflower Seed",
+      },
+    });
+
+    const sunflowerTime = CROPS().Sunflower.harvestSeconds * 1000;
+
+    const plots = state.expansions[0].plots;
+
+    expect(plots).toBeDefined();
+    const plantedAt =
+      (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
+
+    expect(plantedAt).toBe(dateNow - sunflowerTime * 0.1);
   });
 
   it("yields more crop with a scarecrow", () => {
@@ -612,10 +653,31 @@ describe("getCropTime", () => {
 
     expect(time).toEqual(60 * 60 * 0.8);
   });
+
+  it("applies a 10% speed boost with Lunar Calendar placed.", () => {
+    const carrotHarvestSeconds = CROPS()["Carrot"].harvestSeconds;
+    const time = getCropTime(
+      "Carrot",
+      {},
+      {
+        "Lunar Calendar": [
+          {
+            id: "123",
+            coordinates: { x: -1, y: -1 },
+            createdAt: Date.now() - 100,
+            readyAt: Date.now() - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN }
+    );
+
+    expect(time).toEqual(carrotHarvestSeconds * 0.9);
+  });
 });
 
 describe("isPlotFertile", () => {
-  it("cannot plant on 16th field if a well is not avilable", () => {
+  it("cannot plant on 16th field if a well is not available", () => {
     const fakePlot = {
       x: 1,
       y: 1,

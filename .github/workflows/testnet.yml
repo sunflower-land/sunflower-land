@@ -29,6 +29,7 @@ jobs:
         env:
           CI: false
           VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mumbai
           VITE_ACCOUNT_MINTER_CONTRACT: "0x6918C16938095E6247dC3B552B4b14f553be06D4"
@@ -60,7 +61,12 @@ jobs:
           VITE_BUY_SFL_CONTRACT: "0xe4A579BAEEB8cE727937f2AE6dca9334f0a8C1A1"
           VITE_QUICKSWAP_ROUTER_CONTRACT: "0x0AdFd88E8Bbe16A2E94D833Ae7ebe1dbeb9906F6"
           VITE_WMATIC_CONTRACT: "0x2D2D57e23a1F2bBD22e83Bb018D333cae7f70BBA"
+          VITE_GREEDY_GOBLIN_DONATION: "0x7bC6Fe738E5f4FdCbd034489A0320507BCA9806D"
+          VITE_CHICKEN_FIGHT_DONATION: "0x99B4E9Dc0b20E4A8a2D5be4145C38196A80e164B"
+          VITE_LUNAR_NEW_YEAR_DONATION: "0x871d7970133aad1f98902204e3f27ebfeb959d7c"
+
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
+          VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9

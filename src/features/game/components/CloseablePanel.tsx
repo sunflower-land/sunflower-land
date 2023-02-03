@@ -1,11 +1,12 @@
 import React from "react";
 
-import close from "assets/icons/close.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { SUNNYSIDE } from "assets/sunnyside";
+import classNames from "classnames";
 
 export interface PanelTabs {
   icon: string;
@@ -17,20 +18,22 @@ interface Props {
   currentTab?: number;
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
   title?: string;
-  showCloseButton?: boolean;
   onClose?: () => void;
+  onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
+  className?: string;
 }
 
 /**
  * A custom panel built for the game.
  * @tabs The tabs of the panel.
- * @title The panel title.
- * @currentTab The current selected tab index.
+ * @currentTab The current selected tab index of the panel. Default is 0.
  * @setCurrentTab Dispatch method to set the current selected tab index.
- * @closeable Whether the close button is shown for the panel.
- * @onClose The close panel method.
+ * @title The panel title.
+ * @onClose The close panel method.  Close button will show if this is set.
+ * @onBack The back button method.  Back button will show if this is set.
  * @bumpkinParts The list of bumpkin parts for the modal.
+ * @className Additional class name for the parent panel.
  * @children The panel children content.
  */
 export const CloseButtonPanel: React.FC<Props> = ({
@@ -38,17 +41,25 @@ export const CloseButtonPanel: React.FC<Props> = ({
   currentTab = 0,
   setCurrentTab,
   title,
-  showCloseButton = true,
   onClose,
+  onBack,
   bumpkinParts,
+  className,
   children,
 }) => {
   const handleTabClick = (index: number) => {
     setCurrentTab && setCurrentTab(index);
   };
 
+  const showCloseButton = !!onClose;
+  const showBackButton = !!onBack;
+
   return (
-    <Panel className="relative" bumpkinParts={bumpkinParts} hasTabs={!!tabs}>
+    <Panel
+      className={classNames("relative", className)}
+      bumpkinParts={bumpkinParts}
+      hasTabs={!!tabs}
+    >
       {/* Tabs */}
       {tabs && (
         <div
@@ -67,7 +78,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
               onClick={() => handleTabClick(index)}
             >
               <SquareIcon icon={tab.icon} width={7} />
-              <span className="text-xs sm:text-sm overflow-hidden text-ellipsis ml-2">
+              <span className="text-xs sm:text-sm text-ellipsis ml-2">
                 {tab.name}
               </span>
             </Tab>
@@ -75,7 +86,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
           <div className="grow" />
           {showCloseButton && (
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="flex-none cursor-pointer"
               onClick={onClose}
               style={{
@@ -94,25 +105,38 @@ export const CloseButtonPanel: React.FC<Props> = ({
       <div>
         {title && (
           <div className="flex text-center">
-            {showCloseButton && !tabs && (
+            {(showCloseButton || showBackButton) && !tabs && (
               <div
                 className="flex-none"
                 style={{
                   width: `${PIXEL_SCALE * 11}px`,
                 }}
-              />
+              >
+                {showBackButton && (
+                  <img
+                    src={SUNNYSIDE.icons.arrow_left}
+                    className="cursor-pointer"
+                    onClick={onBack}
+                    style={{
+                      width: `${PIXEL_SCALE * 11}px`,
+                    }}
+                  />
+                )}
+              </div>
             )}
             <div className="grow mb-3 text-lg">{title}</div>
-            {showCloseButton && !tabs && (
+            {(showCloseButton || showBackButton) && !tabs && (
               <div className="flex-none">
-                <img
-                  src={close}
-                  className="cursor-pointer"
-                  onClick={onClose}
-                  style={{
-                    width: `${PIXEL_SCALE * 11}px`,
-                  }}
-                />
+                {showCloseButton && (
+                  <img
+                    src={SUNNYSIDE.icons.close}
+                    className="cursor-pointer"
+                    onClick={onClose}
+                    style={{
+                      width: `${PIXEL_SCALE * 11}px`,
+                    }}
+                  />
+                )}
               </div>
             )}
           </div>
@@ -120,7 +144,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
         {children}
         {showCloseButton && !tabs && !title && (
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{

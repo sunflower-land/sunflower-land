@@ -6,10 +6,12 @@ import { setImageWidth } from "lib/images";
 import React, { useContext, useState } from "react";
 import { InfoPopover } from "../common/InfoPopover";
 import { FruitLifecycle } from "./fruits";
-import axe from "assets/tools/axe.png";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
-import { FruitName } from "features/game/types/fruits";
+import { FRUIT, FruitName } from "features/game/types/fruits";
 import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import classNames from "classnames";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   lifecycle: FruitLifecycle;
@@ -33,6 +35,7 @@ export const DeadTree = ({
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const [isMobile] = useIsMobile();
+  const { isBush } = FRUIT()[fruit];
 
   const [showError, setShowError] = useState<boolean>(false);
 
@@ -56,26 +59,25 @@ export const DeadTree = ({
   };
   return (
     <div
-      className={`${showError ? "cursor-not-allowed" : ""}`}
+      className={classNames("absolute w-full h-full", {
+        "cursor-not-allowed": showError,
+        "cursor-pointer": !showError,
+      })}
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
       onMouseOver={handleHover}
+      onClick={removeTree}
     >
       <FruitDropAnimator
         wrapperClassName="h-full"
         mainImageProps={{
           src: lifecycle.dead,
-          className: `relative ${
-            showError
-              ? "cursor-not-allowed"
-              : "cursor-pointer hover:img-highlight"
-          }`,
+          className: "absolute hover:img-highlight",
           style: {
-            bottom: fruit === "Blueberry" ? "-4px" : "-9px",
-            zIndex: "1",
+            bottom: `${PIXEL_SCALE * (isBush ? 9 : 5)}px`,
+            left: `${PIXEL_SCALE * (isBush ? 8 : 4)}px`,
           },
           onLoad: (e) => setImageWidth(e.currentTarget),
-          onClick: removeTree,
         }}
         dropImageProps={{
           src: fruitImage,
@@ -89,7 +91,7 @@ export const DeadTree = ({
         position={{ top: -2, left: 23 }}
       >
         <div className="flex flex-1 items-center text-xxs justify-center text-white px-2 py-1 whitespace-nowrap">
-          <img src={axe} className="w-4 mr-1" />
+          <img src={SUNNYSIDE.tools.axe} className="w-4 mr-1" />
           <span>No Axe Selected!</span>
         </div>
       </InfoPopover>

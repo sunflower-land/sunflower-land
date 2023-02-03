@@ -159,7 +159,7 @@ export class CommunityContracts {
     }
   }
 
-  public async christimasDonate(
+  public async christmasDonate(
     donation: number,
     to = CONFIG.FROG_DONATION as string
   ) {

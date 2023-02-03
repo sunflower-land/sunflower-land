@@ -32,8 +32,8 @@ export const SealComponent: React.FC<Props> = ({
     <div
       className="absolute"
       style={{
-        width: `${GRID_WIDTH_PX * 3}px`,
-        height: `${GRID_WIDTH_PX * 3}px`,
+        width: `${SEAL_SIZE * PIXEL_SCALE}px`,
+        height: `${SEAL_SIZE * PIXEL_SCALE}px`,
         left: `${GRID_WIDTH_PX * left}px`,
         top: `${GRID_WIDTH_PX * top}px`,
       }}
@@ -50,17 +50,18 @@ export const SealComponent: React.FC<Props> = ({
       />
       <InnerPanel
         className={classNames(
-          "absolute bottom-12 transition-opacity whitespace-nowrap z-20 pointer-events-none",
+          "absolute transition-opacity whitespace-nowrap z-20 pointer-events-none",
           {
             "opacity-100": showTooltip,
             "opacity-0": !showTooltip,
           }
         )}
         style={{
-          left: "6.25rem",
+          left: `${PIXEL_SCALE * 52}px`,
+          bottom: `${PIXEL_SCALE * 24}px`,
         }}
       >
-        <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
+        <div className="flex flex-col text-xxs text-white ml-2 mr-2">
           <span className="flex-1">{seal.name}</span>
           <span className="flex-1" style={{ color: seal.rarity?.color }}>
             {seal.rarity?.name}

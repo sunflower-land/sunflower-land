@@ -1,9 +1,9 @@
 import React from "react";
 
-import cook from "assets/npcs/goblin_doing.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const GoblinCook: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ export const GoblinCook: React.FC = () => {
           }}
         />
         <img
-          src={cook}
+          src={SUNNYSIDE.npcs.goblin_doing}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 25}px`,

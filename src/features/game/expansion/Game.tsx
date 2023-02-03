@@ -30,20 +30,19 @@ import { PlaceableOverlay } from "./components/PlaceableOverlay";
 import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
 import { Helios } from "features/helios/Helios";
-import { Hud } from "features/island/hud/Hud";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
 import land from "assets/land/islands/island.webp";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { StoneHaven } from "features/stoneHaven/StoneHaven";
-import { Revealing } from "../components/Revealing";
-import { Revealed } from "../components/Revealed";
 import { getBumpkinLevel } from "../lib/level";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
-import { Studios } from "features/studioes/Studios";
-import { GoldenCrop } from "../components/GoldenCrop";
+import { Studios } from "features/studios/Studios";
+import { Rules } from "../components/Rules";
+import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
+import { hasFeatureAccess } from "lib/flags";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -62,15 +61,14 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   noBumpkinFound: true,
   swarming: true,
   coolingDown: true,
-  // gameRules: true,
-  goldenCrop: true,
+  gameRules: true,
   randomising: false,
   visiting: false,
   loadLandToVisit: true,
   landToVisitNotFound: true,
   checkIsVisiting: false,
-  revealing: true,
-  revealed: true,
+  revealing: false,
+  revealed: false,
   buyingSFL: true,
 };
 
@@ -182,17 +180,27 @@ export const Game: React.FC = () => {
 
     return (
       <>
-        <div className="absolute z-10 w-full h-full">
+        <div className="absolute w-full h-full z-10">
           <PlaceableOverlay>
             <Routes>
               <Route path="/" element={<Land />} />
               <Route path="/helios" element={<Helios key="helios" />} />
-              {level >= 10 && (
-                <Route
-                  path="/treasure-island"
-                  element={<TreasureIsland key="treasure" />}
-                />
+              {hasFeatureAccess(
+                gameState.context.state.inventory,
+                "PUMPKIN_PLAZA"
+              ) && (
+                <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
               )}
+              {hasFeatureAccess(
+                gameState.context.state.inventory,
+                "TREASURE_ISLAND"
+              ) &&
+                level >= 10 && (
+                  <Route
+                    path="/treasure-island"
+                    element={<TreasureIsland key="treasure" />}
+                  />
+                )}
 
               {level >= 20 && (
                 <Route
@@ -208,9 +216,6 @@ export const Game: React.FC = () => {
               <Route path="*" element={<IslandNotFound />} />
             </Routes>
           </PlaceableOverlay>
-        </div>
-        <div className="absolute z-20">
-          <Hud />
         </div>
       </>
     );
@@ -239,10 +244,7 @@ export const Game: React.FC = () => {
           {gameState.matches("swarming") && <Swarming />}
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("coolingDown") && <Cooldown />}
-          {/* {gameState.matches("gameRules") && <Rules />} */}
-          {gameState.matches("goldenCrop") && <GoldenCrop />}
-          {gameState.matches("revealing") && <Revealing />}
-          {gameState.matches("revealed") && <Revealed />}
+          {gameState.matches("gameRules") && <Rules />}
         </Panel>
       </Modal>
 

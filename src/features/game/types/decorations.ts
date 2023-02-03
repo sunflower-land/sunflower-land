@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { Dimensions } from "./craftables";
 import { Inventory } from "./game";
+import { BoostTreasure, DecorationTreasure } from "./treasure";
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -25,7 +26,11 @@ export type ShopDecorationName =
   | "Cactus"
   | "Basic Bear";
 
-export type DecorationName = AchievementDecorationName | ShopDecorationName;
+export type DecorationName =
+  | AchievementDecorationName
+  | ShopDecorationName
+  | DecorationTreasure
+  | BoostTreasure;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "White Tulips": {
@@ -100,6 +105,78 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
     width: 1,
   },
+  "Abandoned Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Turtle Bear": {
+    height: 1,
+    width: 1,
+  },
+  "T-Rex Skull": {
+    height: 2,
+    width: 2,
+  },
+  "Sunflower Coin": {
+    height: 2,
+    width: 2,
+  },
+  Foliant: {
+    height: 2,
+    width: 2,
+  },
+  "Skeleton King Staff": {
+    height: 2,
+    width: 2,
+  },
+  "Lifeguard Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Snorkel Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Whale Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Parasaur Skull": {
+    height: 2,
+    width: 2,
+  },
+  "Golden Bear Head": {
+    height: 2,
+    width: 2,
+  },
+  "Pirate Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Goblin Bear": {
+    height: 1,
+    width: 1,
+  },
+  Galleon: {
+    height: 2,
+    width: 2,
+  },
+  "Dinosaur Fossil": {
+    height: 2,
+    width: 2,
+  },
+  "Human Bear": {
+    height: 2,
+    width: 1,
+  },
+  "Tiki Totem": {
+    height: 1,
+    width: 1,
+  },
+  "Lunar Calendar": {
+    height: 1,
+    width: 1,
+  },
 };
 
 export type Decoration = {
@@ -110,7 +187,10 @@ export type Decoration = {
   sfl?: Decimal;
 };
 
-export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
+export const HELIOS_DECORATIONS: () => Record<
+  ShopDecorationName,
+  Decoration
+> = () => ({
   "White Tulips": {
     name: "White Tulips",
     sfl: marketRate(20),
@@ -152,65 +232,5 @@ export const DECORATIONS: () => Record<DecorationName, Decoration> = () => ({
     sfl: marketRate(50),
     ingredients: {},
     description: "A basic bear. Use this at Goblin Retreat to build a bear!",
-  },
-  "Chef Bear": {
-    name: "Chef Bear",
-    ingredients: {},
-    description: "Every chef needs a helping hand",
-  },
-  "Construction Bear": {
-    name: "Construction Bear",
-    ingredients: {},
-    description: "Always build in a bear market",
-  },
-  "Angel Bear": {
-    name: "Angel Bear",
-    ingredients: {},
-    description: "Time to transcend peasant farming",
-  },
-  "Badass Bear": {
-    name: "Basic Bear",
-    description: "Nothing stands in your way.",
-    ingredients: {},
-  },
-  "Bear Trap": {
-    name: "Bear Trap",
-    description: "It's a trap!",
-    ingredients: {},
-  },
-  "Brilliant Bear": {
-    name: "Brilliant Bear",
-    description: "Pure brilliance!",
-    ingredients: {},
-  },
-  "Classy Bear": {
-    name: "Classy Bear",
-    description: "More SFL than you know what to do with it!",
-    ingredients: {},
-  },
-  "Farmer Bear": {
-    name: "Farmer Bear",
-    description: "Nothing quite like a hard day's work!",
-    ingredients: {},
-  },
-  "Sunflower Bear": {
-    name: "Sunflower Bear",
-    description: "A Bear's cherished crop",
-    ingredients: {},
-  },
-  "Rich Bear": {
-    name: "Rich Bear",
-    description: "A prized possession",
-    ingredients: {},
-  },
-  "Rainbow Artist Bear": {
-    name: "Rainbow Artist Bear",
-    description: "The owner is a beautiful bear artist!",
-    ingredients: {},
-  },
-  "Devil Bear": {
-    name: "Devil Bear",
-    ingredients: {},
-    description: "Better the Devil you know than the Devil you don't",
   },
 });

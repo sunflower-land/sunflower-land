@@ -152,7 +152,7 @@ describe("fertiliseCrop", () => {
       })
     ).toThrow(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
   });
-  it("does not fertilise if crop already fertilized", () => {
+  it("does not fertilise if crop already fertilised", () => {
     expect(() =>
       fertiliseCrop({
         state: {

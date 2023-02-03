@@ -15,8 +15,7 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import {
   Decoration,
-  DecorationName,
-  DECORATIONS,
+  HELIOS_DECORATIONS,
 } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -26,25 +25,14 @@ interface Props {
 }
 
 export const DecorationItems: React.FC<Props> = ({ onClose }) => {
-  // Only display the decorations available for purchase
-  const availableDecorations = getKeys(DECORATIONS()).reduce((acc, name) => {
-    const decoration = DECORATIONS()[name];
-    if (!decoration.sfl) {
-      return acc;
-    }
-
-    return { ...acc, [name]: decoration };
-  }, {} as Record<DecorationName, Decoration>);
-
   const [selected, setSelected] = useState<Decoration>(
-    DECORATIONS()["White Tulips"]
+    HELIOS_DECORATIONS()["White Tulips"]
   );
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
       context: { state },
-      value,
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
@@ -102,7 +90,7 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-        {Object.values(availableDecorations).map((item: Decoration) => (
+        {Object.values(HELIOS_DECORATIONS()).map((item: Decoration) => (
           <Box
             isSelected={selected.name === item.name}
             key={item.name}

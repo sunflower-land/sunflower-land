@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { ConsumableName } from "../types/consumables";
+import { ConsumableName, CookableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
 import { Bumpkin } from "../types/game";
@@ -9,15 +9,22 @@ import { DecorationName } from "./decorations";
 import { FruitName, FruitSeedName } from "./fruits";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
+import { BeachBountyTreasure, TreasureName } from "./treasure";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
-type SellableName = CropName | Food | FruitName;
+type SellableName =
+  | CropName
+  | Food
+  | FruitName
+  | BeachBountyTreasure
+  | FruitName;
 
-type Recipes = Food | ConsumableName;
+type Recipes = Food | CookableName;
+type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${CropName | FruitName} Harvested`;
 export type CookEvent = `${Recipes} Cooked`;
-export type FedEvent = `${Recipes} Fed`;
+export type FedEvent = `${Edibles} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
 export type PlantFruitEvent = `${FruitSeedName} Planted`;
 export type CraftedEvent = `${
@@ -27,6 +34,7 @@ export type CraftedEvent = `${
   | HeliosBlacksmithItem} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
+export type TreasureEvent = `${TreasureName} Dug`;
 
 export type BumpkinActivityName =
   | CookEvent
@@ -37,6 +45,7 @@ export type BumpkinActivityName =
   | SellEvent
   | HarvestEvent
   | PlantFruitEvent
+  | TreasureEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"
@@ -53,7 +62,9 @@ export type BumpkinActivityName =
   | "Collectible Removed"
   | "Building Upgraded"
   | "Crop Fertilised"
-  | "Crop Removed";
+  | "Crop Removed"
+  | "Treasure Dug"
+  | "Treasure Searched";
 
 export function trackActivity(
   activityName: BumpkinActivityName,

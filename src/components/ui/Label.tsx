@@ -1,26 +1,37 @@
 import React from "react";
 import classnames from "classnames";
-import { pixelWhiteBorderStyle } from "features/game/lib/style";
+import { pixelGrayBorderStyle } from "features/game/lib/style";
 
-type labelType = "default" | "success" | "info" | "danger" | "warning";
+type labelType =
+  | "default"
+  | "transparent"
+  | "success"
+  | "info"
+  | "danger"
+  | "warning";
 
 interface Props {
   className?: string;
   type?: labelType;
+  style?: React.CSSProperties;
 }
-export const Label: React.FC<Props> = ({ children, className, type }) => {
+export const Label: React.FC<Props> = ({
+  children,
+  className,
+  type,
+  style,
+}) => {
   return (
     <>
       {type === "default" && (
         <div
           className={classnames(
-            "bg-silver-300 text-white text-xxs object-contain justify-center items-center flex px-1",
+            "bg-silver-500 text-xxs object-contain justify-center items-center flex px-1",
             className
           )}
-          style={pixelWhiteBorderStyle}
+          style={{ ...pixelGrayBorderStyle, ...style }}
         >
           <span
-            className={classnames(" text-white text-xxs")}
             style={{
               lineHeight: "12px",
               height: "14px",
@@ -31,42 +42,20 @@ export const Label: React.FC<Props> = ({ children, className, type }) => {
         </div>
       )}
 
-      {type === "success" && (
+      {type !== "default" && (
         <span
           className={classnames(
-            "bg-green-600 border text-xxs px-2 py-1 rounded-md",
+            "text-xxs px-1.5 pb-1 pt-0.5 rounded-md",
+            {
+              "bg-green-600": type === "success",
+              "bg-blue-600": type === "info",
+              "bg-error": type === "danger",
+              "bg-orange-400": type === "warning",
+              border: type !== "transparent",
+            },
             className
           )}
-        >
-          {children}
-        </span>
-      )}
-      {type === "info" && (
-        <span
-          className={classnames(
-            "bg-blue-600 border text-xxs px-2 py-1 rounded-md",
-            className
-          )}
-        >
-          {children}
-        </span>
-      )}
-      {type === "danger" && (
-        <span
-          className={classnames(
-            "bg-error border text-xxs px-2 py-1 rounded-md",
-            className
-          )}
-        >
-          {children}
-        </span>
-      )}
-      {type === "warning" && (
-        <span
-          className={classnames(
-            "bg-orange-400 border text-xxs px-2 py-1 rounded-md",
-            className
-          )}
+          style={style}
         >
           {children}
         </span>

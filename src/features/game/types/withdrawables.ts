@@ -1,28 +1,51 @@
-import { KNOWN_IDS } from ".";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { CROPS, CROP_SEEDS } from "./crops";
 import { FRUIT } from "./fruits";
-import { EASTER_EGGS, Inventory, InventoryItemName } from "./game";
-import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
+import {
+  EASTER_EGGS,
+  Inventory,
+  InventoryItemName,
+  COUPONS,
+  FERTILISERS,
+} from "./game";
+import {
+  FLAGS,
+  FOODS,
+  getKeys,
+  MUTANT_CHICKENS,
+  QUEST_ITEMS,
+  SHOVELS,
+  TOOLS,
+  WAR_BANNERS,
+  WAR_TENT_ITEMS,
+} from "./craftables";
 import { RESOURCES } from "./resources";
 import { canChop } from "../events/landExpansion/chop";
 import { canMine } from "../events/landExpansion/stoneMine";
 import { AchievementName } from "./achievements";
+import { SEEDS } from "./seeds";
+import { BEANS } from "./beans";
+import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
+import { SKILL_TREE } from "./skills";
+import { BUILDINGS } from "./buildings";
+import { CONSUMABLES } from "./consumables";
+import { HELIOS_DECORATIONS } from "./decorations";
+import { TREASURE_TOOLS } from "./tools";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
 // Helps build withdraw rules for item groups
-function buildDefaults(
-  itemNames: string[],
+function buildDefaults<T extends InventoryItemName>(
+  itemNames: T[],
   withdrawCondition: WithdrawCondition
-): Partial<Record<InventoryItemName, WithdrawCondition>> {
+): Record<T, WithdrawCondition> {
   return itemNames.reduce(
     (prev, cur) => ({
       ...prev,
       [cur]: withdrawCondition,
     }),
-    {}
+    {} as Record<T, WithdrawCondition>
   );
 }
 
@@ -81,49 +104,95 @@ function areAnyChickensFed(game: GoblinState): boolean {
   );
 }
 
-function hasCompletedAchievment(
+function hasCompletedAchievement(
   game: GoblinState,
   achievement: AchievementName
 ): boolean {
   return Object.keys(game.bumpkin?.achievements ?? []).includes(achievement);
 }
 
-// Everything is non-withdrawable by default
-const globalDefaults = Object.keys(KNOWN_IDS).reduce(
-  (prev, cur) => ({
-    ...prev,
-    [cur]: false,
-  }),
-  {}
-) as Record<InventoryItemName, WithdrawCondition>;
-
 // Group withdraw conditions for common items
-const cropDefaults = buildDefaults(Object.keys(CROPS()), true);
+const cropDefaults = buildDefaults(getKeys(CROPS()), true);
 // Fruits will be disabled untill all the fruit SFT's are sold out
-const fruitDefaults = buildDefaults(Object.keys(FRUIT()), false);
-const resourceDefaults = buildDefaults(Object.keys(RESOURCES), true);
+const fruitDefaults = buildDefaults(getKeys(FRUIT()), false);
+const seedDefaults = buildDefaults(getKeys(SEEDS()), false);
+const beanDefaults = buildDefaults(getKeys(BEANS()), false);
+const questItemDefaults = buildDefaults(getKeys(QUEST_ITEMS), false);
+const warTentItemsDefaults = buildDefaults(getKeys(WAR_TENT_ITEMS), false);
+const toolDefaults = buildDefaults(
+  getKeys({ ...TOOLS, ...TREASURE_TOOLS }),
+  false
+);
+const foodDefaults = buildDefaults(getKeys(FOODS()), false);
+const shovelDefaults = buildDefaults(getKeys(SHOVELS), false);
+const warBannerDefaults = buildDefaults(getKeys(WAR_BANNERS), false);
+const heliosBlacksmithDefaults = buildDefaults(
+  getKeys(HELIOS_BLACKSMITH_ITEMS),
+  false
+);
+const resourceDefaults = buildDefaults(getKeys(RESOURCES), true);
 const mutantChickenDefaults = buildDefaults(
-  Object.keys(MUTANT_CHICKENS),
+  getKeys(MUTANT_CHICKENS),
   (game) => !areAnyChickensFed(game)
 );
-const flagDefaults = buildDefaults(Object.keys(FLAGS), true);
+const flagDefaults = buildDefaults(getKeys(FLAGS), true);
 const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], true);
+const skillDefaults = buildDefaults(getKeys(SKILL_TREE), false);
+const couponDefaults = buildDefaults(getKeys(COUPONS), false);
+const buildingDefaults = buildDefaults(getKeys(BUILDINGS()), false);
+const fertiliserDefaults = buildDefaults(getKeys(FERTILISERS), false);
+const consumableDefaults = buildDefaults(getKeys(CONSUMABLES), false);
+const decorationDefaults = buildDefaults(getKeys(HELIOS_DECORATIONS()), false);
+
+const mutantCropDefaults = {
+  "Stellar Sunflower": false,
+  "Peaceful Potato": false,
+  "Perky Pumpkin": false,
+  "Colossal Crop": false,
+};
+const specialEventsDefaults = {
+  "Chef Apron": false,
+  "Chef Hat": false,
+};
+const pointDefaults = {
+  "Human War Point": false,
+  "Goblin War Point": false,
+};
 
 export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
-  ...globalDefaults,
   ...cropDefaults,
+  ...seedDefaults,
+  ...beanDefaults,
+  ...questItemDefaults,
+  ...warTentItemsDefaults,
+  ...toolDefaults,
+  ...foodDefaults,
+  ...shovelDefaults,
+  ...warBannerDefaults,
+  ...heliosBlacksmithDefaults,
   ...fruitDefaults,
   ...resourceDefaults,
   ...mutantChickenDefaults,
   ...flagDefaults,
   ...easterEggDefaults,
+  ...skillDefaults,
+  ...couponDefaults,
+  ...buildingDefaults,
+  ...fertiliserDefaults,
+  ...consumableDefaults,
+  ...decorationDefaults,
+  ...mutantCropDefaults,
+  ...specialEventsDefaults,
+  ...pointDefaults,
 
   // Explicit Rules
   Chicken: false,
+  Cow: false,
+  Pig: false,
+  Sheep: false,
   "Basic Bear": false,
   "Farm Cat": true,
   "Farm Dog": true,
-  "Gold Egg": true,
   "Sunflower Statue": true,
   "Potato Statue": true,
   "Christmas Tree": true,
@@ -143,7 +212,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Christmas Snow Globe": true,
   "Cabbage Boy": true,
   "Cabbage Girl": true,
-  "Wood Nymph Wendy": true,
   "Chef Bear": true,
   "Construction Bear": true,
   "Angel Bear": true,
@@ -157,26 +225,70 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Rainbow Artist Bear": true,
   "Devil Bear": true,
   "Christmas Bear": true,
+  "War Skull": true,
+  "War Tombstone": true,
+  "Maneki Neko": false,
+  "Black Bearry": false,
+  "Squirrel Monkey": false,
+  "Lady Bug": false,
+  "Cyborg Bear": true,
+  "Collectible Bear": false,
+  // TODO add rule when beans are introduced
+  "Carrot Sword": true,
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
   Rooster: (game) => !areAnyChickensFed(game),
+  "Undead Rooster": (game) => !areAnyChickensFed(game),
+  "Gold Egg": (game) => !areAnyChickensFed(game),
   "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
   "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
-  "Carrot Sword": (game) => !areAnyCropsPlanted(game),
   Nancy: (game) => !areAnyCropsPlanted(game),
   Scarecrow: (game) => !areAnyCropsPlanted(game),
   Kuebiko: (game) => !areAnyCropsPlanted(game) && !hasSeeds(game.inventory),
   "Woody the Beaver": (game) => !areAnyTreesChopped(game),
   "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
   "Foreman Beaver": (game) => !areAnyTreesChopped(game),
+  "Wood Nymph Wendy": (game) => !areAnyTreesChopped(game),
   "Rock Golem": (game) => !areAnyStonesMined(game),
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
+
+  "Pirate Bounty": false,
+  Pearl: false,
+  Coral: false,
+  "Clam Shell": false,
+  Pipi: false,
+  Starfish: false,
+  Seaweed: false,
+  "Sea Cucumber": false,
+  Crab: false,
+  "Pirate Cake": false,
+
+  //Enable after beta testing
+  "Abandoned Bear": false,
+  "Turtle Bear": false,
+  "T-Rex Skull": false,
+  "Sunflower Coin": false,
+  Foliant: false,
+  "Skeleton King Staff": false,
+  "Lifeguard Bear": false,
+  "Snorkel Bear": false,
+  "Parasaur Skull": false,
+  "Golden Bear Head": false,
+  "Pirate Bear": false,
+  "Goblin Bear": false,
+  Galleon: false,
+  "Dinosaur Fossil": false,
+  "Human Bear": false,
+  "Treasure Map": false,
+  "Tiki Totem": false,
+  "Lunar Calendar": false,
+  "Whale Bear": false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

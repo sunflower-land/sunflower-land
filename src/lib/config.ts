@@ -5,6 +5,8 @@ const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 
 const API_URL = import.meta.env.VITE_API_URL;
+const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
+
 const WISHING_WELL_CONTRACT = import.meta.env.VITE_WISHING_WELL_CONTRACT;
 const ACCOUNT_MINTER_CONTRACT = import.meta.env.VITE_ACCOUNT_MINTER_CONTRACT;
 const FARM_CONTRACT = import.meta.env.VITE_FARM_CONTRACT;
@@ -39,6 +41,16 @@ const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
 const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
+const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
+
+// Arcade Mini Games Donation Addresses
+const GREEDY_GOBLIN_DONATION = import.meta.env
+  .VITE_GREEDY_GOBLIN_DONATION as string;
+const CHICKEN_FIGHT_DONATION = import.meta.env
+  .VITE_CHICKEN_FIGHT_DONATION as string;
+// Lunar New Year Event Donation Address
+const LUNAR_NEW_YEAR_DONATION = import.meta.env
+  .VITE_LUNAR_NEW_YEAR_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -76,4 +88,10 @@ export const CONFIG = {
   EASTER_EGG_CONTRACT,
   SEAL_CONTRACT,
   ALCHEMY_RPC,
+
+  GREEDY_GOBLIN_DONATION,
+  CHICKEN_FIGHT_DONATION,
+  LUNAR_NEW_YEAR_DONATION,
+  PROTECTED_IMAGE_URL,
+  WEBSOCKET_URL,
 };

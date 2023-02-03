@@ -454,4 +454,119 @@ describe("feed chickens", () => {
 
     expect(newState.chickens["15"]).toBeTruthy();
   });
+
+  it("requires wheat to feed a chicken when Gold Egg is placed but not ready", () => {
+    jest.useRealTimers();
+    const state = {
+      ...GAME_STATE,
+      bumpkin: INITIAL_BUMPKIN,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(2),
+        "Gold Egg": new Decimal(1),
+      },
+      collectibles: {
+        "Gold Egg": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "123",
+            readyAt: dateNow + 60 * 60 * 1000,
+          },
+        ],
+      },
+      chickens: {
+        "123": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", id: "123" },
+      createdAt: dateNow,
+    });
+
+    expect(newState.inventory.Wheat).toEqual(new Decimal(1));
+  });
+
+  it("requires no wheat to feed a chicken when player has wheat and when Gold Egg is placed and ready", () => {
+    jest.useRealTimers();
+    const state = {
+      ...GAME_STATE,
+      bumpkin: INITIAL_BUMPKIN,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(2),
+        "Gold Egg": new Decimal(1),
+      },
+      collectibles: {
+        "Gold Egg": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+      chickens: {
+        "123": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", id: "123" },
+      createdAt: dateNow,
+    });
+
+    expect(newState.inventory.Wheat).toEqual(new Decimal(2));
+  });
+
+  it("feeds a chicken when a player has no wheat but has the Gold Egg is placed and it's ready", () => {
+    jest.useRealTimers();
+    const state = {
+      ...GAME_STATE,
+      bumpkin: INITIAL_BUMPKIN,
+      inventory: {
+        Chicken: new Decimal(1),
+        "Gold Egg": new Decimal(1),
+      },
+      collectibles: {
+        "Gold Egg": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+      chickens: {
+        "123": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", id: "123" },
+      createdAt: dateNow,
+    });
+
+    const chicken = newState.chickens["123"];
+
+    expect(chicken.fedAt).toEqual(dateNow);
+  });
 });

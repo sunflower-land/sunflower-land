@@ -37,7 +37,7 @@ export function getImageUrl(wearableId: number) {
     return `https://bumpkins.io/erc1155/images/${wearableId}.png`;
   }
 
-  return `https://bumpkins.io/erc1155/images/${wearableId}.png`;
+  return `https://testnet.bumpkins.io/erc1155/images/${wearableId}.png`;
 }
 
 // async function getDetails() {

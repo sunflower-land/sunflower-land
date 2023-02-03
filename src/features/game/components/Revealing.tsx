@@ -1,20 +1,29 @@
 import React from "react";
 
-import digging from "assets/npcs/goblin_treasure.gif";
-import { PIXEL_SCALE } from "../lib/constants";
+import { setImageWidth } from "lib/images";
 
-export const Revealing: React.FC = () => {
+interface Props {
+  icon: string;
+}
+
+export const Revealing: React.FC<Props> = ({ icon }) => {
   return (
     <div className="flex flex-col items-center p-2">
-      <span className="text-center">What could it be?</span>
+      <span className="text-center mb-2">What could it be?</span>
       <img
-        src={digging}
+        src={icon}
         alt="digging"
         className="my-2"
-        style={{
-          width: `${PIXEL_SCALE * 33}px`,
-        }}
+        onLoad={(e) => setImageWidth(e.currentTarget)}
       />
+      <span
+        className="text-center text-xs loading mb-1"
+        style={{
+          height: "24px",
+        }}
+      >
+        Loading
+      </span>
     </div>
   );
 };

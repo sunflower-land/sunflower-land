@@ -8,7 +8,7 @@ import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { Equipped as BumpkinParts } from "./bumpkin";
-import { ConsumableName } from "./consumables";
+import { ConsumableName, CookableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
@@ -18,6 +18,7 @@ import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
+import { TreasureToolName } from "./tools";
 
 export type Reward = {
   sfl?: Decimal;
@@ -177,7 +178,9 @@ export type InventoryItemName =
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem
-  | GoblinBlacksmithItemName;
+  | GoblinBlacksmithItemName
+  | TreasureName
+  | TreasureToolName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -219,7 +222,7 @@ export type WarCollectionOffer = {
 
 export type GrubShopOrder = {
   id: string;
-  name: ConsumableName;
+  name: CookableName;
   sfl: Decimal;
 };
 
@@ -284,7 +287,7 @@ export type FruitPatch = {
 export type Mine = Position;
 
 export type BuildingProduct = {
-  name: ConsumableName;
+  name: CookableName;
   readyAt: number;
 };
 
@@ -298,7 +301,22 @@ export type PlacedItem = {
 };
 
 export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
-export type Collectibles = Partial<Record<CollectibleName, PlacedItem[]>>;
+
+type PlacedManeki = PlacedItem & { shakenAt?: number };
+
+// Support custom types for collectibles
+type CustomCollectibles = {
+  "Maneki Neko": PlacedManeki[];
+};
+
+// Mapping to determine which type should be used for a placed collectible
+type PlacedTypes<Name extends CollectibleName> = {
+  [key in Name]: key extends keyof CustomCollectibles
+    ? CustomCollectibles[key]
+    : PlacedItem[];
+};
+
+export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
 
 export type LandExpansion = {
   createdAt: number;
@@ -334,6 +352,11 @@ export type Reveal = {
   id: string;
 };
 
+export type TreasureHole = {
+  dugAt: number;
+  discovered: InventoryItemName | null;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -367,8 +390,21 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  treasureIsland?: {
+    holes: Record<number, TreasureHole>;
+    rareTreasure?: {
+      reward?: InventoryItemName;
+      discoveredAt: number;
+      holeId: number;
+    };
+  };
+
   // TODO remove when old events are deleted
   migrated?: boolean;
+  metadata?: any[];
+  pumpkinPlaza: {
+    rewardCollectedAt?: number;
+  };
 }
 
 export interface Context {

@@ -4,8 +4,6 @@ import Decimal from "decimal.js-light";
 import { Modal } from "react-bootstrap";
 
 import token from "assets/icons/token_2.png";
-import hammer from "assets/icons/hammer.png";
-import close from "assets/icons/close.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -26,6 +24,7 @@ import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
@@ -35,7 +34,7 @@ interface Props {
 const CloseButton = ({ onClose }: { onClose: (e: SyntheticEvent) => void }) => {
   return (
     <img
-      src={close}
+      src={SUNNYSIDE.icons.close}
       className="absolute cursor-pointer z-20"
       onClick={onClose}
       style={{
@@ -85,7 +84,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     );
   }
 
-  const selected = WORKBENCH_TOOLS[selectedName];
+  const selected = WORKBENCH_TOOLS()[selectedName];
   const inventory = state.inventory;
 
   const price = selected.sfl;
@@ -199,7 +198,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
         >
           <Tab isActive>
-            <img src={hammer} className="h-5 mr-2" />
+            <img src={SUNNYSIDE.icons.hammer} className="h-5 mr-2" />
             <span className="text-sm">Tools</span>
           </Tab>
           <CloseButton onClose={onClose} />
@@ -211,7 +210,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           <div className="flex flex-col-reverse sm:flex-row">
             <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-              {getKeys(WORKBENCH_TOOLS).map((toolName) => (
+              {getKeys(WORKBENCH_TOOLS()).map((toolName) => (
                 <Box
                   isSelected={selectedName === toolName}
                   key={toolName}

@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import sflIcon from "assets/icons/token_2.png";
-import arrowLeft from "assets/icons/arrow_left.png";
 
 import {
   AchievementName,
@@ -21,6 +20,7 @@ import { useActor } from "@xstate/react";
 import { setImageWidth } from "lib/images";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -37,6 +37,7 @@ interface Props {
   onClaim: () => void;
   name: AchievementName;
   state: GameState;
+  readonly: boolean;
 }
 
 export const AchievementDetails: React.FC<Props> = ({
@@ -44,6 +45,7 @@ export const AchievementDetails: React.FC<Props> = ({
   onClaim,
   name,
   state,
+  readonly,
 }) => {
   const achievement = ACHIEVEMENTS()[name];
   const progress = achievement.progress(state);
@@ -51,7 +53,6 @@ export const AchievementDetails: React.FC<Props> = ({
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const isVisiting = gameState.matches("visiting");
 
   const bumpkinAchievements = state.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[name];
@@ -67,7 +68,7 @@ export const AchievementDetails: React.FC<Props> = ({
       <OuterPanel className="relative flex-1 w-full flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
-            src={arrowLeft}
+            src={SUNNYSIDE.icons.arrow_left}
             className="absolute self-start cursor-pointer"
             style={{
               top: `${PIXEL_SCALE * 2}px`,
@@ -248,7 +249,7 @@ export const AchievementDetails: React.FC<Props> = ({
                     );
                   })}
                 </div>
-                {!isVisiting && (
+                {!readonly && (
                   <Button
                     className="text-xs mt-2"
                     onClick={onClaim}

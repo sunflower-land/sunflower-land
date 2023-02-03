@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import boat from "assets/npcs/island_boat_pirate.png";
-import close from "assets/icons/close.png";
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { IslandList } from "./IslandList";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, Inventory } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
   bumpkin: Bumpkin | undefined;
+  inventory: Inventory;
   isVisiting?: boolean;
   isTravelAllowed?: boolean;
   onShow?: () => void;
@@ -22,6 +23,7 @@ interface Props {
 
 export const IslandTravelModal = ({
   bumpkin,
+  inventory,
   isVisiting = false,
   isTravelAllowed = true,
   isOpen,
@@ -71,7 +73,7 @@ export const IslandTravelModal = ({
             <span className="text-sm whitespace-nowrap">Travel To</span>
           </Tab>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{
@@ -82,7 +84,11 @@ export const IslandTravelModal = ({
           />
         </div>
         {isTravelAllowed && (
-          <IslandList bumpkin={bumpkin} showVisitList={isVisiting} />
+          <IslandList
+            bumpkin={bumpkin}
+            showVisitList={isVisiting}
+            inventory={inventory}
+          />
         )}
         {!isTravelAllowed && <span className="loading">Loading</span>}
       </Panel>

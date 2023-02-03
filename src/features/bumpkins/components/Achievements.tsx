@@ -1,12 +1,6 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 
-import alert from "assets/icons/expression_alerted.png";
-import confirm from "assets/icons/confirm.png";
-import disc from "assets/icons/disc_large.png";
-import busyBumpkin from "src/assets/icons/player.png";
-import close from "assets/icons/close.png";
-
 import { Context } from "features/game/GameProvider";
 import {
   AchievementName,
@@ -23,14 +17,20 @@ import { Tab } from "components/ui/Tab";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 import { Bar } from "components/ui/ProgressBar";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
   onBack: () => void;
   onClose: () => void;
+  readonly: boolean;
 }
 
-export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
+export const Achievements: React.FC<Props> = ({
+  onBack,
+  onClose,
+  readonly,
+}) => {
   const [selected, setSelected] = useState<AchievementName>("Farm Hand");
 
   const { gameService } = useContext(Context);
@@ -68,31 +68,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
   };
 
   return (
-    <Panel className="relative" hasTabs>
-      <div
-        className="absolute flex"
-        style={{
-          top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      >
-        <Tab isActive>
-          <img src={busyBumpkin} className="h-5 mr-2" />
-          <span className="text-sm">Achievements</span>
-        </Tab>
-        <img
-          src={close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-      </div>
-
+    <>
       <div
         style={{
           minHeight: "200px",
@@ -103,6 +79,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
           onBack={onBack}
           onClaim={claim}
           state={state}
+          readonly={readonly}
         />
       </div>
       <div className="w-full mt-2">
@@ -140,7 +117,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                   )}
                 >
                   <img
-                    src={disc}
+                    src={SUNNYSIDE.icons.disc}
                     className="absolute"
                     style={{
                       width: `${PIXEL_SCALE * 22}px`,
@@ -166,7 +143,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                   {isComplete && !isAlreadyClaimed && (
                     <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
                       <img
-                        src={alert}
+                        src={SUNNYSIDE.icons.expression_alerted}
                         style={{
                           width: `${PIXEL_SCALE * 4}px`,
                         }}
@@ -178,7 +155,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                   {isAlreadyClaimed && (
                     <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
                       <img
-                        src={confirm}
+                        src={SUNNYSIDE.icons.confirm}
                         style={{
                           width: `${PIXEL_SCALE * 12}px`,
                         }}
@@ -206,6 +183,42 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
           })}
         </div>
       </div>
+    </>
+  );
+};
+
+export const AchievementsModal: React.FC<Props> = ({
+  onBack,
+  onClose,
+  readonly,
+}) => {
+  return (
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab isActive>
+          <img src={SUNNYSIDE.icons.player} className="h-5 mr-2" />
+          <span className="text-sm">Achievements</span>
+        </Tab>
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="absolute cursor-pointer z-20"
+          onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
+      </div>
+
+      <Achievements onBack={onBack} onClose={onClose} readonly={readonly} />
     </Panel>
   );
 };

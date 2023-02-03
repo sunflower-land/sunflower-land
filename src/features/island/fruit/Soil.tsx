@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 
-import soil from "assets/land/soil2.png";
-import wood from "assets/resources/wood.png";
-import cancel from "assets/icons/cancel.png";
 import selectBox from "assets/ui/select/select_box.png";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -10,6 +7,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
 import { setImageWidth } from "lib/images";
 import { InfoPopover } from "../common/InfoPopover";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   playing: boolean;
@@ -29,42 +27,44 @@ export const Soil: React.FC<Props> = ({
 
   return (
     <div
-      className="flex justify-center"
+      className="absolute w-full h-full cursor-pointer"
       onMouseEnter={() => setShowSelectBox(!isMobile)}
       onMouseLeave={() => setShowSelectBox(false)}
+      onClick={() => onClick()}
     >
       <FruitDropAnimator
         mainImageProps={{
-          src: soil,
-          className: "relative",
+          src: SUNNYSIDE.soil.soil2,
+          className: "absolute pointer-events-none",
           style: {
-            bottom: "9px",
-            zIndex: "1",
+            bottom: `${PIXEL_SCALE * 9}px`,
+            left: `${PIXEL_SCALE * 8}px`,
             width: `${PIXEL_SCALE * 16}px`,
             height: `${PIXEL_SCALE * 26}px`,
           },
           onLoad: (e) => setImageWidth(e.currentTarget),
         }}
         dropImageProps={{
-          src: wood,
-          className: "w-8",
+          src: SUNNYSIDE.resource.wood,
         }}
         dropCount={1}
         playDropAnimation={playAnimation}
         playShakeAnimation={false}
       />
+
+      {/* Select box */}
       {playing && (
         <img
           src={selectBox}
-          className={classNames("absolute z-40 cursor-pointer", {
+          className={classNames("absolute z-40", {
             "opacity-100": showSelectBox,
             "opacity-0": !showSelectBox,
           })}
           style={{
-            top: "21px",
+            top: `${PIXEL_SCALE * 8}px`,
+            left: `${PIXEL_SCALE * 8}px`,
             width: `${PIXEL_SCALE * 16}px`,
           }}
-          onClick={() => onClick()}
         />
       )}
 
@@ -73,7 +73,7 @@ export const Soil: React.FC<Props> = ({
         position={{ top: 10, left: 22 }}
       >
         <div className="flex flex-1 items-center text-xxs justify-center text-white px-2 py-1 whitespace-nowrap">
-          <img src={cancel} className="w-4 mr-1" />
+          <img src={SUNNYSIDE.icons.cancel} className="w-4 mr-1" />
           <span>Fruit seeds only!</span>
         </div>
       </InfoPopover>

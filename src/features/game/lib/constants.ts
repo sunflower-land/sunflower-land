@@ -62,6 +62,10 @@ export const INITIAL_STOCK: Inventory = {
   Pickaxe: new Decimal(50),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
+  Shovel: new Decimal(1),
+  "Rusty Shovel": new Decimal(10),
+  "Power Shovel": new Decimal(5),
+  "Sand Shovel": new Decimal(20),
 
   // One off items
   "Pumpkin Soup": new Decimal(1),
@@ -354,7 +358,7 @@ export const TEST_FARM: GameState = {
     "Radish Cake": "2025-01-01T00:00:00.000Z",
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
-
+  pumpkinPlaza: {},
   expansions: INITIAL_EXPANSIONS,
   buildings: {
     "Fire Pit": [
@@ -495,6 +499,7 @@ export const EMPTY: GameState = {
   buildings: {},
   collectibles: {},
   mysteryPrizes: {},
+  pumpkinPlaza: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

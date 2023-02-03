@@ -13,20 +13,20 @@ import { useActor } from "@xstate/react";
 import { SkillPointsLabel } from "./SkillPointsLabel";
 import { SkillCategoryList } from "./SkillCategoryList";
 
-import close from "assets/icons/close.png";
 import seedSpecialist from "assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
-import arrowLeft from "assets/icons/arrow_left.png";
 import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onBack: () => void;
   onClose: () => void;
+  readonly: boolean;
 }
 
-export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
+export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -83,6 +83,47 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   };
 
   return (
+    <div
+      style={{
+        minHeight: "200px",
+      }}
+    >
+      <div
+        className="flex flex-row my-2 items-center"
+        style={{
+          margin: `${PIXEL_SCALE * 2}px`,
+        }}
+      >
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer"
+          alt="back"
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            marginRight: `${PIXEL_SCALE * 4}px`,
+          }}
+          onClick={handleBack}
+        />
+        {!readonly && skillPointsInfo()}
+      </div>
+      {!selectedSkillPath && (
+        <SkillCategoryList
+          onClick={(category) => onSkillCategoryClickHandler(category)}
+        />
+      )}
+      {selectedSkillPath && (
+        <SkillPathDetails
+          selectedSkillPath={selectedSkillPath}
+          skillsInPath={skillsInPath}
+          readonly={readonly}
+        />
+      )}
+    </div>
+  );
+};
+
+export const SkillsModal: React.FC<Props> = ({ onBack, onClose, readonly }) => {
+  return (
     <Panel className="relative" hasTabs>
       <div
         className="absolute flex"
@@ -97,7 +138,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           <span className="text-sm">Skills</span>
         </Tab>
         <img
-          src={close}
+          src={SUNNYSIDE.icons.close}
           className="absolute cursor-pointer z-20"
           onClick={onClose}
           style={{
@@ -107,41 +148,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           }}
         />
       </div>
-      <div
-        style={{
-          minHeight: "200px",
-        }}
-      >
-        <div
-          className="flex flex-row my-2 items-center"
-          style={{
-            margin: `${PIXEL_SCALE * 2}px`,
-          }}
-        >
-          <img
-            src={arrowLeft}
-            className="cursor-pointer"
-            alt="back"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              marginRight: `${PIXEL_SCALE * 4}px`,
-            }}
-            onClick={handleBack}
-          />
-          {!gameState.matches("visiting") && skillPointsInfo()}
-        </div>
-        {!selectedSkillPath && (
-          <SkillCategoryList
-            onClick={(category) => onSkillCategoryClickHandler(category)}
-          />
-        )}
-        {selectedSkillPath && (
-          <SkillPathDetails
-            selectedSkillPath={selectedSkillPath}
-            skillsInPath={skillsInPath}
-          />
-        )}
-      </div>
+      <Skills onBack={onBack} onClose={onClose} readonly={readonly} />
     </Panel>
   );
 };

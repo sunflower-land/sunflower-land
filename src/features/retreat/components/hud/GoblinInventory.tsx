@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-
-import basket from "assets/icons/basket.png";
-import roundButton from "assets/ui/button/round_button.png";
-
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InventoryItems } from "features/island/hud/components/inventory/InventoryItems";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import Decimal from "decimal.js-light";
-import { setPrecision } from "lib/utils/formatNumber";
+import { InventoryItemsModal } from "features/island/hud/components/inventory/InventoryItemsModal";
+import { getKeys } from "features/game/types/craftables";
 import { KNOWN_IDS } from "features/game/types";
-import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
+import {
+  getBasketItems,
+  getChestItems,
+} from "features/island/hud/components/inventory/utils/inventory";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   state: GameState;
@@ -19,21 +16,18 @@ interface Props {
 
 export const GoblinInventory: React.FC<Props> = ({ state }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { inventory, collectibles: placedItems } = state;
+  const { inventory } = state;
 
-  const getItemCount = (item: InventoryItemName) => {
-    const count =
-      inventory[item]?.sub(placedItems[item as CollectibleName]?.length ?? 0) ??
-      new Decimal(0);
-
-    return setPrecision(count);
-  };
-
-  const [selected, setSelected] = useState<InventoryItemName>(
-    getKeys(getBasketItems(inventory)).sort(
-      (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]
-    )[0]
+  const [selectedBasketItem, setSelectedBasketItem] =
+    useState<InventoryItemName>(
+      getKeys(getBasketItems(inventory)).sort(
+        (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]
+      )[0]
+    );
+  const [selectedChestItem, setSelectedChestItem] = useState<InventoryItemName>(
+    getKeys(getChestItems(state)).sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
   );
+
   return (
     <div
       className="flex flex-col items-center fixed z-50"
@@ -52,14 +46,14 @@ export const GoblinInventory: React.FC<Props> = ({ state }) => {
         }}
       >
         <img
-          src={roundButton}
+          src={SUNNYSIDE.ui.round_button}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         />
         <img
-          src={basket}
+          src={SUNNYSIDE.icons.basket}
           className="absolute"
           style={{
             top: `${PIXEL_SCALE * 5}px`,
@@ -69,14 +63,16 @@ export const GoblinInventory: React.FC<Props> = ({ state }) => {
         />
       </div>
 
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <InventoryItems
-          state={state}
-          onClose={() => setIsOpen(false)}
-          onSelect={setSelected}
-          selected={selected}
-        />
-      </Modal>
+      <InventoryItemsModal
+        show={isOpen}
+        onHide={() => setIsOpen(false)}
+        state={state}
+        selectedBasketItem={selectedBasketItem}
+        onSelectBasketItem={setSelectedBasketItem}
+        selectedChestItem={selectedChestItem}
+        onSelectChestItem={setSelectedChestItem}
+        isFarming={false}
+      />
     </div>
   );
 };

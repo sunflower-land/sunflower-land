@@ -22,7 +22,10 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
   "Immortal Pear": {
     description: "A long-lived pear that makes fruit trees last longer.",
     ingredients: {
-      Gold: new Decimal(25),
+      Gold: new Decimal(5),
+      Apple: new Decimal(10),
+      Blueberry: new Decimal(10),
+      Orange: new Decimal(10),
     },
     boost: "+1 harvest",
   },
@@ -68,9 +71,9 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     boost: "+1 Blueberry",
   },
   "Maneki Neko": {
-    description: "The beckoning cat. Pull it's arm and good luck will come",
+    description: "The beckoning cat. Pull its arm and good luck will come",
     ingredients: {
-      Gold: new Decimal(5),
+      Gold: new Decimal(1),
       "Red Envelope": new Decimal(50),
     },
     supply: 30000,

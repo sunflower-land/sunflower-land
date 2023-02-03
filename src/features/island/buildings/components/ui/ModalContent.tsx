@@ -37,9 +37,7 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
     return (
       <ListView
         state={state}
-        onClick={(name: BuildingName) => {
-          setSelected(name);
-        }}
+        onClick={(name: BuildingName) => setSelected(name)}
       />
     );
   }
@@ -47,7 +45,7 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
   return (
     <DetailView
       state={state}
-      building={selected}
+      buildingName={selected}
       hasUnplaced={hasUnplacedBuildings}
       onBuild={handleBuild}
       onBack={() => setSelected(null)}

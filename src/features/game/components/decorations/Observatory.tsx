@@ -6,13 +6,13 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { observatoryAnimationAudio } from "lib/utils/sfx";
 
-import close from "assets/icons/close.png";
 import observatory from "assets/sfts/mom/observatory.gif";
 import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.gif";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Observatory: React.FC = () => {
   // Using rand value helps force-replay gifs.
-  // Also, putting this in state ensures the gif doesn't replay during random compontent rerenders.
+  // Also, putting this in state ensures the gif doesn't replay during random component rerenders.
   const [playRand, setPlayRand] = useState<number | null>(null);
   const [modalTimer, setModalTimer] = useState<number>();
 
@@ -50,7 +50,7 @@ export const Observatory: React.FC = () => {
         <OuterPanel>
           <InnerPanel style={{ backgroundColor: "#1b1c1b" }}>
             <img
-              src={close}
+              src={SUNNYSIDE.icons.close}
               className="absolute cursor-pointer z-20"
               onClick={handleCloseTelescope}
               style={{

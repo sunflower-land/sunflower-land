@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
-import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
@@ -17,6 +16,10 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import heart from "assets/icons/level_up.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 import { Bumpkin } from "features/game/types/game";
+import { SplitScreenView } from "components/ui/SplitScreenView";
+import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
+import Decimal from "decimal.js-light";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   food: Consumable[];
@@ -62,14 +65,57 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
     shortcutItem(food.name);
   };
 
+  if (!selected) {
+    return (
+      <div className="flex flex-col items-center p-2">
+        <span className="text-base text-center mb-4">Hungry?</span>
+        <span className="w-full text-sm mb-3">
+          You have no food in your inventory.
+        </span>
+        <span className="w-full text-sm mb-2">
+          You will need to cook food in order to feed your Bumpkin.
+        </span>
+        <img
+          src={firePit}
+          className="my-2"
+          alt={"Fire Pit"}
+          style={{
+            width: `${PIXEL_SCALE * 47}px`,
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col-reverse sm:flex-row">
-      <div
-        className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-        style={{ maxHeight: 400 }}
-      >
-        {selected !== undefined &&
-          food.map((item) => (
+    <SplitScreenView
+      header={
+        <FeedBumpkinDetails
+          details={{
+            item: selected.name,
+          }}
+          properties={{
+            xp: new Decimal(
+              getFoodExpBoost(
+                selected,
+                state.bumpkin as Bumpkin,
+                state.collectibles
+              )
+            ),
+          }}
+          actionView={
+            <Button
+              disabled={!inventory[selected.name]?.gt(0)}
+              onClick={() => feed(selected)}
+            >
+              {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
+            </Button>
+          }
+        />
+      }
+      content={
+        <>
+          {food.map((item) => (
             <Box
               isSelected={selected.name === item.name}
               key={item.name}
@@ -78,60 +124,8 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
               count={inventory[item.name]}
             />
           ))}
-        {selected === undefined && (
-          <span className="p-1">No food in inventory</span>
-        )}
-      </div>
-      <OuterPanel className="w-full flex-1">
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          {selected !== undefined && (
-            <>
-              <span className="text-center mb-1">{selected.name}</span>
-              <img
-                src={ITEM_DETAILS[selected.name].image}
-                className="h-16 img-highlight mt-2"
-                alt={selected.name}
-              />
-              <span className="text-center mt-2 text-sm">
-                {ITEM_DETAILS[selected.name].description}
-              </span>
-
-              <div className="border-t border-white w-full mt-2 pt-1">
-                <div className="flex justify-center flex-wrap items-center">
-                  <img src={heart} className="me-2 w-6" />
-                  <span className="text-xs text-center">
-                    {`${getFoodExpBoost(
-                      selected,
-                      state.bumpkin as Bumpkin,
-                      state.collectibles
-                    )} EXP`}
-                  </span>
-                </div>
-              </div>
-              <Button
-                disabled={!inventory[selected.name]?.gt(0)}
-                className="text-sm mt-1 whitespace-nowrap"
-                onClick={() => feed(selected)}
-              >
-                {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
-              </Button>
-            </>
-          )}
-          {selected === undefined && (
-            <>
-              <span className="text-center">Hungry?</span>
-              <img
-                src={firePit}
-                className="h-16 img-highlight mt-3"
-                alt={"Fire Pit"}
-              />
-              <span className="text-center mt-2 text-sm">
-                You will need to cook food in order to feed your bumpkin
-              </span>
-            </>
-          )}
-        </div>
-      </OuterPanel>
-    </div>
+        </>
+      }
+    />
   );
 };

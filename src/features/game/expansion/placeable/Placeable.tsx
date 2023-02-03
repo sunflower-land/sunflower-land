@@ -20,8 +20,8 @@ import { BUILDING_COMPONENTS } from "features/island/buildings/components/buildi
 import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
 import { Chicken } from "features/island/chickens/Chicken";
 
-import dragIcon from "assets/icons/drag.png";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -35,7 +35,7 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
 // const BOUNDS_MIN_Y = -5
 // const BOUNDS_MAX_Y = 15
 
-const getInitialCorodinates = () => {
+export const getInitialCoordinates = () => {
   // This container helps us to calculate the scroll pixels as in our application
   // window do not scroll but this container dose
   const pageScrollContainer = document.getElementsByClassName(
@@ -99,7 +99,7 @@ export const Placeable: React.FC = () => {
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
-  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] = getInitialCorodinates();
+  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] = getInitialCoordinates();
 
   useEffect(() => {
     detect({
@@ -167,7 +167,7 @@ export const Placeable: React.FC = () => {
                   width: "135px",
                 }}
               >
-                <img src={dragIcon} className="h-6 mr-2" />
+                <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />
                 <span className="text-white text-sm">Drag me</span>
               </div>
             )}

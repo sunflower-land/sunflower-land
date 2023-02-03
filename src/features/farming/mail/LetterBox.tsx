@@ -3,7 +3,6 @@ import { Modal } from "react-bootstrap";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import mailbox from "assets/decorations/mailbox.png";
-import alerted from "assets/icons/expression_alerted.png";
 import classNames from "classnames";
 import {
   acknowledgeRead,
@@ -12,6 +11,7 @@ import {
 } from "features/announcements/announcementsStorage";
 import { Announcement } from "features/announcements/Announcement";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LetterBox: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,7 @@ export const LetterBox: React.FC = () => {
       >
         {hasUnread && (
           <img
-            src={alerted}
+            src={SUNNYSIDE.icons.expression_alerted}
             className="absolute animate-float pointer-events-none z-20"
             style={{
               width: `${PIXEL_SCALE * 4}px`,
@@ -59,7 +59,7 @@ export const LetterBox: React.FC = () => {
         />
       </div>
       <Modal centered show={isOpen} onHide={close}>
-        <CloseButtonPanel onClose={close}>
+        <CloseButtonPanel title="Announcements" onClose={close}>
           <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
             {PAST_ANNOUNCEMENTS.map((announcement, index) => (
               <Announcement key={index} announcement={announcement} />

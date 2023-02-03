@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "features/game/GameProvider";
 
 import more from "assets/ui/more.png";
-import roundButton from "assets/ui/button/round_button.png";
 import settings from "assets/icons/settings.png";
 import sound_on from "assets/icons/sound_on.png";
 
@@ -17,6 +16,8 @@ import {
   getGoblinSong,
   getGoblinSongCount,
 } from "assets/songs/playlist";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { useLocation } from "react-router-dom";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
@@ -32,6 +33,10 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   const [showMoreButtons, setShowMoreButtons] = useState(false);
   const [openAudioMenu, setOpenAudioMenu] = useState(false);
   const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
+  const { pathname } = useLocation();
+  // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
+  const showLimitedButtons =
+    pathname.includes("retreat") || pathname.includes("visit");
 
   const cogRef = useRef<HTMLDivElement>(null);
 
@@ -108,7 +113,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         }}
       >
         <img
-          src={roundButton}
+          src={SUNNYSIDE.ui.round_button}
           className="absolute"
           style={{
             width: `${buttonWidth}px`,
@@ -184,7 +189,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     gearButton,
     ...(isFarming ? [progressBarButton] : []),
     audioButton,
-    ...(isFarming ? [moreButton] : []),
+    ...(!showLimitedButtons ? [moreButton] : []),
   ];
 
   return (

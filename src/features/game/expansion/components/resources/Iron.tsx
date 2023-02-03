@@ -8,7 +8,6 @@ import sparkSheet from "assets/resources/iron/iron_rock_spark.png";
 import dropSheet from "assets/resources/iron/iron_rock_drop.png";
 import hitbox from "assets/resources/iron_small.png";
 import iron from "assets/resources/iron_rock_ore.png";
-import pickaxe from "assets/tools/stone_pickaxe.png";
 
 import {
   GRID_WIDTH_PX,
@@ -30,6 +29,7 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const HITS = 3;
 
@@ -98,9 +98,11 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
 
     if (!hasPickaxes) return;
 
-    const isPlaying = sparkGif.current?.getInfo("isPlaying");
+    const spriteFrame = sparkGif.current?.getInfo("frame");
 
-    if (isPlaying) return;
+    if (spriteFrame && spriteFrame < 6) {
+      return;
+    }
 
     miningAudio.play();
     sparkGif.current?.goToAndPlay(0);
@@ -153,7 +155,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       if (e.message === MINE_ERRORS.NO_PICKAXES) {
         displayPopover(
           <div className="flex">
-            <img src={pickaxe} className="w-4 h-4 mr-2" />
+            <img src={SUNNYSIDE.tools.stone_pickaxe} className="w-4 h-4 mr-2" />
             <span className="text-xs text-white">No pickaxes left</span>
           </div>
         );
@@ -188,7 +190,7 @@ export const Iron: React.FC<Props> = ({ ironIndex, expansionIndex }) => {
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Unmined iron which is strikeable */}
+      {/* Unmined iron which is strikable */}
       {!mined && (
         <div
           ref={containerRef}

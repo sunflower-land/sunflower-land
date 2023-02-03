@@ -3,25 +3,25 @@ import React, { useState } from "react";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
-import close from "assets/icons/close.png";
 import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
-  Consumable,
-  ConsumableName,
-  CONSUMABLES,
+  Cookable,
+  CookableName,
+  COOKABLES,
 } from "features/game/types/consumables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Tab } from "components/ui/Tab";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onCook: (name: ConsumableName) => void;
+  onCook: (name: CookableName) => void;
   crafting: boolean;
-  itemInProgress?: ConsumableName;
+  itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
 }
 export const DeliModal: React.FC<Props> = ({
@@ -32,14 +32,14 @@ export const DeliModal: React.FC<Props> = ({
   itemInProgress,
   craftingService,
 }) => {
-  const deliRecipes = getKeys(CONSUMABLES).reduce((acc, name) => {
-    if (CONSUMABLES[name].building !== "Deli") {
+  const deliRecipes = getKeys(COOKABLES).reduce((acc, name) => {
+    if (COOKABLES[name].building !== "Deli") {
       return acc;
     }
 
-    return [...acc, CONSUMABLES[name]];
-  }, [] as Consumable[]);
-  const [selected, setSelected] = useState<Consumable>(
+    return [...acc, COOKABLES[name]];
+  }, [] as Cookable[]);
+  const [selected, setSelected] = useState<Cookable>(
     deliRecipes.find((recipe) => recipe.name === itemInProgress) ||
       deliRecipes[0]
   );
@@ -71,7 +71,7 @@ export const DeliModal: React.FC<Props> = ({
             <span className="text-sm">Deli</span>
           </Tab>
           <img
-            src={close}
+            src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
             onClick={onClose}
             style={{
