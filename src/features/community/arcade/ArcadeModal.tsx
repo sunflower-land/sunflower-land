@@ -21,8 +21,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
     <Modal centered show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
-        showBackButton={!!activeWindow}
-        onBack={() => setActiveWindow(null)}
+        onBack={activeWindow ? () => setActiveWindow(null) : undefined}
         title={activeWindow || "Mini SFL Games"}
       >
         {/* Menu */}

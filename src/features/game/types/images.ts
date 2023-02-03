@@ -310,6 +310,7 @@ import parasaurSkull from "assets/sfts/parasaur_skull.webp";
 import clamShell from "assets/sfts/treasure/clam_shell.webp";
 import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
 import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
+import whaleBear from "assets/sfts/bears/whale_bear.webp";
 import goblinBear from "assets/sfts/bears/goblin_bear.webp";
 import goldenBearHead from "assets/sfts/golden_bear_head.webp";
 import humanBear from "assets/sfts/bears/human_bear.webp";
@@ -1771,5 +1772,10 @@ export const ITEM_DETAILS: Items = {
   Seaweed: {
     description: "Seaweed.",
     image: seaweed,
+  },
+  "Whale Bear": {
+    description:
+      "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
+    image: whaleBear,
   },
 };
