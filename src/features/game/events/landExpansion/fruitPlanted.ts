@@ -32,7 +32,12 @@ function getPlantedAt(
     fruitName === "Orange" &&
     isCollectibleBuilt("Squirrel Monkey", collectibles)
   ) {
-    return createdAt + FRUIT_SEEDS()["Orange Seed"].plantSeconds / 2;
+    const orangeTimeInMilliseconds =
+      FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000;
+
+    const offset = orangeTimeInMilliseconds / 2;
+
+    return createdAt - offset;
   }
 
   return createdAt;
