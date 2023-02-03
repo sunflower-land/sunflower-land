@@ -278,6 +278,7 @@ export const OFFLINE_FARM: GameState = {
     "Maneki Neko": new Decimal(1),
     "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
+    "Lottery Ticket": new Decimal(10),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
     Gold: new Decimal(50),
@@ -413,13 +414,14 @@ export const OFFLINE_FARM: GameState = {
     sfl: new Decimal(0),
   },
   auctioneer: {
-    // bid: {
-    //   bidAt: Date.now(),
-    //   inventory: {
-    //     Gold: new Decimal(50),
-    //   },
-    //   item: "Peeled Potato",
-    //   sfl: new Decimal(10),
-    // },
+    bid: {
+      bidAt: Date.now(),
+      ingredients: {
+        Gold: 5,
+      },
+      item: "Peeled Potato",
+      sfl: 10,
+      lotteryTickets: 10,
+    },
   },
 };

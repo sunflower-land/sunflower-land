@@ -1,12 +1,12 @@
 import { AuctioneerItemName } from "features/game/types/auctioneer";
-import { Inventory } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 
 export type AuctioneerItem = {
   id: number;
   tokenId: number;
   name: AuctioneerItemName;
   price?: number;
-  ingredients: Inventory;
+  ingredients: Record<InventoryItemName, number>;
   releaseDate: number;
   endDate: number;
   supply: number;

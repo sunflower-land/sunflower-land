@@ -182,6 +182,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Warrior: 714,
   "Beta Pass": 715,
   "Red Envelope": 716,
+  "Lottery Ticket": 717,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

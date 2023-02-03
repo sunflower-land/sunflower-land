@@ -170,6 +170,7 @@ import fruitPlatter from "assets/achievements/fruit_platter.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
+import lotteryTicket from "assets/icons/lottery_ticket.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 
@@ -912,6 +913,12 @@ export const ITEM_DETAILS: Items = {
   "Trading Ticket": {
     description: "Free trades! Woohoo!",
     image: ticket,
+  },
+  "Lottery Ticket": {
+    description:
+      "By collecting these coupons, players can redeem them for a shot at winning valuable rewards",
+
+    image: lotteryTicket,
   },
   "Beta Pass": {
     description: "Gain early access to features for testing.",
