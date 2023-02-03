@@ -89,7 +89,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     if (stock.lessThanOrEqualTo(0)) {
       return (
-        <div className="flex justify-start sm:justify-center -mt-1.5 mb-1.5">
+        <div className="flex justify-center -mt-1.5 mb-1.5">
           <Label type="danger">Sold out</Label>
         </div>
       );
@@ -101,7 +101,7 @@ export const CraftingRequirements: React.FC<Props> = ({
       limit === undefined ? false : inventoryCount.greaterThan(limit);
 
     return (
-      <div className="flex justify-start sm:justify-center -mt-1.5 mb-1.5">
+      <div className="flex justify-center -mt-1.5 mb-1.5">
         <Label type={isInventoryFull ? "danger" : "info"}>
           {`${stock} ${isLimitedItem ? "left" : "in stock"}`}
         </Label>
