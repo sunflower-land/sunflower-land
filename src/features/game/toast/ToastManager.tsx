@@ -1,19 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 
 import { ToastContext } from "./ToastQueueProvider";
-import { Context } from "../GameProvider";
-import { useActor } from "@xstate/react";
 import { PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 
-export const ToastManager: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+interface Props {
+  isHoarding?: boolean;
+}
+export const ToastManager: React.FC<Props> = ({ isHoarding }) => {
   const { toastList } = useContext(ToastContext);
   const [listed, setListed] = useState<boolean>(false);
 
   useEffect(() => {
-    if (toastList.length >= 1 && !gameState.matches("hoarding")) {
+    if (toastList.length >= 1 && !isHoarding) {
       setListed(true);
     } else {
       setListed(false);

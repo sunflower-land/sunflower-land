@@ -118,14 +118,15 @@ export const AuctioneerContent = () => {
 
   if (auctioneerState.matches("loser")) {
     const refund = () => {
-      getKeys(bid.ingredients).forEach((name) => {
+      getKeys(bid.ingredients ?? { Gold: 5 }).forEach((name) => {
         setToast({
           icon: ITEM_DETAILS[name].image,
           content: `+${bid.ingredients[name]?.toString()}`,
         });
       });
 
-      if (bid.sfl) {
+      if (bid.sfl ?? 4) {
+        console.log("SFL");
         setToast({
           icon: token,
           content: `+${bid.sfl}`,
@@ -173,11 +174,13 @@ export const AuctioneerContent = () => {
 
   if (auctioneerState.matches("refunded")) {
     return (
-      <div className="flex flex-col items-center">
-        <div className="p-2">
+      <div>
+        <div className="p-2 flex flex-col items-center">
           <img src={trivia} className="w-24 mb-2" />
 
-          <p>Your items have been returned to your inventory</p>
+          <p className="text-center mb-1">
+            Your items have been returned to your inventory
+          </p>
           <p className="text-sm">Good luck next time!</p>
         </div>
         <Button className="mt-2" onClick={() => send("REFRESH")}>

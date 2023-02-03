@@ -31,39 +31,17 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const isMinting = auctioneerState.matches("minting");
   const isMinted = auctioneerState.matches("minted");
 
-  console.log({ state: auctioneerState.context });
   const mintedItemName = auctioneerState.context.bid
     ?.item as AuctioneerItemName;
 
-<<<<<<< HEAD
-  return (
-    <Modal centered show={isOpen} onHide={onClose} scrollable>
-      <Panel className="relative">
-        <div className="p-2 flex flex-col items-center">
-          <p>Under construction!</p>
-          <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/3" />
-          <p className="my-2 text-sm">This feature is coming soon.</p>
-          <a
-            href="https://docs.sunflower-land.com/player-guides/islands/goblin-retreat/goblin-auctioneer"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs underline"
-          >
-            Read more
-          </a>
-        </div>
-      </Panel>
-    </Modal>
-  );
+  const closeModal = () => {
+    child.send("REFRESH");
+    onClose();
+  };
 
-  return (
-    <Modal centered show={isOpen} onHide={onClose} scrollable>
-      {isMinting && (
-=======
   const Content = () => {
     if (isMinting) {
       return (
->>>>>>> 841f5100 (UI flows)
         <Panel className="relative">
           <div className="flex flex-col items-center p-2">
             <span className="text-shadow text-center loading">Minting</span>
@@ -119,7 +97,7 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <img
             src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
-            onClick={onClose}
+            onClick={closeModal}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
               right: `${PIXEL_SCALE * 1}px`,
@@ -145,7 +123,7 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal centered show={isOpen} onHide={onClose} scrollable>
+    <Modal centered show={isOpen} onHide={closeModal} scrollable>
       <Content />
     </Modal>
   );

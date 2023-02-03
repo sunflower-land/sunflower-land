@@ -95,7 +95,7 @@ export const auctioneerMachine = createMachine<
 >(
   {
     id: "auctioneerMachine",
-    initial: "initialising",
+    initial: "loser",
     states: {
       initialising: {
         always: [
