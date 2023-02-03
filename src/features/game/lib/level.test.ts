@@ -48,11 +48,11 @@ describe("isMaxLevel", () => {
     expect(isMaxLevel(bumpkinExp)).toBeFalsy();
   });
   it("returns false if 0 exp away from max level", () => {
-    const bumpkinExp = 220500;
+    const bumpkinExp = 500500;
     expect(isMaxLevel(bumpkinExp)).toBeTruthy();
   });
   it("returns false if 1 exp above max level", () => {
-    const bumpkinExp = 220501;
+    const bumpkinExp = 500501;
     expect(isMaxLevel(bumpkinExp)).toBeTruthy();
   });
 });

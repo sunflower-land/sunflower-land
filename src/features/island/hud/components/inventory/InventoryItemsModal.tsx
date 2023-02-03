@@ -18,6 +18,7 @@ interface Props {
   onSelectChestItem: (name: InventoryItemName) => void;
   onPlace?: (name: InventoryItemName) => void;
   isSaving?: boolean;
+  isFarming: boolean;
 }
 
 export type TabItems = Record<string, { items: object }>;
@@ -34,6 +35,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onSelectChestItem,
   onPlace,
   isSaving,
+  isFarming,
 }) => {
   const [currentTab, setCurrentTab] = useState<number>(0);
 
@@ -61,7 +63,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             selected={selectedChestItem}
             onSelect={onSelectChestItem}
             closeModal={onHide}
-            onPlace={onPlace}
+            onPlace={isFarming ? onPlace : undefined}
             isSaving={isSaving}
           />
         )}

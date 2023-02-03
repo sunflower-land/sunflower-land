@@ -71,6 +71,7 @@ export const GoblinInventory: React.FC<Props> = ({ state }) => {
         onSelectBasketItem={setSelectedBasketItem}
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}
+        isFarming={false}
       />
     </div>
   );

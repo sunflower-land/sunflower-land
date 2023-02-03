@@ -17,6 +17,7 @@ import {
   getGoblinSongCount,
 } from "assets/songs/playlist";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useLocation } from "react-router-dom";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
@@ -32,6 +33,10 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   const [showMoreButtons, setShowMoreButtons] = useState(false);
   const [openAudioMenu, setOpenAudioMenu] = useState(false);
   const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
+  const { pathname } = useLocation();
+  // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
+  const showLimitedButtons =
+    pathname.includes("retreat") || pathname.includes("visit");
 
   const cogRef = useRef<HTMLDivElement>(null);
 
@@ -184,7 +189,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     gearButton,
     ...(isFarming ? [progressBarButton] : []),
     audioButton,
-    ...(isFarming ? [moreButton] : []),
+    ...(!showLimitedButtons ? [moreButton] : []),
   ];
 
   return (
