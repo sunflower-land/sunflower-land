@@ -2,23 +2,37 @@ import React from "react";
 import { OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
+/**
+ * The props for the component.
+ * @param divRef The parent div reference. It is used to link up the parentDivRef prop of the the <Box/> component.
+ * @param tallMobileContent true if the content is taller for small screen views, else false. Usually set to true if the parent panel has no bumpkin parts. Defaults to false.
+ * @param wideModal true if the panel modal is using a wider variant, else false. Defaults to false.
+ * @param showPanel Whether to show the top or right panel view or not.
+ * @param contentScrollable Whether the content view is scrollable or not.
+ * @param panel The top or right panel view.
+ * @param content The bottom or left content view.
+ */
 interface Props {
   divRef?: React.RefObject<HTMLDivElement>;
   tallMobileContent?: boolean;
   wideModal?: boolean;
-  showHeader?: boolean;
+  showPanel?: boolean;
   contentScrollable?: boolean;
-  header: JSX.Element;
+  panel: JSX.Element;
   content: JSX.Element;
 }
 
+/**
+ * The view for displaying item name, details, crafting requirements and action.
+ * @props The component props.
+ */
 export const SplitScreenView: React.FC<Props> = ({
   divRef,
   tallMobileContent = false,
   wideModal = false,
-  showHeader = true,
+  showPanel: showHeader = true,
   contentScrollable = true,
-  header,
+  panel: header,
   content,
 }: Props) => {
   return (

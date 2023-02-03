@@ -109,8 +109,8 @@ export const Chest: React.FC<Props> = ({
       divRef={divRef}
       tallMobileContent={true}
       wideModal={true}
-      showHeader={!!selectedChestItem}
-      header={
+      showPanel={!!selectedChestItem}
+      panel={
         selectedChestItem && (
           <InventoryItemDetails
             details={{

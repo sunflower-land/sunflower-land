@@ -11,26 +11,6 @@ import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 
 /**
- * The props for the component.
- * @param gameState The game state.
- * @param stock The stock of the item available to craft.  Undefined if the stock is unlimited.
- * @param isLimitedItem true if the item quantity is limited to a certain number in the blockchain, else false. Defaults to false.
- * @param details The item details.
- * @param boosts The available boosts of the item.
- * @param requirements The item quantity requirement.
- * @param actionView The view for displaying the crafting action.
- */
-interface Props {
-  gameState: GameState | GoblinState;
-  stock?: Decimal;
-  isLimitedItem?: boolean;
-  details: ItemDetailsProps;
-  boosts?: string[];
-  requirements?: RequirementsProps;
-  actionView?: JSX.Element;
-}
-
-/**
  * The props for the details for items.
  * @param type The type is item.
  * @param item The item.
@@ -39,6 +19,16 @@ interface Props {
 interface ItemDetailsProps {
   item: InventoryItemName;
   quantity?: Decimal;
+}
+
+/**
+ * The props for harvests requirement label.
+ * @param minHarvest The minimum number of harvests.
+ * @param maxHarvest The maximum number of harvests.
+ */
+interface HarvestsRequirementProps {
+  minHarvest: number;
+  maxHarvest: number;
 }
 
 /**
@@ -62,13 +52,23 @@ interface RequirementsProps {
 }
 
 /**
- * The props for harvests requirement label.
- * @param minHarvest The minimum number of harvests.
- * @param maxHarvest The maximum number of harvests.
+ * The props for the component.
+ * @param gameState The game state.
+ * @param stock The stock of the item available to craft.  Undefined if the stock is unlimited.
+ * @param isLimitedItem true if the item quantity is limited to a certain number in the blockchain, else false. Defaults to false.
+ * @param details The item details.
+ * @param boosts The available boosts of the item.
+ * @param requirements The item quantity requirement.
+ * @param actionView The view for displaying the crafting action.
  */
-interface HarvestsRequirementProps {
-  minHarvest: number;
-  maxHarvest: number;
+interface Props {
+  gameState: GameState | GoblinState;
+  stock?: Decimal;
+  isLimitedItem?: boolean;
+  details: ItemDetailsProps;
+  boosts?: string[];
+  requirements?: RequirementsProps;
+  actionView?: JSX.Element;
 }
 
 /**
@@ -85,9 +85,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   actionView,
 }: Props) => {
   const getStock = () => {
-    if (stock === undefined) {
-      return <></>;
-    }
+    if (!stock) return <></>;
 
     if (stock.lessThanOrEqualTo(0)) {
       return (
@@ -137,9 +135,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   };
 
   const getBoosts = () => {
-    if (boosts === undefined) {
-      return <></>;
-    }
+    if (!boosts) return <></>;
 
     return (
       <div className="flex flex-col space-y-1 mt-2">

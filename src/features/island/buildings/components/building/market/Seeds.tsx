@@ -172,9 +172,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const getHarvestCount = () => {
-    if (!(yields in FRUIT())) {
-      return undefined;
-    }
+    if (!(yields in FRUIT())) return undefined;
 
     return getFruitHarvests(state);
   };
@@ -182,7 +180,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   return (
     <SplitScreenView
-      header={
+      panel={
         <CraftingRequirements
           gameState={state}
           stock={stock}

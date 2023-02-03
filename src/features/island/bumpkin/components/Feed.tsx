@@ -89,7 +89,7 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
 
   return (
     <SplitScreenView
-      header={
+      panel={
         <FeedBumpkinDetails
           details={{
             item: selected.name,

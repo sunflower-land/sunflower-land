@@ -93,7 +93,7 @@ export const Crops: React.FC = () => {
     <>
       <SplitScreenView
         divRef={divRef}
-        header={
+        panel={
           <ShopSellDetails
             details={{
               item: selected.name,
@@ -142,7 +142,7 @@ export const Crops: React.FC = () => {
         }
       />
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
-        <CloseButtonPanel className="sm:w-4/5 m-auto" showCloseButton={false}>
+        <CloseButtonPanel className="sm:w-4/5 m-auto">
           <div className="flex flex-col p-2">
             <span className="text-sm text-center">
               Are you sure you want to <br className="hidden sm:block" />

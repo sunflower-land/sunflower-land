@@ -6,18 +6,6 @@ import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 
 /**
- * The props for the component.
- * @param details The item details.
- * @param requirements The item properties.
- * @param actionView The view for displaying the crafting action.
- */
-interface Props {
-  details: ItemDetailsProps;
-  properties?: PropertiesProps;
-  actionView?: JSX.Element;
-}
-
-/**
  * The props for the details for items.
  * @param item The item.
  */
@@ -31,6 +19,18 @@ interface ItemDetailsProps {
  */
 interface PropertiesProps {
   xp?: Decimal;
+}
+
+/**
+ * The props for the component.
+ * @param details The item details.
+ * @param requirements The item properties.
+ * @param actionView The view for displaying the feed action.
+ */
+interface Props {
+  details: ItemDetailsProps;
+  properties?: PropertiesProps;
+  actionView?: JSX.Element;
 }
 
 /**
