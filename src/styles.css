@@ -252,6 +252,18 @@ img {
   background-color: #eea368;
 }
 
+/* Hide scrollbar clsas or webkit-based browsers (Chrome, Safari and Opera) */
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .running {
   animation-duration: 10s;
   animation-name: running;
