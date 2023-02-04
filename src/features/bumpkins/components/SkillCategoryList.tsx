@@ -69,7 +69,7 @@ export const SkillCategoryList: React.FC<Props> = ({
                 <span className="text-sm ml-1">{category}</span>
               </div>
               <Label
-                type="default"
+                type="pixelated"
                 className="absolute pointer-events-none"
                 style={{
                   top: `${PIXEL_SCALE * -5}px`,

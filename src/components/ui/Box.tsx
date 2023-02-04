@@ -224,7 +224,7 @@ export const Box: React.FC<BoxProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Label type="default" className="px-0.5 text-xxs">
+            <Label type="pixelated" className="px-0.5 text-xxs">
               {isHover && !showHiddenCountLabel
                 ? precisionCount.toString()
                 : shortCount}
@@ -243,7 +243,7 @@ export const Box: React.FC<BoxProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Label type="default" className="px-0.5 text-xxs">
+            <Label type="pixelated" className="px-0.5 text-xxs">
               {precisionCount.toString()}
             </Label>
           </div>

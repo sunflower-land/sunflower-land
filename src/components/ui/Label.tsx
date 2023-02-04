@@ -3,8 +3,9 @@ import classnames from "classnames";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
 
 type labelType =
-  | "default"
+  | "pixelated"
   | "transparent"
+  | "default"
   | "success"
   | "info"
   | "danger"
@@ -23,7 +24,7 @@ export const Label: React.FC<Props> = ({
 }) => {
   return (
     <>
-      {type === "default" && (
+      {type === "pixelated" && (
         <div
           className={classnames(
             "bg-silver-500 text-xxs object-contain justify-center items-center flex px-1",
@@ -42,7 +43,7 @@ export const Label: React.FC<Props> = ({
         </div>
       )}
 
-      {type !== "default" && (
+      {type !== "pixelated" && (
         <span
           className={classnames(
             "text-xxs px-1.5 pb-1 pt-0.5 rounded-md",
@@ -51,6 +52,7 @@ export const Label: React.FC<Props> = ({
               "bg-blue-600": type === "info",
               "bg-error": type === "danger",
               "bg-orange-400": type === "warning",
+              "bg-silver-500": type === "default",
               border: type !== "transparent",
             },
             className

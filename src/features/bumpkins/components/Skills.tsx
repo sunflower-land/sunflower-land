@@ -60,17 +60,20 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
 
   const skillPointsInfo = () => {
     const levelRequired = findLevelRequiredForNextSkillPoint(experience);
+    const hasUnclaimedSkillPoints = availableSkillPoints > 0;
 
     return (
       <div className="flex flex-wrap gap-x-2 gap-y-2 items-center justify-start">
-        {availableSkillPoints > 0 && (
+        {hasUnclaimedSkillPoints && (
           <Label type="success">
             {`Skill Points: ${availableSkillPoints}`}
           </Label>
         )}
         {levelRequired && (
-          <Label type="info">
-            {`Next: Level ${findLevelRequiredForNextSkillPoint(experience)}`}
+          <Label type="default">
+            {`${
+              hasUnclaimedSkillPoints ? "Next" : "Next Skill Point"
+            }: Level ${findLevelRequiredForNextSkillPoint(experience)}`}
           </Label>
         )}
       </div>
