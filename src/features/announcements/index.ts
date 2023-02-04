@@ -47,7 +47,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
       {
         text: `Join the weekly team chat on Discord`,
         icon: SUNNYSIDE.icons.expression_chat,
-        date: new Date("2023-02-31T04:30:00.000Z"),
+        date: new Date("2023-01-30T04:30:00.000Z"),
         link: {
           url: "https://discord.com/invite/sunflowerland",
           text: "Join Discord",
