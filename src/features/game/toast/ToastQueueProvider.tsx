@@ -15,7 +15,15 @@ export const ToastContext = createContext<{
   removeToast: (id: string) => void;
   setToast: (toast: Omit<Toast, "id">) => void;
   toastList: Toast[];
-}>({ removeToast: console.log, setToast: console.log, toastList: [] });
+}>({
+  removeToast: () => {
+    return false;
+  },
+  setToast: () => {
+    return false;
+  },
+  toastList: [],
+});
 
 const MAX_TOAST = 5;
 

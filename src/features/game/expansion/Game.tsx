@@ -13,7 +13,10 @@ import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
 import { Context } from "../GameProvider";
 import { INITIAL_SESSION, StateValues } from "../lib/gameMachine";
-import { ToastManager } from "../toast/ToastManager";
+import { ToastProvider as OldToastProvider } from "../toast/ToastQueueProvider";
+import { ToastProvider as NewToastProvider } from "../toast/ToastProvider";
+import { ToastManager as OldToastPanel } from "../toast/ToastManager";
+import { ToastPanel as NewToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
@@ -216,9 +219,16 @@ export const Game: React.FC = () => {
     );
   };
 
+  const useNewToast = hasFeatureAccess(
+    gameState?.context?.state?.inventory,
+    "COALESCING_TOAST"
+  );
+  const ToastProvider = useNewToast ? NewToastProvider : OldToastProvider;
+  const ToastPanel = useNewToast ? NewToastPanel : OldToastPanel;
+
   return (
-    <>
-      <ToastManager />
+    <ToastProvider>
+      <ToastPanel />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel>
@@ -244,6 +254,6 @@ export const Game: React.FC = () => {
       </Modal>
 
       {GameContent()}
-    </>
+    </ToastProvider>
   );
 };
