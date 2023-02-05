@@ -17,6 +17,7 @@ import {
   InventoryItemName,
   Reward,
   TreasureHole,
+  Collectibles,
 } from "features/game/types/game";
 import { setImageWidth } from "lib/images";
 import classNames from "classnames";
@@ -33,6 +34,7 @@ import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { Panel } from "components/ui/Panel";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const Reward: React.FC<{ reward?: TreasureHole }> = ({ reward }) => {
   if (!reward || !reward.discovered) return null;
@@ -122,7 +124,13 @@ const isNoShovel = (state: MachineState) => state.matches("noShovel");
 const isFinishing = (state: MachineState) => state.matches("finishing");
 const isDrilling = (state: MachineState) => state.matches("drilling");
 
-const MAX_HOLES_PER_DAY = 30;
+const getMaxHolesPerDay = (collectibles: Collectibles) => {
+  const MAX_HOLES_PER_DAY = 30;
+  if (isCollectibleBuilt("Heart of Davy Jones", collectibles)) {
+    return MAX_HOLES_PER_DAY + 20;
+  }
+  return MAX_HOLES_PER_DAY;
+};
 
 export const SandPlot: React.FC<{
   id: number;
@@ -135,7 +143,7 @@ export const SandPlot: React.FC<{
   const { gameService, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const { treasureIsland } = gameState.context.state;
+  const { treasureIsland, collectibles } = gameState.context.state;
   // Last reward found on this hole
   const lastReward = treasureIsland?.holes?.[id];
   // Initialise the plot machine with the current rewards dugAt time
@@ -206,7 +214,7 @@ export const SandPlot: React.FC<{
       (holeId) => !canDig(holes[holeId]?.dugAt)
     ).length;
 
-    if (holesDug >= MAX_HOLES_PER_DAY) {
+    if (holesDug >= getMaxHolesPerDay(collectibles)) {
       setShowMaxHolesModal(true);
       return;
     }

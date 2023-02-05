@@ -106,6 +106,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Maneki Neko": 446,
   "Tiki Totem": 447,
   "Lunar Calendar": 448,
+  "Treasure Map": 449,
+  "Heart of Davy Jones": 450,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -251,7 +253,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Jack-o-lantern": 923,
   //Golden crop event
   "Golden Crop": 924,
-  "Treasure Map": 925,
+  "Wooden Compass": 925,
 
   // Buildings
   Market: 1001,
