@@ -9,9 +9,9 @@ export const TreasureMap: React.FC = () => {
       <img
         src={treasureMap}
         style={{
-          width: `${PIXEL_SCALE * 13}px`,
-          bottom: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          width: `${PIXEL_SCALE * 34}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
         alt="Treasure Map"

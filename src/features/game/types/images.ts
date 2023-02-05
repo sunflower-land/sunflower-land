@@ -1764,12 +1764,13 @@ export const ITEM_DETAILS: Items = {
     image: lunarCalendar,
   },
   "Heart of Davy Jones": {
-    description: "?",
+    description:
+      "whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring",
     image: heartOfDavyJones,
   },
   "Treasure Map": {
     description:
-      "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
+      "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
     image: treasureMap,
   },
   Pearl: {

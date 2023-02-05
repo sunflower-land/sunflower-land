@@ -9,9 +9,9 @@ export const HeartOfDavyJones: React.FC = () => {
       <img
         src={heartOfDavyJones}
         style={{
-          width: `${PIXEL_SCALE * 13}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          width: `${PIXEL_SCALE * 21}px`,
+          bottom: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 5}px`,
         }}
         className="absolute"
         alt="Heart Of Davy Jones"
