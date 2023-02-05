@@ -16,6 +16,7 @@ import { BeachConstruction } from "./components/BeachConstruction";
 import { PirateQuest } from "features/game/expansion/components/PirateQuest";
 import { TreasureTrove } from "./components/TreasureTrove";
 import { Hud } from "features/island/hud/Hud";
+import { PirateChest } from "features/game/expansion/components/PirateChest";
 
 export const CLICKABLE_COORDINATES: Coordinates[] = [];
 
@@ -73,6 +74,7 @@ export const TreasureIsland: React.FC = () => {
         <BeachConstruction />
         <PirateQuest />
         <TreasureTrove />
+        <PirateChest />
       </div>
       <Hud isFarming={false} />
     </>
