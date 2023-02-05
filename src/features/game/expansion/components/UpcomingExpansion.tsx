@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import { GameState } from "features/game/types/game";
-
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
@@ -14,16 +12,20 @@ import { Pontoon } from "./Pontoon";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-
-interface Props {
-  gameState: GameState;
-}
+import { useActor } from "@xstate/react";
 
 /**
  * The next piece of land to expand into
  */
-export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
+export const UpcomingExpansion: React.FC = () => {
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state: gameState },
+      matches,
+    },
+  ] = useActor(gameService);
+
   const { authService } = useContext(AuthProvider.Context);
 
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
@@ -88,7 +90,7 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
             gameState={gameState}
             onClose={() => setShowBumpkinModal(false)}
             onExpand={onExpand}
-            hasWallet={false}
+            hasWallet={!matches("trialling")}
             onConnectWallet={connectWallet}
           />
         </CloseButtonPanel>

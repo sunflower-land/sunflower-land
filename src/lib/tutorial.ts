@@ -3,7 +3,6 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { BuildingName } from "features/game/types/buildings";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import { getLevel } from "features/game/types/skills";
 
 const TUTORIAL_ACKNOWLEDGEMENT_KEY = "sunflower_isles_tutorials";
 
@@ -156,9 +155,7 @@ export const TUTORIAL_CHALLENGES: Record<TutorialStep, TutorialChallenge> = {
             id: "2",
             title: "You look strong",
             from: "Aunt Betty",
-            content: `Wow, those Mashed Potatoes made you much stronger!
-        
-You look strong enough to start chopping trees and mining rocks.
+            content: `You look strong enough to start chopping trees and mining rocks.
 
 Hopefully this helps you start crafting tools!`,
             bumpkin: {
@@ -172,7 +169,7 @@ Hopefully this helps you start crafting tools!`,
             },
             sentAt: 0,
             gift: {
-              sfl: marketRate(200).toNumber(),
+              sfl: marketRate(50).toNumber(),
               items: {},
             },
           },

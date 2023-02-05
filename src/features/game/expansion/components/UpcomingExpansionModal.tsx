@@ -42,21 +42,6 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     );
   }
 
-  if (!hasWallet) {
-    return (
-      <>
-        <p className="text-xs mt-2">
-          Connect a Web3 wallet to mint an{" "}
-          <span className="underline">NFT</span> piece of land on the
-          blockchain.
-        </p>
-        <Button className="w-52" onClick={onConnectWallet}>
-          Connect Wallet
-        </Button>
-      </>
-    );
-  }
-
   const resourcesRequirement = gameState.expansionRequirements.resources;
   const sflRequirement = gameState.expansionRequirements.sfl;
   const levelRequirement = gameState.expansionRequirements.bumpkinLevel;
@@ -68,23 +53,37 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   });
 
   return (
-    <ExpansionRequirements
-      gameState={gameState}
-      details={{
-        title: "Want to expand your land and discover new resources?",
-        description: "Each piece of land is a unique NFT on the blockchain.",
-      }}
-      requirements={{
-        resources: resourcesRequirement,
-        sfl: sflRequirement,
-        level: levelRequirement,
-        timeSeconds: gameState.expansionRequirements.seconds,
-      }}
-      actionView={
-        <Button onClick={onExpand} disabled={!canExpand}>
-          Expand
-        </Button>
-      }
-    />
+    <>
+      <ExpansionRequirements
+        gameState={gameState}
+        details={{
+          description: "Each piece of land is a unique NFT on the blockchain.",
+        }}
+        requirements={{
+          resources: resourcesRequirement,
+          sfl: sflRequirement,
+          level: levelRequirement,
+          timeSeconds: gameState.expansionRequirements.seconds,
+        }}
+        actionView={
+          <>
+            {!hasWallet ? (
+              <>
+                <p className="text-xs mt-2 text-center mb-2">
+                  Connect a Web3 wallet to mint an{" "}
+                  <span className="underline">NFT</span> piece of land on the
+                  blockchain.
+                </p>
+                <Button onClick={onConnectWallet}>Connect Wallet</Button>
+              </>
+            ) : (
+              <Button onClick={onExpand} disabled={!canExpand}>
+                Expand
+              </Button>
+            )}
+          </>
+        }
+      />
+    </>
   );
 };

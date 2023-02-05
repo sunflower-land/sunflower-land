@@ -17,13 +17,16 @@ import {
   acknowledgeSkillPoints,
   hasUnacknowledgedSkillPoints,
 } from "features/island/bumpkin/lib/skillPointStorage";
+import * as AuthProvider from "features/auth/lib/Provider";
+
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { pixelWhiteBorderStyle } from "features/game/lib/style";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Button } from "components/ui/Button";
 
 const DIMENSIONS = {
   original: 80,
@@ -182,6 +185,8 @@ export const BumpkinProfile: React.FC = () => {
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const { authService } = useContext(AuthProvider.Context);
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -229,15 +234,35 @@ export const BumpkinProfile: React.FC = () => {
     <>
       {/* Bumpkin modal */}
       <Modal show={showModal} centered onHide={handleHideModal}>
-        <BumpkinModal
-          initialView={viewSkillsPage ? "skills" : "home"}
-          onClose={handleHideModal}
-          readonly={
-            gameState.matches("visiting") || gameState.matches("trialling")
-          }
-          bumpkin={gameState.context.state.bumpkin as Bumpkin}
-          inventory={gameState.context.state.inventory}
-        />
+        {gameState.matches("trialling") ? (
+          <CloseButtonPanel
+            title="Bumpkin Profile"
+            bumpkinParts={gameState.context.state.bumpkin.equipped}
+          >
+            <>
+              <p className="text-xs mt-2 text-center mb-2">
+                Here you can unlock skills, equip clothing & claim achievement
+                rewards.
+              </p>
+              <p className="text-xs mt-2 text-center mb-2">
+                Connect a Web3 wallet to mint your Bumpkin NFT.
+              </p>
+              <Button onClick={() => authService.send("CONNECT")}>
+                Connect Wallet
+              </Button>
+            </>
+          </CloseButtonPanel>
+        ) : (
+          <BumpkinModal
+            initialView={viewSkillsPage ? "skills" : "home"}
+            onClose={handleHideModal}
+            readonly={
+              gameState.matches("visiting") || gameState.matches("trialling")
+            }
+            bumpkin={gameState.context.state.bumpkin as Bumpkin}
+            inventory={gameState.context.state.inventory}
+          />
+        )}
       </Modal>
 
       {/* Bumpkin profile */}

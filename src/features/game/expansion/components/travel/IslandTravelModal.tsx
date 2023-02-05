@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import boat from "assets/npcs/island_boat_pirate.png";
@@ -10,6 +10,8 @@ import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
 import { Bumpkin, Inventory } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Button } from "components/ui/Button";
+import * as Auth from "features/auth/lib/Provider";
 
 interface Props {
   isOpen: boolean;
@@ -17,6 +19,7 @@ interface Props {
   inventory: Inventory;
   isVisiting?: boolean;
   isTravelAllowed?: boolean;
+  hasWallet?: boolean;
   onShow?: () => void;
   onClose: () => void;
 }
@@ -26,6 +29,7 @@ export const IslandTravelModal = ({
   inventory,
   isVisiting = false,
   isTravelAllowed = true,
+  hasWallet,
   isOpen,
   onShow,
   onClose,
@@ -33,6 +37,8 @@ export const IslandTravelModal = ({
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Boat")
   );
+
+  const { authService } = useContext(Auth.Context);
 
   const bumpkinParts: Partial<Equipped> = {
     body: "Goblin Potion",
@@ -56,6 +62,34 @@ export const IslandTravelModal = ({
       </Modal>
     );
   }
+
+  const Content = () => {
+    if (!isTravelAllowed) {
+      return <span className="loading">Loading</span>;
+    }
+
+    if (!hasWallet) {
+      return (
+        <>
+          <p className="text-xs mt-2 text-center mb-2">
+            Connect a Web3 wallet to travel to islands and trade with other
+            players.
+          </p>
+          <Button onClick={() => authService.send("CONNECT")}>
+            Connect Wallet
+          </Button>
+        </>
+      );
+    }
+
+    return (
+      <IslandList
+        bumpkin={bumpkin}
+        showVisitList={isVisiting}
+        inventory={inventory}
+      />
+    );
+  };
 
   return (
     <Modal centered show={isOpen} onHide={onClose} onShow={onShow}>
@@ -83,14 +117,7 @@ export const IslandTravelModal = ({
             }}
           />
         </div>
-        {isTravelAllowed && (
-          <IslandList
-            bumpkin={bumpkin}
-            showVisitList={isVisiting}
-            inventory={inventory}
-          />
-        )}
-        {!isTravelAllowed && <span className="loading">Loading</span>}
+        <Content />
       </Panel>
     </Modal>
   );
