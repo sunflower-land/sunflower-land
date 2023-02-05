@@ -5,6 +5,7 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";
+import { LoveCafe } from "features/valentineIsland/components/LoveCafe";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect } from "react";
 
@@ -36,6 +37,8 @@ export const ValentineIsland: React.FC = () => {
           className="absolute inset-0 w-full h-full"
           id={Section.ValentineIsland}
         />
+
+        <LoveCafe />
 
         <IslandTravel
           bumpkin={bumpkin}
