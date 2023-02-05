@@ -284,7 +284,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Pirate Bear": false,
   "Goblin Bear": false,
   Galleon: false,
-  "Dinosaur Fossil": false,
+  "Dinosaur Bone": false,
   "Human Bear": false,
   "Wooden Compass": false,
   "Tiki Totem": false,

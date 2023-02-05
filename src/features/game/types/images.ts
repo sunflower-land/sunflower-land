@@ -1742,8 +1742,8 @@ export const ITEM_DETAILS: Items = {
     description: "A toy ship, still in pretty good nick.",
     image: galleon,
   },
-  "Dinosaur Fossil": {
-    description: "A Dinosaur Fossil! What kind of creature was this?",
+  "Dinosaur Bone": {
+    description: "A Dinosaur Bone! What kind of creature was this?",
     image: dinosaurFossil,
   },
   "Human Bear": {

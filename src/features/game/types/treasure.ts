@@ -42,7 +42,7 @@ export type DecorationTreasure =
   | "Pirate Bear"
   | "Goblin Bear"
   | "Galleon"
-  | "Dinosaur Fossil"
+  | "Dinosaur Bone"
   | "Human Bear";
 
 export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
@@ -194,7 +194,7 @@ export const TREASURES: Record<TreasureName, TreasureDetail> = {
   Galleon: {
     type: "good",
   },
-  "Dinosaur Fossil": {
+  "Dinosaur Bone": {
     type: "good",
   },
   "Human Bear": {

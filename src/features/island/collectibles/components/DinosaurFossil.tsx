@@ -13,7 +13,7 @@ export const DinosaurFossil: React.FC = () => {
           bottom: 0,
         }}
         className="absolute"
-        alt="Dinosaur Fossil"
+        alt="Dinosaur Bone"
       />
     </>
   );

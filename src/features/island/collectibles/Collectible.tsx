@@ -240,7 +240,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Galleon: Galleon,
   "Skeleton King Staff": SkeletonKingStaff,
   Foliant: Foliant,
-  "Dinosaur Fossil": DinosaurFossil,
+  "Dinosaur Bone": DinosaurFossil,
   "Treasure Map": TreasureMap,
   "Heart of Davy Jones": HeartOfDavyJones,
 };
