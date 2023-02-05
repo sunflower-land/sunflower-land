@@ -1,3 +1,4 @@
+import { marketRate } from "features/game/lib/halvening";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { BuildingName } from "features/game/types/buildings";
 import { getKeys } from "features/game/types/craftables";
@@ -146,7 +147,38 @@ export const TUTORIAL_CHALLENGES: Record<TutorialStep, TutorialChallenge> = {
   [TutorialStep.LEVEL_TWO]: {
     description: "?",
     trigger: (game) => getBumpkinLevel(game.bumpkin?.experience) >= 2,
-    effect: (game) => game,
+    effect: (game) => ({
+      ...game,
+      // Add a letter to the box
+      mail: {
+        letters: [
+          {
+            id: "2",
+            title: "You look strong",
+            from: "Aunt Betty",
+            content: `Wow, those Mashed Potatoes made you much stronger!
+        
+You look strong enough to start chopping trees and mining rocks.
+
+Hopefully this helps you start crafting tools!`,
+            bumpkin: {
+              hair: "Parlour Hair",
+              body: "Beige Farmer Potion",
+              pants: "Peasant Skirt",
+              shoes: "Black Farmer Boots",
+              coat: "Chef Apron",
+              shirt: "Blue Farmer Shirt",
+              tool: "Golden Spatula",
+            },
+            sentAt: 0,
+            gift: {
+              sfl: marketRate(200).toNumber(),
+              items: {},
+            },
+          },
+        ],
+      },
+    }),
   },
 };
 

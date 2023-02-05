@@ -24,7 +24,7 @@ export const Intro: React.FC = () => {
 
       <p className="text-xs mb-2">Or</p>
       <p className="text-xs center underline cursor-pointer">
-        Connect my Web3 Account
+        Connect to Web3 Account
       </p>
     </div>
   );

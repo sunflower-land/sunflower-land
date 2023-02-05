@@ -9,6 +9,7 @@ import { Context } from "../GameProvider";
 import { Panel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "../types/images";
 import token from "assets/icons/token_2.png";
+import levelUp from "assets/icons/level_up.png";
 import { TutorialStep } from "lib/tutorial";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -178,37 +179,24 @@ export const Tutorial: React.FC = () => {
     }
 
     if (milestone === TutorialStep.LEVEL_TWO) {
-      if (pageNumber === 1) {
-        return (
-          <>
-            <div className="space-y-3 text-sm p-2 mb-3">
-              <p>Congratulations, you reached level 2!</p>
-              <p>You have unlocked Pumpkins, Carrots and a new skill point.</p>
-              <p>
-                You can use skill points to unlock enhanced farming abilities.
-                These are available in your profile in the top left.
-              </p>
-            </div>
-            <Button onClick={() => setPageNumber(2)}>Next</Button>
-          </>
-        );
-      }
-
       return (
         <>
           <div className="space-y-3 text-sm p-2 mb-3">
-            <p>Arghhhhh Goblins!</p>
-            <img src={SUNNYSIDE.npcs.goblin} className="w-16 m-auto" />
-
+            <img src={levelUp} className="w-8 mx-auto my-2" />
+            <p>Congratulations, you reached level 2!</p>
+            <p>You have unlocked:</p>
+            <div className="flex">
+              <img src={CROP_LIFECYCLE.Pumpkin.crop} className="h-6 mr-1" />
+              <p>Pumpkins</p>
+            </div>
+            <div className="flex">
+              <img src={CROP_LIFECYCLE.Carrot.crop} className="h-6 mr-1" />
+              <p>Carrots</p>
+            </div>
             <p>
-              I thought this place was deserted, it looks like they smelt our
-              cooking and they are very hungry!
+              Once you reach level 3, you can craft axes and travel to new
+              islands!
             </p>
-            <p>
-              These are mischevious creatures that can wreak havoc on your farm.
-            </p>
-            <p>If you feed them they will stay happy and give you bonus SFL.</p>
-            <p>Goal: Feed the Goblins</p>
           </div>
           <Button onClick={acknowledge}>Got it</Button>
         </>
