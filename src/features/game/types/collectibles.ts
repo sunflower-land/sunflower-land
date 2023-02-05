@@ -88,11 +88,13 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     disabled: true,
   },
   "Heart of Davy Jones": {
-    description: "?",
+    description:
+      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring",
     ingredients: {
       Gold: new Decimal(10),
       "Wooden Compass": new Decimal(15),
     },
     supply: 1000,
+    boost: "Dig an extra 20 times per day",
   },
 };

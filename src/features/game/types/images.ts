@@ -1765,7 +1765,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Heart of Davy Jones": {
     description:
-      "whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring",
+      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
     image: heartOfDavyJones,
   },
   "Treasure Map": {
