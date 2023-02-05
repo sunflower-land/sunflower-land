@@ -12,9 +12,13 @@ import {
 import { Announcement } from "features/announcements/Announcement";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { FocussedMail, Letter, Mail } from "./Mail";
 
 export const LetterBox: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [focussedMail, setFocussedMail] = useState<Letter>();
+
+  const [tab, setTab] = useState(0);
 
   const close = () => {
     acknowledgeRead();
@@ -22,6 +26,18 @@ export const LetterBox: React.FC = () => {
   };
 
   const hasUnread = hasAnnouncements();
+
+  if (focussedMail) {
+    return (
+      <FocussedMail
+        letter={focussedMail}
+        onClose={() => {
+          setFocussedMail(undefined);
+          setIsOpen(false);
+        }}
+      />
+    );
+  }
 
   return (
     <>
@@ -59,12 +75,29 @@ export const LetterBox: React.FC = () => {
         />
       </div>
       <Modal centered show={isOpen} onHide={close}>
-        <CloseButtonPanel title="Announcements" onClose={close}>
-          <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
-            {PAST_ANNOUNCEMENTS.map((announcement, index) => (
-              <Announcement key={index} announcement={announcement} />
-            ))}
-          </div>
+        <CloseButtonPanel
+          currentTab={tab}
+          setCurrentTab={setTab}
+          tabs={[
+            {
+              icon: SUNNYSIDE.icons.expression_chat,
+              name: "Mail",
+            },
+            {
+              icon: SUNNYSIDE.icons.expression_chat,
+              name: "News",
+            },
+          ]}
+          onClose={close}
+        >
+          {tab === 0 && <Mail onOpen={(letter) => setFocussedMail(letter)} />}
+          {tab === 1 && (
+            <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
+              {PAST_ANNOUNCEMENTS.map((announcement, index) => (
+                <Announcement key={index} announcement={announcement} />
+              ))}
+            </div>
+          )}
         </CloseButtonPanel>
       </Modal>
     </>

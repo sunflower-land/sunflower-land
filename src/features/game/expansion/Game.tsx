@@ -44,6 +44,8 @@ import { Rules } from "../components/Rules";
 import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { hasFeatureAccess } from "lib/flags";
 import { Hud } from "features/island/hud/Hud";
+import { Welcome } from "./Welcome";
+import { Tutorial } from "./Tutorial";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -67,10 +69,13 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   visiting: false,
   loadLandToVisit: true,
   landToVisitNotFound: true,
-  checkIsVisiting: false,
   revealing: false,
   revealed: false,
   buyingSFL: true,
+  initialising: true,
+  trialling: false,
+  tutorial: true,
+  welcoming: false,
 };
 
 export const Game: React.FC = () => {
@@ -247,6 +252,9 @@ export const Game: React.FC = () => {
           {gameState.matches("gameRules") && <Rules />}
         </Panel>
       </Modal>
+
+      {gameState.matches("welcoming") && <Welcome />}
+      {gameState.matches("tutorial") && <Tutorial />}
 
       {GameContent()}
     </>

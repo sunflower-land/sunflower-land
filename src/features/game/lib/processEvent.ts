@@ -76,22 +76,18 @@ const maxItems: Inventory = {
  */
 const MAX_SESSION_SFL = 255;
 
-type checkProgressArgs = ProcessEventArgs & { onChain: GameState };
-
-export function checkProgress({ state, action, onChain }: checkProgressArgs): {
+export function checkProgress({
+  state,
+  onChain,
+}: {
+  state: GameState;
+  onChain: GameState;
+}): {
   valid: boolean;
   maxedItem?: InventoryItemName | "SFL";
 } {
-  let newState: GameState;
-
-  try {
-    newState = processEvent({ state, action });
-  } catch {
-    // Not our responsibility to catch events, pass on to the next handler
-    return { valid: true };
-  }
-
-  const progress = newState.balance.sub(onChain.balance);
+  console.log({ state, onChain });
+  const progress = state.balance.sub(onChain.balance);
 
   /**
    * Contract enforced SFL caps
@@ -104,11 +100,10 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
   let maxedItem: InventoryItemName | undefined = undefined;
 
   // Check inventory amounts
-  const validProgress = getKeys(newState.inventory).every((name) => {
+  const validProgress = getKeys(state.inventory).every((name) => {
     const onChainAmount = onChain.inventory[name] || new Decimal(0);
 
-    const diff =
-      newState.inventory[name]?.minus(onChainAmount) || new Decimal(0);
+    const diff = state.inventory[name]?.minus(onChainAmount) || new Decimal(0);
 
     const max = maxItems[name] || new Decimal(0);
 
@@ -122,6 +117,8 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
 
     return true;
   });
+
+  console.log({ validProgress });
 
   return { valid: validProgress, maxedItem };
 }

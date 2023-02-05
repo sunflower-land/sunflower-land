@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import * as Auth from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
-import { hasTrialFarm } from "../lib/trial";
 
 export const Intro: React.FC = () => {
   console.log("INTOD");
@@ -18,12 +17,15 @@ export const Intro: React.FC = () => {
   };
 
   return (
-    <>
-      <Button onClick={signIn}>Connect a Web3 Wallet</Button>
-
-      <Button className="mt-2" onClick={trial}>
-        {hasTrialFarm() ? "Continue farming" : "Start a new game"}
+    <div className="w-2/3 m-auto py-2 flex flex-col items-center">
+      <Button className="mb-2" onClick={trial}>
+        Play now
       </Button>
-    </>
+
+      <p className="text-xs mb-2">Or</p>
+      <p className="text-xs center underline cursor-pointer">
+        Connect my Web3 Account
+      </p>
+    </div>
   );
 };

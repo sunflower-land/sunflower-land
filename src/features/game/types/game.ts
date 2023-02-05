@@ -18,6 +18,7 @@ import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
+import { Letter } from "features/farming/mail/Mail";
 
 export type Reward = {
   sfl?: Decimal;
@@ -377,9 +378,13 @@ export interface GameState {
     gathering: Decimal;
   };
 
+  mail: {
+    letters: Letter[];
+  };
+
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;
-  bumpkin?: Bumpkin;
+  bumpkin: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;
   grubShop?: GrubShop;

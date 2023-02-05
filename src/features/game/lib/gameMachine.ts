@@ -47,8 +47,17 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
-import { loadTrialFarm, saveTrial } from "features/auth/lib/trial";
+import {
+  hasTrialFarm,
+  loadTrialFarm,
+  saveTrial,
+} from "features/auth/lib/trial";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
+import {
+  reachedMilestone,
+  TutorialStep,
+  TUTORIAL_CHALLENGES,
+} from "lib/tutorial";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -56,6 +65,7 @@ export type PastAction = GameEvent & {
 
 export interface Context {
   state: GameState;
+  previousState: GameState;
   onChain: GameState;
   actions: PastAction[];
   sessionId?: string;
@@ -73,6 +83,7 @@ export interface Context {
     inventory: Record<InventoryItemName, string>;
   };
   isTrialling?: boolean;
+  tutorialStep?: TutorialStep;
 }
 
 type MintEvent = {
@@ -154,27 +165,8 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
       ...events,
       [eventName]: [
         {
-          target: "hoarding",
-          cond: (context: Context, event: PlayingEvent) => {
-            const { valid } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              onChain: context.onChain as GameState,
-            });
+          target: "notifying",
 
-            return !valid;
-          },
-          actions: assign((context: Context, event: PlayingEvent) => {
-            const { maxedItem } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              onChain: context.onChain as GameState,
-            });
-
-            return { maxedItem };
-          }),
-        },
-        {
           actions: assign((context: Context, event: PlayingEvent) => {
             const state = processEvent({
               state: context.state as GameState,
@@ -189,6 +181,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
             return {
               state,
+              previousState: context.state,
               actions: [
                 ...context.actions,
                 {
@@ -233,9 +226,10 @@ export type BlockchainState = {
     | "loadLandToVisit"
     | "landToVisitNotFound"
     | "loading"
+    | "welcoming"
     | "deposited"
     | "visiting"
-    // | "gameRules"
+    | "tutorial"
     | "gameRules"
     | "playing"
     | "autosaving"
@@ -284,6 +278,7 @@ export function startGame(authContext: Options) {
       context: {
         actions: [],
         state: EMPTY,
+        previousState: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
         isTrialling: authContext.isTrialling,
@@ -295,26 +290,22 @@ export function startGame(authContext: Options) {
               target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
             },
-            {
-              target: "trialling",
-              cond: (context) => !!context.isTrialling,
-              actions: assign<Context, any>({
-                state: (_) => loadTrialFarm(),
-                onChain: (_) => EMPTY,
-                sessionId: (_) => "0x",
-              }),
-            },
             { target: "loading" },
           ],
         },
         trialling: {
           on: {
             ...GAME_EVENT_HANDLERS,
-            // SAVE: {
-            //   target: "autosaving",
-            // },
             EDIT: {
               target: "editing",
+            },
+            ACKNOWLEDGE: {
+              target: "trialling",
+              actions: [
+                assign({
+                  tutorialStep: (_) => undefined,
+                }),
+              ],
             },
           },
         },
@@ -322,6 +313,20 @@ export function startGame(authContext: Options) {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
+              if (context.isTrialling) {
+                return {
+                  state: loadTrialFarm(),
+                  onChain: EMPTY,
+                  sessionId: "0x",
+                  // whitelistedAt,
+                  // fingerprint,
+                  // itemsMintedAt,
+                  // onChain,
+                  // notifications: onChainEvents,
+                  // deviceTrackerId,
+                  // status,
+                };
+              }
               const farmAddress = authContext.address as string;
               const farmId = authContext.farmId as number;
 
@@ -493,13 +498,74 @@ export function startGame(authContext: Options) {
                 !context.state.bumpkin &&
                 window.location.hash.includes("/land"),
             },
+            {
+              target: "hoarding",
+              cond: (context: Context) => {
+                const { valid } = checkProgress({
+                  state: context.state as GameState,
+                  onChain: context.onChain as GameState,
+                });
 
+                return !valid;
+              },
+
+              actions: assign((context) => {
+                const { maxedItem } = checkProgress({
+                  state: context.state as GameState,
+                  onChain: context.onChain as GameState,
+                });
+
+                return {
+                  state: context.previousState,
+                  maxedItem,
+                };
+              }),
+            },
+            {
+              target: "welcoming",
+              cond: (context) => !!context.isTrialling && !hasTrialFarm(),
+            },
+            {
+              target: "tutorial",
+              cond: (context) =>
+                !!context.isTrialling &&
+                !!reachedMilestone(context.previousState, context.state),
+              actions: assign({
+                tutorialStep: (context) =>
+                  reachedMilestone(context.previousState, context.state),
+              }),
+            },
+            {
+              target: "trialling",
+              cond: (context) => !!context.isTrialling,
+            },
             {
               target: "playing",
             },
           ],
         },
         noBumpkinFound: {},
+        tutorial: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "trialling",
+              // Does the tutorial have a side effect on game state?
+              actions: assign({
+                state: (context) =>
+                  TUTORIAL_CHALLENGES[
+                    context.tutorialStep as TutorialStep
+                  ].effect(context.state),
+              }),
+            },
+          },
+        },
+        welcoming: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "trialling",
+            },
+          },
+        },
         deposited: {
           on: {
             ACKNOWLEDGE: {
@@ -981,6 +1047,7 @@ export function startGame(authContext: Options) {
         }),
         assignGame: assign<Context, any>({
           state: (_, event) => event.data.state,
+          previousState: (_, event) => event.data.state,
           onChain: (_, event) => event.data.onChain,
           sessionId: (_, event) => event.data.sessionId,
           fingerprint: (_, event) => event.data.fingerprint,

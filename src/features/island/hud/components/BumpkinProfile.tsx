@@ -23,6 +23,7 @@ import Spritesheet, {
 import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { pixelWhiteBorderStyle } from "features/game/lib/style";
 
 const DIMENSIONS = {
   original: 80,

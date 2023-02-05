@@ -401,4 +401,33 @@ export const OFFLINE_FARM: GameState = {
     seconds: 60,
     sfl: new Decimal(0),
   },
+
+  mail: {
+    letters: [
+      {
+        id: "1",
+        title: "You look hungry...",
+        from: "Aunt Betty",
+        content: `Hi Darling, it looks like you haven't eaten anything yet!
+    
+If you want to become an advanced farmer, you need to cook food and feed your Bumpkin.`,
+        bumpkin: {
+          hair: "Parlour Hair",
+          body: "Beige Farmer Potion",
+          pants: "Peasant Skirt",
+          shoes: "Black Farmer Boots",
+          coat: "Chef Apron",
+          shirt: "Blue Farmer Shirt",
+          tool: "Golden Spatula",
+        },
+        sentAt: 0,
+        gift: {
+          sfl: 0,
+          items: {
+            Potato: 10,
+          },
+        },
+      },
+    ],
+  },
 };

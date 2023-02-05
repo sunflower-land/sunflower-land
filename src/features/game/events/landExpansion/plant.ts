@@ -13,6 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -300,6 +301,8 @@ export function plant({
   expansion.plots = plots;
 
   inventory[action.item] = seedCount.sub(1);
+
+  bumpkin.activity = trackActivity(`${cropName} Planted`, bumpkin.activity);
 
   return stateCopy;
 }

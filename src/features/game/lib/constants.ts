@@ -129,18 +129,21 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
 
     plots: {
       0: {
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: -2,
         y: -1,
         height: 1,
         width: 1,
       },
       1: {
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: -1,
         y: -1,
         height: 1,
         width: 1,
       },
       2: {
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: 0,
         y: -1,
         height: 1,
@@ -168,18 +171,21 @@ export const INITIAL_EXPANSIONS: LandExpansion[] = [
         width: 1,
       },
       6: {
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: -2,
         y: 1,
         height: 1,
         width: 1,
       },
       7: {
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: -1,
         y: 1,
         height: 1,
         width: 1,
       },
       8: {
+        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: 0,
         y: 1,
         height: 1,
@@ -473,10 +479,14 @@ export const TEST_FARM: GameState = {
     seconds: 60,
     sfl: new Decimal(0),
   },
+  mail: {
+    letters: [],
+  },
 };
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  bumpkin: INITIAL_BUMPKIN,
   inventory: {
     "Chicken Coop": new Decimal(1),
     Wood: new Decimal(50),
@@ -496,6 +506,12 @@ export const EMPTY: GameState = {
   collectibles: {},
   mysteryPrizes: {},
   pumpkinPlaza: {},
+  grubShop: {
+    orders: [],
+    closesAt: 10000000000,
+    opensAt: 0,
+  },
+  mail: { letters: [] },
 };
 
 export const TRIAL_BUMPKIN: Bumpkin = {
@@ -569,6 +585,12 @@ export const TRIAL_FARM: GameState = {
   mysteryPrizes: {},
   pumpkinPlaza: {},
   migrated: true,
+  grubShop: {
+    orders: [],
+    closesAt: 10000000000,
+    opensAt: 0,
+  },
+  mail: { letters: [] },
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

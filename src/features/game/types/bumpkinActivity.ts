@@ -19,7 +19,7 @@ export type HarvestEvent = `${CropName | FruitName} Harvested`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Recipes} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
-export type PlantFruitEvent = `${FruitSeedName} Planted`;
+export type PlantFruitEvent = `${CropName | FruitSeedName} Planted`;
 export type CraftedEvent = `${
   | ToolName
   | WorkbenchToolName
@@ -53,7 +53,8 @@ export type BumpkinActivityName =
   | "Collectible Removed"
   | "Building Upgraded"
   | "Crop Fertilised"
-  | "Crop Removed";
+  | "Crop Removed"
+  | "Mail Read";
 
 export function trackActivity(
   activityName: BumpkinActivityName,
