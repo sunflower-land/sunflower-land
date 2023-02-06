@@ -320,7 +320,7 @@ import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
 import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
-import heartOfDavyJones from "assets/sfts/treasure/heart_of_davy_jones.gif";
+import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
