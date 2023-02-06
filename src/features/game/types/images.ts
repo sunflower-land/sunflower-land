@@ -325,6 +325,7 @@ import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
 import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
+import drill from "assets/icons/drill.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -667,7 +668,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Sand Drill": {
     description: "Drill deep for rare treasure",
-    image: SUNNYSIDE.icons.expression_confused,
+    image: drill,
   },
 
   // SFTs
