@@ -11,7 +11,7 @@ import heart from "assets/icons/level_up.png";
 import goblin from "assets/buildings/goblin_sign.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
-import valentinecake from "assets/events/valentine/sfts/cakes/valentine_cake.png";
+import valentinecake from "assets/events/valentine/decorations/love_flower.png";
 import land from "assets/land/islands/island.webp";
 import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
