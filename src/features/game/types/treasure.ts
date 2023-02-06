@@ -80,7 +80,7 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
     type: "good",
   },
   Crab: {
-    sellPrice: marketRate(18.75),
+    sellPrice: marketRate(15),
     description: "A crab, watch out for it's claws!",
     type: "average",
   },
@@ -100,7 +100,7 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
     type: "rare",
   },
   "Sea Cucumber": {
-    sellPrice: marketRate(18.75),
+    sellPrice: marketRate(22.5),
     description: "A sea cucumber.",
     type: "average",
   },
