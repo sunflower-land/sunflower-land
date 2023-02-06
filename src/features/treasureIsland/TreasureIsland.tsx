@@ -20,7 +20,7 @@ import { PirateChest } from "features/game/expansion/components/PirateChest";
 
 export const CLICKABLE_COORDINATES: Coordinates[] = [];
 
-// Create the coordinates for the 7x7 grid of plots
+// Create the coordinates for the 8x8 grid of plots
 const START = { x: -3, y: 4 };
 const END = { x: 4, y: -3 };
 for (let y = START.y; y >= END.y; y--) {
