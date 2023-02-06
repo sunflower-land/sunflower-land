@@ -31,9 +31,9 @@ export const PirateChest: React.FC = () => {
   const canCollect = (openedAt?: number) => {
     if (!openedAt) return true;
 
-    const today = new Date().getUTCDay();
+    const today = new Date().toISOString().substring(0, 10);
 
-    return new Date(openedAt).getUTCDay() !== today;
+    return new Date(openedAt).toISOString().substring(0, 10) !== today;
   };
 
   const nextRefreshInSeconds =
