@@ -215,6 +215,8 @@ export const SandPlot: React.FC<{
       (holeId) => !canDig(holes[holeId]?.dugAt)
     ).length;
 
+    console.log({ holesDug, max: getMaxHolesPerDay(collectibles) });
+
     if (holesDug >= getMaxHolesPerDay(collectibles)) {
       setShowMaxHolesModal(true);
       return;

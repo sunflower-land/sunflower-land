@@ -45,9 +45,13 @@ export type MachineInterpreter = Interpreter<
 export const canDig = (dugAt?: number) => {
   if (!dugAt) return true;
 
-  const today = new Date().getUTCDay();
+  const today = new Date().toISOString().substring(0, 10);
+  console.log({
+    today,
+    dugAt: new Date(dugAt).toISOString().substring(0, 10),
+  });
 
-  return new Date(dugAt).getUTCDay() !== today;
+  return new Date(dugAt).toISOString().substring(0, 10) !== today;
 };
 
 /**
