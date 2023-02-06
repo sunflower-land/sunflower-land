@@ -8,6 +8,7 @@ import { Hud } from "features/island/hud/Hud";
 import { ChickenCouple } from "features/valentineIsland/components/ChickenCouple";
 import { LonelyGuy } from "features/valentineIsland/components/LonelyGuy";
 import { LoveCafe } from "features/valentineIsland/components/LoveCafe";
+import { Moles } from "features/valentineIsland/components/Moles";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect } from "react";
 import { ValentinGoblin } from "features/valentineIsland/components/ValentinGoblin";
@@ -47,6 +48,7 @@ export const ValentineIsland: React.FC = () => {
         <LonelyGuy />
         <Cupid />
         <ValentinGoblin />
+        <Moles />
         <ValentinFarmer />
         <ChickenCouple />
 
