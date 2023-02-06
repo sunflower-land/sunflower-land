@@ -1,16 +1,18 @@
 import React from "react";
 
-import dinoFossil from "assets/sfts/dinosaur_fossil_case.webp";
+import dinoBoneCase from "assets/sfts/dinosaur_bone_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const DinosaurFossil: React.FC = () => {
+export const DinosaurBone: React.FC = () => {
   return (
     <>
       <img
-        src={dinoFossil}
+        src={dinoBoneCase}
         style={{
-          width: `${PIXEL_SCALE * 32}px`,
+          width: `${PIXEL_SCALE * 22}px`,
           bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
         }}
         className="absolute"
         alt="Dinosaur Bone"

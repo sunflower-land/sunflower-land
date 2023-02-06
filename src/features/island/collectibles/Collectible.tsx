@@ -102,7 +102,7 @@ import { SunflowerCoin } from "./components/SunflowerCoin";
 import { Galleon } from "./components/Galleon";
 import { SkeletonKingStaff } from "./components/SkeletonKingStaff";
 import { Foliant } from "./components/Foliant";
-import { DinosaurFossil } from "./components/DinosaurFossil";
+import { DinosaurBone } from "./components/DinosaurBone";
 import { HeartOfDavyJones } from "./components/HeartOfDavyJones";
 import { TreasureMap } from "./components/TreasureMap";
 import { WhaleBear } from "./components/WhaleBear";
@@ -240,7 +240,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Galleon: Galleon,
   "Skeleton King Staff": SkeletonKingStaff,
   Foliant: Foliant,
-  "Dinosaur Bone": DinosaurFossil,
+  "Dinosaur Bone": DinosaurBone,
   "Treasure Map": TreasureMap,
   "Heart of Davy Jones": HeartOfDavyJones,
 };

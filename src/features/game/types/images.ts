@@ -320,10 +320,10 @@ import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
 import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
-import heartOfDavyJones from "assets/sfts/treasure/heart_of_davy_jones.gif";
-import skeletonKingStaff from "assets/sfts/skeleton_king_staff.png";
+import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
+import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
 import foliant from "assets/sfts/foliant.webp";
-import dinosaurFossil from "assets/sfts/dinosaur_fossil.webp";
+import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
 import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
@@ -1744,7 +1744,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Dinosaur Bone": {
     description: "A Dinosaur Bone! What kind of creature was this?",
-    image: dinosaurFossil,
+    image: dinosaurBone,
   },
   "Human Bear": {
     description: "A human bear. Even scarier than a goblin bear.",
