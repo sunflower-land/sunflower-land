@@ -2983,7 +2983,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/448.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Dinosaur Bone": {
     description: "A Dinosaur Bone! What kind of creature was this?",
@@ -3104,7 +3104,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/447.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Heart of Davy Jones": {
     description:
