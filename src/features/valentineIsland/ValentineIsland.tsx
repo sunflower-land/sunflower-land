@@ -9,7 +9,7 @@ import { LoveCafe } from "features/valentineIsland/components/LoveCafe";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect } from "react";
 import { ValentinGoblin } from "features/valentineIsland/components/ValentinGoblin";
-import { Cupid } from "features/valentineIsland/components/cupid";
+import { Cupid } from "features/valentineIsland/components/Cupid";
 import { ValentinFarmer } from "features/valentineIsland/components/ValentinFarmer";
 
 export const ValentineIsland: React.FC = () => {

@@ -8,15 +8,13 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const Cupid: React.FC = () => {
   return (
-    <MapPlacement x={-7.6} y={0.5} height={1} width={1.75}>
+    <MapPlacement x={-8} y={2} height={1} width={3}>
       <div className="relative w-full h-full">
         <img
           src={npc}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 112}px`,
-            right: `${PIXEL_SCALE * 8}px`,
-            bottom: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 30}px`,
           }}
         />
       </div>
