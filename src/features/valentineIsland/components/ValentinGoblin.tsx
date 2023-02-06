@@ -8,15 +8,13 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const ValentinGoblin: React.FC = () => {
   return (
-    <MapPlacement x={7.5} y={-4.2} height={1} width={1}>
+    <MapPlacement x={7.5} y={-4.2} width={1}>
       <div className="relative w-full h-full">
         <img
           src={npc}
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 112}px`,
-            right: `${PIXEL_SCALE * 8}px`,
-            bottom: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 18}px`,
           }}
         />
       </div>
