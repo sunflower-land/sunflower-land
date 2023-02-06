@@ -283,6 +283,8 @@ export const OFFLINE_FARM: GameState = {
     Gold: new Decimal(50),
     "Immortal Pear": new Decimal(1),
     Pipi: new Decimal(1),
+    "Heart of Davy Jones": new Decimal(1),
+    "Treasure Map": new Decimal(1),
   },
   migrated: true,
   stock: INITIAL_STOCK,

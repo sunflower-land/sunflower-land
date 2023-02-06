@@ -1,13 +1,14 @@
 import Decimal from "decimal.js-light";
 import { Inventory } from "./game";
 
-export type HeliosBlacksmithItem = "Immortal Pear";
+export type HeliosBlacksmithItem = "Immortal Pear" | "Treasure Map";
 
 export type GoblinBlacksmithItemName =
   | "Lady Bug"
   | "Squirrel Monkey"
   | "Black Bearry"
-  | "Maneki Neko";
+  | "Maneki Neko"
+  | "Heart of Davy Jones";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
@@ -28,6 +29,13 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Orange: new Decimal(10),
     },
     boost: "+1 harvest",
+  },
+  "Treasure Map": {
+    description: "?",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Wooden Compass": new Decimal(15),
+    },
   },
 };
 
@@ -78,5 +86,15 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     },
     supply: 30000,
     disabled: true,
+  },
+  "Heart of Davy Jones": {
+    description:
+      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring",
+    ingredients: {
+      Gold: new Decimal(10),
+      "Wooden Compass": new Decimal(15),
+    },
+    supply: 1000,
+    boost: "Dig an extra 20 times per day",
   },
 };

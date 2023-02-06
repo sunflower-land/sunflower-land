@@ -319,6 +319,8 @@ import seaweed from "assets/sfts/treasure/seaweed.webp";
 import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
 import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
+import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
+import heartOfDavyJones from "assets/sfts/treasure/heart_of_davy_jones.gif";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.png";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurFossil from "assets/sfts/dinosaur_fossil.webp";
@@ -1740,17 +1742,17 @@ export const ITEM_DETAILS: Items = {
     description: "A toy ship, still in pretty good nick.",
     image: galleon,
   },
-  "Dinosaur Fossil": {
-    description: "A Dinosaur Fossil! What kind of creature was this?",
+  "Dinosaur Bone": {
+    description: "A Dinosaur Bone! What kind of creature was this?",
     image: dinosaurFossil,
   },
   "Human Bear": {
     description: "A human bear. Even scarier than a goblin bear.",
     image: humanBear,
   },
-  "Treasure Map": {
-    description: "A treasure map! But this isn't an island I've ever heard of.",
-    image: treasureMap,
+  "Wooden Compass": {
+    description: "?",
+    image: woodenCompass,
   },
   "Tiki Totem": {
     description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
@@ -1760,6 +1762,16 @@ export const ITEM_DETAILS: Items = {
     description:
       "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
     image: lunarCalendar,
+  },
+  "Heart of Davy Jones": {
+    description:
+      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
+    image: heartOfDavyJones,
+  },
+  "Treasure Map": {
+    description:
+      "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
+    image: treasureMap,
   },
   Pearl: {
     description: "Shimmers in the sun.",
