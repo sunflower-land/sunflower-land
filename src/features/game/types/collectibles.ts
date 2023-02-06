@@ -34,7 +34,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     description: "?",
     ingredients: {
       Gold: new Decimal(5),
-      "Wooden Compass": new Decimal(15),
+      "Wooden Compass": new Decimal(2),
     },
   },
 };
@@ -92,7 +92,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring",
     ingredients: {
       Gold: new Decimal(10),
-      "Wooden Compass": new Decimal(15),
+      "Wooden Compass": new Decimal(6),
     },
     supply: 1000,
     boost: "Dig an extra 20 times per day",
