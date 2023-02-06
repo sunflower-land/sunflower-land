@@ -8,7 +8,7 @@ type Request = {
   item: AuctioneerItemName;
   token: string;
   transactionId: string;
-  lotteryTickets: number;
+  auctionTickets: number;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -24,7 +24,7 @@ export async function bid(request: Request) {
     },
     body: JSON.stringify({
       item: request.item,
-      lotteryTickets: request.lotteryTickets,
+      auctionTickets: request.auctionTickets,
     }),
   });
 

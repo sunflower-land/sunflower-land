@@ -11,10 +11,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 interface Props {
   item: AuctioneerItem;
   maxTickets: number;
-  onBid: (lotteryTickers: number) => void;
+  onBid: (auctionTickers: number) => void;
 }
 export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
-  const [lotteryTickets, setLotteryTickets] = useState(0);
+  const [auctionTickets, setAuctionTickets] = useState(0);
 
   return (
     <div className="p-2">
@@ -33,17 +33,17 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
         )}
       </div> */}
       <p className="text-sm text-center mb-2">
-        Enhance your odds with Lottery Tickets
+        Enhance your odds with Auction Tickets
       </p>
 
       <div className="flex items-center justify-center mb-1">
         <div
           className="w-10 mr-2 relative cursor-pointer"
           style={{
-            opacity: lotteryTickets === 0 ? 0.5 : 1,
+            opacity: auctionTickets === 0 ? 0.5 : 1,
           }}
           onClick={() =>
-            setLotteryTickets((prev) => (prev > 0 ? prev - 1 : prev))
+            setAuctionTickets((prev) => (prev > 0 ? prev - 1 : prev))
           }
         >
           <img src={SUNNYSIDE.icons.disc} className="w-full" />
@@ -59,20 +59,20 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
         </div>
         <div className="flex items-center mr-5">
           <div style={{ minWidth: "45px" }}>
-            <p className="mr-2 text-right">{lotteryTickets}</p>
+            <p className="mr-2 text-right">{auctionTickets}</p>
           </div>
           <img
-            src={ITEM_DETAILS["Lottery Ticket"].image}
+            src={ITEM_DETAILS["Auction Ticket"].image}
             className="h-8 mr-1"
           />
         </div>
         <div
           className="w-10 mr-2 relative"
           onClick={() =>
-            setLotteryTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
+            setAuctionTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
           }
           style={{
-            opacity: lotteryTickets === maxTickets ? 0.5 : 1,
+            opacity: auctionTickets === maxTickets ? 0.5 : 1,
           }}
         >
           <img src={SUNNYSIDE.icons.disc} className="w-full" />
@@ -99,7 +99,7 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
       <div className="flex">
         <img src={SUNNYSIDE.icons.happy} className="h-6 mr-2" />
         <p className="text-sm mb-1">
-          Participants who bid the most lottery tickets are able to craft the
+          Participants who bid the most auction tickets are able to craft the
           item.
         </p>
       </div>
@@ -109,13 +109,13 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
           <p className="text-sm mb-1">
             Participants who are unsuccesful will be refunded their resources.
           </p>
-          <Label type="danger">Lottery tickets are non refundable</Label>
+          <Label type="danger">Auction tickets are non refundable</Label>
         </div>
       </div>
 
       <Button
         onClick={() => {
-          onBid(lotteryTickets);
+          onBid(auctionTickets);
         }}
       >
         Bid

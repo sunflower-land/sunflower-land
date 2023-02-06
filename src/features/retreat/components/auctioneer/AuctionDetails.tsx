@@ -224,7 +224,7 @@ export const AuctionDetails: React.FC<Props> = ({
           {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
           {makeIngredients(item?.ingredients)}
           <div className="flex items-center space-x-1" key={name}>
-            <img src={ITEM_DETAILS["Lottery Ticket"].image} className="h-5" />
+            <img src={ITEM_DETAILS["Auction Ticket"].image} className="h-5" />
             <span className="text-xxs">?</span>
           </div>
         </div>

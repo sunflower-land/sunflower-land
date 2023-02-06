@@ -21,7 +21,7 @@ export interface Context {
   results?: {
     status: "loser" | "winner" | "pending";
     minimum: {
-      lotteryTickets: number;
+      auctionTickets: number;
       biddedAt: number;
     };
     participantCount: number;
@@ -32,7 +32,7 @@ export interface Context {
 type BidEvent = {
   type: "BID";
   item: AuctioneerItemName;
-  lotteryTickets: number;
+  auctionTickets: number;
 };
 
 type MintEvent = {
@@ -127,7 +127,7 @@ export const auctioneerMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { item, lotteryTickets } = event as BidEvent;
+            const { item, auctionTickets } = event as BidEvent;
 
             console.log({ event });
             const { game } = await bid({
@@ -135,7 +135,7 @@ export const auctioneerMachine = createMachine<
               token: context.token as string,
               item,
               transactionId: context.transactionId as string,
-              lotteryTickets,
+              auctionTickets,
             });
 
             return {

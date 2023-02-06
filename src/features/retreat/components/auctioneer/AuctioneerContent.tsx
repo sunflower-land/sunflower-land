@@ -71,13 +71,13 @@ export const AuctioneerContent = () => {
             </div>
           )}
 
-          {bid.lotteryTickets && (
+          {bid.auctionTickets && (
             <div className="flex items-center mb-2">
               <img
-                src={ITEM_DETAILS["Lottery Ticket"].image}
+                src={ITEM_DETAILS["Auction Ticket"].image}
                 className="h-6 mr-1"
               />
-              <span>{bid.lotteryTickets}</span>
+              <span>{bid.auctionTickets}</span>
             </div>
           )}
         </div>
@@ -150,11 +150,11 @@ export const AuctioneerContent = () => {
           </div>
           <div className="flex">
             <img
-              src={ITEM_DETAILS["Lottery Ticket"].image}
+              src={ITEM_DETAILS["Auction Ticket"].image}
               className="w-6 object-contain mr-2"
             />
             <div>
-              <p className="text-sm">{`${auctioneerState.context.results?.minimum.lotteryTickets} lottery tickets required`}</p>
+              <p className="text-sm">{`${auctioneerState.context.results?.minimum.auctionTickets} auction tickets required`}</p>
               <p className="text-xs">{`(Lasted bid at ${new Date(
                 auctioneerState.context.results?.minimum.biddedAt ?? 0
               ).toLocaleTimeString()})`}</p>
@@ -221,10 +221,10 @@ export const AuctioneerContent = () => {
       <DraftBid
         item={item}
         maxTickets={
-          goblinState.context.state.inventory["Lottery Ticket"]?.toNumber() ?? 0
+          goblinState.context.state.inventory["Auction Ticket"]?.toNumber() ?? 0
         }
-        onBid={(lotteryTickets: number) => {
-          child.send("BID", { item: item.name, lotteryTickets });
+        onBid={(auctionTickets: number) => {
+          child.send("BID", { item: item.name, auctionTickets });
         }}
       />
     );

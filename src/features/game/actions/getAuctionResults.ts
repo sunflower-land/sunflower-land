@@ -16,7 +16,7 @@ type Status = "pending" | "winner" | "loser";
 export async function getAuctionResults(request: Request): Promise<{
   status: Status;
   minimum: {
-    lotteryTickets: number;
+    auctionTickets: number;
     biddedAt: number;
   };
   participantCount: number;

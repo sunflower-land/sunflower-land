@@ -102,7 +102,7 @@ export type MutantChicken =
 
 export type Coupons =
   | "Trading Ticket"
-  | "Lottery Ticket"
+  | "Auction Ticket"
   | "War Bond"
   | "Jack-o-lantern"
   | "Golden Crop"
@@ -117,7 +117,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
-  "Lottery Ticket": {
+  "Auction Ticket": {
     description:
       "By collecting these coupons, players can redeem them for a shot at winning valuable rewards",
   },
@@ -389,7 +389,7 @@ export type Bid = {
   ingredients: Partial<Record<InventoryItemName, number>>;
   item: AuctioneerItemName;
   bidAt: number;
-  lotteryTickets: number;
+  auctionTickets: number;
 };
 
 export interface GameState {
