@@ -30,7 +30,7 @@ const TREASURE_TROVE_ITEMS = getEntries(TREASURES)
       RarityOrder[treasureA.type] - RarityOrder[treasureB.type]
   );
 
-const TIME_LIMITED_TREASURE_END_DATE =
+const TIME_LIMITED_TREASURE_END_SECONDS =
   (TIME_LIMITED_TREASURE.endDate - Date.now()) / 1000;
 
 const TreasureTroveItem: React.FC<{
@@ -86,28 +86,30 @@ export const TreasureTrove: React.FC = () => {
             className="flex flex-col p-2 overflow-y-auto scrollable overflow-x-hidden divide-y-2 divide-dashed divide-brown-600"
             style={{ maxHeight: 400 }}
           >
-            <div className="pb-2">
-              <div className="flex items-start justify-between pb-2">
-                <span className="text-xs italic">Time Limited Treasure!</span>
-                <Label
-                  type="info"
-                  className="flex items-center whitespace-nowrap"
-                >
-                  <img
-                    src={SUNNYSIDE.icons.stopwatch}
-                    className="w-3 left-0 mr-1"
-                  />
-                  {`${secondsToString(TIME_LIMITED_TREASURE_END_DATE, {
-                    length: "medium",
-                    isShortFormat: true,
-                  })} left`}
-                </Label>
+            {TIME_LIMITED_TREASURE_END_SECONDS > 0 && (
+              <div className="pb-2">
+                <div className="flex items-start justify-between pb-2">
+                  <span className="text-xs italic">Time Limited Treasure!</span>
+                  <Label
+                    type="info"
+                    className="flex items-center whitespace-nowrap"
+                  >
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      className="w-3 left-0 mr-1"
+                    />
+                    {`${secondsToString(TIME_LIMITED_TREASURE_END_SECONDS, {
+                      length: "medium",
+                      isShortFormat: true,
+                    })} left`}
+                  </Label>
+                </div>
+                <TreasureTroveItem
+                  treasureName={TIME_LIMITED_TREASURE.name}
+                  rarity={TREASURES[TIME_LIMITED_TREASURE.name].type}
+                />
               </div>
-              <TreasureTroveItem
-                treasureName={TIME_LIMITED_TREASURE.name}
-                rarity={TREASURES[TIME_LIMITED_TREASURE.name].type}
-              />
-            </div>
+            )}
 
             <div className="pt-2 space-y-2">
               {TREASURE_TROVE_ITEMS.map(([name, treasure]) => (
