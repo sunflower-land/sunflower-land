@@ -50,7 +50,7 @@ const getTreasurePurpose = (treasureName: TreasureName) => {
   if (isBeachBountyTreasure(treasureName))
     return <span className="text-xxs">Beach Bounty</span>;
   if (isConsumableTreasure(treasureName))
-    return <span className="text-xxs">Consumeable</span>;
+    return <span className="text-xxs">Food</span>;
   if (isDecorationTreasure(treasureName))
     return <span className="text-xxs">Decoration</span>;
   if (isResourceTreasure(treasureName))
