@@ -10,6 +10,7 @@ import Spritesheet, {
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import shadow from "assets/npcs/shadow.png";
+import drillingGoblin from "assets/npcs/drilling.gif";
 import pirate from "assets/npcs/pirate_goblin.gif";
 
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -373,7 +374,10 @@ export const SandPlot: React.FC<{
     return (
       <Modal centered show>
         <Panel>
-          <p className="loading">Drilling</p>
+          <div className="flex flex-col items-center mt-2">
+            <p className="text-center loading">Drilling</p>
+            <img className="w-1/3 mx-auto my-2" src={drillingGoblin} />
+          </div>
         </Panel>
       </Modal>
     );

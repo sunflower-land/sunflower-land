@@ -19,6 +19,7 @@ export const PirateChest: React.FC = () => {
 
   const [showCollectedModal, setShowCollectedModal] = useState(false);
   const [showNotPirateModal, setShowNotPirateModal] = useState(false);
+  const [isCollecting, setIsCollecting] = useState(false);
 
   useUiRefresher();
 
@@ -50,6 +51,8 @@ export const PirateChest: React.FC = () => {
         createdAt: new Date(),
       },
     });
+
+    setIsCollecting(true);
   };
 
   const isPirate =
@@ -151,17 +154,17 @@ export const PirateChest: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      {gameState.matches("revealing") && (
+      {gameState.matches("revealing") && isCollecting && (
         <Modal show centered>
           <CloseButtonPanel>
             <Revealing icon={SUNNYSIDE.decorations.treasure_chest} />
           </CloseButtonPanel>
         </Modal>
       )}
-      {gameState.matches("revealed") && (
+      {gameState.matches("revealed") && isCollecting && (
         <Modal show centered>
           <CloseButtonPanel>
-            <Revealed />
+            <Revealed onAcknowledged={() => setIsCollecting(false)} />
           </CloseButtonPanel>
         </Modal>
       )}
