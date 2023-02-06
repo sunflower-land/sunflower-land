@@ -9,7 +9,18 @@ import { getEntries } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
-import { TIME_LIMITED_TREASURE, TREASURES } from "features/game/types/treasure";
+import {
+  BOOST_TREASURE,
+  isBeachBountyTreasure,
+  isBoostTreasure,
+  isConsumableTreasure,
+  isDecorationTreasure,
+  isResourceTreasure,
+  isToolTreasure,
+  TIME_LIMITED_TREASURE,
+  TreasureName,
+  TREASURES,
+} from "features/game/types/treasure";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { Equipped } from "features/game/types/bumpkin";
 
@@ -33,28 +44,44 @@ const TREASURE_TROVE_ITEMS = getEntries(TREASURES)
 const TIME_LIMITED_TREASURE_END_DATE =
   (TIME_LIMITED_TREASURE.endDate - Date.now()) / 1000;
 
+const getTreasurePurpose = (treasureName: TreasureName) => {
+  if (isBoostTreasure(treasureName))
+    return <span className="text-xxs">{BOOST_TREASURE[treasureName]}</span>;
+  if (isBeachBountyTreasure(treasureName))
+    return <span className="text-xxs">Beach Bounty</span>;
+  if (isConsumableTreasure(treasureName))
+    return <span className="text-xxs">Consumeable</span>;
+  if (isDecorationTreasure(treasureName))
+    return <span className="text-xxs">Decoration</span>;
+  if (isResourceTreasure(treasureName))
+    return <span className="text-xxs">Resource</span>;
+  if (isToolTreasure(treasureName))
+    return <span className="text-xxs">Tool</span>;
+};
+
 const TreasureTroveItem: React.FC<{
   treasureName: keyof typeof TREASURES;
   rarity: "good" | "average" | "rare";
 }> = ({ treasureName, rarity }) => (
-  <div key={treasureName} className="flex justify-between items-center">
-    <div className="flex-col space-y-1">
-      <div className="flex">
-        <div className="justify-center items-center flex mr-2">
-          <img
-            src={ITEM_DETAILS[treasureName].image}
-            className="w-8 h-8 object-contain"
-          />
-        </div>
-        <div className="justify-center items-center flex">
-          <span className="text-sm mb-1">{treasureName}</span>
+  <div key={treasureName} className="flex">
+    <div className="justify-center items-center flex mr-2">
+      <img
+        src={ITEM_DETAILS[treasureName].image}
+        className="w-9 h-9 object-contain"
+      />
+    </div>
+    <div className="flex flex-col w-full">
+      <div className="flex justify-between items-center">
+        <span className="text-sm mb-1 leading-4">{treasureName}</span>
+        <div className="flex items-center">
+          {rarity === "rare" && <Label type="warning">Rare</Label>}
+          {rarity === "good" && <Label type="success">Uncommon</Label>}
+          {rarity === "average" && (
+            <Label className="bg-silver-500">Common</Label>
+          )}
         </div>
       </div>
-    </div>
-    <div className="flex items-center">
-      {rarity === "rare" && <Label type="warning">Rare</Label>}
-      {rarity === "good" && <Label type="success">Uncommon</Label>}
-      {rarity === "average" && <Label className="bg-silver-500">Common</Label>}
+      {getTreasurePurpose(treasureName)}
     </div>
   </div>
 );
