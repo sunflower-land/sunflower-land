@@ -23,6 +23,7 @@ import {
 } from "features/game/types/treasure";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { Equipped } from "features/game/types/bumpkin";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 enum RarityOrder {
   "rare",
@@ -86,67 +87,73 @@ const TreasureTroveItem: React.FC<{
   </div>
 );
 
+const bumpkin: Equipped = {
+  body: "Pirate Potion",
+  hair: "White Long Hair",
+  hat: "Pirate Hat",
+  shirt: "Fancy Top",
+  pants: "Pirate Pants",
+  tool: "Pirate Scimitar",
+  background: "Seashore Background",
+  shoes: "Black Farmer Boots",
+};
+
+const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  // Refresh the countdown timer on the time limited treasure
+  useUiRefresher();
+
+  return (
+    <CloseButtonPanel
+      onClose={() => onClose()}
+      title={"Treasure Trove"}
+      bumpkinParts={bumpkin}
+    >
+      <div
+        className="flex flex-col p-2 overflow-y-auto scrollable overflow-x-hidden divide-y-2 divide-dashed divide-brown-600"
+        style={{ maxHeight: 400 }}
+      >
+        <div className="pb-2">
+          <div className="flex items-start justify-between pb-2">
+            <span className="text-xs italic">Time Limited Treasure!</span>
+            <Label type="info" className="flex items-center whitespace-nowrap">
+              <img
+                src={SUNNYSIDE.icons.stopwatch}
+                className="w-3 left-0 mr-1"
+              />
+              {`${secondsToString(TIME_LIMITED_TREASURE_END_DATE, {
+                length: "medium",
+                isShortFormat: true,
+              })} left`}
+            </Label>
+          </div>
+          <TreasureTroveItem
+            treasureName={TIME_LIMITED_TREASURE.name}
+            rarity={TREASURES[TIME_LIMITED_TREASURE.name].type}
+          />
+        </div>
+
+        <div className="pt-2 space-y-2">
+          {TREASURE_TROVE_ITEMS.map(([name, treasure]) => (
+            <TreasureTroveItem
+              key={name}
+              treasureName={name}
+              rarity={treasure.type}
+            />
+          ))}
+        </div>
+      </div>
+    </CloseButtonPanel>
+  );
+};
+
 export const TreasureTrove: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-
-  const bumpkin: Equipped = {
-    body: "Pirate Potion",
-    hair: "White Long Hair",
-    hat: "Pirate Hat",
-    shirt: "Fancy Top",
-    pants: "Pirate Pants",
-    tool: "Pirate Scimitar",
-    background: "Seashore Background",
-    shoes: "Black Farmer Boots",
-  };
 
   return (
     <MapPlacement x={-5} y={1} height={1} width={1}>
       <NPC onClick={() => setShowModal(true)} {...bumpkin} />
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel
-          onClose={() => setShowModal(false)}
-          title={"Treasure Trove"}
-          bumpkinParts={bumpkin}
-        >
-          <div
-            className="flex flex-col p-2 overflow-y-auto scrollable overflow-x-hidden divide-y-2 divide-dashed divide-brown-600"
-            style={{ maxHeight: 400 }}
-          >
-            <div className="pb-2">
-              <div className="flex items-start justify-between pb-2">
-                <span className="text-xs italic">Time Limited Treasure!</span>
-                <Label
-                  type="info"
-                  className="flex items-center whitespace-nowrap"
-                >
-                  <img
-                    src={SUNNYSIDE.icons.stopwatch}
-                    className="w-3 left-0 mr-1"
-                  />
-                  {`${secondsToString(TIME_LIMITED_TREASURE_END_DATE, {
-                    length: "medium",
-                    isShortFormat: true,
-                  })} left`}
-                </Label>
-              </div>
-              <TreasureTroveItem
-                treasureName={TIME_LIMITED_TREASURE.name}
-                rarity={TREASURES[TIME_LIMITED_TREASURE.name].type}
-              />
-            </div>
-
-            <div className="pt-2 space-y-2">
-              {TREASURE_TROVE_ITEMS.map(([name, treasure]) => (
-                <TreasureTroveItem
-                  key={name}
-                  treasureName={name}
-                  rarity={treasure.type}
-                />
-              ))}
-            </div>
-          </div>
-        </CloseButtonPanel>
+        <TreasureTroveModal onClose={() => setShowModal(false)} />
       </Modal>
     </MapPlacement>
   );
