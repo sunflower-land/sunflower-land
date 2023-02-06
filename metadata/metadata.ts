@@ -2488,14 +2488,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Don't wake the baby!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/434.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Cabbage Girl": {
     description: "Don't wake the baby!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/435.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Cauliflower Burger": {
@@ -2580,7 +2580,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Got a surplus of carrots? You can cook this at the Deli.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/526.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
   "Goblin's Treat": {
@@ -2891,7 +2891,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "This long-lived pear ensures your fruit tree survives +1 bonus harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/441.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Lady Bug": {
