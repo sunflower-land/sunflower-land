@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
+import { CRAFTABLE_TOOLS } from "../events/landExpansion/craftTool";
 import { marketRate } from "../lib/halvening";
+import { CONSUMABLES } from "./consumables";
+import { DECORATION_DIMENSIONS } from "./decorations";
+import { RESOURCES } from "./resources";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -46,23 +50,21 @@ export type DecorationTreasure =
   | "Human Bear";
 
 export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
-export type MiscenalleousTreasure = "Sand Drill" | "Gold" | "Stone" | "Iron";
+export type ResourceTreasure = "Gold" | "Stone" | "Iron";
+export type ToolTreasure = "Sand Drill";
 
 export type TreasureName =
   | BeachBountyTreasure
   | ConsumableTreasure
   | DecorationTreasure
   | BoostTreasure
-  | MiscenalleousTreasure;
+  | ResourceTreasure
+  | ToolTreasure;
 
 interface TreasureDetail {
   description?: string;
   type: "average" | "good" | "rare";
 }
-
-type TimeLimitedTreasureDetail = {
-  endDate: number;
-} & TreasureDetail;
 
 export type BeachBounty = {
   sellPrice: Decimal;
@@ -237,3 +239,44 @@ export const TIME_LIMITED_TREASURE: TimeLimitedTreasure = {
   name: "Pirate Bear",
   endDate: new Date("2023-05-08T00:00:00.000Z").getTime(),
 };
+
+export const BOOST_TREASURE: Record<BoostTreasure, string> = {
+  "Tiki Totem": "+0.1 wood per tree",
+  "Lunar Calendar": "10% faster crop growth",
+};
+
+export function isBoostTreasure(
+  treasure: TreasureName
+): treasure is BoostTreasure {
+  return treasure in BOOST_TREASURE;
+}
+
+export function isBeachBountyTreasure(
+  treasure: TreasureName
+): treasure is BeachBountyTreasure {
+  return treasure in BEACH_BOUNTY_TREASURE;
+}
+
+export function isConsumableTreasure(
+  treasure: TreasureName
+): treasure is ConsumableTreasure {
+  return treasure in CONSUMABLES;
+}
+
+export function isDecorationTreasure(
+  treasure: TreasureName
+): treasure is DecorationTreasure {
+  return treasure in DECORATION_DIMENSIONS;
+}
+
+export function isResourceTreasure(
+  treasure: TreasureName
+): treasure is ResourceTreasure {
+  return treasure in RESOURCES;
+}
+
+export function isToolTreasure(
+  treasure: TreasureName
+): treasure is ToolTreasure {
+  return treasure in CRAFTABLE_TOOLS;
+}
