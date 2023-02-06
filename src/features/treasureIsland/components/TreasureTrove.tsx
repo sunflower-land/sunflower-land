@@ -11,12 +11,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import {
   BOOST_TREASURE,
-  isBeachBountyTreasure,
   isBoostTreasure,
-  isConsumableTreasure,
+  isBeachBountyTreasure,
   isDecorationTreasure,
-  isResourceTreasure,
-  isToolTreasure,
   TIME_LIMITED_TREASURE,
   TreasureName,
   TREASURES,
@@ -47,17 +44,11 @@ const TIME_LIMITED_TREASURE_END_DATE =
 
 const getTreasurePurpose = (treasureName: TreasureName) => {
   if (isBoostTreasure(treasureName))
-    return <span className="text-xxs">{BOOST_TREASURE[treasureName]}</span>;
+    return <span className="text-[12px]">{BOOST_TREASURE[treasureName]}</span>;
   if (isBeachBountyTreasure(treasureName))
-    return <span className="text-xxs">Beach Bounty</span>;
-  if (isConsumableTreasure(treasureName))
-    return <span className="text-xxs">Food</span>;
+    return <span className="text-[12px]">Beach Bounty</span>;
   if (isDecorationTreasure(treasureName))
-    return <span className="text-xxs">Decoration</span>;
-  if (isResourceTreasure(treasureName))
-    return <span className="text-xxs">Resource</span>;
-  if (isToolTreasure(treasureName))
-    return <span className="text-xxs">Tool</span>;
+    return <span className="text-[12px]">Decoration</span>;
 };
 
 const TreasureTroveItem: React.FC<{
@@ -71,9 +62,12 @@ const TreasureTroveItem: React.FC<{
         className="w-9 h-9 object-contain"
       />
     </div>
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full justify-center">
       <div className="flex justify-between items-center">
-        <span className="text-sm mb-1 leading-4">{treasureName}</span>
+        <div className="flex flex-col">
+          <span className="text-sm mb-1 leading-5">{treasureName}</span>
+          {getTreasurePurpose(treasureName)}
+        </div>
         <div className="flex items-center">
           {rarity === "rare" && <Label type="warning">Rare</Label>}
           {rarity === "good" && <Label type="success">Uncommon</Label>}
@@ -82,7 +76,6 @@ const TreasureTroveItem: React.FC<{
           )}
         </div>
       </div>
-      {getTreasurePurpose(treasureName)}
     </div>
   </div>
 );
@@ -132,7 +125,7 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
         </div>
 
-        <div className="pt-2 space-y-2">
+        <div className="pt-2 space-y-3">
           {TREASURE_TROVE_ITEMS.map(([name, treasure]) => (
             <TreasureTroveItem
               key={name}
