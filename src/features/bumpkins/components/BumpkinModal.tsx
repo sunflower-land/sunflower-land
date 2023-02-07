@@ -251,6 +251,7 @@ export const BumpkinModal: React.FC<Props> = ({
                 <span className="text-xxs underline">View all</span>
               </div>
               <SkillBadges inventory={inventory} bumpkin={bumpkin as Bumpkin} />
+              <div className="flex items-center mb-1 justify-between"></div>
             </InnerPanel>
           </div>
 

@@ -1,27 +1,13 @@
 import React from "react";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { setImageWidth } from "lib/images";
+import { AchievementBadge } from "features/bumpkins/components/AchievementBadge";
 
 export const AchievementBadges: React.FC<{
   achievements?: Bumpkin["achievements"];
 }> = ({ achievements = {} }) => {
   const badges = getKeys(achievements).map((name) => {
-    return (
-      <img
-        key={name}
-        src={ITEM_DETAILS[name].image}
-        alt={name}
-        style={{
-          opacity: 0,
-          marginRight: `${PIXEL_SCALE * 2}px`,
-          marginBottom: `${PIXEL_SCALE * 2}px`,
-        }}
-        onLoad={(e) => setImageWidth(e.currentTarget)}
-      />
-    );
+    return <AchievementBadge key={name} achievement={name} />;
   });
 
   if (badges.length === 0) {
