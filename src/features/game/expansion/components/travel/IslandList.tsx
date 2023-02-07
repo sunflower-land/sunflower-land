@@ -148,7 +148,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       ? [
           {
             name: "Pumpkin Plaza",
-            levelRequired: 1,
+            levelRequired: 1 as BumpkinLevel,
             image: CROP_LIFECYCLE.Pumpkin.crop,
             path: `/land/${id}/plaza`,
           } as Island,
@@ -156,7 +156,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       : []),
     {
       name: "Helios",
-      levelRequired: 1,
+      levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${id}/helios`,
     },
@@ -165,7 +165,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       ? [
           {
             name: "Valentine Island",
-            levelRequired: 1,
+            levelRequired: 1 as BumpkinLevel,
             image: valentinecake,
             path: `/land/${id}/valentine-island`,
           },
@@ -173,27 +173,27 @@ export const IslandList: React.FC<IslandListProps> = ({
       : []),
     {
       name: "Goblin Retreat",
-      levelRequired: 5,
+      levelRequired: 5 as BumpkinLevel,
       image: goblin,
       path: `/retreat/${id}`,
     },
     {
       name: "Treasure Island",
-      levelRequired: 10,
+      levelRequired: 10 as BumpkinLevel,
       image: SUNNYSIDE.icons.treasure,
       path: `/land/${id}/treasure-island`,
       comingSoon: !hasFeatureAccess(inventory, "TREASURE_ISLAND"),
     },
     {
       name: "Stone Haven",
-      levelRequired: 20,
+      levelRequired: 20 as BumpkinLevel,
       image: SUNNYSIDE.resource.boulder,
       path: `/treasure/${id}`,
       comingSoon: true,
     },
     {
       name: "Sunflorea",
-      levelRequired: 30,
+      levelRequired: 30 as BumpkinLevel,
       image: sunflorea,
       path: `/treasure/${id}`,
       comingSoon: true,
