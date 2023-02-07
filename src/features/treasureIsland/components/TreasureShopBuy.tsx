@@ -18,7 +18,6 @@ import { TreasureToolName, TREASURE_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import { Delayed } from "features/island/buildings/components/building/market/Delayed";
-import { INITIAL_STOCK } from "features/game/lib/constants";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -131,10 +130,6 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   };
 
   const labelState = () => {
-    const max = INITIAL_STOCK[selectedName];
-    const inventoryCount = inventory[selectedName] ?? new Decimal(0);
-    const inventoryFull = max ? inventoryCount.gt(max) : true;
-
     if (stock?.equals(0)) {
       return (
         <Label type="danger" className="-mt-2 mb-1">
@@ -142,9 +137,8 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
         </Label>
       );
     }
-    return (
-      <Stock item={{ name: selectedName }} inventoryFull={inventoryFull} />
-    );
+
+    return <Stock item={{ name: selectedName }} inventoryFull={false} />;
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
