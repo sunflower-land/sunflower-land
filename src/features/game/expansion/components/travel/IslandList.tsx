@@ -156,12 +156,17 @@ export const IslandList = ({
       image: SUNNYSIDE.icons.helios,
       path: `/land/${id}/helios`,
     },
-    {
-      name: "Valentine Island",
-      levelRequired: 1,
-      image: valentinecake,
-      path: `/land/${id}/valentine-island`,
-    },
+
+    ...(hasFeatureAccess(inventory, "VALENTINES")
+      ? [
+          {
+            name: "Valentine Island",
+            levelRequired: 1,
+            image: valentinecake,
+            path: `/land/${id}/valentine-island`,
+          },
+        ]
+      : []),
     {
       name: "Goblin Retreat",
       levelRequired: 5,

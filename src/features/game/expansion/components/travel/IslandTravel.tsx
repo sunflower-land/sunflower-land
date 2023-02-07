@@ -13,8 +13,6 @@ interface Props {
   onTravelDialogOpened?: () => void;
   x: number;
   y: number;
-  customBoat?: string | undefined;
-  customWidth?: number;
 }
 
 export const IslandTravel = ({
@@ -25,48 +23,27 @@ export const IslandTravel = ({
   isVisiting = false,
   isTravelAllowed = true,
   onTravelDialogOpened,
-  customBoat,
-  customWidth,
 }: Props) => {
   const [openIslandList, setOpenIslandList] = useState(false);
 
   return (
     <>
-      {customBoat && customWidth ? (
-        <MapPlacement x={x} y={y}>
-          <div
-            style={{
-              width: `${customWidth * PIXEL_SCALE}px`,
-            }}
-          >
-            <img
-              src={customBoat}
-              onClick={() => setOpenIslandList(true)}
-              className="relative cursor-pointer hover:img-highlight"
-              style={{
-                width: `${customWidth * PIXEL_SCALE}px`,
-              }}
-            />
-          </div>
-        </MapPlacement>
-      ) : (
-        <MapPlacement x={x} y={y}>
-          <div
+      <MapPlacement x={x} y={y}>
+        <div
+          style={{
+            width: `${68 * PIXEL_SCALE}px`,
+          }}
+        >
+          <img
+            src={boat}
+            onClick={() => setOpenIslandList(true)}
+            className="relative cursor-pointer hover:img-highlight"
             style={{
               width: `${68 * PIXEL_SCALE}px`,
             }}
-          >
-            <img
-              src={boat}
-              onClick={() => setOpenIslandList(true)}
-              className="relative cursor-pointer hover:img-highlight"
-              style={{
-                width: `${68 * PIXEL_SCALE}px`,
-              }}
-            />
-          </div>
-        </MapPlacement>
-      )}
+          />
+        </div>
+      </MapPlacement>
 
       <IslandTravelModal
         isOpen={openIslandList}
