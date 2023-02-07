@@ -123,7 +123,7 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   },
 };
 
-export const TREASURES: Partial<Record<TreasureName, TreasureDetail>> = {
+export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
   "Whale Bear": {
     type: "rare",
   },
