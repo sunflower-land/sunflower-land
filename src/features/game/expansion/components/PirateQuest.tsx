@@ -65,7 +65,7 @@ export const PirateQuest: React.FC = () => {
 
   return (
     <>
-      <MapPlacement x={11} y={7} height={1} width={1}>
+      <MapPlacement x={9} y={8} height={1} width={1}>
         {!hasShownTutorial("Pirate Quest") && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
