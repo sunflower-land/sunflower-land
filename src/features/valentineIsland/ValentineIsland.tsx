@@ -1,7 +1,6 @@
 import { useActor } from "@xstate/react";
 import background from "assets/events/valentine/land/valetine_island.png";
 import boat from "assets/events/valentine/npcs/love_boat.png";
-import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";
@@ -14,6 +13,7 @@ import React, { useContext, useLayoutEffect } from "react";
 import { ValentinGoblin } from "features/valentineIsland/components/ValentinGoblin";
 import { Cupid } from "features/valentineIsland/components/Cupid";
 import { ValentinFarmer } from "features/valentineIsland/components/ValentinFarmer";
+import { ValentinesIslandTravel } from "features/game/expansion/components/travel/ValentinesIslandTravel";
 
 export const ValentineIsland: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -52,7 +52,7 @@ export const ValentineIsland: React.FC = () => {
         <ValentinFarmer />
         <ChickenCouple />
 
-        <IslandTravel
+        <ValentinesIslandTravel
           bumpkin={bumpkin}
           inventory={gameState.context.state.inventory}
           x={-8}
