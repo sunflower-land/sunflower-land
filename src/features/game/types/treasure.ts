@@ -61,7 +61,7 @@ export type TreasureName =
   | ResourceTreasure
   | ToolTreasure;
 
-interface TreasureDetail {
+export interface TreasureDetail {
   description?: string;
   type: "average" | "good" | "rare";
 }

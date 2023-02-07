@@ -17,6 +17,7 @@ import {
   TreasureName,
   TREASURES,
   SEASONAL_TREASURE,
+  TreasureDetail,
 } from "features/game/types/treasure";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { Equipped } from "features/game/types/bumpkin";
@@ -28,7 +29,9 @@ enum RarityOrder {
   "average",
 }
 
-const TREASURE_TROVE_ITEMS = getEntries(TREASURES)
+const TREASURE_TROVE_ITEMS = (
+  getEntries(TREASURES) as [TreasureName, TreasureDetail][]
+)
   // Skip the time limited treasure, this is displayed separately
   .filter(([name]) => !(name in SEASONAL_TREASURE))
   // Sort by name first
@@ -92,7 +95,9 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   // Refresh the countdown timer on the time limited treasure
   useUiRefresher();
 
-  const SEASONAL_ITEMS = getEntries(TREASURES)
+  const SEASONAL_ITEMS = (
+    getEntries(TREASURES) as [TreasureName, TreasureDetail][]
+  )
     .filter(([name]) => {
       const item = SEASONAL_TREASURE[name];
       if (!item) {
