@@ -14,9 +14,9 @@ import {
   isBoostTreasure,
   isBeachBountyTreasure,
   isDecorationTreasure,
-  TIME_LIMITED_TREASURE,
   TreasureName,
   TREASURES,
+  SEASONAL_TREASURE,
 } from "features/game/types/treasure";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { Equipped } from "features/game/types/bumpkin";
@@ -30,7 +30,7 @@ enum RarityOrder {
 
 const TREASURE_TROVE_ITEMS = getEntries(TREASURES)
   // Skip the time limited treasure, this is displayed separately
-  .filter(([name]) => name !== TIME_LIMITED_TREASURE.name)
+  .filter(([name]) => !(name in SEASONAL_TREASURE))
   // Sort by name first
   .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
   // Then sort by rarity
@@ -38,9 +38,6 @@ const TREASURE_TROVE_ITEMS = getEntries(TREASURES)
     ([, treasureA], [, treasureB]) =>
       RarityOrder[treasureA.type] - RarityOrder[treasureB.type]
   );
-
-const TIME_LIMITED_TREASURE_END_DATE =
-  (TIME_LIMITED_TREASURE.endDate - Date.now()) / 1000;
 
 const getTreasurePurpose = (treasureName: TreasureName) => {
   if (isBoostTreasure(treasureName))
@@ -65,7 +62,7 @@ const TreasureTroveItem: React.FC<{
     <div className="flex flex-col w-full justify-center">
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
-          <span className="text-sm mb-1 leading-5">{treasureName}</span>
+          <span className="text-sm leading-3">{treasureName}</span>
           {getTreasurePurpose(treasureName)}
         </div>
         <div className="flex items-center">
@@ -95,6 +92,30 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   // Refresh the countdown timer on the time limited treasure
   useUiRefresher();
 
+  const SEASONAL_ITEMS = getEntries(TREASURES)
+    .filter(([name]) => {
+      const item = SEASONAL_TREASURE[name];
+      if (!item) {
+        return false;
+      }
+
+      return Date.now() > item.startDate && Date.now() < item.endDate;
+    })
+    // Sort by name first
+    .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+    // Then sort by rarity
+    .sort(
+      ([, treasureA], [, treasureB]) =>
+        RarityOrder[treasureA.type] - RarityOrder[treasureB.type]
+    );
+
+  let secondsLeftInSeason = 0;
+  if (SEASONAL_ITEMS.length > 0) {
+    const firstTreasure = SEASONAL_ITEMS[0][0];
+    const endDate = SEASONAL_TREASURE[firstTreasure]?.endDate ?? 0;
+    secondsLeftInSeason = (endDate - Date.now()) / 1000;
+  }
+
   return (
     <CloseButtonPanel
       onClose={() => onClose()}
@@ -107,25 +128,36 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       >
         <div className="pb-2">
           <div className="flex items-start justify-between pb-2">
-            <span className="text-xs italic">Time Limited Treasure!</span>
+            <div>
+              <p className="text-sm">Seasonal Treasure</p>
+              <p className="text-xs italic">Dig before the time runs up!</p>
+            </div>
             <Label type="info" className="flex items-center whitespace-nowrap">
               <img
                 src={SUNNYSIDE.icons.stopwatch}
                 className="w-3 left-0 mr-1"
               />
-              {`${secondsToString(TIME_LIMITED_TREASURE_END_DATE, {
+              {`${secondsToString(secondsLeftInSeason, {
                 length: "medium",
                 isShortFormat: true,
               })} left`}
             </Label>
           </div>
-          <TreasureTroveItem
-            treasureName={TIME_LIMITED_TREASURE.name}
-            rarity={TREASURES[TIME_LIMITED_TREASURE.name].type}
-          />
+
+          <div className="pt-2 space-y-3">
+            {SEASONAL_ITEMS.map(([name, treasure]) => (
+              <TreasureTroveItem
+                key={name}
+                treasureName={name}
+                rarity={treasure.type}
+              />
+            ))}
+          </div>
         </div>
 
         <div className="pt-2 space-y-3">
+          <p className="text-xs">Available all year round:</p>
+
           {TREASURE_TROVE_ITEMS.map(([name, treasure]) => (
             <TreasureTroveItem
               key={name}
