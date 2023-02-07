@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import goblin from "assets/npcs/shovel_seller.gif";
 import beachBountyShop from "assets/buildings/treasure_shop.png";
 
 import shadow from "assets/npcs/shadow.png";
@@ -12,6 +11,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { TreasureShopSell } from "./TreasureShopSell";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 
 export const TreasureShop: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -38,27 +38,32 @@ export const TreasureShop: React.FC = () => {
             bottom: `${PIXEL_SCALE * -15}px`,
           }}
         />
-        <img
-          src={goblin}
-          className="relative cursor-pointer group-hover:img-highlight"
+        <div
           style={{
             width: `${PIXEL_SCALE * 20}px`,
             top: `${PIXEL_SCALE * 4.5}px`,
             left: `${PIXEL_SCALE * -3}px`,
           }}
-          onClick={() => setShowModal(true)}
-        />
+        >
+          <NPC
+            body="Pirate Potion"
+            hair="Teal Mohawk"
+            onClick={() => setShowModal(true)}
+            pants="Blue Suspenders"
+            shirt="Red Farmer Shirt"
+          />
+        </div>
       </div>
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           onClose={() => setShowModal(false)}
           bumpkinParts={{
-            body: "Goblin Potion",
+            body: "Pirate Potion",
             hair: "Teal Mohawk",
             shirt: "Red Farmer Shirt",
             pants: "Farmer Pants",
-            tool: "Farmer Pitchfork",
+            tool: "Sword",
             background: "Farm Background",
             shoes: "Black Farmer Boots",
           }}

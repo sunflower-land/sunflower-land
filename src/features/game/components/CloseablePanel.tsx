@@ -142,19 +142,18 @@ export const CloseButtonPanel: React.FC<Props> = ({
             )}
           </div>
         )}
-        {children}
+        {/* Float button to right so that context text will wrap around it */}
         {showCloseButton && !tabs && !title && (
           <img
             src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
+            className="float-right cursor-pointer z-20 ml-3"
             onClick={onClose}
             style={{
-              top: `${PIXEL_SCALE * 4}px`,
-              right: `${PIXEL_SCALE * 4}px`,
               width: `${PIXEL_SCALE * 11}px`,
             }}
           />
         )}
+        {children}
       </div>
     </Panel>
   );

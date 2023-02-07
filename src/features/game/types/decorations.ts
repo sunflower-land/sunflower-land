@@ -161,7 +161,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 2,
     width: 2,
   },
-  "Dinosaur Fossil": {
+  "Dinosaur Bone": {
     height: 2,
     width: 2,
   },
