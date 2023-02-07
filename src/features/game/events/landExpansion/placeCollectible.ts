@@ -16,6 +16,8 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
   "Tiki Totem": 5 * 60,
   "Lunar Calendar": 5 * 60,
   "Maneki Neko": 24 * 60 * 60,
+  "Treasure Map": 5 * 60,
+  "Heart of Davy Jones": 5 * 60,
   "Gold Egg": 60 * 60 * 6,
 };
 

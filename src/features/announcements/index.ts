@@ -28,6 +28,71 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2023-02-06T02:00:00"),
+    title: "Weekly news",
+    notes: [
+      {
+        text: "Tools now require less wood",
+        icon: ITEM_DETAILS["Wood"].image,
+        link: {
+          text: "Read more",
+          url: "https://github.com/sunflower-land/sunflower-land/discussions/1952",
+        },
+      },
+
+      {
+        text: `Treasure Island is ready this week`,
+        icon: SUNNYSIDE.icons.treasure,
+        date: new Date("2023-02-08T00:00:00.000Z"),
+        link: {
+          text: "Read more",
+          url: "https://docs.sunflower-land.com/player-guides/islands/treasure-island",
+        },
+      },
+      {
+        text: `Join the weekly team chat on Discord`,
+        icon: SUNNYSIDE.icons.expression_chat,
+        date: new Date("2023-02-07T04:30:00.000Z"),
+        link: {
+          url: "https://discord.com/invite/sunflowerland",
+          text: "Join Discord",
+        },
+      },
+      {
+        text: `Valentines Day Event is coming later this week!`,
+        icon: SUNNYSIDE.icons.heart,
+      },
+      {
+        text: "Tractors, Sprinklers & Wheelbarrows are coming soon.",
+        icon: SUNNYSIDE.icons.hammer,
+        link: {
+          text: "Read more",
+          url: "https://github.com/sunflower-land/sunflower-land/discussions/2148",
+        },
+      },
+
+      {
+        text: `Feeling fruity? Don't miss out on the Pineapple Shirt`,
+        icon: SUNNYSIDE.icons.player,
+        date: new Date("2023-02-08T22:30:00.000Z"),
+        link: {
+          url: "https://bumpkins.io",
+          text: "Bumpkins.io",
+        },
+      },
+      {
+        text: `Watch the team at our Weekly Wrap up`,
+        icon: SUNNYSIDE.icons.expression_chat,
+        date: new Date("2023-02-09T23:00:00.000Z"),
+        link: {
+          url: "https://www.twitch.tv/0xsunflowerstudios",
+          text: "Twitch",
+        },
+      },
+    ],
+  },
+
+  {
     date: new Date("2023-01-30T02:00:00"),
     title: "Weekly news",
     notes: [
@@ -47,7 +112,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
       {
         text: `Join the weekly team chat on Discord`,
         icon: SUNNYSIDE.icons.expression_chat,
-        date: new Date("2023-02-31T04:30:00.000Z"),
+        date: new Date("2023-01-30T04:30:00.000Z"),
         link: {
           url: "https://discord.com/invite/sunflowerland",
           text: "Join Discord",
