@@ -182,7 +182,6 @@ export const IslandList: React.FC<IslandListProps> = ({
       levelRequired: 10 as BumpkinLevel,
       image: SUNNYSIDE.icons.treasure,
       path: `/land/${id}/treasure-island`,
-      comingSoon: !hasFeatureAccess(inventory, "TREASURE_ISLAND"),
     },
     {
       name: "Stone Haven",
