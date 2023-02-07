@@ -61,7 +61,7 @@ export type TreasureName =
   | ResourceTreasure
   | ToolTreasure;
 
-interface TreasureDetail {
+export interface TreasureDetail {
   description?: string;
   type: "average" | "good" | "rare";
 }
@@ -123,7 +123,7 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   },
 };
 
-export const TREASURES: Record<TreasureName, TreasureDetail> = {
+export const TREASURES: Partial<Record<TreasureName, TreasureDetail>> = {
   "Whale Bear": {
     type: "rare",
   },
@@ -157,50 +157,14 @@ export const TREASURES: Record<TreasureName, TreasureDetail> = {
   "Tiki Totem": {
     type: "rare",
   },
-  "Abandoned Bear": {
+  "T-Rex Skull": {
     type: "rare",
   },
-  "Turtle Bear": {
-    type: "good",
-  },
-  "T-Rex Skull": {
-    type: "good",
-  },
   "Sunflower Coin": {
-    type: "good",
-  },
-  Foliant: {
-    type: "good",
-  },
-  "Skeleton King Staff": {
-    type: "good",
-  },
-  "Lifeguard Bear": {
-    type: "good",
-  },
-  "Snorkel Bear": {
-    type: "good",
-  },
-  "Parasaur Skull": {
-    type: "good",
-  },
-  "Goblin Bear": {
-    type: "good",
-  },
-  "Golden Bear Head": {
-    type: "good",
+    type: "rare",
   },
   "Pirate Bear": {
-    type: "good",
-  },
-  Galleon: {
-    type: "good",
-  },
-  "Dinosaur Bone": {
-    type: "good",
-  },
-  "Human Bear": {
-    type: "good",
+    type: "rare",
   },
   "Boiled Eggs": {
     type: "average",
@@ -231,13 +195,41 @@ export const TREASURES: Record<TreasureName, TreasureDetail> = {
 };
 
 type TimeLimitedTreasure = {
-  name: TreasureName;
+  startDate: number;
   endDate: number;
 };
 
-export const TIME_LIMITED_TREASURE: TimeLimitedTreasure = {
-  name: "Pirate Bear",
-  endDate: new Date("2023-05-08T00:00:00.000Z").getTime(),
+export const SEASONAL_TREASURE: Partial<
+  Record<TreasureName, TimeLimitedTreasure>
+> = {
+  "Pirate Bear": {
+    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  },
+  "Tiki Totem": {
+    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  },
+  "Lunar Calendar": {
+    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  },
+  "Turtle Bear": {
+    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  },
+  "Whale Bear": {
+    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  },
+  "T-Rex Skull": {
+    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  },
+  "Sunflower Coin": {
+    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  },
 };
 
 export const BOOST_TREASURE: Record<BoostTreasure, string> = {
