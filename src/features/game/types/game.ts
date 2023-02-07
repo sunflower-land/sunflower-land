@@ -397,6 +397,7 @@ export interface GameState {
       discoveredAt: number;
       holeId: number;
     };
+    rewardCollectedAt?: number;
   };
 
   // TODO remove when old events are deleted

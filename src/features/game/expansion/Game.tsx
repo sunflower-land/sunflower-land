@@ -1,3 +1,4 @@
+import { ValentineIsland } from "features/valentineIsland/ValentineIsland";
 import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
@@ -26,7 +27,6 @@ import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
 // import { Rules } from "../components/Rules";
-import { PlaceableOverlay } from "./components/PlaceableOverlay";
 import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
 import { Helios } from "features/helios/Helios";
@@ -181,41 +181,41 @@ export const Game: React.FC = () => {
     return (
       <>
         <div className="absolute w-full h-full z-10">
-          <PlaceableOverlay>
-            <Routes>
-              <Route path="/" element={<Land />} />
-              <Route path="/helios" element={<Helios key="helios" />} />
-              {hasFeatureAccess(
-                gameState.context.state.inventory,
-                "PUMPKIN_PLAZA"
-              ) && (
-                <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
-              )}
-              {hasFeatureAccess(
-                gameState.context.state.inventory,
-                "TREASURE_ISLAND"
-              ) &&
-                level >= 10 && (
-                  <Route
-                    path="/treasure-island"
-                    element={<TreasureIsland key="treasure" />}
-                  />
-                )}
-
-              {level >= 20 && (
+          <Routes>
+            <Route path="/" element={<Land />} />
+            <Route path="/helios" element={<Helios key="helios" />} />
+            <Route
+              path="/valentine-island"
+              element={<ValentineIsland key="valentine" />}
+            />
+            {hasFeatureAccess(
+              gameState.context.state.inventory,
+              "PUMPKIN_PLAZA"
+            ) && <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />}
+            {hasFeatureAccess(
+              gameState.context.state.inventory,
+              "TREASURE_ISLAND"
+            ) &&
+              level >= 10 && (
                 <Route
-                  path="/stone-haven"
-                  element={<StoneHaven key="stone-haven" />}
+                  path="/treasure-island"
+                  element={<TreasureIsland key="treasure" />}
                 />
               )}
-              {level >= 50 && (
-                <Route path="/snow" element={<SnowKingdom key="snow" />} />
-              )}
-              <Route path="/studios" element={<Studios key="hq" />} />
 
-              <Route path="*" element={<IslandNotFound />} />
-            </Routes>
-          </PlaceableOverlay>
+            {level >= 20 && (
+              <Route
+                path="/stone-haven"
+                element={<StoneHaven key="stone-haven" />}
+              />
+            )}
+            {level >= 50 && (
+              <Route path="/snow" element={<SnowKingdom key="snow" />} />
+            )}
+            <Route path="/studios" element={<Studios key="hq" />} />
+
+            <Route path="*" element={<IslandNotFound />} />
+          </Routes>
         </div>
       </>
     );

@@ -94,6 +94,62 @@ describe("treasureSold", () => {
     );
   });
 
+  it("sells the wooden compass treasure", () => {
+    const state = sellTreasure({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Wooden Compass": new Decimal(5),
+        },
+      },
+      action: {
+        type: "treasure.sold",
+        item: "Wooden Compass",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory["Wooden Compass"]).toEqual(new Decimal(4));
+    expect(state.balance).toEqual(
+      GAME_STATE.balance.add(
+        BEACH_BOUNTY_TREASURE["Wooden Compass"].sellPrice ?? 0
+      )
+    );
+  });
+
+  it("Applies the Treasure Map boost while selling items", () => {
+    const state = sellTreasure({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Clam Shell": new Decimal(5),
+        },
+        collectibles: {
+          "Treasure Map": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "12",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "treasure.sold",
+        item: "Clam Shell",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
+    expect(state.balance).toEqual(
+      GAME_STATE.balance.add(
+        BEACH_BOUNTY_TREASURE["Clam Shell"].sellPrice.mul(1.2) ?? 0
+      )
+    );
+  });
+
   it("sell the treasure in bulk given sufficient quantity", () => {
     const state = sellTreasure({
       state: {

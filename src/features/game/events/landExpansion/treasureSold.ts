@@ -1,7 +1,9 @@
 import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState } from "features/game/types/game";
+import { Collectibles, GameState } from "features/game/types/game";
 import {
+  BeachBounty,
   BeachBountyTreasure,
   BEACH_BOUNTY_TREASURE,
 } from "features/game/types/treasure";
@@ -19,11 +21,21 @@ type Options = {
   action: SellTreasureAction;
 };
 
+export const getSellPrice = (item: BeachBounty, collectibles: Collectibles) => {
+  const price = item.sellPrice || new Decimal(0);
+
+  if (isCollectibleBuilt("Treasure Map", collectibles)) {
+    return price.mul(1.2);
+  }
+
+  return price;
+};
+
 export function sellTreasure({ state, action }: Options) {
   const statecopy = cloneDeep(state);
   const { item, amount } = action;
 
-  const { bumpkin } = statecopy;
+  const { bumpkin, collectibles, inventory, balance } = statecopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
@@ -36,13 +48,13 @@ export function sellTreasure({ state, action }: Options) {
     throw new Error("Invalid amount");
   }
 
-  const count = statecopy.inventory[item] || new Decimal(0);
+  const count = inventory[item] || new Decimal(0);
 
   if (count.lessThan(amount)) {
     throw new Error("Insufficient quantity to sell");
   }
 
-  const price = BEACH_BOUNTY_TREASURE[item].sellPrice;
+  const price = getSellPrice(BEACH_BOUNTY_TREASURE[item], collectibles);
   const sflEarned = price.mul(amount);
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sflEarned);
   bumpkin.activity = trackActivity(
@@ -54,9 +66,9 @@ export function sellTreasure({ state, action }: Options) {
   return {
     ...statecopy,
     bumpkin,
-    balance: statecopy.balance.add(sflEarned),
+    balance: balance.add(sflEarned),
     inventory: {
-      ...statecopy.inventory,
+      ...inventory,
       [item]: setPrecision(count.sub(amount)),
     },
   };
