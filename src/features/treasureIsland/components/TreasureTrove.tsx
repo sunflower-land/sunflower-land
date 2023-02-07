@@ -129,8 +129,8 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <div className="pb-2">
           <div className="flex items-start justify-between pb-2">
             <div>
-              <p className="text-sm">Seasonal Treasure</p>
-              <p className="text-xs italic">Dig before the time runs up!</p>
+              <p className="pb-0.5">Seasonal Treasure</p>
+              <p className="text-xs">Limited time only!</p>
             </div>
             <Label type="info" className="flex items-center whitespace-nowrap">
               <img
