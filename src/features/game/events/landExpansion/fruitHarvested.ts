@@ -35,7 +35,7 @@ export function getFruitYield(name: FruitName, collectibles: Collectibles) {
   return 1;
 }
 
-function getHarvestedAt(
+function getPlantedAt(
   fruitName: FruitName,
   collectibles: Collectibles,
   createdAt: number
@@ -109,7 +109,7 @@ export function harvestFruit({
     stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
   patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-  patch.fruit.harvestedAt = getHarvestedAt(
+  patch.fruit.harvestedAt = getPlantedAt(
     name,
     stateCopy.collectibles,
     createdAt
