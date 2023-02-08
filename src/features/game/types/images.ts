@@ -1752,7 +1752,8 @@ export const ITEM_DETAILS: Items = {
     image: humanBear,
   },
   "Wooden Compass": {
-    description: "?",
+    description:
+      "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
     image: woodenCompass,
   },
   "Tiki Totem": {
