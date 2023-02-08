@@ -91,8 +91,8 @@ export const isMaxLevel = (experience: number): boolean => {
 
 export const getBumpkinLevel = (experience: number): BumpkinLevel => {
   let bumpkinLevel: BumpkinLevel = 1;
-  for (const l in LEVEL_EXPERIENCE) {
-    const level = Number(l) as BumpkinLevel;
+  for (const key in LEVEL_EXPERIENCE) {
+    const level = Number(key) as BumpkinLevel;
     if (experience >= LEVEL_EXPERIENCE[level]) {
       bumpkinLevel = level;
     } else {
@@ -149,25 +149,23 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
 export const findLevelRequiredForNextSkillPoint = (
   experience: number
 ): BumpkinLevel | undefined => {
-  const level = getBumpkinLevel(experience);
+  const currentLevel = getBumpkinLevel(experience);
 
-  if (level >= MAX_BUMPKIN_LEVEL) {
+  if (currentLevel >= MAX_BUMPKIN_LEVEL) {
     return;
   }
 
-  let nextLevelWithSkillPoint = (level + 1) as BumpkinLevel;
-  // Skip levels that give no skill points
-  while (
-    SKILL_POINTS[nextLevelWithSkillPoint] &&
-    SKILL_POINTS[level] === SKILL_POINTS[nextLevelWithSkillPoint]
-  ) {
-    nextLevelWithSkillPoint++;
+  let nextLevelWithSkillPoint: BumpkinLevel | undefined;
+  for (const key in SKILL_POINTS) {
+    const level = Number(key) as BumpkinLevel;
+    // Save the first level with more skill points than current
+    if (SKILL_POINTS[level] > SKILL_POINTS[currentLevel]) {
+      nextLevelWithSkillPoint = level;
+      break;
+    }
   }
 
-  // Return undefined if next level is bigger than max level
-  return nextLevelWithSkillPoint <= MAX_BUMPKIN_LEVEL
-    ? nextLevelWithSkillPoint
-    : undefined;
+  return nextLevelWithSkillPoint;
 };
 
 export const getExperienceToNextLevel = (experience: number) => {
