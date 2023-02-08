@@ -9,9 +9,9 @@ export const Flamingo: React.FC = () => {
       <img
         src={flamingo}
         style={{
-          width: `${PIXEL_SCALE * 34}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 0}px`,
+          width: `${PIXEL_SCALE * 25}px`,
+          bottom: `${PIXEL_SCALE * 8}px`,
+          left: `${PIXEL_SCALE * 3.5}px`,
         }}
         className="absolute"
         alt="Flamingo"

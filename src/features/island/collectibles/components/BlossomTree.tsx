@@ -9,7 +9,7 @@ export const BlossomTree: React.FC = () => {
       <img
         src={blossomTree}
         style={{
-          width: `${PIXEL_SCALE * 34}px`,
+          width: `${PIXEL_SCALE * 32}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
