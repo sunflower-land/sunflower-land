@@ -17,7 +17,6 @@ type FeatureName =
   | "JEST_TEST"
   | "FRUIT_QUEST"
   | "PUMPKIN_PLAZA"
-  | "TREASURE_ISLAND"
   | "COALESCING_TOAST"
   | "VALENTINES";
 
@@ -27,7 +26,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   FRUIT_QUEST: testnetFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
-  TREASURE_ISLAND: defaultFeatureFlag,
   COALESCING_TOAST: defaultFeatureFlag,
   VALENTINES: defaultFeatureFlag,
 };
