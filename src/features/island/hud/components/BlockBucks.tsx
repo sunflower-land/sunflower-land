@@ -21,7 +21,7 @@ export const BlockBucks: React.FC<Props> = ({
       <InnerPanel
         className=" flex items-center fixed z-50  cursor-pointer"
         style={{
-          top: `${PIXEL_SCALE * 20}px`,
+          top: `${PIXEL_SCALE * 21}px`,
           right: `${PIXEL_SCALE * 3}px`,
         }}
         onClick={() => {
