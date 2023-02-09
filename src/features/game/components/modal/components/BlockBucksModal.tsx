@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext } from "react";
-import ticket from "assets/icons/block_buck.png";
+import ticket from "assets/icons/block_buck_detailed.png";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
