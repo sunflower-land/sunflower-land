@@ -22,6 +22,7 @@ import retreat from "assets/land/retreat.webp";
 import treasureIsland from "assets/land/treasure_island.webp";
 import snowKingdom from "assets/land/snow_kingdom.webp";
 import stoneHeaven from "assets/land/stone_haven.webp";
+import valentineIsland from "assets/events/valentine/land/valetine_island.webp";
 import silhouette from "assets/bumpkins/silhouette.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -50,6 +51,7 @@ const IMAGE_LIST: string[] = [
   treasureIsland,
   snowKingdom,
   stoneHeaven,
+  valentineIsland,
   silhouette,
   ...Object.values(SUNNYSIDE.icons),
   ...Object.values(SUNNYSIDE.resource),
