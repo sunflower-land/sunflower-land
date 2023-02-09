@@ -113,9 +113,7 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
   const levelInfo = () => (
     <div className="flex flex-col items-start">
       {/* Level */}
-      <p className="text-base mr-8 mt-1">
-        {`Level ${level}${maxLevel ? " (Max)" : ""}`}
-      </p>
+      <p className="text-base">{`Level ${level}${maxLevel ? " (Max)" : ""}`}</p>
 
       <div className="flex flex-row items-center my-1">
         {/* Level icon */}
@@ -140,7 +138,6 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
 
   const visitBumpkinLink = () => (
     <div className="flex flex-col justify-start sm:justify-center">
-      <p className="text-xs sm:text-sm mb-0.5">Bumpkin #{state.bumpkin?.id}</p>
       <a
         href={getVisitBumpkinUrl()}
         target="_blank"
@@ -184,7 +181,7 @@ export const BumpkinPanel: React.FC<Props> = ({ initialView, onClose }) => {
   );
 
   return (
-    <CloseButtonPanel onClose={onClose}>
+    <CloseButtonPanel onClose={onClose} title={`Bumpkin #${state.bumpkin?.id}`}>
       <div className="flex flex-col">
         <div className="w-full flex flex-wrap p-0.5 mb-0.5">
           <div className="w-1/2 rounded-md overflow-hidden">
