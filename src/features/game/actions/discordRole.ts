@@ -3,11 +3,7 @@ import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
 
-export type DiscordRole =
-  | "team sunflower"
-  | "team goblin"
-  | "vip-farmers"
-  | "land expansion";
+export type DiscordRole = "vip-farmers";
 
 type Options = {
   farmId: number;
@@ -15,7 +11,7 @@ type Options = {
   role: DiscordRole;
 };
 
-export async function addVipRole({ farmId, token, role }: Options) {
+export async function addDiscordRole({ farmId, token, role }: Options) {
   const response = await window.fetch(`${API_URL}/discordRole/${farmId}`, {
     method: "POST",
     headers: {

@@ -123,7 +123,7 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   },
 };
 
-export const TREASURES: Partial<Record<TreasureName, TreasureDetail>> = {
+export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
   "Whale Bear": {
     type: "rare",
   },
@@ -194,41 +194,23 @@ export const TREASURES: Partial<Record<TreasureName, TreasureDetail>> = {
   ...BEACH_BOUNTY_TREASURE,
 };
 
-type TimeLimitedTreasure = {
+type SeasonalRewards = {
   startDate: number;
   endDate: number;
+  rewards: Partial<Record<TreasureName, unknown>>;
 };
 
-export const SEASONAL_TREASURE: Partial<
-  Record<TreasureName, TimeLimitedTreasure>
-> = {
-  "Pirate Bear": {
-    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
-  },
-  "Tiki Totem": {
-    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
-  },
-  "Lunar Calendar": {
-    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
-  },
-  "Turtle Bear": {
-    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
-  },
-  "Whale Bear": {
-    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
-  },
-  "T-Rex Skull": {
-    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
-  },
-  "Sunflower Coin": {
-    startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-    endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+export const SEASONAL_REWARDS: SeasonalRewards = {
+  startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+  endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  rewards: {
+    "Pirate Bear": {},
+    "Tiki Totem": {},
+    "Lunar Calendar": {},
+    "Turtle Bear": {},
+    "Whale Bear": {},
+    "T-Rex Skull": {},
+    "Sunflower Coin": {},
   },
 };
 

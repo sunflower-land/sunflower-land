@@ -43,11 +43,7 @@ export const Pirate: React.FC = () => {
         >
           <div className="p-2">
             <p className="mb-3 text-sm">
-              Are you ready to visit Treasure Island?
-            </p>
-            <p className="text-sm">
-              This island is almost ready. Gather your resources and prepare for
-              a swashbuckling adventure of a lifetime!
+              Have you heard about the hidden bounty at Treasure Island?
             </p>
             <a
               className="underline hover:text-blue-500 text-xxs"

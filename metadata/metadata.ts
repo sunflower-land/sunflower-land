@@ -3114,6 +3114,36 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/450.gif",
     attributes: [],
   },
+  "Heart Balloons": {
+    description: "Use them as decorations for romantic occasions.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "",
+    attributes: [],
+  },
+  Flamingo: {
+    description:
+      "Represents a symbol of love's beauty standing tall and confident.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "",
+    attributes: [],
+  },
+  "Blossom Tree": {
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "",
+    attributes: [],
+  },
+  "Love Letter": {
+    description: "Convey feelings of love",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "",
+    attributes: [],
+  },
   "Treasure Map": {
     description:
       "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
@@ -3166,7 +3196,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Sand Drill": {
     description: "Drill deep for rare treasure",
-    decimals: 0,
+    decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/311.png",
     attributes: [],
