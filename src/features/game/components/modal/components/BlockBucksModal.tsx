@@ -25,7 +25,17 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <CloseButtonPanel onClose={onClose} title="Block Bucks">
+    <CloseButtonPanel
+      onClose={onClose}
+      title="Block Bucks"
+      bumpkinParts={{
+        body: "Light Brown Farmer Potion",
+        hair: "White Long Hair",
+        shirt: "Fancy Top",
+        pants: "Fancy Pants",
+        tool: "Farmer Pitchfork",
+      }}
+    >
       {!canBuyMore && (
         <p className="text-xs text-center mb-4 leading-none">
           {`You have ${count} Block Bucks. You must use these before purchasing more`}
@@ -64,8 +74,11 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
         </OuterPanel>
       </div>
 
-      <p className="text-xs text-center py-2">
-        Prices exclude Blockchain transaction fees.
+      <p className="text-xs text-center pt-2">
+        Game progress will be stored on Blockchain.
+      </p>
+      <p className="text-xxs italic text-center pb-2">
+        *Prices exclude Blockchain transaction fees.
       </p>
     </CloseButtonPanel>
   );

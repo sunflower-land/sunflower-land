@@ -256,7 +256,7 @@ export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
     Artist: new Decimal(1),
-    Sunflower: new Decimal(5),
+    Sunflower: new Decimal(2999),
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
