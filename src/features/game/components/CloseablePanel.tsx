@@ -20,6 +20,7 @@ interface Props {
   title?: string;
   onClose?: () => void;
   onBack?: () => void;
+  closeButtonWarpContent?: boolean;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
 }
@@ -32,6 +33,7 @@ interface Props {
  * @title The panel title.
  * @onClose The close panel method.  Close button will show if this is set.
  * @onBack The back button method.  Back button will show if this is set.
+ * @closeButtonFloatRight Whether the close button will float right to warp content. Default is true.
  * @bumpkinParts The list of bumpkin parts for the modal.
  * @className Additional class name for the parent panel.
  * @children The panel children content.
@@ -43,6 +45,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
   title,
   onClose,
   onBack,
+  closeButtonWarpContent = true,
   bumpkinParts,
   className,
   children,
@@ -145,7 +148,10 @@ export const CloseButtonPanel: React.FC<Props> = ({
         {showCloseButton && !tabs && !title && (
           <img
             src={SUNNYSIDE.icons.close}
-            className="float-right cursor-pointer z-20 ml-3"
+            className={classNames("cursor-pointer z-20", {
+              "float-right ml-2": closeButtonWarpContent,
+              "absolute top-[10.5px] right-[10.5px]": !closeButtonWarpContent,
+            })}
             onClick={onClose}
             style={{
               width: `${PIXEL_SCALE * 11}px`,
