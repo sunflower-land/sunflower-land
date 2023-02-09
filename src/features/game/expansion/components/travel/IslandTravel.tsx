@@ -5,7 +5,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Bumpkin, Inventory } from "features/game/types/game";
 import { IslandTravelModal } from "./IslandTravelModal";
 
-interface Props {
+interface IslandTravelProps {
   bumpkin: Bumpkin | undefined;
   inventory?: Inventory;
   isVisiting?: boolean;
@@ -15,7 +15,7 @@ interface Props {
   y: number;
 }
 
-export const IslandTravel = ({
+export const IslandTravel: React.FC<IslandTravelProps> = ({
   bumpkin,
   inventory,
   x,
@@ -23,7 +23,7 @@ export const IslandTravel = ({
   isVisiting = false,
   isTravelAllowed = true,
   onTravelDialogOpened,
-}: Props) => {
+}) => {
   const [openIslandList, setOpenIslandList] = useState(false);
 
   return (

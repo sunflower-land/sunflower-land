@@ -15,9 +15,9 @@ import {
   isBeachBountyTreasure,
   isDecorationTreasure,
   TreasureName,
-  TREASURES,
-  SEASONAL_TREASURE,
+  SEASONAL_REWARDS,
   TreasureDetail,
+  REWARDS,
 } from "features/game/types/treasure";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { Equipped } from "features/game/types/bumpkin";
@@ -30,10 +30,10 @@ enum RarityOrder {
 }
 
 const TREASURE_TROVE_ITEMS = (
-  getEntries(TREASURES) as [TreasureName, TreasureDetail][]
+  getEntries(REWARDS) as [TreasureName, TreasureDetail][]
 )
-  // Skip the time limited treasure, this is displayed separately
-  .filter(([name]) => !(name in SEASONAL_TREASURE))
+  // Skip the seasonal rewards as these are displayed separately
+  .filter(([name]) => !(name in SEASONAL_REWARDS.rewards))
   // Sort by name first
   .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
   // Then sort by rarity
@@ -52,7 +52,7 @@ const getTreasurePurpose = (treasureName: TreasureName) => {
 };
 
 const TreasureTroveItem: React.FC<{
-  treasureName: keyof typeof TREASURES;
+  treasureName: keyof typeof REWARDS;
   rarity: "good" | "average" | "rare";
 }> = ({ treasureName, rarity }) => (
   <div key={treasureName} className="flex">
@@ -96,15 +96,18 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   useUiRefresher();
 
   const SEASONAL_ITEMS = (
-    getEntries(TREASURES) as [TreasureName, TreasureDetail][]
+    getEntries(REWARDS) as [TreasureName, TreasureDetail][]
   )
     .filter(([name]) => {
-      const item = SEASONAL_TREASURE[name];
+      const item = SEASONAL_REWARDS.rewards[name];
       if (!item) {
         return false;
       }
 
-      return Date.now() > item.startDate && Date.now() < item.endDate;
+      return (
+        Date.now() > SEASONAL_REWARDS.startDate &&
+        Date.now() < SEASONAL_REWARDS.endDate
+      );
     })
     // Sort by name first
     .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
@@ -114,12 +117,7 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         RarityOrder[treasureA.type] - RarityOrder[treasureB.type]
     );
 
-  let secondsLeftInSeason = 0;
-  if (SEASONAL_ITEMS.length > 0) {
-    const firstTreasure = SEASONAL_ITEMS[0][0];
-    const endDate = SEASONAL_TREASURE[firstTreasure]?.endDate ?? 0;
-    secondsLeftInSeason = (endDate - Date.now()) / 1000;
-  }
+  const secondsLeftInSeason = (SEASONAL_REWARDS.endDate - Date.now()) / 1000;
 
   return (
     <CloseButtonPanel
@@ -131,34 +129,38 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         className="flex flex-col p-2 overflow-y-auto scrollable overflow-x-hidden divide-y-2 divide-dashed divide-brown-600"
         style={{ maxHeight: 400 }}
       >
-        <div className="pb-2">
-          <div className="flex items-start justify-between pb-2">
-            <div>
-              <p className="pb-0.5">Seasonal Treasure</p>
-              <p className="text-xs">Limited time only!</p>
+        {secondsLeftInSeason > 0 && (
+          <div className="pb-2">
+            <div className="flex items-start justify-between pb-2">
+              <div>
+                <p className="pb-0.5">Seasonal Treasure</p>
+                <p className="text-xs">Limited time only!</p>
+              </div>
+              <Label
+                type="info"
+                className="flex items-center whitespace-nowrap"
+              >
+                <img
+                  src={SUNNYSIDE.icons.stopwatch}
+                  className="w-3 left-0 mr-1"
+                />
+                {`${secondsToString(secondsLeftInSeason, {
+                  length: "medium",
+                })} left`}
+              </Label>
             </div>
-            <Label type="info" className="flex items-center whitespace-nowrap">
-              <img
-                src={SUNNYSIDE.icons.stopwatch}
-                className="w-3 left-0 mr-1"
-              />
-              {`${secondsToString(secondsLeftInSeason, {
-                length: "medium",
-                isShortFormat: true,
-              })} left`}
-            </Label>
-          </div>
 
-          <div className="pt-2 space-y-3">
-            {SEASONAL_ITEMS.map(([name, treasure]) => (
-              <TreasureTroveItem
-                key={name}
-                treasureName={name}
-                rarity={treasure.type}
-              />
-            ))}
+            <div className="pt-2 space-y-3">
+              {SEASONAL_ITEMS.map(([name, treasure]) => (
+                <TreasureTroveItem
+                  key={name}
+                  treasureName={name}
+                  rarity={treasure.type}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="pt-2 space-y-3">
           <p className="text-xs">Available all year round:</p>
