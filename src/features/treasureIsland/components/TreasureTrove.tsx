@@ -15,9 +15,9 @@ import {
   isBeachBountyTreasure,
   isDecorationTreasure,
   TreasureName,
-  TREASURES,
   SEASONAL_REWARDS,
   TreasureDetail,
+  REWARDS,
 } from "features/game/types/treasure";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { Equipped } from "features/game/types/bumpkin";
@@ -30,7 +30,7 @@ enum RarityOrder {
 }
 
 const TREASURE_TROVE_ITEMS = (
-  getEntries(TREASURES) as [TreasureName, TreasureDetail][]
+  getEntries(REWARDS) as [TreasureName, TreasureDetail][]
 )
   // Skip the seasonal rewards as these are displayed separately
   .filter(([name]) => !(name in SEASONAL_REWARDS.rewards))
@@ -52,7 +52,7 @@ const getTreasurePurpose = (treasureName: TreasureName) => {
 };
 
 const TreasureTroveItem: React.FC<{
-  treasureName: keyof typeof TREASURES;
+  treasureName: keyof typeof REWARDS;
   rarity: "good" | "average" | "rare";
 }> = ({ treasureName, rarity }) => (
   <div key={treasureName} className="flex">
@@ -96,7 +96,7 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   useUiRefresher();
 
   const SEASONAL_ITEMS = (
-    getEntries(TREASURES) as [TreasureName, TreasureDetail][]
+    getEntries(REWARDS) as [TreasureName, TreasureDetail][]
   )
     .filter(([name]) => {
       const item = SEASONAL_REWARDS.rewards[name];

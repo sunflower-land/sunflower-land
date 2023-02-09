@@ -1123,6 +1123,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lunar Calendar": { height: 1, width: 1 },
   "Heart of Davy Jones": { height: 2, width: 2 },
   "Treasure Map": { height: 1, width: 2 },
+  "Heart Balloons": { height: 1, width: 1 },
+  Flamingo: { height: 2, width: 2 },
+  "Blossom Tree": { height: 2, width: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
