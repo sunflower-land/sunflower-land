@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
 import {
   ValentineFoodName,
@@ -39,17 +40,22 @@ export const feedValentineFood = ({ state, action }: Options) => {
     throw new Error(`You do not have ${food}`);
   }
 
-  const loveLetters = inventory["Love Letter"] ?? new Decimal(0);
+  const loveLettersCollected = bumpkin.activity?.["Love Letter Collected"] || 0;
   const foodRequired =
-    VALENTINE_CONSUMABLES[
-      loveLetters.toNumber() % VALENTINE_CONSUMABLES.length
-    ];
+    VALENTINE_CONSUMABLES[loveLettersCollected % VALENTINE_CONSUMABLES.length];
 
   if (food !== foodRequired) {
     throw new Error(FEED_VALENTINE_FOOD_ERRORS.UNKOWN_FOOD);
   }
 
   const consumableAmount = inventory[food] ?? new Decimal(0);
+  const loveLetters = inventory["Love Letter"] ?? new Decimal(0);
+
+  bumpkin.activity = trackActivity(
+    "Love Letter Collected",
+    bumpkin?.activity,
+    new Decimal(loveLettersCollected + 1)
+  );
 
   return {
     ...stateCopy,
