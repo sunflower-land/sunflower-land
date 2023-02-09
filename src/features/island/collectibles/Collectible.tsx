@@ -106,6 +106,9 @@ import { DinosaurBone } from "./components/DinosaurBone";
 import { HeartOfDavyJones } from "./components/HeartOfDavyJones";
 import { TreasureMap } from "./components/TreasureMap";
 import { WhaleBear } from "./components/WhaleBear";
+import { HeartBalloons } from "./components/HeartBalloons";
+import { Flamingo } from "./components/Flamingo";
+import { BlossomTree } from "./components/BlossomTree";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -243,6 +246,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Dinosaur Bone": DinosaurBone,
   "Treasure Map": TreasureMap,
   "Heart of Davy Jones": HeartOfDavyJones,
+  "Heart Balloons": HeartBalloons,
+  Flamingo: Flamingo,
+  "Blossom Tree": BlossomTree,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
