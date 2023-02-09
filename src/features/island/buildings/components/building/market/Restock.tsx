@@ -15,14 +15,18 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
   const [gameState] = useActor(gameService);
 
   const [isDisabled, setIsDisabled] = useState(true);
+  const [disableBuy, setDisableBuy] = useState(true);
   const { setToast } = useContext(ToastContext);
   const { openModal } = useContext(ModalContext);
 
   const canRestock = gameState.context.state.inventory["Block Buck"]?.gte(1);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (canRestock) {
         setIsDisabled(false);
+      } else {
+        setDisableBuy(false);
       }
     }, 500);
     return () => clearTimeout(timer);
@@ -42,10 +46,12 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
     gameService.send("shops.restocked");
   };
   return (
-    <div className="my-1 flex flex-col flex-1 items-center justify-end">
-      <div className="flex items-center">
-        <p className="text-xs mr-1">Restock = 1 x</p>
-        <img src={ITEM_DETAILS["Block Buck"].image} className="h-4" />
+    <>
+      <div className="my-1 flex flex-col mb-1 flex-1 items-center justify-end">
+        <div className="flex items-center">
+          <p className="text-xs mr-1">Restock = 1 x</p>
+          <img src={ITEM_DETAILS["Block Buck"].image} className="h-4" />
+        </div>
       </div>
       <Button
         disabled={isDisabled}
@@ -57,7 +63,11 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
         </div>
       </Button>
       {!canRestock && (
-        <Button className="text-xs mt-1" onClick={handleBuy}>
+        <Button
+          className="text-xs mt-1"
+          onClick={handleBuy}
+          disabled={disableBuy}
+        >
           <div className="flex items-center h-4">
             <p>Buy</p>
 
@@ -65,6 +75,6 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
           </div>
         </Button>
       )}
-    </div>
+    </>
   );
 };
