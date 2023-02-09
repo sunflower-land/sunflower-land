@@ -52,7 +52,8 @@ export const QUESTS: Record<QuestName, Quest> = {
   "Pirate Quest 1": {
     description: "Dig 30 holes",
     progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Treasure Dug"] || 0,
+      (gameState.bumpkin?.activity?.["Treasure Dug"] || 0) +
+      (gameState.bumpkin?.activity?.["Treasure Drilled"] || 0),
     requirement: 30,
     wearable: "Striped Blue Shirt",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
