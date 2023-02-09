@@ -27,7 +27,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       onClose={onClose}
-      title="Block Bucks"
+      title="Buy Block Bucks"
       bumpkinParts={{
         body: "Light Brown Farmer Potion",
         hair: "White Long Hair",

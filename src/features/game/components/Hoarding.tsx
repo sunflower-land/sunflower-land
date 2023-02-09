@@ -41,42 +41,37 @@ export const Hoarding: React.FC = () => {
 
   return (
     <>
-      <>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          alt="Close Hoarding Modal"
-          onClick={onAcknowledge}
-          style={{
-            top: `${PIXEL_SCALE * 6}px`,
-            right: `${PIXEL_SCALE * 6}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-        <div className="flex flex-col items-center p-1">
-          <span className="text-center text-sm sm:text-base">
-            {makeTitle()}
-          </span>
-          <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
-          <p className="text-xs sm:text-sm mb-3">
-            {`Goblins are known to raid farms that have an abundance of resources.`}
-          </p>
-          <p className="text-xs sm:text-sm mb-1">
-            You can either use these resources or store your progress on chain
-            before gathering more.
-          </p>
-          <div className="text-xs underline my-2 w-full">
-            <a
-              href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Read more
-            </a>
-          </div>
+      <img
+        src={SUNNYSIDE.icons.close}
+        className="absolute cursor-pointer z-20"
+        alt="Close Hoarding Modal"
+        onClick={onAcknowledge}
+        style={{
+          top: `${PIXEL_SCALE * 6}px`,
+          right: `${PIXEL_SCALE * 6}px`,
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+      />
+      <div className="flex flex-col items-center p-1">
+        <span className="text-center text-sm sm:text-base">{makeTitle()}</span>
+        <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
+        <p className="text-xs sm:text-sm mb-3">
+          {`Word is that Goblins are known to raid farms that have an abundance of resources.`}
+        </p>
+        <p className="text-xs sm:text-sm mb-1">
+          {`To protect yourself and keep those precious resources safe, please sync them on chain before gathering any more ${itemName}.`}
+        </p>
+        <div className="text-xs underline my-2 w-full">
+          <a
+            href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read more
+          </a>
         </div>
-        <Button onClick={sync}>Sync</Button>
-      </>
+      </div>
+      <Button onClick={sync}>Store progress on chain</Button>
     </>
   );
 };

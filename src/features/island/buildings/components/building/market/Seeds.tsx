@@ -220,7 +220,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           />
         ))}
       </div>
-      <OuterPanel className="w-full flex-1">
+      <OuterPanel className="w-full flex-1 flex flex-col">
         <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
           {labelState()}
           <div className="flex space-x-2 items-center mt-1 sm:flex-col-reverse md:space-x-0">
