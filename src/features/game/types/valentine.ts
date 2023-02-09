@@ -1,3 +1,5 @@
+import { Bumpkin } from "./game";
+
 export type ValentineFoodName =
   | "Mashed Potato"
   | "Pumpkin Soup"
@@ -112,3 +114,11 @@ export const VALENTINE_CONSUMABLES: ValentineFoodName[] = [
   "Mashed Potato",
   "Bumpkin Salad",
 ];
+
+export const getValentineFood = (bumpkin?: Bumpkin) => {
+  const loveLettersCollected =
+    bumpkin?.activity?.["Love Letter Collected"] || 0;
+  return VALENTINE_CONSUMABLES[
+    loveLettersCollected % VALENTINE_CONSUMABLES.length
+  ];
+};
