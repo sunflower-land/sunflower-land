@@ -6,7 +6,7 @@ import {
   FEED_VALENTINE_FOOD_ERRORS,
 } from "./valentineFoodFeed";
 
-describe("valentineFoodCreated", () => {
+describe("valentineFoodFeed", () => {
   it("ensures a player has a Bumpkin", () => {
     expect(() =>
       feedValentineFood({
