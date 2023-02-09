@@ -26,6 +26,7 @@ import { Discord } from "./DiscordModal";
 import { AddSFL } from "../AddSFL";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { LostAndFound } from "../LostAndFound";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -49,6 +50,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
+  const [showLostAndFoundModal, setShowLostAndFoundModal] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
@@ -121,6 +123,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     onClose();
   };
 
+  const handleLostAndFound = () => {
+    setShowLostAndFoundModal(true);
+    onClose();
+  };
+
   const storeOnChain = async () => {
     openModal("STORE_ON_CHAIN");
     onClose();
@@ -184,6 +191,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   <li className="p-1">
                     <Button onClick={handleDiscordClick}>
                       <span>Discord</span>
+                    </Button>
+                  </li>
+                  <li className="p-1">
+                    <Button onClick={handleLostAndFound}>
+                      <span>Lost and Found</span>
                     </Button>
                   </li>
                   <li className="p-1">
@@ -259,6 +271,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
       <AddSFL
         isOpen={showAddSFLModal}
         onClose={() => setShowAddSFLModal(false)}
+      />
+
+      <LostAndFound
+        isOpen={showLostAndFoundModal}
+        onClose={() => setShowLostAndFoundModal(false)}
       />
 
       {showCaptcha && (
