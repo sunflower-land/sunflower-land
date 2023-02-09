@@ -24,11 +24,11 @@ export const Hoarding: React.FC = () => {
   const onCaptchaSolved = async (captcha: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
-    gameService.send("SYNC", { captcha });
+    gameService.send("SYNC", { captcha, blockBucks: 0 });
   };
 
   const sync = () => {
-    gameService.send("SYNC", { captcha: "" });
+    gameService.send("SYNC", { captcha: "", blockBucks: 0 });
   };
 
   const onAcknowledge = () => {

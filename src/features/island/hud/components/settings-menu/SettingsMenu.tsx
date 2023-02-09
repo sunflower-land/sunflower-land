@@ -123,7 +123,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     // setShowCaptcha(true);
     // onClose
 
-    gameService.send("SYNC", { captcha: "" });
+    gameService.send("SYNC", { captcha: "", blockBucks: 0 });
     onClose();
     setShowCaptcha(false);
   };
@@ -131,7 +131,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const onCaptchaSolved = async (captcha: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
-    gameService.send("SYNC", { captcha });
+    gameService.send("SYNC", { captcha, blockBucks: 0 });
     onClose();
     setShowCaptcha(false);
   };
@@ -163,7 +163,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   )}
                   <li className="p-1">
                     <Button onClick={syncOnChain}>
-                      <span>Sync on chain</span>
+                      <span>Move data on chain</span>
                     </Button>
                   </li>
                   <li className="p-1">

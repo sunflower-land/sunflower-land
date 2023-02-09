@@ -674,6 +674,11 @@ export const ITEM_DETAILS: Items = {
     description: "Drill deep for rare treasure",
     image: drill,
   },
+  "Block Buck": {
+    description:
+      "A voucher used for restocking and enhancing your Blockchain experience!",
+    image: ticket,
+  },
 
   // SFTs
   "Sunflower Statue": {
