@@ -125,6 +125,8 @@ export const PumpkinPlaza: React.FC = () => {
           bumpkin={gameState.context.state.bumpkin}
           x={0}
           y={-21}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
+          travelAllowed={!gameState.matches("autosaving")}
         />
 
         <ChatUI
