@@ -192,16 +192,12 @@ export const Game: React.FC = () => {
               gameState.context.state.inventory,
               "PUMPKIN_PLAZA"
             ) && <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />}
-            {hasFeatureAccess(
-              gameState.context.state.inventory,
-              "TREASURE_ISLAND"
-            ) &&
-              level >= 10 && (
-                <Route
-                  path="/treasure-island"
-                  element={<TreasureIsland key="treasure" />}
-                />
-              )}
+            {level >= 10 && (
+              <Route
+                path="/treasure-island"
+                element={<TreasureIsland key="treasure" />}
+              />
+            )}
 
             {level >= 20 && (
               <Route

@@ -108,6 +108,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Lunar Calendar": 448,
   "Treasure Map": 449,
   "Heart of Davy Jones": 450,
+  "Heart Balloons": 451,
+  Flamingo: 452,
+  "Blossom Tree": 453,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -184,6 +187,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Warrior: 714,
   "Beta Pass": 715,
   "Red Envelope": 716,
+  "Love Letter": 717,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

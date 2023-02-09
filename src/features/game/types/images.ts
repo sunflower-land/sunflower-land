@@ -297,6 +297,7 @@ import collectibleBear from "src/assets/sfts/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
+import loveLetter from "src/assets/icons/love_letter.webp";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 
@@ -321,6 +322,9 @@ import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
 import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
+import heartBalloons from "assets/events/valentine/sfts/balloons.webp";
+import flamingo from "assets/events/valentine/sfts/flamingo.webp";
+import blossomTree from "assets/events/valentine/sfts/blossom_tree.webp";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
@@ -1661,6 +1665,10 @@ export const ITEM_DETAILS: Items = {
     image: redEnvelope,
     description: "Wow, you are lucky!",
   },
+  "Love Letter": {
+    image: loveLetter,
+    description: "Convey feelings of love",
+  },
 
   // Treasure Island
   "Clam Shell": {
@@ -1774,6 +1782,20 @@ export const ITEM_DETAILS: Items = {
     description:
       "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
     image: treasureMap,
+  },
+  "Heart Balloons": {
+    description: "Use them as decorations for romantic occasions.",
+    image: heartBalloons,
+  },
+  Flamingo: {
+    description:
+      "Represents a symbol of love's beauty standing tall and confident.",
+    image: flamingo,
+  },
+  "Blossom Tree": {
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love.",
+    image: blossomTree,
   },
   Pearl: {
     description: "Shimmers in the sun.",

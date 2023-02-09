@@ -6,10 +6,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { InventoryItemName } from "features/game/types/game";
-import {
-  addVipRole as addDiscordRole,
-  DiscordRole,
-} from "features/game/actions/discordRole";
+import { addDiscordRole, DiscordRole } from "features/game/actions/discordRole";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
@@ -20,16 +17,6 @@ const GROUPS: {
   role: DiscordRole;
   items: InventoryItemName[];
 }[] = [
-  {
-    channel: "#team-sunflower",
-    role: "team sunflower",
-    items: ["Human War Banner"],
-  },
-  {
-    channel: "#team-goblin",
-    role: "team goblin",
-    items: ["Goblin War Banner"],
-  },
   {
     channel: "#vip-farmers",
     role: "vip-farmers",

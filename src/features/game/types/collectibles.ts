@@ -8,7 +8,10 @@ export type GoblinBlacksmithItemName =
   | "Squirrel Monkey"
   | "Black Bearry"
   | "Maneki Neko"
-  | "Heart of Davy Jones";
+  | "Heart of Davy Jones"
+  | "Heart Balloons"
+  | "Flamingo"
+  | "Blossom Tree";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
@@ -96,5 +99,28 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     },
     supply: 1000,
     boost: "Dig an extra 20 times per day",
+  },
+  "Heart Balloons": {
+    description: "Use them as decorations for romantic occasions.",
+    ingredients: {
+      "Love Letter": new Decimal(10),
+    },
+    supply: 100000,
+  },
+  Flamingo: {
+    description:
+      "Represents a symbol of love's beauty standing tall and confident.",
+    ingredients: {
+      "Love Letter": new Decimal(50),
+    },
+    supply: 10000,
+  },
+  "Blossom Tree": {
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love.",
+    ingredients: {
+      "Love Letter": new Decimal(300),
+    },
+    supply: 1000,
   },
 };

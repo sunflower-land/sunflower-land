@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-import boat from "assets/npcs/island_boat_pirate.png";
-import { Panel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
+
+import boatIcon from "assets/npcs/island_boat_pirate.png";
+
 import { IslandList } from "./IslandList";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
 import { Bumpkin, Inventory } from "features/game/types/game";
-import { SUNNYSIDE } from "assets/sunnyside";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-interface Props {
+const CONTENT_HEIGHT = 380;
+
+interface IslandTravelModalProps {
   isOpen: boolean;
   bumpkin: Bumpkin | undefined;
   inventory: Inventory;
@@ -21,7 +22,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const IslandTravelModal = ({
+export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
   bumpkin,
   inventory,
   isVisiting = false,
@@ -29,7 +30,7 @@ export const IslandTravelModal = ({
   isOpen,
   onShow,
   onClose,
-}: Props) => {
+}) => {
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Boat")
   );
@@ -59,39 +60,25 @@ export const IslandTravelModal = ({
 
   return (
     <Modal centered show={isOpen} onHide={onClose} onShow={onShow}>
-      <Panel className="relative" hasTabs bumpkinParts={bumpkinParts}>
-        <div
-          className="absolute flex"
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-          }}
-        >
-          <Tab isActive>
-            <img src={boat} className="h-5 mr-2" />
-            <span className="text-sm whitespace-nowrap">Travel To</span>
-          </Tab>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={onClose}
-            style={{
-              top: `${PIXEL_SCALE * 1}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-        </div>
+      <CloseButtonPanel
+        tabs={[{ icon: boatIcon, name: "Travel To" }]}
+        bumpkinParts={bumpkinParts}
+        onClose={onClose}
+      >
         {isTravelAllowed && (
-          <IslandList
-            bumpkin={bumpkin}
-            showVisitList={isVisiting}
-            inventory={inventory}
-          />
+          <div
+            style={{ maxHeight: CONTENT_HEIGHT }}
+            className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
+          >
+            <IslandList
+              bumpkin={bumpkin}
+              showVisitList={isVisiting}
+              inventory={inventory}
+            />
+          </div>
         )}
         {!isTravelAllowed && <span className="loading">Loading</span>}
-      </Panel>
+      </CloseButtonPanel>
     </Modal>
   );
 };
