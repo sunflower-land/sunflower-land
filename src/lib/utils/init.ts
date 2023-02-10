@@ -12,12 +12,4 @@ export function initialise() {
    */
   Decimal.set({ toExpPos: 30 });
   Decimal.set({ toExpNeg: -30 });
-
-  if (window.navigator && navigator.serviceWorker) {
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
-      for (const registration of registrations) {
-        registration.unregister();
-      }
-    });
-  }
 }
