@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -6,8 +6,6 @@ import npc from "assets/events/valentine/npcs/cupid.gif";
 import loveLetter from "src/assets/icons/love_letter.webp";
 import shadow from "assets/npcs/shadow.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { Modal } from "react-bootstrap";
-import { Quest } from "features/game/expansion/components/Quest";
 
 export const Cupid: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -87,9 +85,8 @@ export const Cupid: React.FC = () => {
             hair: "Cupid Hair",
             body: "Beige Farmer Potion",
           }}
-          questCompletionScreen={QuestCompletion()}
         />
-      </Modal>
-    </>
+      </div>
+    </MapPlacement>
   );
 };
