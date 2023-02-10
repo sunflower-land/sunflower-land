@@ -171,7 +171,7 @@ export const COOKABLES: Record<CookableName, Cookable> = {
 
   Pancakes: {
     name: "Pancakes",
-    description: "A great start to a Bumpkins day",
+    description: "A great start to a Bumpkins day.",
     experience: 480,
     building: "Kitchen",
     cookingSeconds: 60 * 20,
