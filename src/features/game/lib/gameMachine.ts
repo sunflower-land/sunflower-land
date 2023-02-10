@@ -91,6 +91,7 @@ type WithdrawEvent = {
 type SyncEvent = {
   captcha: string;
   type: "SYNC";
+  blockBucks: number;
 };
 
 type EditEvent = {
@@ -671,6 +672,7 @@ export function startGame(authContext: Options) {
                 token: authContext.rawToken as string,
                 captcha: (event as SyncEvent).captcha,
                 transactionId: context.transactionId as string,
+                blockBucks: (event as SyncEvent).blockBucks,
               });
 
               return {

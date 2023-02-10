@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(400),
+  "Sunflower Seed": new Decimal(0),
   "Potato Seed": new Decimal(200),
   "Pumpkin Seed": new Decimal(100),
   "Carrot Seed": new Decimal(100),
@@ -256,7 +256,7 @@ export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
     Artist: new Decimal(1),
-    Sunflower: new Decimal(5),
+    Sunflower: new Decimal(2999),
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
@@ -275,6 +275,7 @@ export const OFFLINE_FARM: GameState = {
     //   }),
     //   {}
     // ),
+    "Block Buck": new Decimal(1),
     "Maneki Neko": new Decimal(1),
     "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
