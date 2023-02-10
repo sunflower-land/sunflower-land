@@ -18,7 +18,7 @@ import { Stock } from "components/ui/Stock";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { Restock } from "features/island/buildings/components/building/market/Restock";
 
 export const RustyShovelSeller: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
@@ -40,12 +40,6 @@ export const RustyShovelSeller: React.FC = () => {
     shortcutItem("Rusty Shovel");
   };
 
-  const restock = () => {
-    gameService.send("SYNC", { captcha: "" });
-
-    setShowModal(false);
-  };
-
   const labelState = () => {
     if (stock.equals(0)) {
       return (
@@ -60,7 +54,7 @@ export const RustyShovelSeller: React.FC = () => {
 
   const Action = () => {
     if (stock.equals(0)) {
-      return <Delayed restock={restock}></Delayed>;
+      return <Restock onClose={() => setShowModal(false)} />;
     }
 
     return <Button onClick={() => craft(1)}>Buy 1</Button>;
