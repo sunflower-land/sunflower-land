@@ -19,9 +19,8 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { INITIAL_STOCK } from "features/game/lib/constants";
-import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { secondsToString } from "lib/utils/time";
-import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
@@ -37,7 +36,6 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const [showCaptcha, setShowCaptcha] = useState(false);
   const inventory = state.inventory;
   const collectibles = state.collectibles;
 
@@ -78,32 +76,6 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     );
   };
 
-  const onCaptchaSolved = async (captcha: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("SYNC", { captcha });
-
-    onClose();
-  };
-
-  if (showCaptcha) {
-    return (
-      <CloudFlareCaptcha
-        action="exotic-seeds-sync"
-        onDone={onCaptchaSolved}
-        onExpire={() => setShowCaptcha(false)}
-        onError={() => setShowCaptcha(false)}
-      />
-    );
-  }
-
-  const restock = () => {
-    // setShowCaptcha(true);
-    gameService.send("SYNC", { captcha: "" });
-
-    onClose();
-  };
-
   const stock = state.stock[selected.name] || new Decimal(0);
   const max = INITIAL_STOCK[selected.name];
   const inventoryCount = getInventoryItemCount(selected.name) ?? new Decimal(0);
@@ -129,7 +101,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
 
   const Action = () => {
     if (stock?.equals(0)) {
-      return <Delayed restock={restock}></Delayed>;
+      return <Restock onClose={onClose} />;
     }
 
     if (inventoryFull) {

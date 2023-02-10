@@ -14,12 +14,11 @@ import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
-import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import { FRUIT } from "features/game/types/fruits";
-import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
@@ -39,7 +38,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const inventory = state.inventory;
   const collectibles = state.collectibles;
@@ -72,41 +70,12 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selectedName);
   };
 
-  const restock = () => {
-    sync();
-  };
-
-  const sync = () => {
-    gameService.send("SYNC", { captcha: "" });
-
-    onClose();
-  };
-
-  const onCaptchaSolved = async (captcha: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("SYNC", { captcha });
-
-    onClose();
-  };
-
   const lessFunds = (amount = 1) => {
     return state.balance.lessThan(price.mul(amount));
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
-
-  if (showCaptcha) {
-    return (
-      <CloudFlareCaptcha
-        action="seeds-sync"
-        onDone={onCaptchaSolved}
-        onExpire={() => setShowCaptcha(false)}
-        onError={() => setShowCaptcha(false)}
-      />
-    );
-  }
 
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS()[seedName];
@@ -121,7 +90,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     // return delayed sync when no stock
     if (stock.lessThanOrEqualTo(0)) {
-      return <Delayed restock={restock}></Delayed>;
+      return <Restock onClose={onClose} />;
     }
 
     // return message if inventory is full
