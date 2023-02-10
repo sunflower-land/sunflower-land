@@ -89,8 +89,8 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
               }}
             />
             <span className="text-sm text-start w-full mt-2">
-              You can use 1 Block Buck to restock all items for all shops
-              throughout the game.
+              You are going to use 1 Block Buck to restock all shop items in the
+              game.
             </span>
             <span className="text-sm text-start w-full mt-3">
               Are you sure you want to Restock?
