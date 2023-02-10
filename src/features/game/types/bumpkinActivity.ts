@@ -65,7 +65,8 @@ export type BumpkinActivityName =
   | "Crop Removed"
   | "Treasure Dug"
   | "Treasure Searched"
-  | "Treasure Drilled";
+  | "Treasure Drilled"
+  | "Love Letter Collected";
 
 export function trackActivity(
   activityName: BumpkinActivityName,
