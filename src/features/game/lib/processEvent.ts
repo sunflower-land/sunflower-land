@@ -28,7 +28,7 @@ const maxItems: Inventory = {
 
   "Sunflower Seed": new Decimal(420),
   "Potato Seed": new Decimal(220),
-  "Pumpkin Seed": new Decimal(120),
+  "Pumpkin Seed": new Decimal(170),
   "Carrot Seed": new Decimal(120),
   "Cabbage Seed": new Decimal(110),
   "Beetroot Seed": new Decimal(100),
