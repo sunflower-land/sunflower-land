@@ -8,7 +8,7 @@ const maxItems: Inventory = {
   // Seed limits + buffer of 20
   Sunflower: new Decimal("3000"),
   Potato: new Decimal("2000"),
-  Pumpkin: new Decimal("1000"),
+  Pumpkin: new Decimal("1500"),
   Carrot: new Decimal("1000"),
   Cabbage: new Decimal("1000"),
   Beetroot: new Decimal("1000"),
