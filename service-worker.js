@@ -16,12 +16,6 @@ Copyright 2015, 2019, 2020, 2021 Google LLC. All Rights Reserved.
 // This variable is intentionally declared and unused.
 // Add a comment for your linter if you want:
 // eslint-disable-next-line no-unused-vars
-
-// TEMP - do not support caching
-caches.keys().then(function (names) {
-  for (let name of names) caches.delete(name);
-});
-
 const OFFLINE_VERSION = 1;
 
 const CACHE_NAME = "offline";
