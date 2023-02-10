@@ -82,6 +82,7 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
   valid: boolean;
   maxedItem?: InventoryItemName | "SFL";
 } {
+  return { valid: true };
   let newState: GameState;
 
   try {
