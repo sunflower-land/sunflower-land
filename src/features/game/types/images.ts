@@ -170,6 +170,7 @@ import fruitPlatter from "assets/achievements/fruit_platter.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
+import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 
@@ -673,6 +674,11 @@ export const ITEM_DETAILS: Items = {
   "Sand Drill": {
     description: "Drill deep for rare treasure",
     image: drill,
+  },
+  "Block Buck": {
+    description:
+      "A voucher used for restocking and enhancing your Blockchain experience!",
+    image: blockBuck,
   },
 
   // SFTs

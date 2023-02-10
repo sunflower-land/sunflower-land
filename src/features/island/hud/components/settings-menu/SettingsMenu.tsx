@@ -25,6 +25,7 @@ import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
 import { Discord } from "./DiscordModal";
 import { AddSFL } from "../AddSFL";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -51,6 +52,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
+  const { openModal } = useContext(ModalContext);
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -119,19 +121,15 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     onClose();
   };
 
-  const syncOnChain = async () => {
-    // setShowCaptcha(true);
-    // onClose
-
-    gameService.send("SYNC", { captcha: "" });
+  const storeOnChain = async () => {
+    openModal("STORE_ON_CHAIN");
     onClose();
-    setShowCaptcha(false);
   };
 
   const onCaptchaSolved = async (captcha: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
-    gameService.send("SYNC", { captcha });
+    gameService.send("SYNC", { captcha, blockBucks: 0 });
     onClose();
     setShowCaptcha(false);
   };
@@ -162,8 +160,8 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </>
                   )}
                   <li className="p-1">
-                    <Button onClick={syncOnChain}>
-                      <span>Sync on chain</span>
+                    <Button onClick={storeOnChain}>
+                      <span>Store progress on chain</span>
                     </Button>
                   </li>
                   <li className="p-1">
