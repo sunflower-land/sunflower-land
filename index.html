@@ -54,6 +54,12 @@
             }
           });
       }
+
+      if (caches) {
+        caches.keys().then(function (names) {
+          for (let name of names) caches.delete(name);
+        });
+      }
     </script>
     <script>
       window.dataLayer = window.dataLayer || [];
