@@ -1,5 +1,5 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import ticket from "assets/icons/block_buck_detailed.png";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -24,6 +24,70 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
+  useEffect(() => {
+    // Trigger an autosave in case they have changes so user can sync right away
+    gameService.send("SAVE");
+  }, []);
+
+  const Content = () => {
+    if (gameState.matches("autosaving")) {
+      return (
+        <div className="flex justify-center">
+          <p className="loading text-center">Loading</p>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        {!canBuyMore && (
+          <p className="text-xs text-center mb-4 leading-none">
+            {`You have ${count} Block Bucks. You must use these before purchasing more`}
+          </p>
+        )}
+
+        <div className="flex justify-around">
+          <OuterPanel className="w-2/5 flex flex-col items-center p-3">
+            <div className="flex w-full items-center justify-center  mb-2 ">
+              <p>1 x</p>
+              <img src={ticket} className="w-2/5 ml-1" />
+            </div>
+            <Button
+              disabled={!canBuyMore}
+              className="w-20 text-sm"
+              onClick={() => onBuy(1)}
+            >
+              US$0.10
+            </Button>
+          </OuterPanel>
+          <OuterPanel className="w-2/5 flex flex-col items-center relative p-3">
+            <div className="h-10 absolute" style={{ top: "-20px" }}>
+              <Label type="info">Recommended</Label>
+            </div>
+            <div className="flex w-full items-center justify-center  mb-2">
+              <p>5 x</p>
+              <img src={ticket} className="w-2/5 ml-1" />
+            </div>
+            <Button
+              disabled={!canBuyMore}
+              className="w-20 text-sm"
+              onClick={() => onBuy(5)}
+            >
+              US$0.75
+            </Button>
+          </OuterPanel>
+        </div>
+
+        <p className="text-xs text-center pt-2">
+          Game progress will be stored on Blockchain.
+        </p>
+        <p className="text-xxs italic text-center pb-2">
+          *Prices exclude Blockchain transaction fees.
+        </p>
+      </>
+    );
+  };
+
   return (
     <CloseButtonPanel
       onClose={onClose}
@@ -36,50 +100,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
         tool: "Farmer Pitchfork",
       }}
     >
-      {!canBuyMore && (
-        <p className="text-xs text-center mb-4 leading-none">
-          {`You have ${count} Block Bucks. You must use these before purchasing more`}
-        </p>
-      )}
-
-      <div className="flex justify-around">
-        <OuterPanel className="w-2/5 flex flex-col items-center p-3">
-          <div className="flex w-full items-center justify-center  mb-2 ">
-            <p>1 x</p>
-            <img src={ticket} className="w-2/5 ml-1" />
-          </div>
-          <Button
-            disabled={!canBuyMore}
-            className="w-20 text-sm"
-            onClick={() => onBuy(1)}
-          >
-            US$0.10
-          </Button>
-        </OuterPanel>
-        <OuterPanel className="w-2/5 flex flex-col items-center relative p-3">
-          <div className="h-10 absolute" style={{ top: "-20px" }}>
-            <Label type="info">Recommended</Label>
-          </div>
-          <div className="flex w-full items-center justify-center  mb-2">
-            <p>5 x</p>
-            <img src={ticket} className="w-2/5 ml-1" />
-          </div>
-          <Button
-            disabled={!canBuyMore}
-            className="w-20 text-sm"
-            onClick={() => onBuy(5)}
-          >
-            US$0.75
-          </Button>
-        </OuterPanel>
-      </div>
-
-      <p className="text-xs text-center pt-2">
-        Game progress will be stored on Blockchain.
-      </p>
-      <p className="text-xxs italic text-center pb-2">
-        *Prices exclude Blockchain transaction fees.
-      </p>
+      <Content />
     </CloseButtonPanel>
   );
 };
