@@ -10,6 +10,8 @@ import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { LandId } from "./components/LandId";
 import { InventoryItemName } from "features/game/types/game";
+import { BlockBucks } from "./components/BlockBucks";
+import Decimal from "decimal.js-light";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -28,6 +30,23 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       aria-label="Hud"
       className="absolute z-40"
     >
+      {isEditing ? (
+        <PlaceableController />
+      ) : (
+        <>
+          <Balance balance={gameState.context.state.balance} />
+          <BlockBucks
+            blockBucks={
+              gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
+            }
+          />
+          {landId && <LandId landId={landId} />}
+          <Buildings />
+          <Save />
+          <BumpkinProfile />
+          <Settings isFarming={isFarming} />
+        </>
+      )}
       <div hidden={isEditing}>
         <Inventory
           state={gameState.context.state}
@@ -43,18 +62,6 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           isFarming={isFarming}
         />
       </div>
-      {isEditing ? (
-        <PlaceableController />
-      ) : (
-        <>
-          <Balance balance={gameState.context.state.balance} />
-          {landId && <LandId landId={landId} />}
-          <Buildings />
-          <Save />
-          <BumpkinProfile />
-          <Settings isFarming={isFarming} />
-        </>
-      )}
     </div>
   );
 };

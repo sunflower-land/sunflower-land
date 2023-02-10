@@ -11,6 +11,7 @@ type Options = {
   token: string;
   captcha?: string;
   transactionId: string;
+  blockBucks: number;
 };
 
 export async function sync({
@@ -19,6 +20,7 @@ export async function sync({
   token,
   captcha,
   transactionId,
+  blockBucks,
 }: Options) {
   const response = await window.fetch(`${API_URL}/sync-progress/${farmId}`, {
     method: "POST",
@@ -30,6 +32,7 @@ export async function sync({
     body: JSON.stringify({
       sessionId: sessionId,
       captcha,
+      blockBucks,
     }),
   });
 
