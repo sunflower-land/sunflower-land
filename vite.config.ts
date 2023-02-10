@@ -3,7 +3,6 @@ import reactRefresh from "@vitejs/plugin-react-refresh";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { minifyHtml, injectHtml } from "vite-plugin-html";
 import inject from "@rollup/plugin-inject";
-import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,34 +13,6 @@ export default defineConfig({
     injectHtml({
       // TODO with API environment variables
       injectData: {},
-    }),
-    VitePWA({
-      // strategies: "injectManifest",
-      // srcDir: "src",
-      // filename: "service-worker.js",
-      manifest: {
-        short_name: "Sunflower Land",
-        icons: [
-          {
-            src: `pwa/icon_pwa_144.png`,
-            sizes: "144x144",
-            type: "image/png",
-          },
-          {
-            src: `pwa/icon_pwa_192.png`,
-            sizes: "192x88",
-            type: "image/png",
-          },
-          {
-            src: `pwa/icon_pwa_512.png`,
-            sizes: "512x236",
-            type: "image/png",
-          },
-        ],
-        display: "fullscreen",
-        theme_color: "#3E8848",
-        background_color: "#124E89",
-      },
     }),
   ],
   // Addresses web3 issue
