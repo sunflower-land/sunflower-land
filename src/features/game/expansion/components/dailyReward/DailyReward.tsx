@@ -9,9 +9,10 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
-import { rewardChestMachine } from "./dailyRewardMachine";
+import { rewardChestMachine } from "./rewardChestMachine";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
+import { secondsToString } from "lib/utils/time";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -19,6 +20,9 @@ export const DailyReward: React.FC = () => {
 
   const [showModal, setShowModal] = useState(false);
 
+  console.log({
+    openedInRener: gameState.context.state.dailyRewards?.chest?.collectedAt,
+  });
   const chestService = useInterpret(rewardChestMachine, {
     context: {
       lastUsedCode: gameState.context.state.dailyRewards?.chest?.code ?? 0,
@@ -48,6 +52,13 @@ export const DailyReward: React.FC = () => {
     console.log({ state: chestState.value });
 
     if (chestState.matches("opened")) {
+      const now = new Date();
+      const nextRefreshInSeconds =
+        24 * 60 * 60 -
+        (now.getUTCHours() * 60 * 60 +
+          now.getUTCMinutes() * 60 +
+          now.getUTCSeconds());
+
       return (
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="flex flex-col items-center p-2">
@@ -58,9 +69,21 @@ export const DailyReward: React.FC = () => {
                 width: `${PIXEL_SCALE * 16}px`,
               }}
             />
-            <span className="text-center">
-              Come back tomorrow for more rewards
+            <span className="text-center mb-4">
+              Come back later for more rewards
             </span>
+            <div className="flex items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
+              <img
+                src={SUNNYSIDE.icons.stopwatch}
+                className="w-3 left-0 mr-1"
+              />
+              <span>
+                {`${secondsToString(nextRefreshInSeconds as number, {
+                  length: "medium",
+                  isShortFormat: true,
+                })}`}
+              </span>
+            </div>
           </div>
         </CloseButtonPanel>
       );
@@ -143,8 +166,8 @@ export const DailyReward: React.FC = () => {
         className="cursor-pointer absolute z-20 hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
-          left: `${GRID_WIDTH_PX * 52}px`,
-          top: `${GRID_WIDTH_PX * 30}px`,
+          left: `${GRID_WIDTH_PX * 37.3}px`,
+          top: `${GRID_WIDTH_PX * 32}px`,
         }}
         onClick={() => openModal()}
       />

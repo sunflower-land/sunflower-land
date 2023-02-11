@@ -9,6 +9,11 @@ export interface DailyRewardContext {
   openedAt: number;
 }
 
+/**
+ * The Reward Chest can be opened every 24 hours.
+ * A user must first 'unlock' it - submit an onchain transaction
+ * A user can then  open it - submit a server request (dailyReward.opened)
+ */
 export type DailyRewardState = {
   value:
     | "initialising"
@@ -49,9 +54,6 @@ export const canDig = (dugAt?: number) => {
   return new Date(dugAt).toISOString().substring(0, 10) !== today;
 };
 
-/**
- * Machine to handle sand plot (UI only)
- */
 export const rewardChestMachine = createMachine<
   DailyRewardContext,
   DailyRewardEvent,
@@ -61,21 +63,22 @@ export const rewardChestMachine = createMachine<
   states: {
     initialising: {
       always: [
-        {
-          target: "opened",
-          cond: (context) => {
-            if (!context.openedAt) {
-              return false;
-            }
+        // {
+        //   target: "opened",
+        //   cond: (context) => {
+        //     console.log({ openedAt: context.openedAt });
+        //     if (!context.openedAt) {
+        //       return false;
+        //     }
 
-            // Recently opened
-            const today = new Date().toISOString().substring(0, 10);
-            return (
-              new Date(context.openedAt).toISOString().substring(0, 10) !==
-              today
-            );
-          },
-        },
+        //     // Recently opened
+        //     const today = new Date().toISOString().substring(0, 10);
+        //     return (
+        //       new Date(context.openedAt).toISOString().substring(0, 10) ===
+        //       today
+        //     );
+        //   },
+        // },
         { target: "idle" },
       ],
     },
