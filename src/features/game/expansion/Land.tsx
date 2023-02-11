@@ -35,6 +35,7 @@ import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Hud } from "features/island/hud/Hud";
+import { DailyReward } from "./components/dailyReward/DailyReward";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -416,6 +417,8 @@ export const Land: React.FC = () => {
           />
 
           <Water level={expandedCount} />
+
+          <DailyReward />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
