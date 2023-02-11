@@ -250,6 +250,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
+  "Lunar Calendar": (game) => !areAnyCropsPlanted(game),
   Nancy: (game) => !areAnyCropsPlanted(game),
   Scarecrow: (game) => !areAnyCropsPlanted(game),
   Kuebiko: (game) => !areAnyCropsPlanted(game) && !hasSeeds(game.inventory),
@@ -257,6 +258,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
   "Foreman Beaver": (game) => !areAnyTreesChopped(game),
   "Wood Nymph Wendy": (game) => !areAnyTreesChopped(game),
+  "Tiki Totem": (game) => !areAnyTreesChopped(game),
   "Rock Golem": (game) => !areAnyStonesMined(game),
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
@@ -290,8 +292,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Dinosaur Bone": false,
   "Human Bear": false,
   "Wooden Compass": false,
-  "Tiki Totem": true,
-  "Lunar Calendar": true,
   "Whale Bear": true,
 };
 
