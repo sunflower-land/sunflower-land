@@ -106,6 +106,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Maneki Neko": 446,
   "Tiki Totem": 447,
   "Lunar Calendar": 448,
+  "Treasure Map": 449,
+  "Heart of Davy Jones": 450,
+  "Heart Balloons": 451,
+  Flamingo: 452,
+  "Blossom Tree": 453,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -182,6 +187,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Warrior: 714,
   "Beta Pass": 715,
   "Red Envelope": 716,
+  "Love Letter": 717,
+  "Block Buck": 718,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -251,7 +258,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Jack-o-lantern": 923,
   //Golden crop event
   "Golden Crop": 924,
-  "Treasure Map": 925,
+  "Wooden Compass": 925,
 
   // Buildings
   Market: 1001,
@@ -318,7 +325,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Goblin Bear": 1234,
   Galleon: 1235,
   // Can be used for pirate hat replacement
-  "Dinosaur Fossil": 1237,
+  "Dinosaur Bone": 1237,
   "Human Bear": 1238,
   "Whale Bear": 1239,
 

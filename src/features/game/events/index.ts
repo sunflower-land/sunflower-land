@@ -117,6 +117,7 @@ import {
   CraftCollectibleAction,
 } from "./landExpansion/craftCollectible";
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
+import { restock, RestockAction } from "./landExpansion/restock";
 
 export type PlayingEvent =
   | TradeAction
@@ -154,7 +155,8 @@ export type PlayingEvent =
   | HarvestFruitAction
   | RemoveFruitTreeAction
   | CraftCollectibleAction
-  | SellTreasureAction;
+  | SellTreasureAction
+  | RestockAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -213,6 +215,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "fruitTree.removed": removeFruitTree,
   "collectible.crafted": craftCollectible,
   "treasure.sold": sellTreasure,
+  "shops.restocked": restock,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

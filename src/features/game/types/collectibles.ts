@@ -1,13 +1,17 @@
 import Decimal from "decimal.js-light";
 import { Inventory } from "./game";
 
-export type HeliosBlacksmithItem = "Immortal Pear";
+export type HeliosBlacksmithItem = "Immortal Pear" | "Treasure Map";
 
 export type GoblinBlacksmithItemName =
   | "Lady Bug"
   | "Squirrel Monkey"
   | "Black Bearry"
-  | "Maneki Neko";
+  | "Maneki Neko"
+  | "Heart of Davy Jones"
+  | "Heart Balloons"
+  | "Flamingo"
+  | "Blossom Tree";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
@@ -28,6 +32,13 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Orange: new Decimal(10),
     },
     boost: "+1 harvest",
+  },
+  "Treasure Map": {
+    description: "?",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Wooden Compass": new Decimal(2),
+    },
   },
 };
 
@@ -78,5 +89,38 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     },
     supply: 30000,
     disabled: true,
+  },
+  "Heart of Davy Jones": {
+    description:
+      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring",
+    ingredients: {
+      Gold: new Decimal(10),
+      "Wooden Compass": new Decimal(6),
+    },
+    supply: 1000,
+    boost: "Dig an extra 20 times per day",
+  },
+  "Heart Balloons": {
+    description: "Use them as decorations for romantic occasions.",
+    ingredients: {
+      "Love Letter": new Decimal(10),
+    },
+    supply: 100000,
+  },
+  Flamingo: {
+    description:
+      "Represents a symbol of love's beauty standing tall and confident.",
+    ingredients: {
+      "Love Letter": new Decimal(50),
+    },
+    supply: 10000,
+  },
+  "Blossom Tree": {
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love.",
+    ingredients: {
+      "Love Letter": new Decimal(300),
+    },
+    supply: 1000,
   },
 };

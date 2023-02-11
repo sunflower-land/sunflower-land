@@ -13,12 +13,10 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Stock } from "components/ui/Stock";
-import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { TreasureToolName, TREASURE_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
-import { Delayed } from "features/island/buildings/components/building/market/Delayed";
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import { Restock } from "features/island/buildings/components/building/market/Restock";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -32,7 +30,6 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
     useState<TreasureToolName>("Sand Shovel");
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
-  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const [
     {
@@ -79,40 +76,9 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selectedName);
   };
 
-  const onCaptchaSolved = async (captcha: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("SYNC", { captcha });
-
-    onClose();
-  };
-
-  const sync = () => {
-    gameService.send("SYNC", { captcha: "" });
-
-    onClose();
-  };
-
-  const restock = (event: SyntheticEvent) => {
-    event.stopPropagation();
-    // setShowCaptcha(true);
-    sync();
-  };
-
-  if (showCaptcha) {
-    return (
-      <CloudFlareCaptcha
-        action="carfting-sync"
-        onDone={onCaptchaSolved}
-        onExpire={() => setShowCaptcha(false)}
-        onError={() => setShowCaptcha(false)}
-      />
-    );
-  }
-
   const Action = () => {
     if (stock?.equals(0)) {
-      return <Delayed restock={restock}></Delayed>;
+      return <Restock onClose={onClose} />;
     }
 
     return (
@@ -131,10 +97,6 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   };
 
   const labelState = () => {
-    const max = INITIAL_STOCK[selectedName];
-    const inventoryCount = inventory[selectedName] ?? new Decimal(0);
-    const inventoryFull = max ? inventoryCount.gt(max) : true;
-
     if (stock?.equals(0)) {
       return (
         <Label type="danger" className="-mt-2 mb-1">
@@ -142,9 +104,8 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
         </Label>
       );
     }
-    return (
-      <Stock item={{ name: selectedName }} inventoryFull={inventoryFull} />
-    );
+
+    return <Stock item={{ name: selectedName }} inventoryFull={false} />;
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);

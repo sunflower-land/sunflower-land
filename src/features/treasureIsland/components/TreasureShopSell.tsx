@@ -17,6 +17,7 @@ import {
   BeachBountyTreasure,
   BEACH_BOUNTY_TREASURE,
 } from "features/game/types/treasure";
+import { getSellPrice } from "features/game/events/landExpansion/treasureSold";
 
 export const TreasureShopSell: React.FC = () => {
   const beachBountyTreasure = getKeys(BEACH_BOUNTY_TREASURE).sort((a, b) =>
@@ -40,7 +41,7 @@ export const TreasureShopSell: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const price = selected.sellPrice ?? 0;
+  const price = getSellPrice(selected, state.collectibles);
   const amount = inventory[selectedName] || new Decimal(0);
 
   const sell = (amount = 1) => {

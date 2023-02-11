@@ -233,6 +233,10 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Lady Bug": false,
   "Cyborg Bear": true,
   "Collectible Bear": false,
+  "Heart of Davy Jones": false,
+  "Heart Balloons": false,
+  Flamingo: false,
+  "Blossom Tree": false,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
 
@@ -272,23 +276,23 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   //Enable after beta testing
   "Abandoned Bear": false,
   "Turtle Bear": false,
-  "T-Rex Skull": false,
-  "Sunflower Coin": false,
+  "T-Rex Skull": true,
+  "Sunflower Coin": true,
   Foliant: false,
   "Skeleton King Staff": false,
   "Lifeguard Bear": false,
   "Snorkel Bear": false,
   "Parasaur Skull": false,
   "Golden Bear Head": false,
-  "Pirate Bear": false,
+  "Pirate Bear": true,
   "Goblin Bear": false,
   Galleon: false,
-  "Dinosaur Fossil": false,
+  "Dinosaur Bone": false,
   "Human Bear": false,
-  "Treasure Map": false,
-  "Tiki Totem": false,
-  "Lunar Calendar": false,
-  "Whale Bear": false,
+  "Wooden Compass": false,
+  "Tiki Totem": true,
+  "Lunar Calendar": true,
+  "Whale Bear": true,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

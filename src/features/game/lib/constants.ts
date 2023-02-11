@@ -44,7 +44,7 @@ export const CHICKEN_POSITIONS: ChickenPosition[] = [
 export const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
   "Potato Seed": new Decimal(200),
-  "Pumpkin Seed": new Decimal(100),
+  "Pumpkin Seed": new Decimal(150),
   "Carrot Seed": new Decimal(100),
   "Cabbage Seed": new Decimal(90),
   "Beetroot Seed": new Decimal(80),
@@ -66,24 +66,9 @@ export const INITIAL_STOCK: Inventory = {
   "Rusty Shovel": new Decimal(10),
   "Power Shovel": new Decimal(5),
   "Sand Shovel": new Decimal(20),
+  "Sand Drill": new Decimal(5),
 
-  // One off items
-  "Pumpkin Soup": new Decimal(1),
-  Sauerkraut: new Decimal(1),
-  "Roasted Cauliflower": new Decimal(1),
-
-  "Sunflower Cake": new Decimal(1),
-  "Potato Cake": new Decimal(1),
-  "Pumpkin Cake": new Decimal(1),
-  "Carrot Cake": new Decimal(1),
-  "Cabbage Cake": new Decimal(1),
-  "Beetroot Cake": new Decimal(1),
-  "Cauliflower Cake": new Decimal(1),
-  "Parsnip Cake": new Decimal(1),
-  "Radish Cake": new Decimal(1),
-  "Wheat Cake": new Decimal(1),
-
-  "Boiled Eggs": new Decimal(1),
+  Chicken: new Decimal(5),
 
   "Magic Bean": new Decimal(5),
   "Shiny Bean": new Decimal(5),

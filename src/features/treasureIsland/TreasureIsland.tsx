@@ -16,10 +16,11 @@ import { BeachConstruction } from "./components/BeachConstruction";
 import { PirateQuest } from "features/game/expansion/components/PirateQuest";
 import { TreasureTrove } from "./components/TreasureTrove";
 import { Hud } from "features/island/hud/Hud";
+import { PirateChest } from "features/game/expansion/components/PirateChest";
 
 export const CLICKABLE_COORDINATES: Coordinates[] = [];
 
-// Create the coordinates for the 7x7 grid of plots
+// Create the coordinates for the 8x8 grid of plots
 const START = { x: -3, y: 4 };
 const END = { x: 4, y: -3 };
 for (let y = START.y; y >= END.y; y--) {
@@ -73,6 +74,7 @@ export const TreasureIsland: React.FC = () => {
         <BeachConstruction />
         <PirateQuest />
         <TreasureTrove />
+        <PirateChest />
       </div>
       <Hud isFarming={false} />
     </>

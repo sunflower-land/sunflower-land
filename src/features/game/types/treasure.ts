@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
+import { CRAFTABLE_TOOLS } from "../events/landExpansion/craftTool";
 import { marketRate } from "../lib/halvening";
+import { CONSUMABLES } from "./consumables";
+import { DECORATION_DIMENSIONS } from "./decorations";
+import { RESOURCES } from "./resources";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -10,7 +14,8 @@ export type BeachBountyTreasure =
   | "Starfish"
   | "Seaweed"
   | "Sea Cucumber"
-  | "Crab";
+  | "Crab"
+  | "Wooden Compass";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -41,30 +46,25 @@ export type DecorationTreasure =
   | "Pirate Bear"
   | "Goblin Bear"
   | "Galleon"
-  | "Dinosaur Fossil"
+  | "Dinosaur Bone"
   | "Human Bear";
 
-export type QuestTreasure = "Treasure Map";
-
 export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
-export type MiscenalleousTreasure = "Sand Drill" | "Gold" | "Stone" | "Iron";
+export type ResourceTreasure = "Gold" | "Stone" | "Iron";
+export type ToolTreasure = "Sand Drill";
 
 export type TreasureName =
   | BeachBountyTreasure
   | ConsumableTreasure
   | DecorationTreasure
-  | QuestTreasure
   | BoostTreasure
-  | MiscenalleousTreasure;
+  | ResourceTreasure
+  | ToolTreasure;
 
-interface TreasureDetail {
+export interface TreasureDetail {
   description?: string;
   type: "average" | "good" | "rare";
 }
-
-type TimeLimitedTreasureDetail = {
-  endDate: number;
-} & TreasureDetail;
 
 export type BeachBounty = {
   sellPrice: Decimal;
@@ -72,60 +72,62 @@ export type BeachBounty = {
 
 export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   "Clam Shell": {
-    sellPrice: marketRate(500),
+    sellPrice: marketRate(375),
     description: "A clam shell.",
     type: "good",
   },
   Coral: {
-    sellPrice: marketRate(2000),
+    sellPrice: marketRate(1500),
     description: "A piece of coral, it's pretty",
     type: "good",
   },
   Crab: {
-    sellPrice: marketRate(25),
+    sellPrice: marketRate(15),
     description: "A crab, watch out for it's claws!",
     type: "average",
   },
   Pearl: {
-    sellPrice: marketRate(5000),
+    sellPrice: marketRate(3750),
     description: "Shimmers in the sun.",
     type: "rare",
   },
   Pipi: {
-    sellPrice: marketRate(250),
+    sellPrice: marketRate(187.5),
     description: "Plebidonax deltoides, found in the Pacific Ocean.",
     type: "good",
   },
   "Pirate Bounty": {
-    sellPrice: marketRate(10000),
+    sellPrice: marketRate(7500),
     description: "A bounty for a pirate. It's worth a lot of money.",
     type: "rare",
   },
   "Sea Cucumber": {
-    sellPrice: marketRate(25),
+    sellPrice: marketRate(22.5),
     description: "A sea cucumber.",
     type: "average",
   },
   Seaweed: {
-    sellPrice: marketRate(100),
+    sellPrice: marketRate(75),
     description: "Seaweed.",
     type: "average",
   },
   Starfish: {
-    sellPrice: marketRate(150),
+    sellPrice: marketRate(112.5),
     description: "The star of the sea.",
     type: "average",
   },
+  "Wooden Compass": {
+    sellPrice: marketRate(131.25),
+    description: "?",
+    type: "good",
+  },
 };
 
-export const TREASURES: Record<TreasureName, TreasureDetail> = {
+export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
   "Whale Bear": {
     type: "rare",
   },
   "Pirate Cake": {
-    type: "good",
-  },
-  "Treasure Map": {
     type: "good",
   },
   "Carrot Cake": {
@@ -155,50 +157,14 @@ export const TREASURES: Record<TreasureName, TreasureDetail> = {
   "Tiki Totem": {
     type: "rare",
   },
-  "Abandoned Bear": {
+  "T-Rex Skull": {
     type: "rare",
   },
-  "Turtle Bear": {
-    type: "good",
-  },
-  "T-Rex Skull": {
-    type: "good",
-  },
   "Sunflower Coin": {
-    type: "good",
-  },
-  Foliant: {
-    type: "good",
-  },
-  "Skeleton King Staff": {
-    type: "good",
-  },
-  "Lifeguard Bear": {
-    type: "good",
-  },
-  "Snorkel Bear": {
-    type: "good",
-  },
-  "Parasaur Skull": {
-    type: "good",
-  },
-  "Goblin Bear": {
-    type: "good",
-  },
-  "Golden Bear Head": {
-    type: "good",
+    type: "rare",
   },
   "Pirate Bear": {
-    type: "good",
-  },
-  Galleon: {
-    type: "good",
-  },
-  "Dinosaur Fossil": {
-    type: "good",
-  },
-  "Human Bear": {
-    type: "good",
+    type: "rare",
   },
   "Boiled Eggs": {
     type: "average",
@@ -228,12 +194,63 @@ export const TREASURES: Record<TreasureName, TreasureDetail> = {
   ...BEACH_BOUNTY_TREASURE,
 };
 
-type TimeLimitedTreasure = {
-  name: TreasureName;
+type SeasonalRewards = {
+  startDate: number;
   endDate: number;
+  rewards: Partial<Record<TreasureName, unknown>>;
 };
 
-export const TIME_LIMITED_TREASURE: TimeLimitedTreasure = {
-  name: "Pirate Bear",
-  endDate: new Date("2023-05-08T00:00:00.000Z").getTime(),
+export const SEASONAL_REWARDS: SeasonalRewards = {
+  startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
+  endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  rewards: {
+    "Pirate Bear": {},
+    "Tiki Totem": {},
+    "Lunar Calendar": {},
+    "Turtle Bear": {},
+    "Whale Bear": {},
+    "T-Rex Skull": {},
+    "Sunflower Coin": {},
+  },
 };
+
+export const BOOST_TREASURE: Record<BoostTreasure, string> = {
+  "Tiki Totem": "+0.1 wood per tree",
+  "Lunar Calendar": "10% faster crop growth",
+};
+
+export function isBoostTreasure(
+  treasure: TreasureName
+): treasure is BoostTreasure {
+  return treasure in BOOST_TREASURE;
+}
+
+export function isBeachBountyTreasure(
+  treasure: TreasureName
+): treasure is BeachBountyTreasure {
+  return treasure in BEACH_BOUNTY_TREASURE;
+}
+
+export function isConsumableTreasure(
+  treasure: TreasureName
+): treasure is ConsumableTreasure {
+  return treasure in CONSUMABLES;
+}
+
+export function isDecorationTreasure(
+  treasure: TreasureName
+): treasure is DecorationTreasure {
+  return treasure in DECORATION_DIMENSIONS;
+}
+
+export function isResourceTreasure(
+  treasure: TreasureName
+): treasure is ResourceTreasure {
+  return treasure in RESOURCES;
+}
+
+export function isToolTreasure(
+  treasure: TreasureName
+): treasure is ToolTreasure {
+  return treasure in CRAFTABLE_TOOLS;
+}

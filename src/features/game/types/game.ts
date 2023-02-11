@@ -102,7 +102,9 @@ export type Coupons =
   | "Jack-o-lantern"
   | "Golden Crop"
   | "Beta Pass"
-  | "Red Envelope";
+  | "Red Envelope"
+  | "Love Letter"
+  | "Block Buck";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -122,6 +124,13 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Red Envelope": {
     description: "Someone was lucky!",
+  },
+  "Love Letter": {
+    description: "Convey feelings of love",
+  },
+  "Block Buck": {
+    description:
+      "A voucher used for restocking and enhancing your Blockchain experience!",
   },
 };
 
@@ -397,6 +406,7 @@ export interface GameState {
       discoveredAt: number;
       holeId: number;
     };
+    rewardCollectedAt?: number;
   };
 
   // TODO remove when old events are deleted
