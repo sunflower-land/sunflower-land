@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -6,6 +6,8 @@ import npc from "assets/events/valentine/npcs/cupid.gif";
 import loveLetter from "src/assets/icons/love_letter.webp";
 import shadow from "assets/npcs/shadow.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { Modal } from "react-bootstrap";
+import { Quest } from "features/game/expansion/components/Quest";
 
 export const Cupid: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -78,6 +80,7 @@ export const Cupid: React.FC = () => {
           questTitle="Hello, gorgeous!"
           onClose={() => setShowModal(false)}
           questDescription={ModalDescription()}
+          questCompletionScreen={QuestCompletion()}
           bumpkinParts={{
             dress: "Cupid Dress",
             tool: "Farmer Pitchfork",
@@ -86,7 +89,7 @@ export const Cupid: React.FC = () => {
             body: "Beige Farmer Potion",
           }}
         />
-      </div>
-    </MapPlacement>
+      </Modal>
+    </>
   );
 };
