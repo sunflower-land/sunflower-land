@@ -13,12 +13,15 @@ import { rewardChestMachine } from "./rewardChestMachine";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showModal, setShowModal] = useState(false);
+  const { setToast } = useContext(ToastContext);
 
   console.log({
     openedInRener: gameState.context.state.dailyRewards?.chest?.collectedAt,
@@ -27,6 +30,9 @@ export const DailyReward: React.FC = () => {
     context: {
       lastUsedCode: gameState.context.state.dailyRewards?.chest?.code ?? 0,
       openedAt: gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0,
+      bumpkinLevel: getBumpkinLevel(
+        gameState.context.state.bumpkin?.experience ?? 0
+      ),
     },
   });
 
@@ -49,7 +55,7 @@ export const DailyReward: React.FC = () => {
   };
 
   const ModalContent = () => {
-    console.log({ state: chestState.value });
+    console.log({ state: chestState.value, gameState: gameState.value });
 
     if (chestState.matches("opened")) {
       const now = new Date();
@@ -61,7 +67,7 @@ export const DailyReward: React.FC = () => {
 
       return (
         <CloseButtonPanel onClose={() => setShowModal(false)}>
-          <div className="flex flex-col items-center p-2">
+          <div className="flex flex-col items-center p-2 w-full">
             <img
               src={SUNNYSIDE.decorations.treasure_chest_opened}
               className="mb-2"
@@ -91,13 +97,16 @@ export const DailyReward: React.FC = () => {
 
     if (chestState.matches("locked")) {
       return (
-        <CloseButtonPanel onClose={() => setShowModal(false)}>
+        <CloseButtonPanel
+          title="Daily Reward"
+          onClose={() => setShowModal(false)}
+        >
           <div className="flex flex-col items-center p-2">
             <img
               src={SUNNYSIDE.decorations.treasure_chest}
               className="mb-2"
               style={{
-                width: `${PIXEL_SCALE * 16}px`,
+                width: `${PIXEL_SCALE * 24}px`,
               }}
             />
             <Button onClick={() => chestService.send("UNLOCK")}>
@@ -110,13 +119,16 @@ export const DailyReward: React.FC = () => {
 
     if (chestState.matches("unlocked")) {
       return (
-        <CloseButtonPanel onClose={() => setShowModal(false)}>
+        <CloseButtonPanel
+          title="Daily Reward"
+          onClose={() => setShowModal(false)}
+        >
           <div className="flex flex-col items-center p-2">
             <img
               src={SUNNYSIDE.decorations.treasure_chest}
               className="mb-2"
               style={{
-                width: `${PIXEL_SCALE * 16}px`,
+                width: `${PIXEL_SCALE * 24}px`,
               }}
             />
             <Button onClick={reveal}>Open reward</Button>
@@ -125,11 +137,16 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("opening") && gameState.matches("revealing")) {
+    if (chestState.matches("comingSoon")) {
       return (
-        <Panel>
-          <Revealing icon={SUNNYSIDE.icons.treasure} />
-        </Panel>
+        <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
+          <div className="px-2 pb-2 w-full flex flex-col items-center">
+            <img src={SUNNYSIDE.icons.player} className="w-1/5 mb-3" />
+            <p className="text-sm">
+              You must be level 3 to claim daily rewards.
+            </p>
+          </div>
+        </CloseButtonPanel>
       );
     }
 
@@ -141,7 +158,25 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("loading") || chestState.matches("unlocking")) {
+    if (chestState.matches("opening")) {
+      return (
+        <Panel>
+          <Revealing icon={SUNNYSIDE.icons.treasure} />
+        </Panel>
+      );
+    }
+
+    if (chestState.matches("unlocking")) {
+      return (
+        <Panel>
+          <div className=" p-2">
+            <p className="loading">Unlocking</p>
+          </div>
+        </Panel>
+      );
+    }
+
+    if (chestState.matches("loading")) {
       return (
         <Panel>
           <div className=" p-2">
@@ -156,21 +191,37 @@ export const DailyReward: React.FC = () => {
 
   return (
     <>
-      <img
-        id="daily-reward"
-        src={
-          chestState.matches("opened")
-            ? SUNNYSIDE.decorations.treasure_chest_opened
-            : SUNNYSIDE.decorations.treasure_chest
-        }
-        className="cursor-pointer absolute z-20 hover:img-highlight"
+      <div
+        className="absolute z-20"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
+          height: `${PIXEL_SCALE * 16}px`,
           left: `${GRID_WIDTH_PX * 37.3}px`,
           top: `${GRID_WIDTH_PX * 32}px`,
         }}
-        onClick={() => openModal()}
-      />
+      >
+        <img
+          id="daily-reward"
+          src={
+            chestState.matches("opened")
+              ? SUNNYSIDE.decorations.treasure_chest_opened
+              : SUNNYSIDE.decorations.treasure_chest
+          }
+          className="cursor-pointer hover:img-highlight w-full absolute bottom-0"
+          onClick={() => openModal()}
+        />
+        {!chestState.matches("opened") && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="absolute animate-float"
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+              top: `${PIXEL_SCALE * -14}px`,
+              left: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
+      </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <ModalContent />
       </Modal>

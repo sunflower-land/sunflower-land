@@ -5,6 +5,7 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 
 export interface DailyRewardContext {
   lastUsedCode: number;
+  bumpkinLevel: number;
   code: number;
   openedAt: number;
 }
@@ -19,6 +20,7 @@ export type DailyRewardState = {
     | "initialising"
     | "idle"
     | "loading"
+    | "comingSoon"
     | "locked"
     | "unlocking"
     | "unlocked"
@@ -79,9 +81,17 @@ export const rewardChestMachine = createMachine<
         //     );
         //   },
         // },
+        {
+          target: "comingSoon",
+          cond: (context) => {
+            console.log({ level: context.bumpkinLevel });
+            return context.bumpkinLevel < 3;
+          },
+        },
         { target: "idle" },
       ],
     },
+    comingSoon: {},
     idle: {
       on: {
         LOAD: "loading",

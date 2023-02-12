@@ -416,7 +416,7 @@ export interface GameState {
     rewardCollectedAt?: number;
   };
   dailyRewards: {
-    chest: {
+    chest?: {
       collectedAt: number;
       code: number;
     };
