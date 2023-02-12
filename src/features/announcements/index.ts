@@ -43,6 +43,58 @@ export const ANNOUNCEMENTS: Announcement[] = [
     link: "https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks",
   },
   {
+    date: new Date("2023-02-13T02:00:00"),
+    title: "Weekly news",
+    notes: [
+      {
+        text: `Valentines Day Event is going live this week!`,
+        icon: SUNNYSIDE.icons.heart,
+      },
+      {
+        text: "We have introduced Block Bucks! Restock your shops instantly and save on gas fees.",
+        icon: buck,
+        link: {
+          text: "Read more",
+          url: "https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks",
+        },
+      },
+      {
+        text: `Over 2,900 players minted the Striped Blue shirt on Treasure Island`,
+        icon: SUNNYSIDE.icons.player,
+        link: {
+          text: "Read more",
+          url: "https://docs.sunflower-land.com/player-guides/islands/treasure-island",
+        },
+      },
+      {
+        text: "Multiple Bumpkins are coming soon!",
+        icon: SUNNYSIDE.icons.player,
+        link: {
+          text: "Read more",
+          url: "https://github.com/sunflower-land/sunflower-land/discussions/2211",
+        },
+      },
+      {
+        text: `Join the weekly team chat on Discord`,
+        icon: SUNNYSIDE.icons.expression_chat,
+        date: new Date("2023-02-14T04:30:00.000Z"),
+        link: {
+          url: "https://discord.com/invite/sunflowerland",
+          text: "Join Discord",
+        },
+      },
+      {
+        text: `Watch the team at our Weekly Wrap up`,
+        icon: SUNNYSIDE.icons.expression_chat,
+        date: new Date("2023-02-16T23:00:00.000Z"),
+        link: {
+          url: "https://www.twitch.tv/0xsunflowerstudios",
+          text: "Twitch",
+        },
+      },
+    ],
+  },
+  {
     date: new Date("2023-02-06T02:00:00"),
     title: "Weekly news",
     notes: [
