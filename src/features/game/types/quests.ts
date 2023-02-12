@@ -9,7 +9,11 @@ export type QuestName =
   | "Pirate Quest 1"
   | "Pirate Quest 2"
   | "Pirate Quest 3"
-  | "Pirate Quest 4";
+  | "Pirate Quest 4"
+  | "Cupid Quest 1"
+  | "Cupid Quest 2"
+  | "Cupid Quest 3"
+  | "Cupid Quest 4";
 
 export type Quest = {
   description: string;
@@ -33,6 +37,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 10,
     wearable: "Fruit Picker Shirt",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Fruit Quest 2": {
     description: "Harvest 100 Orange",
@@ -40,6 +45,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
     requirement: 100,
     wearable: "Fruit Picker Apron",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Fruit Quest 3": {
     description: "Harvest 750 Apples",
@@ -47,8 +53,8 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 750,
     wearable: "Fruit Bowl",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
-
   "Pirate Quest 1": {
     description: "Dig 30 holes",
     progress: (gameState: GameState) =>
@@ -82,6 +88,38 @@ export const QUESTS: Record<QuestName, Quest> = {
     wearable: "Pirate Hat",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
+  "Cupid Quest 1": {
+    description: "Collect 5 Love Letters",
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
+    requirement: 5,
+    wearable: "Cupid Hair",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
+  },
+  "Cupid Quest 2": {
+    description: "Collect 25 Love Letters",
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
+    requirement: 25,
+    wearable: "Cupid Dress",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
+  },
+  "Cupid Quest 3": {
+    description: "Collect 100 Love Letters",
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
+    requirement: 100,
+    wearable: "Cupid Sandals",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
+  },
+  "Cupid Quest 4": {
+    description: "Collect 500 Love Letters",
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
+    requirement: 500,
+    wearable: "Love Quiver",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
+  },
 };
 
 type CompletedQuestName =
@@ -106,4 +144,8 @@ export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
     "Pirate Quest 2": 100012,
     "Pirate Quest 3": 100013,
     "Pirate Quest 4": 100014,
+    "Cupid Quest 1": 100015,
+    "Cupid Quest 2": 100016,
+    "Cupid Quest 3": 100017,
+    "Cupid Quest 4": 100018,
   };
