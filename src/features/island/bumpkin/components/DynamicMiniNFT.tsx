@@ -179,8 +179,8 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
 export interface DynamicMiniNFTProps {
   body: BumpkinBody;
   hair: BumpkinHair;
-  shirt: BumpkinShirt;
-  pants: BumpkinPant;
+  shirt?: BumpkinShirt;
+  pants?: BumpkinPant;
   hat?: BumpkinHat;
   suit?: BumpkinSuit;
   onesie?: BumpkinOnesie;
@@ -342,7 +342,7 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
           ref={shirtRef}
           className="absolute w-full inset-0 pointer-events-none"
           style={bodyPartStyle}
-          image={PARTS[shirt] ?? whiteShirt}
+          image={PARTS[shirt as BumpkinShirt] ?? whiteShirt}
           widthFrame={FRAME_WIDTH}
           heightFrame={FRAME_HEIGHT}
           steps={STEPS}
@@ -352,7 +352,7 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
           ref={pantsRef}
           className="absolute w-full inset-0 pointer-events-none"
           style={bodyPartStyle}
-          image={PARTS[pants] ?? farmerPants}
+          image={PARTS[pants as BumpkinPant] ?? farmerPants}
           widthFrame={FRAME_WIDTH}
           heightFrame={FRAME_HEIGHT}
           steps={STEPS}

@@ -4,6 +4,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import npc from "assets/events/valentine/npcs/cupid.gif";
 import loveLetter from "src/assets/icons/love_letter.webp";
+import shadow from "assets/npcs/shadow.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
 import { Quest } from "features/game/expansion/components/Quest";
@@ -18,7 +19,7 @@ export const Cupid: React.FC = () => {
           {`I've been designing limited edition wearables that can enhance your love life.`}
         </p>
         <p className="mb-4">
-          {`In this cupid quest, participants have the opportunity to exchange their love letters for valuable prizes.`}
+          {`In this cupid quest, participants have the opportunity to mint free wearables.`}
         </p>
         <div className="flex justify-center mb-4">
           <img
@@ -52,9 +53,18 @@ export const Cupid: React.FC = () => {
           <img
             src={npc}
             onClick={() => setShowModal(true)}
-            className="absolute hover:img-highlight cursor-pointer"
+            className="absolute hover:img-highlight cursor-pointer z-10"
             style={{
               width: `${PIXEL_SCALE * 30}px`,
+            }}
+          />
+          <img
+            src={shadow}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              top: `${PIXEL_SCALE * 19}px`,
+              left: `${PIXEL_SCALE * 8}px`,
             }}
           />
         </div>
@@ -71,13 +81,11 @@ export const Cupid: React.FC = () => {
           onClose={() => setShowModal(false)}
           questDescription={ModalDescription()}
           bumpkinParts={{
-            pants: "Farmer Pants",
-            body: "Beige Farmer Potion",
-            coat: "Fruit Picker Apron",
+            dress: "Cupid Dress",
             tool: "Farmer Pitchfork",
-            hair: "Parlour Hair",
-            shirt: "Fruit Picker Shirt",
-            hat: "Fruit Bowl",
+            wings: "Love Quiver",
+            hair: "Cupid Hair",
+            body: "Beige Farmer Potion",
           }}
           questCompletionScreen={QuestCompletion()}
         />
