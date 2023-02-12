@@ -80,6 +80,7 @@ export const Cupid: React.FC = () => {
           questTitle="Hello, gorgeous!"
           onClose={() => setShowModal(false)}
           questDescription={ModalDescription()}
+          questCompletionScreen={QuestCompletion()}
           bumpkinParts={{
             dress: "Cupid Dress",
             tool: "Farmer Pitchfork",
@@ -87,7 +88,6 @@ export const Cupid: React.FC = () => {
             hair: "Cupid Hair",
             body: "Beige Farmer Potion",
           }}
-          questCompletionScreen={QuestCompletion()}
         />
       </Modal>
     </>

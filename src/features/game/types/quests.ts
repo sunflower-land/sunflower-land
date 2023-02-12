@@ -37,6 +37,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 10,
     wearable: "Fruit Picker Shirt",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Fruit Quest 2": {
     description: "Harvest 100 Orange",
@@ -44,6 +45,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
     requirement: 100,
     wearable: "Fruit Picker Apron",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Fruit Quest 3": {
     description: "Harvest 750 Apples",
@@ -51,8 +53,8 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 750,
     wearable: "Fruit Bowl",
+    deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
-
   "Pirate Quest 1": {
     description: "Dig 30 holes",
     progress: (gameState: GameState) =>
@@ -91,7 +93,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
     requirement: 5,
-    wearable: "Red Farmer Shirt",
+    wearable: "Cupid Hair",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Cupid Quest 2": {
@@ -99,7 +101,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
     requirement: 25,
-    wearable: "Red Farmer Shirt",
+    wearable: "Cupid Dress",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Cupid Quest 3": {
@@ -107,7 +109,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
     requirement: 100,
-    wearable: "Red Farmer Shirt",
+    wearable: "Cupid Sandals",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Cupid Quest 4": {
@@ -115,7 +117,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
     requirement: 500,
-    wearable: "Red Farmer Shirt",
+    wearable: "Love Quiver",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
 };
