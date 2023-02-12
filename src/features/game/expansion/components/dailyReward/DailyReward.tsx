@@ -137,6 +137,26 @@ export const DailyReward: React.FC = () => {
       );
     }
 
+    if (chestState.matches("error")) {
+      return (
+        <CloseButtonPanel
+          title="Something went wrong!"
+          onClose={() => setShowModal(false)}
+        >
+          <div className="flex flex-col items-center p-2">
+            <img
+              src={SUNNYSIDE.icons.sad}
+              className="mb-2"
+              style={{
+                width: `${PIXEL_SCALE * 24}px`,
+              }}
+            />
+            <Button onClick={() => setShowModal(false)}>Close</Button>
+          </div>
+        </CloseButtonPanel>
+      );
+    }
+
     if (chestState.matches("comingSoon")) {
       return (
         <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>

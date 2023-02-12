@@ -25,7 +25,8 @@ export type DailyRewardState = {
     | "unlocking"
     | "unlocked"
     | "opening"
-    | "opened";
+    | "opened"
+    | "error";
   context: DailyRewardContext;
 };
 
@@ -178,6 +179,10 @@ export const rewardChestMachine = createMachine<
       },
     },
     opened: {},
-    error: {},
+    error: {
+      on: {
+        LOAD: "loading",
+      },
+    },
   },
 });
