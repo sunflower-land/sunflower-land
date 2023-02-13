@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import background from "assets/events/valentine/land/valetine_island.webp";
+import background from "assets/events/valentine/land/valentine_island.png";
 import boat from "assets/events/valentine/npcs/love_boat.webp";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";

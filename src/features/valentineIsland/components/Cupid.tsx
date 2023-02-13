@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import npc from "assets/events/valentine/npcs/cupid.gif";
-import loveLetter from "src/assets/icons/love_letter.webp";
+import loveLetter from "src/assets/icons/love_letter.png";
 import shadow from "assets/npcs/shadow.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
@@ -48,7 +48,7 @@ export const Cupid: React.FC = () => {
 
   return (
     <>
-      <MapPlacement x={-8} y={2} height={1} width={3}>
+      <MapPlacement x={-7.5} y={2} height={1} width={3}>
         <div className="relative w-full h-full">
           <img
             src={npc}
