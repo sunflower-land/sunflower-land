@@ -14,6 +14,7 @@ import { ValentinGoblin } from "features/valentineIsland/components/ValentinGobl
 import { Cupid } from "features/valentineIsland/components/Cupid";
 import { ValentinFarmer } from "features/valentineIsland/components/ValentinFarmer";
 import { ValentinesIslandTravel } from "features/game/expansion/components/travel/ValentinesIslandTravel";
+import { BlossomTree } from "features/valentineIsland/components/BlossomTree";
 
 export const ValentineIsland: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -51,6 +52,7 @@ export const ValentineIsland: React.FC = () => {
         <Moles />
         <ValentinFarmer />
         <ChickenCouple />
+        <BlossomTree />
 
         <ValentinesIslandTravel
           bumpkin={bumpkin}

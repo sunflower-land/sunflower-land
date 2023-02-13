@@ -51,6 +51,9 @@ const CHICKEN_FIGHT_DONATION = import.meta.env
 // Lunar New Year Event Donation Address
 const LUNAR_NEW_YEAR_DONATION = import.meta.env
   .VITE_LUNAR_NEW_YEAR_DONATION as string;
+// Valentine Event Donation Address
+const VALENTINE_EVENT_DONATION = import.meta.env
+  .VITE_VALENTINE_EVENT_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -92,6 +95,7 @@ export const CONFIG = {
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
   LUNAR_NEW_YEAR_DONATION,
+  VALENTINE_EVENT_DONATION,
   PROTECTED_IMAGE_URL,
   WEBSOCKET_URL,
 };
