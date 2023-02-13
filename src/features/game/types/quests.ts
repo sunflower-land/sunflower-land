@@ -94,7 +94,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
     requirement: 5,
     wearable: "Cupid Hair",
-    deadline: new Date(Date.now() + 10000000000).toISOString(),
+    deadline: new Date("2023-02-21").toISOString(),
   },
   "Cupid Quest 2": {
     description: "Collect 25 Love Letters",
@@ -102,7 +102,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
     requirement: 25,
     wearable: "Cupid Dress",
-    deadline: new Date(Date.now() + 10000000000).toISOString(),
+    deadline: new Date("2023-02-21").toISOString(),
   },
   "Cupid Quest 3": {
     description: "Collect 100 Love Letters",
@@ -110,7 +110,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
     requirement: 100,
     wearable: "Cupid Sandals",
-    deadline: new Date(Date.now() + 10000000000).toISOString(),
+    deadline: new Date("2023-02-21").toISOString(),
   },
   "Cupid Quest 4": {
     description: "Collect 500 Love Letters",
@@ -118,7 +118,7 @@ export const QUESTS: Record<QuestName, Quest> = {
       gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
     requirement: 500,
     wearable: "Love Quiver",
-    deadline: new Date(Date.now() + 10000000000).toISOString(),
+    deadline: new Date("2023-02-21").toISOString(),
   },
 };
 
