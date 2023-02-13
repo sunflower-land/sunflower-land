@@ -248,36 +248,30 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
           )}
         </Panel>
       </Modal>
-
       <Share isOpen={showShareModal} onClose={() => setShowShareModal(false)} />
-
       <HowToPlay
         isOpen={showHowToPlay}
         onClose={() => setShowHowToPlay(false)}
       />
-
       {isFarming && (
         <Discord
           isOpen={showDiscordModal}
           onClose={() => setShowDiscordModal(false)}
         />
       )}
-
       <SubSettings
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
       />
-
       <AddSFL
         isOpen={showAddSFLModal}
         onClose={() => setShowAddSFLModal(false)}
       />
-
+      console.log({showLostAndFoundModal})
       <LostAndFound
         isOpen={showLostAndFoundModal}
         onClose={() => setShowLostAndFoundModal(false)}
       />
-
       {showCaptcha && (
         <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>
           <Panel>
@@ -302,7 +296,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
           </Panel>
         </Modal>
       )}
-
       <CommunityGardenModal
         isOpen={showCommunityGardenModal}
         onClose={() => setShowCommunityGardenModal(false)}

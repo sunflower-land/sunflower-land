@@ -70,8 +70,6 @@ export async function loadBalanceBatch(
   account: string,
   attempts = 0
 ): Promise<Record<number, number>> {
-  console.log("load balance batch");
-  console.log(new Array(IDS.length).fill(account));
   try {
     const balances = await (
       new web3.eth.Contract(
@@ -84,8 +82,6 @@ export async function loadBalanceBatch(
         IDS.map((id) => `${id}`)
       )
       .call({ from: account });
-
-    console.log({ balances });
 
     return balances.reduce((amounts, itemBalance, index) => {
       if (Number(itemBalance) > 0) {
