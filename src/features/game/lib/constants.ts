@@ -460,6 +460,7 @@ export const TEST_FARM: GameState = {
     seconds: 60,
     sfl: new Decimal(0),
   },
+  dailyRewards: {},
 };
 
 export const EMPTY: GameState = {
@@ -483,6 +484,7 @@ export const EMPTY: GameState = {
   collectibles: {},
   mysteryPrizes: {},
   pumpkinPlaza: {},
+  dailyRewards: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
