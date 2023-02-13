@@ -54,7 +54,7 @@ export const feedValentineFood = ({ state, action }: Options) => {
   bumpkin.activity = trackActivity(
     "Love Letter Collected",
     bumpkin?.activity,
-    new Decimal(loveLettersCollected + 1)
+    new Decimal(1)
   );
 
   return {
