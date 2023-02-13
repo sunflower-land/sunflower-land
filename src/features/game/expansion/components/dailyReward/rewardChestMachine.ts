@@ -66,22 +66,22 @@ export const rewardChestMachine = createMachine<
   states: {
     initialising: {
       always: [
-        // {
-        //   target: "opened",
-        //   cond: (context) => {
-        //     console.log({ openedAt: context.openedAt });
-        //     if (!context.openedAt) {
-        //       return false;
-        //     }
+        {
+          target: "opened",
+          cond: (context) => {
+            console.log({ openedAt: context.openedAt });
+            if (!context.openedAt) {
+              return false;
+            }
 
-        //     // Recently opened
-        //     const today = new Date().toISOString().substring(0, 10);
-        //     return (
-        //       new Date(context.openedAt).toISOString().substring(0, 10) ===
-        //       today
-        //     );
-        //   },
-        // },
+            // Recently opened
+            const today = new Date().toISOString().substring(0, 10);
+            return (
+              new Date(context.openedAt).toISOString().substring(0, 10) ===
+              today
+            );
+          },
+        },
         {
           target: "comingSoon",
           cond: (context) => {
