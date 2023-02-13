@@ -37,7 +37,9 @@ export const Cupid: React.FC = () => {
   const QuestCompletion = () => {
     return (
       <div className="pr-4 pl-2 py-2">
-        <p className="mb-3">Wow, you really do love Fruits as much as I do!</p>
+        <p className="mb-3">
+          Wow, you really do love Bumpkins as much as I do!
+        </p>
         <p>
           {`I have no more gifts for you. Don't forget to wear your new
             items!`}
