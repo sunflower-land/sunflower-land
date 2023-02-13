@@ -71,7 +71,7 @@ const maxItems: Inventory = {
   "Human Bear": new Decimal(10),
   "Whale Bear": new Decimal(10),
 
-  //Tresuare Island Beach Bounty
+  //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(10),
   Pearl: new Decimal(10),
   Coral: new Decimal(10),
