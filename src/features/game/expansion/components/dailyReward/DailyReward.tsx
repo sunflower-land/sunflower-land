@@ -14,18 +14,13 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showModal, setShowModal] = useState(false);
-  const { setToast } = useContext(ToastContext);
 
-  console.log({
-    openedInRener: gameState.context.state.dailyRewards?.chest?.collectedAt,
-  });
   const chestService = useInterpret(rewardChestMachine, {
     context: {
       lastUsedCode: gameState.context.state.dailyRewards?.chest?.code ?? 0,
@@ -55,8 +50,6 @@ export const DailyReward: React.FC = () => {
   };
 
   const ModalContent = () => {
-    console.log({ state: chestState.value, gameState: gameState.value });
-
     if (chestState.matches("opened")) {
       const now = new Date();
       const nextRefreshInSeconds =

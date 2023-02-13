@@ -49,14 +49,6 @@ export type MachineInterpreter = Interpreter<
   DailyRewardState
 >;
 
-export const canDig = (dugAt?: number) => {
-  if (!dugAt) return true;
-
-  const today = new Date().toISOString().substring(0, 10);
-
-  return new Date(dugAt).toISOString().substring(0, 10) !== today;
-};
-
 export const rewardChestMachine = createMachine<
   DailyRewardContext,
   DailyRewardEvent,
@@ -69,7 +61,6 @@ export const rewardChestMachine = createMachine<
         {
           target: "opened",
           cond: (context) => {
-            console.log({ openedAt: context.openedAt });
             if (!context.openedAt) {
               return false;
             }
@@ -84,10 +75,7 @@ export const rewardChestMachine = createMachine<
         },
         {
           target: "comingSoon",
-          cond: (context) => {
-            console.log({ level: context.bumpkinLevel });
-            return context.bumpkinLevel < 3;
-          },
+          cond: (context) => context.bumpkinLevel < 3,
         },
         { target: "idle" },
       ],
@@ -100,12 +88,11 @@ export const rewardChestMachine = createMachine<
     },
     loading: {
       invoke: {
-        src: async (c) => {
+        src: async () => {
           const code = await getDailyCode(
             wallet.web3Provider,
             wallet.myAccount
           );
-          console.log({ server: c.code, onChain: code });
 
           return { code };
         },
@@ -138,7 +125,6 @@ export const rewardChestMachine = createMachine<
       invoke: {
         src: async (context) => {
           const nextCode = (context.code + 1) % 100;
-          console.log({ nextCode });
           await trackDailyReward({
             web3: wallet.web3Provider,
             account: wallet.myAccount,
