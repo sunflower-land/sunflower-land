@@ -65,7 +65,7 @@ export async function balanceOf(
   }
 }
 
-export async function loadBalanceBatch(
+export async function loadWearablesBalanceBatch(
   web3: Web3,
   account: string,
   attempts = 0
@@ -93,7 +93,7 @@ export async function loadBalanceBatch(
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
-      return loadBalanceBatch(web3, account, attempts + 1);
+      return loadWearablesBalanceBatch(web3, account, attempts + 1);
     }
 
     throw error;

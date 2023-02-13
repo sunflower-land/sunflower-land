@@ -10,6 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { TransferAccount } from "./TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { LostAndFound } from "../../LostAndFound";
 
 interface Props {
   isOpen: boolean;
@@ -21,7 +22,9 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const { gameService } = useContext(Context);
 
-  const [view, setView] = useState<"settings" | "transfer">("settings");
+  const [view, setView] = useState<"settings" | "transfer" | "lost-and-found">(
+    "settings"
+  );
 
   const onLogout = () => {
     onClose();
@@ -48,6 +51,10 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
       );
     }
 
+    if (view === "lost-and-found") {
+      return <LostAndFound onClose={onClose} />;
+    }
+
     return (
       <CloseButtonPanel title="Settings" onClose={onClose}>
         <Button className="col p-1" onClick={onLogout}>
@@ -55,6 +62,12 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
         </Button>
         <Button className="col p-1 mt-2" onClick={() => setView("transfer")}>
           Transfer Ownership
+        </Button>
+        <Button
+          className="col p-1 mt-2"
+          onClick={() => setView("lost-and-found")}
+        >
+          Lost and Found
         </Button>
         <Button className="col p-1 mt-2" onClick={refreshSession}>
           Refresh

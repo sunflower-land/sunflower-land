@@ -26,7 +26,6 @@ import { Discord } from "./DiscordModal";
 import { AddSFL } from "../AddSFL";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { LostAndFound } from "../LostAndFound";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -123,11 +122,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     onClose();
   };
 
-  const handleLostAndFound = () => {
-    setShowLostAndFoundModal(true);
-    onClose();
-  };
-
   const storeOnChain = async () => {
     openModal("STORE_ON_CHAIN");
     onClose();
@@ -191,11 +185,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   <li className="p-1">
                     <Button onClick={handleDiscordClick}>
                       <span>Discord</span>
-                    </Button>
-                  </li>
-                  <li className="p-1">
-                    <Button onClick={handleLostAndFound}>
-                      <span>Lost and Found</span>
                     </Button>
                   </li>
                   <li className="p-1">
@@ -267,11 +256,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
         isOpen={showAddSFLModal}
         onClose={() => setShowAddSFLModal(false)}
       />
-      console.log({showLostAndFoundModal})
-      <LostAndFound
-        isOpen={showLostAndFoundModal}
-        onClose={() => setShowLostAndFoundModal(false)}
-      />
+
       {showCaptcha && (
         <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>
           <Panel>

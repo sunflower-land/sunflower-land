@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
@@ -11,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
-import { loadBalanceBatch as loadWearablesBalances } from "lib/blockchain/BumpkinItems";
+import { loadWearablesBalanceBatch as loadWearablesBalances } from "lib/blockchain/BumpkinItems";
 import { wallet } from "lib/blockchain/wallet";
 import { shortAddress } from "lib/utils/shortAddress";
 import { transferLostItems } from "lib/blockchain/LostAndFound";
@@ -19,11 +18,10 @@ import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong"
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
-  isOpen: boolean;
   onClose: () => void;
 }
 
-export const LostAndFound: React.FC<Props> = ({ isOpen, onClose }) => {
+export const LostAndFound: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [status, setStatus] = useState<
     "loading" | "loaded" | "sending" | "sent" | "error"
@@ -33,7 +31,8 @@ export const LostAndFound: React.FC<Props> = ({ isOpen, onClose }) => {
   );
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (status !== "loading") return;
+
     const loadBalances = async () => {
       const wearables = await loadWearablesBalances(
         wallet.web3Provider,
@@ -45,7 +44,7 @@ export const LostAndFound: React.FC<Props> = ({ isOpen, onClose }) => {
     };
 
     loadBalances();
-  }, [isOpen]);
+  }, [status]);
 
   const handleItemsTransfer = async () => {
     const lostIds = Object.keys(lostWearables).map((id) => parseInt(id));
@@ -125,26 +124,24 @@ export const LostAndFound: React.FC<Props> = ({ isOpen, onClose }) => {
   if (status === "error") return <SomethingWentWrong />;
 
   return (
-    <Modal show={isOpen} centered onHide={handleClose}>
-      <CloseButtonPanel title={title} onClose={handleClose}>
-        {status === "loading" && <Loading />}
-        {status === "loaded" && hasLostWearables && <Content />}
-        {status === "loaded" && !hasLostWearables && (
-          <p className="text-sm p-2">No missing items found!</p>
-        )}
-        {status === "sending" && <Loading text="Sending items" />}
-        {status === "sent" && (
-          <div className="text-sm p-2 pt-0 space-y-2 flex flex-col items-center">
-            <img
-              src={SUNNYSIDE.npcs.goblin_jumping}
-              style={{
-                width: `${PIXEL_SCALE * 18}px`,
-              }}
-            />
-            <p>Your items have been returned to your personal wallet.</p>
-          </div>
-        )}
-      </CloseButtonPanel>
-    </Modal>
+    <CloseButtonPanel title={title} onClose={handleClose}>
+      {status === "loading" && <Loading />}
+      {status === "loaded" && hasLostWearables && <Content />}
+      {status === "loaded" && !hasLostWearables && (
+        <p className="text-sm p-2">No missing items found!</p>
+      )}
+      {status === "sending" && <Loading text="Sending items" />}
+      {status === "sent" && (
+        <div className="text-sm p-2 pt-0 space-y-2 flex flex-col items-center">
+          <img
+            src={SUNNYSIDE.npcs.goblin_jumping}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+            }}
+          />
+          <p>Your items have been returned to your personal wallet.</p>
+        </div>
+      )}
+    </CloseButtonPanel>
   );
 };
