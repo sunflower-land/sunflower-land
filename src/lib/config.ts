@@ -42,8 +42,6 @@ const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
 const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
-const VALENTINE_EVENT_DONATION = import.meta.env
-  .VITE_VALENTINE_EVENT_DONATION as string;
 
 // Arcade Mini Games Donation Addresses
 const GREEDY_GOBLIN_DONATION = import.meta.env
@@ -53,6 +51,9 @@ const CHICKEN_FIGHT_DONATION = import.meta.env
 // Lunar New Year Event Donation Address
 const LUNAR_NEW_YEAR_DONATION = import.meta.env
   .VITE_LUNAR_NEW_YEAR_DONATION as string;
+// Valentine Event Donation Address
+const VALENTINE_EVENT_DONATION = import.meta.env
+  .VITE_VALENTINE_EVENT_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
