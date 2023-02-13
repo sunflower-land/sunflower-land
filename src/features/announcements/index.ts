@@ -1,5 +1,6 @@
 import buck from "assets/icons/block_buck_detailed.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import loveLetter from "assets/icons/love_letter.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -24,6 +25,20 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2023-02-14T00:00:00"),
+    title: "Valentine's Day Event",
+    notes: [
+      {
+        text: "Love is in the air and a mysterious island has become available.",
+      },
+      {
+        text: "For only 7 days, you can travel to Love Island and start your romantic quest! Your aim is to collect Love Letters and craft limited edition wearables and decorations.",
+      },
+    ],
+    image: loveLetter,
+    link: "https://docs.sunflower-land.com/player-guides/special-events/valentines-day",
+  },
   {
     date: new Date("2023-02-10T00:00:00"),
     title: "Block Bucks are here",

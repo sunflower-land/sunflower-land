@@ -13,7 +13,7 @@ describe("valentineFoodFeed", () => {
         state: { ...TEST_FARM, bumpkin: undefined },
         action: {
           type: "valentineFood.feed",
-          food: "Bumpkin Broth",
+          food: "Mashed Potato",
         },
       })
     ).toThrow(FEED_VALENTINE_FOOD_ERRORS.NO_BUMPKIN);
@@ -37,10 +37,10 @@ describe("valentineFoodFeed", () => {
         state: TEST_FARM,
         action: {
           type: "valentineFood.feed",
-          food: "Bumpkin Broth",
+          food: "Mashed Potato",
         },
       })
-    ).toThrow("You do not have Bumpkin Broth");
+    ).toThrow("You do not have Mashed Potato");
   });
 
   it("throws an error if the food recieved is not what was requested", () => {
@@ -65,16 +65,16 @@ describe("valentineFoodFeed", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Bumpkin Salad": new Decimal(2),
+          "Mashed Potato": new Decimal(2),
         },
       },
       action: {
         type: "valentineFood.feed",
-        food: "Bumpkin Salad",
+        food: "Mashed Potato",
       },
     });
 
-    expect(result.inventory["Bumpkin Salad"]).toEqual(new Decimal(1));
+    expect(result.inventory["Mashed Potato"]).toEqual(new Decimal(1));
   });
 
   it("Adds a lover letter", () => {
@@ -82,13 +82,13 @@ describe("valentineFoodFeed", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Bumpkin Salad": new Decimal(2),
+          "Mashed Potato": new Decimal(2),
           "Love Letter": new Decimal(15),
         },
       },
       action: {
         type: "valentineFood.feed",
-        food: "Bumpkin Salad",
+        food: "Mashed Potato",
       },
     });
 
@@ -100,14 +100,14 @@ describe("valentineFoodFeed", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Club Sandwich": new Decimal(1),
-          "Bumpkin Salad": new Decimal(2),
+          "Pumpkin Soup": new Decimal(1),
+          "Mashed Potato": new Decimal(2),
           "Love Letter": new Decimal(15),
         },
       },
       action: {
         type: "valentineFood.feed",
-        food: "Bumpkin Salad",
+        food: "Mashed Potato",
       },
     });
 
@@ -115,7 +115,7 @@ describe("valentineFoodFeed", () => {
       state: state,
       action: {
         type: "valentineFood.feed",
-        food: "Club Sandwich",
+        food: "Pumpkin Soup",
       },
     });
 
@@ -127,12 +127,12 @@ describe("valentineFoodFeed", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Bumpkin Salad": new Decimal(2),
+          "Mashed Potato": new Decimal(2),
         },
       },
       action: {
         type: "valentineFood.feed",
-        food: "Bumpkin Salad",
+        food: "Mashed Potato",
       },
     });
     expect(state.bumpkin?.activity?.["Love Letter Collected"]).toEqual(1);
