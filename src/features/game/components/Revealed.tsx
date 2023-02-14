@@ -56,7 +56,7 @@ export const Revealed: React.FC<{ onAcknowledged?: () => void }> = ({
                   opacity: 0,
                 }}
               />
-              <p className="text-center text-sm mb-2">{`You found a ${name}`}</p>
+              <p className="text-center text-sm mb-2">{`You found ${gameState.context.revealed?.inventory[name]} x ${name}`}</p>
             </div>
           ))}
       </div>

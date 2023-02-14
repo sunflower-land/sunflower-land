@@ -30,7 +30,8 @@ export type BumpkinHair =
   | "Red Long Hair"
   | "Blacksmith Hair"
   | "Fire Hair"
-  | "Luscious Hair";
+  | "Luscious Hair"
+  | "Cupid Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -70,7 +71,8 @@ export type BumpkinShoe =
   | "Brown Boots"
   | "Yellow Boots"
   | "Bumpkin Boots"
-  | "Peg Leg";
+  | "Peg Leg"
+  | "Cupid Sandals";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -102,6 +104,7 @@ export type BumpkinPant =
   | "Peasant Skirt"
   | "Pirate Pants";
 
+export type BumpkinDress = "Cupid Dress";
 export type BumpkinSecondaryTool = "Sunflower Shield" | "Crab Claw";
 
 // Goes over clothes + head
@@ -110,12 +113,13 @@ export type BumpkinOnesie = "Snowman Onesie" | "Shark Onesie";
 // Goes over clothes
 export type BumpkinSuit = "Reindeer Suit";
 
-export type BumpkinWings = "Angel Wings" | "Devil Wings";
+export type BumpkinWings = "Angel Wings" | "Devil Wings" | "Love Quiver";
 export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
   | BumpkinShirt
   | BumpkinPant
+  | BumpkinDress
   | BumpkinTool
   | BumpkinShoe
   | BumpkinHat
@@ -219,6 +223,10 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Pirate Leather Polo": 94,
   "Crab Claw": 95,
   "Pirate Scimitar": 96,
+  "Cupid Hair": 97,
+  "Cupid Dress": 98,
+  "Cupid Sandals": 99,
+  "Love Quiver": 100,
 };
 
 // The reverse of above
@@ -245,14 +253,15 @@ export type Wallet = {
   onesie: BumpkinOnesie[];
   suit: BumpkinSuit[];
   wings: BumpkinWings[];
+  dress?: BumpkinDress[];
 };
 
 export type Equipped = {
   background: BumpkinBackground;
   hair: BumpkinHair;
   body: BumpkinBody;
-  shirt: BumpkinShirt;
-  pants: BumpkinPant;
+  shirt?: BumpkinShirt;
+  pants?: BumpkinPant;
   shoes: BumpkinShoe;
   tool: BumpkinTool;
   necklace?: BumpkinNecklace;
@@ -262,6 +271,7 @@ export type Equipped = {
   onesie?: BumpkinOnesie;
   suit?: BumpkinSuit;
   wings?: BumpkinWings;
+  dress?: BumpkinDress;
 };
 
 export type BumpkinPart = keyof Equipped;

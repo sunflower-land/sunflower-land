@@ -34,11 +34,12 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     boost: "+1 harvest",
   },
   "Treasure Map": {
-    description: "?",
+    description: "X marks the spot!",
     ingredients: {
       Gold: new Decimal(5),
       "Wooden Compass": new Decimal(2),
     },
+    boost: "+20% SFL on Treasure Bounty",
   },
 };
 
@@ -105,22 +106,23 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     ingredients: {
       "Love Letter": new Decimal(10),
     },
-    supply: 100000,
+    supply: 20000,
   },
   Flamingo: {
     description:
       "Represents a symbol of love's beauty standing tall and confident.",
     ingredients: {
-      "Love Letter": new Decimal(50),
+      "Love Letter": new Decimal(75),
     },
-    supply: 10000,
+    supply: 3000,
   },
   "Blossom Tree": {
     description:
-      "Its delicate petals symbolizes the beauty and fragility of love.",
+      "Its delicate petals symbolizes the beauty and fragility of love",
     ingredients: {
-      "Love Letter": new Decimal(300),
+      "Love Letter": new Decimal(350),
+      Wood: new Decimal(500),
     },
-    supply: 1000,
+    supply: 250,
   },
 };

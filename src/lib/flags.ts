@@ -18,7 +18,7 @@ type FeatureName =
   | "FRUIT_QUEST"
   | "PUMPKIN_PLAZA"
   | "COALESCING_TOAST"
-  | "VALENTINES";
+  | "DAILY_REWARD";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
@@ -27,7 +27,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FRUIT_QUEST: testnetFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   COALESCING_TOAST: defaultFeatureFlag,
-  VALENTINES: defaultFeatureFlag,
+  DAILY_REWARD: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (

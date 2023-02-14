@@ -415,6 +415,12 @@ export interface GameState {
   pumpkinPlaza: {
     rewardCollectedAt?: number;
   };
+  dailyRewards: {
+    chest?: {
+      collectedAt: number;
+      code: number;
+    };
+  };
 }
 
 export interface Context {
