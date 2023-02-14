@@ -49,7 +49,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
-  const [showLostAndFoundModal, setShowLostAndFoundModal] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
