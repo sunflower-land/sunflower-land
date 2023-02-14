@@ -237,6 +237,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Heart Balloons": true,
   Flamingo: true,
   "Blossom Tree": true,
+  "Valentine Bear": false,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
 
