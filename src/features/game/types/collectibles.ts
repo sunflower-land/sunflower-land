@@ -34,11 +34,12 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     boost: "+1 harvest",
   },
   "Treasure Map": {
-    description: "?",
+    description: "X marks the spot!",
     ingredients: {
       Gold: new Decimal(5),
       "Wooden Compass": new Decimal(2),
     },
+    boost: "+20% SFL on Treasure Bounty",
   },
 };
 
