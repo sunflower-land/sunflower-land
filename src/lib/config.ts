@@ -37,6 +37,8 @@ const BUMPKIN_CONTRACT = import.meta.env.VITE_BUMPKIN_CONTRACT as string;
 const QUEST_CONTRACT = import.meta.env.VITE_QUEST_CONTRACT as string;
 const LOST_AND_FOUND_CONTRACT = import.meta.env
   .VITE_LOST_AND_FOUND_CONTRACT as string;
+const DAILY_REWARD_CONTRACT = import.meta.env
+  .VITE_DAILY_REWARD_CONTRACT as string;
 const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
@@ -53,6 +55,9 @@ const CHICKEN_FIGHT_DONATION = import.meta.env
 // Lunar New Year Event Donation Address
 const LUNAR_NEW_YEAR_DONATION = import.meta.env
   .VITE_LUNAR_NEW_YEAR_DONATION as string;
+// Valentine Event Donation Address
+const VALENTINE_EVENT_DONATION = import.meta.env
+  .VITE_VALENTINE_EVENT_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -84,6 +89,7 @@ export const CONFIG = {
   WHITELIST_TOKEN_CONTRACT,
   BUMPKIN_CONTRACT,
   QUEST_CONTRACT,
+  DAILY_REWARD_CONTRACT,
   BUY_SFL_CONTRACT,
   QUICKSWAP_ROUTER_CONTRACT,
   WMATIC_CONTRACT,
@@ -95,6 +101,7 @@ export const CONFIG = {
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
   LUNAR_NEW_YEAR_DONATION,
+  VALENTINE_EVENT_DONATION,
   PROTECTED_IMAGE_URL,
   WEBSOCKET_URL,
 };
