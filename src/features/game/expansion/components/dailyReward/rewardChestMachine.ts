@@ -8,6 +8,7 @@ export interface DailyRewardContext {
   bumpkinLevel: number;
   code: number;
   openedAt: number;
+  hasAccess: boolean;
 }
 
 /**
@@ -59,6 +60,10 @@ export const rewardChestMachine = createMachine<
     initialising: {
       always: [
         {
+          target: "comingSoon",
+          cond: (context) => !context.hasAccess || context.bumpkinLevel < 3,
+        },
+        {
           target: "opened",
           cond: (context) => {
             if (!context.openedAt) {
@@ -72,10 +77,6 @@ export const rewardChestMachine = createMachine<
               today
             );
           },
-        },
-        {
-          target: "comingSoon",
-          cond: (context) => context.bumpkinLevel < 3,
         },
         { target: "idle" },
       ],

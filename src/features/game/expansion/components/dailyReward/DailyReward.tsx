@@ -14,6 +14,7 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { hasFeatureAccess } from "lib/flags";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -27,6 +28,10 @@ export const DailyReward: React.FC = () => {
       openedAt: gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel: getBumpkinLevel(
         gameState.context.state.bumpkin?.experience ?? 0
+      ),
+      hasAccess: hasFeatureAccess(
+        gameState.context.state.inventory,
+        "DAILY_REWARD"
       ),
     },
   });
@@ -102,10 +107,10 @@ export const DailyReward: React.FC = () => {
                 width: `${PIXEL_SCALE * 24}px`,
               }}
             />
-            <Button onClick={() => chestService.send("UNLOCK")}>
-              Unlock Reward
-            </Button>
           </div>
+          <Button onClick={() => chestService.send("UNLOCK")}>
+            Unlock Reward
+          </Button>
         </CloseButtonPanel>
       );
     }
@@ -124,8 +129,8 @@ export const DailyReward: React.FC = () => {
                 width: `${PIXEL_SCALE * 24}px`,
               }}
             />
-            <Button onClick={reveal}>Open reward</Button>
           </div>
+          <Button onClick={reveal}>Open reward</Button>
         </CloseButtonPanel>
       );
     }
@@ -144,13 +149,25 @@ export const DailyReward: React.FC = () => {
                 width: `${PIXEL_SCALE * 24}px`,
               }}
             />
-            <Button onClick={() => setShowModal(false)}>Close</Button>
           </div>
+          <Button onClick={() => setShowModal(false)}>Close</Button>
         </CloseButtonPanel>
       );
     }
 
     if (chestState.matches("comingSoon")) {
+      // Temp
+      if (
+        !hasFeatureAccess(gameState.context.state.inventory, "DAILY_REWARD")
+      ) {
+        return (
+          <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
+            <div className="px-2 pb-2 w-full flex flex-col items-center">
+              <p className="text-sm">Daily Rewards coming soon!</p>
+            </div>
+          </CloseButtonPanel>
+        );
+      }
       return (
         <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
           <div className="px-2 pb-2 w-full flex flex-col items-center">
@@ -209,8 +226,8 @@ export const DailyReward: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           height: `${PIXEL_SCALE * 16}px`,
-          left: `${GRID_WIDTH_PX * 37.3}px`,
-          top: `${GRID_WIDTH_PX * 32}px`,
+          left: `${GRID_WIDTH_PX * 1.5}px`,
+          top: `${GRID_WIDTH_PX * 1}px`,
         }}
       >
         <img
