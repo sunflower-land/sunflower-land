@@ -51,7 +51,7 @@ const maxItems: Inventory = {
   "Chef Hat": new Decimal(1),
   "Rapid Growth": new Decimal(100),
   "Red Envelope": new Decimal(100),
-  "Love Letter": new Decimal(100),
+  "Love Letter": new Decimal(400),
 
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(10),
