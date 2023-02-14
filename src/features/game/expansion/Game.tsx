@@ -184,15 +184,11 @@ export const Game: React.FC = () => {
           <Routes>
             <Route path="/" element={<Land />} />
             <Route path="/helios" element={<Helios key="helios" />} />
-            {hasFeatureAccess(
-              gameState.context.state.inventory,
-              "VALENTINES"
-            ) && (
-              <Route
-                path="/valentine-island"
-                element={<ValentineIsland key="valentine" />}
-              />
-            )}
+
+            <Route
+              path="/valentine-island"
+              element={<ValentineIsland key="valentine" />}
+            />
             {hasFeatureAccess(
               gameState.context.state.inventory,
               "PUMPKIN_PLAZA"

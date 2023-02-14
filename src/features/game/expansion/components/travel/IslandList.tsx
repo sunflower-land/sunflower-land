@@ -161,16 +161,12 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/land/${id}/helios`,
     },
 
-    ...(hasFeatureAccess(inventory, "VALENTINES")
-      ? [
-          {
-            name: "Love Island",
-            levelRequired: 1 as BumpkinLevel,
-            image: valentinecake,
-            path: `/land/${id}/valentine-island`,
-          },
-        ]
-      : []),
+    {
+      name: "Love Island",
+      levelRequired: 1 as BumpkinLevel,
+      image: valentinecake,
+      path: `/land/${id}/valentine-island`,
+    },
     {
       name: "Goblin Retreat",
       levelRequired: 5 as BumpkinLevel,

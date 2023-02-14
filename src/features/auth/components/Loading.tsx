@@ -5,5 +5,5 @@ interface Props {
 }
 
 export const Loading: React.FC<Props> = ({ text }) => {
-  return <span className="text-shadow loading">{text || "Loading"}</span>;
+  return <span className="loading">{text || "Loading"}</span>;
 };
