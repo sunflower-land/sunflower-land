@@ -22,6 +22,7 @@ import { ProjectDignitySeals } from "features/community/components/ProjectDignit
 import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
+import { DailyReward } from "./dailyReward/DailyReward";
 import { LAND_WIDTH } from "../Land";
 
 interface Props {
@@ -153,6 +154,7 @@ export const Water: React.FC<Props> = ({ level }) => {
 
       {/* Bottom right island */}
       <MapPlacement x={12 + offset} y={-7 - offset} width={6}>
+        <DailyReward />
         <img
           src={abandonedLand}
           style={{

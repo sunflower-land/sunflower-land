@@ -7,6 +7,7 @@ import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -42,38 +43,40 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
       <>
         {!canBuyMore && (
           <p className="text-xs text-center mb-4 leading-none">
-            {`You have ${count} Block Bucks. You must use these before purchasing more`}
+            {`You have ${count} Block Bucks. You must use these before purchasing more.`}
           </p>
         )}
 
-        <div className="flex justify-around">
-          <OuterPanel className="w-2/5 flex flex-col items-center p-3">
-            <div className="flex w-full items-center justify-center  mb-2 ">
-              <p>1 x</p>
-              <img src={ticket} className="w-2/5 ml-1" />
+        <div className="flex justify-around mx-3 space-x-5">
+          <OuterPanel className="w-full h-full flex flex-col items-center relative">
+            <div className="flex w-full items-center justify-center py-4 px-2">
+              <p className="mr-2 mb-1">1 x</p>
+              <img
+                src={ticket}
+                style={{
+                  width: `${PIXEL_SCALE * 19}px`,
+                }}
+              />
             </div>
-            <Button
-              disabled={!canBuyMore}
-              className="w-20 text-sm"
-              onClick={() => onBuy(1)}
-            >
-              US$0.10
+            <Button disabled={!canBuyMore} onClick={() => onBuy(1)}>
+              $0.10 USD
             </Button>
           </OuterPanel>
-          <OuterPanel className="w-2/5 flex flex-col items-center relative p-3">
+          <OuterPanel className="w-full h-full flex flex-col items-center relative">
             <div className="h-10 absolute" style={{ top: "-20px" }}>
               <Label type="info">Recommended</Label>
             </div>
-            <div className="flex w-full items-center justify-center  mb-2">
-              <p>5 x</p>
-              <img src={ticket} className="w-2/5 ml-1" />
+            <div className="flex w-full items-center justify-center py-4 px-2">
+              <p className="mr-2 mb-1">5 x</p>
+              <img
+                src={ticket}
+                style={{
+                  width: `${PIXEL_SCALE * 19}px`,
+                }}
+              />
             </div>
-            <Button
-              disabled={!canBuyMore}
-              className="w-20 text-sm"
-              onClick={() => onBuy(5)}
-            >
-              US$0.75
+            <Button disabled={!canBuyMore} onClick={() => onBuy(5)}>
+              $0.75 USD
             </Button>
           </OuterPanel>
         </div>
@@ -81,7 +84,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
         <p className="text-xs text-center pt-2">
           Game progress will be stored on Blockchain.
         </p>
-        <p className="text-xxs italic text-center pb-2">
+        <p className="text-xxs italic text-center py-2">
           *Prices exclude Blockchain transaction fees.
         </p>
       </>

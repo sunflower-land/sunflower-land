@@ -2,7 +2,6 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import BumpkinDetailsABI from "./abis/BumpkinDetails.json";
-import { wallet } from "./wallet";
 import { BumpkinDetails as IBumpkinDetails } from "./types/BumpkinDetails";
 
 const address = CONFIG.BUMPKIN_DETAILS_CONTRACT;
@@ -28,6 +27,6 @@ export async function loadBumpkins(
       address as string
     ) as unknown as IBumpkinDetails
   ).methods
-    .loadBumpkins(wallet.myAccount as string)
+    .loadBumpkins(account)
     .call({ from: account });
 }

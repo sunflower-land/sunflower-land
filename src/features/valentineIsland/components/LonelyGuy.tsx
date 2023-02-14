@@ -8,7 +8,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const LonelyGuy: React.FC = () => {
   return (
-    <MapPlacement x={1} y={8} width={3}>
+    <MapPlacement x={0.5} y={6.5} width={3}>
       <div className="relative w-full h-full">
         <img
           src={npc}

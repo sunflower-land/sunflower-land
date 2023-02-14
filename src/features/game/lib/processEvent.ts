@@ -51,6 +51,37 @@ const maxItems: Inventory = {
   "Chef Hat": new Decimal(1),
   "Rapid Growth": new Decimal(100),
   "Red Envelope": new Decimal(100),
+  "Love Letter": new Decimal(400),
+
+  //Treasure Island Decorations
+  "Abandoned Bear": new Decimal(10),
+
+  "Turtle Bear": new Decimal(10),
+  "T-Rex Skull": new Decimal(10),
+  "Sunflower Coin": new Decimal(10),
+  Foliant: new Decimal(10),
+  "Skeleton King Staff": new Decimal(10),
+  "Lifeguard Bear": new Decimal(10),
+  "Snorkel Bear": new Decimal(10),
+  "Parasaur Skull": new Decimal(10),
+  "Golden Bear Head": new Decimal(10),
+  "Pirate Bear": new Decimal(10),
+  "Goblin Bear": new Decimal(10),
+  Galleon: new Decimal(10),
+  "Dinosaur Bone": new Decimal(10),
+  "Human Bear": new Decimal(10),
+  "Whale Bear": new Decimal(10),
+
+  //Treasure Island Beach Bounty
+  "Pirate Bounty": new Decimal(10),
+  Pearl: new Decimal(10),
+  Coral: new Decimal(10),
+  "Clam Shell": new Decimal(10),
+  Pipi: new Decimal(10),
+  Starfish: new Decimal(10),
+  Seaweed: new Decimal(10),
+  "Sea Cucumber": new Decimal(10),
+  Crab: new Decimal(10),
 
   // Max of 1000 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(

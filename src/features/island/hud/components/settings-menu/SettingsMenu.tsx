@@ -49,6 +49,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
+  const [showLostAndFoundModal, setShowLostAndFoundModal] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
@@ -236,26 +237,21 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
           )}
         </Panel>
       </Modal>
-
       <Share isOpen={showShareModal} onClose={() => setShowShareModal(false)} />
-
       <HowToPlay
         isOpen={showHowToPlay}
         onClose={() => setShowHowToPlay(false)}
       />
-
       {isFarming && (
         <Discord
           isOpen={showDiscordModal}
           onClose={() => setShowDiscordModal(false)}
         />
       )}
-
       <SubSettings
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
       />
-
       <AddSFL
         isOpen={showAddSFLModal}
         onClose={() => setShowAddSFLModal(false)}
@@ -285,7 +281,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
           </Panel>
         </Modal>
       )}
-
       <CommunityGardenModal
         isOpen={showCommunityGardenModal}
         onClose={() => setShowCommunityGardenModal(false)}
