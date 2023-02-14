@@ -35,6 +35,8 @@ const WHITELIST_TOKEN_CONTRACT = import.meta.env
 const BUY_SFL_CONTRACT = import.meta.env.VITE_BUY_SFL_CONTRACT as string;
 const BUMPKIN_CONTRACT = import.meta.env.VITE_BUMPKIN_CONTRACT as string;
 const QUEST_CONTRACT = import.meta.env.VITE_QUEST_CONTRACT as string;
+const LOST_AND_FOUND_CONTRACT = import.meta.env
+  .VITE_LOST_AND_FOUND_CONTRACT as string;
 const DAILY_REWARD_CONTRACT = import.meta.env
   .VITE_DAILY_REWARD_CONTRACT as string;
 const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
@@ -93,6 +95,7 @@ export const CONFIG = {
   WMATIC_CONTRACT,
   EASTER_EGG_CONTRACT,
   SEAL_CONTRACT,
+  LOST_AND_FOUND_CONTRACT,
   ALCHEMY_RPC,
 
   GREEDY_GOBLIN_DONATION,
