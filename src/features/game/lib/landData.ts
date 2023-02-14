@@ -355,6 +355,7 @@ export const OFFLINE_FARM: GameState = {
     name: "Algerian Flag",
     ingredients: [],
   },
+  dailyRewards: {},
   treasureIsland: {
     holes: {},
     rareTreasure: {
