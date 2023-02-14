@@ -13,9 +13,6 @@ const testnetFeatureFlag = (inventory: GameState["inventory"]) =>
  *
  * Do not delete JEST_TEST.
  */
-<<<<<<< HEAD
-type FeatureName = "JEST_TEST" | "FRUIT_QUEST" | "PUMPKIN_PLAZA";
-=======
 type FeatureName =
   | "JEST_TEST"
   | "FRUIT_QUEST"
