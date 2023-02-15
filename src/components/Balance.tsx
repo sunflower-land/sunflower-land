@@ -7,7 +7,6 @@ import token from "assets/icons/token_2.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Modal } from "react-bootstrap";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 
 interface Props {
@@ -47,22 +46,10 @@ export const Balance: React.FC<Props> = ({ balance }) => {
         centered
         onHide={() => setShowDepositModal(false)}
       >
-        <CloseButtonPanel
-          title="How to deposit"
+        <Deposit
+          isOpen={showDepositModal}
           onClose={() => setShowDepositModal(false)}
-        >
-          <div className="w-full flex justify-center">
-            <img
-              src={token}
-              className="mb-3"
-              style={{
-                width: `${PIXEL_SCALE * 10}px`,
-                margin: `${PIXEL_SCALE * 1}px`,
-              }}
-            />
-          </div>
-          <Deposit />
-        </CloseButtonPanel>
+        />
       </Modal>
     </>
   );
