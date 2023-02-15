@@ -64,8 +64,6 @@ export const Deposit: React.FC<Props> = ({ onClose, onDeposit, onLoaded }) => {
         inventoryBalanceFn,
       ]);
 
-      console.log(balancesToInventory(inventoryBalance));
-
       setSflBalance(new Decimal(fromWei(sflBalance)));
       setInventoryBalance(balancesToInventory(inventoryBalance));
       setStatus("loaded");
@@ -134,6 +132,7 @@ export const Deposit: React.FC<Props> = ({ onClose, onDeposit, onLoaded }) => {
   const hasItemsInInventory = depositableItems.length > 0;
   const emptyWallet =
     getKeys(inventoryBalance).length === 0 && sflBalance.eq(0);
+  const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
   return (
     <>
@@ -199,7 +198,7 @@ export const Deposit: React.FC<Props> = ({ onClose, onDeposit, onLoaded }) => {
               <div className="pt-3">
                 <p className="mb-3">Your farm will receive:</p>
                 <div className="space-y-3">
-                  {sflDepositAmount > 0 && <p>{sflDepositAmount} SFL</p>}
+                  {validDepositAmount && <p>{sflDepositAmount} SFL</p>}
                   {hasItemsToDeposit && (
                     <div className="flex flex-wrap h-fit -ml-1.5">
                       {selectedItems.map((item) => {
