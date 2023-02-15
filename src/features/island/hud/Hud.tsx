@@ -12,6 +12,7 @@ import { LandId } from "./components/LandId";
 import { InventoryItemName } from "features/game/types/game";
 import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
+import { DepositArgs } from "lib/blockchain/Deposit";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -24,6 +25,12 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
   const isEditing = gameState.matches("editing");
   const landId = gameState.context.state.id;
 
+  const handleDeposit = (
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+  ) => {
+    gameService.send("DEPOSIT", args);
+  };
+
   return (
     <div
       data-html2canvas-ignore="true"
@@ -34,7 +41,10 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
         <PlaceableController />
       ) : (
         <>
-          <Balance balance={gameState.context.state.balance} />
+          <Balance
+            onDeposit={handleDeposit}
+            balance={gameState.context.state.balance}
+          />
           <BlockBucks
             blockBucks={
               gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)

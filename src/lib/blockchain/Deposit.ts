@@ -7,11 +7,11 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 
 const address = CONFIG.DEPOSIT_CONTRACT;
 
-interface DepositArgs {
+export interface DepositArgs {
   web3: Web3;
   account: string;
   farmId: number;
-  sfl: number;
+  sfl: string;
   itemIds: number[];
   itemAmounts: number[];
 }

@@ -1,14 +1,11 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { wallet } from "lib/blockchain/wallet";
-import { sflBalanceOf } from "lib/blockchain/Token";
 import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import token from "assets/icons/token_2.png";
 import classNames from "classnames";
@@ -20,35 +17,35 @@ import { Box } from "components/ui/Box";
 import { KNOWN_IDS } from "features/game/types";
 import { Button } from "components/ui/Button";
 import { Loading } from "features/auth/components";
-import { depositToFarm } from "lib/blockchain/Deposit";
-import { useActor } from "@xstate/react";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { DepositArgs } from "lib/blockchain/Deposit";
+import { sflBalanceOf } from "lib/blockchain/Token";
+
+type Status = "loading" | "loaded";
 
 interface Props {
-  isOpen: boolean;
+  onDeposit: (
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+  ) => void;
   onClose: () => void;
+  onLoaded?: (loaded: boolean) => void;
 }
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
 
-export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [
-    {
-      context: { farmId },
-    },
-  ] = useActor(authService);
-  const [status, setStatus] = useState<
-    "loading" | "loaded" | "depositing" | "deposited"
-  >("loading");
+export const Deposit: React.FC<Props> = ({ onClose, onDeposit, onLoaded }) => {
+  const [status, setStatus] = useState<Status>("loading");
+  // These are the balances of the user's personal wallet
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
-  const [sflDepositAmount, setSflDepositAmount] = useState(0);
   const [inventoryBalance, setInventoryBalance] = useState<Inventory>({});
+  const [sflDepositAmount, setSflDepositAmount] = useState(0);
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
+  const [isMobile] = useIsMobile();
 
   useEffect(() => {
-    if (!isOpen || status !== "loading") return;
-
+    if (status !== "loading") return;
+    // Load balances from the user's personal wallet
     const loadBalances = async () => {
       const sflBalanceFn = sflBalanceOf(
         wallet.web3Provider,
@@ -67,13 +64,16 @@ export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
         inventoryBalanceFn,
       ]);
 
+      console.log(balancesToInventory(inventoryBalance));
+
       setSflBalance(new Decimal(fromWei(sflBalance)));
       setInventoryBalance(balancesToInventory(inventoryBalance));
       setStatus("loaded");
+      onLoaded && onLoaded(true);
     };
 
     loadBalances();
-  }, [isOpen]);
+  }, [status]);
 
   const handleSflDepositAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     // Strip the leading zero from numbers
@@ -104,22 +104,13 @@ export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
       (item) => inventoryToDeposit[item]?.toNumber() as number
     );
 
-    try {
-      setStatus("depositing");
+    onDeposit({
+      sfl: toWei(sflDepositAmount.toString()),
+      itemIds,
+      itemAmounts,
+    });
 
-      await depositToFarm({
-        web3: wallet.web3Provider,
-        account: wallet.myAccount,
-        farmId: farmId as number,
-        sfl: sflDepositAmount,
-        itemIds,
-        itemAmounts,
-      });
-
-      setStatus("deposited");
-    } catch (e) {
-      console.error(e);
-    }
+    onClose();
   };
 
   const amountGreaterThanBalance = toBN(toWei(sflDepositAmount.toString())).gt(
@@ -145,7 +136,7 @@ export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
     getKeys(inventoryBalance).length === 0 && sflBalance.eq(0);
 
   return (
-    <CloseButtonPanel title="Deposit" onClose={onClose}>
+    <>
       {status === "loading" && <Loading />}
       {status === "loaded" && emptyWallet && (
         <div className="p-2">
@@ -176,7 +167,9 @@ export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
                             }
                           )}
                         />
-                        <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">{`Balance: ${formattedSflBalance}`}</span>
+                        <span className="text-xxs md:text-xs absolute top-1/2 -translate-y-1/2 right-2">{`${
+                          isMobile ? "Bal" : "Balance"
+                        }: ${formattedSflBalance}`}</span>
                       </div>
                       <div className="w-[10%] flex self-center justify-center">
                         <img className="w-6" src={token} alt="sfl token" />
@@ -226,11 +219,15 @@ export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
               </div>
             </div>
           </div>
-          <Button className="w-full" disabled={amountGreaterThanBalance}>
+          <Button
+            onClick={handleDeposit}
+            className="w-full"
+            disabled={amountGreaterThanBalance}
+          >
             Send to farm
           </Button>
         </>
       )}
-    </CloseButtonPanel>
+    </>
   );
 };
