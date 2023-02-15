@@ -20,10 +20,12 @@ import { Loading } from "features/auth/components";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { sflBalanceOf } from "lib/blockchain/Token";
+import { CopyAddress } from "components/ui/CopyAddress";
 
 type Status = "loading" | "loaded";
 
 interface Props {
+  farmAddress: string;
   onDeposit: (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
   ) => void;
@@ -34,7 +36,12 @@ interface Props {
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
 
-export const Deposit: React.FC<Props> = ({ onClose, onDeposit, onLoaded }) => {
+export const Deposit: React.FC<Props> = ({
+  onClose,
+  onDeposit,
+  onLoaded,
+  farmAddress,
+}) => {
   const [status, setStatus] = useState<Status>("loading");
   // These are the balances of the user's personal wallet
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
@@ -196,7 +203,10 @@ export const Deposit: React.FC<Props> = ({ onClose, onDeposit, onLoaded }) => {
                 )}
               </div>
               <div className="pt-3">
-                <p className="mb-3">Your farm will receive:</p>
+                <p className="mb-1">Your farm will receive:</p>
+                <div className="text-[11px] sm:text-xs mb-3">
+                  <CopyAddress address={farmAddress} />
+                </div>
                 <div className="space-y-3">
                   {validDepositAmount && <p>{sflDepositAmount} SFL</p>}
                   {hasItemsToDeposit && (

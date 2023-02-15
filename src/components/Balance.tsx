@@ -13,12 +13,17 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   balance: Decimal;
+  farmAddress?: string;
   onDeposit?: (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
   ) => void;
 }
 
-export const Balance: React.FC<Props> = ({ balance, onDeposit }) => {
+export const Balance: React.FC<Props> = ({
+  balance,
+  onDeposit,
+  farmAddress,
+}) => {
   const [showFullBalance, setShowFullBalance] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
@@ -26,6 +31,8 @@ export const Balance: React.FC<Props> = ({ balance, onDeposit }) => {
   const handleClose = () => {
     setShowDepositModal(false);
   };
+
+  const canDeposit = onDeposit && farmAddress;
 
   return (
     <>
@@ -51,13 +58,14 @@ export const Balance: React.FC<Props> = ({ balance, onDeposit }) => {
             : setPrecision(balance).toString()}
         </span>
       </InnerPanel>
-      {onDeposit && (
+      {canDeposit && (
         <Modal show={showDepositModal} centered>
           <CloseButtonPanel
             title={depositDataLoaded ? "Deposit" : undefined}
             onClose={depositDataLoaded ? handleClose : undefined}
           >
             <Deposit
+              farmAddress={farmAddress}
               onDeposit={onDeposit}
               onLoaded={(loaded) => setDepositDataLoaded(loaded)}
               onClose={handleClose}

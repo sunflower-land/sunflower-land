@@ -13,10 +13,11 @@ import { Context } from "features/game/GoblinProvider";
 import { DepositArgs } from "lib/blockchain/Deposit";
 
 interface Props {
+  farmAddress: string;
   onClose: () => void;
 }
 
-export const BankModal: React.FC<Props> = ({ onClose }) => {
+export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
   const { goblinService } = useContext(Context);
   const [tab, setTab] = useState<"deposit" | "withdraw">("deposit");
 
@@ -57,7 +58,11 @@ export const BankModal: React.FC<Props> = ({ onClose }) => {
       </div>
       {tab === "deposit" && (
         <div className="mt-3">
-          <Deposit onDeposit={handleDeposit} onClose={onClose} />
+          <Deposit
+            farmAddress={farmAddress}
+            onDeposit={handleDeposit}
+            onClose={onClose}
+          />
         </div>
       )}
       {tab === "withdraw" && <Withdraw onClose={onClose} />}

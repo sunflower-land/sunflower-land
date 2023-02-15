@@ -42,6 +42,7 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       ) : (
         <>
           <Balance
+            farmAddress={gameState.context.state.farmAddress as string}
             onDeposit={handleDeposit}
             balance={gameState.context.state.balance}
           />
