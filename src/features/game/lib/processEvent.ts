@@ -6,9 +6,9 @@ import { SKILL_TREE } from "../types/skills";
 
 const maxItems: Inventory = {
   // Seed limits + buffer of 20
-  Sunflower: new Decimal("3000"),
-  Potato: new Decimal("2000"),
-  Pumpkin: new Decimal("1000"),
+  Sunflower: new Decimal("9000"),
+  Potato: new Decimal("4500"),
+  Pumpkin: new Decimal("2400"),
   Carrot: new Decimal("1000"),
   Cabbage: new Decimal("1000"),
   Beetroot: new Decimal("1000"),
@@ -16,12 +16,14 @@ const maxItems: Inventory = {
   Parsnip: new Decimal("500"),
   Radish: new Decimal("500"),
   Wheat: new Decimal("500"),
+  Kale: new Decimal("500"),
+
   Apple: new Decimal("100"),
   Orange: new Decimal("100"),
   Blueberry: new Decimal("100"),
 
   Chicken: new Decimal("20"),
-  Egg: new Decimal("100"),
+  Egg: new Decimal("150"),
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
@@ -43,7 +45,7 @@ const maxItems: Inventory = {
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
   Stone: new Decimal("500"),
-  Wood: new Decimal("500"),
+  Wood: new Decimal("600"),
 
   "War Bond": new Decimal(500),
   "Human War Banner": new Decimal(1),
@@ -51,6 +53,7 @@ const maxItems: Inventory = {
   "Chef Hat": new Decimal(1),
   "Rapid Growth": new Decimal(100),
   "Red Envelope": new Decimal(100),
+  "Love Letter": new Decimal(400),
 
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(10),

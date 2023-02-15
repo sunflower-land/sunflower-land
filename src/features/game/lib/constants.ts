@@ -65,7 +65,7 @@ export const INITIAL_STOCK: Inventory = {
   Shovel: new Decimal(1),
   "Rusty Shovel": new Decimal(10),
   "Power Shovel": new Decimal(5),
-  "Sand Shovel": new Decimal(20),
+  "Sand Shovel": new Decimal(25),
   "Sand Drill": new Decimal(5),
 
   Chicken: new Decimal(5),
