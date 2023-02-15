@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Inventory, InventoryItemName } from "features/game/types/game";
@@ -8,6 +8,7 @@ import { sflBalanceOf } from "lib/blockchain/Token";
 import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import token from "assets/icons/token_2.png";
 import classNames from "classnames";
@@ -19,6 +20,8 @@ import { Box } from "components/ui/Box";
 import { KNOWN_IDS } from "features/game/types";
 import { Button } from "components/ui/Button";
 import { Loading } from "features/auth/components";
+import { depositToFarm } from "lib/blockchain/Deposit";
+import { useActor } from "@xstate/react";
 
 interface Props {
   isOpen: boolean;
@@ -29,7 +32,15 @@ const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
 
 export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [status, setStatus] = useState<"loading" | "loaded">("loading");
+  const { authService } = useContext(AuthProvider.Context);
+  const [
+    {
+      context: { farmId },
+    },
+  ] = useActor(authService);
+  const [status, setStatus] = useState<
+    "loading" | "loaded" | "depositing" | "deposited"
+  >("loading");
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
   const [sflDepositAmount, setSflDepositAmount] = useState(0);
   const [inventoryBalance, setInventoryBalance] = useState<Inventory>({});
@@ -87,6 +98,30 @@ export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
     transferInventoryItem(itemName, setInventoryToDeposit, setInventoryBalance);
   };
 
+  const handleDeposit = async () => {
+    const itemIds = selectedItems.map((item) => KNOWN_IDS[item]);
+    const itemAmounts = selectedItems.map(
+      (item) => inventoryToDeposit[item]?.toNumber() as number
+    );
+
+    try {
+      setStatus("depositing");
+
+      await depositToFarm({
+        web3: wallet.web3Provider,
+        account: wallet.myAccount,
+        farmId: farmId as number,
+        sfl: sflDepositAmount,
+        itemIds,
+        itemAmounts,
+      });
+
+      setStatus("deposited");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const amountGreaterThanBalance = toBN(toWei(sflDepositAmount.toString())).gt(
     toBN(toWei(sflBalance.toString()))
   );
@@ -106,7 +141,8 @@ export const Deposit: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const hasItemsToDeposit = selectedItems.length > 0;
   const hasItemsInInventory = depositableItems.length > 0;
-  const emptyWallet = !hasItemsInInventory && sflBalance.eq(0);
+  const emptyWallet =
+    getKeys(inventoryBalance).length === 0 && sflBalance.eq(0);
 
   return (
     <CloseButtonPanel title="Deposit" onClose={onClose}>
