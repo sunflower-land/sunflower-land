@@ -236,7 +236,7 @@ class Spritesheet extends React.Component<Props> {
     };
 
     imgLoadSprite.onerror = () => {
-      throw new Error(`Failed to load image ${imgLoadSprite.src}`);
+      throw new Error(`Failed to load spritesheet image ${imgLoadSprite.src}`);
     };
   };
 
