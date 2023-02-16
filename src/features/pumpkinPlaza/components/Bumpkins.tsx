@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import token from "assets/icons/token_2.png";
+import chatTriangle from "assets/ui/panel/chat_triangle.png";
 
 import { MachineInterpreter } from "../websocketMachine";
 import { REACTIONS } from "../lib/reactions";
@@ -15,7 +16,7 @@ import { BumpkinDiscovery, ChatMessage, Player } from "../lib/types";
 import { BumpkinFriend } from "./BumpkinFriend";
 import { SelectBox } from "./SelectBox";
 import { getDistance } from "../lib/coordinates";
-import { SquareIcon } from "components/ui/SquareIcon";
+import { pixelGrayBorderStyle } from "features/game/lib/style";
 
 interface Props {
   messages: ChatMessage[];
@@ -31,17 +32,39 @@ interface Props {
 const Message: React.FC<ChatMessage> = ({ text, reaction }) => {
   if (text) {
     return (
-      <span
-        className="absolute text-xs"
-        style={{
-          bottom: "29px",
-          left: "-58px",
-          width: "158px",
-          textAlign: "center",
-        }}
-      >
-        {text}
-      </span>
+      <>
+        <div
+          className={
+            "absolute text-xs bg-white object-contain justify-center items-center flex px-1"
+          }
+          style={{
+            ...pixelGrayBorderStyle,
+            bottom: "29px",
+            left: "0",
+            textAlign: "start",
+            color: "black",
+            textShadow: "none",
+            fontFamily: "monospace",
+            fontWeight: "bold",
+            right: "-200px",
+            maxWidth: "120px",
+            width: "fit-content",
+            wordSpacing: "-1px",
+          }}
+        >
+          <span>{text}</span>
+        </div>
+
+        <img
+          src={chatTriangle}
+          className="absolute"
+          style={{
+            bottom: "23.5px",
+            left: "17px",
+            width: "13px",
+          }}
+        />
+      </>
     );
   }
 
@@ -54,9 +77,9 @@ const Message: React.FC<ChatMessage> = ({ text, reaction }) => {
           left: `${PIXEL_SCALE * 1}px`,
         }}
       >
-        <SquareIcon
-          icon={REACTIONS.find((r) => r.name === reaction)?.icon ?? ""}
-          width={8}
+        <img
+          className="h-6"
+          src={REACTIONS.find((r) => r.name === reaction)?.icon ?? ""}
         />
       </div>
     );
@@ -142,6 +165,7 @@ export const Bumpkins: React.FC<Props> = ({
       {bumpkin && (
         <div
           key={bumpkin.id}
+          id="my-bumpkin"
           className="absolute z-30 transition-transform ease-linear pointer-events-none"
           style={{
             transform: `translate(${position?.x}px,${position?.y}px)`,

@@ -244,10 +244,10 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 220501,
+  experience: 1220501,
   tokenUri: "bla",
   equipped: {
-    body: "Light Brown Farmer Potion",
+    body: "Goblin Potion",
     hair: "Basic Hair",
     shirt: "Red Farmer Shirt",
     pants: "Farmer Pants",
