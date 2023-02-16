@@ -41,7 +41,7 @@ import rockGolem from "assets/sfts/rock_golem.gif";
 import rooster from "assets/sfts/rooster.gif";
 import undeadChicken from "assets/sfts/undead_chicken.gif";
 import wickerMan from "assets/sfts/wicker_man.png";
-import wendy from "assets/sfts/wood_nymph_wendy.png";
+import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import cabbageBoy from "assets/sfts/cabbage_boy.png";
 import cabbageGirl from "assets/sfts/cabbage_girl.png";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
