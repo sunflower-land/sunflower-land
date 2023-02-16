@@ -262,7 +262,6 @@ const getIslandElements = ({
       )
   );
 
-  console.log({ bumpkinParts });
   if (bumpkinParts) {
     mapPlacements.push(
       <MapPlacement
