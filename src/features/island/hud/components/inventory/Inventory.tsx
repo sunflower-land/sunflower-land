@@ -16,6 +16,7 @@ interface Props {
   selectedItem: InventoryItemName;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;
+  onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
 }
@@ -27,6 +28,7 @@ export const Inventory: React.FC<Props> = ({
   isFarming,
   isSaving,
   onPlace,
+  onDepositClick,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
@@ -114,6 +116,7 @@ export const Inventory: React.FC<Props> = ({
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
+        onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}
       />

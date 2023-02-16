@@ -36,6 +36,7 @@ import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "./Hud";
 import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
+import { Refreshing } from "features/auth/components/Refreshing";
 
 const spawn = [
   [35, 15],
@@ -58,6 +59,8 @@ const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
   withdrawn: true,
   playing: false,
   error: true,
+  depositing: true,
+  refreshing: true,
 };
 
 export const Game = () => {
@@ -97,6 +100,8 @@ export const Game = () => {
           {goblinState.matches("withdrawn") && <Withdrawn />}
           {goblinState.matches("minting") && <Minting />}
           {goblinState.matches("minted") && <Minted />}
+          {goblinState.matches("depositing") && <Loading text="Depositing" />}
+          {goblinState.matches("refreshing") && <Refreshing />}
         </Panel>
       </Modal>
       <ToastProvider>
@@ -119,7 +124,7 @@ export const Game = () => {
                 imageRendering: "pixelated",
               }}
             />
-            {hasRequiredLevel && !goblinState.matches("loading") && (
+            {hasRequiredLevel && !!bumpkin && (
               <div
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                 style={{

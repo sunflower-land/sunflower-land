@@ -18,6 +18,7 @@ interface Props {
   selectedChestItem: InventoryItemName;
   onSelectChestItem: (name: InventoryItemName) => void;
   onPlace?: (name: InventoryItemName) => void;
+  onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
 }
@@ -34,6 +35,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onSelectBasketItem,
   selectedChestItem,
   onSelectChestItem,
+  onDepositClick,
   onPlace,
   isSaving,
   isFarming,
@@ -68,6 +70,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onSelect={onSelectChestItem}
             closeModal={onHide}
             onPlace={isFarming ? onPlace : undefined}
+            onDepositClick={onDepositClick}
             isSaving={isSaving}
           />
         )}
