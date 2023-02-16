@@ -1,5 +1,6 @@
 import buck from "assets/icons/block_buck_detailed.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import loveLetter from "assets/icons/love_letter.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -25,6 +26,20 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2023-02-14T00:00:00"),
+    title: "Valentine's Day Event",
+    notes: [
+      {
+        text: "Love is in the air and a mysterious island has become available.",
+      },
+      {
+        text: "For only 7 days, you can travel to Love Island and start your romantic quest! Your aim is to collect Love Letters and craft limited edition wearables and decorations.",
+      },
+    ],
+    image: loveLetter,
+    link: "https://docs.sunflower-land.com/player-guides/special-events/valentines-day",
+  },
+  {
     date: new Date("2023-02-10T00:00:00"),
     title: "Block Bucks are here",
     notes: [
@@ -41,6 +56,58 @@ export const ANNOUNCEMENTS: Announcement[] = [
     ],
     image: buck,
     link: "https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks",
+  },
+  {
+    date: new Date("2023-02-13T02:00:00"),
+    title: "Weekly news",
+    notes: [
+      {
+        text: `Valentines Day Event is going live this week!`,
+        icon: SUNNYSIDE.icons.heart,
+      },
+      {
+        text: "We have introduced Block Bucks! Restock your shops instantly and save on gas fees.",
+        icon: buck,
+        link: {
+          text: "Read more",
+          url: "https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks",
+        },
+      },
+      {
+        text: `Over 2,900 players minted the Striped Blue shirt on Treasure Island`,
+        icon: SUNNYSIDE.icons.player,
+        link: {
+          text: "Read more",
+          url: "https://docs.sunflower-land.com/player-guides/islands/treasure-island",
+        },
+      },
+      {
+        text: "Multiple Bumpkins are coming soon!",
+        icon: SUNNYSIDE.icons.player,
+        link: {
+          text: "Read more",
+          url: "https://github.com/sunflower-land/sunflower-land/discussions/2211",
+        },
+      },
+      {
+        text: `Join the weekly team chat on Discord`,
+        icon: SUNNYSIDE.icons.expression_chat,
+        date: new Date("2023-02-14T04:30:00.000Z"),
+        link: {
+          url: "https://discord.com/invite/sunflowerland",
+          text: "Join Discord",
+        },
+      },
+      {
+        text: `Watch the team at our Weekly Wrap up`,
+        icon: SUNNYSIDE.icons.expression_chat,
+        date: new Date("2023-02-16T23:00:00.000Z"),
+        link: {
+          url: "https://www.twitch.tv/0xsunflowerstudios",
+          text: "Twitch",
+        },
+      },
+    ],
   },
   {
     date: new Date("2023-02-06T02:00:00"),

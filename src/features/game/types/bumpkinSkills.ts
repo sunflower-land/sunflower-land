@@ -1,7 +1,9 @@
 import { getKeys } from "./craftables";
-import greenThumb from "assets/skills/green_thumb.png";
-import seedSpecialist from "assets/skills/seed_specialist.png";
-import prospector from "assets/skills/prospector.png";
+import green_thumb_LE from "assets/skills/land/crops/green_thumb_LE.png";
+import cultivator from "assets/skills/land/crops/cultivator.png";
+import master_farmer from "assets/skills/land/crops/master_farmer.png";
+import golden_flowers from "assets/skills/land/crops/golden_flowers.png";
+import happy_crop from "assets/skills/land/crops/happy_crop.png";
 import buckaroo from "assets/skills/land/animals/buckaroo.png";
 import coal_face from "assets/skills/land/rocks/coal_face.png";
 import curer from "assets/skills/land/cooking/curer.png";
@@ -71,7 +73,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
     },
     boosts: "Crops yield 5% more",
-    image: greenThumb,
+    image: green_thumb_LE,
   },
   Cultivator: {
     name: "Cultivator",
@@ -81,7 +83,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Green Thumb",
     },
     boosts: "Crops grow 5% quicker",
-    image: seedSpecialist,
+    image: cultivator,
   },
   "Master Farmer": {
     name: "Master Farmer",
@@ -91,7 +93,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Cultivator",
     },
     boosts: "Crops yield 10% more",
-    image: CROP_LIFECYCLE.Sunflower.crop,
+    image: master_farmer,
   },
   "Golden Flowers": {
     name: "Golden Flowers",
@@ -101,7 +103,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Master Farmer",
     },
     boosts: "Chance for Sunflowers to Drop Gold ",
-    image: prospector,
+    image: golden_flowers,
   },
   "Plant Whisperer": {
     name: "Plant Whisperer",
@@ -122,7 +124,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       skill: "Master Farmer",
     },
     boosts: "Chance to get 2x crops",
-    image: CROP_LIFECYCLE.Wheat.crop,
+    image: happy_crop,
   },
   Lumberjack: {
     name: "Lumberjack",

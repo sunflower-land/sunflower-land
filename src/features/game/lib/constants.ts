@@ -65,7 +65,7 @@ export const INITIAL_STOCK: Inventory = {
   Shovel: new Decimal(1),
   "Rusty Shovel": new Decimal(10),
   "Power Shovel": new Decimal(5),
-  "Sand Shovel": new Decimal(20),
+  "Sand Shovel": new Decimal(25),
   "Sand Drill": new Decimal(5),
 
   Chicken: new Decimal(5),
@@ -320,9 +320,7 @@ export const TEST_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     "Boiled Eggs": new Decimal(3),
-    "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
-    "Pumpkin Soup": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   chickens: {},
@@ -462,6 +460,7 @@ export const TEST_FARM: GameState = {
     seconds: 60,
     sfl: new Decimal(0),
   },
+  dailyRewards: {},
 };
 
 export const EMPTY: GameState = {
@@ -485,6 +484,7 @@ export const EMPTY: GameState = {
   collectibles: {},
   mysteryPrizes: {},
   pumpkinPlaza: {},
+  dailyRewards: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

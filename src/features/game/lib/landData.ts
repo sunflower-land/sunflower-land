@@ -150,6 +150,18 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
         },
       },
     },
+    iron: {
+      0: {
+        x: 1,
+        y: 3,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
   },
 
   {
@@ -260,6 +272,7 @@ export const OFFLINE_FARM: GameState = {
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
+    "Bumpkin Salad": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Peeled Potato": new Decimal(1),
     "Wood Nymph Wendy": new Decimal(1),
@@ -354,6 +367,7 @@ export const OFFLINE_FARM: GameState = {
     name: "Algerian Flag",
     ingredients: [],
   },
+  dailyRewards: {},
   treasureIsland: {
     holes: {},
     rareTreasure: {
