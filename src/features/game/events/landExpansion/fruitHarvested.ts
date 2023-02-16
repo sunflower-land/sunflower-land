@@ -35,6 +35,26 @@ export function getFruitYield(name: FruitName, collectibles: Collectibles) {
   return 1;
 }
 
+function getPlantedAt(
+  fruitName: FruitName,
+  collectibles: Collectibles,
+  createdAt: number
+) {
+  if (
+    fruitName === "Orange" &&
+    isCollectibleBuilt("Squirrel Monkey", collectibles)
+  ) {
+    const orangeTimeInMilliseconds =
+      FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000;
+
+    const offset = orangeTimeInMilliseconds / 2;
+
+    return createdAt - offset;
+  }
+
+  return createdAt;
+}
+
 export function harvestFruit({
   state,
   action,
@@ -89,7 +109,11 @@ export function harvestFruit({
     stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
   patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-  patch.fruit.harvestedAt = createdAt;
+  patch.fruit.harvestedAt = getPlantedAt(
+    name,
+    stateCopy.collectibles,
+    createdAt
+  );
 
   patch.fruit.amount = getFruitYield(name, stateCopy.collectibles);
 
