@@ -1,4 +1,5 @@
 import React from "react";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
@@ -6,10 +7,12 @@ import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
+
 export interface PanelTabs {
   icon: string;
   name: string;
 }
+
 interface Props {
   tabs?: PanelTabs[];
   currentTab?: number;
@@ -20,6 +23,7 @@ interface Props {
   bumpkinParts?: Partial<Equipped>;
   className?: string;
 }
+
 /**
  * A custom panel built for the game.
  * @tabs The tabs of the panel.
@@ -46,8 +50,10 @@ export const CloseButtonPanel: React.FC<Props> = ({
   const handleTabClick = (index: number) => {
     setCurrentTab && setCurrentTab(index);
   };
+
   const showCloseButton = !!onClose;
   const showBackButton = !!onBack;
+
   return (
     <Panel
       className={classNames("relative", className)}
@@ -64,19 +70,21 @@ export const CloseButtonPanel: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 1}px`,
           }}
         >
-          {tabs.map((tab, index) => (
-            <Tab
-              key={`tab-${index}`}
-              className="flex items-center"
-              isActive={currentTab === index}
-              onClick={() => handleTabClick(index)}
-            >
-              <SquareIcon icon={tab.icon} width={7} />
-              <span className="text-xs sm:text-sm text-ellipsis ml-2">
-                {tab.name}
-              </span>
-            </Tab>
-          ))}
+          <div className="flex overflow-x-auto scrollbar-hide">
+            {tabs.map((tab, index) => (
+              <Tab
+                key={`tab-${index}`}
+                className="flex items-center"
+                isActive={currentTab === index}
+                onClick={() => handleTabClick(index)}
+              >
+                <SquareIcon icon={tab.icon} width={7} />
+                <span className="text-xs sm:text-sm text-ellipsis ml-2">
+                  {tab.name}
+                </span>
+              </Tab>
+            ))}
+          </div>
           <div className="grow" />
           {showCloseButton && (
             <img
@@ -94,6 +102,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
           )}
         </div>
       )}
+
       {/* Content */}
       <div>
         {title && (
