@@ -60,7 +60,7 @@ export const ValentineIsland: React.FC = () => {
           x={-8}
           y={-4.5}
           onTravelDialogOpened={() => gameService.send("SAVE")}
-          isTravelAllowed={!gameState.matches("autosaving")}
+          travelAllowed={!gameState.matches("autosaving")}
           customBoat={boat}
           customWidth={54}
         />
