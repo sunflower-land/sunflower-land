@@ -45,7 +45,6 @@ export const PumpkinPlaza: React.FC = () => {
 
   const [chatState] = useActor(websocketService);
 
-  console.log({ state: chatState.value });
   useEffect(() => {
     return () => {
       console.log("Time to disconnect!");
@@ -134,6 +133,8 @@ export const PumpkinPlaza: React.FC = () => {
           bumpkin={gameState.context.state.bumpkin}
           x={-3}
           y={-22}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
+          travelAllowed={!gameState.matches("autosaving")}
         />
 
         <ChatUI

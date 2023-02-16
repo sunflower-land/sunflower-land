@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Label } from "./Label";
 import clipboard from "clipboard";
 
-export const CopySvg = () => (
+export const CopySvg = ({ height = 16 }: { height?: number }) => (
   <svg
     className="fill-white"
     aria-hidden="true"
-    height="16"
+    height={`${height}`}
     viewBox="0 0 16 16"
     version="1.1"
     width="16"

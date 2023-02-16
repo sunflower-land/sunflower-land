@@ -110,13 +110,11 @@ export const createFarmMachine = createMachine<
         const maticFee = Number(fee);
         const maticBalance = await wallet.getMaticBalance();
 
-        console.log({ maticFee, maticBalance });
         return { maticFee, maticBalance };
       },
       updateBalance: async () => {
         const maticBalance = await wallet.getMaticBalance();
 
-        console.log({ maticBalance });
         return { maticBalance: maticBalance.toNumber() };
       },
     },
