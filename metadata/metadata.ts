@@ -3209,4 +3209,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/718.png",
     attributes: [],
   },
+  "Valentine Bear": {
+    description:
+      "A bear for those who love. Awarded to people who showed some love",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1240.png",
+    attributes: [],
+  },
 };

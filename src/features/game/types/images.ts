@@ -41,7 +41,7 @@ import rockGolem from "assets/sfts/rock_golem.gif";
 import rooster from "assets/sfts/rooster.gif";
 import undeadChicken from "assets/sfts/undead_chicken.gif";
 import wickerMan from "assets/sfts/wicker_man.png";
-import wendy from "assets/sfts/wood_nymph_wendy.png";
+import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import cabbageBoy from "assets/sfts/cabbage_boy.png";
 import cabbageGirl from "assets/sfts/cabbage_girl.png";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
@@ -301,6 +301,7 @@ import redEnvelope from "src/assets/icons/red_envelope.png";
 import loveLetter from "src/assets/icons/love_letter.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
+import valentineBear from "src/assets/sfts/bears/love_bear.png";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -1819,5 +1820,9 @@ export const ITEM_DETAILS: Items = {
     description:
       "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
     image: whaleBear,
+  },
+  "Valentine Bear": {
+    description: "For those who love.",
+    image: valentineBear,
   },
 };
