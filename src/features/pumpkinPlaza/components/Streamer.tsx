@@ -10,7 +10,7 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 
 export const Streamer: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   return (
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
