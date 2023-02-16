@@ -22,7 +22,6 @@ export async function getDailyCode(
       .counts(account)
       .call({ from: account });
 
-    console.log({ code });
     return Number(code ?? "0");
   } catch (e) {
     const error = parseMetamaskError(e);

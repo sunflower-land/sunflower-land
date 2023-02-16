@@ -22,7 +22,7 @@ import { DepositArgs } from "lib/blockchain/Deposit";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
 
-type Status = "loading" | "loaded";
+type Status = "loading" | "loaded" | "error";
 
 interface Props {
   farmAddress: string;
@@ -54,31 +54,45 @@ export const Deposit: React.FC<Props> = ({
     if (status !== "loading") return;
     // Load balances from the user's personal wallet
     const loadBalances = async () => {
-      const sflBalanceFn = sflBalanceOf(
-        wallet.web3Provider,
-        wallet.myAccount,
-        wallet.myAccount
-      );
+      try {
+        const sflBalanceFn = sflBalanceOf(
+          wallet.web3Provider,
+          wallet.myAccount,
+          wallet.myAccount
+        );
 
-      const inventoryBalanceFn = getInventoryBalances(
-        wallet.web3Provider,
-        wallet.myAccount,
-        wallet.myAccount
-      );
+        const inventoryBalanceFn = getInventoryBalances(
+          wallet.web3Provider,
+          wallet.myAccount,
+          wallet.myAccount
+        );
 
-      const [sflBalance, inventoryBalance] = await Promise.all([
-        sflBalanceFn,
-        inventoryBalanceFn,
-      ]);
+        const [sflBalance, inventoryBalance] = await Promise.all([
+          sflBalanceFn,
+          inventoryBalanceFn,
+        ]);
 
-      setSflBalance(new Decimal(fromWei(sflBalance)));
-      setInventoryBalance(balancesToInventory(inventoryBalance));
-      setStatus("loaded");
-      onLoaded && onLoaded(true);
+        setSflBalance(new Decimal(fromWei(sflBalance)));
+        setInventoryBalance(balancesToInventory(inventoryBalance));
+        setStatus("loaded");
+        // Notify parent that we're done loading
+        onLoaded && onLoaded(true);
+      } catch (error: any) {
+        console.error(error.message);
+        setStatus("error");
+        // Notify parent that we're done loading
+        onLoaded && onLoaded(false);
+      }
     };
 
     loadBalances();
   }, [status]);
+
+  if (status === "error") {
+    <div className="p-2">
+      <p>There was an error loading your balances.</p>
+    </div>;
+  }
 
   const handleSflDepositAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     // Strip the leading zero from numbers

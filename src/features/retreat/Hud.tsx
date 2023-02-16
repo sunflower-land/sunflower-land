@@ -26,8 +26,6 @@ export const Hud: React.FC = () => {
   const { state } = goblinState.context;
   const landId = state.id;
 
-  console.log({ depositDataLoaded });
-
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
   ) => {
