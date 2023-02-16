@@ -23,7 +23,7 @@ const maxItems: Inventory = {
   Blueberry: new Decimal("100"),
 
   Chicken: new Decimal("20"),
-  Egg: new Decimal("150"),
+  Egg: new Decimal("200"),
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
@@ -45,7 +45,7 @@ const maxItems: Inventory = {
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
   Stone: new Decimal("500"),
-  Wood: new Decimal("600"),
+  Wood: new Decimal("1000"),
 
   "War Bond": new Decimal(500),
   "Human War Banner": new Decimal(1),
