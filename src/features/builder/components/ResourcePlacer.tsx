@@ -108,7 +108,6 @@ export const ResourcePlacer: React.FC<Props> = ({
   const [coordinates, setCoordinates] = useState<Coordinates>();
   const { component, dimensions } = RESOURCES[name];
 
-  console.log({ coordinates });
   return (
     <>
       <ResourceBUttons

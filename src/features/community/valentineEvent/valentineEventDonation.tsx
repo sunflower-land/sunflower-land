@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { roundToOneDecimal } from "features/auth/components";
 import { useMachine } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import tree from "assets/events/valentine/decorations/blossom_tree.png";
+import bear from "assets/sfts/bears/love_bear.png";
 import { CONFIG } from "lib/config";
 
 export const ValentineEventDonation: React.FC = () => {
@@ -48,7 +48,7 @@ export const ValentineEventDonation: React.FC = () => {
             donate!
           </p>
           <div className="flex flex-col items-center">
-            <img id="bottle" src={tree} className="w-20" />
+            <img id="bottle" src={bear} className="w-20" />
           </div>
           <div className="flex flex-col items-center">
             <div className="flex">
