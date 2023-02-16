@@ -1,5 +1,4 @@
 import React from "react";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
@@ -7,12 +6,10 @@ import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
-
 export interface PanelTabs {
   icon: string;
   name: string;
 }
-
 interface Props {
   tabs?: PanelTabs[];
   currentTab?: number;
@@ -20,11 +17,9 @@ interface Props {
   title?: string | JSX.Element;
   onClose?: () => void;
   onBack?: () => void;
-  closeButtonWarpContent?: boolean;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
 }
-
 /**
  * A custom panel built for the game.
  * @tabs The tabs of the panel.
@@ -33,7 +28,6 @@ interface Props {
  * @title The panel title.
  * @onClose The close panel method.  Close button will show if this is set.
  * @onBack The back button method.  Back button will show if this is set.
- * @closeButtonFloatRight Whether the close button will float right to warp content. Default is true.
  * @bumpkinParts The list of bumpkin parts for the modal.
  * @className Additional class name for the parent panel.
  * @children The panel children content.
@@ -45,7 +39,6 @@ export const CloseButtonPanel: React.FC<Props> = ({
   title,
   onClose,
   onBack,
-  closeButtonWarpContent = true,
   bumpkinParts,
   className,
   children,
@@ -53,10 +46,8 @@ export const CloseButtonPanel: React.FC<Props> = ({
   const handleTabClick = (index: number) => {
     setCurrentTab && setCurrentTab(index);
   };
-
   const showCloseButton = !!onClose;
   const showBackButton = !!onBack;
-
   return (
     <Panel
       className={classNames("relative", className)}
@@ -73,21 +64,19 @@ export const CloseButtonPanel: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 1}px`,
           }}
         >
-          <div className="flex overflow-x-auto scrollbar-hide">
-            {tabs.map((tab, index) => (
-              <Tab
-                key={`tab-${index}`}
-                className="flex items-center"
-                isActive={currentTab === index}
-                onClick={() => handleTabClick(index)}
-              >
-                <SquareIcon icon={tab.icon} width={7} />
-                <span className="text-xs sm:text-sm text-ellipsis ml-2">
-                  {tab.name}
-                </span>
-              </Tab>
-            ))}
-          </div>
+          {tabs.map((tab, index) => (
+            <Tab
+              key={`tab-${index}`}
+              className="flex items-center"
+              isActive={currentTab === index}
+              onClick={() => handleTabClick(index)}
+            >
+              <SquareIcon icon={tab.icon} width={7} />
+              <span className="text-xs sm:text-sm text-ellipsis ml-2">
+                {tab.name}
+              </span>
+            </Tab>
+          ))}
           <div className="grow" />
           {showCloseButton && (
             <img
@@ -105,7 +94,6 @@ export const CloseButtonPanel: React.FC<Props> = ({
           )}
         </div>
       )}
-
       {/* Content */}
       <div>
         {title && (
@@ -150,10 +138,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
         {showCloseButton && !tabs && !title && (
           <img
             src={SUNNYSIDE.icons.close}
-            className={classNames("cursor-pointer z-20", {
-              "float-right ml-2": closeButtonWarpContent,
-              "absolute top-[10.5px] right-[10.5px]": !closeButtonWarpContent,
-            })}
+            className="float-right cursor-pointer z-20 ml-3"
             onClick={onClose}
             style={{
               width: `${PIXEL_SCALE * 11}px`,

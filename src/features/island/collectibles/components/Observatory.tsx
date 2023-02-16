@@ -47,12 +47,10 @@ export const Observatory: React.FC = () => {
         />
       </div>
       <Modal centered show={!!playRand} onHide={handleCloseTelescope}>
-        <CloseButtonPanel
-          onClose={handleCloseTelescope}
-          closeButtonWarpContent={false}
-        >
+        <CloseButtonPanel onClose={handleCloseTelescope}>
           {loading && <Loading />}
           <div
+            className="bg-[#1b1c1b] pb-3"
             hidden={loading || !playRand} // render and hide gif so gif have time to load
           >
             <img
