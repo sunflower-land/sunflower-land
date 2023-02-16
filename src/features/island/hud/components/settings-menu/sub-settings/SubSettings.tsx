@@ -26,6 +26,11 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     "settings"
   );
 
+  const closeAndResetView = () => {
+    onClose();
+    setView("settings");
+  };
+
   const onLogout = () => {
     onClose();
     authService.send("LOGOUT"); // hack used to avoid redundancy
@@ -40,19 +45,13 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     if (view === "transfer") {
       return (
         <Panel className="p-0">
-          <TransferAccount
-            isOpen={true}
-            onClose={() => {
-              onClose();
-              setView("settings");
-            }}
-          />
+          <TransferAccount isOpen={true} onClose={closeAndResetView} />
         </Panel>
       );
     }
 
     if (view === "lost-and-found") {
-      return <LostAndFound onClose={onClose} />;
+      return <LostAndFound onClose={closeAndResetView} />;
     }
 
     return (
@@ -88,7 +87,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={closeAndResetView} centered>
       {Content()}
     </Modal>
   );

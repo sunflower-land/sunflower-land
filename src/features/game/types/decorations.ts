@@ -26,9 +26,12 @@ export type ShopDecorationName =
   | "Cactus"
   | "Basic Bear";
 
+export type EventDecorationName = "Valentine Bear";
+
 export type DecorationName =
   | AchievementDecorationName
   | ShopDecorationName
+  | EventDecorationName
   | DecorationTreasure
   | BoostTreasure;
 
@@ -174,6 +177,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Lunar Calendar": {
+    height: 1,
+    width: 1,
+  },
+  "Valentine Bear": {
     height: 1,
     width: 1,
   },
