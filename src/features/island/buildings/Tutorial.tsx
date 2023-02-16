@@ -13,7 +13,7 @@ export const Tutorial: React.FC<Props> = ({ onClose }) => {
   const PageOne = () => {
     return (
       <>
-        <div className="space-y-3 text-sm p-2 mb-2">
+        <div className="space-y-3 text-sm p-2 my-2">
           <p>
             This menu will show you the levels required to unlock new buildings.
           </p>
