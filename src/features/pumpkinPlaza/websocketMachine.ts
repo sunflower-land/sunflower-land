@@ -7,6 +7,10 @@ import { OFFLINE_FARM } from "features/game/lib/landData";
 import { ReactionName } from "./lib/reactions";
 import { BumpkinDiscovery, ChatMessage, Player } from "./lib/types";
 import { OFFLINE_BUMPKINS } from "./lib/constants";
+import {
+  acknowledgeCodeOfConduct,
+  getCodeOfConductLastRead,
+} from "features/announcements/announcementsStorage";
 
 export interface ChatContext {
   currentPosition: Coordinates;
@@ -24,6 +28,7 @@ export interface ChatContext {
 export type ChatState = {
   value:
     | "initialising"
+    | "codeOfConduct"
     | "connecting"
     | "loadingPlayers"
     | "connected"
@@ -33,7 +38,11 @@ export type ChatState = {
   context: ChatContext;
 };
 
-type SendLocationEvent = { type: "SEND_LOCATION"; coordinates: Coordinates };
+type SendLocationEvent = {
+  type: "SEND_LOCATION";
+  coordinates: Coordinates;
+  previousCoordinates: Coordinates;
+};
 type SendChatMessageEvent = {
   type: "SEND_CHAT_MESSAGE";
   text: string;
@@ -66,6 +75,8 @@ type ChatEvent =
   | SendLocationEvent
   | SendChatMessageEvent
   | { type: "TICK" }
+  | { type: "ACKNOWLEDGE" }
+  | { type: "CONNECT" }
   | { type: "DISCONNECT" };
 
 export type MachineState = State<ChatContext, ChatEvent, ChatState>;
@@ -133,7 +144,7 @@ export const websocketMachine = createMachine<
   ChatEvent,
   ChatState
 >({
-  initial: "connecting",
+  initial: "initialising",
   context: {
     bumpkin: {} as Bumpkin,
     bumpkins: [],
@@ -146,6 +157,33 @@ export const websocketMachine = createMachine<
     game: OFFLINE_FARM,
   },
   states: {
+    initialising: {
+      always: [
+        {
+          target: "codeOfConduct",
+          cond: () => {
+            const lastRead = getCodeOfConductLastRead();
+            return (
+              !lastRead ||
+              Date.now() - lastRead.getTime() > 3 * 24 * 60 * 60 * 1000
+            );
+          },
+        },
+        {
+          target: "connecting",
+        },
+      ],
+    },
+    codeOfConduct: {
+      on: {
+        ACKNOWLEDGE: {
+          target: "connecting",
+          actions: () => {
+            acknowledgeCodeOfConduct();
+          },
+        },
+      },
+    },
     connecting: {
       invoke: {
         id: "socket",
@@ -292,7 +330,6 @@ export const websocketMachine = createMachine<
         SEND_LOCATION: {
           actions: [
             (context, event: SendLocationEvent) => {
-              JSON.stringify({ sendEvent: event });
               context.socket?.send(
                 JSON.stringify({
                   action: "sendLocation",
@@ -304,7 +341,7 @@ export const websocketMachine = createMachine<
               );
             },
             assign({
-              lastPosition: (context) => context.currentPosition,
+              lastPosition: (_, event) => event.previousCoordinates,
               currentPosition: (_, event) => event.coordinates,
             }),
           ],
@@ -429,7 +466,15 @@ export const websocketMachine = createMachine<
         },
       },
     },
-    disconnected: {},
-    error: {},
+    disconnected: {
+      on: {
+        CONNECT: "connecting",
+      },
+    },
+    error: {
+      on: {
+        CONNECT: "connecting",
+      },
+    },
   },
 });
