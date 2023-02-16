@@ -227,14 +227,16 @@ export const Deposit: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            <a
-              target="_blank"
-              className="underline text-xxs mb-1 mt-3 hover:text-blue-500"
-              href={`https://app.gitbook.com/o/bntEYvEP4dzoxNUbvnHA/s/IWGEodCG0c07OUY9iW9t/~/changes/297/economy/depositing-and-custody#cant-see-the-items-you-deposited`}
-              rel="noreferrer"
-            >
-              {`Deposit didn't arrive?`}
-            </a>
+            <div className="mb-1 mt-2">
+              <a
+                target="_blank"
+                className="underline text-xxs hover:text-blue-500"
+                href={`https://app.gitbook.com/o/bntEYvEP4dzoxNUbvnHA/s/IWGEodCG0c07OUY9iW9t/~/changes/297/economy/depositing-and-custody#cant-see-the-items-you-deposited`}
+                rel="noreferrer"
+              >
+                {`Deposit didn't arrive?`}
+              </a>
+            </div>
           </div>
           <Button
             onClick={handleDeposit}

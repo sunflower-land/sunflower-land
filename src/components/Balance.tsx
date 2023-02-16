@@ -6,33 +6,15 @@ import { InnerPanel } from "components/ui/Panel";
 import token from "assets/icons/token_2.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setPrecision } from "lib/utils/formatNumber";
-import { Modal } from "react-bootstrap";
-import { Deposit } from "features/goblins/bank/components/Deposit";
-import { DepositArgs } from "lib/blockchain/Deposit";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   balance: Decimal;
   farmAddress?: string;
-  onDeposit?: (
-    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
-  ) => void;
+  onBalanceClick?: () => void;
 }
 
-export const Balance: React.FC<Props> = ({
-  balance,
-  onDeposit,
-  farmAddress,
-}) => {
+export const Balance: React.FC<Props> = ({ balance, onBalanceClick }) => {
   const [showFullBalance, setShowFullBalance] = useState(false);
-  const [showDepositModal, setShowDepositModal] = useState(false);
-  const [depositDataLoaded, setDepositDataLoaded] = useState(false);
-
-  const handleClose = () => {
-    setShowDepositModal(false);
-  };
-
-  const canDeposit = onDeposit && farmAddress;
 
   return (
     <>
@@ -44,7 +26,7 @@ export const Balance: React.FC<Props> = ({
         }}
         onMouseEnter={() => setShowFullBalance(true)}
         onMouseLeave={() => setShowFullBalance(false)}
-        onClick={onDeposit ? () => setShowDepositModal(true) : undefined}
+        onClick={onBalanceClick}
       >
         <img
           src={token}
@@ -58,21 +40,6 @@ export const Balance: React.FC<Props> = ({
             : setPrecision(balance).toString()}
         </span>
       </InnerPanel>
-      {canDeposit && (
-        <Modal show={showDepositModal} centered>
-          <CloseButtonPanel
-            title={depositDataLoaded ? "Deposit" : undefined}
-            onClose={depositDataLoaded ? handleClose : undefined}
-          >
-            <Deposit
-              farmAddress={farmAddress}
-              onDeposit={onDeposit}
-              onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-              onClose={handleClose}
-            />
-          </CloseButtonPanel>
-        </Modal>
-      )}
     </>
   );
 };
