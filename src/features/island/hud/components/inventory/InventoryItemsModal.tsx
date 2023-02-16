@@ -7,6 +7,7 @@ import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "react-bootstrap";
+import { Buildings } from "features/island/buildings/Buildings";
 
 interface Props {
   show: boolean;
@@ -47,6 +48,9 @@ export const InventoryItemsModal: React.FC<Props> = ({
         tabs={[
           { icon: SUNNYSIDE.icons.basket, name: "Basket" },
           { icon: chest, name: "Chest" },
+          ...(isFarming
+            ? [{ icon: SUNNYSIDE.icons.hammer, name: "Buildings" }]
+            : []),
         ]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -70,6 +74,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             isSaving={isSaving}
           />
         )}
+        {currentTab === 2 && <Buildings onClose={onHide} />}
       </CloseButtonPanel>
     </Modal>
   );

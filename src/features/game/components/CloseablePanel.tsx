@@ -70,20 +70,22 @@ export const CloseButtonPanel: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 1}px`,
           }}
         >
-          {tabs.map((tab, index) => (
-            <Tab
-              key={`tab-${index}`}
-              isFirstTab={index === 0}
-              className="flex items-center"
-              isActive={currentTab === index}
-              onClick={() => handleTabClick(index)}
-            >
-              <SquareIcon icon={tab.icon} width={7} />
-              <span className="text-xs sm:text-sm text-ellipsis ml-1 p-1">
-                {tab.name}
-              </span>
-            </Tab>
-          ))}
+          <div className="flex overflow-x-auto scrollbar-hide">
+            {tabs.map((tab, index) => (
+              <Tab
+                key={`tab-${index}`}
+                isFirstTab={index === 0}
+                className="flex items-center"
+                isActive={currentTab === index}
+                onClick={() => handleTabClick(index)}
+              >
+                <SquareIcon icon={tab.icon} width={7} />
+                <span className="text-xs sm:text-sm text-ellipsis ml-1 p-1">
+                  {tab.name}
+                </span>
+              </Tab>
+            ))}
+          </div>
           <div className="grow" />
           {showCloseButton && (
             <img

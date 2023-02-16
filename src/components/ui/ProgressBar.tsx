@@ -176,7 +176,7 @@ export const ProgressBar: React.FC<Props> = ({
           </span>
         </div>
       )}
-      <div className="absolute" style={{}}>
+      <div className="absolute">
         <Bar percentage={percentage} type={type} />
       </div>
     </div>

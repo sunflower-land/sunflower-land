@@ -27,7 +27,7 @@ export const ListView: React.FC<{
   return (
     <div
       style={{ maxHeight: CONTENT_HEIGHT }}
-      className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
+      className="w-full pr-1 pt-2 overflow-y-auto scrollable"
     >
       {buildings.map((buildingName, index) => {
         // The unlock at levels for the building
