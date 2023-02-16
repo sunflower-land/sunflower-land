@@ -266,7 +266,6 @@ const getIslandElements = ({
       )
   );
 
-  console.log({ bumpkinParts });
   if (bumpkinParts) {
     mapPlacements.push(
       <MapPlacement
@@ -456,7 +455,7 @@ export const Land: React.FC = () => {
             bumpkin={bumpkin}
             isVisiting={gameState.matches("visiting")}
             inventory={gameState.context.state.inventory}
-            isTravelAllowed={!gameState.matches("autosaving")}
+            travelAllowed={!gameState.matches("autosaving")}
             onTravelDialogOpened={() => gameService.send("SAVE")}
             x={boatCoordinates.x}
             y={boatCoordinates.y}

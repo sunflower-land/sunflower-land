@@ -12,9 +12,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   state: GameState;
+  onDepositClick: () => void;
 }
 
-export const GoblinInventory: React.FC<Props> = ({ state }) => {
+export const GoblinInventory: React.FC<Props> = ({ state, onDepositClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { inventory } = state;
 
@@ -71,6 +72,7 @@ export const GoblinInventory: React.FC<Props> = ({ state }) => {
         onSelectBasketItem={setSelectedBasketItem}
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}
+        onDepositClick={onDepositClick}
         isFarming={false}
       />
     </div>

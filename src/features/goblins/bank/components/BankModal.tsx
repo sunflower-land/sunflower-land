@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import token from "assets/icons/token_2.png";
 
@@ -9,13 +9,23 @@ import { Withdraw } from "./Withdraw";
 import { Deposit } from "./Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GoblinProvider";
+import { DepositArgs } from "lib/blockchain/Deposit";
 
 interface Props {
+  farmAddress: string;
   onClose: () => void;
 }
 
-export const BankModal: React.FC<Props> = ({ onClose }) => {
+export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
+  const { goblinService } = useContext(Context);
   const [tab, setTab] = useState<"deposit" | "withdraw">("deposit");
+
+  const handleDeposit = (
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+  ) => {
+    goblinService.send("DEPOSIT", args);
+  };
 
   return (
     <Panel className="relative" hasTabs>
@@ -48,7 +58,11 @@ export const BankModal: React.FC<Props> = ({ onClose }) => {
       </div>
       {tab === "deposit" && (
         <div className="mt-3">
-          <Deposit />
+          <Deposit
+            farmAddress={farmAddress}
+            onDeposit={handleDeposit}
+            onClose={onClose}
+          />
         </div>
       )}
       {tab === "withdraw" && <Withdraw onClose={onClose} />}
