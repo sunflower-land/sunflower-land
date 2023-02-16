@@ -188,6 +188,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Beta Pass": 715,
   "Red Envelope": 716,
   "Love Letter": 717,
+  "Block Buck": 718,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -327,6 +328,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Dinosaur Bone": 1237,
   "Human Bear": 1238,
   "Whale Bear": 1239,
+  "Valentine Bear": 1240,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

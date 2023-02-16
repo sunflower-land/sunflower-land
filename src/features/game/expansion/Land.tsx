@@ -262,6 +262,7 @@ const getIslandElements = ({
       )
   );
 
+  console.log({ bumpkinParts });
   if (bumpkinParts) {
     mapPlacements.push(
       <MapPlacement
@@ -281,6 +282,7 @@ const getIslandElements = ({
           hat={bumpkinParts.hat}
           onesie={bumpkinParts.onesie}
           wings={bumpkinParts.wings}
+          dress={bumpkinParts.dress}
         />
       </MapPlacement>
     );

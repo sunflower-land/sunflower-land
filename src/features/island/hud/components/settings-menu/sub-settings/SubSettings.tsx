@@ -10,6 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { TransferAccount } from "./TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { LostAndFound } from "../../LostAndFound";
 
 interface Props {
   isOpen: boolean;
@@ -21,7 +22,14 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const { gameService } = useContext(Context);
 
-  const [view, setView] = useState<"settings" | "transfer">("settings");
+  const [view, setView] = useState<"settings" | "transfer" | "lost-and-found">(
+    "settings"
+  );
+
+  const closeAndResetView = () => {
+    onClose();
+    setView("settings");
+  };
 
   const onLogout = () => {
     onClose();
@@ -37,15 +45,13 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     if (view === "transfer") {
       return (
         <Panel className="p-0">
-          <TransferAccount
-            isOpen={true}
-            onClose={() => {
-              onClose();
-              setView("settings");
-            }}
-          />
+          <TransferAccount isOpen={true} onClose={closeAndResetView} />
         </Panel>
       );
+    }
+
+    if (view === "lost-and-found") {
+      return <LostAndFound onClose={closeAndResetView} />;
     }
 
     return (
@@ -55,6 +61,12 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
         </Button>
         <Button className="col p-1 mt-2" onClick={() => setView("transfer")}>
           Transfer Ownership
+        </Button>
+        <Button
+          className="col p-1 mt-2"
+          onClick={() => setView("lost-and-found")}
+        >
+          Lost and Found
         </Button>
         <Button className="col p-1 mt-2" onClick={refreshSession}>
           Refresh
@@ -75,7 +87,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={closeAndResetView} centered>
       {Content()}
     </Modal>
   );

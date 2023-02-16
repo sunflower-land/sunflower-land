@@ -106,7 +106,7 @@ export const COOKABLES: Record<CookableName, Cookable> = {
 
   "Kale Stew": {
     name: "Kale Stew",
-    description: "A perfect Bumpkin Booster",
+    description: "A perfect Bumpkin Booster!",
     building: "Fire Pit",
     cookingSeconds: 60 * 60 * 2,
     ingredients: {
@@ -171,7 +171,7 @@ export const COOKABLES: Record<CookableName, Cookable> = {
 
   Pancakes: {
     name: "Pancakes",
-    description: "A great start to a Bumpkins day",
+    description: "A great start to a Bumpkins day.",
     experience: 480,
     building: "Kitchen",
     cookingSeconds: 60 * 20,

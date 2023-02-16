@@ -1,8 +1,8 @@
 import { useActor } from "@xstate/react";
-import background from "assets/events/valentine/land/valetine_island.png";
-import boat from "assets/events/valentine/npcs/love_boat.png";
+import background from "assets/events/valentine/land/valentine_island.png";
+import boat from "assets/events/valentine/npcs/love_boat.webp";
 import { Context } from "features/game/GameProvider";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";
 import { ChickenCouple } from "features/valentineIsland/components/ChickenCouple";
 import { LonelyGuy } from "features/valentineIsland/components/LonelyGuy";
@@ -14,6 +14,7 @@ import { ValentinGoblin } from "features/valentineIsland/components/ValentinGobl
 import { Cupid } from "features/valentineIsland/components/Cupid";
 import { ValentinFarmer } from "features/valentineIsland/components/ValentinFarmer";
 import { ValentinesIslandTravel } from "features/game/expansion/components/travel/ValentinesIslandTravel";
+import { BlossomTree } from "features/valentineIsland/components/BlossomTree";
 
 export const ValentineIsland: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -34,8 +35,8 @@ export const ValentineIsland: React.FC = () => {
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: `${21 * GRID_WIDTH_PX}px`,
-          height: `${21 * GRID_WIDTH_PX}px`,
+          width: `${320 * PIXEL_SCALE}px`,
+          height: `${274 * PIXEL_SCALE}px`,
         }}
       >
         <img
@@ -51,6 +52,7 @@ export const ValentineIsland: React.FC = () => {
         <Moles />
         <ValentinFarmer />
         <ChickenCouple />
+        <BlossomTree />
 
         <ValentinesIslandTravel
           bumpkin={bumpkin}

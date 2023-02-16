@@ -14,6 +14,7 @@ import {
   BumpkinSuit,
   BumpkinOnesie,
   BumpkinWings,
+  BumpkinDress,
 } from "features/game/types/bumpkin";
 
 export type BumpkinParts = {
@@ -31,6 +32,7 @@ export type BumpkinParts = {
   suit?: BumpkinSuit;
   onesie?: BumpkinOnesie;
   wings?: BumpkinWings;
+  dress?: BumpkinDress;
 };
 
 enum Slots {
@@ -48,6 +50,7 @@ enum Slots {
   Onesie = 11,
   Suit = 12,
   Wings = 13,
+  Dress = 14,
 }
 
 export function tokenUriBuilder(parts: BumpkinParts) {
@@ -58,6 +61,7 @@ export function tokenUriBuilder(parts: BumpkinParts) {
   ids[Slots.Hair] = parts.hair ? ITEM_IDS[parts.hair] : 0;
   ids[Slots.Shirt] = parts.shirt ? ITEM_IDS[parts.shirt] : 0;
   ids[Slots.Pants] = parts.pants ? ITEM_IDS[parts.pants] : 0;
+  ids[Slots.Dress] = parts.dress ? ITEM_IDS[parts.dress] : 0;
   ids[Slots.Shoes] = parts.shoes ? ITEM_IDS[parts.shoes] : 0;
   ids[Slots.Tool] = parts.tool ? ITEM_IDS[parts.tool] : 0;
   ids[Slots.Hat] = parts.hat ? ITEM_IDS[parts.hat] : 0;
