@@ -41,7 +41,7 @@ import rockGolem from "assets/sfts/rock_golem.gif";
 import rooster from "assets/sfts/rooster.gif";
 import undeadChicken from "assets/sfts/undead_chicken.gif";
 import wickerMan from "assets/sfts/wicker_man.png";
-import wendy from "assets/sfts/wood_nymph_wendy.png";
+import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import cabbageBoy from "assets/sfts/cabbage_boy.png";
 import cabbageGirl from "assets/sfts/cabbage_girl.png";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
@@ -170,6 +170,7 @@ import fruitPlatter from "assets/achievements/fruit_platter.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
+import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 
@@ -297,9 +298,10 @@ import collectibleBear from "src/assets/sfts/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
-import loveLetter from "src/assets/icons/love_letter.webp";
+import loveLetter from "src/assets/icons/love_letter.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
+import valentineBear from "src/assets/sfts/bears/love_bear.png";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -322,9 +324,9 @@ import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
 import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
-import heartBalloons from "assets/events/valentine/sfts/balloons.webp";
+import heartBalloons from "assets/events/valentine/sfts/heart_balloons.png";
 import flamingo from "assets/events/valentine/sfts/flamingo.webp";
-import blossomTree from "assets/events/valentine/sfts/blossom_tree.webp";
+import blossomTree from "assets/events/valentine/sfts/blossom_tree.png";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
@@ -673,6 +675,11 @@ export const ITEM_DETAILS: Items = {
   "Sand Drill": {
     description: "Drill deep for rare treasure",
     image: drill,
+  },
+  "Block Buck": {
+    description:
+      "A voucher used for restocking and enhancing your Blockchain experience!",
+    image: blockBuck,
   },
 
   // SFTs
@@ -1813,5 +1820,9 @@ export const ITEM_DETAILS: Items = {
     description:
       "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
     image: whaleBear,
+  },
+  "Valentine Bear": {
+    description: "For those who love.",
+    image: valentineBear,
   },
 };

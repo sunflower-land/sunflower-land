@@ -103,7 +103,8 @@ export type Coupons =
   | "Golden Crop"
   | "Beta Pass"
   | "Red Envelope"
-  | "Love Letter";
+  | "Love Letter"
+  | "Block Buck";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -126,6 +127,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Love Letter": {
     description: "Convey feelings of love",
+  },
+  "Block Buck": {
+    description:
+      "A voucher used for restocking and enhancing your Blockchain experience!",
   },
 };
 
@@ -409,6 +414,12 @@ export interface GameState {
   metadata?: any[];
   pumpkinPlaza: {
     rewardCollectedAt?: number;
+  };
+  dailyRewards: {
+    chest?: {
+      collectedAt: number;
+      code: number;
+    };
   };
 }
 

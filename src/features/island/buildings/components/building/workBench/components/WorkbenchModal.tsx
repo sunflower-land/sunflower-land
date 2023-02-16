@@ -13,7 +13,6 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Stock } from "components/ui/Stock";
-import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { Tab } from "components/ui/Tab";
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
@@ -23,7 +22,7 @@ import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
-import { Delayed } from "features/island/buildings/components/building/market/Delayed";
+import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
@@ -50,7 +49,6 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
   const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
-  const [showCaptcha, setShowCaptcha] = useState(false);
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Workbench")
   );
@@ -122,37 +120,6 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     shortcutItem(selectedName);
   };
 
-  const onCaptchaSolved = async (captcha: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("SYNC", { captcha });
-
-    onClose();
-  };
-
-  const sync = () => {
-    gameService.send("SYNC", { captcha: "" });
-
-    onClose();
-  };
-
-  const restock = (event: SyntheticEvent) => {
-    event.stopPropagation();
-    // setShowCaptcha(true);
-    sync();
-  };
-
-  if (showCaptcha) {
-    return (
-      <CloudFlareCaptcha
-        action="carfting-sync"
-        onDone={onCaptchaSolved}
-        onExpire={() => setShowCaptcha(false)}
-        onError={() => setShowCaptcha(false)}
-      />
-    );
-  }
-
   const labelState = () => {
     if (stock?.equals(0)) {
       return (
@@ -166,7 +133,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const Action = () => {
     if (stock?.equals(0)) {
-      return <Delayed restock={restock}></Delayed>;
+      return <Restock onClose={onClose}></Restock>;
     }
 
     return (

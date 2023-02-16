@@ -17,7 +17,7 @@ interface Props {
   tabs?: PanelTabs[];
   currentTab?: number;
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
-  title?: string;
+  title?: string | JSX.Element;
   onClose?: () => void;
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;

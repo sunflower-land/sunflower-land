@@ -39,9 +39,11 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const hasShakenRecently = Date.now() < shakeableAt;
 
   const [isShaking, setIsShaking] = useState(hasShakenRecently);
+  const [isRevealing, setIsRevealing] = useState(false);
 
   const shake = () => {
     setIsShaking(true);
+    setIsRevealing(true);
 
     // Can only shake a Maneki every 24 hours (even if you have multiple)
     if (hasShakenRecently) {
@@ -105,14 +107,14 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           />
         </div>
       )}
-      {gameState.matches("revealing") && (
+      {gameState.matches("revealing") && isRevealing && (
         <Modal show centered>
           <Panel>
             <Revealing icon={manekiNekoShaking} />
           </Panel>
         </Modal>
       )}
-      {gameState.matches("revealed") && (
+      {gameState.matches("revealed") && isRevealing && (
         <Modal show centered>
           <Panel>
             <Revealed />

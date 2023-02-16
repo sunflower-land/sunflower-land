@@ -22,6 +22,8 @@ import retreat from "assets/land/retreat.webp";
 import treasureIsland from "assets/land/treasure_island.webp";
 import snowKingdom from "assets/land/snow_kingdom.webp";
 import stoneHeaven from "assets/land/stone_haven.webp";
+import valentineIsland from "assets/events/valentine/land/valentine_island.png";
+
 import silhouette from "assets/bumpkins/silhouette.png";
 import tabBorderStart from "assets/ui/panel/tab_border_start.png";
 import tabBorderMiddle from "assets/ui/panel/tab_border_middle.png";
@@ -52,6 +54,7 @@ const IMAGE_LIST: string[] = [
   treasureIsland,
   snowKingdom,
   stoneHeaven,
+  valentineIsland,
   silhouette,
   tabBorderStart,
   tabBorderMiddle,
