@@ -9,6 +9,7 @@ import { OPEN_SEA_ITEMS } from "./metadata";
 function generate() {
   const items = getKeys(KNOWN_IDS);
 
+  // Generate/update metadata files
   items.forEach((name) => {
     const metadata = OPEN_SEA_ITEMS[name];
 
@@ -27,6 +28,22 @@ function generate() {
     );
 
     fs.writeFile(jsonPath, JSON.stringify(metadata), () => undefined);
+  });
+
+  // Clean-up old metadata files
+  const metadataFolderPath = path.join(__dirname, "../public/erc1155/");
+
+  const fileItemIds = fs
+    .readdirSync(metadataFolderPath)
+    .filter((f) => f.includes(".json"))
+    .map((f) => parseInt(f.split(".")[0]));
+
+  const idLookup = new Set<number>(Object.values(KNOWN_IDS));
+
+  fileItemIds.forEach((id) => {
+    if (!idLookup.has(id)) {
+      fs.rmSync(path.join(__dirname, `../public/erc1155/${id}.json`));
+    }
   });
 }
 

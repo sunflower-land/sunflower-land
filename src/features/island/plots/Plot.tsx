@@ -110,7 +110,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
               heightFrame={HARVEST_PROC_ANIMATION.size}
               fps={HARVEST_PROC_ANIMATION.fps}
               steps={HARVEST_PROC_ANIMATION.steps}
-              hiddenWhenPaused={true}
+              onPause={() => setProcAnimation(<></>)}
             />
           );
         }
@@ -131,7 +131,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
               heightFrame={HARVEST_PROC_ANIMATION.size}
               fps={6}
               steps={HARVEST_PROC_ANIMATION.steps}
-              hiddenWhenPaused={true}
+              onPause={() => setProcAnimation(<></>)}
             />
           );
         }
@@ -141,7 +141,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           content: `+${crop.amount || 1}`,
         });
       }
-    } catch (e: any) {
+    } catch (e) {
       // TODO - catch more elaborate errors
       displayPopover();
     }
@@ -250,7 +250,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           icon: ITEM_DETAILS[selectedItem as CropName].image,
           content: `-1`,
         });
-      } catch (e: any) {
+      } catch (e) {
         // TODO - catch more elaborate errors
         displayPopover();
       }
@@ -287,7 +287,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     // harvest crop
     try {
       harvestCrop(crop);
-    } catch (e: any) {
+    } catch (e) {
       // TODO - catch more elaborate errors
       displayPopover();
     }

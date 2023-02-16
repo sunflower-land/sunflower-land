@@ -30,6 +30,7 @@ interface Props {
   onSelect: (name: InventoryItemName) => void;
   closeModal: () => void;
   onPlace?: (name: InventoryItemName) => void;
+  onDepositClick?: () => void;
   isSaving?: boolean;
 }
 
@@ -40,11 +41,10 @@ export const Chest: React.FC<Props> = ({
   closeModal,
   isSaving,
   onPlace,
+  onDepositClick,
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
-
   const chestMap = getChestItems(state);
-
   const { inventory, collectibles: placedItems } = state;
 
   const getItemCount = (item: InventoryItemName) => {
@@ -72,6 +72,7 @@ export const Chest: React.FC<Props> = ({
     }, {} as Record<CollectibleName, Decimal>);
 
   const chestIsEmpty = getKeys(collectibles).length === 0;
+
   if (chestIsEmpty) {
     return (
       <div className="flex flex-col justify-evenly items-center p-2">
@@ -85,6 +86,9 @@ export const Chest: React.FC<Props> = ({
         <span className="text-xs text-center mt-2">
           Your chest is empty, discover rare items today!
         </span>
+        <p className="underline text-xxs mt-2 cursor-pointer">
+          Deposit item from your wallet
+        </p>
       </div>
     );
   }
@@ -130,22 +134,35 @@ export const Chest: React.FC<Props> = ({
         )
       }
       content={
-        Object.values(collectibles) && (
-          <div className="flex flex-col pl-2">
-            <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
-              {getKeys(collectibles).map((item) => (
-                <Box
-                  count={getItemCount(item)}
-                  isSelected={selectedChestItem === item}
-                  key={item}
-                  onClick={() => handleItemClick(item)}
-                  image={ITEM_DETAILS[item].image}
-                  parentDivRef={divRef}
-                />
-              ))}
+        <>
+          {Object.values(collectibles) && (
+            <div className="flex flex-col pl-2">
+              <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
+                {getKeys(collectibles).map((item) => (
+                  <Box
+                    count={getItemCount(item)}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        )
+          )}
+          {onDepositClick && (
+            <p
+              className="underline text-xxs ml-2 my-1 cursor-pointer"
+              onClick={() => {
+                onDepositClick();
+                closeModal();
+              }}
+            >
+              Deposit item from your wallet
+            </p>
+          )}
+        </>
       }
     />
   );

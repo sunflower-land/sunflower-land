@@ -9,7 +9,7 @@ interface IslandTravelProps {
   bumpkin: Bumpkin | undefined;
   inventory?: Inventory;
   isVisiting?: boolean;
-  isTravelAllowed?: boolean;
+  travelAllowed: boolean;
   onTravelDialogOpened?: () => void;
   x: number;
   y: number;
@@ -21,7 +21,7 @@ export const IslandTravel: React.FC<IslandTravelProps> = ({
   x,
   y,
   isVisiting = false,
-  isTravelAllowed = true,
+  travelAllowed,
   onTravelDialogOpened,
 }) => {
   const [openIslandList, setOpenIslandList] = useState(false);
@@ -51,7 +51,7 @@ export const IslandTravel: React.FC<IslandTravelProps> = ({
         inventory={inventory ?? {}}
         onShow={onTravelDialogOpened}
         isVisiting={isVisiting}
-        isTravelAllowed={isTravelAllowed}
+        travelAllowed={travelAllowed}
         onClose={() => setOpenIslandList(false)}
       />
     </>
