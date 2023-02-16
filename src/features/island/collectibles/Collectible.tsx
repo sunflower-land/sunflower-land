@@ -1,3 +1,4 @@
+import { ValentineBear } from "features/island/collectibles/components/ValentineBear";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import Modal from "react-bootstrap/Modal";
@@ -249,6 +250,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Heart Balloons": HeartBalloons,
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
+  "Valentine Bear": ValentineBear,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

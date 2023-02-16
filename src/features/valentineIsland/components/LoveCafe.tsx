@@ -2,7 +2,7 @@ import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import building from "assets/events/valentine/buildings/love_cafe.png";
+import building from "assets/events/valentine/buildings/love_cafe.webp";
 
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
