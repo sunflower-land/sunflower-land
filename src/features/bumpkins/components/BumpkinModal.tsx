@@ -87,16 +87,14 @@ export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
       </div>
 
       {/* XP progress text */}
-      {!maxLevel && (
-        <p
-          className="text-xxs mt-0.5"
-          style={{
-            marginLeft: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8}px`,
-          }}
-        >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
-          experienceToNextLevel
-        )} XP`}</p>
-      )}
+      <p
+        className="text-xxs mt-0.5"
+        style={{
+          marginLeft: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8}px`,
+        }}
+      >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
+        experienceToNextLevel
+      )} XP`}</p>
     </div>
   );
 };
