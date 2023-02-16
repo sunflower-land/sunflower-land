@@ -59,7 +59,8 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
   const skillPointsInfo = () => {
-    const levelRequired = findLevelRequiredForNextSkillPoint(experience);
+    const nextLevelWithSkillPoint =
+      findLevelRequiredForNextSkillPoint(experience);
     const hasUnclaimedSkillPoints = availableSkillPoints > 0;
 
     return (
@@ -69,7 +70,7 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
             {`Skill Points: ${availableSkillPoints}`}
           </Label>
         )}
-        {levelRequired && (
+        {nextLevelWithSkillPoint && (
           <Label type="default">
             {`${
               hasUnclaimedSkillPoints ? "Next" : "Next Skill Point"
