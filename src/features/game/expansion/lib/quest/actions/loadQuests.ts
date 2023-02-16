@@ -5,7 +5,6 @@ import { wallet } from "lib/blockchain/wallet";
 export async function loadQuests(quests: QuestName[], bumpkinId: number) {
   const IDS = quests.map((name) => BUMPKIN_QUEST_IDS[name]);
 
-  console.log({ IDS });
   const statuses = await hasCompletedQuest(
     wallet.web3Provider,
     wallet.myAccount,

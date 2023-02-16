@@ -42,6 +42,7 @@ const DAILY_REWARD_CONTRACT = import.meta.env
 const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
+const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
 const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
@@ -96,6 +97,7 @@ export const CONFIG = {
   EASTER_EGG_CONTRACT,
   SEAL_CONTRACT,
   LOST_AND_FOUND_CONTRACT,
+  DEPOSIT_CONTRACT,
   ALCHEMY_RPC,
 
   GREEDY_GOBLIN_DONATION,

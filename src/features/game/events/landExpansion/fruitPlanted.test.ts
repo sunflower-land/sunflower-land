@@ -419,7 +419,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
   });
 
-  it("includes Squirrel Money bonus on Oranges", () => {
+  it("includes Squirrel Monkey bonus on Oranges", () => {
     const seedAmount = new Decimal(5);
 
     const patchIndex = 1;

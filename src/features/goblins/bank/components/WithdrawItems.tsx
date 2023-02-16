@@ -26,7 +26,7 @@ interface Props {
   allowLongpressWithdrawal?: boolean;
 }
 
-function transferItem(
+export function transferInventoryItem(
   itemName: InventoryItemName,
   setFrom: React.Dispatch<
     React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
@@ -83,12 +83,12 @@ export const WithdrawItems: React.FC<Props> = ({
 
   const onAdd = (itemName: InventoryItemName) => {
     // Transfer from inventory to selected
-    transferItem(itemName, setInventory, setSelected);
+    transferInventoryItem(itemName, setInventory, setSelected);
   };
 
   const onRemove = (itemName: InventoryItemName) => {
     // Transfer from selected to inventory
-    transferItem(itemName, setSelected, setInventory);
+    transferInventoryItem(itemName, setSelected, setInventory);
   };
 
   const makeItemDetails = (itemName: InventoryItemName) => {

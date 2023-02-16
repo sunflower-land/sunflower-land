@@ -10,7 +10,6 @@ export const SupplyReached: React.FC = () => {
     event.stopPropagation();
     const key = event.key.toLowerCase();
 
-    console.log({ count, key });
     if (key === "q") {
       setCount((prev) => {
         if (prev === 3) {

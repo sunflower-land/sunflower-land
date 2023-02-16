@@ -40,7 +40,12 @@ export const CommunityGarden: React.FC = () => {
         <Arcade />
       </MapPlacement>
 
-      <IslandTravel bumpkin={bumpkin} x={-4} y={-9} />
+      <IslandTravel
+        bumpkin={bumpkin}
+        x={-4}
+        y={-9}
+        travelAllowed // CommunityGarden always allowed because gameState doesn't get altered (and no autosaving needed).
+      />
     </>
   );
 };

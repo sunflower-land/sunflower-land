@@ -17,7 +17,7 @@ interface IslandTravelModalProps {
   bumpkin: Bumpkin | undefined;
   inventory: Inventory;
   isVisiting?: boolean;
-  isTravelAllowed?: boolean;
+  travelAllowed: boolean;
   onShow?: () => void;
   onClose: () => void;
 }
@@ -26,7 +26,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
   bumpkin,
   inventory,
   isVisiting = false,
-  isTravelAllowed = true,
+  travelAllowed,
   isOpen,
   onShow,
   onClose,
@@ -65,7 +65,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
         bumpkinParts={bumpkinParts}
         onClose={onClose}
       >
-        {isTravelAllowed && (
+        {travelAllowed && (
           <div
             style={{ maxHeight: CONTENT_HEIGHT }}
             className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
@@ -77,7 +77,8 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
             />
           </div>
         )}
-        {!isTravelAllowed && <span className="loading">Loading</span>}
+
+        {!travelAllowed && <span className="loading">Loading</span>}
       </CloseButtonPanel>
     </Modal>
   );

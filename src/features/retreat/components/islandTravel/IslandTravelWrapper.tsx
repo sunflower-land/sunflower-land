@@ -15,6 +15,7 @@ export const IslandTravelWrapper = () => {
       bumpkin={bumpkin}
       x={-2}
       y={-15}
+      travelAllowed // GoblinRetreat always allowed because gameState doesn't get altered (and no autosaving needed).
     />
   );
 };
