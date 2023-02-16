@@ -9,6 +9,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { randomID } from "lib/utils/random";
+
 export class SpriteSheetInstance extends React.Component<Props> {
   play(): void;
   pause(): void;
