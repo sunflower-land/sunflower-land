@@ -151,8 +151,8 @@ export const Deposit: React.FC<Props> = ({
       )}
       {status === "loaded" && !emptyWallet && (
         <>
-          <div className="p-2 mb-2">
-            <p className="mb-3">Your Personal Wallet</p>
+          <div className="p-2 mb-1">
+            <p className="mb-2">Your Personal Wallet</p>
             <div className="divide-y-2 divide-dashed divide-brown-600">
               <div className="space-y-3 mb-3">
                 {sflBalance.gt(0) && (
@@ -227,6 +227,14 @@ export const Deposit: React.FC<Props> = ({
                 </div>
               </div>
             </div>
+            <a
+              target="_blank"
+              className="underline text-xxs mb-1 mt-3 hover:text-blue-500"
+              href={`https://app.gitbook.com/o/bntEYvEP4dzoxNUbvnHA/s/IWGEodCG0c07OUY9iW9t/~/changes/297/economy/depositing-and-custody#cant-see-the-items-you-deposited`}
+              rel="noreferrer"
+            >
+              {`Deposit didn't arrive?`}
+            </a>
           </div>
           <Button
             onClick={handleDeposit}
