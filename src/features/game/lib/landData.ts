@@ -150,6 +150,18 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
         },
       },
     },
+    iron: {
+      0: {
+        x: 1,
+        y: 3,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
   },
 
   {
