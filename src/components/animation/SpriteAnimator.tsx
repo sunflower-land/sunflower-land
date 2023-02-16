@@ -8,9 +8,7 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
-import * as CSS from "csstype";
 import { randomID } from "lib/utils/random";
-
 export class SpriteSheetInstance extends React.Component<Props> {
   play(): void;
   pause(): void;
@@ -50,7 +48,6 @@ export interface Props {
   autoplay?: boolean;
   loop?: boolean;
   hiddenWhenPaused?: boolean;
-  isResponsive?: boolean;
   startAt?: number;
   endAt?: number;
   background?: string;
@@ -83,7 +80,7 @@ class Spritesheet extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    const { isResponsive, startAt, endAt, fps, steps, direction } = props;
+    const { startAt, endAt, fps, steps, direction } = props;
 
     this.id = `react-responsive-spritesheet--${randomID()}`;
     this.spriteEl =
@@ -94,7 +91,6 @@ class Spritesheet extends React.Component<Props> {
       this.rows =
         null;
     this.intervalSprite = false;
-    this.isResponsive = isResponsive;
     this.startAt = this.setStartAt(startAt);
     this.endAt = this.setEndAt(endAt);
     this.fps = fps;
@@ -129,7 +125,6 @@ class Spritesheet extends React.Component<Props> {
       backgroundSize,
       backgroundRepeat,
       backgroundPosition,
-      hiddenWhenPaused,
       onClick,
       onDoubleClick,
       onMouseMove,
@@ -182,7 +177,7 @@ class Spritesheet extends React.Component<Props> {
       "div",
       {
         className: `react-responsive-spritesheet ${this.id} ${className}`,
-        style: { opacity: hiddenWhenPaused ? 0 : 1, ...style },
+        style,
         onClick: () => onClick(this.setInstance()),
         onDoubleClick: () => onDoubleClick(this.setInstance()),
         onMouseMove: () => onMouseMove(this.setInstance()),
@@ -205,6 +200,13 @@ class Spritesheet extends React.Component<Props> {
 
     const imgLoadSprite = new Image();
     imgLoadSprite.src = image;
+
+    this.spriteEl = document.querySelector(`.${this.id}`);
+    this.spriteElContainer = this.spriteEl.querySelector(
+      ".react-responsive-spritesheet-container"
+    );
+    this.resize(false);
+
     imgLoadSprite.onload = () => {
       if (document && document.querySelector(`.${this.id}`)) {
         this.imageSprite = imgLoadSprite;
@@ -217,20 +219,12 @@ class Spritesheet extends React.Component<Props> {
             ? 1
             : this.imageSprite.height / heightFrame;
 
-        this.spriteEl = document.querySelector(`.${this.id}`);
-        this.spriteElContainer = this.spriteEl.querySelector(
-          ".react-responsive-spritesheet-container"
-        );
         this.spriteElMove = this.spriteElContainer.querySelector(
           ".react-responsive-spritesheet-container__move"
         );
 
-        this.resize(false);
         window.addEventListener("resize", this.resize);
         this.moveImage(false);
-        setTimeout(() => {
-          this.resize(false);
-        }, 10);
 
         if (autoplay !== false) this.play(true);
 
@@ -249,20 +243,14 @@ class Spritesheet extends React.Component<Props> {
   resize = (callback = true) => {
     const { widthFrame, onResize } = this.props;
 
-    if (this.isResponsive) {
-      this.spriteScale = this.spriteEl.offsetWidth / widthFrame;
-      this.spriteElContainer.style.transform = `scale(${this.spriteScale})`;
-      this.spriteEl.style.height = `${this.getInfo("height")}px`;
-      if (callback && onResize) onResize(this.setInstance());
-    }
+    this.spriteScale = this.spriteEl.getBoundingClientRect().width / widthFrame;
+    this.spriteElContainer.style.transform = `scale(${this.spriteScale})`;
+    this.spriteEl.style.height = `${this.getInfo("height")}px`;
+    if (callback && onResize) onResize(this.setInstance());
   };
 
   play = (withTimeout = false) => {
-    const { onPlay, timeout, hiddenWhenPaused } = this.props;
-
-    if (hiddenWhenPaused) {
-      this.spriteEl.style.opacity = 1;
-    }
+    const { onPlay, timeout } = this.props;
 
     if (!this.isPlaying) {
       setTimeout(
@@ -334,11 +322,7 @@ class Spritesheet extends React.Component<Props> {
   };
 
   pause = () => {
-    const { onPause, hiddenWhenPaused } = this.props;
-
-    if (hiddenWhenPaused) {
-      this.spriteEl.style.opacity = 0;
-    }
+    const { onPause } = this.props;
 
     this.isPlaying = false;
     clearInterval(this.intervalSprite);
@@ -430,7 +414,6 @@ Spritesheet.propTypes = {
   image: PropTypes.string.isRequired,
   widthFrame: PropTypes.number.isRequired,
   heightFrame: PropTypes.number.isRequired,
-  isResponsive: PropTypes.bool,
   steps: PropTypes.number.isRequired,
   fps: PropTypes.number.isRequired,
   direction: PropTypes.string,
@@ -471,12 +454,10 @@ Spritesheet.propTypes = {
 Spritesheet.defaultProps = {
   className: "",
   style: {},
-  isResponsive: true,
   direction: "forward",
   timeout: 0,
   autoplay: true,
   loop: false,
-  hiddenWhenPaused: false,
   startAt: 0,
   endAt: false,
   background: "",
