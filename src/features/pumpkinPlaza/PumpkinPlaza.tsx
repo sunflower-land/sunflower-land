@@ -19,6 +19,7 @@ import { CodeOfConduct } from "features/game/components/ChatCodeOfConduct";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import sleeping from "assets/animals/chickens/sleeping.gif";
+import { Streamer } from "./components/Streamer";
 
 // Spawn players in different areas
 const randomXOffset = randomInt(0, 50);
@@ -149,6 +150,7 @@ export const PumpkinPlaza: React.FC = () => {
         />
 
         <DailyReward />
+        <Streamer />
 
         <IslandTravel
           inventory={gameState.context.state.inventory}
