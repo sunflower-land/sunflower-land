@@ -35,9 +35,14 @@ const WHITELIST_TOKEN_CONTRACT = import.meta.env
 const BUY_SFL_CONTRACT = import.meta.env.VITE_BUY_SFL_CONTRACT as string;
 const BUMPKIN_CONTRACT = import.meta.env.VITE_BUMPKIN_CONTRACT as string;
 const QUEST_CONTRACT = import.meta.env.VITE_QUEST_CONTRACT as string;
+const LOST_AND_FOUND_CONTRACT = import.meta.env
+  .VITE_LOST_AND_FOUND_CONTRACT as string;
+const DAILY_REWARD_CONTRACT = import.meta.env
+  .VITE_DAILY_REWARD_CONTRACT as string;
 const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
+const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
 const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
@@ -51,6 +56,9 @@ const CHICKEN_FIGHT_DONATION = import.meta.env
 // Lunar New Year Event Donation Address
 const LUNAR_NEW_YEAR_DONATION = import.meta.env
   .VITE_LUNAR_NEW_YEAR_DONATION as string;
+// Valentine Event Donation Address
+const VALENTINE_EVENT_DONATION = import.meta.env
+  .VITE_VALENTINE_EVENT_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -82,16 +90,20 @@ export const CONFIG = {
   WHITELIST_TOKEN_CONTRACT,
   BUMPKIN_CONTRACT,
   QUEST_CONTRACT,
+  DAILY_REWARD_CONTRACT,
   BUY_SFL_CONTRACT,
   QUICKSWAP_ROUTER_CONTRACT,
   WMATIC_CONTRACT,
   EASTER_EGG_CONTRACT,
   SEAL_CONTRACT,
+  LOST_AND_FOUND_CONTRACT,
+  DEPOSIT_CONTRACT,
   ALCHEMY_RPC,
 
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
   LUNAR_NEW_YEAR_DONATION,
+  VALENTINE_EVENT_DONATION,
   PROTECTED_IMAGE_URL,
   WEBSOCKET_URL,
 };

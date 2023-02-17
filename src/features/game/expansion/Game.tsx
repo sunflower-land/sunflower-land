@@ -70,6 +70,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   revealing: false,
   revealed: false,
   buyingSFL: true,
+  depositing: true,
 };
 
 export const Game: React.FC = () => {
@@ -184,6 +185,7 @@ export const Game: React.FC = () => {
           <Routes>
             <Route path="/" element={<Land />} />
             <Route path="/helios" element={<Helios key="helios" />} />
+
             <Route
               path="/valentine-island"
               element={<ValentineIsland key="valentine" />}
@@ -241,6 +243,7 @@ export const Game: React.FC = () => {
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("coolingDown") && <Cooldown />}
           {gameState.matches("gameRules") && <Rules />}
+          {gameState.matches("depositing") && <Loading text="Depositing" />}
         </Panel>
       </Modal>
 

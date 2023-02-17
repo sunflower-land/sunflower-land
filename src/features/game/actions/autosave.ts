@@ -141,6 +141,8 @@ export async function autosave(request: Request) {
     changeset: any;
   }>(response);
 
+  farm.id = request.farmId;
+
   const game = makeGame(farm);
 
   return { verified: true, farm: game, changeset };

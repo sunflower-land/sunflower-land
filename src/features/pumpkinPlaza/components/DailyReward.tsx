@@ -30,7 +30,7 @@ export const DailyReward: React.FC = () => {
   const reveal = () => {
     gameService.send("REVEAL", {
       event: {
-        type: "dailyReward.collected",
+        type: "plazaReward.collected",
         createdAt: new Date(),
       },
     });

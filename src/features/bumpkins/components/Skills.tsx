@@ -10,7 +10,6 @@ import {
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { SkillPointsLabel } from "./SkillPointsLabel";
 import { SkillCategoryList } from "./SkillCategoryList";
 
 import seedSpecialist from "assets/skills/seed_specialist.png";
@@ -19,6 +18,7 @@ import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { pixelGreenBorderStyle } from "features/game/lib/style";
 
 interface Props {
   onBack: () => void;
@@ -64,21 +64,26 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
   const skillPointsInfo = () => {
-    const levelRequired = findLevelRequiredForNextSkillPoint(experience);
+    const nextLevelWithSkillPoint =
+      findLevelRequiredForNextSkillPoint(experience);
 
     return (
-      <>
+      <div className="flex flex-wrap gap-1">
         {availableSkillPoints > 0 && (
-          <SkillPointsLabel points={availableSkillPoints} />
-        )}
-        {!availableSkillPoints && levelRequired && (
-          <Label type="default">
-            <p className="text-xxs px-1">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
-              experience
-            )}`}</p>
+          <Label
+            type="default"
+            className="bg-green-background text-xxs px-1 whitespace-nowrap"
+            style={pixelGreenBorderStyle}
+          >
+            Skill Points: {availableSkillPoints}
           </Label>
         )}
-      </>
+        {nextLevelWithSkillPoint && (
+          <Label type="default" className="text-xxs px-1 whitespace-nowrap">
+            Next skill point: level {nextLevelWithSkillPoint}
+          </Label>
+        )}
+      </div>
     );
   };
 

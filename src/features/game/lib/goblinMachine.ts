@@ -25,6 +25,8 @@ import { randomID } from "lib/utils/random";
 import { OFFLINE_FARM } from "./landData";
 import { getSessionId } from "lib/blockchain/Sessions";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
+import { depositToFarm } from "lib/blockchain/Deposit";
+import { reset } from "features/farming/hud/actions/reset";
 
 const API_URL = CONFIG.API_URL;
 
@@ -84,6 +86,13 @@ type UpdateSession = {
   deviceTrackerId: string;
 };
 
+type DepositEvent = {
+  type: "DEPOSIT";
+  sfl: string;
+  itemIds: number[];
+  itemAmounts: number[];
+};
+
 export type BlockchainEvent =
   | {
       type: "REFRESH";
@@ -107,7 +116,8 @@ export type BlockchainEvent =
   | OpeningWishingWellEvent
   | OpenTradingPostEvent
   | UpdateBalance
-  | UpdateSession;
+  | UpdateSession
+  | DepositEvent;
 
 export type GoblinMachineState = {
   value:
@@ -119,6 +129,8 @@ export type GoblinMachineState = {
     | "withdrawn"
     | "playing"
     | "trading"
+    | "depositing"
+    | "refreshing"
     | "auctioneer"
     | "levelRequirementNotReached"
     | "error";
@@ -259,6 +271,9 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             OPEN_AUCTIONEER: {
               target: "auctioneer",
+            },
+            DEPOSIT: {
+              target: "depositing",
             },
           },
         },
@@ -452,6 +467,55 @@ export function startGoblinVillage(authContext: AuthContext) {
           on: {
             REFRESH: {
               target: "loading",
+            },
+          },
+        },
+        depositing: {
+          invoke: {
+            src: async (context, event) => {
+              await depositToFarm({
+                web3: wallet.web3Provider,
+                account: wallet.myAccount,
+                farmId: context.state.id as number,
+                sfl: (event as DepositEvent).sfl,
+                itemIds: (event as DepositEvent).itemIds,
+                itemAmounts: (event as DepositEvent).itemAmounts,
+              });
+            },
+            onDone: {
+              target: "refreshing",
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        refreshing: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context) => {
+              const fingerprint = "X";
+
+              const { success } = await reset({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+                fingerprint,
+                transactionId: context.transactionId as string,
+              });
+
+              return {
+                success,
+              };
+            },
+            onDone: [
+              {
+                target: "loading",
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
             },
           },
         },

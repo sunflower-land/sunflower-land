@@ -118,6 +118,10 @@ import {
 } from "./landExpansion/craftCollectible";
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
 import { restock, RestockAction } from "./landExpansion/restock";
+import {
+  feedValentineFood,
+  feedValentineFoodAction,
+} from "./landExpansion/valentineFoodFeed";
 
 export type PlayingEvent =
   | TradeAction
@@ -156,7 +160,8 @@ export type PlayingEvent =
   | RemoveFruitTreeAction
   | CraftCollectibleAction
   | SellTreasureAction
-  | RestockAction;
+  | RestockAction
+  | feedValentineFoodAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -216,6 +221,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.crafted": craftCollectible,
   "treasure.sold": sellTreasure,
   "shops.restocked": restock,
+  "valentineFood.feed": feedValentineFood,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
