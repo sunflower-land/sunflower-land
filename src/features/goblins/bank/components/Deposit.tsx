@@ -245,7 +245,7 @@ export const Deposit: React.FC<Props> = ({
               <a
                 target="_blank"
                 className="underline text-xxs hover:text-blue-500"
-                href={`https://app.gitbook.com/o/bntEYvEP4dzoxNUbvnHA/s/IWGEodCG0c07OUY9iW9t/~/changes/297/economy/depositing-and-custody#cant-see-the-items-you-deposited`}
+                href={`https://docs.sunflower-land.com/economy/depositing-and-custody#cant-see-the-items-you-deposited`}
                 rel="noreferrer"
               >
                 {`Deposit didn't arrive?`}
