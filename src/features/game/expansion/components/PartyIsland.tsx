@@ -14,7 +14,7 @@ import { upcomingParty } from "features/pumpkinPlaza/lib/streaming";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const PartyIsland: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -41,21 +41,23 @@ export const PartyIsland: React.FC = () => {
         >
           <div className="p-2">
             <p className="text-sm mb-3">
-              The Pumpkin Plaza is a one-of-a-kind party event that you won't
-              want to miss.
+              The Pumpkin Plaza is hosting an event that you won't want to miss.
             </p>
             <p className="text-sm mb-3">
-              For one hour who can access a special island where you can
-              explore, meet the team and other Bumpkins.
+              Meet the team, collect rewards and interact with other Bumpkins.
             </p>
-            <div className="flex ">
-              <p className="text-sm mr-2">Next party:</p>
-              <div className="flex items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
+            <div className="flex flex-wrap">
+              <p className="text-sm mr-2 mb-2">Next party:</p>
+              <div className="flex mb-2 items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
                 <img
                   src={SUNNYSIDE.icons.stopwatch}
                   className="w-3 left-0 mr-1"
                 />
-                <span>{new Date(party.startAt).toLocaleString()}</span>
+                <span>{`${new Date(
+                  party.startAt
+                ).toLocaleString()} - ${new Date(
+                  party.endAt
+                ).toLocaleTimeString()}`}</span>
               </div>
             </div>
           </div>

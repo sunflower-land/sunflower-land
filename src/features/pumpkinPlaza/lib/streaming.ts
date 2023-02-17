@@ -16,6 +16,8 @@ const discordChatDates = new Array(100).fill(null).map((_, index) => {
 
 // Schedule 100 twitch streams
 const twitchStartDate = new Date(1676588400000);
+
+// const twitchStartDate = new Date(1676588400000);
 const twitchDates = new Array(100).fill(null).map((_, index) => {
   var date = new Date(twitchStartDate);
   date.setDate(twitchStartDate.getDate() + 7 * index);
@@ -43,8 +45,9 @@ const DISCORD_LENGTH_MS = 60 * 60 * 1000;
 
 export function getNextDiscordChatTime() {
   const startAt =
-    discordChatDates.find((date) => date.getTime() > Date.now())?.getTime() ??
-    0;
+    discordChatDates
+      .find((date) => date.getTime() + DISCORD_LENGTH_MS > Date.now())
+      ?.getTime() ?? 0;
   return {
     startAt,
     endAt: startAt + DISCORD_LENGTH_MS,
@@ -55,7 +58,9 @@ const TWITCH_LENGTH_MS = 60 * 60 * 1000;
 
 export function getNextTwitchTime() {
   const startAt =
-    twitchDates.find((date) => date.getTime() > Date.now())?.getTime() ?? 0;
+    twitchDates
+      .find((date) => date.getTime() + TWITCH_LENGTH_MS > Date.now())
+      ?.getTime() ?? 0;
 
   return {
     startAt,

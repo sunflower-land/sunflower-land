@@ -21,6 +21,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import sleeping from "assets/animals/chickens/sleeping.gif";
 import { Streamer } from "./components/Streamer";
 import { upcomingParty } from "./lib/streaming";
+import { useNavigate, useParams } from "react-router-dom";
+import { hasFeatureAccess } from "lib/flags";
 
 // Spawn players in different areas
 const randomXOffset = randomInt(0, 50);
@@ -32,12 +34,24 @@ export const PumpkinPlaza: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const party = upcomingParty();
+  const isBetaTester = hasFeatureAccess(
+    gameState.context.state.inventory,
+    "PUMPKIN_PLAZA"
+  );
+  const isPartyActive =
+    isBetaTester || (Date.now() > party.startAt && Date.now() < party.endAt);
+
   const websocketService = useInterpret(websocketMachine, {
     context: {
       currentPosition: { x: 1680 + randomXOffset, y: 1880 + randomYOffset },
       accountId: authState.context.farmId as number,
       jwt: authState.context.rawToken,
       bumpkin: gameState.context.state.bumpkin,
+      canAccess: isPartyActive,
     },
   }) as unknown as MachineInterpreter;
 
@@ -69,9 +83,6 @@ export const PumpkinPlaza: React.FC = () => {
     });
   };
 
-  const party = upcomingParty();
-  const isPartyActive = Date.now() > party.startAt && Date.now() < party.endAt;
-
   // Load data
   return (
     <>
@@ -102,9 +113,27 @@ export const PumpkinPlaza: React.FC = () => {
           </Panel>
         </Modal>
 
-        <Modal show={!isPartyActive} centered>
+        <Modal show={chatState.matches("closed")} centered>
           <Panel>
-            <span>Party is over!</span>
+            <div className="flex flex-col items-center p-2">
+              <p className="mb-4">Party is over!</p>
+              <img src={SUNNYSIDE.icons.stopwatch} className="w-1/4 mb-4" />
+              <div className="flex flex-wrap justify-center">
+                <p className="text-sm mr-2 mb-2">Next session:</p>
+                <div className="flex mb-2 items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
+                  <img
+                    src={SUNNYSIDE.icons.stopwatch}
+                    className="w-3 left-0 mr-1"
+                  />
+                  <span>{`${new Date(
+                    party.startAt
+                  ).toLocaleString()} - ${new Date(
+                    party.endAt
+                  ).toLocaleTimeString()}`}</span>
+                </div>
+              </div>
+            </div>
+            <Button onClick={() => navigate(`/land/${id}`)}>Return</Button>
           </Panel>
         </Modal>
 

@@ -15,6 +15,7 @@ import {
 export interface ChatContext {
   currentPosition: Coordinates;
   lastPosition: Coordinates;
+  canAccess: boolean;
   bumpkin: Bumpkin;
   socket?: WebSocket;
   bumpkins: Player[];
@@ -32,6 +33,7 @@ export type ChatState = {
     | "connecting"
     | "loadingPlayers"
     | "connected"
+    | "closed"
     | "disconnecting"
     | "disconnected"
     | "error";
@@ -155,10 +157,15 @@ export const websocketMachine = createMachine<
     currentPosition: { x: 0, y: 0 },
     lastPosition: { x: 0, y: 0 },
     game: OFFLINE_FARM,
+    canAccess: false,
   },
   states: {
     initialising: {
       always: [
+        {
+          target: "closed",
+          cond: (context) => !context.canAccess,
+        },
         {
           target: "codeOfConduct",
           cond: () => {
@@ -177,7 +184,7 @@ export const websocketMachine = createMachine<
     codeOfConduct: {
       on: {
         ACKNOWLEDGE: {
-          target: "connecting",
+          target: "initialising",
           actions: () => {
             acknowledgeCodeOfConduct();
           },
@@ -468,13 +475,14 @@ export const websocketMachine = createMachine<
     },
     disconnected: {
       on: {
-        CONNECT: "connecting",
+        CONNECT: "initialising",
       },
     },
     error: {
       on: {
-        CONNECT: "connecting",
+        CONNECT: "initialising",
       },
     },
+    closed: {},
   },
 });
