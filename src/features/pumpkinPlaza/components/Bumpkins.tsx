@@ -39,7 +39,7 @@ const Message: React.FC<ChatMessage> = ({ text, reaction }) => {
           }
           style={{
             ...pixelGrayBorderStyle,
-            bottom: "29px",
+            bottom: "34px",
             left: "0",
             textAlign: "start",
             color: "black",
@@ -59,7 +59,7 @@ const Message: React.FC<ChatMessage> = ({ text, reaction }) => {
           src={chatTriangle}
           className="absolute"
           style={{
-            bottom: "23.5px",
+            bottom: "28.5px",
             left: "17px",
             width: "13px",
           }}

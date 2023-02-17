@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import adam from "assets/npcs/adam.gif";
 import shadow from "assets/npcs/shadow.png";
+import discord from "assets/skills/discord.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -29,10 +30,24 @@ export const Streamer: React.FC = () => {
             </Label>
             <Button className="w-60">Listen on Discord</Button>
 
-            <p>Upcoming events</p>
-            <div className="flex">
+            <p className="mt-4">Upcoming events</p>
+            <div className="flex mt-2">
+              <img src={discord} className="h-6 mr-2" />
+              <div className="flex items-center">
+                <a className="underline text-xs mr-2">Discord Team Chat</a>
+                <Label type="default" className="mr-2">
+                  {new Date().toLocaleString()}
+                </Label>
+              </div>
+            </div>
+            <div className="flex mt-2">
               <img src={SUNNYSIDE.icons.expression_chat} className="h-6 mr-2" />
-              <div></div>
+              <div className="flex items-center">
+                <a className="underline text-xs mr-2">Twitch</a>
+                <Label type="default" className="mr-2">
+                  {new Date().toLocaleString()}
+                </Label>
+              </div>
             </div>
           </div>
         </CloseButtonPanel>
@@ -48,6 +63,7 @@ export const Streamer: React.FC = () => {
         <img
           src={adam}
           className="cursor-pointer hover:img-highlight z-20 absolute"
+          onClick={() => setShowModal(true)}
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: 0,
