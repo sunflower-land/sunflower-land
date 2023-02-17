@@ -51,6 +51,12 @@ export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
     return Math.floor(PROGRESS_BAR_DIMENSIONS.innerWidth * progressRatio);
   };
 
+  const bumpkinXPText = maxLevel
+    ? `${Math.floor(currentExperienceProgress)} XP`
+    : `${Math.floor(currentExperienceProgress)}/${Math.floor(
+        experienceToNextLevel
+      )} XP`;
+
   return (
     <div className="flex item-center mt-1">
       <div
@@ -92,9 +98,9 @@ export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
         style={{
           marginLeft: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8}px`,
         }}
-      >{`${Math.floor(currentExperienceProgress)}/${Math.floor(
-        experienceToNextLevel
-      )} XP`}</p>
+      >{`${Math.floor(currentExperienceProgress)}/${
+        maxLevel ? "-" : Math.floor(experienceToNextLevel)
+      } XP`}</p>
     </div>
   );
 };
