@@ -3,6 +3,8 @@ import { GameState } from "features/game/types/game";
 
 import crown from "assets/sfts/goblin_crown.png";
 import thumbs_up from "assets/skills/green_thumb.png";
+import suspicious from "assets/icons/suspicious.png";
+import levelUp from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -11,12 +13,13 @@ export type ReactionName =
   | "confused"
   | "tired"
   | "crown"
-  | "unhappy"
+  | "power_up"
   | "neutral"
   | "happy"
   | "stressed"
   | "attack"
   | "thumbs_up"
+  | "suspicious"
   | "sunflower";
 
 type Reaction = {
@@ -53,24 +56,13 @@ export const REACTIONS: Reaction[] = [
     description: "Neutral :/",
   },
   {
-    name: "unhappy",
-    hasAccess: () => true,
-    icon: SUNNYSIDE.icons.unhappy,
-    description: "Happy!",
-  },
-  {
     name: "tired",
     hasAccess: (game: GameState) =>
       getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 3,
     description: "Lvl 3 Bumpkin",
     icon: SUNNYSIDE.icons.water,
   },
-  {
-    name: "crown",
-    hasAccess: (game: GameState) => !!game.inventory["Goblin Crown"],
-    description: "Owns Goblin Crown",
-    icon: crown,
-  },
+
   {
     name: "stressed",
     hasAccess: (game: GameState) =>
@@ -86,6 +78,13 @@ export const REACTIONS: Reaction[] = [
     icon: SUNNYSIDE.icons.death,
   },
   {
+    name: "power_up",
+    hasAccess: (game: GameState) =>
+      getBumpkinLevel(game.bumpkin?.experience ?? 0) >= 40,
+    description: "Lvl 40 Bumpkin",
+    icon: levelUp,
+  },
+  {
     name: "thumbs_up",
     hasAccess: (game: GameState) => !!game.bumpkin?.achievements?.["Farm Hand"],
     description: "Harvest 10,000 crops",
@@ -97,5 +96,18 @@ export const REACTIONS: Reaction[] = [
       !!game.bumpkin?.achievements?.["Sunflower Superstar"],
     description: "Harvest 100,000 Sunflowers",
     icon: CROP_LIFECYCLE.Sunflower.crop,
+  },
+  {
+    name: "suspicious",
+    hasAccess: (game: GameState) =>
+      game.bumpkin?.equipped.body === "Goblin Potion",
+    description: "Turn into a Goblin",
+    icon: suspicious,
+  },
+  {
+    name: "crown",
+    hasAccess: (game: GameState) => !!game.inventory["Goblin Crown"],
+    description: "Own a Goblin Crown",
+    icon: crown,
   },
 ];

@@ -11,25 +11,50 @@ interface Props {
 }
 
 export const ChatReactions: React.FC<Props> = ({ game, onReact }) => {
+  const availableReactions = REACTIONS.filter((reaction) =>
+    reaction.hasAccess(game)
+  );
+  const lockedReactions = REACTIONS.filter(
+    (reaction) => !reaction.hasAccess(game)
+  );
   return (
     <div
-      className="flex flex-wrap scrollable overflow-y-scroll"
+      className="scrollable overflow-y-scroll"
       style={{
         height: "90px",
       }}
     >
-      {REACTIONS.map((reaction) => {
-        const isLocked = !reaction.hasAccess(game);
-        return (
-          <Box
-            key={reaction.name}
-            onClick={() => onReact(reaction.name)}
-            image={reaction.icon}
-            disabled={isLocked}
-            secondaryImage={isLocked && lock}
-          />
-        );
-      })}
+      <div className="flex flex-wrap">
+        {availableReactions.map((reaction) => {
+          const isLocked = !reaction.hasAccess(game);
+          return (
+            <Box
+              key={reaction.name}
+              onClick={() => onReact(reaction.name)}
+              image={reaction.icon}
+            />
+          );
+        })}
+      </div>
+      <div className="flex items-center pl-1 mt-2">
+        <p className="underline text-xs">Locked</p>
+        <img src={lock} className="h-5 ml-2" />
+      </div>
+      <div className="flex flex-wrap">
+        {lockedReactions.map((reaction) => {
+          return (
+            <div className="flex items-center w-1/2" key={reaction.name}>
+              <Box
+                key={reaction.name}
+                onClick={() => onReact(reaction.name)}
+                image={reaction.icon}
+                disabled
+              />
+              <p className="text-xs">{reaction.description}</p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
