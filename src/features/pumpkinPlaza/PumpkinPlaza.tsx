@@ -20,6 +20,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import sleeping from "assets/animals/chickens/sleeping.gif";
 import { Streamer } from "./components/Streamer";
+import { upcomingParty } from "./lib/streaming";
 
 // Spawn players in different areas
 const randomXOffset = randomInt(0, 50);
@@ -68,6 +69,9 @@ export const PumpkinPlaza: React.FC = () => {
     });
   };
 
+  const party = upcomingParty();
+  const isPartyActive = Date.now() > party.startAt && Date.now() < party.endAt;
+
   // Load data
   return (
     <>
@@ -95,6 +99,12 @@ export const PumpkinPlaza: React.FC = () => {
         >
           <Panel>
             <span className="loading">Connecting</span>
+          </Panel>
+        </Modal>
+
+        <Modal show={!isPartyActive} centered>
+          <Panel>
+            <span>Party is over!</span>
           </Panel>
         </Modal>
 
