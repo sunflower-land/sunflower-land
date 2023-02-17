@@ -21,7 +21,6 @@ export const DynamicNFT: React.FC<Props> = ({
   const [imageSrc, setImageSrc] = useState<string>();
   const [transitioned, setTransitioned] = useState<boolean>();
 
-  console.log({ bumpkinParts });
   const parts = cloneDeep(bumpkinParts);
 
   useEffect(() => {

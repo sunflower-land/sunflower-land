@@ -15,6 +15,8 @@ export const IslandTravelWrapper = () => {
       bumpkin={bumpkin}
       x={0}
       y={-9}
+      onTravelDialogOpened={() => gameService.send("SAVE")}
+      travelAllowed={!gameState.matches("autosaving")}
     />
   );
 };

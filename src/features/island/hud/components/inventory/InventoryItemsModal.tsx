@@ -7,6 +7,7 @@ import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "react-bootstrap";
+import { Buildings } from "features/island/buildings/Buildings";
 
 interface Props {
   show: boolean;
@@ -17,6 +18,7 @@ interface Props {
   selectedChestItem: InventoryItemName;
   onSelectChestItem: (name: InventoryItemName) => void;
   onPlace?: (name: InventoryItemName) => void;
+  onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
 }
@@ -33,6 +35,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onSelectBasketItem,
   selectedChestItem,
   onSelectChestItem,
+  onDepositClick,
   onPlace,
   isSaving,
   isFarming,
@@ -45,6 +48,9 @@ export const InventoryItemsModal: React.FC<Props> = ({
         tabs={[
           { icon: SUNNYSIDE.icons.basket, name: "Basket" },
           { icon: chest, name: "Chest" },
+          ...(isFarming
+            ? [{ icon: SUNNYSIDE.icons.hammer, name: "Buildings" }]
+            : []),
         ]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -64,9 +70,11 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onSelect={onSelectChestItem}
             closeModal={onHide}
             onPlace={isFarming ? onPlace : undefined}
+            onDepositClick={onDepositClick}
             isSaving={isSaving}
           />
         )}
+        {currentTab === 2 && <Buildings onClose={onHide} />}
       </CloseButtonPanel>
     </Modal>
   );

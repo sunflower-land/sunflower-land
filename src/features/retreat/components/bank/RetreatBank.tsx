@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Modal } from "react-bootstrap";
 
 import bank from "assets/buildings/goblin_bank.gif";
@@ -9,8 +9,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { bankAudio } from "lib/utils/sfx";
 import { BankModal } from "features/goblins/bank/components/BankModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { Context } from "features/game/GoblinProvider";
 
 export const RetreatBank: React.FC = () => {
+  const { goblinService } = useContext(Context);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openBank = () => {
@@ -47,7 +49,10 @@ export const RetreatBank: React.FC = () => {
         </div>
       </div>
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
-        <BankModal onClose={() => setIsOpen(false)} />
+        <BankModal
+          farmAddress={goblinService.state.context.state.farmAddress as string}
+          onClose={() => setIsOpen(false)}
+        />
       </Modal>
     </MapPlacement>
   );

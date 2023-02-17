@@ -9,7 +9,7 @@ interface Props {
   bumpkin: Bumpkin | undefined;
   inventory?: Inventory;
   isVisiting?: boolean;
-  isTravelAllowed?: boolean;
+  travelAllowed: boolean;
   onTravelDialogOpened?: () => void;
   x: number;
   y: number;
@@ -23,7 +23,7 @@ export const ValentinesIslandTravel = ({
   x,
   y,
   isVisiting = false,
-  isTravelAllowed = true,
+  travelAllowed,
   onTravelDialogOpened,
   customBoat,
   customWidth,
@@ -74,7 +74,7 @@ export const ValentinesIslandTravel = ({
         inventory={inventory ?? {}}
         onShow={onTravelDialogOpened}
         isVisiting={isVisiting}
-        isTravelAllowed={isTravelAllowed}
+        travelAllowed={travelAllowed}
         onClose={() => setOpenIslandList(false)}
       />
     </>
