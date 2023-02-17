@@ -16,6 +16,11 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 import { randomInt } from "lib/utils/random";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Hud } from "features/island/hud/Hud";
+import { CodeOfConduct } from "features/game/components/ChatCodeOfConduct";
+import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
+import sleeping from "assets/animals/chickens/sleeping.gif";
+import { Streamer } from "./components/Streamer";
 
 // Spawn players in different areas
 const randomXOffset = randomInt(0, 50);
@@ -60,8 +65,14 @@ export const PumpkinPlaza: React.FC = () => {
     const x = e.pageX + scrollContainer.scrollLeft;
     const y = scrollContainer.scrollTop + e.pageY;
 
+    const myBumpkin = document.getElementById("my-bumpkin") as HTMLDivElement;
+    const currentPosition = myBumpkin.getBoundingClientRect();
+    const oldX = currentPosition.x + scrollContainer.scrollLeft;
+    const oldY = currentPosition.y + scrollContainer.scrollTop;
+
     websocketService.send("SEND_LOCATION", {
       coordinates: { x: x, y: y },
+      previousCoordinates: { x: oldX, y: oldY },
     });
   };
 
@@ -96,6 +107,14 @@ export const PumpkinPlaza: React.FC = () => {
           </Panel>
         </Modal>
 
+        <Modal show={chatState.matches("codeOfConduct")} centered>
+          <Panel>
+            <CodeOfConduct
+              onAcknowledge={() => websocketService.send("ACKNOWLEDGE")}
+            />
+          </Panel>
+        </Modal>
+
         <Modal show={chatState.matches("loadingPlayers")} centered>
           <Panel>
             <span className="loading">Loading Players</span>
@@ -104,12 +123,24 @@ export const PumpkinPlaza: React.FC = () => {
 
         <Modal show={chatState.matches("disconnected")} centered>
           <Panel>
-            <span>Disconnected</span>
+            <div className="p-2 flex flex-col items-center">
+              <p className="mb-4">Are you still there?</p>
+              <img src={sleeping} className="w-1/3 -mb-4" />
+            </div>
+            <Button onClick={() => websocketService.send("CONNECT")}>
+              Continue
+            </Button>
           </Panel>
         </Modal>
         <Modal show={chatState.matches("error")} centered>
           <Panel>
-            <span>Error</span>
+            <div className="p-2 flex flex-col items-center">
+              <p className="mb-4">Something went wrong!</p>
+              <img src={SUNNYSIDE.icons.unhappy} className="w-1/3 mb-2" />
+            </div>
+            <Button onClick={() => websocketService.send("CONNECT")}>
+              Continue
+            </Button>
           </Panel>
         </Modal>
 
@@ -127,6 +158,7 @@ export const PumpkinPlaza: React.FC = () => {
         />
 
         <DailyReward />
+        <Streamer />
 
         <IslandTravel
           inventory={gameState.context.state.inventory}
@@ -137,15 +169,18 @@ export const PumpkinPlaza: React.FC = () => {
           travelAllowed={!gameState.matches("autosaving")}
         />
 
-        <ChatUI
-          onMessage={({ reaction, text }) => {
-            websocketService.send("SEND_CHAT_MESSAGE", {
-              text,
-              reaction,
-            });
-          }}
-          game={chatState.context.game}
-        />
+        {chatState.matches("connected") && (
+          <ChatUI
+            onMessage={({ reaction, text }) => {
+              websocketService.send("SEND_CHAT_MESSAGE", {
+                text,
+                reaction,
+              });
+            }}
+            game={chatState.context.game}
+          />
+        )}
+
         {/* )} */}
       </div>
       <Hud isFarming={false} />

@@ -7,7 +7,7 @@ interface Props {
   onMessage: (text: string) => void;
 }
 
-const MAX_CHARACTERS = 100;
+const MAX_CHARACTERS = 48;
 
 /* eslint-disable */
 const URL_REGEX = new RegExp(
@@ -15,7 +15,7 @@ const URL_REGEX = new RegExp(
 );
 /* eslint-enable */
 
-const ALPHA_REGEX = new RegExp(/^[\w*? -]+$/);
+const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 
 export const ChatText: React.FC<Props> = ({ onMessage }) => {
   const ref = useRef<HTMLTextAreaElement>();
