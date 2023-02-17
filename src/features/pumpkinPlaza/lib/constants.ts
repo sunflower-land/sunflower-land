@@ -22,7 +22,7 @@ export const OFFLINE_BUMPKINS: Player[] = [
     },
     connectionId: "asd1231asdasdas",
     coordinates: {
-      x: 1400,
+      x: 1500,
       y: 1500,
     },
     updatedAt: Date.now(),

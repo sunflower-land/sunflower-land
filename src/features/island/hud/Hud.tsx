@@ -3,7 +3,6 @@ import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
-import { Buildings } from "../buildings/Buildings";
 import { Inventory } from "./components/inventory/Inventory";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
 import { BumpkinProfile } from "./components/BumpkinProfile";
@@ -48,27 +47,6 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       aria-label="Hud"
       className="absolute z-40"
     >
-      {isEditing ? (
-        <PlaceableController />
-      ) : (
-        <>
-          <Balance
-            farmAddress={gameState.context.state.farmAddress as string}
-            onBalanceClick={() => setShowDepositModal(true)}
-            balance={gameState.context.state.balance}
-          />
-          <BlockBucks
-            blockBucks={
-              gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-            }
-          />
-          {landId && <LandId landId={landId} />}
-          <Buildings />
-          <Save />
-          <BumpkinProfile />
-          <Settings isFarming={isFarming} />
-        </>
-      )}
       <div hidden={isEditing}>
         <Inventory
           state={gameState.context.state}
@@ -85,6 +63,26 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           isFarming={isFarming}
         />
       </div>
+      {isEditing ? (
+        <PlaceableController />
+      ) : (
+        <>
+          <Balance
+            farmAddress={gameState.context.state.farmAddress as string}
+            onBalanceClick={() => setShowDepositModal(true)}
+            balance={gameState.context.state.balance}
+          />
+          <BlockBucks
+            blockBucks={
+              gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
+            }
+          />
+          {landId && <LandId landId={landId} />}
+          <Save />
+          <BumpkinProfile />
+          <Settings isFarming={isFarming} />
+        </>
+      )}
       <Modal show={showDepositModal} centered>
         <CloseButtonPanel
           title={depositDataLoaded ? "Deposit" : undefined}
