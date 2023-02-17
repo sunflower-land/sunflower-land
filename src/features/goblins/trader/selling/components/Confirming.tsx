@@ -28,9 +28,15 @@ export const Confirming: React.FC<ConfirmProps> = ({
   const goblinFee = Math.round(draft.sfl * tax * 100) / 100;
   const sellerReceives = Math.round(draft.sfl * 100) / 100;
   const pricePerUnit = (
-    Math.round(((draft.sfl + draft.sfl * tax) * 100) / 100) /
+    ((draft.sfl + draft.sfl * tax) * 100) /
+    100 /
     draft.resourceAmount
   ).toFixed(3);
+
+  console.log(`Preço por unidade ${pricePerUnit}`);
+  console.log(`Drafl sfl  ${draft.sfl}`);
+  console.log(`Taxa  ${tax}`);
+  console.log(`conta  ${(draft.sfl + draft.sfl * tax) * 100}`);
 
   return (
     <div className="flex flex-col items-center">
@@ -50,6 +56,15 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
         <div className="flex items-center">
           <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
+            Price per Unit
+          </span>
+          <div className="flex items-center w-1/2">
+            <img src={token} className="w-6" />
+            <span className="text-xs py-2 pl-2 whitespace-nowrap">{`${pricePerUnit} SFL / Unit`}</span>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
             Goblin Fee
           </span>
           <div className="flex items-center w-1/2">
@@ -64,15 +79,6 @@ export const Confirming: React.FC<ConfirmProps> = ({
           <div className="flex items-center w-1/2">
             <img src={token} className="w-6" />
             <span className="py-2 pl-2 whitespace-nowrap">{`${sellerReceives} SFL`}</span>
-          </div>
-        </div>
-        <div className="flex items-center">
-          <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
-            Price per Unit
-          </span>
-          <div className="flex items-center w-1/2">
-            <img src={token} className="w-6" />
-            <span className="py-2 pl-2 whitespace-nowrap">{`${pricePerUnit} SFL`}</span>
           </div>
         </div>
       </div>
