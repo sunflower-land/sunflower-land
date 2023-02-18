@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
@@ -29,6 +29,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { hasFeatureAccess } from "lib/flags";
 import { secondsToString } from "lib/utils/time";
 import { acknowledgeCodeOfConduct } from "features/announcements/announcementsStorage";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { RestrictedHelper } from "./components/RestrictedHelper";
+import { RESTRICTED_AREA } from "./lib/restrictedArea";
 
 // Spawn players in different areas
 const randomXOffset = randomInt(0, 50);
@@ -39,6 +42,9 @@ export const PumpkinPlaza: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const [restrictedArea, setRestrictedArea] = useState(RESTRICTED_AREA);
+  const [restrictedHelper, setRestrictedHelper] = useState<Coordinates>();
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -79,6 +85,14 @@ export const PumpkinPlaza: React.FC = () => {
     const x = e.pageX + scrollContainer.scrollLeft;
     const y = scrollContainer.scrollTop + e.pageY;
 
+    const clampedX = Math.floor(x / GRID_WIDTH_PX);
+    const clampedY = Math.floor(y / GRID_WIDTH_PX);
+
+    if (RESTRICTED_AREA[clampedX]?.[clampedY]) {
+      setRestrictedHelper({ x, y });
+      return;
+    }
+
     const myBumpkin = document.getElementById("my-bumpkin") as HTMLDivElement;
     const currentPosition = myBumpkin.getBoundingClientRect();
     const oldX = currentPosition.x + scrollContainer.scrollLeft;
@@ -97,6 +111,8 @@ export const PumpkinPlaza: React.FC = () => {
       (chatState.context.kickedAt ?? 0) + KICKED_COOLDOWN_MS - Date.now(),
     // - Date.now()) / 1000,
   });
+
+  console.log({ restrictedArea });
 
   // Load data
   return (
@@ -239,6 +255,8 @@ export const PumpkinPlaza: React.FC = () => {
 
         <DailyReward />
         <Streamer />
+
+        <RestrictedHelper position={restrictedHelper} />
 
         <IslandTravel
           inventory={gameState.context.state.inventory}
