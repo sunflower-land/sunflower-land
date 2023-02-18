@@ -13,7 +13,9 @@ import { upcomingParty } from "features/pumpkinPlaza/lib/streaming";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const PartyIsland: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showSharkModal, setshowSharkModal] = useState(false);
+  const [showTigerModal, setShowTigerModal] = useState(false);
+  const [showPirateModal, setShowPirateModal] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -27,9 +29,18 @@ export const PartyIsland: React.FC = () => {
 
   return (
     <>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal
+        show={showSharkModal}
+        centered
+        onHide={() => setshowSharkModal(false)}
+      >
         <CloseButtonPanel
-          onClose={() => setShowModal(false)}
+          onClose={() => setshowSharkModal(false)}
+          bumpkinParts={{
+            body: "Dark Brown Farmer Potion",
+            onesie: "Shark Onesie",
+            hair: "Buzz Cut",
+          }}
           title={
             <div className="flex justify-center">
               <img src={CROP_LIFECYCLE.Pumpkin.crop} className="h-8 mr-2" />
@@ -40,7 +51,7 @@ export const PartyIsland: React.FC = () => {
         >
           <div className="p-2">
             <p className="text-sm mb-3">
-              {`The Pumpkin Plaza is hosting an event that you won't want to miss.`}
+              {`The Pumpkin Plaza is hosting a special party!`}
             </p>
             <p className="text-sm mb-3">
               Meet the team, collect rewards and interact with other Bumpkins.
@@ -65,6 +76,48 @@ export const PartyIsland: React.FC = () => {
           </Button>
         </CloseButtonPanel>
       </Modal>
+
+      <Modal
+        show={showTigerModal}
+        centered
+        onHide={() => setShowTigerModal(false)}
+      >
+        <CloseButtonPanel
+          onClose={() => setShowTigerModal(false)}
+          bumpkinParts={{
+            body: "Beige Farmer Potion",
+            onesie: "Tiger Onesie",
+            hair: "Red Long Hair",
+          }}
+        >
+          <div className="p-2">
+            <p className="mb-3">Rooooooar!</p>
+            <p className="mb-3">{`I hope there are other tigers at the party.`}</p>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+      <Modal
+        show={showPirateModal}
+        centered
+        onHide={() => setShowPirateModal(false)}
+      >
+        <CloseButtonPanel
+          onClose={() => setShowPirateModal(false)}
+          bumpkinParts={{
+            body: "Goblin Potion",
+            hat: "Pirate Hat",
+            hair: "Buzz Cut",
+            shirt: "SFL T-Shirt",
+            pants: "Farmer Pants",
+            tool: "Pirate Scimitar",
+          }}
+        >
+          <div className="p-2">
+            <p className="mb-3">Ahoy!</p>
+            <p className="mb-3">{`I can't wait to pillage treasure at the Pumpkin Plaza.`}</p>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
       <MapPlacement x={20} y={15} width={6}>
         <img
           src={partyIsland}
@@ -83,7 +136,7 @@ export const PartyIsland: React.FC = () => {
             body="Dark Brown Farmer Potion"
             onesie="Shark Onesie"
             hair="Buzz Cut"
-            onClick={() => setShowModal(true)}
+            onClick={() => setshowSharkModal(true)}
           />
         </div>
 
@@ -100,15 +153,30 @@ export const PartyIsland: React.FC = () => {
         <div
           className="absolute"
           style={{
-            left: `${GRID_WIDTH_PX * 4}px`,
-            bottom: `${GRID_WIDTH_PX * 3}px`,
+            left: `${GRID_WIDTH_PX * 5}px`,
+            bottom: `${GRID_WIDTH_PX * 3.5}px`,
             transform: "scaleX(-1)",
           }}
         >
           <NPC
-            body="Light Brown Farmer Potion"
+            body="Goblin Potion"
             hat="Pirate Hat"
             hair="Buzz Cut"
+            onClick={() => setShowPirateModal(true)}
+          />
+        </div>
+        <div
+          className="absolute"
+          style={{
+            left: `${GRID_WIDTH_PX * 2.5}px`,
+            bottom: `${GRID_WIDTH_PX * 3.5}px`,
+          }}
+        >
+          <NPC
+            body="Beige Farmer Potion"
+            onesie="Tiger Onesie"
+            hair="Red Long Hair"
+            onClick={() => setShowTigerModal(true)}
           />
         </div>
       </MapPlacement>
