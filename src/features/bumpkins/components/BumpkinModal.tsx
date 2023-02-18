@@ -98,9 +98,9 @@ export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
         style={{
           marginLeft: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8}px`,
         }}
-      >
-        {bumpkinXPText}
-      </p>
+      >{`${Math.floor(currentExperienceProgress)}/${
+        maxLevel ? "-" : Math.floor(experienceToNextLevel)
+      } XP`}</p>
     </div>
   );
 };
