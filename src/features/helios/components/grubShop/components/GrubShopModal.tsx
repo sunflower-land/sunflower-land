@@ -10,7 +10,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { secondsToString } from "lib/utils/time";
 import { Bumpkin, GrubShop } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
@@ -19,6 +18,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "../Tutorial";
 import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CountdownLabel } from "components/ui/CountdownLabel";
 
 interface Props {
   onClose: () => void;
@@ -92,15 +92,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
       );
     }
 
-    return (
-      <Label type="info" className="flex space-x-1 -mt-2 mb-1">
-        <img src={SUNNYSIDE.icons.stopwatch} className="w-3 left-0 mr-1" />
-        {`${secondsToString(secondsLeft as number, {
-          length: "medium",
-          isShortFormat: true,
-        })} left`}
-      </Label>
-    );
+    return <CountdownLabel timeLeft={secondsLeft} endText="left" />;
   };
 
   const Content = () => {
@@ -129,15 +121,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
               {isAllFullFilled && (
                 <div className="flex items-center mb-2">
                   <p className="text-xs mr-2">More orders in</p>
-                  <Label type="info" className="flex flex-row items-center">
-                    <img
-                      src={SUNNYSIDE.icons.stopwatch}
-                      className="w-3 left-0 mr-1"
-                    />
-                    {`${secondsToString(secondsLeft as number, {
-                      length: "medium",
-                    })}`}
-                  </Label>
+                  <CountdownLabel timeLeft={secondsLeft} />
                 </div>
               )}
               <div className="flex flex-wrap">

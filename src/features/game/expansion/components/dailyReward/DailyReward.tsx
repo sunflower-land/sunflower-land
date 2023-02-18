@@ -12,9 +12,9 @@ import { Revealed } from "features/game/components/Revealed";
 import { rewardChestMachine } from "./rewardChestMachine";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
-import { secondsToString } from "lib/utils/time";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { hasFeatureAccess } from "lib/flags";
+import { CountdownLabel } from "components/ui/CountdownLabel";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -76,18 +76,7 @@ export const DailyReward: React.FC = () => {
             <span className="text-center mb-4">
               Come back later for more rewards
             </span>
-            <div className="flex items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
-              <img
-                src={SUNNYSIDE.icons.stopwatch}
-                className="w-3 left-0 mr-1"
-              />
-              <span>
-                {`${secondsToString(nextRefreshInSeconds as number, {
-                  length: "medium",
-                  isShortFormat: true,
-                })}`}
-              </span>
-            </div>
+            <CountdownLabel timeLeft={nextRefreshInSeconds} />
           </div>
         </CloseButtonPanel>
       );
