@@ -3,7 +3,11 @@ import { useActor, useInterpret } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
 import { Bumpkins } from "./components/Bumpkins";
-import { websocketMachine, MachineInterpreter } from "./websocketMachine";
+import {
+  websocketMachine,
+  MachineInterpreter,
+  KICKED_COOLDOWN_MS,
+} from "./websocketMachine";
 import { Panel } from "components/ui/Panel";
 import * as AuthProvider from "features/auth/lib/Provider";
 import background from "assets/land/pumpkin_plaza.png";
@@ -23,6 +27,8 @@ import { Streamer } from "./components/Streamer";
 import { upcomingParty } from "./lib/streaming";
 import { useNavigate, useParams } from "react-router-dom";
 import { hasFeatureAccess } from "lib/flags";
+import { secondsToString } from "lib/utils/time";
+import { acknowledgeCodeOfConduct } from "features/announcements/announcementsStorage";
 
 // Spawn players in different areas
 const randomXOffset = randomInt(0, 50);
@@ -52,6 +58,7 @@ export const PumpkinPlaza: React.FC = () => {
       jwt: authState.context.rawToken,
       bumpkin: gameState.context.state.bumpkin,
       canAccess: isPartyActive,
+      kickedAt: gameState.context.state.pumpkinPlaza?.kickedAt,
     },
   }) as unknown as MachineInterpreter;
 
@@ -82,6 +89,14 @@ export const PumpkinPlaza: React.FC = () => {
       previousCoordinates: { x: oldX, y: oldY },
     });
   };
+
+  console.log({
+    KICKED_COOLDOWN_MS,
+    kickedAt: chatState.context.kickedAt,
+    seconds:
+      (chatState.context.kickedAt ?? 0) + KICKED_COOLDOWN_MS - Date.now(),
+    // - Date.now()) / 1000,
+  });
 
   // Load data
   return (
@@ -137,10 +152,45 @@ export const PumpkinPlaza: React.FC = () => {
           </Panel>
         </Modal>
 
+        <Modal show={chatState.matches("kicked")} centered>
+          <Panel>
+            <div className="flex flex-col items-center p-2">
+              <p className="mb-4">You've been removed</p>
+
+              <div className="flex flex-wrap justify-center">
+                <p className="text-sm mr-2 mb-2">Cooldown</p>
+                <div className="flex mb-2 items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
+                  <img
+                    src={SUNNYSIDE.icons.stopwatch}
+                    className="w-3 left-0 mr-1"
+                  />
+                  <span>{`${secondsToString(
+                    ((chatState.context.kickedAt ?? 0) +
+                      KICKED_COOLDOWN_MS -
+                      Date.now()) /
+                      1000,
+                    { length: "full" }
+                  )}`}</span>
+                </div>
+              </div>
+              <a
+                className="underline text-xxs my-2 text-center mx-auto"
+                href="https://docs.sunflower-land.com/support/code-of-conduct"
+              >
+                Code of conduct
+              </a>
+            </div>
+            <Button onClick={() => navigate(`/land/${id}`)}>Return</Button>
+          </Panel>
+        </Modal>
+
         <Modal show={chatState.matches("codeOfConduct")} centered>
           <Panel>
             <CodeOfConduct
-              onAcknowledge={() => websocketService.send("ACKNOWLEDGE")}
+              onAcknowledge={() => {
+                acknowledgeCodeOfConduct();
+                websocketService.send("ACKNOWLEDGE");
+              }}
             />
           </Panel>
         </Modal>

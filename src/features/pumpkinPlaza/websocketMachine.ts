@@ -24,6 +24,7 @@ export interface ChatContext {
   accountId: number;
   jwt: string;
   game: GameState;
+  kickedAt?: number;
 }
 
 export type ChatState = {
@@ -34,6 +35,7 @@ export type ChatState = {
     | "loadingPlayers"
     | "connected"
     | "closed"
+    | "kicked"
     | "disconnecting"
     | "disconnected"
     | "error";
@@ -79,7 +81,8 @@ type ChatEvent =
   | { type: "TICK" }
   | { type: "ACKNOWLEDGE" }
   | { type: "CONNECT" }
-  | { type: "DISCONNECT" };
+  | { type: "DISCONNECT" }
+  | { type: "KICKED" };
 
 export type MachineState = State<ChatContext, ChatEvent, ChatState>;
 
@@ -126,17 +129,25 @@ type ItemMintedMessage = {
   sfl: number;
 };
 
+type KickedMessage = {
+  type: "kicked";
+};
+
 type SendMessage =
   | LoadAllPlayersMessage
   | PlayerUpdatedMessage
   | PlayerQuitMessage
   | ChatSentMessage
   | ItemMintedMessage
-  | PlayerJoinedMessage;
+  | PlayerJoinedMessage
+  | KickedMessage;
 
 function parseWebsocketMessage(data: string): SendMessage {
   return JSON.parse(data);
 }
+
+// Bumpkin will be kicked for 24 hours
+export const KICKED_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
 /**
  * Machine which handles both player events and reacts to web socket events
@@ -158,10 +169,17 @@ export const websocketMachine = createMachine<
     lastPosition: { x: 0, y: 0 },
     game: OFFLINE_FARM,
     canAccess: false,
+    kickedAt: 0,
   },
   states: {
     initialising: {
       always: [
+        {
+          target: "kicked",
+          cond: (context) =>
+            !!context.kickedAt &&
+            context.kickedAt + KICKED_COOLDOWN_MS > Date.now(),
+        },
         {
           target: "closed",
           cond: (context) => !context.canAccess,
@@ -200,7 +218,11 @@ export const websocketMachine = createMachine<
           }
 
           const socket = new WebSocket(
-            `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&farmId=${context.accountId}&x=${context.currentPosition?.x}&y=${context.currentPosition?.y}`
+            `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&farmId=${
+              context.accountId
+            }&x=${Math.floor(context.currentPosition?.x)}&y=${Math.floor(
+              context.currentPosition?.y
+            )}`
           );
 
           await new Promise((res) => {
@@ -296,6 +318,10 @@ export const websocketMachine = createMachine<
 
             if (body.type === "playerJoined") {
               cb({ type: "PLAYER_JOINED", player: body.player });
+            }
+
+            if (body.type === "kicked") {
+              cb({ type: "KICKED" });
             }
 
             if (body.type === "chatSent") {
@@ -471,6 +497,9 @@ export const websocketMachine = createMachine<
             },
           }),
         },
+        KICKED: {
+          target: "kicked",
+        },
       },
     },
     disconnected: {
@@ -484,5 +513,6 @@ export const websocketMachine = createMachine<
       },
     },
     closed: {},
+    kicked: {},
   },
 });
