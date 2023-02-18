@@ -24,7 +24,7 @@ export const BumpkinFriend: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
 
-  let tabs = [
+  const tabs = [
     {
       icon: SUNNYSIDE.icons.player,
       name: "Player",

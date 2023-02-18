@@ -9,7 +9,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { Label } from "components/ui/Label";
 import { upcomingParty } from "features/pumpkinPlaza/lib/streaming";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -41,7 +40,7 @@ export const PartyIsland: React.FC = () => {
         >
           <div className="p-2">
             <p className="text-sm mb-3">
-              The Pumpkin Plaza is hosting an event that you won't want to miss.
+              {`The Pumpkin Plaza is hosting an event that you won't want to miss.`}
             </p>
             <p className="text-sm mb-3">
               Meet the team, collect rewards and interact with other Bumpkins.
