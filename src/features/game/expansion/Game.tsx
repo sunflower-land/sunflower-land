@@ -42,7 +42,6 @@ import { IslandNotFound } from "./components/IslandNotFound";
 import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
 import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
-import { hasFeatureAccess } from "lib/flags";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -190,10 +189,7 @@ export const Game: React.FC = () => {
               path="/valentine-island"
               element={<ValentineIsland key="valentine" />}
             />
-            {hasFeatureAccess(
-              gameState.context.state.inventory,
-              "PUMPKIN_PLAZA"
-            ) && <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />}
+            <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             {level >= 10 && (
               <Route
                 path="/treasure-island"

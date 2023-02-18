@@ -414,6 +414,8 @@ export interface GameState {
   metadata?: any[];
   pumpkinPlaza: {
     rewardCollectedAt?: number;
+    kickedAt?: number;
+    kickedById?: number;
   };
   dailyRewards: {
     chest?: {
