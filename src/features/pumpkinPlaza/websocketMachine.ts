@@ -1,9 +1,8 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { Bumpkin, GameState, Inventory } from "features/game/types/game";
+import { Bumpkin, Inventory } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 import { assign, createMachine, Interpreter, State } from "xstate";
-import { OFFLINE_FARM } from "features/game/lib/landData";
 import { ReactionName } from "./lib/reactions";
 import { BumpkinDiscovery, ChatMessage, Player } from "./lib/types";
 import { OFFLINE_BUMPKINS } from "./lib/constants";
@@ -23,7 +22,6 @@ export interface ChatContext {
   discoveries: BumpkinDiscovery[];
   accountId: number;
   jwt: string;
-  game: GameState;
   kickedAt?: number;
 }
 
@@ -146,8 +144,8 @@ function parseWebsocketMessage(data: string): SendMessage {
   return JSON.parse(data);
 }
 
-// Bumpkin will be kicked for 24 hours
-export const KICKED_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+// Bumpkin will be kicked for 1 hour
+export const KICKED_COOLDOWN_MS = 1 * 60 * 60 * 1000;
 
 /**
  * Machine which handles both player events and reacts to web socket events
@@ -167,7 +165,6 @@ export const websocketMachine = createMachine<
     jwt: "",
     currentPosition: { x: 0, y: 0 },
     lastPosition: { x: 0, y: 0 },
-    game: OFFLINE_FARM,
     canAccess: false,
     kickedAt: 0,
   },
@@ -499,6 +496,9 @@ export const websocketMachine = createMachine<
         },
         KICKED: {
           target: "kicked",
+          actions: assign({
+            kickedAt: (_) => Date.now(),
+          }),
         },
       },
     },

@@ -72,7 +72,6 @@ export const PumpkinPlaza: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      console.log("Time to disconnect!");
       websocketService.send("DISCONNECT");
     };
   }, []);
@@ -88,7 +87,10 @@ export const PumpkinPlaza: React.FC = () => {
     const clampedX = Math.floor(x / GRID_WIDTH_PX);
     const clampedY = Math.floor(y / GRID_WIDTH_PX);
 
-    if (RESTRICTED_AREA[clampedX]?.[clampedY]) {
+    if (
+      RESTRICTED_AREA[clampedX]?.[clampedY] &&
+      !authState.context.token?.userAccess.admin
+    ) {
       setRestrictedHelper({ x, y });
       return;
     }
@@ -103,16 +105,6 @@ export const PumpkinPlaza: React.FC = () => {
       previousCoordinates: { x: oldX, y: oldY },
     });
   };
-
-  console.log({
-    KICKED_COOLDOWN_MS,
-    kickedAt: chatState.context.kickedAt,
-    seconds:
-      (chatState.context.kickedAt ?? 0) + KICKED_COOLDOWN_MS - Date.now(),
-    // - Date.now()) / 1000,
-  });
-
-  console.log({ restrictedArea });
 
   // Load data
   return (
@@ -171,7 +163,11 @@ export const PumpkinPlaza: React.FC = () => {
         <Modal show={chatState.matches("kicked")} centered>
           <Panel>
             <div className="flex flex-col items-center p-2">
-              <p className="mb-4">You've been removed</p>
+              <p className="mb-4">Party pooper!</p>
+              <p className="mb-4 text-sm">
+                Looks like you broke the rules of the party. Please wait before
+                entering again.
+              </p>
 
               <div className="flex flex-wrap justify-center">
                 <p className="text-sm mr-2 mb-2">Cooldown</p>
@@ -275,7 +271,7 @@ export const PumpkinPlaza: React.FC = () => {
                 reaction,
               });
             }}
-            game={chatState.context.game}
+            game={gameState.context.state}
           />
         )}
 

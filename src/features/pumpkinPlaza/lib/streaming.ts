@@ -9,7 +9,7 @@ type Party = {
 // Schedule 100 discord chats
 const discordChatsStartDate = new Date(1676349000000);
 const discordChatDates = new Array(100).fill(null).map((_, index) => {
-  var date = new Date(discordChatsStartDate);
+  const date = new Date(discordChatsStartDate);
   date.setDate(discordChatsStartDate.getDate() + 7 * index);
   return date;
 });
@@ -19,7 +19,7 @@ const twitchStartDate = new Date(1676588400000);
 
 // const twitchStartDate = new Date(1676588400000);
 const twitchDates = new Array(100).fill(null).map((_, index) => {
-  var date = new Date(twitchStartDate);
+  const date = new Date(twitchStartDate);
   date.setDate(twitchStartDate.getDate() + 7 * index);
   return date;
 });
@@ -28,7 +28,6 @@ export function upcomingParty(): Party {
   const nextDiscordChat = getNextDiscordChatTime();
   const nextTwitch = getNextTwitchTime();
 
-  console.log(nextDiscordChat < nextTwitch);
   if (nextDiscordChat.startAt < nextTwitch.startAt) {
     return {
       ...nextDiscordChat,
