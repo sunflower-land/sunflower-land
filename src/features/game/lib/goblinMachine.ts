@@ -90,7 +90,7 @@ type DepositEvent = {
   type: "DEPOSIT";
   sfl: string;
   itemIds: number[];
-  itemAmounts: number[];
+  itemAmounts: string[];
 };
 
 export type BlockchainEvent =
@@ -487,7 +487,7 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             onError: {
               target: "error",
-              actions: "assignErrorMessage",
+              actions: [(_, event) => console.log(event), "assignErrorMessage"],
             },
           },
         },
