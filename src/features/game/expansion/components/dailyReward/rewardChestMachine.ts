@@ -61,7 +61,7 @@ export const rewardChestMachine = createMachine<
       always: [
         {
           target: "comingSoon",
-          cond: (context) => !context.hasAccess || context.bumpkinLevel < 3,
+          cond: (context) => context.bumpkinLevel < 3,
         },
         {
           target: "opened",

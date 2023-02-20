@@ -14,7 +14,6 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { hasFeatureAccess } from "lib/flags";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -28,10 +27,6 @@ export const DailyReward: React.FC = () => {
       openedAt: gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel: getBumpkinLevel(
         gameState.context.state.bumpkin?.experience ?? 0
-      ),
-      hasAccess: hasFeatureAccess(
-        gameState.context.state.inventory,
-        "DAILY_REWARD"
       ),
     },
   });
@@ -156,18 +151,6 @@ export const DailyReward: React.FC = () => {
     }
 
     if (chestState.matches("comingSoon")) {
-      // Temp
-      if (
-        !hasFeatureAccess(gameState.context.state.inventory, "DAILY_REWARD")
-      ) {
-        return (
-          <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
-            <div className="px-2 pb-2 w-full flex flex-col items-center">
-              <p className="text-sm">Daily Rewards coming soon!</p>
-            </div>
-          </CloseButtonPanel>
-        );
-      }
       return (
         <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
           <div className="px-2 pb-2 w-full flex flex-col items-center">
