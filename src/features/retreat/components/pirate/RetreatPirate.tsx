@@ -5,7 +5,6 @@ import { blacksmithAudio } from "lib/utils/sfx";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Inventory } from "features/game/types/game";
 import { GoblinPirateItems } from "./components/GoblinPirateItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
@@ -22,11 +21,7 @@ const bumpkin: Equipped = {
   shoes: "Black Farmer Boots",
 };
 
-interface Props {
-  inventory: Inventory;
-}
-
-export const RetreatPirate: React.FC<Props> = ({ inventory }) => {
+export const RetreatPirate: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openPirate = () => {
@@ -62,23 +57,13 @@ export const RetreatPirate: React.FC<Props> = ({ inventory }) => {
           <Action
             className="pointer-events-none"
             text="Pirate"
-            icon={SUNNYSIDE.icons.hammer}
+            icon={SUNNYSIDE.icons.basket}
           />
         </div>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
-          bumpkinParts={{
-            body: "Goblin Potion",
-            hair: "Blacksmith Hair",
-            hat: "Pirate Hat",
-            pants: "Pirate Pants",
-            shirt: "Striped Blue Shirt",
-            tool: "Pirate Scimitar",
-            background: "Farm Background",
-            shoes: "Black Farmer Boots",
-            coat: "Pirate General Coat",
-          }}
+          bumpkinParts={bumpkin}
           tabs={[{ name: "Craft", icon: SUNNYSIDE.icons.hammer }]}
           onClose={() => setIsOpen(false)}
         >

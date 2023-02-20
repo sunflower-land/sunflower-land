@@ -146,9 +146,7 @@ export const Game = () => {
                 <RetreatBlacksmith
                   inventory={goblinState.context.state.inventory}
                 />
-                <RetreatPirate
-                  inventory={goblinState.context.state.inventory}
-                />
+                <RetreatPirate />
                 <Auctioneer />
                 <Resale />
                 <RetreatWishingWell />
