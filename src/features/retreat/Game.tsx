@@ -36,13 +36,17 @@ import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "./Hud";
 import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
+<<<<<<< HEAD
 import { Refreshing } from "features/auth/components/Refreshing";
+=======
+import { RetreatPirate } from "./components/pirate/RetreatPirate";
+>>>>>>> d761f753 ([FEAT] Retreat Pirate)
 
 const spawn = [
   [35, 15],
   [10, 15],
   [10, 25],
-  [35, 25],
+  [35, 28],
   [21, 19],
 ];
 
@@ -143,6 +147,9 @@ export const Game = () => {
                 <RetreatHotAirBalloon />
                 <RetreatTailor />
                 <RetreatBlacksmith
+                  inventory={goblinState.context.state.inventory}
+                />
+                <RetreatPirate
                   inventory={goblinState.context.state.inventory}
                 />
                 <Auctioneer />

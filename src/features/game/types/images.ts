@@ -302,6 +302,7 @@ import loveLetter from "src/assets/icons/love_letter.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 import valentineBear from "src/assets/sfts/bears/love_bear.png";
+import ironIdol from "src/assets/sfts/iron_idol.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -361,6 +362,7 @@ import { CONSUMABLES } from "./consumables";
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 import {
   GOBLIN_BLACKSMITH_ITEMS,
+  GOBLIN_PIRATE_ITEMS,
   HELIOS_BLACKSMITH_ITEMS,
 } from "./collectibles";
 import { AUCTIONEER_ITEMS } from "./auctioneer";
@@ -1824,5 +1826,10 @@ export const ITEM_DETAILS: Items = {
   "Valentine Bear": {
     description: "For those who love.",
     image: valentineBear,
+  },
+
+  "Iron Idol": {
+    image: ironIdol,
+    description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
   },
 };
