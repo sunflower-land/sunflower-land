@@ -487,7 +487,7 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             onError: {
               target: "error",
-              actions: [(_, event) => console.log(event), "assignErrorMessage"],
+              actions: "assignErrorMessage",
             },
           },
         },
