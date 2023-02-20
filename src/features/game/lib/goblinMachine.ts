@@ -90,7 +90,7 @@ type DepositEvent = {
   type: "DEPOSIT";
   sfl: string;
   itemIds: number[];
-  itemAmounts: number[];
+  itemAmounts: string[];
 };
 
 export type BlockchainEvent =

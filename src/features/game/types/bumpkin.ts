@@ -7,7 +7,8 @@ export type BumpkinBackground =
   | "Jail Background"
   | "Christmas Background"
   | "Mountain View Background"
-  | "China Town Background";
+  | "China Town Background"
+  | "SFL Office Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -48,7 +49,8 @@ export type BumpkinShirt =
   | "Pineapple Shirt"
   | "Fruit Picker Shirt"
   | "Striped Blue Shirt"
-  | "Pirate Leather Polo";
+  | "Pirate Leather Polo"
+  | "Hawaiian Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -64,7 +66,9 @@ export type BumpkinTool =
   | "Hammer"
   | "Ancient War Hammer"
   | "Ancient Goblin Sword"
-  | "Pirate Scimitar";
+  | "Pirate Scimitar"
+  | "Bumpkin Puppet"
+  | "Goblin Puppet";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -108,7 +112,12 @@ export type BumpkinDress = "Cupid Dress";
 export type BumpkinSecondaryTool = "Sunflower Shield" | "Crab Claw";
 
 // Goes over clothes + head
-export type BumpkinOnesie = "Snowman Onesie" | "Shark Onesie";
+export type BumpkinOnesie =
+  | "Snowman Onesie"
+  | "Shark Onesie"
+  | "Bear Onesie"
+  | "Tiger Onesie"
+  | "Frog Onesie";
 
 // Goes over clothes
 export type BumpkinSuit = "Reindeer Suit";
@@ -227,6 +236,13 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Cupid Dress": 98,
   "Cupid Sandals": 99,
   "Love Quiver": 100,
+  "SFL Office Background": 101,
+  "Bumpkin Puppet": 102,
+  "Goblin Puppet": 103,
+  "Hawaiian Shirt": 104,
+  "Bear Onesie": 105,
+  "Frog Onesie": 106,
+  "Tiger Onesie": 107,
 };
 
 // The reverse of above

@@ -1,9 +1,8 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { Bumpkin, GameState, Inventory } from "features/game/types/game";
+import { Bumpkin, Inventory } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 import { assign, createMachine, Interpreter, State } from "xstate";
-import { OFFLINE_FARM } from "features/game/lib/landData";
 import { ReactionName } from "./lib/reactions";
 import { BumpkinDiscovery, ChatMessage, Player } from "./lib/types";
 import { OFFLINE_BUMPKINS } from "./lib/constants";
@@ -15,6 +14,7 @@ import {
 export interface ChatContext {
   currentPosition: Coordinates;
   lastPosition: Coordinates;
+  canAccess: boolean;
   bumpkin: Bumpkin;
   socket?: WebSocket;
   bumpkins: Player[];
@@ -22,7 +22,7 @@ export interface ChatContext {
   discoveries: BumpkinDiscovery[];
   accountId: number;
   jwt: string;
-  game: GameState;
+  kickedAt?: number;
 }
 
 export type ChatState = {
@@ -32,6 +32,8 @@ export type ChatState = {
     | "connecting"
     | "loadingPlayers"
     | "connected"
+    | "closed"
+    | "kicked"
     | "disconnecting"
     | "disconnected"
     | "error";
@@ -77,7 +79,8 @@ type ChatEvent =
   | { type: "TICK" }
   | { type: "ACKNOWLEDGE" }
   | { type: "CONNECT" }
-  | { type: "DISCONNECT" };
+  | { type: "DISCONNECT" }
+  | { type: "KICKED" };
 
 export type MachineState = State<ChatContext, ChatEvent, ChatState>;
 
@@ -124,17 +127,25 @@ type ItemMintedMessage = {
   sfl: number;
 };
 
+type KickedMessage = {
+  type: "kicked";
+};
+
 type SendMessage =
   | LoadAllPlayersMessage
   | PlayerUpdatedMessage
   | PlayerQuitMessage
   | ChatSentMessage
   | ItemMintedMessage
-  | PlayerJoinedMessage;
+  | PlayerJoinedMessage
+  | KickedMessage;
 
 function parseWebsocketMessage(data: string): SendMessage {
   return JSON.parse(data);
 }
+
+// Bumpkin will be kicked for 1 hour
+export const KICKED_COOLDOWN_MS = 1 * 60 * 60 * 1000;
 
 /**
  * Machine which handles both player events and reacts to web socket events
@@ -154,11 +165,22 @@ export const websocketMachine = createMachine<
     jwt: "",
     currentPosition: { x: 0, y: 0 },
     lastPosition: { x: 0, y: 0 },
-    game: OFFLINE_FARM,
+    canAccess: false,
+    kickedAt: 0,
   },
   states: {
     initialising: {
       always: [
+        {
+          target: "kicked",
+          cond: (context) =>
+            !!context.kickedAt &&
+            context.kickedAt + KICKED_COOLDOWN_MS > Date.now(),
+        },
+        {
+          target: "closed",
+          cond: (context) => !context.canAccess,
+        },
         {
           target: "codeOfConduct",
           cond: () => {
@@ -177,7 +199,7 @@ export const websocketMachine = createMachine<
     codeOfConduct: {
       on: {
         ACKNOWLEDGE: {
-          target: "connecting",
+          target: "initialising",
           actions: () => {
             acknowledgeCodeOfConduct();
           },
@@ -193,7 +215,11 @@ export const websocketMachine = createMachine<
           }
 
           const socket = new WebSocket(
-            `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&farmId=${context.accountId}&x=${context.currentPosition?.x}&y=${context.currentPosition?.y}`
+            `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&farmId=${
+              context.accountId
+            }&x=${Math.floor(context.currentPosition?.x)}&y=${Math.floor(
+              context.currentPosition?.y
+            )}`
           );
 
           await new Promise((res) => {
@@ -289,6 +315,10 @@ export const websocketMachine = createMachine<
 
             if (body.type === "playerJoined") {
               cb({ type: "PLAYER_JOINED", player: body.player });
+            }
+
+            if (body.type === "kicked") {
+              cb({ type: "KICKED" });
             }
 
             if (body.type === "chatSent") {
@@ -464,17 +494,25 @@ export const websocketMachine = createMachine<
             },
           }),
         },
+        KICKED: {
+          target: "kicked",
+          actions: assign({
+            kickedAt: (_) => Date.now(),
+          }),
+        },
       },
     },
     disconnected: {
       on: {
-        CONNECT: "connecting",
+        CONNECT: "initialising",
       },
     },
     error: {
       on: {
-        CONNECT: "connecting",
+        CONNECT: "initialising",
       },
     },
+    closed: {},
+    kicked: {},
   },
 });
