@@ -36,11 +36,8 @@ import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "./Hud";
 import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
-<<<<<<< HEAD
 import { Refreshing } from "features/auth/components/Refreshing";
-=======
 import { RetreatPirate } from "./components/pirate/RetreatPirate";
->>>>>>> d761f753 ([FEAT] Retreat Pirate)
 
 const spawn = [
   [35, 15],
