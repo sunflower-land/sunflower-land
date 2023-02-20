@@ -13,7 +13,7 @@ export interface DepositArgs {
   farmId: number;
   sfl: string;
   itemIds: number[];
-  itemAmounts: number[];
+  itemAmounts: string[];
 }
 
 export async function depositToFarm({

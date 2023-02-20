@@ -11,9 +11,11 @@ interface Props {
 }
 
 export const ChatReactions: React.FC<Props> = ({ game, onReact }) => {
-  const availableReactions = REACTIONS.filter((reaction) =>
-    reaction.hasAccess(game)
-  );
+  const availableReactions = REACTIONS.filter((reaction) => {
+    const access = reaction.hasAccess(game);
+    console.log({ reaction, access, game });
+    return access;
+  });
   const lockedReactions = REACTIONS.filter(
     (reaction) => !reaction.hasAccess(game)
   );
@@ -26,7 +28,6 @@ export const ChatReactions: React.FC<Props> = ({ game, onReact }) => {
     >
       <div className="flex flex-wrap">
         {availableReactions.map((reaction) => {
-          const isLocked = !reaction.hasAccess(game);
           return (
             <Box
               key={reaction.name}

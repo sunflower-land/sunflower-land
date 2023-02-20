@@ -1,9 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
 import { Bumpkins } from "./components/Bumpkins";
-import { websocketMachine, MachineInterpreter } from "./websocketMachine";
+import {
+  websocketMachine,
+  MachineInterpreter,
+  KICKED_COOLDOWN_MS,
+} from "./websocketMachine";
 import { Panel } from "components/ui/Panel";
 import * as AuthProvider from "features/auth/lib/Provider";
 import background from "assets/land/pumpkin_plaza.png";
@@ -20,6 +24,14 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import sleeping from "assets/animals/chickens/sleeping.gif";
 import { Streamer } from "./components/Streamer";
+import { upcomingParty } from "./lib/streaming";
+import { useNavigate, useParams } from "react-router-dom";
+import { hasFeatureAccess } from "lib/flags";
+import { secondsToString } from "lib/utils/time";
+import { acknowledgeCodeOfConduct } from "features/announcements/announcementsStorage";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { RestrictedHelper } from "./components/RestrictedHelper";
+import { RESTRICTED_AREA } from "./lib/restrictedArea";
 
 // Spawn players in different areas
 const randomXOffset = randomInt(0, 50);
@@ -31,12 +43,28 @@ export const PumpkinPlaza: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const [restrictedArea, setRestrictedArea] = useState(RESTRICTED_AREA);
+  const [restrictedHelper, setRestrictedHelper] = useState<Coordinates>();
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const party = upcomingParty();
+  const isBetaTester = hasFeatureAccess(
+    gameState.context.state.inventory,
+    "PUMPKIN_PLAZA"
+  );
+  const isPartyActive =
+    isBetaTester || (Date.now() > party.startAt && Date.now() < party.endAt);
+
   const websocketService = useInterpret(websocketMachine, {
     context: {
       currentPosition: { x: 1680 + randomXOffset, y: 1880 + randomYOffset },
       accountId: authState.context.farmId as number,
       jwt: authState.context.rawToken,
       bumpkin: gameState.context.state.bumpkin,
+      canAccess: isPartyActive,
+      kickedAt: gameState.context.state.pumpkinPlaza?.kickedAt,
     },
   }) as unknown as MachineInterpreter;
 
@@ -44,7 +72,6 @@ export const PumpkinPlaza: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      console.log("Time to disconnect!");
       websocketService.send("DISCONNECT");
     };
   }, []);
@@ -56,6 +83,17 @@ export const PumpkinPlaza: React.FC = () => {
 
     const x = e.pageX + scrollContainer.scrollLeft;
     const y = scrollContainer.scrollTop + e.pageY;
+
+    const clampedX = Math.floor(x / GRID_WIDTH_PX);
+    const clampedY = Math.floor(y / GRID_WIDTH_PX);
+
+    if (
+      RESTRICTED_AREA[clampedX]?.[clampedY] &&
+      !authState.context.token?.userAccess.admin
+    ) {
+      setRestrictedHelper({ x, y });
+      return;
+    }
 
     const myBumpkin = document.getElementById("my-bumpkin") as HTMLDivElement;
     const currentPosition = myBumpkin.getBoundingClientRect();
@@ -98,10 +136,73 @@ export const PumpkinPlaza: React.FC = () => {
           </Panel>
         </Modal>
 
+        <Modal show={chatState.matches("closed")} centered>
+          <Panel>
+            <div className="flex flex-col items-center p-2">
+              <p className="mb-4">Party is over!</p>
+              <img src={SUNNYSIDE.icons.stopwatch} className="w-1/4 mb-4" />
+              <div className="flex flex-wrap justify-center">
+                <p className="text-sm mr-2 mb-2">Next session:</p>
+                <div className="flex mb-2 items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
+                  <img
+                    src={SUNNYSIDE.icons.stopwatch}
+                    className="w-3 left-0 mr-1"
+                  />
+                  <span>{`${new Date(
+                    party.startAt
+                  ).toLocaleString()} - ${new Date(
+                    party.endAt
+                  ).toLocaleTimeString()}`}</span>
+                </div>
+              </div>
+            </div>
+            <Button onClick={() => navigate(`/land/${id}`)}>Return</Button>
+          </Panel>
+        </Modal>
+
+        <Modal show={chatState.matches("kicked")} centered>
+          <Panel>
+            <div className="flex flex-col items-center p-2">
+              <p className="mb-4">Party pooper!</p>
+              <p className="mb-4 text-sm">
+                Looks like you broke the rules of the party. Please wait before
+                entering again.
+              </p>
+
+              <div className="flex flex-wrap justify-center">
+                <p className="text-sm mr-2 mb-2">Cooldown</p>
+                <div className="flex mb-2 items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
+                  <img
+                    src={SUNNYSIDE.icons.stopwatch}
+                    className="w-3 left-0 mr-1"
+                  />
+                  <span>{`${secondsToString(
+                    ((chatState.context.kickedAt ?? 0) +
+                      KICKED_COOLDOWN_MS -
+                      Date.now()) /
+                      1000,
+                    { length: "full" }
+                  )}`}</span>
+                </div>
+              </div>
+              <a
+                className="underline text-xxs my-2 text-center mx-auto"
+                href="https://docs.sunflower-land.com/support/code-of-conduct"
+              >
+                Code of conduct
+              </a>
+            </div>
+            <Button onClick={() => navigate(`/land/${id}`)}>Return</Button>
+          </Panel>
+        </Modal>
+
         <Modal show={chatState.matches("codeOfConduct")} centered>
           <Panel>
             <CodeOfConduct
-              onAcknowledge={() => websocketService.send("ACKNOWLEDGE")}
+              onAcknowledge={() => {
+                acknowledgeCodeOfConduct();
+                websocketService.send("ACKNOWLEDGE");
+              }}
             />
           </Panel>
         </Modal>
@@ -151,6 +252,8 @@ export const PumpkinPlaza: React.FC = () => {
         <DailyReward />
         <Streamer />
 
+        <RestrictedHelper position={restrictedHelper} />
+
         <IslandTravel
           inventory={gameState.context.state.inventory}
           bumpkin={gameState.context.state.bumpkin}
@@ -168,7 +271,7 @@ export const PumpkinPlaza: React.FC = () => {
                 reaction,
               });
             }}
-            game={chatState.context.game}
+            game={gameState.context.state}
           />
         )}
 
