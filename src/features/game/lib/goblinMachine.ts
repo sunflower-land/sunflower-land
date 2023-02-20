@@ -213,8 +213,6 @@ export function startGoblinVillage(authContext: AuthContext) {
               game.inventory = availableState.inventory;
               game.farmAddress = onChainState.game.farmAddress;
 
-              console.log(onChainState.mintedAtTimes);
-
               return {
                 state: game,
                 mintedAtTimes: onChainState.mintedAtTimes,
