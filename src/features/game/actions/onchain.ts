@@ -14,7 +14,10 @@ import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { getFarm } from "lib/blockchain/Farm";
-import { GOBLIN_BLACKSMITH_ITEMS } from "../types/collectibles";
+import {
+  GOBLIN_BLACKSMITH_ITEMS,
+  GOBLIN_PIRATE_ITEMS,
+} from "../types/collectibles";
 
 const API_URL = CONFIG.API_URL;
 
@@ -43,10 +46,12 @@ export async function isFarmBlacklisted(id: number) {
 
   return metadata.image.includes("banned");
 }
-
-const RECIPES_IDS = getKeys(GOBLIN_BLACKSMITH_ITEMS).map(
+const blacksmithItems = getKeys(GOBLIN_BLACKSMITH_ITEMS).map(
   (name) => KNOWN_IDS[name]
 );
+const pirateItems = getKeys(GOBLIN_PIRATE_ITEMS).map((name) => KNOWN_IDS[name]);
+
+const RECIPES_IDS = [...blacksmithItems, ...pirateItems];
 
 export type LimitedItemRecipeWithMintedAt = Recipe & {
   mintedAt: number;
