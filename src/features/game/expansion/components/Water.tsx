@@ -23,6 +23,7 @@ import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
+import { PartyIsland } from "./PartyIsland";
 
 export const LAND_WIDTH = 6;
 
@@ -123,6 +124,7 @@ export const Water: React.FC<Props> = ({ level }) => {
         </div>
       </MapPlacement>
 
+      <PartyIsland />
       <FruitQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>

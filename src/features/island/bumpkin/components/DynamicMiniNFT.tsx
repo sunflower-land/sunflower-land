@@ -41,6 +41,7 @@ import angelWings from "assets/npc-layers/angel_wings.png";
 import devilWings from "assets/npc-layers/devil_wings.png";
 import stripedShirt from "assets/npc-layers/pirate_striped_shirt.png";
 import pirateLeatherPolo from "assets/npc-layers/pirate_leather_polo.png";
+import hawaiianShirt from "assets/npc-layers/hawaiian_shirt.png";
 
 // Pants
 import farmerPants from "assets/npc-layers/farmer_pants.png";
@@ -65,6 +66,9 @@ import pirateGeneralCoat from "assets/npc-layers/pirate_general_coat.png";
 // Onesie
 import snowman from "assets/npc-layers/snowman-onesie.png";
 import sharkOnesie from "assets/npc-layers/shark-onesie.png";
+import frogOnesie from "assets/npc-layers/frog-onesie.png";
+import bearOnesie from "assets/npc-layers/bear-onesie.png";
+import tigerOnesie from "assets/npc-layers/tiger-onesie.png";
 
 import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
 import fruitShirt from "assets/npc-layers/fruit_shirt.png";
@@ -183,6 +187,11 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
 
   "Cupid Hair": cupidHair,
   "Cupid Dress": cupidDress,
+
+  "Hawaiian Shirt": hawaiianShirt,
+  "Bear Onesie": bearOnesie,
+  "Frog Onesie": frogOnesie,
+  "Tiger Onesie": tigerOnesie,
 };
 
 export interface DynamicMiniNFTProps {
