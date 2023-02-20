@@ -21,6 +21,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
+import { getItemUnit } from "features/game/lib/conversion";
 
 type Status = "loading" | "loaded" | "error";
 
@@ -119,8 +120,8 @@ export const Deposit: React.FC<Props> = ({
 
   const handleDeposit = async () => {
     const itemIds = selectedItems.map((item) => KNOWN_IDS[item]);
-    const itemAmounts = selectedItems.map(
-      (item) => inventoryToDeposit[item]?.toNumber() as number
+    const itemAmounts = selectedItems.map((item) =>
+      toWei(inventoryToDeposit[item]?.toString() as string, getItemUnit(item))
     );
 
     onDeposit({
