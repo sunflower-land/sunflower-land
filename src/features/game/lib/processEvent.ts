@@ -55,6 +55,9 @@ const maxItems: Inventory = {
   "Red Envelope": new Decimal(100),
   "Love Letter": new Decimal(400),
 
+  "Sand Shovel": new Decimal(50),
+  "Sand Drill": new Decimal(30),
+
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(50),
 
