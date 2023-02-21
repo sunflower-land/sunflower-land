@@ -1,4 +1,3 @@
-import { ValentineBear } from "features/island/collectibles/components/ValentineBear";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import Modal from "react-bootstrap/Modal";
@@ -111,6 +110,7 @@ import { HeartBalloons } from "./components/HeartBalloons";
 import { Flamingo } from "./components/Flamingo";
 import { BlossomTree } from "./components/BlossomTree";
 import { IronIdol } from "./components/IronIdol";
+import { ValentineBear } from "./components/ValentineBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
