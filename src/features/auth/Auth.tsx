@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
-import logo from "assets/brand/valentines_logo.png";
+import logo from "assets/brand/logo.png";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
