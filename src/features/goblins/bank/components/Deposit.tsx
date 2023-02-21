@@ -160,8 +160,12 @@ export const Deposit: React.FC<Props> = ({
     <>
       {status === "loading" && <Loading />}
       {status === "loaded" && emptyWallet && (
-        <div className="p-2">
+        <div className="p-2 space-y-2">
           <p>No SFL or Collectibles Found!</p>
+          <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
+            <span className="whitespace-nowrap">Farm address:</span>
+            <CopyAddress address={farmAddress} />
+          </div>
         </div>
       )}
       {status === "loaded" && !emptyWallet && (

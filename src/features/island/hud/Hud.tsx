@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
+import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
@@ -21,6 +22,7 @@ import { Deposit } from "features/goblins/bank/components/Deposit";
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -39,7 +41,7 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
 
   const isEditing = gameState.matches("editing");
   const landId = gameState.context.state.id;
-  const farmAddress = gameState.context.state.farmAddress as string;
+  const farmAddress = authService.state.context.address as string;
 
   return (
     <div

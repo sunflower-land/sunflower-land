@@ -69,19 +69,29 @@ export async function getInventorySupply(
 export async function getInventoryBalances(
   web3: Web3,
   account: string,
-  address: string
-) {
-  const batchAccounts = Array(IDS.length).fill(address);
-  const balances = await (
-    new web3.eth.Contract(
-      InventoryJSON as AbiItem[],
-      contractAddress as string
-    ) as unknown as SunflowerLandInventory
-  ).methods
-    .balanceOfBatch(batchAccounts, IDS)
-    .call({ from: account });
+  address: string,
+  attempts = 0
+): Promise<string[]> {
+  try {
+    const batchAccounts = Array(IDS.length).fill(address);
+    const balances = await (
+      new web3.eth.Contract(
+        InventoryJSON as AbiItem[],
+        contractAddress as string
+      ) as unknown as SunflowerLandInventory
+    ).methods
+      .balanceOfBatch(batchAccounts, IDS)
+      .call({ from: account });
 
-  return balances;
+    return balances;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return getInventoryBalances(web3, account, address, attempts + 1);
+    }
+
+    throw error;
+  }
 }
 
 export async function getInventoryBalance(
