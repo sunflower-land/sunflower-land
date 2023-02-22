@@ -261,7 +261,7 @@ export const AchievementDetails: React.FC<Props> = ({
                     </Button>
                     {isPaused && (
                       <div className="pt-1 text-xxs">
-                        Claiming SFL rewards paused for bumpkins upgrade.
+                        Claiming SFL rewards paused for Bumpkins upgrade.
                       </div>
                     )}
                   </>
