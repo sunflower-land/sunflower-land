@@ -16,7 +16,11 @@ import { DecorationName } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
-import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import {
+  GoblinBlacksmithItemName,
+  GoblinPirateItemName,
+  HeliosBlacksmithItem,
+} from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 
@@ -188,6 +192,7 @@ export type InventoryItemName =
   | TreasureName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | GoblinPirateItemName
   | TreasureName
   | TreasureToolName;
 
