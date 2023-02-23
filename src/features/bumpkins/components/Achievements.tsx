@@ -48,6 +48,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
   const isComplete = progress >= achievement.requirement;
   const bumpkinAchievements = state.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[selected];
+  const isPaused = achievement.sfl.gt(0);
 
   const onClaim = () => {
     gameService.send("achievement.claimed", {
@@ -121,13 +122,20 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
                         </Label>
                       </div>
                     ) : (
-                      <Button
-                        className="text-xs"
-                        onClick={onClaim}
-                        disabled={!isComplete}
-                      >
-                        <span>Claim</span>
-                      </Button>
+                      <>
+                        {isPaused && (
+                          <div className="pb-1 text-xxs text-center mx-2">
+                            Claiming SFL rewards paused for Bumpkins upgrade.
+                          </div>
+                        )}
+                        <Button
+                          className="text-xs"
+                          onClick={onClaim}
+                          disabled={!isComplete}
+                        >
+                          <span>{isPaused ? "Paused" : "Claim"}</span>
+                        </Button>
+                      </>
                     )}
                   </>
                 )}
@@ -151,6 +159,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
                     gameState={state}
                     name={name}
                     isSelected={name === selected}
+                    isPaused={isPaused}
                   />
                 </div>
               ))}

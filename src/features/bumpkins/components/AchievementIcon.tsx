@@ -17,12 +17,14 @@ interface Props {
   gameState: GameState;
   name: AchievementName;
   isSelected: boolean;
+  isPaused: boolean;
 }
 
 export const AchievementIcon: React.FC<Props> = ({
   gameState: state,
   name,
   isSelected,
+  isPaused,
 }) => {
   const achievement = ACHIEVEMENTS()[name];
   const progress = achievement.progress(state);
@@ -42,7 +44,7 @@ export const AchievementIcon: React.FC<Props> = ({
         className={classNames(
           "flex justify-center items-center p-1 rounded-md relative",
           {
-            "opacity-50": !isAlreadyClaimed && !isComplete,
+            "opacity-50": (!isAlreadyClaimed && !isComplete) || isPaused,
             "img-highlight hover:img-highlight-heavy": isSelected,
             "hover:img-highlight": !isSelected,
           }
