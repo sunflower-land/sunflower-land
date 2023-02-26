@@ -3224,4 +3224,48 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/454.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
+  "Bumpkin Roast": {
+    description:
+      "A traditional Bumpkin dish. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/541.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Goblin Brunch": {
+    description: "A traditional Goblin dish. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/542.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Fruit Salad": {
+    description: "Fruit Salad. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/543.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Kale Omelette": {
+    description: "A healthy breakfast. You can can cook this at the Fire Pit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/544.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Cabbers n Mash": {
+    description:
+      "Cabbages and Mashed Potatoes. You can can cook this at the Fire Pit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/545.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Fancy Fries": {
+    description: "Fantastic Fries. You can cook this at the Deli.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/546.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
 };

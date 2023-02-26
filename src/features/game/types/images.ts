@@ -233,6 +233,12 @@ import orangeJuice from "assets/food/orange_juice.png";
 import purpleSmoothie from "assets/food/purple_smoothie.png";
 import bumpkinDetox from "assets/food/bumpkin_detox.png";
 import powerSmoothie from "assets/food/power_smoothie.png";
+import bumpkinRoast from "assets/food/bumpkin_roast.png";
+import goblinBrunch from "assets/food/goblin_brunch.png";
+import fruitSalad from "assets/food/fruit_salad.png";
+import kaleOmelette from "assets/food/kale_omelette.png";
+import cabbersNMash from "assets/food/cabbers_n_mash.png";
+import fancyFries from "assets/food/fancy_fries.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -587,6 +593,30 @@ export const ITEM_DETAILS: Items = {
   "Power Smoothie": {
     description: CONSUMABLES["Power Smoothie"].description,
     image: powerSmoothie,
+  },
+  "Bumpkin Roast": {
+    description: CONSUMABLES["Bumpkin Roast"].description,
+    image: bumpkinRoast,
+  },
+  "Goblin Brunch": {
+    description: CONSUMABLES["Goblin Brunch"].description,
+    image: goblinBrunch,
+  },
+  "Fruit Salad": {
+    description: CONSUMABLES["Fruit Salad"].description,
+    image: fruitSalad,
+  },
+  "Kale Omelette": {
+    description: CONSUMABLES["Kale Omelette"].description,
+    image: kaleOmelette,
+  },
+  "Cabbers n Mash": {
+    description: CONSUMABLES["Cabbers n Mash"].description,
+    image: cabbersNMash,
+  },
+  "Fancy Fries": {
+    description: CONSUMABLES["Fancy Fries"].description,
+    image: fancyFries,
   },
 
   // Resources
