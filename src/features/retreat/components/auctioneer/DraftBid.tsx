@@ -33,7 +33,7 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
         )}
       </div> */}
       <p className="text-sm text-center mb-2">
-        Enhance your odds with Auction Tickets
+        Enhance your odds with Solar Flare Tickets
       </p>
 
       <div className="flex items-center justify-center mb-1">
@@ -62,7 +62,7 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
             <p className="mr-2 text-right">{auctionTickets}</p>
           </div>
           <img
-            src={ITEM_DETAILS["Auction Ticket"].image}
+            src={ITEM_DETAILS["Solar Flare Ticket"].image}
             className="h-8 mr-1"
           />
         </div>
@@ -99,8 +99,8 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
       <div className="flex">
         <img src={SUNNYSIDE.icons.happy} className="h-6 mr-2" />
         <p className="text-sm mb-1">
-          Participants who bid the most auction tickets are able to craft the
-          item.
+          Participants who bid the most Solar Flare Tickets are able to craft
+          the item.
         </p>
       </div>
       <div className="flex mb-4">
@@ -109,7 +109,7 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
           <p className="text-sm mb-1">
             Participants who are unsuccesful will be refunded their resources.
           </p>
-          <Label type="danger">Auction tickets are non refundable</Label>
+          <Label type="danger">Solar Flare Tickets are non refundable</Label>
         </div>
       </div>
 

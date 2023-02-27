@@ -1405,7 +1405,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/713.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
-  "Auction Ticket": {
+  "Solar Flare Ticket": {
     name: "Trading Ticket",
     description:
       "By collecting these coupons, players can redeem them for a shot at winning valuable rewards",

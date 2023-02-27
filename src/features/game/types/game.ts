@@ -102,7 +102,7 @@ export type MutantChicken =
 
 export type Coupons =
   | "Trading Ticket"
-  | "Auction Ticket"
+  | "Solar Flare Ticket"
   | "War Bond"
   | "Jack-o-lantern"
   | "Golden Crop"
@@ -117,7 +117,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
-  "Auction Ticket": {
+  "Solar Flare Ticket": {
     description:
       "By collecting these coupons, players can redeem them for a shot at winning valuable rewards",
   },

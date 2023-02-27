@@ -292,7 +292,7 @@ export const OFFLINE_FARM: GameState = {
     "Maneki Neko": new Decimal(1),
     "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
-    "Auction Ticket": new Decimal(10),
+    "Solar Flare Ticket": new Decimal(10),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
     Gold: new Decimal(50),
