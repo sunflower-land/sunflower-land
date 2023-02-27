@@ -39,6 +39,26 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal centered show={isOpen} onHide={onClose} scrollable>
+      <Panel className="relative">
+        <div className="p-2 flex flex-col items-center">
+          <p>Under construction!</p>
+          <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/3" />
+          <p className="my-2 text-sm">This feature is coming soon.</p>
+          <a
+            href="https://docs.sunflower-land.com/player-guides/islands/goblin-retreat/goblin-auctioneer"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs underline"
+          >
+            Read more
+          </a>
+        </div>
+      </Panel>
+    </Modal>
+  );
+
+  return (
+    <Modal centered show={isOpen} onHide={onClose} scrollable>
       {isMinting && (
         <Panel className="relative">
           <div className="flex flex-col items-center p-2">
