@@ -2915,7 +2915,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around. 1/2 Orange Tree grow time.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/443.png",
+    image_url: "../public/erc1155/images/443.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Black Bearry": {
@@ -2923,7 +2923,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful! +1 Blueberry each Harvest",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/444.png",
+    image_url: "../public/erc1155/images/444.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Devil Bear": {
@@ -3118,7 +3118,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Use them as decorations for romantic occasions.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/451.png",
     attributes: [],
   },
   Flamingo: {
@@ -3126,7 +3126,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Represents a symbol of love's beauty standing tall and confident.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/452.png",
     attributes: [],
   },
   "Blossom Tree": {
@@ -3134,14 +3134,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Its delicate petals symbolizes the beauty and fragility of love.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/453.png",
     attributes: [],
   },
   "Love Letter": {
     description: "Convey feelings of love",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/717.png",
     attributes: [],
   },
   "Treasure Map": {
