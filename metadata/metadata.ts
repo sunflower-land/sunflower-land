@@ -3268,4 +3268,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/546.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
+  "Solar Flare Ticket": {
+    description: "A ticket used during the Solar Flare Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/719.png",
+    attributes: [],
+  },
+  "Dawn Breaker Ticket": {
+    description: "A ticket used during the Dawn Breaker Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/720.png",
+    attributes: [],
+  },
 };

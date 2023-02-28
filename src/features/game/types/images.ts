@@ -173,6 +173,8 @@ import ticket from "assets/icons/ticket.png";
 import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
+import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
+import dawnBreakerTicket from "assets/icons/solar_flare_ticket.png";
 
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
@@ -708,6 +710,7 @@ export const ITEM_DETAILS: Items = {
     description: "Drill deep for rare treasure",
     image: drill,
   },
+
   "Block Buck": {
     description:
       "A voucher used for restocking and enhancing your Blockchain experience!",
@@ -1861,5 +1864,16 @@ export const ITEM_DETAILS: Items = {
   "Iron Idol": {
     image: ironIdol,
     description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
+  },
+
+  // Season tickets
+
+  "Solar Flare Ticket": {
+    image: solarFlareTicket,
+    description: "A ticket used during the Solar Flare Season",
+  },
+  "Dawn Breaker Ticket": {
+    image: dawnBreakerTicket,
+    description: "A ticket used during the Dawn Breaker Season",
   },
 };

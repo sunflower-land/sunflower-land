@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { fulfillGrubOrder } from "./fulfillGrubOrder";
 
 describe("fulfillGrubOrder", () => {
@@ -406,5 +407,45 @@ describe("fulfillGrubOrder", () => {
     expect(state.balance).toEqual(new Decimal(500));
     expect(state.inventory["Mashed Potato"]).toEqual(new Decimal(0));
     expect(state.grubOrdersFulfilled).toHaveLength(5);
+  });
+
+  it("increments seasonal tickets on every order", () => {
+    const fulfilledAt = Date.now();
+
+    const state = fulfillGrubOrder({
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(1),
+        inventory: {
+          "Mashed Potato": new Decimal(5),
+        },
+        grubShop: {
+          opensAt: Date.now() - 1 * 60 * 60 * 1000,
+          closesAt: Date.now() + 1 * 60 * 60 * 1000,
+          orders: [
+            {
+              id: "23",
+              name: "Mashed Potato",
+              sfl: new Decimal(100),
+            },
+          ],
+        },
+        grubOrdersFulfilled: [],
+      },
+      action: {
+        id: "23",
+        type: "grubOrder.fulfilled",
+      },
+      createdAt: fulfilledAt,
+    });
+
+    expect(state.grubOrdersFulfilled).toEqual([
+      {
+        id: "23",
+        fulfilledAt,
+      },
+    ]);
+    const ticket = getSeasonalTicket();
+    expect(state.inventory[ticket]).toEqual(new Decimal(1));
   });
 });
