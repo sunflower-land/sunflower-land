@@ -62,13 +62,17 @@ export function fulfillGrubOrder({
   const ticketsInInventory =
     game.inventory[currentSeasonTicket] || new Decimal(0);
 
+  const network = process.env.NETWORK as "mumbai" | "mainnet";
+  if (network === "mumbai") {
+    ticketsInInventory.add(1);
+  }
+
   return {
     ...state,
     balance: state.balance.add(sfl),
     inventory: {
       ...state.inventory,
       [order.name]: state.inventory[order.name]?.sub(1),
-      [currentSeasonTicket]: ticketsInInventory.add(1),
     },
     grubOrdersFulfilled: [
       ...(state.grubOrdersFulfilled || []),
