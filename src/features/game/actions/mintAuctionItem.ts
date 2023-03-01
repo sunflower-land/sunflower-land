@@ -25,7 +25,6 @@ export async function mintAuctionItem(request: Request) {
         "X-Transaction-ID": request.transactionId,
       },
       body: JSON.stringify({
-        sessionId: request.sessionId,
         item: request.item,
       }),
     }
