@@ -4,6 +4,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { CONFIG } from "lib/config";
 
 export type FulFillGrubOrderAction = {
   type: "grubOrder.fulfilled";
@@ -59,8 +60,14 @@ export function fulfillGrubOrder({
 
   const currentSeasonTicket = getSeasonalTicket();
 
-  const ticketsInInventory =
+  let ticketsInInventory =
     game.inventory[currentSeasonTicket] || new Decimal(0);
+
+  const network = CONFIG.NETWORK as "mumbai" | "mainnet";
+
+  if (network === "mumbai") {
+    ticketsInInventory = ticketsInInventory.add(1);
+  }
 
   return {
     ...state,
@@ -68,7 +75,7 @@ export function fulfillGrubOrder({
     inventory: {
       ...state.inventory,
       [order.name]: state.inventory[order.name]?.sub(1),
-      [currentSeasonTicket]: ticketsInInventory.add(1),
+      [currentSeasonTicket]: ticketsInInventory,
     },
     grubOrdersFulfilled: [
       ...(state.grubOrdersFulfilled || []),

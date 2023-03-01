@@ -1,9 +1,13 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { fulfillGrubOrder } from "./fulfillGrubOrder";
+import * as config from "lib/config";
 
 describe("fulfillGrubOrder", () => {
+  const spy = jest.spyOn((config as any).default, "CONFIG", "get");
+
   it("require the grub shop is open", () => {
     expect(() =>
       fulfillGrubOrder({
@@ -410,6 +414,8 @@ describe("fulfillGrubOrder", () => {
   });
 
   it("increments seasonal tickets on every order", () => {
+    spy.mockReturnValue({ NETWORK: "mumbai" });
+
     const fulfilledAt = Date.now();
 
     const state = fulfillGrubOrder({
