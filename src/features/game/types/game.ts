@@ -108,7 +108,9 @@ export type Coupons =
   | "Beta Pass"
   | "Red Envelope"
   | "Love Letter"
-  | "Block Buck";
+  | "Block Buck"
+  | "Solar Flare Ticket"
+  | "Dawn Breaker Ticket";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -135,6 +137,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Block Buck": {
     description:
       "A voucher used for restocking and enhancing your Blockchain experience!",
+  },
+  "Solar Flare Ticket": {
+    description: "A ticket used during the Solar Flare Season",
+  },
+  "Dawn Breaker Ticket": {
+    description: "A ticket used during the Dawn Breaker Season",
   },
 };
 
