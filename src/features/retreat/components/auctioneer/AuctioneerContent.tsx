@@ -29,6 +29,7 @@ export const AuctioneerContent = () => {
 
   const { auctioneerItems, auctioneerId } = auctioneerState.context;
 
+  console.log({ items: auctioneerItems });
   const upcoming = getValidAuctionItems(auctioneerItems);
 
   const item = upcoming[0];
@@ -135,6 +136,7 @@ export const AuctioneerContent = () => {
 
       send("REFUND");
     };
+
     return (
       <div className="flex flex-col items-center">
         <p className="mb-2">Bid unsuccessful</p>

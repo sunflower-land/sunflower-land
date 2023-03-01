@@ -18,11 +18,13 @@ import { AuctioneerItemName } from "features/game/types/auctioneer";
 export const Auctioneer: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
+  console.log("INIT!", goblinState.context.state.auctioneer?.bid?.item);
 
   // Show their current bid item, or the upcoming item
   const activeItem: AuctioneerItemName | undefined =
     goblinState.context.state.auctioneer.bid?.item ??
-    getValidAuctionItems(goblinState.context.auctioneerItems).at(0)?.name;
+    getValidAuctionItems(goblinState.context.auctioneerItems)[0]?.name;
+  console.log({ activeItem });
 
   const isPlaying = goblinState.matches("auctioneer");
 
