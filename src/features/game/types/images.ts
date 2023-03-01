@@ -171,7 +171,6 @@ import fruitPlatter from "assets/achievements/fruit_platter.png";
 // Coupons
 import ticket from "assets/icons/ticket.png";
 import blockBuck from "assets/icons/block_buck.png";
-import solarFlareTicket from "assets/icons/auction_ticket.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
@@ -963,12 +962,7 @@ export const ITEM_DETAILS: Items = {
     description: "Free trades! Woohoo!",
     image: ticket,
   },
-  "Solar Flare Ticket": {
-    description:
-      "By collecting these coupons, players can redeem them for a shot at winning valuable rewards",
 
-    image: solarFlareTicket,
-  },
   "Beta Pass": {
     description: "Gain early access to features for testing.",
     image: betaPass,
