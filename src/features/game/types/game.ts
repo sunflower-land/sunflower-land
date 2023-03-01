@@ -117,10 +117,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
-  "Solar Flare Ticket": {
-    description:
-      "By collecting these coupons, players can redeem them for a shot at winning valuable rewards",
-  },
+
   "War Bond": {
     description: "A mark of a true warrior",
   },
