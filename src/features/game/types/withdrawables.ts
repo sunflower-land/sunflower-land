@@ -104,6 +104,14 @@ function areAnyChickensFed(game: GoblinState): boolean {
   );
 }
 
+function areAnyTreasureHolesDug(game: GoblinState): boolean {
+  return Object.values(game.treasureIsland?.holes ?? {}).some((hole) => {
+    const today = new Date().toISOString().substring(0, 10);
+
+    return new Date(hole.dugAt).toISOString().substring(0, 10) == today;
+  });
+}
+
 function hasCompletedAchievement(
   game: GoblinState,
   achievement: AchievementName
@@ -233,7 +241,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Lady Bug": false,
   "Cyborg Bear": true,
   "Collectible Bear": false,
-  "Heart of Davy Jones": true,
   "Heart Balloons": true,
   Flamingo: true,
   "Blossom Tree": true,
@@ -264,6 +271,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
+  "Heart of Davy Jones": (game) => !areAnyTreasureHolesDug(game),
 
   "Pirate Bounty": false,
   Pearl: false,
