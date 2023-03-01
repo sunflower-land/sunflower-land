@@ -105,9 +105,11 @@ function areAnyChickensFed(game: GoblinState): boolean {
 }
 
 function areAnyTreasureHolesDug(game: GoblinState): boolean {
-  return Object.values(game.treasureIsland?.holes ?? {}).some(
-    (hole) => hole.dugAt
-  );
+  return Object.values(game.treasureIsland?.holes ?? {}).some((hole) => {
+    const today = new Date().toISOString().substring(0, 10);
+
+    return new Date(hole.dugAt).toISOString().substring(0, 10) == today;
+  });
 }
 
 function hasCompletedAchievement(
