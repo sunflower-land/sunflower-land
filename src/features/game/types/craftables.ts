@@ -7,7 +7,11 @@ import { marketRate } from "../lib/halvening";
 import { LimitedItemType } from ".";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
-import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import {
+  GoblinBlacksmithItemName,
+  GoblinPirateItemName,
+  HeliosBlacksmithItem,
+} from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { BoostTreasure } from "./treasure";
 
@@ -183,6 +187,7 @@ export type CollectibleName =
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | GoblinPirateItemName
   | BoostTreasure
   | "Observatory"
   | "War Skull"
@@ -1113,6 +1118,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lady Bug": { width: 1, height: 1 },
   "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
+  "Iron Idol": { height: 2, width: 2 },
 
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },

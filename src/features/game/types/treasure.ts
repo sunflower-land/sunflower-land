@@ -4,6 +4,7 @@ import { marketRate } from "../lib/halvening";
 import { CONSUMABLES } from "./consumables";
 import { DECORATION_DIMENSIONS } from "./decorations";
 import { RESOURCES } from "./resources";
+import { getCurrentSeason, SEASONS } from "./seasons";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -200,9 +201,11 @@ type SeasonalRewards = {
   rewards: Partial<Record<TreasureName, unknown>>;
 };
 
+const currentSeason = SEASONS[getCurrentSeason()];
+
 export const SEASONAL_REWARDS: SeasonalRewards = {
-  startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-  endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
+  startDate: currentSeason.startDate.getTime(),
+  endDate: currentSeason.endDate.getTime(),
   rewards: {
     "Pirate Bear": {},
     "Tiki Totem": {},

@@ -37,8 +37,7 @@ export const UpcomingAuctions: React.FC = () => {
             item={item}
             game={goblinState.context.state}
             // Won't be called
-            onMint={console.log}
-            isMinting={false}
+            onDraftBid={console.log}
             isUpcomingItem={true}
           />
         </div>

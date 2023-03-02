@@ -111,6 +111,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Heart Balloons": 451,
   Flamingo: 452,
   "Blossom Tree": 453,
+  "Iron Idol": 454,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -152,6 +153,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Power Smoothie": 538,
   "Bumpkin Detox": 539,
   "Pirate Cake": 540,
+  "Bumpkin Roast": 541,
+  "Goblin Brunch": 542,
+  "Fruit Salad": 543,
+  "Kale Omelette": 544,
+  "Cabbers n Mash": 545,
+  "Fancy Fries": 546,
 
   Wood: 601,
   Stone: 602,
@@ -189,6 +196,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Red Envelope": 716,
   "Love Letter": 717,
   "Block Buck": 718,
+  "Solar Flare Ticket": 719,
+  "Dawn Breaker Ticket": 720,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -324,7 +333,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pirate Bear": 1233,
   "Goblin Bear": 1234,
   Galleon: 1235,
-  // Can be used for pirate hat replacement
+  // "": 1236,Available for use
   "Dinosaur Bone": 1237,
   "Human Bear": 1238,
   "Whale Bear": 1239,
