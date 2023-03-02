@@ -7,14 +7,14 @@ import { Tab } from "components/ui/Tab";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { UpcomingAuctions } from "./UpcomingAuctions";
 import { useActor } from "@xstate/react";
-import { Loading } from "features/auth/components";
-import { MachineInterpreter } from "features/game/lib/goblinMachine";
-import { MintedEvent } from "features/retreat/auctioneer/auctioneerMachine";
+import { MachineInterpreter } from "features/retreat/auctioneer/auctioneerMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { AuctioneerItemName } from "features/game/types/auctioneer";
+import { CONFIG } from "lib/config";
 
 interface Props {
   isOpen: boolean;
@@ -29,37 +29,42 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [auctioneerState, send] = useActor(child);
 
-  const isLoading = auctioneerState.matches("loading");
-  const isPlaying = auctioneerState.matches("playing");
   const isMinting = auctioneerState.matches("minting");
   const isMinted = auctioneerState.matches("minted");
 
-  const mintedItemName = ((auctioneerState.event as any)?.data as MintedEvent)
-    ?.item;
+  const mintedItemName = auctioneerState.context.bid
+    ?.item as AuctioneerItemName;
 
-  return (
-    <Modal centered show={isOpen} onHide={onClose} scrollable>
-      <Panel className="relative">
-        <div className="p-2 flex flex-col items-center">
-          <p>Under construction!</p>
-          <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/3" />
-          <p className="my-2 text-sm">This feature is coming soon.</p>
-          <a
-            href="https://docs.sunflower-land.com/player-guides/islands/goblin-retreat/goblin-auctioneer"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs underline"
-          >
-            Read more
-          </a>
-        </div>
-      </Panel>
-    </Modal>
-  );
+  const closeModal = () => {
+    child.send("REFRESH");
+    onClose();
+  };
 
-  return (
-    <Modal centered show={isOpen} onHide={onClose} scrollable>
-      {isMinting && (
+  if (CONFIG.NETWORK === "mainnet") {
+    return (
+      <Modal centered show={isOpen} onHide={onClose} scrollable>
+        <Panel className="relative">
+          <div className="p-2 flex flex-col items-center">
+            <p>Under construction!</p>
+            <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/3" />
+            <p className="my-2 text-sm">This feature is coming soon.</p>
+            <a
+              href="https://docs.sunflower-land.com/player-guides/islands/goblin-retreat/goblin-auctioneer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs underline"
+            >
+              Read more
+            </a>
+          </div>
+        </Panel>
+      </Modal>
+    );
+  }
+
+  const Content = () => {
+    if (isMinting) {
+      return (
         <Panel className="relative">
           <div className="flex flex-col items-center p-2">
             <span className="text-shadow text-center loading">Minting</span>
@@ -72,8 +77,11 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </span>
           </div>
         </Panel>
-      )}
-      {isMinted && (
+      );
+    }
+
+    if (isMinted) {
+      return (
         <Panel className="relative">
           <div className="flex flex-col items-center">
             <div className="flex flex-col items-center p-2">
@@ -90,55 +98,56 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <Button onClick={() => send("REFRESH")}>Ok</Button>
           </div>
         </Panel>
-      )}
-      {(isPlaying || isLoading) && (
-        <Panel className="relative" hasTabs>
-          <div
-            className="absolute flex"
+      );
+    }
+
+    return (
+      <Panel className="relative" hasTabs>
+        <div
+          className="absolute flex"
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+          }}
+        >
+          <Tab isActive={tab === "auction"} onClick={() => setTab("auction")}>
+            <span className="text-sm text-shadow ml-1">Auctioneer</span>
+          </Tab>
+          <Tab isActive={tab === "upcoming"} onClick={() => setTab("upcoming")}>
+            <span className="text-sm text-shadow ml-1">Upcoming</span>
+          </Tab>
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="absolute cursor-pointer z-20"
+            onClick={closeModal}
             style={{
               top: `${PIXEL_SCALE * 1}px`,
-              left: `${PIXEL_SCALE * 1}px`,
               right: `${PIXEL_SCALE * 1}px`,
+              width: `${PIXEL_SCALE * 11}px`,
             }}
-          >
-            <Tab isActive={tab === "auction"} onClick={() => setTab("auction")}>
-              <span className="text-sm text-shadow ml-1">Auctioneer</span>
-            </Tab>
-            <Tab
-              isActive={tab === "upcoming"}
-              onClick={() => setTab("upcoming")}
-            >
-              <span className="text-sm text-shadow ml-1">Upcoming</span>
-            </Tab>
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="absolute cursor-pointer z-20"
-              onClick={onClose}
-              style={{
-                top: `${PIXEL_SCALE * 1}px`,
-                right: `${PIXEL_SCALE * 1}px`,
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
-          </div>
+          />
+        </div>
 
-          <div
-            style={{
-              minHeight: "200px",
-            }}
-          >
-            <div className="flex flex-col">
-              {isLoading && <Loading />}
-              {isPlaying && (
-                <>
-                  {tab === "auction" && <AuctioneerContent />}
-                  {tab === "upcoming" && <UpcomingAuctions />}
-                </>
-              )}
-            </div>
+        <div
+          style={{
+            minHeight: "200px",
+          }}
+        >
+          <div className="flex flex-col">
+            <>
+              {tab === "auction" && <AuctioneerContent />}
+              {tab === "upcoming" && <UpcomingAuctions />}
+            </>
           </div>
-        </Panel>
-      )}
+        </div>
+      </Panel>
+    );
+  };
+
+  return (
+    <Modal centered show={isOpen} onHide={closeModal} scrollable>
+      <Content />
     </Modal>
   );
 };

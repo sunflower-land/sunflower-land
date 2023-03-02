@@ -962,6 +962,7 @@ export const ITEM_DETAILS: Items = {
     description: "Free trades! Woohoo!",
     image: ticket,
   },
+
   "Beta Pass": {
     description: "Gain early access to features for testing.",
     image: betaPass,
