@@ -20,6 +20,7 @@ import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "features/island/hud/Hud";
+import { Salesman } from "features/farming/salesman/Salesman";
 
 const spawn = [
   [30, 15],
@@ -71,6 +72,7 @@ export const Helios: React.FC = () => {
         <LostSunflorian />
         <RustyShovelSeller />
         <CommunityGardenEntry />
+        <Salesman />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
 
         <IslandTravel

@@ -223,15 +223,14 @@ type PastAction = GameEvent & {
   createdAt: Date;
 };
 
-export type TradeOffer = {
-  name: InventoryItemName;
-  amount: number;
+export type SalesmanOffer = {
+  reward: {
+    sfl: Decimal;
+    items: Inventory;
+  };
+  ingredients: Inventory;
   startAt: string;
   endAt: string;
-  ingredients: {
-    name: InventoryItemName;
-    amount: Decimal;
-  }[];
 };
 
 export type WarCollectionOffer = {
@@ -396,7 +395,7 @@ export interface GameState {
   farmAddress?: string;
 
   tradedAt?: string;
-  tradeOffer?: TradeOffer;
+  tradeOffer?: SalesmanOffer;
   warCollectionOffer?: WarCollectionOffer;
 
   chickens: Record<string, Chicken>;

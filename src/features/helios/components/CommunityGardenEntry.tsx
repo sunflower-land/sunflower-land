@@ -20,7 +20,7 @@ export const CommunityGardenEntry: React.FC = () => {
   };
 
   return (
-    <MapPlacement x={-8} y={-11} height={3} width={2}>
+    <MapPlacement x={4.7} y={13} height={3} width={2}>
       <div
         className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={openMerchant}
@@ -30,7 +30,7 @@ export const CommunityGardenEntry: React.FC = () => {
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            right: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 23}px`,
             top: `${PIXEL_SCALE * 9}px`,
           }}
         />
@@ -40,6 +40,7 @@ export const CommunityGardenEntry: React.FC = () => {
             width: `${PIXEL_SCALE * 39}px`,
             right: `${PIXEL_SCALE * 0}px`,
             top: `${PIXEL_SCALE * -3}px`,
+            transform: "scaleX(-1)",
           }}
         >
           <img

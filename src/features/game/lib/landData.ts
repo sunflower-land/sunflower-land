@@ -362,11 +362,17 @@ export const OFFLINE_FARM: GameState = {
   bumpkin: INITIAL_BUMPKIN,
   pumpkinPlaza: {},
   tradeOffer: {
-    amount: 1,
-    endAt: new Date(Date.now() + 100000000000000).toISOString(),
+    endAt: new Date(Date.now() + 100000).toISOString(),
     startAt: new Date().toISOString(),
-    name: "Algerian Flag",
-    ingredients: [],
+    ingredients: {
+      Sunflower: new Decimal(100),
+    },
+    reward: {
+      items: {
+        "Solar Flare Ticket": new Decimal(5),
+      },
+      sfl: new Decimal(1),
+    },
   },
   dailyRewards: {},
   treasureIsland: {

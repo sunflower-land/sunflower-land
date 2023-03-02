@@ -9,13 +9,14 @@ import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import salesmanImage from "assets/npcs/salesman.gif";
 import shadow from "assets/npcs/shadow.png";
-import { hasAlreadyTraded } from "features/game/events/trade";
+import token from "assets/icons/token_2.png";
 import { Offer } from "./component/Offer";
-import { TradeOffer } from "features/game/types/game";
+import { SalesmanOffer } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
-import stopwatch from "assets/icons/stopwatch.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { hasAlreadyTraded } from "features/game/events/landExpansion/trade";
+import { getKeys } from "features/game/types/craftables";
 
 const Content: React.FC<{ title: string }> = ({ title, children }) => {
   return (
@@ -58,17 +59,26 @@ export const Salesman: React.FC = () => {
     const offer = state.tradeOffer;
 
     if (offer) {
-      offer.ingredients?.map((ingredient) => {
-        const item = ITEM_DETAILS[ingredient.name];
+      getKeys(offer.ingredients).map((name) => {
+        const item = ITEM_DETAILS[name];
         setToast({
           icon: item.image,
-          content: `-${ingredient.amount}`,
+          content: `-${offer.ingredients[name]?.toString()}`,
         });
       });
 
-      setToast({
-        icon: ITEM_DETAILS[offer.name].image,
-        content: `+${offer.amount}`,
+      if (offer.reward.sfl.gt(0)) {
+        setToast({
+          icon: token,
+          content: `+${offer.reward.sfl.toNumber()}`,
+        });
+      }
+
+      getKeys(offer.reward.items).forEach((name) => {
+        setToast({
+          icon: ITEM_DETAILS[name].image,
+          content: `+${offer.reward.items[name]?.toString()}`,
+        });
       });
     }
 
@@ -107,7 +117,7 @@ export const Salesman: React.FC = () => {
       return (
         <Offer
           inventory={state.inventory}
-          offer={state.tradeOffer as TradeOffer}
+          offer={state.tradeOffer as SalesmanOffer}
           onCraft={handleTrade}
         />
       );
@@ -131,7 +141,10 @@ export const Salesman: React.FC = () => {
             What I have to offer you today is available for a limited time.
           </p>
           <span className="bg-blue-600 border flex text-[8px] sm:text-xxs items-center p-[3px] rounded-md whitespace-nowrap  mb-2">
-            <img src={stopwatch} className="w-3 left-0 -top-4 mr-1" />
+            <img
+              src={SUNNYSIDE.icons.stopwatch}
+              className="w-3 left-0 -top-4 mr-1"
+            />
             <span className="mt-[2px]">{`${secondsToString(
               secondsLeft as number,
               { length: "medium" }
@@ -150,9 +163,8 @@ export const Salesman: React.FC = () => {
       className="z-100 absolute"
       id="salesman"
       style={{
-        width: `${GRID_WIDTH_PX * 1}px`,
-        left: `${GRID_WIDTH_PX * 14.5}px`,
-        top: `${GRID_WIDTH_PX * 34}px`,
+        left: `${GRID_WIDTH_PX * 13}px`,
+        top: `${GRID_WIDTH_PX * 30.5}px`,
       }}
     >
       <div className="cursor-pointer hover:img-highlight z-10">
@@ -170,6 +182,11 @@ export const Salesman: React.FC = () => {
           alt="salesman"
           onClick={handleOpenModal}
           className="w-full"
+          style={{
+            width: `${PIXEL_SCALE * 19}px`,
+            bottom: `${PIXEL_SCALE * -1}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+          }}
         />
       </div>
 

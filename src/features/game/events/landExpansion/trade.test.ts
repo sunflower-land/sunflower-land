@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "../lib/constants";
-import { GameState, TradeOffer } from "../types/game";
+import { TEST_FARM } from "features/game/lib/constants";
+import { GameState } from "features/game/types/game";
 import { trade } from "./trade";
 
 const GAME_STATE: GameState = {
@@ -9,24 +9,23 @@ const GAME_STATE: GameState = {
   inventory: {},
 };
 
-const CHICKEN_OFFER: TradeOffer = {
-  name: "Chicken",
-  amount: 1,
-  startAt: "2022-06-08T00:00:00.000Z",
-  endAt: "2022-06-20T00:00:00.000Z",
-  ingredients: [
-    {
-      name: "Beetroot",
-      amount: new Decimal(50),
-    },
-    {
-      name: "Carrot",
-      amount: new Decimal(100),
-    },
-  ],
-};
-
 describe("trade", () => {
+  const dateNow = Date.now();
+
+  const tradeOffer = {
+    reward: {
+      items: { Chicken: new Decimal(1) },
+      sfl: new Decimal(0),
+    },
+    ingredients: {
+      Beetroot: new Decimal(50),
+      Carrot: new Decimal(100),
+    },
+    // Some older times
+    startAt: new Date(Date.now() - 1000).toISOString(),
+    endAt: new Date(Date.now() + 1000).toISOString(),
+  };
+
   it("does not trade an item if nothing is on offer", () => {
     expect(() =>
       trade({
@@ -37,6 +36,7 @@ describe("trade", () => {
           ...GAME_STATE,
           tradeOffer: undefined,
         },
+        createdAt: dateNow,
       })
     ).toThrow("Nothing to trade");
   });
@@ -49,8 +49,9 @@ describe("trade", () => {
         },
         state: {
           ...GAME_STATE,
-          tradeOffer: CHICKEN_OFFER,
+          tradeOffer,
         },
+        createdAt: dateNow,
       })
     ).toThrow("Insufficient ingredient: Beetroot");
   });
@@ -66,8 +67,9 @@ describe("trade", () => {
           inventory: {
             Beetroot: new Decimal(50),
           },
-          tradeOffer: CHICKEN_OFFER,
+          tradeOffer,
         },
+        createdAt: dateNow,
       })
     ).toThrow("Insufficient ingredient: Carrot");
   });
@@ -84,9 +86,12 @@ describe("trade", () => {
             Beetroot: new Decimal(50),
             Carrot: new Decimal(200),
           },
-          tradedAt: "2022-06-14T00:00:00.000Z",
-          tradeOffer: CHICKEN_OFFER,
+          tradedAt: new Date(
+            new Date(tradeOffer.startAt).getTime() + 1000
+          ).toString(),
+          tradeOffer,
         },
+        createdAt: dateNow,
       })
     ).toThrow("Already traded");
   });
@@ -96,6 +101,7 @@ describe("trade", () => {
       action: {
         type: "item.traded",
       },
+      createdAt: dateNow,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -105,18 +111,14 @@ describe("trade", () => {
         // Made a trade long ago in the past
         tradedAt: new Date(Date.now() - 100000).toISOString(),
         tradeOffer: {
-          name: "Chicken",
-          amount: 1,
-          ingredients: [
-            {
-              name: "Beetroot",
-              amount: new Decimal(50),
-            },
-            {
-              name: "Carrot",
-              amount: new Decimal(100),
-            },
-          ],
+          reward: {
+            items: { Chicken: new Decimal(1) },
+            sfl: new Decimal(0),
+          },
+          ingredients: {
+            Beetroot: new Decimal(50),
+            Carrot: new Decimal(100),
+          },
           // Some older times
           startAt: new Date(Date.now() - 1000).toISOString(),
           endAt: new Date(Date.now() + 1000).toISOString(),
@@ -127,18 +129,51 @@ describe("trade", () => {
     expect(state.inventory.Chicken).toEqual(new Decimal(1));
   });
 
+  it("trades seasonal items", () => {
+    const state = trade({
+      action: {
+        type: "item.traded",
+      },
+      createdAt: dateNow,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Beetroot: new Decimal(50),
+        },
+        // Made a trade long ago in the past
+        tradedAt: new Date(Date.now() - 100000).toISOString(),
+        tradeOffer: {
+          reward: {
+            items: { "Solar Flare Ticket": new Decimal(3) },
+            sfl: new Decimal(1.25),
+          },
+          ingredients: {
+            Beetroot: new Decimal(50),
+          },
+          // Some older times
+          startAt: new Date(Date.now() - 1000).toISOString(),
+          endAt: new Date(Date.now() + 1000).toISOString(),
+        },
+      },
+    });
+
+    expect(state.inventory["Solar Flare Ticket"]).toEqual(new Decimal(3));
+    expect(state.balance).toEqual(new Decimal(1.25));
+  });
+
   it("trades an item", () => {
     const state = trade({
       action: {
         type: "item.traded",
       },
+      createdAt: dateNow,
       state: {
         ...GAME_STATE,
         inventory: {
           Beetroot: new Decimal(50),
           Carrot: new Decimal(200),
         },
-        tradeOffer: CHICKEN_OFFER,
+        tradeOffer,
       },
     });
 
@@ -153,6 +188,7 @@ describe("trade", () => {
       action: {
         type: "item.traded",
       },
+      createdAt: dateNow,
       state: {
         ...GAME_STATE,
         inventory: {
@@ -160,18 +196,14 @@ describe("trade", () => {
           Carrot: new Decimal(2000),
         },
         tradeOffer: {
-          name: "Chicken",
-          amount: 1,
-          ingredients: [
-            {
-              name: "Beetroot",
-              amount: new Decimal(50),
-            },
-            {
-              name: "Carrot",
-              amount: new Decimal(100),
-            },
-          ],
+          reward: {
+            items: { Chicken: new Decimal(1) },
+            sfl: new Decimal(0),
+          },
+          ingredients: {
+            Beetroot: new Decimal(50),
+            Carrot: new Decimal(100),
+          },
           // Some older times
           startAt: new Date(Date.now() - 1000).toISOString(),
           endAt: new Date(Date.now() + 1000).toISOString(),
@@ -185,37 +217,8 @@ describe("trade", () => {
           type: "item.traded",
         },
         state,
+        createdAt: dateNow,
       })
     ).toThrow("Already traded");
-  });
-
-  it("trades for multiple items", () => {
-    const state = trade({
-      action: {
-        type: "item.traded",
-      },
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          Sunflower: new Decimal(50),
-        },
-        tradeOffer: {
-          name: "Potato",
-          amount: 5,
-          startAt: "2022-06-08T00:00:00.000Z",
-          endAt: "2022-06-20T00:00:00.000Z",
-          ingredients: [
-            {
-              name: "Sunflower",
-              amount: new Decimal(5),
-            },
-          ],
-        },
-      },
-    });
-
-    expect(state.inventory.Potato).toEqual(new Decimal(5));
-    expect(state.inventory.Sunflower).toEqual(new Decimal(45));
-    expect(state.tradedAt).toEqual(expect.any(String));
   });
 });

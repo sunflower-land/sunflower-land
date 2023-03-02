@@ -45,10 +45,23 @@ export function makeGame(farm: any): GameState {
     tradeOffer: farm.tradeOffer
       ? {
           ...farm.tradeOffer,
-          ingredients: farm.tradeOffer.ingredients.map((ingredient: any) => ({
-            ...ingredient,
-            amount: new Decimal(ingredient.amount),
-          })),
+          reward: {
+            sfl: new Decimal(farm.tradeOffer.reward.sfl),
+            items: getKeys(farm.tradeOffer.reward.items).reduce(
+              (acc, name) => ({
+                ...acc,
+                [name]: new Decimal(farm.tradeOffer.reward.items[name]),
+              }),
+              {}
+            ),
+          },
+          ingredients: getKeys(farm.tradeOffer.ingredients).reduce(
+            (acc, name) => ({
+              ...acc,
+              [name]: new Decimal(farm.tradeOffer.ingredients[name]),
+            }),
+            {}
+          ),
         }
       : undefined,
     grubOrdersFulfilled: farm.grubOrdersFulfilled,

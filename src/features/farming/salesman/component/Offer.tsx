@@ -1,23 +1,25 @@
 import React from "react";
-import classNames from "classnames";
+import Decimal from "decimal.js-light";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Inventory, TradeOffer } from "features/game/types/game";
+import { Inventory, SalesmanOffer } from "features/game/types/game";
+import token from "assets/icons/token_2.png";
 
 import { Button } from "components/ui/Button";
-import Decimal from "decimal.js-light";
+import { getKeys } from "features/game/types/craftables";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onCraft: () => void;
   inventory: Inventory;
-  offer: TradeOffer;
+  offer: SalesmanOffer;
 }
 
 export const Offer: React.FC<Props> = ({ onCraft, inventory, offer }) => {
   // Ingredient difference
   const lessIngredients = (amount = 1) =>
-    offer.ingredients?.some((ingredient) =>
-      ingredient.amount.mul(amount).greaterThan(inventory[ingredient.name] || 0)
+    getKeys(offer.ingredients).some((name) =>
+      offer.ingredients[name]?.mul(amount).greaterThan(inventory[name] || 0)
     );
 
   const Action = () => {
@@ -34,40 +36,62 @@ export const Offer: React.FC<Props> = ({ onCraft, inventory, offer }) => {
     );
   };
 
-  const details = ITEM_DETAILS[offer.name];
   return (
     <div className="flex">
       <div className="flex flex-col justify-center items-center p-2 relative w-full">
-        <span className="text-shadow text-center">{`${offer.amount} x ${offer.name}`}</span>
-        <img
-          src={details.image}
-          className="h-16 img-highlight mt-1"
-          alt={offer.name}
-        />
-        <span className="text-shadow text-center mt-2 sm:text-sm">
-          {details.description}
-        </span>
+        <p className="text-sm text-center mb-2">My offer:</p>
+        {offer.reward.sfl.gt(0) && (
+          <div className="flex">
+            <img src={token} className="h-6 mr-2" />
+            <p className="text-shadow text-center">{`${offer.reward.sfl.toNumber()} SFL`}</p>
+          </div>
+        )}
+        {getKeys(offer.reward.items).map((name) => (
+          <div className="flex" key={name}>
+            <img src={ITEM_DETAILS[name].image} className="h-6 mr-2" />
+            <p className="text-shadow text-center">{`${offer.reward.items[name]} x ${name}`}</p>
+          </div>
+        ))}
 
         <div className="border-t border-white w-full mt-2 pt-1 mb-2">
-          {offer.ingredients?.map((ingredient, index) => {
-            const item = ITEM_DETAILS[ingredient.name];
-            const lessIngredient = new Decimal(
-              inventory[ingredient.name] || 0
-            ).lessThan(ingredient.amount);
+          <p className="text-sm text-center my-2">Your offer</p>
+
+          {getKeys(offer.ingredients).map((ingredientName, index) => {
+            const item = ITEM_DETAILS[ingredientName];
+            const inventoryAmount =
+              inventory[ingredientName]?.toDecimalPlaces(1) || 0;
+            const requiredAmount = offer.ingredients[ingredientName] ?? 0;
+
+            // Ingredient difference
+            const lessIngredient = new Decimal(inventoryAmount).lessThan(
+              requiredAmount
+            );
+
+            // rendering item remnants
+            const renderRemnants = () => {
+              if (lessIngredient) {
+                // if inventory items is less than required items
+                return (
+                  <Label type="danger">{`${inventoryAmount}/${requiredAmount}`}</Label>
+                );
+              }
+              // if inventory items is equal to required items
+              return (
+                <span className="text-xs text-center">
+                  {`${requiredAmount}`}
+                </span>
+              );
+            };
 
             return (
-              <div className="flex justify-center items-end" key={index}>
-                <img src={item.image} className="h-5 me-2" />
-                <span
-                  className={classNames(
-                    "text-xs text-shadow text-center mt-2 ",
-                    {
-                      "text-red-500": lessIngredient,
-                    }
-                  )}
-                >
-                  {ingredient.amount.toNumber()}
-                </span>
+              <div
+                className={`flex items-center space-x-1 ${"w-full"} shrink-0 sm:justify-center my-[1px] sm:mb-1 sm:w-full`}
+                key={index}
+              >
+                <div className="w-5">
+                  <img src={item.image} className="h-5" />
+                </div>
+                {renderRemnants()}
               </div>
             );
           })}
