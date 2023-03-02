@@ -2,6 +2,9 @@ import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
+import Decimal from "decimal.js-light";
+import { getSeasonalTicket } from "features/game/types/seasons";
+import { CONFIG } from "lib/config";
 
 export type FulFillGrubOrderAction = {
   type: "grubOrder.fulfilled";
@@ -55,12 +58,24 @@ export function fulfillGrubOrder({
 
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
 
+  const currentSeasonTicket = getSeasonalTicket();
+
+  let ticketsInInventory =
+    game.inventory[currentSeasonTicket] || new Decimal(0);
+
+  const network = CONFIG.NETWORK as "mumbai" | "mainnet";
+
+  if (network === "mumbai") {
+    ticketsInInventory = ticketsInInventory.add(1);
+  }
+
   return {
     ...state,
     balance: state.balance.add(sfl),
     inventory: {
       ...state.inventory,
       [order.name]: state.inventory[order.name]?.sub(1),
+      [currentSeasonTicket]: ticketsInInventory,
     },
     grubOrdersFulfilled: [
       ...(state.grubOrdersFulfilled || []),

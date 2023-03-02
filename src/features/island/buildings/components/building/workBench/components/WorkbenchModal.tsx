@@ -77,7 +77,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   if (showTutorial) {
     return (
       <Modal show={isOpen} onHide={acknowledge} centered>
-        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
+        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />
       </Modal>
     );
   }

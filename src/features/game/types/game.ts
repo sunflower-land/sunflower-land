@@ -16,7 +16,11 @@ import { DecorationName } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
-import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import {
+  GoblinBlacksmithItemName,
+  GoblinPirateItemName,
+  HeliosBlacksmithItem,
+} from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 
@@ -98,18 +102,22 @@ export type MutantChicken =
 
 export type Coupons =
   | "Trading Ticket"
+  | "Solar Flare Ticket"
   | "War Bond"
   | "Jack-o-lantern"
   | "Golden Crop"
   | "Beta Pass"
   | "Red Envelope"
   | "Love Letter"
-  | "Block Buck";
+  | "Block Buck"
+  | "Solar Flare Ticket"
+  | "Dawn Breaker Ticket";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
+
   "War Bond": {
     description: "A mark of a true warrior",
   },
@@ -131,6 +139,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Block Buck": {
     description:
       "A voucher used for restocking and enhancing your Blockchain experience!",
+  },
+  "Solar Flare Ticket": {
+    description: "A ticket used during the Solar Flare Season",
+  },
+  "Dawn Breaker Ticket": {
+    description: "A ticket used during the Dawn Breaker Season",
   },
 };
 
@@ -188,6 +202,7 @@ export type InventoryItemName =
   | TreasureName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | GoblinPirateItemName
   | TreasureName
   | TreasureToolName;
 
@@ -366,6 +381,14 @@ export type TreasureHole = {
   discovered: InventoryItemName | null;
 };
 
+export type Bid = {
+  sfl: number;
+  ingredients: Partial<Record<InventoryItemName, number>>;
+  item: AuctioneerItemName;
+  bidAt: number;
+  auctionTickets: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -422,6 +445,9 @@ export interface GameState {
       collectedAt: number;
       code: number;
     };
+  };
+  auctioneer: {
+    bid?: Bid;
   };
 }
 

@@ -1,4 +1,3 @@
-import { ValentineIsland } from "features/valentineIsland/ValentineIsland";
 import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
@@ -185,10 +184,6 @@ export const Game: React.FC = () => {
             <Route path="/" element={<Land />} />
             <Route path="/helios" element={<Helios key="helios" />} />
 
-            <Route
-              path="/valentine-island"
-              element={<ValentineIsland key="valentine" />}
-            />
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             {level >= 10 && (
               <Route
@@ -217,7 +212,7 @@ export const Game: React.FC = () => {
 
   return (
     <>
-      <ToastManager />
+      <ToastManager isHoarding={gameState.matches("hoarding")} />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel>

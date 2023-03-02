@@ -34,7 +34,13 @@ export type CookableName =
   | "Sunflower Crunch"
   | "Reindeer Carrot"
   | Cake
-  | JuiceName;
+  | JuiceName
+  | "Bumpkin Roast"
+  | "Goblin Brunch"
+  | "Fruit Salad"
+  | "Kale Omelette"
+  | "Cabbers n Mash"
+  | "Fancy Fries";
 
 export type ConsumableName = CookableName | "Pirate Cake";
 
@@ -342,12 +348,12 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Blueberry Jam",
     description: "Goblins will do anything for this jam",
     building: "Deli",
-    experience: 380,
-    cookingSeconds: 60 * 24 * 60,
+    experience: 500,
+    cookingSeconds: 60 * 60 * 12,
     ingredients: {
       Blueberry: new Decimal(5),
     },
-    marketRate: 550,
+    marketRate: 350,
   },
   "Fermented Carrots": {
     name: "Fermented Carrots",
@@ -519,6 +525,80 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Carrot: new Decimal(10),
     },
     marketRate: 640,
+  },
+
+  "Bumpkin Roast": {
+    name: "Bumpkin Roast",
+    description: "A traditional Bumpkin dish",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 12,
+    experience: 2500,
+    ingredients: {
+      "Mashed Potato": new Decimal(20),
+      "Roast Veggies": new Decimal(5),
+    },
+    marketRate: 1100,
+  },
+  "Goblin Brunch": {
+    name: "Goblin Brunch",
+    description: "A traditional Goblin dish",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 12,
+    experience: 2500,
+    ingredients: {
+      "Boiled Eggs": new Decimal(5),
+      "Goblin's Treat": new Decimal(1),
+    },
+    marketRate: 1100,
+  },
+  "Fruit Salad": {
+    name: "Fruit Salad",
+    description: "Fruit Salad, Yummy Yummy",
+    building: "Kitchen",
+    cookingSeconds: 60 * 30,
+    experience: 225,
+    ingredients: {
+      Apple: new Decimal(1),
+      Orange: new Decimal(1),
+      Blueberry: new Decimal(1),
+    },
+    marketRate: 200,
+  },
+  "Kale Omelette": {
+    name: "Kale Omelette",
+    description: "A healthy breakfast",
+    building: "Fire Pit",
+    cookingSeconds: 60 * 60 * 3.5,
+    experience: 1250,
+    ingredients: {
+      Egg: new Decimal(20),
+      Kale: new Decimal(5),
+    },
+    marketRate: 640,
+  },
+  "Cabbers n Mash": {
+    name: "Cabbers n Mash",
+    description: "Cabbages and Mashed Potatoes",
+    building: "Fire Pit",
+    cookingSeconds: 60 * 40,
+    experience: 250,
+    ingredients: {
+      "Mashed Potato": new Decimal(10),
+      Cabbage: new Decimal(20),
+    },
+    marketRate: 160,
+  },
+  "Fancy Fries": {
+    name: "Fancy Fries",
+    description: "Fantastic Fries",
+    building: "Deli",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 1000,
+    ingredients: {
+      Sunflower: new Decimal(500),
+      Potato: new Decimal(500),
+    },
+    marketRate: 400,
   },
 };
 

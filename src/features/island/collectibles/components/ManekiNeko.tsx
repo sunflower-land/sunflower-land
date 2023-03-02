@@ -7,7 +7,6 @@ import shadow from "assets/npcs/shadow16px.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { COLLECTIBLE_PLACE_SECONDS } from "features/game/events/landExpansion/placeCollectible";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
@@ -28,15 +27,27 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
 
   useUiRefresher();
 
-  const shakeableAt = Math.max(
-    ...manekiNekos.map(
-      (maneki) =>
-        (maneki.shakenAt ?? 0) +
-        (COLLECTIBLE_PLACE_SECONDS["Maneki Neko"] ?? 0) * 1000
-    )
-  );
-  const readyInSeconds = (shakeableAt - Date.now()) / 1000;
-  const hasShakenRecently = Date.now() < shakeableAt;
+  const canShake = (shakenAt?: number) => {
+    if (!shakenAt) return true;
+
+    const today = new Date().toISOString().substring(0, 10);
+
+    return new Date(shakenAt).toISOString().substring(0, 10) !== today;
+  };
+
+  const date = new Date();
+
+  const nextRefreshInSeconds =
+    24 * 60 * 60 -
+    (date.getUTCHours() * 60 * 60 +
+      date.getUTCMinutes() * 60 +
+      date.getUTCSeconds());
+
+  const hasShakenRecently = manekiNekos.some((maneki) => {
+    const shakenAt = maneki.shakenAt || 0;
+
+    return !canShake(shakenAt);
+  });
 
   const [isShaking, setIsShaking] = useState(hasShakenRecently);
   const [isRevealing, setIsRevealing] = useState(false);
@@ -102,7 +113,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
         >
           <TimeLeftPanel
             text="Ready in:"
-            timeLeft={readyInSeconds}
+            timeLeft={nextRefreshInSeconds}
             showTimeLeft={showTooltip}
           />
         </div>

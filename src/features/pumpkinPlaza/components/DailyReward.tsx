@@ -20,12 +20,26 @@ export const DailyReward: React.FC = () => {
 
   useUiRefresher();
 
-  const cooldown = 24 * 60 * 60 * 1000; // 1 day
+  const canOpen = (openedAt?: number) => {
+    if (!openedAt) return true;
+
+    const today = new Date().toISOString().substring(0, 10);
+
+    return new Date(openedAt).toISOString().substring(0, 10) !== today;
+  };
+
+  const date = new Date();
+
+  const nextRefreshInSeconds =
+    24 * 60 * 60 -
+    (date.getUTCHours() * 60 * 60 +
+      date.getUTCMinutes() * 60 +
+      date.getUTCSeconds());
 
   const collectedAt =
     gameState.context.state.pumpkinPlaza?.rewardCollectedAt ?? 0;
-  const readyInSeconds = (collectedAt + cooldown - Date.now()) / 1000;
-  const isReady = readyInSeconds <= 0;
+
+  const isReady = canOpen(collectedAt);
 
   const reveal = () => {
     gameService.send("REVEAL", {
@@ -68,8 +82,9 @@ export const DailyReward: React.FC = () => {
               }}
             />
             <span className="text-center">
-              Come back in {secondsToString(readyInSeconds, { length: "full" })}{" "}
-              for more rewards!
+              Come back in{" "}
+              {secondsToString(nextRefreshInSeconds, { length: "full" })} for
+              more rewards!
             </span>
           </div>
         </CloseButtonPanel>

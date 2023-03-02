@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
@@ -18,6 +19,7 @@ import { Deposit } from "features/goblins/bank/components/Deposit";
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [showDepositModal, setShowDepositModal] = useState(false);
@@ -40,7 +42,7 @@ export const Hud: React.FC = () => {
     setShowDepositModal(true);
   };
 
-  const farmAddress = state.farmAddress as string;
+  const farmAddress = authService.state.context.address as string;
 
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">

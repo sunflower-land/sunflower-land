@@ -8,19 +8,22 @@ import { Action } from "components/ui/Action";
 import { AuctioneerModal } from "./AuctioneerModal";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
-import { Item } from "./actions/auctioneerItems";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { setImageWidth } from "lib/images";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getValidAuctionItems } from "./actions/auctioneerItems";
+import { AuctioneerItemName } from "features/game/types/auctioneer";
 
 export const Auctioneer: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
-  const upcomingItem: Item | undefined = goblinState.context.auctioneerItems
-    .filter((item) => item.releases.some(({ endDate }) => endDate > Date.now()))
-    .sort((a, b) => a.releases[0].endDate - b.releases[0].endDate)[0];
+  // Show their current bid item, or the upcoming item
+  const activeItem: AuctioneerItemName | undefined =
+    goblinState.context.state.auctioneer.bid?.item ??
+    getValidAuctionItems(goblinState.context.auctioneerItems)[0]?.name;
+  console.log({ activeItem });
 
   const isPlaying = goblinState.matches("auctioneer");
 
@@ -48,10 +51,10 @@ export const Auctioneer: React.FC = () => {
             left: `${PIXEL_SCALE * 23}px`,
           }}
         />
-        {upcomingItem && (
+        {activeItem && (
           <img
             className="absolute"
-            src={ITEM_DETAILS[upcomingItem.name].image}
+            src={ITEM_DETAILS[activeItem].image}
             onLoad={(e) => {
               const img = e.currentTarget;
               if (

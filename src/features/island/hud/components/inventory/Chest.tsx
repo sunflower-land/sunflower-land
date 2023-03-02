@@ -16,6 +16,7 @@ import { BEANS } from "features/game/types/beans";
 import { setPrecision } from "lib/utils/formatNumber";
 import {
   GOBLIN_BLACKSMITH_ITEMS,
+  GOBLIN_PIRATE_ITEMS,
   HELIOS_BLACKSMITH_ITEMS,
 } from "features/game/types/collectibles";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -64,6 +65,7 @@ export const Chest: React.FC<Props> = ({
         item in BEANS() ||
         item in HELIOS_BLACKSMITH_ITEMS ||
         item in GOBLIN_BLACKSMITH_ITEMS ||
+        item in GOBLIN_PIRATE_ITEMS ||
         item in DECORATION_DIMENSIONS
       ) {
         return { ...acc, [item]: chestMap[item] };
