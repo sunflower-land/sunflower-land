@@ -22,7 +22,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { InventoryItemName } from "features/game/types/game";
 import sflToken from "assets/icons/token_2.png";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import {
+  getSeasonalTicket,
+  SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER,
+} from "features/game/types/seasons";
 
 interface Props {
   onClose: () => void;
@@ -68,11 +71,11 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     });
 
     const ticket = ITEM_DETAILS[getSeasonalTicket()];
+
     setToast({
       icon: ticket.image,
-      content: `+1`,
+      content: `+${SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER}`,
     });
-    // Show the SFL they gained in a toast
   };
 
   const selectedFulFilled = !!state.grubOrdersFulfilled?.find(
