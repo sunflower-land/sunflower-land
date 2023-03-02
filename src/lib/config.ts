@@ -27,7 +27,6 @@ const BUMPKIN_DETAILS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_DETAILS_CONTRACT as string;
 const BUMPKIN_ITEMS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_ITEMS_CONTRACT as string;
-const HALLOWEEN_CONTRACT = import.meta.env.VITE_HALLOWEEN_CONTRACT as string;
 const TADPOLE_CONTRACT = import.meta.env.VITE_TADPOLE_CONTRACT as string;
 const INCUBATOR_CONTRACT = import.meta.env.VITE_INCUBATOR_CONTRACT as string;
 const WHITELIST_TOKEN_CONTRACT = import.meta.env
@@ -43,7 +42,6 @@ const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
 const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
-const EASTER_EGG_CONTRACT = import.meta.env.VITE_EASTER_EGG_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
 const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
@@ -53,12 +51,6 @@ const GREEDY_GOBLIN_DONATION = import.meta.env
   .VITE_GREEDY_GOBLIN_DONATION as string;
 const CHICKEN_FIGHT_DONATION = import.meta.env
   .VITE_CHICKEN_FIGHT_DONATION as string;
-// Lunar New Year Event Donation Address
-const LUNAR_NEW_YEAR_DONATION = import.meta.env
-  .VITE_LUNAR_NEW_YEAR_DONATION as string;
-// Valentine Event Donation Address
-const VALENTINE_EVENT_DONATION = import.meta.env
-  .VITE_VALENTINE_EVENT_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -84,7 +76,6 @@ export const CONFIG = {
   FROG_DONATION,
   BUMPKIN_DETAILS_CONTRACT,
   BUMPKIN_ITEMS_CONTRACT,
-  HALLOWEEN_CONTRACT,
   TADPOLE_CONTRACT,
   INCUBATOR_CONTRACT,
   WHITELIST_TOKEN_CONTRACT,
@@ -94,7 +85,6 @@ export const CONFIG = {
   BUY_SFL_CONTRACT,
   QUICKSWAP_ROUTER_CONTRACT,
   WMATIC_CONTRACT,
-  EASTER_EGG_CONTRACT,
   SEAL_CONTRACT,
   LOST_AND_FOUND_CONTRACT,
   DEPOSIT_CONTRACT,
@@ -102,8 +92,6 @@ export const CONFIG = {
 
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
-  LUNAR_NEW_YEAR_DONATION,
-  VALENTINE_EVENT_DONATION,
   PROTECTED_IMAGE_URL,
   WEBSOCKET_URL,
 };

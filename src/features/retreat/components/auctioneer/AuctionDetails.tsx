@@ -6,7 +6,6 @@ import bg from "assets/ui/brown_background.png";
 import calendar from "assets/icons/calendar.png";
 
 import { Label } from "components/ui/Label";
-import { AuctioneerItem } from "./actions/auctioneerItems";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
@@ -14,18 +13,16 @@ import { GoblinState } from "features/game/lib/goblinMachine";
 import { getKeys } from "features/game/types/craftables";
 import { setImageWidth } from "lib/images";
 import { formatDateTime, secondsToString } from "lib/utils/time";
-import { InventoryItemName } from "features/game/types/game";
-import classNames from "classnames";
 import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
+import { AuctioneerItem } from "./actions/auctioneerItems";
 
 type Props = {
-  isMinting: boolean;
   item: AuctioneerItem;
   game: GoblinState;
   isUpcomingItem?: boolean;
-  onMint: () => void;
+  onDraftBid: () => void;
 };
 
 type TimeObject = {
@@ -58,14 +55,13 @@ const TimerDisplay = ({ time }: TimeObject) => {
 };
 
 export const AuctionDetails: React.FC<Props> = ({
-  item: { name, releases, totalMinted, currentRelease },
-  isMinting,
   game,
   isUpcomingItem,
-  onMint,
+  item,
+  onDraftBid,
 }) => {
-  const releaseDate = currentRelease?.releaseDate as number;
-  const releaseEndDate = currentRelease?.endDate as number;
+  const releaseDate = item?.releaseDate as number;
+  const releaseEndDate = item?.endDate as number;
   const start = useCountdown(releaseDate);
   const end = useCountdown(releaseEndDate);
 
@@ -85,32 +81,27 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
-  const makeIngredients = (
-    ingredients?: {
-      item: InventoryItemName;
-      amount: number;
-    }[]
-  ) => {
+  const makeIngredients = (ingredients?: AuctioneerItem["ingredients"]) => {
     if (!ingredients) return null;
 
-    return ingredients.map((ingredient) => {
-      const inventoryItemAmount =
-        game.inventory[ingredient.item] ?? new Decimal(0);
-      const hasIngredient = inventoryItemAmount.gte(ingredient.amount);
+    return getKeys(ingredients).map((name) => {
+      const ingredientAmount = ingredients[name] ?? 0;
+      const inventoryItemAmount = game.inventory[name] ?? new Decimal(0);
+      const hasIngredient = inventoryItemAmount.gte(ingredientAmount);
 
       if (!hasIngredient) {
         return (
-          <div className="flex items-center space-x-1" key={ingredient.item}>
-            <img src={ITEM_DETAILS[ingredient.item].image} className="h-5" />
-            <Label type="danger">{`${inventoryItemAmount}/${ingredient.amount}`}</Label>
+          <div className="flex items-center space-x-1" key={name}>
+            <img src={ITEM_DETAILS[name].image} className="h-5" />
+            <Label type="danger">{`${inventoryItemAmount}/${ingredientAmount}`}</Label>
           </div>
         );
       }
 
       return (
-        <div className="flex items-center space-x-1" key={ingredient.item}>
-          <img src={ITEM_DETAILS[ingredient.item].image} className="h-5" />
-          <span className="text-xxs">{ingredient.amount}</span>
+        <div className="flex items-center space-x-1" key={name}>
+          <img src={ITEM_DETAILS[name].image} className="h-5" />
+          <span className="text-xxs">{ingredientAmount}</span>
         </div>
       );
     });
@@ -123,47 +114,24 @@ export const AuctionDetails: React.FC<Props> = ({
     !end.days && !end.hours && !end.minutes && !end.seconds;
 
   const hasIngredients =
-    currentRelease?.ingredients.every((ingredient) =>
-      (game.inventory[ingredient.item] ?? new Decimal(0)).gte(ingredient.amount)
+    getKeys(item.ingredients).every((name) =>
+      (game.inventory[name] ?? new Decimal(0)).gte(item.ingredients[name] ?? 0)
     ) ?? false;
 
-  const focussedRelease = releases.find(
-    (release) => release.endDate > Date.now()
-  );
-
-  const currentSupply = focussedRelease?.supply ?? 0;
-
-  const remainingSupply = currentSupply - (totalMinted ?? 0);
-  const isSoldOut = remainingSupply <= 0;
+  const currentSupply = item.supply;
 
   const SupplyLabel = () => {
     if (isUpcomingItem) return null;
 
-    if (isMintStarted && remainingSupply > 0) {
-      return (
-        <Label type="info" className="mb-2">
-          {`${totalMinted ?? 0}/${currentSupply} Minted`}
-        </Label>
-      );
-    }
-
-    if (isMintStarted && isSoldOut) {
-      return (
-        <Label type="danger" className="mb-2">
-          Sold out
-        </Label>
-      );
-    }
-
     return (
       <Label type="info" className="mb-2">
-        {`Supply: ${remainingSupply}`}
+        {`Supply: ${item.supply}`}
       </Label>
     );
   };
 
   const MintButton = () => {
-    if (isUpcomingItem || isSoldOut) {
+    if (isUpcomingItem) {
       return null;
     }
 
@@ -173,24 +141,22 @@ export const AuctionDetails: React.FC<Props> = ({
 
     return (
       <Button
-        disabled={
-          !isMintStarted || isMintComplete || isMinting || !hasIngredients
-        }
-        onClick={onMint}
+        disabled={!isMintStarted || isMintComplete || !hasIngredients}
+        onClick={onDraftBid}
       >
-        Mint
+        Bid
       </Button>
     );
   };
 
   const AvailableForLabel = (releaseDate: number, endDate: number) => {
+    const diff = endDate - releaseDate;
+    const time = secondsToString(diff / 1000, { length: "full" });
+
     return (
       <div className="flex items-center space-x-2 mb-2">
         <img src={SUNNYSIDE.icons.stopwatch} className="w-4" alt="timer" />
-        <span className="text-xxs">{`Available for ${secondsToString(
-          (endDate - releaseDate) / 1000,
-          { length: "short" }
-        )}`}</span>
+        <span className="text-xxs">{`Auction for ${time}`}</span>
       </div>
     );
   };
@@ -206,15 +172,9 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
-  const moreReleases = isUpcomingItem
-    ? releases
-    : releases.filter(({ releaseDate }) => {
-        if (releaseDate === currentRelease?.releaseDate) return false;
-
-        return releaseDate > Date.now();
-      });
-  const currentSflPrice = Number(currentRelease?.price || new Decimal(0));
-  const boost = AUCTIONEER_ITEMS[name].boost;
+  const name = item.name;
+  const currentSflPrice = Number(item?.price || new Decimal(0));
+  const boost = AUCTIONEER_ITEMS[name]?.boost;
 
   return (
     <div className="w-full p-2 mt-2 flex flex-col items-center">
@@ -262,59 +222,18 @@ export const AuctionDetails: React.FC<Props> = ({
       {!isUpcomingItem && (
         <div className="flex items-center space-x-3 mb-3">
           {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
-          {makeIngredients(currentRelease?.ingredients)}
+          {makeIngredients(item?.ingredients)}
+          <div className="flex items-center space-x-1" key={name}>
+            <img
+              src={ITEM_DETAILS["Solar Flare Ticket"].image}
+              className="h-5"
+            />
+            <span className="text-xxs">?</span>
+          </div>
         </div>
       )}
 
       {MintButton()}
-      {/* More Releases */}
-      {moreReleases.length > 0 && (
-        <div
-          className={classNames("flex flex-col items-start w-full", {
-            "mt-4": !isUpcomingItem,
-          })}
-        >
-          <p className="mb-2">
-            {isUpcomingItem ? "Releases" : "More Releases"}
-          </p>
-          {moreReleases.map((release, index) => {
-            // Upcoming items use full release list - current item slices it so be careful
-            let availableSupplyForRelease = 0;
-
-            if (isUpcomingItem) {
-              const previousSupply = index > 0 ? releases[index - 1].supply : 0;
-              availableSupplyForRelease =
-                (release?.supply ?? 0) - previousSupply;
-            } else {
-              const previousSupply = releases[index].supply;
-              availableSupplyForRelease =
-                (release?.supply ?? 0) - previousSupply;
-            }
-            const sfl = Number(release.price ?? 0);
-
-            return (
-              <div
-                className="border-b last:border-b-0 border-white w-full py-3"
-                key={index}
-              >
-                <div className="flex flex-col items-start w-full">
-                  <Label
-                    type="info"
-                    className="mb-2"
-                  >{`Supply: ${availableSupplyForRelease}`}</Label>
-                  {ReleaseDateLabel(release.releaseDate)}
-                  {AvailableForLabel(release.releaseDate, release.endDate)}
-                </div>
-
-                <div className="flex items-center space-x-3 mb-1">
-                  {sfl > 0 && makeSFLRequiredLabel(sfl)}
-                  {makeIngredients(release.ingredients)}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 };

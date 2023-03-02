@@ -104,6 +104,14 @@ function areAnyChickensFed(game: GoblinState): boolean {
   );
 }
 
+function areAnyTreasureHolesDug(game: GoblinState): boolean {
+  return Object.values(game.treasureIsland?.holes ?? {}).some((hole) => {
+    const today = new Date().toISOString().substring(0, 10);
+
+    return new Date(hole.dugAt).toISOString().substring(0, 10) == today;
+  });
+}
+
 function hasCompletedAchievement(
   game: GoblinState,
   achievement: AchievementName
@@ -227,17 +235,16 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Christmas Bear": true,
   "War Skull": true,
   "War Tombstone": true,
-  "Maneki Neko": false,
-  "Black Bearry": false,
+  "Maneki Neko": true,
+  "Black Bearry": true,
   "Squirrel Monkey": false,
   "Lady Bug": false,
   "Cyborg Bear": true,
   "Collectible Bear": false,
-  "Heart of Davy Jones": false,
   "Heart Balloons": true,
   Flamingo: true,
   "Blossom Tree": true,
-  "Valentine Bear": false,
+  "Valentine Bear": true,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
 
@@ -264,6 +271,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Tunnel Mole": (game) => !areAnyStonesMined(game),
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
+  "Heart of Davy Jones": (game) => !areAnyTreasureHolesDug(game),
 
   "Pirate Bounty": false,
   Pearl: false,
@@ -294,6 +302,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Human Bear": false,
   "Wooden Compass": false,
   "Whale Bear": true,
+  "Iron Idol": false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
