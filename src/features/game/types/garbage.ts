@@ -22,7 +22,7 @@ export type Garbage = {
 
 export const GARBAGE: Record<GarbageName, Garbage> = {
   "Solar Flare Ticket": {
-    sellPrice: marketRate(1),
+    sellPrice: marketRate(0.1),
   },
   "Jack-o-lantern": {
     sellPrice: marketRate(1),

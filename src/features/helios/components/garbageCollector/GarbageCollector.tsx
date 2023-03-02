@@ -13,7 +13,7 @@ import { GarbageCollectorModal } from "./components/GarbageCollectorModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 export const GarbageCollector: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
     setIsOpen(true);
