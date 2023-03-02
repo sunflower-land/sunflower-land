@@ -17,8 +17,10 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getAvailableGameState } from "./transforms";
-import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
-import { fetchAuctioneerDrops } from "../actions/auctioneer";
+import {
+  fetchAuctioneerDrops,
+  OFFLINE_AUCTION_ITEMS,
+} from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 import { getBumpkinLevel } from "./level";
 import { randomID } from "lib/utils/random";
@@ -27,6 +29,7 @@ import { getSessionId } from "lib/blockchain/Sessions";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import { reset } from "features/farming/hud/actions/reset";
+import { AuctioneerItem } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -39,7 +42,7 @@ export interface Context {
   transactionId?: string;
   farmAddress?: string;
   deviceTrackerId?: string;
-  auctioneerItems: Item[];
+  auctioneerItems: AuctioneerItem[];
   auctioneerId: string;
   mintedAtTimes: Partial<Record<InventoryItemName, number>>;
 }
@@ -157,8 +160,8 @@ export function startGoblinVillage(authContext: AuthContext) {
       context: {
         state: API_URL ? EMPTY : OFFLINE_FARM,
         sessionId: INITIAL_SESSION,
-        auctioneerId: "",
-        auctioneerItems: [],
+        auctioneerId: API_URL ? "" : OFFLINE_AUCTION_ITEMS[0].id.toString(),
+        auctioneerItems: API_URL ? [] : OFFLINE_AUCTION_ITEMS,
         mintedAtTimes: {},
       },
       states: {
@@ -213,6 +216,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               game.inventory = availableState.inventory;
               game.farmAddress = onChainState.game.farmAddress;
 
+              console.log({ items });
               return {
                 state: game,
                 mintedAtTimes: onChainState.mintedAtTimes,
@@ -285,9 +289,11 @@ export function startGoblinVillage(authContext: AuthContext) {
             data: {
               token: () => authContext.rawToken,
               farmId: () => authContext.farmId,
+              bid: (context: Context) => context.state.auctioneer.bid,
               sessionId: (context: Context) => context.sessionId,
               auctioneerItems: (context: Context) => context.auctioneerItems,
               auctioneerId: (context: Context) => context.auctioneerId,
+              deviceTrackerId: (context: Context) => context.deviceTrackerId,
             },
             onDone: {
               target: "loading",

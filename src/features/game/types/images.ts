@@ -173,6 +173,8 @@ import ticket from "assets/icons/ticket.png";
 import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
+import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
+import dawnBreakerTicket from "assets/icons/solar_flare_ticket.png";
 
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
@@ -233,6 +235,12 @@ import orangeJuice from "assets/food/orange_juice.png";
 import purpleSmoothie from "assets/food/purple_smoothie.png";
 import bumpkinDetox from "assets/food/bumpkin_detox.png";
 import powerSmoothie from "assets/food/power_smoothie.png";
+import bumpkinRoast from "assets/food/bumpkin_roast.png";
+import goblinBrunch from "assets/food/goblin_brunch.png";
+import fruitSalad from "assets/food/fruit_salad.png";
+import kaleOmelette from "assets/food/kale_omelette.png";
+import cabbersNMash from "assets/food/cabbers_n_mash.png";
+import fancyFries from "assets/food/fancy_fries.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -588,6 +596,30 @@ export const ITEM_DETAILS: Items = {
     description: CONSUMABLES["Power Smoothie"].description,
     image: powerSmoothie,
   },
+  "Bumpkin Roast": {
+    description: CONSUMABLES["Bumpkin Roast"].description,
+    image: bumpkinRoast,
+  },
+  "Goblin Brunch": {
+    description: CONSUMABLES["Goblin Brunch"].description,
+    image: goblinBrunch,
+  },
+  "Fruit Salad": {
+    description: CONSUMABLES["Fruit Salad"].description,
+    image: fruitSalad,
+  },
+  "Kale Omelette": {
+    description: CONSUMABLES["Kale Omelette"].description,
+    image: kaleOmelette,
+  },
+  "Cabbers n Mash": {
+    description: CONSUMABLES["Cabbers n Mash"].description,
+    image: cabbersNMash,
+  },
+  "Fancy Fries": {
+    description: CONSUMABLES["Fancy Fries"].description,
+    image: fancyFries,
+  },
 
   // Resources
   Wood: {
@@ -678,6 +710,7 @@ export const ITEM_DETAILS: Items = {
     description: "Drill deep for rare treasure",
     image: drill,
   },
+
   "Block Buck": {
     description:
       "A voucher used for restocking and enhancing your Blockchain experience!",
@@ -929,6 +962,7 @@ export const ITEM_DETAILS: Items = {
     description: "Free trades! Woohoo!",
     image: ticket,
   },
+
   "Beta Pass": {
     description: "Gain early access to features for testing.",
     image: betaPass,
@@ -1831,5 +1865,16 @@ export const ITEM_DETAILS: Items = {
   "Iron Idol": {
     image: ironIdol,
     description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
+  },
+
+  // Season tickets
+
+  "Solar Flare Ticket": {
+    image: solarFlareTicket,
+    description: "A ticket used during the Solar Flare Season",
+  },
+  "Dawn Breaker Ticket": {
+    image: dawnBreakerTicket,
+    description: "A ticket used during the Dawn Breaker Season",
   },
 };
