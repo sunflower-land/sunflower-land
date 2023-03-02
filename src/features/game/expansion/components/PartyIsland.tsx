@@ -150,7 +150,7 @@ export const PartyIsland: React.FC<Props> = ({ offset }) => {
           src={SUNNYSIDE.icons.expression_chat}
           className="absolute animate-float"
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
+            width: `${PIXEL_SCALE * 9}px`,
             top: `${PIXEL_SCALE * -4}px`,
             left: `${PIXEL_SCALE * 22}px`,
           }}
