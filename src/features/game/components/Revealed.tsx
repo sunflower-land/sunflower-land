@@ -75,20 +75,42 @@ export const Revealed: React.FC<{ onAcknowledged?: () => void }> = ({
                   key={`${name}-${index}`}
                   className="flex flex-col items-center"
                 >
+                  {/* Images */}
                   <div className="flex flex-wrap justify-center items-center mb-2 space-x-2 mt-1">
-                    <img
-                      src={ITEM_DETAILS[name as InventoryItemName].image}
-                      className="mb-2"
-                      onLoad={(e) => setImageWidth(e.currentTarget)}
-                      style={{
-                        opacity: 0,
-                      }}
-                    />
-                    {seasonalTicket && ticketImage()}
-                  </div>
-                  <p className="text-center text-sm mb-2">{`You found ${gameState.context.revealed?.inventory[name]} x ${name}`}</p>
+                    {sfl > 0 && (
+                      <img
+                        src={token}
+                        className="mb-2"
+                        onLoad={(e) => setImageWidth(e.currentTarget)}
+                      />
+                    )}
 
-                  {seasonalTicket && ticketText()}
+                    {items.map((name, index) => (
+                      <img
+                        key={`${name}-${index}`}
+                        src={ITEM_DETAILS[name as InventoryItemName].image}
+                        className="mb-2"
+                        onLoad={(e) => setImageWidth(e.currentTarget)}
+                        style={{
+                          opacity: 0,
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Text*/}
+                  <div>
+                    <p className="text-center text-sm mb-2">You found</p>
+                    {sfl > 0 && (
+                      <p className="text-center text-sm mb-2">{`${sfl} SFL`}</p>
+                    )}
+                    {items.map((name, index) => (
+                      <p
+                        key={`${name}-${index}`}
+                        className="text-center text-sm mb-2"
+                      >{`${gameState.context.revealed?.inventory[name]} x ${name}`}</p>
+                    ))}
+                  </div>
                 </div>
               )
           )}
