@@ -7,7 +7,6 @@ import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
-import { Button } from "components/ui/Button";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { upcomingParty } from "features/pumpkinPlaza/lib/streaming";
 import { useNavigate, useParams } from "react-router-dom";
@@ -54,9 +53,12 @@ export const PartyIsland: React.FC = () => {
               {`The Pumpkin Plaza is hosting a special party!`}
             </p>
             <p className="text-sm mb-3">
-              Meet the team, collect rewards and interact with other Bumpkins.
+              Meet the team and interact with other Bumpkins.
             </p>
-            <div className="flex flex-wrap">
+            <p className="text-sm italic">
+              Coming soon. This is an experimental feature being tested.
+            </p>
+            {/* <div className="flex flex-wrap">
               <p className="text-sm mr-2 mb-2">Next party:</p>
               <div className="flex mb-2 items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
                 <img
@@ -69,11 +71,11 @@ export const PartyIsland: React.FC = () => {
                   party.endAt
                 ).toLocaleTimeString()}`}</span>
               </div>
-            </div>
+            </div> */}
           </div>
-          <Button disabled={!isPartyActive} onClick={goToParty}>
+          {/* <Button disabled={!isPartyActive} onClick={goToParty}>
             Go to Pumpkin Plaza
-          </Button>
+          </Button> */}
         </CloseButtonPanel>
       </Modal>
 
