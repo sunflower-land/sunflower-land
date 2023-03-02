@@ -4,16 +4,16 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import building from "assets/buildings/garbage.png";
 import stall from "assets/buildings/garbage_stall.png";
-import shadow from "assets/npcs/shadow.png";
 
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { GarbageCollectorModal } from "./components/GarbageCollectorModal";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const GarbageCollector: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
 
   const handleClick = () => {
     setIsOpen(true);
@@ -43,28 +43,21 @@ export const GarbageCollector: React.FC = () => {
             bottom: `${PIXEL_SCALE * 6}px`,
           }}
         />
-        <img
-          src={shadow}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 32}px`,
-            bottom: `${PIXEL_SCALE * 12}px`,
-          }}
-        />
+
         <div
           className="absolute z-10"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
             left: `${PIXEL_SCALE * 32}px`,
-            bottom: `${PIXEL_SCALE * 17}px`,
+            bottom: `${PIXEL_SCALE * 41}px`,
           }}
         >
           <NPC body="Goblin Potion" hair="Teal Mohawk" shirt="Fire Shirt" />
         </div>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Panel
+        <CloseButtonPanel
+          onClose={() => setIsOpen(false)}
           bumpkinParts={{
             body: "Goblin Potion",
             hair: "Teal Mohawk",
@@ -72,22 +65,15 @@ export const GarbageCollector: React.FC = () => {
             shirt: "Fire Shirt",
             tool: "Bumpkin Puppet",
           }}
+          tabs={[
+            {
+              icon: ITEM_DETAILS["Solar Flare Ticket"].image,
+              name: "Sell",
+            },
+          ]}
         >
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={() => setIsOpen(false)}
-            style={{
-              top: `${PIXEL_SCALE * 6}px`,
-              right: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-          <div className="p-1">
-            <p className="mb-4">I am the potion master!</p>
-            <p className="mb-2">Give me some time to set up shop.</p>
-          </div>
-        </Panel>
+          <GarbageCollectorModal />
+        </CloseButtonPanel>
       </Modal>
     </MapPlacement>
   );

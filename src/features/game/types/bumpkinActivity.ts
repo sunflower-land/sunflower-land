@@ -7,6 +7,7 @@ import { BeanName } from "./beans";
 import { HeliosBlacksmithItem } from "./collectibles";
 import { DecorationName } from "./decorations";
 import { FruitName, FruitSeedName } from "./fruits";
+import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { BeachBountyTreasure, TreasureName } from "./treasure";
@@ -17,7 +18,8 @@ type SellableName =
   | Food
   | FruitName
   | BeachBountyTreasure
-  | FruitName;
+  | FruitName
+  | GarbageName;
 
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
