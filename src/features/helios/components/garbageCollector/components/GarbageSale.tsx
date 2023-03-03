@@ -58,7 +58,14 @@ export const GarbageSale: React.FC = () => {
           className="text-xxs sm:text-xs"
           onClick={() => sell(1)}
         >
-          Sell
+          Sell 1
+        </Button>
+        <Button
+          disabled={amount.lt(1)}
+          className="text-xxs sm:text-xs"
+          onClick={() => sell(10)}
+        >
+          Sell 10
         </Button>
       </div>
     );
