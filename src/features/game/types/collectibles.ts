@@ -153,7 +153,8 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     supply: 3000,
   },
   "Blossom Tree": {
-    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love",
     ingredients: {
       "Love Letter": new Decimal(350),
       Wood: new Decimal(500),
