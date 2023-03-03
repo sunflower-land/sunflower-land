@@ -403,6 +403,17 @@ export const TEST_FARM: GameState = {
     ],
   },
   bumpkin: INITIAL_BUMPKIN,
+  choreMaster: {
+    choresCompleted: 0,
+    chore: {
+      activity: "Sunflower Harvested",
+      requirement: 10,
+      reward: {
+        items: { "Solar Flare Ticket": 1 },
+      },
+      description: "Harvest 10 Sunflowers",
+    },
+  },
 
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
@@ -487,6 +498,17 @@ export const EMPTY: GameState = {
   pumpkinPlaza: {},
   dailyRewards: {},
   auctioneer: {},
+  choreMaster: {
+    choresCompleted: 0,
+    chore: {
+      activity: "Sunflower Harvested",
+      requirement: 10,
+      reward: {
+        items: { "Solar Flare Ticket": 1 },
+      },
+      description: "Harvest 10 Sunflowers",
+    },
+  },
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

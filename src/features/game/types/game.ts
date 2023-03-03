@@ -23,6 +23,7 @@ import {
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
+import { Chore } from "./chores";
 
 export type Reward = {
   sfl?: Decimal;
@@ -389,6 +390,16 @@ export type Bid = {
   auctionTickets: number;
 };
 
+export type ChoreMaster = {
+  choresCompleted: number;
+  chore: Chore;
+  progress?: {
+    bumpkinId: number;
+    startedAt: number;
+    startCount: number;
+  };
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -449,6 +460,7 @@ export interface GameState {
   auctioneer: {
     bid?: Bid;
   };
+  choreMaster: ChoreMaster;
 }
 
 export interface Context {
