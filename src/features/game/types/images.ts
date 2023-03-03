@@ -1839,7 +1839,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Blossom Tree": {
     description:
-      "Its delicate petals symbolizes the beauty and fragility of love",
+      "Its delicate petals symbolizes the beauty and fragility of love.",
     image: blossomTree,
   },
   Pearl: {
