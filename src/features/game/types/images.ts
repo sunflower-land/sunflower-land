@@ -1838,7 +1838,8 @@ export const ITEM_DETAILS: Items = {
     image: flamingo,
   },
   "Blossom Tree": {
-    description: "Tall, beachy, shady and chic, palm trees make waves sashay..",
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love",
     image: blossomTree,
   },
   Pearl: {
