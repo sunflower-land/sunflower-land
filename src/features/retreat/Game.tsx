@@ -8,7 +8,6 @@ import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHou
 import { RetreatHotAirBalloon } from "./components/hotAirBalloon/RetreatHotAirBalloon";
 import { RetreatTailor } from "./components/tailor/RetreatTailor";
 import { RetreatBlacksmith } from "./components/blacksmith/RetreatBlacksmith";
-import { Auctioneer } from "./components/auctioneer/Auctioneer";
 import { Resale } from "./components/resale/Resale";
 import { RetreatWishingWell } from "./components/wishingWell/RetreatWishingWell";
 import { IslandTravelWrapper } from "./components/islandTravel/IslandTravelWrapper";
@@ -147,7 +146,7 @@ export const Game = () => {
               <RetreatBlacksmith
                 inventory={goblinState.context.state.inventory}
               />
-              <Auctioneer />
+              {/* <Auctioneer /> */}
               <RetreatPirate />
               <Resale />
               <RetreatWishingWell />

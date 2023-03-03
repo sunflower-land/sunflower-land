@@ -111,6 +111,9 @@ import { Flamingo } from "./components/Flamingo";
 import { BlossomTree } from "./components/BlossomTree";
 import { IronIdol } from "./components/IronIdol";
 import { ValentineBear } from "./components/ValentineBear";
+import { BeachBall } from "./components/BeachBall";
+import { PalmTree } from "./components/PalmTree";
+import { Karkinos } from "./components/Karkinos";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -253,6 +256,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Blossom Tree": BlossomTree,
   "Valentine Bear": ValentineBear,
   "Iron Idol": IronIdol,
+
+  // Seasonal Items
+  "Beach Ball": BeachBall,
+  "Palm Tree": PalmTree,
+  Karkinos: Karkinos,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
