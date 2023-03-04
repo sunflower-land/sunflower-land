@@ -20,7 +20,6 @@ import { CONFIG } from "lib/config";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
-import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -114,8 +113,6 @@ export const Navigation: React.FC = () => {
               />
               <Route path=":id" element={<Retreat key="retreat" />} />
             </Route>
-
-            <Route path="/explore" element={<PumpkinPlaza />} />
 
             {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
