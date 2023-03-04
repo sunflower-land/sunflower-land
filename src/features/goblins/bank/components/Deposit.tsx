@@ -21,6 +21,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
+import { getItemUnit } from "features/game/lib/conversion";
 
 type Status = "loading" | "loaded" | "error";
 
@@ -119,8 +120,8 @@ export const Deposit: React.FC<Props> = ({
 
   const handleDeposit = async () => {
     const itemIds = selectedItems.map((item) => KNOWN_IDS[item]);
-    const itemAmounts = selectedItems.map(
-      (item) => inventoryToDeposit[item]?.toNumber() as number
+    const itemAmounts = selectedItems.map((item) =>
+      toWei(inventoryToDeposit[item]?.toString() as string, getItemUnit(item))
     );
 
     onDeposit({
@@ -159,8 +160,12 @@ export const Deposit: React.FC<Props> = ({
     <>
       {status === "loading" && <Loading />}
       {status === "loaded" && emptyWallet && (
-        <div className="p-2">
+        <div className="p-2 space-y-2">
           <p>No SFL or Collectibles Found!</p>
+          <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
+            <span className="whitespace-nowrap">Farm address:</span>
+            <CopyAddress address={farmAddress} />
+          </div>
         </div>
       )}
       {status === "loaded" && !emptyWallet && (

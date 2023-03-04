@@ -1,4 +1,3 @@
-import { ValentineIsland } from "features/valentineIsland/ValentineIsland";
 import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
@@ -42,7 +41,7 @@ import { IslandNotFound } from "./components/IslandNotFound";
 import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
 import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
-import { hasFeatureAccess } from "lib/flags";
+import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -186,14 +185,8 @@ export const Game: React.FC = () => {
             <Route path="/" element={<Land />} />
             <Route path="/helios" element={<Helios key="helios" />} />
 
-            <Route
-              path="/valentine-island"
-              element={<ValentineIsland key="valentine" />}
-            />
-            {hasFeatureAccess(
-              gameState.context.state.inventory,
-              "PUMPKIN_PLAZA"
-            ) && <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />}
+            <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
+            <Route path="/beach" element={<BeachParty key="beach-party" />} />
             {level >= 10 && (
               <Route
                 path="/treasure-island"
@@ -221,7 +214,7 @@ export const Game: React.FC = () => {
 
   return (
     <>
-      <ToastManager />
+      <ToastManager isHoarding={gameState.matches("hoarding")} />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel>

@@ -1405,6 +1405,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/713.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
+
   "Beta Pass": {
     name: "Beta Pass",
     description: "Gain early access to features for testing.",
@@ -2915,7 +2916,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around. 1/2 Orange Tree grow time.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/443.png",
+    image_url: "../public/erc1155/images/443.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Black Bearry": {
@@ -2923,7 +2924,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful! +1 Blueberry each Harvest",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/444.png",
+    image_url: "../public/erc1155/images/444.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Devil Bear": {
@@ -3118,7 +3119,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Use them as decorations for romantic occasions.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/451.png",
     attributes: [],
   },
   Flamingo: {
@@ -3126,7 +3127,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Represents a symbol of love's beauty standing tall and confident.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/452.png",
     attributes: [],
   },
   "Blossom Tree": {
@@ -3134,14 +3135,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Its delicate petals symbolizes the beauty and fragility of love.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/453.png",
     attributes: [],
   },
   "Love Letter": {
     description: "Convey feelings of love",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/717.png",
     attributes: [],
   },
   "Treasure Map": {
@@ -3215,6 +3216,71 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1240.png",
+    attributes: [],
+  },
+  "Iron Idol": {
+    description: "The Idol adds 1 iron every time you mine iron.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/454.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Bumpkin Roast": {
+    description:
+      "A traditional Bumpkin dish. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/541.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Goblin Brunch": {
+    description: "A traditional Goblin dish. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/542.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Fruit Salad": {
+    description: "Fruit Salad. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/543.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Kale Omelette": {
+    description: "A healthy breakfast. You can can cook this at the Fire Pit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/544.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Cabbers n Mash": {
+    description:
+      "Cabbages and Mashed Potatoes. You can can cook this at the Fire Pit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/545.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Fancy Fries": {
+    description: "Fantastic Fries. You can cook this at the Deli.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/546.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Solar Flare Ticket": {
+    description: "A ticket used during the Solar Flare Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/719.png",
+    attributes: [],
+  },
+  "Dawn Breaker Ticket": {
+    description: "A ticket used during the Dawn Breaker Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/720.png",
     attributes: [],
   },
 };
