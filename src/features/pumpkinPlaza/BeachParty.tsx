@@ -1,30 +1,30 @@
 import React, { useContext, useLayoutEffect } from "react";
 import { useActor } from "@xstate/react";
 
-import background from "assets/land/pumpkin_island.png";
+import background from "assets/land/beach_party.png";
 
 import { Context } from "features/game/GameProvider";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { Hud } from "features/island/hud/Hud";
 
 import { upcomingParty } from "./lib/streaming";
 import { hasFeatureAccess } from "lib/flags";
 
+import { ALLOWED_BEACH_AREA } from "./lib/restrictedArea";
 import { Room } from "./Room";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { ALLOWED_PLAZA_AREA } from "./lib/restrictedArea";
 
-const ROOM_ID = "pumpkinPlaza";
+const ROOM_ID = "beachParty";
 
-export const PumpkinPlaza: React.FC = () => {
+export const BeachParty: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
     // Start with island centered
-    scrollIntoView(Section.PumpkinPlaza, "auto");
+    scrollIntoView(Section.BeachParty, "auto");
   }, []);
 
   const party = upcomingParty();
@@ -40,20 +40,20 @@ export const PumpkinPlaza: React.FC = () => {
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: `${15 * GRID_WIDTH_PX}px`,
-          height: `${17 * GRID_WIDTH_PX}px`,
+          width: `${270 * PIXEL_SCALE}px`,
+          height: `${216 * PIXEL_SCALE}px`,
         }}
       >
         <img
           src={background}
           className="absolute inset-0 w-full h-full"
-          id={Section.PumpkinPlaza}
+          id={Section.BeachParty}
         />
       </div>
       <Hud isFarming={false} />
       <Room
         canAccess={isPartyActive}
-        allowedArea={ALLOWED_PLAZA_AREA}
+        allowedArea={ALLOWED_BEACH_AREA}
         roomId={ROOM_ID}
         spawnPoint={{
           x: 1750,

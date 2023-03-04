@@ -15,7 +15,11 @@ export const RestrictedHelper: React.FC<Props> = ({
   const lastPosition = useRef(position);
 
   useEffect(() => {
-    if (lastPosition.current !== position) {
+    if (
+      lastPosition.current.x !== position.x &&
+      lastPosition.current.y !== position.y
+    ) {
+      console.log({ lastPosition: lastPosition.current, position });
       setIsHidden(false);
 
       setTimeout(() => setIsHidden(true), 300);
