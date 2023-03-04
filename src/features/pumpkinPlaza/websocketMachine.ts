@@ -10,6 +10,7 @@ import {
   acknowledgeCodeOfConduct,
   getCodeOfConductLastRead,
 } from "features/announcements/announcementsStorage";
+import { loadRoom } from "./actions/loadRoom";
 
 export interface ChatContext {
   currentPosition: Coordinates;
@@ -21,6 +22,7 @@ export interface ChatContext {
   messages: ChatMessage[];
   discoveries: BumpkinDiscovery[];
   accountId: number;
+  roomId: string;
   jwt: string;
   kickedAt?: number;
 }
@@ -33,6 +35,7 @@ export type ChatState = {
     | "loadingPlayers"
     | "connected"
     | "closed"
+    | "full"
     | "kicked"
     | "disconnecting"
     | "disconnected"
@@ -167,6 +170,7 @@ export const websocketMachine = createMachine<
     lastPosition: { x: 0, y: 0 },
     canAccess: false,
     kickedAt: 0,
+    roomId: "",
   },
   states: {
     initialising: {
@@ -192,7 +196,7 @@ export const websocketMachine = createMachine<
           },
         },
         {
-          target: "connecting",
+          target: "loadingPlayers",
         },
       ],
     },
@@ -206,6 +210,41 @@ export const websocketMachine = createMachine<
         },
       },
     },
+    loadingPlayers: {
+      invoke: {
+        id: "loadingPlayers",
+        src: async (context) => {
+          if (!CONFIG.WEBSOCKET_URL) {
+            return { bumpkins: OFFLINE_BUMPKINS };
+          }
+
+          const { players, isFull } = await loadRoom({
+            token: context.jwt,
+            roomId: context.roomId,
+          });
+
+          return {
+            bumpkins: players,
+            isFull,
+          };
+        },
+        onDone: [
+          {
+            target: "full",
+            cond: (_, event) => event.data.isFull,
+          },
+          {
+            target: "connecting",
+            actions: assign({
+              bumpkins: (_, event) => event.data.bumpkins,
+            }),
+          },
+        ],
+        onError: {
+          target: "error",
+        },
+      },
+    },
     connecting: {
       invoke: {
         id: "socket",
@@ -215,11 +254,11 @@ export const websocketMachine = createMachine<
           }
 
           const socket = new WebSocket(
-            `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&farmId=${
-              context.accountId
-            }&x=${Math.floor(context.currentPosition?.x)}&y=${Math.floor(
-              context.currentPosition?.y
-            )}`
+            `${CONFIG.WEBSOCKET_URL}?token=${context.jwt}&roomId=${
+              context.roomId
+            }&farmId=${context.accountId}&x=${Math.floor(
+              context.currentPosition?.x
+            )}&y=${Math.floor(context.currentPosition?.y)}`
           );
 
           await new Promise((res) => {
@@ -229,7 +268,7 @@ export const websocketMachine = createMachine<
           return { socket };
         },
         onDone: {
-          target: "loadingPlayers",
+          target: "connected",
           actions: assign({
             socket: (_, event) => event.data.socket,
           }),
@@ -239,58 +278,7 @@ export const websocketMachine = createMachine<
         },
       },
     },
-    loadingPlayers: {
-      invoke: {
-        id: "loadingPlayers",
-        src: async (context) => {
-          if (!CONFIG.WEBSOCKET_URL) {
-            return { bumpkins: OFFLINE_BUMPKINS };
-          }
 
-          context.socket?.send(
-            JSON.stringify({
-              action: "loadPlayers",
-            })
-          );
-
-          const bumpkins: Player[] = await new Promise((res) => {
-            const listener = function (event: any) {
-              const body = parseWebsocketMessage(event.data);
-              if (body.type === "playersLoaded") {
-                context.socket?.removeEventListener("message", listener);
-
-                res(body.connections);
-                return;
-              }
-            };
-
-            context.socket?.addEventListener("message", listener);
-          });
-
-          return { bumpkins };
-        },
-        onDone: {
-          target: "connected",
-          actions: assign({
-            bumpkins: (context, event) => event.data.bumpkins,
-          }),
-        },
-        onError: {
-          target: "error",
-        },
-      },
-      on: {
-        DISCONNECT: {
-          target: "disconnected",
-          actions: [
-            (context) => context.socket?.close(),
-            assign({
-              socket: (_) => undefined,
-            }),
-          ],
-        },
-      },
-    },
     connected: {
       invoke: {
         src: (context) => (cb) => {
@@ -514,5 +502,6 @@ export const websocketMachine = createMachine<
     },
     closed: {},
     kicked: {},
+    full: {},
   },
 });
