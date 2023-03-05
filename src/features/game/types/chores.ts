@@ -14,7 +14,7 @@ export type Chore = {
 export const CHORES: Chore[] = [
   {
     activity: "Sunflower Harvested",
-    description: "Harvest 25 Sunflowers",
+    description: "Harvest 2 Sunflowers",
     requirement: 2,
     reward: {
       items: {

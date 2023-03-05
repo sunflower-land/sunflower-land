@@ -52,9 +52,10 @@ export function completeChore({ state }: Options): GameState {
     );
   });
 
-  // Cycle the chore
+  // Front-end testing only - real chore is hidden as a surpise on the backend
   const nextChoreIndex = (game.hayseedHank.choresCompleted + 1) % CHORES.length;
   const nextChore = CHORES[nextChoreIndex];
+  game.hayseedHank.chore = nextChore;
 
   game.hayseedHank.choresCompleted += 1;
   delete game.hayseedHank.progress;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -7,8 +7,14 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { HayseedHankModal } from "./components/HayseedHankModal";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 export const HayseedHank: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -35,6 +41,17 @@ export const HayseedHank: React.FC = () => {
             pants="Farmer Pants"
             hair="Sun Spots"
           />
+          {!gameState.context.state.hayseedHank.progress && (
+            <img
+              src={SUNNYSIDE.icons.expression_alerted}
+              className="absolute animate-float"
+              style={{
+                width: `${PIXEL_SCALE * 3}px`,
+                bottom: `${PIXEL_SCALE * -4}px`,
+                left: `${PIXEL_SCALE * 7}px`,
+              }}
+            />
+          )}
         </div>
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
@@ -44,6 +61,7 @@ export const HayseedHank: React.FC = () => {
             shirt: "Hawaiian Shirt",
             pants: "Farmer Pants",
             hair: "Sun Spots",
+            tool: "Parsnip",
           }}
           onClose={() => setIsOpen(false)}
         >
