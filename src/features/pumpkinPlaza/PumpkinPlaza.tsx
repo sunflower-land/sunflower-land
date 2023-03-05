@@ -15,7 +15,7 @@ import { Room } from "./Room";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { ALLOWED_PLAZA_AREA } from "./lib/restrictedArea";
 
-const ROOM_ID = "pumpkinPlaza";
+export const PLAZA_ROOM_ID = "plaza";
 
 export const PumpkinPlaza: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -44,20 +44,24 @@ export const PumpkinPlaza: React.FC = () => {
           height: `${17 * GRID_WIDTH_PX}px`,
         }}
       >
-        <img
-          src={background}
-          className="absolute inset-0 w-full h-full"
-          id={Section.PumpkinPlaza}
-        />
+        <img src={background} className="absolute inset-0 w-full h-full" />
       </div>
       <Hud isFarming={false} />
       <Room
         canAccess={isPartyActive}
         allowedArea={ALLOWED_PLAZA_AREA}
-        roomId={ROOM_ID}
+        roomId={PLAZA_ROOM_ID}
         spawnPoint={{
           x: 1750,
           y: 1480,
+        }}
+      />
+      <div
+        id={Section.PumpkinPlaza}
+        className="absolute"
+        style={{
+          left: 1750,
+          top: 1480,
         }}
       />
       <IslandTravel

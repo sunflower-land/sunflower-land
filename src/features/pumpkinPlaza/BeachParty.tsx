@@ -15,7 +15,7 @@ import { ALLOWED_BEACH_AREA } from "./lib/restrictedArea";
 import { Room } from "./Room";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-const ROOM_ID = "beachParty";
+export const BEACH_ROOM_ID = "beach";
 
 export const BeachParty: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -44,26 +44,30 @@ export const BeachParty: React.FC = () => {
           height: `${216 * PIXEL_SCALE}px`,
         }}
       >
-        <img
-          src={background}
-          className="absolute inset-0 w-full h-full"
-          id={Section.BeachParty}
-        />
+        <img src={background} className="absolute inset-0 w-full h-full" />
       </div>
       <Hud isFarming={false} />
       <Room
         canAccess={isPartyActive}
         allowedArea={ALLOWED_BEACH_AREA}
-        roomId={ROOM_ID}
+        roomId={BEACH_ROOM_ID}
         spawnPoint={{
           x: 1750,
-          y: 1480,
+          y: 1400,
+        }}
+      />
+      <div
+        id={Section.BeachParty}
+        className="absolute"
+        style={{
+          left: 1750,
+          top: 1400,
         }}
       />
       <IslandTravel
         inventory={gameState.context.state.inventory}
         bumpkin={gameState.context.state.bumpkin}
-        x={1.5}
+        x={0.5}
         y={-5.5}
         onTravelDialogOpened={() => gameService.send("SAVE")}
         travelAllowed={!gameState.matches("autosaving")}

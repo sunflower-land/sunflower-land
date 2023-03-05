@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect } from "react";
 import { useActor } from "@xstate/react";
 
-import background from "assets/land/hq.png";
+import background from "assets/land/stone_haven.webp";
 
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -11,13 +11,13 @@ import { Hud } from "features/island/hud/Hud";
 import { upcomingParty } from "./lib/streaming";
 import { hasFeatureAccess } from "lib/flags";
 
-import { ALLOWED_HQ_AREA } from "./lib/restrictedArea";
+import { ALLOWED_STONE_HAVEN_AREA } from "./lib/restrictedArea";
 import { Room } from "./Room";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-export const HQ_ROOM_ID = "headquarters";
+export const STONE_HAVEN_ROOM_ID = "stoneHaven";
 
-export const HeadQuarters: React.FC = () => {
+export const StoneHaven: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [scrollIntoView] = useScrollIntoView();
@@ -40,8 +40,8 @@ export const HeadQuarters: React.FC = () => {
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: `${240 * PIXEL_SCALE}px`,
-          height: `${276 * PIXEL_SCALE}px`,
+          width: `${315 * PIXEL_SCALE}px`,
+          height: `${423 * PIXEL_SCALE}px`,
         }}
       >
         <img src={background} className="absolute inset-0 w-full h-full" />
@@ -49,26 +49,26 @@ export const HeadQuarters: React.FC = () => {
       <Hud isFarming={false} />
       <Room
         canAccess={isPartyActive}
-        allowedArea={ALLOWED_HQ_AREA}
-        roomId={HQ_ROOM_ID}
+        allowedArea={ALLOWED_STONE_HAVEN_AREA}
+        roomId={STONE_HAVEN_ROOM_ID}
         spawnPoint={{
-          x: 1830,
-          y: 1480,
+          x: 1750,
+          y: 1680,
         }}
       />
       <div
         id={Section.BeachParty}
         className="absolute"
         style={{
-          left: 1830,
-          top: 1480,
+          left: 1750,
+          top: 1680,
         }}
       />
       <IslandTravel
         inventory={gameState.context.state.inventory}
         bumpkin={gameState.context.state.bumpkin}
         x={1.5}
-        y={-7.5}
+        y={-12.5}
         onTravelDialogOpened={() => gameService.send("SAVE")}
         travelAllowed={!gameState.matches("autosaving")}
       />
