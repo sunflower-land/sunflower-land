@@ -25,6 +25,12 @@ const TAB_CONTENT_HEIGHT = 364;
 
 const API_URL = CONFIG.API_URL;
 
+const ALLOW_MULTIPLE_MINTS: InventoryItemName[] = [
+  "Heart Balloons",
+  "Flamingo",
+  "Blossom Tree",
+];
+
 interface Props {
   onClose: () => void;
 }
@@ -148,8 +154,10 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
       return <span className="text-xs text-center block">Coming soon</span>;
     }
 
-    console.log({ mintedAtTimes });
-    if (mintedAtTimes[selectedName])
+    if (
+      mintedAtTimes[selectedName] &&
+      !ALLOW_MULTIPLE_MINTS.includes(selectedName)
+    )
       return (
         <div className="flex flex-col text-center mt-2 border-y border-white w-full">
           <p className="text-xxs my-2">Already minted!</p>
