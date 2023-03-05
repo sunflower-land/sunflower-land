@@ -1,6 +1,6 @@
 import React from "react";
 import classnames from "classnames";
-import { pixelWhiteBorderStyle } from "features/game/lib/style";
+import { pixelGrayBorderStyle } from "features/game/lib/style";
 
 type labelType =
   | "default"
@@ -13,17 +13,23 @@ type labelType =
 interface Props {
   className?: string;
   type?: labelType;
+  style?: React.CSSProperties;
 }
-export const Label: React.FC<Props> = ({ children, className, type }) => {
+export const Label: React.FC<Props> = ({
+  children,
+  className,
+  type,
+  style,
+}) => {
   return (
     <>
       {type === "default" && (
         <div
           className={classnames(
-            "bg-silver-300 text-white text-xxs object-contain justify-center items-center flex px-1",
+            "bg-silver-500 text-xxs object-contain justify-center items-center flex px-1",
             className
           )}
-          style={pixelWhiteBorderStyle}
+          style={{ ...pixelGrayBorderStyle, ...style }}
         >
           <span
             style={{
@@ -39,7 +45,7 @@ export const Label: React.FC<Props> = ({ children, className, type }) => {
       {type !== "default" && (
         <span
           className={classnames(
-            "text-white text-xxs px-1.5 pb-1 pt-0.5 rounded-md",
+            "text-xxs px-1.5 pb-1 pt-0.5 rounded-md",
             {
               "bg-green-600": type === "success",
               "bg-blue-600": type === "info",
@@ -49,6 +55,7 @@ export const Label: React.FC<Props> = ({ children, className, type }) => {
             },
             className
           )}
+          style={style}
         >
           {children}
         </span>

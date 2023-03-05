@@ -10,7 +10,7 @@ type JuiceName =
   | "Power Smoothie"
   | "Bumpkin Detox";
 
-export type ConsumableName =
+export type CookableName =
   | "Mashed Potato"
   | "Pumpkin Soup"
   | "Bumpkin Broth"
@@ -34,11 +34,19 @@ export type ConsumableName =
   | "Sunflower Crunch"
   | "Reindeer Carrot"
   | Cake
-  | JuiceName;
+  | JuiceName
+  | "Bumpkin Roast"
+  | "Goblin Brunch"
+  | "Fruit Salad"
+  | "Kale Omelette"
+  | "Cabbers n Mash"
+  | "Fancy Fries";
 
-export type Consumable = {
+export type ConsumableName = CookableName | "Pirate Cake";
+
+export type Cookable = {
   experience: number;
-  name: ConsumableName;
+  name: CookableName;
   description: string;
   ingredients: Inventory;
   cookingSeconds: number;
@@ -48,7 +56,12 @@ export type Consumable = {
   disabled?: boolean;
 };
 
-export const CONSUMABLES: Record<ConsumableName, Consumable> = {
+export type Consumable = Omit<
+  Cookable,
+  "name" | "ingredients" | "cookingSeconds" | "building" | "marketRate"
+> & { name: ConsumableName };
+
+export const COOKABLES: Record<CookableName, Cookable> = {
   "Mashed Potato": {
     name: "Mashed Potato",
     description: "My life is potato.",
@@ -99,7 +112,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
 
   "Kale Stew": {
     name: "Kale Stew",
-    description: "A perfect Bumpkin Booster",
+    description: "A perfect Bumpkin Booster!",
     building: "Fire Pit",
     cookingSeconds: 60 * 60 * 2,
     ingredients: {
@@ -164,7 +177,7 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
 
   Pancakes: {
     name: "Pancakes",
-    description: "A great start to a Bumpkins day",
+    description: "A great start to a Bumpkins day.",
     experience: 480,
     building: "Kitchen",
     cookingSeconds: 60 * 20,
@@ -335,12 +348,12 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     name: "Blueberry Jam",
     description: "Goblins will do anything for this jam",
     building: "Deli",
-    experience: 380,
-    cookingSeconds: 60 * 24 * 60,
+    experience: 500,
+    cookingSeconds: 60 * 60 * 12,
     ingredients: {
       Blueberry: new Decimal(5),
     },
-    marketRate: 550,
+    marketRate: 350,
   },
   "Fermented Carrots": {
     name: "Fermented Carrots",
@@ -513,12 +526,99 @@ export const CONSUMABLES: Record<ConsumableName, Consumable> = {
     },
     marketRate: 640,
   },
+
+  "Bumpkin Roast": {
+    name: "Bumpkin Roast",
+    description: "A traditional Bumpkin dish",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 12,
+    experience: 2500,
+    ingredients: {
+      "Mashed Potato": new Decimal(20),
+      "Roast Veggies": new Decimal(5),
+    },
+    marketRate: 1100,
+  },
+  "Goblin Brunch": {
+    name: "Goblin Brunch",
+    description: "A traditional Goblin dish",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 12,
+    experience: 2500,
+    ingredients: {
+      "Boiled Eggs": new Decimal(5),
+      "Goblin's Treat": new Decimal(1),
+    },
+    marketRate: 1100,
+  },
+  "Fruit Salad": {
+    name: "Fruit Salad",
+    description: "Fruit Salad, Yummy Yummy",
+    building: "Kitchen",
+    cookingSeconds: 60 * 30,
+    experience: 225,
+    ingredients: {
+      Apple: new Decimal(1),
+      Orange: new Decimal(1),
+      Blueberry: new Decimal(1),
+    },
+    marketRate: 200,
+  },
+  "Kale Omelette": {
+    name: "Kale Omelette",
+    description: "A healthy breakfast",
+    building: "Fire Pit",
+    cookingSeconds: 60 * 60 * 3.5,
+    experience: 1250,
+    ingredients: {
+      Egg: new Decimal(20),
+      Kale: new Decimal(5),
+    },
+    marketRate: 640,
+  },
+  "Cabbers n Mash": {
+    name: "Cabbers n Mash",
+    description: "Cabbages and Mashed Potatoes",
+    building: "Fire Pit",
+    cookingSeconds: 60 * 40,
+    experience: 250,
+    ingredients: {
+      "Mashed Potato": new Decimal(10),
+      Cabbage: new Decimal(20),
+    },
+    marketRate: 160,
+  },
+  "Fancy Fries": {
+    name: "Fancy Fries",
+    description: "Fantastic Fries",
+    building: "Deli",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 1000,
+    ingredients: {
+      Sunflower: new Decimal(500),
+      Potato: new Decimal(500),
+    },
+    marketRate: 400,
+  },
 };
 
-const Juices = getKeys(CONSUMABLES).filter(
-  (name) => CONSUMABLES[name].building === "Smoothie Shack"
+export const CONSUMABLES: Record<ConsumableName, Consumable> = {
+  ...COOKABLES,
+  "Pirate Cake": {
+    name: "Pirate Cake",
+    description: "Great for Pirate themed birthday parties.",
+    experience: 3000,
+  },
+};
+
+const Juices = getKeys(COOKABLES).filter(
+  (name) => COOKABLES[name].building === "Smoothie Shack"
 );
 
 export function isJuice(item: any) {
   return Juices.includes(item);
+}
+
+export function isCookable(consumeable: Consumable): consumeable is Cookable {
+  return consumeable.name in COOKABLES;
 }

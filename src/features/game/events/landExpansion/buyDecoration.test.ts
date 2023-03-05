@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import { DecorationName, DECORATIONS } from "../../types/decorations";
+import {
+  HELIOS_DECORATIONS,
+  ShopDecorationName,
+} from "../../types/decorations";
 import { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
@@ -13,7 +16,7 @@ describe("buyDecoration", () => {
         state: GAME_STATE,
         action: {
           type: "decoration.bought",
-          item: "Goblin Key" as DecorationName,
+          item: "Goblin Key" as ShopDecorationName,
         },
       })
     ).toThrow("This item is not a decoration");
@@ -34,7 +37,7 @@ describe("buyDecoration", () => {
     ).toThrow("Insufficient tokens");
   });
 
-  it("does not craft decoration if requirments are not met", () => {
+  it("does not craft decoration if requirements are not met", () => {
     expect(() =>
       buyDecoration({
         state: {
@@ -67,7 +70,7 @@ describe("buyDecoration", () => {
     });
 
     expect(state.balance).toEqual(
-      balance.minus(DECORATIONS()["Potted Sunflower"].sfl as Decimal)
+      balance.minus(HELIOS_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
     );
   });
 
@@ -93,7 +96,7 @@ describe("buyDecoration", () => {
     expect(state.inventory[item]).toEqual(oldAmount.add(1));
   });
 
-  it("throws an error if the player doesnt have a bumpkin", async () => {
+  it("throws an error if the player doesn't have a bumpkin", async () => {
     expect(() =>
       buyDecoration({
         state: {
@@ -108,7 +111,7 @@ describe("buyDecoration", () => {
     ).toThrow("Bumpkin not found");
   });
 
-  it("increments the sfl spent activity ", () => {
+  it("increments the sfl spent activity", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
@@ -123,11 +126,11 @@ describe("buyDecoration", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
+      HELIOS_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
     );
   });
 
-  it("increments the decoration bought activity ", () => {
+  it("increments the decoration bought activity", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,

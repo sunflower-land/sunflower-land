@@ -9,7 +9,7 @@ import { parseMetamaskError } from "./utils";
 import { SunflowerLandInventory } from "./types";
 import { TransferBatch, TransferSingle } from "./types/SunflowerLandInventory";
 
-const address = CONFIG.INVENTORY_CONTRACT;
+const contractAddress = CONFIG.INVENTORY_CONTRACT;
 
 export type ItemSupply = Record<InventoryItemName, Decimal>;
 
@@ -25,7 +25,7 @@ async function loadSupplyBatch(
     const supplies: string[] = await (
       new web3.eth.Contract(
         InventoryJSON as AbiItem[],
-        address as string
+        contractAddress as string
       ) as unknown as SunflowerLandInventory
     ).methods
       .totalSupplyBatch(ids)
@@ -69,19 +69,29 @@ export async function getInventorySupply(
 export async function getInventoryBalances(
   web3: Web3,
   account: string,
-  farmAddress: string
-) {
-  const batchAccounts = Array(IDS.length).fill(farmAddress);
-  const balances = await (
-    new web3.eth.Contract(
-      InventoryJSON as AbiItem[],
-      address as string
-    ) as unknown as SunflowerLandInventory
-  ).methods
-    .balanceOfBatch(batchAccounts, IDS)
-    .call({ from: account });
+  address: string,
+  attempts = 0
+): Promise<string[]> {
+  try {
+    const batchAccounts = Array(IDS.length).fill(address);
+    const balances = await (
+      new web3.eth.Contract(
+        InventoryJSON as AbiItem[],
+        contractAddress as string
+      ) as unknown as SunflowerLandInventory
+    ).methods
+      .balanceOfBatch(batchAccounts, IDS)
+      .call({ from: account });
 
-  return balances;
+    return balances;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return getInventoryBalances(web3, account, address, attempts + 1);
+    }
+
+    throw error;
+  }
 }
 
 export async function getInventoryBalance(
@@ -93,7 +103,7 @@ export async function getInventoryBalance(
   return await (
     new web3.eth.Contract(
       InventoryJSON as AbiItem[],
-      address as string
+      contractAddress as string
     ) as unknown as SunflowerLandInventory
   ).methods
     .balanceOf(farmAddress, id)
@@ -110,7 +120,7 @@ export async function getInventoryTransfers(
     (
       new web3.eth.Contract(
         InventoryJSON as AbiItem[],
-        address as string
+        contractAddress as string
       ) as unknown as SunflowerLandInventory
     ).getPastEvents(
       "TransferSingle",
@@ -149,7 +159,7 @@ export async function getInventoryBatchTransfers(
     (
       new web3.eth.Contract(
         InventoryJSON as AbiItem[],
-        address as string
+        contractAddress as string
       ) as unknown as SunflowerLandInventory
     ).getPastEvents(
       "TransferBatch",

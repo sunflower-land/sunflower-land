@@ -23,9 +23,14 @@ const CONTENT_HEIGHT = 350;
 interface Props {
   onBack: () => void;
   onClose: () => void;
+  readonly: boolean;
 }
 
-export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
+export const Achievements: React.FC<Props> = ({
+  onBack,
+  onClose,
+  readonly,
+}) => {
   const [selected, setSelected] = useState<AchievementName>("Farm Hand");
 
   const { gameService } = useContext(Context);
@@ -63,31 +68,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
   };
 
   return (
-    <Panel className="relative" hasTabs>
-      <div
-        className="absolute flex"
-        style={{
-          top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      >
-        <Tab isActive>
-          <img src={SUNNYSIDE.icons.player} className="h-5 mr-2" />
-          <span className="text-sm">Achievements</span>
-        </Tab>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-      </div>
-
+    <>
       <div
         style={{
           minHeight: "200px",
@@ -98,6 +79,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
           onBack={onBack}
           onClaim={claim}
           state={state}
+          readonly={readonly}
         />
       </div>
       <div className="w-full mt-2">
@@ -113,6 +95,7 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
 
             const bumpkinAchievements = state.bumpkin?.achievements || {};
             const isAlreadyClaimed = !!bumpkinAchievements[name];
+            const isPaused = achievement.sfl.gt(0);
 
             return (
               <div
@@ -129,7 +112,8 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
                   className={classNames(
                     "flex justify-center items-center p-1 rounded-md relative cursor-pointer hover:img-highlight",
                     {
-                      "opacity-50": !isAlreadyClaimed && !isComplete,
+                      "opacity-50":
+                        (!isAlreadyClaimed && !isComplete) || isPaused,
                       "img-highlight": selected === name,
                     }
                   )}
@@ -201,6 +185,42 @@ export const Achievements: React.FC<Props> = ({ onBack, onClose }) => {
           })}
         </div>
       </div>
+    </>
+  );
+};
+
+export const AchievementsModal: React.FC<Props> = ({
+  onBack,
+  onClose,
+  readonly,
+}) => {
+  return (
+    <Panel className="relative" hasTabs>
+      <div
+        className="absolute flex"
+        style={{
+          top: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          right: `${PIXEL_SCALE * 1}px`,
+        }}
+      >
+        <Tab isActive>
+          <img src={SUNNYSIDE.icons.player} className="h-5 mr-2" />
+          <span className="text-sm">Achievements</span>
+        </Tab>
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="absolute cursor-pointer z-20"
+          onClick={onClose}
+          style={{
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
+      </div>
+
+      <Achievements onBack={onBack} onClose={onClose} readonly={readonly} />
     </Panel>
   );
 };

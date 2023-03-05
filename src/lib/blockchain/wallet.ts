@@ -13,7 +13,6 @@ const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
 const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
 
-console.log({ CONFIG });
 /**
  * A wrapper of Web3 which handles retries and other common errors.
  */
@@ -127,7 +126,7 @@ export class Wallet {
     this.isAlchemy = true;
 
     if (CONFIG.ALCHEMY_RPC) {
-      console.log("Provider overriden");
+      console.log("Provider overridden");
 
       let web3;
 

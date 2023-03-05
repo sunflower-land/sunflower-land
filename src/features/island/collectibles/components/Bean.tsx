@@ -16,6 +16,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useActor } from "@xstate/react";
+import { Revealing } from "features/game/components/Revealing";
+import { Revealed } from "features/game/components/Revealed";
 
 export const getBeanStates = (name: InventoryItemName, createdAt: number) => {
   const plantSeconds = BEANS()[name as BeanName].plantSeconds;
@@ -33,6 +36,7 @@ export const Bean: React.FC<CollectibleProps> = ({
   name = "Magic Bean",
 }) => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
 
   useUiRefresher();
@@ -50,9 +54,20 @@ export const Bean: React.FC<CollectibleProps> = ({
     });
   };
 
+  if (gameState.matches("revealing")) {
+    return <Revealing icon={ready} />;
+  }
+
+  if (gameState.matches("revealed")) {
+    return <Revealed />;
+  }
+
   if (isReady) {
     return (
-      <>
+      <div
+        className="absolute w-full h-full hover:img-highlight cursor-pointer"
+        onClick={harvest}
+      >
         <img
           src={SUNNYSIDE.icons.expression_alerted}
           className="animate-float z-10 absolute"
@@ -64,16 +79,15 @@ export const Bean: React.FC<CollectibleProps> = ({
         />
         <img
           src={ready}
-          onClick={harvest}
           style={{
             width: `${PIXEL_SCALE * 30}px`,
             left: `${PIXEL_SCALE * 1}px`,
             bottom: `${PIXEL_SCALE * 2}px`,
           }}
-          className="absolute hover:img-highlight cursor-pointer"
+          className="absolute pointer-events-none"
           alt="Bean"
         />
-      </>
+      </div>
     );
   }
 
@@ -81,17 +95,21 @@ export const Bean: React.FC<CollectibleProps> = ({
 
   return (
     <>
-      <img
-        src={image}
+      <div
+        className="absolute w-full h-full hover:img-highlight cursor-pointer"
         onClick={() => setShowModal(true)}
-        style={{
-          width: `${PIXEL_SCALE * 30}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-        }}
-        className="absolute hover:img-highlight cursor-pointer"
-        alt="Bean"
-      />
+      >
+        <img
+          src={image}
+          style={{
+            width: `${PIXEL_SCALE * 30}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+          }}
+          className="absolute pointer-events-none"
+          alt="Bean"
+        />
+      </div>
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)} title={name}>
           <div className="flex flex-col justify-center items-center">

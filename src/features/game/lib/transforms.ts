@@ -82,6 +82,10 @@ export function makeGame(farm: any): GameState {
     collectibles: farm.collectibles,
     warCollectionOffer: farm.warCollectionOffer,
     mysteryPrizes: farm.mysteryPrizes,
+    treasureIsland: farm.treasureIsland,
+    pumpkinPlaza: farm.pumpkinPlaza,
+    dailyRewards: farm.dailyRewards,
+    auctioneer: farm.auctioneer ?? {},
   };
 }
 
@@ -235,6 +239,7 @@ export function updateGame(
   try {
     return {
       ...oldGameState,
+      treasureIsland: newGameState.treasureIsland,
       skills: newGameState.skills,
       chickens: newGameState.chickens,
       expansions: updateExpansions(

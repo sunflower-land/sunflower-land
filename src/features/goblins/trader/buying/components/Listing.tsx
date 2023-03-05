@@ -17,7 +17,7 @@ interface ListingProps {
   sfl: number;
   tax: number;
   balance: Decimal;
-  onPurchase: () => void;
+  onPurchase?: () => void;
 }
 
 export const Listing: React.FC<ListingProps> = ({
@@ -53,13 +53,15 @@ export const Listing: React.FC<ListingProps> = ({
         <div className="w-full">
           <div className="flex justify-between items-center mb-2">
             <span className="text-s">{`ID #${listingId}`}</span>
-            <Button
-              className="text-xxs w-24"
-              onClick={onPurchase}
-              disabled={insufficientFunds}
-            >
-              Purchase
-            </Button>
+            {onPurchase && (
+              <Button
+                className="text-xxs w-24"
+                onClick={onPurchase}
+                disabled={insufficientFunds}
+              >
+                Purchase
+              </Button>
+            )}
           </div>
 
           <div className="flex justify-between items-center">

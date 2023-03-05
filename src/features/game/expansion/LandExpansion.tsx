@@ -11,6 +11,7 @@ import { useActor } from "@xstate/react";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
+import { ModalProvider } from "../components/modal/ModalProvider";
 
 export const LandExpansion: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -38,32 +39,35 @@ export const LandExpansion: React.FC = () => {
   // Load data
   return (
     <GameProvider key={id}>
-      <ToastProvider>
-        <ScrollContainer
-          className="bg-blue-300 overflow-scroll relative w-full h-full page-scroll-container"
-          innerRef={container}
-          ignoreElements={"*[data-prevent-drag-scroll]"}
-        >
-          <div
-            className="relative"
-            style={{
-              width: `${84 * GRID_WIDTH_PX}px`,
-              height: `${56 * GRID_WIDTH_PX}px`,
-            }}
-            // TODO dynamic game board size based on tile dimensions
+      <ModalProvider>
+        <ToastProvider>
+          <ScrollContainer
+            className="bg-blue-300 overflow-scroll relative w-full h-full page-scroll-container"
+            innerRef={container}
+            ignoreElements={"*[data-prevent-drag-scroll]"}
           >
             <div
-              className="absolute inset-0 bg-repeat w-full h-full"
+              className="relative"
               style={{
-                backgroundImage: `url(${ocean})`,
-                backgroundSize: `${64 * PIXEL_SCALE}px`,
-                imageRendering: "pixelated",
+                // TODO - keep same as World width
+                width: `${84 * GRID_WIDTH_PX}px`,
+                height: `${56 * GRID_WIDTH_PX}px`,
               }}
-            />
-            <Game />
-          </div>
-        </ScrollContainer>
-      </ToastProvider>
+              // TODO dynamic game board size based on tile dimensions
+            >
+              <div
+                className="absolute inset-0 bg-repeat w-full h-full"
+                style={{
+                  backgroundImage: `url(${ocean})`,
+                  backgroundSize: `${64 * PIXEL_SCALE}px`,
+                  imageRendering: "pixelated",
+                }}
+              />
+              <Game />
+            </div>
+          </ScrollContainer>
+        </ToastProvider>
+      </ModalProvider>
     </GameProvider>
   );
 };

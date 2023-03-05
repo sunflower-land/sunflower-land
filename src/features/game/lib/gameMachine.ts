@@ -49,6 +49,7 @@ const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
+import { depositToFarm } from "lib/blockchain/Deposit";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -91,6 +92,7 @@ type WithdrawEvent = {
 type SyncEvent = {
   captcha: string;
   type: "SYNC";
+  blockBucks: number;
 };
 
 type EditEvent = {
@@ -108,6 +110,13 @@ type BuySFLEvent = {
   type: "BUY_SFL";
   maticAmount: string;
   amountOutMin: string;
+};
+
+type DepositEvent = {
+  type: "DEPOSIT";
+  sfl: string;
+  itemIds: number[];
+  itemAmounts: string[];
 };
 
 export type BlockchainEvent =
@@ -131,6 +140,9 @@ export type BlockchainEvent =
       type: "RESET";
     }
   | {
+      type: "DEPOSIT";
+    }
+  | {
       type: "REVEAL";
     }
   | {
@@ -143,6 +155,7 @@ export type BlockchainEvent =
   | EditEvent
   | VisitEvent
   | BuySFLEvent
+  | DepositEvent
   | { type: "EXPAND" }
   | { type: "RANDOMISE" }; // Test only
 
@@ -239,6 +252,7 @@ export type BlockchainState = {
     | "refreshing"
     | "swarming"
     | "hoarding"
+    | "depositing"
     | "editing"
     | "noBumpkinFound"
     | "coolingDown"
@@ -549,6 +563,9 @@ export function startGame(authContext: Options) {
             RESET: {
               target: "refreshing",
             },
+            DEPOSIT: {
+              target: "depositing",
+            },
             REFRESH: {
               target: "loading",
             },
@@ -671,6 +688,7 @@ export function startGame(authContext: Options) {
                 token: authContext.rawToken as string,
                 captcha: (event as SyncEvent).captcha,
                 transactionId: context.transactionId as string,
+                blockBucks: (event as SyncEvent).blockBucks,
               });
 
               return {
@@ -760,11 +778,31 @@ export function startGame(authContext: Options) {
             },
           },
         },
+        depositing: {
+          invoke: {
+            src: async (context, event) => {
+              await depositToFarm({
+                web3: wallet.web3Provider,
+                account: wallet.myAccount,
+                farmId: context.state.id as number,
+                sfl: (event as DepositEvent).sfl,
+                itemIds: (event as DepositEvent).itemIds,
+                itemAmounts: (event as DepositEvent).itemAmounts,
+              });
+            },
+            onDone: {
+              target: "refreshing",
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
         refreshing: {
           entry: "setTransactionId",
           invoke: {
-            src: async (context) => {
-              // Autosave just in case
+            src: async (context, e) => {
               const { success } = await reset({
                 farmId: Number(authContext.farmId),
                 token: authContext.rawToken as string,

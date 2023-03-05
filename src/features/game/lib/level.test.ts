@@ -9,9 +9,9 @@ describe("findLevelRequiredForNextSkillPoint", () => {
     const bumpkinExp = 5; // level 2
     expect(findLevelRequiredForNextSkillPoint(bumpkinExp)).toEqual(3);
   });
-  it("returns level 5 if the player has 2 skill points", () => {
+  it("returns level 4 if the player has 2 skill points", () => {
     const bumpkinExp = 70; // level 3
-    expect(findLevelRequiredForNextSkillPoint(bumpkinExp)).toEqual(5);
+    expect(findLevelRequiredForNextSkillPoint(bumpkinExp)).toEqual(4);
   });
   it("returns level 6 if the player has 3 skill points", () => {
     const bumpkinExp = 1242; // level 5
@@ -48,11 +48,11 @@ describe("isMaxLevel", () => {
     expect(isMaxLevel(bumpkinExp)).toBeFalsy();
   });
   it("returns false if 0 exp away from max level", () => {
-    const bumpkinExp = 220500;
+    const bumpkinExp = 500500;
     expect(isMaxLevel(bumpkinExp)).toBeTruthy();
   });
   it("returns false if 1 exp above max level", () => {
-    const bumpkinExp = 220501;
+    const bumpkinExp = 500501;
     expect(isMaxLevel(bumpkinExp)).toBeTruthy();
   });
 });

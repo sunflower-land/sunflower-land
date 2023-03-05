@@ -17,14 +17,19 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getAvailableGameState } from "./transforms";
-import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
-import { fetchAuctioneerDrops } from "../actions/auctioneer";
+import {
+  fetchAuctioneerDrops,
+  OFFLINE_AUCTION_ITEMS,
+} from "../actions/auctioneer";
 import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 import { getBumpkinLevel } from "./level";
 import { randomID } from "lib/utils/random";
 import { OFFLINE_FARM } from "./landData";
 import { getSessionId } from "lib/blockchain/Sessions";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
+import { depositToFarm } from "lib/blockchain/Deposit";
+import { reset } from "features/farming/hud/actions/reset";
+import { AuctioneerItem } from "features/retreat/components/auctioneer/actions/auctioneerItems";
 
 const API_URL = CONFIG.API_URL;
 
@@ -37,7 +42,7 @@ export interface Context {
   transactionId?: string;
   farmAddress?: string;
   deviceTrackerId?: string;
-  auctioneerItems: Item[];
+  auctioneerItems: AuctioneerItem[];
   auctioneerId: string;
   mintedAtTimes: Partial<Record<InventoryItemName, number>>;
 }
@@ -84,6 +89,13 @@ type UpdateSession = {
   deviceTrackerId: string;
 };
 
+type DepositEvent = {
+  type: "DEPOSIT";
+  sfl: string;
+  itemIds: number[];
+  itemAmounts: string[];
+};
+
 export type BlockchainEvent =
   | {
       type: "REFRESH";
@@ -107,7 +119,8 @@ export type BlockchainEvent =
   | OpeningWishingWellEvent
   | OpenTradingPostEvent
   | UpdateBalance
-  | UpdateSession;
+  | UpdateSession
+  | DepositEvent;
 
 export type GoblinMachineState = {
   value:
@@ -119,6 +132,8 @@ export type GoblinMachineState = {
     | "withdrawn"
     | "playing"
     | "trading"
+    | "depositing"
+    | "refreshing"
     | "auctioneer"
     | "levelRequirementNotReached"
     | "error";
@@ -145,8 +160,8 @@ export function startGoblinVillage(authContext: AuthContext) {
       context: {
         state: API_URL ? EMPTY : OFFLINE_FARM,
         sessionId: INITIAL_SESSION,
-        auctioneerId: "",
-        auctioneerItems: [],
+        auctioneerId: API_URL ? "" : OFFLINE_AUCTION_ITEMS[0].id.toString(),
+        auctioneerItems: API_URL ? [] : OFFLINE_AUCTION_ITEMS,
         mintedAtTimes: {},
       },
       states: {
@@ -190,7 +205,7 @@ export function startGoblinVillage(authContext: AuthContext) {
 
               const game = response?.game as GameState;
 
-              // Show whatever is lower, on chain or offchain
+              // Show whatever is lower, on chain or off-chain
               const availableState = getAvailableGameState({
                 onChain: onChainState.game,
                 offChain: game,
@@ -201,6 +216,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               game.inventory = availableState.inventory;
               game.farmAddress = onChainState.game.farmAddress;
 
+              console.log({ items });
               return {
                 state: game,
                 mintedAtTimes: onChainState.mintedAtTimes,
@@ -260,6 +276,9 @@ export function startGoblinVillage(authContext: AuthContext) {
             OPEN_AUCTIONEER: {
               target: "auctioneer",
             },
+            DEPOSIT: {
+              target: "depositing",
+            },
           },
         },
         auctioneer: {
@@ -270,9 +289,11 @@ export function startGoblinVillage(authContext: AuthContext) {
             data: {
               token: () => authContext.rawToken,
               farmId: () => authContext.farmId,
+              bid: (context: Context) => context.state.auctioneer.bid,
               sessionId: (context: Context) => context.sessionId,
               auctioneerItems: (context: Context) => context.auctioneerItems,
               auctioneerId: (context: Context) => context.auctioneerId,
+              deviceTrackerId: (context: Context) => context.deviceTrackerId,
             },
             onDone: {
               target: "loading",
@@ -452,6 +473,55 @@ export function startGoblinVillage(authContext: AuthContext) {
           on: {
             REFRESH: {
               target: "loading",
+            },
+          },
+        },
+        depositing: {
+          invoke: {
+            src: async (context, event) => {
+              await depositToFarm({
+                web3: wallet.web3Provider,
+                account: wallet.myAccount,
+                farmId: context.state.id as number,
+                sfl: (event as DepositEvent).sfl,
+                itemIds: (event as DepositEvent).itemIds,
+                itemAmounts: (event as DepositEvent).itemAmounts,
+              });
+            },
+            onDone: {
+              target: "refreshing",
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        refreshing: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context) => {
+              const fingerprint = "X";
+
+              const { success } = await reset({
+                farmId: Number(authContext.farmId),
+                token: authContext.rawToken as string,
+                fingerprint,
+                transactionId: context.transactionId as string,
+              });
+
+              return {
+                success,
+              };
+            },
+            onDone: [
+              {
+                target: "loading",
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
             },
           },
         },

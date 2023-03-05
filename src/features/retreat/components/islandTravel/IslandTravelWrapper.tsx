@@ -9,5 +9,13 @@ export const IslandTravelWrapper = () => {
   const { state } = gameState.context;
   const { bumpkin } = state;
 
-  return <IslandTravel bumpkin={bumpkin} x={-2} y={-15} />;
+  return (
+    <IslandTravel
+      inventory={gameState.context.state.inventory}
+      bumpkin={bumpkin}
+      x={-2}
+      y={-15}
+      travelAllowed // GoblinRetreat always allowed because gameState doesn't get altered (and no autosaving needed).
+    />
+  );
 };

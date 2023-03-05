@@ -5,7 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 /**
  * BuildingImageWrapper props
- * @param nonInteractible if the building is non interactable
+ * @param nonInteractible if the building is non interactible
  * @param ready if the building crafting process is ready
  * @param onClick on click event
  */

@@ -24,15 +24,14 @@ import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
 import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
-import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin, Inventory } from "features/game/types/game";
 import { FRUIT } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
-import { Delayed } from "features/island/buildings/components/building/market/Delayed";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 
 interface Props {
   onClose: () => void;
@@ -85,24 +84,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selectedName);
   };
 
-  const restock = () => {
-    sync();
-  };
-
-  const sync = () => {
-    gameService.send("SYNC", { captcha: "" });
-
-    onClose();
-  };
-
-  const onCaptchaSolved = async (captcha: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    gameService.send("SYNC", { captcha });
-
-    onClose();
-  };
-
   const lessFunds = (amount = 1) => {
     if (!price) return false;
 
@@ -111,17 +92,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
-
-  if (showCaptcha) {
-    return (
-      <CloudFlareCaptcha
-        action="seeds-sync"
-        onDone={onCaptchaSolved}
-        onExpire={() => setShowCaptcha(false)}
-        onError={() => setShowCaptcha(false)}
-      />
-    );
-  }
 
   const labelState = () => {
     const max = INITIAL_STOCK[selectedName];
@@ -157,7 +127,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     if (stock?.equals(0)) {
-      return <Delayed restock={restock}></Delayed>;
+      return <Restock onClose={onClose} />;
     }
 
     const max = INITIAL_STOCK[selectedName];
@@ -223,11 +193,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return null;
     }
 
-    if (isCollectibleBuilt("Immortal Pear", collectibles)) {
-      return [4, 6];
-    }
-
-    return [3, 5];
+    return getFruitHarvests(state);
   };
 
   return (
@@ -254,7 +220,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           />
         ))}
       </div>
-      <OuterPanel className="w-full flex-1">
+      <OuterPanel className="w-full flex-1 flex flex-col">
         <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
           {labelState()}
           <div className="flex space-x-2 items-center mt-1 sm:flex-col-reverse md:space-x-0">

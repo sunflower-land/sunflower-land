@@ -1,8 +1,7 @@
-import calendar from "assets/icons/calendar.png";
-import fruit from "assets/announcements/fruit.gif";
-import luckySign from "assets/events/lunar-new-year/luck_sign.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import loveLetter from "assets/icons/love_letter.png";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export interface Announcement {
   date: Date;
@@ -26,100 +25,54 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
-    date: new Date("2023-01-18T00:00:00"),
-    title: "Happy Lunar New Year",
-    notes: [
-      { text: "Let's celebrate the year of the Rabbit." },
-      { text: "A special island has appeared west of main land." },
-      {
-        text: "Collect Red Envelopes to mint Bumpkin wearables or craft Maneki Neko on Goblin Retreat's Blacksmith.",
-      },
-      {
-        text: "Each day a different resource will provide Red Envelopes.",
-      },
-      {
-        text: "Visit the new years island NPC to find out more.",
-      },
-    ],
-    image: luckySign,
-    link: "https://docs.sunflower-land.com/player-guides/special-events/lunar-new-year",
-  },
-
-  {
-    date: new Date("2023-01-16T02:00:00"),
+    date: new Date("2023-02-20T00:00:00"),
     title: "Weekly news",
     notes: [
       {
-        text: "The team is working on Treasure Island!",
-        icon: SUNNYSIDE.icons.hammer,
-        link: {
-          text: "Read more",
-          url: "https://github.com/sunflower-land/sunflower-land/discussions/1956",
-        },
+        text: "You can now earn Daily Rewards! Check out the treasure chest near the bottom of your island.",
+        icon: SUNNYSIDE.icons.treasure,
       },
       {
-        text: "Last week we reached our 100,000th trade listing at the Goblin Hot Air Baloon!",
-        icon: SUNNYSIDE.icons.heart,
+        text: "More than 700,000 holes have been dug at Treasure Island. Hurry before the treasure runs out!",
+        icon: ITEM_DETAILS["Sand Shovel"].image,
+      },
+      {
+        text: `A new deposit system has been added to the game!`,
+        icon: SUNNYSIDE.icons.hammer,
+        link: {
+          url: "https://docs.sunflower-land.com/economy/depositing-and-custody#depositing-sfl-and-items-onto-your-farm",
+          text: "Read more",
+        },
       },
 
       {
-        text: `3000 Cyborg Bears will be on auction at Goblin retreat.`,
-        icon: ITEM_DETAILS["Cyborg Bear"].image,
-        date: new Date("2023-01-17T00:30:00.000Z"),
+        text: `You are invited to a party at Pumpkin Plaza! Visit the island to the east to learn more.`,
+        icon: CROP_LIFECYCLE.Pumpkin.ready,
+        date: new Date("2023-02-21T04:30:00.000Z"),
       },
+
       {
-        text: `Join the weekly team chat on Discord`,
-        icon: SUNNYSIDE.icons.expression_chat,
-        date: new Date("2023-01-17T04:30:00.000Z"),
+        text: `A new season of rare pirate wearables starts this Thursday. Don't miss out!`,
+        icon: SUNNYSIDE.icons.heart,
         link: {
-          url: "https://discord.com/invite/sunflowerland",
-          text: "Join Discord",
-        },
-      },
-      {
-        text: `Don't miss out on the Bumpkin Luscious Hair.`,
-        icon: SUNNYSIDE.icons.player,
-        date: new Date("2023-01-19T04:30:00.000Z"),
-        link: {
-          url: "https://bumpkins.io",
+          url: "https://bumpkins.io/#/upcoming-drops",
           text: "Bumpkins.io",
-        },
-      },
-      {
-        text: `Watch the team at our Weekly Wrap up`,
-        icon: SUNNYSIDE.icons.expression_chat,
-        date: new Date("2023-01-19T23:00:00.000Z"),
-        link: {
-          url: "https://www.twitch.tv/0xsunflowerstudios",
-          text: "Twitch",
-        },
-      },
-      {
-        text: "A surprise Lunar New Year special is coming...",
-        icon: calendar,
-        date: new Date("2023-01-20"),
-        link: {
-          text: "Read more",
-          url: "https://github.com/sunflower-land/sunflower-land/discussions/1937",
         },
       },
     ],
   },
   {
-    date: new Date("2023-01-11T02:00:00"),
-    title: "Fruit is here!",
+    date: new Date("2023-02-14T00:00:00"),
+    title: "Valentine's Day Event",
     notes: [
       {
-        text: "Apple, orange, and blueberry seeds are now available! Seeds grow into fruit trees, which can be harvested a random amount of times to collect fruit!",
+        text: "Love is in the air and a mysterious island has become available.",
       },
       {
-        text: "But don't get too attached, once you're done harvesting, you gotta cut them trees down to make room for new ones.",
-      },
-      {
-        text: "Once you've collected enough fruit, you can sell it or turn it into them fancy smoothies at the smoothie shack!",
+        text: "For only 7 days, you can travel to Love Island and start your romantic quest! Your aim is to collect Love Letters and craft limited edition wearables and decorations.",
       },
     ],
-    image: fruit,
-    link: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting/fruit",
+    image: loveLetter,
+    link: "https://docs.sunflower-land.com/player-guides/special-events/valentines-day",
   },
 ];

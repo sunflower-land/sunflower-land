@@ -32,12 +32,11 @@ export type Release = {
 };
 
 export function getImageUrl(wearableId: number) {
-  console.log({ wearableId });
   if (CONFIG.NETWORK === "mainnet") {
     return `https://bumpkins.io/erc1155/images/${wearableId}.png`;
   }
 
-  return `https://bumpkins.io/erc1155/images/${wearableId}.png`;
+  return `https://testnet.bumpkins.io/erc1155/images/${wearableId}.png`;
 }
 
 // async function getDetails() {

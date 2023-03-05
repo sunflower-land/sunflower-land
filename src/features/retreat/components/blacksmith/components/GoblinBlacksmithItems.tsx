@@ -19,6 +19,7 @@ import {
   GoblinBlacksmithItemName,
   GOBLIN_BLACKSMITH_ITEMS,
 } from "features/game/types/collectibles";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -40,15 +41,17 @@ const Items: React.FC<{
       style={{ maxHeight: TAB_CONTENT_HEIGHT }}
     >
       <div className="flex flex-wrap h-fit">
-        {getKeys(items).map((name) => (
-          <Box
-            isSelected={selected === name}
-            key={name}
-            onClick={() => onClick(name)}
-            image={ITEM_DETAILS[name].image}
-            count={inventory[name]}
-          />
-        ))}
+        {getKeys(items)
+          .filter((name) => !GOBLIN_BLACKSMITH_ITEMS[name].disabled)
+          .map((name) => (
+            <Box
+              isSelected={selected === name}
+              key={name}
+              onClick={() => onClick(name)}
+              image={ITEM_DETAILS[name].image}
+              count={inventory[name]}
+            />
+          ))}
       </div>
     </div>
   );
@@ -225,9 +228,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
                   } shrink-0 sm:justify-center my-[1px] sm:mb-1 sm:w-full`}
                   key={index}
                 >
-                  <div className="w-5">
-                    <img src={details.image} className="h-5" />
-                  </div>
+                  <SquareIcon icon={details.image} width={7} />
                   {renderRemnants(
                     lessIngredient,
                     inventoryAmount,

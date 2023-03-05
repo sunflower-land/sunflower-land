@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(400),
+  "Sunflower Seed": new Decimal(0),
   "Potato Seed": new Decimal(200),
   "Pumpkin Seed": new Decimal(100),
   "Carrot Seed": new Decimal(100),
@@ -23,6 +23,8 @@ const INITIAL_STOCK: Inventory = {
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
   "Rusty Shovel": new Decimal(10),
+  "Sand Shovel": new Decimal(30),
+  "Sand Drill": new Decimal(5),
 
   // One off items
   "Pumpkin Soup": new Decimal(1),
@@ -126,22 +128,31 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
 
     trees: {
       0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-          reward: {
-            sfl: new Decimal(3),
-          },
-        },
         x: -3,
         y: 3,
         height: 2,
         width: 2,
+        wood: {
+          amount: 0,
+          choppedAt: 0,
+        },
       },
     },
     stones: {
       0: {
         x: 0,
+        y: 3,
+        width: 1,
+        height: 1,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
+    iron: {
+      0: {
+        x: 1,
         y: 3,
         width: 1,
         height: 1,
@@ -233,10 +244,10 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 220501,
+  experience: 1220501,
   tokenUri: "bla",
   equipped: {
-    body: "Light Brown Farmer Potion",
+    body: "Goblin Potion",
     hair: "Basic Hair",
     shirt: "Red Farmer Shirt",
     pants: "Farmer Pants",
@@ -257,10 +268,12 @@ export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
     Artist: new Decimal(1),
-    Sunflower: new Decimal(5),
+    Sunflower: new Decimal(2999),
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
+    "Bumpkin Salad": new Decimal(1),
+    "Beta Pass": new Decimal(1),
     "Peeled Potato": new Decimal(1),
     "Wood Nymph Wendy": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
@@ -275,13 +288,22 @@ export const OFFLINE_FARM: GameState = {
     //   }),
     //   {}
     // ),
+    "Block Buck": new Decimal(1),
     "Maneki Neko": new Decimal(1),
     "Rainbow Artist Bear": new Decimal(1),
     Coder: new Decimal(0),
+    "Solar Flare Ticket": new Decimal(10),
     "Discord Mod": new Decimal(0),
     Warrior: new Decimal(0),
     Gold: new Decimal(50),
     "Immortal Pear": new Decimal(1),
+    Pipi: new Decimal(1),
+    "Heart of Davy Jones": new Decimal(1),
+    "Treasure Map": new Decimal(1),
+    "Love Letter": new Decimal(1),
+    "Blossom Tree": new Decimal(1),
+    Flamingo: new Decimal(1),
+    "Heart Balloons": new Decimal(1),
   },
   migrated: true,
   stock: INITIAL_STOCK,
@@ -332,17 +354,28 @@ export const OFFLINE_FARM: GameState = {
         createdAt: Date.now() - 12 * 60 * 60 * 1000,
         id: "0",
         readyAt: 0,
+        shakenAt: Date.now() - 24 * 60 * 60 * 1000 + 60 * 1000,
       },
     ],
   },
   mysteryPrizes: {},
   bumpkin: INITIAL_BUMPKIN,
+  pumpkinPlaza: {},
   tradeOffer: {
     amount: 1,
     endAt: new Date(Date.now() + 100000000000000).toISOString(),
     startAt: new Date().toISOString(),
     name: "Algerian Flag",
     ingredients: [],
+  },
+  dailyRewards: {},
+  treasureIsland: {
+    holes: {},
+    rareTreasure: {
+      discoveredAt: 0,
+      holeId: 1,
+      reward: "Sunflower Cake",
+    },
   },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
@@ -400,5 +433,16 @@ export const OFFLINE_FARM: GameState = {
     ],
     seconds: 60,
     sfl: new Decimal(0),
+  },
+  auctioneer: {
+    bid: {
+      bidAt: Date.now(),
+      ingredients: {
+        Gold: 5,
+      },
+      item: "Peeled Potato",
+      sfl: 10,
+      auctionTickets: 10,
+    },
   },
 };

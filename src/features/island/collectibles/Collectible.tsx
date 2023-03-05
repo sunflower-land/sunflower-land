@@ -84,6 +84,33 @@ import { CollectibleBear } from "./components/CollectibleBear";
 import { CyborgBear } from "./components/CyborgBear";
 import { ManekiNeko } from "./components/ManekiNeko";
 import { LadyBug } from "./components/LadyBug";
+import { BlackBear } from "./components/BlackBear";
+import { SquirrelMonkey } from "./components/SquirrelMonkey";
+import { TikiTotem } from "./components/TikiTotem";
+import { LunarCalendar } from "./components/LunarCalendar";
+import { AbandonedBear } from "./components/AbandonedBear";
+import { TurtleBear } from "./components/TurtleBear";
+import { TRexSkull } from "./components/TRexSkull";
+import { LifeguardBear } from "./components/LifeguardBear";
+import { SnorkelBear } from "./components/SnorkelBear";
+import { ParasaurSkull } from "./components/ParasaurSkull";
+import { GoblinBear } from "./components/GoblinBear";
+import { GoldenBearHead } from "./components/GoldenBearHead";
+import { HumanBear } from "./components/HumanBear";
+import { PirateBear } from "./components/PirateBear";
+import { SunflowerCoin } from "./components/SunflowerCoin";
+import { Galleon } from "./components/Galleon";
+import { SkeletonKingStaff } from "./components/SkeletonKingStaff";
+import { Foliant } from "./components/Foliant";
+import { DinosaurBone } from "./components/DinosaurBone";
+import { HeartOfDavyJones } from "./components/HeartOfDavyJones";
+import { TreasureMap } from "./components/TreasureMap";
+import { WhaleBear } from "./components/WhaleBear";
+import { HeartBalloons } from "./components/HeartBalloons";
+import { Flamingo } from "./components/Flamingo";
+import { BlossomTree } from "./components/BlossomTree";
+import { IronIdol } from "./components/IronIdol";
+import { ValentineBear } from "./components/ValentineBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -92,6 +119,7 @@ export interface CollectibleProps {
   createdAt: number;
 }
 
+// TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName,
   React.FC<CollectibleProps>
@@ -192,12 +220,39 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Christmas Snow Globe": SnowGlobe,
   "Immortal Pear": ImmortalPear,
   "Lady Bug": LadyBug,
-  "Squirrel Monkey": () => null,
-  "Black Bearry": () => null,
+  "Squirrel Monkey": SquirrelMonkey,
+  "Black Bearry": BlackBear,
   "Ayam Cemani": AyamCemani,
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
+
+  // Treasure
+  "Abandoned Bear": AbandonedBear,
+  "Tiki Totem": TikiTotem,
+  "Lunar Calendar": LunarCalendar,
+  "Goblin Bear": GoblinBear,
+  "Turtle Bear": TurtleBear,
+  "T-Rex Skull": TRexSkull,
+  "Lifeguard Bear": LifeguardBear,
+  "Snorkel Bear": SnorkelBear,
+  "Whale Bear": WhaleBear,
+  "Parasaur Skull": ParasaurSkull,
+  "Golden Bear Head": GoldenBearHead,
+  "Human Bear": HumanBear,
+  "Pirate Bear": PirateBear,
+  "Sunflower Coin": SunflowerCoin,
+  Galleon: Galleon,
+  "Skeleton King Staff": SkeletonKingStaff,
+  Foliant: Foliant,
+  "Dinosaur Bone": DinosaurBone,
+  "Treasure Map": TreasureMap,
+  "Heart of Davy Jones": HeartOfDavyJones,
+  "Heart Balloons": HeartBalloons,
+  Flamingo: Flamingo,
+  "Blossom Tree": BlossomTree,
+  "Valentine Bear": ValentineBear,
+  "Iron Idol": IronIdol,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

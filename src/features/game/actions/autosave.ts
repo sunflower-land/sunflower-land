@@ -98,6 +98,7 @@ export async function autosaveRequest(
 export async function autosave(request: Request) {
   if (!API_URL) return { verified: true };
 
+  console.log({ request });
   // Shorten the payload
   const events = squashEvents(request.actions);
 
@@ -140,6 +141,8 @@ export async function autosave(request: Request) {
     farm: any;
     changeset: any;
   }>(response);
+
+  farm.id = request.farmId;
 
   const game = makeGame(farm);
 

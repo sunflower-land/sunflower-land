@@ -41,12 +41,14 @@ import rockGolem from "assets/sfts/rock_golem.gif";
 import rooster from "assets/sfts/rooster.gif";
 import undeadChicken from "assets/sfts/undead_chicken.gif";
 import wickerMan from "assets/sfts/wicker_man.png";
-import wendy from "assets/sfts/wood_nymph_wendy.png";
+import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import cabbageBoy from "assets/sfts/cabbage_boy.png";
 import cabbageGirl from "assets/sfts/cabbage_girl.png";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
 import immortalPear from "assets/sfts/immortal_pear.gif";
 import ladybug from "assets/sfts/ladybug.gif";
+import blackBear from "assets/sfts/black_bear.gif";
+import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -54,7 +56,7 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 
 // Foods
-import roastedCaulfilower from "assets/sfts/roasted_cauliflower.png";
+import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
 import radishPie from "assets/sfts/radish_pie.png";
 
 // Flags
@@ -126,7 +128,7 @@ import liquidityProvider from "assets/skills/liquidity_provider.png";
 
 // Achievements
 
-import bumpkinChainsawAmateu from "assets/achievements/bumpkin_chainsaw_amateur.png";
+import bumpkinChainsawAmateur from "assets/achievements/bumpkin_chainsaw_amateur.png";
 import twentyTwentyVision from "assets/achievements/20-20-vision.png";
 import bakersDozen from "assets/achievements/bakers_dozen.png";
 import beetrootBeast from "assets/achievements/beetrootBeast.png";
@@ -137,7 +139,7 @@ import craftmanship from "assets/achievements/craftmanship.png";
 import busyBumpkin from "assets/achievements/busy_bumpkin.png";
 import cabbageKing from "assets/achievements/cabbage_king.png";
 import canary from "assets/achievements/canary.png";
-import chefDeCusine from "assets/achievements/chef_de_cusine.png";
+import chefDeCuisine from "assets/achievements/chef_de_cuisine.png";
 import contractor from "assets/achievements/contractor.png";
 import coolCauliflower from "assets/achievements/cool_cauliflower.png";
 import jackOLantern from "assets/achievements/jack_o_lantern.png";
@@ -168,8 +170,11 @@ import fruitPlatter from "assets/achievements/fruit_platter.png";
 
 // Coupons
 import ticket from "assets/icons/ticket.png";
+import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
+import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
+import dawnBreakerTicket from "assets/icons/solar_flare_ticket.png";
 
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
@@ -230,6 +235,12 @@ import orangeJuice from "assets/food/orange_juice.png";
 import purpleSmoothie from "assets/food/purple_smoothie.png";
 import bumpkinDetox from "assets/food/bumpkin_detox.png";
 import powerSmoothie from "assets/food/power_smoothie.png";
+import bumpkinRoast from "assets/food/bumpkin_roast.png";
+import goblinBrunch from "assets/food/goblin_brunch.png";
+import fruitSalad from "assets/food/fruit_salad.png";
+import kaleOmelette from "assets/food/kale_omelette.png";
+import cabbersNMash from "assets/food/cabbers_n_mash.png";
+import fancyFries from "assets/food/fancy_fries.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -265,7 +276,7 @@ import skullHat from "src/assets/bumpkins/shop/hats/skull_hat.png";
 import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png";
 
 import skull from "src/assets/decorations/war_skulls.png";
-import warTombston from "src/assets/decorations/war_tombstone.png";
+import warTombstone from "src/assets/decorations/war_tombstone.png";
 import jackOLanternItem from "src/assets/sfts/jack_o_lantern.png";
 import victoriaSisters from "src/assets/sfts/victoria_sisters.gif";
 
@@ -290,12 +301,46 @@ import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
-
 import cyborgBear from "src/assets/sfts/cyborg_bear.png";
 import collectibleBear from "src/assets/sfts/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
+import loveLetter from "src/assets/icons/love_letter.png";
+import tikiTotem from "src/assets/sfts/tiki_totem.webp";
+import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
+import valentineBear from "src/assets/sfts/bears/love_bear.png";
+import ironIdol from "src/assets/sfts/iron_idol.webp";
+
+// Treasure
+import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
+import pearl from "assets/sfts/treasure/pearl.webp";
+import pipi from "assets/sfts/treasure/pipi.webp";
+import turtleBear from "assets/sfts/bears/turtle_bear.webp";
+import tRexSkull from "assets/sfts/t_rex_skull.webp";
+import parasaurSkull from "assets/sfts/parasaur_skull.webp";
+import clamShell from "assets/sfts/treasure/clam_shell.webp";
+import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
+import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
+import whaleBear from "assets/sfts/bears/whale_bear.webp";
+import goblinBear from "assets/sfts/bears/goblin_bear.webp";
+import goldenBearHead from "assets/sfts/golden_bear_head.webp";
+import humanBear from "assets/sfts/bears/human_bear.webp";
+import pirateBear from "assets/sfts/bears/pirate_bear.webp";
+import seaweed from "assets/sfts/treasure/seaweed.webp";
+import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
+import galleon from "assets/sfts/galleon.webp";
+import treasureMap from "assets/sfts/treasure/treasure_map.webp";
+import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
+import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
+import heartBalloons from "assets/events/valentine/sfts/heart_balloons.png";
+import flamingo from "assets/events/valentine/sfts/flamingo.webp";
+import blossomTree from "assets/events/valentine/sfts/blossom_tree.png";
+import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
+import foliant from "assets/sfts/foliant.webp";
+import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
+import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
+import drill from "assets/icons/drill.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -317,7 +362,7 @@ import { RESOURCES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { DECORATIONS } from "./decorations";
+import { HELIOS_DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -325,6 +370,7 @@ import { CONSUMABLES } from "./consumables";
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 import {
   GOBLIN_BLACKSMITH_ITEMS,
+  GOBLIN_PIRATE_ITEMS,
   HELIOS_BLACKSMITH_ITEMS,
 } from "./collectibles";
 import { AUCTIONEER_ITEMS } from "./auctioneer";
@@ -550,6 +596,30 @@ export const ITEM_DETAILS: Items = {
     description: CONSUMABLES["Power Smoothie"].description,
     image: powerSmoothie,
   },
+  "Bumpkin Roast": {
+    description: CONSUMABLES["Bumpkin Roast"].description,
+    image: bumpkinRoast,
+  },
+  "Goblin Brunch": {
+    description: CONSUMABLES["Goblin Brunch"].description,
+    image: goblinBrunch,
+  },
+  "Fruit Salad": {
+    description: CONSUMABLES["Fruit Salad"].description,
+    image: fruitSalad,
+  },
+  "Kale Omelette": {
+    description: CONSUMABLES["Kale Omelette"].description,
+    image: kaleOmelette,
+  },
+  "Cabbers n Mash": {
+    description: CONSUMABLES["Cabbers n Mash"].description,
+    image: cabbersNMash,
+  },
+  "Fancy Fries": {
+    description: CONSUMABLES["Fancy Fries"].description,
+    image: fancyFries,
+  },
 
   // Resources
   Wood: {
@@ -633,8 +703,18 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.power_shovel,
   },
   "Sand Shovel": {
-    ...SHOVELS["Sand Shovel"],
+    description: "Used for digging treasure",
     image: SUNNYSIDE.tools.sand_shovel,
+  },
+  "Sand Drill": {
+    description: "Drill deep for rare treasure",
+    image: drill,
+  },
+
+  "Block Buck": {
+    description:
+      "A voucher used for restocking and enhancing your Blockchain experience!",
+    image: blockBuck,
   },
 
   // SFTs
@@ -774,7 +854,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Roasted Cauliflower": {
     ...FOODS()["Roasted Cauliflower"],
-    image: roastedCaulfilower,
+    image: roastedCauliflower,
   },
   "Radish Pie": {
     ...FOODS()["Radish Pie"],
@@ -882,6 +962,7 @@ export const ITEM_DETAILS: Items = {
     description: "Free trades! Woohoo!",
     image: ticket,
   },
+
   "Beta Pass": {
     description: "Gain early access to features for testing.",
     image: betaPass,
@@ -1247,7 +1328,7 @@ export const ITEM_DETAILS: Items = {
     description: "3 enemies gone",
   },
   "War Tombstone": {
-    image: warTombston,
+    image: warTombstone,
     description: "A reward for your war efforts",
   },
   "Undead Rooster": {
@@ -1389,7 +1470,7 @@ export const ITEM_DETAILS: Items = {
     description: ACHIEVEMENTS().Timbeerrr.description,
   },
   "Bumpkin Chainsaw Amateur": {
-    image: bumpkinChainsawAmateu,
+    image: bumpkinChainsawAmateur,
     description: ACHIEVEMENTS()["Bumpkin Chainsaw Amateur"].description,
   },
   Driller: {
@@ -1425,7 +1506,7 @@ export const ITEM_DETAILS: Items = {
     description: ACHIEVEMENTS()["Bakers Dozen"].description,
   },
   "Chef de Cuisine": {
-    image: chefDeCusine,
+    image: chefDeCuisine,
     description: ACHIEVEMENTS()["Chef de Cuisine"].description,
   },
   Craftmanship: {
@@ -1465,50 +1546,49 @@ export const ITEM_DETAILS: Items = {
     description:
       "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.",
   },
-
   "Basic Bear": {
     image: basicBear,
-    description: DECORATIONS()["Basic Bear"].description,
+    description: HELIOS_DECORATIONS()["Basic Bear"].description,
   },
   "Chef Bear": {
     image: chefBear,
-    description: DECORATIONS()["Chef Bear"].description,
+    description: "Every chef needs a helping hand",
   },
   "Construction Bear": {
     image: constructionBear,
-    description: DECORATIONS()["Construction Bear"].description,
+    description: "Always build in a bear market",
   },
   "Angel Bear": {
     image: angelBear,
-    description: DECORATIONS()["Angel Bear"].description,
+    description: "Time to transcend peasant farming",
   },
   "Badass Bear": {
     image: badassBear,
-    description: DECORATIONS()["Badass Bear"].description,
+    description: "Nothing stands in your way.",
   },
   "Bear Trap": {
     image: bearTrap,
-    description: DECORATIONS()["Bear Trap"].description,
+    description: "It's a trap!",
   },
   "Brilliant Bear": {
     image: brilliantBear,
-    description: DECORATIONS()["Brilliant Bear"].description,
+    description: "Pure brilliance!",
   },
   "Classy Bear": {
     image: classyBear,
-    description: DECORATIONS()["Classy Bear"].description,
+    description: "More SFL than you know what to do with it!",
   },
   "Farmer Bear": {
     image: farmerBear,
-    description: DECORATIONS()["Farmer Bear"].description,
+    description: "Nothing quite like a hard day's work!",
   },
   "Rich Bear": {
     image: richBear,
-    description: DECORATIONS()["Rich Bear"].description,
+    description: "A prized possession",
   },
   "Sunflower Bear": {
     image: sunflowerBear,
-    description: DECORATIONS()["Sunflower Bear"].description,
+    description: "A Bear's cherished crop",
   },
   "Christmas Bear": {
     ...SALESMAN_ITEMS["Christmas Bear"],
@@ -1516,7 +1596,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Rainbow Artist Bear": {
     image: rainbowArtistBear,
-    description: DECORATIONS()["Rainbow Artist Bear"].description,
+    description: "The owner is a beautiful bear artist!",
   },
 
   "Cabbage Boy": {
@@ -1561,7 +1641,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
-    description: DECORATIONS()["Potted Pumpkin"].description,
+    description: HELIOS_DECORATIONS()["Potted Pumpkin"].description,
   },
   "Golden Crop": {
     image: goldenCrop,
@@ -1572,26 +1652,6 @@ export const ITEM_DETAILS: Items = {
     description: "Swirl the snow and watch it come to life",
   },
 
-  "Clam Shell": {
-    image: SUNNYSIDE.resource.clam_shell,
-    description: "?",
-  },
-  "Sea Cucumber": {
-    image: SUNNYSIDE.resource.sea_cucumber,
-    description: "?",
-  },
-  Coral: {
-    image: SUNNYSIDE.resource.coral,
-    description: "?",
-  },
-  Crab: {
-    image: SUNNYSIDE.resource.crab,
-    description: "?",
-  },
-  Starfish: {
-    image: SUNNYSIDE.resource.starfish,
-    description: "?",
-  },
   "Immortal Pear": {
     image: immortalPear,
     description: HELIOS_BLACKSMITH_ITEMS["Immortal Pear"].description,
@@ -1601,16 +1661,16 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_BLACKSMITH_ITEMS["Lady Bug"].description,
   },
   "Squirrel Monkey": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    image: squirrelMonkey,
+    description: GOBLIN_BLACKSMITH_ITEMS["Squirrel Monkey"].description,
   },
   "Black Bearry": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    image: blackBear,
+    description: GOBLIN_BLACKSMITH_ITEMS["Black Bearry"].description,
   },
   "Devil Bear": {
     image: devilBear,
-    description: DECORATIONS()["Devil Bear"].description,
+    description: "Better the Devil you know than the Devil you don't",
   },
   "Orange Squeeze": {
     image: orangeSqueeze,
@@ -1642,10 +1702,179 @@ export const ITEM_DETAILS: Items = {
   },
   "Maneki Neko": {
     image: manekiNeko,
-    description: "The beckoning cat. Pull it's arm and good luck will come",
+    description: "The beckoning cat. Pull its arm and good luck will come",
   },
   "Red Envelope": {
     image: redEnvelope,
     description: "Wow, you are lucky!",
+  },
+  "Love Letter": {
+    image: loveLetter,
+    description: "Convey feelings of love",
+  },
+
+  // Treasure Island
+  "Clam Shell": {
+    image: clamShell,
+    description: "A clam shell.",
+  },
+  "Sea Cucumber": {
+    image: SUNNYSIDE.resource.sea_cucumber,
+    description: "A sea cucumber.",
+  },
+  Coral: {
+    image: SUNNYSIDE.resource.coral,
+    description: "A piece of coral, it's pretty",
+  },
+  Crab: {
+    image: SUNNYSIDE.resource.crab,
+    description: "A crab, watch out for its claws!",
+  },
+  Starfish: {
+    image: SUNNYSIDE.resource.starfish,
+    description: "The star of the sea.",
+  },
+  "Pirate Bounty": {
+    description: "A bounty for a pirate. It's worth a lot of money.",
+    image: SUNNYSIDE.resource.pirate_bounty,
+  },
+  "Pirate Cake": {
+    description: CONSUMABLES["Pirate Cake"].description,
+    image: pirateCake,
+  },
+  "Abandoned Bear": {
+    description: "A bear that was left behind on the island.",
+    image: abandonedBear,
+  },
+  "Turtle Bear": {
+    description: "Turtley enough for the turtle club.",
+    image: turtleBear,
+  },
+  "T-Rex Skull": {
+    description: "A skull from a T-Rex! Amazing!",
+    image: tRexSkull,
+  },
+  "Sunflower Coin": {
+    description: "A coin made of sunflowers.",
+    image: sunflowerCoin,
+  },
+  Foliant: {
+    description: "A book of spells.",
+    image: foliant,
+  },
+  "Skeleton King Staff": {
+    description: "All hail the Skeleton King!",
+    image: skeletonKingStaff,
+  },
+  "Lifeguard Bear": {
+    description: "Lifeguard Bear is here to save the day!",
+    image: lifeguardBear,
+  },
+  "Snorkel Bear": {
+    description: "Snorkel Bear loves to swim.",
+    image: snorkelBear,
+  },
+  "Parasaur Skull": {
+    description: "A skull from a parasaur!",
+    image: parasaurSkull,
+  },
+  "Goblin Bear": {
+    description: "A goblin bear. It's a bit scary.",
+    image: goblinBear,
+  },
+  "Golden Bear Head": {
+    description: "Spooky, but cool.",
+    image: goldenBearHead,
+  },
+  "Pirate Bear": {
+    description: "Argh, matey! Hug me!",
+    image: pirateBear,
+  },
+  Galleon: {
+    description: "A toy ship, still in pretty good nick.",
+    image: galleon,
+  },
+  "Dinosaur Bone": {
+    description: "A Dinosaur Bone! What kind of creature was this?",
+    image: dinosaurBone,
+  },
+  "Human Bear": {
+    description: "A human bear. Even scarier than a goblin bear.",
+    image: humanBear,
+  },
+  "Wooden Compass": {
+    description:
+      "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
+    image: woodenCompass,
+  },
+  "Tiki Totem": {
+    description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
+    image: tikiTotem,
+  },
+  "Lunar Calendar": {
+    description:
+      "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
+    image: lunarCalendar,
+  },
+  "Heart of Davy Jones": {
+    description:
+      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
+    image: heartOfDavyJones,
+  },
+  "Treasure Map": {
+    description:
+      "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
+    image: treasureMap,
+  },
+  "Heart Balloons": {
+    description: "Use them as decorations for romantic occasions.",
+    image: heartBalloons,
+  },
+  Flamingo: {
+    description:
+      "Represents a symbol of love's beauty standing tall and confident.",
+    image: flamingo,
+  },
+  "Blossom Tree": {
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love.",
+    image: blossomTree,
+  },
+  Pearl: {
+    description: "Shimmers in the sun.",
+    image: pearl,
+  },
+  Pipi: {
+    description: "Plebidonax deltoides, found in the Pacific Ocean.",
+    image: pipi,
+  },
+  Seaweed: {
+    description: "Seaweed.",
+    image: seaweed,
+  },
+  "Whale Bear": {
+    description:
+      "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
+    image: whaleBear,
+  },
+  "Valentine Bear": {
+    description: "For those who love.",
+    image: valentineBear,
+  },
+
+  "Iron Idol": {
+    image: ironIdol,
+    description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
+  },
+
+  // Season tickets
+
+  "Solar Flare Ticket": {
+    image: solarFlareTicket,
+    description: "A ticket used during the Solar Flare Season",
+  },
+  "Dawn Breaker Ticket": {
+    image: dawnBreakerTicket,
+    description: "A ticket used during the Dawn Breaker Season",
   },
 };

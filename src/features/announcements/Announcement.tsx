@@ -1,53 +1,7 @@
-import React, { useContext } from "react";
-import { Context } from "features/game/GameProvider";
+import React from "react";
 import { Announcement as IAnnouncement } from "features/announcements";
-import { acknowledgeRead, getAnnouncements } from "./announcementsStorage";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SUNNYSIDE } from "assets/sunnyside";
-
-const CONTENT_HEIGHT = 400;
-
-export const Announcements: React.FC = () => {
-  const { gameService } = useContext(Context);
-
-  function onAcknowledge() {
-    acknowledgeRead();
-    gameService.send("ACKNOWLEDGE");
-  }
-
-  const announcements = getAnnouncements();
-
-  return (
-    true && (
-      <>
-        <div className="flex justify-between items-center mb-2 px-2">
-          <p className="text-sm">{`What's new!`}</p>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={onAcknowledge}
-            style={{
-              top: `${PIXEL_SCALE * 6}px`,
-              right: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-        </div>
-
-        <div
-          style={{ maxHeight: CONTENT_HEIGHT }}
-          className="overflow-y-auto p-2 divide-brown-600 scrollable"
-        >
-          {announcements.map((announcement, index) => (
-            <div className="mb-10" key={index}>
-              <Announcement key={index} announcement={announcement} />
-            </div>
-          ))}
-        </div>
-      </>
-    )
-  );
-};
+import { Label } from "components/ui/Label";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
   announcement,
@@ -66,12 +20,12 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
     )}
 
     {/* Date */}
-    <span className="block mb-1 text-xs">
+    <span className="block mb-1 text-xxs">
       {announcement.date.toDateString()}
     </span>
 
     {/* Title */}
-    <span className="block underline mb-1 text-sm">{announcement.title}</span>
+    <span className="block mb-3 text-base">{announcement.title}</span>
 
     {/* Notes */}
     <ul className="mt-2">
@@ -79,20 +33,22 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
         <li key={index} className="text-xs mb-3 flex">
           <div className="flex">
             {note.icon && (
-              <div className="w-10 flex justify-start items-start">
-                <img src={note.icon} className="w-6" />
+              <div className="flex justify-start items-start mr-2">
+                <SquareIcon icon={note.icon} width={10} />
               </div>
             )}
             <div className="flex-1">
               <p>{note.text}</p>
               <div className="flex mt-1 items-center">
                 {note.date && (
-                  <p className="text-xxs mr-2">{note.date.toLocaleString()}</p>
+                  <Label type="info" className="mr-2">
+                    {note.date.toLocaleString()}
+                  </Label>
                 )}
                 {note.link && (
                   <a
                     target="_blank"
-                    className="underline text-xxs"
+                    className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
                     href={note.link.url}
                     rel="noreferrer"
                   >
@@ -112,7 +68,7 @@ export const Announcement: React.FC<{ announcement: IAnnouncement }> = ({
         href={announcement.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-xs"
+        className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
       >
         Read more
       </a>

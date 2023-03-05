@@ -8,7 +8,7 @@ import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { Equipped as BumpkinParts } from "./bumpkin";
-import { ConsumableName } from "./consumables";
+import { ConsumableName, CookableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
@@ -16,8 +16,13 @@ import { DecorationName } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
-import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import {
+  GoblinBlacksmithItemName,
+  GoblinPirateItemName,
+  HeliosBlacksmithItem,
+} from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
+import { TreasureToolName } from "./tools";
 
 export type Reward = {
   sfl?: Decimal;
@@ -97,16 +102,22 @@ export type MutantChicken =
 
 export type Coupons =
   | "Trading Ticket"
+  | "Solar Flare Ticket"
   | "War Bond"
   | "Jack-o-lantern"
   | "Golden Crop"
   | "Beta Pass"
-  | "Red Envelope";
+  | "Red Envelope"
+  | "Love Letter"
+  | "Block Buck"
+  | "Solar Flare Ticket"
+  | "Dawn Breaker Ticket";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
+
   "War Bond": {
     description: "A mark of a true warrior",
   },
@@ -121,6 +132,19 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Red Envelope": {
     description: "Someone was lucky!",
+  },
+  "Love Letter": {
+    description: "Convey feelings of love",
+  },
+  "Block Buck": {
+    description:
+      "A voucher used for restocking and enhancing your Blockchain experience!",
+  },
+  "Solar Flare Ticket": {
+    description: "A ticket used during the Solar Flare Season",
+  },
+  "Dawn Breaker Ticket": {
+    description: "A ticket used during the Dawn Breaker Season",
   },
 };
 
@@ -177,7 +201,10 @@ export type InventoryItemName =
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem
-  | GoblinBlacksmithItemName;
+  | GoblinBlacksmithItemName
+  | GoblinPirateItemName
+  | TreasureName
+  | TreasureToolName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -219,7 +246,7 @@ export type WarCollectionOffer = {
 
 export type GrubShopOrder = {
   id: string;
-  name: ConsumableName;
+  name: CookableName;
   sfl: Decimal;
 };
 
@@ -284,7 +311,7 @@ export type FruitPatch = {
 export type Mine = Position;
 
 export type BuildingProduct = {
-  name: ConsumableName;
+  name: CookableName;
   readyAt: number;
 };
 
@@ -349,6 +376,19 @@ export type Reveal = {
   id: string;
 };
 
+export type TreasureHole = {
+  dugAt: number;
+  discovered: InventoryItemName | null;
+};
+
+export type Bid = {
+  sfl: number;
+  ingredients: Partial<Record<InventoryItemName, number>>;
+  item: AuctioneerItemName;
+  bidAt: number;
+  auctionTickets: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -382,8 +422,33 @@ export interface GameState {
     id: string;
     fulfilledAt: number;
   }[];
+  treasureIsland?: {
+    holes: Record<number, TreasureHole>;
+    rareTreasure?: {
+      reward?: InventoryItemName;
+      discoveredAt: number;
+      holeId: number;
+    };
+    rewardCollectedAt?: number;
+  };
+
   // TODO remove when old events are deleted
   migrated?: boolean;
+  metadata?: any[];
+  pumpkinPlaza: {
+    rewardCollectedAt?: number;
+    kickedAt?: number;
+    kickedById?: number;
+  };
+  dailyRewards: {
+    chest?: {
+      collectedAt: number;
+      code: number;
+    };
+  };
+  auctioneer: {
+    bid?: Bid;
+  };
 }
 
 export interface Context {

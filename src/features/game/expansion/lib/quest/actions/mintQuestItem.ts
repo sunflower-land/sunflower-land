@@ -12,7 +12,6 @@ async function waitForQuest(questId: number, bumpkinId: number): Promise<void> {
     bumpkinId
   );
 
-  console.log({ statuses: statuses, questId });
   if (statuses[0] === false) {
     await new Promise((res) => setTimeout(res, 5000));
 

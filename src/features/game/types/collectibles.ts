@@ -1,13 +1,18 @@
 import Decimal from "decimal.js-light";
 import { Inventory } from "./game";
 
-export type HeliosBlacksmithItem = "Immortal Pear";
+export type HeliosBlacksmithItem = "Immortal Pear" | "Treasure Map";
 
 export type GoblinBlacksmithItemName =
   | "Lady Bug"
   | "Squirrel Monkey"
   | "Black Bearry"
-  | "Maneki Neko";
+  | "Maneki Neko"
+  | "Heart Balloons"
+  | "Flamingo"
+  | "Blossom Tree";
+
+export type GoblinPirateItemName = "Iron Idol" | "Heart of Davy Jones";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
@@ -29,11 +34,50 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     },
     boost: "+1 harvest",
   },
+  "Treasure Map": {
+    description: "X marks the spot!",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Wooden Compass": new Decimal(2),
+    },
+    boost: "+20% SFL on Treasure Bounty",
+  },
 };
 
 export type GoblinBlacksmithCraftable = CraftableCollectible & {
   supply: number;
   disabled?: boolean;
+};
+
+export type GoblinPirateCraftable = CraftableCollectible & {
+  supply: number;
+  disabled?: boolean;
+};
+
+export const GOBLIN_PIRATE_ITEMS: Record<
+  GoblinPirateItemName,
+  GoblinPirateCraftable
+> = {
+  "Iron Idol": {
+    description: "The Idol adds 1 iron every time you mine iron.",
+    ingredients: {
+      Gold: new Decimal(10),
+      Starfish: new Decimal(40),
+      Pearl: new Decimal(1),
+    },
+    supply: 200,
+    boost: "+1 Iron",
+  },
+  "Heart of Davy Jones": {
+    description:
+      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring",
+    ingredients: {
+      Gold: new Decimal(10),
+      "Wooden Compass": new Decimal(6),
+    },
+    supply: 1000,
+    boost: "Dig an extra 20 times per day",
+  },
 };
 
 export const GOBLIN_BLACKSMITH_ITEMS: Record<
@@ -71,12 +115,36 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     boost: "+1 Blueberry",
   },
   "Maneki Neko": {
-    description: "The beckoning cat. Pull it's arm and good luck will come",
+    description: "The beckoning cat. Pull its arm and good luck will come",
     ingredients: {
       Gold: new Decimal(1),
       "Red Envelope": new Decimal(50),
     },
     supply: 30000,
-    disabled: false,
+    disabled: true,
+  },
+  "Heart Balloons": {
+    description: "Use them as decorations for romantic occasions.",
+    ingredients: {
+      "Love Letter": new Decimal(10),
+    },
+    supply: 20000,
+  },
+  Flamingo: {
+    description:
+      "Represents a symbol of love's beauty standing tall and confident.",
+    ingredients: {
+      "Love Letter": new Decimal(75),
+    },
+    supply: 3000,
+  },
+  "Blossom Tree": {
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love",
+    ingredients: {
+      "Love Letter": new Decimal(350),
+      Wood: new Decimal(500),
+    },
+    supply: 250,
   },
 };

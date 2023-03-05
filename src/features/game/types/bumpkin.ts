@@ -7,13 +7,15 @@ export type BumpkinBackground =
   | "Jail Background"
   | "Christmas Background"
   | "Mountain View Background"
-  | "China Town Background";
+  | "China Town Background"
+  | "SFL Office Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
   | "Light Brown Farmer Potion"
   | "Dark Brown Farmer Potion"
-  | "Goblin Potion";
+  | "Goblin Potion"
+  | "Pirate Potion";
 
 export type BumpkinHair =
   | "Basic Hair"
@@ -29,7 +31,8 @@ export type BumpkinHair =
   | "Red Long Hair"
   | "Blacksmith Hair"
   | "Fire Hair"
-  | "Luscious Hair";
+  | "Luscious Hair"
+  | "Cupid Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -43,9 +46,16 @@ export type BumpkinShirt =
   | "Developer Hoodie"
   | "Bumpkin Art Competition Merch"
   | "Fire Shirt"
-  | "Pineapple Shirt";
+  | "Pineapple Shirt"
+  | "Fruit Picker Shirt"
+  | "Striped Blue Shirt"
+  | "Pirate Leather Polo"
+  | "Hawaiian Shirt";
 
-export type BumpkinCoat = "Chef Apron";
+export type BumpkinCoat =
+  | "Chef Apron"
+  | "Fruit Picker Apron"
+  | "Pirate General Coat";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -55,13 +65,18 @@ export type BumpkinTool =
   | "Golden Spatula"
   | "Hammer"
   | "Ancient War Hammer"
-  | "Ancient Goblin Sword";
+  | "Ancient Goblin Sword"
+  | "Pirate Scimitar"
+  | "Bumpkin Puppet"
+  | "Goblin Puppet";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
   | "Brown Boots"
   | "Yellow Boots"
-  | "Bumpkin Boots";
+  | "Bumpkin Boots"
+  | "Peg Leg"
+  | "Cupid Sandals";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -77,7 +92,9 @@ export type BumpkinHat =
   | "Skull Hat"
   | "Reindeer Antlers"
   | "Santa Hat"
-  | "Lion Dance Mask";
+  | "Lion Dance Mask"
+  | "Fruit Bowl"
+  | "Pirate Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -88,22 +105,30 @@ export type BumpkinPant =
   | "Blue Suspenders"
   | "Fancy Pants"
   | "Maiden Skirt"
-  | "Peasant Skirt";
+  | "Peasant Skirt"
+  | "Pirate Pants";
 
-export type BumpkinSecondaryTool = "Sunflower Shield";
+export type BumpkinDress = "Cupid Dress";
+export type BumpkinSecondaryTool = "Sunflower Shield" | "Crab Claw";
 
 // Goes over clothes + head
-export type BumpkinOnesie = "Snowman Onesie" | "Shark Onesie";
+export type BumpkinOnesie =
+  | "Snowman Onesie"
+  | "Shark Onesie"
+  | "Bear Onesie"
+  | "Tiger Onesie"
+  | "Frog Onesie";
 
 // Goes over clothes
 export type BumpkinSuit = "Reindeer Suit";
 
-export type BumpkinWings = "Angel Wings" | "Devil Wings";
+export type BumpkinWings = "Angel Wings" | "Devil Wings" | "Love Quiver";
 export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
   | BumpkinShirt
   | BumpkinPant
+  | BumpkinDress
   | BumpkinTool
   | BumpkinShoe
   | BumpkinHat
@@ -195,6 +220,29 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Pineapple Shirt": 82,
   "China Town Background": 83,
   "Lion Dance Mask": 84,
+  "Fruit Picker Shirt": 85,
+  "Fruit Picker Apron": 86,
+  "Fruit Bowl": 87,
+  "Striped Blue Shirt": 88,
+  "Peg Leg": 89,
+  "Pirate Potion": 90,
+  "Pirate Hat": 91,
+  "Pirate General Coat": 92,
+  "Pirate Pants": 93,
+  "Pirate Leather Polo": 94,
+  "Crab Claw": 95,
+  "Pirate Scimitar": 96,
+  "Cupid Hair": 97,
+  "Cupid Dress": 98,
+  "Cupid Sandals": 99,
+  "Love Quiver": 100,
+  "SFL Office Background": 101,
+  "Bumpkin Puppet": 102,
+  "Goblin Puppet": 103,
+  "Hawaiian Shirt": 104,
+  "Bear Onesie": 105,
+  "Frog Onesie": 106,
+  "Tiger Onesie": 107,
 };
 
 // The reverse of above
@@ -221,14 +269,15 @@ export type Wallet = {
   onesie: BumpkinOnesie[];
   suit: BumpkinSuit[];
   wings: BumpkinWings[];
+  dress?: BumpkinDress[];
 };
 
 export type Equipped = {
   background: BumpkinBackground;
   hair: BumpkinHair;
   body: BumpkinBody;
-  shirt: BumpkinShirt;
-  pants: BumpkinPant;
+  shirt?: BumpkinShirt;
+  pants?: BumpkinPant;
   shoes: BumpkinShoe;
   tool: BumpkinTool;
   necklace?: BumpkinNecklace;
@@ -238,6 +287,7 @@ export type Equipped = {
   onesie?: BumpkinOnesie;
   suit?: BumpkinSuit;
   wings?: BumpkinWings;
+  dress?: BumpkinDress;
 };
 
 export type BumpkinPart = keyof Equipped;

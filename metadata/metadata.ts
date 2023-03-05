@@ -458,7 +458,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Gnome: {
     name: "Gnome",
     description:
-      "A lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the Gobblin Blacksmith in the game.~~ **Sold out!**",
+      "A lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the Goblin Blacksmith in the game.~~ **Sold out!**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/407.gif",
@@ -750,7 +750,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_number",
-        trait_type: "Stone Critical Hit Multipler",
+        trait_type: "Stone Critical Hit Multiplier",
         value: 3,
       },
       { value: "Tradable" },
@@ -841,7 +841,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Victoria Sisters": {
     name: "Victoria Sisters",
     description:
-      "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.\n\nTo craft this item you must collect 50 Jack-o-lantern's and trade with the travelling salesman.",
+      "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.\n\nTo craft this item you must collect 50 Jack-o-lantern's and trade with the Traveling Salesman.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/432.gif",
@@ -1405,6 +1405,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/713.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
+
   "Beta Pass": {
     name: "Beta Pass",
     description: "Gain early access to features for testing.",
@@ -2323,7 +2324,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_number",
-        trait_type: "Crop Critical Hit Multipler",
+        trait_type: "Crop Critical Hit Multiplier",
         value: 10,
       },
       { trait_type: "Purpose", value: "Boost" },
@@ -2466,7 +2467,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1210.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoraton" }],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Bumpkin Broth": {
     description:
@@ -2488,14 +2489,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Don't wake the baby!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/434.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Cabbage Girl": {
     description: "Don't wake the baby!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/435.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Cauliflower Burger": {
@@ -2580,7 +2581,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Got a surplus of carrots? You can cook this at the Deli.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/526.png",
     attributes: [{ trait_type: "Purpose", value: "Food" }],
   },
   "Goblin's Treat": {
@@ -2763,7 +2764,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Sand Shovel": {
     description:
-      "There are rumours that the Bumpkin pirares hid their treasure somewhere. These shovels can be used to dig for treasure!",
+      "There are rumours that the Bumpkin pirates hid their treasure somewhere. These shovels can be used to dig for treasure!",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/310.png",
@@ -2814,11 +2815,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Wood Nymph Wendy": {
-    description: "Coming Soon",
+    description: "Cast an enchantment to entice the wood fairies.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    image_url: "../public/erc1155/images/436.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Drops",
+        value: 0.2,
+      },
+      { value: "Tradable" },
+    ],
   },
   "Shiny Bean": {
     description: "Coming Soon",
@@ -2883,7 +2892,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "This long-lived pear ensures your fruit tree survives +1 bonus harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/441.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Lady Bug": {
@@ -2891,15 +2900,23 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "An incredible bug that feeds on aphids. Improves Apple quality. +0.25 Apples each harvest",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    image_url: "../public/erc1155/images/442.gif",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Apple Drops",
+        value: 0.25,
+      },
+      { value: "Tradable" },
+    ],
   },
   "Squirrel Monkey": {
     description:
       "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around. 1/2 Orange Tree grow time.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/443.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Black Bearry": {
@@ -2907,7 +2924,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful! +1 Blueberry each Harvest",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/444.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Devil Bear": {
@@ -2926,7 +2943,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Maneki Neko": {
     description:
-      "The beckoning cat. Pull it's arm and good luck will come. A special event item from Lunar New Year!",
+      "The beckoning cat. Pull its arm and good luck will come. A special event item from Lunar New Year!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/446.gif",
@@ -2953,5 +2970,317 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/716.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
+  },
+  "Abandoned Bear": {
+    description: "A bear that was left behind on the island.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1223.png",
+    attributes: [],
+  },
+  "Lunar Calendar": {
+    description:
+      "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/448.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Dinosaur Bone": {
+    description: "A Dinosaur Bone! What kind of creature was this?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1237.png",
+    attributes: [],
+  },
+  "Parasaur Skull": {
+    description: "A skull from a parasaur!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1231.png",
+    attributes: [],
+  },
+  "T-Rex Skull": {
+    description: "A skull from a T-Rex! Amazing!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1225.png",
+    attributes: [],
+  },
+  "Goblin Bear": {
+    description: "A goblin bear. It's a bit scary.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1234.png",
+    attributes: [],
+  },
+  "Golden Bear Head": {
+    description: "Spooky, but cool.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1232.png",
+    attributes: [],
+  },
+  "Human Bear": {
+    description: "A human bear. Even scarier than a goblin bear.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1238.png",
+    attributes: [],
+  },
+  "Lifeguard Bear": {
+    description: "Lifeguard Bear is here to save the day!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1229.png",
+    attributes: [],
+  },
+  "Pirate Bear": {
+    description: "Argh, matey! Hug me!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1233.png",
+    attributes: [],
+  },
+  "Pirate Bounty": {
+    description: "A bounty for a pirate. It's worth a lot of money.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1301.png",
+    attributes: [],
+  },
+  "Pirate Cake": {
+    description: "Great for Pirate themed birthday parties.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/540.png",
+    attributes: [],
+  },
+  "Skeleton King Staff": {
+    description: "All hail the Skeleton King!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1228.png",
+    attributes: [],
+  },
+  "Snorkel Bear": {
+    description: "Snorkel Bear loves to swim.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1230.png",
+    attributes: [],
+  },
+  "Whale Bear": {
+    description:
+      "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1239.png",
+    attributes: [],
+  },
+  "Sunflower Coin": {
+    description: "A coin made of sunflowers.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1226.png",
+    attributes: [],
+  },
+  "Wooden Compass": {
+    description:
+      "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/925.png",
+    attributes: [],
+  },
+  "Turtle Bear": {
+    description: "Turtley enough for the turtle club.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1224.png",
+    attributes: [],
+  },
+  "Tiki Totem": {
+    description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/447.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Heart of Davy Jones": {
+    description:
+      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/450.gif",
+    attributes: [],
+  },
+  "Heart Balloons": {
+    description: "Use them as decorations for romantic occasions.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/451.png",
+    attributes: [],
+  },
+  Flamingo: {
+    description:
+      "Represents a symbol of love's beauty standing tall and confident.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/452.png",
+    attributes: [],
+  },
+  "Blossom Tree": {
+    description:
+      "Its delicate petals symbolizes the beauty and fragility of love.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/453.png",
+    attributes: [],
+  },
+  "Love Letter": {
+    description: "Convey feelings of love",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/717.png",
+    attributes: [],
+  },
+  "Treasure Map": {
+    description:
+      "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/449.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Profit from beach bounty items",
+        value: 20,
+      },
+    ],
+  },
+  Foliant: {
+    description: "A book of spells.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1227.png",
+    attributes: [],
+  },
+  Galleon: {
+    description: "A toy ship, still in pretty good nick.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1235.png",
+    attributes: [],
+  },
+  Pearl: {
+    description: "Shimmers in the sun.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1302.png",
+    attributes: [],
+  },
+  Pipi: {
+    description: "Plebidonax deltoides, found in the Pacific Ocean.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1305.png",
+    attributes: [],
+  },
+  Seaweed: {
+    description: "Seaweed.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1307.png",
+    attributes: [],
+  },
+  "Sand Drill": {
+    description: "Drill deep for rare treasure",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/311.png",
+    attributes: [],
+  },
+  "Block Buck": {
+    description:
+      "A voucher used for restocking and enhancing your Blockchain experience!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/718.png",
+    attributes: [],
+  },
+  "Valentine Bear": {
+    description:
+      "A bear for those who love. Awarded to people who showed some love",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1240.png",
+    attributes: [],
+  },
+  "Iron Idol": {
+    description: "The Idol adds 1 iron every time you mine iron.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/454.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Bumpkin Roast": {
+    description:
+      "A traditional Bumpkin dish. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/541.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Goblin Brunch": {
+    description: "A traditional Goblin dish. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/542.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Fruit Salad": {
+    description: "Fruit Salad. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/543.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Kale Omelette": {
+    description: "A healthy breakfast. You can can cook this at the Fire Pit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/544.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Cabbers n Mash": {
+    description:
+      "Cabbages and Mashed Potatoes. You can can cook this at the Fire Pit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/545.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Fancy Fries": {
+    description: "Fantastic Fries. You can cook this at the Deli.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/546.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Solar Flare Ticket": {
+    description: "A ticket used during the Solar Flare Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/719.png",
+    attributes: [],
+  },
+  "Dawn Breaker Ticket": {
+    description: "A ticket used during the Dawn Breaker Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/720.png",
+    attributes: [],
   },
 };

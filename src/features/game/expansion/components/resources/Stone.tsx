@@ -98,9 +98,11 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
     if (!hasPickaxes) return;
 
-    const isPlaying = sparkGif.current?.getInfo("isPlaying");
+    const spriteFrame = sparkGif.current?.getInfo("frame");
 
-    if (isPlaying) return;
+    if (spriteFrame && spriteFrame < 6) {
+      return;
+    }
 
     miningAudio.play();
     sparkGif.current?.goToAndPlay(0);
@@ -188,7 +190,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Unmined stone which is strikeable */}
+      {/* Unmined stone which is strikable */}
       {!mined && (
         <div
           ref={containerRef}

@@ -56,6 +56,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Shovel: 308,
   "Power Shovel": 309,
   "Sand Shovel": 310,
+  "Sand Drill": 311,
 
   "Sunflower Statue": 401,
   "Potato Statue": 402,
@@ -103,6 +104,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Black Bearry": 444,
   "Ayam Cemani": 445,
   "Maneki Neko": 446,
+  "Tiki Totem": 447,
+  "Lunar Calendar": 448,
+  "Treasure Map": 449,
+  "Heart of Davy Jones": 450,
+  "Heart Balloons": 451,
+  Flamingo: 452,
+  "Blossom Tree": 453,
+  "Iron Idol": 454,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -143,6 +152,13 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Purple Smoothie": 537,
   "Power Smoothie": 538,
   "Bumpkin Detox": 539,
+  "Pirate Cake": 540,
+  "Bumpkin Roast": 541,
+  "Goblin Brunch": 542,
+  "Fruit Salad": 543,
+  "Kale Omelette": 544,
+  "Cabbers n Mash": 545,
+  "Fancy Fries": 546,
 
   Wood: 601,
   Stone: 602,
@@ -161,11 +177,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wild Mushroom": 615,
   "Magic Mushroom": 616,
   Diamond: 617,
-  "Clam Shell": 618,
-  "Sea Cucumber": 619,
-  Coral: 620,
-  Crab: 621,
-  Starfish: 622,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -183,6 +194,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Warrior: 714,
   "Beta Pass": 715,
   "Red Envelope": 716,
+  "Love Letter": 717,
+  "Block Buck": 718,
+  "Solar Flare Ticket": 719,
+  "Dawn Breaker Ticket": 720,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -252,6 +267,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Jack-o-lantern": 923,
   //Golden crop event
   "Golden Crop": 924,
+  "Wooden Compass": 925,
 
   // Buildings
   Market: 1001,
@@ -304,6 +320,35 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Devil Bear": 1220,
   "Collectible Bear": 1221,
   "Cyborg Bear": 1222,
+  "Abandoned Bear": 1223,
+  "Turtle Bear": 1224,
+  "T-Rex Skull": 1225,
+  "Sunflower Coin": 1226,
+  Foliant: 1227,
+  "Skeleton King Staff": 1228,
+  "Lifeguard Bear": 1229,
+  "Snorkel Bear": 1230,
+  "Parasaur Skull": 1231,
+  "Golden Bear Head": 1232,
+  "Pirate Bear": 1233,
+  "Goblin Bear": 1234,
+  Galleon: 1235,
+  // "": 1236,Available for use
+  "Dinosaur Bone": 1237,
+  "Human Bear": 1238,
+  "Whale Bear": 1239,
+  "Valentine Bear": 1240,
+
+  //Beach Bounty
+  "Pirate Bounty": 1301,
+  Pearl: 1302,
+  Coral: 1303,
+  "Clam Shell": 1304,
+  Pipi: 1305,
+  Starfish: 1306,
+  Seaweed: 1307,
+  "Sea Cucumber": 1308,
+  Crab: 1309,
 };
 
 // The reverse of above

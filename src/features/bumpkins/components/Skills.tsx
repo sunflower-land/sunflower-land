@@ -10,7 +10,6 @@ import {
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { SkillPointsLabel } from "./SkillPointsLabel";
 import { SkillCategoryList } from "./SkillCategoryList";
 
 import seedSpecialist from "assets/skills/seed_specialist.png";
@@ -19,13 +18,15 @@ import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { pixelGreenBorderStyle } from "features/game/lib/style";
 
 interface Props {
   onBack: () => void;
   onClose: () => void;
+  readonly: boolean;
 }
 
-export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
+export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -63,24 +64,70 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
 
   const skillPointsInfo = () => {
-    const levelRequired = findLevelRequiredForNextSkillPoint(experience);
+    const nextLevelWithSkillPoint =
+      findLevelRequiredForNextSkillPoint(experience);
 
     return (
-      <>
+      <div className="flex flex-wrap gap-1">
         {availableSkillPoints > 0 && (
-          <SkillPointsLabel points={availableSkillPoints} />
-        )}
-        {!availableSkillPoints && levelRequired && (
-          <Label type="default">
-            <p className="text-xxs px-1">{`Unlock skill point: level ${findLevelRequiredForNextSkillPoint(
-              experience
-            )}`}</p>
+          <Label
+            type="default"
+            className="bg-green-background text-xxs px-1 whitespace-nowrap"
+            style={pixelGreenBorderStyle}
+          >
+            Skill Points: {availableSkillPoints}
           </Label>
         )}
-      </>
+        {nextLevelWithSkillPoint && (
+          <Label type="default" className="text-xxs px-1 whitespace-nowrap">
+            Next skill point: level {nextLevelWithSkillPoint}
+          </Label>
+        )}
+      </div>
     );
   };
 
+  return (
+    <div
+      style={{
+        minHeight: "200px",
+      }}
+    >
+      <div
+        className="flex flex-row my-2 items-center"
+        style={{
+          margin: `${PIXEL_SCALE * 2}px`,
+        }}
+      >
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer"
+          alt="back"
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            marginRight: `${PIXEL_SCALE * 4}px`,
+          }}
+          onClick={handleBack}
+        />
+        {!readonly && skillPointsInfo()}
+      </div>
+      {!selectedSkillPath && (
+        <SkillCategoryList
+          onClick={(category) => onSkillCategoryClickHandler(category)}
+        />
+      )}
+      {selectedSkillPath && (
+        <SkillPathDetails
+          selectedSkillPath={selectedSkillPath}
+          skillsInPath={skillsInPath}
+          readonly={readonly}
+        />
+      )}
+    </div>
+  );
+};
+
+export const SkillsModal: React.FC<Props> = ({ onBack, onClose, readonly }) => {
   return (
     <Panel className="relative" hasTabs>
       <div
@@ -106,41 +153,7 @@ export const Skills: React.FC<Props> = ({ onBack, onClose }) => {
           }}
         />
       </div>
-      <div
-        style={{
-          minHeight: "200px",
-        }}
-      >
-        <div
-          className="flex flex-row my-2 items-center"
-          style={{
-            margin: `${PIXEL_SCALE * 2}px`,
-          }}
-        >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="cursor-pointer"
-            alt="back"
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              marginRight: `${PIXEL_SCALE * 4}px`,
-            }}
-            onClick={handleBack}
-          />
-          {!gameState.matches("visiting") && skillPointsInfo()}
-        </div>
-        {!selectedSkillPath && (
-          <SkillCategoryList
-            onClick={(category) => onSkillCategoryClickHandler(category)}
-          />
-        )}
-        {selectedSkillPath && (
-          <SkillPathDetails
-            selectedSkillPath={selectedSkillPath}
-            skillsInPath={skillsInPath}
-          />
-        )}
-      </div>
+      <Skills onBack={onBack} onClose={onClose} readonly={readonly} />
     </Panel>
   );
 };

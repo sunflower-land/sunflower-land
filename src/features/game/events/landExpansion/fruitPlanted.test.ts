@@ -419,7 +419,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
   });
 
-  it("includes Squirrel Money bonus on Oranges", () => {
+  it("includes Squirrel Monkey bonus on Oranges", () => {
     const seedAmount = new Decimal(5);
 
     const patchIndex = 1;
@@ -459,7 +459,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1);
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt
-    ).toEqual(dateNow + FRUIT_SEEDS()["Orange Seed"].plantSeconds / 2);
+    ).toEqual(dateNow - (FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000) / 2);
   });
 
   it("includes Black Bearry bonus on Blueberries", () => {

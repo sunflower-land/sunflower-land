@@ -7,8 +7,13 @@ import { marketRate } from "../lib/halvening";
 import { LimitedItemType } from ".";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
-import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
+import {
+  GoblinBlacksmithItemName,
+  GoblinPirateItemName,
+  HeliosBlacksmithItem,
+} from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
+import { BoostTreasure } from "./treasure";
 
 export { FLAGS };
 
@@ -182,6 +187,8 @@ export type CollectibleName =
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | GoblinPirateItemName
+  | BoostTreasure
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -195,7 +202,7 @@ export type ToolName =
   | "Hammer"
   | "Rod";
 
-export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel" | "Sand Shovel";
+export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -582,22 +589,6 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
       },
       {
         item: "Gold",
-        amount: new Decimal(5),
-      },
-    ],
-    disabled: true,
-  },
-  "Sand Shovel": {
-    name: "Sand Shovel",
-    description: "Used for digging treasure",
-    tokenAmount: new Decimal(25),
-    ingredients: [
-      {
-        item: "Wood",
-        amount: new Decimal(20),
-      },
-      {
-        item: "Stone",
         amount: new Decimal(5),
       },
     ],
@@ -1125,12 +1116,22 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Christmas Bear": { width: 1, height: 1 },
   "Christmas Snow Globe": { width: 2, height: 2 },
   "Lady Bug": { width: 1, height: 1 },
-  "Squirrel Monkey": { width: 1, height: 1 },
+  "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
+  "Iron Idol": { height: 2, width: 2 },
 
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
   "Cyborg Bear": { width: 1, height: 1 },
+
+  // Treasure Island SFTs
+  "Tiki Totem": { height: 1, width: 1 },
+  "Lunar Calendar": { height: 1, width: 1 },
+  "Heart of Davy Jones": { height: 2, width: 2 },
+  "Treasure Map": { height: 1, width: 2 },
+  "Heart Balloons": { height: 1, width: 1 },
+  Flamingo: { height: 2, width: 2 },
+  "Blossom Tree": { height: 2, width: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

@@ -99,9 +99,11 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
     if (!hasPickaxes) return;
 
-    const isPlaying = sparkGif.current?.getInfo("isPlaying");
+    const spriteFrame = sparkGif.current?.getInfo("frame");
 
-    if (isPlaying) return;
+    if (spriteFrame && spriteFrame < 6) {
+      return;
+    }
 
     miningAudio.play();
     sparkGif.current?.goToAndPlay(0);
@@ -189,7 +191,7 @@ export const Gold: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Unmined gold which is strikeable */}
+      {/* Unmined gold which is strikable */}
       {!mined && (
         <div
           ref={containerRef}

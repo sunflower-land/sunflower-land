@@ -10,19 +10,29 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
-import { CropName, CROPS } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
-import { TREASURE, TreasureName } from "features/game/types/treasure";
+import {
+  BeachBountyTreasure,
+  BEACH_BOUNTY_TREASURE,
+} from "features/game/types/treasure";
+import { getSellPrice } from "features/game/events/landExpansion/treasureSold";
 
 export const TreasureShopSell: React.FC = () => {
-  const [selectedName, setSelectedName] =
-    useState<TreasureName>("Sea Cucumber");
+  const beachBountyTreasure = getKeys(BEACH_BOUNTY_TREASURE).sort((a, b) =>
+    BEACH_BOUNTY_TREASURE[a].sellPrice
+      .sub(BEACH_BOUNTY_TREASURE[b].sellPrice)
+      .toNumber()
+  );
 
-  const selected = TREASURE()[selectedName];
+  const [selectedName, setSelectedName] = useState<BeachBountyTreasure>(
+    beachBountyTreasure[0]
+  );
+
+  const selected = BEACH_BOUNTY_TREASURE[selectedName];
   const { setToast } = useContext(ToastContext);
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },
@@ -31,24 +41,20 @@ export const TreasureShopSell: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const price = selected.sfl;
+  const price = getSellPrice(selected, state.collectibles);
   const amount = inventory[selectedName] || new Decimal(0);
 
   const sell = (amount = 1) => {
-    // gameService.send("seed.bought", {
-    //   item: selectedName,
-    //   amount,
-    // });
+    gameService.send("treasure.sold", {
+      item: selectedName,
+      amount,
+    });
 
     setToast({
       icon: token,
-      content: `-${price?.mul(amount).toString()}`,
+      content: `+${price?.mul(amount).toString()}`,
     });
-
-    shortcutItem(selectedName);
   };
-
-  const stock = state.stock[selectedName] || new Decimal(0);
 
   const Action = () => {
     return (
@@ -64,23 +70,20 @@ export const TreasureShopSell: React.FC = () => {
     );
   };
 
-  const cropName = selectedName.split(" ")[0] as CropName;
-  const crop = CROPS()[cropName];
-
   return (
     <div className="flex flex-col-reverse sm:flex-row">
       <div className="w-full max-h-48 sm:max-h-96 sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap">
-        {getKeys(TREASURE()).map((name: TreasureName) => (
+        {beachBountyTreasure.map((name: BeachBountyTreasure) => (
           <Box
             isSelected={selectedName === name}
             key={name}
             onClick={() => setSelectedName(name)}
             image={ITEM_DETAILS[name].image}
-            count={amount}
+            count={inventory[name] || new Decimal(0)}
           />
         ))}
       </div>
-      <OuterPanel className="w-full flex-1">
+      <OuterPanel className="w-full flex flex-1 flex-col justify-between">
         <div className="flex flex-col justify-center items-start sm:items-center p-2 pb-0 relative">
           <div className="flex space-x-2 items-center mt-1 sm:flex-col-reverse md:space-x-0">
             <img

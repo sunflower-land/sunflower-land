@@ -49,6 +49,14 @@ button:disabled {
   cursor: not-allowed;
 }
 
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
 #walletconnect-wrapper {
   all: initial;
 }
@@ -250,6 +258,18 @@ img {
   border-radius: 5px;
   border: 2.625px solid black;
   background-color: #eea368;
+}
+
+/* Hide scrollbar clsas or webkit-based browsers (Chrome, Safari and Opera) */
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .running {
@@ -454,5 +474,36 @@ img {
   }
   100% {
     transform: translate(0, 0);
+  }
+}
+
+.treasure-reward {
+  animation: rise-up 750ms ease;
+  animation-fill-mode: both;
+  transform-origin: bottom center;
+}
+
+@keyframes rise-up {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0.4, 0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.scaling {
+  transition: scaler 1s ease-in-out;
+}
+
+@keyframes scaler {
+  0% {
+    transforms: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
   }
 }

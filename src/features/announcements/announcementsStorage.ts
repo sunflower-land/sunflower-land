@@ -51,3 +51,19 @@ export function getGameRulesLastRead(): Date | null {
 export function acknowledgeGameRules() {
   return localStorage.setItem("gameRulesLastRead", new Date().toISOString());
 }
+
+export function getCodeOfConductLastRead(): Date | null {
+  const value = localStorage.getItem("codeOfConductLastRead");
+  if (!value) {
+    return null;
+  }
+
+  return new Date(value);
+}
+
+export function acknowledgeCodeOfConduct() {
+  return localStorage.setItem(
+    "codeOfConductLastRead",
+    new Date().toISOString()
+  );
+}

@@ -176,6 +176,47 @@ describe("removeCollectible", () => {
     expect(gameState.inventory["Rusty Shovel"]).toEqual(new Decimal(1));
   });
 
+  it("does not remove chicken coop if unsupported chickens are brewing", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(2),
+      },
+      chickens: makeChickens(15),
+      collectibles: {
+        "Chicken Coop": [
+          {
+            id: "123",
+            createdAt: 0,
+            coordinates: { x: 1, y: 1 },
+            readyAt: 0,
+          },
+        ],
+      },
+      buildings: {
+        "Hen House": [
+          {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+    };
+    gameState.chickens["12"].fedAt = 1;
+    expect(() =>
+      removeCollectible({
+        state: gameState,
+        action: {
+          type: "collectible.removed",
+          collectible: "Chicken Coop",
+          id: "123",
+        },
+      })
+    ).toThrow(REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN);
+  });
+
   it("removes 5 chickens if chicken coop is removed and one hen house placed", () => {
     const gameState = removeCollectible({
       state: {

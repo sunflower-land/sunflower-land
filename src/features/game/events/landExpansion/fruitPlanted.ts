@@ -32,7 +32,12 @@ function getPlantedAt(
     fruitName === "Orange" &&
     isCollectibleBuilt("Squirrel Monkey", collectibles)
   ) {
-    return createdAt + FRUIT_SEEDS()["Orange Seed"].plantSeconds / 2;
+    const orangeTimeInMilliseconds =
+      FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000;
+
+    const offset = orangeTimeInMilliseconds / 2;
+
+    return createdAt - offset;
   }
 
   return createdAt;
@@ -117,7 +122,7 @@ export function plantFruit({
     plantedAt: getPlantedAt(fruitName, stateCopy.collectibles, createdAt),
     amount: getFruitYield(fruitName, stateCopy.collectibles),
     harvestedAt: 0,
-    // Value will be overriden by BE
+    // Value will be overridden by BE
     harvestsLeft: harvestCount,
   };
 

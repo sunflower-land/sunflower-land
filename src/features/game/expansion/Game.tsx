@@ -26,24 +26,22 @@ import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
 // import { Rules } from "../components/Rules";
-import { PlaceableOverlay } from "./components/PlaceableOverlay";
 import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
 import { Helios } from "features/helios/Helios";
-import { Hud } from "features/island/hud/Hud";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
 import land from "assets/land/islands/island.webp";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { StoneHaven } from "features/stoneHaven/StoneHaven";
-import { Revealing } from "../components/Revealing";
-import { Revealed } from "../components/Revealed";
 import { getBumpkinLevel } from "../lib/level";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
-import { Studios } from "features/studioes/Studios";
+import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
+import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
+import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -68,9 +66,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   loadLandToVisit: true,
   landToVisitNotFound: true,
   checkIsVisiting: false,
-  revealing: true,
-  revealed: true,
+  revealing: false,
+  revealed: false,
   buyingSFL: true,
+  depositing: true,
 };
 
 export const Game: React.FC = () => {
@@ -181,35 +180,33 @@ export const Game: React.FC = () => {
 
     return (
       <>
-        <div className="absolute z-10 w-full h-full">
-          <PlaceableOverlay>
-            <Routes>
-              <Route path="/" element={<Land />} />
-              <Route path="/helios" element={<Helios key="helios" />} />
-              {level >= 10 && (
-                <Route
-                  path="/treasure-island"
-                  element={<TreasureIsland key="treasure" />}
-                />
-              )}
+        <div className="absolute w-full h-full z-10">
+          <Routes>
+            <Route path="/" element={<Land />} />
+            <Route path="/helios" element={<Helios key="helios" />} />
 
-              {level >= 20 && (
-                <Route
-                  path="/stone-haven"
-                  element={<StoneHaven key="stone-haven" />}
-                />
-              )}
-              {level >= 50 && (
-                <Route path="/snow" element={<SnowKingdom key="snow" />} />
-              )}
-              <Route path="/studios" element={<Studios key="hq" />} />
+            <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
+            <Route path="/beach" element={<BeachParty key="beach-party" />} />
+            {level >= 10 && (
+              <Route
+                path="/treasure-island"
+                element={<TreasureIsland key="treasure" />}
+              />
+            )}
 
-              <Route path="*" element={<IslandNotFound />} />
-            </Routes>
-          </PlaceableOverlay>
-        </div>
-        <div className="absolute z-20">
-          <Hud />
+            {level >= 20 && (
+              <Route
+                path="/stone-haven"
+                element={<StoneHaven key="stone-haven" />}
+              />
+            )}
+            {level >= 50 && (
+              <Route path="/snow" element={<SnowKingdom key="snow" />} />
+            )}
+            <Route path="/studios" element={<Studios key="hq" />} />
+
+            <Route path="*" element={<IslandNotFound />} />
+          </Routes>
         </div>
       </>
     );
@@ -217,7 +214,7 @@ export const Game: React.FC = () => {
 
   return (
     <>
-      <ToastManager />
+      <ToastManager isHoarding={gameState.matches("hoarding")} />
 
       <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
         <Panel>
@@ -239,8 +236,7 @@ export const Game: React.FC = () => {
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}
           {gameState.matches("coolingDown") && <Cooldown />}
           {gameState.matches("gameRules") && <Rules />}
-          {gameState.matches("revealing") && <Revealing />}
-          {gameState.matches("revealed") && <Revealed />}
+          {gameState.matches("depositing") && <Loading text="Depositing" />}
         </Panel>
       </Modal>
 

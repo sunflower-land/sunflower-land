@@ -44,7 +44,7 @@ export const CHICKEN_POSITIONS: ChickenPosition[] = [
 export const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
   "Potato Seed": new Decimal(200),
-  "Pumpkin Seed": new Decimal(100),
+  "Pumpkin Seed": new Decimal(150),
   "Carrot Seed": new Decimal(100),
   "Cabbage Seed": new Decimal(90),
   "Beetroot Seed": new Decimal(80),
@@ -62,24 +62,13 @@ export const INITIAL_STOCK: Inventory = {
   Pickaxe: new Decimal(50),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
+  Shovel: new Decimal(1),
+  "Rusty Shovel": new Decimal(10),
+  "Power Shovel": new Decimal(5),
+  "Sand Shovel": new Decimal(25),
+  "Sand Drill": new Decimal(5),
 
-  // One off items
-  "Pumpkin Soup": new Decimal(1),
-  Sauerkraut: new Decimal(1),
-  "Roasted Cauliflower": new Decimal(1),
-
-  "Sunflower Cake": new Decimal(1),
-  "Potato Cake": new Decimal(1),
-  "Pumpkin Cake": new Decimal(1),
-  "Carrot Cake": new Decimal(1),
-  "Cabbage Cake": new Decimal(1),
-  "Beetroot Cake": new Decimal(1),
-  "Cauliflower Cake": new Decimal(1),
-  "Parsnip Cake": new Decimal(1),
-  "Radish Cake": new Decimal(1),
-  "Wheat Cake": new Decimal(1),
-
-  "Boiled Eggs": new Decimal(1),
+  Chicken: new Decimal(5),
 
   "Magic Bean": new Decimal(5),
   "Shiny Bean": new Decimal(5),
@@ -331,9 +320,7 @@ export const TEST_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Human War Banner": new Decimal(1),
     "Boiled Eggs": new Decimal(3),
-    "Mashed Potato": new Decimal(1),
     "Sunflower Cake": new Decimal(1),
-    "Pumpkin Soup": new Decimal(1),
   },
   stock: INITIAL_STOCK,
   chickens: {},
@@ -354,7 +341,8 @@ export const TEST_FARM: GameState = {
     "Radish Cake": "2025-01-01T00:00:00.000Z",
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
-
+  pumpkinPlaza: {},
+  auctioneer: {},
   expansions: INITIAL_EXPANSIONS,
   buildings: {
     "Fire Pit": [
@@ -473,6 +461,7 @@ export const TEST_FARM: GameState = {
     seconds: 60,
     sfl: new Decimal(0),
   },
+  dailyRewards: {},
 };
 
 export const EMPTY: GameState = {
@@ -495,6 +484,9 @@ export const EMPTY: GameState = {
   buildings: {},
   collectibles: {},
   mysteryPrizes: {},
+  pumpkinPlaza: {},
+  dailyRewards: {},
+  auctioneer: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

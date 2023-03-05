@@ -6,7 +6,12 @@ import {
   GameState,
   LandExpansionPlot,
 } from "features/game/types/game";
-import { removeBuilding, REMOVE_BUILDING_ERRORS } from "./removeBuilding";
+import {
+  areUnsupportedChickensBrewing,
+  getUnsupportedChickens,
+  removeBuilding,
+  REMOVE_BUILDING_ERRORS,
+} from "./removeBuilding";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -50,9 +55,9 @@ const makePlotsWithoutCrops = (plotCount: number) => {
 };
 
 export const makeChickens = (numberOfChickens: number) => {
-  const chickens = {} as Record<number, Chicken>;
+  const chickens = {} as Record<string, Chicken>;
 
-  [...Array(numberOfChickens).keys()].forEach(
+  Array.from({ length: numberOfChickens }, (_, i) => i.toString()).forEach(
     (key) =>
       (chickens[key] = {
         coordinates: {
@@ -145,7 +150,7 @@ describe("removeBuilding", () => {
     ).toThrow(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   });
 
-  it("does not remove a building if its under construction", () => {
+  it("does not remove a building if it's under construction", () => {
     expect(() =>
       removeBuilding({
         state: {
@@ -257,164 +262,211 @@ describe("removeBuilding", () => {
     expect(gameState.inventory["Rusty Shovel"]).toEqual(new Decimal(1));
   });
 
-  it("removes the two unsupported crops from the last expansion when the only water well is removed", () => {
+  it("cannot remove the only water well if there are two unsupported crops from the last expansion", () => {
     // 17 plots in total
     // 15 plots can be supported without a well
-    const gameState = removeBuilding({
-      state: {
-        ...GAME_STATE,
-        expansions: [
-          ...INITIAL_EXPANSIONS,
-          {
-            createdAt: 0,
-            readyAt: 0,
-            plots: {
-              ...INITIAL_EXPANSIONS[0].plots,
-              8: {
-                x: 0,
-                y: 1,
-                height: 1,
-                width: 1,
-                crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-              },
-              9: {
-                x: 0,
-                y: 1,
-                height: 1,
-                width: 1,
-                crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-              },
-            },
-          },
-        ],
-        inventory: {
-          "Rusty Shovel": new Decimal(2),
-        },
-        buildings: {
-          "Water Well": [
+    expect(() =>
+      removeBuilding({
+        state: {
+          ...GAME_STATE,
+          expansions: [
+            ...INITIAL_EXPANSIONS,
             {
-              id: "123",
               createdAt: 0,
-              coordinates: { x: 1, y: 1 },
               readyAt: 0,
+              plots: {
+                ...INITIAL_EXPANSIONS[0].plots,
+                8: {
+                  x: 0,
+                  y: 1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+                },
+                9: {
+                  x: 0,
+                  y: 1,
+                  height: 1,
+                  width: 1,
+                  crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+                },
+              },
             },
           ],
+          inventory: {
+            "Rusty Shovel": new Decimal(2),
+          },
+          buildings: {
+            "Water Well": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+              },
+            ],
+          },
         },
-      },
-      action: {
-        type: "building.removed",
-        building: "Water Well",
-        id: "123",
-      },
-    });
-
-    const { expansions } = gameState;
-
-    expect(expansions[expansions.length - 1].plots?.["8"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 1].plots?.["9"].crop).toBeUndefined();
+        action: {
+          type: "building.removed",
+          building: "Water Well",
+          id: "123",
+        },
+      })
+    ).toThrow(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
   });
 
-  it("removes one unsupported crop from each of the last three expansions when the only water well is removed", () => {
+  it("cannot remove the only water well if there are one unsupported crop from each of the last three expansions", () => {
     // 18 plots in total
     // 15 plots can be supported without a well
-    const gameState = removeBuilding({
-      state: {
-        ...GAME_STATE,
-        expansions: [
-          { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-          { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(6) },
-          { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(1) },
-          { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(1) },
-        ],
-        inventory: {
-          "Rusty Shovel": new Decimal(2),
-        },
-        buildings: {
-          "Water Well": [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
+    expect(() =>
+      removeBuilding({
+        state: {
+          ...GAME_STATE,
+          expansions: [
+            { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
+            { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(6) },
+            { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(1) },
+            { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(1) },
           ],
-        },
-      },
-      action: {
-        type: "building.removed",
-        building: "Water Well",
-        id: "123",
-      },
-    });
-
-    const { expansions } = gameState;
-
-    expect(expansions[expansions.length - 1].plots?.["0"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 2].plots?.["0"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 3].plots?.["5"].crop).toBeUndefined();
-  });
-
-  it("removes 6 crops when 8 plots are unsupported but only 6 of those are planted", () => {
-    const gameState = removeBuilding({
-      state: {
-        ...GAME_STATE,
-        expansions: [
-          { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-          { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-          {
-            createdAt: 0,
-            readyAt: 0,
-            plots: {
-              ...makePlotsWithCrops(1),
-              2: { x: -2, y: 0, height: 1, width: 1 },
-              3: { x: -2, y: 0, height: 1, width: 1 },
-            },
+          inventory: {
+            "Rusty Shovel": new Decimal(2),
           },
-        ],
-        inventory: {
-          "Rusty Shovel": new Decimal(2),
+          buildings: {
+            "Water Well": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+              },
+            ],
+          },
         },
-        buildings: {
-          "Water Well": [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
+        action: {
+          type: "building.removed",
+          building: "Water Well",
+          id: "123",
         },
-      },
-      action: {
-        type: "building.removed",
-        building: "Water Well",
-        id: "123",
-      },
-    });
-
-    const { expansions } = gameState;
-
-    expect(expansions[expansions.length - 1].plots?.["0"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 2].plots?.["9"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 2].plots?.["8"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 2].plots?.["7"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 2].plots?.["6"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 2].plots?.["5"].crop).toBeUndefined();
-    expect(
-      expansions[expansions.length - 2].plots?.["4"].crop
-    ).not.toBeUndefined();
-    expect(
-      expansions[expansions.length - 2].plots?.["3"].crop
-    ).not.toBeUndefined();
-    expect(
-      expansions[expansions.length - 2].plots?.["2"].crop
-    ).not.toBeUndefined();
-    expect(
-      expansions[expansions.length - 2].plots?.["1"].crop
-    ).not.toBeUndefined();
+      })
+    ).toThrow(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
   });
 
-  it("does not remove any crops when unsupported plots have no crops", () => {
+  it("cannot remove the only water well if all 8 unsupported plots have crops planted from the last expansion", () => {
+    expect(() =>
+      removeBuilding({
+        state: {
+          ...GAME_STATE,
+          expansions: [
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: makePlotsWithoutCrops(3),
+            },
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                ...makePlotsWithCrops(5),
+                5: {
+                  x: -2,
+                  y: 0,
+                  height: 1,
+                  width: 1,
+                },
+                6: {
+                  x: -2,
+                  y: 0,
+                  height: 1,
+                  width: 1,
+                },
+                7: {
+                  x: -2,
+                  y: 0,
+                  height: 1,
+                  width: 1,
+                },
+                8: {
+                  x: -2,
+                  y: 0,
+                  height: 1,
+                  width: 1,
+                },
+                9: {
+                  x: -2,
+                  y: 0,
+                  height: 1,
+                  width: 1,
+                },
+              },
+            },
+            { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
+          ],
+          inventory: {
+            "Rusty Shovel": new Decimal(2),
+          },
+          buildings: {
+            "Water Well": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "building.removed",
+          building: "Water Well",
+          id: "123",
+        },
+      })
+    ).toThrow(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
+  });
+
+  it("cannot remove water well if there are 6 crops when 8 plots are unsupported and only 6 of those are planted", () => {
+    expect(() =>
+      removeBuilding({
+        state: {
+          ...GAME_STATE,
+          expansions: [
+            { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
+            { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
+            {
+              createdAt: 0,
+              readyAt: 0,
+              plots: {
+                ...makePlotsWithCrops(1),
+                2: { x: -2, y: 0, height: 1, width: 1 },
+                3: { x: -2, y: 0, height: 1, width: 1 },
+              },
+            },
+          ],
+          inventory: {
+            "Rusty Shovel": new Decimal(2),
+          },
+          buildings: {
+            "Water Well": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "building.removed",
+          building: "Water Well",
+          id: "123",
+        },
+      })
+    ).toThrow(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
+  });
+
+  it("does not remove any crops when unsupported plots have no crops even if crops are planted in supported plots", () => {
     const gameState = removeBuilding({
       state: {
         ...GAME_STATE,
@@ -490,80 +542,35 @@ describe("removeBuilding", () => {
     expect(expansions[1].plots?.["4"].crop).not.toBeUndefined();
   });
 
-  it("removes the 8 crops from the last expansion when only 15 out of 23 plots are supported", () => {
-    const gameState = removeBuilding({
-      state: {
-        ...GAME_STATE,
-        expansions: [
+  it("cannot remove hen house if unsupported chickens are brewing", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(1),
+      },
+      chickens: makeChickens(10),
+      buildings: {
+        "Hen House": [
           {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
             createdAt: 0,
             readyAt: 0,
-            plots: makePlotsWithoutCrops(3),
           },
-          {
-            createdAt: 0,
-            readyAt: 0,
-            plots: {
-              ...makePlotsWithCrops(5),
-              5: {
-                x: -2,
-                y: 0,
-                height: 1,
-                width: 1,
-              },
-              6: {
-                x: -2,
-                y: 0,
-                height: 1,
-                width: 1,
-              },
-              7: {
-                x: -2,
-                y: 0,
-                height: 1,
-                width: 1,
-              },
-              8: {
-                x: -2,
-                y: 0,
-                height: 1,
-                width: 1,
-              },
-              9: {
-                x: -2,
-                y: 0,
-                height: 1,
-                width: 1,
-              },
-            },
-          },
-          { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
         ],
-        inventory: {
-          "Rusty Shovel": new Decimal(2),
-        },
-        buildings: {
-          "Water Well": [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
-        },
       },
-      action: {
-        type: "building.removed",
-        building: "Water Well",
-        id: "123",
-      },
-    });
-
-    const { expansions } = gameState;
-
-    expect(expansions[expansions.length - 1].plots?.["2"].crop).toBeUndefined();
-    expect(expansions[expansions.length - 1].plots?.["9"].crop).toBeUndefined();
+    };
+    gameState.chickens["2"].fedAt = 1;
+    expect(() =>
+      removeBuilding({
+        state: gameState,
+        action: {
+          type: "building.removed",
+          building: "Hen House",
+          id: "123",
+        },
+      })
+    ).toThrow(REMOVE_BUILDING_ERRORS.HEN_HOUSE_REMOVE_BREWING_CHICKEN);
   });
 
   it("removes all 10 chickens when only hen house is removed", () => {
@@ -712,5 +719,151 @@ describe("removeBuilding", () => {
     });
 
     expect(getKeys(result.chickens).length).toBe(0);
+  });
+});
+
+describe("getUnsupportedChickens", () => {
+  it("get last 5 unsupported chickens if players have 15 placed chickens and only have 1 hen house", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(1),
+      },
+      chickens: makeChickens(15),
+      buildings: {
+        "Hen House": [
+          {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+    };
+
+    const result = getUnsupportedChickens(gameState);
+
+    const lastChickensIndexes = Array.from({ length: 5 }, (_, i) =>
+      (i + 10).toString()
+    );
+    const lastChickensInState = {} as Record<string, Chicken>;
+    lastChickensIndexes.forEach(
+      (key) =>
+        (lastChickensInState[key] = {
+          coordinates: {
+            x: 7,
+            y: 3,
+          },
+          multiplier: 1,
+        })
+    );
+    expect(result).toEqual(lastChickensInState);
+  });
+  it("get all 8 unsupported chickens if players have 8 placed chickens and have 0 hen houses", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(1),
+      },
+      chickens: makeChickens(8),
+      buildings: {},
+    };
+
+    const result = getUnsupportedChickens(gameState);
+    expect(result).toEqual(gameState.chickens);
+  });
+  it("get no unsupported chickens if all chickens are supported", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(1),
+      },
+      chickens: makeChickens(9),
+      buildings: {
+        "Hen House": [
+          {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+    };
+
+    const result = getUnsupportedChickens(gameState);
+    expect(result).toEqual({});
+  });
+});
+
+describe("areUnsupportedChickensBrewing", () => {
+  it("return false if supported chickens are brewing", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(1),
+      },
+      chickens: makeChickens(15),
+      buildings: {
+        "Hen House": [
+          {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+    };
+    gameState.chickens["0"].fedAt = 100;
+
+    const result = areUnsupportedChickensBrewing(gameState);
+    expect(result).toBeFalsy();
+  });
+  it("return true if some unsupported chickens are brewing", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(1),
+      },
+      chickens: makeChickens(15),
+      buildings: {
+        "Hen House": [
+          {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+    };
+    gameState.chickens["11"].fedAt = 100;
+
+    const result = areUnsupportedChickensBrewing(gameState);
+    expect(result).toBeTruthy();
+  });
+  it("return false if no unsupported chickens are brewing", () => {
+    const gameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(1),
+      },
+      chickens: makeChickens(15),
+      buildings: {
+        "Hen House": [
+          {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+    };
+
+    const result = areUnsupportedChickensBrewing(gameState);
+    expect(result).toBeFalsy();
   });
 });

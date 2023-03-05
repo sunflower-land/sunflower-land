@@ -20,7 +20,7 @@ type FormEvent = Element & {
 
 interface IdleProps {
   visitingFarmId?: number;
-  vistingFarmSlots: FarmSlot[];
+  visitingFarmSlots: FarmSlot[];
   balance: Decimal;
   onVisit: (farmId: number) => void;
   onPurchase: (listing: ListingType) => void;
@@ -28,7 +28,7 @@ interface IdleProps {
 
 export const Idle: React.FC<IdleProps> = ({
   visitingFarmId,
-  vistingFarmSlots,
+  visitingFarmSlots,
   balance,
   onVisit,
   onPurchase,
@@ -50,7 +50,7 @@ export const Idle: React.FC<IdleProps> = ({
       )}
 
       {visitingFarmId &&
-        vistingFarmSlots?.map((farmSlot) => {
+        visitingFarmSlots?.map((farmSlot) => {
           // if empty return dashed
           if (
             farmSlot.listing === undefined ||

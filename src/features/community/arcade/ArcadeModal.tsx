@@ -3,13 +3,11 @@ import { Modal } from "react-bootstrap";
 
 import { GreedyGoblin } from "features/community/arcade/games/GreedyGoblin";
 import { ChickenFight } from "features/community/arcade/games/ChickenFight";
-import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ArcadeDonation } from "./ArcadeDonation";
 import { ARCADE_GAMES } from "../lib/constants";
-import { SUNNYSIDE } from "assets/sunnyside";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   isOpen: boolean;
@@ -21,20 +19,11 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
-      <Panel>
-        <div className="flex flex-col items-center mt-1 mb-1">
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={onClose}
-            style={{
-              top: `${PIXEL_SCALE * 6}px`,
-              right: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-          <h1 className="my-2">{activeWindow || "Mini SFL Games"}</h1>
-        </div>
+      <CloseButtonPanel
+        onClose={onClose}
+        onBack={activeWindow ? () => setActiveWindow(null) : undefined}
+        title={activeWindow || "Mini SFL Games"}
+      >
         {/* Menu */}
         {activeWindow === null && (
           <ul className="list-none">
@@ -58,7 +47,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 {ARCADE_GAMES.CHICKEN_FIGHT.title}
               </Button>
             </li>
-            <li className="p-1 pb-2 flex justify-content-center">
+            <li className="p-1 pb-2 text-sm flex justify-content-center">
               <span
                 className="underline cursor-pointer"
                 onClick={() => setActiveWindow("Donation")}
@@ -72,7 +61,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
         {activeWindow === ARCADE_GAMES.GREEDY_GOBLIN.title && <GreedyGoblin />}
         {activeWindow === ARCADE_GAMES.CHICKEN_FIGHT.title && <ChickenFight />}
         {activeWindow === "Donation" && <ArcadeDonation />}
-      </Panel>
+      </CloseButtonPanel>
     </Modal>
   );
 };
