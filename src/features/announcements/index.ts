@@ -1,5 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import loveLetter from "assets/icons/love_letter.png";
+import token from "assets/icons/token_2.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -35,6 +36,10 @@ export const ANNOUNCEMENTS: Announcement[] = [
           url: "https://docs.sunflower-land.com/player-guides/seasons",
           text: "Read more",
         },
+      },
+      {
+        text: "The Garbage Collector is now at Helios! You can sell old event items for SFL!",
+        icon: token,
       },
 
       {
