@@ -12,7 +12,7 @@ describe("chore.completed", () => {
         },
         state: {
           ...TEST_FARM,
-          choreMaster: {
+          hayseedHank: {
             choresCompleted: 0,
             chore: {
               activity: "Sunflower Harvested",
@@ -36,7 +36,7 @@ describe("chore.completed", () => {
         },
         state: {
           ...TEST_FARM,
-          choreMaster: {
+          hayseedHank: {
             choresCompleted: 0,
             chore: {
               activity: "Sunflower Harvested",
@@ -71,7 +71,7 @@ describe("chore.completed", () => {
               "Sunflower Harvested": 5,
             },
           },
-          choreMaster: {
+          hayseedHank: {
             choresCompleted: 0,
             chore: {
               activity: "Sunflower Harvested",
@@ -106,7 +106,7 @@ describe("chore.completed", () => {
               "Sunflower Harvested": 50,
             },
           },
-          choreMaster: {
+          hayseedHank: {
             choresCompleted: 0,
             chore: {
               activity: "Sunflower Harvested",
@@ -140,7 +140,7 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        choreMaster: {
+        hayseedHank: {
           choresCompleted: 0,
           chore: {
             activity: "Sunflower Harvested",
@@ -159,8 +159,8 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.choreMaster.chore.activity).toEqual(CHORES[1].activity);
-    expect(state.choreMaster.chore.requirement).toEqual(CHORES[1].requirement);
+    expect(state.hayseedHank.chore.activity).toEqual(CHORES[1].activity);
+    expect(state.hayseedHank.chore.requirement).toEqual(CHORES[1].requirement);
   });
 
   it("restarts the chore cycle", () => {
@@ -176,7 +176,7 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        choreMaster: {
+        hayseedHank: {
           choresCompleted: CHORES.length - 1,
           chore: {
             activity: "Sunflower Harvested",
@@ -195,8 +195,8 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.choreMaster.chore.activity).toEqual(CHORES[0].activity);
-    expect(state.choreMaster.chore.requirement).toEqual(CHORES[0].requirement);
+    expect(state.hayseedHank.chore.activity).toEqual(CHORES[0].activity);
+    expect(state.hayseedHank.chore.requirement).toEqual(CHORES[0].requirement);
   });
 
   it("increments chores completed", () => {
@@ -212,7 +212,7 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        choreMaster: {
+        hayseedHank: {
           choresCompleted: 0,
           chore: {
             activity: "Sunflower Harvested",
@@ -231,7 +231,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.choreMaster.choresCompleted).toEqual(1);
+    expect(state.hayseedHank.choresCompleted).toEqual(1);
   });
 
   it("claims the reward", () => {
@@ -247,7 +247,7 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        choreMaster: {
+        hayseedHank: {
           choresCompleted: 0,
           chore: {
             activity: "Sunflower Harvested",
@@ -283,7 +283,7 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        choreMaster: {
+        hayseedHank: {
           choresCompleted: 0,
           chore: {
             activity: "Sunflower Harvested",
@@ -302,7 +302,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.choreMaster.progress).toBeUndefined();
+    expect(state.hayseedHank.progress).toBeUndefined();
   });
 
   it("increments chores completed for Bumpkin", () => {
@@ -318,7 +318,7 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        choreMaster: {
+        hayseedHank: {
           choresCompleted: 0,
           chore: {
             activity: "Sunflower Harvested",

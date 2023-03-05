@@ -6,9 +6,9 @@ import { Modal } from "react-bootstrap";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { ChoreMasterModal } from "./components/ChoreMasterModal";
+import { HayseedHankModal } from "./components/HayseedHankModal";
 
-export const ChoreMaster: React.FC = () => {
+export const HayseedHank: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -47,7 +47,7 @@ export const ChoreMaster: React.FC = () => {
           }}
           onClose={() => setIsOpen(false)}
         >
-          <ChoreMasterModal onClose={() => setIsOpen(false)} />
+          <HayseedHankModal onClose={() => setIsOpen(false)} />
         </CloseButtonPanel>
       </Modal>
     </MapPlacement>

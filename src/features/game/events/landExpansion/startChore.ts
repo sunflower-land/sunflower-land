@@ -26,13 +26,13 @@ export function startChore({
     throw new Error("No Bumpkin Found");
   }
 
-  if (game.choreMaster.progress?.bumpkinId === game.bumpkin.id) {
+  if (game.hayseedHank.progress?.bumpkinId === game.bumpkin.id) {
     throw new Error("Chore already in progress");
   }
 
-  game.choreMaster.progress = {
+  game.hayseedHank.progress = {
     bumpkinId: game.bumpkin.id,
-    startCount: game.bumpkin.activity?.[game.choreMaster.chore.activity] ?? 0,
+    startCount: game.bumpkin.activity?.[game.hayseedHank.chore.activity] ?? 0,
     startedAt: createdAt,
   };
 

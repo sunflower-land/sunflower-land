@@ -12,7 +12,7 @@ describe("chore.started", () => {
         },
         state: {
           ...TEST_FARM,
-          choreMaster: {
+          hayseedHank: {
             choresCompleted: 0,
             chore: {
               activity: "Sunflower Harvested",
@@ -52,7 +52,7 @@ describe("chore.started", () => {
       state: {
         ...TEST_FARM,
         bumpkin,
-        choreMaster: {
+        hayseedHank: {
           choresCompleted: 0,
           chore: {
             description: "Harvest 10 Sunflowers",
@@ -68,7 +68,7 @@ describe("chore.started", () => {
       },
     });
 
-    expect(state.choreMaster.progress).toEqual({
+    expect(state.hayseedHank.progress).toEqual({
       bumpkinId: bumpkin.id,
       startedAt: now,
       startCount: bumpkin.activity["Sunflower Harvested"],
@@ -89,7 +89,7 @@ describe("chore.started", () => {
       state: {
         ...TEST_FARM,
         bumpkin,
-        choreMaster: {
+        hayseedHank: {
           choresCompleted: 0,
           chore: {
             description: "Harvest 10 Sunflowers",
@@ -110,7 +110,7 @@ describe("chore.started", () => {
       },
     });
 
-    expect(state.choreMaster.progress).toEqual({
+    expect(state.hayseedHank.progress).toEqual({
       bumpkinId: bumpkin.id,
       startedAt: expect.any(Number),
       startCount: bumpkin.activity["Sunflower Harvested"],

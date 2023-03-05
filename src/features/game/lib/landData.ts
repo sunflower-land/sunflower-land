@@ -383,7 +383,7 @@ export const OFFLINE_FARM: GameState = {
       reward: "Sunflower Cake",
     },
   },
-  choreMaster: {
+  hayseedHank: {
     choresCompleted: 0,
     chore: CHORES[0],
   },

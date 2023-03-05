@@ -390,7 +390,7 @@ export type Bid = {
   auctionTickets: number;
 };
 
-export type ChoreMaster = {
+export type HayseedHank = {
   choresCompleted: number;
   chore: Chore;
   progress?: {
@@ -460,7 +460,7 @@ export interface GameState {
   auctioneer: {
     bid?: Bid;
   };
-  choreMaster: ChoreMaster;
+  hayseedHank: HayseedHank;
 }
 
 export interface Context {

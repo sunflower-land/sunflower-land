@@ -20,7 +20,7 @@ import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "features/island/hud/Hud";
 import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
-import { ChoreMaster } from "./components/choreMaster/ChoreMaster";
+import { HayseedHank } from "./components/hayseedHank/HayseedHank";
 
 const spawn = [
   [30, 15],
@@ -72,7 +72,7 @@ export const Helios: React.FC = () => {
         <HeliosSunflower />
         <LostSunflorian />
         <RustyShovelSeller />
-        <ChoreMaster />
+        <HayseedHank />
         {/* TODO <CommunityGardenEntry /> */}
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
 

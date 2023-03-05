@@ -8,7 +8,7 @@ import { Chore } from "./Chore";
 interface Props {
   onClose: () => void;
 }
-export const ChoreMasterModal: React.FC<Props> = ({ onClose }) => {
+export const HayseedHankModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 

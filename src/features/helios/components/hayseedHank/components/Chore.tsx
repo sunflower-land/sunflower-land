@@ -33,8 +33,8 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   const [gameState] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
 
-  const choreMaster = gameState.context.state.choreMaster;
-  const chore = choreMaster.chore;
+  const hayseedHank = gameState.context.state.hayseedHank;
+  const chore = hayseedHank.chore;
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
   const start = () => {
     gameService.send("chore.started");
@@ -53,7 +53,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  if (!choreMaster.progress) {
+  if (!hayseedHank.progress) {
     return (
       <>
         <div className="p-2 flex flex-col items-center w-full relative -top-4">
@@ -77,7 +77,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  if (choreMaster.progress.bumpkinId !== bumpkin.id) {
+  if (hayseedHank.progress.bumpkinId !== bumpkin.id) {
     <>
       <div className="p-2">
         <p>{`You aren't the same Bumpkin I last spoke with!`}</p>
@@ -87,7 +87,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   }
 
   const progress =
-    (bumpkin.activity?.[chore.activity] ?? 0) - choreMaster.progress.startCount;
+    (bumpkin.activity?.[chore.activity] ?? 0) - hayseedHank.progress.startCount;
 
   const isComplete = progress >= chore.requirement;
 

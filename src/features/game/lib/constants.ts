@@ -403,7 +403,7 @@ export const TEST_FARM: GameState = {
     ],
   },
   bumpkin: INITIAL_BUMPKIN,
-  choreMaster: {
+  hayseedHank: {
     choresCompleted: 0,
     chore: {
       activity: "Sunflower Harvested",
@@ -498,7 +498,7 @@ export const EMPTY: GameState = {
   pumpkinPlaza: {},
   dailyRewards: {},
   auctioneer: {},
-  choreMaster: {
+  hayseedHank: {
     choresCompleted: 0,
     chore: {
       activity: "Sunflower Harvested",

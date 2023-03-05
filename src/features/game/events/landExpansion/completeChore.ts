@@ -26,38 +26,38 @@ export function completeChore({ state }: Options): GameState {
     throw new Error("No Bumpkin Found");
   }
 
-  if (!game.choreMaster.progress) {
+  if (!game.hayseedHank.progress) {
     throw new Error("Chore has not started");
   }
 
-  if (game.bumpkin.id !== game.choreMaster.progress?.bumpkinId) {
+  if (game.bumpkin.id !== game.hayseedHank.progress?.bumpkinId) {
     throw new Error("Not the same Bumpkin");
   }
 
-  const activity = game.choreMaster.chore.activity;
+  const activity = game.hayseedHank.chore.activity;
 
   const progress =
     (game.bumpkin.activity?.[activity] ?? 0) -
-    game.choreMaster.progress.startCount;
+    game.hayseedHank.progress.startCount;
 
-  if (progress < game.choreMaster.chore.requirement) {
+  if (progress < game.hayseedHank.chore.requirement) {
     throw new Error("Chore is not completed");
   }
 
   // Add rewards
-  getKeys(game.choreMaster.chore.reward.items).forEach((name) => {
+  getKeys(game.hayseedHank.chore.reward.items).forEach((name) => {
     const previous = game.inventory[name] ?? new Decimal(0);
     game.inventory[name] = previous.add(
-      game.choreMaster.chore.reward.items[name] ?? 0
+      game.hayseedHank.chore.reward.items[name] ?? 0
     );
   });
 
   // Cycle the chore
-  const nextChoreIndex = (game.choreMaster.choresCompleted + 1) % CHORES.length;
+  const nextChoreIndex = (game.hayseedHank.choresCompleted + 1) % CHORES.length;
   const nextChore = CHORES[nextChoreIndex];
 
-  game.choreMaster.choresCompleted += 1;
-  delete game.choreMaster.progress;
+  game.hayseedHank.choresCompleted += 1;
+  delete game.hayseedHank.progress;
 
   // Increment activity
   game.bumpkin.activity = trackActivity(
