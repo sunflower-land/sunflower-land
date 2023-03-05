@@ -42,6 +42,7 @@ import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
 import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { BeachParty } from "features/pumpkinPlaza/BeachParty";
+import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -187,6 +188,10 @@ export const Game: React.FC = () => {
 
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
+            <Route
+              path="/headquarters"
+              element={<HeadQuarters key="headquarters" />}
+            />
             {level >= 10 && (
               <Route
                 path="/treasure-island"

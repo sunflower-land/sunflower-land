@@ -46,6 +46,8 @@ export const Room: React.FC<Props> = ({
 
   const [restrictedHelper, setRestrictedHelper] = useState<Coordinates>();
 
+  const [testArea, setTestArea] = useState<Coordinates[]>([]);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -80,7 +82,8 @@ export const Room: React.FC<Props> = ({
     const clampedX = Math.floor(x / GRID_WIDTH_PX);
     const clampedY = Math.floor(y / GRID_WIDTH_PX);
 
-    console.log({ x, y });
+    // setTestArea((prev) => [...prev, { x: clampedX, y: clampedY }]);
+
     if (
       !allowedArea[clampedX]?.[clampedY] &&
       !authState.context.token?.userAccess.admin

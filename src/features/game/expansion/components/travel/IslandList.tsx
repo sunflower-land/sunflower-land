@@ -153,6 +153,16 @@ export const IslandList: React.FC<IslandListProps> = ({
           } as Island,
         ]
       : []),
+    ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA")
+      ? [
+          {
+            name: "Beach Party",
+            levelRequired: 1 as BumpkinLevel,
+            image: SUNNYSIDE.resource.crab,
+            path: `/land/${id}/beach`,
+          } as Island,
+        ]
+      : []),
     {
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
