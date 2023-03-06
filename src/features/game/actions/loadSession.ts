@@ -11,6 +11,7 @@ type Request = {
   farmId: number;
   token: string;
   transactionId: string;
+  wallet: string;
 };
 
 export type MintedAt = Partial<Record<InventoryItemName, number>>;
@@ -43,6 +44,7 @@ export async function loadSession(
       sessionId: request.sessionId,
       bumpkinTokenUri: request.bumpkinTokenUri,
       clientVersion: CONFIG.CLIENT_VERSION as string,
+      wallet: request.wallet,
     }),
   });
 
