@@ -1,5 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import loveLetter from "assets/icons/love_letter.png";
+import token from "assets/icons/token_2.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -24,6 +25,45 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2023-03-06T00:00:00"),
+    title: "Weekly news",
+    notes: [
+      {
+        text: "Solar Flare Season is coming soon",
+        icon: SUNNYSIDE.icons.happy,
+        link: {
+          url: "https://docs.sunflower-land.com/player-guides/seasons",
+          text: "Read more",
+        },
+      },
+      {
+        text: "The Garbage Collector is now at Helios! You can sell old event items for SFL!",
+        icon: token,
+      },
+
+      {
+        text: `Rare Bumpkin.io wearables are selling out in seconds!`,
+        icon: SUNNYSIDE.icons.heart,
+        link: {
+          url: "https://bumpkins.io/#/upcoming-drops",
+          text: "Bumpkins.io",
+        },
+      },
+      {
+        text: "Party Rooms have made progress!",
+        icon: SUNNYSIDE.icons.hammer,
+        link: {
+          url: "https://twitter.com/bumpkinbuilder/status/1632234596413878272",
+          text: "Read more",
+        },
+      },
+      {
+        text: "4 new recipes have been added into the game. Yum!",
+        icon: ITEM_DETAILS["Fancy Fries"].image,
+      },
+    ],
+  },
   {
     date: new Date("2023-02-20T00:00:00"),
     title: "Weekly news",

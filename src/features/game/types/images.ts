@@ -341,6 +341,8 @@ import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
 import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
 import drill from "assets/icons/drill.png";
+import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
+import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1601,12 +1603,12 @@ export const ITEM_DETAILS: Items = {
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: AUCTIONEER_ITEMS["Cabbage Boy"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Boy"].description,
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: AUCTIONEER_ITEMS["Cabbage Girl"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Girl"].description,
   },
 
   "Wood Nymph Wendy": {
@@ -1868,7 +1870,6 @@ export const ITEM_DETAILS: Items = {
   },
 
   // Season tickets
-
   "Solar Flare Ticket": {
     image: solarFlareTicket,
     description: "A ticket used during the Solar Flare Season",
@@ -1876,5 +1877,19 @@ export const ITEM_DETAILS: Items = {
   "Dawn Breaker Ticket": {
     image: dawnBreakerTicket,
     description: "A ticket used during the Dawn Breaker Season",
+  },
+
+  // Solar Flare Season
+  "Beach Ball": {
+    image: beachBall,
+    description: GOBLIN_BLACKSMITH_ITEMS["Beach Ball"].description,
+  },
+  "Palm Tree": {
+    image: palmTree,
+    description: GOBLIN_BLACKSMITH_ITEMS["Palm Tree"].description,
+  },
+  Karkinos: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
   },
 };
