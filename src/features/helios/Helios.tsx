@@ -20,6 +20,7 @@ import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "features/island/hud/Hud";
+import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
 
 const spawn = [
   [30, 15],
@@ -66,6 +67,7 @@ export const Helios: React.FC = () => {
         <GrubShop />
         <HeliosBlacksmith inventory={gameState.context.state.inventory} />
         <Potions />
+        <GarbageCollector />
         <ExoticShop />
         <HeliosSunflower />
         <LostSunflorian />

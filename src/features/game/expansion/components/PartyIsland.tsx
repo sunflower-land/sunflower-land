@@ -1,34 +1,187 @@
-import React, { useState } from "react";
-import { MapPlacement } from "./MapPlacement";
+import { useActor } from "@xstate/react";
+import React, { useContext, useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 
 import partyIsland from "assets/land/party_island.png";
+import lockIcon from "assets/skills/lock.png";
+import levelUpIcon from "assets/icons/level_up.png";
+import { SUNNYSIDE } from "assets/sunnyside";
+
+import { hasFeatureAccess } from "lib/flags";
+
+import * as AuthProvider from "features/auth/lib/Provider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Modal } from "react-bootstrap";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { upcomingParty } from "features/pumpkinPlaza/lib/streaming";
-import { useNavigate, useParams } from "react-router-dom";
+import { Context } from "features/game/GameProvider";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Room } from "features/pumpkinPlaza/websocketMachine";
+import {
+  loadRooms,
+  Rooms as IRooms,
+} from "features/pumpkinPlaza/actions/loadRooms";
+
+import { Label } from "components/ui/Label";
+import { OuterPanel } from "components/ui/Panel";
+
+import { MapPlacement } from "./MapPlacement";
+import classNames from "classnames";
+
+type PartyRoom = {
+  roomId: Room;
+  name: string;
+  levelRequired: number;
+  image: string;
+  path: string;
+};
+
+export const Rooms: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState, send] = useActor(authService);
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [roomCapacity, setRoomCapacity] = useState<IRooms>();
+
+  useEffect(() => {
+    const load = async () => {
+      const { rooms } = await loadRooms({
+        token: authState.context.rawToken as string,
+      });
+
+      setRoomCapacity(rooms);
+      setIsLoading(false);
+    };
+    load();
+  }, []);
+
+  const ROOMS: PartyRoom[] = [
+    {
+      roomId: "plaza",
+      name: "Pumpkin Plaza",
+      image: CROP_LIFECYCLE.Pumpkin.crop,
+      path: `/land/${id}/plaza`,
+      levelRequired: 3,
+    },
+    {
+      roomId: "beach",
+      name: "Beach Party",
+      image: SUNNYSIDE.resource.crab,
+      path: `/land/${id}/beach`,
+      levelRequired: 10,
+    },
+    {
+      roomId: "headquarters",
+      name: "Head Quarters",
+      image: SUNNYSIDE.icons.heart,
+      path: `/land/${id}/headquarters`,
+      levelRequired: 20,
+    },
+    {
+      roomId: "stoneHaven",
+      name: "Stone Haven",
+      image: SUNNYSIDE.tools.stone_pickaxe,
+      path: `/land/${id}/stone-haven`,
+      levelRequired: 30,
+    },
+  ];
+
+  const level = getBumpkinLevel(
+    gameState.context.state.bumpkin?.experience ?? 0
+  );
+
+  if (isLoading) {
+    return <p className="loading">Loading</p>;
+  }
+  return (
+    <>
+      {ROOMS.map((room) => (
+        <OuterPanel
+          className={classNames(
+            "flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200",
+            {
+              "cursor-not-allowed": level < room.levelRequired,
+            }
+          )}
+          key={room.roomId}
+          onClick={() => {
+            if (level >= room.levelRequired) {
+              navigate(room.path);
+            }
+          }}
+        >
+          <div className="w-16 justify-center flex mr-2">
+            <img src={room.image} className="h-9" />
+          </div>
+          <div className="flex-1 flex flex-col justify-center">
+            <div className="flex">
+              {level < room.levelRequired && (
+                <img src={lockIcon} className="h-6 mr-2" />
+              )}
+              <p className="text-sm">{room.name}</p>
+            </div>
+            <div className="flex gap-2 items-center mt-2 mb-1">
+              {level < room.levelRequired && (
+                <Label type="danger" className="flex gap-2 items-center">
+                  <img src={levelUpIcon} className="h-4" />
+                  Lvl {room.levelRequired}
+                </Label>
+              )}
+              {roomCapacity && roomCapacity[room.roomId] >= 50 && (
+                <Label type="danger" className="flex gap-2 items-center">
+                  <img src={SUNNYSIDE.icons.player} className="h-4" />
+                  {`50/50 - FULL`}
+                </Label>
+              )}
+              {roomCapacity &&
+                roomCapacity[room.roomId] >= 25 &&
+                roomCapacity[room.roomId] < 50 && (
+                  <Label type="info" className="flex gap-2 items-center">
+                    <img src={SUNNYSIDE.icons.player} className="h-4" />
+                    {`${roomCapacity[room.roomId]}/50`}
+                  </Label>
+                )}
+              {roomCapacity && roomCapacity[room.roomId] < 25 && (
+                <Label type="info" className="flex gap-2 items-center">
+                  <img src={SUNNYSIDE.icons.player} className="h-4" />
+                  {`${roomCapacity[room.roomId]}/50`}
+                </Label>
+              )}
+            </div>
+          </div>
+        </OuterPanel>
+      ))}
+    </>
+  );
+};
 
 interface Props {
   offset: number;
 }
 
 export const PartyIsland: React.FC<Props> = ({ offset }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const [showSharkModal, setshowSharkModal] = useState(false);
   const [showTigerModal, setShowTigerModal] = useState(false);
   const [showPirateModal, setShowPirateModal] = useState(false);
-  const navigate = useNavigate();
-  const { id } = useParams();
 
   const party = upcomingParty();
 
   const isPartyActive = Date.now() > party.startAt && Date.now() < party.endAt;
 
-  const goToParty = () => {
-    navigate(`/land/${id}/plaza`);
-  };
+  const hasAccess =
+    isPartyActive ||
+    hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA");
 
   return (
     <>
@@ -46,40 +199,22 @@ export const PartyIsland: React.FC<Props> = ({ offset }) => {
           }}
           title={
             <div className="flex justify-center">
-              <img src={CROP_LIFECYCLE.Pumpkin.crop} className="h-8 mr-2" />
-              <p>Pumpkin Party</p>
-              <img src={CROP_LIFECYCLE.Pumpkin.crop} className="h-8 ml-2" />
+              <p>Party Time!</p>
             </div>
           }
         >
           <div className="p-2">
             <p className="text-sm mb-3">
-              {`The Pumpkin Plaza is hosting a special party!`}
-            </p>
-            <p className="text-sm mb-3">
               Meet the team and interact with other Bumpkins.
             </p>
-            <p className="text-sm italic">
-              Coming soon. This is an experimental feature being tested.
-            </p>
-            {/* <div className="flex flex-wrap">
-              <p className="text-sm mr-2 mb-2">Next party:</p>
-              <div className="flex mb-2 items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
-                <img
-                  src={SUNNYSIDE.icons.stopwatch}
-                  className="w-3 left-0 mr-1"
-                />
-                <span>{`${new Date(
-                  party.startAt
-                ).toLocaleString()} - ${new Date(
-                  party.endAt
-                ).toLocaleTimeString()}`}</span>
-              </div>
-            </div> */}
+            {!hasAccess && (
+              <p className="text-sm italic mb-2">
+                Coming soon. This is an experimental feature being tested.
+              </p>
+            )}
+
+            {hasAccess && <Rooms />}
           </div>
-          {/* <Button disabled={!isPartyActive} onClick={goToParty}>
-            Go to Pumpkin Plaza
-          </Button> */}
         </CloseButtonPanel>
       </Modal>
 

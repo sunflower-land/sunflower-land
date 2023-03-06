@@ -1,8 +1,6 @@
 export type AuctioneerItemName =
   | "Peeled Potato"
   | "Christmas Snow Globe"
-  | "Cabbage Boy"
-  | "Cabbage Girl"
   | "Wood Nymph Wendy"
   | "Cyborg Bear"
   | "Collectible Bear";
@@ -13,12 +11,6 @@ export const AUCTIONEER_ITEMS: Record<
 > = {
   "Peeled Potato": {
     description: "A precious potato, encourages bonus potatoes on harvest.",
-  },
-  "Cabbage Boy": {
-    description: "Don't wake the baby!",
-  },
-  "Cabbage Girl": {
-    description: "Shhh it's sleeping",
   },
   "Wood Nymph Wendy": {
     description: "Cast an enchantment to entice the wood fairies.",
