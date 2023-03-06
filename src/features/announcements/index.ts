@@ -1,5 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import loveLetter from "assets/icons/love_letter.png";
+import solarFlare from "assets/announcements/solar_flare.png";
 import token from "assets/icons/token_2.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -25,6 +26,29 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2023-03-08T00:00:00"),
+    title: "Solar Flare Season Has Begun!",
+    notes: [
+      {
+        text: "The weather is heating up and the solar flare season has started!",
+      },
+      {
+        text: "You can earn Solar Flare Tickets by completing quests at Helios & fulfilling Grub Shop Orders.",
+        icon: ITEM_DETAILS["Solar Flare Ticket"].image,
+      },
+      {
+        text: "6 Rare SFTs are available to mint at Goblin Retreat!",
+        icon: SUNNYSIDE.icons.hammer,
+      },
+      {
+        text: "Only 7 weeks left to mint these items.",
+        icon: SUNNYSIDE.icons.timer,
+      },
+    ],
+    image: solarFlare,
+    link: "https://docs.sunflower-land.com/player-guides/seasons/solar-flare",
+  },
   {
     date: new Date("2023-03-06T00:00:00"),
     title: "Weekly news",
