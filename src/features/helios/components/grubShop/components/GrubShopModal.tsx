@@ -19,6 +19,13 @@ import { Tutorial } from "../Tutorial";
 import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CountdownLabel } from "components/ui/CountdownLabel";
+import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { InventoryItemName } from "features/game/types/game";
+import sflToken from "assets/icons/token_2.png";
+import {
+  getSeasonalTicket,
+  SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER,
+} from "features/game/types/seasons";
 
 interface Props {
   onClose: () => void;
@@ -29,6 +36,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     !hasShownTutorial("Grub Shop")
   );
   const { gameService } = useContext(Context);
+  const { setToast } = useContext(ToastContext);
   const [
     {
       context: { state },
@@ -49,7 +57,25 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
       id: selectedId,
     });
 
-    // Show the SFL they gained in a toast
+    const item = grubShop.orders.find((order) => order.id === selectedId);
+
+    const itemDetails = ITEM_DETAILS[item?.name as InventoryItemName];
+    setToast({
+      icon: itemDetails.image,
+      content: `-1`,
+    });
+
+    setToast({
+      icon: sflToken,
+      content: `+${item?.sfl}`,
+    });
+
+    const ticket = ITEM_DETAILS[getSeasonalTicket()];
+
+    setToast({
+      icon: ticket.image,
+      content: `+${SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER}`,
+    });
   };
 
   const selectedFulFilled = !!state.grubOrdersFulfilled?.find(

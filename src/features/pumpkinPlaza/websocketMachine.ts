@@ -12,6 +12,8 @@ import {
 } from "features/announcements/announcementsStorage";
 import { loadRoom } from "./actions/loadRoom";
 
+export type Room = "plaza" | "beach" | "headquarters" | "stoneHaven";
+
 export interface ChatContext {
   currentPosition: Coordinates;
   lastPosition: Coordinates;
@@ -22,7 +24,7 @@ export interface ChatContext {
   messages: ChatMessage[];
   discoveries: BumpkinDiscovery[];
   accountId: number;
-  roomId: string;
+  roomId: Room;
   jwt: string;
   kickedAt?: number;
 }
@@ -170,7 +172,7 @@ export const websocketMachine = createMachine<
     lastPosition: { x: 0, y: 0 },
     canAccess: false,
     kickedAt: 0,
-    roomId: "",
+    roomId: "plaza",
   },
   states: {
     initialising: {

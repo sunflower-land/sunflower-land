@@ -10,9 +10,16 @@ export type GoblinBlacksmithItemName =
   | "Maneki Neko"
   | "Heart Balloons"
   | "Flamingo"
-  | "Blossom Tree";
+  | "Blossom Tree"
+  | "Palm Tree"
+  | "Beach Ball"
+  | "Cabbage Boy"
+  | "Cabbage Girl";
 
-export type GoblinPirateItemName = "Iron Idol" | "Heart of Davy Jones";
+export type GoblinPirateItemName =
+  | "Iron Idol"
+  | "Heart of Davy Jones"
+  | "Karkinos";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
@@ -77,6 +84,13 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
     supply: 1000,
     boost: "Dig an extra 20 times per day",
+  },
+  Karkinos: {
+    description:
+      "Pinchy but kind, the crabby kale-boosting addition to your farm!",
+    ingredients: {},
+    supply: 0,
+    boost: "+0.1 Kale",
   },
 };
 
@@ -146,5 +160,25 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       Wood: new Decimal(500),
     },
     supply: 250,
+  },
+  "Palm Tree": {
+    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
+    ingredients: {},
+    supply: 0,
+  },
+  "Beach Ball": {
+    description: "Bouncy ball brings beachy vibes, blows boredom away.",
+    ingredients: {},
+    supply: 0,
+  },
+  "Cabbage Boy": {
+    description: "Don't wake the baby!",
+    ingredients: {},
+    supply: 0,
+  },
+  "Cabbage Girl": {
+    description: "Shhh it's sleeping",
+    ingredients: {},
+    supply: 0,
   },
 };

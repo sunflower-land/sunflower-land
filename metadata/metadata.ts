@@ -3283,4 +3283,26 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/720.png",
     attributes: [],
   },
+  "Palm Tree": {
+    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1241.png",
+    attributes: [],
+  },
+  "Beach Ball": {
+    description: "Bouncy ball brings beachy vibes, blows boredom away.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1242.png",
+    attributes: [],
+  },
+  Karkinos: {
+    description:
+      "Pinchy but kind, the crabby kale-boosting addition to your farm!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/455.png",
+    attributes: [],
+  },
 };

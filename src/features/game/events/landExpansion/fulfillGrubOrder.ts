@@ -3,7 +3,10 @@ import cloneDeep from "lodash.clonedeep";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import {
+  getSeasonalTicket,
+  SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER,
+} from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 export type FulFillGrubOrderAction = {
@@ -66,7 +69,9 @@ export function fulfillGrubOrder({
   const network = CONFIG.NETWORK as "mumbai" | "mainnet";
 
   if (network === "mumbai") {
-    ticketsInInventory = ticketsInInventory.add(1);
+    ticketsInInventory = ticketsInInventory.add(
+      SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER
+    );
   }
 
   return {
