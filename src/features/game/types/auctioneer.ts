@@ -2,8 +2,7 @@ export type AuctioneerItemName =
   | "Peeled Potato"
   | "Christmas Snow Globe"
   | "Wood Nymph Wendy"
-  | "Cyborg Bear"
-  | "Collectible Bear";
+  | "Cyborg Bear";
 
 export const AUCTIONEER_ITEMS: Record<
   AuctioneerItemName,
@@ -21,8 +20,5 @@ export const AUCTIONEER_ITEMS: Record<
   },
   "Cyborg Bear": {
     description: "Hasta la vista, bear",
-  },
-  "Collectible Bear": {
-    description: "A prized possession still in mint condition!",
   },
 };
