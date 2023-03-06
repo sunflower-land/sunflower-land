@@ -303,6 +303,11 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Wooden Compass": false,
   "Whale Bear": true,
   "Iron Idol": false,
+
+  // Seasonal items
+  "Beach Ball": false,
+  "Palm Tree": false,
+  Karkinos: false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

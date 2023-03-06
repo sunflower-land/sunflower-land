@@ -36,9 +36,9 @@ export const ToastProvider: FC = ({ children }) => {
       return toasts;
     });
 
-    // window.setTimeout(() => {
-    //   removeToast(id);
-    // }, toast.timeout || 2000);
+    window.setTimeout(() => {
+      removeToast(id);
+    }, toast.timeout || 2000);
   };
 
   const removeToast = (toastId: string) => {
@@ -47,7 +47,6 @@ export const ToastProvider: FC = ({ children }) => {
     ]);
   };
 
-  console.log({ children });
   return (
     <ToastContext.Provider value={{ removeToast, setToast, toastList }}>
       {children}
