@@ -33,11 +33,6 @@ export const Confirming: React.FC<ConfirmProps> = ({
     draft.resourceAmount
   ).toFixed(3);
 
-  console.log(`Preço por unidade ${pricePerUnit}`);
-  console.log(`Drafl sfl  ${draft.sfl}`);
-  console.log(`Taxa  ${tax}`);
-  console.log(`conta  ${(draft.sfl + draft.sfl * tax) * 100}`);
-
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-col items-center p-2">
@@ -60,7 +55,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
           </span>
           <div className="flex items-center w-1/2">
             <img src={token} className="w-6" />
-            <span className="text-xs py-2 pl-2 whitespace-nowrap">{`${pricePerUnit} SFL / Unit`}</span>
+            <span className="py-2 pl-2 whitespace-nowrap">{`${pricePerUnit} SFL`}</span>
           </div>
         </div>
         <div className="flex items-center">
