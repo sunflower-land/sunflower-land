@@ -201,6 +201,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 token: authContext.rawToken as string,
                 bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
                 transactionId: context.transactionId as string,
+                wallet: authContext.wallet as string,
               });
 
               const game = response?.game as GameState;
@@ -328,6 +329,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               farmAddress: () => authContext.address,
               sessionId: (context: Context) => context.sessionId,
               token: () => authContext.rawToken,
+              wallet: () => authContext.wallet,
               balance: (context: Context) => context.state.balance,
             },
             onDone: {
@@ -361,6 +363,7 @@ export function startGoblinVillage(authContext: AuthContext) {
               farmAddress: () => authContext.address,
               token: () => authContext.rawToken,
               deviceTrackerId: (context: Context) => context.deviceTrackerId,
+              wallet: () => authContext.wallet,
             },
             onDone: {
               target: "playing",

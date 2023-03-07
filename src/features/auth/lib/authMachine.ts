@@ -198,12 +198,12 @@ export const authMachine = createMachine<
             cond: (context) => context.wallet === "METAMASK",
           },
           {
-            target: "connectingToWalletConnect",
-            cond: (context) => context.wallet === "WALLET_CONNECT",
-          },
-          {
             target: "connectingToSequence",
             cond: (context) => context.wallet === "SEQUENCE",
+          },
+          {
+            target: "connectingToWalletConnect",
+            cond: (context) => !!context.wallet,
           },
           { target: "idle" },
         ],
@@ -634,7 +634,9 @@ export const authMachine = createMachine<
         //  Enable session (triggers QR Code modal)
         await provider.enable();
 
-        return { wallet: "WALLET_CONNECT", provider };
+        const name = provider.walletMeta?.name;
+
+        return { wallet: name, provider };
       },
       initSequence: async () => {
         const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";

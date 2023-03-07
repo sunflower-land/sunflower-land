@@ -31,6 +31,7 @@ export interface Context {
   sessionId?: string;
   farmAddress?: string;
   token?: string;
+  wallet?: string;
   balance?: Decimal;
   totalRewards?: Decimal;
   transaction?: SignedTransaction;
@@ -252,6 +253,7 @@ export const wishingWellMachine = createMachine<
               token: context.token as string,
               bumpkinTokenUri: context.bumpkinTokenUri as string,
               transactionId: context.transactionId as string,
+              wallet: context.wallet as string,
             });
 
             const well = await loadWishingWell();
