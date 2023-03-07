@@ -675,7 +675,7 @@ describe("getCropTime", () => {
     expect(time).toEqual(carrotHarvestSeconds * 0.9);
   });
 
-  it("applies a 50% speed boost with Cabbage Girl placed.", () => {
+  it("grows cabbage twice as fast with Cabbage Girl placed.", () => {
     const cabbageHarvestSeconds = CROPS()["Cabbage"].harvestSeconds;
     const time = getCropTime(
       "Cabbage",
