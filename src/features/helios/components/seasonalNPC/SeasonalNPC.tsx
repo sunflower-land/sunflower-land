@@ -6,12 +6,13 @@ import { Modal } from "react-bootstrap";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { HayseedHankModal } from "./components/HayseedHankModal";
+import { SeasonalNPCModal } from "./components/SeasonalNPCModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { getCurrentSeason } from "features/game/types/seasons";
 
-export const HayseedHank: React.FC = () => {
+export const SeasonalNPC: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -22,7 +23,7 @@ export const HayseedHank: React.FC = () => {
   };
 
   return (
-    <MapPlacement x={-8} y={-9} height={3} width={4}>
+    <MapPlacement x={-1.75} y={-4} height={3} width={4}>
       <div
         className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={handleClick}
@@ -36,17 +37,17 @@ export const HayseedHank: React.FC = () => {
           }}
         >
           <NPC
-            body="Beige Farmer Potion"
-            shirt="Red Farmer Shirt"
-            pants="Brown Suspenders"
-            hair="Sun Spots"
+            body="Light Brown Farmer Potion"
+            shirt="Hawaiian Shirt"
+            pants="Farmer Pants"
+            hair="Brown Long Hair"
           />
           {!gameState.context.state.hayseedHank.progress && (
             <img
-              src={SUNNYSIDE.icons.expression_alerted}
+              src={SUNNYSIDE.icons.expression_chat}
               className="absolute animate-float"
               style={{
-                width: `${PIXEL_SCALE * 3}px`,
+                width: `${PIXEL_SCALE * 8}px`,
                 bottom: `${PIXEL_SCALE * -4}px`,
                 left: `${PIXEL_SCALE * 7}px`,
               }}
@@ -56,16 +57,17 @@ export const HayseedHank: React.FC = () => {
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
+          title={`${getCurrentSeason()} Season`}
           bumpkinParts={{
-            body: "Beige Farmer Potion",
-            shirt: "Red Farmer Shirt",
-            pants: "Brown Suspenders",
-            hair: "Sun Spots",
-            tool: "Parsnip",
+            body: "Light Brown Farmer Potion",
+            shirt: "Hawaiian Shirt",
+            pants: "Farmer Pants",
+            hair: "Brown Long Hair",
+            tool: "Pirate Scimitar",
           }}
           onClose={() => setIsOpen(false)}
         >
-          <HayseedHankModal onClose={() => setIsOpen(false)} />
+          <SeasonalNPCModal />
         </CloseButtonPanel>
       </Modal>
     </MapPlacement>
