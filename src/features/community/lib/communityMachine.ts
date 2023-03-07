@@ -73,6 +73,7 @@ export function startCommunityMachine(authContext: AuthContext) {
                 farmId,
                 sessionId,
                 token: authContext.rawToken as string,
+                wallet: authContext.wallet as string,
                 bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
                 transactionId: context.transactionId as string,
               });

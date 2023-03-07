@@ -334,6 +334,7 @@ export function startGame(authContext: Options) {
                   bumpkinTokenUri: bumpkin?.tokenURI,
                   sessionId,
                   token: authContext.rawToken as string,
+                  wallet: authContext.wallet as string,
                   transactionId: context.transactionId as string,
                 });
 
