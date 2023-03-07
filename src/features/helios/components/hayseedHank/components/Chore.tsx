@@ -86,12 +86,14 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   }
 
   if (hayseedHank.progress.bumpkinId !== bumpkin.id) {
-    <>
-      <div className="p-2">
-        <p>{`You aren't the same Bumpkin I last spoke with!`}</p>
-      </div>
-      <Button onClick={start}>Start New Chore</Button>
-    </>;
+    return (
+      <>
+        <div className="p-2">
+          <p>{`You aren't the same Bumpkin I last spoke with!`}</p>
+        </div>
+        <Button onClick={start}>Start New Chore</Button>
+      </>
+    );
   }
 
   const progress =
