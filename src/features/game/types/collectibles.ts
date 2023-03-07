@@ -191,7 +191,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       Gold: new Decimal(15),
       "Solar Flare Ticket": new Decimal(750),
     },
-    supply: 350,
+    supply: 1000,
   },
   "Cabbage Girl": {
     description: "Shhh it's sleeping",
@@ -200,7 +200,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       Gold: new Decimal(25),
       "Solar Flare Ticket": new Decimal(1000),
     },
-    supply: 1000,
+    supply: 350,
   },
   "Collectible Bear": {
     description: "A prized possession still in mint condition!",
