@@ -77,6 +77,10 @@ const maxItems: Inventory = {
   "Human Bear": new Decimal(50),
   "Whale Bear": new Decimal(50),
 
+  // Seasonal Tickets
+  "Solar Flare Ticket": new Decimal(350),
+  "Dawn Breaker Ticket": new Decimal(350),
+
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),
   Pearl: new Decimal(50),
