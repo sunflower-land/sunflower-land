@@ -116,6 +116,11 @@ export const getCropTime = (
     seconds = seconds * 0.9;
   }
 
+  // If Cabbage Girl: 50% reduction
+  if (crop === "Cabbage" && isCollectibleBuilt("Cabbage Girl", collectibles)) {
+    seconds = seconds * 0.5;
+  }
+
   return seconds;
 };
 
