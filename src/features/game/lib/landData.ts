@@ -390,8 +390,48 @@ export const OFFLINE_FARM: GameState = {
   },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
-    closesAt: new Date("2022-10-08").getTime(),
+    closesAt: new Date("2023-10-08").getTime(),
     orders: [
+      {
+        id: "asdj123",
+        name: "Boiled Eggs",
+        sfl: new Decimal(10),
+      },
+      {
+        id: "asdasd",
+        name: "Beetroot Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "3",
+        name: "Sunflower Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "4",
+        name: "Bumpkin Broth",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "5",
+        name: "Mashed Potato",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "6",
+        name: "Wheat Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "7",
+        name: "Pumpkin Soup",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "8",
+        name: "Mashed Potato",
+        sfl: new Decimal(20),
+      },
       {
         id: "asdj123",
         name: "Boiled Eggs",

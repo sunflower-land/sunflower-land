@@ -203,6 +203,28 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                   );
                 })}
               </div>
+              <div className="px-1 mt-1">
+                <div className="flex">
+                  <a
+                    href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-tickets"
+                    target="_blank"
+                    className="text-xxs underline text-white"
+                    rel="noreferrer"
+                  >
+                    Bonus Offer
+                  </a>
+                  <img src={SUNNYSIDE.icons.timer} className="h-4 ml-2" />
+                  <img
+                    src={ITEM_DETAILS[getSeasonalTicket()].image}
+                    className="h-4 ml-1"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <p className="text-xxs">
+                    Earn 10 Seasonal Tickets for each meal.
+                  </p>
+                </div>
+              </div>
             </div>
             {selected && (
               <OuterPanel className="w-full flex-1">
