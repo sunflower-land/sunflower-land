@@ -188,8 +188,8 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     description: "Don't wake the baby!",
     ingredients: {
       Cabbage: new Decimal(2000),
-      Gold: new Decimal(25),
-      "Solar Flare Ticket": new Decimal(1000),
+      Gold: new Decimal(15),
+      "Solar Flare Ticket": new Decimal(750),
     },
     supply: 350,
   },
@@ -197,8 +197,8 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     description: "Shhh it's sleeping",
     ingredients: {
       Cabbage: new Decimal(2000),
-      Gold: new Decimal(15),
-      "Solar Flare Ticket": new Decimal(700),
+      Gold: new Decimal(25),
+      "Solar Flare Ticket": new Decimal(1000),
     },
     supply: 1000,
   },
