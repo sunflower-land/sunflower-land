@@ -50,8 +50,16 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
 
     gameService.send("chore.completed");
 
-    onClose();
+    gameService.send("SAVE");
   };
+
+  if (!hayseedHank.progress && gameState.matches("autosaving")) {
+    return (
+      <div className="flex justify-center">
+        <p className="loading text-center my-4">Loading</p>
+      </div>
+    );
+  }
 
   if (!hayseedHank.progress) {
     return (

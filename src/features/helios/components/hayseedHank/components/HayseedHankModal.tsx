@@ -26,14 +26,6 @@ export const HayseedHankModal: React.FC<Props> = ({ onClose }) => {
     setShowTutorial(false);
   };
 
-  if (gameState.matches("autosaving")) {
-    return (
-      <div className="flex justify-center">
-        <p className="loading text-center my-4">Loading</p>
-      </div>
-    );
-  }
-
   if (showTutorial) {
     return (
       <>
