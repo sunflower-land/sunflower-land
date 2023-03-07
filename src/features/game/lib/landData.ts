@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CHORES } from "../types/chores";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
@@ -359,7 +360,12 @@ export const OFFLINE_FARM: GameState = {
     ],
   },
   mysteryPrizes: {},
-  bumpkin: INITIAL_BUMPKIN,
+  bumpkin: {
+    ...INITIAL_BUMPKIN,
+    activity: {
+      "Sunflower Harvested": 24,
+    },
+  },
   pumpkinPlaza: {},
   tradeOffer: {
     amount: 1,
@@ -376,6 +382,10 @@ export const OFFLINE_FARM: GameState = {
       holeId: 1,
       reward: "Sunflower Cake",
     },
+  },
+  hayseedHank: {
+    choresCompleted: 0,
+    chore: CHORES[0],
   },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),

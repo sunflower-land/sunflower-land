@@ -86,6 +86,7 @@ export function makeGame(farm: any): GameState {
     pumpkinPlaza: farm.pumpkinPlaza,
     dailyRewards: farm.dailyRewards,
     auctioneer: farm.auctioneer ?? {},
+    hayseedHank: farm.hayseedHank,
   };
 }
 
