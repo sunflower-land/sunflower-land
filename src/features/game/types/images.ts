@@ -341,6 +341,7 @@ import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
 import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
 import drill from "assets/icons/drill.png";
+import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
 import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
 
@@ -1889,7 +1890,7 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_BLACKSMITH_ITEMS["Palm Tree"].description,
   },
   Karkinos: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: karkinos,
     description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
   },
 };

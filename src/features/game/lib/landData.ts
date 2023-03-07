@@ -304,6 +304,7 @@ export const OFFLINE_FARM: GameState = {
     "Blossom Tree": new Decimal(1),
     Flamingo: new Decimal(1),
     "Heart Balloons": new Decimal(1),
+    Karkinos: new Decimal(10),
   },
   migrated: true,
   stock: INITIAL_STOCK,
