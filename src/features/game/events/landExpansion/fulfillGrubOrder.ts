@@ -7,7 +7,6 @@ import {
   getSeasonalTicket,
   SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER,
 } from "features/game/types/seasons";
-import { CONFIG } from "lib/config";
 
 export type FulFillGrubOrderAction = {
   type: "grubOrder.fulfilled";
@@ -66,13 +65,9 @@ export function fulfillGrubOrder({
   let ticketsInInventory =
     game.inventory[currentSeasonTicket] || new Decimal(0);
 
-  const network = CONFIG.NETWORK as "mumbai" | "mainnet";
-
-  if (network === "mumbai") {
-    ticketsInInventory = ticketsInInventory.add(
-      SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER
-    );
-  }
+  ticketsInInventory = ticketsInInventory.add(
+    SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER
+  );
 
   return {
     ...state,
