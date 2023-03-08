@@ -22,6 +22,7 @@ import { Hud } from "features/island/hud/Hud";
 import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
 import { HayseedHank } from "./components/hayseedHank/HayseedHank";
 import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
+import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 
 const spawn = [
   [30, 15],
@@ -75,9 +76,8 @@ export const Helios: React.FC = () => {
         <RustyShovelSeller />
         <HayseedHank />
         <SeasonalNPC />
-        {/* TODO <CommunityGardenEntry /> */}
+        <CommunityGardenEntry />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-
         <IslandTravel
           bumpkin={bumpkin}
           inventory={gameState.context.state.inventory}
