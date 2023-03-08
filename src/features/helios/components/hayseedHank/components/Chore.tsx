@@ -62,18 +62,18 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   if (!hayseedHank.progress) {
     return (
       <>
-        <div className="flex flex-col items-center w-full relative mb-3">
+        <div className="flex flex-col items-center w-full relative mb-2">
           <div className="flex mt-1 mb-3">
             <p>{chore.description}</p>
           </div>
           <Label type="info">Reward</Label>
 
           {getKeys(chore.reward.items).map((name) => (
-            <div className="flex mt-1" key={name}>
+            <div className="flex items-center mt-1" key={name}>
               <p className="text-sm">{`${name} x ${chore.reward.items[name]}`}</p>
               <img
                 src={ITEM_DETAILS[name].image}
-                className="h-6 ml-2 text-sm"
+                className="w-6 h-6 object-contain ml-2 text-sm"
               />
             </div>
           ))}
