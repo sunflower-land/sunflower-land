@@ -14,6 +14,7 @@ import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { Loading } from "features/auth/components";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -36,6 +37,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   const hayseedHank = gameState.context.state.hayseedHank;
   const chore = hayseedHank.chore;
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
+
   const start = () => {
     gameService.send("chore.started");
   };
@@ -54,17 +56,13 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   };
 
   if (!hayseedHank.progress && gameState.matches("autosaving")) {
-    return (
-      <div className="flex justify-center">
-        <p className="loading text-center my-4">Loading</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!hayseedHank.progress) {
     return (
       <>
-        <div className="p-2 flex flex-col items-center w-full relative -top-4">
+        <div className="flex flex-col items-center w-full relative mb-3">
           <div className="flex mt-1 mb-3">
             <p>{chore.description}</p>
           </div>
@@ -88,7 +86,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   if (hayseedHank.progress.bumpkinId !== bumpkin.id) {
     return (
       <>
-        <div className="p-2">
+        <div className="p-2 text-sm">
           <p>{`You aren't the same Bumpkin I last spoke with!`}</p>
         </div>
         <Button onClick={start}>Start New Chore</Button>
@@ -110,7 +108,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      <div className="p-2 flex flex-col items-center w-full relative -top-4">
+      <div className="p-2 flex flex-col items-center w-full relative mb-2">
         <div className="flex mt-1 mb-1">
           <p>{chore.description}</p>
         </div>
@@ -195,11 +193,11 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center mb-1">
+      <div className="flex flex-col items-center mb-3">
         <Label type="info">Reward</Label>
 
         {getKeys(chore.reward.items).map((name) => (
-          <div className="flex mt-1" key={name}>
+          <div className="flex mt-1 flex-nowrap" key={name}>
             <p className="text-sm">{`${name} x ${chore.reward.items[name]}`}</p>
             <img src={ITEM_DETAILS[name].image} className="h-6 ml-2 text-sm" />
           </div>

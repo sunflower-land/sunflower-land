@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -10,12 +10,18 @@ import { HayseedHankModal } from "./components/HayseedHankModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { hasShownTutorial } from "lib/tutorial";
 
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState(
+    !hasShownTutorial("Chore Master")
+      ? "Howdy! I'm Hayseed Hank"
+      : "Ready to work?"
+  );
 
   const handleClick = () => {
     setIsOpen(true);
@@ -56,6 +62,7 @@ export const HayseedHank: React.FC = () => {
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
+          title={title}
           bumpkinParts={{
             body: "Beige Farmer Potion",
             shirt: "Red Farmer Shirt",
@@ -65,7 +72,10 @@ export const HayseedHank: React.FC = () => {
           }}
           onClose={() => setIsOpen(false)}
         >
-          <HayseedHankModal onClose={() => setIsOpen(false)} />
+          <HayseedHankModal
+            onTutorialComplete={() => setTitle("Ready to work?")}
+            onClose={() => setIsOpen(false)}
+          />
         </CloseButtonPanel>
       </Modal>
     </MapPlacement>
