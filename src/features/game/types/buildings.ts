@@ -13,7 +13,8 @@ export type BuildingName =
   | "Bakery"
   | "Hen House"
   | "Deli"
-  | "Smoothie Shack";
+  | "Smoothie Shack"
+  | "Toolshed";
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -250,6 +251,27 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 12,
     },
   ],
+  Toolshed: [
+    {
+      unlocksAtLevel: 12,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(25),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(25),
+        },
+        {
+          item: "Iron",
+          amount: new Decimal(10),
+        },
+      ],
+      sfl: new Decimal(0),
+      constructionSeconds: 60 * 60 * 12,
+    },
+  ],
 });
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
@@ -263,4 +285,5 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Hen House": { height: 3, width: 4 },
   Deli: { height: 3, width: 4 },
   "Smoothie Shack": { height: 2, width: 3 },
+  Toolshed: { height: 3, width: 2 },
 };
