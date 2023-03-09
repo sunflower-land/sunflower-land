@@ -261,6 +261,8 @@ import chickenHouse from "src/assets/buildings/hen_house.png";
 import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
+import toolshed from "src/assets/buildings/toolshed.png";
+import warehouse from "src/assets/buildings/warehouse.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -1278,6 +1280,14 @@ export const ITEM_DETAILS: Items = {
   "Smoothie Shack": {
     image: smoothieShack,
     description: "Freshly squeezed!",
+  },
+  Toolshed: {
+    image: toolshed,
+    description: "Increase your tool stocks",
+  },
+  Warehouse: {
+    image: warehouse,
+    description: "Increase your seed stocks",
   },
 
   "Sunflower Amulet": {

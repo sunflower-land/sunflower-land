@@ -77,12 +77,12 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const stock = state.stock[selected.name] || new Decimal(0);
-  const max = INITIAL_STOCK[selected.name];
+  const max = INITIAL_STOCK(state)[selected.name];
   const inventoryCount = getInventoryItemCount(selected.name) ?? new Decimal(0);
   const inventoryFull = max ? inventoryCount.gt(max) : true;
 
   const labelState = () => {
-    const max = INITIAL_STOCK[selected.name];
+    const max = INITIAL_STOCK(state)[selected.name];
     const inventoryCount = inventory[selected.name] ?? new Decimal(0);
     const inventoryFull = max ? inventoryCount.gt(max) : true;
 

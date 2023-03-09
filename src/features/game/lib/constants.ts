@@ -6,6 +6,7 @@ import {
   GameState,
   Inventory,
   LandExpansion,
+  PlacedItem,
 } from "../types/game";
 
 // Our "zoom" factor
@@ -41,6 +42,10 @@ export const CHICKEN_POSITIONS: ChickenPosition[] = [
   { top: GRID_WIDTH_PX * 1.59, right: GRID_WIDTH_PX * 14.12 },
 ];
 
+function isBuildingReady(building: PlacedItem[]) {
+  return building.some((b) => b.readyAt <= Date.now());
+}
+
 export const INITIAL_STOCK = (state?: GameState): Inventory => {
   let tools = {
     Axe: new Decimal(200),
@@ -50,7 +55,10 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
   };
 
   // increase in 50% tool stock if you have a toolshed
-  if (state?.buildings["Toolshed"]) {
+  if (
+    state?.buildings["Toolshed"] &&
+    isBuildingReady(state.buildings["Toolshed"])
+  ) {
     tools = {
       Axe: new Decimal(300),
       Pickaxe: new Decimal(90),
@@ -59,7 +67,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     };
   }
 
-  return {
+  let seeds = {
     "Sunflower Seed": new Decimal(400),
     "Potato Seed": new Decimal(200),
     "Pumpkin Seed": new Decimal(150),
@@ -75,9 +83,37 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Apple Seed": new Decimal(10),
     "Orange Seed": new Decimal(10),
     "Blueberry Seed": new Decimal(10),
+  };
 
+  if (
+    state?.buildings["Warehouse"] &&
+    isBuildingReady(state.buildings["Warehouse"])
+  ) {
+    seeds = {
+      "Sunflower Seed": new Decimal(480),
+      "Potato Seed": new Decimal(240),
+      "Pumpkin Seed": new Decimal(180),
+      "Carrot Seed": new Decimal(120),
+      "Cabbage Seed": new Decimal(108),
+      "Beetroot Seed": new Decimal(96),
+      "Cauliflower Seed": new Decimal(96),
+      "Parsnip Seed": new Decimal(72),
+      "Radish Seed": new Decimal(48),
+      "Wheat Seed": new Decimal(48),
+      "Kale Seed": new Decimal(36),
+
+      "Apple Seed": new Decimal(12),
+      "Orange Seed": new Decimal(12),
+      "Blueberry Seed": new Decimal(12),
+    };
+  }
+
+  return {
     // Tools
     ...tools,
+    // Seeds
+    ...seeds,
+
     Shovel: new Decimal(1),
     "Rusty Shovel": new Decimal(10),
     "Power Shovel": new Decimal(5),

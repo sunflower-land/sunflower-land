@@ -2253,6 +2253,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1010.png",
     attributes: [],
   },
+  Toolshed: {
+    name: "Toolshed",
+    description: "A Toolshed increases your tool stocks",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1011.png",
+    attributes: [],
+  },
+  Warehouse: {
+    name: "Warehouse",
+    description: "A Warehouse increases your seed stocks",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1012.png",
+    attributes: [],
+  },
 
   "Sunflower Amulet": {
     name: "Sunflower Amulet",
