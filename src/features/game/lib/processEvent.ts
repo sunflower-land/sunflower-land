@@ -55,6 +55,12 @@ const maxItems: Inventory = {
   "Red Envelope": new Decimal(100),
   "Love Letter": new Decimal(400),
 
+  // Stock limits
+  Axe: new Decimal("400"),
+  Pickaxe: new Decimal("300"),
+  "Stone Pickaxe": new Decimal("150"),
+  "Iron Pickaxe": new Decimal("50"),
+  "Rusty Shovel": new Decimal("20"),
   "Sand Shovel": new Decimal(50),
   "Sand Drill": new Decimal(30),
 
