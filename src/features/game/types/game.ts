@@ -418,11 +418,6 @@ export interface GameState {
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
 
-  skills: {
-    farming: Decimal;
-    gathering: Decimal;
-  };
-
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;
   bumpkin?: Bumpkin;

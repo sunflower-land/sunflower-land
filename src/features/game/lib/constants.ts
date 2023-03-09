@@ -324,10 +324,6 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK,
   chickens: {},
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
-  },
   mysteryPrizes: {},
   stockExpiry: {
     "Sunflower Cake": "1970-06-06",
@@ -485,10 +481,6 @@ export const EMPTY: GameState = {
   },
   chickens: {},
   stock: {},
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
-  },
   stockExpiry: {},
   expansions: INITIAL_EXPANSIONS,
 
