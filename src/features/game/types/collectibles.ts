@@ -192,6 +192,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Solar Flare Ticket": new Decimal(750),
     },
     supply: 1000,
+    boost: "+0.25 Cabbage",
   },
   "Cabbage Girl": {
     description: "Shhh it's sleeping",
@@ -201,6 +202,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Solar Flare Ticket": new Decimal(1000),
     },
     supply: 350,
+    boost: "50% Faster Cabbages",
   },
   "Collectible Bear": {
     description: "A prized possession still in mint condition!",

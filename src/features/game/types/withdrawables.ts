@@ -218,8 +218,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Engine Core": false,
   Observatory: true,
   "Christmas Snow Globe": true,
-  "Cabbage Boy": true,
-  "Cabbage Girl": true,
   "Chef Bear": true,
   "Construction Bear": true,
   "Angel Bear": true,
@@ -240,7 +238,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Squirrel Monkey": false,
   "Lady Bug": false,
   "Cyborg Bear": true,
-  "Collectible Bear": false,
   "Heart Balloons": true,
   Flamingo: true,
   "Blossom Tree": true,
@@ -308,6 +305,9 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Beach Ball": false,
   "Palm Tree": false,
   Karkinos: false,
+  "Cabbage Boy": false,
+  "Cabbage Girl": false,
+  "Collectible Bear": false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
