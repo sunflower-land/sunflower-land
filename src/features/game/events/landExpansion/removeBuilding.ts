@@ -4,7 +4,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
 import { Chicken, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { getSupportedChickens, removeItem } from "./utils";
+import { getSupportedChickens } from "./utils";
 
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
@@ -157,15 +157,13 @@ export function removeBuilding({
     throw new Error(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
   }
 
-  const buildingIndex = buildingGroup?.findIndex(
-    (building) => building.id == action.id
+  const buildingToRemove = buildingGroup.find(
+    (building) => building.id === action.id
   );
 
-  if (buildingIndex === -1) {
+  if (!buildingToRemove) {
     throw new Error(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
   }
-
-  const buildingToRemove = buildingGroup[buildingIndex];
 
   if (buildingToRemove.readyAt > createdAt) {
     throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
@@ -177,9 +175,8 @@ export function removeBuilding({
     throw new Error(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   }
 
-  stateCopy.buildings[action.building] = removeItem(
-    buildingGroup,
-    buildingGroup[buildingIndex]
+  stateCopy.buildings[action.building] = buildingGroup.filter(
+    (building) => building.id !== buildingToRemove.id
   );
 
   if (action.building === "Water Well") {
