@@ -4,7 +4,7 @@ import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
 
-const maxItems: Inventory = {
+export const maxItems: Inventory = {
   // Seed limits + buffer of 20
   Sunflower: new Decimal("9000"),
   Potato: new Decimal("4500"),
