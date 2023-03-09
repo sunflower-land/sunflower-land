@@ -26,10 +26,7 @@ const PROGRESS_BAR_DIMENSIONS = {
   innerRight: 2,
 };
 
-interface Props {
-  onClose: () => void;
-}
-export const Chore: React.FC<Props> = ({ onClose }) => {
+export const Chore: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { setToast } = useContext(ToastContext);

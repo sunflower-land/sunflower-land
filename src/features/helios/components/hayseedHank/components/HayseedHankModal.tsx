@@ -48,5 +48,5 @@ export const HayseedHankModal: React.FC<Props> = ({
     );
   }
 
-  return <Chore onClose={onClose} />;
+  return <Chore />;
 };
