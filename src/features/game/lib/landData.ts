@@ -310,10 +310,6 @@ export const OFFLINE_FARM: GameState = {
   migrated: true,
   stock: INITIAL_STOCK,
   chickens: {},
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
-  },
   stockExpiry: {},
 
   expansions: INITIAL_EXPANSIONS,
