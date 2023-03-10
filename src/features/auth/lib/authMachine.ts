@@ -611,9 +611,6 @@ export const authMachine = createMachine<
         if (_window.ethereum) {
           const provider = _window.ethereum;
 
-          if (provider.isPhantom) {
-            throw new Error(ERRORS.PHANTOM_WALLET_NOT_SUPPORTED);
-          }
           await provider.request({
             method: "eth_requestAccounts",
           });
