@@ -25,7 +25,7 @@ export const Toolshed: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
         src={toolshed}
         style={{
           width: `${PIXEL_SCALE * 39}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 4}px`,
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute pointer-events-none"
