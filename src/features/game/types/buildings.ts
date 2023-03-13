@@ -254,44 +254,64 @@ export const BUILDINGS: () => Record<
   ],
   Toolshed: [
     {
-      unlocksAtLevel: 12,
+      unlocksAtLevel: 26,
       ingredients: [
         {
           item: "Wood",
-          amount: new Decimal(25),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(25),
+          amount: new Decimal(500),
         },
         {
           item: "Iron",
-          amount: new Decimal(10),
+          amount: new Decimal(30),
+        },
+        {
+          item: "Gold",
+          amount: new Decimal(25),
+        },
+        {
+          item: "Axe",
+          amount: new Decimal(100),
+        },
+        {
+          item: "Pickaxe",
+          amount: new Decimal(50),
         },
       ],
       sfl: new Decimal(0),
-      constructionSeconds: 60 * 60 * 12,
+      constructionSeconds: 60 * 60 * 2,
     },
   ],
   Warehouse: [
     {
-      unlocksAtLevel: 15,
+      unlocksAtLevel: 21,
       ingredients: [
         {
           item: "Wood",
-          amount: new Decimal(25),
+          amount: new Decimal(250),
         },
         {
           item: "Stone",
-          amount: new Decimal(25),
+          amount: new Decimal(150),
         },
         {
-          item: "Iron",
-          amount: new Decimal(10),
+          item: "Potato",
+          amount: new Decimal(5000),
+        },
+        {
+          item: "Pumpkin",
+          amount: new Decimal(2000),
+        },
+        {
+          item: "Wheat",
+          amount: new Decimal(500),
+        },
+        {
+          item: "Kale",
+          amount: new Decimal(100),
         },
       ],
       sfl: new Decimal(0),
-      constructionSeconds: 60 * 60 * 12,
+      constructionSeconds: 60 * 60 * 2,
     },
   ],
 });
