@@ -56,7 +56,7 @@ export const maxItems: Inventory = {
   "Love Letter": new Decimal(400),
 
   // Stock limits
-  Axe: new Decimal("400"),
+  Axe: new Decimal("900"),
   Pickaxe: new Decimal("300"),
   "Stone Pickaxe": new Decimal("150"),
   "Iron Pickaxe": new Decimal("50"),
