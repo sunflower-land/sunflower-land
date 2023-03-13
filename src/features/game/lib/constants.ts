@@ -6,6 +6,7 @@ import {
   GameState,
   Inventory,
   LandExpansion,
+  PlacedItem,
 } from "../types/game";
 
 // Our "zoom" factor
@@ -41,40 +42,91 @@ export const CHICKEN_POSITIONS: ChickenPosition[] = [
   { top: GRID_WIDTH_PX * 1.59, right: GRID_WIDTH_PX * 14.12 },
 ];
 
-export const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(400),
-  "Potato Seed": new Decimal(200),
-  "Pumpkin Seed": new Decimal(150),
-  "Carrot Seed": new Decimal(100),
-  "Cabbage Seed": new Decimal(90),
-  "Beetroot Seed": new Decimal(80),
-  "Cauliflower Seed": new Decimal(80),
-  "Parsnip Seed": new Decimal(60),
-  "Radish Seed": new Decimal(40),
-  "Wheat Seed": new Decimal(40),
-  "Kale Seed": new Decimal(30),
+function isBuildingReady(building: PlacedItem[]) {
+  return building.some((b) => b.readyAt <= Date.now());
+}
 
-  "Apple Seed": new Decimal(10),
-  "Orange Seed": new Decimal(10),
-  "Blueberry Seed": new Decimal(10),
+export const INITIAL_STOCK = (state?: GameState): Inventory => {
+  let tools = {
+    Axe: new Decimal(200),
+    Pickaxe: new Decimal(60),
+    "Stone Pickaxe": new Decimal(20),
+    "Iron Pickaxe": new Decimal(5),
+  };
 
-  Axe: new Decimal(125),
-  Pickaxe: new Decimal(50),
-  "Stone Pickaxe": new Decimal(10),
-  "Iron Pickaxe": new Decimal(5),
-  Shovel: new Decimal(1),
-  "Rusty Shovel": new Decimal(10),
-  "Power Shovel": new Decimal(5),
-  "Sand Shovel": new Decimal(25),
-  "Sand Drill": new Decimal(5),
+  // increase in 50% tool stock if you have a toolshed
+  if (
+    state?.buildings["Toolshed"] &&
+    isBuildingReady(state.buildings["Toolshed"])
+  ) {
+    tools = {
+      Axe: new Decimal(300),
+      Pickaxe: new Decimal(90),
+      "Stone Pickaxe": new Decimal(30),
+      "Iron Pickaxe": new Decimal(8),
+    };
+  }
 
-  Chicken: new Decimal(5),
+  let seeds = {
+    "Sunflower Seed": new Decimal(400),
+    "Potato Seed": new Decimal(200),
+    "Pumpkin Seed": new Decimal(150),
+    "Carrot Seed": new Decimal(100),
+    "Cabbage Seed": new Decimal(90),
+    "Beetroot Seed": new Decimal(80),
+    "Cauliflower Seed": new Decimal(80),
+    "Parsnip Seed": new Decimal(60),
+    "Radish Seed": new Decimal(40),
+    "Wheat Seed": new Decimal(40),
+    "Kale Seed": new Decimal(30),
 
-  "Magic Bean": new Decimal(5),
-  "Shiny Bean": new Decimal(5),
-  "Golden Bean": new Decimal(5),
+    "Apple Seed": new Decimal(10),
+    "Orange Seed": new Decimal(10),
+    "Blueberry Seed": new Decimal(10),
+  };
 
-  "Immortal Pear": new Decimal(1),
+  if (
+    state?.buildings["Warehouse"] &&
+    isBuildingReady(state.buildings["Warehouse"])
+  ) {
+    seeds = {
+      "Sunflower Seed": new Decimal(480),
+      "Potato Seed": new Decimal(240),
+      "Pumpkin Seed": new Decimal(180),
+      "Carrot Seed": new Decimal(120),
+      "Cabbage Seed": new Decimal(108),
+      "Beetroot Seed": new Decimal(96),
+      "Cauliflower Seed": new Decimal(96),
+      "Parsnip Seed": new Decimal(72),
+      "Radish Seed": new Decimal(48),
+      "Wheat Seed": new Decimal(48),
+      "Kale Seed": new Decimal(36),
+
+      "Apple Seed": new Decimal(12),
+      "Orange Seed": new Decimal(12),
+      "Blueberry Seed": new Decimal(12),
+    };
+  }
+
+  return {
+    // Tools
+    ...tools,
+    // Seeds
+    ...seeds,
+
+    Shovel: new Decimal(1),
+    "Rusty Shovel": new Decimal(10),
+    "Power Shovel": new Decimal(5),
+    "Sand Shovel": new Decimal(25),
+    "Sand Drill": new Decimal(5),
+    Chicken: new Decimal(5),
+
+    "Magic Bean": new Decimal(5),
+    "Shiny Bean": new Decimal(5),
+    "Golden Bean": new Decimal(5),
+
+    "Immortal Pear": new Decimal(1),
+  };
 };
 
 export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
@@ -322,7 +374,7 @@ export const TEST_FARM: GameState = {
     "Boiled Eggs": new Decimal(3),
     "Sunflower Cake": new Decimal(1),
   },
-  stock: INITIAL_STOCK,
+  stock: INITIAL_STOCK(),
   chickens: {},
   mysteryPrizes: {},
   stockExpiry: {

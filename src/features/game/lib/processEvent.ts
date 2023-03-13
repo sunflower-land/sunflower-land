@@ -4,7 +4,7 @@ import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
 
-const maxItems: Inventory = {
+export const maxItems: Inventory = {
   // Seed limits + buffer of 20
   Sunflower: new Decimal("9000"),
   Potato: new Decimal("4500"),
@@ -55,6 +55,12 @@ const maxItems: Inventory = {
   "Red Envelope": new Decimal(100),
   "Love Letter": new Decimal(400),
 
+  // Stock limits
+  Axe: new Decimal("400"),
+  Pickaxe: new Decimal("300"),
+  "Stone Pickaxe": new Decimal("150"),
+  "Iron Pickaxe": new Decimal("50"),
+  "Rusty Shovel": new Decimal("20"),
   "Sand Shovel": new Decimal(50),
   "Sand Drill": new Decimal(30),
 

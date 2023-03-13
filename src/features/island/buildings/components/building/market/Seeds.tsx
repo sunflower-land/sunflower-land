@@ -94,7 +94,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 
   const labelState = () => {
-    const max = INITIAL_STOCK[selectedName];
+    const max = INITIAL_STOCK(state)[selectedName];
     const inventoryCount = inventory[selectedName] ?? new Decimal(0);
     const inventoryFull = max ? inventoryCount.gt(max) : true;
 
@@ -130,7 +130,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return <Restock onClose={onClose} />;
     }
 
-    const max = INITIAL_STOCK[selectedName];
+    const max = INITIAL_STOCK(state)[selectedName];
 
     if (max && inventory[selectedName]?.gt(max)) {
       return (

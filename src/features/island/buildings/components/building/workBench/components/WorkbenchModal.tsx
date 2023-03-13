@@ -24,6 +24,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { maxItems } from "features/game/lib/processEvent";
 
 interface Props {
   isOpen: boolean;
@@ -121,6 +122,10 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const labelState = () => {
+    const max = maxItems[selectedName];
+    const inventoryCount = inventory[selectedName] ?? new Decimal(0);
+    const inventoryFull = max ? inventoryCount.gt(max) : true;
+
     if (stock?.equals(0)) {
       return (
         <Label type="danger" className="-mt-2 mb-1">
@@ -128,12 +133,26 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         </Label>
       );
     }
-    return <Stock item={{ name: selectedName }} inventoryFull={false} />;
+    return (
+      <Stock item={{ name: selectedName }} inventoryFull={inventoryFull} />
+    );
   };
 
   const Action = () => {
     if (stock?.equals(0)) {
       return <Restock onClose={onClose}></Restock>;
+    }
+
+    const max = maxItems[selectedName];
+
+    if (max && inventory[selectedName]?.gt(max)) {
+      return (
+        <div className="my-1">
+          <p className="text-xxs text-center">
+            You have too many tools in your basket!
+          </p>
+        </div>
+      );
     }
 
     return (
