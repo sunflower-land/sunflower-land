@@ -201,7 +201,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       Gold: new Decimal(25),
       "Solar Flare Ticket": new Decimal(1000),
     },
-    supply: 355, // 350 + 5 Goblin Treasury Supply
+    supply: 365, // 360 + 5 Goblin Treasury Supply
     boost: "50% Faster Cabbages",
   },
   "Collectible Bear": {
