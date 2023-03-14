@@ -28,6 +28,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
+import { Quarry } from "./quarry/Quarry";
 
 interface Prop {
   name: BuildingName;
@@ -67,6 +68,7 @@ export const BUILDING_COMPONENTS: Record<
   "Water Well": WaterWell,
   Warehouse: Warehouse,
   Toolshed: Toolshed,
+  Quarry: Quarry,
   "Hen House": ChickenHouse,
   Kitchen: ({
     buildingId,

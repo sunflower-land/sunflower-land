@@ -2255,19 +2255,29 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Toolshed: {
     name: "Toolshed",
-    description: "A Toolshed increases your tool stocks",
+    description: "A Toolshed increases your tool stocks by 50%",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1011.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   Warehouse: {
     name: "Warehouse",
-    description: "A Warehouse increases your seed stocks",
+    description: "A Warehouse increases your seed stocks by 20%",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1012.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+
+  Quarry: {
+    name: "Quarry",
+    description:
+      "A Quarry boosts your Iron yield by 0.1 and your Stone yield by 0.2",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1013.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
 
   "Sunflower Amulet": {

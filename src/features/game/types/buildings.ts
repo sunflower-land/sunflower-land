@@ -15,7 +15,8 @@ export type BuildingName =
   | "Deli"
   | "Smoothie Shack"
   | "Toolshed"
-  | "Warehouse";
+  | "Warehouse"
+  | "Quarry";
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -314,6 +315,14 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 2,
     },
   ],
+  Quarry: [
+    {
+      unlocksAtLevel: 26,
+      ingredients: [],
+      sfl: new Decimal(0),
+      constructionSeconds: 60 * 60 * 2,
+    },
+  ],
 });
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
@@ -329,4 +338,5 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Smoothie Shack": { height: 2, width: 3 },
   Toolshed: { height: 3, width: 2 },
   Warehouse: { height: 2, width: 3 },
+  Quarry: { height: 2, width: 3 },
 };

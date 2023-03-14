@@ -263,6 +263,7 @@ import deli from "src/assets/buildings/deli.png";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 import toolshed from "src/assets/buildings/toolshed.png";
 import warehouse from "src/assets/buildings/warehouse.png";
+import quarry from "src/assets/buildings/quarry.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -1283,11 +1284,15 @@ export const ITEM_DETAILS: Items = {
   },
   Toolshed: {
     image: toolshed,
-    description: "Increase your tool stocks",
+    description: "Increase your tool stocks by 50%",
   },
   Warehouse: {
     image: warehouse,
-    description: "Increase your seed stocks",
+    description: "Increase your seed stocks by 20%",
+  },
+  Quarry: {
+    image: quarry,
+    description: "+0.2 stone yeld and +0.1 iron yield",
   },
 
   "Sunflower Amulet": {
