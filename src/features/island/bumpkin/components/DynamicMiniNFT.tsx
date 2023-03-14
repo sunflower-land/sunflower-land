@@ -73,9 +73,9 @@ import pirateGeneralCoat from "assets/npc-layers/pirate_general_coat.png";
 // Onesie
 import snowman from "assets/npc-layers/snowman-onesie.png";
 import sharkOnesie from "assets/npc-layers/shark-onesie.png";
-import frogOnesie from "assets/npc-layers/frog-onesie.png";
-import bearOnesie from "assets/npc-layers/bear-onesie.png";
-import tigerOnesie from "assets/npc-layers/tiger-onesie.png";
+import frogOnesie from "assets/npc-layers/frog_onesie.png";
+import bearOnesie from "assets/npc-layers/bear_onesie.png";
+import tigerOnesie from "assets/npc-layers/tiger_onesie.png";
 
 import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
 import fruitShirt from "assets/npc-layers/fruit_shirt.png";
