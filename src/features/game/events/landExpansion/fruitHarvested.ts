@@ -60,13 +60,13 @@ export function harvestFruit({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { resources, bumpkin } = stateCopy;
+  const { fruitPatches, bumpkin } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  const patch = resources.fruitPatches[action.index];
+  const patch = fruitPatches[action.index];
 
   if (!patch) {
     throw new Error("Fruit patch does not exist");

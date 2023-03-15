@@ -50,9 +50,7 @@ export function isPlotFertile({
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
   const cropPosition =
-    getKeys(gameState.resources.plots).findIndex(
-      (plotId) => plotId === plotIndex
-    ) + 1;
+    getKeys(gameState.plots).findIndex((plotId) => plotId === plotIndex) + 1;
 
   return cropPosition <= cropsWellCanWater;
 }
@@ -222,7 +220,7 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { resources, bumpkin, collectibles, inventory } = stateCopy;
+  const { plots, bumpkin, collectibles, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
@@ -232,7 +230,7 @@ export function plant({
     throw new Error("Plot does not exist");
   }
 
-  const plot = resources.plots[action.index];
+  const plot = plots[action.index];
 
   if (!plot) {
     throw new Error("Plot does not exist");
@@ -258,7 +256,7 @@ export function plant({
 
   const cropName = action.item.split(" ")[0] as CropName;
 
-  resources.plots[action.index] = {
+  plots[action.index] = {
     ...plot,
     crop: {
       id: action.cropId,

@@ -1,6 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 
-import { GameState } from "features/game/types/game";
+import { GameState, Tree } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   ResourceName,
@@ -23,10 +23,16 @@ type Options = {
   createdAt?: number;
 };
 
-export const RESOURCE_FIELDS: Record<
-  ResourceName,
-  keyof GameState["resources"]
-> = {
+export type ResourceFieldName =
+  | "trees"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "plots"
+  | "fruitPatches"
+  | "boulders";
+
+export const RESOURCE_FIELDS: Record<ResourceName, ResourceFieldName> = {
   "Crop Plot": "plots",
   "Gold Rock": "gold",
   "Iron Rock": "iron",
@@ -65,7 +71,7 @@ export function placeResource({
   createdAt = Date.now(),
 }: Options): GameState {
   console.log("Place resource!", action);
-  const stateCopy = cloneDeep(state);
+  const stateCopy = cloneDeep(state) as GameState;
   const { bumpkin } = stateCopy;
 
   if (bumpkin === undefined) {
@@ -79,25 +85,17 @@ export function placeResource({
   // TODO
   bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);
 
-  const previous = stateCopy.resources[fieldName];
-  const newGame = {
-    ...stateCopy,
-    resources: {
-      ...stateCopy.resources,
-      [fieldName]: {
-        ...previous,
-        [action.id as unknown as number]: {
-          createdAt: createdAt,
-          x: action.coordinates.x,
-          y: action.coordinates.y,
-          ...RESOURCE_DIMENSIONS[action.name],
-          ...getInitialResource(action.name),
-        },
-      },
+  const previous = stateCopy[fieldName];
+  stateCopy[fieldName] = {
+    ...previous,
+    [action.id as unknown as number]: {
+      createdAt: createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      ...RESOURCE_DIMENSIONS[action.name],
+      ...getInitialResource(action.name),
     },
   };
 
-  console.log({ newGame });
-
-  return newGame;
+  return stateCopy;
 }

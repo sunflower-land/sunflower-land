@@ -32,13 +32,13 @@ export function harvest({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin, resources } = stateCopy;
+  const { bumpkin, plots } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  const plot = resources.plots[action.index];
+  const plot = plots[action.index];
 
   if (!plot) {
     throw new Error("Plot does not exist");

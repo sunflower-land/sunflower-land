@@ -1,4 +1,5 @@
 import { Dimensions } from "./craftables";
+import { GameState } from "./game";
 
 export type CommodityName =
   | "Wood"
@@ -57,6 +58,16 @@ export type ResourceName =
   | "Crop Plot"
   | "Fruit Patch"
   | "Boulder";
+
+export const RESOURCES: Record<ResourceName, string> = {
+  "Crop Plot": "Plant crops",
+  "Fruit Patch": "Plant fruit",
+  "Gold Rock": "Mine gold",
+  "Iron Rock": "Mine iron",
+  "Stone Rock": "Mine stone",
+  Boulder: "Mine rare minerals",
+  Tree: "Chop Wood",
+};
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
   "Crop Plot": {

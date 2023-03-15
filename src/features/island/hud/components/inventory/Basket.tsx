@@ -12,14 +12,8 @@ import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
-<<<<<<< HEAD
-import { RESOURCES } from "features/game/types/resources";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
-=======
 import { COMMODITIES } from "features/game/types/resources";
-import { CONSUMABLES } from "features/game/types/consumables";
-import { KNOWN_IDS } from "features/game/types";
->>>>>>> b67f7712 (Move resources onto root level and tokenise)
 import { BEANS } from "features/game/types/beans";
 import { FRUIT, FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -96,12 +90,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const workbenchTools = getItems(WORKBENCH_TOOLS());
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
-<<<<<<< HEAD
-  const resources = getItems(RESOURCES);
-=======
-  const shovels = getItems(SHOVELS);
   const resources = getItems(COMMODITIES);
->>>>>>> b67f7712 (Move resources onto root level and tokenise)
   const consumables = getItems(CONSUMABLES);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);

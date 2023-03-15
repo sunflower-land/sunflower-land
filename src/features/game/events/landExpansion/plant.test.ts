@@ -5,7 +5,7 @@ import {
   INITIAL_BUMPKIN,
   TEST_FARM,
 } from "../../lib/constants";
-import { GameState, LandExpansionPlot } from "../../types/game";
+import { GameState, CropPlot } from "../../types/game";
 import { getCropTime, isPlotFertile, plant } from "./plant";
 
 const GAME_STATE: GameState = {
@@ -30,8 +30,7 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: -1,
+          index: "0",
           item: "Sunflower Seed",
         },
       })
@@ -53,8 +52,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Sunflower Seed",
         },
       })
@@ -75,8 +74,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: -1,
-          expansionIndex: 0,
+          index: "-1",
+
           item: "Sunflower Seed",
         },
       })
@@ -97,8 +96,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 1.2,
-          expansionIndex: 0,
+          index: "1.2",
+
           item: "Sunflower Seed",
         },
       })
@@ -115,8 +114,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 1,
-          expansionIndex: 0,
+          index: "1",
+
           item: "Sunflower Seed",
         },
       })
@@ -137,8 +136,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 200000,
-          expansionIndex: 0,
+          index: "200000",
+
           item: "Sunflower Seed",
         },
       })
@@ -146,11 +145,8 @@ describe("plant", () => {
   });
 
   it("does not plant if crop already exists", () => {
-    const { inventory } = GAME_STATE;
-    const expansions = [...GAME_STATE.expansions];
-    const expansion = expansions[0];
-    const { plots } = expansion;
-    const plot = (plots as Record<number, LandExpansionPlot>)[0];
+    const { inventory, plots } = GAME_STATE;
+    const plot = (plots as Record<number, CropPlot>)[0];
 
     expect(() =>
       plant({
@@ -160,26 +156,21 @@ describe("plant", () => {
             ...inventory,
             "Water Well": new Decimal(1),
           },
-          expansions: [
-            {
-              ...expansion,
-              plots: {
-                0: {
-                  ...plot,
-                  crop: {
-                    name: "Sunflower",
-                    plantedAt: dateNow,
-                  },
-                },
+          plots: {
+            0: {
+              ...plot,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow,
               },
             },
-          ],
+          },
         },
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Sunflower Seed",
         },
       })
@@ -200,8 +191,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Pickaxe",
         },
       })
@@ -222,8 +213,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Sunflower Seed",
         },
       })
@@ -244,17 +235,17 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Sunflower Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(state.inventory["Sunflower Seed"]).toEqual(seedsAmount.minus(1));
     expect(plots).toBeDefined();
-    expect((plots as Record<number, LandExpansionPlot>)[0]).toEqual(
+    expect((plots as Record<number, CropPlot>)[0]).toEqual(
       expect.objectContaining({
         crop: expect.objectContaining({
           name: "Sunflower",
@@ -277,16 +268,16 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Cauliflower Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
-    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
@@ -319,16 +310,16 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Cauliflower Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
-    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
@@ -349,16 +340,16 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Parsnip Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
-    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Parsnip",
         plantedAt: expect.any(Number),
@@ -391,8 +382,8 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Parsnip Seed",
       },
       createdAt: dateNow,
@@ -401,11 +392,11 @@ describe("plant", () => {
     // Should be twice as fast! (Planted in the past)
     const parsnipTime = CROPS().Parsnip.harvestSeconds * 1000;
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
     const plantedAt =
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
+      (plots as Record<number, CropPlot>)[0].crop?.plantedAt || 0;
     console.log(plantedAt);
 
     expect(plantedAt).toBe(dateNow - parsnipTime * 0.5);
@@ -431,20 +422,18 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Parsnip Seed",
       },
       createdAt: dateNow,
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
 
-    expect(
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
-    ).toEqual(1.2);
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
   it("yields 10% more with bumpkin skill Master Farmer", () => {
@@ -468,20 +457,18 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Sunflower Seed",
       },
       createdAt: dateNow,
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
 
-    expect(
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
-    ).toEqual(1.1);
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
   });
   it("grows faster with a Nancy placed and ready", () => {
     const state = plant({
@@ -507,8 +494,8 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Carrot Seed",
       },
       createdAt: dateNow,
@@ -517,10 +504,10 @@ describe("plant", () => {
     // Should be twice as fast! (Planted in the past)
     const carrotTime = CROPS().Carrot.harvestSeconds * 1000;
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
-    const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
+    const plantedAt = plots[0].crop?.plantedAt || 0;
 
     expect(plantedAt).toBe(dateNow - carrotTime * 0.15);
   });
@@ -549,19 +536,19 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Sunflower Seed",
       },
     });
 
     const sunflowerTime = CROPS().Sunflower.harvestSeconds * 1000;
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
     const plantedAt =
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
+      (plots as Record<number, CropPlot>)[0].crop?.plantedAt || 0;
 
     expect(plantedAt).toBe(dateNow - sunflowerTime * 0.1);
   });
@@ -590,19 +577,17 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Carrot Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.plots;
 
     expect(plots).toBeDefined();
 
-    expect(
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
-    ).toEqual(1.2);
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
   it("throws an error if the player doesnt have a bumpkin", async () => {
@@ -619,8 +604,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Carrot Seed",
         },
       })
@@ -709,43 +694,27 @@ describe("isPlotFertile", () => {
       gameState: {
         ...TEST_FARM,
         buildings: {},
-        expansions: [
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-              4: fakePlot,
-              5: fakePlot,
-              6: fakePlot,
-              7: fakePlot, //16th
-              8: fakePlot, // 17th
-            },
-          },
-        ],
+        plots: {
+          0: fakePlot,
+          1: fakePlot,
+          2: fakePlot,
+          3: fakePlot,
+          4: fakePlot,
+          5: fakePlot,
+          6: fakePlot,
+          7: fakePlot,
+          8: fakePlot,
+          21: fakePlot,
+          32: fakePlot,
+          43: fakePlot,
+          54: fakePlot,
+          65: fakePlot,
+          76: fakePlot,
+          87: fakePlot, //16th
+          98: fakePlot, // 17th
+        },
       },
-      expansionIndex: 2,
-      plotIndex: 7,
+      plotIndex: "7",
     });
 
     expect(isFertile).toBeFalsy();
@@ -771,55 +740,34 @@ describe("isPlotFertile", () => {
             },
           ],
         },
-        expansions: [
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot, //11th
-              3: fakePlot, // 12th
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-              4: fakePlot,
-              5: fakePlot,
-              6: fakePlot,
-              7: fakePlot,
-              8: fakePlot,
-              9: fakePlot,
-              10: fakePlot,
-              11: fakePlot, // 24th
-            },
-          },
-        ],
+        plots: {
+          0: fakePlot,
+          1: fakePlot,
+          2: fakePlot,
+          3: fakePlot,
+          4: fakePlot,
+          5: fakePlot,
+          6: fakePlot,
+          7: fakePlot,
+          8: fakePlot,
+          9: fakePlot,
+          10: fakePlot, //11th
+          11: fakePlot, // 12th
+          12: fakePlot,
+          13: fakePlot,
+          14: fakePlot,
+          15: fakePlot,
+          16: fakePlot,
+          17: fakePlot,
+          18: fakePlot,
+          19: fakePlot,
+          20: fakePlot,
+          21: fakePlot,
+          22: fakePlot,
+          23: fakePlot, // 24th
+        },
       },
-      expansionIndex: 3,
-      plotIndex: 11,
+      plotIndex: "16",
     });
 
     expect(isFertile).toBeFalsy();
@@ -836,38 +784,22 @@ describe("isPlotFertile", () => {
       gameState: {
         ...TEST_FARM,
         buildings: {},
-        expansions: [
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot, //6th
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-        ],
+        plots: {
+          0: fakePlot,
+          1: fakePlot,
+          2: fakePlot,
+          3: fakePlot,
+          4: fakePlot,
+          5: fakePlot, //6th
+          6: fakePlot,
+          7: fakePlot,
+          8: fakePlot,
+          9: fakePlot,
+          10: fakePlot,
+          11: fakePlot,
+        },
       },
-      expansionIndex: 1,
-      plotIndex: 1,
+      plotIndex: "5",
     });
     expect(isFertile).toBeTruthy();
   });
@@ -892,38 +824,22 @@ describe("isPlotFertile", () => {
             },
           ],
         },
-        expansions: [
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot, //11th
-              3: fakePlot, // 12th
-            },
-          },
-        ],
+        plots: {
+          0: fakePlot,
+          1: fakePlot,
+          2: fakePlot,
+          3: fakePlot,
+          4: fakePlot,
+          5: fakePlot,
+          6: fakePlot,
+          7: fakePlot,
+          8: fakePlot,
+          9: fakePlot,
+          10: fakePlot, //11th
+          11: fakePlot, // 12th
+        },
       },
-      expansionIndex: 2,
-      plotIndex: 2,
+      plotIndex: "8",
     });
 
     expect(isFertile).toBeTruthy();

@@ -51,13 +51,13 @@ export function removeFruitTree({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { resources, bumpkin, inventory, collectibles } = stateCopy;
+  const { fruitPatches, bumpkin, inventory, collectibles } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  const patch = resources.fruitPatches[action.index];
+  const patch = fruitPatches[action.index];
 
   if (!patch) {
     throw new Error("Fruit patch does not exist");

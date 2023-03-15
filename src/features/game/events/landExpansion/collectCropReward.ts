@@ -21,7 +21,7 @@ export function collectCropReward({
   createdAt = Date.now(),
 }: Options) {
   const stateCopy = cloneDeep(state);
-  const plot = stateCopy.resources.plots[action.plotIndex];
+  const plot = stateCopy.plots[action.plotIndex];
 
   if (!plot) {
     throw new Error("Plot does not exist");

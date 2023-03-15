@@ -55,18 +55,6 @@ export type FieldItem = {
   fertilisers?: Fertilisers;
 };
 
-export type Tree = {
-  wood: Decimal;
-  // Epoch time in milliseconds
-  choppedAt: number;
-} & Position;
-
-export type Rock = {
-  amount: Decimal;
-  // Epoch time in milliseconds
-  minedAt: number;
-};
-
 export type ChickenPosition = {
   top: number;
   right: number;
@@ -288,7 +276,7 @@ export type PlantedFruit = {
   harvestedAt: number;
 };
 
-export type LandExpansionTree = {
+export type Tree = {
   wood: Wood;
 } & Position;
 
@@ -298,11 +286,11 @@ export type Stone = {
   minedAt: number;
 };
 
-export type LandExpansionRock = {
+export type Rock = {
   stone: Stone;
 } & Position;
 
-export type LandExpansionPlot = {
+export type CropPlot = {
   crop?: PlantedCrop;
 } & Position;
 
@@ -411,15 +399,13 @@ export interface GameState {
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
 
-  resources: {
-    trees: Record<string, LandExpansionTree>;
-    stones: Record<string, LandExpansionRock>;
-    gold: Record<string, LandExpansionRock>;
-    iron: Record<string, LandExpansionRock>;
-    plots: Record<string, LandExpansionPlot>;
-    fruitPatches: Record<string, FruitPatch>;
-    boulders: Record<string, Mine>;
-  };
+  trees: Record<string, Tree>;
+  stones: Record<string, Rock>;
+  gold: Record<string, Rock>;
+  iron: Record<string, Rock>;
+  plots: Record<string, CropPlot>;
+  fruitPatches: Record<string, FruitPatch>;
+  boulders: Record<string, Mine>;
 
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;

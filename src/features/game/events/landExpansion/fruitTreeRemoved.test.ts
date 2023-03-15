@@ -10,47 +10,40 @@ const GAME_STATE: GameState = {
     Wood: new Decimal(1),
     Axe: new Decimal(1),
   },
-  expansions: [
-    ...TEST_FARM.expansions,
-    {
-      fruitPatches: {
-        0: {
-          fruit: {
-            name: "Apple",
-            amount: 1,
-            plantedAt: 123,
-            harvestedAt: 0,
-            harvestsLeft: 0,
-          },
-          x: -2,
-          y: 0,
-          height: 1,
-          width: 1,
-        },
-        1: {
-          x: -2,
-          y: 0,
-          height: 1,
-          width: 1,
-        },
-        2: {
-          fruit: {
-            name: "Blueberry",
-            amount: 1,
-            plantedAt: 123,
-            harvestedAt: 0,
-            harvestsLeft: 0,
-          },
-          x: -2,
-          y: 0,
-          height: 1,
-          width: 1,
-        },
+  fruitPatches: {
+    0: {
+      fruit: {
+        name: "Apple",
+        amount: 1,
+        plantedAt: 123,
+        harvestedAt: 0,
+        harvestsLeft: 0,
       },
-      createdAt: 234,
-      readyAt: 0,
+      x: -2,
+      y: 0,
+      height: 1,
+      width: 1,
     },
-  ],
+    1: {
+      x: -2,
+      y: 0,
+      height: 1,
+      width: 1,
+    },
+    2: {
+      fruit: {
+        name: "Blueberry",
+        amount: 1,
+        plantedAt: 123,
+        harvestedAt: 0,
+        harvestsLeft: 0,
+      },
+      x: -2,
+      y: 0,
+      height: 1,
+      width: 1,
+    },
+  },
 };
 
 describe("fruitTreeRemoved", () => {
@@ -63,40 +56,11 @@ describe("fruitTreeRemoved", () => {
         },
         action: {
           type: "fruitTree.removed",
-          expansionIndex: 3,
-          index: 0,
+          index: "0",
           selectedItem: "Axe",
         },
       })
     ).toThrow("You do not have a Bumpkin");
-  });
-
-  it("does not remove fruit tree on a non existent expansion", () => {
-    expect(() =>
-      removeFruitTree({
-        state: { ...GAME_STATE, expansions: [] },
-        action: {
-          type: "fruitTree.removed",
-          expansionIndex: 3,
-          index: 0,
-          selectedItem: "Axe",
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("does not remove on a an expansion with no fruit patches", () => {
-    expect(() =>
-      removeFruitTree({
-        state: GAME_STATE,
-        action: {
-          type: "fruitTree.removed",
-          index: 0,
-          expansionIndex: 0,
-          selectedItem: "Axe",
-        },
-      })
-    ).toThrow("Expansion does not have any fruit patches");
   });
 
   it("does not remove on non-existent fruit patch", () => {
@@ -105,8 +69,7 @@ describe("fruitTreeRemoved", () => {
         state: GAME_STATE,
         action: {
           type: "fruitTree.removed",
-          index: -1,
-          expansionIndex: 3,
+          index: "-1",
           selectedItem: "Axe",
         },
       })
@@ -119,8 +82,7 @@ describe("fruitTreeRemoved", () => {
         state: GAME_STATE,
         action: {
           type: "fruitTree.removed",
-          index: 1,
-          expansionIndex: 3,
+          index: "1",
           selectedItem: "Axe",
         },
       })
@@ -132,32 +94,25 @@ describe("fruitTreeRemoved", () => {
       removeFruitTree({
         state: {
           ...GAME_STATE,
-          expansions: [
-            {
-              fruitPatches: {
-                0: {
-                  fruit: {
-                    name: "Apple",
-                    amount: 1,
-                    plantedAt: 123,
-                    harvestedAt: 0,
-                    harvestsLeft: 3,
-                  },
-                  x: -2,
-                  y: 0,
-                  height: 1,
-                  width: 1,
-                },
+          fruitPatches: {
+            0: {
+              fruit: {
+                name: "Apple",
+                amount: 1,
+                plantedAt: 123,
+                harvestedAt: 0,
+                harvestsLeft: 3,
               },
-              createdAt: 234,
-              readyAt: 0,
+              x: -2,
+              y: 0,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
         },
         action: {
           type: "fruitTree.removed",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
           selectedItem: "Axe",
         },
       })
@@ -169,13 +124,12 @@ describe("fruitTreeRemoved", () => {
       state: GAME_STATE,
       action: {
         type: "fruitTree.removed",
-        index: 0,
-        expansionIndex: 3,
+        index: "0",
         selectedItem: "Axe",
       },
     });
 
-    const fruitAfterChop = state.expansions[3].fruitPatches?.[1].fruit;
+    const fruitAfterChop = state.fruitPatches?.[1].fruit;
     expect(fruitAfterChop).toBeUndefined();
 
     expect(state.inventory.Wood).toStrictEqual(new Decimal(2));
@@ -191,8 +145,7 @@ describe("fruitTreeRemoved", () => {
         action: {
           type: "fruitTree.removed",
           selectedItem: "Sunflower Statue",
-          expansionIndex: 3,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow("No axe");
@@ -206,8 +159,7 @@ describe("fruitTreeRemoved", () => {
         action: {
           type: "fruitTree.removed",
           selectedItem: "Axe",
-          expansionIndex: 3,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow("No axes left");
@@ -218,8 +170,7 @@ describe("fruitTreeRemoved", () => {
       state: GAME_STATE,
       action: {
         type: "fruitTree.removed",
-        index: 0,
-        expansionIndex: 3,
+        index: "0",
         selectedItem: "Axe",
       },
     });
@@ -245,8 +196,7 @@ describe("fruitTreeRemoved", () => {
       },
       action: {
         type: "fruitTree.removed",
-        index: 0,
-        expansionIndex: 3,
+        index: "0",
         selectedItem: "Sunflower",
       },
     });
@@ -272,8 +222,7 @@ describe("fruitTreeRemoved", () => {
       },
       action: {
         type: "fruitTree.removed",
-        index: 2,
-        expansionIndex: 3,
+        index: "2",
         selectedItem: "Axe",
       },
     });
@@ -303,8 +252,7 @@ describe("fruitTreeRemoved", () => {
         action: {
           type: "fruitTree.removed",
           selectedItem: "Axe",
-          expansionIndex: 3,
-          index: 2,
+          index: "2",
         },
       })
     ).toThrow("No axes left");

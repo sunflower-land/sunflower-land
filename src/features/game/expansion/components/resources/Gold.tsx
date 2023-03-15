@@ -22,7 +22,7 @@ import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
-import { LandExpansionRock } from "features/game/types/game";
+import { Rock } from "features/game/types/game";
 import { EVENT_ERRORS } from "features/game/events/landExpansion/mineGold";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
@@ -55,7 +55,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
-  const goldRock = game.context.state.resources.gold?.[id] as LandExpansionRock;
+  const goldRock = game.context.state.gold?.[id] as Rock;
   const tool = "Iron Pickaxe";
 
   // Reset the shake count when clicking outside of the component

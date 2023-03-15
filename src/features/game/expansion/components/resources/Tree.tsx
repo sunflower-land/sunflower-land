@@ -25,7 +25,7 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { LandExpansionTree, Reward, Wood } from "features/game/types/game";
+import { Reward, Tree as ITree, Wood } from "features/game/types/game";
 import {
   canChop,
   CHOP_ERRORS,
@@ -71,7 +71,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
-  const tree = game.context.state.resources.trees[id] as LandExpansionTree;
+  const tree = game.context.state.trees[id] as ITree;
 
   if (!tree) {
     console.log("Nothgin!");

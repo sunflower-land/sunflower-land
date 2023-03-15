@@ -59,7 +59,7 @@ type Edges = {
 export type Positions = Record<number, Record<number, boolean>>;
 
 interface Props {
-  plots: GameState["resources"]["plots"];
+  plots: GameState["plots"];
 }
 
 const Renderer: React.FC<Props> = ({ plots }) => {

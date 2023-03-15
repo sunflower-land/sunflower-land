@@ -9,33 +9,28 @@ import {
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
-  expansions: [
-    {
-      ...TEST_FARM.expansions[0],
-      gold: {
-        0: {
-          stone: {
-            minedAt: 0,
-            amount: 2,
-          },
-          x: 1,
-          y: 1,
-          height: 1,
-          width: 1,
-        },
-        1: {
-          stone: {
-            minedAt: 0,
-            amount: 3,
-          },
-          x: 4,
-          y: 1,
-          height: 1,
-          width: 1,
-        },
+  gold: {
+    0: {
+      stone: {
+        minedAt: 0,
+        amount: 2,
       },
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
     },
-  ],
+    1: {
+      stone: {
+        minedAt: 0,
+        amount: 3,
+      },
+      x: 4,
+      y: 1,
+      height: 1,
+      width: 1,
+    },
+  },
 };
 
 describe("mineGold", () => {
@@ -50,8 +45,7 @@ describe("mineGold", () => {
         createdAt: Date.now(),
         action: {
           type: "goldRock.mined",
-          expansionIndex: -1,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow("Expansion does not exist");
@@ -68,8 +62,7 @@ describe("mineGold", () => {
         createdAt: Date.now(),
         action: {
           type: "goldRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow("Expansion has no gold");
@@ -86,8 +79,7 @@ describe("mineGold", () => {
         createdAt: Date.now(),
         action: {
           type: "goldRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow(EVENT_ERRORS.NO_PICKAXES);
@@ -106,8 +98,7 @@ describe("mineGold", () => {
         createdAt: Date.now(),
         action: {
           type: "goldRock.mined",
-          expansionIndex: 0,
-          index: 3,
+          index: "3",
         },
       })
     ).toThrow("No gold");
@@ -126,8 +117,7 @@ describe("mineGold", () => {
       action: {
         type: "goldRock.mined",
 
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionMineGoldAction,
     };
     const game = mineGold(payload);
@@ -154,8 +144,7 @@ describe("mineGold", () => {
       action: {
         type: "goldRock.mined",
 
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionMineGoldAction,
     };
 
@@ -177,9 +166,7 @@ describe("mineGold", () => {
       createdAt: Date.now(),
       action: {
         type: "goldRock.mined",
-
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionMineGoldAction,
     });
 
@@ -188,8 +175,7 @@ describe("mineGold", () => {
       createdAt: Date.now(),
       action: {
         type: "goldRock.mined",
-        expansionIndex: 0,
-        index: 1,
+        index: "1",
       } as LandExpansionMineGoldAction,
     });
 
@@ -210,8 +196,7 @@ describe("mineGold", () => {
       action: {
         type: "goldRock.mined",
 
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionMineGoldAction,
     };
     let game = mineGold(payload);
@@ -241,8 +226,7 @@ describe("mineGold", () => {
         createdAt: Date.now(),
         action: {
           type: "goldRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionMineGoldAction,
       })
     ).toThrow("You do not have a Bumpkin");
@@ -265,8 +249,7 @@ describe("mineGold", () => {
         createdAt,
         action: {
           type: "goldRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionMineGoldAction,
       });
 
@@ -289,8 +272,7 @@ describe("mineGold", () => {
         createdAt,
         action: {
           type: "goldRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionMineGoldAction,
       });
 
@@ -299,8 +281,7 @@ describe("mineGold", () => {
         createdAt,
         action: {
           type: "goldRock.mined",
-          expansionIndex: 0,
-          index: 1,
+          index: "1",
         } as LandExpansionMineGoldAction,
       });
 

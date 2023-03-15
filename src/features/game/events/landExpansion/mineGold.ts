@@ -38,7 +38,7 @@ export function mineGold({
     throw new Error(EVENT_ERRORS.NO_BUMPKIN);
   }
 
-  const goldRock = stateCopy.resources.gold[index];
+  const goldRock = stateCopy.gold[index];
 
   if (!goldRock) {
     throw new Error("No gold rock found.");

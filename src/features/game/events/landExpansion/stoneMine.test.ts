@@ -9,33 +9,28 @@ import {
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
-  expansions: [
-    {
-      ...TEST_FARM.expansions[0],
-      stones: {
-        0: {
-          stone: {
-            minedAt: 0,
-            amount: 2,
-          },
-          x: 1,
-          y: 1,
-          height: 1,
-          width: 1,
-        },
-        1: {
-          stone: {
-            minedAt: 0,
-            amount: 3,
-          },
-          x: 4,
-          y: 1,
-          height: 1,
-          width: 1,
-        },
+  stones: {
+    0: {
+      stone: {
+        minedAt: 0,
+        amount: 2,
       },
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
     },
-  ],
+    1: {
+      stone: {
+        minedAt: 0,
+        amount: 3,
+      },
+      x: 4,
+      y: 1,
+      height: 1,
+      width: 1,
+    },
+  },
 };
 
 describe("mineStone", () => {
@@ -49,7 +44,6 @@ describe("mineStone", () => {
         state: GAME_STATE,
         action: {
           type: "stoneRock.mined",
-          expansionIndex: -1,
           index: 0,
         },
       })
@@ -62,7 +56,6 @@ describe("mineStone", () => {
         state: { ...GAME_STATE, expansions: [{ createdAt: 0, readyAt: 0 }] },
         action: {
           type: "stoneRock.mined",
-          expansionIndex: 0,
           index: 0,
         },
       })
@@ -80,7 +73,6 @@ describe("mineStone", () => {
         },
         action: {
           type: "stoneRock.mined",
-          expansionIndex: 0,
           index: 0,
         },
       })
@@ -98,7 +90,6 @@ describe("mineStone", () => {
         },
         action: {
           type: "stoneRock.mined",
-          expansionIndex: 0,
           index: 3,
         },
       })

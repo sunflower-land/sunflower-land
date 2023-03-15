@@ -20,7 +20,7 @@ import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
-import { LandExpansionRock } from "features/game/types/game";
+import { Rock } from "features/game/types/game";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -54,7 +54,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
-  const rock = game.context.state.resources.stones?.[id] as LandExpansionRock;
+  const rock = game.context.state.stones?.[id] as Rock;
   const tool = "Pickaxe";
 
   // Reset the shake count when clicking outside of the component

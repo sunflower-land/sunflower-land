@@ -109,11 +109,28 @@ const PLACEABLE_DIMENSIONS = {
 };
 
 function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
-  const { collectibles, buildings } = state;
+  const {
+    collectibles,
+    buildings,
+    plots,
+    trees,
+    stones,
+    gold,
+    boulders,
+    iron,
+    fruitPatches,
+  } = state;
 
   const placed = {
     ...collectibles,
     ...buildings,
+    ...plots,
+    ...trees,
+    ...stones,
+    ...iron,
+    ...gold,
+    ...fruitPatches,
+    ...boulders,
   };
 
   const boundingBoxes = getKeys(placed).flatMap((name) => {

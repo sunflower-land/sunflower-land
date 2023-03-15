@@ -1,10 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import {
-  Chicken,
-  GameState,
-  LandExpansionPlot,
-} from "features/game/types/game";
+import { Chicken, GameState, CropPlot } from "features/game/types/game";
 import { isRemovable } from "./removeCondition";
 
 const makeChickensStateObject = (numOfChickens: number, isBrewing: boolean) => {
@@ -23,7 +19,7 @@ const makeChickensStateObject = (numOfChickens: number, isBrewing: boolean) => {
 };
 
 const makePlotsWithCrops = (plotCount: number) => {
-  const plots = {} as Record<number, LandExpansionPlot>;
+  const plots = {} as Record<number, CropPlot>;
 
   [...Array(plotCount).keys()].forEach(
     (key) =>

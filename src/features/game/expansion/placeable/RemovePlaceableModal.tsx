@@ -40,11 +40,6 @@ export const RemovePlaceableModal: React.FC<Props> = ({
         building: name,
         id: placeableId,
       });
-    } else if (type === "resource") {
-      gameService.send("resource.removed", {
-        resource: name,
-        id: placeableId,
-      });
     } else {
       gameService.send("collectible.removed", {
         collectible: name,

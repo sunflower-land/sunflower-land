@@ -31,13 +31,13 @@ export function mineIron({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { resources, bumpkin } = stateCopy;
+  const { iron, bumpkin } = stateCopy;
 
   if (!bumpkin) {
     throw new Error(MINE_ERRORS.NO_BUMPKIN);
   }
 
-  const ironRock = resources.iron[action.index];
+  const ironRock = iron[action.index];
 
   if (!ironRock) {
     throw new Error(MINE_ERRORS.NO_IRON);

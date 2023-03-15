@@ -1,43 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState, LandExpansion, Position } from "features/game/types/game";
+import { GameState, Position } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import {
-  detectCollision,
-  extractResourceBoundingBoxes,
-  isOverlapping,
-} from "./collisionDetection";
-
-describe("extractResourceBoundingBoxes", () => {
-  it("returns a list of all resource positions", () => {
-    const position1: Position = { x: 1, y: 1, height: 1, width: 1 };
-    const position2: Position = { x: 3, y: 1, height: 1, width: 1 };
-    const position3: Position = { x: -2, y: -1, height: 2, width: 2 };
-
-    const expansions: LandExpansion[] = [
-      {
-        trees: {
-          0: {
-            ...position1,
-            wood: { amount: 0, choppedAt: 0 },
-          },
-        },
-        stones: {
-          0: {
-            ...position2,
-            stone: { amount: 0, minedAt: 0 },
-          },
-        },
-        plots: { 0: { ...position3 } },
-        createdAt: 0,
-        readyAt: 0,
-      },
-    ];
-
-    const positions = extractResourceBoundingBoxes(expansions);
-
-    expect(positions.sort()).toEqual([position1, position2, position3].sort());
-  });
-});
+import { detectCollision, isOverlapping } from "./collisionDetection";
 
 describe("isOverlapping", () => {
   it("returns false if there is no overlap between two positions", () => {
@@ -87,13 +51,7 @@ describe("detectCollisions", () => {
 
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
 
-    state.expansions = [
-      {
-        plots: { 0: position },
-        createdAt: 0,
-        readyAt: 0,
-      },
-    ];
+    state.plots = { 0: position };
 
     const hasCollision = detectCollision(state, position);
 

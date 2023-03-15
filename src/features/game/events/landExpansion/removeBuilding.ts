@@ -43,13 +43,7 @@ const getUnSupportedPlotCount = (gameState: GameState): number => {
   const supportedPlots =
     activeWells * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
-  const plotCount = gameState.expansions.reduce((count, expansion) => {
-    if (!expansion.plots) return count;
-
-    count += getKeys(expansion.plots).length;
-
-    return count;
-  }, 0);
+  const plotCount = getKeys(gameState.plots).length;
 
   return Math.max(plotCount - supportedPlots, 0);
 };
@@ -63,38 +57,29 @@ const getUnSupportedPlotCount = (gameState: GameState): number => {
  */
 export const removeUnsupportedCrops = (gameState: GameState) => {
   const unsupportedPlotCount = getUnSupportedPlotCount(gameState);
-  const { expansions = [] } = gameState;
+  const { plots } = gameState;
 
   let count = 0;
   let hasUnsupportedCrops = false;
 
-  for (let expIndex = expansions.length - 1; expIndex >= 0; expIndex--) {
+  const reversedPlotKeys = getKeys({
+    plots,
+  }).reverse();
+
+  for (let plotKeyIdx = 0; plotKeyIdx < reversedPlotKeys.length; plotKeyIdx++) {
     if (count === unsupportedPlotCount) break;
-    if (!expansions[expIndex].plots) continue;
 
-    const reversedPlotKeys = getKeys({
-      ...expansions[expIndex].plots,
-    }).reverse();
+    const plot = plots?.[reversedPlotKeys[plotKeyIdx]];
 
-    for (
-      let plotKeyIdx = 0;
-      plotKeyIdx < reversedPlotKeys.length;
-      plotKeyIdx++
-    ) {
-      if (count === unsupportedPlotCount) break;
-
-      const plot = expansions[expIndex].plots?.[reversedPlotKeys[plotKeyIdx]];
-
-      if (plot?.crop) {
-        hasUnsupportedCrops = true;
-        delete plot.crop;
-      }
-
-      count++;
+    if (plot?.crop) {
+      hasUnsupportedCrops = true;
+      delete plot.crop;
     }
+
+    count++;
   }
 
-  return { expansions, hasUnsupportedCrops };
+  return { plots, hasUnsupportedCrops };
 };
 
 export const getUnsupportedChickens = (gameState: GameState) => {
@@ -175,13 +160,12 @@ export function removeBuilding({
   );
 
   if (action.building === "Water Well") {
-    const { expansions, hasUnsupportedCrops } =
-      removeUnsupportedCrops(stateCopy);
+    const { plots, hasUnsupportedCrops } = removeUnsupportedCrops(stateCopy);
     if (hasUnsupportedCrops) {
       throw new Error(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
     }
 
-    stateCopy.expansions = expansions;
+    stateCopy.plots = plots;
   }
 
   if (action.building === "Hen House") {

@@ -5,33 +5,28 @@ import { LandExpansionIronMineAction, mineIron } from "./ironMine";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
-  expansions: [
-    {
-      ...TEST_FARM.expansions[0],
-      iron: {
-        0: {
-          stone: {
-            minedAt: 0,
-            amount: 2,
-          },
-          x: 1,
-          y: 1,
-          height: 1,
-          width: 1,
-        },
-        1: {
-          stone: {
-            minedAt: 0,
-            amount: 3,
-          },
-          x: 4,
-          y: 1,
-          height: 1,
-          width: 1,
-        },
+  iron: {
+    0: {
+      stone: {
+        minedAt: 0,
+        amount: 2,
       },
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
     },
-  ],
+    1: {
+      stone: {
+        minedAt: 0,
+        amount: 3,
+      },
+      x: 4,
+      y: 1,
+      height: 1,
+      width: 1,
+    },
+  },
 };
 
 describe("mineIron", () => {
@@ -46,8 +41,7 @@ describe("mineIron", () => {
         createdAt: Date.now(),
         action: {
           type: "ironRock.mined",
-          expansionIndex: -1,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow("Expansion does not exist");
@@ -64,8 +58,7 @@ describe("mineIron", () => {
         createdAt: Date.now(),
         action: {
           type: "ironRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow("Expansion has no iron");
@@ -82,8 +75,7 @@ describe("mineIron", () => {
         createdAt: Date.now(),
         action: {
           type: "ironRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow("No pickaxes left");
@@ -102,8 +94,7 @@ describe("mineIron", () => {
         createdAt: Date.now(),
         action: {
           type: "ironRock.mined",
-          expansionIndex: 0,
-          index: 3,
+          index: "3",
         },
       })
     ).toThrow("No iron");
@@ -121,9 +112,7 @@ describe("mineIron", () => {
       createdAt: Date.now(),
       action: {
         type: "ironRock.mined",
-
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionIronMineAction,
     };
     const game = mineIron(payload);
@@ -150,9 +139,7 @@ describe("mineIron", () => {
       createdAt: Date.now(),
       action: {
         type: "ironRock.mined",
-
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionIronMineAction,
     };
 
@@ -174,9 +161,7 @@ describe("mineIron", () => {
       createdAt: Date.now(),
       action: {
         type: "ironRock.mined",
-
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionIronMineAction,
     });
 
@@ -185,8 +170,7 @@ describe("mineIron", () => {
       createdAt: Date.now(),
       action: {
         type: "ironRock.mined",
-        expansionIndex: 0,
-        index: 1,
+        index: "1",
       } as LandExpansionIronMineAction,
     });
 
@@ -206,9 +190,7 @@ describe("mineIron", () => {
       createdAt: Date.now(),
       action: {
         type: "ironRock.mined",
-
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionIronMineAction,
     };
     let game = mineIron(payload);
@@ -238,8 +220,7 @@ describe("mineIron", () => {
         createdAt: Date.now(),
         action: {
           type: "ironRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionIronMineAction,
       })
     ).toThrow("You do not have a Bumpkin");
@@ -262,8 +243,7 @@ describe("mineIron", () => {
         createdAt,
         action: {
           type: "ironRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionIronMineAction,
       });
 
@@ -286,8 +266,7 @@ describe("mineIron", () => {
         createdAt,
         action: {
           type: "ironRock.mined",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionIronMineAction,
       });
 
@@ -296,8 +275,7 @@ describe("mineIron", () => {
         createdAt,
         action: {
           type: "ironRock.mined",
-          expansionIndex: 0,
-          index: 1,
+          index: "1",
         } as LandExpansionIronMineAction,
       });
 

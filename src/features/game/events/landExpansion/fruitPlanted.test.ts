@@ -7,34 +7,27 @@ import { getFruitTime, plantFruit } from "./fruitPlanted";
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
-  expansions: [
-    ...TEST_FARM.expansions,
-    {
-      fruitPatches: {
-        0: {
-          fruit: {
-            name: "Apple",
-            amount: 1,
-            plantedAt: 123,
-            harvestedAt: 0,
-            harvestsLeft: 0,
-          },
-          x: -2,
-          y: 0,
-          height: 1,
-          width: 1,
-        },
-        1: {
-          x: -2,
-          y: 0,
-          height: 1,
-          width: 1,
-        },
+  fruitPatches: {
+    0: {
+      fruit: {
+        name: "Apple",
+        amount: 1,
+        plantedAt: 123,
+        harvestedAt: 0,
+        harvestsLeft: 0,
       },
-      createdAt: 234,
-      readyAt: 0,
+      x: -2,
+      y: 0,
+      height: 1,
+      width: 1,
     },
-  ],
+    1: {
+      x: -2,
+      y: 0,
+      height: 1,
+      width: 1,
+    },
+  },
 };
 describe("fruitPlanted", () => {
   const dateNow = Date.now();
@@ -49,8 +42,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
           seed: "Apple Seed",
         },
       })
@@ -64,8 +56,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          expansionIndex: 3,
-          index: 0,
+          index: "0",
           seed: "Apple Seed",
         },
       })
@@ -79,8 +70,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
           seed: "Apple Seed",
         },
       })
@@ -94,8 +84,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          index: 2,
-          expansionIndex: 3,
+          index: "2",
           seed: "Apple Seed",
         },
       })
@@ -109,8 +98,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          index: 1.2,
-          expansionIndex: 3,
+          index: "1.2",
           seed: "Apple Seed",
         },
       })
@@ -124,8 +112,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          index: -1,
-          expansionIndex: 3,
+          index: "-1",
           seed: "Apple Seed",
         },
       })
@@ -141,8 +128,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          index: 0,
-          expansionIndex: 3,
+          index: "0",
           seed: "Apple Seed",
         },
       })
@@ -156,8 +142,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          index: 1,
-          expansionIndex: 3,
+          index: "1",
           seed: "Sunflower Seed" as FruitSeedName,
         },
       })
@@ -171,8 +156,7 @@ describe("fruitPlanted", () => {
         createdAt: dateNow,
         action: {
           type: "fruit.planted",
-          index: 1,
-          expansionIndex: 3,
+          index: "1",
           seed: "Apple Seed",
         },
       })
@@ -182,7 +166,7 @@ describe("fruitPlanted", () => {
   it("plants a seed", () => {
     const seedAmount = new Decimal(5);
 
-    const patchIndex = 1;
+    const patchIndex = "1";
 
     const state = plantFruit({
       state: {
@@ -196,12 +180,11 @@ describe("fruitPlanted", () => {
       action: {
         type: "fruit.planted",
         index: patchIndex,
-        expansionIndex: 3,
         seed: "Apple Seed",
       },
     });
 
-    const fruitPatches = state.expansions[3].fruitPatches;
+    const fruitPatches = state.fruitPatches;
 
     expect(state.inventory["Apple Seed"]).toEqual(seedAmount.minus(1));
     expect(fruitPatches).toBeDefined();
@@ -219,7 +202,7 @@ describe("fruitPlanted", () => {
   it("contains harvestedAt information", () => {
     const seedAmount = new Decimal(5);
 
-    const patchIndex = 1;
+    const patchIndex = "1";
 
     const state = plantFruit({
       state: {
@@ -233,12 +216,11 @@ describe("fruitPlanted", () => {
       action: {
         type: "fruit.planted",
         index: patchIndex,
-        expansionIndex: 3,
         seed: "Apple Seed",
       },
     });
 
-    const fruitPatches = state.expansions[3].fruitPatches;
+    const fruitPatches = state.fruitPatches;
 
     expect((fruitPatches as Record<number, FruitPatch>)[patchIndex]).toEqual(
       expect.objectContaining({
@@ -255,7 +237,7 @@ describe("fruitPlanted", () => {
   it("contains harvestsLeft information", () => {
     const seedAmount = new Decimal(5);
 
-    const patchIndex = 1;
+    const patchIndex = "1";
 
     const state = plantFruit({
       state: {
@@ -269,13 +251,12 @@ describe("fruitPlanted", () => {
       action: {
         type: "fruit.planted",
         index: patchIndex,
-        expansionIndex: 3,
         seed: "Apple Seed",
       },
       harvestsLeft: () => 3,
     });
 
-    const fruitPatches = state.expansions[3].fruitPatches;
+    const fruitPatches = state.fruitPatches;
 
     expect((fruitPatches as Record<number, FruitPatch>)[patchIndex]).toEqual(
       expect.objectContaining({
@@ -293,7 +274,7 @@ describe("fruitPlanted", () => {
   it("includes immortal pear bonus", () => {
     const seedAmount = new Decimal(5);
 
-    const patchIndex = 1;
+    const patchIndex = "1";
 
     const state = plantFruit({
       state: {
@@ -318,13 +299,12 @@ describe("fruitPlanted", () => {
       action: {
         type: "fruit.planted",
         index: patchIndex,
-        expansionIndex: 3,
         seed: "Apple Seed",
       },
       harvestsLeft: () => 3,
     });
 
-    const fruitPatches = state.expansions[3].fruitPatches;
+    const fruitPatches = state.fruitPatches;
 
     expect((fruitPatches as Record<number, FruitPatch>)[patchIndex]).toEqual(
       expect.objectContaining({
@@ -342,7 +322,7 @@ describe("fruitPlanted", () => {
   it("includes lady bug bonus on apples", () => {
     const seedAmount = new Decimal(5);
 
-    const patchIndex = 1;
+    const patchIndex = "1";
 
     const state = plantFruit({
       state: {
@@ -367,12 +347,11 @@ describe("fruitPlanted", () => {
       action: {
         type: "fruit.planted",
         index: patchIndex,
-        expansionIndex: 3,
         seed: "Apple Seed",
       },
     });
 
-    const fruitPatches = state.expansions[3].fruitPatches;
+    const fruitPatches = state.fruitPatches;
 
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
@@ -382,7 +361,7 @@ describe("fruitPlanted", () => {
   it("does not include lady bug bonus on blueberries", () => {
     const seedAmount = new Decimal(5);
 
-    const patchIndex = 1;
+    const patchIndex = "1";
 
     const state = plantFruit({
       state: {
@@ -407,12 +386,11 @@ describe("fruitPlanted", () => {
       action: {
         type: "fruit.planted",
         index: patchIndex,
-        expansionIndex: 3,
         seed: "Blueberry Seed",
       },
     });
 
-    const fruitPatches = state.expansions[3].fruitPatches;
+    const fruitPatches = state.fruitPatches;
 
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
@@ -422,7 +400,7 @@ describe("fruitPlanted", () => {
   it("includes Squirrel Monkey bonus on Oranges", () => {
     const seedAmount = new Decimal(5);
 
-    const patchIndex = 1;
+    const patchIndex = "1";
 
     const state = plantFruit({
       state: {
@@ -447,12 +425,11 @@ describe("fruitPlanted", () => {
       action: {
         type: "fruit.planted",
         index: patchIndex,
-        expansionIndex: 3,
         seed: "Orange Seed",
       },
     });
 
-    const fruitPatches = state.expansions[3].fruitPatches;
+    const fruitPatches = state.fruitPatches;
 
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
@@ -465,7 +442,7 @@ describe("fruitPlanted", () => {
   it("includes Black Bearry bonus on Blueberries", () => {
     const seedAmount = new Decimal(5);
 
-    const patchIndex = 1;
+    const patchIndex = "1";
 
     const state = plantFruit({
       state: {
@@ -490,12 +467,11 @@ describe("fruitPlanted", () => {
       action: {
         type: "fruit.planted",
         index: patchIndex,
-        expansionIndex: 3,
         seed: "Blueberry Seed",
       },
     });
 
-    const fruitPatches = state.expansions[3].fruitPatches;
+    const fruitPatches = state.fruitPatches;
 
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
@@ -516,8 +492,7 @@ describe("fruitPlanted", () => {
         harvestsLeft: () => 10,
         action: {
           type: "fruit.planted",
-          index: 1,
-          expansionIndex: 3,
+          index: "1",
           seed: "Apple Seed",
         },
       })
@@ -537,8 +512,7 @@ describe("fruitPlanted", () => {
       createdAt: dateNow,
       action: {
         type: "fruit.planted",
-        index: 1,
-        expansionIndex: 3,
+        index: "1",
         seed: "Apple Seed",
       },
     });

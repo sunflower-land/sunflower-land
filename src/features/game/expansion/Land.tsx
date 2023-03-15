@@ -34,7 +34,13 @@ const getIslandElements = ({
   buildings,
   collectibles,
   chickens,
-  resources,
+  trees,
+  stones,
+  iron,
+  gold,
+  fruitPatches,
+  plots,
+  boulders,
   bumpkinParts,
   isEditing,
 }: {
@@ -42,7 +48,13 @@ const getIslandElements = ({
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<string, Chicken>>;
-  resources: GameState["resources"];
+  trees: GameState["trees"];
+  stones: GameState["stones"];
+  iron: GameState["iron"];
+  gold: GameState["gold"];
+  plots: GameState["plots"];
+  fruitPatches: GameState["fruitPatches"];
+  boulders: GameState["boulders"];
   bumpkinParts: BumpkinParts | undefined;
   isEditing?: boolean;
 }) => {
@@ -153,38 +165,138 @@ const getIslandElements = ({
       })
   );
 
-  getKeys(resources).map((resourceName) => {
-    mapPlacements.push(
-      ...getKeys(resources[resourceName]).map((id) => {
-        const { x, y, width, height } = resources[resourceName][id];
+  mapPlacements.push(
+    ...getKeys(trees).map((id) => {
+      const { x, y, width, height } = trees[id];
 
-        const FIELDS: Record<keyof GameState["resources"], ResourceName> = {
-          plots: "Crop Plot",
-          gold: "Gold Rock",
-          iron: "Iron Rock",
-          stones: "Stone Rock",
-          trees: "Tree",
-          fruitPatches: "Fruit Patch",
-          boulders: "Boulder",
-        };
+      return (
+        <MapPlacement
+          key={`tree-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Tree" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
+  );
 
-        const name = FIELDS[resourceName];
+  mapPlacements.push(
+    ...getKeys(stones).map((id) => {
+      const { x, y, width, height } = stones[id];
 
-        return (
-          <MapPlacement
-            key={`stone-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Resource name={name} createdAt={0} readyAt={0} id={id} />
-          </MapPlacement>
-        );
-      })
-    );
-  });
+      return (
+        <MapPlacement
+          key={`stone-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Stone Rock" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(iron).map((id) => {
+      const { x, y, width, height } = iron[id];
+
+      return (
+        <MapPlacement
+          key={`iron-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Iron Rock" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(gold).map((id) => {
+      const { x, y, width, height } = gold[id];
+
+      return (
+        <MapPlacement
+          key={`gold-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Gold Rock" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(fruitPatches).map((id) => {
+      const { x, y, width, height } = fruitPatches[id];
+
+      return (
+        <MapPlacement
+          key={`fruitPatches-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Fruit Patch" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(plots).map((id) => {
+      const { x, y, width, height } = plots[id];
+
+      return (
+        <MapPlacement
+          key={`plots-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Crop Plot" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(boulders).map((id) => {
+      const { x, y, width, height } = boulders[id];
+
+      return (
+        <MapPlacement
+          key={`boulders-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Boulder" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
+  );
 
   return mapPlacements;
 };
@@ -194,8 +306,20 @@ export const Land: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
-  const { expansions, buildings, collectibles, chickens, bumpkin, resources } =
-    state;
+  const {
+    expansions,
+    buildings,
+    collectibles,
+    chickens,
+    bumpkin,
+    trees,
+    stones,
+    iron,
+    gold,
+    plots,
+    boulders,
+    fruitPatches,
+  } = state;
   const [isEditing, setIsEditing] = useState(false);
 
   let expandedCount = expansions.length;
@@ -229,7 +353,7 @@ export const Land: React.FC = () => {
       >
         <LandBase expandedCount={expandedCount} />
         <UpcomingExpansion gameState={state} />
-        <DirtRenderer plots={resources.plots} />
+        <DirtRenderer plots={plots} />
 
         <Water level={expandedCount} />
 
@@ -239,7 +363,13 @@ export const Land: React.FC = () => {
           buildings,
           collectibles,
           chickens,
-          resources: gameState.context.state.resources,
+          trees,
+          stones,
+          iron,
+          gold,
+          fruitPatches,
+          plots,
+          boulders,
           bumpkinParts: gameState.context.state.bumpkin?.equipped,
           isEditing,
         }).sort((a, b) => b.props.y - a.props.y)}

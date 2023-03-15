@@ -3,7 +3,7 @@ import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
-import { GameState, LandExpansionRock } from "../../types/game";
+import { GameState, Rock } from "../../types/game";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -21,7 +21,7 @@ type GetMinedAtArgs = {
   createdAt: number;
 };
 
-export function canMine(rock: LandExpansionRock, now: number = Date.now()) {
+export function canMine(rock: Rock, now: number = Date.now()) {
   const recoveryTime = STONE_RECOVERY_TIME;
   return now - rock.stone.minedAt > recoveryTime * 1000;
 }
@@ -43,8 +43,8 @@ export function mineStone({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { resources, bumpkin } = stateCopy;
-  const rock = resources.stones?.[action.index];
+  const { stones, bumpkin } = stateCopy;
+  const rock = stones?.[action.index];
 
   if (!rock) {
     throw new Error("Stone does not exist");

@@ -1721,7 +1721,6 @@ export const ITEM_DETAILS: Items = {
     image: redEnvelope,
     description: "Wow, you are lucky!",
   },
-<<<<<<< HEAD
   "Love Letter": {
     image: loveLetter,
     description: "Convey feelings of love",
@@ -1903,7 +1902,7 @@ export const ITEM_DETAILS: Items = {
   Karkinos: {
     image: karkinos,
     description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
-=======
+  },
 
   "Crop Plot": {
     image: SUNNYSIDE.soil.soil2,
@@ -1924,7 +1923,6 @@ export const ITEM_DETAILS: Items = {
   Tree: {
     image: SUNNYSIDE.resource.tree,
     description: "A choppable tree to collect wood",
->>>>>>> b67f7712 (Move resources onto root level and tokenise)
   },
   "Fruit Patch": {
     image: fruitPatch,

@@ -21,7 +21,7 @@ export function collectTreeReward({
   createdAt = Date.now(),
 }: Options) {
   const stateCopy = cloneDeep(state);
-  const tree = stateCopy.resources.trees[action.treeIndex];
+  const tree = stateCopy.trees[action.treeIndex];
 
   if (!tree) {
     throw new Error("Tree does not exist");

@@ -26,7 +26,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
-  const patch = game.context.state.resources.fruitPatches[id];
+  const patch = game.context.state.fruitPatches[id];
 
   const fruit = patch && patch.fruit;
 
