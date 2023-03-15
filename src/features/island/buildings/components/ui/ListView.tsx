@@ -29,13 +29,7 @@ export const ListView: React.FC<{
         ? 1
         : -1
     )
-    .filter(
-      (buildingName) =>
-        isBetaTester ||
-        (buildingName !== "Toolshed" && buildingName !== "Warehouse")
-    );
-
-  console.log(getKeys(BUILDINGS()));
+    .filter((buildingName) => isBetaTester || buildingName !== "Toolshed");
 
   return (
     <div
