@@ -12,7 +12,6 @@ import {
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { GameState, LandExpansion, PlacedItem } from "../types/game";
-import { Placeable } from "./placeable/Placeable";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
@@ -24,14 +23,9 @@ import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
-import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
-import { BumpkinTutorial } from "./BumpkinTutorial";
-<<<<<<< HEAD
 import { Hud } from "features/island/hud/Hud";
-=======
 import { Resource } from "features/island/resources/Resource";
 import { ResourceName } from "../types/resources";
->>>>>>> 8169b8e1 (Remove resources)
 
 type ExpansionProps = Pick<LandExpansion, "createdAt">;
 
@@ -227,43 +221,6 @@ export const Land: React.FC = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div
-          className={classNames("relative w-full h-full", {
-            "pointer-events-none": gameState.matches("visiting"),
-          })}
-        >
-          <LandBase expandedCount={expandedCount} />
-          <UpcomingExpansion gameState={state} />
-          <DirtRenderer
-            expansions={expansions.filter((e) => e.readyAt < Date.now())}
-          />
-
-          <Water level={expandedCount} />
-
-          {/* Sort island elements by y axis */}
-          {getIslandElements({
-            expansions,
-            buildings,
-            collectibles,
-            chickens,
-            bumpkinParts: gameState.context.state.bumpkin?.equipped,
-            isEditing,
-          }).sort((a, b) => b.props.y - a.props.y)}
-        </div>
-        <IslandTravel
-          key="island-travel"
-          bumpkin={bumpkin}
-          isVisiting={gameState.matches("visiting")}
-          inventory={gameState.context.state.inventory}
-          travelAllowed={!gameState.matches("autosaving")}
-          onTravelDialogOpened={() => gameService.send("SAVE")}
-          x={boatCoordinates.x}
-          y={boatCoordinates.y}
-        />
-=======
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <div
         className={classNames("relative w-full h-full", {
@@ -273,13 +230,7 @@ export const Land: React.FC = () => {
         <LandBase expandedCount={expandedCount} />
         <UpcomingExpansion gameState={state} />
         <DirtRenderer plots={resources.plots} />
->>>>>>> 8169b8e1 (Remove resources)
 
-<<<<<<< HEAD
-        <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
-
-        {gameState.matches("editing") && <Placeable />}
-=======
         <Water level={expandedCount} />
 
         {/* Sort island elements by y axis */}
@@ -292,9 +243,8 @@ export const Land: React.FC = () => {
           bumpkinParts: gameState.context.state.bumpkin?.equipped,
           isEditing,
         }).sort((a, b) => b.props.y - a.props.y)}
->>>>>>> b67f7712 (Move resources onto root level and tokenise)
       </div>
       <Hud isFarming />
-    </>
+    </div>
   );
 };

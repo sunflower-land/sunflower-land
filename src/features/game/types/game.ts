@@ -411,13 +411,6 @@ export interface GameState {
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
 
-<<<<<<< HEAD
-=======
-  skills: {
-    farming: Decimal;
-    gathering: Decimal;
-  };
-
   resources: {
     trees: Record<string, LandExpansionTree>;
     stones: Record<string, LandExpansionRock>;
@@ -428,7 +421,6 @@ export interface GameState {
     boulders: Record<string, Mine>;
   };
 
->>>>>>> b67f7712 (Move resources onto root level and tokenise)
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;
   bumpkin?: Bumpkin;
