@@ -194,7 +194,8 @@ export type InventoryItemName =
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
   | TreasureName
-  | TreasureToolName;
+  | TreasureToolName
+  | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

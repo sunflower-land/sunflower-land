@@ -54,6 +54,7 @@ export const editingMachine = createMachine<
 >({
   id: "placeableMachine",
   initial: "idle",
+  preserveActionOrder: true,
   on: {
     CANCEL: {
       target: "close",
@@ -74,17 +75,27 @@ export const editingMachine = createMachine<
         PLACE: [
           {
             target: "idle",
-            // If they have more to place?
+            // TODO: If they have more to place?
             cond: () => true,
-            actions: sendParent(
-              ({ placeable, action, coordinates: { x, y } }) =>
-                ({
-                  type: action,
-                  name: placeable,
-                  coordinates: { x, y },
-                  id: uuidv4(),
-                } as PlacementEvent)
-            ),
+            actions: [
+              sendParent(
+                ({ placeable, action, coordinates: { x, y } }) =>
+                  ({
+                    type: action,
+                    name: placeable,
+                    coordinates: { x, y },
+                    id: uuidv4(),
+                  } as PlacementEvent)
+              ),
+              assign({
+                coordinates: (context) => {
+                  return {
+                    x: context.coordinates.x,
+                    y: context.coordinates.y - 1,
+                  };
+                },
+              }),
+            ],
           },
           {
             target: "close",
@@ -99,6 +110,20 @@ export const editingMachine = createMachine<
             ),
           },
         ],
+      },
+    },
+    resetting: {
+      always: {
+        target: "idle",
+        // Move the next piece
+        actions: assign({
+          coordinates: (context) => {
+            return {
+              x: context.coordinates.x,
+              y: context.coordinates.y - 1,
+            };
+          },
+        }),
       },
     },
     dragging: {

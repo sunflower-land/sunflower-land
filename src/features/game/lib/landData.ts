@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { ResourceFieldName } from "../events/landExpansion/placeResource";
 import { CHORES } from "../types/chores";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
@@ -49,6 +50,150 @@ const INITIAL_STOCK: Inventory = {
   "Golden Bean": new Decimal(5),
 
   "Immortal Pear": new Decimal(1),
+};
+
+export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
+  plots: {
+    0: {
+      x: -2,
+      y: -1,
+      height: 1,
+      width: 1,
+    },
+    1: {
+      x: -1,
+      y: -1,
+      height: 1,
+      width: 1,
+    },
+    2: {
+      x: 0,
+      y: -1,
+      height: 1,
+      width: 1,
+    },
+    3: {
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: -2,
+      y: 0,
+      height: 1,
+      width: 1,
+    },
+    4: {
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: -1,
+      y: 0,
+      height: 1,
+      width: 1,
+    },
+    5: {
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: 0,
+      y: 0,
+      height: 1,
+      width: 1,
+    },
+    6: {
+      x: -2,
+      y: 1,
+      height: 1,
+      width: 1,
+    },
+    7: {
+      x: -1,
+      y: 1,
+      height: 1,
+      width: 1,
+    },
+    8: {
+      x: 0,
+      y: 1,
+      height: 1,
+      width: 1,
+    },
+    9: {
+      x: -2,
+      y: -1,
+      height: 1,
+      width: 1,
+    },
+    10: {
+      x: -1,
+      y: -1,
+      height: 1,
+      width: 1,
+    },
+    11: {
+      x: -2,
+      y: -2,
+      height: 1,
+      width: 1,
+    },
+    12: {
+      x: -1,
+      y: -2,
+      height: 1,
+      width: 1,
+    },
+  },
+  trees: {
+    0: {
+      wood: {
+        amount: 1,
+        choppedAt: 0,
+      },
+      x: -3,
+      y: 3,
+      height: 2,
+      width: 2,
+    },
+    1: {
+      wood: {
+        amount: 1,
+        choppedAt: 0,
+      },
+      x: 1,
+      y: 1,
+      height: 2,
+      width: 2,
+    },
+    2: {
+      wood: {
+        amount: 1,
+        choppedAt: 0,
+      },
+      x: 1,
+      y: 1,
+      height: 2,
+      width: 2,
+    },
+  },
+  stones: {
+    0: {
+      x: 0,
+      y: 3,
+      width: 1,
+      height: 1,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+    },
+    1: {
+      x: 1,
+      y: -2,
+      width: 1,
+      height: 1,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+    },
+  },
+  boulders: {},
+  fruitPatches: {},
+  gold: {},
+  iron: {},
 };
 
 const INITIAL_EXPANSIONS: LandExpansion[] = [
