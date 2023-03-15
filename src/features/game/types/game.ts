@@ -2,7 +2,7 @@ import { Decimal } from "decimal.js-light";
 
 import { CropName, CropSeedName } from "./crops";
 
-import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
+import { CollectibleName, CraftableName, Food } from "./craftables";
 import { CommodityName, ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
@@ -339,8 +339,7 @@ export type LandExpansion = {
 };
 
 interface ExpansionRequirements {
-  sfl: Decimal;
-  resources: Ingredient[];
+  resources: Partial<Record<InventoryItemName, number>>;
   seconds: number;
   bumpkinLevel: number;
 }

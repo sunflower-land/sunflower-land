@@ -44,7 +44,8 @@ export const UpcomingExpansion: React.FC<Props> = ({ gameState }) => {
   }
 
   const onExpand = () => {
-    gameService.send("EXPAND");
+    gameService.send("land.expanded");
+    gameService.send("SAVE");
     setShowBumpkinModal(false);
   };
 

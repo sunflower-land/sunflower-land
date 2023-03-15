@@ -3,16 +3,7 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { getKeys } from "../types/craftables";
-import {
-  GameState,
-  Inventory,
-  InventoryItemName,
-  LandExpansion,
-  CropPlot,
-  Rock,
-  Tree,
-} from "../types/game";
+import { GameState, Inventory, InventoryItemName, Rock } from "../types/game";
 
 /**
  * Converts API response into a game state
@@ -58,17 +49,7 @@ export function makeGame(farm: any): GameState {
       : undefined,
     tradedAt: farm.tradedAt,
     expansions: farm.expansions,
-    expansionRequirements: farm.expansionRequirements
-      ? {
-          resources: farm.expansionRequirements.map((resource: any) => ({
-            item: resource.item,
-            amount: new Decimal(resource.amount),
-          })),
-          sfl: new Decimal(farm.expansionRequirements.sfl),
-          seconds: farm.expansionRequirements.seconds,
-          bumpkinLevel: farm.expansionRequirements.bumpkinLevel,
-        }
-      : undefined,
+    expansionRequirements: farm.expansionRequirements,
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     airdrops: farm.airdrops,

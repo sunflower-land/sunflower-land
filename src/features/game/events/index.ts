@@ -128,6 +128,7 @@ import {
   placeResource,
   PlaceResourceAction,
 } from "./landExpansion/placeResource";
+import { expandLand, ExpandLandAction } from "./landExpansion/expandLand";
 
 export type PlayingEvent =
   | TradeAction
@@ -169,7 +170,8 @@ export type PlayingEvent =
   | RestockAction
   | SellGarbageAction
   | StartChoreAction
-  | CompleteChoreAction;
+  | CompleteChoreAction
+  | ExpandLandAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -233,6 +235,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "garbage.sold": sellGarbage,
   "chore.completed": completeChore,
   "chore.started": startChore,
+  "land.expanded": expandLand,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
