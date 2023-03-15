@@ -48,19 +48,6 @@ describe("fruitHarvested", () => {
     ).toThrow("You do not have a Bumpkin");
   });
 
-  it("does not harvest on a an expansion with no fruit patches", () => {
-    expect(() =>
-      harvestFruit({
-        state: GAME_STATE,
-        action: {
-          type: "fruit.harvested",
-          index: "0",
-        },
-        createdAt: dateNow,
-      })
-    ).toThrow("Expansion does not have any fruit patches");
-  });
-
   it("does not harvest on non-existent fruit patch", () => {
     expect(() =>
       harvestFruit({

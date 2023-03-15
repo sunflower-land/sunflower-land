@@ -20,35 +20,6 @@ describe("harvest", () => {
 
   const dateNow = Date.now();
 
-  it("does not harvest on a non-existent expansion", () => {
-    expect(() =>
-      harvest({
-        state: GAME_STATE,
-        action: {
-          type: "crop.harvested",
-          index: "0",
-        },
-        createdAt: dateNow,
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("does not plant on a an expansion with no plots", () => {
-    expect(() =>
-      harvest({
-        state: {
-          ...GAME_STATE,
-          expansions: [{ createdAt: 0, readyAt: 0 }],
-        },
-        action: {
-          type: "crop.harvested",
-          index: "0",
-        },
-        createdAt: dateNow,
-      })
-    ).toThrow("Expansion does not have any plots");
-  });
-
   it("does not harvest on non-existent plot", () => {
     expect(() =>
       harvest({
@@ -78,10 +49,20 @@ describe("harvest", () => {
   it("does not harvest empty air", () => {
     expect(() =>
       harvest({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          plots: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 1,
+              y: 1,
+            },
+          },
+        },
         action: {
           type: "crop.harvested",
-          index: "7",
+          index: "1",
         },
         createdAt: dateNow,
       })

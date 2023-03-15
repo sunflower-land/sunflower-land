@@ -1,10 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
-import {
-  GENESIS_LAND_EXPANSION,
-  INITIAL_BUMPKIN,
-  TEST_FARM,
-} from "../../lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
 import { getCropTime, isPlotFertile, plant } from "./plant";
 
@@ -12,53 +8,22 @@ const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
+  plots: {
+    0: {
+      height: 1,
+      width: 1,
+      x: 0,
+      y: 0,
+      crop: {
+        name: "Sunflower",
+        plantedAt: 0,
+      },
+    },
+  },
 };
 
 describe("plant", () => {
   const dateNow = Date.now();
-  it("does not plant on a non existent expansion", () => {
-    const { inventory } = GAME_STATE;
-    expect(() =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: "0",
-          item: "Sunflower Seed",
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("does not plant on a an expansion with no plots", () => {
-    const { inventory } = GAME_STATE;
-    expect(() =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          expansions: [{ createdAt: 0, readyAt: 0 }],
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: "0",
-
-          item: "Sunflower Seed",
-        },
-      })
-    ).toThrow("Expansion does not have any plots");
-  });
 
   it("does not plant on non-existent plot", () => {
     const { inventory } = GAME_STATE;

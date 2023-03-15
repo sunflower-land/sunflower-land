@@ -16,35 +16,7 @@ describe("removeCrop", () => {
   const dateNow = Date.now();
   const { inventory, plots } = GAME_STATE;
   const plot = (plots as Record<number, CropPlot>)[0];
-  it("does not remove on a non existent expansion", () => {
-    expect(() =>
-      removeCrop({
-        state: {
-          ...GAME_STATE,
-        },
-        action: {
-          type: "crop.removed",
-          item: "Shovel",
-          index: 0,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.EMPTY_EXPANSION);
-  });
-  it("does not remove on an expansion with no plots", () => {
-    expect(() =>
-      removeCrop({
-        state: {
-          ...GAME_STATE,
-          expansions: [{ createdAt: 0, readyAt: 0 }],
-        },
-        action: {
-          type: "crop.removed",
-          item: "Shovel",
-          index: 0,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.EXPANSION_NO_PLOTS);
-  });
+
   it("does not remove on plot with negative plot index", () => {
     expect(() =>
       removeCrop({

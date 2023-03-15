@@ -220,6 +220,14 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
+  plots: {
+    1: {
+      height: 1,
+      width: 1,
+      x: 1,
+      y: 1,
+    },
+  },
   mysteryPrizes: {},
   stockExpiry: {
     "Sunflower Cake": "1970-06-06",
@@ -370,7 +378,6 @@ export const TEST_FARM: GameState = {
   fruitPatches: {},
   gold: {},
   iron: {},
-  plots: {},
   stones: {},
   trees: {},
 };

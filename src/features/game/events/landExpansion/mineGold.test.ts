@@ -38,36 +38,6 @@ describe("mineGold", () => {
     jest.useFakeTimers();
   });
 
-  it("throws an error if expansion does not exist", () => {
-    expect(() =>
-      mineGold({
-        state: { ...GAME_STATE, bumpkin: INITIAL_BUMPKIN },
-        createdAt: Date.now(),
-        action: {
-          type: "goldRock.mined",
-          index: "0",
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("throws an error if expansion has no gold rock", () => {
-    expect(() =>
-      mineGold({
-        state: {
-          ...GAME_STATE,
-          bumpkin: INITIAL_BUMPKIN,
-          expansions: [{ createdAt: 0, readyAt: 0 }],
-        },
-        createdAt: Date.now(),
-        action: {
-          type: "goldRock.mined",
-          index: "0",
-        },
-      })
-    ).toThrow("Expansion has no gold");
-  });
-
   it("throws an error if no iron pickaxes are left", () => {
     expect(() =>
       mineGold({

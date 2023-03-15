@@ -126,11 +126,7 @@ describe("isRemovable", () => {
   it("returns false for Water Well if remove it will uproot crops", () => {
     const gameState = {
       ...GAME_STATE,
-      expansions: [
-        { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-        { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-        { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-      ],
+      plots: makePlotsWithCrops(30),
     };
     expect(isRemovable(gameState, "Water Well", "224")).toBeFalsy();
   });

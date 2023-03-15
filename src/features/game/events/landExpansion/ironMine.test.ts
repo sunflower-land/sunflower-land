@@ -34,36 +34,6 @@ describe("mineIron", () => {
     jest.useFakeTimers();
   });
 
-  it("throws an error if expansion does not exist", () => {
-    expect(() =>
-      mineIron({
-        state: { ...GAME_STATE, bumpkin: INITIAL_BUMPKIN },
-        createdAt: Date.now(),
-        action: {
-          type: "ironRock.mined",
-          index: "0",
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("throws an error if expansion has no iron rock", () => {
-    expect(() =>
-      mineIron({
-        state: {
-          ...GAME_STATE,
-          bumpkin: INITIAL_BUMPKIN,
-          expansions: [{ createdAt: 0, readyAt: 0 }],
-        },
-        createdAt: Date.now(),
-        action: {
-          type: "ironRock.mined",
-          index: "0",
-        },
-      })
-    ).toThrow("Expansion has no iron");
-  });
-
   it("throws an error if no pickaxes are left", () => {
     expect(() =>
       mineIron({

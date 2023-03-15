@@ -49,34 +49,6 @@ describe("fruitPlanted", () => {
     ).toThrow("You do not have a Bumpkin");
   });
 
-  it("does not plant fruit on a non existent expansion", () => {
-    expect(() =>
-      plantFruit({
-        state: { ...GAME_STATE, bumpkin: INITIAL_BUMPKIN, expansions: [] },
-        createdAt: dateNow,
-        action: {
-          type: "fruit.planted",
-          index: "0",
-          seed: "Apple Seed",
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("does not plant on a an expansion with no fruit patches", () => {
-    expect(() =>
-      plantFruit({
-        state: GAME_STATE,
-        createdAt: dateNow,
-        action: {
-          type: "fruit.planted",
-          index: "0",
-          seed: "Apple Seed",
-        },
-      })
-    ).toThrow("Expansion does not have any fruit patches");
-  });
-
   it("does not plant on non-existent fruit patch", () => {
     expect(() =>
       plantFruit({

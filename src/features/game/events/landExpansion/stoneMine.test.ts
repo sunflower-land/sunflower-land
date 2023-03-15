@@ -38,30 +38,6 @@ describe("mineStone", () => {
     jest.useFakeTimers();
   });
 
-  it("throws an error if expansion does not exist", () => {
-    expect(() =>
-      mineStone({
-        state: GAME_STATE,
-        action: {
-          type: "stoneRock.mined",
-          index: 0,
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("throws an error if expansion has no stones", () => {
-    expect(() =>
-      mineStone({
-        state: { ...GAME_STATE, expansions: [{ createdAt: 0, readyAt: 0 }] },
-        action: {
-          type: "stoneRock.mined",
-          index: 0,
-        },
-      })
-    ).toThrow("Expansion has no stones");
-  });
-
   it("throws an error if no axes are left", () => {
     expect(() =>
       mineStone({
@@ -93,7 +69,7 @@ describe("mineStone", () => {
           index: 3,
         },
       })
-    ).toThrow("No rock");
+    ).toThrow("Stone does not exist");
   });
 
   it("throws an error if stone is not ready", () => {
