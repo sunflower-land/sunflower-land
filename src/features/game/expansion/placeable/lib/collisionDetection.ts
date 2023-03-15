@@ -124,19 +124,13 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
   const placed = {
     ...collectibles,
     ...buildings,
-    ...plots,
-    ...trees,
-    ...stones,
-    ...iron,
-    ...gold,
-    ...fruitPatches,
-    ...boulders,
   };
 
-  const boundingBoxes = getKeys(placed).flatMap((name) => {
+  const placeableBounds = getKeys(placed).flatMap((name) => {
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
+<<<<<<< HEAD
     return items
       ? items.map((item) => ({
           x: item.coordinates.x,
@@ -145,7 +139,35 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
           width: dimensions.width,
         }))
       : [];
+=======
+    console.log({ name });
+    return items.map((item) => ({
+      x: item.coordinates.x,
+      y: item.coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    }));
+>>>>>>> c60f1a95 ([FIX] Placing)
   });
+
+  const resources = Object.values({
+    ...trees,
+    ...stones,
+    ...iron,
+    ...gold,
+    ...plots,
+    ...fruitPatches,
+    ...boulders,
+  });
+
+  const resourceBoundingBoxes = resources.map((item) => ({
+    x: item.x,
+    y: item.y,
+    height: item.height,
+    width: item.width,
+  }));
+
+  const boundingBoxes = [...placeableBounds, ...resourceBoundingBoxes];
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(boundingBox, resourceBoundingBox)

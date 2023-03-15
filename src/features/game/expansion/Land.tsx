@@ -25,7 +25,9 @@ import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
-import { ResourceName } from "../types/resources";
+import { IslandTravel } from "./components/travel/IslandTravel";
+import { BumpkinTutorial } from "./BumpkinTutorial";
+import { Placeable } from "./placeable/Placeable";
 
 type ExpansionProps = Pick<LandExpansion, "createdAt">;
 
@@ -345,36 +347,52 @@ export const Land: React.FC = () => {
   };
 
   return (
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div
-        className={classNames("relative w-full h-full", {
-          "pointer-events-none": gameState.matches("visiting"),
-        })}
-      >
-        <LandBase expandedCount={expandedCount} />
-        <UpcomingExpansion gameState={state} />
-        <DirtRenderer plots={plots} />
+    <>
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div
+          className={classNames("relative w-full h-full", {
+            "pointer-events-none": gameState.matches("visiting"),
+          })}
+        >
+          <LandBase expandedCount={expandedCount} />
+          <UpcomingExpansion gameState={state} />
+          <DirtRenderer plots={plots} />
 
-        <Water level={expandedCount} />
+          <Water level={expandedCount} />
 
-        {/* Sort island elements by y axis */}
-        {getIslandElements({
-          expansions,
-          buildings,
-          collectibles,
-          chickens,
-          trees,
-          stones,
-          iron,
-          gold,
-          fruitPatches,
-          plots,
-          boulders,
-          bumpkinParts: gameState.context.state.bumpkin?.equipped,
-          isEditing,
-        }).sort((a, b) => b.props.y - a.props.y)}
+          {/* Sort island elements by y axis */}
+          {getIslandElements({
+            expansions,
+            buildings,
+            collectibles,
+            chickens,
+            trees,
+            stones,
+            iron,
+            gold,
+            fruitPatches,
+            plots,
+            boulders,
+            bumpkinParts: gameState.context.state.bumpkin?.equipped,
+            isEditing,
+          }).sort((a, b) => b.props.y - a.props.y)}
+        </div>
+        <IslandTravel
+          key="island-travel"
+          bumpkin={bumpkin}
+          isVisiting={gameState.matches("visiting")}
+          inventory={gameState.context.state.inventory}
+          travelAllowed={!gameState.matches("autosaving")}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
+          x={boatCoordinates.x}
+          y={boatCoordinates.y}
+        />
+
+        <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
+
+        {gameState.matches("editing") && <Placeable />}
       </div>
       <Hud isFarming />
-    </div>
+    </>
   );
 };
