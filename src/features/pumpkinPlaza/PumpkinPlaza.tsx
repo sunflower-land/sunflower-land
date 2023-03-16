@@ -14,6 +14,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { Room } from "./Room";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { ALLOWED_PLAZA_AREA } from "./lib/restrictedArea";
+import { Leprechaun } from "./components/Leprechaun";
 
 export const PLAZA_ROOM_ID = "plaza";
 
@@ -56,6 +57,7 @@ export const PumpkinPlaza: React.FC = () => {
           y: 1480,
         }}
       />
+      <Leprechaun x={44} y={19} />
       <div
         id={Section.PumpkinPlaza}
         className="absolute"

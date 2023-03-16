@@ -66,6 +66,7 @@ import reindeerAntlers from "assets/npc-layers/reindeer_antlers.png";
 import skullHat from "assets/npc-layers/skull_hat.png";
 import lifeguardHat from "assets/npc-layers/life_saver_hat.png";
 import sleepOtter from "assets/npc-layers/sleepy_otter.png";
+import stPatricksHat from "assets/npc-layers/st_patricks_hat.png";
 
 // Coats
 import pirateGeneralCoat from "assets/npc-layers/pirate_general_coat.png";
@@ -188,6 +189,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Lifeguard Hat": lifeguardHat,
   "Skull Hat": skullHat,
   "Sleeping Otter": sleepOtter,
+  "St Patricks Hat": stPatricksHat,
 
   // Onesie
   "Snowman Onesie": snowman,
