@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { ResourceFieldName } from "../events/landExpansion/placeResource";
 import { CHORES } from "../types/chores";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
@@ -51,6 +50,14 @@ const INITIAL_STOCK: Inventory = {
 
   "Immortal Pear": new Decimal(1),
 };
+export type ResourceFieldName =
+  | "trees"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "plots"
+  | "fruitPatches"
+  | "boulders";
 
 export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
   plots: {
@@ -207,7 +214,7 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
   },
   {
     createdAt: 4,
-    readyAt: Date.now() + 50000,
+    readyAt: 0,
   },
 ];
 
@@ -245,6 +252,7 @@ export const OFFLINE_FARM: GameState = {
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
+<<<<<<< HEAD
     "Rusty Shovel": new Decimal(10),
     "Bumpkin Salad": new Decimal(1),
     "Beta Pass": new Decimal(1),
@@ -261,6 +269,14 @@ export const OFFLINE_FARM: GameState = {
     "Basic Bear": new Decimal(1),
     "Magic Bean": new Decimal(5),
     "Christmas Snow Globe": new Decimal(1),
+=======
+    "Maneki Neko": new Decimal(2),
+    "Lunar Calendar": new Decimal(1),
+
+    Tree: new Decimal(2),
+    "Stone Rock": new Decimal(1),
+    "Crop Plot": new Decimal(13),
+>>>>>>> 1fcd302d ([FIX] Place multiple)
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
@@ -436,14 +452,8 @@ export const OFFLINE_FARM: GameState = {
   },
   expansionRequirements: {
     bumpkinLevel: 20,
-    resources: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
+    resources: { Wood: 30 },
     seconds: 60,
-    sfl: new Decimal(0),
   },
 <<<<<<< HEAD
 =======
@@ -526,8 +536,8 @@ export const OFFLINE_FARM: GameState = {
   },
   trees: {
     0: {
-      x: 1,
-      y: 5,
+      x: -1,
+      y: 1,
       width: 2,
       height: 2,
       wood: {

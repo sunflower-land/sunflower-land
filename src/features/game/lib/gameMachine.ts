@@ -49,6 +49,7 @@ import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -863,6 +864,8 @@ export function startGame(authContext: Options) {
               action: (_: Context, event: EditEvent) => event.action,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
+              hasMultiple: (c: Context, event: EditEvent) =>
+                getChestItems(c.state)[event.placeable]?.gt(1),
             },
             onDone: {
               target: "playing",

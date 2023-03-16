@@ -110,7 +110,6 @@ export const Placeable: React.FC = () => {
     });
   }, []);
 
-  console.log({ position: machine.context.coordinates.x });
   return (
     <>
       <div

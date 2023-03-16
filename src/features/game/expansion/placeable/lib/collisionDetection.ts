@@ -57,11 +57,6 @@ export function isOverlapping(
   const ymax1 = boundingBox1.y;
   const ymax2 = boundingBox2.y;
 
-  console.log({
-    boundingBox1,
-    boundingBox2,
-    overlap: xmin1 < xmax2 && xmax1 > xmin2 && ymin1 < ymax2 && ymax1 > ymin2,
-  });
   return xmin1 < xmax2 && xmax1 > xmin2 && ymin1 < ymax2 && ymax1 > ymin2;
 }
 
@@ -136,6 +131,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     return items
       ? items.map((item) => ({
           x: item.coordinates.x,
@@ -146,6 +142,8 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
       : [];
 =======
     console.log({ name });
+=======
+>>>>>>> 1fcd302d ([FIX] Place multiple)
     return items.map((item) => ({
       x: item.coordinates.x,
       y: item.coordinates.y,

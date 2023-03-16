@@ -10,6 +10,7 @@ export interface Context {
   action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
+  hasMultiple: boolean;
 }
 
 type UpdateEvent = {
@@ -76,7 +77,7 @@ export const editingMachine = createMachine<
           {
             target: "idle",
             // TODO: If they have more to place?
-            cond: () => true,
+            cond: (c) => c.hasMultiple,
             actions: [
               sendParent(
                 ({ placeable, action, coordinates: { x, y } }) =>

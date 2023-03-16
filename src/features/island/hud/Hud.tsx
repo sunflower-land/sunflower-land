@@ -55,10 +55,23 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           shortcutItem={shortcutItem}
           selectedItem={selectedItem as InventoryItemName}
           onPlace={(selected) => {
-            gameService.send("EDIT", {
-              placeable: selected,
-              action: "collectible.placed",
-            });
+            console.log({ selected });
+            if (selected === "Tree") {
+              gameService.send("EDIT", {
+                action: "tree.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Crop Plot") {
+              gameService.send("EDIT", {
+                action: "plot.placed",
+                placeable: selected,
+              });
+            } else {
+              gameService.send("EDIT", {
+                placeable: selected,
+                action: "collectible.placed",
+              });
+            }
           }}
           onDepositClick={() => setShowDepositModal(true)}
           isSaving={gameState.matches("autosaving")}

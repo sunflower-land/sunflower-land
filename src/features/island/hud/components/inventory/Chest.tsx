@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
@@ -54,7 +54,7 @@ export const Chest: React.FC<Props> = ({
 
   const getItemCount = (item: InventoryItemName) => {
     const count =
-      inventory[item]?.sub(placedItems[item as CollectibleName]?.length ?? 0) ??
+      chestMap[item]?.sub(placedItems[item as CollectibleName]?.length ?? 0) ??
       new Decimal(0);
 
     return setPrecision(count);
@@ -79,19 +79,13 @@ export const Chest: React.FC<Props> = ({
     }, {} as Record<CollectibleName, Decimal>);
 
   const handlePlace = () => {
-    if (selected in RESOURCE_DIMENSIONS) {
-      gameService.send("EDIT", {
-        action: "resource.placed",
-        placeable: selected,
-      });
-    } else {
-      onPlace && onPlace(selected);
-    }
+    onPlace && onPlace(selected);
 
     closeModal();
   };
 
   const handleItemClick = (item: InventoryItemName) => {
+    console.log({ handleItemClick: item });
     onSelect(item);
   };
 
