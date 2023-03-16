@@ -958,16 +958,16 @@ export function startGame(authContext: Options) {
         randomising: {
           invoke: {
             src: async () => {
-              const { expansions } = await generateTestLand();
+              const { game } = await generateTestLand();
 
-              return { expansions };
+              return { game };
             },
             onDone: {
               target: "playing",
               actions: assign<Context, any>({
                 state: (context, event) => ({
                   ...context.state,
-                  expansions: event.data.expansions,
+                  ...makeGame(event.data.game),
                 }),
               }),
             },
