@@ -57,6 +57,11 @@ export function isOverlapping(
   const ymax1 = boundingBox1.y;
   const ymax2 = boundingBox2.y;
 
+  console.log({
+    boundingBox1,
+    boundingBox2,
+    overlap: xmin1 < xmax2 && xmax1 > xmin2 && ymin1 < ymax2 && ymax1 > ymin2,
+  });
   return xmin1 < xmax2 && xmax1 > xmin2 && ymin1 < ymax2 && ymax1 > ymin2;
 }
 

@@ -207,7 +207,7 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
   },
   {
     createdAt: 4,
-    readyAt: 0,
+    readyAt: Date.now() + 50000,
   },
 ];
 
@@ -445,4 +445,108 @@ export const OFFLINE_FARM: GameState = {
     seconds: 60,
     sfl: new Decimal(0),
   },
+<<<<<<< HEAD
+=======
+  auctioneer: {
+    bid: {
+      bidAt: Date.now(),
+      ingredients: {
+        Gold: 5,
+      },
+      item: "Peeled Potato",
+      sfl: 10,
+      auctionTickets: 10,
+    },
+  },
+  gold: {
+    "0": {
+      height: 1,
+      width: 1,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: -3,
+      y: 2,
+    },
+  },
+  boulders: {},
+  fruitPatches: {
+    0: {
+      x: 6,
+      y: 3,
+      width: 2,
+      height: 2,
+      fruit: {
+        amount: 1,
+        harvestedAt: 0,
+        harvestsLeft: 3,
+        name: "Apple",
+        plantedAt: 0,
+      },
+    },
+  },
+  iron: {
+    0: {
+      x: 4,
+      y: 0,
+      width: 1,
+      height: 1,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+    },
+  },
+  plots: {
+    0: {
+      x: -2,
+      y: -1,
+      height: 1,
+      width: 1,
+    },
+    1: {
+      x: -1,
+      y: -1,
+      height: 1,
+      width: 1,
+    },
+    2: {
+      x: -2,
+      y: -2,
+      height: 1,
+      width: 1,
+    },
+    3: {
+      x: -1,
+      y: -2,
+      height: 1,
+      width: 1,
+    },
+  },
+  trees: {
+    0: {
+      x: 1,
+      y: 5,
+      width: 2,
+      height: 2,
+      wood: {
+        amount: 1,
+        choppedAt: 0,
+      },
+    },
+  },
+  stones: {
+    0: {
+      x: 1,
+      y: 3,
+      width: 1,
+      height: 1,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+    },
+  },
+>>>>>>> 512cee84 ([FIX] Hide in progress expansions)
 };

@@ -30,6 +30,7 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
       setSecondsLeft(seconds);
 
       if (seconds <= 0) {
+        console.log("Reveal it");
         gameService.send("expansion.revealed");
         clearInterval(interval);
       }

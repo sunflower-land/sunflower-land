@@ -25,7 +25,9 @@ import topAndLeftEdge from "assets/land/dirt/1_0_0_1.png";
 import bottomAndLeftEdge from "assets/land/dirt/0_0_1_1.png";
 import topAndRightEdge from "assets/land/dirt/1_1_0_0.png";
 import bottomAndRightEdge from "assets/land/dirt/0_1_1_0.png";
-import { GameState } from "features/game/types/game";
+import { GameState, Position } from "features/game/types/game";
+import { EXPANSION_ORIGINS } from "../lib/constants";
+import { isOverlapping } from "../placeable/lib/collisionDetection";
 
 const IMAGE_PATHS: Record<string, string> = {
   top_right_bottom_left: fullEdge,
@@ -60,20 +62,36 @@ export type Positions = Record<number, Record<number, boolean>>;
 
 interface Props {
   plots: GameState["plots"];
+  expansions: GameState["expansions"];
 }
 
-const Renderer: React.FC<Props> = ({ plots }) => {
+const Renderer: React.FC<Props> = ({ plots, expansions }) => {
+  // Land is currently being built
+  let hiddenLand: Position | undefined;
+  if (expansions[expansions.length - 1].readyAt > Date.now()) {
+    hiddenLand = {
+      x: EXPANSION_ORIGINS[expansions.length - 1].x - 3,
+      y: EXPANSION_ORIGINS[expansions.length - 1].y + 3,
+      width: 6,
+      height: 6,
+    };
+  }
+
   const dirtPositions: Positions = {};
-  getKeys(plots || {}).forEach((plotId) => {
-    const plot = plots[plotId];
+  getKeys(plots || {})
+    .filter(
+      (id) => !hiddenLand || !isOverlapping(hiddenLand as Position, plots[id])
+    )
+    .forEach((plotId) => {
+      const plot = plots[plotId];
 
-    // TODO - offset with expansion
-    if (!dirtPositions[plot.x]) {
-      dirtPositions[plot.x] = {};
-    }
+      // TODO - offset with expansion
+      if (!dirtPositions[plot.x]) {
+        dirtPositions[plot.x] = {};
+      }
 
-    dirtPositions[plot.x][plot.y] = true;
-  });
+      dirtPositions[plot.x][plot.y] = true;
+    });
   const xPositions = getKeys(dirtPositions).map(Number);
 
   const dirt = xPositions.flatMap((x) => {

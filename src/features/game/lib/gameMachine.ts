@@ -29,7 +29,6 @@ import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
-import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
@@ -244,8 +243,6 @@ export type BlockchainState = {
     | "syncing"
     | "synced"
     | "buyingSFL"
-    | "expanding"
-    | "expanded"
     | "revealing"
     | "revealed"
     | "error"
@@ -570,9 +567,6 @@ export function startGame(authContext: Options) {
             REFRESH: {
               target: "loading",
             },
-            EXPAND: {
-              target: "expanding",
-            },
             EDIT: {
               target: "editing",
             },
@@ -841,72 +835,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        //  withdrawn
-        expanding: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(authContext.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
 
-              const sessionId = await expand({
-                farmId: Number(authContext.farmId),
-                token: authContext.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return {
-                sessionId: sessionId,
-              };
-            },
-            onDone: {
-              target: "expanded",
-              actions: assign((_, event) => ({
-                sessionId: event.data.sessionId,
-                actions: [],
-              })),
-            },
-            onError: [
-              {
-                target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-                actions: assign((_) => ({
-                  actions: [],
-                })),
-              },
-              {
-                // Kick them back to loading game again
-                target: "loading",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
-        expanded: {
-          on: {
-            REFRESH: {
-              target: "loading",
-            },
-          },
-        },
         hoarding: {
           on: {
             SYNC: {

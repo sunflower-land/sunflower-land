@@ -14,5 +14,6 @@ type Options = {
  * Non-state altering event at the moment
  */
 export function reveal({ state, action }: Options): GameState {
+  console.log({ state });
   return state;
 }

@@ -126,13 +126,11 @@ export const Resource: React.FC<ResourceProps> = ({
 
   const canRemoveOnClick = shortcuts[0] === "Rusty Shovel";
   const handleOnClick = () => {
-    console.log("try remove", canRemoveOnClick);
     if (!canRemoveOnClick) return;
 
     setShowRemoveModal(true);
   };
 
-  console.log({ canRemoveOnClick, showRemoveModal });
   const Component = RESOURCE_COMPONENTS[name];
   return (
     <>
