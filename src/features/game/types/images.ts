@@ -1904,6 +1904,11 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
   },
 
+  "Basic Land": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A basic piece of land",
+  },
+
   "Crop Plot": {
     image: SUNNYSIDE.soil.soil2,
     description: "An empty plot to plant crops on",

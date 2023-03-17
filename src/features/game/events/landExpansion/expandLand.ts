@@ -52,8 +52,6 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     game.inventory
   );
 
-  inventory["Basic Land"] = (inventory["Basic Land"] ?? new Decimal(0)).add(1);
-
   game.expansions = [
     ...game.expansions,
     {

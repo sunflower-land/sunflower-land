@@ -11,7 +11,7 @@ import {
 } from "../types/craftables";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
-import { GameState, LandExpansion, PlacedItem, Position } from "../types/game";
+import { GameState, LandExpansion, PlacedItem } from "../types/game";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
@@ -28,8 +28,6 @@ import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
-import { isOverlapping } from "./placeable/lib/collisionDetection";
-import { EXPANSION_ORIGINS } from "./lib/constants";
 
 type ExpansionProps = Pick<LandExpansion, "createdAt">;
 
@@ -63,17 +61,6 @@ const getIslandElements = ({
   isEditing?: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
-
-  // Land is currently being built
-  let hiddenLand: Position | undefined;
-  if (expansions[expansions.length - 1].readyAt > Date.now()) {
-    hiddenLand = {
-      x: EXPANSION_ORIGINS[expansions.length - 1].x - 3,
-      y: EXPANSION_ORIGINS[expansions.length - 1].y + 3,
-      width: 6,
-      height: 6,
-    };
-  }
 
   if (bumpkinParts) {
     mapPlacements.push(
@@ -181,152 +168,136 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(trees)
-      .filter((id) => !hiddenLand || !isOverlapping(hiddenLand, trees[id]))
-      .map((id) => {
-        const { x, y, width, height } = trees[id];
+    ...getKeys(trees).map((id) => {
+      const { x, y, width, height } = trees[id];
 
-        return (
-          <MapPlacement
-            key={`tree-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Resource name="Tree" createdAt={0} readyAt={0} id={id} />
-          </MapPlacement>
-        );
-      })
+      return (
+        <MapPlacement
+          key={`tree-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Tree" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
   );
 
   mapPlacements.push(
-    ...getKeys(stones)
-      .filter((id) => !hiddenLand || !isOverlapping(hiddenLand, stones[id]))
-      .map((id) => {
-        const { x, y, width, height } = stones[id];
+    ...getKeys(stones).map((id) => {
+      const { x, y, width, height } = stones[id];
 
-        return (
-          <MapPlacement
-            key={`stone-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Resource name="Stone Rock" createdAt={0} readyAt={0} id={id} />
-          </MapPlacement>
-        );
-      })
+      return (
+        <MapPlacement
+          key={`stone-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Stone Rock" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
   );
 
   mapPlacements.push(
-    ...getKeys(iron)
-      .filter((id) => !hiddenLand || !isOverlapping(hiddenLand, iron[id]))
-      .map((id) => {
-        const { x, y, width, height } = iron[id];
+    ...getKeys(iron).map((id) => {
+      const { x, y, width, height } = iron[id];
 
-        return (
-          <MapPlacement
-            key={`iron-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Resource name="Iron Rock" createdAt={0} readyAt={0} id={id} />
-          </MapPlacement>
-        );
-      })
+      return (
+        <MapPlacement
+          key={`iron-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Iron Rock" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
   );
 
   mapPlacements.push(
-    ...getKeys(gold)
-      .filter((id) => !hiddenLand || !isOverlapping(hiddenLand, gold[id]))
-      .map((id) => {
-        const { x, y, width, height } = gold[id];
+    ...getKeys(gold).map((id) => {
+      const { x, y, width, height } = gold[id];
 
-        return (
-          <MapPlacement
-            key={`gold-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Resource name="Gold Rock" createdAt={0} readyAt={0} id={id} />
-          </MapPlacement>
-        );
-      })
+      return (
+        <MapPlacement
+          key={`gold-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Gold Rock" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
   );
 
   mapPlacements.push(
-    ...getKeys(fruitPatches)
-      .filter(
-        (id) => !hiddenLand || !isOverlapping(hiddenLand, fruitPatches[id])
-      )
-      .map((id) => {
-        const { x, y, width, height } = fruitPatches[id];
+    ...getKeys(fruitPatches).map((id) => {
+      const { x, y, width, height } = fruitPatches[id];
 
-        return (
-          <MapPlacement
-            key={`fruitPatches-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Resource name="Fruit Patch" createdAt={0} readyAt={0} id={id} />
-          </MapPlacement>
-        );
-      })
+      return (
+        <MapPlacement
+          key={`fruitPatches-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Fruit Patch" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
   );
 
   mapPlacements.push(
-    ...getKeys(plots)
-      .filter((id) => !hiddenLand || !isOverlapping(hiddenLand, plots[id]))
-      .map((id) => {
-        const { x, y, width, height } = plots[id];
+    ...getKeys(plots).map((id) => {
+      const { x, y, width, height } = plots[id];
 
-        return (
-          <MapPlacement
-            key={`plots-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Resource name="Crop Plot" createdAt={0} readyAt={0} id={id} />
-          </MapPlacement>
-        );
-      })
+      return (
+        <MapPlacement
+          key={`plots-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Crop Plot" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
   );
 
   mapPlacements.push(
-    ...getKeys(boulders)
-      .filter((id) => !hiddenLand || !isOverlapping(hiddenLand, boulders[id]))
-      .map((id) => {
-        const { x, y, width, height } = boulders[id];
+    ...getKeys(boulders).map((id) => {
+      const { x, y, width, height } = boulders[id];
 
-        return (
-          <MapPlacement
-            key={`boulders-${id}`}
-            x={x}
-            y={y}
-            height={height}
-            width={width}
-            isEditing={isEditing}
-          >
-            <Resource name="Boulder" createdAt={0} readyAt={0} id={id} />
-          </MapPlacement>
-        );
-      })
+      return (
+        <MapPlacement
+          key={`boulders-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+          isEditing={isEditing}
+        >
+          <Resource name="Boulder" createdAt={0} readyAt={0} id={id} />
+        </MapPlacement>
+      );
+    })
   );
 
   return mapPlacements;
@@ -342,6 +313,7 @@ export const Land: React.FC = () => {
     buildings,
     collectibles,
     chickens,
+    inventory,
     bumpkin,
     trees,
     stones,
@@ -353,12 +325,7 @@ export const Land: React.FC = () => {
   } = state;
   const [isEditing, setIsEditing] = useState(false);
 
-  let expandedCount = expansions.length;
-  const latestLand = expansions[expansions.length - 1];
-  // Land is still being built show previous layout
-  if (latestLand.readyAt > Date.now()) {
-    expandedCount -= 1;
-  }
+  const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -371,8 +338,8 @@ export const Land: React.FC = () => {
   }, [gameState.value]);
 
   const boatCoordinates = {
-    x: expandedCount >= 7 ? -9 : -2,
-    y: expandedCount >= 7 ? -10.5 : -4.5,
+    x: expansionCount >= 7 ? -9 : -2,
+    y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
   return (
@@ -383,11 +350,11 @@ export const Land: React.FC = () => {
             "pointer-events-none": gameState.matches("visiting"),
           })}
         >
-          <LandBase expandedCount={expandedCount} />
+          <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion gameState={state} />
           <DirtRenderer plots={plots} expansions={expansions} />
 
-          <Water level={expandedCount} />
+          <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({

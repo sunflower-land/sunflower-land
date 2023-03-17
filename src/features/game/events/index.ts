@@ -35,7 +35,6 @@ import {
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
-import { reveal, RevealAction } from "./revealExpansion";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
   placeBuilding,
@@ -139,7 +138,6 @@ export type PlayingEvent =
   | LandExpansionIronMineAction
   | LandExpansionMineGoldAction
   | TradeAction
-  | RevealAction
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
@@ -206,7 +204,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,
-  "expansion.revealed": reveal,
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,

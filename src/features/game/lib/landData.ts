@@ -216,6 +216,10 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
     createdAt: 4,
     readyAt: 0,
   },
+  {
+    createdAt: 4,
+    readyAt: Date.now() + 5000,
+  },
 ];
 
 const INITIAL_BUMPKIN: Bumpkin = {
@@ -276,7 +280,11 @@ export const OFFLINE_FARM: GameState = {
     Tree: new Decimal(2),
     "Stone Rock": new Decimal(1),
     "Crop Plot": new Decimal(13),
+<<<<<<< HEAD
 >>>>>>> 1fcd302d ([FIX] Place multiple)
+=======
+    "Basic Land": new Decimal(3),
+>>>>>>> e5ed7b52 (Reveal land action)
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
