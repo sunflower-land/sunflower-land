@@ -110,7 +110,6 @@ import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
-import fruitPatch from "assets/fruit/fruit_patch.png";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -337,6 +336,10 @@ import drill from "assets/icons/drill.png";
 import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
 import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
+
+import goldRock from "assets/resources/gold_small.png";
+import ironRock from "assets/resources/iron_small.png";
+import stoneRock from "assets/resources/stone_small.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1905,24 +1908,24 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Basic Land": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.resource.land,
     description: "A basic piece of land",
   },
 
   "Crop Plot": {
-    image: SUNNYSIDE.soil.soil2,
+    image: SUNNYSIDE.resource.plot,
     description: "An empty plot to plant crops on",
   },
   "Gold Rock": {
-    image: SUNNYSIDE.resource.gold_rock,
+    image: goldRock,
     description: "A mineable rock to collect gold",
   },
   "Iron Rock": {
-    image: SUNNYSIDE.resource.iron_rock,
+    image: ironRock,
     description: "A mineable rock to collect iron",
   },
   "Stone Rock": {
-    image: SUNNYSIDE.resource.stone_rock,
+    image: stoneRock,
     description: "A mineable rock to collect stone",
   },
   Tree: {
@@ -1930,7 +1933,7 @@ export const ITEM_DETAILS: Items = {
     description: "A choppable tree to collect wood",
   },
   "Fruit Patch": {
-    image: fruitPatch,
+    image: SUNNYSIDE.resource.fruitPatch,
     description: "An empty plot to plant fruit on",
   },
   Boulder: {

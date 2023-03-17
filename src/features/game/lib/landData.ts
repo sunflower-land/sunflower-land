@@ -278,7 +278,10 @@ export const OFFLINE_FARM: GameState = {
     "Lunar Calendar": new Decimal(1),
 
     Tree: new Decimal(2),
-    "Stone Rock": new Decimal(1),
+    "Stone Rock": new Decimal(3),
+    "Iron Rock": new Decimal(3),
+    "Fruit Patch": new Decimal(3),
+    "Gold Rock": new Decimal(3),
     "Crop Plot": new Decimal(13),
 <<<<<<< HEAD
 >>>>>>> 1fcd302d ([FIX] Place multiple)

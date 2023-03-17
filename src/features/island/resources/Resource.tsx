@@ -11,11 +11,11 @@ import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Iron } from "features/game/expansion/components/resources/Iron";
 import { Stone } from "features/game/expansion/components/resources/Stone";
 import { Tree } from "features/game/expansion/components/resources/Tree";
-import fruitPatch from "assets/fruit/fruit_patch.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Plot } from "../plots/Plot";
 import { FruitPatch } from "../fruit/FruitPatch";
 import { Boulder } from "../boulder/Boulder";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -31,7 +31,7 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
 > = {
   "Crop Plot": () => (
     <img
-      src={SUNNYSIDE.soil.soil2}
+      src={SUNNYSIDE.resource.plot}
       className="absolute bottom-0 w-full"
       style={{
         width: `${PIXEL_SCALE * 18}px`,
@@ -40,16 +40,17 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   ),
   "Gold Rock": () => (
     <img
-      src={SUNNYSIDE.resource.gold_rock}
-      className="relative h-full w-full"
+      src={ITEM_DETAILS["Gold Rock"].image}
+      className="relative  w-full"
       style={{
-        width: `${PIXEL_SCALE * 18}px`,
+        width: `${PIXEL_SCALE * 16}px`,
+        top: `${PIXEL_SCALE * 2}px`,
       }}
     />
   ),
   "Iron Rock": () => (
     <img
-      src={SUNNYSIDE.resource.iron_rock}
+      src={ITEM_DETAILS["Iron Rock"].image}
       className="relative h-full w-full"
       style={{
         width: `${PIXEL_SCALE * 18}px`,
@@ -58,7 +59,7 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   ),
   "Stone Rock": () => (
     <img
-      src={SUNNYSIDE.resource.stone_rock}
+      src={ITEM_DETAILS["Stone Rock"].image}
       className="relative h-full w-full"
       style={{
         width: `${PIXEL_SCALE * 18}px`,
@@ -77,7 +78,7 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   ),
   "Fruit Patch": () => (
     <img
-      src={fruitPatch}
+      src={ITEM_DETAILS["Stone Rock"].image}
       className="absolute h-auto w-full"
       style={{
         width: `${PIXEL_SCALE * 32}px`,
