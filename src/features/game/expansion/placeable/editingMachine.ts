@@ -21,6 +21,7 @@ type UpdateEvent = {
 
 type PlaceEvent = {
   type: "PLACE";
+  hasMore: boolean;
 };
 
 type ConstructEvent = {
@@ -77,7 +78,10 @@ export const editingMachine = createMachine<
           {
             target: "idle",
             // TODO: If they have more to place?
-            cond: (c) => c.hasMultiple,
+            cond: (_, e) => {
+              console.log({ e });
+              return !!e.hasMore;
+            },
             actions: [
               sendParent(
                 ({ placeable, action, coordinates: { x, y } }) =>

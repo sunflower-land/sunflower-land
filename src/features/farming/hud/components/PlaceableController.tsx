@@ -24,29 +24,36 @@ export const PlaceableController: React.FC = () => {
 
   const [gameState] = useActor(gameService);
 
+  const items = getChestItems(gameState.context.state);
+
+  const available = items[placeable] ?? new Decimal(0);
+
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
     if (!child.state.matches("idle")) {
       return;
     }
+    console.log({ hasMore: available.gt(1) });
 
-    send("PLACE");
+    send({
+      type: "PLACE",
+      hasMore: available.gt(1),
+    });
   };
 
   const handleCancelPlacement = () => {
     send("CANCEL");
   };
 
-  const items = getChestItems(gameState.context.state);
-
-  const available = items[placeable] ?? new Decimal(0);
-
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
       <OuterPanel>
-        <div className="flex">
-          <img src={ITEM_DETAILS[placeable].image} className="h-6 mr-2" />
-          <p>{`${available.toNumber()} available`}</p>
+        <div className="flex justify-center items-center mb-1">
+          <img
+            src={ITEM_DETAILS[placeable].image}
+            className="h-6 mr-2 img-highlight"
+          />
+          <p className="text-sm">{`${available.toNumber()} available`}</p>
         </div>
         <div
           className="flex items-stretch space-x-2 sm:h-12 w-80 sm:w-[400px]"
