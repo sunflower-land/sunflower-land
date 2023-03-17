@@ -127,14 +127,6 @@ export const Placeable: React.FC = () => {
       />
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
-          position={{
-            x:
-              DEFAULT_POSITION_X +
-              machine.context.coordinates.x * GRID_WIDTH_PX,
-            y:
-              DEFAULT_POSITION_Y -
-              machine.context.coordinates.y * GRID_WIDTH_PX,
-          }}
           defaultPosition={{
             x: DEFAULT_POSITION_X,
             y: DEFAULT_POSITION_Y,

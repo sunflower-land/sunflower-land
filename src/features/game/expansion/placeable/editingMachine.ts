@@ -10,7 +10,7 @@ export interface Context {
   action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  hasMultiple: boolean;
+  isDirty: boolean;
 }
 
 type UpdateEvent = {
@@ -73,6 +73,9 @@ export const editingMachine = createMachine<
         },
         DRAG: {
           target: "dragging",
+          actions: assign({
+            isDirty: (_) => true,
+          }),
         },
         PLACE: [
           {
@@ -99,6 +102,7 @@ export const editingMachine = createMachine<
                     y: context.coordinates.y - 1,
                   };
                 },
+                isDirty: (_) => true,
               }),
             ],
           },

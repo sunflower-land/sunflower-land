@@ -16,6 +16,8 @@ import { DepositArgs } from "lib/blockchain/Deposit";
 import Modal from "react-bootstrap/esm/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -97,6 +99,33 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           isSaving={gameState.matches("autosaving")}
           isFarming={isFarming}
         />
+        <div
+          // onClick={() => setIsOpen(true)}
+          className="fixed flex z-50 cursor-pointer hover:img-highlight"
+          style={{
+            top: `${PIXEL_SCALE * 36}px`,
+            right: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        >
+          <img
+            src={SUNNYSIDE.ui.round_button}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          />
+          <img
+            src={SUNNYSIDE.icons.drag}
+            className="absolute"
+            id="dragging"
+            style={{
+              top: `${PIXEL_SCALE * 5}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+              width: `${PIXEL_SCALE * 12}px`,
+            }}
+          />
+        </div>
       </div>
       {isEditing ? (
         <PlaceableController />
