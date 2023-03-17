@@ -92,7 +92,7 @@ export const getChestItems = (state: GameState) => {
         ...acc,
         "Fruit Patch": new Decimal(
           state.inventory["Fruit Patch"]?.minus(
-            Object.keys(state.plots).length
+            Object.keys(state.fruitPatches).length
           ) ?? 0
         ),
       };

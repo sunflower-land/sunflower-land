@@ -1,7 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "features/game/types/game";
-import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   ResourceName,
   RESOURCE_DIMENSIONS,
@@ -29,13 +28,7 @@ export function placePlot({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  console.log("Place plot!", action);
   const game = cloneDeep(state) as GameState;
-  const { bumpkin } = game;
-
-  if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
-  }
 
   const available = (game.inventory["Crop Plot"] || new Decimal(0)).minus(
     Object.keys(game.plots).length
@@ -44,9 +37,6 @@ export function placePlot({
   if (available.lt(1)) {
     throw new Error("No plots available");
   }
-
-  // TODO
-  bumpkin.activity = trackActivity("Crop Plot Placed", bumpkin.activity);
 
   game.plots = {
     ...game.plots,

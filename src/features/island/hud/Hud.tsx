@@ -66,6 +66,26 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
                 action: "plot.placed",
                 placeable: selected,
               });
+            } else if (selected === "Stone Rock") {
+              gameService.send("EDIT", {
+                action: "stone.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Iron Rock") {
+              gameService.send("EDIT", {
+                action: "iron.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Gold Rock") {
+              gameService.send("EDIT", {
+                action: "gold.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Fruit Patch") {
+              gameService.send("EDIT", {
+                action: "fruitPatch.placed",
+                placeable: selected,
+              });
             } else {
               gameService.send("EDIT", {
                 placeable: selected,

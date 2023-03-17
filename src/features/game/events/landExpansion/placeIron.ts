@@ -7,8 +7,8 @@ import {
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 
-export type PlaceTreeAction = {
-  type: "tree.placed";
+export type PlaceIronAction = {
+  type: "iron.placed";
   name: ResourceName;
   id: string;
   coordinates: {
@@ -19,34 +19,35 @@ export type PlaceTreeAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: PlaceTreeAction;
+  action: PlaceIronAction;
   createdAt?: number;
 };
 
-export function placeTree({
+export function placeIron({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state) as GameState;
-  const available = (game.inventory.Tree || new Decimal(0)).minus(
-    Object.keys(game.trees).length
+
+  const available = (game.inventory["Iron Rock"] || new Decimal(0)).minus(
+    Object.keys(game.iron).length
   );
 
   if (available.lt(1)) {
-    throw new Error("No trees available");
+    throw new Error("No iron available");
   }
 
-  game.trees = {
-    ...game.trees,
+  game.iron = {
+    ...game.iron,
     [action.id as unknown as number]: {
       createdAt: createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      ...RESOURCE_DIMENSIONS["Tree"],
-      wood: {
-        amount: 1,
-        choppedAt: 0,
+      ...RESOURCE_DIMENSIONS["Stone Rock"],
+      stone: {
+        amount: 0,
+        minedAt: 0,
       },
     },
   };

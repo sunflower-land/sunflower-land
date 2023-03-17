@@ -126,6 +126,13 @@ import {
 import { placeTree, PlaceTreeAction } from "./landExpansion/placeTree";
 import { expandLand, ExpandLandAction } from "./landExpansion/expandLand";
 import { placePlot, PlacePlotAction } from "./landExpansion/placePlot";
+import { placeStone, PlaceStoneAction } from "./landExpansion/placeStone";
+import { placeGold, PlaceGoldAction } from "./landExpansion/placeGold";
+import { placeIron, PlaceIronAction } from "./landExpansion/placeIron";
+import {
+  placeFruitPatch,
+  PlaceFruitPatchAction,
+} from "./landExpansion/placeFruitPatch";
 
 export type PlayingEvent =
   | TradeAction
@@ -176,7 +183,11 @@ export type PlacementEvent =
   | BuyChickenAction
   | PlaceChickenAction
   | PlaceTreeAction
-  | PlacePlotAction;
+  | PlacePlotAction
+  | PlaceStoneAction
+  | PlaceGoldAction
+  | PlaceIronAction
+  | PlaceFruitPatchAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -242,6 +253,10 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "chicken.placed": placeChicken,
   "tree.placed": placeTree,
   "plot.placed": placePlot,
+  "stone.placed": placeStone,
+  "gold.placed": placeGold,
+  "iron.placed": placeIron,
+  "fruitPatch.placed": placeFruitPatch,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
