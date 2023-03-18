@@ -43,7 +43,7 @@ const getUnSupportedPlotCount = (gameState: GameState): number => {
   const supportedPlots =
     activeWells * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
-  const plotCount = getKeys(gameState.plots).length;
+  const plotCount = getKeys(gameState.crops).length;
 
   return Math.max(plotCount - supportedPlots, 0);
 };
@@ -57,7 +57,7 @@ const getUnSupportedPlotCount = (gameState: GameState): number => {
  */
 export const removeUnsupportedCrops = (gameState: GameState) => {
   const unsupportedPlotCount = getUnSupportedPlotCount(gameState);
-  const { plots } = gameState;
+  const { crops: plots } = gameState;
 
   let count = 0;
   let hasUnsupportedCrops = false;
@@ -165,7 +165,7 @@ export function removeBuilding({
       throw new Error(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
     }
 
-    stateCopy.plots = plots;
+    stateCopy.crops = plots;
   }
 
   if (action.building === "Hen House") {

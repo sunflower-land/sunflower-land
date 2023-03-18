@@ -51,7 +51,7 @@ describe("harvest", () => {
       harvest({
         state: {
           ...GAME_STATE,
-          plots: {
+          crops: {
             1: {
               height: 1,
               width: 1,
@@ -70,7 +70,7 @@ describe("harvest", () => {
   });
 
   it("does not harvest if the crop is not ripe", () => {
-    const plots = GAME_STATE.plots;
+    const plots = GAME_STATE.crops;
     const plot = (plots as Record<number, CropPlot>)[0];
 
     expect(() =>
@@ -78,7 +78,7 @@ describe("harvest", () => {
         state: {
           ...GAME_STATE,
 
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {
@@ -99,7 +99,7 @@ describe("harvest", () => {
   });
 
   it("harvests a crop", () => {
-    const { plots } = GAME_STATE;
+    const { crops: plots } = GAME_STATE;
     const plot = (plots as Record<number, CropPlot>)[0];
 
     const state = harvest({
@@ -109,7 +109,7 @@ describe("harvest", () => {
           Radish: new Decimal(42),
           Sunflower: new Decimal(2),
         },
-        plots: {
+        crops: {
           0: {
             ...plot,
             crop: {
@@ -132,19 +132,19 @@ describe("harvest", () => {
       Sunflower: new Decimal(3),
     });
 
-    const plotAfterHarvest = state.plots?.[0].crop;
+    const plotAfterHarvest = state.crops?.[0].crop;
 
     expect(plotAfterHarvest).not.toBeDefined();
   });
 
   it("harvests a buffed crop amount", () => {
-    const { plots } = GAME_STATE;
+    const { crops: plots } = GAME_STATE;
     const plot = (plots as Record<number, CropPlot>)[0];
 
     const state = harvest({
       state: {
         ...GAME_STATE,
-        plots: {
+        crops: {
           0: {
             ...plot,
             crop: {
@@ -167,13 +167,13 @@ describe("harvest", () => {
 
   describe("BumpkinActivity", () => {
     it("increments Sunflowers Harvested activity by 1", () => {
-      const { plots } = GAME_STATE;
+      const { crops: plots } = GAME_STATE;
       const plot = (plots as Record<number, CropPlot>)[0];
 
       const state = harvest({
         state: {
           ...GAME_STATE,
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {
@@ -195,13 +195,13 @@ describe("harvest", () => {
     });
 
     it("increments Sunflowers Harvested activity by 2", () => {
-      const { plots } = GAME_STATE;
+      const { crops: plots } = GAME_STATE;
       const plot = (plots as Record<number, CropPlot>)[0];
 
       const stateOne = harvest({
         state: {
           ...GAME_STATE,
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {
@@ -222,7 +222,7 @@ describe("harvest", () => {
       const state = harvest({
         state: {
           ...stateOne,
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {

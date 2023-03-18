@@ -55,12 +55,12 @@ export type ResourceFieldName =
   | "stones"
   | "iron"
   | "gold"
-  | "plots"
+  | "crops"
   | "fruitPatches"
   | "boulders";
 
 export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
-  plots: {
+  crops: {
     0: {
       x: -2,
       y: -1,
@@ -519,7 +519,7 @@ export const OFFLINE_FARM: GameState = {
       },
     },
   },
-  plots: {
+  crops: {
     0: {
       x: -2,
       y: -1,

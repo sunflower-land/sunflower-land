@@ -54,7 +54,7 @@ const getIslandElements = ({
   stones: GameState["stones"];
   iron: GameState["iron"];
   gold: GameState["gold"];
-  plots: GameState["plots"];
+  plots: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   boulders: GameState["boulders"];
   bumpkinParts: BumpkinParts | undefined;
@@ -319,7 +319,7 @@ export const Land: React.FC = () => {
     stones,
     iron,
     gold,
-    plots,
+    crops: plots,
     boulders,
     fruitPatches,
   } = state;
@@ -351,7 +351,7 @@ export const Land: React.FC = () => {
           })}
         >
           <LandBase expandedCount={expansionCount} />
-          <UpcomingExpansion gameState={state} />
+          <UpcomingExpansion />
           <DirtRenderer plots={plots} expansions={expansions} />
 
           <Water level={expansionCount} />

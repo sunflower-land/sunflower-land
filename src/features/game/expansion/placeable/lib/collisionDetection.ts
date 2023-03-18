@@ -112,7 +112,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
   const {
     collectibles,
     buildings,
-    plots,
+    crops: plots,
     trees,
     stones,
     gold,

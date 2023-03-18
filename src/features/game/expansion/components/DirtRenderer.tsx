@@ -59,7 +59,7 @@ type Edges = {
 export type Positions = Record<number, Record<number, boolean>>;
 
 interface Props {
-  plots: GameState["plots"];
+  plots: GameState["crops"];
   expansions: GameState["expansions"];
 }
 

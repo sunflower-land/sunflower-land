@@ -8,7 +8,7 @@ const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
-  plots: {
+  crops: {
     0: {
       height: 1,
       width: 1,
@@ -110,7 +110,7 @@ describe("plant", () => {
   });
 
   it("does not plant if crop already exists", () => {
-    const { inventory, plots } = GAME_STATE;
+    const { inventory, crops: plots } = GAME_STATE;
     const plot = (plots as Record<number, CropPlot>)[0];
 
     expect(() =>
@@ -121,7 +121,7 @@ describe("plant", () => {
             ...inventory,
             "Water Well": new Decimal(1),
           },
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {
@@ -206,7 +206,7 @@ describe("plant", () => {
       },
     });
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(state.inventory["Sunflower Seed"]).toEqual(seedsAmount.minus(1));
     expect(plots).toBeDefined();
@@ -239,7 +239,7 @@ describe("plant", () => {
       },
     });
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
     expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
@@ -281,7 +281,7 @@ describe("plant", () => {
       },
     });
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
     expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
@@ -311,7 +311,7 @@ describe("plant", () => {
       },
     });
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
     expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
@@ -357,7 +357,7 @@ describe("plant", () => {
     // Should be twice as fast! (Planted in the past)
     const parsnipTime = CROPS().Parsnip.harvestSeconds * 1000;
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
     const plantedAt =
@@ -394,7 +394,7 @@ describe("plant", () => {
       createdAt: dateNow,
     });
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
 
@@ -429,7 +429,7 @@ describe("plant", () => {
       createdAt: dateNow,
     });
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
 
@@ -469,7 +469,7 @@ describe("plant", () => {
     // Should be twice as fast! (Planted in the past)
     const carrotTime = CROPS().Carrot.harvestSeconds * 1000;
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
     const plantedAt = plots[0].crop?.plantedAt || 0;
@@ -509,7 +509,7 @@ describe("plant", () => {
 
     const sunflowerTime = CROPS().Sunflower.harvestSeconds * 1000;
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
     const plantedAt =
@@ -548,7 +548,7 @@ describe("plant", () => {
       },
     });
 
-    const plots = state.plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
 
@@ -659,7 +659,7 @@ describe("isPlotFertile", () => {
       gameState: {
         ...TEST_FARM,
         buildings: {},
-        plots: {
+        crops: {
           0: fakePlot,
           1: fakePlot,
           2: fakePlot,
@@ -705,7 +705,7 @@ describe("isPlotFertile", () => {
             },
           ],
         },
-        plots: {
+        crops: {
           0: fakePlot,
           1: fakePlot,
           2: fakePlot,
@@ -749,7 +749,7 @@ describe("isPlotFertile", () => {
       gameState: {
         ...TEST_FARM,
         buildings: {},
-        plots: {
+        crops: {
           0: fakePlot,
           1: fakePlot,
           2: fakePlot,
@@ -789,7 +789,7 @@ describe("isPlotFertile", () => {
             },
           ],
         },
-        plots: {
+        crops: {
           0: fakePlot,
           1: fakePlot,
           2: fakePlot,

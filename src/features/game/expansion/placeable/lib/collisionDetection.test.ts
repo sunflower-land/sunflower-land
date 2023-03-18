@@ -51,7 +51,7 @@ describe("detectCollisions", () => {
 
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
 
-    state.plots = { 0: position };
+    state.crops = { 0: position };
 
     const hasCollision = detectCollision(state, position);
 

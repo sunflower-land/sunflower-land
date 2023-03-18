@@ -403,7 +403,7 @@ export interface GameState {
   stones: Record<string, Rock>;
   gold: Record<string, Rock>;
   iron: Record<string, Rock>;
-  plots: Record<string, CropPlot>;
+  crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   boulders: Record<string, Mine>;
 

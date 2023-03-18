@@ -23,7 +23,7 @@ describe("collectCropReward", () => {
       collectCropReward({
         state: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -46,7 +46,7 @@ describe("collectCropReward", () => {
       collectCropReward({
         state: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -74,7 +74,7 @@ describe("collectCropReward", () => {
       collectCropReward({
         state: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -109,7 +109,7 @@ describe("collectCropReward", () => {
     const state = collectCropReward({
       state: {
         ...TEST_FARM,
-        plots: {
+        crops: {
           0: {
             x: -2,
             y: -1,
@@ -138,7 +138,7 @@ describe("collectCropReward", () => {
       createdAt: dateNow,
     });
 
-    const { plots } = state;
+    const { crops: plots } = state;
 
     expect(plots?.[0]?.crop?.reward).toBeUndefined();
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(3));
@@ -148,7 +148,7 @@ describe("collectCropReward", () => {
     const state = collectCropReward({
       state: {
         ...TEST_FARM,
-        plots: {
+        crops: {
           0: {
             x: -2,
             y: -1,
@@ -177,7 +177,7 @@ describe("collectCropReward", () => {
       createdAt: dateNow,
     });
 
-    const { plots } = state;
+    const { crops: plots } = state;
 
     expect(plots?.[0]?.crop?.reward).toBeUndefined();
     expect(state.inventory["Gold"]).toEqual(new Decimal(1));
@@ -187,7 +187,7 @@ describe("collectCropReward", () => {
     const state = collectCropReward({
       state: {
         ...TEST_FARM,
-        plots: {
+        crops: {
           0: {
             x: -2,
             y: -1,
@@ -211,7 +211,7 @@ describe("collectCropReward", () => {
       createdAt: dateNow,
     });
 
-    const { plots } = state;
+    const { crops: plots } = state;
 
     expect(plots?.[0]?.crop?.reward).toBeUndefined();
     expect(state.balance).toEqual(new Decimal(10));

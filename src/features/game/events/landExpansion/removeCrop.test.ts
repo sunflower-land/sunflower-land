@@ -14,7 +14,7 @@ const GAME_STATE: GameState = {
 
 describe("removeCrop", () => {
   const dateNow = Date.now();
-  const { inventory, plots } = GAME_STATE;
+  const { inventory, crops: plots } = GAME_STATE;
   const plot = (plots as Record<number, CropPlot>)[0];
 
   it("does not remove on plot with negative plot index", () => {
@@ -64,7 +64,7 @@ describe("removeCrop", () => {
       removeCrop({
         state: {
           ...GAME_STATE,
-          plots: {
+          crops: {
             0: {
               x: 1,
               y: 1,
@@ -90,7 +90,7 @@ describe("removeCrop", () => {
             ...inventory,
             "Rusty Shovel": new Decimal(1),
           },
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {
@@ -113,7 +113,7 @@ describe("removeCrop", () => {
       removeCrop({
         state: {
           ...GAME_STATE,
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {
@@ -139,7 +139,7 @@ describe("removeCrop", () => {
             ...inventory,
             Shovel: new Decimal(0),
           },
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {
@@ -162,7 +162,7 @@ describe("removeCrop", () => {
       removeCrop({
         state: {
           ...GAME_STATE,
-          plots: {
+          crops: {
             0: {
               ...plot,
               crop: {
@@ -184,7 +184,7 @@ describe("removeCrop", () => {
     const gameState = removeCrop({
       state: {
         ...GAME_STATE,
-        plots: {
+        crops: {
           0: {
             ...plot,
             crop: {
@@ -203,7 +203,7 @@ describe("removeCrop", () => {
 
     expect(gameState.inventory.Sunflower).toBeFalsy();
     expect(gameState.inventory["Sunflower Seed"]).toBeFalsy();
-    const newPlots = gameState.plots;
+    const newPlots = gameState.crops;
     expect((newPlots as Record<number, CropPlot>)[0].crop).toBeFalsy();
   });
 });

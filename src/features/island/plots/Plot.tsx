@@ -54,7 +54,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const [isMobile] = useIsMobile();
   //Golden Crop event
   const [showGoldenCropModal, setShowGoldenCropModal] = useState(false);
-  const plot = game.context.state.plots?.[id];
+  const plot = game.context.state.crops?.[id];
 
   const crop = plot && plot.crop;
 

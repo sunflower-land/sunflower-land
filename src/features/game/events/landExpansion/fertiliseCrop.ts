@@ -46,7 +46,7 @@ export function fertiliseCrop({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { plots, inventory } = stateCopy;
+  const { crops: plots, inventory } = stateCopy;
 
   if (action.plotIndex < 0) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);

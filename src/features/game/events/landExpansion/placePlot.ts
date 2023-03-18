@@ -31,15 +31,15 @@ export function placePlot({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Crop Plot"] || new Decimal(0)).minus(
-    Object.keys(game.plots).length
+    Object.keys(game.crops).length
   );
 
   if (available.lt(1)) {
     throw new Error("No plots available");
   }
 
-  game.plots = {
-    ...game.plots,
+  game.crops = {
+    ...game.crops,
     [action.id as unknown as number]: {
       createdAt: createdAt,
       x: action.coordinates.x,

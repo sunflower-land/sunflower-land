@@ -220,7 +220,7 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
-  plots: {
+  crops: {
     1: {
       height: 1,
       width: 1,
@@ -363,14 +363,10 @@ export const TEST_FARM: GameState = {
   },
   expansionRequirements: {
     bumpkinLevel: 20,
-    resources: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
+    resources: {
+      Wood: 10,
+    },
     seconds: 60,
-    sfl: new Decimal(0),
   },
   dailyRewards: {},
 
@@ -417,7 +413,7 @@ export const EMPTY: GameState = {
   fruitPatches: {},
   gold: {},
   iron: {},
-  plots: {},
+  crops: {},
   stones: {},
   trees: {},
 };

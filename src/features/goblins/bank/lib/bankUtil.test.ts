@@ -177,7 +177,7 @@ describe("canWithdraw", () => {
         item: "Easter Bunny",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -197,7 +197,7 @@ describe("canWithdraw", () => {
         item: "Victoria Sisters",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -217,7 +217,7 @@ describe("canWithdraw", () => {
         item: "Golden Cauliflower",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -241,7 +241,7 @@ describe("canWithdraw", () => {
         item: "Mysterious Parsnip",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -261,7 +261,7 @@ describe("canWithdraw", () => {
         item: "Nancy",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -281,7 +281,7 @@ describe("canWithdraw", () => {
         item: "Scarecrow",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -301,7 +301,7 @@ describe("canWithdraw", () => {
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -390,7 +390,7 @@ describe("canWithdraw", () => {
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -558,7 +558,7 @@ describe("canWithdraw", () => {
           inventory: {
             "Peeled Potato": new Decimal(2),
           },
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -650,7 +650,7 @@ describe("canWithdraw", () => {
         item: "Easter Bunny",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -669,7 +669,7 @@ describe("canWithdraw", () => {
         item: "Victoria Sisters",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -688,7 +688,7 @@ describe("canWithdraw", () => {
         item: "Golden Cauliflower",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -708,7 +708,7 @@ describe("canWithdraw", () => {
         item: "Mysterious Parsnip",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -731,7 +731,7 @@ describe("canWithdraw", () => {
           inventory: {
             Nancy: new Decimal(1),
           },
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -753,7 +753,7 @@ describe("canWithdraw", () => {
           inventory: {
             Scarecrow: new Decimal(1),
           },
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -773,7 +773,7 @@ describe("canWithdraw", () => {
         game: {
           ...TEST_FARM,
           inventory: { Kuebiko: new Decimal(1) },
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -868,7 +868,7 @@ describe("canWithdraw", () => {
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -1027,7 +1027,7 @@ describe("canWithdraw", () => {
         item: "Carrot Sword",
         game: {
           ...TEST_FARM,
-          plots: {
+          crops: {
             0: {
               x: -2,
               y: -1,
@@ -1104,7 +1104,7 @@ describe("canWithdraw", () => {
         inventory: {
           "Peeled Potato": new Decimal(2),
         },
-        plots: {
+        crops: {
           0: {
             x: -2,
             y: -1,

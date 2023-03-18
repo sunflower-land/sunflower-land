@@ -57,7 +57,7 @@ type CanWithdrawArgs = {
 };
 
 function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
-  return Object.values(game.plots ?? {}).some(
+  return Object.values(game.crops ?? {}).some(
     (plot) => plot.crop && plot.crop.name === item
   );
 }
@@ -67,7 +67,7 @@ function hasSeeds(inventory: Inventory) {
 }
 
 function areAnyCropsPlanted(game: GoblinState): boolean {
-  return Object.values(game.plots ?? {}).some((plot) => !!plot.crop);
+  return Object.values(game.crops ?? {}).some((plot) => !!plot.crop);
 }
 
 function areAnyTreesChopped(game: GoblinState): boolean {

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_EXPANSIONS, TEST_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import { Chicken, GameState, CropPlot } from "features/game/types/game";
 import {
@@ -265,8 +265,8 @@ describe("removeBuilding", () => {
       removeBuilding({
         state: {
           ...GAME_STATE,
-          plots: {
-            ...GAME_STATE.plots,
+          crops: {
+            ...GAME_STATE.crops,
             8: {
               x: 0,
               y: 1,

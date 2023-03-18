@@ -30,7 +30,7 @@ type Options = {
 
 export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
-  const { plots, inventory } = stateCopy;
+  const { crops: plots, inventory } = stateCopy;
 
   if (action.index < 0) {
     throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
@@ -73,6 +73,6 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
 
   return {
     ...stateCopy,
-    plots,
+    crops: plots,
   } as GameState;
 }

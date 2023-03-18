@@ -81,7 +81,7 @@ export const getChestItems = (state: GameState) => {
         ...acc,
         "Crop Plot": new Decimal(
           state.inventory["Crop Plot"]?.minus(
-            Object.keys(state.plots).length
+            Object.keys(state.crops).length
           ) ?? 0
         ),
       };

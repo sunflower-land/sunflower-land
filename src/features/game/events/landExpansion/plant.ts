@@ -50,7 +50,7 @@ export function isPlotFertile({
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
   const cropPosition =
-    getKeys(gameState.plots).findIndex((plotId) => plotId === plotIndex) + 1;
+    getKeys(gameState.crops).findIndex((plotId) => plotId === plotIndex) + 1;
 
   return cropPosition <= cropsWellCanWater;
 }
@@ -220,7 +220,7 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { plots, bumpkin, collectibles, inventory } = stateCopy;
+  const { crops: plots, bumpkin, collectibles, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
