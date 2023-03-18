@@ -39,7 +39,6 @@ const getIslandElements = ({
   gold,
   fruitPatches,
   crops,
-  boulders,
   bumpkinParts,
   isEditing,
 }: {
@@ -53,7 +52,6 @@ const getIslandElements = ({
   gold: GameState["gold"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
-  boulders: GameState["boulders"];
   bumpkinParts: BumpkinParts | undefined;
   isEditing?: boolean;
 }) => {
@@ -278,25 +276,6 @@ const getIslandElements = ({
     })
   );
 
-  mapPlacements.push(
-    ...getKeys(boulders).map((id) => {
-      const { x, y, width, height } = boulders[id];
-
-      return (
-        <MapPlacement
-          key={`boulders-${id}`}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-          isEditing={isEditing}
-        >
-          <Resource name="Boulder" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
-      );
-    })
-  );
-
   return mapPlacements;
 };
 
@@ -317,7 +296,6 @@ export const Land: React.FC = () => {
     iron,
     gold,
     crops,
-    boulders,
     fruitPatches,
   } = state;
   const [isEditing, setIsEditing] = useState(false);
@@ -365,7 +343,6 @@ export const Land: React.FC = () => {
             gold,
             fruitPatches,
             crops,
-            boulders,
             bumpkinParts: gameState.context.state.bumpkin?.equipped,
             isEditing,
           }).sort((a, b) => b.props.y - a.props.y)}

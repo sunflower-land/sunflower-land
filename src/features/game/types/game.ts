@@ -405,7 +405,6 @@ export interface GameState {
   iron: Record<string, Rock>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
-  boulders: Record<string, Mine>;
 
   expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;

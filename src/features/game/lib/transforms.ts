@@ -68,7 +68,6 @@ export function makeGame(farm: any): GameState {
     stones: farm.stones,
     iron: farm.iron,
     gold: farm.gold,
-    boulders: farm.boulders,
     crops: farm.crops,
     fruitPatches: farm.fruitPatches,
   };

@@ -108,7 +108,6 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     trees,
     stones,
     gold,
-    boulders,
     iron,
     fruitPatches,
   } = state;
@@ -152,7 +151,6 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     ...gold,
     ...crops,
     ...fruitPatches,
-    ...boulders,
   });
 
   const resourceBoundingBoxes = resources.map((item) => ({
@@ -312,8 +310,6 @@ function detectBumpkinCollision(boundingBox: BoundingBox) {
 }
 export function detectCollision(state: GameState, position: Position) {
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
-
-  // TODO resource collectoon
 
   return (
     detectWaterCollision(expansions, position) ||

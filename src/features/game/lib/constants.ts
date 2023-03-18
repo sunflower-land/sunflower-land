@@ -370,7 +370,6 @@ export const TEST_FARM: GameState = {
   },
   dailyRewards: {},
 
-  boulders: {},
   fruitPatches: {},
   gold: {},
   iron: {},
@@ -408,7 +407,6 @@ export const EMPTY: GameState = {
     },
   },
 
-  boulders: {},
   fruitPatches: {},
   gold: {},
   iron: {},
