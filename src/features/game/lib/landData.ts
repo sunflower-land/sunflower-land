@@ -1,6 +1,11 @@
 import Decimal from "decimal.js-light";
 import { CHORES } from "../types/chores";
-import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
+import {
+  Bumpkin,
+  GameState,
+  Inventory,
+  ExpansionConstruction,
+} from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
@@ -203,7 +208,7 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
   iron: {},
 };
 
-const INITIAL_EXPANSIONS: LandExpansion[] = [
+const INITIAL_EXPANSIONS: ExpansionConstruction[] = [
   {
     createdAt: 2,
     readyAt: 0,
@@ -284,10 +289,14 @@ export const OFFLINE_FARM: GameState = {
     "Gold Rock": new Decimal(3),
     "Crop Plot": new Decimal(13),
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 1fcd302d ([FIX] Place multiple)
 =======
     "Basic Land": new Decimal(3),
 >>>>>>> e5ed7b52 (Reveal land action)
+=======
+    "Basic Land": new Decimal(17),
+>>>>>>> 8e025a8b (BG images)
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
@@ -303,7 +312,11 @@ export const OFFLINE_FARM: GameState = {
   chickens: {},
   stockExpiry: {},
 
-  expansions: INITIAL_EXPANSIONS,
+  expansionConstruction: {
+    createdAt: Date.now(),
+    readyAt: Date.now() + 5000,
+  },
+
   buildings: {
     "Fire Pit": [
       {

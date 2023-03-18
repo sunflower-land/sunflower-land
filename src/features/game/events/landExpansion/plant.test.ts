@@ -378,6 +378,14 @@ describe("plant", () => {
     const state = plant({
       state: {
         ...PARSNIP_STATE,
+        crops: {
+          "0": {
+            height: 1,
+            width: 1,
+            x: 1,
+            y: 1,
+          },
+        },
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Water Well": new Decimal(1),
@@ -404,6 +412,14 @@ describe("plant", () => {
   it("yields 10% more with bumpkin skill Master Farmer", () => {
     const SKILL_STATE: GameState = {
       ...TEST_FARM,
+      crops: {
+        "0": {
+          height: 1,
+          width: 1,
+          x: 1,
+          y: 1,
+        },
+      },
       bumpkin: {
         ...INITIAL_BUMPKIN,
         skills: { ...INITIAL_BUMPKIN.skills, "Master Farmer": 1 },
@@ -679,7 +695,7 @@ describe("isPlotFertile", () => {
           98: fakePlot, // 17th
         },
       },
-      plotIndex: "7",
+      plotIndex: "87",
     });
 
     expect(isFertile).toBeFalsy();
@@ -732,7 +748,7 @@ describe("isPlotFertile", () => {
           23: fakePlot, // 24th
         },
       },
-      plotIndex: "16",
+      plotIndex: "23",
     });
 
     expect(isFertile).toBeFalsy();

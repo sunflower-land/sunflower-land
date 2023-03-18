@@ -1,9 +1,4 @@
-import {
-  GameState,
-  LandExpansion,
-  PlacedItem,
-  Position,
-} from "features/game/types/game";
+import { GameState, PlacedItem, Position } from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
 import { Coordinates } from "../../components/MapPlacement";
 import {
@@ -71,18 +66,15 @@ const splitBoundingBox = (boundingBox: BoundingBox) => {
   }));
 };
 
-function detectWaterCollision(
-  expansions: LandExpansion[],
-  boundingBox: BoundingBox
-) {
-  const expansionBoundingBoxes: BoundingBox[] = expansions.map(
-    (_, expansionIndex) => ({
+function detectWaterCollision(expansions: number, boundingBox: BoundingBox) {
+  const expansionBoundingBoxes: BoundingBox[] = new Array(expansions)
+    .fill(null)
+    .map((_, expansionIndex) => ({
       x: EXPANSION_ORIGINS[expansionIndex].x - LAND_SIZE / 2,
       y: EXPANSION_ORIGINS[expansionIndex].y + LAND_SIZE / 2,
       width: LAND_SIZE,
       height: LAND_SIZE,
-    })
-  );
+    }));
 
   /**
    * A bounding box may overlap multiple land expansions.
@@ -112,7 +104,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
   const {
     collectibles,
     buildings,
-    crops: plots,
+    crops,
     trees,
     stones,
     gold,
@@ -158,7 +150,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     ...stones,
     ...iron,
     ...gold,
-    ...plots,
+    ...crops,
     ...fruitPatches,
     ...boulders,
   });
@@ -215,13 +207,13 @@ enum Direction {
  * @returns boolean
  */
 function detectLandCornerCollision(
-  expansions: LandExpansion[],
+  expansions: number,
   boundingBox: BoundingBox
 ) {
   // Mid point coordinates for all land expansions
-  const originCoordinatesForExpansions: Coordinates[] = expansions.map(
-    (_, i) => EXPANSION_ORIGINS[i]
-  );
+  const originCoordinatesForExpansions: Coordinates[] = new Array(expansions)
+    .fill(null)
+    .map((_, i) => EXPANSION_ORIGINS[i]);
 
   /**
    *
@@ -319,19 +311,14 @@ function detectBumpkinCollision(boundingBox: BoundingBox) {
   });
 }
 export function detectCollision(state: GameState, position: Position) {
-  const { expansions } = state;
-  const latestLand = expansions[expansions.length - 1];
-  const completedExpansions = [
-    ...expansions.slice(0, expansions.length - 1),
-    ...(latestLand.readyAt <= Date.now() ? [latestLand] : []),
-  ];
+  const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
   // TODO resource collectoon
 
   return (
-    detectWaterCollision(completedExpansions, position) ||
+    detectWaterCollision(expansions, position) ||
     detectPlaceableCollision(state, position) ||
-    detectLandCornerCollision(completedExpansions, position) ||
+    detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectBumpkinCollision(position)
   );

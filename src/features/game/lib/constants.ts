@@ -5,7 +5,7 @@ import {
   ChickenPosition,
   GameState,
   Inventory,
-  LandExpansion,
+  ExpansionConstruction,
   PlacedItem,
 } from "../types/game";
 
@@ -155,12 +155,12 @@ export const INITIAL_EXPANSION_IRON: GameState["iron"] = {
   },
 };
 
-export const GENESIS_LAND_EXPANSION: LandExpansion = {
+export const GENESIS_LAND_EXPANSION: ExpansionConstruction = {
   createdAt: 1,
   readyAt: 0,
 };
 
-export const INITIAL_EXPANSIONS: LandExpansion[] = [
+export const INITIAL_EXPANSIONS: ExpansionConstruction[] = [
   {
     createdAt: 2,
     readyAt: 0,
@@ -217,6 +217,7 @@ export const TEST_FARM: GameState = {
     "Human War Banner": new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Sunflower Cake": new Decimal(1),
+    "Basic Land": new Decimal(1),
   },
   stock: INITIAL_STOCK(),
   chickens: {},
@@ -243,7 +244,6 @@ export const TEST_FARM: GameState = {
   },
   pumpkinPlaza: {},
   auctioneer: {},
-  expansions: INITIAL_EXPANSIONS,
   buildings: {
     "Fire Pit": [
       {
@@ -389,7 +389,6 @@ export const EMPTY: GameState = {
   chickens: {},
   stock: {},
   stockExpiry: {},
-  expansions: INITIAL_EXPANSIONS,
 
   buildings: {},
   collectibles: {},

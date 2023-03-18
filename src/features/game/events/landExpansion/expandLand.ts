@@ -24,8 +24,7 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("No more land expansions available");
   }
 
-  const previousExpansion = game.expansions[game.expansions.length - 1];
-  if (previousExpansion.readyAt > createdAt) {
+  if (game.expansionConstruction) {
     throw new Error("Player is expanding");
   }
 
@@ -52,13 +51,10 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     game.inventory
   );
 
-  game.expansions = [
-    ...game.expansions,
-    {
-      createdAt,
-      readyAt: createdAt + game.expansionRequirements.seconds * 1000,
-    },
-  ];
+  game.expansionConstruction = {
+    createdAt,
+    readyAt: createdAt + game.expansionRequirements.seconds * 1000,
+  };
 
   return {
     ...game,

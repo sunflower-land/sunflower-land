@@ -60,10 +60,9 @@ export type Positions = Record<number, Record<number, boolean>>;
 
 interface Props {
   plots: GameState["crops"];
-  expansions: GameState["expansions"];
 }
 
-const Renderer: React.FC<Props> = ({ plots, expansions }) => {
+const Renderer: React.FC<Props> = ({ plots }) => {
   const dirtPositions: Positions = {};
   getKeys(plots || {}).forEach((plotId) => {
     const plot = plots[plotId];

@@ -27,8 +27,6 @@ export const UpcomingExpansion: React.FC = () => {
 
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
-  const latestLand = state.expansions[state.expansions.length - 1];
-
   useEffect(() => {
     console.log({ isRevealing, state: gameState.value });
     if (isRevealing && gameState.matches("playing")) {
@@ -54,11 +52,12 @@ export const UpcomingExpansion: React.FC = () => {
 
   const Content = () => {
     // Land is still being built
-    if (state.inventory["Basic Land"]?.lt(state.expansions.length)) {
-      const origin = EXPANSION_ORIGINS[state.expansions.length - 1];
+    if (state.expansionConstruction) {
+      const origin =
+        EXPANSION_ORIGINS[state.inventory["Basic Land"]?.toNumber() ?? 3];
 
       // Being Built
-      if (latestLand.readyAt > Date.now()) {
+      if (state.expansionConstruction.readyAt > Date.now()) {
         return (
           <MapPlacement
             x={origin.x - LAND_SIZE / 2}
@@ -66,7 +65,7 @@ export const UpcomingExpansion: React.FC = () => {
             height={LAND_SIZE}
             width={LAND_SIZE}
           >
-            <Pontoon expansion={latestLand} />
+            <Pontoon expansion={state.expansionConstruction} />
           </MapPlacement>
         );
       }
@@ -112,7 +111,8 @@ export const UpcomingExpansion: React.FC = () => {
       );
     }
 
-    const nextPosition = EXPANSION_ORIGINS[state.expansions.length];
+    const nextPosition =
+      EXPANSION_ORIGINS[state.inventory["Basic Land"]?.toNumber() ?? 0];
 
     return (
       <>

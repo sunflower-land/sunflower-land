@@ -333,7 +333,7 @@ type PlacedTypes<Name extends CollectibleName> = {
 
 export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
 
-export type LandExpansion = {
+export type ExpansionConstruction = {
   createdAt: number;
   readyAt: number;
 };
@@ -407,8 +407,9 @@ export interface GameState {
   fruitPatches: Record<string, FruitPatch>;
   boulders: Record<string, Mine>;
 
-  expansions: LandExpansion[];
+  expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;
+
   bumpkin?: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;

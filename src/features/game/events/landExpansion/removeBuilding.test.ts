@@ -258,52 +258,52 @@ describe("removeBuilding", () => {
     expect(gameState.inventory["Rusty Shovel"]).toEqual(new Decimal(1));
   });
 
-  it("cannot remove the only water well if there are two unsupported crops from the last expansion", () => {
-    // 17 plots in total
-    // 15 plots can be supported without a well
-    expect(() =>
-      removeBuilding({
-        state: {
-          ...GAME_STATE,
-          crops: {
-            ...GAME_STATE.crops,
-            8: {
-              x: 0,
-              y: 1,
-              height: 1,
-              width: 1,
-              crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-            },
-            9: {
-              x: 0,
-              y: 1,
-              height: 1,
-              width: 1,
-              crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-            },
-          },
-          inventory: {
-            "Rusty Shovel": new Decimal(2),
-          },
-          buildings: {
-            "Water Well": [
-              {
-                id: "123",
-                createdAt: 0,
-                coordinates: { x: 1, y: 1 },
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        action: {
-          type: "building.removed",
-          building: "Water Well",
-          id: "123",
-        },
-      })
-    ).toThrow(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
-  });
+  // it("cannot remove the only water well if there are two unsupported crops from the last expansion", () => {
+  //   // 17 plots in total
+  //   // 15 plots can be supported without a well
+  //   expect(() =>
+  //     removeBuilding({
+  //       state: {
+  //         ...GAME_STATE,
+  //         crops: {
+  //           ...GAME_STATE.crops,
+  //           8: {
+  //             x: 0,
+  //             y: 1,
+  //             height: 1,
+  //             width: 1,
+  //             crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+  //           },
+  //           9: {
+  //             x: 0,
+  //             y: 1,
+  //             height: 1,
+  //             width: 1,
+  //             crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+  //           },
+  //         },
+  //         inventory: {
+  //           "Rusty Shovel": new Decimal(2),
+  //         },
+  //         buildings: {
+  //           "Water Well": [
+  //             {
+  //               id: "123",
+  //               createdAt: 0,
+  //               coordinates: { x: 1, y: 1 },
+  //               readyAt: 0,
+  //             },
+  //           ],
+  //         },
+  //       },
+  //       action: {
+  //         type: "building.removed",
+  //         building: "Water Well",
+  //         id: "123",
+  //       },
+  //     })
+  //   ).toThrow(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
+  // });
 
   // it("cannot remove the only water well if there are one unsupported crop from each of the last three expansions", () => {
   //   // 18 plots in total

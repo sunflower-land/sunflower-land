@@ -11,7 +11,7 @@ import {
 } from "../types/craftables";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
-import { GameState, LandExpansion, PlacedItem } from "../types/game";
+import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
@@ -29,10 +29,7 @@ import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 
-type ExpansionProps = Pick<LandExpansion, "createdAt">;
-
 const getIslandElements = ({
-  expansions,
   buildings,
   collectibles,
   chickens,
@@ -41,12 +38,12 @@ const getIslandElements = ({
   iron,
   gold,
   fruitPatches,
-  plots,
+  crops,
   boulders,
   bumpkinParts,
   isEditing,
 }: {
-  expansions: LandExpansion[];
+  expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<string, Chicken>>;
@@ -54,7 +51,7 @@ const getIslandElements = ({
   stones: GameState["stones"];
   iron: GameState["iron"];
   gold: GameState["gold"];
-  plots: GameState["crops"];
+  crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   boulders: GameState["boulders"];
   bumpkinParts: BumpkinParts | undefined;
@@ -263,12 +260,12 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(plots).map((id) => {
-      const { x, y, width, height } = plots[id];
+    ...getKeys(crops).map((id) => {
+      const { x, y, width, height } = crops[id];
 
       return (
         <MapPlacement
-          key={`plots-${id}`}
+          key={`crops-${id}`}
           x={x}
           y={y}
           height={height}
@@ -309,7 +306,7 @@ export const Land: React.FC = () => {
   const { state } = gameState.context;
 
   const {
-    expansions,
+    expansionConstruction,
     buildings,
     collectibles,
     chickens,
@@ -319,7 +316,7 @@ export const Land: React.FC = () => {
     stones,
     iron,
     gold,
-    crops: plots,
+    crops,
     boulders,
     fruitPatches,
   } = state;
@@ -352,13 +349,13 @@ export const Land: React.FC = () => {
         >
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
-          <DirtRenderer plots={plots} expansions={expansions} />
+          <DirtRenderer plots={crops} />
 
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
-            expansions,
+            expansionConstruction,
             buildings,
             collectibles,
             chickens,
@@ -367,7 +364,7 @@ export const Land: React.FC = () => {
             iron,
             gold,
             fruitPatches,
-            plots,
+            crops,
             boulders,
             bumpkinParts: gameState.context.state.bumpkin?.equipped,
             isEditing,

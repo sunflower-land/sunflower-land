@@ -47,9 +47,10 @@ export function makeGame(farm: any): GameState {
           })),
         }
       : undefined,
-    tradedAt: farm.tradedAt,
-    expansions: farm.expansions,
+
+    expansionConstruction: farm.expansionConstruction,
     expansionRequirements: farm.expansionRequirements,
+
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     airdrops: farm.airdrops,
@@ -61,13 +62,14 @@ export function makeGame(farm: any): GameState {
     dailyRewards: farm.dailyRewards,
     auctioneer: farm.auctioneer ?? {},
     hayseedHank: farm.hayseedHank,
+    tradedAt: farm.tradedAt,
 
     trees: farm.trees,
     stones: farm.stones,
     iron: farm.iron,
     gold: farm.gold,
     boulders: farm.boulders,
-    crops: farm.plots,
+    crops: farm.crops,
     fruitPatches: farm.fruitPatches,
   };
 }
