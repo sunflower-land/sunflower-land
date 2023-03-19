@@ -14,6 +14,7 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { Loading } from "features/auth/components";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -182,9 +183,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("unlocking")) {
       return (
         <Panel>
-          <div className=" p-2">
-            <p className="loading">Unlocking</p>
-          </div>
+          <Loading text="Unlocking" />
         </Panel>
       );
     }
@@ -192,9 +191,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("loading")) {
       return (
         <Panel>
-          <div className=" p-2">
-            <p className="loading">Loading</p>
-          </div>
+          <Loading />
         </Panel>
       );
     }

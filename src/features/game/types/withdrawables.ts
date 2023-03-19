@@ -1,7 +1,7 @@
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { CROPS, CROP_SEEDS } from "./crops";
-import { FRUIT } from "./fruits";
+import { FRUIT, FruitName } from "./fruits";
 import {
   EASTER_EGGS,
   Inventory,
@@ -110,6 +110,14 @@ function areAnyTreasureHolesDug(game: GoblinState): boolean {
 
     return new Date(hole.dugAt).toISOString().substring(0, 10) == today;
   });
+}
+
+function areFruitsGrowing(game: GoblinState, fruit: FruitName): boolean {
+  return Object.values(game.expansions).some((expansion) =>
+    Object.values(expansion.fruitPatches ?? {}).some(
+      (patch) => patch.fruit?.name === fruit
+    )
+  );
 }
 
 function hasCompletedAchievement(
@@ -234,8 +242,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "War Skull": true,
   "War Tombstone": true,
   "Maneki Neko": true,
-  "Black Bearry": true,
-  "Squirrel Monkey": false,
   "Lady Bug": false,
   "Cyborg Bear": true,
   "Heart Balloons": true,
@@ -269,6 +275,9 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
   "Heart of Davy Jones": (game) => !areAnyTreasureHolesDug(game),
+  "Iron Idol": (game) => !areAnyIronsMined(game),
+  "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
+  "Black Bearry": (game) => !areFruitsGrowing(game, "Blueberry"),
 
   "Pirate Bounty": false,
   Pearl: false,
@@ -299,7 +308,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Human Bear": false,
   "Wooden Compass": false,
   "Whale Bear": true,
-  "Iron Idol": false,
 
   // Seasonal items
   "Beach Ball": false,
