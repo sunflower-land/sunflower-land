@@ -261,6 +261,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
+
+  "Dirt Path": () => null,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({

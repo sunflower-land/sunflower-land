@@ -4,12 +4,18 @@ import { BuildingName } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
+import { Inventory } from "features/game/types/game";
+import Decimal from "decimal.js-light";
 
 export interface Context {
   placeable: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
 }
 
 type UpdateEvent = {
@@ -74,13 +80,15 @@ export const editingMachine = createMachine<
         PLACE: {
           target: "placed",
           actions: sendParent(
-            ({ placeable, action, coordinates: { x, y } }) =>
-              ({
+            ({ placeable, action, coordinates: { x, y } }) => {
+              console.log({ send: action });
+              return {
                 type: action,
                 name: placeable,
                 coordinates: { x, y },
                 id: uuidv4(),
-              } as PlacementEvent)
+              } as PlacementEvent;
+            }
           ),
         },
       },

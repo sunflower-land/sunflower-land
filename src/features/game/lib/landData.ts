@@ -49,6 +49,8 @@ const INITIAL_STOCK: Inventory = {
   "Golden Bean": new Decimal(5),
 
   "Immortal Pear": new Decimal(1),
+
+  "Dirt Path": new Decimal(1000),
 };
 
 const INITIAL_EXPANSIONS: LandExpansion[] = [

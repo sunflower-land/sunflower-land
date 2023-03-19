@@ -336,6 +336,7 @@ import drill from "assets/icons/drill.png";
 import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
 import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
+import dirt from "assets/sfts/dirt_path.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1901,5 +1902,9 @@ export const ITEM_DETAILS: Items = {
   Karkinos: {
     image: karkinos,
     description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
+  },
+  "Dirt Path": {
+    image: dirt,
+    description: "?",
   },
 };

@@ -148,7 +148,6 @@ export type PlayingEvent =
   | FulFillGrubOrderAction
   | LandExpansionFeedChickenAction
   | CraftToolAction
-  | buyDecorationAction
   | SellCropAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
@@ -171,6 +170,7 @@ export type PlacementEvent =
   | ConstructBuildingAction
   | PlaceBuildingAction
   | PlaceCollectibleAction
+  | buyDecorationAction
   | BuyChickenAction
   | PlaceChickenAction;
 
@@ -211,7 +211,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "grubOrder.fulfilled": fulfillGrubOrder,
   "chicken.fed": LandExpansionFeedChicken,
   "tool.crafted": craftTool,
-  "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
@@ -236,6 +235,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "collectible.placed": placeCollectible,
   "chicken.bought": buyChicken,
   "chicken.placed": placeChicken,
+  "decoration.bought": buyDecoration,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

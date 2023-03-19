@@ -10,7 +10,12 @@ import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
   type: "decoration.bought";
-  item: ShopDecorationName;
+  name: ShopDecorationName;
+  id: string;
+  coordinates: {
+    x: number;
+    y: number;
+  };
 };
 
 type Options = {
@@ -20,8 +25,9 @@ type Options = {
 
 export function buyDecoration({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
-  const { item } = action;
-  const desiredItem = HELIOS_DECORATIONS()[item];
+  console.log("BUY!");
+  const { name } = action;
+  const desiredItem = HELIOS_DECORATIONS()[name];
 
   if (!desiredItem) {
     throw new Error("This item is not a decoration");
@@ -57,7 +63,7 @@ export function buyDecoration({ state, action }: Options) {
     stateCopy.inventory
   );
 
-  const oldAmount = stateCopy.inventory[item] ?? new Decimal(0);
+  const oldAmount = stateCopy.inventory[name] ?? new Decimal(0);
 
   bumpkin.activity = trackActivity(
     "SFL Spent",
@@ -65,10 +71,18 @@ export function buyDecoration({ state, action }: Options) {
     totalExpenses ?? new Decimal(0)
   );
   bumpkin.activity = trackActivity(
-    `${item} Bought`,
+    `${name} Bought`,
     bumpkin?.activity,
     new Decimal(1)
   );
+
+  const previous = stateCopy.collectibles[name] ?? [];
+  stateCopy.collectibles[name] = previous.concat({
+    id: action.id,
+    coordinates: { x: action.coordinates.x, y: action.coordinates.y },
+    readyAt: Date.now(),
+    createdAt: Date.now(),
+  });
 
   return {
     ...stateCopy,
@@ -78,7 +92,7 @@ export function buyDecoration({ state, action }: Options) {
     inventory: {
       ...stateCopy.inventory,
       ...subtractedInventory,
-      [item]: oldAmount.add(1) as Decimal,
+      [name]: oldAmount.add(1) as Decimal,
     },
   };
 }

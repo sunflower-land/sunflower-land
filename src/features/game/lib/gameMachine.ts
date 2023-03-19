@@ -17,7 +17,7 @@ import {
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -50,6 +50,7 @@ import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
+import Decimal from "decimal.js-light";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -98,6 +99,10 @@ type SyncEvent = {
 type EditEvent = {
   placeable: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
   type: "EDIT";
 };
 
@@ -934,6 +939,8 @@ export function startGame(authContext: Options) {
               action: (_: Context, event: EditEvent) => event.action,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
+              requirements: (_: Context, event: EditEvent) =>
+                event.requirements,
             },
             onDone: {
               target: "playing",
