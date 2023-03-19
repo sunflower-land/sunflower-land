@@ -26,6 +26,7 @@ type UpdateEvent = {
 
 type PlaceEvent = {
   type: "PLACE";
+  hasMore: boolean;
 };
 
 type ConstructEvent = {
@@ -77,35 +78,51 @@ export const editingMachine = createMachine<
         DRAG: {
           target: "dragging",
         },
-        PLACE: {
-          target: "placed",
-          // TODO: If they have more to place?
-          cond: (_, e) => {
-            return true;
-            // return !!e.hasMore;
+        PLACE: [
+          {
+            target: "idle",
+            // TODO: If they have more to place?
+            cond: (_, e) => {
+              return true;
+              // return !!e.hasMore;
+            },
+            actions: [
+              sendParent(
+                ({ placeable, action, coordinates: { x, y } }) =>
+                  ({
+                    type: action,
+                    name: placeable,
+                    coordinates: { x, y },
+                    id: uuidv4(),
+                  } as PlacementEvent)
+              ),
+              assign({
+                coordinates: (context) => {
+                  return {
+                    x: context.coordinates.x,
+                    y: context.coordinates.y - 1,
+                  };
+                },
+                // TODO proper detection
+                collisionDetected: (c) => true,
+              }),
+            ],
           },
-          actions: [
-            sendParent(
-              ({ placeable, action, coordinates: { x, y } }) =>
-                ({
-                  type: action,
-                  name: placeable,
-                  coordinates: { x, y },
-                  id: uuidv4(),
-                } as PlacementEvent)
-            ),
-            assign({
-              coordinates: (context) => {
-                return {
-                  x: context.coordinates.x,
-                  y: context.coordinates.y - 1,
-                };
-              },
-              // TODO proper detection
-              collisionDetected: (c) => true,
-            }),
-          ],
-        },
+          {
+            target: "placed",
+            actions: [
+              sendParent(
+                ({ placeable, action, coordinates: { x, y } }) =>
+                  ({
+                    type: action,
+                    name: placeable,
+                    coordinates: { x, y },
+                    id: uuidv4(),
+                  } as PlacementEvent)
+              ),
+            ],
+          },
+        ],
       },
     },
     dragging: {
