@@ -34,6 +34,12 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
       style={{ width: `${PIXEL_SCALE * 22}px` }}
     />
   ),
+  // Fence: () => (
+  //   <img
+  //     src={ITEM_DETAILS["Fence"].image}
+  //     style={{ width: `${PIXEL_SCALE * 22}px` }}
+  //   />
+  // ),
 };
 
 // TODO - get dynamic bounds for placeable
@@ -86,14 +92,12 @@ export const Placeable: React.FC = () => {
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable } = machine.context;
-  const item = {
+  const { placeable, coordinates } = machine.context;
+  const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
     ...ANIMAL_DIMENSIONS,
   }[placeable];
-
-  const { width, height } = item;
 
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision(gameService.state.context.state, {
@@ -137,6 +141,10 @@ export const Placeable: React.FC = () => {
           defaultPosition={{
             x: DEFAULT_POSITION_X,
             y: DEFAULT_POSITION_Y,
+          }}
+          position={{
+            x: DEFAULT_POSITION_X + coordinates.x * GRID_WIDTH_PX,
+            y: DEFAULT_POSITION_Y - coordinates.y * GRID_WIDTH_PX,
           }}
           nodeRef={nodeRef}
           grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
@@ -194,7 +202,9 @@ export const Placeable: React.FC = () => {
                 height: `${height * GRID_WIDTH_PX}px`,
               }}
             >
-              {PLACEABLES[placeable]({})}
+              {PLACEABLES[placeable]({
+                coordinates,
+              })}
             </div>
           </div>
         </Draggable>

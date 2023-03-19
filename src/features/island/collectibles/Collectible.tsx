@@ -114,12 +114,17 @@ import { ValentineBear } from "./components/ValentineBear";
 import { BeachBall } from "./components/BeachBall";
 import { PalmTree } from "./components/PalmTree";
 import { Karkinos } from "./components/Karkinos";
+import { Bush } from "./components/Bush";
+import { Shrub } from "./components/Shrub";
+import { Fence } from "./components/Fence";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export interface CollectibleProps {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
+  coordinates: Coordinates;
 }
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
@@ -263,6 +268,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Karkinos: Karkinos,
 
   "Dirt Path": () => null,
+  Fence: Fence,
+  Bush: Bush,
+  Shrub: Shrub,
 };
 
 export const Collectible: React.FC<CollectibleProps> = ({
@@ -270,6 +278,7 @@ export const Collectible: React.FC<CollectibleProps> = ({
   id,
   readyAt,
   createdAt,
+  coordinates,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const { showTimers } = useContext(Context);
@@ -302,6 +311,7 @@ export const Collectible: React.FC<CollectibleProps> = ({
               id={id}
               name={name}
               readyAt={readyAt}
+              coordinates={coordinates}
             />
           </div>
           {showTimers && (
@@ -365,6 +375,7 @@ export const Collectible: React.FC<CollectibleProps> = ({
             id={id}
             name={name}
             readyAt={readyAt}
+            coordinates={coordinates}
           />
         </div>
       </div>

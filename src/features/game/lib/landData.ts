@@ -243,6 +243,26 @@ const INITIAL_EXPANSIONS: LandExpansion[] = [
       },
     },
   },
+  {
+    createdAt: 0,
+    readyAt: 0,
+  },
+  {
+    createdAt: 0,
+    readyAt: 0,
+  },
+  {
+    createdAt: 0,
+    readyAt: 0,
+  },
+  {
+    createdAt: 0,
+    readyAt: 0,
+  },
+  {
+    createdAt: 0,
+    readyAt: 0,
+  },
 ];
 
 const INITIAL_BUMPKIN: Bumpkin = {
@@ -270,7 +290,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
-  balance: new Decimal(10),
+  balance: new Decimal(1000),
   inventory: {
     Artist: new Decimal(1),
     Sunflower: new Decimal(2999),

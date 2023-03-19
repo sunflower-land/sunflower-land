@@ -35,6 +35,7 @@ import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Hud } from "features/island/hud/Hud";
+import { getGameGrid } from "./placeable/lib/makeGrid";
 
 type ExpansionProps = Pick<
   LandExpansion,
@@ -336,6 +337,7 @@ const getIslandElements = ({
                 id={id}
                 readyAt={readyAt}
                 createdAt={createdAt}
+                coordinates={coordinates}
               />
             </MapPlacement>
           );
@@ -395,6 +397,8 @@ export const Land: React.FC = () => {
     setIsEditing(gameState.matches("editing"));
   }, [gameState.value]);
 
+  const gameGrid = getGameGrid(gameState.context.state);
+
   const boatCoordinates = {
     x: expandedCount >= 7 ? -9 : -2,
     y: expandedCount >= 7 ? -10.5 : -4.5,
@@ -410,9 +414,7 @@ export const Land: React.FC = () => {
         >
           <LandBase expandedCount={expandedCount} />
           <UpcomingExpansion gameState={state} />
-          <DirtRenderer
-            expansions={expansions.filter((e) => e.readyAt < Date.now())}
-          />
+          <DirtRenderer grid={gameGrid} />
 
           <Water level={expandedCount} />
 

@@ -337,6 +337,9 @@ import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
 import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
 import dirt from "assets/sfts/dirt_path.png";
+import bush from "assets/decorations/bush.png";
+import shrub from "assets/decorations/shrub.png";
+import fence from "assets/decorations/fence.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1905,6 +1908,18 @@ export const ITEM_DETAILS: Items = {
   },
   "Dirt Path": {
     image: dirt,
+    description: "?",
+  },
+  Bush: {
+    image: bush,
+    description: "?",
+  },
+  Fence: {
+    image: fence,
+    description: "?",
+  },
+  Shrub: {
+    image: shrub,
     description: "?",
   },
 };

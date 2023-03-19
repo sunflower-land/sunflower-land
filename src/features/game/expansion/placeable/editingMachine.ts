@@ -6,6 +6,7 @@ import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import { Inventory } from "features/game/types/game";
 import Decimal from "decimal.js-light";
+import { detectCollision } from "./lib/collisionDetection";
 
 export interface Context {
   placeable: BuildingName | CollectibleName;
@@ -26,7 +27,8 @@ type UpdateEvent = {
 
 type PlaceEvent = {
   type: "PLACE";
-  hasMore: boolean;
+  nextPosition?: Coordinates;
+  willCollide?: boolean;
 };
 
 type ConstructEvent = {
@@ -61,6 +63,7 @@ export const editingMachine = createMachine<
 >({
   id: "placeableMachine",
   initial: "idle",
+  preserveActionOrder: true,
   on: {
     CANCEL: {
       target: "close",
@@ -81,10 +84,8 @@ export const editingMachine = createMachine<
         PLACE: [
           {
             target: "idle",
-            // TODO: If they have more to place?
             cond: (_, e) => {
-              return true;
-              // return !!e.hasMore;
+              return !!e.nextPosition;
             },
             actions: [
               sendParent(
@@ -97,14 +98,8 @@ export const editingMachine = createMachine<
                   } as PlacementEvent)
               ),
               assign({
-                coordinates: (context) => {
-                  return {
-                    x: context.coordinates.x,
-                    y: context.coordinates.y - 1,
-                  };
-                },
-                // TODO proper detection
-                collisionDetected: (c) => true,
+                coordinates: (_, e) => e.nextPosition as Coordinates,
+                collisionDetected: (_, e) => !!e.willCollide,
               }),
             ],
           },
