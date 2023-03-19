@@ -79,17 +79,32 @@ export const editingMachine = createMachine<
         },
         PLACE: {
           target: "placed",
-          actions: sendParent(
-            ({ placeable, action, coordinates: { x, y } }) => {
-              console.log({ send: action });
-              return {
-                type: action,
-                name: placeable,
-                coordinates: { x, y },
-                id: uuidv4(),
-              } as PlacementEvent;
-            }
-          ),
+          // TODO: If they have more to place?
+          cond: (_, e) => {
+            return true;
+            // return !!e.hasMore;
+          },
+          actions: [
+            sendParent(
+              ({ placeable, action, coordinates: { x, y } }) =>
+                ({
+                  type: action,
+                  name: placeable,
+                  coordinates: { x, y },
+                  id: uuidv4(),
+                } as PlacementEvent)
+            ),
+            assign({
+              coordinates: (context) => {
+                return {
+                  x: context.coordinates.x,
+                  y: context.coordinates.y - 1,
+                };
+              },
+              // TODO proper detection
+              collisionDetected: (c) => true,
+            }),
+          ],
         },
       },
     },
