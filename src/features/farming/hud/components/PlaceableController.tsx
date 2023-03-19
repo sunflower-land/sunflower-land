@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -18,10 +18,13 @@ import {
 } from "features/game/types/craftables";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
   const child = gameService.state.children.editing as MachineInterpreter;
+
+  const lastPlaced = useRef<Coordinates>();
 
   const [
     {
@@ -73,9 +76,21 @@ export const PlaceableController: React.FC = () => {
       ...ANIMAL_DIMENSIONS,
     }[placeable];
 
+    // Try predict which direction they will want to place, default to down
+    let direction = { x: 0, y: 1 };
+    if (lastPlaced.current) {
+      if (lastPlaced.current.x < coordinates.x) {
+        direction = { x: 1, y: 0 };
+      } else if (lastPlaced.current.x > coordinates.x) {
+        direction = { x: -1, y: 0 };
+      } else if (lastPlaced.current.y < coordinates.y) {
+        direction = { x: 0, y: -1 };
+      }
+    }
+
     const nextPosition = {
-      x: coordinates.x,
-      y: coordinates.y - height,
+      x: coordinates.x + direction.x,
+      y: coordinates.y - height * direction.y,
     };
 
     send({
@@ -87,6 +102,8 @@ export const PlaceableController: React.FC = () => {
         height,
       }),
     });
+
+    lastPlaced.current = coordinates;
   };
 
   const handleCancelPlacement = () => {

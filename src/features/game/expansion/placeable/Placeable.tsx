@@ -115,9 +115,17 @@ export const Placeable: React.FC = () => {
   const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] = getInitialCoordinates();
 
   useEffect(() => {
+    console.log({ DEFAULT_POSITION_X, DEFAULT_POSITION_Y });
     detect({
       x: Math.round(DEFAULT_POSITION_X / GRID_WIDTH_PX),
       y: Math.round(-DEFAULT_POSITION_Y / GRID_WIDTH_PX),
+    });
+
+    window.addEventListener("resize", () => {
+      detect({
+        x: Math.round(DEFAULT_POSITION_X / GRID_WIDTH_PX),
+        y: Math.round(-DEFAULT_POSITION_Y / GRID_WIDTH_PX),
+      });
     });
   }, []);
 
