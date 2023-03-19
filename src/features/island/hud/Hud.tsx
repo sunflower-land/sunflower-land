@@ -16,6 +16,7 @@ import { DepositArgs } from "lib/blockchain/Deposit";
 import Modal from "react-bootstrap/esm/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
+import { CraftItems } from "./components/craft/CraftItems";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -50,6 +51,7 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       className="absolute z-40"
     >
       <div hidden={isEditing}>
+        <CraftItems state={gameState.context.state} />
         <Inventory
           state={gameState.context.state}
           shortcutItem={shortcutItem}

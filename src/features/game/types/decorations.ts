@@ -24,7 +24,8 @@ export type ShopDecorationName =
   | "Potted Potato"
   | "Potted Pumpkin"
   | "Cactus"
-  | "Basic Bear";
+  | "Basic Bear"
+  | "Dirt Path";
 
 export type EventDecorationName = "Valentine Bear";
 
@@ -184,6 +185,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
     width: 1,
   },
+  "Dirt Path": {
+    width: 1,
+    height: 1,
+  },
 };
 
 export type Decoration = {
@@ -192,6 +197,7 @@ export type Decoration = {
   description: string;
   // If no SFL it is not available for purchase
   sfl?: Decimal;
+  type: "terrain" | "object";
 };
 
 export const HELIOS_DECORATIONS: () => Record<
@@ -203,6 +209,7 @@ export const HELIOS_DECORATIONS: () => Record<
     sfl: marketRate(20),
     ingredients: {},
     description: "Keep the smell of goblins away.",
+    type: "object",
   },
   "Potted Sunflower": {
     name: "Potted Sunflower",
@@ -211,6 +218,7 @@ export const HELIOS_DECORATIONS: () => Record<
       Sunflower: new Decimal(100),
     },
     description: "Brighten up your land.",
+    type: "object",
   },
   "Potted Potato": {
     name: "Potted Potato",
@@ -219,6 +227,7 @@ export const HELIOS_DECORATIONS: () => Record<
       Potato: new Decimal(200),
     },
     description: "Potato blood runs through your Bumpkin.",
+    type: "object",
   },
   "Potted Pumpkin": {
     name: "Potted Pumpkin",
@@ -227,17 +236,27 @@ export const HELIOS_DECORATIONS: () => Record<
       Pumpkin: new Decimal(200),
     },
     description: "Pumpkins for Bumpkins",
+    type: "object",
   },
   Cactus: {
     name: "Cactus",
     sfl: marketRate(20),
     ingredients: {},
     description: "Saves water and makes your farm look stunning!",
+    type: "object",
   },
   "Basic Bear": {
     name: "Basic Bear",
     sfl: marketRate(50),
     ingredients: {},
     description: "A basic bear. Use this at Goblin Retreat to build a bear!",
+    type: "object",
+  },
+  "Dirt Path": {
+    name: "Dirt Path",
+    sfl: marketRate(50),
+    ingredients: {},
+    description: "A dirt path",
+    type: "terrain",
   },
 });
