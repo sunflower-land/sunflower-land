@@ -2,7 +2,6 @@ import {
   areUnsupportedChickensBrewing,
   removeUnsupportedCrops,
 } from "features/game/events/landExpansion/removeBuilding";
-import { removeItem } from "features/game/events/landExpansion/utils";
 import { PlaceableName } from "features/game/types/buildings";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -22,23 +21,26 @@ export const isRemovable = (
   if (name === "Hen House" || name === "Water Well") {
     const stateCopy = cloneDeep(gameState);
     const buildingGroup = stateCopy.buildings[name];
+
     if (!buildingGroup) {
       return false;
     }
 
-    const buildingIndex = buildingGroup?.findIndex(
-      (building) => building.id == placeableId
+    const buildingToRemove = buildingGroup.find(
+      (building) => building.id === placeableId
     );
-    if (buildingIndex === -1) {
+
+    if (!buildingToRemove) {
       return false;
     }
 
-    stateCopy.buildings[name] = removeItem(
-      buildingGroup,
-      buildingGroup[buildingIndex]
+    stateCopy.buildings[name] = buildingGroup.filter(
+      (building) => building.id !== buildingToRemove.id
     );
 
-    if (name === "Hen House") return !areUnsupportedChickensBrewing(stateCopy);
+    if (name === "Hen House") {
+      return !areUnsupportedChickensBrewing(stateCopy);
+    }
 
     const { hasUnsupportedCrops } = removeUnsupportedCrops(stateCopy);
     return !hasUnsupportedCrops;
@@ -47,21 +49,23 @@ export const isRemovable = (
   if (name === "Chicken Coop") {
     const stateCopy = cloneDeep(gameState);
     const collectibleGroup = stateCopy.collectibles[name];
+
     if (!collectibleGroup) {
       return false;
     }
 
-    const buildingIndex = collectibleGroup?.findIndex(
-      (collectible) => collectible.id == placeableId
+    const collectibleToRemove = collectibleGroup.find(
+      (collectible) => collectible.id === placeableId
     );
-    if (buildingIndex === -1) {
+
+    if (!collectibleToRemove) {
       return false;
     }
 
-    stateCopy.collectibles[name] = removeItem(
-      collectibleGroup,
-      collectibleGroup[buildingIndex]
+    stateCopy.collectibles[name] = collectibleGroup.filter(
+      (collectible) => collectible.id !== collectibleToRemove.id
     );
+
     return !areUnsupportedChickensBrewing(stateCopy);
   }
 
