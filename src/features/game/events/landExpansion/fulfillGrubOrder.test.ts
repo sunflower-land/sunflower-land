@@ -1,7 +1,10 @@
 import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import {
+  getSeasonalTicket,
+  SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER,
+} from "features/game/types/seasons";
 import { fulfillGrubOrder } from "./fulfillGrubOrder";
 import * as config from "lib/config";
 
@@ -452,6 +455,8 @@ describe("fulfillGrubOrder", () => {
       },
     ]);
     const ticket = getSeasonalTicket();
-    expect(state.inventory[ticket]).toEqual(new Decimal(1));
+    expect(state.inventory[ticket]).toEqual(
+      new Decimal(SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER)
+    );
   });
 });

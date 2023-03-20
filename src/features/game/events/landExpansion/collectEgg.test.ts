@@ -10,6 +10,8 @@ describe("collect eggs", () => {
     jest.useFakeTimers();
   });
 
+  const dateNow = Date.now();
+
   it("throws an error if chicken does not exist", () => {
     expect(() =>
       collectEggs({
@@ -27,7 +29,7 @@ describe("collect eggs", () => {
           inventory: { Chicken: new Decimal(1) },
           chickens: {
             0: {
-              fedAt: Date.now(),
+              fedAt: dateNow,
               multiplier: 1,
             },
           },
@@ -43,7 +45,7 @@ describe("collect eggs", () => {
       inventory: { Chicken: new Decimal(1) },
       chickens: {
         0: {
-          fedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+          fedAt: dateNow - 3 * 24 * 60 * 60 * 1000,
           multiplier: 1,
         },
       },
@@ -66,11 +68,11 @@ describe("collect eggs", () => {
       inventory: { Chicken: new Decimal(2) },
       chickens: {
         0: {
-          fedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+          fedAt: dateNow - 3 * 24 * 60 * 60 * 1000,
           multiplier: 1,
         },
         1: {
-          fedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+          fedAt: dateNow - 3 * 24 * 60 * 60 * 1000,
           multiplier: 1,
         },
       },
@@ -101,7 +103,7 @@ describe("collect eggs", () => {
       inventory: { Chicken: new Decimal(2) },
       chickens: {
         0: {
-          fedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+          fedAt: dateNow - 3 * 24 * 60 * 60 * 1000,
           multiplier: 1,
           reward: {
             items: [
@@ -129,7 +131,7 @@ describe("collect eggs", () => {
       inventory: { Chicken: new Decimal(2) },
       chickens: {
         0: {
-          fedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+          fedAt: dateNow - 3 * 24 * 60 * 60 * 1000,
           multiplier: 1,
           reward: {
             items: [
@@ -157,7 +159,7 @@ describe("collect eggs", () => {
       inventory: { Chicken: new Decimal(2) },
       chickens: {
         0: {
-          fedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+          fedAt: dateNow - 3 * 24 * 60 * 60 * 1000,
           multiplier: 1,
           reward: {
             items: [
@@ -177,5 +179,29 @@ describe("collect eggs", () => {
     });
 
     expect(newState.inventory["Rich Chicken"]).toStrictEqual(new Decimal(1));
+  });
+  it("increments the Egg Collected activity ", () => {
+    const state = {
+      ...GAME_STATE,
+      inventory: { Chicken: new Decimal(1) },
+      chickens: {
+        0: {
+          fedAt: dateNow - 3 * 24 * 60 * 60 * 1000,
+          multiplier: 1,
+        },
+      },
+      skills: {
+        farming: new Decimal(0),
+        gathering: new Decimal(0),
+      },
+    };
+
+    const newState = collectEggs({
+      state,
+      action: { type: "chicken.collectEgg", id: "0" },
+      createdAt: dateNow,
+    });
+
+    expect(newState.bumpkin?.activity?.["Egg Collected"]).toEqual(1);
   });
 });

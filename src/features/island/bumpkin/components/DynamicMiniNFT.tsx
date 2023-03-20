@@ -42,6 +42,7 @@ import devilWings from "assets/npc-layers/devil_wings.png";
 import stripedShirt from "assets/npc-layers/pirate_striped_shirt.png";
 import pirateLeatherPolo from "assets/npc-layers/pirate_leather_polo.png";
 import hawaiianShirt from "assets/npc-layers/hawaiian_shirt.png";
+import lifeGuardShirt from "assets/npc-layers/life_saver_shirt.png";
 
 // Pants
 import farmerPants from "assets/npc-layers/farmer_pants.png";
@@ -51,14 +52,21 @@ import fancyPants from "assets/npc-layers/fancy_pants.png";
 import warriorPants from "assets/npc-layers/warrior_pants.png";
 import skirt from "assets/npc-layers/skirt.png";
 import piratePants from "assets/npc-layers/pirate_pants.png";
+import lifeGuardPants from "assets/npc-layers/life_saver_pants.png";
 
 // Dress
 import cupidDress from "assets/npc-layers/cupid_dress.png";
+import beachSarong from "assets/npc-layers/blue_sarong.png";
+import tropicalSarong from "assets/npc-layers/orange_sarong.png";
 
 // Hats
 import lionDanceMask from "assets/npc-layers/lion_dance_mask.png";
 import pirateHat from "assets/npc-layers/pirate_hat.png";
 import reindeerAntlers from "assets/npc-layers/reindeer_antlers.png";
+import skullHat from "assets/npc-layers/skull_hat.png";
+import lifeguardHat from "assets/npc-layers/life_saver_hat.png";
+import sleepOtter from "assets/npc-layers/sleepy_otter.png";
+import stPatricksHat from "assets/npc-layers/st_patricks_hat.png";
 
 // Coats
 import pirateGeneralCoat from "assets/npc-layers/pirate_general_coat.png";
@@ -66,9 +74,9 @@ import pirateGeneralCoat from "assets/npc-layers/pirate_general_coat.png";
 // Onesie
 import snowman from "assets/npc-layers/snowman-onesie.png";
 import sharkOnesie from "assets/npc-layers/shark-onesie.png";
-import frogOnesie from "assets/npc-layers/frog-onesie.png";
-import bearOnesie from "assets/npc-layers/bear-onesie.png";
-import tigerOnesie from "assets/npc-layers/tiger-onesie.png";
+import frogOnesie from "assets/npc-layers/frog_onesie.png";
+import bearOnesie from "assets/npc-layers/bear_onesie.png";
+import tigerOnesie from "assets/npc-layers/tiger_onesie.png";
 
 import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
 import fruitShirt from "assets/npc-layers/fruit_shirt.png";
@@ -152,6 +160,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Fruit Picker Shirt": fruitShirt,
   "Striped Blue Shirt": stripedShirt,
   "Pirate Leather Polo": pirateLeatherPolo,
+  "Lifeguard Shirt": lifeGuardShirt,
 
   // Pants
   "Farmer Overalls": blueOveralls,
@@ -164,6 +173,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Peasant Skirt": skirt,
   "Warrior Pants": warriorPants,
   "Pirate Pants": piratePants,
+  "Lifeguard Pants": lifeGuardPants,
 
   // Suits
   "Reindeer Suit": reindeerSuit,
@@ -176,6 +186,10 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Reindeer Antlers": reindeerAntlers,
   "Fruit Bowl": fruitHat,
   "Pirate Hat": pirateHat,
+  "Lifeguard Hat": lifeguardHat,
+  "Skull Hat": skullHat,
+  "Sleeping Otter": sleepOtter,
+  "St Patricks Hat": stPatricksHat,
 
   // Onesie
   "Snowman Onesie": snowman,
@@ -187,6 +201,8 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
 
   "Cupid Hair": cupidHair,
   "Cupid Dress": cupidDress,
+  "Beach Sarong": beachSarong,
+  "Tropical Sarong": tropicalSarong,
 
   "Hawaiian Shirt": hawaiianShirt,
   "Bear Onesie": bearOnesie,

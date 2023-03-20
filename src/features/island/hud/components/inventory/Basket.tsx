@@ -15,7 +15,7 @@ import { getBasketItems } from "./utils/inventory";
 import { RESOURCES } from "features/game/types/resources";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { BEANS } from "features/game/types/beans";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT, FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
@@ -26,6 +26,7 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BEACH_BOUNTY_TREASURE } from "features/game/types/treasure";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
+import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 
 interface Prop {
   gameState: GameState;
@@ -63,7 +64,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const getHarvestTime = (seedName: SeedName) => {
     if (isFruitSeed(selected)) {
-      return SEEDS()[seedName].plantSeconds;
+      return getFruitTime(seedName as FruitSeedName, collectibles);
     }
 
     const crop = SEEDS()[seedName].yield as CropName;

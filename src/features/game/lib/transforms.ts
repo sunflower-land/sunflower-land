@@ -36,10 +36,6 @@ export function makeGame(farm: any): GameState {
     ),
     chickens: farm.chickens || {},
     stockExpiry: farm.stockExpiry || {},
-    skills: {
-      farming: new Decimal(farm.skills.farming),
-      gathering: new Decimal(farm.skills.gathering),
-    },
     balance: new Decimal(farm.balance),
     id: farm.id,
     tradeOffer: farm.tradeOffer
@@ -86,6 +82,7 @@ export function makeGame(farm: any): GameState {
     pumpkinPlaza: farm.pumpkinPlaza,
     dailyRewards: farm.dailyRewards,
     auctioneer: farm.auctioneer ?? {},
+    hayseedHank: farm.hayseedHank,
   };
 }
 
@@ -240,7 +237,6 @@ export function updateGame(
     return {
       ...oldGameState,
       treasureIsland: newGameState.treasureIsland,
-      skills: newGameState.skills,
       chickens: newGameState.chickens,
       expansions: updateExpansions(
         oldGameState.expansions,

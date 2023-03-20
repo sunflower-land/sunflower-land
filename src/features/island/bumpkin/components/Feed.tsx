@@ -61,8 +61,6 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
       icon: ITEM_DETAILS[food.name].image,
       content: `-1`,
     });
-
-    shortcutItem(food.name);
   };
 
   if (!selected) {

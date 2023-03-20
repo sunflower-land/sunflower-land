@@ -17,8 +17,7 @@ export const NoBumpkin: React.FC = () => {
           your land.
         </p>
         <p className="text-sm my-2">
-          All accounts come with a free Bumpkin. If you misplaced your Bumpkin,
-          you can mint one below:
+          If you misplaced your Bumpkin, you can mint one below:
         </p>
         <p className="text-xs sm:text-sm text-shadow text-white p-1">
           <a

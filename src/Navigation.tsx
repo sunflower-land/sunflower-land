@@ -20,6 +20,7 @@ import { CONFIG } from "lib/config";
 import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
+import { wallet } from "lib/blockchain/wallet";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -57,8 +58,12 @@ export const Navigation: React.FC = () => {
         provider.on("chainChanged", () => {
           send("CHAIN_CHANGED");
         });
-        provider.on("accountsChanged", function () {
-          send("ACCOUNT_CHANGED");
+        provider.on("accountsChanged", function (accounts: string[]) {
+          // Metamask Mobile accidentally triggers this on route changes
+          const didChange = accounts[0] !== wallet.myAccount;
+          if (didChange) {
+            send("ACCOUNT_CHANGED");
+          }
         });
       } else if (provider.givenProvider) {
         provider.givenProvider.on("chainChanged", () => {

@@ -24,7 +24,7 @@ export function restock({ state, action }: Options): GameState {
     throw new Error("You do not have enough Block Bucks");
   }
 
-  game.stock = INITIAL_STOCK;
+  game.stock = INITIAL_STOCK(state);
   game.inventory["Block Buck"] = blockBucks.sub(1);
 
   return game;

@@ -27,11 +27,12 @@ import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin, Inventory } from "features/game/types/game";
-import { FRUIT } from "features/game/types/fruits";
+import { FRUIT, FruitSeedName } from "features/game/types/fruits";
 import { Label } from "components/ui/Label";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
+import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 
 interface Props {
   onClose: () => void;
@@ -94,7 +95,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
 
   const labelState = () => {
-    const max = INITIAL_STOCK[selectedName];
+    const max = INITIAL_STOCK(state)[selectedName];
     const inventoryCount = inventory[selectedName] ?? new Decimal(0);
     const inventoryFull = max ? inventoryCount.gt(max) : true;
 
@@ -130,7 +131,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       return <Restock onClose={onClose} />;
     }
 
-    const max = INITIAL_STOCK[selectedName];
+    const max = INITIAL_STOCK(state)[selectedName];
 
     if (max && inventory[selectedName]?.gt(max)) {
       return (
@@ -167,25 +168,23 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const yields = SEEDS()[selectedName].yield;
 
   const getPlantSeconds = () => {
+    let seconds = 0;
+
     if (yields in FRUIT())
-      return secondsToString(SEEDS()[selectedName].plantSeconds, {
-        length: "medium",
-        removeTrailingZeros: true,
-      });
+      seconds = getFruitTime(selectedName as FruitSeedName, collectibles);
 
     if (yields in CROPS())
-      return secondsToString(
-        getCropTime(
-          yields as CropName,
-          inventory,
-          collectibles,
-          state.bumpkin as Bumpkin
-        ),
-        {
-          length: "medium",
-          removeTrailingZeros: true,
-        }
+      seconds = getCropTime(
+        yields as CropName,
+        inventory,
+        collectibles,
+        state.bumpkin as Bumpkin
       );
+
+    return secondsToString(seconds, {
+      length: "medium",
+      removeTrailingZeros: true,
+    });
   };
 
   const harvestCount = () => {

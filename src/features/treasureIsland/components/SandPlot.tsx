@@ -376,7 +376,13 @@ export const SandPlot: React.FC<{
         <Panel>
           <div className="flex flex-col items-center mt-2">
             <p className="text-center loading">Drilling</p>
-            <img className="w-1/3 mx-auto my-2" src={drillingGoblin} />
+            <img
+              className="mx-auto my-2"
+              style={{
+                width: `${PIXEL_SCALE * 36}px`,
+              }}
+              src={drillingGoblin}
+            />
           </div>
         </Panel>
       </Modal>

@@ -11,9 +11,7 @@ import { Button } from "components/ui/Button";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { setPrecision } from "lib/utils/formatNumber";
-import { secondsToString } from "lib/utils/time";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { Label } from "components/ui/Label";
+import { CountdownLabel } from "components/ui/CountdownLabel";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -57,15 +55,7 @@ export const QuestProgress: React.FC<Props> = ({
   return (
     <div className="flex flex-col justify-center items-center">
       {secondsLeft ? (
-        <Label type="info" className="flex">
-          <img src={SUNNYSIDE.icons.timer} className="w-3 left-0 -top-4 mr-1" />
-          <span className="mt-[2px]">{`${secondsToString(
-            secondsLeft as number,
-            {
-              length: "medium",
-            }
-          )} left`}</span>
-        </Label>
+        <CountdownLabel timeLeft={secondsLeft} endText="left" />
       ) : null}
 
       <img

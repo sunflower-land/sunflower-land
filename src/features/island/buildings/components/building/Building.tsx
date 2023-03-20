@@ -26,6 +26,8 @@ import { Context } from "features/game/GameProvider";
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
+import { Warehouse } from "./warehouse/Warehouse";
+import { Toolshed } from "./toolshed/Toolshed";
 
 interface Prop {
   name: BuildingName;
@@ -63,6 +65,8 @@ export const BUILDING_COMPONENTS: Record<
   Market: Market,
   Tent: Tent,
   "Water Well": WaterWell,
+  Warehouse: Warehouse,
+  Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Kitchen: ({
     buildingId,

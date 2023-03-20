@@ -118,6 +118,12 @@ import {
 } from "./landExpansion/craftCollectible";
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
 import { restock, RestockAction } from "./landExpansion/restock";
+import { sellGarbage, SellGarbageAction } from "./landExpansion/garbageSold";
+import { startChore, StartChoreAction } from "./landExpansion/startChore";
+import {
+  completeChore,
+  CompleteChoreAction,
+} from "./landExpansion/completeChore";
 
 export type PlayingEvent =
   | TradeAction
@@ -156,7 +162,10 @@ export type PlayingEvent =
   | RemoveFruitTreeAction
   | CraftCollectibleAction
   | SellTreasureAction
-  | RestockAction;
+  | RestockAction
+  | SellGarbageAction
+  | StartChoreAction
+  | CompleteChoreAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -216,6 +225,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.crafted": craftCollectible,
   "treasure.sold": sellTreasure,
   "shops.restocked": restock,
+  "garbage.sold": sellGarbage,
+  "chore.completed": completeChore,
+  "chore.started": startChore,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

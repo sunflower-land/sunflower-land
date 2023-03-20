@@ -35,6 +35,7 @@ export const Listing: React.FC<ListingProps> = ({
   const buyerPays = Math.round(price * 100) / 100;
   const goblinFee = Math.round(sfl * tax * 100) / 100;
   const sellerReceives = Math.round(sfl * 100) / 100;
+  const priceperunit = (price / resourceAmount).toFixed(3);
 
   const insufficientFunds = balance.lt(price);
 
@@ -73,6 +74,13 @@ export const Listing: React.FC<ListingProps> = ({
                   { "text-error": insufficientFunds }
                 )}
               >{`${buyerPays} SFL`}</span>
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xxs sm:text-xs flex-1">Price per unit</span>
+            <div className="flex items-center">
+              <img src={token} className="w-5" />
+              <span className="text-xxs sm:text-xs whitespace-nowrap pl-2">{`${priceperunit} SFL`}</span>
             </div>
           </div>
           <div className="flex justify-between items-center">

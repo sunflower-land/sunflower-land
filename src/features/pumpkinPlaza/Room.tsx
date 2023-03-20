@@ -7,6 +7,7 @@ import {
   websocketMachine,
   MachineInterpreter,
   KICKED_COOLDOWN_MS,
+  Room as RoomType,
 } from "./websocketMachine";
 import { Panel } from "components/ui/Panel";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -28,7 +29,7 @@ import { RestrictedPositions } from "./lib/restrictedArea";
 interface Props {
   allowedArea: RestrictedPositions;
   canAccess: boolean;
-  roomId: string;
+  roomId: RoomType;
   spawnPoint: Coordinates;
 }
 
@@ -45,6 +46,8 @@ export const Room: React.FC<Props> = ({
   const [gameState] = useActor(gameService);
 
   const [restrictedHelper, setRestrictedHelper] = useState<Coordinates>();
+
+  const [testArea, setTestArea] = useState<Coordinates[]>([]);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -80,7 +83,9 @@ export const Room: React.FC<Props> = ({
     const clampedX = Math.floor(x / GRID_WIDTH_PX);
     const clampedY = Math.floor(y / GRID_WIDTH_PX);
 
-    console.log({ x, y });
+    // setTestArea((prev) => [...prev, { x: clampedX, y: clampedY }]);
+    // return;
+
     if (
       !allowedArea[clampedX]?.[clampedY] &&
       !authState.context.token?.userAccess.admin
@@ -228,10 +233,12 @@ export const Room: React.FC<Props> = ({
         <RestrictedHelper position={restrictedHelper} />
       </div>
 
-      {/* {testArea.map(({ x, y }) => (
+      {/* DEV Code only */}
+      {testArea.map(({ x, y }) => (
         <div
           className="bg-green-50 opacity-50 absolute"
           id="allowed-area"
+          key={`${x}-${y}`}
           style={{
             left: `${GRID_WIDTH_PX * x}px`,
             top: `${GRID_WIDTH_PX * y}px`,
@@ -239,7 +246,7 @@ export const Room: React.FC<Props> = ({
             height: `${GRID_WIDTH_PX}px`,
           }}
         />
-      ))} */}
+      ))}
       {chatState.matches("connected") && (
         <ChatUI
           onMessage={({ reaction, text }) => {

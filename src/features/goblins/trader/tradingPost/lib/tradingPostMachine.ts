@@ -23,6 +23,7 @@ export interface Context {
   farmId: number;
   farmAddress: string;
   token: string;
+  wallet: string;
   deviceTrackerId: string;
   farmSlots: FarmSlot[];
   remainingListings: number;
@@ -221,7 +222,8 @@ export const tradingPostMachine = createMachine<
               context.farmId,
               context.farmAddress,
               context.token,
-              context.transactionId as string
+              context.transactionId as string,
+              context.wallet
             );
           },
           onDone: {

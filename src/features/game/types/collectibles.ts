@@ -10,9 +10,17 @@ export type GoblinBlacksmithItemName =
   | "Maneki Neko"
   | "Heart Balloons"
   | "Flamingo"
-  | "Blossom Tree";
+  | "Blossom Tree"
+  | "Palm Tree"
+  | "Beach Ball"
+  | "Cabbage Boy"
+  | "Cabbage Girl"
+  | "Collectible Bear";
 
-export type GoblinPirateItemName = "Iron Idol" | "Heart of Davy Jones";
+export type GoblinPirateItemName =
+  | "Iron Idol"
+  | "Heart of Davy Jones"
+  | "Karkinos";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
@@ -77,6 +85,18 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
     supply: 1000,
     boost: "Dig an extra 20 times per day",
+  },
+  Karkinos: {
+    description:
+      "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
+    ingredients: {
+      Crab: new Decimal(5),
+      Cabbage: new Decimal(500),
+      Gold: new Decimal(3),
+      "Solar Flare Ticket": new Decimal(350),
+    },
+    supply: 7500,
+    boost: "+0.1 Cabbage",
   },
 };
 
@@ -146,5 +166,51 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       Wood: new Decimal(500),
     },
     supply: 250,
+  },
+  "Palm Tree": {
+    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
+    ingredients: {
+      Wood: new Decimal(1000),
+      Gold: new Decimal(10),
+      "Solar Flare Ticket": new Decimal(300),
+    },
+    supply: 500,
+  },
+  "Beach Ball": {
+    description: "Bouncy ball brings beachy vibes, blows boredom away.",
+    ingredients: {
+      Gold: new Decimal(3),
+      "Solar Flare Ticket": new Decimal(50),
+    },
+    supply: 20000,
+  },
+  "Cabbage Boy": {
+    description: "Don't wake the baby!",
+    ingredients: {
+      Cabbage: new Decimal(2000),
+      Gold: new Decimal(15),
+      "Solar Flare Ticket": new Decimal(750),
+    },
+    supply: 1050, // 1000 + 50 Goblin Treasury Supply
+    boost: "+0.25 Cabbage",
+  },
+  "Cabbage Girl": {
+    description: "Shhh it's sleeping",
+    ingredients: {
+      Cabbage: new Decimal(2000),
+      Gold: new Decimal(25),
+      "Solar Flare Ticket": new Decimal(1000),
+    },
+    supply: 365, // 360 + 5 Goblin Treasury Supply
+    boost: "50% Faster Cabbages",
+  },
+  "Collectible Bear": {
+    description: "A prized possession still in mint condition!",
+    ingredients: {
+      "Basic Bear": new Decimal(1),
+      Gold: new Decimal(5),
+      "Solar Flare Ticket": new Decimal(250),
+    },
+    supply: 750,
   },
 };
