@@ -32,6 +32,11 @@ export const Confirming: React.FC<ConfirmProps> = ({
   const buyerPays = Math.round(price * 100) / 100;
   const goblinFee = Math.round(listing.sfl * listing.tax * 100) / 100;
   const sellerReceives = Math.round(listing.sfl * 100) / 100;
+  const pricePerUnit = (
+    ((listing.sfl + listing.sfl * listing.tax) * 100) /
+    100 /
+    listing.resourceAmount
+  ).toFixed(3);
 
   const insufficientFunds = balance.lt(new Decimal(price));
 
@@ -54,6 +59,15 @@ export const Confirming: React.FC<ConfirmProps> = ({
                 "text-error": insufficientFunds,
               })}
             >{`${buyerPays} SFL`}</span>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
+            Price per Unit
+          </span>
+          <div className="flex items-center w-1/2">
+            <img src={token} className="w-6" />
+            <span className="py-2 pl-2 whitespace-nowrap">{`${pricePerUnit} SFL`}</span>
           </div>
         </div>
         <div className="flex items-center">
