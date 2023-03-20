@@ -63,7 +63,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
         <div className="flex items-center">
           <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
-            Price per Unit
+            Price per unit
           </span>
           <div className="flex items-center w-1/2">
             <img src={token} className="w-6" />
