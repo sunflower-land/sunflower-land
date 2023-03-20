@@ -28,6 +28,11 @@ export const Listing: React.FC<ListingProps> = ({
   const buyerPays = Math.round((sfl + sfl * tax) * 100) / 100;
   const goblinFee = Math.round(sfl * tax * 100) / 100;
   const sellerReceives = Math.round(sfl * 100) / 100;
+  const priceperunit = (
+    ((sfl + sfl * tax) * 100) /
+    100 /
+    resourceAmount
+  ).toFixed(3);
 
   return (
     <OuterPanel className="p-2">
@@ -53,6 +58,13 @@ export const Listing: React.FC<ListingProps> = ({
             <div className="flex items-center">
               <img src={token} className="w-5" />
               <span className="text-xxs sm:text-xs whitespace-nowrap pl-2">{`${buyerPays} SFL`}</span>
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xxs sm:text-xs flex-1">Price per unit</span>
+            <div className="flex items-center">
+              <img src={token} className="w-5" />
+              <span className="text-xxs sm:text-xs whitespace-nowrap pl-2">{`${priceperunit} SFL`}</span>
             </div>
           </div>
           <div className="flex justify-between items-center">

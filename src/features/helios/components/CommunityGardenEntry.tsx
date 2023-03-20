@@ -20,10 +20,13 @@ export const CommunityGardenEntry: React.FC = () => {
   };
 
   return (
-    <MapPlacement x={-8} y={-11} height={3} width={2}>
+    <MapPlacement x={4} y={7.5} height={3} width={2}>
       <div
         className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={openMerchant}
+        style={{
+          transform: "scaleX(-1)",
+        }}
       >
         <img
           src={shadow}

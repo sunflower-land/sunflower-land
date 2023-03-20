@@ -7,8 +7,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getEntries } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
 import {
   BOOST_TREASURE,
   isBoostTreasure,
@@ -22,6 +20,7 @@ import {
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { Equipped } from "features/game/types/bumpkin";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { CountdownLabel } from "components/ui/CountdownLabel";
 
 enum RarityOrder {
   "rare",
@@ -131,23 +130,12 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       >
         {secondsLeftInSeason > 0 && (
           <div className="pb-2">
-            <div className="flex items-start justify-between pb-2">
+            <div className="flex flex-wrap gap-y-1 items-start justify-between pb-2">
               <div>
                 <p className="pb-0.5">Seasonal Treasure</p>
                 <p className="text-xs">Limited time only!</p>
               </div>
-              <Label
-                type="info"
-                className="flex items-center whitespace-nowrap"
-              >
-                <img
-                  src={SUNNYSIDE.icons.stopwatch}
-                  className="w-3 left-0 mr-1"
-                />
-                {`${secondsToString(secondsLeftInSeason, {
-                  length: "medium",
-                })} left`}
-              </Label>
+              <CountdownLabel timeLeft={secondsLeftInSeason} endText="left" />
             </div>
 
             <div className="pt-2 space-y-3">

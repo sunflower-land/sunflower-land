@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "./game";
 
 export type SkillName =
   | "Green Thumb"
@@ -173,59 +172,6 @@ export function getLevel(experience: Decimal) {
   }
 
   return 1;
-}
-
-export function getAvailableUpgrades(game: GameState): SkillName[] {
-  const farmingLevel = getLevel(game.skills.farming);
-
-  if (
-    farmingLevel >= 5 &&
-    !game.inventory["Green Thumb"] &&
-    !game.inventory["Barn Manager"]
-  ) {
-    return ["Green Thumb", "Barn Manager"];
-  }
-
-  if (
-    farmingLevel >= 10 &&
-    !game.inventory["Seed Specialist"] &&
-    !game.inventory["Wrangler"]
-  ) {
-    // Crop path
-    if (game.inventory["Green Thumb"]) {
-      return ["Seed Specialist"];
-    }
-    return ["Wrangler"];
-  }
-
-  const gatherLevel = getLevel(game.skills.gathering);
-
-  if (
-    gatherLevel >= 5 &&
-    !game.inventory["Lumberjack"] &&
-    !game.inventory["Prospector"]
-  ) {
-    return ["Lumberjack", "Prospector"];
-  }
-
-  if (
-    gatherLevel >= 10 &&
-    !game.inventory["Logger"] &&
-    !game.inventory["Gold Rush"]
-  ) {
-    // Mining path
-    if (game.inventory["Prospector"]) {
-      return ["Gold Rush"];
-    }
-    return ["Logger"];
-  }
-
-  return [];
-}
-
-export function upgradeAvailable(state: GameState) {
-  const upgrades = getAvailableUpgrades(state);
-  return upgrades.length > 0;
 }
 
 type Level = 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1;

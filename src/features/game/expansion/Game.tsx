@@ -34,7 +34,6 @@ import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
 import land from "assets/land/islands/island.webp";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
-import { StoneHaven } from "features/stoneHaven/StoneHaven";
 import { getBumpkinLevel } from "../lib/level";
 import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
@@ -42,6 +41,8 @@ import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
 import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { BeachParty } from "features/pumpkinPlaza/BeachParty";
+import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
+import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -187,6 +188,10 @@ export const Game: React.FC = () => {
 
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
+            <Route
+              path="/headquarters"
+              element={<HeadQuarters key="headquarters" />}
+            />
             {level >= 10 && (
               <Route
                 path="/treasure-island"

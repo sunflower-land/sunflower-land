@@ -23,6 +23,7 @@ import {
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
+import { Chore } from "./chores";
 
 export type Reward = {
   sfl?: Decimal;
@@ -389,6 +390,16 @@ export type Bid = {
   auctionTickets: number;
 };
 
+export type HayseedHank = {
+  choresCompleted: number;
+  chore: Chore;
+  progress?: {
+    bumpkinId: number;
+    startedAt: number;
+    startCount: number;
+  };
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -406,11 +417,6 @@ export interface GameState {
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
-
-  skills: {
-    farming: Decimal;
-    gathering: Decimal;
-  };
 
   expansions: LandExpansion[];
   expansionRequirements?: ExpansionRequirements;
@@ -449,6 +455,7 @@ export interface GameState {
   auctioneer: {
     bid?: Bid;
   };
+  hayseedHank: HayseedHank;
 }
 
 export interface Context {

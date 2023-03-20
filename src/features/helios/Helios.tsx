@@ -14,12 +14,15 @@ import { useActor } from "@xstate/react";
 import { LostSunflorian } from "./components/npcs/LostSunflorian";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { RustyShovelSeller } from "./components/rustyShovelSeller/RustyShovelSeller";
-import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "features/island/hud/Hud";
+import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
+import { HayseedHank } from "./components/hayseedHank/HayseedHank";
+import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
+import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 
 const spawn = [
   [30, 15],
@@ -66,13 +69,15 @@ export const Helios: React.FC = () => {
         <GrubShop />
         <HeliosBlacksmith inventory={gameState.context.state.inventory} />
         <Potions />
+        <GarbageCollector />
         <ExoticShop />
         <HeliosSunflower />
         <LostSunflorian />
         <RustyShovelSeller />
+        <HayseedHank />
+        <SeasonalNPC />
         <CommunityGardenEntry />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-
         <IslandTravel
           bumpkin={bumpkin}
           inventory={gameState.context.state.inventory}

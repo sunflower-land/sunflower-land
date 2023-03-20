@@ -42,7 +42,7 @@ export const SplitScreenView: React.FC<Props> = ({
           "w-full sm:w-3/5 h-fit sm:max-h-96 p-1 mt-1 sm:mt-0 flex",
           {
             "max-h-80": tallMobileContent,
-            "max-h-48": !tallMobileContent,
+            "max-h-56": !tallMobileContent,
             "lg:w-3/4": wideModal,
             "flex-wrap overflow-y-auto scrollable overflow-x-hidden sm:mr-1":
               contentScrollable,

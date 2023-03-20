@@ -78,7 +78,7 @@ export const HeliosBlacksmithItems: React.FC<Props> = ({ onClose }) => {
   const stock = state.stock[selected] || new Decimal(0);
 
   const labelState = () => {
-    const max = INITIAL_STOCK[selected];
+    const max = INITIAL_STOCK(state)[selected];
     const inventoryCount = inventory[selected] ?? new Decimal(0);
     const inventoryFull = max ? inventoryCount.gt(max) : true;
 

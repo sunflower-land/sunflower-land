@@ -674,6 +674,27 @@ describe("getCropTime", () => {
 
     expect(time).toEqual(carrotHarvestSeconds * 0.9);
   });
+
+  it("grows cabbage twice as fast with Cabbage Girl placed.", () => {
+    const cabbageHarvestSeconds = CROPS()["Cabbage"].harvestSeconds;
+    const time = getCropTime(
+      "Cabbage",
+      {},
+      {
+        "Cabbage Girl": [
+          {
+            id: "123",
+            coordinates: { x: -1, y: -1 },
+            createdAt: Date.now() - 100,
+            readyAt: Date.now() - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN }
+    );
+
+    expect(time).toEqual(cabbageHarvestSeconds * 0.5);
+  });
 });
 
 describe("isPlotFertile", () => {

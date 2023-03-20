@@ -13,7 +13,8 @@ export type QuestName =
   | "Cupid Quest 1"
   | "Cupid Quest 2"
   | "Cupid Quest 3"
-  | "Cupid Quest 4";
+  | "Cupid Quest 4"
+  | "Leprechaun Quest 1";
 
 export type Quest = {
   description: string;
@@ -120,6 +121,14 @@ export const QUESTS: Record<QuestName, Quest> = {
     wearable: "Love Quiver",
     deadline: new Date("2023-02-21").toISOString(),
   },
+  "Leprechaun Quest 1": {
+    description: "Cook 3 Kale Stew",
+    progress: (gameState: GameState) =>
+      gameState.bumpkin?.activity?.["Kale Stew Cooked"] || 0,
+    requirement: 3,
+    wearable: "St Patricks Hat",
+    deadline: new Date("2023-03-28").toISOString(),
+  },
 };
 
 type CompletedQuestName =
@@ -148,4 +157,5 @@ export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
     "Cupid Quest 2": 100016,
     "Cupid Quest 3": 100017,
     "Cupid Quest 4": 100018,
+    "Leprechaun Quest 1": 100019,
   };

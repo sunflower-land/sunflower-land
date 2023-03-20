@@ -17,11 +17,12 @@ import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
-import { FRUIT } from "features/game/types/fruits";
+import { FRUIT, FruitSeedName } from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 
 interface Props {
   onClose: () => void;
@@ -96,7 +97,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     // return message if inventory is full
     if (
       (inventory[selectedName] ?? new Decimal(0)).greaterThan(
-        INITIAL_STOCK[selectedName] ?? new Decimal(0)
+        INITIAL_STOCK(state)[selectedName] ?? new Decimal(0)
       )
     ) {
       return (
@@ -130,7 +131,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const yields = SEEDS()[selectedName].yield;
 
   const getPlantSeconds = () => {
-    if (yields in FRUIT()) return SEEDS()[selectedName].plantSeconds;
+    if (yields in FRUIT())
+      return getFruitTime(selectedName as FruitSeedName, collectibles);
 
     return getCropTime(
       yields as CropName,

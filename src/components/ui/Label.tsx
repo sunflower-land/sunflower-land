@@ -26,7 +26,7 @@ export const Label: React.FC<Props> = ({
       {type === "default" && (
         <div
           className={classnames(
-            "bg-silver-500 text-xxs object-contain justify-center items-center flex px-1",
+            "bg-silver-500 text-xxs object-contain justify-center items-center flex px-1 items-center",
             className
           )}
           style={{ ...pixelGrayBorderStyle, ...style }}
@@ -45,7 +45,7 @@ export const Label: React.FC<Props> = ({
       {type !== "default" && (
         <span
           className={classnames(
-            "text-xxs px-1.5 pb-1 pt-0.5 rounded-md",
+            "text-xxs px-1.5 pb-1 pt-0.5 rounded-md flex items-center",
             {
               "bg-green-600": type === "success",
               "bg-blue-600": type === "info",

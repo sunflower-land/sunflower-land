@@ -261,19 +261,11 @@ import chickenHouse from "src/assets/buildings/hen_house.png";
 import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
+import toolshed from "src/assets/buildings/toolshed.png";
+import warehouse from "src/assets/buildings/warehouse.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
-import chefApron from "src/assets/bumpkins/shop/shirts/chef_apron.png";
-import sunflowerAmulet from "src/assets/bumpkins/shop/necklaces/sunflower_amulet.png";
-import carrotAmulet from "src/assets/bumpkins/shop/necklaces/carrot_amulet.png";
-import beetrootAmulet from "src/assets/bumpkins/shop/necklaces/beetroot_amulet.png";
-import greenAmulet from "src/assets/bumpkins/shop/necklaces/green_amulet.png";
-import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
-import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
-import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
-import skullHat from "src/assets/bumpkins/shop/hats/skull_hat.png";
-import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png";
 
 import skull from "src/assets/decorations/war_skulls.png";
 import warTombstone from "src/assets/decorations/war_tombstone.png";
@@ -341,6 +333,9 @@ import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
 import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
 import drill from "assets/icons/drill.png";
+import karkinos from "assets/seasons/solar-flare/karkinos.png";
+import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
+import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1232,7 +1227,7 @@ export const ITEM_DETAILS: Items = {
   "Rich Chicken": { ...MUTANT_CHICKENS["Rich Chicken"], image: richChicken },
 
   "Chef Apron": {
-    image: chefApron,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "Cakes yield an additional 20% SFL",
   },
   "Chef Hat": {
@@ -1286,41 +1281,58 @@ export const ITEM_DETAILS: Items = {
     image: smoothieShack,
     description: "Freshly squeezed!",
   },
+  Toolshed: {
+    image: toolshed,
+    description: "Increase your tool stocks",
+  },
+  Warehouse: {
+    image: warehouse,
+    description: "Increase your seed stocks",
+  },
 
   "Sunflower Amulet": {
-    image: sunflowerAmulet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "10% increased Sunflower yield",
   },
   "Carrot Amulet": {
-    image: carrotAmulet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "Carrots grow 20% faster",
   },
   "Beetroot Amulet": {
-    image: beetrootAmulet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "20% increased Beetroot yield",
   },
   "Green Amulet": {
-    image: greenAmulet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "Chance for 10x crop yield",
   },
   "Warrior Shirt": {
-    image: warriorShirt,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "A mark of a true warrior",
   },
   "Warrior Pants": {
-    image: warriorPants,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "Protect your thighs!",
   },
   "Warrior Helmet": {
-    image: warriorHelmet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "Immune to arrows",
   },
   "Sunflower Shield": {
-    image: sunflowerShield,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "A hero of Sunflower Land. Free Sunflower Seeds!",
   },
   "Skull Hat": {
-    image: skullHat,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "A reward for your war efforts",
   },
   "War Skull": {
@@ -1601,12 +1613,12 @@ export const ITEM_DETAILS: Items = {
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: AUCTIONEER_ITEMS["Cabbage Boy"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Boy"].description,
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: AUCTIONEER_ITEMS["Cabbage Girl"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Girl"].description,
   },
 
   "Wood Nymph Wendy": {
@@ -1868,7 +1880,6 @@ export const ITEM_DETAILS: Items = {
   },
 
   // Season tickets
-
   "Solar Flare Ticket": {
     image: solarFlareTicket,
     description: "A ticket used during the Solar Flare Season",
@@ -1876,5 +1887,19 @@ export const ITEM_DETAILS: Items = {
   "Dawn Breaker Ticket": {
     image: dawnBreakerTicket,
     description: "A ticket used during the Dawn Breaker Season",
+  },
+
+  // Solar Flare Season
+  "Beach Ball": {
+    image: beachBall,
+    description: GOBLIN_BLACKSMITH_ITEMS["Beach Ball"].description,
+  },
+  "Palm Tree": {
+    image: palmTree,
+    description: GOBLIN_BLACKSMITH_ITEMS["Palm Tree"].description,
+  },
+  Karkinos: {
+    image: karkinos,
+    description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
   },
 };
