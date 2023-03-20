@@ -98,6 +98,11 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     return state.balance.lessThan(price.mul(amount));
   };
 
+  const onToolClick = (toolName: WorkbenchToolName) => {
+    setSelectedName(toolName);
+    shortcutItem(toolName);
+  };
+
   const craft = (event: SyntheticEvent, amount = 1) => {
     event.stopPropagation();
     gameService.send("tool.crafted", {
@@ -116,8 +121,6 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         content: `-${selected.ingredients[name]?.mul(amount)}`,
       });
     });
-
-    shortcutItem(selectedName);
   };
 
   const labelState = () => {
@@ -181,7 +184,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <Box
                   isSelected={selectedName === toolName}
                   key={toolName}
-                  onClick={() => setSelectedName(toolName)}
+                  onClick={() => onToolClick(toolName)}
                   image={ITEM_DETAILS[toolName].image}
                   count={inventory[toolName]}
                 />
