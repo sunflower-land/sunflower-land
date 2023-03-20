@@ -96,7 +96,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     }
 
     const inventoryCount = gameState.inventory[details.item] ?? new Decimal(0);
-    const limit = INITIAL_STOCK[details.item];
+    const limit = INITIAL_STOCK(gameState)[details.item];
     const isInventoryFull =
       limit === undefined ? false : inventoryCount.greaterThan(limit);
 
