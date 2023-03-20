@@ -27,6 +27,7 @@ describe("getProgress", () => {
       getProgress({ ...HAYSEED_HANK, progress: undefined }, { ...BUMPKIN })
     ).toBe(0);
   });
+
   it("returns 0 if bumpkin activity is not found and start count is 0", () => {
     expect(
       getProgress(
@@ -42,6 +43,7 @@ describe("getProgress", () => {
       )
     ).toBe(0);
   });
+
   it("returns 3 if bumpkin harvested 13 sunflowers in total and task started when bumpkin harvested 10 sunflowers", () => {
     expect(
       getProgress(HAYSEED_HANK, {
@@ -60,6 +62,7 @@ describe("isTaskComplete", () => {
       isTaskComplete({ ...HAYSEED_HANK, progress: undefined }, { ...BUMPKIN })
     ).toBe(false);
   });
+
   it("return false if player harvested 4/20 sunflowers", () => {
     expect(
       isTaskComplete(HAYSEED_HANK, {
@@ -70,6 +73,7 @@ describe("isTaskComplete", () => {
       })
     ).toBeFalsy();
   });
+
   it("return true if player harvested 20/20 sunflowers", () => {
     expect(
       isTaskComplete(HAYSEED_HANK, {
@@ -80,6 +84,7 @@ describe("isTaskComplete", () => {
       })
     ).toBeTruthy();
   });
+
   it("return true if player harvested 42/20 sunflowers", () => {
     expect(
       isTaskComplete(HAYSEED_HANK, {
