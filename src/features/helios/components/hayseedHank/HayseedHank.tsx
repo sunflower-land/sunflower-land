@@ -52,8 +52,7 @@ export const HayseedHank: React.FC = () => {
             pants="Brown Suspenders"
             hair="Sun Spots"
           />
-          {(!gameState.context.state.hayseedHank.progress ||
-            isTaskComplete(hayseedHank, bumpkin)) && (
+          {(!hayseedHank.progress || isTaskComplete(hayseedHank, bumpkin)) && (
             <img
               src={SUNNYSIDE.icons.expression_alerted}
               className="absolute animate-float"
