@@ -11,7 +11,7 @@ export const Web3Missing: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col text-center text-shadow items-center p-1">
+    <div className="flex flex-col text-center items-center p-1">
       <div className="flex mb-3 items-center">
         <img
           src={SUNNYSIDE.icons.expression_alerted}
