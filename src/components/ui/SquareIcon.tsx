@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import classNames from "classnames";
 
 interface Props {
   icon: string;
   width: number;
+  className?: string;
 }
 
 const getImage = (icon: string, iconWidth: number) => (
@@ -48,7 +50,7 @@ const getImage = (icon: string, iconWidth: number) => (
   />
 );
 
-export const SquareIcon: React.FC<Props> = ({ icon, width }) => {
+export const SquareIcon: React.FC<Props> = ({ icon, width, className }) => {
   const [item, setItem] = useState<JSX.Element | undefined>(
     getImage(icon, width)
   );
@@ -69,7 +71,7 @@ export const SquareIcon: React.FC<Props> = ({ icon, width }) => {
 
   return (
     <div
-      className="flex justify-center items-center"
+      className={classNames("flex justify-center items-center", className)}
       style={{
         width: `${PIXEL_SCALE * width}px`,
         height: `${PIXEL_SCALE * width}px`,

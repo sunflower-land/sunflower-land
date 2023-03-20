@@ -270,11 +270,14 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
+    "Fire Pit": new Decimal(1),
+    Market: new Decimal(1),
     Artist: new Decimal(1),
     Sunflower: new Decimal(2999),
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
+    "Rusty Shovel": new Decimal(10),
     "Bumpkin Salad": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Peeled Potato": new Decimal(1),

@@ -7,7 +7,6 @@ import {
   areUnsupportedChickensBrewing,
   removeUnsupportedChickens,
 } from "./removeBuilding";
-import { removeItem } from "./utils";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -42,11 +41,11 @@ export function removeCollectible({ state, action }: Options) {
     throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
   }
 
-  const collectibleIndex = collectibleGroup?.findIndex(
-    (collectible) => collectible.id == action.id
+  const collectibleToRemove = collectibleGroup.find(
+    (collectible) => collectible.id === action.id
   );
 
-  if (collectibleIndex === -1) {
+  if (!collectibleToRemove) {
     throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
   }
 
@@ -56,13 +55,12 @@ export function removeCollectible({ state, action }: Options) {
     throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   }
 
-  stateCopy.collectibles[action.collectible] = removeItem(
-    collectibleGroup,
-    collectibleGroup[collectibleIndex]
+  stateCopy.collectibles[action.collectible] = collectibleGroup.filter(
+    (collectible) => collectible.id !== collectibleToRemove.id
   );
 
   // Remove collectible key if there are none placed
-  if (!stateCopy.collectibles[action.collectible]) {
+  if (!stateCopy.collectibles[action.collectible]?.length) {
     delete stateCopy.collectibles[action.collectible];
   }
 
