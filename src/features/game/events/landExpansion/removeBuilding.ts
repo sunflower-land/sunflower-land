@@ -54,11 +54,6 @@ const getUnSupportedPlotCount = (gameState: GameState): number => {
   return Math.max(plotCount - supportedPlots, 0);
 };
 
-export const areUnsupportedPlotsGrowing = (gameState: GameState) => {
-  const unsupportedChickens = Object.values(getUnsupportedChickens(gameState));
-  return unsupportedChickens.some((chicken) => !!chicken.fedAt);
-};
-
 /**
  * Removes crop data from any plots that don't have water well support.
  * It iterates backwards through the expansions and backwards through each expansions plots removing unsupported crops.
