@@ -27,7 +27,7 @@ function getPlantedAt(
   collectibles: Collectibles,
   createdAt: number
 ) {
-  if (!fruitSeedName) return 0;
+  if (!fruitSeedName) return createdAt;
 
   const fruitTime = FRUIT_SEEDS()[fruitSeedName].plantSeconds;
   const boostedTime = getFruitTime(fruitSeedName, collectibles);
