@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
-  FruitName,
   FruitSeedName,
   FRUIT_SEEDS,
   isFruitSeed,
@@ -24,24 +23,39 @@ function getHarvestsLeft() {
 }
 
 function getPlantedAt(
-  fruitName: FruitName,
+  fruitSeedName: FruitSeedName,
   collectibles: Collectibles,
   createdAt: number
 ) {
+  if (!fruitSeedName) return createdAt;
+
+  const fruitTime = FRUIT_SEEDS()[fruitSeedName].plantSeconds;
+  const boostedTime = getFruitTime(fruitSeedName, collectibles);
+
+  const offset = fruitTime - boostedTime;
+
+  return createdAt - offset * 1000;
+}
+
+/**
+ * Based on boosts, how long a fruit will take to grow
+ */
+export const getFruitTime = (
+  fruitSeedName: FruitSeedName,
+  collectibles: Collectibles
+) => {
+  let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
+
+  // Squirrel Monkey: 50% reduction
   if (
-    fruitName === "Orange" &&
+    fruitSeedName === "Orange Seed" &&
     isCollectibleBuilt("Squirrel Monkey", collectibles)
   ) {
-    const orangeTimeInMilliseconds =
-      FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000;
-
-    const offset = orangeTimeInMilliseconds / 2;
-
-    return createdAt - offset;
+    seconds = seconds * 0.5;
   }
 
-  return createdAt;
-}
+  return seconds;
+};
 
 type Options = {
   state: Readonly<GameState>;
@@ -119,7 +133,7 @@ export function plantFruit({
 
   patch.fruit = {
     name: fruitName,
-    plantedAt: getPlantedAt(fruitName, stateCopy.collectibles, createdAt),
+    plantedAt: getPlantedAt(action.seed, stateCopy.collectibles, createdAt),
     amount: getFruitYield(fruitName, stateCopy.collectibles),
     harvestedAt: 0,
     // Value will be overridden by BE
