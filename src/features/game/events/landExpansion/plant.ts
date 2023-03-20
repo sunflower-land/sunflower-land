@@ -71,7 +71,7 @@ export function isPlotFertile({
 }
 
 /**
- * Based on boosts, how long a crop will take
+ * Based on boosts, how long a crop will take to grow
  */
 export const getCropTime = (
   crop: CropName,
@@ -83,17 +83,20 @@ export const getCropTime = (
   const { necklace } = equipped;
   let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
 
+  // Legacy Seed Specialist skill: 10% reduction
   if (inventory["Seed Specialist"]?.gte(1)) {
     seconds = seconds * 0.9;
   }
 
+  // Mysterious Parsnip: 50% reduction
   if (
     crop === "Parsnip" &&
     isCollectibleBuilt("Mysterious Parsnip", collectibles)
   ) {
     seconds = seconds * 0.5;
   }
-  //Bumpkin Wearable Boost
+
+  // Bumpkin Wearable Boost
   if (crop === "Carrot" && necklace === "Carrot Amulet") {
     seconds = seconds * 0.8;
   }
@@ -107,13 +110,19 @@ export const getCropTime = (
     seconds = seconds * 0.85;
   }
 
+  // Cultivator skill: 5% reduction
   if (skills["Cultivator"]) {
     seconds = seconds * 0.95;
   }
 
-  //If lunar calender: 10% reduction
+  // Lunar calender: 10% reduction
   if (isCollectibleBuilt("Lunar Calendar", collectibles)) {
     seconds = seconds * 0.9;
+  }
+
+  // Cabbage Girl: 50% reduction
+  if (crop === "Cabbage" && isCollectibleBuilt("Cabbage Girl", collectibles)) {
+    seconds = seconds * 0.5;
   }
 
   return seconds;
@@ -137,13 +146,9 @@ export function getPlantedAt({
   bumpkin,
   createdAt,
 }: GetPlantedAtArgs): number {
-  const item = CROPS()[crop];
+  if (!crop) return 0;
 
-  if (!crop) {
-    return 0;
-  }
-
-  const cropTime = item.harvestSeconds;
+  const cropTime = CROPS()[crop].harvestSeconds;
   const boostedTime = getCropTime(crop, inventory, collectibles, bumpkin);
 
   const offset = cropTime - boostedTime;

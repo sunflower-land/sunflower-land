@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FruitPatch, GameState } from "features/game/types/game";
-import { plantFruit } from "./fruitPlanted";
+import { getFruitTime, plantFruit } from "./fruitPlanted";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -543,5 +543,38 @@ describe("fruitPlanted", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Apple Seed Planted"]).toEqual(amount);
+  });
+});
+
+describe("getFruitTime", () => {
+  it("applies a 50% speed boost with Squirrel Monkey placed for orange seeds", () => {
+    const seed = "Orange Seed";
+    const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitTime(seed, {
+      "Squirrel Monkey": [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "123",
+          readyAt: 0,
+        },
+      ],
+    });
+    expect(time).toEqual(orangePlantSeconds * 0.5);
+  });
+  it("does not apply a 50% speed boost with Squirrel Monkey placed for other seeds", () => {
+    const seed = "Apple Seed";
+    const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitTime(seed, {
+      "Squirrel Monkey": [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "123",
+          readyAt: 0,
+        },
+      ],
+    });
+    expect(time).toEqual(applePlantSeconds);
   });
 });

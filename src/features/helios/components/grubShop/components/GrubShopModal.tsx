@@ -10,7 +10,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { secondsToString } from "lib/utils/time";
 import { Bumpkin, GrubShop } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
@@ -19,6 +18,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "../Tutorial";
 import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CountdownLabel } from "components/ui/CountdownLabel";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { InventoryItemName } from "features/game/types/game";
 import sflToken from "assets/icons/token_2.png";
@@ -118,15 +118,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
       );
     }
 
-    return (
-      <Label type="info" className="flex space-x-1 -mt-2 mb-1">
-        <img src={SUNNYSIDE.icons.stopwatch} className="w-3 left-0 mr-1" />
-        {`${secondsToString(secondsLeft as number, {
-          length: "medium",
-          isShortFormat: true,
-        })} left`}
-      </Label>
-    );
+    return <CountdownLabel timeLeft={secondsLeft} endText="left" />;
   };
 
   const Content = () => {
@@ -155,15 +147,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
               {isAllFullFilled && (
                 <div className="flex items-center mb-2">
                   <p className="text-xs mr-2">More orders in</p>
-                  <Label type="info" className="flex flex-row items-center">
-                    <img
-                      src={SUNNYSIDE.icons.stopwatch}
-                      className="w-3 left-0 mr-1"
-                    />
-                    {`${secondsToString(secondsLeft as number, {
-                      length: "medium",
-                    })}`}
-                  </Label>
+                  <CountdownLabel timeLeft={secondsLeft} />
                 </div>
               )}
               <div className="flex flex-wrap">
@@ -202,6 +186,28 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     />
                   );
                 })}
+              </div>
+              <div className="px-1 mt-1">
+                <div className="flex">
+                  <a
+                    href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-tickets"
+                    target="_blank"
+                    className="text-xxs underline text-white"
+                    rel="noreferrer"
+                  >
+                    Bonus Offer
+                  </a>
+                  <img src={SUNNYSIDE.icons.timer} className="h-4 ml-2" />
+                  <img
+                    src={ITEM_DETAILS[getSeasonalTicket()].image}
+                    className="h-4 ml-1"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <p className="text-xxs">
+                    Earn 10 Seasonal Tickets for each meal.
+                  </p>
+                </div>
               </div>
             </div>
             {selected && (

@@ -5,11 +5,11 @@ type SeasonDates = { startDate: Date; endDate: Date };
 export const SEASONS: Record<SeasonName, SeasonDates> = {
   "Solar Flare": {
     startDate: new Date("2023-01-01T00:00:00.000Z"),
-    endDate: new Date("2023-03-31T00:00:00.000Z"),
+    endDate: new Date("2023-05-01T00:00:00.000Z"),
   },
   "Dawn Breaker": {
-    startDate: new Date("2023-04-01T00:00:00.000Z"),
-    endDate: new Date("2023-06-30T00:00:00.000Z"),
+    startDate: new Date("2023-05-01T00:00:00.000Z"),
+    endDate: new Date("2023-08-01T00:00:00.000Z"),
   },
 };
 
@@ -39,4 +39,14 @@ export function getSeasonalTicket(): SeasonalTicket {
   const currentSeason = getCurrentSeason();
 
   return `${currentSeason} Ticket`;
+}
+
+export function secondsLeftInSeason() {
+  const season = getCurrentSeason();
+
+  const times = SEASONS[season];
+
+  const secondsLeft = (times.endDate.getTime() - Date.now()) / 1000;
+
+  return secondsLeft;
 }

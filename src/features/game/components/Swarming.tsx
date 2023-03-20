@@ -3,15 +3,14 @@ import React, { useContext, useEffect, useState } from "react";
 import goblin3 from "assets/npcs/goblin_female.gif";
 
 import { Context } from "../GameProvider";
-import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { getGoblinSwarm } from "../events/detectBot";
-import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "../lib/constants";
+import { CountdownLabel } from "components/ui/CountdownLabel";
 
 export const Swarming: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const [secondsLeft, setSecondsLeft] = useState(0);
 
@@ -34,37 +33,37 @@ export const Swarming: React.FC = () => {
 
   return (
     <>
-      <>
-        <div className="flex flex-col items-center p-1">
-          <span className="text-center text-sm sm:text-base">
-            Goblin Swarm!
-          </span>
-          <div className="flex items-end">
-            <img src={SUNNYSIDE.npcs.goblin} className="h-12" />
-            <img
-              src={goblin3}
-              className="h-16 ml-2"
-              style={{
-                transform: "scaleX(-1)",
-              }}
-            />
-          </div>
-          <p className="text-xs sm:text-sm mb-3 mt-2">
-            {`Pay attention, you took too long to farm your crops!`}
-          </p>
-          <p className="text-xs sm:text-sm mb-1">
-            {`The Goblins have taken over your farm. You must wait for them to leave`}
-          </p>
+      <div className="flex flex-col items-center p-2">
+        <span className="text-center text-base">Goblin Swarm!</span>
+        <div className="flex items-end my-2">
+          <img
+            src={SUNNYSIDE.npcs.goblin}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+            }}
+          />
+          <img
+            src={goblin3}
+            className="ml-2"
+            style={{
+              transform: "scaleX(-1)",
+              width: `${PIXEL_SCALE * 18}px`,
+            }}
+          />
         </div>
-        {secondsLeft > 0 ? (
-          <div className="flex items-center justify-center">
-            <img src={SUNNYSIDE.icons.stopwatch} className="w-6 mr-2" />
-            <span>{secondsToString(secondsLeft, { length: "full" })}</span>
+        <p className="text-sm mb-3 mt-2 w-full">
+          {`Pay attention, you took too long to farm your crops!`}
+        </p>
+        <p className="text-sm mb-3 w-full">
+          {`The Goblins have taken over your farm. You must wait for them to leave`}
+        </p>
+        {secondsLeft >= 0 && (
+          <div className="flex mt-2">
+            <CountdownLabel timeLeft={secondsLeft} />
           </div>
-        ) : (
-          <Button onClick={onAcknowledge}>Continue</Button>
         )}
-      </>
+      </div>
+      {secondsLeft < 0 && <Button onClick={onAcknowledge}>Continue</Button>}
     </>
   );
 };

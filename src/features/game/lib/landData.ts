@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CHORES } from "../types/chores";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
@@ -247,10 +248,12 @@ const INITIAL_BUMPKIN: Bumpkin = {
   experience: 1220501,
   tokenUri: "bla",
   equipped: {
-    body: "Goblin Potion",
+    body: "Beige Farmer Potion",
     hair: "Basic Hair",
-    shirt: "Red Farmer Shirt",
-    pants: "Farmer Pants",
+    // shirt: "Lifeguard Shirt",
+    // pants: "Lifeguard Pants",
+    dress: "Tropical Sarong",
+    hat: "Sleeping Otter",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
@@ -267,11 +270,14 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
+    "Fire Pit": new Decimal(1),
+    Market: new Decimal(1),
     Artist: new Decimal(1),
     Sunflower: new Decimal(2999),
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
+    "Rusty Shovel": new Decimal(10),
     "Bumpkin Salad": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Peeled Potato": new Decimal(1),
@@ -304,14 +310,11 @@ export const OFFLINE_FARM: GameState = {
     "Blossom Tree": new Decimal(1),
     Flamingo: new Decimal(1),
     "Heart Balloons": new Decimal(1),
+    Karkinos: new Decimal(10),
   },
   migrated: true,
   stock: INITIAL_STOCK,
   chickens: {},
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
-  },
   stockExpiry: {},
 
   expansions: INITIAL_EXPANSIONS,
@@ -359,7 +362,12 @@ export const OFFLINE_FARM: GameState = {
     ],
   },
   mysteryPrizes: {},
-  bumpkin: INITIAL_BUMPKIN,
+  bumpkin: {
+    ...INITIAL_BUMPKIN,
+    activity: {
+      "Sunflower Harvested": 24,
+    },
+  },
   pumpkinPlaza: {},
   tradeOffer: {
     amount: 1,
@@ -377,10 +385,54 @@ export const OFFLINE_FARM: GameState = {
       reward: "Sunflower Cake",
     },
   },
+  hayseedHank: {
+    choresCompleted: 0,
+    chore: CHORES[0],
+  },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
-    closesAt: new Date("2022-10-08").getTime(),
+    closesAt: new Date("2023-10-08").getTime(),
     orders: [
+      {
+        id: "asdj123",
+        name: "Boiled Eggs",
+        sfl: new Decimal(10),
+      },
+      {
+        id: "asdasd",
+        name: "Beetroot Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "3",
+        name: "Sunflower Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "4",
+        name: "Bumpkin Broth",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "5",
+        name: "Mashed Potato",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "6",
+        name: "Wheat Cake",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "7",
+        name: "Pumpkin Soup",
+        sfl: new Decimal(20),
+      },
+      {
+        id: "8",
+        name: "Mashed Potato",
+        sfl: new Decimal(20),
+      },
       {
         id: "asdj123",
         name: "Boiled Eggs",

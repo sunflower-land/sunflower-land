@@ -14,7 +14,8 @@ export type GoblinBlacksmithItemName =
   | "Palm Tree"
   | "Beach Ball"
   | "Cabbage Boy"
-  | "Cabbage Girl";
+  | "Cabbage Girl"
+  | "Collectible Bear";
 
 export type GoblinPirateItemName =
   | "Iron Idol"
@@ -87,10 +88,15 @@ export const GOBLIN_PIRATE_ITEMS: Record<
   },
   Karkinos: {
     description:
-      "Pinchy but kind, the crabby kale-boosting addition to your farm!",
-    ingredients: {},
-    supply: 0,
-    boost: "+0.1 Kale",
+      "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
+    ingredients: {
+      Crab: new Decimal(5),
+      Cabbage: new Decimal(500),
+      Gold: new Decimal(3),
+      "Solar Flare Ticket": new Decimal(350),
+    },
+    supply: 7500,
+    boost: "+0.1 Cabbage",
   },
 };
 
@@ -163,22 +169,48 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
   },
   "Palm Tree": {
     description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
-    ingredients: {},
-    supply: 0,
+    ingredients: {
+      Wood: new Decimal(1000),
+      Gold: new Decimal(10),
+      "Solar Flare Ticket": new Decimal(300),
+    },
+    supply: 500,
   },
   "Beach Ball": {
     description: "Bouncy ball brings beachy vibes, blows boredom away.",
-    ingredients: {},
-    supply: 0,
+    ingredients: {
+      Gold: new Decimal(3),
+      "Solar Flare Ticket": new Decimal(50),
+    },
+    supply: 20000,
   },
   "Cabbage Boy": {
     description: "Don't wake the baby!",
-    ingredients: {},
-    supply: 0,
+    ingredients: {
+      Cabbage: new Decimal(2000),
+      Gold: new Decimal(15),
+      "Solar Flare Ticket": new Decimal(750),
+    },
+    supply: 1050, // 1000 + 50 Goblin Treasury Supply
+    boost: "+0.25 Cabbage",
   },
   "Cabbage Girl": {
     description: "Shhh it's sleeping",
-    ingredients: {},
-    supply: 0,
+    ingredients: {
+      Cabbage: new Decimal(2000),
+      Gold: new Decimal(25),
+      "Solar Flare Ticket": new Decimal(1000),
+    },
+    supply: 365, // 360 + 5 Goblin Treasury Supply
+    boost: "50% Faster Cabbages",
+  },
+  "Collectible Bear": {
+    description: "A prized possession still in mint condition!",
+    ingredients: {
+      "Basic Bear": new Decimal(1),
+      Gold: new Decimal(5),
+      "Solar Flare Ticket": new Decimal(250),
+    },
+    supply: 750,
   },
 };

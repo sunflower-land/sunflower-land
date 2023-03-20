@@ -14,6 +14,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { ALLOWED_BEACH_AREA } from "./lib/restrictedArea";
 import { Room } from "./Room";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Leprechaun } from "./components/Leprechaun";
 
 export const BEACH_ROOM_ID = "beach";
 
@@ -64,6 +65,8 @@ export const BeachParty: React.FC = () => {
           top: 1400,
         }}
       />
+      <Leprechaun x={40.5} y={21.3} />
+
       <IslandTravel
         inventory={gameState.context.state.inventory}
         bumpkin={gameState.context.state.bumpkin}
