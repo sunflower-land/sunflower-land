@@ -111,63 +111,61 @@ export const Chest: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <SplitScreenView
-        divRef={divRef}
-        tallMobileContent={true}
-        wideModal={true}
-        showHeader={!!selectedChestItem}
-        header={
-          selectedChestItem && (
-            <InventoryItemDetails
-              details={{
-                item: selectedChestItem,
-              }}
-              properties={{
-                showOpenSeaLink: true,
-              }}
-              actionView={
-                onPlace && (
-                  <Button onClick={handlePlace} disabled={isSaving}>
-                    {isSaving ? "Saving..." : "Place on map"}
-                  </Button>
-                )
-              }
-            />
-          )
-        }
-        content={
-          <>
-            {Object.values(collectibles) && (
-              <div className="flex flex-col pl-2">
-                <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
-                  {getKeys(collectibles).map((item) => (
-                    <Box
-                      count={getItemCount(item)}
-                      isSelected={selectedChestItem === item}
-                      key={item}
-                      onClick={() => handleItemClick(item)}
-                      image={ITEM_DETAILS[item].image}
-                      parentDivRef={divRef}
-                    />
-                  ))}
-                </div>
+    <SplitScreenView
+      divRef={divRef}
+      tallMobileContent={true}
+      wideModal={true}
+      showPanel={!!selectedChestItem}
+      panel={
+        selectedChestItem && (
+          <InventoryItemDetails
+            details={{
+              item: selectedChestItem,
+            }}
+            properties={{
+              showOpenSeaLink: true,
+            }}
+            actionView={
+              onPlace && (
+                <Button onClick={handlePlace} disabled={isSaving}>
+                  {isSaving ? "Saving..." : "Place on map"}
+                </Button>
+              )
+            }
+          />
+        )
+      }
+      content={
+        <>
+          {Object.values(collectibles) && (
+            <div className="flex flex-col pl-2">
+              <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
+                {getKeys(collectibles).map((item) => (
+                  <Box
+                    count={getItemCount(item)}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
               </div>
-            )}
-            {onDepositClick && (
-              <p
-                className="underline text-xxs ml-2 my-1 cursor-pointer"
-                onClick={() => {
-                  onDepositClick();
-                  closeModal();
-                }}
-              >
-                Deposit item from your wallet
-              </p>
-            )}
-          </>
-        }
-      />
-    </>
+            </div>
+          )}
+          {onDepositClick && (
+            <p
+              className="underline text-xxs ml-2 my-1 cursor-pointer"
+              onClick={() => {
+                onDepositClick();
+                closeModal();
+              }}
+            >
+              Deposit item from your wallet
+            </p>
+          )}
+        </>
+      }
+    />
   );
 };

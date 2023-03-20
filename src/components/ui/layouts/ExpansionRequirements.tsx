@@ -7,20 +7,6 @@ import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 
 /**
- * The props for the component.
- * @param gameState The game state.
- * @param details The expansion details.
- * @param requirements The expansion requirement.
- * @param actionView The view for displaying the expansion action.
- */
-interface Props {
-  gameState: GameState | GoblinState;
-  details: DetailsProps;
-  requirements?: RequirementsProps;
-  actionView?: JSX.Element;
-}
-
-/**
  * The props for the details.
  * @param title The title.
  * @param description The description.
@@ -42,6 +28,20 @@ interface RequirementsProps {
   sfl?: Decimal;
   level?: number;
   timeSeconds?: number;
+}
+
+/**
+ * The props for the component.
+ * @param gameState The game state.
+ * @param details The expansion details.
+ * @param requirements The expansion requirement.
+ * @param actionView The view for displaying the expansion action.
+ */
+interface Props {
+  gameState: GameState | GoblinState;
+  details: DetailsProps;
+  requirements?: RequirementsProps;
+  actionView?: JSX.Element;
 }
 
 /**

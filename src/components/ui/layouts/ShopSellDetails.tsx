@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { ConsumableName } from "features/game/types/consumables";
+import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
@@ -10,22 +10,22 @@ import { SquareIcon } from "../SquareIcon";
  * @param item The item.
  */
 interface ItemDetailsProps {
-  item: ConsumableName;
+  item: InventoryItemName;
 }
 
 /**
  * The props for the feed bumpkin details.
- * @param xp The XP gained for consuming the item.
+ * @param sfl The sfl gained for selling the item.
  */
 interface PropertiesProps {
-  xp?: Decimal;
+  sfl?: Decimal;
 }
 
 /**
  * The props for the component.
  * @param details The item details.
  * @param requirements The item properties.
- * @param actionView The view for displaying the feed action.
+ * @param actionView The view for displaying the crafting action.
  */
 interface Props {
   details: ItemDetailsProps;
@@ -37,7 +37,7 @@ interface Props {
  * The view for displaying item name, details, properties and action.
  * @props The component props.
  */
-export const FeedBumpkinDetails: React.FC<Props> = ({
+export const ShopSellDetails: React.FC<Props> = ({
   details,
   properties,
   actionView,
@@ -70,8 +70,10 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
 
     return (
       <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
-        {/* XP display */}
-        {!!properties.xp && <RequirementLabel type="xp" xp={properties.xp} />}
+        {/* SFL display */}
+        {!!properties.sfl && (
+          <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
+        )}
       </div>
     );
   };

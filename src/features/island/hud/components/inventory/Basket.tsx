@@ -128,8 +128,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       divRef={divRef}
       tallMobileContent={true}
       wideModal={true}
-      showHeader={!!selected}
-      header={
+      showPanel={!!selected}
+      panel={
         selected && (
           <InventoryItemDetails
             details={{

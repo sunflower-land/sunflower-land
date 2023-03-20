@@ -1,30 +1,22 @@
 import React, { useState } from "react";
-
-import { Panel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
-
 import { Seeds } from "./Seeds";
 import { Crops } from "./Crops";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   onClose: () => void;
 }
 
 export const ShopItems: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState<"buy" | "sell">("buy");
+  const [tab, setTab] = useState(0);
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Market")
   );
-
-  const handleTabClick = (tab: "buy" | "sell") => {
-    setTab(tab);
-  };
 
   const acknowledge = () => {
     acknowledgeTutorial("Market");
@@ -46,37 +38,18 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <Panel className="relative" hasTabs bumpkinParts={bumpkinParts}>
-      <div
-        className="absolute flex"
-        style={{
-          top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      >
-        <Tab isActive={tab === "buy"} onClick={() => handleTabClick("buy")}>
-          <img src={SUNNYSIDE.icons.seeds} className="h-5 mr-2" />
-          <span className="text-sm">Buy</span>
-        </Tab>
-        <Tab isActive={tab === "sell"} onClick={() => handleTabClick("sell")}>
-          <img src={CROP_LIFECYCLE.Sunflower.crop} className="h-5 mr-2" />
-          <span className="text-sm">Sell</span>
-        </Tab>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-      </div>
-
-      {tab === "buy" && <Seeds onClose={onClose} />}
-      {tab === "sell" && <Crops />}
-    </Panel>
+    <CloseButtonPanel
+      bumpkinParts={bumpkinParts}
+      tabs={[
+        { icon: SUNNYSIDE.icons.seeds, name: "Buy" },
+        { icon: CROP_LIFECYCLE.Sunflower.crop, name: "Sell" },
+      ]}
+      currentTab={tab}
+      setCurrentTab={setTab}
+      onClose={onClose}
+    >
+      {tab === 0 && <Seeds onClose={onClose} />}
+      {tab === 1 && <Crops />}
+    </CloseButtonPanel>
   );
 };
