@@ -51,6 +51,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     state.bumpkin as Bumpkin
   );
 
+  const onSeedClick = (seedName: SeedName) => {
+    setSelectedName(seedName);
+    shortcutItem(seedName);
+  };
+
   const buy = (amount = 1) => {
     gameService.send("seed.bought", {
       item: selectedName,
@@ -67,8 +72,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       icon: ITEM_DETAILS[selectedName].image,
       content: `+${amount}`,
     });
-
-    shortcutItem(selectedName);
   };
 
   const lessFunds = (amount = 1) => {
@@ -181,7 +184,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <Box
               isSelected={selectedName === name}
               key={name}
-              onClick={() => setSelectedName(name)}
+              onClick={() => onSeedClick(name)}
               image={ITEM_DETAILS[name].image}
               showOverlay={isSeedLocked(name)}
               overlayIcon={
