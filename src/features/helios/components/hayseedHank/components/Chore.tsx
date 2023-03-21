@@ -15,6 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Loading } from "features/auth/components";
+import { getProgress, isTaskComplete } from "../lib/HayseedHankTask";
 
 const PROGRESS_BAR_DIMENSIONS = {
   width: 80,
@@ -91,10 +92,7 @@ export const Chore: React.FC = () => {
     );
   }
 
-  const progress =
-    (bumpkin.activity?.[chore.activity] ?? 0) - hayseedHank.progress.startCount;
-
-  const isComplete = progress >= chore.requirement;
+  const progress = getProgress(hayseedHank, bumpkin);
 
   const progressWidth = Math.min(
     Math.floor(
@@ -200,7 +198,10 @@ export const Chore: React.FC = () => {
           </div>
         ))}
       </div>
-      <Button disabled={!isComplete} onClick={() => complete()}>
+      <Button
+        disabled={!isTaskComplete(hayseedHank, bumpkin)}
+        onClick={() => complete()}
+      >
         Complete
       </Button>
     </>

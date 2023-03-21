@@ -11,6 +11,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { hasShownTutorial } from "lib/tutorial";
+import { Bumpkin } from "features/game/types/game";
+import { isTaskComplete } from "./lib/HayseedHankTask";
 
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -27,8 +29,11 @@ export const HayseedHank: React.FC = () => {
     setIsOpen(true);
   };
 
+  const hayseedHank = gameState.context.state.hayseedHank;
+  const bumpkin = gameState.context.state.bumpkin as Bumpkin;
+
   return (
-    <MapPlacement x={-8} y={-9} height={3} width={4}>
+    <MapPlacement x={-7} y={-11} height={1} width={1}>
       <div
         className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={handleClick}
@@ -36,9 +41,9 @@ export const HayseedHank: React.FC = () => {
         <div
           className="absolute"
           style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 19}px`,
-            bottom: `${PIXEL_SCALE * 27}px`,
+            width: `${PIXEL_SCALE * 16}px`,
+            left: `${PIXEL_SCALE * 0}px`,
+            bottom: `${PIXEL_SCALE * 28}px`,
           }}
         >
           <NPC
@@ -47,13 +52,13 @@ export const HayseedHank: React.FC = () => {
             pants="Brown Suspenders"
             hair="Sun Spots"
           />
-          {!gameState.context.state.hayseedHank.progress && (
+          {(!hayseedHank.progress || isTaskComplete(hayseedHank, bumpkin)) && (
             <img
               src={SUNNYSIDE.icons.expression_alerted}
               className="absolute animate-float"
               style={{
-                width: `${PIXEL_SCALE * 3}px`,
-                bottom: `${PIXEL_SCALE * -4}px`,
+                width: `${PIXEL_SCALE * 4}px`,
+                bottom: `${PIXEL_SCALE * -3}px`,
                 left: `${PIXEL_SCALE * 7}px`,
               }}
             />
@@ -74,7 +79,6 @@ export const HayseedHank: React.FC = () => {
         >
           <HayseedHankModal
             onTutorialComplete={() => setTitle("Ready to work?")}
-            onClose={() => setIsOpen(false)}
           />
         </CloseButtonPanel>
       </Modal>
