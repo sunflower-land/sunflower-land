@@ -1,9 +1,9 @@
 import React from "react";
 
 import emptyBar from "assets/ui/progress/empty_bar.png";
-
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { progressBarBorderStyle } from "features/game/lib/style";
 
 type progressType = "progress" | "health" | "error";
 
@@ -43,6 +43,50 @@ const PROGRESS_COLORS: Record<progressType, progressStyle> = {
   },
 };
 
+/**
+ * Resizable bar that is used in UI/HUD.  Does not handle transparency well.
+ * @param percentage Percentage of the bar (0 to 100).
+ * @param type The bar type (determines what color it has).
+ * @param outerDimensions The outer dimensions of the bar in game pixels.
+ * @param _.width The outer width of the bar in game pixels.
+ * @param _.height The outer height of the bar in game pixels.
+ * @returns The resizable bar.
+ */
+export const ResizableBar: React.FC<{
+  percentage: number;
+  type: progressType;
+  outerDimensions?: {
+    width: number;
+    height: number;
+  };
+}> = ({ percentage, type, outerDimensions = { width: 15, height: 7 } }) => {
+  const innerWidth = outerDimensions.width - 4;
+  const clampedProgress = Math.max(0, Math.min(percentage, 100)) / 100;
+  const progressFillPercentage =
+    (Math.floor(clampedProgress * innerWidth) / innerWidth) * 100;
+  const colorInfo = PROGRESS_COLORS[type];
+  const backgroundColor = colorInfo.backgroundColor;
+  const color = colorInfo.color;
+
+  return (
+    <div
+      className="relative"
+      style={{
+        ...progressBarBorderStyle,
+        width: `${PIXEL_SCALE * outerDimensions.width}px`,
+        height: `${PIXEL_SCALE * outerDimensions.height}px`,
+        backgroundImage: `linear-gradient(to right, ${color} 0%, ${color} ${progressFillPercentage}%, ${backgroundColor} ${progressFillPercentage}%, ${backgroundColor} 100%)`,
+      }}
+    />
+  );
+};
+
+/**
+ * Non-resizable bar that is used in the map.  Handles transparency well.
+ * @param percentage Percentage of the bar (0 to 100).
+ * @param type The bar type (determines what color it has).
+ * @returns The non-rresizable bar.
+ */
 export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
   percentage,
   type,

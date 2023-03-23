@@ -1,6 +1,6 @@
 import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
-import { Bar } from "components/ui/ProgressBar";
+import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -47,7 +47,7 @@ export const InProgressInfo: React.FC<Props> = ({
           <span className="text-xs mb-1">
             {secondsToString(secondsTillReady, { length: "medium" })}
           </span>
-          <Bar
+          <ResizableBar
             percentage={(1 - secondsTillReady / cookingSeconds) * 100}
             type="progress"
           />

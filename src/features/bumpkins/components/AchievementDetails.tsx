@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import sflIcon from "assets/icons/token_2.png";
 
@@ -6,8 +6,6 @@ import {
   AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
-import progressBarEdge from "assets/ui/progress/transparent_bar_edge.png";
-import progressBar from "assets/ui/progress/transparent_bar_long.png";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { GameState } from "features/game/types/game";
@@ -15,22 +13,11 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { setImageWidth } from "lib/images";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
-
-const PROGRESS_BAR_DIMENSIONS = {
-  width: 80,
-  height: 10,
-  innerWidth: 76,
-  innerHeight: 5,
-  innerTop: 2,
-  innerLeft: 2,
-  innerRight: 2,
-};
+import { ResizableBar } from "components/ui/ProgressBar";
 
 interface Props {
   onBack: () => void;
@@ -52,17 +39,10 @@ export const AchievementDetails: React.FC<Props> = ({
   const isComplete = progress >= achievement.requirement;
   const isPaused = achievement.sfl.gt(0);
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
   const bumpkinAchievements = state.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[name];
-  const progressWidth = Math.min(
-    Math.floor(
-      (PROGRESS_BAR_DIMENSIONS.innerWidth * progress) / achievement.requirement
-    ),
-    PROGRESS_BAR_DIMENSIONS.innerWidth
-  );
+  const progressPercentage =
+    Math.min(1, progress / achievement.requirement) * 100;
 
   return (
     <div className="flex flex-col items-center">
@@ -101,112 +81,22 @@ export const AchievementDetails: React.FC<Props> = ({
                   <div className="flex items-center justify-center border-t border-white pt-1 w-full">
                     {!isAlreadyClaimed && (
                       <div className="flex items-center mt-2 mb-1">
-                        <div
-                          className="absolute"
-                          style={{
-                            width: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width
-                            }px`,
-                            height: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
-                            }px`,
+                        <ResizableBar
+                          percentage={progressPercentage}
+                          type="progress"
+                          outerDimensions={{
+                            width: 80,
+                            height: 10,
                           }}
-                        >
-                          {/* Progress bar frame */}
-                          <img
-                            src={progressBar}
-                            className="absolute"
-                            style={{
-                              left: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                              }px`,
-                              width: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
-                              }px`,
-                              height: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
-                              }px`,
-                            }}
-                          />
-                          <img
-                            src={progressBarEdge}
-                            className="absolute"
-                            style={{
-                              left: `0px`,
-                              width: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                              }px`,
-                              height: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
-                              }px`,
-                            }}
-                          />
-                          <img
-                            src={progressBarEdge}
-                            className="absolute"
-                            style={{
-                              right: `0px`,
-                              width: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                              }px`,
-                              height: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height
-                              }px`,
-                              transform: "scaleX(-1)",
-                            }}
-                          />
-                          <div
-                            className="absolute bg-[#193c3e]"
-                            style={{
-                              top: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
-                              }px`,
-                              left: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                              }px`,
-                              width: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
-                              }px`,
-                              height: `${
-                                PIXEL_SCALE *
-                                PROGRESS_BAR_DIMENSIONS.innerHeight
-                              }px`,
-                            }}
-                          />
-
-                          {/* Progress */}
-                          <div
-                            className="absolute bg-[#63c74d]"
-                            style={{
-                              top: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop
-                              }px`,
-                              left: `${
-                                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft
-                              }px`,
-                              width: `${PIXEL_SCALE * progressWidth}px`,
-                              height: `${
-                                PIXEL_SCALE *
-                                PROGRESS_BAR_DIMENSIONS.innerHeight
-                              }px`,
-                            }}
-                          />
-                        </div>
-                        <span
-                          className="text-xxs"
-                          style={{
-                            marginLeft: `${
-                              PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
-                            }px`,
-                          }}
-                        >{`${setPrecision(new Decimal(progress))}/${
-                          achievement.requirement
-                        }`}</span>
+                        />
+                        <span className="text-xxs ml-2">{`${setPrecision(
+                          new Decimal(progress)
+                        )}/${achievement.requirement}`}</span>
                       </div>
                     )}
                     {isAlreadyClaimed && (
                       <div className="flex items-center mt-2 mb-1">
-                        <span className="w-auto -mt-2 mb-1 bg-blue-600 text-shadow border text-xxs p-1 rounded-md">
+                        <span className="w-auto -mt-2 mb-1 bg-blue-600 border text-xxs p-1 rounded-md">
                           Already Claimed!
                         </span>
                       </div>

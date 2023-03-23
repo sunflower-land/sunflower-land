@@ -7,7 +7,7 @@ import settings from "assets/icons/settings.png";
 import sound_on from "assets/icons/sound_on.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bar } from "components/ui/ProgressBar";
+import { ResizableBar } from "components/ui/ProgressBar";
 import { SettingsMenu } from "./settings-menu/SettingsMenu";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
@@ -165,7 +165,10 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           left: `${PIXEL_SCALE * 3.5}px`,
         }}
       >
-        <Bar percentage={70} type={showTimers ? "progress" : "error"} />
+        <ResizableBar
+          percentage={70}
+          type={showTimers ? "progress" : "error"}
+        />
       </div>
     );
 
