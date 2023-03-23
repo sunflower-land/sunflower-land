@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
 
-import progressBarSmall from "assets/ui/progress/transparent_bar_small.png";
-
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -21,17 +19,9 @@ import { SkillBadges } from "./SkillBadges";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin, Inventory } from "features/game/types/game";
+import { ResizableBar } from "components/ui/ProgressBar";
 
 type ViewState = "home" | "achievements" | "skills";
-
-const PROGRESS_BAR_DIMENSIONS = {
-  width: 40,
-  height: 7,
-  innerWidth: 36,
-  innerHeight: 2,
-  innerTop: 2,
-  innerLeft: 2,
-};
 
 export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
   const experience = bumpkin?.experience ?? 0;
@@ -39,7 +29,7 @@ export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
 
-  const getProgressWidth = () => {
+  const getProgressPercentage = () => {
     let progressRatio = 1;
     if (!maxLevel) {
       progressRatio = Math.min(
@@ -48,59 +38,24 @@ export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
       );
     }
 
-    return Math.floor(PROGRESS_BAR_DIMENSIONS.innerWidth * progressRatio);
+    return progressRatio * 100;
   };
-
-  const bumpkinXPText = maxLevel
-    ? `${Math.floor(currentExperienceProgress)} XP`
-    : `${Math.floor(currentExperienceProgress)}/${Math.floor(
-        experienceToNextLevel
-      )} XP`;
 
   return (
     <div className="flex item-center mt-1">
-      <div
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
+      <ResizableBar
+        percentage={getProgressPercentage()}
+        type="progress"
+        outerDimensions={{
+          width: 40,
+          height: 7,
         }}
-      >
-        <img
-          src={progressBarSmall}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
-          }}
-        />
-        <div
-          className="absolute bg-[#193c3e]"
-          style={{
-            top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
-            left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-            width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth}px`,
-            height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight}px`,
-          }}
-        />
-        <div
-          className="absolute bg-[#63c74d]"
-          style={{
-            top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
-            left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-            width: `${PIXEL_SCALE * getProgressWidth()}px`,
-            height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight}px`,
-          }}
-        />
-      </div>
+      />
 
       {/* XP progress text */}
-      <p
-        className="text-xxs mt-0.5"
-        style={{
-          marginLeft: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8}px`,
-        }}
-      >{`${Math.floor(currentExperienceProgress)}/${
-        maxLevel ? "-" : Math.floor(experienceToNextLevel)
-      } XP`}</p>
+      <p className="text-xxs mt-0.5 ml-2">{`${Math.floor(
+        currentExperienceProgress
+      )}/${maxLevel ? "-" : Math.floor(experienceToNextLevel)} XP`}</p>
     </div>
   );
 };
@@ -160,29 +115,11 @@ export const BumpkinModal: React.FC<Props> = ({
     );
   }
 
-  // Do not show soul bound characteristics
-  const { body, hair, background, ...wearables } =
-    bumpkin?.equipped as BumpkinParts;
-
   const experience = bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const maxLevel = isMaxLevel(experience);
-  const { currentExperienceProgress, experienceToNextLevel } =
-    getExperienceToNextLevel(experience);
 
   const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
-
-  const getProgressWidth = () => {
-    let progressRatio = 1;
-    if (!maxLevel) {
-      progressRatio = Math.min(
-        1,
-        currentExperienceProgress / experienceToNextLevel
-      );
-    }
-
-    return Math.floor(PROGRESS_BAR_DIMENSIONS.innerWidth * progressRatio);
-  };
 
   return (
     <Panel>
