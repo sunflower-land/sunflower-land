@@ -2,7 +2,9 @@ import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Ingredient } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
+import { CROP_SEEDS } from "features/game/types/crops";
+import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
@@ -42,7 +44,7 @@ interface HarvestsRequirementProps {
  * @param level The level requirements.
  */
 interface RequirementsProps {
-  resources?: Ingredient[];
+  resources?: Partial<Record<InventoryItemName, Decimal>>;
   sfl?: Decimal;
   showSflIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
@@ -97,8 +99,11 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     const inventoryCount = gameState.inventory[details.item] ?? new Decimal(0);
     const limit = INITIAL_STOCK(gameState)[details.item];
+    const isSeed =
+      details.item in FRUIT_SEEDS() || details.item in CROP_SEEDS();
     const isInventoryFull =
-      limit === undefined ? false : inventoryCount.greaterThan(limit);
+      isSeed &&
+      (limit === undefined ? false : inventoryCount.greaterThan(limit));
 
     return (
       <div className="flex justify-center -mt-1.5 mb-1.5">
@@ -156,17 +161,18 @@ export const CraftingRequirements: React.FC<Props> = ({
     return (
       <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
         {/* Item ingredients requirements */}
-        {requirements.resources?.map((ingredient, index) => {
-          return (
+        {!!requirements.resources &&
+          getKeys(requirements.resources).map((ingredientName, index) => (
             <RequirementLabel
               key={index}
               type="item"
-              item={ingredient.item}
-              balance={gameState.inventory[ingredient.item] ?? new Decimal(0)}
-              requirement={ingredient.amount}
+              item={ingredientName}
+              balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
+              requirement={
+                (requirements.resources ?? {})[ingredientName] ?? new Decimal(0)
+              }
             />
-          );
-        })}
+          ))}
 
         {/* SFL requirement */}
         {!!requirements.sfl &&
