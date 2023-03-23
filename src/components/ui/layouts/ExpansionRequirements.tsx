@@ -119,7 +119,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col justify-center">
-      <div className="flex flex-col justify-center p-2 pb-0">
+      <div className="flex flex-col justify-center px-1 py-0">
         {getItemDetail()}
         {getRequirements()}
       </div>

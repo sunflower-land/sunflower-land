@@ -72,10 +72,9 @@ export const InventoryItemDetails: React.FC<Props> = ({
     return (
       <>
         <div
-          className={classNames(
-            "flex space-x-2 justify-start mb-1 items-center",
-            { "sm:flex-col-reverse md:space-x-0": !wideLayout }
-          )}
+          className={classNames("flex space-x-2 justify-start items-center", {
+            "sm:flex-col-reverse md:space-x-0": !wideLayout,
+          })}
         >
           {icon && (
             <div className={classNames("", { "sm:mt-2": !wideLayout })}>
@@ -87,7 +86,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
           </span>
         </div>
         <span
-          className={classNames("text-xs mt-1 whitespace-pre-line", {
+          className={classNames("text-xs sm:mt-1 whitespace-pre-line", {
             "sm:text-center": !wideLayout,
           })}
         >
@@ -143,7 +142,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col justify-between h-full">
-      <div className="flex flex-col justify-center p-2 pb-0">
+      <div className="flex flex-col justify-center px-1 py-0">
         {getItemDetail()}
         {getProperties()}
       </div>
