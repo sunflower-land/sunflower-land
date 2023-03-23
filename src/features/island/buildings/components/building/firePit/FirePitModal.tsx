@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { getKeys } from "features/game/types/craftables";
 
@@ -12,13 +11,11 @@ import {
   CookableName,
   COOKABLES,
 } from "features/game/types/consumables";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Tab } from "components/ui/Tab";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { Equipped } from "features/game/types/bumpkin";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Tutorial } from "./Tutorial";
-import { SUNNYSIDE } from "assets/sunnyside";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   isOpen: boolean;
@@ -77,30 +74,11 @@ export const FirePitModal: React.FC<Props> = ({
 
   return (
     <Modal show={isOpen} onHide={onClose} centered>
-      <Panel bumpkinParts={bumpkinParts} hasTabs>
-        <div
-          className="absolute flex"
-          style={{
-            top: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 3}px`,
-            right: `${PIXEL_SCALE * 3}px`,
-          }}
-        >
-          <Tab isActive>
-            <img src={chefHat} className="h-5 mr-2" />
-            <span className="text-sm whitespace-nowrap">Fire Pit</span>
-          </Tab>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={onClose}
-            style={{
-              top: `${PIXEL_SCALE * 1}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-        </div>
+      <CloseButtonPanel
+        bumpkinParts={bumpkinParts}
+        tabs={[{ icon: chefHat, name: "Fire Pit" }]}
+        onClose={onClose}
+      >
         <Recipes
           selected={selected}
           setSelected={setSelected}
@@ -110,7 +88,7 @@ export const FirePitModal: React.FC<Props> = ({
           crafting={!!crafting}
           craftingService={craftingService}
         />
-      </Panel>
+      </CloseButtonPanel>
     </Modal>
   );
 };
