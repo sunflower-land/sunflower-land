@@ -40,7 +40,7 @@ export const DecorationItems: React.FC<Props> = ({ onClose }) => {
   const price = selected.sfl;
   const buy = () => {
     gameService.send("decoration.bought", {
-      item: selected.name,
+      name: selected.name,
     });
 
     setToast({

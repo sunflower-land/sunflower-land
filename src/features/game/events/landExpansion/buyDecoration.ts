@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
+import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { getKeys } from "features/game/types/craftables";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  getKeys,
+} from "features/game/types/craftables";
 import {
   HELIOS_DECORATIONS,
   ShopDecorationName,
@@ -12,7 +16,7 @@ export type buyDecorationAction = {
   type: "decoration.bought";
   name: ShopDecorationName;
   id: string;
-  coordinates: {
+  coordinates?: {
     x: number;
     y: number;
   };
@@ -76,13 +80,32 @@ export function buyDecoration({ state, action }: Options) {
     new Decimal(1)
   );
 
-  const previous = stateCopy.collectibles[name] ?? [];
-  stateCopy.collectibles[name] = previous.concat({
-    id: action.id,
-    coordinates: { x: action.coordinates.x, y: action.coordinates.y },
-    readyAt: Date.now(),
-    createdAt: Date.now(),
-  });
+  if (action.coordinates && action.id) {
+    const dimensions = COLLECTIBLES_DIMENSIONS[name];
+    const collides = detectCollision(stateCopy, {
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    });
+
+    if (collides) {
+      throw new Error("Decoration collides");
+    }
+
+    const previous = stateCopy.collectibles[name] ?? [];
+
+    if (previous.find((item) => item.id === action.id)) {
+      throw new Error("ID already exists");
+    }
+
+    stateCopy.collectibles[name] = previous.concat({
+      id: action.id,
+      coordinates: { x: action.coordinates.x, y: action.coordinates.y },
+      readyAt: Date.now(),
+      createdAt: Date.now(),
+    });
+  }
 
   return {
     ...stateCopy,

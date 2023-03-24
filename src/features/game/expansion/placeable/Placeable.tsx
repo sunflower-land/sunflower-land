@@ -99,6 +99,12 @@ export const Placeable: React.FC = () => {
     ...ANIMAL_DIMENSIONS,
   }[placeable];
 
+  useEffect(() => {
+    setTimeout(() => {
+      // nodeRef.current.
+    }, 1000);
+  }, []);
+
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision(gameService.state.context.state, {
       x,
@@ -129,6 +135,8 @@ export const Placeable: React.FC = () => {
     });
   }, []);
 
+  console.log({ coordinates, DEFAULT_POSITION_X, DEFAULT_POSITION_Y });
+
   return (
     <>
       <div
@@ -147,13 +155,13 @@ export const Placeable: React.FC = () => {
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
           defaultPosition={{
-            x: DEFAULT_POSITION_X,
-            y: DEFAULT_POSITION_Y,
-          }}
-          position={{
             x: DEFAULT_POSITION_X + coordinates.x * GRID_WIDTH_PX,
             y: DEFAULT_POSITION_Y - coordinates.y * GRID_WIDTH_PX,
           }}
+          // position={{
+          //   x: DEFAULT_POSITION_X + coordinates.x * GRID_WIDTH_PX,
+          //   y: DEFAULT_POSITION_Y - coordinates.y * GRID_WIDTH_PX,
+          // }}
           nodeRef={nodeRef}
           grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
           onStart={() => {
