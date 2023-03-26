@@ -169,12 +169,14 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
     return items
-      ? items.map((item) => ({
-          x: item.coordinates.x,
-          y: item.coordinates.y,
-          height: dimensions.height,
-          width: dimensions.width,
-        }))
+      ? items
+          .filter((item) => !item.selected)
+          .map((item) => ({
+            x: item.coordinates.x,
+            y: item.coordinates.y,
+            height: dimensions.height,
+            width: dimensions.width,
+          }))
       : [];
   });
 

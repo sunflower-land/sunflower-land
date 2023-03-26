@@ -291,7 +291,7 @@ const getIslandElements = ({
     ...getKeys(buildings)
       .filter((name) => buildings[name])
       .flatMap((name, nameIndex) => {
-        const items = buildings[name]!;
+        const items = buildings[name]!.filter((building) => !building.selected);
         return items.map((building, itemIndex) => {
           const { x, y } = building.coordinates;
           const { width, height } = BUILDINGS_DIMENSIONS[name];

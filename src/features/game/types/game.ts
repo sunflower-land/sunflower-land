@@ -323,6 +323,7 @@ export type PlacedItem = {
   createdAt: number;
 
   crafting?: BuildingProduct;
+  selected?: boolean;
 };
 
 export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;

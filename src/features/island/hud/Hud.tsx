@@ -16,6 +16,7 @@ import { DepositArgs } from "lib/blockchain/Deposit";
 import Modal from "react-bootstrap/esm/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
+import { Landscaping } from "./components/Landscaping";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -49,6 +50,11 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       aria-label="Hud"
       className="absolute z-40"
     >
+      <Landscaping
+        startLandscaping={() => {
+          gameService.send("EDIT");
+        }}
+      />
       <div hidden={isEditing}>
         <Inventory
           state={gameState.context.state}

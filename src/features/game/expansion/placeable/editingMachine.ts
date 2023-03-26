@@ -1,15 +1,19 @@
-import { v4 as uuidv4 } from "uuid";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { BuildingName } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
+import { SelectToMoveEvent } from "features/game/lib/gameMachine";
+import { GameState } from "features/game/types/game";
 
 export interface Context {
-  placeable: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
-  coordinates: Coordinates;
-  collisionDetected: boolean;
+  gameState: GameState;
+  placeable?: BuildingName | CollectibleName;
+  id?: string;
+  action?: GameEventName<PlacementEvent>;
+  type: "BUILDING";
+  coordinates?: Coordinates;
+  collisionDetected?: boolean;
 }
 
 type UpdateEvent = {
@@ -20,6 +24,19 @@ type UpdateEvent = {
 
 type PlaceEvent = {
   type: "PLACE";
+};
+
+type SelectEvent = {
+  type: "SELECT";
+  placeable: BuildingName | CollectibleName;
+  id: string;
+};
+
+type SelectedEvent = {
+  type: "SELECTED";
+  placeable: BuildingName | CollectibleName;
+  coordinates: Coordinates;
+  id: string;
 };
 
 type ConstructEvent = {
@@ -33,6 +50,8 @@ export type BlockchainEvent =
   | ConstructEvent
   | PlaceEvent
   | UpdateEvent
+  | SelectEvent
+  | SelectedEvent
   | { type: "CANCEL" };
 
 export type BlockchainState = {
@@ -62,6 +81,40 @@ export const editingMachine = createMachine<
   states: {
     idle: {
       on: {
+        SELECT: {
+          actions: [
+            assign({
+              placeable: (_, event) => event.placeable,
+              id: (_, event) => event.id,
+              coordinates: (context, event) => {
+                const { placeable, id } = event as SelectEvent;
+                const building = context.gameState.buildings[
+                  placeable as BuildingName
+                ]?.find((building) => building.id === id);
+
+                if (!building) return;
+
+                return building.coordinates;
+              },
+            }),
+            sendParent(
+              (_, event) =>
+                ({
+                  type: "SELECT_TO_MOVE",
+                  placeable: event.placeable,
+                  placeableType: "BUILDING",
+                  id: event.id,
+                } as SelectToMoveEvent)
+            ),
+          ],
+        },
+        SELECTED: {
+          actions: assign({
+            placeable: (_, event) => event.placeable,
+            coordinates: (_, event) => event.coordinates,
+            id: (_, event) => event.id,
+          }),
+        },
         UPDATE: {
           actions: assign({
             coordinates: (_, event) => event.coordinates,
@@ -73,15 +126,15 @@ export const editingMachine = createMachine<
         },
         PLACE: {
           target: "placed",
-          actions: sendParent(
-            ({ placeable, action, coordinates: { x, y } }) =>
-              ({
-                type: action,
-                name: placeable,
-                coordinates: { x, y },
-                id: uuidv4(),
-              } as PlacementEvent)
-          ),
+          // actions: sendParent(
+          //   ({ placeable, action, coordinates: { x, y } }) =>
+          //     ({
+          //       type: action,
+          //       name: placeable,
+          //       coordinates: { x, y },
+          //       id: uuidv4(),
+          //     } as PlacementEvent)
+          // ),
         },
       },
     },

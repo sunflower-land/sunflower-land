@@ -17,7 +17,7 @@ import {
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState, InventoryItemName, PlacedItem } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -96,9 +96,16 @@ type SyncEvent = {
 };
 
 type EditEvent = {
-  placeable: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
+  placeable?: BuildingName | CollectibleName;
+  action?: GameEventName<PlacementEvent>;
   type: "EDIT";
+};
+
+export type SelectToMoveEvent = {
+  type: "SELECT_TO_MOVE";
+  placeable: BuildingName | CollectibleName;
+  placeableType: "BUILDING" | "COLLECTIBLE";
+  id: string;
 };
 
 type VisitEvent = {
@@ -156,6 +163,7 @@ export type BlockchainEvent =
   | VisitEvent
   | BuySFLEvent
   | DepositEvent
+  | SelectToMoveEvent
   | { type: "EXPAND" }
   | { type: "RANDOMISE" }; // Test only
 
@@ -930,6 +938,7 @@ export function startGame(authContext: Options) {
             autoForward: true,
             src: editingMachine,
             data: {
+              gameState: (context: Context) => context.state,
               placeable: (_: Context, event: EditEvent) => event.placeable,
               action: (_: Context, event: EditEvent) => event.action,
               coordinates: { x: 0, y: 0 },
@@ -952,6 +961,34 @@ export function startGame(authContext: Options) {
           },
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
+            SELECT_TO_MOVE: {
+              actions: [
+                assign({
+                  state: (context, event) => {
+                    const { placeable, id } = event as SelectToMoveEvent;
+                    const buildingIdx = context.state.buildings[
+                      placeable as BuildingName
+                    ]?.findIndex((building) => building.id === id);
+
+                    if (buildingIdx === undefined) return context.state;
+
+                    const buildingsOfType = context.state.buildings[
+                      placeable as BuildingName
+                    ] as PlacedItem[];
+
+                    buildingsOfType[buildingIdx].selected = true;
+
+                    return {
+                      ...context.state,
+                      buildings: {
+                        ...context.state.buildings,
+                        [placeable]: buildingsOfType,
+                      },
+                    };
+                  },
+                }),
+              ],
+            },
           },
         },
         coolingDown: {},

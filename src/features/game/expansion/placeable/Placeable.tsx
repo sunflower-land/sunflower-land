@@ -35,7 +35,13 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
 // const BOUNDS_MIN_Y = -5
 // const BOUNDS_MAX_Y = 15
 
-export const getInitialCoordinates = () => {
+export const getInitialCoordinates = (currentCoordinates?: Coordinates) => {
+  if (currentCoordinates)
+    return [
+      currentCoordinates.x * GRID_WIDTH_PX,
+      -(currentCoordinates.y * GRID_WIDTH_PX),
+    ];
+
   // This container helps us to calculate the scroll pixels as in our application
   // window do not scroll but this container dose
   const pageScrollContainer = document.getElementsByClassName(
@@ -79,14 +85,21 @@ export const Placeable: React.FC = () => {
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable } = machine.context;
-  const { width, height } = {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
-  }[placeable];
+  const { placeable, coordinates: currentCoordinates } = machine.context;
+
+  const placeableDimensions =
+    placeable &&
+    {
+      ...BUILDINGS_DIMENSIONS,
+      ...COLLECTIBLES_DIMENSIONS,
+      ...ANIMAL_DIMENSIONS,
+    }[placeable];
 
   const detect = ({ x, y }: Coordinates) => {
+    if (!placeableDimensions) return;
+
+    const { width, height } = placeableDimensions;
+
     const collisionDetected = detectCollision(gameService.state.context.state, {
       x,
       y,
@@ -99,7 +112,8 @@ export const Placeable: React.FC = () => {
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
-  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] = getInitialCoordinates();
+  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] =
+    getInitialCoordinates(currentCoordinates);
 
   useEffect(() => {
     detect({
@@ -108,11 +122,13 @@ export const Placeable: React.FC = () => {
     });
   }, []);
 
+  const ItemToPlace = PLACEABLES[placeable as PlaceableName];
+
   return (
     <>
       <div
         id="bg-overlay "
-        className=" bg-black opacity-40 fixed inset-0"
+        className=" bg-black opacity-40 fixed inset-0 pointer-events-none"
         style={{
           zIndex: 99,
           height: "200%",
@@ -124,71 +140,73 @@ export const Placeable: React.FC = () => {
         }}
       />
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
-        <Draggable
-          defaultPosition={{
-            x: DEFAULT_POSITION_X,
-            y: DEFAULT_POSITION_Y,
-          }}
-          nodeRef={nodeRef}
-          grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
-          onStart={() => {
-            send("DRAG");
-          }}
-          onDrag={(_, data) => {
-            const x = Math.round(data.x / GRID_WIDTH_PX);
-            const y = Math.round(-data.y / GRID_WIDTH_PX);
+        {placeable && (
+          <Draggable
+            defaultPosition={{
+              x: DEFAULT_POSITION_X,
+              y: DEFAULT_POSITION_Y,
+            }}
+            nodeRef={nodeRef}
+            grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
+            onStart={() => {
+              send("DRAG");
+            }}
+            onDrag={(_, data) => {
+              const x = Math.round(data.x / GRID_WIDTH_PX);
+              const y = Math.round(-data.y / GRID_WIDTH_PX);
 
-            detect({ x, y });
-            setShowHint(false);
-          }}
-          onStop={(_, data) => {
-            const x = Math.round(data.x / GRID_WIDTH_PX);
-            const y = Math.round(-data.y / GRID_WIDTH_PX);
+              detect({ x, y });
+              setShowHint(false);
+            }}
+            onStop={(_, data) => {
+              const x = Math.round(data.x / GRID_WIDTH_PX);
+              const y = Math.round(-data.y / GRID_WIDTH_PX);
 
-            detect({ x, y });
+              detect({ x, y });
 
-            send("DROP");
-          }}
-        >
-          <div
-            ref={nodeRef}
-            data-prevent-drag-scroll
-            className={classNames("flex flex-col items-center", {
-              "cursor-grab": !machine.matches("dragging"),
-              "cursor-grabbing": machine.matches("dragging"),
-            })}
-            style={{ pointerEvents: "auto" }}
+              send("DROP");
+            }}
           >
-            {showHint && (
+            <div
+              ref={nodeRef}
+              data-prevent-drag-scroll
+              className={classNames("flex flex-col items-center", {
+                "cursor-grab": !machine.matches("dragging"),
+                "cursor-grabbing": machine.matches("dragging"),
+              })}
+              style={{ pointerEvents: "auto" }}
+            >
+              {showHint && (
+                <div
+                  className="flex absolute pointer-events-none"
+                  style={{
+                    top: "-35px",
+                    width: "135px",
+                  }}
+                >
+                  <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />
+                  <span className="text-white text-sm">Drag me</span>
+                </div>
+              )}
               <div
-                className="flex absolute pointer-events-none"
+                draggable={false}
+                className={classNames(
+                  " w-full h-full relative img-highlight pointer-events-none",
+                  {
+                    "bg-green-background/80": !collideRef.current,
+                    "bg-red-background/80": collideRef.current,
+                  }
+                )}
                 style={{
-                  top: "-35px",
-                  width: "135px",
+                  width: `${placeableDimensions!.width * GRID_WIDTH_PX}px`,
+                  height: `${placeableDimensions!.height * GRID_WIDTH_PX}px`,
                 }}
               >
-                <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />
-                <span className="text-white text-sm">Drag me</span>
+                <ItemToPlace />
               </div>
-            )}
-            <div
-              draggable={false}
-              className={classNames(
-                " w-full h-full relative img-highlight pointer-events-none",
-                {
-                  "bg-green-background/80": !collideRef.current,
-                  "bg-red-background/80": collideRef.current,
-                }
-              )}
-              style={{
-                width: `${width * GRID_WIDTH_PX}px`,
-                height: `${height * GRID_WIDTH_PX}px`,
-              }}
-            >
-              {PLACEABLES[placeable]({})}
             </div>
-          </div>
-        </Draggable>
+          </Draggable>
+        )}
       </div>
     </>
   );

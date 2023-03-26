@@ -9,11 +9,27 @@ import { BuildingProps } from "../Building";
 import { Modal } from "react-bootstrap";
 import { ShopItems } from "./ShopItems";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { MachineInterpreter } from "features/game/expansion/placeable/editingMachine";
 
-export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+export const Market: React.FC<BuildingProps> = ({
+  isBuilt,
+  onRemove,
+  buildingId,
+}) => {
+  const { gameService } = React.useContext(Context);
+  const [gameState] = useActor(gameService);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
+    if (gameState.matches("editing")) {
+      const editing = gameService.state.children.editing as MachineInterpreter;
+
+      editing.send("SELECT", { id: buildingId, placeable: "Market" });
+      return;
+    }
+
     if (onRemove) {
       onRemove();
       return;
