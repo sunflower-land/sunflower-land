@@ -89,7 +89,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     if (stock.lessThanOrEqualTo(0)) {
       return (
-        <div className="flex justify-center -mt-1.5 mb-1.5">
+        <div className="flex justify-center mt-0 sm:mb-1">
           <Label type="danger">Sold out</Label>
         </div>
       );
@@ -101,7 +101,7 @@ export const CraftingRequirements: React.FC<Props> = ({
       limit === undefined ? false : inventoryCount.greaterThan(limit);
 
     return (
-      <div className="flex justify-center -mt-1.5 mb-1.5">
+      <div className="flex justify-center mt-0 sm:mb-1">
         <Label type={isInventoryFull ? "danger" : "info"}>
           {`${stock} ${isLimitedItem ? "left" : "in stock"}`}
         </Label>
@@ -119,7 +119,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex space-x-2 justify-start mb-1 items-center sm:flex-col-reverse md:space-x-0">
+        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
           {icon && (
             <div className="sm:mt-2">
               <SquareIcon icon={icon} width={14} />
@@ -127,7 +127,7 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
           <span className="sm:text-center">{title}</span>
         </div>
-        <span className="text-xs mt-1 whitespace-pre-line sm:text-center">
+        <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
           {description}
         </span>
       </>
@@ -214,7 +214,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col justify-center">
-      <div className="flex flex-col justify-center p-2 pb-0">
+      <div className="flex flex-col justify-center px-1 py-0">
         {getStock()}
         {getItemDetail()}
         {getBoosts()}
