@@ -37,7 +37,6 @@ export const AchievementDetails: React.FC<Props> = ({
   const achievement = ACHIEVEMENTS()[name];
   const progress = achievement.progress(state);
   const isComplete = progress >= achievement.requirement;
-  const isPaused = achievement.sfl.gt(0);
 
   const bumpkinAchievements = state.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[name];
@@ -141,20 +140,13 @@ export const AchievementDetails: React.FC<Props> = ({
                   })}
                 </div>
                 {!readonly && (
-                  <>
-                    <Button
-                      className="text-xs mt-2"
-                      onClick={onClaim}
-                      disabled={!isComplete || isPaused}
-                    >
-                      <span>{isPaused ? "Paused" : "Claim"}</span>
-                    </Button>
-                    {isPaused && (
-                      <div className="pt-1 text-xxs">
-                        Claiming SFL rewards paused for Bumpkins upgrade.
-                      </div>
-                    )}
-                  </>
+                  <Button
+                    className="text-xs mt-2"
+                    onClick={onClaim}
+                    disabled={!isComplete}
+                  >
+                    <span>Claim</span>
+                  </Button>
                 )}
               </div>
             )}

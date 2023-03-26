@@ -95,7 +95,6 @@ export const Achievements: React.FC<Props> = ({
 
             const bumpkinAchievements = state.bumpkin?.achievements || {};
             const isAlreadyClaimed = !!bumpkinAchievements[name];
-            const isPaused = achievement.sfl.gt(0);
 
             return (
               <div
@@ -112,8 +111,7 @@ export const Achievements: React.FC<Props> = ({
                   className={classNames(
                     "flex justify-center items-center p-1 rounded-md relative cursor-pointer hover:img-highlight",
                     {
-                      "opacity-50":
-                        (!isAlreadyClaimed && !isComplete) || isPaused,
+                      "opacity-50": !isAlreadyClaimed && !isComplete,
                       "img-highlight": selected === name,
                     }
                   )}
