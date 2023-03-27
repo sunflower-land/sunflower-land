@@ -50,6 +50,7 @@ import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
+import { loadGuestSession } from "../actions/loadGuestSession";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -305,6 +306,39 @@ export function startGame(authContext: Options) {
             src: async (context) => {
               const farmAddress = authContext.address as string;
               const farmId = authContext.farmId as number;
+              const guestId = authContext.guestId as number;
+
+              if (guestId) {
+                const response = await loadGuestSession({
+                  guestId,
+                });
+
+                if (!response) {
+                  throw new Error("NO_FARM");
+                }
+
+                const {
+                  game,
+                  whitelistedAt,
+                  itemsMintedAt,
+                  deviceTrackerId,
+                  status,
+                } = response;
+
+                return {
+                  state: {
+                    ...response?.game,
+                    id: guestId,
+                  },
+                  onChain: EMPTY,
+                  sessionId: String(guestId),
+                  whitelistedAt,
+                  fingerprint: "X",
+                  itemsMintedAt,
+                  deviceTrackerId,
+                  status,
+                };
+              }
 
               const { game: onChain, bumpkin } = await getGameOnChainState({
                 farmAddress,

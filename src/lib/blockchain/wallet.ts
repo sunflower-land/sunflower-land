@@ -8,7 +8,7 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 import Decimal from "decimal.js-light";
 
-export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
+export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE" | "GUEST";
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
 const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;

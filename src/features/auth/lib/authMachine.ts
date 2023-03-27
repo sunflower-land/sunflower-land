@@ -8,7 +8,6 @@ import { CONFIG } from "lib/config";
 import { ErrorCode, ERRORS } from "lib/errors";
 
 import { wallet, WalletType } from "../../../lib/blockchain/wallet";
-import { communityContracts } from "features/community/lib/communityContracts";
 import { createAccount as createFarmAction } from "../actions/createAccount";
 import {
   login,
@@ -25,6 +24,7 @@ import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
+import Web3 from "web3";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -53,6 +53,7 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   farmId?: number;
+  guestId?: number;
   hash?: string;
   address?: string;
   token?: Token;
@@ -124,7 +125,8 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_WALLET_CONNECT" }
   | { type: "CONNECT_TO_SEQUENCE" }
   | { type: "SIGN" }
-  | { type: "VERIFIED" };
+  | { type: "VERIFIED" }
+  | { type: "PLAY_AS_GUEST" };
 
 export type BlockchainState = {
   value:
@@ -178,6 +180,10 @@ export const authMachine = createMachine<
     states: {
       idle: {
         id: "idle",
+        always: {
+          target: "connectingAsGuest",
+          cond: () => !!localStorage.getItem("guestId"),
+        },
         on: {
           CONNECT_TO_METAMASK: {
             target: "connectingToMetamask",
@@ -187,6 +193,9 @@ export const authMachine = createMachine<
           },
           CONNECT_TO_SEQUENCE: {
             target: "connectingToSequence",
+          },
+          PLAY_AS_GUEST: {
+            target: "connectingAsGuest",
           },
         },
       },
@@ -263,12 +272,36 @@ export const authMachine = createMachine<
           ],
         },
       },
+      connectingAsGuest: {
+        id: "connectingAsGuest",
+        invoke: {
+          src: async () => {
+            const guestId = 9999999999;
+            localStorage.setItem("guestId", String(guestId));
+            return {
+              wallet: "GUEST",
+              provider: new Web3("https://rpc-mumbai.maticvigil.com"),
+              guestId: guestId,
+            };
+          },
+          onDone: {
+            target: "setupContracts",
+            actions: [
+              assign({
+                farmId: (_, event) => event.data.guestId,
+                guestId: (_, event) => event.data.guestId,
+              }),
+              "assignWallet",
+            ],
+          },
+        },
+      },
       setupContracts: {
         invoke: {
           src: async (context, event) => {
             const type: WalletType = (event as any).data?.wallet ?? "METAMASK";
             await wallet.initialise(context.provider, type);
-            await communityContracts.initialise(context.provider);
+            // await communityContracts.initialise(context.provider);
           },
           onDone: [
             {
@@ -278,6 +311,10 @@ export const authMachine = createMachine<
             {
               target: "signing",
               cond: (context) => context.wallet === "METAMASK",
+            },
+            {
+              target: "#authorised",
+              cond: (context) => context.wallet === "GUEST",
             },
             {
               target: "connectedToWallet",

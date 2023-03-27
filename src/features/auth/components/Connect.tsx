@@ -9,6 +9,9 @@ export const Connect: React.FC = () => {
 
   return (
     <div className="px-4">
+      <Button onClick={() => authService.send("PLAY_AS_GUEST")}>
+        Play as Guest
+      </Button>
       <p className="text-xs text-white mt-2 mb-3 text-center italic">
         Connect your Web3 wallet to play
       </p>
