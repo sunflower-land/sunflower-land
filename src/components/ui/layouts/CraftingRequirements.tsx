@@ -59,7 +59,7 @@ interface RequirementsProps {
  * @param stock The stock of the item available to craft.  Undefined if the stock is unlimited.
  * @param isLimitedItem true if the item quantity is limited to a certain number in the blockchain, else false. Defaults to false.
  * @param details The item details.
- * @param boosts The available boosts of the item.
+ * @param boost The available boost of the item.
  * @param requirements The item quantity requirement.
  * @param actionView The view for displaying the crafting action.
  */
@@ -68,7 +68,7 @@ interface Props {
   stock?: Decimal;
   isLimitedItem?: boolean;
   details: ItemDetailsProps;
-  boosts?: string[];
+  boost?: string;
   requirements?: RequirementsProps;
   actionView?: JSX.Element;
 }
@@ -82,7 +82,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   stock,
   isLimitedItem = false,
   details,
-  boosts = [],
+  boost: boost,
   requirements,
   actionView,
 }: Props) => {
@@ -139,18 +139,14 @@ export const CraftingRequirements: React.FC<Props> = ({
     );
   };
 
-  const getBoosts = () => {
-    if (!boosts) return <></>;
+  const getBoost = () => {
+    if (!boost) return <></>;
 
     return (
       <div className="flex flex-col space-y-1 mt-2">
-        {boosts.map((boost, index) => {
-          return (
-            <div key={index} className="flex justify-start sm:justify-center">
-              <Label type="info">{boost}</Label>
-            </div>
-          );
-        })}
+        <div className="flex justify-start sm:justify-center">
+          <Label type="info">{boost}</Label>
+        </div>
       </div>
     );
   };
@@ -223,7 +219,7 @@ export const CraftingRequirements: React.FC<Props> = ({
       <div className="flex flex-col justify-center px-1 py-0">
         {getStock()}
         {getItemDetail()}
-        {getBoosts()}
+        {getBoost()}
         {getRequirements()}
       </div>
       {actionView}
