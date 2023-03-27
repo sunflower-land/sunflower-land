@@ -62,12 +62,20 @@ export const FirePit: React.FC<Props> = ({
   };
 
   const handleClick = () => {
-    if (gameState.matches("editing")) {
-      const editing = gameService.state.children.editing as MachineInterpreter;
+    const editing = gameService.state.children.editing as MachineInterpreter;
 
-      editing.send("SELECT_TO_MOVE", { id: buildingId, placeable: "Fire Pit" });
+    if (gameState.matches("editing")) {
+      if (editing.state.matches("selecting")) {
+        editing.send("SELECT_TO_MOVE", {
+          id: buildingId,
+          placeable: "Fire Pit",
+          placeableType: "BUILDING",
+        });
+        return;
+      }
       return;
     }
+
     if (onRemove) {
       onRemove();
       return;
