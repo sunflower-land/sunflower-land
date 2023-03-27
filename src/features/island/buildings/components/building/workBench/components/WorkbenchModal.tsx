@@ -21,7 +21,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
-import { makeBulkBuyAmount } from "../../market/lib/makeBulkSeedBuyAmount";
+import { makeBulkBuyAmount } from "../../market/lib/makeBulkBuyAmount";
 
 interface Props {
   isOpen: boolean;

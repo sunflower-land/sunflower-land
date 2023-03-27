@@ -1,8 +1,5 @@
 import Decimal from "decimal.js-light";
-import {
-  makeBulkBuyAmount,
-  MAX_BULK_BUY_AMOUNT,
-} from "./makeBulkSeedBuyAmount";
+import { makeBulkBuyAmount, MAX_BULK_BUY_AMOUNT } from "./makeBulkBuyAmount";
 
 describe("makeBulkSeedBuyAmount", () => {
   it("should return the the MAX if enough stock", () => {
