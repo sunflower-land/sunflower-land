@@ -96,54 +96,49 @@ export const Recipes: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <SplitScreenView
-        panel={
-          <CraftingRequirements
-            gameState={state}
-            details={{
-              item: selected.name,
-            }}
-            requirements={{
-              resources: selected.ingredients,
-              xp: new Decimal(
-                getFoodExpBoost(
-                  selected,
-                  state.bumpkin as Bumpkin,
-                  state.collectibles
-                )
-              ),
-              timeSeconds: getCookingTime(
-                selected.cookingSeconds,
-                state.bumpkin
-              ),
-            }}
-            actionView={Action()}
-          />
-        }
-        content={
-          <>
-            {craftingService && (
-              <InProgressInfo
-                craftingService={craftingService}
-                onClose={onClose}
+    <SplitScreenView
+      panel={
+        <CraftingRequirements
+          gameState={state}
+          details={{
+            item: selected.name,
+          }}
+          requirements={{
+            resources: selected.ingredients,
+            xp: new Decimal(
+              getFoodExpBoost(
+                selected,
+                state.bumpkin as Bumpkin,
+                state.collectibles
+              )
+            ),
+            timeSeconds: getCookingTime(selected.cookingSeconds, state.bumpkin),
+          }}
+          actionView={Action()}
+        />
+      }
+      content={
+        <>
+          {craftingService && (
+            <InProgressInfo
+              craftingService={craftingService}
+              onClose={onClose}
+            />
+          )}
+          {crafting && <p className="mb-2 w-full">Recipes</p>}
+          <div className="flex flex-wrap h-fit">
+            {recipes.map((item) => (
+              <Box
+                isSelected={selected.name === item.name}
+                key={item.name}
+                onClick={() => setSelected(item)}
+                image={ITEM_DETAILS[item.name].image}
+                count={inventory[item.name]}
               />
-            )}
-            {crafting && <p className="mb-2 w-full">Recipes</p>}
-            <div className="flex flex-wrap h-fit">
-              {recipes.map((item) => (
-                <Box
-                  isSelected={selected.name === item.name}
-                  key={item.name}
-                  onClick={() => setSelected(item)}
-                  image={ITEM_DETAILS[item.name].image}
-                  count={inventory[item.name]}
-                />
-              ))}
-            </div>
-          </>
-        }
-      />
-    </>
+            ))}
+          </div>
+        </>
+      }
+    />
   );
 };
