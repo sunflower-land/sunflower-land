@@ -4,13 +4,14 @@ import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_BUILDING_ERRORS {
-  INVALID_BUILDING = "This building does not exist",
-  NO_BUMPKIN = "You do not have a Bumpkin",
+  NO_BUMPKIN = "You do not have a Bumpkin!",
+  NO_BUILDINGS = "You don't have any buildings of this type placed!",
+  BUILDING_NOT_PLACED = "This building is not placed!",
 }
 
 export type MoveBuildingAction = {
   type: "building.moved";
-  building: BuildingName;
+  name: BuildingName;
   coordinates: Coordinates;
   id: string;
 };
@@ -28,14 +29,14 @@ export function moveBuilding({
 }: Options): GameState {
   console.log({ action });
   const stateCopy = cloneDeep(state) as GameState;
-  const buildingGroup = stateCopy.buildings[action.building];
+  const buildingGroup = stateCopy.buildings[action.name];
 
   if (stateCopy.bumpkin === undefined) {
     throw new Error(MOVE_BUILDING_ERRORS.NO_BUMPKIN);
   }
 
   if (!buildingGroup) {
-    throw new Error(MOVE_BUILDING_ERRORS.INVALID_BUILDING);
+    throw new Error(MOVE_BUILDING_ERRORS.NO_BUILDINGS);
   }
 
   const buildingToMoveIndex = buildingGroup.findIndex(
@@ -43,7 +44,7 @@ export function moveBuilding({
   );
 
   if (buildingToMoveIndex < 0) {
-    throw new Error(MOVE_BUILDING_ERRORS.INVALID_BUILDING);
+    throw new Error(MOVE_BUILDING_ERRORS.BUILDING_NOT_PLACED);
   }
 
   buildingGroup[buildingToMoveIndex].coordinates = action.coordinates;

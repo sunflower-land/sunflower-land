@@ -1,10 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import {
-  Chicken,
-  GameState,
-  LandExpansionPlot,
-} from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { moveBuilding, MOVE_BUILDING_ERRORS } from "./moveBuilding";
 
 const GAME_STATE: GameState = {
@@ -13,56 +9,6 @@ const GAME_STATE: GameState = {
   inventory: {
     "Rusty Shovel": new Decimal(1),
   },
-};
-
-const makePlotsWithCrops = (plotCount: number) => {
-  const plots = {} as Record<number, LandExpansionPlot>;
-
-  [...Array(plotCount).keys()].forEach(
-    (key) =>
-      (plots[key] = {
-        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      })
-  );
-
-  return plots;
-};
-
-const makePlotsWithoutCrops = (plotCount: number) => {
-  const plots = {} as Record<number, LandExpansionPlot>;
-
-  [...Array(plotCount).keys()].forEach(
-    (key) =>
-      (plots[key] = {
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      })
-  );
-
-  return plots;
-};
-
-export const makeChickens = (numberOfChickens: number) => {
-  const chickens = {} as Record<string, Chicken>;
-
-  Array.from({ length: numberOfChickens }, (_, i) => i.toString()).forEach(
-    (key) =>
-      (chickens[key] = {
-        coordinates: {
-          x: 7,
-          y: 3,
-        },
-        multiplier: 1,
-      })
-  );
-
-  return chickens;
 };
 
 describe("moveBuilding", () => {
@@ -84,12 +30,12 @@ describe("moveBuilding", () => {
         },
         action: {
           type: "building.moved",
-          building: "Bakery",
+          name: "Bakery",
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
       })
-    ).toThrow(MOVE_BUILDING_ERRORS.INVALID_BUILDING);
+    ).toThrow(MOVE_BUILDING_ERRORS.NO_BUILDINGS);
   });
 
   it("does not move building with invalid id", () => {
@@ -110,12 +56,12 @@ describe("moveBuilding", () => {
         },
         action: {
           type: "building.moved",
-          building: "Bakery",
+          name: "Fire Pit",
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
       })
-    ).toThrow(MOVE_BUILDING_ERRORS.INVALID_BUILDING);
+    ).toThrow(MOVE_BUILDING_ERRORS.BUILDING_NOT_PLACED);
   });
 
   it("moves a building", () => {
@@ -147,7 +93,7 @@ describe("moveBuilding", () => {
       },
       action: {
         type: "building.moved",
-        building: "Bakery",
+        name: "Bakery",
         id: "123",
         coordinates: { x: 2, y: 2 },
       },
