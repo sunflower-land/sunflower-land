@@ -82,7 +82,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   stock,
   isLimitedItem = false,
   details,
-  boost: boost,
+  boost,
   requirements,
   actionView,
 }: Props) => {
