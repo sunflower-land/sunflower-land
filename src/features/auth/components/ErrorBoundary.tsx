@@ -1,7 +1,7 @@
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { Component, ReactNode } from "react";
 import ocean from "assets/decorations/ocean.webp";
-import { SomethingWentWrong } from "./SomethingWentWrong";
+import { BoundaryError } from "./SomethingWentWrong";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 
@@ -10,21 +10,21 @@ interface Props {
 }
 
 interface State {
-  hasError: boolean;
+  error: Error | null;
 }
 
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false,
+    error: null,
   };
 
-  public static getDerivedStateFromError(_: Error): State {
+  public static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true };
+    return { error };
   }
 
   public render() {
-    if (this.state.hasError) {
+    if (this.state.error !== null) {
       return (
         <>
           <div
@@ -37,7 +37,10 @@ class ErrorBoundary extends Component<Props, State> {
           />
           <Modal show={true} centered>
             <Panel>
-              <SomethingWentWrong />
+              <BoundaryError
+                error={this.state.error.message}
+                stack={this.state.error.stack}
+              />
             </Panel>
           </Modal>
         </>
