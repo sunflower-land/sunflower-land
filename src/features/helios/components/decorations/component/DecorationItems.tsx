@@ -76,8 +76,8 @@ export const DecorationItems: React.FC = () => {
             item: selected.name,
           }}
           requirements={{
-            sfl: price,
             resources: selected.ingredients,
+            sfl: price,
           }}
           actionView={
             <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
