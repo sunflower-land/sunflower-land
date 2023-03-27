@@ -21,6 +21,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { makeBulkBuyAmount } from "../../market/lib/makeBulkSeedBuyAmount";
 
 interface Props {
   isOpen: boolean;
@@ -85,10 +86,11 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     shortcutItem(toolName);
   };
 
-  const craft = (event: SyntheticEvent, amount = 1) => {
+  const craft = (event: SyntheticEvent, amount: number) => {
     event.stopPropagation();
     gameService.send("tool.crafted", {
       tool: selectedName,
+      amount,
     });
 
     setToast({
@@ -107,20 +109,30 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const stock = state.stock[selectedName] || new Decimal(0);
 
+  const bulkToolCraftAmount = makeBulkBuyAmount(stock);
+
   const Action = () => {
     if (stock?.equals(0)) {
       return <Restock onClose={onClose}></Restock>;
     }
 
     return (
-      <>
+      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
         <Button
           disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          onClick={(e) => craft(e)}
+          onClick={(e) => craft(e, 1)}
         >
           Craft 1
         </Button>
-      </>
+        {bulkToolCraftAmount > 1 && (
+          <Button
+            disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
+            onClick={(e) => craft(e, bulkToolCraftAmount)}
+          >
+            Craft {bulkToolCraftAmount}
+          </Button>
+        )}
+      </div>
     );
   };
 
