@@ -55,22 +55,21 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           gameService.send("EDIT");
         }}
       />
-      <div hidden={isEditing}>
-        <Inventory
-          state={gameState.context.state}
-          shortcutItem={shortcutItem}
-          selectedItem={selectedItem as InventoryItemName}
-          onPlace={(selected) => {
-            gameService.send("EDIT", {
-              placeable: selected,
-              action: "collectible.placed",
-            });
-          }}
-          onDepositClick={() => setShowDepositModal(true)}
-          isSaving={gameState.matches("autosaving")}
-          isFarming={isFarming}
-        />
-      </div>
+      <Inventory
+        state={gameState.context.state}
+        shortcutItem={shortcutItem}
+        selectedItem={selectedItem as InventoryItemName}
+        onPlace={(selected) => {
+          gameService.children?.get("editing")?.send({
+            type: "SELECT_TO_PLACE",
+            placeable: selected,
+            action: "collectible.placed",
+          });
+        }}
+        onDepositClick={() => setShowDepositModal(true)}
+        isSaving={gameState.matches("autosaving")}
+        isFarming={isFarming}
+      />
       {isEditing ? (
         <PlaceableController />
       ) : (

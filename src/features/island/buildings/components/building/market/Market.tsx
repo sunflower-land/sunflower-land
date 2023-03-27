@@ -26,7 +26,7 @@ export const Market: React.FC<BuildingProps> = ({
     if (gameState.matches("editing")) {
       const editing = gameService.state.children.editing as MachineInterpreter;
 
-      editing.send("SELECT", { id: buildingId, placeable: "Market" });
+      editing.send("SELECT_TO_MOVE", { id: buildingId, placeable: "Market" });
       return;
     }
 

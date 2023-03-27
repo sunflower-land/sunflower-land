@@ -14,7 +14,7 @@ export const PlaceableController: React.FC = () => {
 
   const [
     {
-      context: { collisionDetected },
+      context: { collisionDetected, id: placeableId },
     },
     send,
   ] = useActor(child);
@@ -25,7 +25,11 @@ export const PlaceableController: React.FC = () => {
       return;
     }
 
-    send("PLACE");
+    if (placeableId) {
+      send("MOVE");
+    } else {
+      send("PLACE");
+    }
   };
 
   const handleCancelPlacement = () => {

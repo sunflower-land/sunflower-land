@@ -4,6 +4,7 @@ import {
   assign,
   TransitionsConfig,
   State,
+  send,
 } from "xstate";
 import {
   PLAYING_EVENTS,
@@ -101,8 +102,8 @@ type EditEvent = {
   type: "EDIT";
 };
 
-export type SelectToMoveEvent = {
-  type: "SELECT_TO_MOVE";
+export type SelectPlaceableEvent = {
+  type: "SELECT_PLACEABLE";
   placeable: BuildingName | CollectibleName;
   placeableType: "BUILDING" | "COLLECTIBLE";
   id: string;
@@ -163,7 +164,7 @@ export type BlockchainEvent =
   | VisitEvent
   | BuySFLEvent
   | DepositEvent
-  | SelectToMoveEvent
+  | SelectPlaceableEvent
   | { type: "EXPAND" }
   | { type: "RANDOMISE" }; // Test only
 
@@ -938,7 +939,6 @@ export function startGame(authContext: Options) {
             autoForward: true,
             src: editingMachine,
             data: {
-              gameState: (context: Context) => context.state,
               placeable: (_: Context, event: EditEvent) => event.placeable,
               action: (_: Context, event: EditEvent) => event.action,
               coordinates: { x: 0, y: 0 },
@@ -961,11 +961,11 @@ export function startGame(authContext: Options) {
           },
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
-            SELECT_TO_MOVE: {
+            SELECT_PLACEABLE: {
               actions: [
                 assign({
                   state: (context, event) => {
-                    const { placeable, id } = event as SelectToMoveEvent;
+                    const { placeable, id } = event as SelectPlaceableEvent;
                     const buildingIdx = context.state.buildings[
                       placeable as BuildingName
                     ]?.findIndex((building) => building.id === id);
@@ -987,6 +987,26 @@ export function startGame(authContext: Options) {
                     };
                   },
                 }),
+                send(
+                  (context, event) => {
+                    const { placeable, id } = event as SelectPlaceableEvent;
+                    const building = context.state.buildings[
+                      placeable as BuildingName
+                    ]?.find((building) => building.id === id);
+
+                    const { coordinates } = building as PlacedItem;
+
+                    return {
+                      type: "SELECTED",
+                      placeable,
+                      id,
+                      coordinates,
+                    };
+                  },
+                  {
+                    to: "editing",
+                  }
+                ),
               ],
             },
           },

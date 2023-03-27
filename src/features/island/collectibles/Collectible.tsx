@@ -66,7 +66,6 @@ import { VictoriaSisters } from "./components/VictoriaSisters";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
 import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean, getBeanStates } from "./components/Bean";
@@ -114,6 +113,8 @@ import { ValentineBear } from "./components/ValentineBear";
 import { BeachBall } from "./components/BeachBall";
 import { PalmTree } from "./components/PalmTree";
 import { Karkinos } from "./components/Karkinos";
+import { useActor } from "@xstate/react";
+import { MachineInterpreter } from "features/game/expansion/placeable/editingMachine";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -270,7 +271,8 @@ export const Collectible: React.FC<CollectibleProps> = ({
   createdAt,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-  const { showTimers } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -332,16 +334,20 @@ export const Collectible: React.FC<CollectibleProps> = ({
     );
   }
 
-  const shortcuts = getShortcuts();
   const isBeanAndFullyGrown =
     isBean(name) && getBeanStates(name, createdAt).isReady;
-  const canRemoveOnClick =
-    shortcuts[0] === "Rusty Shovel" && !isBeanAndFullyGrown;
+  const canRemoveOnClick = gameState.matches("editing") && !isBeanAndFullyGrown;
 
   const handleOnClick = () => {
     if (!canRemoveOnClick) return;
 
-    setShowRemoveModal(true);
+    // setShowRemoveModal(true);
+    if (gameState.matches("editing")) {
+      const editing = gameService.state.children.editing as MachineInterpreter;
+
+      editing.send("SELECT_TO_MOVE", { id, placeable: name });
+      return;
+    }
   };
 
   return (
