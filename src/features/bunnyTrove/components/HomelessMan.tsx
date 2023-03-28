@@ -9,7 +9,7 @@ export const HomelessMan: React.FC = () => {
       <div className="relative w-full h-full">
         <NPC
           body="Beige Farmer Potion"
-          shirt="Red Farmer Shirt"
+          shirt="Gray Shirt"
           pants="Brown Suspenders"
           hair="Gray Hair"
         />

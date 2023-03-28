@@ -53,7 +53,8 @@ export type BumpkinShirt =
   | "Pirate Leather Polo"
   | "Hawaiian Shirt"
   | "Lifeguard Shirt"
-  | "Sequence Shirt";
+  | "Sequence Shirt"
+  | "Gray Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -263,6 +264,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "St Patricks Hat": 116,
   "Bunny Onesie": 117,
   "Gray Hair": 118,
+  "Gray Shirt": 119,
 };
 
 // The reverse of above
