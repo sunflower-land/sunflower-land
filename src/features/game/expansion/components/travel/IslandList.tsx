@@ -12,6 +12,7 @@ import goblin from "assets/buildings/goblin_sign.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
 import land from "assets/land/islands/island.webp";
+import bunnyfower from "assets/events/easter/2023/decorations/bunnyflower.png";
 import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
@@ -151,7 +152,7 @@ export const IslandList: React.FC<IslandListProps> = ({
     {
       name: "Bunny Trove",
       levelRequired: 1 as BumpkinLevel,
-      image: SUNNYSIDE.icons.helios,
+      image: bunnyfower,
       path: `/land/${id}/bunny-trove`,
     },
     {
