@@ -16,6 +16,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { MachineInterpreter } from "features/game/expansion/placeable/editingMachine";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -29,6 +32,9 @@ export const Kitchen: React.FC<Props> = ({
   isBuilt,
   onRemove,
 }) => {
+  const { gameService } = React.useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
@@ -57,6 +63,20 @@ export const Kitchen: React.FC<Props> = ({
   };
 
   const handleClick = () => {
+    if (gameState.matches("editing")) {
+      const editing = gameService.state.children.editing as MachineInterpreter;
+
+      if (editing.state.matches("idle")) {
+        editing.send("SELECT_TO_MOVE", {
+          id: buildingId,
+          placeable: "Kitchen",
+          placeableType: "BUILDING",
+        });
+        return;
+      }
+
+      return;
+    }
     if (onRemove) {
       onRemove();
       return;

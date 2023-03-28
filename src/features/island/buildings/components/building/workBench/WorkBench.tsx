@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -8,11 +8,34 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { MachineInterpreter } from "features/game/expansion/placeable/editingMachine";
 
-export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+export const WorkBench: React.FC<BuildingProps> = ({
+  isBuilt,
+  onRemove,
+  buildingId,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const handleClick = () => {
+    if (gameState.matches("editing")) {
+      const editing = gameService.state.children.editing as MachineInterpreter;
+
+      if (editing.state.matches("idle")) {
+        editing.send("SELECT_TO_MOVE", {
+          id: buildingId,
+          placeable: "Workbench",
+          placeableType: "BUILDING",
+        });
+        return;
+      }
+      return;
+    }
     if (onRemove) {
       onRemove();
       return;

@@ -56,18 +56,29 @@ export const BUILDING_COMPONENTS: Record<
       <FirePit buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
-  Workbench: WorkBench,
   Bakery: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
       <Bakery buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
-  Market: Market,
-  Tent: Tent,
-  "Water Well": WaterWell,
-  Warehouse: Warehouse,
-  Toolshed: Toolshed,
-  "Hen House": ChickenHouse,
+
+  Workbench: ({ buildingId }: BuildingProps) => (
+    <WorkBench buildingId={buildingId} />
+  ),
+  Market: ({ buildingId }: BuildingProps) => <Market buildingId={buildingId} />,
+  Tent: ({ buildingId }: BuildingProps) => <Tent buildingId={buildingId} />,
+  "Water Well": ({ buildingId }: BuildingProps) => (
+    <WaterWell buildingId={buildingId} />
+  ),
+  Warehouse: ({ buildingId }: BuildingProps) => (
+    <Warehouse buildingId={buildingId} />
+  ),
+  Toolshed: ({ buildingId }: BuildingProps) => (
+    <Toolshed buildingId={buildingId} />
+  ),
+  "Hen House": ({ buildingId }: BuildingProps) => (
+    <ChickenHouse buildingId={buildingId} />
+  ),
   Kitchen: ({
     buildingId,
     craftingState,

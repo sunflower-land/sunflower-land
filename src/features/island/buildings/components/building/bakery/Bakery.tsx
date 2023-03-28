@@ -17,6 +17,9 @@ import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { MachineInterpreter } from "features/game/expansion/placeable/editingMachine";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -30,6 +33,8 @@ export const Bakery: React.FC<Props> = ({
   isBuilt,
   onRemove,
 }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
   const { setToast } = useContext(ToastContext);
 
@@ -58,6 +63,20 @@ export const Bakery: React.FC<Props> = ({
   };
 
   const handleClick = () => {
+    if (gameState.matches("editing")) {
+      const editing = gameService.state.children.editing as MachineInterpreter;
+
+      if (editing.state.matches("idle")) {
+        editing.send("SELECT_TO_MOVE", {
+          id: buildingId,
+          placeable: "Bakery",
+          placeableType: "BUILDING",
+        });
+        return;
+      }
+      return;
+    }
+
     if (onRemove) {
       onRemove();
       return;

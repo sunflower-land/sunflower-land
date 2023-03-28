@@ -23,10 +23,10 @@ export const Market: React.FC<BuildingProps> = ({
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
-    const editing = gameService.state.children.editing as MachineInterpreter;
-
     if (gameState.matches("editing")) {
-      if (editing.state.matches("selecting")) {
+      const editing = gameService.state.children.editing as MachineInterpreter;
+
+      if (editing.state.matches("idle")) {
         editing.send("SELECT_TO_MOVE", {
           id: buildingId,
           placeable: "Market",
@@ -34,6 +34,7 @@ export const Market: React.FC<BuildingProps> = ({
         });
         return;
       }
+
       return;
     }
 

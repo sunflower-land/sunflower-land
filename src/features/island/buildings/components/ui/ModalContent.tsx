@@ -6,6 +6,7 @@ import { BuildingName } from "features/game/types/buildings";
 import { ListView } from "./ListView";
 import { DetailView } from "./DetailView";
 import Decimal from "decimal.js-light";
+import { MachineInterpreter } from "features/game/expansion/placeable/editingMachine";
 
 export const ModalContent: React.FC<{ closeModal: () => void }> = ({
   closeModal,
@@ -24,12 +25,24 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
     .greaterThanOrEqualTo(placed.length);
 
   const handleBuild = () => {
-    if (!selected) return;
+    if (game.matches("editing")) {
+      const editing = gameService.state.children.editing as MachineInterpreter;
 
-    gameService.send("EDIT", {
-      placeable: selected,
-      action: hasUnplacedBuildings ? "building.placed" : "building.constructed",
-    });
+      if (editing.state.matches("idle")) {
+        editing.send("SELECT_TO_PLACE", {
+          placeable: selected,
+          placeableType: "BUILDING",
+          action: hasUnplacedBuildings
+            ? "building.placed"
+            : "building.constructed",
+        });
+        closeModal();
+        return;
+      }
+      return;
+    }
+
+    if (!selected) return;
     closeModal();
   };
 
