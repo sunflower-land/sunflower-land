@@ -3,7 +3,7 @@ import { CHORES } from "../types/chores";
 import { Bumpkin, GameState, Inventory, LandExpansion } from "../types/game";
 
 const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(0),
+  "Sunflower Seed": new Decimal(400),
   "Potato Seed": new Decimal(200),
   "Pumpkin Seed": new Decimal(100),
   "Carrot Seed": new Decimal(100),
