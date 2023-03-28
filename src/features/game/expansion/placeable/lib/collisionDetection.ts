@@ -121,27 +121,12 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    return items
-      ? items.map((item) => ({
-          x: item.coordinates.x,
-          y: item.coordinates.y,
-          height: dimensions.height,
-          width: dimensions.width,
-        }))
-      : [];
-=======
-    console.log({ name });
-=======
->>>>>>> 1fcd302d ([FIX] Place multiple)
     return items.map((item) => ({
       x: item.coordinates.x,
       y: item.coordinates.y,
       height: dimensions.height,
       width: dimensions.width,
     }));
->>>>>>> c60f1a95 ([FIX] Placing)
   });
 
   const resources = Object.values({

@@ -1,14 +1,12 @@
 import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getKeys, Ingredient } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 
 /**
-<<<<<<< HEAD
-=======
  * The props for the component.
  * @param gameState The game state.
  * @param details The expansion details.
@@ -23,7 +21,6 @@ interface Props {
 }
 
 /**
->>>>>>> 60f566d3 (improvements)
  * The props for the details.
  * @param title The title.
  * @param description The description.
@@ -31,34 +28,6 @@ interface Props {
 interface DetailsProps {
   title: string;
   description: string;
-}
-
-/**
- * The props for the crafting requirements.
- * @param resources The item resources requirements.
- * @param sfl The SFL requirements.
- * @param level The level requirements.
- * @param timeSeconds The wait time in seconds for crafting the item.
- */
-interface RequirementsProps {
-  resources?: Ingredient[];
-  sfl?: Decimal;
-  level?: number;
-  timeSeconds?: number;
-}
-
-/**
- * The props for the component.
- * @param gameState The game state.
- * @param details The expansion details.
- * @param requirements The expansion requirement.
- * @param actionView The view for displaying the expansion action.
- */
-interface Props {
-  gameState: GameState | GoblinState;
-  details: DetailsProps;
-  requirements?: RequirementsProps;
-  actionView?: JSX.Element;
 }
 
 /**

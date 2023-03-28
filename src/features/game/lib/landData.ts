@@ -252,31 +252,11 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
-    "Fire Pit": new Decimal(1),
-    Market: new Decimal(1),
     Artist: new Decimal(1),
     Sunflower: new Decimal(2999),
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
-<<<<<<< HEAD
-    "Rusty Shovel": new Decimal(10),
-    "Bumpkin Salad": new Decimal(1),
-    "Beta Pass": new Decimal(1),
-    Pickaxe: new Decimal(10),
-    "Iron Rock": new Decimal(5),
-    "Stone Rock": new Decimal(5),
-    "Gold Rock": new Decimal(3),
-    "Crop Plot": new Decimal(3),
-    Tree: new Decimal(3),
-    "Peeled Potato": new Decimal(1),
-    "Wood Nymph Wendy": new Decimal(1),
-    "Cabbage Boy": new Decimal(1),
-    "Cabbage Girl": new Decimal(1),
-    "Basic Bear": new Decimal(1),
-    "Magic Bean": new Decimal(5),
-    "Christmas Snow Globe": new Decimal(1),
-=======
     "Maneki Neko": new Decimal(2),
     "Lunar Calendar": new Decimal(1),
 
@@ -286,15 +266,7 @@ export const OFFLINE_FARM: GameState = {
     "Fruit Patch": new Decimal(3),
     "Gold Rock": new Decimal(3),
     "Crop Plot": new Decimal(13),
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 1fcd302d ([FIX] Place multiple)
-=======
-    "Basic Land": new Decimal(3),
->>>>>>> e5ed7b52 (Reveal land action)
-=======
     "Basic Land": new Decimal(17),
->>>>>>> 8e025a8b (BG images)
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
@@ -304,7 +276,6 @@ export const OFFLINE_FARM: GameState = {
     // ),
     "Block Buck": new Decimal(1),
   },
-  auctioneer: {},
   migrated: true,
   stock: INITIAL_STOCK,
   chickens: {},
@@ -477,8 +448,6 @@ export const OFFLINE_FARM: GameState = {
     resources: { Wood: 30 },
     seconds: 60,
   },
-<<<<<<< HEAD
-=======
   auctioneer: {
     bid: {
       bidAt: Date.now(),
@@ -579,5 +548,4 @@ export const OFFLINE_FARM: GameState = {
       },
     },
   },
->>>>>>> 512cee84 ([FIX] Hide in progress expansions)
 };
