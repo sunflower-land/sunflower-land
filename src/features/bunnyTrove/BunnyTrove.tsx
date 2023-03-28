@@ -10,7 +10,8 @@ import { CustomIslandTravel } from "features/game/expansion/components/travel/Cu
 import { Water } from "features/bunnyTrove/components/Water";
 import { BunnyMan } from "features/bunnyTrove/components/BunnyMan";
 import { HomelessMan } from "features/bunnyTrove/components/HomelessMan";
-import { ViktorTheDog } from "features/bunnyTrove/components/Viktor";
+import { ViktorTheDog } from "features/bunnyTrove/components/ViktorTheDog";
+import { VictoriaTheCat } from "features/bunnyTrove/components/VictoriaTheCat";
 
 export const BunnyTrove: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -43,6 +44,7 @@ export const BunnyTrove: React.FC = () => {
 
         <Water />
         <ViktorTheDog />
+        <VictoriaTheCat />
         <HomelessMan />
         <BunnyMan />
 
