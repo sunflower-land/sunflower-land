@@ -965,39 +965,83 @@ export function startGame(authContext: Options) {
               actions: [
                 assign({
                   state: (context, event) => {
-                    const { placeable, id } = event as SelectPlaceableEvent;
-                    const buildingIdx = context.state.buildings[
-                      placeable as BuildingName
-                    ]?.findIndex((building) => building.id === id);
+                    const { placeable, id, placeableType } =
+                      event as SelectPlaceableEvent;
 
-                    if (buildingIdx === undefined) return context.state;
+                    if (placeableType === "BUILDING") {
+                      const buildingId = context.state.buildings[
+                        placeable as BuildingName
+                      ]?.findIndex((building) => building.id === id);
 
-                    const buildingsOfType = context.state.buildings[
-                      placeable as BuildingName
-                    ] as PlacedItem[];
+                      if (buildingId === undefined) return context.state;
 
-                    buildingsOfType[buildingIdx].selected = true;
+                      const buildingsOfType = context.state.buildings[
+                        placeable as BuildingName
+                      ] as PlacedItem[];
 
-                    return {
-                      ...context.state,
-                      buildings: {
-                        ...context.state.buildings,
-                        [placeable]: buildingsOfType,
-                      },
-                    };
+                      buildingsOfType[buildingId].selected = true;
+
+                      return {
+                        ...context.state,
+                        buildings: {
+                          ...context.state.buildings,
+                          [placeable]: buildingsOfType,
+                        },
+                      };
+                    }
+
+                    if (placeableType === "COLLECTIBLE") {
+                      const itemId = context.state.collectibles[
+                        placeable as CollectibleName
+                      ]?.findIndex((item) => item.id === id);
+
+                      if (itemId === undefined) return context.state;
+
+                      const itemsOfType = context.state.collectibles[
+                        placeable as CollectibleName
+                      ] as PlacedItem[];
+
+                      itemsOfType[itemId].selected = true;
+
+                      return {
+                        ...context.state,
+                        items: {
+                          ...context.state.collectibles,
+                          [placeable]: itemsOfType,
+                        },
+                      };
+                    }
+
+                    return context.state;
                   },
                 }),
                 send(
                   (context, event) => {
-                    const { placeable, id } = event as SelectPlaceableEvent;
-                    const building = context.state.buildings[
-                      placeable as BuildingName
-                    ]?.find((building) => building.id === id);
+                    const { placeable, id, placeableType } =
+                      event as SelectPlaceableEvent;
 
-                    const { coordinates } = building as PlacedItem;
+                    if (placeableType === "BUILDING") {
+                      const building = context.state.buildings[
+                        placeable as BuildingName
+                      ]?.find((building) => building.id === id);
+
+                      const { coordinates } = building as PlacedItem;
+                      return {
+                        type: "READY_TO_MOVE",
+                        placeable,
+                        id,
+                        coordinates,
+                      };
+                    }
+
+                    const collectible = context.state.collectibles[
+                      placeable as CollectibleName
+                    ]?.find((collectible) => collectible.id === id);
+
+                    const { coordinates } = collectible as PlacedItem;
 
                     return {
-                      type: "SELECTED",
+                      type: "READY_TO_MOVE",
                       placeable,
                       id,
                       coordinates,

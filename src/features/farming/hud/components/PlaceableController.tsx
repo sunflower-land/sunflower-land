@@ -21,7 +21,7 @@ export const PlaceableController: React.FC = () => {
 
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
-    if (!child.state.matches("idle")) {
+    if (!child.state.matches("placeableSelected")) {
       return;
     }
 

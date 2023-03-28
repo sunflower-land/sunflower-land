@@ -342,10 +342,18 @@ export const Collectible: React.FC<CollectibleProps> = ({
     if (!canRemoveOnClick) return;
 
     // setShowRemoveModal(true);
+
     if (gameState.matches("editing")) {
       const editing = gameService.state.children.editing as MachineInterpreter;
 
-      editing.send("SELECT_TO_MOVE", { id, placeable: name });
+      if (editing.state.matches("idle")) {
+        editing.send("SELECT_TO_MOVE", {
+          id,
+          placeable: name,
+          placeableType: "COLLECTIBLE",
+        });
+        return;
+      }
       return;
     }
   };

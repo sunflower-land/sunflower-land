@@ -10,7 +10,7 @@ export interface Context {
   placeable?: BuildingName | CollectibleName;
   id?: string;
   action?: GameEventName<PlacementEvent>;
-  type?: "BUILDING";
+  type?: "BUILDING" | "COLLECTIBLE";
   coordinates?: Coordinates;
   collisionDetected?: boolean;
 }
@@ -29,22 +29,33 @@ type PlaceEvent = {
 
 type MoveEvent = {
   type: "MOVE";
+  placeable: BuildingName | CollectibleName;
+  placeableType: "BUILDING" | "COLLECTIBLE";
+  action: GameEventName<PlacementEvent>;
 };
 
-type SelectToMoveEvent = {
+type RemoveEvent = {
+  type: "REMOVE";
+  placeable: BuildingName | CollectibleName;
+  action: GameEventName<PlacementEvent>;
+};
+
+export type SelectToMoveEvent = {
   type: "SELECT_TO_MOVE";
   placeable: BuildingName | CollectibleName;
+  placeableType: "BUILDING" | "COLLECTIBLE";
   id: string;
 };
 
 type SelectToPlaceEvent = {
   type: "SELECT_TO_PLACE";
   placeable: BuildingName | CollectibleName;
+  placeableType: "BUILDING" | "COLLECTIBLE";
   action: GameEventName<PlacementEvent>;
 };
 
-type SelectedEvent = {
-  type: "SELECTED";
+type ReadyToMoveEvent = {
+  type: "READY_TO_MOVE";
   placeable: BuildingName | CollectibleName;
   coordinates: Coordinates;
   id: string;
@@ -55,35 +66,26 @@ type ConstructEvent = {
   actionName: PlacementEvent;
 };
 
-export type BlockchainEvent =
+export type Event =
   | { type: "DRAG" }
   | { type: "DROP" }
   | ConstructEvent
   | PlaceEvent
   | UpdateEvent
   | SelectToMoveEvent
-  | SelectedEvent
+  | ReadyToMoveEvent
   | MoveEvent
   | SelectToPlaceEvent
   | { type: "CANCEL" };
 
-export type BlockchainState = {
-  value: "idle" | "dragging" | "placed" | "close";
+export type State = {
+  value: "idle" | "placeableSelected" | "dragging" | "placed" | "close";
   context: Context;
 };
 
-export type MachineInterpreter = Interpreter<
-  Context,
-  any,
-  BlockchainEvent,
-  BlockchainState
->;
+export type MachineInterpreter = Interpreter<Context, any, Event, State>;
 
-export const editingMachine = createMachine<
-  Context,
-  BlockchainEvent,
-  BlockchainState
->({
+export const editingMachine = createMachine<Context, Event, State>({
   id: "placeableMachine",
   initial: "idle",
   preserveActionOrder: true,
@@ -97,11 +99,11 @@ export const editingMachine = createMachine<
       on: {
         SELECT_TO_MOVE: {
           actions: sendParent(
-            (_, event) =>
+            (context, event) =>
               ({
                 type: "SELECT_PLACEABLE",
                 placeable: event.placeable,
-                placeableType: "BUILDING",
+                placeableType: event.placeableType,
                 id: event.id,
               } as SelectPlaceableEvent)
           ),
@@ -111,14 +113,20 @@ export const editingMachine = createMachine<
             placeable: (_, event) => event.placeable,
             action: (_, event) => event.action,
           }),
+          target: "placeableSelected",
         },
-        SELECTED: {
+        READY_TO_MOVE: {
           actions: assign({
             placeable: (_, event) => event.placeable,
             coordinates: (_, event) => event.coordinates,
             id: (_, event) => event.id,
           }),
+          target: "placeableSelected",
         },
+      },
+    },
+    placeableSelected: {
+      on: {
         UPDATE: {
           actions: assign({
             coordinates: (_, event) => event.coordinates,
@@ -152,12 +160,15 @@ export const editingMachine = createMachine<
         MOVE: {
           target: "idle",
           actions: [
-            sendParent(({ placeable, id, coordinates }) => ({
-              type: "building.moved",
-              building: placeable,
-              coordinates,
-              id,
-            })),
+            sendParent(
+              ({ placeable, id, coordinates }) =>
+                ({
+                  type: "building.moved",
+                  name: placeable,
+                  coordinates,
+                  id,
+                } as PlacementEvent)
+            ),
             assign({
               placeable: (_) => undefined,
               id: (_) => undefined,
@@ -178,7 +189,7 @@ export const editingMachine = createMachine<
           }),
         },
         DROP: {
-          target: "idle",
+          target: "placeableSelected",
         },
       },
     },
