@@ -105,6 +105,8 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
         content: `-${selected.ingredients[name]?.mul(amount)}`,
       });
     });
+
+    shortcutItem(selectedName);
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);

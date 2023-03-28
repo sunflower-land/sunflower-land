@@ -72,6 +72,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       icon: ITEM_DETAILS[selectedName].image,
       content: `+${amount}`,
     });
+
+    shortcutItem(selectedName);
   };
 
   const lessFunds = (amount = 1) => {
