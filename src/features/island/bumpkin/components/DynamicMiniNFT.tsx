@@ -23,7 +23,6 @@ import blondie from "assets/npc-layers/blondie_hair.png";
 import lusciousHair from "assets/npc-layers/luscious_hair.png";
 import fireHair from "assets/npc-layers/fire_hair.png";
 import cupidHair from "assets/npc-layers/cupid_hair.png";
-import grayHair from "assets/npc-layers/gray_hair.png";
 
 // Shirts
 import redShirt from "assets/npc-layers/red_farmer_shirt.png";
@@ -44,7 +43,6 @@ import stripedShirt from "assets/npc-layers/pirate_striped_shirt.png";
 import pirateLeatherPolo from "assets/npc-layers/pirate_leather_polo.png";
 import hawaiianShirt from "assets/npc-layers/hawaiian_shirt.png";
 import lifeGuardShirt from "assets/npc-layers/life_saver_shirt.png";
-import grayShirt from "assets/npc-layers/gray_shirt.png";
 
 // Pants
 import farmerPants from "assets/npc-layers/farmer_pants.png";
@@ -147,7 +145,6 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Red Long Hair": longRedHair,
   "Fire Hair": fireHair,
   "Luscious Hair": lusciousHair,
-  "Gray Hair": grayHair,
 
   // Shirts
   "Red Farmer Shirt": redShirt,
@@ -165,7 +162,6 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Striped Blue Shirt": stripedShirt,
   "Pirate Leather Polo": pirateLeatherPolo,
   "Lifeguard Shirt": lifeGuardShirt,
-  "Gray Shirt": grayShirt,
 
   // Pants
   "Farmer Overalls": blueOveralls,
