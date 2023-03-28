@@ -30,8 +30,8 @@ export const BunnyTrove: React.FC = () => {
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: `${33 * GRID_WIDTH_PX}px`,
-          height: `${24 * GRID_WIDTH_PX}px`,
+          width: `${31 * GRID_WIDTH_PX}px`,
+          height: `${23 * GRID_WIDTH_PX}px`,
         }}
       >
         <img

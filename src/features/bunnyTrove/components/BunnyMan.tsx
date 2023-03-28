@@ -5,7 +5,7 @@ import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 
 export const BunnyMan: React.FC = () => {
   return (
-    <MapPlacement x={-7.3} y={1.5} height={1} width={1}>
+    <MapPlacement x={-7.1} y={1.5} height={1} width={1}>
       <div className="relative w-full h-full">
         <NPC
           body="Beige Farmer Potion"
