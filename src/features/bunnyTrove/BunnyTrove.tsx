@@ -7,7 +7,7 @@ import { Hud } from "features/island/hud/Hud";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect } from "react";
 import { CustomIslandTravel } from "features/game/expansion/components/travel/CustomIslandTravel";
-import { Swimmer } from "features/bunnyTrove/components/Swimmer";
+import { Water } from "features/bunnyTrove/components/Water";
 import { BunnyMan } from "features/bunnyTrove/components/BunnyMan";
 import { HomelessMan } from "features/bunnyTrove/components/HomelessMan";
 
@@ -40,7 +40,7 @@ export const BunnyTrove: React.FC = () => {
           id={Section.BunnyTrove}
         />
 
-        <Swimmer />
+        <Water />
         <HomelessMan />
         <BunnyMan />
 
