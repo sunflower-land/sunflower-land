@@ -13,6 +13,7 @@ import { HomelessMan } from "features/bunnyTrove/components/HomelessMan";
 import { ViktorTheDog } from "features/bunnyTrove/components/ViktorTheDog";
 import { VictoriaTheCat } from "features/bunnyTrove/components/VictoriaTheCat";
 import { EasterMole } from "features/bunnyTrove/components/EasterMole";
+import { Gobbit } from "features/bunnyTrove/components/Gobbit";
 
 export const BunnyTrove: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -47,6 +48,7 @@ export const BunnyTrove: React.FC = () => {
         <ViktorTheDog />
         <VictoriaTheCat />
         <HomelessMan />
+        <Gobbit />
         <EasterMole />
         <BunnyMan />
 
