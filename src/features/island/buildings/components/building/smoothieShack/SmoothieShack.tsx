@@ -70,6 +70,7 @@ export const SmoothieShack: React.FC<Props> = ({
           id: buildingId,
           placeable: "Smoothie Shack",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

@@ -26,6 +26,7 @@ export const Tent: React.FC<BuildingProps> = ({
           id: buildingId,
           placeable: "Tent",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

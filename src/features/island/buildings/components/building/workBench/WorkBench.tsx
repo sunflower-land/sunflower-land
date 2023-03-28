@@ -31,6 +31,7 @@ export const WorkBench: React.FC<BuildingProps> = ({
           id: buildingId,
           placeable: "Workbench",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

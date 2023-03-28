@@ -26,6 +26,7 @@ export const Warehouse: React.FC<BuildingProps> = ({
           id: buildingId,
           placeable: "Warehouse",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

@@ -31,6 +31,7 @@ export const Market: React.FC<BuildingProps> = ({
           id: buildingId,
           placeable: "Market",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

@@ -44,6 +44,7 @@ export type SelectToMoveEvent = {
   type: "SELECT_TO_MOVE";
   placeable: BuildingName | CollectibleName;
   placeableType: "BUILDING" | "COLLECTIBLE";
+  action: GameEventName<PlacementEvent>;
   id: string;
 };
 
@@ -98,15 +99,21 @@ export const editingMachine = createMachine<Context, Event, State>({
     idle: {
       on: {
         SELECT_TO_MOVE: {
-          actions: sendParent(
-            (context, event) =>
-              ({
-                type: "SELECT_PLACEABLE",
-                placeable: event.placeable,
-                placeableType: event.placeableType,
-                id: event.id,
-              } as SelectPlaceableEvent)
-          ),
+          actions: [
+            assign({
+              action: (_, event) => event.action,
+            }),
+
+            sendParent(
+              (_, event) =>
+                ({
+                  type: "SELECT_PLACEABLE",
+                  placeable: event.placeable,
+                  placeableType: event.placeableType,
+                  id: event.id,
+                } as SelectPlaceableEvent)
+            ),
+          ],
         },
         SELECT_TO_PLACE: {
           actions: assign({
@@ -161,9 +168,9 @@ export const editingMachine = createMachine<Context, Event, State>({
           target: "idle",
           actions: [
             sendParent(
-              ({ placeable, id, coordinates }) =>
+              ({ placeable, id, coordinates, action }) =>
                 ({
-                  type: "building.moved",
+                  type: action,
                   name: placeable,
                   coordinates,
                   id,

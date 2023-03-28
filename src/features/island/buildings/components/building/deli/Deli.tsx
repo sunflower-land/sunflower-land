@@ -70,6 +70,7 @@ export const Deli: React.FC<Props> = ({
           id: buildingId,
           placeable: "Deli",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

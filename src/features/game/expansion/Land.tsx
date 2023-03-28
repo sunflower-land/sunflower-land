@@ -316,7 +316,9 @@ const getIslandElements = ({
     ...getKeys(collectibles)
       .filter((name) => collectibles[name])
       .flatMap((name, nameIndex) => {
-        const items = collectibles[name]!;
+        const items = collectibles[name]!.filter(
+          (collectible) => !collectible.selected
+        );
         return items.map((collectible, itemIndex) => {
           const { readyAt, createdAt, coordinates, id } = collectible;
           const { x, y } = coordinates;

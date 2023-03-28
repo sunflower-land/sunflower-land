@@ -351,6 +351,7 @@ export const Collectible: React.FC<CollectibleProps> = ({
           id,
           placeable: name,
           placeableType: "COLLECTIBLE",
+          action: "collectible.moved",
         });
         return;
       }

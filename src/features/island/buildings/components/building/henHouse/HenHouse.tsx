@@ -29,6 +29,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
           id: buildingId,
           placeable: "Hen House",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

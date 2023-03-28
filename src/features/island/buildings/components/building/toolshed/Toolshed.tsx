@@ -26,6 +26,7 @@ export const Toolshed: React.FC<BuildingProps> = ({
           id: buildingId,
           placeable: "Toolshed",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

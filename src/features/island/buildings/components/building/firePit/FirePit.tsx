@@ -70,6 +70,7 @@ export const FirePit: React.FC<Props> = ({
           id: buildingId,
           placeable: "Fire Pit",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }

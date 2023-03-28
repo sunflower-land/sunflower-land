@@ -26,6 +26,7 @@ export const WaterWell: React.FC<BuildingProps> = ({
           id: buildingId,
           placeable: "Water Well",
           placeableType: "BUILDING",
+          action: "building.moved",
         });
         return;
       }
