@@ -149,6 +149,12 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/land/${id}/helios`,
     },
     {
+      name: "Bunny Trove",
+      levelRequired: 1 as BumpkinLevel,
+      image: SUNNYSIDE.icons.helios,
+      path: `/land/${id}/bunny-trove`,
+    },
+    {
       name: "Goblin Retreat",
       levelRequired: 5 as BumpkinLevel,
       image: goblin,

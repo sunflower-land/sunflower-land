@@ -43,6 +43,7 @@ import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
+import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
 
 const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -209,6 +210,8 @@ export const Game: React.FC = () => {
               <Route path="/snow" element={<SnowKingdom key="snow" />} />
             )}
             <Route path="/studios" element={<Studios key="hq" />} />
+
+            <Route path="/bunny-trove" element={<BunnyTrove key="bunny" />} />
 
             <Route path="*" element={<IslandNotFound />} />
           </Routes>
