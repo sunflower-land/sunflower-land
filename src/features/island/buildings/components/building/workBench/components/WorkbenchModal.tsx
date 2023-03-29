@@ -114,21 +114,24 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const bulkToolCraftAmount = makeBulkBuyAmount(stock);
 
   const Action = () => {
-    if (stock?.equals(0)) {
+    if (stock.equals(0)) {
       return <Restock onClose={onClose}></Restock>;
     }
 
     return (
       <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
         <Button
-          disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
+          disabled={lessFunds() || lessIngredients() || stock.lessThan(1)}
           onClick={(e) => craft(e, 1)}
         >
           Craft 1
         </Button>
         {bulkToolCraftAmount > 1 && (
           <Button
-            disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
+            disabled={
+              lessFunds(bulkToolCraftAmount) ||
+              lessIngredients(bulkToolCraftAmount)
+            }
             onClick={(e) => craft(e, bulkToolCraftAmount)}
           >
             Craft {bulkToolCraftAmount}
