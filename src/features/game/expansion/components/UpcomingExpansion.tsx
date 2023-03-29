@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
 import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
@@ -28,7 +29,6 @@ export const UpcomingExpansion: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   useEffect(() => {
-    console.log({ isRevealing, state: gameState.value });
     if (isRevealing && gameState.matches("playing")) {
       setIsRevealing(false);
     }
@@ -51,6 +51,10 @@ export const UpcomingExpansion: React.FC = () => {
   };
 
   const Content = () => {
+    useUiRefresher({
+      active: state.expansionConstruction?.readyAt > Date.now(),
+    });
+
     // Land is still being built
     if (state.expansionConstruction) {
       const origin =
