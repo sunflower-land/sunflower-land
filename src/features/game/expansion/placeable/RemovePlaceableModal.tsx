@@ -8,7 +8,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { isRemovable } from "./lib/removeCondition";
 
-type PlaceableType = "building" | "collectible";
+type PlaceableType = "building" | "collectible" | "resource";
 
 interface Props {
   name: PlaceableName;

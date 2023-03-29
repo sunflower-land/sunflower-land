@@ -19,7 +19,7 @@ import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { FRUIT } from "features/game/types/fruits";
 import { CONSUMABLES } from "features/game/types/consumables";
-import { RESOURCES } from "features/game/types/resources";
+import { COMMODITIES } from "features/game/types/resources";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 const ITEM_COUNT = 16;
@@ -77,7 +77,7 @@ const generateImages = (isMoonSeekerMode: boolean) => {
 
   const items: Item[] = [];
   const resourceImages = isMoonSeekerMode
-    ? [...getKeys(CROPS()), ...getKeys(FRUIT()), ...getKeys(RESOURCES)]
+    ? [...getKeys(CROPS()), ...getKeys(FRUIT()), ...getKeys(COMMODITIES)]
     : getKeys(CONSUMABLES);
   const availableResourceImages = resourceImages.map(
     (name) => ITEM_DETAILS[name].image

@@ -3,17 +3,7 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { getKeys } from "../types/craftables";
-import {
-  GameState,
-  Inventory,
-  InventoryItemName,
-  LandExpansion,
-  LandExpansionPlot,
-  LandExpansionRock,
-  LandExpansionTree,
-  Rock,
-} from "../types/game";
+import { GameState, Inventory, InventoryItemName, Rock } from "../types/game";
 
 /**
  * Converts API response into a game state
@@ -57,21 +47,10 @@ export function makeGame(farm: any): GameState {
           })),
         }
       : undefined,
-    tradedAt: farm.tradedAt,
-    expansions: farm.expansions,
-    expansionRequirements: farm.expansionRequirements
-      ? {
-          resources: farm.expansionRequirements.resources.map(
-            (resource: any) => ({
-              item: resource.item,
-              amount: new Decimal(resource.amount),
-            })
-          ),
-          sfl: new Decimal(farm.expansionRequirements.sfl),
-          seconds: farm.expansionRequirements.seconds,
-          bumpkinLevel: farm.expansionRequirements.bumpkinLevel,
-        }
-      : undefined,
+
+    expansionConstruction: farm.expansionConstruction,
+    expansionRequirements: farm.expansionRequirements,
+
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     airdrops: farm.airdrops,
@@ -83,171 +62,18 @@ export function makeGame(farm: any): GameState {
     dailyRewards: farm.dailyRewards,
     auctioneer: farm.auctioneer ?? {},
     hayseedHank: farm.hayseedHank,
+    tradedAt: farm.tradedAt,
+
+    trees: farm.trees,
+    stones: farm.stones,
+    iron: farm.iron,
+    gold: farm.gold,
+    crops: farm.crops,
+    fruitPatches: farm.fruitPatches,
   };
 }
 
 type Rocks = Record<number, Rock>;
-
-/**
- * Updates a rock with the new amount of mineral inside of it
- */
-function updateRocks(oldRocks: Rocks, newRocks: Rocks): Rocks {
-  return Object.keys(oldRocks).reduce((rocks, rockId) => {
-    const id = Number(rockId);
-    const rock = oldRocks[id];
-    return {
-      ...rocks,
-      [id]: {
-        ...rock,
-        amount: newRocks[id].amount,
-      } as Rock,
-    };
-  }, {} as Record<number, Rock>);
-}
-
-function updatePlots(
-  oldPlots: Record<number, LandExpansionPlot>,
-  newPlots: Record<number, LandExpansionPlot>
-) {
-  return getKeys(oldPlots).reduce((plots, plotId) => {
-    const { crop: oldCrop } = oldPlots[plotId];
-    const { crop: newCrop } = newPlots[plotId];
-
-    const hasCrop = oldCrop && newCrop;
-
-    const reward = oldCrop?.id === newCrop?.id ? newCrop?.reward : undefined;
-
-    return {
-      ...plots,
-      [plotId]: {
-        ...oldPlots[plotId],
-        ...(hasCrop && {
-          crop: {
-            ...oldCrop,
-            amount: newCrop.amount,
-            ...(reward && { reward }),
-          },
-        }),
-      },
-    };
-  }, {} as Record<number, LandExpansionPlot>);
-}
-
-function updateTrees(
-  oldTrees: Record<number, LandExpansionTree>,
-  newTrees: Record<number, LandExpansionTree>
-) {
-  return getKeys(oldTrees).reduce((trees, treeId) => {
-    const { wood } = oldTrees[treeId];
-    const nextDropAmount = newTrees[treeId].wood?.amount;
-    const reward = newTrees[treeId].wood?.reward;
-
-    return {
-      ...trees,
-      [treeId]: {
-        ...oldTrees[treeId],
-        ...(wood && {
-          wood: {
-            ...wood,
-            amount: nextDropAmount,
-            ...(reward && { reward }),
-          },
-        }),
-      },
-    };
-  }, {} as Record<number, LandExpansionTree>);
-}
-
-function updateStones(
-  oldStones: Record<number, LandExpansionRock>,
-  newStones: Record<number, LandExpansionRock>
-) {
-  return getKeys(oldStones).reduce((stones, stoneId) => {
-    const { stone } = oldStones[stoneId];
-    const nextDropAmount = newStones[stoneId].stone?.amount;
-
-    return {
-      ...stones,
-      [stoneId]: {
-        ...oldStones[stoneId],
-        ...(stone && {
-          stone: {
-            ...stone,
-            amount: nextDropAmount,
-          },
-        }),
-      },
-    };
-  }, {} as Record<number, LandExpansionRock>);
-}
-
-export function updateExpansions(
-  oldExpansions: LandExpansion[],
-  newExpansions: LandExpansion[]
-): LandExpansion[] {
-  // TODO: Add Fruit and Mines when they're implemented
-  return oldExpansions.map((expansion, index) => {
-    const {
-      plots: oldPlots,
-      trees: oldTrees,
-      stones: oldStones,
-      gold: oldGold,
-      iron: oldIron,
-    } = expansion;
-    const {
-      plots: newPlots,
-      trees: newTrees,
-      stones: newStones,
-      gold: newGold,
-      iron: newIron,
-    } = newExpansions[index];
-
-    const hasPlots = oldPlots && newPlots;
-    const hasTrees = oldTrees && newTrees;
-    const hasStones = oldStones && newStones;
-    const hasGold = oldGold && newGold;
-    const hasIron = oldIron && newIron;
-
-    return {
-      ...expansion,
-      ...(hasPlots && { plots: updatePlots(oldPlots, newPlots) }),
-      ...(hasTrees && { trees: updateTrees(oldTrees, newTrees) }),
-      ...(hasStones && { stones: updateStones(oldStones, newStones) }),
-      ...(hasGold && { gold: updateStones(oldGold, newGold) }),
-      ...(hasIron && { iron: updateStones(oldIron, newIron) }),
-    };
-  });
-}
-
-/**
- * Merge RNG from server
- */
-export function updateGame(
-  newGameState: GameState,
-  oldGameState: GameState
-): GameState {
-  if (!newGameState) {
-    return oldGameState;
-  }
-
-  // TODO: How to handle expansions????
-
-  // Only update random number values generated from the server
-  try {
-    return {
-      ...oldGameState,
-      treasureIsland: newGameState.treasureIsland,
-      chickens: newGameState.chickens,
-      expansions: updateExpansions(
-        oldGameState.expansions,
-        newGameState.expansions
-      ),
-    };
-  } catch (e) {
-    console.log({ e });
-    return oldGameState;
-  }
-}
 
 /**
  * Returns the lowest values out of 2 game states

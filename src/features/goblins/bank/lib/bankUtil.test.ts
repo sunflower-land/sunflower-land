@@ -177,21 +177,15 @@ describe("canWithdraw", () => {
         item: "Easter Bunny",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Carrot", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Carrot", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -203,21 +197,15 @@ describe("canWithdraw", () => {
         item: "Victoria Sisters",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -229,25 +217,19 @@ describe("canWithdraw", () => {
         item: "Golden Cauliflower",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: {
-                    name: "Cauliflower",
-                    plantedAt: Date.now(),
-                    amount: 1,
-                  },
-                },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                name: "Cauliflower",
+                plantedAt: Date.now(),
+                amount: 1,
               },
             },
-          ],
+          },
         },
       });
 
@@ -259,21 +241,15 @@ describe("canWithdraw", () => {
         item: "Mysterious Parsnip",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Parsnip", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Parsnip", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -285,21 +261,15 @@ describe("canWithdraw", () => {
         item: "Nancy",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -311,21 +281,15 @@ describe("canWithdraw", () => {
         item: "Scarecrow",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -337,21 +301,15 @@ describe("canWithdraw", () => {
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -363,24 +321,18 @@ describe("canWithdraw", () => {
         item: "Woody the Beaver",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              trees: {
-                0: {
-                  wood: {
-                    amount: 1,
-                    choppedAt: Date.now(),
-                  },
-                  x: -3,
-                  y: 3,
-                  height: 2,
-                  width: 2,
-                },
+          trees: {
+            0: {
+              wood: {
+                amount: 1,
+                choppedAt: Date.now(),
               },
+              x: -3,
+              y: 3,
+              height: 2,
+              width: 2,
             },
-          ],
+          },
         },
       });
 
@@ -392,24 +344,18 @@ describe("canWithdraw", () => {
         item: "Apprentice Beaver",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              trees: {
-                0: {
-                  wood: {
-                    amount: 1,
-                    choppedAt: Date.now(),
-                  },
-                  x: -3,
-                  y: 3,
-                  height: 2,
-                  width: 2,
-                },
+          trees: {
+            0: {
+              wood: {
+                amount: 1,
+                choppedAt: Date.now(),
               },
+              x: -3,
+              y: 3,
+              height: 2,
+              width: 2,
             },
-          ],
+          },
         },
       });
 
@@ -421,24 +367,18 @@ describe("canWithdraw", () => {
         item: "Foreman Beaver",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              trees: {
-                0: {
-                  wood: {
-                    amount: 1,
-                    choppedAt: Date.now(),
-                  },
-                  x: -3,
-                  y: 3,
-                  height: 2,
-                  width: 2,
-                },
+          trees: {
+            0: {
+              wood: {
+                amount: 1,
+                choppedAt: Date.now(),
               },
+              x: -3,
+              y: 3,
+              height: 2,
+              width: 2,
             },
-          ],
+          },
         },
       });
 
@@ -450,20 +390,14 @@ describe("canWithdraw", () => {
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
           inventory: {
             "Sunflower Seed": new Decimal(1),
           },
@@ -478,24 +412,18 @@ describe("canWithdraw", () => {
         item: "Rock Golem",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              stones: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  stone: {
-                    amount: 1,
-                    minedAt: Date.now(),
-                  },
-                },
+          stones: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: Date.now(),
               },
             },
-          ],
+          },
         },
       });
 
@@ -507,24 +435,18 @@ describe("canWithdraw", () => {
         item: "Tunnel Mole",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              stones: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  stone: {
-                    amount: 1,
-                    minedAt: Date.now(),
-                  },
-                },
+          stones: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: Date.now(),
               },
             },
-          ],
+          },
         },
       });
 
@@ -536,24 +458,18 @@ describe("canWithdraw", () => {
         item: "Rocky the Mole",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              iron: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  stone: {
-                    amount: 1,
-                    minedAt: Date.now(),
-                  },
-                },
+          iron: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: Date.now(),
               },
             },
-          ],
+          },
         },
       });
 
@@ -565,24 +481,18 @@ describe("canWithdraw", () => {
         item: "Nugget",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              gold: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  stone: {
-                    amount: 1,
-                    minedAt: Date.now(),
-                  },
-                },
+          gold: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: Date.now(),
               },
             },
-          ],
+          },
         },
       });
 
@@ -648,21 +558,15 @@ describe("canWithdraw", () => {
           inventory: {
             "Peeled Potato": new Decimal(2),
           },
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -746,20 +650,14 @@ describe("canWithdraw", () => {
         item: "Easter Bunny",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
         },
       });
 
@@ -771,20 +669,14 @@ describe("canWithdraw", () => {
         item: "Victoria Sisters",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
         },
       });
 
@@ -796,21 +688,15 @@ describe("canWithdraw", () => {
         item: "Golden Cauliflower",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -822,21 +708,15 @@ describe("canWithdraw", () => {
         item: "Mysterious Parsnip",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
             },
-          ],
+          },
         },
       });
 
@@ -851,20 +731,14 @@ describe("canWithdraw", () => {
           inventory: {
             Nancy: new Decimal(1),
           },
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
         },
       });
 
@@ -879,20 +753,14 @@ describe("canWithdraw", () => {
           inventory: {
             Scarecrow: new Decimal(1),
           },
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
         },
       });
 
@@ -905,20 +773,14 @@ describe("canWithdraw", () => {
         game: {
           ...TEST_FARM,
           inventory: { Kuebiko: new Decimal(1) },
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
         },
       });
 
@@ -933,24 +795,18 @@ describe("canWithdraw", () => {
           inventory: {
             "Woody the Beaver": new Decimal(1),
           },
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              trees: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  wood: {
-                    amount: 1,
-                    choppedAt: 0,
-                  },
-                },
+          trees: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              wood: {
+                amount: 1,
+                choppedAt: 0,
               },
             },
-          ],
+          },
         },
       });
 
@@ -963,24 +819,18 @@ describe("canWithdraw", () => {
         game: {
           ...TEST_FARM,
           inventory: { "Apprentice Beaver": new Decimal(1) },
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              trees: {
-                0: {
-                  wood: {
-                    amount: 1,
-                    choppedAt: 0,
-                  },
-                  x: -3,
-                  y: 3,
-                  height: 2,
-                  width: 2,
-                },
+          trees: {
+            0: {
+              wood: {
+                amount: 1,
+                choppedAt: 0,
               },
+              x: -3,
+              y: 3,
+              height: 2,
+              width: 2,
             },
-          ],
+          },
         },
       });
 
@@ -995,24 +845,18 @@ describe("canWithdraw", () => {
           inventory: {
             "Foreman Beaver": new Decimal(1),
           },
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              trees: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  wood: {
-                    amount: 1,
-                    choppedAt: 0,
-                  },
-                },
+          trees: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              wood: {
+                amount: 1,
+                choppedAt: 0,
               },
             },
-          ],
+          },
         },
       });
 
@@ -1024,20 +868,14 @@ describe("canWithdraw", () => {
         item: "Kuebiko",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
           inventory: {
             Kuebiko: new Decimal(1),
           },
@@ -1052,24 +890,18 @@ describe("canWithdraw", () => {
         item: "Rock Golem",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              iron: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  stone: {
-                    amount: 1,
-                    minedAt: 0,
-                  },
-                },
+          iron: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
               },
             },
-          ],
+          },
         },
       });
 
@@ -1081,24 +913,18 @@ describe("canWithdraw", () => {
         item: "Tunnel Mole",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              stones: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  stone: {
-                    amount: 1,
-                    minedAt: 0,
-                  },
-                },
+          stones: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
               },
             },
-          ],
+          },
         },
       });
 
@@ -1110,24 +936,18 @@ describe("canWithdraw", () => {
         item: "Rocky the Mole",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              iron: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  stone: {
-                    amount: 1,
-                    minedAt: 0,
-                  },
-                },
+          iron: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
               },
             },
-          ],
+          },
         },
       });
 
@@ -1139,24 +959,18 @@ describe("canWithdraw", () => {
         item: "Nugget",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              gold: {
-                0: {
-                  x: 0,
-                  y: 3,
-                  width: 1,
-                  height: 1,
-                  stone: {
-                    amount: 1,
-                    minedAt: 0,
-                  },
-                },
+          gold: {
+            0: {
+              x: 0,
+              y: 3,
+              width: 1,
+              height: 1,
+              stone: {
+                amount: 1,
+                minedAt: 0,
               },
             },
-          ],
+          },
         },
       });
 
@@ -1213,20 +1027,14 @@ describe("canWithdraw", () => {
         item: "Carrot Sword",
         game: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
           inventory: {
             "Carrot Sword": new Decimal(1),
           },
@@ -1296,21 +1104,15 @@ describe("canWithdraw", () => {
         inventory: {
           "Peeled Potato": new Decimal(2),
         },
-        expansions: [
-          {
-            createdAt: 0,
-            readyAt: 0,
-            plots: {
-              0: {
-                x: -2,
-                y: -1,
-                height: 1,
-                width: 1,
-                crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
-              },
-            },
+        crops: {
+          0: {
+            x: -2,
+            y: -1,
+            height: 1,
+            width: 1,
+            crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
           },
-        ],
+        },
       },
     });
 

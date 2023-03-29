@@ -4,12 +4,19 @@ import { BuildingName } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
+import Decimal from "decimal.js-light";
+import { Inventory } from "features/game/types/game";
 
 export interface Context {
   placeable: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
+  available: number;
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
 }
 
 type UpdateEvent = {
@@ -20,6 +27,7 @@ type UpdateEvent = {
 
 type PlaceEvent = {
   type: "PLACE";
+  hasMore: boolean;
 };
 
 type ConstructEvent = {
@@ -54,6 +62,7 @@ export const editingMachine = createMachine<
 >({
   id: "placeableMachine",
   initial: "idle",
+  preserveActionOrder: true,
   on: {
     CANCEL: {
       target: "close",
@@ -71,18 +80,55 @@ export const editingMachine = createMachine<
         DRAG: {
           target: "dragging",
         },
-        PLACE: {
-          target: "placed",
-          actions: sendParent(
-            ({ placeable, action, coordinates: { x, y } }) =>
-              ({
-                type: action,
-                name: placeable,
-                coordinates: { x, y },
-                id: uuidv4(),
-              } as PlacementEvent)
-          ),
-        },
+        PLACE: [
+          {
+            target: "idle",
+            // TODO: If they have more to place?
+            cond: (_, e) => {
+              return !!e.hasMore;
+            },
+            actions: [
+              sendParent(
+                ({ placeable, action, coordinates: { x, y } }) =>
+                  ({
+                    type: action,
+                    name: placeable,
+                    coordinates: { x, y },
+                    id: uuidv4(),
+                  } as PlacementEvent)
+              ),
+              assign({
+                collisionDetected: (_) => true,
+              }),
+            ],
+          },
+          {
+            target: "close",
+            actions: sendParent(
+              ({ placeable, action, coordinates: { x, y } }) =>
+                ({
+                  type: action,
+                  name: placeable,
+                  coordinates: { x, y },
+                  id: uuidv4(),
+                } as PlacementEvent)
+            ),
+          },
+        ],
+      },
+    },
+    resetting: {
+      always: {
+        target: "idle",
+        // Move the next piece
+        actions: assign({
+          coordinates: (context) => {
+            return {
+              x: context.coordinates.x,
+              y: context.coordinates.y - 1,
+            };
+          },
+        }),
       },
     },
     dragging: {
@@ -95,14 +141,6 @@ export const editingMachine = createMachine<
         },
         DROP: {
           target: "idle",
-        },
-      },
-    },
-    placed: {
-      after: {
-        // 300ms allows time for the .bulge animation
-        300: {
-          target: "close",
         },
       },
     },

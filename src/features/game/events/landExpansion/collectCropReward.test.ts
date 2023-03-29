@@ -11,8 +11,7 @@ describe("collectCropReward", () => {
         state: TEST_FARM,
         action: {
           type: "cropReward.collected",
-          expansionIndex: 10,
-          plotIndex: 30,
+          plotIndex: "30",
         },
         createdAt: dateNow,
       })
@@ -24,25 +23,18 @@ describe("collectCropReward", () => {
       collectCropReward({
         state: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
         },
         action: {
           type: "cropReward.collected",
-          expansionIndex: 0,
-          plotIndex: 0,
+          plotIndex: "0",
         },
         createdAt: dateNow,
       })
@@ -54,30 +46,23 @@ describe("collectCropReward", () => {
       collectCropReward({
         state: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: {
-                    name: "Sunflower",
-                    plantedAt: dateNow,
-                    amount: 1,
-                  },
-                },
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow,
+                amount: 1,
               },
             },
-          ],
+          },
         },
         action: {
           type: "cropReward.collected",
-          expansionIndex: 0,
-          plotIndex: 0,
+          plotIndex: "0",
         },
         createdAt: dateNow,
       })
@@ -89,38 +74,31 @@ describe("collectCropReward", () => {
       collectCropReward({
         state: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              plots: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  crop: {
-                    name: "Sunflower",
-                    plantedAt: dateNow,
-                    amount: 1,
-                    reward: {
-                      items: [
-                        {
-                          name: "Sunflower Seed",
-                          amount: 3,
-                        },
-                      ],
+          crops: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow,
+                amount: 1,
+                reward: {
+                  items: [
+                    {
+                      name: "Sunflower Seed",
+                      amount: 3,
                     },
-                  },
+                  ],
                 },
               },
             },
-          ],
+          },
         },
         action: {
           type: "cropReward.collected",
-          plotIndex: 0,
-          expansionIndex: 0,
+          plotIndex: "0",
         },
         createdAt: dateNow,
       })
@@ -131,45 +109,38 @@ describe("collectCropReward", () => {
     const state = collectCropReward({
       state: {
         ...TEST_FARM,
-        expansions: [
-          {
-            createdAt: 0,
-            readyAt: 0,
-            plots: {
-              0: {
-                x: -2,
-                y: -1,
-                height: 1,
-                width: 1,
-                crop: {
-                  name: "Sunflower",
-                  plantedAt: 0,
-                  amount: 1,
-                  reward: {
-                    items: [
-                      {
-                        name: "Sunflower Seed",
-                        amount: 3,
-                      },
-                    ],
+        crops: {
+          0: {
+            x: -2,
+            y: -1,
+            height: 1,
+            width: 1,
+            crop: {
+              name: "Sunflower",
+              plantedAt: 0,
+              amount: 1,
+              reward: {
+                items: [
+                  {
+                    name: "Sunflower Seed",
+                    amount: 3,
                   },
-                },
+                ],
               },
             },
           },
-        ],
+        },
       },
       action: {
         type: "cropReward.collected",
-        plotIndex: 0,
-        expansionIndex: 0,
+        plotIndex: "0",
       },
       createdAt: dateNow,
     });
 
-    const { expansions } = state;
+    const { crops: plots } = state;
 
-    expect(expansions[0].plots?.[0]?.crop?.reward).toBeUndefined();
+    expect(plots?.[0]?.crop?.reward).toBeUndefined();
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(3));
   });
 
@@ -177,45 +148,38 @@ describe("collectCropReward", () => {
     const state = collectCropReward({
       state: {
         ...TEST_FARM,
-        expansions: [
-          {
-            createdAt: 0,
-            readyAt: 0,
-            plots: {
-              0: {
-                x: -2,
-                y: -1,
-                height: 1,
-                width: 1,
-                crop: {
-                  name: "Sunflower",
-                  plantedAt: 0,
-                  amount: 1,
-                  reward: {
-                    items: [
-                      {
-                        name: "Gold",
-                        amount: 1,
-                      },
-                    ],
+        crops: {
+          0: {
+            x: -2,
+            y: -1,
+            height: 1,
+            width: 1,
+            crop: {
+              name: "Sunflower",
+              plantedAt: 0,
+              amount: 1,
+              reward: {
+                items: [
+                  {
+                    name: "Gold",
+                    amount: 1,
                   },
-                },
+                ],
               },
             },
           },
-        ],
+        },
       },
       action: {
         type: "cropReward.collected",
-        plotIndex: 0,
-        expansionIndex: 0,
+        plotIndex: "0",
       },
       createdAt: dateNow,
     });
 
-    const { expansions } = state;
+    const { crops: plots } = state;
 
-    expect(expansions[0].plots?.[0]?.crop?.reward).toBeUndefined();
+    expect(plots?.[0]?.crop?.reward).toBeUndefined();
     expect(state.inventory["Gold"]).toEqual(new Decimal(1));
   });
 
@@ -223,40 +187,33 @@ describe("collectCropReward", () => {
     const state = collectCropReward({
       state: {
         ...TEST_FARM,
-        expansions: [
-          {
-            createdAt: 0,
-            readyAt: 0,
-            plots: {
-              0: {
-                x: -2,
-                y: -1,
-                height: 1,
-                width: 1,
-                crop: {
-                  name: "Sunflower",
-                  plantedAt: 0,
-                  amount: 1,
-                  reward: {
-                    sfl: new Decimal(10),
-                  },
-                },
+        crops: {
+          0: {
+            x: -2,
+            y: -1,
+            height: 1,
+            width: 1,
+            crop: {
+              name: "Sunflower",
+              plantedAt: 0,
+              amount: 1,
+              reward: {
+                sfl: new Decimal(10),
               },
             },
           },
-        ],
+        },
       },
       action: {
         type: "cropReward.collected",
-        plotIndex: 0,
-        expansionIndex: 0,
+        plotIndex: "0",
       },
       createdAt: dateNow,
     });
 
-    const { expansions } = state;
+    const { crops: plots } = state;
 
-    expect(expansions[0].plots?.[0]?.crop?.reward).toBeUndefined();
+    expect(plots?.[0]?.crop?.reward).toBeUndefined();
     expect(state.balance).toEqual(new Decimal(10));
   });
 });

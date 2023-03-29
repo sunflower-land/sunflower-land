@@ -3,14 +3,14 @@ import React, { useContext, useEffect, useState } from "react";
 import pontoon from "assets/land/levels/pontoon.gif";
 import island from "assets/land/islands/island.webp";
 
-import { LandExpansion } from "features/game/types/game";
+import { ExpansionConstruction } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "features/island/common/TimerPopover";
 
 interface Props {
-  expansion: LandExpansion;
+  expansion: ExpansionConstruction;
 }
 
 /**
@@ -30,7 +30,7 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
       setSecondsLeft(seconds);
 
       if (seconds <= 0) {
-        gameService.send("expansion.revealed");
+        console.log("Reveal it");
         clearInterval(interval);
       }
     }, 1000);

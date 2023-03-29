@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
@@ -24,6 +24,8 @@ import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { DECORATION_DIMENSIONS } from "features/game/types/decorations";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   state: GameState;
@@ -44,13 +46,15 @@ export const Chest: React.FC<Props> = ({
   onPlace,
   onDepositClick,
 }: Props) => {
+  const { gameService } = useContext(Context);
+
   const divRef = useRef<HTMLDivElement>(null);
   const chestMap = getChestItems(state);
   const { inventory, collectibles: placedItems } = state;
 
   const getItemCount = (item: InventoryItemName) => {
     const count =
-      inventory[item]?.sub(placedItems[item as CollectibleName]?.length ?? 0) ??
+      chestMap[item]?.sub(placedItems[item as CollectibleName]?.length ?? 0) ??
       new Decimal(0);
 
     return setPrecision(count);
@@ -66,12 +70,24 @@ export const Chest: React.FC<Props> = ({
         item in HELIOS_BLACKSMITH_ITEMS ||
         item in GOBLIN_BLACKSMITH_ITEMS ||
         item in GOBLIN_PIRATE_ITEMS ||
-        item in DECORATION_DIMENSIONS
+        item in DECORATION_DIMENSIONS ||
+        item in RESOURCE_DIMENSIONS
       ) {
         return { ...acc, [item]: chestMap[item] };
       }
       return acc;
     }, {} as Record<CollectibleName, Decimal>);
+
+  const handlePlace = () => {
+    onPlace && onPlace(selected);
+
+    closeModal();
+  };
+
+  const handleItemClick = (item: InventoryItemName) => {
+    console.log({ handleItemClick: item });
+    onSelect(item);
+  };
 
   const chestIsEmpty = getKeys(collectibles).length === 0;
 
@@ -99,16 +115,6 @@ export const Chest: React.FC<Props> = ({
   const selectedChestItem = collectibles[selected as CollectibleName]
     ? selected
     : getKeys(collectibles)[0];
-
-  const handlePlace = () => {
-    onPlace && onPlace(selectedChestItem);
-
-    closeModal();
-  };
-
-  const handleItemClick = (item: InventoryItemName) => {
-    onSelect(item);
-  };
 
   return (
     <SplitScreenView

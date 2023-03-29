@@ -17,8 +17,7 @@ import { SEEDS } from "features/game/types/seeds";
 export type LandExpansionPlantAction = {
   type: "seed.planted";
   item: InventoryItemName;
-  expansionIndex: number;
-  index: number;
+  index: string;
   cropId: string;
 };
 
@@ -29,8 +28,7 @@ type Options = {
 };
 
 type IsPlotFertile = {
-  plotIndex: number;
-  expansionIndex: number;
+  plotIndex: string;
   gameState: GameState;
 };
 
@@ -41,7 +39,6 @@ const WELL_PLOT_SUPPORT = 8;
 
 export function isPlotFertile({
   plotIndex,
-  expansionIndex,
   gameState,
 }: IsPlotFertile): boolean {
   // Get the well count
@@ -52,20 +49,8 @@ export function isPlotFertile({
   const cropsWellCanWater =
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
-  const cropPosition = gameState.expansions.reduce(
-    (count, expansion, index) => {
-      if (index < expansionIndex) {
-        return count + getKeys(expansion.plots || {}).length;
-      }
-
-      if (index === expansionIndex) {
-        return count + (plotIndex + 1);
-      }
-
-      return count;
-    },
-    0
-  );
+  const cropPosition =
+    getKeys(gameState.crops).findIndex((plotId) => plotId === plotIndex) + 1;
 
   return cropPosition <= cropsWellCanWater;
 }
@@ -235,36 +220,21 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin, collectibles, inventory } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
-
-  if (!expansion) {
-    throw new Error("Expansion does not exist");
-  }
-
-  if (!expansion.plots) {
-    throw new Error("Expansion does not have any plots");
-  }
+  const { crops: plots, bumpkin, collectibles, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  const { plots } = expansion;
-
-  if (action.index < 0) {
-    throw new Error("Plot does not exist");
-  }
-
-  if (!Number.isInteger(action.index)) {
-    throw new Error("Plot does not exist");
-  }
-
-  if (action.index >= Object.keys(plots).length) {
+  if (!action.index) {
     throw new Error("Plot does not exist");
   }
 
   const plot = plots[action.index];
+
+  if (!plot) {
+    throw new Error("Plot does not exist");
+  }
 
   if (plot.crop?.plantedAt) {
     throw new Error("Crop is already planted");
@@ -306,8 +276,6 @@ export function plant({
       }),
     },
   };
-
-  expansion.plots = plots;
 
   inventory[action.item] = seedCount.sub(1);
 

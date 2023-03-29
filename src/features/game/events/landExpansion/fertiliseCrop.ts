@@ -46,18 +46,7 @@ export function fertiliseCrop({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, inventory } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
-
-  if (!expansion) {
-    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_EXPANSION);
-  }
-
-  if (!expansion.plots) {
-    throw new Error(FERTILISE_CROP_ERRORS.EXPANSION_NO_PLOTS);
-  }
-
-  const { plots } = expansion;
+  const { crops: plots, inventory } = stateCopy;
 
   if (action.plotIndex < 0) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
@@ -126,8 +115,6 @@ export function fertiliseCrop({
       ],
     },
   };
-
-  expansion.plots = plots;
 
   inventory[action.fertiliser] = fertiliserAmount.minus(1);
 

@@ -17,8 +17,6 @@ import { ToastManager } from "../toast/ToastManager";
 import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
-import { Expanding } from "./components/Expanding";
-import { ExpansionSuccess } from "./components/ExpansionSuccess";
 
 import { Notifications } from "../components/Notifications";
 import { Hoarding } from "../components/Hoarding";
@@ -54,8 +52,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   error: true,
   refreshing: true,
   deposited: true,
-  expanding: true,
-  expanded: true,
   hoarding: true,
   editing: false,
   noBumpkinFound: true,
@@ -234,8 +230,6 @@ export const Game: React.FC = () => {
           )}
           {gameState.matches("synced") && <Success />}
           {gameState.matches("syncing") && <Syncing />}
-          {gameState.matches("expanded") && <ExpansionSuccess />}
-          {gameState.matches("expanding") && <Expanding />}
           {gameState.matches("hoarding") && <Hoarding />}
           {gameState.matches("swarming") && <Swarming />}
           {gameState.matches("noBumpkinFound") && <NoBumpkin />}

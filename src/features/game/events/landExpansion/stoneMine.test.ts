@@ -9,64 +9,33 @@ import {
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
-  expansions: [
-    {
-      ...TEST_FARM.expansions[0],
-      stones: {
-        0: {
-          stone: {
-            minedAt: 0,
-            amount: 2,
-          },
-          x: 1,
-          y: 1,
-          height: 1,
-          width: 1,
-        },
-        1: {
-          stone: {
-            minedAt: 0,
-            amount: 3,
-          },
-          x: 4,
-          y: 1,
-          height: 1,
-          width: 1,
-        },
+  stones: {
+    0: {
+      stone: {
+        minedAt: 0,
+        amount: 2,
       },
+      x: 1,
+      y: 1,
+      height: 1,
+      width: 1,
     },
-  ],
+    1: {
+      stone: {
+        minedAt: 0,
+        amount: 3,
+      },
+      x: 4,
+      y: 1,
+      height: 1,
+      width: 1,
+    },
+  },
 };
 
 describe("mineStone", () => {
   beforeAll(() => {
     jest.useFakeTimers();
-  });
-
-  it("throws an error if expansion does not exist", () => {
-    expect(() =>
-      mineStone({
-        state: GAME_STATE,
-        action: {
-          type: "stoneRock.mined",
-          expansionIndex: -1,
-          index: 0,
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("throws an error if expansion has no stones", () => {
-    expect(() =>
-      mineStone({
-        state: { ...GAME_STATE, expansions: [{ createdAt: 0, readyAt: 0 }] },
-        action: {
-          type: "stoneRock.mined",
-          expansionIndex: 0,
-          index: 0,
-        },
-      })
-    ).toThrow("Expansion has no stones");
   });
 
   it("throws an error if no axes are left", () => {
@@ -80,7 +49,6 @@ describe("mineStone", () => {
         },
         action: {
           type: "stoneRock.mined",
-          expansionIndex: 0,
           index: 0,
         },
       })
@@ -98,11 +66,10 @@ describe("mineStone", () => {
         },
         action: {
           type: "stoneRock.mined",
-          expansionIndex: 0,
           index: 3,
         },
       })
-    ).toThrow("No rock");
+    ).toThrow("Stone does not exist");
   });
 
   it("throws an error if stone is not ready", () => {
