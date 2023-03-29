@@ -227,7 +227,7 @@ const INITIAL_EXPANSIONS: ExpansionConstruction[] = [
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 1220501,
+  experience: 2000,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -266,7 +266,7 @@ export const OFFLINE_FARM: GameState = {
     "Fruit Patch": new Decimal(3),
     "Gold Rock": new Decimal(3),
     "Crop Plot": new Decimal(13),
-    "Basic Land": new Decimal(17),
+    "Basic Land": new Decimal(4),
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
