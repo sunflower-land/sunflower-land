@@ -73,11 +73,9 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const { setToast } = useContext(ToastContext);
   const tree = game.context.state.trees[id] as ITree;
 
-  if (!tree) {
-    console.log("Nothgin!");
-    return null;
-  }
-  const woodObj = tree.wood as Wood;
+  const chopped = !canChop(tree);
+
+  useUiRefresher({ active: chopped });
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -92,9 +90,10 @@ export const Tree: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const chopped = !canChop(tree);
-
-  useUiRefresher({ active: chopped });
+  if (!tree) {
+    return null;
+  }
+  const woodObj = tree.wood as Wood;
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);

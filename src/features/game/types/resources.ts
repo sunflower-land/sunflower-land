@@ -1,5 +1,4 @@
 import { Dimensions } from "./craftables";
-import { GameState } from "./game";
 
 export type CommodityName =
   | "Wood"
