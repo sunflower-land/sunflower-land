@@ -862,6 +862,8 @@ export function startGame(authContext: Options) {
             data: {
               placeable: (_: Context, event: EditEvent) => event.placeable,
               action: (_: Context, event: EditEvent) => event.action,
+              requirements: (_: Context, event: EditEvent) =>
+                event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
               hasMultiple: (c: Context, event: EditEvent) =>
