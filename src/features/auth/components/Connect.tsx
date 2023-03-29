@@ -3,15 +3,29 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
+import { useActor } from "@xstate/react";
 
 export const Connect: React.FC = () => {
   const { authService } = useContext(Context);
+  const [
+    {
+      context: { guestKey },
+    },
+  ] = useActor(authService);
+
+  const guestText = guestKey ? "Continue as guest" : "Play as guest!";
 
   return (
     <div className="px-4">
       <p className="text-xs text-white mt-2 mb-3 text-center italic">
         Connect your Web3 wallet to play
       </p>
+      <Button
+        className="mb-2 py-2 text-sm relative"
+        onClick={() => authService.send("CONNECT_AS_GUEST")}
+      >
+        <div className="px-8">{guestText}</div>
+      </Button>
       <Button
         className="mb-2 py-2 text-sm relative"
         onClick={() => authService.send("CONNECT_TO_METAMASK")}

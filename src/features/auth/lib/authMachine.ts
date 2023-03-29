@@ -28,6 +28,9 @@ import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
+import { createGuestAccount } from "../actions/createGuestAccount";
+
+const GUEST_KEY = "guestKey";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -59,6 +62,7 @@ type Farm = {
 };
 
 export interface Context {
+  guestKey: string | null;
   errorCode?: ErrorCode;
   transactionId?: string;
   farmId?: number;
@@ -132,6 +136,7 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_METAMASK" }
   | { type: "CONNECT_TO_WALLET_CONNECT" }
   | { type: "CONNECT_TO_SEQUENCE" }
+  | { type: "CONNECT_AS_GUEST" }
   | { type: "SIGN" }
   | { type: "VERIFIED" };
 
@@ -143,6 +148,7 @@ export type BlockchainState = {
     | "connectingToMetamask"
     | "connectingToWalletConnect"
     | "connectingToSequence"
+    | "connectingAsGuest"
     | "setupContracts"
     | "connectedToWallet"
     | "reconnecting"
@@ -183,6 +189,9 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
+    context: {
+      guestKey: localStorage.getItem(GUEST_KEY),
+    },
     initial: API_URL ? "idle" : "connected",
     states: {
       idle: {
@@ -204,6 +213,15 @@ export const authMachine = createMachine<
           CONNECT_TO_SEQUENCE: {
             target: "connectingToSequence",
           },
+          CONNECT_AS_GUEST: [
+            {
+              target: "#authorised",
+              cond: (context) => !!context.guestKey,
+            },
+            {
+              target: "connectingAsGuest",
+            },
+          ],
         },
       },
       reconnecting: {
@@ -277,6 +295,26 @@ export const authMachine = createMachine<
               actions: "assignErrorMessage",
             },
           ],
+        },
+      },
+      connectingAsGuest: {
+        entry: "setTransactionId",
+        invoke: {
+          src: async () => {
+            const guestKey = await createGuestAccount();
+            localStorage.setItem(GUEST_KEY, guestKey);
+            return { guestKey };
+          },
+          onDone: {
+            target: "#authorised",
+            actions: assign({
+              guestKey: (_, event) => event.data.guestKey,
+            }),
+          },
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
         },
       },
       setupContracts: {
