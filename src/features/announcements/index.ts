@@ -27,6 +27,27 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2023-03-30T00:00:00"),
+    title: "Maintenance Mode",
+    notes: [
+      {
+        text: "The team are working on exciting updates!",
+        icon: SUNNYSIDE.icons.hammer,
+      },
+      {
+        text: "Next week, we expect roughly 1 hour of downtime to make these updgrades",
+        icon: SUNNYSIDE.icons.timer,
+        date: new Date(
+          "Mon April 3 2023 11:00:00 GMT+1100 (Australian Eastern Daylight Time)"
+        ),
+      },
+      {
+        text: "Thank you for your patience!",
+        icon: SUNNYSIDE.icons.heart,
+      },
+    ],
+  },
+  {
     date: new Date("2023-03-08T00:00:00"),
     title: "Solar Flare Season Has Begun!",
     notes: [
