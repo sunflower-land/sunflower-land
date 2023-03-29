@@ -76,12 +76,11 @@ export const Placeable: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const [showHint, setShowHint] = useState(true);
-  const collideRef = useRef(false);
 
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable } = machine.context;
+  const { placeable, collisionDetected } = machine.context;
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
@@ -95,8 +94,6 @@ export const Placeable: React.FC = () => {
       width,
       height,
     });
-
-    collideRef.current = collisionDetected;
 
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
@@ -134,6 +131,7 @@ export const Placeable: React.FC = () => {
           nodeRef={nodeRef}
           grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
           onStart={() => {
+            // reset
             send("DRAG");
           }}
           onDrag={(_, data) => {
@@ -178,8 +176,8 @@ export const Placeable: React.FC = () => {
               className={classNames(
                 " w-full h-full relative img-highlight pointer-events-none",
                 {
-                  "bg-green-background/80": !collideRef.current,
-                  "bg-red-background/80": collideRef.current,
+                  "bg-green-background/80": !collisionDetected,
+                  "bg-red-background/80": collisionDetected,
                 }
               )}
               style={{

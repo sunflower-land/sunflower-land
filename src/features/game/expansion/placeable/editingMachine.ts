@@ -4,13 +4,19 @@ import { BuildingName } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
+import Decimal from "decimal.js-light";
+import { Inventory } from "features/game/types/game";
 
 export interface Context {
   placeable: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  isDirty: boolean;
+  available: number;
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
 }
 
 type UpdateEvent = {
@@ -73,16 +79,12 @@ export const editingMachine = createMachine<
         },
         DRAG: {
           target: "dragging",
-          actions: assign({
-            isDirty: (_) => true,
-          }),
         },
         PLACE: [
           {
             target: "idle",
             // TODO: If they have more to place?
             cond: (_, e) => {
-              console.log({ e });
               return !!e.hasMore;
             },
             actions: [
@@ -96,13 +98,7 @@ export const editingMachine = createMachine<
                   } as PlacementEvent)
               ),
               assign({
-                coordinates: (context) => {
-                  return {
-                    x: context.coordinates.x,
-                    y: context.coordinates.y - 1,
-                  };
-                },
-                isDirty: (_) => true,
+                collisionDetected: (_) => true,
               }),
             ],
           },

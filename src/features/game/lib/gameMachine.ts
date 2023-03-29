@@ -17,7 +17,7 @@ import {
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -50,6 +50,7 @@ import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import Decimal from "decimal.js-light";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -99,6 +100,10 @@ type EditEvent = {
   placeable: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
   type: "EDIT";
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
 };
 
 type VisitEvent = {

@@ -40,27 +40,6 @@ export const PlaceableController: React.FC = () => {
       type: "PLACE",
       hasMore,
     });
-
-    // Shift down the position for the next one
-    if (hasMore) {
-      // const collisionDetected = detectCollision(
-      //   gameService.state.context.state,
-      //   {
-      //     x: ,
-      //     y,
-      //     width,
-      //     height,
-      //   }
-      // );
-
-      setTimeout(() => {
-        send({
-          type: "UPDATE",
-          coordinates: { x: coordinates.x, y: coordinates.y - 1 },
-          collisionDetected,
-        });
-      }, 500);
-    }
   };
 
   const handleCancelPlacement = () => {
