@@ -89,7 +89,7 @@ export const Chest: React.FC<Props> = ({
           Your chest is empty, discover rare items today!
         </span>
         <p className="underline text-xxs text-center mt-2 cursor-pointer">
-          Deposit item from your wallet
+          Deposit items from your wallet
         </p>
       </div>
     );
@@ -162,7 +162,7 @@ export const Chest: React.FC<Props> = ({
                   closeModal();
                 }}
               >
-                Deposit item from your wallet
+                Deposit items from your wallet
               </p>
             </div>
           )}
