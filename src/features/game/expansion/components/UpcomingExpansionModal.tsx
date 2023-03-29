@@ -47,8 +47,8 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     <ExpansionRequirements
       gameState={gameState}
       details={{
-        title: "Want to expand your land and discover new resources?",
-        description: "Each piece of land is a unique NFT on the blockchain.",
+        description:
+          "Each piece of land comes with unique resources to help build your farming empire!",
       }}
       requirements={gameState.expansionRequirements}
       actionView={

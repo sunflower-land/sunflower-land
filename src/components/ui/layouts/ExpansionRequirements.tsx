@@ -26,7 +26,6 @@ interface Props {
  * @param description The description.
  */
 interface DetailsProps {
-  title: string;
   description: string;
 }
 
@@ -41,14 +40,10 @@ export const ExpansionRequirements: React.FC<Props> = ({
   actionView,
 }: Props) => {
   const getItemDetail = () => {
-    const title = details.title;
     const description = details.description;
 
     return (
       <>
-        <div className="flex space-x-2 justify-start mb-1 items-center sm:flex-col-reverse md:space-x-0">
-          <span className="sm:text-center">{title}</span>
-        </div>
         <span className="text-xs mt-1 whitespace-pre-line sm:text-center">
           {description}
         </span>

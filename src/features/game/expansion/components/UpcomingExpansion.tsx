@@ -52,7 +52,9 @@ export const UpcomingExpansion: React.FC = () => {
 
   const Content = () => {
     useUiRefresher({
-      active: state.expansionConstruction?.readyAt > Date.now(),
+      active:
+        state.expansionConstruction &&
+        state.expansionConstruction?.readyAt > Date.now(),
     });
 
     // Land is still being built
