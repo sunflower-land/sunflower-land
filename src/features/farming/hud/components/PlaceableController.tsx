@@ -14,14 +14,16 @@ export const PlaceableController: React.FC = () => {
 
   const [
     {
-      context: { collisionDetected, id: placeableId },
+      context: { collisionDetected, id: placeableId, action },
     },
     send,
   ] = useActor(child);
 
+  const itemSelected = child.state.matches("placeableSelected");
+
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
-    if (!child.state.matches("placeableSelected")) {
+    if (!itemSelected) {
       return;
     }
 
@@ -30,6 +32,15 @@ export const PlaceableController: React.FC = () => {
     } else {
       send("PLACE");
     }
+  };
+
+  const handleRemoveItem = () => {
+    send("REMOVE", {
+      action:
+        action === "building.moved"
+          ? "building.removed"
+          : "collectible.removed",
+    });
   };
 
   const handleCancelPlacement = () => {
@@ -54,10 +65,25 @@ export const PlaceableController: React.FC = () => {
               }}
             />
           </Button>
-          <Button disabled={collisionDetected} onClick={handleConfirmPlacement}>
+          <Button
+            disabled={!itemSelected || collisionDetected}
+            onClick={handleConfirmPlacement}
+          >
             <img
               src={SUNNYSIDE.icons.confirm}
               alt="confirm"
+              style={{
+                width: `${PIXEL_SCALE * 12}px`,
+              }}
+            />
+          </Button>
+          <Button
+            disabled={child.state.matches("idle")}
+            onClick={handleRemoveItem}
+          >
+            <img
+              src={SUNNYSIDE.icons.hammer}
+              alt="remove"
               style={{
                 width: `${PIXEL_SCALE * 12}px`,
               }}

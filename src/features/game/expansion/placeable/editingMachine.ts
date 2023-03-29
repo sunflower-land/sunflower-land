@@ -76,6 +76,7 @@ export type Event =
   | SelectToMoveEvent
   | ReadyToMoveEvent
   | MoveEvent
+  | RemoveEvent
   | SelectToPlaceEvent
   | { type: "CANCEL" };
 
@@ -167,6 +168,31 @@ export const editingMachine = createMachine<Context, Event, State>({
         MOVE: {
           target: "idle",
           actions: [
+            sendParent(
+              ({ placeable, id, coordinates, action }) =>
+                ({
+                  type: action,
+                  name: placeable,
+                  coordinates,
+                  id,
+                } as PlacementEvent)
+            ),
+            assign({
+              placeable: (_) => undefined,
+              id: (_) => undefined,
+              coordinates: (_) => undefined,
+              collisionDetected: (_) => false,
+              type: (_) => undefined,
+            }),
+          ],
+        },
+        REMOVE: {
+          target: "idle",
+          actions: [
+            assign({
+              action: (_, event) => event.action,
+            }),
+
             sendParent(
               ({ placeable, id, coordinates, action }) =>
                 ({
