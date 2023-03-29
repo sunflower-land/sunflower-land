@@ -17,7 +17,7 @@ export const PlaceableController: React.FC = () => {
 
   const [
     {
-      context: { collisionDetected, placeable, coordinates },
+      context: { collisionDetected, placeable, coordinates, requirements },
     },
     send,
   ] = useActor(child);
@@ -67,16 +67,21 @@ export const PlaceableController: React.FC = () => {
     send("CANCEL");
   };
 
+  const isCrafting = !!requirements;
+
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
       <OuterPanel>
-        <div className="flex justify-center items-center mb-1">
-          <img
-            src={ITEM_DETAILS[placeable].image}
-            className="h-6 mr-2 img-highlight"
-          />
-          <p className="text-sm">{`${available.toNumber()} available`}</p>
-        </div>
+        {!requirements && (
+          <div className="flex justify-center items-center mb-1">
+            <img
+              src={ITEM_DETAILS[placeable].image}
+              className="h-6 mr-2 img-highlight"
+            />
+            <p className="text-sm">{`${available.toNumber()} available`}</p>
+          </div>
+        )}
+
         <div
           className="flex items-stretch space-x-2 sm:h-12 w-80 sm:w-[400px]"
           style={{
@@ -92,10 +97,7 @@ export const PlaceableController: React.FC = () => {
               }}
             />
           </Button>
-          <Button
-            disabled={collisionDetected || available?.lte(0)}
-            onClick={handleConfirmPlacement}
-          >
+          <Button disabled={collisionDetected} onClick={handleConfirmPlacement}>
             <img
               src={SUNNYSIDE.icons.confirm}
               alt="confirm"
