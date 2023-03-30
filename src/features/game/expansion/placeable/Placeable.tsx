@@ -23,6 +23,7 @@ import { Chicken } from "features/island/chickens/Chicken";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { AUTO_SAVE_INTERVAL } from "../Game";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -105,6 +106,12 @@ export const Placeable: React.FC = () => {
       x: Math.round(DEFAULT_POSITION_X / GRID_WIDTH_PX),
       y: Math.round(-DEFAULT_POSITION_Y / GRID_WIDTH_PX),
     });
+
+    const timeout = setTimeout(() => {
+      send({ type: "CANCEL" });
+    }, AUTO_SAVE_INTERVAL);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
