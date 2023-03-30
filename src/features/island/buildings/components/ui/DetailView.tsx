@@ -251,7 +251,8 @@ export const DetailView: React.FC<Props> = ({
                 </span>
                 <div className="flex items-center justify-center">
                   <Label type="danger">
-                    {nextLockedLevel} Expansions Required
+                    {`${landCount.toNumber()}/${nextLockedLevel}`} Expansions
+                    Required
                   </Label>
 
                   <img src={lock} className="h-4 ml-1" />
