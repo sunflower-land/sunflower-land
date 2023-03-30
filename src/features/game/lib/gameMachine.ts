@@ -875,7 +875,7 @@ export function startGame(authContext: Options) {
                 getChestItems(c.state)[event.placeable]?.gt(1),
             },
             onDone: {
-              target: "playing",
+              target: "autosaving",
             },
             onError: [
               {
