@@ -52,6 +52,13 @@ export const RemovePlaceableModal: React.FC<Props> = ({
 
   const canRemove = isRemovable(gameState.context.state, name, placeableId);
 
+  const isResource =
+    name === "Tree" ||
+    name === "Stone Rock" ||
+    name === "Iron Rock" ||
+    name === "Gold Rock" ||
+    name === "Fruit Patch";
+
   const AddedInfo = () => {
     if (!hasRustyShovel) {
       return (
@@ -89,7 +96,17 @@ export const RemovePlaceableModal: React.FC<Props> = ({
           </p>
         );
       }
-      return <p>{`Your cannot remove this ${type} yet.`}</p>;
+      if (isResource) {
+        return (
+          <p>
+            {`This resource is not removable at the moment. Soon, you'll have
+            access to landscaping features, allowing you to rearrange all your
+            items and resources.`}
+          </p>
+        );
+      }
+
+      return <p>{`You cannot remove this ${type} yet.`}</p>;
     }
 
     if (type === "building") {
@@ -134,9 +151,11 @@ export const RemovePlaceableModal: React.FC<Props> = ({
           <SquareIcon icon={ITEM_DETAILS[name].image} width={28} />
         </div>
         <div className="p-1 mb-2 text-sm">
-          <p className="mb-3">
-            {`You have the rusty shovel selected which allows you to remove placeable items from your land.`}
-          </p>
+          {!isResource && (
+            <p className="mb-3">
+              {`You have the rusty shovel selected which allows you to remove placeable items from your land.`}
+            </p>
+          )}
           {AddedInfo()}
         </div>
         <div className="flex space-x-1 w-full">
