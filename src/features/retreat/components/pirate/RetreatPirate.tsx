@@ -33,34 +33,36 @@ export const RetreatPirate: React.FC = () => {
   };
 
   return (
-    <MapPlacement x={16} y={-3} height={3} width={2}>
-      <div
-        className="relative w-full h-full cursor-pointer hover:img-highlight"
-        onClick={openPirate}
-      >
-        <NPC {...bumpkin} />
-        <img
-          src={SUNNYSIDE.decorations.treasure_chest}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            left: `${GRID_WIDTH_PX * 1}px`,
-            top: `${GRID_WIDTH_PX * 1}px`,
-          }}
-        />
+    <>
+      <MapPlacement x={16} y={-3} height={3} width={2}>
         <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            bottom: `${PIXEL_SCALE * -3}px`,
-          }}
+          className="relative w-full h-full cursor-pointer hover:img-highlight"
+          onClick={openPirate}
         >
-          <Action
-            className="pointer-events-none"
-            text="Pirate"
-            icon={SUNNYSIDE.icons.basket}
+          <NPC {...bumpkin} />
+          <img
+            src={SUNNYSIDE.decorations.treasure_chest}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+              left: `${GRID_WIDTH_PX * 1}px`,
+              top: `${GRID_WIDTH_PX * 1}px`,
+            }}
           />
+          <div
+            className="flex justify-center absolute w-full pointer-events-none"
+            style={{
+              bottom: `${PIXEL_SCALE * -3}px`,
+            }}
+          >
+            <Action
+              className="pointer-events-none"
+              text="Pirate"
+              icon={SUNNYSIDE.icons.basket}
+            />
+          </div>
         </div>
-      </div>
+      </MapPlacement>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           bumpkinParts={bumpkin}
@@ -70,6 +72,6 @@ export const RetreatPirate: React.FC = () => {
           <GoblinPirateItems onClose={() => setIsOpen(false)} />
         </CloseButtonPanel>
       </Modal>
-    </MapPlacement>
+    </>
   );
 };
