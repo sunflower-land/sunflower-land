@@ -115,6 +115,7 @@ import { BeachBall } from "./components/BeachBall";
 import { PalmTree } from "./components/PalmTree";
 import { Karkinos } from "./components/Karkinos";
 import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
+import { EasterBear } from "features/island/collectibles/components/EasterBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -207,6 +208,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Rainbow Artist Bear": RainbowArtistBear,
   "Victoria Sisters": VictoriaSisters,
   "Devil Bear": DevilBear,
+  "Valentine Bear": ValentineBear,
+  "Easter Bear": EasterBear,
   Observatory,
 
   "Golden Bean": Bean,
@@ -231,7 +234,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
   "Pablo The Bunny": PabloBunny,
-  // "Iron Idol": IronIdol,
 
   // Treasure
   "Abandoned Bear": AbandonedBear,
@@ -257,7 +259,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Heart Balloons": HeartBalloons,
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
-  "Valentine Bear": ValentineBear,
   "Iron Idol": IronIdol,
 
   // Seasonal Items

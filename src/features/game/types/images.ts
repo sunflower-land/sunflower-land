@@ -303,6 +303,7 @@ import loveLetter from "src/assets/icons/love_letter.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 import valentineBear from "src/assets/sfts/bears/love_bear.png";
+import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
 
 // Treasure
@@ -1881,6 +1882,10 @@ export const ITEM_DETAILS: Items = {
   "Valentine Bear": {
     description: "For those who love.",
     image: valentineBear,
+  },
+  "Easter Bear": {
+    description: "How can a Bunny lay egges?",
+    image: easterBear,
   },
 
   "Iron Idol": {

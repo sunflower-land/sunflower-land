@@ -353,6 +353,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Valentine Bear": 1240,
   "Palm Tree": 1241,
   "Beach Ball": 1242,
+  "Easter Bear": 1243,
 
   //Beach Bounty
   "Pirate Bounty": 1301,
