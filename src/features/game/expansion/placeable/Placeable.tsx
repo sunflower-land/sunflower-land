@@ -79,13 +79,11 @@ export const Placeable: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const [showHint, setShowHint] = useState(true);
-  // HACK: force <Draggable /> to rerender with initial position
-  const [key, setKey] = useState(0);
 
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable, collisionDetected, coordinates } = machine.context;
+  const { placeable, collisionDetected, coordinates, placed } = machine.context;
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
@@ -122,11 +120,8 @@ export const Placeable: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (machine.matches("idle")) {
-      setShowHint(true);
-      setKey((prev) => prev + 1);
-    }
-  }, [child.state]);
+    setShowHint(true);
+  }, [placed]);
 
   return (
     <>
@@ -145,7 +140,7 @@ export const Placeable: React.FC = () => {
       />
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
-          key={key}
+          key={placed}
           defaultPosition={{
             x: DEFAULT_POSITION_X,
             y: DEFAULT_POSITION_Y,
