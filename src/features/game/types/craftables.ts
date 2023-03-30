@@ -97,6 +97,7 @@ export interface LimitedItem extends CraftableItem {
   requires?: InventoryItemName;
 }
 
+export type EasterEventItem = "Easter Bunny" | "Pablo The Bunny";
 export type MOMEventItem = "Engine Core" | "Observatory";
 
 export type TravelingSalesmanItem =
@@ -138,7 +139,6 @@ export type BarnItem =
   | "Farm Dog"
   | "Chicken Coop"
   | "Gold Egg"
-  | "Easter Bunny"
   | "Rooster";
 
 export type MarketItem =
@@ -170,6 +170,7 @@ export type LimitedItemName =
   | BarnItem
   | MarketItem
   | Flag
+  | EasterEventItem
   | MOMEventItem
   | QuestItem
   | MutantChicken
@@ -190,6 +191,7 @@ export type CollectibleName =
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
   | BoostTreasure
+  | EasterEventItem
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -950,17 +952,26 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
     description: "Feed chickens without needing wheat",
     type: LimitedItemType.BarnItem,
   },
-  "Easter Bunny": {
-    name: "Easter Bunny",
-    description: "Earn 20% more Carrots",
-    section: Section["Easter Bunny"],
-    type: LimitedItemType.BarnItem,
-  },
   Rooster: {
     name: "Rooster",
     description: "Doubles the chance of dropping a mutant chicken",
     section: Section["Rooster"],
     type: LimitedItemType.BarnItem,
+  },
+};
+
+export const EASTER_EVENT_ITEMS: Record<EasterEventItem, LimitedItem> = {
+  "Easter Bunny": {
+    name: "Easter Bunny",
+    description: "Earn 20% more Carrots",
+    section: Section["Easter Bunny"],
+    type: LimitedItemType.EasterEventItem,
+  },
+  "Pablo The Bunny": {
+    name: "Pablo The Bunny",
+    description: "Earn +0.1 more carrots",
+    section: Section["Pablo The Bunny"],
+    type: LimitedItemType.EasterEventItem,
   },
 };
 
@@ -1019,6 +1030,7 @@ export const LIMITED_ITEMS = {
   ...MUTANT_CHICKENS,
   ...SALESMAN_ITEMS,
   ...WAR_TENT_ITEMS,
+  ...EASTER_EVENT_ITEMS,
 };
 
 export const isLimitedItem = (itemName: any) => {
@@ -1087,7 +1099,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Farm Dog": { width: 1, height: 1 },
   "Chicken Coop": { width: 2, height: 2 },
   "Gold Egg": { width: 1, height: 1 },
-  "Easter Bunny": { width: 2, height: 1 },
   Rooster: { width: 1, height: 1 },
   "Egg Basket": { width: 1, height: 1 },
   "Fat Chicken": { width: 1, height: 1 },
@@ -1126,6 +1137,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
   "Cyborg Bear": { width: 1, height: 1 },
+
+  //Easter Event Items
+  "Easter Bunny": { width: 2, height: 1 },
+  "Pablo The Bunny": { width: 1, height: 1 },
 
   // Treasure Island SFTs
   "Tiki Totem": { height: 1, width: 1 },

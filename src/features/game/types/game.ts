@@ -79,7 +79,7 @@ export const EASTER_EGGS: EasterEgg[] = [
   "Yellow Egg",
 ];
 
-export type EasterBunny = "Easter Bunny";
+export type EasterEventItem = "Easter Bunny" | "Pablo The Bunny";
 
 export type MOMEventItem = "Engine Core";
 
@@ -174,7 +174,7 @@ export type InventoryItemName =
   | ResourceName
   | SkillName
   | EasterEgg
-  | EasterBunny
+  | EasterEventItem
   | Food
   | MOMEventItem
   | MutantChicken

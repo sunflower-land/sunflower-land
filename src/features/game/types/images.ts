@@ -190,6 +190,7 @@ import orangeEgg from "src/assets/sfts/easter/orange_egg.png";
 import pinkEgg from "src/assets/sfts/easter/pink_egg.png";
 import easterBasket from "src/assets/sfts/easter/basket.png";
 import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
+import pabloBunny from "src/assets/sfts/pablo_bunny.gif";
 
 //MOM Event
 import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
@@ -1167,6 +1168,10 @@ export const ITEM_DETAILS: Items = {
   "Easter Bunny": {
     description: "A rare Easter item",
     image: easterBunny,
+  },
+  "Pablo The Bunny": {
+    description: "A magical Easter bunny",
+    image: pabloBunny,
   },
   "Blue Egg": {
     description: "A blue easter egg",

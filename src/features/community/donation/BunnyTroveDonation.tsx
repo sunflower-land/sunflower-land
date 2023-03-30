@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { roundToOneDecimal } from "features/auth/components";
 import { useMachine } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import bunny from "src/assets/sfts/easter/easter_bunny.gif";
+import bunny from "assets/sfts/bears/easter_bunny.png";
 import { CONFIG } from "lib/config";
 
 export const BunnyTroveEventDonation: React.FC = () => {
@@ -44,8 +44,9 @@ export const BunnyTroveEventDonation: React.FC = () => {
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
           <p className="my-2">
-            Thank you for your support! Kindly choose the amount you want to
-            donate!
+            Happy Easter, Bumpkin! I managed to flee those Moon Seekers and
+            ended up on this island full of bunnies! Say, I found something cool
+            a few days back, wanna trade?
           </p>
           <div className="flex flex-col items-center">
             <img id="bottle" src={bunny} className="w-20" />
