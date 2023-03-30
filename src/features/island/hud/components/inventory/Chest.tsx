@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
@@ -24,7 +24,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { DECORATION_DIMENSIONS } from "features/game/types/decorations";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import { Context } from "features/game/GameProvider";
 
 interface Props {
   state: GameState;
@@ -45,11 +44,8 @@ export const Chest: React.FC<Props> = ({
   onPlace,
   onDepositClick,
 }: Props) => {
-  const { gameService } = useContext(Context);
-
   const divRef = useRef<HTMLDivElement>(null);
   const chestMap = getChestItems(state);
-  const { inventory, collectibles: placedItems } = state;
 
   const collectibles = getKeys(chestMap)
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
@@ -69,14 +65,18 @@ export const Chest: React.FC<Props> = ({
       return acc;
     }, {} as Record<CollectibleName, Decimal>);
 
+  // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
+  const selectedChestItem = collectibles[selected as CollectibleName]
+    ? selected
+    : getKeys(collectibles)[0];
+
   const handlePlace = () => {
-    onPlace && onPlace(selected);
+    onPlace && onPlace(selectedChestItem);
 
     closeModal();
   };
 
   const handleItemClick = (item: InventoryItemName) => {
-    console.log({ handleItemClick: item });
     onSelect(item);
   };
 
@@ -101,11 +101,6 @@ export const Chest: React.FC<Props> = ({
       </div>
     );
   }
-
-  // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
-  const selectedChestItem = collectibles[selected as CollectibleName]
-    ? selected
-    : getKeys(collectibles)[0];
 
   return (
     <SplitScreenView
