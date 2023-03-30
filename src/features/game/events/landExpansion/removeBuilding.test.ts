@@ -23,6 +23,7 @@ const makePlotsWithCrops = (plotCount: number) => {
   [...Array(plotCount).keys()].forEach(
     (key) =>
       (plots[key] = {
+        createdAt: Date.now(),
         crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: -2,
         y: 0,
@@ -40,6 +41,7 @@ const makePlotsWithoutCrops = (plotCount: number) => {
   [...Array(plotCount).keys()].forEach(
     (key) =>
       (plots[key] = {
+        createdAt: Date.now(),
         x: -2,
         y: 0,
         height: 1,

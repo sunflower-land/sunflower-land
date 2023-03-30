@@ -66,24 +66,28 @@ export type ResourceFieldName =
 export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
   crops: {
     0: {
+      createdAt: Date.now(),
       x: -2,
       y: -1,
       height: 1,
       width: 1,
     },
     1: {
+      createdAt: Date.now(),
       x: -1,
       y: -1,
       height: 1,
       width: 1,
     },
     2: {
+      createdAt: Date.now(),
       x: 0,
       y: -1,
       height: 1,
       width: 1,
     },
     3: {
+      createdAt: Date.now(),
       crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: -2,
       y: 0,
@@ -91,6 +95,7 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
       width: 1,
     },
     4: {
+      createdAt: Date.now(),
       crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: -1,
       y: 0,
@@ -98,6 +103,7 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
       width: 1,
     },
     5: {
+      createdAt: Date.now(),
       crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: 0,
       y: 0,
@@ -105,42 +111,49 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
       width: 1,
     },
     6: {
+      createdAt: Date.now(),
       x: -2,
       y: 1,
       height: 1,
       width: 1,
     },
     7: {
+      createdAt: Date.now(),
       x: -1,
       y: 1,
       height: 1,
       width: 1,
     },
     8: {
+      createdAt: Date.now(),
       x: 0,
       y: 1,
       height: 1,
       width: 1,
     },
     9: {
+      createdAt: Date.now(),
       x: -2,
       y: -1,
       height: 1,
       width: 1,
     },
     10: {
+      createdAt: Date.now(),
       x: -1,
       y: -1,
       height: 1,
       width: 1,
     },
     11: {
+      createdAt: Date.now(),
       x: -2,
       y: -2,
       height: 1,
       width: 1,
     },
     12: {
+      createdAt: Date.now(),
       x: -1,
       y: -2,
       height: 1,
@@ -265,7 +278,7 @@ export const OFFLINE_FARM: GameState = {
     "Iron Rock": new Decimal(3),
     "Fruit Patch": new Decimal(3),
     "Gold Rock": new Decimal(3),
-    "Crop Plot": new Decimal(13),
+    "Crop Plot": new Decimal(23),
     "Basic Land": new Decimal(4),
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
@@ -500,24 +513,28 @@ export const OFFLINE_FARM: GameState = {
   },
   crops: {
     0: {
+      createdAt: Date.now(),
       x: -2,
       y: -1,
       height: 1,
       width: 1,
     },
     1: {
+      createdAt: Date.now(),
       x: -1,
       y: -1,
       height: 1,
       width: 1,
     },
     2: {
+      createdAt: Date.now(),
       x: -2,
       y: -2,
       height: 1,
       width: 1,
     },
     3: {
+      createdAt: Date.now(),
       x: -1,
       y: -2,
       height: 1,

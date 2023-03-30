@@ -10,6 +10,7 @@ const GAME_STATE: GameState = {
   inventory: {},
   crops: {
     0: {
+      createdAt: Date.now(),
       height: 1,
       width: 1,
       x: 0,
@@ -380,6 +381,7 @@ describe("plant", () => {
         ...PARSNIP_STATE,
         crops: {
           "0": {
+            createdAt: Date.now(),
             height: 1,
             width: 1,
             x: 1,
@@ -414,6 +416,7 @@ describe("plant", () => {
       ...TEST_FARM,
       crops: {
         "0": {
+          createdAt: Date.now(),
           height: 1,
           width: 1,
           x: 1,
@@ -666,6 +669,7 @@ describe("getCropTime", () => {
 describe("isPlotFertile", () => {
   it("cannot plant on 16th field if a well is not available", () => {
     const fakePlot = {
+      createdAt: Date.now(),
       x: 1,
       y: 1,
       height: 1,
@@ -703,6 +707,7 @@ describe("isPlotFertile", () => {
 
   it("cannot plant on 23rd field if 2 wells are not avilable", () => {
     const fakePlot = {
+      createdAt: Date.now(),
       x: 1,
       y: 1,
       height: 1,
@@ -756,6 +761,7 @@ describe("isPlotFertile", () => {
 
   it("can plant on 6th field without a well", () => {
     const fakePlot = {
+      createdAt: Date.now(),
       x: 1,
       y: 1,
       height: 1,
@@ -787,6 +793,7 @@ describe("isPlotFertile", () => {
 
   it("can plant on 11th field if they have well", () => {
     const fakePlot = {
+      createdAt: Date.now(),
       x: 1,
       y: 1,
       height: 1,

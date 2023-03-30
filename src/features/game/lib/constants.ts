@@ -227,6 +227,7 @@ export const TEST_FARM: GameState = {
       width: 1,
       x: 1,
       y: 1,
+      createdAt: Date.now(),
     },
   },
   mysteryPrizes: {},

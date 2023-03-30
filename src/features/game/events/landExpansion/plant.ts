@@ -50,7 +50,11 @@ export function isPlotFertile({
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
   const cropPosition =
-    getKeys(gameState.crops).findIndex((plotId) => plotId === plotIndex) + 1;
+    getKeys(gameState.crops)
+      .sort((a, b) =>
+        gameState.crops[a].createdAt > gameState.crops[b].createdAt ? 1 : -1
+      )
+      .findIndex((plotId) => plotId === plotIndex) + 1;
 
   return cropPosition <= cropsWellCanWater;
 }

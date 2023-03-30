@@ -25,6 +25,7 @@ describe("collectCropReward", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -48,6 +49,7 @@ describe("collectCropReward", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -76,6 +78,7 @@ describe("collectCropReward", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -111,6 +114,7 @@ describe("collectCropReward", () => {
         ...TEST_FARM,
         crops: {
           0: {
+            createdAt: Date.now(),
             x: -2,
             y: -1,
             height: 1,
@@ -150,6 +154,7 @@ describe("collectCropReward", () => {
         ...TEST_FARM,
         crops: {
           0: {
+            createdAt: Date.now(),
             x: -2,
             y: -1,
             height: 1,
@@ -189,6 +194,7 @@ describe("collectCropReward", () => {
         ...TEST_FARM,
         crops: {
           0: {
+            createdAt: Date.now(),
             x: -2,
             y: -1,
             height: 1,

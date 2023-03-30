@@ -293,6 +293,7 @@ export type Rock = {
 
 export type CropPlot = {
   crop?: PlantedCrop;
+  createdAt: number;
 } & Position;
 
 export type FruitPatch = {

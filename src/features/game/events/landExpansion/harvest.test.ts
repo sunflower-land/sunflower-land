@@ -53,6 +53,7 @@ describe("harvest", () => {
           ...GAME_STATE,
           crops: {
             1: {
+              createdAt: Date.now(),
               height: 1,
               width: 1,
               x: 1,

@@ -66,6 +66,7 @@ describe("removeCrop", () => {
           ...GAME_STATE,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: 1,
               y: 1,
               height: 1,

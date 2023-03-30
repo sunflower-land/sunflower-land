@@ -179,6 +179,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -199,6 +200,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -219,6 +221,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -243,6 +246,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -263,6 +267,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -283,6 +288,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -303,6 +309,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -392,6 +399,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -560,6 +568,7 @@ describe("canWithdraw", () => {
           },
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -652,6 +661,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -671,6 +681,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -690,6 +701,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -710,6 +722,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -733,6 +746,7 @@ describe("canWithdraw", () => {
           },
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -755,6 +769,7 @@ describe("canWithdraw", () => {
           },
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -775,6 +790,7 @@ describe("canWithdraw", () => {
           inventory: { Kuebiko: new Decimal(1) },
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -870,6 +886,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -1029,6 +1046,7 @@ describe("canWithdraw", () => {
           ...TEST_FARM,
           crops: {
             0: {
+              createdAt: Date.now(),
               x: -2,
               y: -1,
               height: 1,
@@ -1106,6 +1124,8 @@ describe("canWithdraw", () => {
         },
         crops: {
           0: {
+            createdAt: Date.now(),
+
             x: -2,
             y: -1,
             height: 1,
