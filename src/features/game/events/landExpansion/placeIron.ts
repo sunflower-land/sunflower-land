@@ -44,7 +44,7 @@ export function placeIron({
       createdAt: createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      ...RESOURCE_DIMENSIONS["Stone Rock"],
+      ...RESOURCE_DIMENSIONS["Iron Rock"],
       stone: {
         amount: 0,
         minedAt: 0,

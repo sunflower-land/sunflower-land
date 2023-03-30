@@ -43,8 +43,9 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       src={ITEM_DETAILS["Gold Rock"].image}
       className="relative  w-full"
       style={{
-        width: `${PIXEL_SCALE * 16}px`,
-        top: `${PIXEL_SCALE * 2}px`,
+        width: `${PIXEL_SCALE * 14}px`,
+        top: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 1}px`,
       }}
     />
   ),
@@ -53,16 +54,18 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       src={ITEM_DETAILS["Iron Rock"].image}
       className="relative h-full w-full"
       style={{
-        width: `${PIXEL_SCALE * 18}px`,
+        width: `${PIXEL_SCALE * 16}px`,
       }}
     />
   ),
   "Stone Rock": () => (
     <img
       src={ITEM_DETAILS["Stone Rock"].image}
-      className="relative h-full w-full"
+      className="relative w-full"
       style={{
-        width: `${PIXEL_SCALE * 18}px`,
+        width: `${PIXEL_SCALE * 14}px`,
+        top: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 1}px`,
       }}
     />
   ),
@@ -78,11 +81,12 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   ),
   "Fruit Patch": () => (
     <img
-      src={ITEM_DETAILS["Stone Rock"].image}
-      className="absolute h-auto w-full"
+      src={ITEM_DETAILS["Fruit Patch"].image}
+      className="absolute  "
       style={{
-        width: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * -4}px`,
+        width: `${PIXEL_SCALE * 30}px`,
+        top: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 1}px`,
       }}
     />
   ),

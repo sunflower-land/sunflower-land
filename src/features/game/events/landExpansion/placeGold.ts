@@ -44,7 +44,7 @@ export function placeGold({
       createdAt: createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      ...RESOURCE_DIMENSIONS["Stone Rock"],
+      ...RESOURCE_DIMENSIONS["Gold Rock"],
       stone: {
         amount: 0,
         minedAt: 0,
