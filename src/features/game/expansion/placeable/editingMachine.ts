@@ -94,7 +94,7 @@ export const editingMachine = createMachine<
                     type: action,
                     name: placeable,
                     coordinates: { x, y },
-                    id: uuidv4(),
+                    id: uuidv4().slice(0, 8),
                   } as PlacementEvent)
               ),
               assign({
@@ -110,7 +110,7 @@ export const editingMachine = createMachine<
                   type: action,
                   name: placeable,
                   coordinates: { x, y },
-                  id: uuidv4(),
+                  id: uuidv4().slice(0, 8),
                 } as PlacementEvent)
             ),
           },

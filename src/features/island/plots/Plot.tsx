@@ -236,7 +236,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
           index: id,
           item: selectedItem,
           analytics,
-          cropId: uuidv4(),
+          cropId: uuidv4().slice(0, 8),
         });
 
         plantAudio.play();
