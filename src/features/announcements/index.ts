@@ -29,7 +29,7 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
-    date: new Date("2023-04-03T00:00:00"),
+    date: new Date("2023-03-30T00:00:00"),
     title: "The Resource Reboot",
     notes: [
       {
