@@ -12,7 +12,6 @@ export interface Context {
   action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placed: number;
   requirements: {
     sfl: Decimal;
     ingredients: Inventory;
@@ -27,7 +26,8 @@ type UpdateEvent = {
 
 type PlaceEvent = {
   type: "PLACE";
-  hasMore: boolean;
+  nextOrigin?: Coordinates;
+  nextWillCollide?: boolean;
 };
 
 type ConstructEvent = {
@@ -83,9 +83,9 @@ export const editingMachine = createMachine<
         PLACE: [
           {
             target: "idle",
-            // TODO: If they have more to place?
+            // They have more to place
             cond: (_, e) => {
-              return !!e.hasMore;
+              return !!e.nextOrigin;
             },
             actions: [
               sendParent(
@@ -98,8 +98,8 @@ export const editingMachine = createMachine<
                   } as PlacementEvent)
               ),
               assign({
-                collisionDetected: (_) => true,
-                placed: (context) => (context.placed ?? 0) + 1,
+                collisionDetected: (_, event) => !!event.nextWillCollide,
+                coordinates: (_, event) => event.nextOrigin ?? { x: 0, y: 0 },
               }),
             ],
           },

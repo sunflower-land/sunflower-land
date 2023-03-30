@@ -10,6 +10,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
+import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -17,7 +18,7 @@ export const PlaceableController: React.FC = () => {
 
   const [
     {
-      context: { collisionDetected, placeable, coordinates, requirements },
+      context: { collisionDetected, placeable, requirements, coordinates },
     },
     send,
   ] = useActor(child);
@@ -36,10 +37,27 @@ export const PlaceableController: React.FC = () => {
     console.log({ hasMore: available.gt(1) });
 
     const hasMore = available.gt(1);
-    send({
-      type: "PLACE",
-      hasMore,
-    });
+    if (hasMore) {
+      const nextPosition = { x: coordinates.x, y: coordinates.y - 1 };
+      const collisionDetected = detectCollision(
+        gameService.state.context.state,
+        {
+          ...nextPosition,
+          width: 1,
+          height: 1,
+        }
+      );
+
+      send({
+        type: "PLACE",
+        nextOrigin: nextPosition,
+        nextWillCollide: collisionDetected,
+      });
+    } else {
+      send({
+        type: "PLACE",
+      });
+    }
   };
 
   const handleCancelPlacement = () => {
