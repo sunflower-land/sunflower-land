@@ -20,7 +20,6 @@ export type LandExpansionRemoveCropAction = {
   type: "crop.removed";
   item?: InventoryItemName;
   index: number;
-  expansionIndex: number;
 };
 
 type Options = {
@@ -31,18 +30,7 @@ type Options = {
 
 export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
-  const { expansions, inventory } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
-
-  if (!expansion) {
-    throw new Error(REMOVE_CROP_ERRORS.EMPTY_EXPANSION);
-  }
-
-  if (!expansion.plots) {
-    throw new Error(REMOVE_CROP_ERRORS.EXPANSION_NO_PLOTS);
-  }
-
-  const { plots } = expansion;
+  const { crops: plots, inventory } = stateCopy;
 
   if (action.index < 0) {
     throw new Error(REMOVE_CROP_ERRORS.EMPTY_PLOT);
@@ -85,6 +73,6 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
 
   return {
     ...stateCopy,
-    plots,
+    crops: plots,
   } as GameState;
 }

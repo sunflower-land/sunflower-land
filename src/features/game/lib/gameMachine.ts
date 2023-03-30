@@ -17,7 +17,7 @@ import {
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -29,7 +29,6 @@ import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
-import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
 import { editingMachine } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
@@ -50,6 +49,8 @@ import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import Decimal from "decimal.js-light";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -99,6 +100,10 @@ type EditEvent = {
   placeable: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
   type: "EDIT";
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
 };
 
 type VisitEvent = {
@@ -244,8 +249,6 @@ export type BlockchainState = {
     | "syncing"
     | "synced"
     | "buyingSFL"
-    | "expanding"
-    | "expanded"
     | "revealing"
     | "revealed"
     | "error"
@@ -570,9 +573,6 @@ export function startGame(authContext: Options) {
             REFRESH: {
               target: "loading",
             },
-            EXPAND: {
-              target: "expanding",
-            },
             EDIT: {
               target: "editing",
             },
@@ -841,72 +841,7 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        //  withdrawn
-        expanding: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(authContext.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
 
-              const sessionId = await expand({
-                farmId: Number(authContext.farmId),
-                token: authContext.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return {
-                sessionId: sessionId,
-              };
-            },
-            onDone: {
-              target: "expanded",
-              actions: assign((_, event) => ({
-                sessionId: event.data.sessionId,
-                actions: [],
-              })),
-            },
-            onError: [
-              {
-                target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-                actions: assign((_) => ({
-                  actions: [],
-                })),
-              },
-              {
-                // Kick them back to loading game again
-                target: "loading",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
-        expanded: {
-          on: {
-            REFRESH: {
-              target: "loading",
-            },
-          },
-        },
         hoarding: {
           on: {
             SYNC: {
@@ -932,11 +867,16 @@ export function startGame(authContext: Options) {
             data: {
               placeable: (_: Context, event: EditEvent) => event.placeable,
               action: (_: Context, event: EditEvent) => event.action,
+              requirements: (_: Context, event: EditEvent) =>
+                event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
+              placed: 0,
+              hasMultiple: (c: Context, event: EditEvent) =>
+                getChestItems(c.state)[event.placeable]?.gt(1),
             },
             onDone: {
-              target: "playing",
+              target: "autosaving",
             },
             onError: [
               {
@@ -958,16 +898,16 @@ export function startGame(authContext: Options) {
         randomising: {
           invoke: {
             src: async () => {
-              const { expansions } = await generateTestLand();
+              const { game } = await generateTestLand();
 
-              return { expansions };
+              return { game };
             },
             onDone: {
               target: "playing",
               actions: assign<Context, any>({
                 state: (context, event) => ({
                   ...context.state,
-                  expansions: event.data.expansions,
+                  ...makeGame(event.data.game),
                 }),
               }),
             },

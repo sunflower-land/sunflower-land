@@ -35,7 +35,6 @@ import {
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
-import { reveal, RevealAction } from "./revealExpansion";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
   placeBuilding,
@@ -124,6 +123,16 @@ import {
   completeChore,
   CompleteChoreAction,
 } from "./landExpansion/completeChore";
+import { placeTree, PlaceTreeAction } from "./landExpansion/placeTree";
+import { expandLand, ExpandLandAction } from "./landExpansion/expandLand";
+import { placePlot, PlacePlotAction } from "./landExpansion/placePlot";
+import { placeStone, PlaceStoneAction } from "./landExpansion/placeStone";
+import { placeGold, PlaceGoldAction } from "./landExpansion/placeGold";
+import { placeIron, PlaceIronAction } from "./landExpansion/placeIron";
+import {
+  placeFruitPatch,
+  PlaceFruitPatchAction,
+} from "./landExpansion/placeFruitPatch";
 
 export type PlayingEvent =
   | TradeAction
@@ -136,7 +145,6 @@ export type PlayingEvent =
   | LandExpansionIronMineAction
   | LandExpansionMineGoldAction
   | TradeAction
-  | RevealAction
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
@@ -165,14 +173,21 @@ export type PlayingEvent =
   | RestockAction
   | SellGarbageAction
   | StartChoreAction
-  | CompleteChoreAction;
+  | CompleteChoreAction
+  | ExpandLandAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
   | PlaceBuildingAction
   | PlaceCollectibleAction
   | BuyChickenAction
-  | PlaceChickenAction;
+  | PlaceChickenAction
+  | PlaceTreeAction
+  | PlacePlotAction
+  | PlaceStoneAction
+  | PlaceGoldAction
+  | PlaceIronAction
+  | PlaceFruitPatchAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -200,7 +215,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,
-  "expansion.revealed": reveal,
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,
@@ -228,6 +242,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "garbage.sold": sellGarbage,
   "chore.completed": completeChore,
   "chore.started": startChore,
+  "land.expanded": expandLand,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -236,6 +251,12 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "collectible.placed": placeCollectible,
   "chicken.bought": buyChicken,
   "chicken.placed": placeChicken,
+  "tree.placed": placeTree,
+  "plot.placed": placePlot,
+  "stone.placed": placeStone,
+  "gold.placed": placeGold,
+  "iron.placed": placeIron,
+  "fruitPatch.placed": placeFruitPatch,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

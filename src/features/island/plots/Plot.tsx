@@ -32,14 +32,13 @@ import { GoldenCropModal } from "features/island/plots/components/GoldenCropModa
 import golden_crop_sheet from "assets/events/golden_crop/golden_crop_sheet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
-  plotIndex: number;
-  expansionIndex: number;
+  id: string;
   onboarding?: boolean;
 }
 
 const REMOVE_CROP_TIMEOUT = 5000; // 5 seconds
 
-export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
+export const Plot: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem, showTimers } = useContext(Context);
   const [game] = useActor(gameService);
   const [showPopover, setShowPopover] = useState(false);
@@ -55,14 +54,12 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
   const [isMobile] = useIsMobile();
   //Golden Crop event
   const [showGoldenCropModal, setShowGoldenCropModal] = useState(false);
-  const expansion = game.context.state.expansions[expansionIndex];
-  const plot = expansion.plots?.[plotIndex];
+  const plot = game.context.state.crops?.[id];
 
   const crop = plot && plot.crop;
 
   const isFertile = isPlotFertile({
-    plotIndex,
-    expansionIndex,
+    plotIndex: id,
     gameState: game.context.state,
   });
 
@@ -87,8 +84,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
   const harvestCrop = (crop: PlantedCrop) => {
     try {
       const newState = gameService.send("crop.harvested", {
-        index: plotIndex,
-        expansionIndex,
+        index: id,
       });
 
       if (!newState.matches("hoarding")) {
@@ -237,11 +233,10 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     if (!crop) {
       try {
         gameService.send("seed.planted", {
-          index: plotIndex,
-          expansionIndex,
+          index: id,
           item: selectedItem,
           analytics,
-          cropId: uuidv4(),
+          cropId: uuidv4().slice(0, 8),
         });
 
         plantAudio.play();
@@ -272,8 +267,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
     if (selectedItem && selectedItem in FERTILISERS) {
       try {
         gameService.send("crop.fertilised", {
-          plotIndex,
-          expansionIndex,
+          plotIndex: id,
           fertiliser: selectedItem,
         });
 
@@ -431,8 +425,7 @@ export const Plot: React.FC<Props> = ({ plotIndex, expansionIndex }) => {
           onCollected={onCollectReward}
           onOpen={() =>
             gameService.send("cropReward.collected", {
-              plotIndex,
-              expansionIndex,
+              plotIndex: id,
             })
           }
         />

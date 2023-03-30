@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 // import { randomUUID } from "crypto";
-import { getBumpkinLevel } from "features/game/lib/level";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
@@ -38,16 +37,6 @@ export function placeBuilding({
 
   if (bumpkin === undefined) {
     throw new Error(PLACE_BUILDING_ERRORS.NO_BUMPKIN);
-  }
-
-  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
-  const buildingsPlaced = stateCopy.buildings[action.name]?.length || 0;
-  const allowedBuildings = building.filter(
-    ({ unlocksAtLevel }) => bumpkinLevel >= unlocksAtLevel
-  ).length;
-
-  if (buildingsPlaced >= allowedBuildings) {
-    throw new Error(PLACE_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   }
 
   const buildingInventory = stateCopy.inventory[action.name] || new Decimal(0);

@@ -37,7 +37,7 @@ export const Soil: React.FC<Props> = ({
           src: SUNNYSIDE.soil.soil2,
           className: "absolute pointer-events-none",
           style: {
-            bottom: `${PIXEL_SCALE * 9}px`,
+            bottom: `${PIXEL_SCALE * 10}px`,
             left: `${PIXEL_SCALE * 8}px`,
             width: `${PIXEL_SCALE * 16}px`,
             height: `${PIXEL_SCALE * 26}px`,

@@ -25,7 +25,7 @@ import { useActor } from "@xstate/react";
 import { getTimeLeft } from "lib/utils/time";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { LandExpansionTree, Reward, Wood } from "features/game/types/game";
+import { Reward, Tree as ITree, Wood } from "features/game/types/game";
 import {
   canChop,
   CHOP_ERRORS,
@@ -49,11 +49,10 @@ const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
 const CHOPPED_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
-  treeIndex: number;
-  expansionIndex: number;
+  id: string;
 }
 
-export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
+export const Tree: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -72,9 +71,11 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
-  const expansion = game.context.state.expansions[expansionIndex];
-  const tree = expansion.trees?.[treeIndex] as LandExpansionTree;
-  const woodObj = expansion.trees?.[treeIndex].wood as Wood;
+  const tree = game.context.state.trees[id] as ITree;
+
+  const chopped = !canChop(tree);
+
+  useUiRefresher({ active: chopped });
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -89,9 +90,10 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
     };
   }, []);
 
-  const chopped = !canChop(tree);
-
-  useUiRefresher({ active: chopped });
+  if (!tree) {
+    return null;
+  }
+  const woodObj = tree.wood as Wood;
 
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
@@ -183,8 +185,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
 
     try {
       const newState = gameService.send("timber.chopped", {
-        index: treeIndex,
-        expansionIndex,
+        index: id,
         item: selectedItem,
       });
 
@@ -406,8 +407,7 @@ export const Tree: React.FC<Props> = ({ treeIndex, expansionIndex }) => {
           onCollected={onCollectReward}
           onOpen={() =>
             gameService.send("treeReward.collected", {
-              treeIndex,
-              expansionIndex,
+              treeIndex: id,
             })
           }
         />

@@ -25,8 +25,7 @@ import topAndLeftEdge from "assets/land/dirt/1_0_0_1.png";
 import bottomAndLeftEdge from "assets/land/dirt/0_0_1_1.png";
 import topAndRightEdge from "assets/land/dirt/1_1_0_0.png";
 import bottomAndRightEdge from "assets/land/dirt/0_1_1_0.png";
-import { LandExpansion } from "features/game/types/game";
-import { EXPANSION_ORIGINS } from "../lib/constants";
+import { GameState } from "features/game/types/game";
 
 const IMAGE_PATHS: Record<string, string> = {
   top_right_bottom_left: fullEdge,
@@ -60,25 +59,20 @@ type Edges = {
 export type Positions = Record<number, Record<number, boolean>>;
 
 interface Props {
-  expansions: LandExpansion[];
+  plots: GameState["crops"];
 }
 
-const Renderer: React.FC<Props> = ({ expansions }) => {
+const Renderer: React.FC<Props> = ({ plots }) => {
   const dirtPositions: Positions = {};
-  expansions.forEach((expansion, expansionIndex) => {
-    getKeys(expansion.plots || {}).forEach((plotIndex) => {
-      const coords = expansion.plots?.[plotIndex] ?? { x: 0, y: 0 };
+  getKeys(plots || {}).forEach((plotId) => {
+    const plot = plots[plotId];
 
-      // TODO - offset with expansion
-      const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
-      const x = xOffset + coords.x;
-      const y = yOffset + coords.y;
-      if (!dirtPositions[x]) {
-        dirtPositions[x] = {};
-      }
+    // TODO - offset with expansion
+    if (!dirtPositions[plot.x]) {
+      dirtPositions[plot.x] = {};
+    }
 
-      dirtPositions[x][y] = true;
-    });
+    dirtPositions[plot.x][plot.y] = true;
   });
   const xPositions = getKeys(dirtPositions).map(Number);
 

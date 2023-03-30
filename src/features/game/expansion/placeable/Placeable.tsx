@@ -22,11 +22,14 @@ import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { AUTO_SAVE_INTERVAL } from "../Game";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
+  ...READONLY_RESOURCE_COMPONENTS,
 };
 
 // TODO - get dynamic bounds for placeable
@@ -74,12 +77,11 @@ export const Placeable: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const [showHint, setShowHint] = useState(true);
-  const collideRef = useRef(false);
 
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable } = machine.context;
+  const { placeable, collisionDetected } = machine.context;
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
@@ -94,8 +96,6 @@ export const Placeable: React.FC = () => {
       height,
     });
 
-    collideRef.current = collisionDetected;
-
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
@@ -106,7 +106,17 @@ export const Placeable: React.FC = () => {
       x: Math.round(DEFAULT_POSITION_X / GRID_WIDTH_PX),
       y: Math.round(-DEFAULT_POSITION_Y / GRID_WIDTH_PX),
     });
+
+    const timeout = setTimeout(() => {
+      send({ type: "CANCEL" });
+    }, AUTO_SAVE_INTERVAL);
+
+    return () => clearTimeout(timeout);
   }, []);
+
+  useEffect(() => {
+    setShowHint(true);
+  }, [child.state.context.placed]);
 
   return (
     <>
@@ -132,6 +142,7 @@ export const Placeable: React.FC = () => {
           nodeRef={nodeRef}
           grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
           onStart={() => {
+            // reset
             send("DRAG");
           }}
           onDrag={(_, data) => {
@@ -176,8 +187,8 @@ export const Placeable: React.FC = () => {
               className={classNames(
                 " w-full h-full relative img-highlight pointer-events-none",
                 {
-                  "bg-green-background/80": !collideRef.current,
-                  "bg-red-background/80": collideRef.current,
+                  "bg-green-background/80": !collisionDetected,
+                  "bg-red-background/80": collisionDetected,
                 }
               )}
               style={{

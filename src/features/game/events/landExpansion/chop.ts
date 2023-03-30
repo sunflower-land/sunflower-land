@@ -8,7 +8,7 @@ import {
   GameState,
   Inventory,
   InventoryItemName,
-  LandExpansionTree,
+  Tree,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -27,8 +27,7 @@ type GetChoppedAtArgs = {
 
 export type LandExpansionChopAction = {
   type: "timber.chopped";
-  index: number;
-  expansionIndex: number;
+  index: string;
   item: InventoryItemName;
 };
 
@@ -38,7 +37,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function canChop(tree: LandExpansionTree, now: number = Date.now()) {
+export function canChop(tree: Tree, now: number = Date.now()) {
   return now - tree.wood.choppedAt > TREE_RECOVERY_TIME * 1000;
 }
 
@@ -89,18 +88,7 @@ export function chop({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin, collectibles, inventory } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
-
-  if (!expansion) {
-    throw new Error("Expansion does not exist");
-  }
-
-  const { trees } = expansion;
-
-  if (!trees) {
-    throw new Error("Expansion has no trees");
-  }
+  const { trees, bumpkin, collectibles, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");

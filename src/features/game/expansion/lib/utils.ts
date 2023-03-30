@@ -1,7 +1,7 @@
-import { LandExpansionRock } from "features/game/types/game";
+import { Rock } from "features/game/types/game";
 
 export function canMine(
-  rock: LandExpansionRock,
+  rock: Rock,
   recoveryTime: number,
   now: number = Date.now()
 ) {

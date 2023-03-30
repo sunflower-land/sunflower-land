@@ -50,6 +50,11 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
     return state.balance.lessThan(price.mul(amount));
   };
 
+  const onToolClick = (seedName: TreasureToolName) => {
+    setSelectedName(seedName);
+    shortcutItem(seedName);
+  };
+
   const craft = (event: SyntheticEvent, amount = BUY_AMOUNT) => {
     event.stopPropagation();
     gameService.send("tool.crafted", {
@@ -116,7 +121,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
             <Box
               isSelected={selectedName === toolName}
               key={toolName}
-              onClick={() => setSelectedName(toolName)}
+              onClick={() => onToolClick(toolName)}
               image={ITEM_DETAILS[toolName].image}
               count={inventory[toolName]}
             />

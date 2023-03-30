@@ -9,8 +9,7 @@ import {
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
-  expansionIndex: number;
-  index: number;
+  index: string;
 };
 
 type Options = {
@@ -33,36 +32,17 @@ export function harvest({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
+  const { bumpkin, crops: plots } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (!expansion) {
-    throw new Error("Expansion does not exist");
-  }
-
-  if (!expansion.plots) {
-    throw new Error("Expansion does not have any plots");
-  }
-
-  const { plots } = expansion;
-
-  if (action.index < 0) {
-    throw new Error("Plot does not exist");
-  }
-
-  if (!Number.isInteger(action.index)) {
-    throw new Error("Plot does not exist");
-  }
-
-  if (action.index > Object.keys(plots).length) {
-    throw new Error("Plot does not exist");
-  }
-
   const plot = plots[action.index];
+
+  if (!plot) {
+    throw new Error("Plot does not exist");
+  }
 
   if (!plot.crop) {
     throw new Error("Nothing was planted");
