@@ -98,21 +98,14 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
-    const isCollectible = itemName in collectibles;
-    const collectiblesPlaced = new Decimal(
-      collectibles[itemName as CollectibleName]?.length ?? 0
-    );
-    const collectibleInventory = state.inventory[itemName] ?? new Decimal(0);
-    const allItemsPlaced =
-      isCollectible &&
-      setPrecision(
-        collectibleInventory.minus(collectiblesPlaced)
-      ).lessThanOrEqualTo(0);
-
-    if (itemName in COLLECTIBLES_DIMENSIONS && !allItemsPlaced) {
+    if (itemName in COLLECTIBLES_DIMENSIONS) {
       return {
         ...acc,
-        [itemName]: state.inventory[itemName],
+        [itemName]: new Decimal(
+          state.inventory[itemName]?.minus(
+            state.collectibles[itemName as CollectibleName]?.length ?? 0
+          ) ?? 0
+        ),
       };
     }
 

@@ -13,7 +13,6 @@ import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
-import { setPrecision } from "lib/utils/formatNumber";
 import {
   GOBLIN_BLACKSMITH_ITEMS,
   GOBLIN_PIRATE_ITEMS,
@@ -51,14 +50,6 @@ export const Chest: React.FC<Props> = ({
   const divRef = useRef<HTMLDivElement>(null);
   const chestMap = getChestItems(state);
   const { inventory, collectibles: placedItems } = state;
-
-  const getItemCount = (item: InventoryItemName) => {
-    const count =
-      chestMap[item]?.sub(placedItems[item as CollectibleName]?.length ?? 0) ??
-      new Decimal(0);
-
-    return setPrecision(count);
-  };
 
   const collectibles = getKeys(chestMap)
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
@@ -148,7 +139,7 @@ export const Chest: React.FC<Props> = ({
               <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
                 {getKeys(collectibles).map((item) => (
                   <Box
-                    count={getItemCount(item)}
+                    count={chestMap[item]}
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}

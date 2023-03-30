@@ -265,6 +265,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
+    "White Tulips": new Decimal(10),
     Artist: new Decimal(1),
     Sunflower: new Decimal(2999),
     Wood: new Decimal(100),
