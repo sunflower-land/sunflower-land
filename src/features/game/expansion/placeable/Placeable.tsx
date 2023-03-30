@@ -114,6 +114,10 @@ export const Placeable: React.FC = () => {
     return () => clearTimeout(timeout);
   }, []);
 
+  useEffect(() => {
+    setShowHint(true);
+  }, [child.state.context.placed]);
+
   return (
     <>
       <div

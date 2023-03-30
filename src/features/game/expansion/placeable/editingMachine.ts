@@ -12,7 +12,7 @@ export interface Context {
   action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  available: number;
+  placed: number;
   requirements: {
     sfl: Decimal;
     ingredients: Inventory;
@@ -99,6 +99,7 @@ export const editingMachine = createMachine<
               ),
               assign({
                 collisionDetected: (_) => true,
+                placed: (context) => (context.placed ?? 0) + 1,
               }),
             ],
           },
