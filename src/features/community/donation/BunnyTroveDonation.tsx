@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { roundToOneDecimal } from "features/auth/components";
 import { useMachine } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import bunny from "assets/sfts/bears/easter_bunny.png";
+import bunny from "assets/sfts/bears/easter_bear.png";
 import { CONFIG } from "lib/config";
 
 export const BunnyTroveEventDonation: React.FC = () => {

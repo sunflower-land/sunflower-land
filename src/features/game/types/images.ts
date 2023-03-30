@@ -1884,7 +1884,7 @@ export const ITEM_DETAILS: Items = {
     image: valentineBear,
   },
   "Easter Bear": {
-    description: "How can a Bunny lay egges?",
+    description: "How can a Bunny lay eggs?",
     image: easterBear,
   },
 
