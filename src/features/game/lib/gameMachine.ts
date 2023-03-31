@@ -870,7 +870,6 @@ export function startGame(authContext: Options) {
               requirements: (_: Context, event: EditEvent) =>
                 event.requirements,
               coordinates: { x: 0, y: 0 },
-              placed: 0,
               collisionDetected: true,
               hasMultiple: (c: Context, event: EditEvent) =>
                 getChestItems(c.state)[event.placeable]?.gt(1),

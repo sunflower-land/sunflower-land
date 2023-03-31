@@ -38,7 +38,7 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
 // const BOUNDS_MIN_Y = -5
 // const BOUNDS_MAX_Y = 15
 
-export const getInitialCoordinates = (origin: Coordinates) => {
+export const getInitialCoordinates = (origin?: Coordinates) => {
   // This container helps us to calculate the scroll pixels as in our application
   // window do not scroll but this container dose
   const pageScrollContainer = document.getElementsByClassName(
@@ -53,16 +53,22 @@ export const getInitialCoordinates = (origin: Coordinates) => {
   const land = document
     .getElementById(Section.GenesisBlock)
     ?.getBoundingClientRect();
-  const landMidX =
+  let landMidX =
     pageScrollContainer.scrollLeft +
     (land?.left ?? 0) +
-    ((land?.width ?? 0) / 2 ?? 0) -
-    GRID_WIDTH_PX * origin.x;
-  const landMidY =
+    ((land?.width ?? 0) / 2 ?? 0);
+  let landMidY =
     pageScrollContainer.scrollTop +
     (land?.top ?? 0) +
-    ((land?.height ?? 0) / 2 ?? 0) +
-    GRID_WIDTH_PX * origin.y;
+    ((land?.height ?? 0) / 2 ?? 0);
+
+  if (origin) {
+    const xOffset = viewportMidPointX - landMidX;
+    const yOffset = viewportMidPointY - landMidY;
+
+    landMidX -= GRID_WIDTH_PX * origin.x - xOffset;
+    landMidY += GRID_WIDTH_PX * origin.y + yOffset;
+  }
 
   // This division and then multiplication with GRID_WIDTH_PX has been done as
   // due to a small pixel difference in rounding, the actual placeable square was
@@ -83,7 +89,7 @@ export const Placeable: React.FC = () => {
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable, collisionDetected, coordinates, placed } = machine.context;
+  const { placeable, collisionDetected, coordinates, origin } = machine.context;
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
@@ -102,7 +108,7 @@ export const Placeable: React.FC = () => {
   };
 
   const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] =
-    getInitialCoordinates(coordinates);
+    getInitialCoordinates(origin);
 
   useEffect(() => {
     const [startingX, startingY] = getInitialCoordinates({ x: 0, y: 0 });
@@ -121,7 +127,7 @@ export const Placeable: React.FC = () => {
 
   useEffect(() => {
     setShowHint(true);
-  }, [placed]);
+  }, [origin]);
 
   return (
     <>
@@ -140,7 +146,7 @@ export const Placeable: React.FC = () => {
       />
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
-          key={placed}
+          key={`${origin?.x}-${origin?.y}`}
           defaultPosition={{
             x: DEFAULT_POSITION_X,
             y: DEFAULT_POSITION_Y,
