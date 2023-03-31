@@ -11,6 +11,9 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -25,6 +28,12 @@ export const PlaceableController: React.FC = () => {
 
   const [gameState] = useActor(gameService);
 
+  const { width, height } = {
+    ...BUILDINGS_DIMENSIONS,
+    ...COLLECTIBLES_DIMENSIONS,
+    ...ANIMAL_DIMENSIONS,
+  }[placeable];
+
   const items = getChestItems(gameState.context.state);
 
   const available = items[placeable] ?? new Decimal(0);
@@ -34,17 +43,17 @@ export const PlaceableController: React.FC = () => {
     if (!child.state.matches("idle")) {
       return;
     }
-    console.log({ hasMore: available.gt(1) });
 
     const hasMore = available.gt(1);
     if (hasMore) {
-      const nextPosition = { x: coordinates.x, y: coordinates.y - 1 };
+      const dimensions = COLLECTIBLES_DIMENSIONS;
+      const nextPosition = { x: coordinates.x, y: coordinates.y - height };
       const collisionDetected = detectCollision(
         gameService.state.context.state,
         {
           ...nextPosition,
-          width: 1,
-          height: 1,
+          width,
+          height,
         }
       );
 

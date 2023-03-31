@@ -274,7 +274,7 @@ export const OFFLINE_FARM: GameState = {
     "Maneki Neko": new Decimal(2),
     "Lunar Calendar": new Decimal(1),
 
-    Tree: new Decimal(2),
+    Tree: new Decimal(5),
     "Stone Rock": new Decimal(3),
     "Iron Rock": new Decimal(3),
     "Fruit Patch": new Decimal(3),
