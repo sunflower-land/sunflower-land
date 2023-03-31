@@ -46,7 +46,6 @@ export const PlaceableController: React.FC = () => {
 
     const hasMore = available.gt(1);
     if (hasMore) {
-      const dimensions = COLLECTIBLES_DIMENSIONS;
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
       const collisionDetected = detectCollision(
         gameService.state.context.state,
