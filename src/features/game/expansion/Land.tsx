@@ -115,7 +115,6 @@ const getIslandElements = ({
         return items.map((collectible, itemIndex) => {
           const { readyAt, createdAt, coordinates, id } = collectible;
           const { x, y } = coordinates;
-          console.log({ name });
           const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
           return (

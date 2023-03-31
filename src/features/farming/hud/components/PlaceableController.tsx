@@ -40,7 +40,7 @@ export const PlaceableController: React.FC = () => {
 
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
-    if (!child.state.matches("idle")) {
+    if (!child.state.matches({ editing: "idle" })) {
       return;
     }
 
@@ -71,8 +71,6 @@ export const PlaceableController: React.FC = () => {
   const handleCancelPlacement = () => {
     send("CANCEL");
   };
-
-  const isCrafting = !!requirements;
 
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">

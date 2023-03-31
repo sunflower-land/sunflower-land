@@ -23,7 +23,6 @@ import { Chicken } from "features/island/chickens/Chicken";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
-import { AUTO_SAVE_INTERVAL } from "../Game";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -89,7 +88,7 @@ export const Placeable: React.FC = () => {
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable, collisionDetected, coordinates, origin } = machine.context;
+  const { placeable, collisionDetected, origin } = machine.context;
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
@@ -117,12 +116,6 @@ export const Placeable: React.FC = () => {
       x: Math.round(startingX / GRID_WIDTH_PX),
       y: Math.round(-startingY / GRID_WIDTH_PX),
     });
-
-    const timeout = setTimeout(() => {
-      send({ type: "CANCEL" });
-    }, AUTO_SAVE_INTERVAL);
-
-    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {
@@ -177,8 +170,8 @@ export const Placeable: React.FC = () => {
             ref={nodeRef}
             data-prevent-drag-scroll
             className={classNames("flex flex-col items-center", {
-              "cursor-grab": !machine.matches("dragging"),
-              "cursor-grabbing": machine.matches("dragging"),
+              "cursor-grab": !machine.matches({ editing: "dragging" }),
+              "cursor-grabbing": machine.matches({ editing: "dragging" }),
             })}
             style={{ pointerEvents: "auto" }}
           >
