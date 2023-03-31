@@ -316,7 +316,7 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Market: [
+    "Hen House": [
       {
         id: "123",
         readyAt: 0,
