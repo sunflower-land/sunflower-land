@@ -6,18 +6,6 @@ import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 
 /**
- * The props for the component.
- * @param details The item details.
- * @param requirements The item properties.
- * @param actionView The view for displaying the crafting action.
- */
-interface Props {
-  details: ItemDetailsProps;
-  properties?: PropertiesProps;
-  actionView?: JSX.Element;
-}
-
-/**
  * The props for the details for items.
  * @param item The item.
  */
@@ -31,6 +19,18 @@ interface ItemDetailsProps {
  */
 interface PropertiesProps {
   xp?: Decimal;
+}
+
+/**
+ * The props for the component.
+ * @param details The item details.
+ * @param requirements The item properties.
+ * @param actionView The view for displaying the feed action.
+ */
+interface Props {
+  details: ItemDetailsProps;
+  properties?: PropertiesProps;
+  actionView?: JSX.Element;
 }
 
 /**
@@ -50,7 +50,7 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex space-x-2 justify-start mb-1 items-center sm:flex-col-reverse md:space-x-0">
+        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
           {icon && (
             <div className="sm:mt-2">
               <SquareIcon icon={icon} width={14} />
@@ -58,7 +58,7 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
           )}
           <span className="sm:text-center">{title}</span>
         </div>
-        <span className="text-xs mt-1 whitespace-pre-line sm:text-center">
+        <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
           {description}
         </span>
       </>
@@ -78,7 +78,7 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col justify-center">
-      <div className="flex flex-col justify-center p-2 pb-0">
+      <div className="flex flex-col justify-center px-1 py-0">
         {getItemDetail()}
         {getProperties()}
       </div>

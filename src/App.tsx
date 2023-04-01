@@ -5,6 +5,7 @@ import { initialise } from "lib/utils/init";
 import { Navigation } from "./Navigation";
 
 import "./styles.css";
+import ErrorBoundary from "features/auth/components/ErrorBoundary";
 
 // Initialise Global Settings
 initialise();
@@ -15,9 +16,9 @@ initialise();
 export const App: React.FC = () => {
   return (
     <Auth.Provider>
-      {/* <ErrorBoundary> */}
-      <Navigation />
-      {/* </ErrorBoundary> */}
+      <ErrorBoundary>
+        <Navigation />
+      </ErrorBoundary>
     </Auth.Provider>
   );
 };

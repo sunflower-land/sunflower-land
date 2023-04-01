@@ -38,29 +38,19 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     );
   }
 
-  const resourcesRequirement = gameState.expansionRequirements.resources;
-  const sflRequirement = gameState.expansionRequirements.sfl;
-  const levelRequirement = gameState.expansionRequirements.bumpkinLevel;
-
-  const canExpand = craftingRequirementsMet(gameState, {
-    resources: resourcesRequirement,
-    sfl: sflRequirement,
-    level: levelRequirement,
-  });
+  const canExpand = craftingRequirementsMet(
+    gameState,
+    gameState.expansionRequirements
+  );
 
   return (
     <ExpansionRequirements
       gameState={gameState}
       details={{
-        title: "Want to expand your land and discover new resources?",
-        description: "Each piece of land is a unique NFT on the blockchain.",
+        description:
+          "Each piece of land comes with unique resources to help build your farming empire!",
       }}
-      requirements={{
-        resources: resourcesRequirement,
-        sfl: sflRequirement,
-        level: levelRequirement,
-        timeSeconds: gameState.expansionRequirements.seconds,
-      }}
+      requirements={gameState.expansionRequirements}
       actionView={
         <Button onClick={onExpand} disabled={!canExpand}>
           Expand

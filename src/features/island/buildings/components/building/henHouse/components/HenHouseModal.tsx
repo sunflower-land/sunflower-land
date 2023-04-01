@@ -68,6 +68,11 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     gameService.send("EDIT", {
       placeable: "Chicken",
       action: "chicken.bought",
+      // Not used yet
+      requirements: {
+        sfl: new Decimal(0),
+        ingredients: {},
+      },
     });
     onClose();
   };
@@ -76,6 +81,11 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     gameService.send("EDIT", {
       placeable: "Chicken",
       action: "chicken.placed",
+      // Not used yet
+      requirements: {
+        sfl: new Decimal(0),
+        ingredients: {},
+      },
     });
     onClose();
   };

@@ -20,7 +20,7 @@ import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
-import { LandExpansionRock } from "features/game/types/game";
+import { Rock } from "features/game/types/game";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -32,11 +32,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 const HITS = 3;
 
 interface Props {
-  rockIndex: number;
-  expansionIndex: number;
+  id: string;
 }
 
-export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
+export const Stone: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
 
@@ -55,8 +54,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
   const { setToast } = useContext(ToastContext);
-  const expansion = game.context.state.expansions[expansionIndex];
-  const rock = expansion.stones?.[rockIndex] as LandExpansionRock;
+  const rock = game.context.state.stones?.[id] as Rock;
   const tool = "Pickaxe";
 
   // Reset the shake count when clicking outside of the component
@@ -122,8 +120,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
     try {
       const newState = gameService.send("stoneRock.mined", {
-        index: rockIndex,
-        expansionIndex,
+        index: id,
       });
 
       if (!newState.matches("hoarding")) {

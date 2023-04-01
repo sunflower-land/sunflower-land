@@ -12,8 +12,8 @@ import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
-import { RESOURCES } from "features/game/types/resources";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { COMMODITIES } from "features/game/types/resources";
 import { BEANS } from "features/game/types/beans";
 import { FRUIT, FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -90,7 +90,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const workbenchTools = getItems(WORKBENCH_TOOLS());
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
-  const resources = getItems(RESOURCES);
+  const resources = getItems(COMMODITIES);
   const consumables = getItems(CONSUMABLES);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
@@ -128,8 +128,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       divRef={divRef}
       tallMobileContent={true}
       wideModal={true}
-      showHeader={!!selected}
-      header={
+      showPanel={!!selected}
+      panel={
         selected && (
           <InventoryItemDetails
             details={{

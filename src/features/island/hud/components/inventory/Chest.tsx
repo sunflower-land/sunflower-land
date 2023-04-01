@@ -13,7 +13,6 @@ import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
 import { KNOWN_IDS } from "features/game/types";
 import { BEANS } from "features/game/types/beans";
-import { setPrecision } from "lib/utils/formatNumber";
 import {
   GOBLIN_BLACKSMITH_ITEMS,
   GOBLIN_PIRATE_ITEMS,
@@ -24,6 +23,7 @@ import { AUCTIONEER_ITEMS } from "features/game/types/auctioneer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { DECORATION_DIMENSIONS } from "features/game/types/decorations";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 interface Props {
   state: GameState;
@@ -46,15 +46,6 @@ export const Chest: React.FC<Props> = ({
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const chestMap = getChestItems(state);
-  const { inventory, collectibles: placedItems } = state;
-
-  const getItemCount = (item: InventoryItemName) => {
-    const count =
-      inventory[item]?.sub(placedItems[item as CollectibleName]?.length ?? 0) ??
-      new Decimal(0);
-
-    return setPrecision(count);
-  };
 
   const collectibles = getKeys(chestMap)
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
@@ -66,12 +57,28 @@ export const Chest: React.FC<Props> = ({
         item in HELIOS_BLACKSMITH_ITEMS ||
         item in GOBLIN_BLACKSMITH_ITEMS ||
         item in GOBLIN_PIRATE_ITEMS ||
-        item in DECORATION_DIMENSIONS
+        item in DECORATION_DIMENSIONS ||
+        item in RESOURCE_DIMENSIONS
       ) {
         return { ...acc, [item]: chestMap[item] };
       }
       return acc;
     }, {} as Record<CollectibleName, Decimal>);
+
+  // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
+  const selectedChestItem = collectibles[selected as CollectibleName]
+    ? selected
+    : getKeys(collectibles)[0];
+
+  const handlePlace = () => {
+    onPlace && onPlace(selectedChestItem);
+
+    closeModal();
+  };
+
+  const handleItemClick = (item: InventoryItemName) => {
+    onSelect(item);
+  };
 
   const chestIsEmpty = getKeys(collectibles).length === 0;
 
@@ -95,79 +102,62 @@ export const Chest: React.FC<Props> = ({
     );
   }
 
-  // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
-  const selectedChestItem = collectibles[selected as CollectibleName]
-    ? selected
-    : getKeys(collectibles)[0];
-
-  const handlePlace = () => {
-    onPlace && onPlace(selectedChestItem);
-
-    closeModal();
-  };
-
-  const handleItemClick = (item: InventoryItemName) => {
-    onSelect(item);
-  };
-
   return (
-    <>
-      <SplitScreenView
-        divRef={divRef}
-        tallMobileContent={true}
-        wideModal={true}
-        showHeader={!!selectedChestItem}
-        header={
-          selectedChestItem && (
-            <InventoryItemDetails
-              details={{
-                item: selectedChestItem,
-              }}
-              properties={{
-                showOpenSeaLink: true,
-              }}
-              actionView={
-                onPlace && (
-                  <Button onClick={handlePlace} disabled={isSaving}>
-                    {isSaving ? "Saving..." : "Place on map"}
-                  </Button>
-                )
-              }
-            />
-          )
-        }
-        content={
-          <>
-            {Object.values(collectibles) && (
-              <div className="flex flex-col pl-2">
-                <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
-                  {getKeys(collectibles).map((item) => (
-                    <Box
-                      count={getItemCount(item)}
-                      isSelected={selectedChestItem === item}
-                      key={item}
-                      onClick={() => handleItemClick(item)}
-                      image={ITEM_DETAILS[item].image}
-                      parentDivRef={divRef}
-                    />
-                  ))}
-                </div>
+    <SplitScreenView
+      divRef={divRef}
+      tallMobileContent={true}
+      wideModal={true}
+      showPanel={!!selectedChestItem}
+      panel={
+        selectedChestItem && (
+          <InventoryItemDetails
+            details={{
+              item: selectedChestItem,
+            }}
+            properties={{
+              showOpenSeaLink: true,
+            }}
+            actionView={
+              onPlace && (
+                <Button onClick={handlePlace} disabled={isSaving}>
+                  {isSaving ? "Saving..." : "Place on map"}
+                </Button>
+              )
+            }
+          />
+        )
+      }
+      content={
+        <>
+          {Object.values(collectibles) && (
+            <div className="flex flex-col pl-2">
+              <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
+                {getKeys(collectibles).map((item) => (
+                  <Box
+                    count={chestMap[item]}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
               </div>
-            )}
-            {onDepositClick && (
-              <p
-                className="underline text-xxs ml-2 my-1 cursor-pointer"
-                onClick={() => {
-                  onDepositClick();
-                  closeModal();
-                }}
-              >
-                Deposit item from your wallet
-              </p>
-            )}
-          </>
-        }
-      />
-    </>
+            </div>
+          )}
+          {onDepositClick && (
+            <p
+              className="underline text-xxs ml-2 my-1 cursor-pointer"
+              onClick={() => {
+                onDepositClick();
+                closeModal();
+              }}
+            >
+              Deposit item from your wallet
+            </p>
+          )}
+        </>
+      }
+    />
   );
 };

@@ -11,7 +11,6 @@ import lock from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { COOKABLES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
@@ -66,8 +65,7 @@ export const DetailView: React.FC<Props> = ({
     ({ unlocksAtLevel }) => unlocksAtLevel
   );
 
-  const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
-
+  const landCount = inventory["Basic Land"] ?? new Decimal(0);
   // Holds how many desired placed buildings (e.g. water wells)
   const buildingsPlaced = new Decimal(
     state.buildings[buildingName]?.length || 0
@@ -79,13 +77,13 @@ export const DetailView: React.FC<Props> = ({
     .minus(1)
     .greaterThanOrEqualTo(buildingsPlaced);
   // Total number of buildings allowed at the current bumpkin level.
-  const allowedBuildings = buildingUnlockLevels.filter(
-    (level) => bumpkinLevel >= level
+  const allowedBuildings = buildingUnlockLevels.filter((level) =>
+    landCount.gte(level)
   ).length;
   // Next level of building user is yet to unlock.
   // If undefined then player has unlocked all levels for this building.
-  const nextLockedLevel = buildingUnlockLevels.find(
-    (level) => level > bumpkinLevel
+  const nextLockedLevel = buildingUnlockLevels.find((level) =>
+    landCount.lt(level)
   );
   // true, if player has unlocked all the levels and all buildings are placed.
   const allBuildingsPlaced =
@@ -247,10 +245,18 @@ export const DetailView: React.FC<Props> = ({
                 {hasUnplaced ? "Place" : "Build"}
               </Button>
             ) : (
-              <div className="flex items-center justify-center">
-                <Label type="danger">Lvl {nextLockedLevel} Required</Label>
+              <div className="flex flex-col items-center">
+                <span className="text-xxs text-center mb-1">
+                  Unlock more land!
+                </span>
+                <div className="flex items-center justify-center">
+                  <Label type="danger">
+                    {`${landCount.toNumber()}/${nextLockedLevel}`} Expansions
+                    Required
+                  </Label>
 
-                <img src={lock} className="h-4 ml-1" />
+                  <img src={lock} className="h-4 ml-1" />
+                </div>
               </div>
             )}
           </div>

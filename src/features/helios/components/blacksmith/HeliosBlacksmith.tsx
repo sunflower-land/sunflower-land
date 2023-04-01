@@ -7,91 +7,58 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 import building from "assets/buildings/blacksmith_building.gif";
 
-import { Panel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
 import { HeliosBlacksmithItems } from "./component/HeliosBlacksmithItems";
-import { Inventory } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-type Props = {
-  inventory: Inventory;
-};
-
-export const HeliosBlacksmith: React.FC<Props> = ({ inventory }) => {
+export const HeliosBlacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleClick = () => {
     setIsOpen(true);
   };
 
-  const Content = () => {
-    return (
-      <Panel
-        bumpkinParts={{
-          body: "Beige Farmer Potion",
-          hair: "Blacksmith Hair",
-          pants: "Brown Suspenders",
-          shirt: "Red Farmer Shirt",
-          tool: "Hammer",
-          background: "Farm Background",
-          shoes: "Black Farmer Boots",
-        }}
-        className="relative"
-        hasTabs
-      >
-        <div
-          className="absolute flex"
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-          }}
-        >
-          <Tab isActive>
-            <img src={SUNNYSIDE.icons.hammer} className="h-5 mr-2" />
-            <span className="text-sm">Craft</span>
-          </Tab>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={() => setIsOpen(false)}
-            style={{
-              top: `${PIXEL_SCALE * 1}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-        </div>
-        <HeliosBlacksmithItems onClose={() => setIsOpen(false)} />
-      </Panel>
-    );
-  };
-
   return (
-    <MapPlacement x={-8} y={0} height={4} width={6}>
-      <div
-        className="relative w-full h-full cursor-pointer hover:img-highlight"
-        onClick={handleClick}
-      >
+    <>
+      <MapPlacement x={-8} y={0} height={4} width={6}>
         <div
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 98}px`,
-            bottom: `${PIXEL_SCALE * 6}px`,
-            left: `${PIXEL_SCALE * -1}px`,
-          }}
+          className="relative w-full h-full cursor-pointer hover:img-highlight"
+          onClick={handleClick}
         >
-          <img
-            src={building}
+          <div
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 98}px`,
+              bottom: `${PIXEL_SCALE * 6}px`,
+              left: `${PIXEL_SCALE * -1}px`,
             }}
-          />
+          >
+            <img
+              src={building}
+              style={{
+                width: `${PIXEL_SCALE * 98}px`,
+              }}
+            />
+          </div>
         </div>
-      </div>
+      </MapPlacement>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        <Content />
+        <CloseButtonPanel
+          bumpkinParts={{
+            body: "Beige Farmer Potion",
+            hair: "Blacksmith Hair",
+            pants: "Brown Suspenders",
+            shirt: "Red Farmer Shirt",
+            tool: "Hammer",
+            background: "Farm Background",
+            shoes: "Black Farmer Boots",
+          }}
+          tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Craft" }]}
+          onClose={() => setIsOpen(false)}
+        >
+          <HeliosBlacksmithItems />
+        </CloseButtonPanel>
       </Modal>
-    </MapPlacement>
+    </>
   );
 };

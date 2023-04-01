@@ -8,24 +8,27 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 
-export const SomethingWentWrong: React.FC = () => {
+interface BoundaryErrorProps {
+  landId?: number;
+  error?: string;
+  stack?: string;
+  transactionId?: string;
+  onAcknowledge?: () => void;
+}
+
+/*
+ * This component should not hook into the state machines. It is used
+ * to display errors that may occur outside of the state machines.
+ */
+export const BoundaryError: React.FC<BoundaryErrorProps> = ({
+  landId,
+  error,
+  transactionId,
+  onAcknowledge,
+  stack,
+}) => {
   const [date] = useState(new Date().toISOString());
-  const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
-
-  const { farmId: landId } = authService.state.context;
-  // If we get a connecting error before the game has loaded then try to connect again via the authService
-  const service = gameService ?? authService;
-
-  const [
-    {
-      context: { transactionId, errorCode },
-    },
-  ] = useActor(service);
-
-  const onAcknowledge = () => {
-    service.send("REFRESH");
-  };
+  const [showStackTrace, setShowStackTrace] = useState(false);
 
   return (
     <>
@@ -63,15 +66,56 @@ export const SomethingWentWrong: React.FC = () => {
         </div>
         <div className="flex flex-col w-full text-left mb-2 text-[12px]">
           {landId && <p className="leading-3">Land: {landId}</p>}
-          {errorCode && <p className="leading-3">Error: {errorCode}</p>}
+          {error && (
+            <p className="leading-3 whitespace-nowrap">Error: {error}</p>
+          )}
           {transactionId && (
             <p className="leading-3">Transaction ID: {transactionId}</p>
           )}
           <p className="leading-3">Date: {date}</p>
           <p className="leading-3">Version: {CONFIG.RELEASE_VERSION}</p>
+          {stack && showStackTrace && (
+            <>
+              <p className="leading-3">Details:</p>
+              <pre className="leading-3 whitespace-pre-wrap text-[10px]">{`${stack}`}</pre>
+            </>
+          )}
         </div>
       </div>
-      <Button onClick={onAcknowledge}>Refresh</Button>
+      {stack && !showStackTrace && (
+        <Button onClick={() => setShowStackTrace(true)}>
+          Diagnostic Information
+        </Button>
+      )}
+      {onAcknowledge && <Button onClick={onAcknowledge}>Refresh</Button>}
     </>
+  );
+};
+
+export const SomethingWentWrong: React.FC = () => {
+  const { authService } = useContext(Auth.Context);
+  const { gameService } = useContext(Context);
+
+  const { farmId: landId } = authService.state.context;
+  // If we get a connecting error before the game has loaded then try to connect again via the authService
+  const service = gameService ?? authService;
+
+  const [
+    {
+      context: { transactionId, errorCode },
+    },
+  ] = useActor(service);
+
+  const onAcknowledge = () => {
+    service.send("REFRESH");
+  };
+
+  return (
+    <BoundaryError
+      landId={landId}
+      transactionId={transactionId}
+      error={errorCode}
+      onAcknowledge={onAcknowledge}
+    />
   );
 };

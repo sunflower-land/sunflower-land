@@ -6,12 +6,8 @@ import { Chore } from "./Chore";
 
 interface Props {
   onTutorialComplete: () => void;
-  onClose: () => void;
 }
-export const HayseedHankModal: React.FC<Props> = ({
-  onClose,
-  onTutorialComplete,
-}) => {
+export const HayseedHankModal: React.FC<Props> = ({ onTutorialComplete }) => {
   const { gameService } = useContext(Context);
 
   useEffect(() => {

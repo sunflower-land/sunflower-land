@@ -7,6 +7,7 @@ import classNames from "classnames";
 import {
   acknowledgeRead,
   hasAnnouncements,
+  hasImportantAnnouncement,
   PAST_ANNOUNCEMENTS,
 } from "features/announcements/announcementsStorage";
 import { Announcement } from "features/announcements/Announcement";
@@ -14,7 +15,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const LetterBox: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(hasImportantAnnouncement());
 
   const close = () => {
     acknowledgeRead();
