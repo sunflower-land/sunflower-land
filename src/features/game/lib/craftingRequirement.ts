@@ -1,20 +1,7 @@
-import Decimal from "decimal.js-light";
-import { Ingredient } from "../types/craftables";
+import { getKeys } from "../types/craftables";
 import { GameState } from "../types/game";
 import { GoblinState } from "./goblinMachine";
 import { getBumpkinLevel } from "./level";
-
-/**
- * The props for the crafting requirements.
- * @param resources The item resources requirements.
- * @param sfl The SFL requirements.
- * @param level The level requirements.
- */
-interface RequirementsProps {
-  resources?: Ingredient[];
-  sfl?: Decimal;
-  level?: number;
-}
 
 /**
  * Whether the crafting requirements are met.
@@ -23,21 +10,20 @@ interface RequirementsProps {
  */
 export const craftingRequirementsMet = (
   gameState: Readonly<GameState | GoblinState>,
-  requirements: RequirementsProps
+  requirements: GameState["expansionRequirements"]
 ) => {
-  const hasResources = requirements.resources
-    ? requirements.resources.every(
-        ({ item, amount }) =>
-          gameState.inventory[item]?.gte(amount) || amount.equals(0)
-      )
-    : true;
-  const hasBalance = requirements.sfl
-    ? gameState.balance.greaterThanOrEqualTo(requirements.sfl)
-    : true;
-  const hasLevel = requirements.level
+  if (!requirements) {
+    return false;
+  }
+
+  const hasResources = getKeys(requirements.resources).every((name) =>
+    gameState.inventory[name]?.gte(requirements.resources[name] ?? 0)
+  );
+
+  const hasLevel = requirements.bumpkinLevel
     ? getBumpkinLevel(gameState.bumpkin?.experience || 0) >=
-      (requirements.level ?? 0)
+      (requirements.bumpkinLevel ?? 0)
     : !!gameState.bumpkin;
-  const canCraft = hasResources && hasBalance && hasLevel;
+  const canCraft = hasResources && hasLevel;
   return canCraft;
 };

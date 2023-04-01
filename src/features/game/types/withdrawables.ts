@@ -1,26 +1,19 @@
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { CROPS, CROP_SEEDS } from "./crops";
-import { FRUIT, FruitName } from "./fruits";
+import { FRUIT } from "./fruits";
+import { COUPONS, FERTILISERS } from "./game";
 import {
-  EASTER_EGGS,
-  Inventory,
-  InventoryItemName,
-  COUPONS,
-  FERTILISERS,
-} from "./game";
-import {
-  FLAGS,
   FOODS,
-  getKeys,
-  MUTANT_CHICKENS,
   QUEST_ITEMS,
   SHOVELS,
   TOOLS,
   WAR_BANNERS,
   WAR_TENT_ITEMS,
 } from "./craftables";
-import { RESOURCES } from "./resources";
+import { EASTER_EGGS, Inventory, InventoryItemName } from "./game";
+import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
+import { COMMODITIES, RESOURCES } from "./resources";
 import { canChop } from "../events/landExpansion/chop";
 import { canMine } from "../events/landExpansion/stoneMine";
 import { AchievementName } from "./achievements";
@@ -56,10 +49,8 @@ type CanWithdrawArgs = {
 };
 
 function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
-  return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.plots ?? {}).some(
-      (plot) => plot.crop && plot.crop.name === item
-    )
+  return Object.values(game.crops ?? {}).some(
+    (plot) => plot.crop && plot.crop.name === item
   );
 }
 
@@ -68,33 +59,23 @@ function hasSeeds(inventory: Inventory) {
 }
 
 function areAnyCropsPlanted(game: GoblinState): boolean {
-  return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.plots ?? {}).some((plot) => !!plot.crop)
-  );
+  return Object.values(game.crops ?? {}).some((plot) => !!plot.crop);
 }
 
 function areAnyTreesChopped(game: GoblinState): boolean {
-  return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.trees ?? {}).some((tree) => !canChop(tree))
-  );
+  return Object.values(game.trees ?? {}).some((tree) => !canChop(tree));
 }
 
 function areAnyStonesMined(game: GoblinState): boolean {
-  return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.stones ?? {}).some((stone) => !canMine(stone))
-  );
+  return Object.values(game.stones ?? {}).some((stone) => !canMine(stone));
 }
 
 function areAnyIronsMined(game: GoblinState): boolean {
-  return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.iron ?? {}).some((iron) => !canMine(iron))
-  );
+  return Object.values(game.iron ?? {}).some((iron) => !canMine(iron));
 }
 
 function areAnyGoldsMined(game: GoblinState): boolean {
-  return Object.values(game?.expansions).some((expansion) =>
-    Object.values(expansion.gold ?? {}).some((gold) => !canMine(gold))
-  );
+  return Object.values(game.gold ?? {}).some((gold) => !canMine(gold));
 }
 
 function areAnyChickensFed(game: GoblinState): boolean {
@@ -112,14 +93,6 @@ function areAnyTreasureHolesDug(game: GoblinState): boolean {
   });
 }
 
-function areFruitsGrowing(game: GoblinState, fruit: FruitName): boolean {
-  return Object.values(game.expansions).some((expansion) =>
-    Object.values(expansion.fruitPatches ?? {}).some(
-      (patch) => patch.fruit?.name === fruit
-    )
-  );
-}
-
 function hasCompletedAchievement(
   game: GoblinState,
   achievement: AchievementName
@@ -130,7 +103,6 @@ function hasCompletedAchievement(
 // Group withdraw conditions for common items
 const cropDefaults = buildDefaults(getKeys(CROPS()), true);
 // Fruits will be disabled untill all the fruit SFT's are sold out
-const fruitDefaults = buildDefaults(getKeys(FRUIT()), false);
 const seedDefaults = buildDefaults(getKeys(SEEDS()), false);
 const beanDefaults = buildDefaults(getKeys(BEANS()), false);
 const questItemDefaults = buildDefaults(getKeys(QUEST_ITEMS), false);
@@ -146,7 +118,9 @@ const heliosBlacksmithDefaults = buildDefaults(
   getKeys(HELIOS_BLACKSMITH_ITEMS),
   false
 );
-const resourceDefaults = buildDefaults(getKeys(RESOURCES), true);
+const resourceDefaults = buildDefaults(getKeys(RESOURCES), false);
+const commodityDefaults = buildDefaults(getKeys(COMMODITIES), true);
+const fruitDefaults = buildDefaults(getKeys(FRUIT()), false);
 const mutantChickenDefaults = buildDefaults(
   getKeys(MUTANT_CHICKENS),
   (game) => !areAnyChickensFed(game)
@@ -187,6 +161,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...warBannerDefaults,
   ...heliosBlacksmithDefaults,
   ...fruitDefaults,
+  ...commodityDefaults,
   ...resourceDefaults,
   ...mutantChickenDefaults,
   ...flagDefaults,
@@ -242,6 +217,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "War Skull": true,
   "War Tombstone": true,
   "Maneki Neko": true,
+  "Black Bearry": true,
+  "Squirrel Monkey": false,
   "Lady Bug": false,
   "Cyborg Bear": true,
   "Heart Balloons": true,
@@ -275,9 +252,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Rocky the Mole": (game) => !areAnyIronsMined(game),
   Nugget: (game) => !areAnyGoldsMined(game),
   "Heart of Davy Jones": (game) => !areAnyTreasureHolesDug(game),
-  "Iron Idol": (game) => !areAnyIronsMined(game),
-  "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
-  "Black Bearry": (game) => !areFruitsGrowing(game, "Blueberry"),
 
   "Pirate Bounty": false,
   Pearl: false,
@@ -308,6 +282,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Human Bear": false,
   "Wooden Compass": false,
   "Whale Bear": true,
+  "Iron Idol": false,
 
   // Seasonal items
   "Beach Ball": false,
@@ -316,6 +291,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Cabbage Boy": false,
   "Cabbage Girl": false,
   "Collectible Bear": false,
+
+  "Basic Land": false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

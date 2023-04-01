@@ -25,7 +25,7 @@ export const StartFarm: React.FC = () => {
 
   return (
     <>
-      <p className="text-shadow text-small mb-2 px-1">Farm ID: {farmId}</p>
+      <p className="text-small mb-2 px-1">Farm ID: {farmId}</p>
       <Button onClick={() => start("farm")} className="overflow-hidden mb-2">
         {`Let's farm!`}
       </Button>

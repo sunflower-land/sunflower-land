@@ -16,7 +16,7 @@ import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
-import { Bar } from "components/ui/ProgressBar";
+import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 const CONTENT_HEIGHT = 350;
@@ -95,7 +95,6 @@ export const Achievements: React.FC<Props> = ({
 
             const bumpkinAchievements = state.bumpkin?.achievements || {};
             const isAlreadyClaimed = !!bumpkinAchievements[name];
-            const isPaused = achievement.sfl.gt(0);
 
             return (
               <div
@@ -112,8 +111,7 @@ export const Achievements: React.FC<Props> = ({
                   className={classNames(
                     "flex justify-center items-center p-1 rounded-md relative cursor-pointer hover:img-highlight",
                     {
-                      "opacity-50":
-                        (!isAlreadyClaimed && !isComplete) || isPaused,
+                      "opacity-50": !isAlreadyClaimed && !isComplete,
                       "img-highlight": selected === name,
                     }
                   )}
@@ -173,7 +171,7 @@ export const Achievements: React.FC<Props> = ({
                       )}/${shortenCount(
                         new Decimal(achievement.requirement)
                       )}`}</p>
-                      <Bar
+                      <ResizableBar
                         percentage={(progress / achievement.requirement) * 100}
                         type="progress"
                       />

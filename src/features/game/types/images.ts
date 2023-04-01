@@ -337,6 +337,10 @@ import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
 import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
 
+import goldRock from "assets/resources/gold_small.png";
+import ironRock from "assets/resources/iron_small.png";
+import stoneRock from "assets/resources/stone_small.png";
+
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -353,7 +357,7 @@ import {
   SALESMAN_ITEMS,
 } from "./craftables";
 import { CROPS, CROP_SEEDS } from "./crops";
-import { RESOURCES } from "./resources";
+import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
@@ -548,11 +552,11 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Magic Mushroom": {
-    description: RESOURCES["Magic Mushroom"].description,
+    description: COMMODITIES["Magic Mushroom"].description,
     image: SUNNYSIDE.resource.magic_mushroom,
   },
   "Wild Mushroom": {
-    description: RESOURCES["Wild Mushroom"].description,
+    description: COMMODITIES["Wild Mushroom"].description,
     image: SUNNYSIDE.resource.wild_mushroom,
   },
   Apple: {
@@ -568,7 +572,7 @@ export const ITEM_DETAILS: Items = {
     image: orange,
   },
   Honey: {
-    description: RESOURCES["Honey"].description,
+    description: COMMODITIES["Honey"].description,
     image: honey,
   },
   "Apple Juice": {
@@ -618,43 +622,43 @@ export const ITEM_DETAILS: Items = {
 
   // Resources
   Wood: {
-    ...RESOURCES["Wood"],
+    ...COMMODITIES["Wood"],
     image: SUNNYSIDE.resource.wood,
   },
   Stone: {
-    ...RESOURCES["Stone"],
+    ...COMMODITIES["Stone"],
     image: SUNNYSIDE.resource.stone,
   },
   Iron: {
-    ...RESOURCES["Iron"],
+    ...COMMODITIES["Iron"],
     image: iron,
   },
   Gold: {
-    ...RESOURCES["Gold"],
+    ...COMMODITIES["Gold"],
     image: gold,
   },
   Diamond: {
-    ...RESOURCES["Diamond"],
+    ...COMMODITIES["Diamond"],
     image: SUNNYSIDE.resource.diamond,
   },
   Egg: {
-    ...RESOURCES["Egg"],
+    ...COMMODITIES["Egg"],
     image: SUNNYSIDE.resource.egg,
   },
   Chicken: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.resource.chicken,
   },
   Cow: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
   Sheep: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
   Pig: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
 
@@ -1901,5 +1905,39 @@ export const ITEM_DETAILS: Items = {
   Karkinos: {
     image: karkinos,
     description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
+  },
+
+  "Basic Land": {
+    image: SUNNYSIDE.resource.land,
+    description: "A basic piece of land",
+  },
+
+  "Crop Plot": {
+    image: SUNNYSIDE.resource.plot,
+    description: "An empty plot to plant crops on",
+  },
+  "Gold Rock": {
+    image: goldRock,
+    description: "A mineable rock to collect gold",
+  },
+  "Iron Rock": {
+    image: ironRock,
+    description: "A mineable rock to collect iron",
+  },
+  "Stone Rock": {
+    image: stoneRock,
+    description: "A mineable rock to collect stone",
+  },
+  Tree: {
+    image: SUNNYSIDE.resource.tree,
+    description: "A choppable tree to collect wood",
+  },
+  "Fruit Patch": {
+    image: SUNNYSIDE.resource.fruitPatch,
+    description: "An empty plot to plant fruit on",
+  },
+  Boulder: {
+    image: SUNNYSIDE.resource.boulder,
+    description: "A mythical rock that can drop rare minerals",
   },
 };

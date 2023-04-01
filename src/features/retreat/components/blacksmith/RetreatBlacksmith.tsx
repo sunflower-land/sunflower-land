@@ -7,15 +7,10 @@ import { blacksmithAudio } from "lib/utils/sfx";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Inventory } from "features/game/types/game";
 import { GoblinBlacksmithItems } from "./components/GoblinBlacksmithItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-interface Props {
-  inventory: Inventory;
-}
-
-export const RetreatBlacksmith: React.FC<Props> = ({ inventory }) => {
+export const RetreatBlacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const openBlacksmith = () => {
@@ -27,34 +22,36 @@ export const RetreatBlacksmith: React.FC<Props> = ({ inventory }) => {
   };
 
   return (
-    <MapPlacement x={3} y={-2} height={5} width={8}>
-      <div
-        className="relative w-full h-full cursor-pointer hover:img-highlight"
-        onClick={openBlacksmith}
-      >
-        <img
-          src={blacksmith}
-          alt="market"
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 121}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            bottom: `${PIXEL_SCALE * 6}px`,
-          }}
-        />
+    <>
+      <MapPlacement x={3} y={-2} height={5} width={8}>
         <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            bottom: `${PIXEL_SCALE * 3}px`,
-          }}
+          className="relative w-full h-full cursor-pointer hover:img-highlight"
+          onClick={openBlacksmith}
         >
-          <Action
-            className="pointer-events-none"
-            text="Craft"
-            icon={SUNNYSIDE.icons.hammer}
+          <img
+            src={blacksmith}
+            alt="market"
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 121}px`,
+              right: `${PIXEL_SCALE * 1}px`,
+              bottom: `${PIXEL_SCALE * 6}px`,
+            }}
           />
+          <div
+            className="flex justify-center absolute w-full pointer-events-none"
+            style={{
+              bottom: `${PIXEL_SCALE * 3}px`,
+            }}
+          >
+            <Action
+              className="pointer-events-none"
+              text="Craft"
+              icon={SUNNYSIDE.icons.hammer}
+            />
+          </div>
         </div>
-      </div>
+      </MapPlacement>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           bumpkinParts={{
@@ -72,6 +69,6 @@ export const RetreatBlacksmith: React.FC<Props> = ({ inventory }) => {
           <GoblinBlacksmithItems onClose={() => setIsOpen(false)} />
         </CloseButtonPanel>
       </Modal>
-    </MapPlacement>
+    </>
   );
 };

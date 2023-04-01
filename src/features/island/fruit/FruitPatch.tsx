@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 import fruitPatch from "assets/fruit/fruit_patch.png";
 
-import { POPOVER_TIME_MS } from "features/game/lib/constants";
+import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -16,22 +16,17 @@ import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTr
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
-  fruitPatchIndex: number;
-  expansionIndex: number;
+  id: string;
 }
 
-export const FruitPatch: React.FC<Props> = ({
-  fruitPatchIndex,
-  expansionIndex,
-}) => {
+export const FruitPatch: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
   const [game] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
   const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
-  const expansion = game.context.state.expansions[expansionIndex];
-  const patch = expansion.fruitPatches?.[fruitPatchIndex];
+  const patch = game.context.state.fruitPatches[id];
 
   const fruit = patch && patch.fruit;
 
@@ -51,8 +46,7 @@ export const FruitPatch: React.FC<Props> = ({
     if (!fruit) return;
     try {
       const newState = gameService.send("fruit.harvested", {
-        index: fruitPatchIndex,
-        expansionIndex,
+        index: id,
       });
 
       if (!newState.matches("hoarding")) {
@@ -89,8 +83,7 @@ export const FruitPatch: React.FC<Props> = ({
       }
 
       const newState = gameService.send("fruitTree.removed", {
-        index: fruitPatchIndex,
-        expansionIndex,
+        index: id,
         selectedItem: selectedItem,
       });
 
@@ -115,8 +108,7 @@ export const FruitPatch: React.FC<Props> = ({
   const plantTree = () => {
     try {
       gameService.send("fruit.planted", {
-        index: fruitPatchIndex,
-        expansionIndex,
+        index: id,
         seed: selectedItem,
       });
 
@@ -137,7 +129,14 @@ export const FruitPatch: React.FC<Props> = ({
   return (
     <div className="w-full h-full relative flex justify-center items-center">
       <div className="absolute w-full h-full flex justify-center">
-        <img src={fruitPatch} className="h-full absolute" />
+        <img
+          src={fruitPatch}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 30}px`,
+            top: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
         <FruitTree
           plantedFruit={fruit}
           plantTree={plantTree}

@@ -74,6 +74,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
             {tabs.map((tab, index) => (
               <Tab
                 key={`tab-${index}`}
+                isFirstTab={index === 0}
                 className="flex items-center"
                 isActive={currentTab === index}
                 onClick={() => handleTabClick(index)}

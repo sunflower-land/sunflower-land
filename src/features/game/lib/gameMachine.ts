@@ -4,6 +4,7 @@ import {
   assign,
   TransitionsConfig,
   State,
+  send,
 } from "xstate";
 import {
   PLAYING_EVENTS,
@@ -17,7 +18,7 @@ import {
 import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -29,9 +30,11 @@ import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
-import { expand } from "../expansion/actions/expand";
 import { checkProgress, processEvent } from "./processEvent";
-import { editingMachine } from "../expansion/placeable/editingMachine";
+import {
+  editingMachine,
+  SaveEvent,
+} from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
@@ -50,6 +53,8 @@ import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import Decimal from "decimal.js-light";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -99,6 +104,10 @@ type EditEvent = {
   placeable: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
   type: "EDIT";
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
 };
 
 type VisitEvent = {
@@ -157,6 +166,7 @@ export type BlockchainEvent =
   | BuySFLEvent
   | DepositEvent
   | { type: "EXPAND" }
+  | { type: "SAVE_SUCCESS" }
   | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -244,8 +254,6 @@ export type BlockchainState = {
     | "syncing"
     | "synced"
     | "buyingSFL"
-    | "expanding"
-    | "expanded"
     | "revealing"
     | "revealed"
     | "error"
@@ -273,6 +281,56 @@ export type MachineInterpreter = Interpreter<
 >;
 
 type Options = AuthContext & { isNoob: boolean };
+
+export const saveGame = async (
+  context: Context,
+  event: any,
+  farmId: number,
+  rawToken: string
+) => {
+  const saveAt = (event as any)?.data?.saveAt || new Date();
+
+  // Skip autosave when no actions were produced and if there is no API_URL
+  if (context.actions.length === 0 || !API_URL) {
+    return { verified: true, saveAt, farm: context.state };
+  }
+
+  const { verified, farm } = await autosave({
+    farmId,
+    sessionId: context.sessionId as string,
+    actions: context.actions,
+    token: rawToken,
+    fingerprint: context.fingerprint as string,
+    deviceTrackerId: context.deviceTrackerId as string,
+    transactionId: context.transactionId as string,
+  });
+
+  // This gives the UI time to indicate that a save is taking place both when clicking save
+  // and when autosaving
+  await new Promise((res) => setTimeout(res, 1000));
+
+  return {
+    saveAt,
+    verified,
+    farm,
+  };
+};
+
+const handleSuccessfulSave = (context: Context, event: any) => {
+  // Actions that occured since the server request
+  const recentActions = context.actions.filter(
+    (action) => action.createdAt.getTime() > event.data.saveAt.getTime()
+  );
+
+  const updatedState = recentActions.reduce((state, action) => {
+    return processEvent({ state, action });
+  }, event.data.farm);
+
+  return {
+    actions: recentActions,
+    state: updatedState,
+  };
+};
 
 // Hashed eth 0 value
 export const INITIAL_SESSION =
@@ -496,7 +554,6 @@ export function startGame(authContext: Options) {
             },
           },
         },
-
         playing: {
           entry: "clearTransactionId",
           invoke: {
@@ -570,9 +627,6 @@ export function startGame(authContext: Options) {
             REFRESH: {
               target: "loading",
             },
-            EXPAND: {
-              target: "expanding",
-            },
             EDIT: {
               target: "editing",
             },
@@ -611,53 +665,20 @@ export function startGame(authContext: Options) {
             ...GAME_EVENT_HANDLERS,
           },
           invoke: {
-            src: async (context, event) => {
-              const saveAt = (event as any)?.data?.saveAt || new Date();
+            src: async (context, event) =>
+              saveGame(
+                context,
+                event,
+                authContext.farmId as number,
+                authContext.rawToken as string
+              ),
 
-              // Skip autosave when no actions were produced and if there is no API_URL
-              if (context.actions.length === 0 || !API_URL) {
-                return { verified: true, saveAt, farm: context.state };
-              }
-
-              const { verified, farm } = await autosave({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                actions: context.actions,
-                token: authContext.rawToken as string,
-                fingerprint: context.fingerprint as string,
-                deviceTrackerId: context.deviceTrackerId as string,
-                transactionId: context.transactionId as string,
-              });
-
-              // This gives the UI time to indicate that a save is taking place both when clicking save
-              // and when autosaving
-              await new Promise((res) => setTimeout(res, 1000));
-
-              return {
-                saveAt,
-                verified,
-                farm,
-              };
-            },
             onDone: [
               {
                 target: "playing",
-                actions: assign((context: Context, event) => {
-                  // Actions that occured since the server request
-                  const recentActions = context.actions.filter(
-                    (action) =>
-                      action.createdAt.getTime() > event.data.saveAt.getTime()
-                  );
-
-                  const updatedState = recentActions.reduce((state, action) => {
-                    return processEvent({ state, action });
-                  }, event.data.farm);
-
-                  return {
-                    actions: recentActions,
-                    state: updatedState,
-                  };
-                }),
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event)
+                ),
               },
             ],
             onError: {
@@ -841,72 +862,6 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        //  withdrawn
-        expanding: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context) => {
-              // Autosave just in case
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(authContext.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
-
-              const sessionId = await expand({
-                farmId: Number(authContext.farmId),
-                token: authContext.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return {
-                sessionId: sessionId,
-              };
-            },
-            onDone: {
-              target: "expanded",
-              actions: assign((_, event) => ({
-                sessionId: event.data.sessionId,
-                actions: [],
-              })),
-            },
-            onError: [
-              {
-                target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-                actions: assign((_) => ({
-                  actions: [],
-                })),
-              },
-              {
-                // Kick them back to loading game again
-                target: "loading",
-                cond: () => !wallet.isAlchemy,
-                actions: () => {
-                  wallet.overrideProvider();
-                },
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-        },
-        expanded: {
-          on: {
-            REFRESH: {
-              target: "loading",
-            },
-          },
-        },
         hoarding: {
           on: {
             SYNC: {
@@ -927,16 +882,19 @@ export function startGame(authContext: Options) {
         editing: {
           invoke: {
             id: "editing",
-            autoForward: true,
             src: editingMachine,
             data: {
               placeable: (_: Context, event: EditEvent) => event.placeable,
               action: (_: Context, event: EditEvent) => event.action,
+              requirements: (_: Context, event: EditEvent) =>
+                event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
+              hasMultiple: (c: Context, event: EditEvent) =>
+                getChestItems(c.state)[event.placeable]?.gt(1),
             },
             onDone: {
-              target: "playing",
+              target: "autosaving",
             },
             onError: [
               {
@@ -952,22 +910,39 @@ export function startGame(authContext: Options) {
           },
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
+            SAVE: {
+              actions: send(
+                (context) =>
+                  ({
+                    type: "SAVE",
+                    gameMachineContext: context,
+                    rawToken: authContext.rawToken as string,
+                    farmId: authContext.farmId as number,
+                  } as SaveEvent),
+                { to: "editing" }
+              ),
+            },
+            SAVE_SUCCESS: {
+              actions: assign((context: Context, event: any) =>
+                handleSuccessfulSave(context, event)
+              ),
+            },
           },
         },
         coolingDown: {},
         randomising: {
           invoke: {
             src: async () => {
-              const { expansions } = await generateTestLand();
+              const { game } = await generateTestLand();
 
-              return { expansions };
+              return { game };
             },
             onDone: {
               target: "playing",
               actions: assign<Context, any>({
                 state: (context, event) => ({
                   ...context.state,
-                  expansions: event.data.expansions,
+                  ...makeGame(event.data.game),
                 }),
               }),
             },

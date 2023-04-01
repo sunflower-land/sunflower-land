@@ -11,8 +11,7 @@ describe("collectTreeReward", () => {
         state: TEST_FARM,
         action: {
           type: "treeReward.collected",
-          expansionIndex: 10,
-          treeIndex: 30,
+          treeIndex: "30",
         },
         createdAt: dateNow,
       })
@@ -24,29 +23,22 @@ describe("collectTreeReward", () => {
       collectTreeReward({
         state: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              trees: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  wood: {
-                    choppedAt: dateNow,
-                    amount: 1,
-                  },
-                },
+          trees: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              wood: {
+                choppedAt: dateNow,
+                amount: 1,
               },
             },
-          ],
+          },
         },
         action: {
           type: "treeReward.collected",
-          expansionIndex: 0,
-          treeIndex: 0,
+          treeIndex: "0",
         },
         createdAt: dateNow,
       })
@@ -58,32 +50,25 @@ describe("collectTreeReward", () => {
       collectTreeReward({
         state: {
           ...TEST_FARM,
-          expansions: [
-            {
-              createdAt: 0,
-              readyAt: 0,
-              trees: {
-                0: {
-                  x: -2,
-                  y: -1,
-                  height: 1,
-                  width: 1,
-                  wood: {
-                    choppedAt: dateNow,
-                    amount: 1,
-                    reward: {
-                      sfl: new Decimal(3),
-                    },
-                  },
+          trees: {
+            0: {
+              x: -2,
+              y: -1,
+              height: 1,
+              width: 1,
+              wood: {
+                choppedAt: dateNow,
+                amount: 1,
+                reward: {
+                  sfl: new Decimal(3),
                 },
               },
             },
-          ],
+          },
         },
         action: {
           type: "treeReward.collected",
-          treeIndex: 0,
-          expansionIndex: 0,
+          treeIndex: "0",
         },
         createdAt: dateNow,
       })
@@ -93,39 +78,32 @@ describe("collectTreeReward", () => {
     const state = collectTreeReward({
       state: {
         ...TEST_FARM,
-        expansions: [
-          {
-            createdAt: 0,
-            readyAt: 0,
-            trees: {
-              0: {
-                x: -2,
-                y: -1,
-                height: 1,
-                width: 1,
-                wood: {
-                  choppedAt: 0,
-                  amount: 1,
-                  reward: {
-                    sfl: new Decimal(10),
-                  },
-                },
+        trees: {
+          0: {
+            x: -2,
+            y: -1,
+            height: 1,
+            width: 1,
+            wood: {
+              choppedAt: 0,
+              amount: 1,
+              reward: {
+                sfl: new Decimal(10),
               },
             },
           },
-        ],
+        },
       },
       action: {
         type: "treeReward.collected",
-        treeIndex: 0,
-        expansionIndex: 0,
+        treeIndex: "0",
       },
       createdAt: dateNow,
     });
 
-    const { expansions } = state;
+    const { trees } = state;
 
-    expect(expansions[0].plots?.[0]?.crop?.reward).toBeUndefined();
+    expect(trees?.[0]?.wood?.reward).toBeUndefined();
     expect(state.balance).toEqual(new Decimal(10));
   });
 });

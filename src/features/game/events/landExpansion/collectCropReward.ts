@@ -6,8 +6,7 @@ import { GameState } from "../../types/game";
 
 export type CollectCropRewardAction = {
   type: "cropReward.collected";
-  expansionIndex: number;
-  plotIndex: number;
+  plotIndex: string;
 };
 
 type Options = {
@@ -22,8 +21,7 @@ export function collectCropReward({
   createdAt = Date.now(),
 }: Options) {
   const stateCopy = cloneDeep(state);
-  const plot =
-    stateCopy.expansions[action.expansionIndex]?.plots?.[action.plotIndex];
+  const plot = stateCopy.crops[action.plotIndex];
 
   if (!plot) {
     throw new Error("Plot does not exist");

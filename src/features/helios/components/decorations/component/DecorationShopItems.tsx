@@ -1,10 +1,8 @@
 import React from "react";
 
-import { Panel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
 import { DecorationItems } from "./DecorationItems";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   onClose: () => void;
@@ -12,9 +10,7 @@ interface Props {
 
 export const DecorationShopItems: React.FC<Props> = ({ onClose }) => {
   return (
-    <Panel
-      className="relative"
-      hasTabs
+    <CloseButtonPanel
       bumpkinParts={{
         body: "Beige Farmer Potion",
         hair: "Red Long Hair",
@@ -24,31 +20,10 @@ export const DecorationShopItems: React.FC<Props> = ({ onClose }) => {
         background: "Farm Background",
         shoes: "Black Farmer Boots",
       }}
+      tabs={[{ icon: SUNNYSIDE.icons.seeds, name: "Decorations" }]}
+      onClose={onClose}
     >
-      <div
-        className="absolute flex"
-        style={{
-          top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      >
-        <Tab isActive>
-          <img src={SUNNYSIDE.icons.seeds} className="h-5 mr-2" />
-          <span className="text-sm">Decorations</span>
-        </Tab>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-      </div>
-      <DecorationItems onClose={onClose} />
-    </Panel>
+      <DecorationItems />
+    </CloseButtonPanel>
   );
 };
