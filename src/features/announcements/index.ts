@@ -41,6 +41,10 @@ export const ANNOUNCEMENTS: Announcement[] = [
         icon: SUNNYSIDE.icons.treasure,
       },
       {
+        text: "Landscaping is currently in progress. Once this is completed you will be able to move your resources. Until then, choose wisely where you initially place these resources.",
+        icon: SUNNYSIDE.icons.hammer,
+      },
+      {
         text: "Any crops or fruit that were in progress, have been automatically sent to your inventory.",
         icon: SUNNYSIDE.icons.heart,
       },
