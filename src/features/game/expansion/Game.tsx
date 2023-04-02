@@ -43,6 +43,7 @@ import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
+import { Introduction } from "./components/Introduction";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -71,6 +72,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   buyingSFL: true,
   depositing: true,
   upgradingGuestGame: false,
+  introduction: false,
 };
 
 // State change selectors
@@ -288,6 +290,7 @@ export const Game: React.FC = () => {
       </Modal>
 
       {upgradingGuestGame && <WalletOnboarding />}
+      <Introduction />
 
       {GameContent()}
     </ToastProvider>

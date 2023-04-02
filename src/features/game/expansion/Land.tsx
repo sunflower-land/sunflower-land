@@ -27,7 +27,6 @@ import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
-import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
@@ -408,8 +407,6 @@ export const Land: React.FC = () => {
           x={boatCoordinates.x}
           y={boatCoordinates.y}
         />
-
-        {playing && <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />}
 
         {editing && <Placeable />}
       </div>

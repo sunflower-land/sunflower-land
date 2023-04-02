@@ -14,7 +14,10 @@ import { Loading } from "features/auth/components";
 import { getProgress, isTaskComplete } from "../lib/HayseedHankTask";
 import { ResizableBar } from "components/ui/ProgressBar";
 
-export const Chore: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+export const Chore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -26,6 +29,8 @@ export const Chore: React.FC = () => {
 
   const start = () => {
     gameService.send("chore.started");
+
+    onClose();
   };
 
   const complete = () => {

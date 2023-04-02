@@ -24,6 +24,7 @@ import {
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
+import { ConversationName } from "./conversations";
 
 export type Reward = {
   sfl?: Decimal;
@@ -423,6 +424,11 @@ export type HayseedHank = {
   };
 };
 
+export type NPCDialogue = {
+  id: string;
+  from: "aunt" | "bumpkin" | "betty" | "bruce";
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -476,6 +482,11 @@ export interface GameState {
     rewardCollectedAt?: number;
     kickedAt?: number;
     kickedById?: number;
+  };
+  conversations: ConversationName[];
+  mailbox: {
+    unread: ConversationName[];
+    read: ConversationName[];
   };
   dailyRewards: {
     chest?: {

@@ -79,7 +79,6 @@ export const Helios: React.FC = () => {
         <HeliosSunflower />
         <LostSunflorian />
         <RustyShovelSeller />
-        <HayseedHank />
         <SeasonalNPC />
         <CommunityGardenEntry />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />

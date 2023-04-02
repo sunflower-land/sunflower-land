@@ -81,3 +81,16 @@ export function acknowledgeCodeOfConduct() {
     new Date().toISOString()
   );
 }
+
+export function getIntroductionRead(): Date | null {
+  const value = localStorage.getItem("islesIntroduction");
+  if (!value) {
+    return null;
+  }
+
+  return new Date(value);
+}
+
+export function acknowledgeIntroduction() {
+  return localStorage.setItem("islesIntroduction", new Date().toISOString());
+}

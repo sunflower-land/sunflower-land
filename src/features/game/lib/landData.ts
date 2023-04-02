@@ -6,7 +6,6 @@ import {
   Inventory,
   ExpansionConstruction,
 } from "../types/game";
-import { makeGame } from "./transforms";
 
 const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
@@ -220,28 +219,9 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
   iron: {},
 };
 
-const INITIAL_EXPANSIONS: ExpansionConstruction[] = [
-  {
-    createdAt: 2,
-    readyAt: 0,
-  },
-  {
-    createdAt: 3,
-    readyAt: 0,
-  },
-  {
-    createdAt: 4,
-    readyAt: 0,
-  },
-  {
-    createdAt: 4,
-    readyAt: Date.now() + 5000,
-  },
-];
-
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 2000,
+  experience: 0,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -264,7 +244,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
-  balance: new Decimal(10),
+  balance: new Decimal(1),
   inventory: {
     "Dirt Path": new Decimal(100),
     Fence: new Decimal(50),
@@ -290,7 +270,6 @@ export const OFFLINE_FARM: GameState = {
     "Gold Rock": new Decimal(3),
     "Crop Plot": new Decimal(23),
     "Basic Land": new Decimal(17),
-    "Easter Bush": new Decimal(3),
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
@@ -308,6 +287,12 @@ export const OFFLINE_FARM: GameState = {
   expansionConstruction: {
     createdAt: Date.now(),
     readyAt: Date.now() + 5000,
+  },
+
+  conversations: ["hank-intro"],
+  mailbox: {
+    read: [],
+    unread: [],
   },
 
   buildings: {
@@ -409,17 +394,6 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 1680600729738,
         createdAt: 1680600729738,
         id: "14f1a7d3",
-      },
-    ],
-    "Smoothie Shack": [
-      {
-        coordinates: {
-          x: -8,
-          y: -1,
-        },
-        readyAt: 1680208225484,
-        createdAt: 1680165025484,
-        id: "18925ee6",
       },
     ],
     Workbench: [

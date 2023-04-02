@@ -53,7 +53,10 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
-import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
+import {
+  getGameRulesLastRead,
+  getIntroductionRead,
+} from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
@@ -259,6 +262,7 @@ export type BlockchainState = {
     | "deposited"
     | "visiting"
     | "gameRules"
+    | "introduction"
     | "playing"
     | "playingGuestGame"
     | "playingFullGame"
@@ -594,6 +598,15 @@ export function startGame(authContext: AuthContext) {
                 return (
                   !lastRead ||
                   Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
+                );
+              },
+            },
+            {
+              target: "introduction",
+              cond: (context) => {
+                return (
+                  context.state.bumpkin?.experience === 0 &&
+                  !getIntroductionRead()
                 );
               },
             },
@@ -985,6 +998,15 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+
+        introduction: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
+            },
+          },
+        },
+
         swarming: {
           on: {
             REFRESH: {

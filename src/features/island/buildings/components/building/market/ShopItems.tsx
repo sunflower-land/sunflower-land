@@ -3,25 +3,18 @@ import { Seeds } from "./Seeds";
 import { Crops } from "./Crops";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
-import { Tutorial } from "./Tutorial";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Conversation } from "features/farming/mail/components/Conversation";
 
 interface Props {
   onClose: () => void;
+  conversation?: string;
 }
 
-export const ShopItems: React.FC<Props> = ({ onClose }) => {
+export const ShopItems: React.FC<Props> = ({ onClose, conversation }) => {
   const [tab, setTab] = useState(0);
-  const [showTutorial, setShowTutorial] = useState<boolean>(
-    !hasShownTutorial("Market")
-  );
-
-  const acknowledge = () => {
-    acknowledgeTutorial("Market");
-    setShowTutorial(false);
-  };
 
   const bumpkinParts: Partial<Equipped> = {
     body: "Beige Farmer Potion",
@@ -33,8 +26,8 @@ export const ShopItems: React.FC<Props> = ({ onClose }) => {
     shoes: "Black Farmer Boots",
   };
 
-  if (showTutorial) {
-    return <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />;
+  if (conversation) {
+    return <Conversation conversationId={conversation} />;
   }
 
   return (
