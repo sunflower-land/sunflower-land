@@ -104,7 +104,7 @@ export const DetailView: React.FC<Props> = ({
    * @returns Boolean
    */
   const showBuildButton = (): boolean => {
-    return buildingsPlaced.lessThan(allowedBuildings);
+    return buildingsPlaced.lessThan(allowedBuildings) || hasUnplacedBuildings;
   };
 
   const canBuild = () => {
