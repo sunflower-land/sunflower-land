@@ -28,6 +28,7 @@ import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
+import { Egg } from "features/bunnyTrove/components/Egg";
 
 const getIslandElements = ({
   buildings,
@@ -317,6 +318,10 @@ export const Land: React.FC = () => {
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
+  const mainEggs = state.easterHunt?.eggs.filter(
+    (egg) => egg.island === "Main"
+  );
+
   return (
     <>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -328,7 +333,7 @@ export const Land: React.FC = () => {
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
           <DirtRenderer plots={crops} />
-
+          <Egg eggs={mainEggs} />
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}
