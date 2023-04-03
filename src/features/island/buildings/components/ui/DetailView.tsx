@@ -104,7 +104,7 @@ export const DetailView: React.FC<Props> = ({
    * @returns Boolean
    */
   const showBuildButton = (): boolean => {
-    return buildingsPlaced.lessThan(allowedBuildings);
+    return buildingsPlaced.lessThan(allowedBuildings) || hasUnplacedBuildings;
   };
 
   const canBuild = () => {
@@ -235,7 +235,7 @@ export const DetailView: React.FC<Props> = ({
          * Show build button: If the user has not reach the building limit for that unlocked level.
          * Show label: When the user has not unlocked any level OR when the user has unlocked a level but has completed all the buildings for that level.
          */}
-        {!allBuildingsPlaced && bumpkin && (
+        {(hasUnplacedBuildings || !allBuildingsPlaced) && bumpkin && (
           <div className="mt-2 w-full">
             {showBuildButton() ? (
               <Button
