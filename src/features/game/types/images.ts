@@ -191,6 +191,7 @@ import pinkEgg from "src/assets/sfts/easter/pink_egg.png";
 import easterBasket from "src/assets/sfts/easter/basket.png";
 import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
 import pabloBunny from "src/assets/sfts/pablo_bunny.gif";
+import easterBush from "src/assets/sfts/easter_bush.gif";
 
 //MOM Event
 import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
@@ -1887,7 +1888,10 @@ export const ITEM_DETAILS: Items = {
     description: "How can a Bunny lay eggs?",
     image: easterBear,
   },
-
+  "Easter Bush": {
+    description: "What is inside?",
+    image: easterBush,
+  },
   "Iron Idol": {
     image: ironIdol,
     description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,

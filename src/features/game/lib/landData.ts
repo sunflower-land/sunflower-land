@@ -283,6 +283,7 @@ export const OFFLINE_FARM: GameState = {
     "Gold Rock": new Decimal(3),
     "Crop Plot": new Decimal(23),
     "Basic Land": new Decimal(17),
+    "Easter Bush": new Decimal(3),
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,

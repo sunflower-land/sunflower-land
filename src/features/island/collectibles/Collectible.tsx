@@ -116,6 +116,7 @@ import { PalmTree } from "./components/PalmTree";
 import { Karkinos } from "./components/Karkinos";
 import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
 import { EasterBear } from "features/island/collectibles/components/EasterBear";
+import { EasterBush } from "features/island/collectibles/components/EasterBush";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -210,6 +211,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Devil Bear": DevilBear,
   "Valentine Bear": ValentineBear,
   "Easter Bear": EasterBear,
+  "Easter Bush": EasterBush,
   Observatory,
 
   "Golden Bean": Bean,
