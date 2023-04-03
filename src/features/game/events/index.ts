@@ -133,6 +133,10 @@ import {
   placeFruitPatch,
   PlaceFruitPatchAction,
 } from "./landExpansion/placeFruitPatch";
+import {
+  collectEasterEgg,
+  CollectEasterEggAction,
+} from "features/game/events/landExpansion/collectEasterEgg";
 
 export type PlayingEvent =
   | TradeAction
@@ -144,7 +148,6 @@ export type PlayingEvent =
   | LandExpansionStoneMineAction
   | LandExpansionIronMineAction
   | LandExpansionMineGoldAction
-  | TradeAction
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
@@ -174,7 +177,8 @@ export type PlayingEvent =
   | SellGarbageAction
   | StartChoreAction
   | CompleteChoreAction
-  | ExpandLandAction;
+  | ExpandLandAction
+  | CollectEasterEggAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -243,6 +247,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.completed": completeChore,
   "chore.started": startChore,
   "land.expanded": expandLand,
+  "easterEgg.collected": collectEasterEgg,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
