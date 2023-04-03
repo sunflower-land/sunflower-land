@@ -156,7 +156,7 @@ export const IslandList: React.FC<IslandListProps> = ({
             name: "Bunny Trove",
             levelRequired: 1 as BumpkinLevel,
             image: bunnyfower,
-            path: `/land/${id}/valentine-island`,
+            path: `/land/${id}/bunny-trove`,
           },
         ]
       : []),
