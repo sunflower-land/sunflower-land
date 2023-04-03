@@ -18,6 +18,7 @@ import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Island {
   name: string;
@@ -149,12 +150,16 @@ export const IslandList: React.FC<IslandListProps> = ({
       image: SUNNYSIDE.icons.helios,
       path: `/land/${id}/helios`,
     },
-    {
-      name: "Bunny Trove",
-      levelRequired: 1 as BumpkinLevel,
-      image: bunnyfower,
-      path: `/land/${id}/bunny-trove`,
-    },
+    ...(hasFeatureAccess(inventory, "EASTER_EVENT")
+      ? [
+          {
+            name: "Bunny Trove",
+            levelRequired: 1 as BumpkinLevel,
+            image: bunnyfower,
+            path: `/land/${id}/valentine-island`,
+          },
+        ]
+      : []),
     {
       name: "Goblin Retreat",
       levelRequired: 5 as BumpkinLevel,
