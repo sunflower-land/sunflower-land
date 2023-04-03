@@ -2,7 +2,6 @@ import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import Decimal from "decimal.js-light";
 
 export type CollectEasterEggAction = {
   type: "easterEgg.collected";
@@ -29,16 +28,12 @@ export function collectEasterEgg({
   }
 
   if (!egg) {
-    throw new Error("Egg does not exist");
+    throw new Error("EasterEgg does not exist");
   }
 
-  delete stateCopy.easterHunt.eggs[action.eggIndex];
+  stateCopy.easterHunt.eggs[action.eggIndex].collectedAt = Date.now();
 
-  bumpkin.activity = trackActivity(
-    `Easter Egg Collected`,
-    bumpkin?.activity,
-    new Decimal(1)
-  );
+  bumpkin.activity = trackActivity(`Easter Egg Collected`, bumpkin?.activity);
 
   return stateCopy;
 }
