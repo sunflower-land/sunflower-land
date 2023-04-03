@@ -10,6 +10,7 @@ export enum LimitedItemType {
   MutantChicken = "MutantChicken",
   SalesmanItem = "SalesmanItem",
   WarTentItem = "WarTentItem",
+  EasterEventItemName = "EasterEventItemName",
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
@@ -277,6 +278,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   //Golden crop event
   "Golden Crop": 924,
   "Wooden Compass": 925,
+  "Pablo The Bunny": 926,
 
   // Buildings
   Market: 1001,
@@ -344,13 +346,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pirate Bear": 1233,
   "Goblin Bear": 1234,
   Galleon: 1235,
-  // "": 1236,Available for use
+  "Easter Bear": 1236,
   "Dinosaur Bone": 1237,
   "Human Bear": 1238,
   "Whale Bear": 1239,
   "Valentine Bear": 1240,
   "Palm Tree": 1241,
   "Beach Ball": 1242,
+  "Easter Bush": 1243,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

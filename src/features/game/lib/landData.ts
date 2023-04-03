@@ -273,6 +273,8 @@ export const OFFLINE_FARM: GameState = {
     Axe: new Decimal(10),
     "Maneki Neko": new Decimal(2),
     "Lunar Calendar": new Decimal(1),
+    "Pablo The Bunny": new Decimal(1),
+    "Easter Bear": new Decimal(1),
 
     Tree: new Decimal(5),
     "Stone Rock": new Decimal(3),
@@ -281,6 +283,7 @@ export const OFFLINE_FARM: GameState = {
     "Gold Rock": new Decimal(3),
     "Crop Plot": new Decimal(23),
     "Basic Land": new Decimal(17),
+    "Easter Bush": new Decimal(3),
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
