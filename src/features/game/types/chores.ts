@@ -14,19 +14,18 @@ export type Chore = {
 export const CHORES: Chore[] = [
   {
     activity: "Sunflower Harvested",
-    description: "Harvest 2 Sunflowers",
-    requirement: 2,
+    description: "Plant 3 Sunflowers",
+    requirement: 3,
     reward: {
       items: {
-        "Sunflower Seed": 5,
-        [getSeasonalTicket()]: 1,
+        "Potato Seed": 5,
       },
     },
   },
   {
-    activity: "Pumpkin Harvested",
-    description: "Harvest 20 Pumpkins",
-    requirement: 20,
+    activity: "Mashed Potato Fed",
+    description: "Eat 1 Mashed Potato",
+    requirement: 1,
     reward: {
       items: {
         "Pumpkin Seed": 5,
