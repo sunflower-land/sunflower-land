@@ -276,13 +276,13 @@ export const OFFLINE_FARM: GameState = {
     "Pablo The Bunny": new Decimal(1),
     "Easter Bear": new Decimal(1),
 
-    Tree: new Decimal(2),
+    Tree: new Decimal(5),
     "Stone Rock": new Decimal(3),
     "Iron Rock": new Decimal(3),
     "Fruit Patch": new Decimal(3),
     "Gold Rock": new Decimal(3),
     "Crop Plot": new Decimal(23),
-    "Basic Land": new Decimal(4),
+    "Basic Land": new Decimal(17),
     // ...getKeys(KNOWN_IDS).reduce(
     //   (acc, name) => ({
     //     ...acc,
@@ -318,7 +318,7 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Market: [
+    "Hen House": [
       {
         id: "123",
         readyAt: 0,

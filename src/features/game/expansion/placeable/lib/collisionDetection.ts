@@ -129,14 +129,14 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     }));
   });
 
-  const resources = Object.values({
-    ...trees,
-    ...stones,
-    ...iron,
-    ...gold,
-    ...crops,
-    ...fruitPatches,
-  });
+  const resources = [
+    ...Object.values(trees),
+    ...Object.values(stones),
+    ...Object.values(iron),
+    ...Object.values(gold),
+    ...Object.values(crops),
+    ...Object.values(fruitPatches),
+  ];
 
   const resourceBoundingBoxes = resources.map((item) => ({
     x: item.x,

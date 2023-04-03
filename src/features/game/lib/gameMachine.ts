@@ -4,6 +4,7 @@ import {
   assign,
   TransitionsConfig,
   State,
+  send,
 } from "xstate";
 import {
   PLAYING_EVENTS,
@@ -30,7 +31,10 @@ import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
-import { editingMachine } from "../expansion/placeable/editingMachine";
+import {
+  editingMachine,
+  SaveEvent,
+} from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
@@ -162,6 +166,7 @@ export type BlockchainEvent =
   | BuySFLEvent
   | DepositEvent
   | { type: "EXPAND" }
+  | { type: "SAVE_SUCCESS" }
   | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -276,6 +281,56 @@ export type MachineInterpreter = Interpreter<
 >;
 
 type Options = AuthContext & { isNoob: boolean };
+
+export const saveGame = async (
+  context: Context,
+  event: any,
+  farmId: number,
+  rawToken: string
+) => {
+  const saveAt = (event as any)?.data?.saveAt || new Date();
+
+  // Skip autosave when no actions were produced and if there is no API_URL
+  if (context.actions.length === 0 || !API_URL) {
+    return { verified: true, saveAt, farm: context.state };
+  }
+
+  const { verified, farm } = await autosave({
+    farmId,
+    sessionId: context.sessionId as string,
+    actions: context.actions,
+    token: rawToken,
+    fingerprint: context.fingerprint as string,
+    deviceTrackerId: context.deviceTrackerId as string,
+    transactionId: context.transactionId as string,
+  });
+
+  // This gives the UI time to indicate that a save is taking place both when clicking save
+  // and when autosaving
+  await new Promise((res) => setTimeout(res, 1000));
+
+  return {
+    saveAt,
+    verified,
+    farm,
+  };
+};
+
+const handleSuccessfulSave = (context: Context, event: any) => {
+  // Actions that occured since the server request
+  const recentActions = context.actions.filter(
+    (action) => action.createdAt.getTime() > event.data.saveAt.getTime()
+  );
+
+  const updatedState = recentActions.reduce((state, action) => {
+    return processEvent({ state, action });
+  }, event.data.farm);
+
+  return {
+    actions: recentActions,
+    state: updatedState,
+  };
+};
 
 // Hashed eth 0 value
 export const INITIAL_SESSION =
@@ -499,7 +554,6 @@ export function startGame(authContext: Options) {
             },
           },
         },
-
         playing: {
           entry: "clearTransactionId",
           invoke: {
@@ -611,53 +665,20 @@ export function startGame(authContext: Options) {
             ...GAME_EVENT_HANDLERS,
           },
           invoke: {
-            src: async (context, event) => {
-              const saveAt = (event as any)?.data?.saveAt || new Date();
+            src: async (context, event) =>
+              saveGame(
+                context,
+                event,
+                authContext.farmId as number,
+                authContext.rawToken as string
+              ),
 
-              // Skip autosave when no actions were produced and if there is no API_URL
-              if (context.actions.length === 0 || !API_URL) {
-                return { verified: true, saveAt, farm: context.state };
-              }
-
-              const { verified, farm } = await autosave({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                actions: context.actions,
-                token: authContext.rawToken as string,
-                fingerprint: context.fingerprint as string,
-                deviceTrackerId: context.deviceTrackerId as string,
-                transactionId: context.transactionId as string,
-              });
-
-              // This gives the UI time to indicate that a save is taking place both when clicking save
-              // and when autosaving
-              await new Promise((res) => setTimeout(res, 1000));
-
-              return {
-                saveAt,
-                verified,
-                farm,
-              };
-            },
             onDone: [
               {
                 target: "playing",
-                actions: assign((context: Context, event) => {
-                  // Actions that occured since the server request
-                  const recentActions = context.actions.filter(
-                    (action) =>
-                      action.createdAt.getTime() > event.data.saveAt.getTime()
-                  );
-
-                  const updatedState = recentActions.reduce((state, action) => {
-                    return processEvent({ state, action });
-                  }, event.data.farm);
-
-                  return {
-                    actions: recentActions,
-                    state: updatedState,
-                  };
-                }),
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event)
+                ),
               },
             ],
             onError: {
@@ -841,7 +862,6 @@ export function startGame(authContext: Options) {
             },
           },
         },
-
         hoarding: {
           on: {
             SYNC: {
@@ -862,7 +882,6 @@ export function startGame(authContext: Options) {
         editing: {
           invoke: {
             id: "editing",
-            autoForward: true,
             src: editingMachine,
             data: {
               placeable: (_: Context, event: EditEvent) => event.placeable,
@@ -871,7 +890,6 @@ export function startGame(authContext: Options) {
                 event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
-              placed: 0,
               hasMultiple: (c: Context, event: EditEvent) =>
                 getChestItems(c.state)[event.placeable]?.gt(1),
             },
@@ -892,6 +910,23 @@ export function startGame(authContext: Options) {
           },
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
+            SAVE: {
+              actions: send(
+                (context) =>
+                  ({
+                    type: "SAVE",
+                    gameMachineContext: context,
+                    rawToken: authContext.rawToken as string,
+                    farmId: authContext.farmId as number,
+                  } as SaveEvent),
+                { to: "editing" }
+              ),
+            },
+            SAVE_SUCCESS: {
+              actions: assign((context: Context, event: any) =>
+                handleSuccessfulSave(context, event)
+              ),
+            },
           },
         },
         coolingDown: {},

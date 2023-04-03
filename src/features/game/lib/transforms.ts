@@ -64,12 +64,12 @@ export function makeGame(farm: any): GameState {
     hayseedHank: farm.hayseedHank,
     tradedAt: farm.tradedAt,
 
-    trees: farm.trees,
-    stones: farm.stones,
-    iron: farm.iron,
-    gold: farm.gold,
-    crops: farm.crops,
-    fruitPatches: farm.fruitPatches,
+    trees: farm.trees ?? {},
+    stones: farm.stones ?? {},
+    iron: farm.iron ?? {},
+    gold: farm.gold ?? {},
+    crops: farm.crops ?? {},
+    fruitPatches: farm.fruitPatches ?? {},
   };
 }
 

@@ -10,6 +10,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
+import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -17,12 +21,18 @@ export const PlaceableController: React.FC = () => {
 
   const [
     {
-      context: { collisionDetected, placeable, coordinates, requirements },
+      context: { collisionDetected, placeable, requirements, coordinates },
     },
     send,
   ] = useActor(child);
 
   const [gameState] = useActor(gameService);
+
+  const { width, height } = {
+    ...BUILDINGS_DIMENSIONS,
+    ...COLLECTIBLES_DIMENSIONS,
+    ...ANIMAL_DIMENSIONS,
+  }[placeable];
 
   const items = getChestItems(gameState.context.state);
 
@@ -30,23 +40,37 @@ export const PlaceableController: React.FC = () => {
 
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
-    if (!child.state.matches("idle")) {
+    if (!child.state.matches({ editing: "idle" })) {
       return;
     }
-    console.log({ hasMore: available.gt(1) });
 
     const hasMore = available.gt(1);
-    send({
-      type: "PLACE",
-      hasMore,
-    });
+    if (hasMore) {
+      const nextPosition = { x: coordinates.x, y: coordinates.y - height };
+      const collisionDetected = detectCollision(
+        gameService.state.context.state,
+        {
+          ...nextPosition,
+          width,
+          height,
+        }
+      );
+
+      send({
+        type: "PLACE",
+        nextOrigin: nextPosition,
+        nextWillCollide: collisionDetected,
+      });
+    } else {
+      send({
+        type: "PLACE",
+      });
+    }
   };
 
   const handleCancelPlacement = () => {
     send("CANCEL");
   };
-
-  const isCrafting = !!requirements;
 
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">

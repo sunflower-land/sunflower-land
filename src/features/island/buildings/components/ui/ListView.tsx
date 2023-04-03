@@ -97,7 +97,7 @@ export const ListView: React.FC<{
                         className="bg-error border text-xxs p-1 rounded-md"
                         style={{ lineHeight: "10px" }}
                       >
-                        {nextLockedLevel} Expansions Required
+                        {`${landCount.toNumber()}/${nextLockedLevel} Expansions Required`}
                       </span>
 
                       <img src={lock} className="h-4 ml-1" />
