@@ -115,7 +115,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     ...seeds,
 
     Shovel: new Decimal(1),
-    "Rusty Shovel": new Decimal(10),
+    "Rusty Shovel": new Decimal(100),
     "Power Shovel": new Decimal(5),
     "Sand Shovel": new Decimal(25),
     "Sand Drill": new Decimal(5),
