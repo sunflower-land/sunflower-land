@@ -79,7 +79,7 @@ export const EASTER_EGGS: EasterEgg[] = [
   "Yellow Egg",
 ];
 
-export type EasterEventItem = "Easter Bunny" | "Pablo The Bunny";
+export type EasterEventItemName = "Easter Bunny" | "Pablo The Bunny";
 
 export type MOMEventItem = "Engine Core";
 
@@ -99,7 +99,6 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
-  | "Solar Flare Ticket"
   | "Dawn Breaker Ticket";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -174,7 +173,7 @@ export type InventoryItemName =
   | ResourceName
   | SkillName
   | EasterEgg
-  | EasterEventItem
+  | EasterEventItemName
   | Food
   | MOMEventItem
   | MutantChicken
@@ -193,7 +192,6 @@ export type InventoryItemName =
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
-  | TreasureName
   | TreasureToolName
   | "Basic Land";
 

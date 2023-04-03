@@ -10,7 +10,7 @@ export enum LimitedItemType {
   MutantChicken = "MutantChicken",
   SalesmanItem = "SalesmanItem",
   WarTentItem = "WarTentItem",
-  EasterEventItem = "EasterEventItem",
+  EasterEventItemName = "EasterEventItemName",
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
@@ -346,14 +346,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pirate Bear": 1233,
   "Goblin Bear": 1234,
   Galleon: 1235,
-  // "": 1236,Available for use
+  "Easter Bear": 1236,
   "Dinosaur Bone": 1237,
   "Human Bear": 1238,
   "Whale Bear": 1239,
   "Valentine Bear": 1240,
   "Palm Tree": 1241,
   "Beach Ball": 1242,
-  "Easter Bear": 1243,
+  "Easter Bush": 1243,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

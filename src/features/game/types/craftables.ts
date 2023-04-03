@@ -97,7 +97,7 @@ export interface LimitedItem extends CraftableItem {
   requires?: InventoryItemName;
 }
 
-export type EasterEventItem = "Easter Bunny" | "Pablo The Bunny";
+export type EasterEventItemName = "Easter Bunny" | "Pablo The Bunny";
 export type MOMEventItem = "Engine Core" | "Observatory";
 
 export type TravelingSalesmanItem =
@@ -170,7 +170,7 @@ export type LimitedItemName =
   | BarnItem
   | MarketItem
   | Flag
-  | EasterEventItem
+  | EasterEventItemName
   | MOMEventItem
   | QuestItem
   | MutantChicken
@@ -191,7 +191,7 @@ export type CollectibleName =
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
   | BoostTreasure
-  | EasterEventItem
+  | EasterEventItemName
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -960,18 +960,18 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
 };
 
-export const EASTER_EVENT_ITEMS: Record<EasterEventItem, LimitedItem> = {
+export const EASTER_EVENT_ITEMS: Record<EasterEventItemName, LimitedItem> = {
   "Easter Bunny": {
     name: "Easter Bunny",
     description: "Earn 20% more Carrots",
     section: Section["Easter Bunny"],
-    type: LimitedItemType.EasterEventItem,
+    type: LimitedItemType.EasterEventItemName,
   },
   "Pablo The Bunny": {
     name: "Pablo The Bunny",
     description: "Earn +0.1 more carrots",
     section: Section["Pablo The Bunny"],
-    type: LimitedItemType.EasterEventItem,
+    type: LimitedItemType.EasterEventItemName,
   },
 };
 
