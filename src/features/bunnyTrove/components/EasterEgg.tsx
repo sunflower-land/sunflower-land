@@ -13,26 +13,27 @@ export const EasterEgg: React.FC<Omit<EasterHunt, "generatedAt">> = ({
   console.log(eggs);
   return (
     <>
-      {eggs.map((egg, index) =>
-        !egg.collectedAt ? (
-          <MapPlacement x={egg.x} y={egg.y} key={index}>
-            <div className="relative cursor-pointer hover:img-highlight">
-              <img
-                style={{
-                  width: `${PIXEL_SCALE * 8}px`,
-                }}
-                src={ITEM_DETAILS[egg.name].image}
-                alt={egg.name}
-                onClick={() =>
-                  gameService.send("easterEgg.collected", {
-                    eggIndex: index,
-                  })
-                }
-              />
-            </div>
-          </MapPlacement>
-        ) : null
-      )}
+      {eggs &&
+        eggs.map((egg, index) =>
+          !egg.collectedAt ? (
+            <MapPlacement x={egg.x} y={egg.y} key={index}>
+              <div className="relative cursor-pointer hover:img-highlight">
+                <img
+                  style={{
+                    width: `${PIXEL_SCALE * 8}px`,
+                  }}
+                  src={ITEM_DETAILS[egg.name].image}
+                  alt={egg.name}
+                  onClick={() =>
+                    gameService.send("easterEgg.collected", {
+                      eggIndex: index,
+                    })
+                  }
+                />
+              </div>
+            </MapPlacement>
+          ) : null
+        )}
     </>
   );
 };
