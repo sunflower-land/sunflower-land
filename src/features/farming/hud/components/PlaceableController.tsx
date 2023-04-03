@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -71,6 +71,24 @@ export const PlaceableController: React.FC = () => {
   const handleCancelPlacement = () => {
     send("CANCEL");
   };
+
+  const handleLocationHashChange = () => {
+    const locationHashLength = window.location.hash.split("/").length;
+    const isEditingActive =
+      child.state.matches({ editing: "idle" }) ||
+      child.state.matches({ editing: "dragging" });
+
+    // checks to see if editing is active and if the current map
+    // location is anything other than default "Home" route
+    if (isEditingActive && locationHashLength > 3) send("CANCEL");
+  };
+
+  useEffect(() => {
+    window.addEventListener("hashchange", handleLocationHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleLocationHashChange);
+    };
+  });
 
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
