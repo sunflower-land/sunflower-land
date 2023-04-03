@@ -45,7 +45,7 @@ export const Helios: React.FC = () => {
   const [sealSpawn] = useState(getRandomSpawn());
 
   const heliosTroveEggs = state.easterHunt?.eggs.filter(
-    (egg) => egg.island === "Helios"
+    (egg) => egg && egg.island === "Helios"
   );
 
   const [scrollIntoView] = useScrollIntoView();

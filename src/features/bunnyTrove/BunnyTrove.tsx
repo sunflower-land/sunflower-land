@@ -25,7 +25,7 @@ export const BunnyTrove: React.FC = () => {
   const { bumpkin } = state;
 
   const bunnyTroveEggs = state.easterHunt?.eggs.filter(
-    (egg) => egg.island === "Bunny Trove"
+    (egg) => egg && egg.island === "Bunny Trove"
   );
 
   const [scrollIntoView] = useScrollIntoView();

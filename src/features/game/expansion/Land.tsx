@@ -318,7 +318,7 @@ export const Land: React.FC = () => {
   };
 
   const mainEggs = state.easterHunt?.eggs.filter(
-    (egg) => egg.island === "Main"
+    (egg) => egg && egg.island === "Main"
   );
 
   return (
