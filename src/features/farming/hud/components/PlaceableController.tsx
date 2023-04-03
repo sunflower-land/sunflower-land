@@ -80,7 +80,11 @@ export const PlaceableController: React.FC = () => {
 
     // checks to see if editing is active and if the current map
     // location is anything other than default "Home" route
-    if (isEditingActive && locationHashLength > 3) send("CANCEL");
+    if (
+      isEditingActive &&
+      (locationHashLength > 3 || !window.location.hash.startsWith("#/land"))
+    )
+      send("CANCEL");
   };
 
   useEffect(() => {
