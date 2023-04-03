@@ -16,7 +16,7 @@ import { EasterMole } from "features/bunnyTrove/components/EasterMole";
 import { Gobbit } from "features/bunnyTrove/components/Gobbit";
 import { SadGuy } from "features/bunnyTrove/components/SadGuy";
 import { SleepingBumpkin } from "features/bunnyTrove/components/SleepingBumpkin";
-import { Egg } from "features/bunnyTrove/components/Egg";
+import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 
 export const BunnyTrove: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -60,7 +60,7 @@ export const BunnyTrove: React.FC = () => {
         <Gobbit />
         <EasterMole />
         <BunnyMan />
-        <Egg eggs={bunnyTroveEggs} />
+        <EasterEgg eggs={bunnyTroveEggs} />
 
         <CustomIslandTravel
           bumpkin={bumpkin}

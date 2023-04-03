@@ -23,7 +23,7 @@ import { GarbageCollector } from "./components/garbageCollector/GarbageCollector
 import { HayseedHank } from "./components/hayseedHank/HayseedHank";
 import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
-import { Egg } from "features/bunnyTrove/components/Egg";
+import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 
 const spawn = [
   [30, 15],
@@ -44,7 +44,7 @@ export const Helios: React.FC = () => {
   const { bumpkin } = state;
   const [sealSpawn] = useState(getRandomSpawn());
 
-  const heliosTroveEggs = state.easterHunt?.eggs.filter(
+  const heliosEggs = state.easterHunt?.eggs.filter(
     (egg) => egg && egg.island === "Helios"
   );
 
@@ -83,7 +83,7 @@ export const Helios: React.FC = () => {
         <SeasonalNPC />
         <CommunityGardenEntry />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-        <Egg eggs={heliosTroveEggs} />
+        <EasterEgg eggs={heliosEggs} />
         <IslandTravel
           bumpkin={bumpkin}
           inventory={gameState.context.state.inventory}

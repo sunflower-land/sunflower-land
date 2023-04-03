@@ -29,7 +29,7 @@ import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
-import { Egg } from "features/bunnyTrove/components/Egg";
+import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 
 const getIslandElements = ({
   buildings,
@@ -332,7 +332,7 @@ export const Land: React.FC = () => {
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
           <DirtRenderer plots={crops} />
-          <Egg eggs={mainEggs} />
+          <EasterEgg eggs={mainEggs} />
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}
