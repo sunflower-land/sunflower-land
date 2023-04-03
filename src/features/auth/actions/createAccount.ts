@@ -45,6 +45,7 @@ export async function signTransaction(request: Request) {
     fee,
     bumpkinWearableIds,
     bumpkinTokenUri,
+    referrerId,
   } = await response.json();
 
   return {
@@ -54,6 +55,7 @@ export async function signTransaction(request: Request) {
     fee,
     bumpkinWearableIds,
     bumpkinTokenUri,
+    referrerId,
   };
 }
 

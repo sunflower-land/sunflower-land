@@ -43,6 +43,7 @@ export async function createNewAccount({
   fee,
   bumpkinWearableIds,
   bumpkinTokenUri,
+  referrerId,
 }: {
   web3: Web3;
   account: string;
@@ -52,9 +53,11 @@ export async function createNewAccount({
   fee: string;
   bumpkinWearableIds: number[];
   bumpkinTokenUri: string;
+  referrerId: number;
 }): Promise<string> {
   const gasPrice = await estimateGasPrice(web3);
 
+  console.log({ referrerId, addy: CONFIG.ACCOUNT_MINTER_CONTRACT });
   return new Promise((resolve, reject) => {
     (
       new web3.eth.Contract(
@@ -68,7 +71,8 @@ export async function createNewAccount({
         deadline,
         fee,
         bumpkinWearableIds,
-        bumpkinTokenUri
+        bumpkinTokenUri,
+        referrerId
       )
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
