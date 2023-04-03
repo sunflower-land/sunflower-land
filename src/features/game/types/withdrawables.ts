@@ -229,8 +229,10 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   Flamingo: true,
   "Blossom Tree": true,
   "Valentine Bear": true,
+  "Easter Bear": true,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
+  "Easter Bush": false,
 
   "Iron Idol": (game) => !areAnyIronsMined(game),
   "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
@@ -244,6 +246,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
   "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
+  "Pablo The Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
   "Lunar Calendar": (game) => !areAnyCropsPlanted(game),
