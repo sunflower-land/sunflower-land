@@ -9,7 +9,10 @@ import { ErrorCode, ERRORS } from "lib/errors";
 
 import { wallet, WalletType } from "../../../lib/blockchain/wallet";
 import { communityContracts } from "features/community/lib/communityContracts";
-import { createAccount as createFarmAction } from "../actions/createAccount";
+import {
+  createAccount as createFarmAction,
+  saveReferrerId,
+} from "../actions/createAccount";
 import {
   login,
   Token,
@@ -34,6 +37,12 @@ const getFarmIdFromUrl = () => {
 
 const getDiscordCode = () => {
   const code = new URLSearchParams(window.location.search).get("code");
+
+  return code;
+};
+
+const getReferrerID = () => {
+  const code = new URLSearchParams(window.location.search).get("ref");
 
   return code;
 };
@@ -178,6 +187,13 @@ export const authMachine = createMachine<
     states: {
       idle: {
         id: "idle",
+        entry: () => {
+          const referrerId = getReferrerID();
+
+          if (referrerId) {
+            saveReferrerId(referrerId);
+          }
+        },
         on: {
           CONNECT_TO_METAMASK: {
             target: "connectingToMetamask",
