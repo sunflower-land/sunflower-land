@@ -792,6 +792,7 @@ export const authMachine = createMachine<
     actions: {
       assignFullUser: assign<Context, any>({
         user: (context, event) => ({
+          ...context.user,
           type: "FULL",
           web3: context.user.web3,
           farmId: event.data.farmId,
