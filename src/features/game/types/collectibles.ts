@@ -17,7 +17,8 @@ export type GoblinBlacksmithItemName =
   | "Cabbage Girl"
   | "Collectible Bear"
   | "Pablo The Bunny"
-  | "Easter Bush";
+  | "Easter Bush"
+  | "Giant Carrot";
 
 export type GoblinPirateItemName =
   | "Iron Idol"
@@ -216,23 +217,38 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     supply: 750,
   },
   "Pablo The Bunny": {
-    description: "A cute little bunny that loves carrots.",
+    description: "The magical bunny that increases your carrot harvests",
     ingredients: {
-      Gold: new Decimal(3),
-      Carrot: new Decimal(300),
-    },
-    supply: 7000,
-    boost: "+0.1 Carrots",
-  },
-  "Easter Bush": {
-    description: "What is inside?",
-    ingredients: {
-      Gold: new Decimal(5),
       "Red Egg": new Decimal(10),
       "Blue Egg": new Decimal(10),
       "Green Egg": new Decimal(10),
       "Yellow Egg": new Decimal(10),
+      Gold: new Decimal(5),
     },
-    supply: 10000,
+    supply: 7500,
+    boost: "+0.1 Carrot",
+  },
+  "Easter Bush": {
+    description: "What is inside?",
+    ingredients: {
+      Gold: new Decimal(1),
+      "Red Egg": new Decimal(4),
+      "Blue Egg": new Decimal(4),
+      "Green Egg": new Decimal(4),
+      "Yellow Egg": new Decimal(4),
+    },
+    supply: 20000,
+  },
+  "Giant Carrot": {
+    description:
+      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    ingredients: {
+      Gold: new Decimal(3),
+      Carrot: new Decimal(5000),
+      "Purple Egg": new Decimal(14),
+      "Orange Egg": new Decimal(14),
+      "Pink Egg": new Decimal(14),
+    },
+    supply: 500,
   },
 };

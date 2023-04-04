@@ -29,7 +29,8 @@ export type ShopDecorationName =
 export type EventDecorationName =
   | "Valentine Bear"
   | "Easter Bear"
-  | "Easter Bush";
+  | "Easter Bush"
+  | "Giant Carrot";
 
 export type DecorationName =
   | AchievementDecorationName
@@ -193,6 +194,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Easter Bush": {
     height: 2,
+    width: 2,
+  },
+  "Giant Carrot": {
+    height: 3,
     width: 2,
   },
 };
