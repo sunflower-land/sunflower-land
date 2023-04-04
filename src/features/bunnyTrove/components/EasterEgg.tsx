@@ -10,7 +10,6 @@ export const EasterEgg: React.FC<Omit<EasterHunt, "generatedAt">> = ({
   eggs,
 }) => {
   const { gameService } = useContext(Context);
-  console.log(eggs);
   return (
     <>
       {eggs &&
