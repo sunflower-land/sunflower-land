@@ -273,7 +273,7 @@ export const Game: React.FC = () => {
     }
 
     return showModal ? (
-      <Modal centered>
+      <Modal show centered>
         <Panel>{ModalContent}</Panel>
       </Modal>
     ) : (
