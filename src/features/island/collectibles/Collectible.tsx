@@ -269,7 +269,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Karkinos: Karkinos,
 };
 
-export const Collectible: React.FC<CollectibleProps> = ({
+const CollectibleComponent: React.FC<CollectibleProps> = ({
   name,
   id,
   readyAt,
@@ -389,3 +389,5 @@ export const Collectible: React.FC<CollectibleProps> = ({
     </>
   );
 };
+
+export const Collectible = React.memo(CollectibleComponent);
