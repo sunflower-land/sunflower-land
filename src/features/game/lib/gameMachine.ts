@@ -30,7 +30,7 @@ import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
-import { checkProgress, processEvent } from "./processEvent";
+import { processEvent } from "./processEvent";
 import {
   editingMachine,
   SaveEvent,
@@ -41,7 +41,7 @@ import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
 
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
-import { OFFLINE_FARM } from "./landData";
+import { MEGA_OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 import { CONFIG } from "lib/config";
 
@@ -175,27 +175,27 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
     (events, eventName) => ({
       ...events,
       [eventName]: [
-        {
-          target: "hoarding",
-          cond: (context: Context, event: PlayingEvent) => {
-            const { valid } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              onChain: context.onChain as GameState,
-            });
+        // {
+        //   target: "hoarding",
+        //   cond: (context: Context, event: PlayingEvent) => {
+        //     const { valid } = checkProgress({
+        //       state: context.state as GameState,
+        //       action: event,
+        //       onChain: context.onChain as GameState,
+        //     });
 
-            return !valid;
-          },
-          actions: assign((context: Context, event: PlayingEvent) => {
-            const { maxedItem } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              onChain: context.onChain as GameState,
-            });
+        //     return !valid;
+        //   },
+        //   actions: assign((context: Context, event: PlayingEvent) => {
+        //     const { maxedItem } = checkProgress({
+        //       state: context.state as GameState,
+        //       action: event,
+        //       onChain: context.onChain as GameState,
+        //     });
 
-            return { maxedItem };
-          }),
-        },
+        //     return { maxedItem };
+        //   }),
+        // },
         {
           actions: assign((context: Context, event: PlayingEvent) => ({
             state: processEvent({
@@ -425,7 +425,7 @@ export function startGame(authContext: Options) {
                 };
               }
 
-              return { state: OFFLINE_FARM, onChain };
+              return { state: MEGA_OFFLINE_FARM, onChain };
             },
             onDone: {
               target: "notifying",
