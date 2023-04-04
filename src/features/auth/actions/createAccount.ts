@@ -64,6 +64,7 @@ type CreateFarmOptions = {
   token: string;
   captcha: string;
   transactionId: string;
+  account: string;
 };
 
 export async function createAccount({
@@ -71,6 +72,7 @@ export async function createAccount({
   token,
   captcha,
   transactionId,
+  account,
 }: CreateFarmOptions) {
   const referrerId = getReferrerId();
 
@@ -85,12 +87,10 @@ export async function createAccount({
   await createNewAccount({
     ...transaction,
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account,
   });
 
-  const farm = await getNewFarm(wallet.web3Provider, wallet.myAccount);
-
-  return farm;
+  await getNewFarm(wallet.web3Provider, account);
 }
 
 const host = window.location.host.replace(/^www\./, "");

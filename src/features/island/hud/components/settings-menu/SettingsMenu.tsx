@@ -10,7 +10,6 @@ import { Context as GameContext } from "features/game/GameProvider";
 
 import { Share } from "features/island/hud/components/settings-menu/Share";
 
-import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "./howToPlay/HowToPlay";
@@ -75,7 +74,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     setLoadingOnRamp(true);
 
     // Temporarily link to sequence when adding funds. Until Wyre is ready.
-    if (authService.state.context.wallet === "SEQUENCE") {
+    if (authService.state.context.user.web3?.wallet === "SEQUENCE") {
       const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
       const sequenceWallet = await sequence.initWallet(network);
@@ -151,9 +150,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 <>
                   {CONFIG.NETWORK === "mumbai" && (
                     <>
-                      <li className="p-1">
-                        <DEV_BurnLandButton />
-                      </li>
                       <li className="p-1">
                         <DEV_GenerateLandButton />
                       </li>

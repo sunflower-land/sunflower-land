@@ -30,6 +30,7 @@ import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { createGuestAccount } from "../actions/createGuestAccount";
 
+const ART_MODE = !CONFIG.API_URL;
 const GUEST_KEY = "guestKey";
 
 const getFarmIdFromUrl = () => {
@@ -53,6 +54,11 @@ const getReferrerID = () => {
 const deleteFarmUrl = () =>
   window.history.pushState({}, "", window.location.pathname);
 
+const guestUser = (): GuestUser => ({
+  type: "GUEST",
+  guestKey: localStorage.getItem(GUEST_KEY),
+});
+
 type Farm = {
   farmId: number;
   address: string;
@@ -61,27 +67,37 @@ type Farm = {
   verificationUrl?: string;
 };
 
-export interface Context {
-  guestKey: string | null;
-  errorCode?: ErrorCode;
-  transactionId?: string;
-  farmId?: number;
-  hash?: string;
-  address?: string;
+interface Authentication {
   token?: Token;
   rawToken?: string;
-  captcha?: string;
-  blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
-  verificationUrl?: string;
-  wallet?: WalletType;
-  provider?: any;
+  web3?: {
+    wallet: WalletType;
+    provider: any;
+  };
+  farmId?: number;
 }
 
-export type Screen = "land" | "farm";
+interface GuestUser extends Authentication {
+  type: "GUEST";
+  guestKey: string | null;
+}
+
+interface FullUser extends Authentication {
+  type: "FULL";
+  farmAddress?: string;
+}
+
+export interface Context {
+  user: GuestUser | FullUser;
+  errorCode?: ErrorCode;
+  transactionId?: string;
+  blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
+  verificationUrl?: string;
+  visitingFarmId?: number;
+}
 
 type StartEvent = Farm & {
   type: "START_GAME";
-  screen: Screen;
 };
 
 type ExploreEvent = {
@@ -166,14 +182,11 @@ export type BlockchainState = {
     | { connected: "donating" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
-    | { connected: "visitingContributor" }
     | "exploring"
     | "checkFarm"
     | "unauthorised";
   context: Context;
 };
-
-const API_URL = CONFIG.API_URL;
 
 export type MachineInterpreter = Interpreter<
   Context,
@@ -189,10 +202,10 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
+    initial: ART_MODE ? "connected" : "idle",
     context: {
-      guestKey: localStorage.getItem(GUEST_KEY),
+      user: guestUser(),
     },
-    initial: API_URL ? "idle" : "connected",
     states: {
       idle: {
         id: "idle",
@@ -213,15 +226,9 @@ export const authMachine = createMachine<
           CONNECT_TO_SEQUENCE: {
             target: "connectingToSequence",
           },
-          CONNECT_AS_GUEST: [
-            {
-              target: "#authorised",
-              cond: (context) => !!context.guestKey,
-            },
-            {
-              target: "connectingAsGuest",
-            },
-          ],
+          CONNECT_AS_GUEST: {
+            target: "connectingAsGuest",
+          },
         },
       },
       reconnecting: {
@@ -229,15 +236,15 @@ export const authMachine = createMachine<
         always: [
           {
             target: "connectingToMetamask",
-            cond: (context) => context.wallet === "METAMASK",
+            cond: (context) => context.user.web3?.wallet === "METAMASK",
           },
           {
             target: "connectingToSequence",
-            cond: (context) => context.wallet === "SEQUENCE",
+            cond: (context) => context.user.web3?.wallet === "SEQUENCE",
           },
           {
             target: "connectingToWalletConnect",
-            cond: (context) => !!context.wallet,
+            cond: (context) => !!context.user.web3?.wallet,
           },
           { target: "idle" },
         ],
@@ -248,7 +255,7 @@ export const authMachine = createMachine<
           src: "initMetamask",
           onDone: {
             target: "setupContracts",
-            actions: "assignWallet",
+            actions: "assignGuestUser",
           },
           onError: {
             target: "unauthorised",
@@ -262,7 +269,7 @@ export const authMachine = createMachine<
           src: "initWalletConnect",
           onDone: {
             target: "setupContracts",
-            actions: "assignWallet",
+            actions: "assignGuestUser",
           },
           onError: [
             {
@@ -282,7 +289,7 @@ export const authMachine = createMachine<
           src: "initSequence",
           onDone: {
             target: "setupContracts",
-            actions: "assignWallet",
+            actions: "assignGuestUser",
           },
           onError: [
             {
@@ -300,16 +307,21 @@ export const authMachine = createMachine<
       connectingAsGuest: {
         entry: "setTransactionId",
         invoke: {
-          src: async () => {
-            const guestKey = await createGuestAccount();
+          src: async (context) => {
+            if (localStorage.getItem(GUEST_KEY)) {
+              return { guestKey: localStorage.getItem(GUEST_KEY) };
+            }
+
+            const guestKey = await createGuestAccount({
+              transactionId: context.transactionId as string,
+            });
             localStorage.setItem(GUEST_KEY, guestKey);
+
             return { guestKey };
           },
           onDone: {
             target: "#authorised",
-            actions: assign({
-              guestKey: (_, event) => event.data.guestKey,
-            }),
+            actions: "assignGuestUser",
           },
           onError: {
             target: "unauthorised",
@@ -319,19 +331,26 @@ export const authMachine = createMachine<
       },
       setupContracts: {
         invoke: {
-          src: async (context, event) => {
-            const type: WalletType = (event as any).data?.wallet ?? "METAMASK";
-            await wallet.initialise(context.provider, type);
-            await communityContracts.initialise(context.provider);
+          src: async (context) => {
+            if (context.user.web3) {
+              await wallet.initialise(
+                context.user.web3.provider,
+                context.user.web3.wallet
+              );
+              await communityContracts.initialise(context.user.web3.provider);
+            }
           },
           onDone: [
             {
               target: "checkFarm",
               cond: "isVisitingUrl",
+              actions: assign({
+                visitingFarmId: (_context) => getFarmIdFromUrl(),
+              }),
             },
             {
               target: "signing",
-              cond: (context) => context.wallet === "METAMASK",
+              cond: (context) => context.user.web3?.wallet === "METAMASK",
             },
             {
               target: "connectedToWallet",
@@ -380,7 +399,7 @@ export const authMachine = createMachine<
             actions: [
               "assignToken",
               (_, event) =>
-                saveSession(wallet.myAccount, {
+                saveSession((event as any).data.account, {
                   token: (event as any).data.token,
                 }),
             ],
@@ -402,7 +421,7 @@ export const authMachine = createMachine<
         },
       },
       connected: {
-        initial: API_URL ? "loadingFarm" : "authorised",
+        initial: ART_MODE ? "authorised" : "loadingFarm",
         states: {
           loadingFarm: {
             id: "loadingFarm",
@@ -417,13 +436,12 @@ export const authMachine = createMachine<
                 {
                   // event.data can be undefined if the player has no farms
                   cond: (_, event) => event.data?.blacklistStatus === "BANNED",
-                  actions: "assignFarm",
+                  actions: "assignFullUser",
                   target: "blacklisted",
                 },
-
                 {
                   target: "authorised",
-                  actions: "assignFarm",
+                  actions: "assignFullUser",
                   cond: "hasFarm",
                 },
 
@@ -444,28 +462,12 @@ export const authMachine = createMachine<
               ],
             },
           },
-          visitingContributor: {
-            on: {
-              RETURN: [
-                // When returning to this state the original authorised player's data exists in the authMachine context
-                {
-                  target: "authorised",
-                  actions: (context) => {
-                    window.location.href = `${window.location.pathname}#/land/${context.farmId}`;
-                  },
-                  cond: "hasFarm",
-                },
-                { target: "readyToStart" },
-              ],
-            },
-          },
-
           donating: {
             invoke: {
               id: "createFarmMachine",
               src: createFarmMachine,
               data: {
-                token: (context: Context) => context.rawToken,
+                token: (context: Context) => context.user.rawToken,
               },
               onError: {
                 target: "#unauthorised",
@@ -516,11 +518,6 @@ export const authMachine = createMachine<
               },
             },
           },
-          farmLoaded: {
-            always: {
-              target: "readyToStart",
-            },
-          },
           readyToStart: {
             invoke: {
               src: async () => ({
@@ -557,15 +554,17 @@ export const authMachine = createMachine<
             id: "authorised",
             entry: [
               "clearTransactionId",
-              (context, event) => {
+              (context) => {
                 if (window.location.hash.includes("retreat")) return;
 
-                const defaultScreen = "land";
+                if (ART_MODE) {
+                  if (context.user.type === "GUEST") {
+                    window.location.href = `${window.location.pathname}#/land`;
+                  }
 
-                const { screen = defaultScreen } = event as StartEvent;
-
-                if (CONFIG.API_URL) {
-                  window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
+                  if (context.user.type === "FULL") {
+                    window.location.href = `${window.location.pathname}#/land/${context.user.farmId}`;
+                  }
                 }
               },
             ],
@@ -579,9 +578,6 @@ export const authMachine = createMachine<
               },
               EXPLORE: {
                 target: "#exploring",
-              },
-              VISIT: {
-                target: "visitingContributor",
               },
               LOGOUT: {
                 target: "#idle",
@@ -603,6 +599,7 @@ export const authMachine = createMachine<
           },
           VISIT: {
             target: "checkFarm",
+            actions: assign({ visitingFarmId: (_, event) => event.farmId }),
           },
         },
       },
@@ -614,12 +611,9 @@ export const authMachine = createMachine<
             {
               target: "blacklisted",
               cond: (_, event) => event.data.blacklistStatus !== "OK",
-              actions: "assignFarm",
             },
             {
               target: "visiting",
-              actions: "assignFarm",
-              cond: "hasFarm",
             },
           ],
           onError: {
@@ -631,7 +625,7 @@ export const authMachine = createMachine<
       blacklisted: {},
       visiting: {
         entry: (context) => {
-          window.location.href = `${window.location.pathname}#/visit/${context.farmId}`;
+          window.location.href = `${window.location.pathname}#/visit/${context.visitingFarmId}`;
         },
         on: {
           RETURN: {
@@ -672,7 +666,7 @@ export const authMachine = createMachine<
             method: "eth_requestAccounts",
           });
 
-          return { wallet: "METAMASK", provider };
+          return { web3: { wallet: "METAMASK", provider } };
         } else {
           throw new Error(ERRORS.NO_WEB3);
         }
@@ -690,7 +684,7 @@ export const authMachine = createMachine<
 
         const name = provider.walletMeta?.name;
 
-        return { wallet: name, provider };
+        return { web3: { wallet: name, provider } };
       },
       initSequence: async () => {
         const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
@@ -704,17 +698,17 @@ export const authMachine = createMachine<
 
         const provider = sequenceWallet.getProvider();
 
-        return { wallet: "SEQUENCE", provider };
+        return { web3: { wallet: "SEQUENCE", provider } };
       },
       loadFarm: async (context): Promise<Farm | undefined> => {
+        if (!wallet.myAccount) return;
+
         const farmAccounts = await getFarms(
           wallet.web3Provider,
           wallet.myAccount
         );
 
-        if (farmAccounts?.length === 0) {
-          return;
-        }
+        if (farmAccounts?.length === 0) return;
 
         const createdAt = await getCreatedAt(
           wallet.web3Provider,
@@ -727,7 +721,7 @@ export const authMachine = createMachine<
 
         const { verificationUrl, botStatus, isBanned } = await loadBanDetails(
           farmAccount.tokenId,
-          context.rawToken as string,
+          context.user.rawToken as string,
           context.transactionId as string
         );
 
@@ -739,50 +733,53 @@ export const authMachine = createMachine<
           verificationUrl,
         };
       },
-      createFarm: async (context: Context, event: any): Promise<Context> => {
+      createFarm: async (context: Context, event: any) => {
+        if (!context.user.rawToken) throw new Error("No token");
+        if (!wallet.myAccount) throw new Error("No account");
+
         const { charityAddress, donation, captcha } = event as CreateFarmEvent;
 
-        const newFarm = await createFarmAction({
+        await createFarmAction({
           charity: charityAddress,
-          token: context.rawToken as string,
+          token: context.user.rawToken,
           captcha: captcha,
           transactionId: context.transactionId as string,
+          account: wallet.myAccount,
         });
-
-        return {
-          farmId: parseInt(newFarm.tokenId),
-          address: newFarm.account,
-        };
       },
-      login: async (context): Promise<{ token: string }> => {
-        const { token } = await login(context.transactionId as string);
+      login: async (context): Promise<{ token: string | null }> => {
+        let token: string | null = null;
 
-        return {
-          token,
-        };
+        if (wallet.myAccount) {
+          ({ token } = await login(
+            context.transactionId as string,
+            wallet.myAccount
+          ));
+        }
+
+        return { token };
       },
       oauthorise: async (context) => {
+        if (!wallet.myAccount) throw new Error("No account");
+
         const code = getDiscordCode() as string;
         // Navigates to Discord OAuth Flow
         const { token } = await oauthorise(
           code,
-          context.transactionId as string
+          context.transactionId as string,
+          wallet.myAccount
         );
 
         return { token };
       },
-      visitFarm: async (
-        _context: Context,
-        event: any
-      ): Promise<Farm | undefined> => {
-        const farmId = getFarmIdFromUrl() || (event as VisitEvent).farmId;
+      visitFarm: async (context: Context): Promise<Farm> => {
+        if (!context.visitingFarmId) throw new Error("No Visiting Farm ID");
+
         const farmAccount = await getFarm(
           wallet.web3Provider,
-          wallet.myAccount,
-          farmId
+          context.visitingFarmId
         );
-
-        const isBlacklisted = await isFarmBlacklisted(farmId);
+        const isBlacklisted = await isFarmBlacklisted(context.visitingFarmId);
 
         return {
           farmId: parseInt(farmAccount.tokenId),
@@ -793,28 +790,36 @@ export const authMachine = createMachine<
       },
     },
     actions: {
-      assignFarm: assign<Context, any>({
-        farmId: (_context, event) => event.data.farmId,
-        address: (_context, event) => event.data.address,
-        blacklistStatus: (_context, event) => event.data.blacklistStatus,
-        verificationUrl: (_context, event) => event.data.verificationUrl,
+      assignFullUser: assign<Context, any>({
+        user: (context, event) => ({
+          type: "FULL",
+          web3: context.user.web3,
+          farmId: event.data.farmId,
+          farmAddress: event.data.address,
+          blacklistStatus: event.data.blacklistStatus,
+          verificationUrl: event.data.verificationUrl,
+        }),
       }),
       assignToken: assign<Context, any>({
-        token: (_context, event) => decodeToken(event.data.token),
-        rawToken: (_context, event) => event.data.token,
+        user: (context, event) => ({
+          ...context.user,
+          token: decodeToken(event.data.token),
+          rawToken: event.data.token,
+        }),
       }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),
-      assignWallet: assign<Context, any>({
-        wallet: (_context, event) => event.data.wallet,
-        provider: (_context: any, event: any) => event.data.provider,
+      assignGuestUser: assign<Context, any>({
+        user: (_context, event) => ({
+          type: "GUEST",
+          guestKey: localStorage.getItem(GUEST_KEY),
+          web3: event.data.web3,
+        }),
       }),
       refreshFarm: assign<Context, any>({
-        farmId: () => undefined,
-        address: () => undefined,
-        token: () => undefined,
-        rawToken: () => undefined,
+        user: () => guestUser(),
+        visitingFarmId: undefined,
       }),
       clearSession: () => removeSession(wallet.myAccount as string),
       deleteFarmIdUrl: deleteFarmUrl,
@@ -844,7 +849,9 @@ export const authMachine = createMachine<
           return !!farmId;
         }
 
-        return !!context.farmId;
+        if (context.user.type === "FULL") return !!context.user.farmId;
+
+        return false;
       },
       isVisitingUrl: () => window.location.href.includes("visit"),
       hasDiscordCode: () => !!getDiscordCode(),

@@ -55,16 +55,21 @@ export const Deposit: React.FC<Props> = ({
     if (status !== "loading") return;
     // Load balances from the user's personal wallet
     const loadBalances = async () => {
+      if (!wallet.myAccount) {
+        setStatus("error");
+        // Notify parent that we're done loading
+        onLoaded && onLoaded(false);
+        return;
+      }
+
       try {
         const sflBalanceFn = sflBalanceOf(
           wallet.web3Provider,
-          wallet.myAccount,
           wallet.myAccount
         );
 
         const inventoryBalanceFn = getInventoryBalances(
           wallet.web3Provider,
-          wallet.myAccount,
           wallet.myAccount
         );
 

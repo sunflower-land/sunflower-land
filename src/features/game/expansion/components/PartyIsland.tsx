@@ -54,7 +54,7 @@ export const Rooms: React.FC = () => {
   useEffect(() => {
     const load = async () => {
       const { rooms } = await loadRooms({
-        token: authState.context.rawToken as string,
+        token: authState.context.user.rawToken as string,
       });
 
       setRoomCapacity(rooms);

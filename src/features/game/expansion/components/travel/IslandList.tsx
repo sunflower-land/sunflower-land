@@ -211,7 +211,7 @@ export const IslandList: React.FC<IslandListProps> = ({
             name="Home"
             image={CROP_LIFECYCLE.Sunflower.ready}
             levelRequired={1}
-            path={`/land/${authState.context.farmId}`}
+            path={`/land/${authState.context.user.farmId}`}
             bumpkin={bumpkin}
             currentPath={location.pathname}
           />

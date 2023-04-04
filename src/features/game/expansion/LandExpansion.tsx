@@ -14,22 +14,10 @@ import { ModalProvider } from "../components/modal/ModalProvider";
 
 export const LandExpansion: React.FC = () => {
   const { authService } = useContext(Auth.Context);
-  const isVisitingContributor = useSelector(authService, (state) =>
-    state.matches({ connected: "visitingContributor" })
-  );
 
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
   const { id } = useParams();
-
-  useEffect(() => {
-    // Our authMachine currently sits outside of our navigation. So if a the machine was in the visitingContributor
-    // state and the player loaded this route which can happen using the browser back button then fire
-    // the RETURN event to move the authMachine out of the invalid state.
-    if (isVisitingContributor) {
-      authService.send("RETURN");
-    }
-  }, []);
 
   useEffect(() => {
     mapMovement.addListeners(container.current);

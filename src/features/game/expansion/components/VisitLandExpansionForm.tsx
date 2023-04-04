@@ -48,7 +48,7 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   const handleEndVisit = () => {
     if (authState.matches({ connected: "authorised" })) {
       gameService.send("END_VISIT");
-      navigate(`/land/${authState.context.farmId}`);
+      navigate(`/land/${authState.context.user.farmId}`);
     } else {
       authService.send("RETURN");
     }

@@ -336,7 +336,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
 export const INITIAL_SESSION =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 
-export function startGame(authContext: Options) {
+export function startGame(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "gameMachine",
@@ -361,11 +361,18 @@ export function startGame(authContext: Options) {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
-              const farmAddress = authContext.address as string;
-              const farmId = authContext.farmId as number;
+              if (!wallet.myAccount) throw new Error("No account");
+
+              const user = authContext.user;
+              const isFullUser = user.type === "FULL";
+              if (!isFullUser) throw new Error("Not a full user");
+
+              const farmAddress = user.farmAddress as string;
+              const farmId = user.farmId as number;
 
               const { game: onChain, bumpkin } = await getGameOnChainState({
                 farmAddress,
+                account: wallet.myAccount,
                 id: farmId,
               });
 
@@ -376,12 +383,7 @@ export function startGame(authContext: Options) {
 
               // Get sessionId
               const sessionId =
-                farmId &&
-                (await getSessionId(
-                  wallet.web3Provider,
-                  wallet.myAccount,
-                  farmId
-                ));
+                farmId && (await getSessionId(wallet.web3Provider, farmId));
 
               // Load the farm session
               if (sessionId) {
@@ -391,8 +393,8 @@ export function startGame(authContext: Options) {
                   farmId,
                   bumpkinTokenUri: bumpkin?.tokenURI,
                   sessionId,
-                  token: authContext.rawToken as string,
-                  wallet: authContext.wallet as string,
+                  token: authContext.user.rawToken as string,
+                  wallet: authContext.user.web3?.wallet as string,
                   transactionId: context.transactionId as string,
                 });
 
@@ -563,10 +565,11 @@ export function startGame(authContext: Options) {
              */
             src: (context) => (cb) => {
               const interval = setInterval(async () => {
+                if (authContext.user.type !== "FULL") return;
+
                 const sessionID = await getSessionId(
                   wallet.web3Provider,
-                  wallet.myAccount,
-                  authContext?.farmId as number
+                  authContext.user.farmId as number
                 );
 
                 if (sessionID !== context.sessionId) {
@@ -574,8 +577,10 @@ export function startGame(authContext: Options) {
                 }
 
                 const bumpkins =
-                  (await loadBumpkins(wallet.web3Provider, wallet.myAccount)) ??
-                  [];
+                  (await loadBumpkins(
+                    wallet.web3Provider,
+                    wallet.myAccount as string
+                  )) ?? [];
                 const tokenURI = bumpkins[0]?.tokenURI;
 
                 if (tokenURI !== context.state.bumpkin?.tokenUri) {
@@ -643,8 +648,8 @@ export function startGame(authContext: Options) {
           invoke: {
             src: async (context, event) => {
               await buySFL({
-                farmId: Number(authContext.farmId),
-                token: authContext.rawToken as string,
+                farmId: Number(authContext.user.farmId),
+                token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
                 matic: (event as BuySFLEvent).maticAmount,
                 amountOutMin: (event as BuySFLEvent).amountOutMin,
@@ -669,10 +674,9 @@ export function startGame(authContext: Options) {
               saveGame(
                 context,
                 event,
-                authContext.farmId as number,
-                authContext.rawToken as string
+                authContext.user.farmId as number,
+                authContext.user.rawToken as string
               ),
-
             onDone: [
               {
                 target: "playing",
@@ -694,10 +698,10 @@ export function startGame(authContext: Options) {
               // Autosave just in case
               if (context.actions.length > 0) {
                 await autosave({
-                  farmId: Number(authContext.farmId),
+                  farmId: Number(authContext.user.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
-                  token: authContext.rawToken as string,
+                  token: authContext.user.rawToken as string,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
@@ -705,9 +709,9 @@ export function startGame(authContext: Options) {
               }
 
               const { sessionId } = await sync({
-                farmId: Number(authContext.farmId),
+                farmId: Number(authContext.user.farmId),
                 sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
+                token: authContext.user.rawToken as string,
                 captcha: (event as SyncEvent).captcha,
                 transactionId: context.transactionId as string,
                 blockBucks: (event as SyncEvent).blockBucks,
@@ -750,10 +754,10 @@ export function startGame(authContext: Options) {
 
               if (context.actions.length > 0) {
                 await autosave({
-                  farmId: Number(authContext.farmId),
+                  farmId: Number(authContext.user.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
-                  token: authContext.rawToken as string,
+                  token: authContext.user.rawToken as string,
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
@@ -761,10 +765,10 @@ export function startGame(authContext: Options) {
               }
 
               const { farm, changeset } = await autosave({
-                farmId: Number(authContext.farmId),
+                farmId: Number(authContext.user.farmId),
                 sessionId: context.sessionId as string,
                 actions: [event],
-                token: authContext.rawToken as string,
+                token: authContext.user.rawToken as string,
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
                 transactionId: context.transactionId as string,
@@ -803,6 +807,8 @@ export function startGame(authContext: Options) {
         depositing: {
           invoke: {
             src: async (context, event) => {
+              if (!wallet.myAccount) throw new Error("No account");
+
               await depositToFarm({
                 web3: wallet.web3Provider,
                 account: wallet.myAccount,
@@ -826,8 +832,8 @@ export function startGame(authContext: Options) {
           invoke: {
             src: async (context, e) => {
               const { success } = await reset({
-                farmId: Number(authContext.farmId),
-                token: authContext.rawToken as string,
+                farmId: Number(authContext.user.farmId),
+                token: authContext.user.rawToken as string,
                 fingerprint: context.fingerprint as string,
                 transactionId: context.transactionId as string,
               });
@@ -916,8 +922,8 @@ export function startGame(authContext: Options) {
                   ({
                     type: "SAVE",
                     gameMachineContext: context,
-                    rawToken: authContext.rawToken as string,
-                    farmId: authContext.farmId as number,
+                    rawToken: authContext.user.rawToken as string,
+                    farmId: authContext.user.farmId as number,
                   } as SaveEvent),
                 { to: "editing" }
               ),

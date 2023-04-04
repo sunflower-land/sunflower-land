@@ -129,7 +129,7 @@ export const CreateFarm: React.FC = () => {
 
   const addFunds = async () => {
     // Temporarily link to sequence when adding funds. Until Wyre is ready.
-    if (authState.context.wallet === "SEQUENCE") {
+    if (authState.context.user.web3?.wallet === "SEQUENCE") {
       const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
       const sequenceWallet = await sequence.initWallet(network);

@@ -9,11 +9,14 @@ export const Connect: React.FC = () => {
   const { authService } = useContext(Context);
   const [
     {
-      context: { guestKey },
+      context: { user },
     },
   ] = useActor(authService);
 
-  const guestText = guestKey ? "Continue as guest" : "Play as guest!";
+  const isGuest = user.type === "GUEST";
+  const hasGuestKey = isGuest && !!user.guestKey;
+
+  const guestText = hasGuestKey ? "Continue as guest" : "Play as guest!";
 
   return (
     <div className="px-4">

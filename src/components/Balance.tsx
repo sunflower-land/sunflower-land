@@ -9,7 +9,6 @@ import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   balance: Decimal;
-  farmAddress?: string;
   onBalanceClick?: () => void;
 }
 

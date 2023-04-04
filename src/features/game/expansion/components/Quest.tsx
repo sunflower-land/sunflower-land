@@ -45,8 +45,8 @@ export const Quest: React.FC<Props> = ({
     context: {
       quests,
       bumpkinId: gameState.context.state.bumpkin?.id as number,
-      jwt: authState.context.rawToken,
-      farmId: authState.context.farmId,
+      jwt: authState.context.user.rawToken,
+      farmId: authState.context.user.farmId,
     },
   }) as unknown as MachineInterpreter;
 

@@ -18,10 +18,10 @@ export async function mintFrog(request: Request) {
   return { frogMint, verified: true };
 }
 
-export async function approve(address: string) {
+export async function approve(address: string, account: string) {
   const approveToken = await approveSFL(
     wallet.web3Provider,
-    wallet.myAccount,
+    account,
     address,
     100
   );
