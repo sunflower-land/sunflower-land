@@ -208,6 +208,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Block Buck": 718,
   "Solar Flare Ticket": 719,
   "Dawn Breaker Ticket": 720,
+  "Sunflower Supporter": 721,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

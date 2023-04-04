@@ -99,7 +99,8 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
-  | "Dawn Breaker Ticket";
+  | "Dawn Breaker Ticket"
+  | "Sunflower Supporter";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -133,6 +134,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Dawn Breaker Ticket": {
     description: "A ticket used during the Dawn Breaker Season",
+  },
+  "Sunflower Supporter": {
+    description: "A community and social media supporter of the project",
   },
 };
 
