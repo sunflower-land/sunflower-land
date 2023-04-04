@@ -7,6 +7,9 @@ import { Equipped } from "features/game/types/bumpkin";
 import { Quest } from "features/game/expansion/components/Quest";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { ResizableBar } from "components/ui/ProgressBar";
+import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
 
 const ModalDescription = () => {
   const { gameService } = useContext(Context);
@@ -23,24 +26,71 @@ const ModalDescription = () => {
     (egg) => egg && egg.island === "Main"
   );
 
+  const bunnyTroveEggsCollected = bunnyTroveEggs.filter(
+    (egg) => egg.collectedAt
+  ).length;
+  const heliosEggsCollected = HeliosEggs.filter(
+    (egg) => egg.collectedAt
+  ).length;
+  const mainIslandEggsCollected = MainEggs.filter(
+    (egg) => egg.collectedAt
+  ).length;
+
+  // const progressPercentage = Math.min(1, progress / quest.requirement) * 100;
+  const progressPercentage = (collected: number, requirement: number) => {
+    return Math.min(1, collected / requirement) * 100;
+  };
+
   return (
     <>
       <p className="mb-2 text-sm">
         Hey mate, i lost some of my Easter Eggs around, can you find all of
         them?.
       </p>
-      <p className="mb-2 text-sm">Eggs Found:</p>
-      <p className="mb-2 text-sm">
-        Bunny Trove Easter Eggs:{" "}
-        {bunnyTroveEggs.filter((egg) => egg.collectedAt).length}/5
-      </p>
-      <p className="mb-2 text-sm">
-        Helios Easter Eggs: {HeliosEggs.filter((egg) => egg.collectedAt).length}
-        /1
-      </p>
-      <p className="mb-2 text-sm">
-        Farm Easter Eggs : {MainEggs.filter((egg) => egg.collectedAt).length}/1
-      </p>
+      <p className="mb-2 text-sm">Easter Eggs Found Today:</p>
+      <br />
+      <p className="mb-2 text-sm">Bunny Trove Easter Eggs</p>
+      <div className="flex items-center mt-2 mb-1">
+        <ResizableBar
+          percentage={progressPercentage(bunnyTroveEggsCollected, 5)}
+          type="progress"
+          outerDimensions={{
+            width: 80,
+            height: 10,
+          }}
+        />
+        <span className="text-xxs ml-2">{`${setPrecision(
+          new Decimal(bunnyTroveEggsCollected)
+        )}/5`}</span>
+      </div>
+      <p className="mb-2 text-sm">Helios Easter Eggs</p>
+      <div className="flex items-center mt-2 mb-1">
+        <ResizableBar
+          percentage={progressPercentage(heliosEggsCollected, 1)}
+          type="progress"
+          outerDimensions={{
+            width: 80,
+            height: 10,
+          }}
+        />
+        <span className="text-xxs ml-2">{`${setPrecision(
+          new Decimal(heliosEggsCollected)
+        )}/1`}</span>
+      </div>
+      <p className="mb-2 text-sm">Farm Easter Eggs</p>
+      <div className="flex items-center mt-2 mb-1">
+        <ResizableBar
+          percentage={progressPercentage(mainIslandEggsCollected, 1)}
+          type="progress"
+          outerDimensions={{
+            width: 80,
+            height: 10,
+          }}
+        />
+        <span className="text-xxs ml-2">{`${setPrecision(
+          new Decimal(mainIslandEggsCollected)
+        )}/1`}</span>
+      </div>
       <a
         className="mb-4 underline text-sm"
         href="https://docs.sunflower-land.com/player-guides/special-events/bunny-trove"
