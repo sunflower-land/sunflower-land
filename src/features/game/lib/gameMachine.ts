@@ -55,6 +55,7 @@ import { getGameRulesLastRead } from "features/announcements/announcementsStorag
 import { depositToFarm } from "lib/blockchain/Deposit";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
+import { loadGuestSession } from "../actions/loadGuestSession";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -241,10 +242,11 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
 
 export type BlockchainState = {
   value:
-    | "checkIsVisiting"
+    | "loading"
     | "loadLandToVisit"
     | "landToVisitNotFound"
-    | "loading"
+    | "loadingFullGame"
+    | "loadingGuestGame"
     | "deposited"
     | "visiting"
     // | "gameRules"
@@ -279,8 +281,6 @@ export type MachineInterpreter = Interpreter<
   BlockchainEvent,
   BlockchainState
 >;
-
-type Options = AuthContext & { isNoob: boolean };
 
 export const saveGame = async (
   context: Context,
@@ -340,7 +340,7 @@ export function startGame(authContext: AuthContext) {
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "gameMachine",
-      initial: "checkIsVisiting",
+      initial: "loading",
       context: {
         actions: [],
         state: EMPTY,
@@ -348,16 +348,52 @@ export function startGame(authContext: AuthContext) {
         sessionId: INITIAL_SESSION,
       },
       states: {
-        checkIsVisiting: {
+        loading: {
           always: [
             {
               target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
             },
-            { target: "loading" },
+            {
+              target: "loadingGuestGame",
+              cond: () => authContext.user.type === "GUEST",
+            },
+            { target: "loadingFullGame" },
           ],
         },
-        loading: {
+        loadingGuestGame: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context) => {
+              if (authContext.user.type === "FULL") {
+                throw new Error("Not a guest user");
+              }
+
+              const response = await loadGuestSession({
+                transactionId: context.transactionId as string,
+                guestKey: authContext.user.guestKey as string,
+              });
+
+              if (!response) throw new Error("NO_FARM");
+
+              const { game, deviceTrackerId } = response;
+
+              return {
+                state: game,
+                deviceTrackerId,
+              };
+            },
+            onDone: {
+              target: "notifying",
+              actions: "assignGuestGame",
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        loadingFullGame: {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
@@ -535,7 +571,6 @@ export function startGame(authContext: AuthContext) {
                 !context.state.bumpkin &&
                 window.location.hash.includes("/land"),
             },
-
             {
               target: "playing",
             },
@@ -965,6 +1000,10 @@ export function startGame(authContext: AuthContext) {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
           actions: [],
+        }),
+        assignGuestGame: assign<Context, any>({
+          state: (_, event) => event.data.state,
+          deviceTrackerId: (_, event) => event.data.deviceTrackerId,
         }),
         assignGame: assign<Context, any>({
           state: (_, event) => event.data.state,

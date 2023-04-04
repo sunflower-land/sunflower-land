@@ -114,6 +114,7 @@ export const Navigation: React.FC = () => {
 
             <Route path="/visit/*" element={<LandExpansion key="visit" />} />
             <Route path="/land/:id/*" element={<LandExpansion key="land" />} />
+            <Route path="/land" element={<LandExpansion key="guest-land" />} />
             <Route path="/retreat">
               <Route
                 index

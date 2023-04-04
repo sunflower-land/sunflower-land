@@ -308,20 +308,18 @@ export const authMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context) => {
-            if (localStorage.getItem(GUEST_KEY)) {
-              return { guestKey: localStorage.getItem(GUEST_KEY) };
+            if (context.user.type !== "GUEST") throw new Error("Not a guest");
+
+            if (!context.user.guestKey) {
+              const guestKey = await createGuestAccount({
+                transactionId: context.transactionId as string,
+              });
+
+              localStorage.setItem(GUEST_KEY, guestKey);
             }
-
-            const guestKey = await createGuestAccount({
-              transactionId: context.transactionId as string,
-            });
-            localStorage.setItem(GUEST_KEY, guestKey);
-
-            return { guestKey };
           },
           onDone: {
             target: "#authorised",
-            actions: "assignGuestUser",
           },
           onError: {
             target: "unauthorised",
@@ -557,7 +555,7 @@ export const authMachine = createMachine<
               (context) => {
                 if (window.location.hash.includes("retreat")) return;
 
-                if (ART_MODE) {
+                if (!ART_MODE) {
                   if (context.user.type === "GUEST") {
                     window.location.href = `${window.location.pathname}#/land`;
                   }

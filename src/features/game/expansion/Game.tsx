@@ -45,7 +45,7 @@ import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
-  loading: true,
+  loading: false,
   playing: false,
   autosaving: false,
   syncing: true,
@@ -63,7 +63,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   visiting: false,
   loadLandToVisit: true,
   landToVisitNotFound: true,
-  checkIsVisiting: false,
+  loadingFullGame: true,
+  loadingGuestGame: true,
   revealing: false,
   revealed: false,
   buyingSFL: true,
@@ -160,7 +161,16 @@ export const Game: React.FC = () => {
     };
   }, []);
 
+<<<<<<< HEAD
   if (loadingSession || loadingLandToVisit) {
+=======
+  const loadingSession =
+    gameState.matches("loadingGuestGame") ||
+    (gameState.matches("loadingFullGame") &&
+      gameState.context.sessionId === INITIAL_SESSION);
+
+  if (loadingSession || gameState.matches("loadLandToVisit")) {
+>>>>>>> a935e3f0 ([FEAT] Add new route for guest player)
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>

@@ -14,6 +14,7 @@ export const Connect: React.FC = () => {
   ] = useActor(authService);
 
   const isGuest = user.type === "GUEST";
+  console.log({ user });
   const hasGuestKey = isGuest && !!user.guestKey;
 
   const guestText = hasGuestKey ? "Continue as guest" : "Play as guest!";

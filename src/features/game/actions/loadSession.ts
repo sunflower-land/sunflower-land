@@ -66,7 +66,6 @@ export async function loadSession(
 
   const {
     farm,
-    startedAt,
     isBlacklisted,
     whitelistedAt,
     itemsMintedAt,
