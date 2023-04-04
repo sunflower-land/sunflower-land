@@ -157,7 +157,7 @@ const getIslandElements = ({
             width={width}
             isEditing={isEditing}
           >
-            <ChickenElement id={id} />
+            <ChickenElement key={`chicken-${id}`} id={id} />
           </MapPlacement>
         );
       })
@@ -168,16 +168,18 @@ const getIslandElements = ({
       const { x, y, width, height } = trees[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`tree-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Tree" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Tree"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -187,16 +189,18 @@ const getIslandElements = ({
       const { x, y, width, height } = stones[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`stone-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Stone Rock" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Stone Rock"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -206,16 +210,18 @@ const getIslandElements = ({
       const { x, y, width, height } = iron[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`iron-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Iron Rock" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Iron Rock"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -225,16 +231,18 @@ const getIslandElements = ({
       const { x, y, width, height } = gold[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`gold-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Gold Rock" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Gold Rock"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -244,16 +252,18 @@ const getIslandElements = ({
       const { x, y, width, height } = fruitPatches[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`fruitPatches-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Fruit Patch" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Fruit Patch"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -263,16 +273,18 @@ const getIslandElements = ({
       const { x, y, width, height } = crops[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`crops-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Crop Plot" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Crop Plot"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
