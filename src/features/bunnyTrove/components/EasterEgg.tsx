@@ -16,7 +16,7 @@ export const EasterEgg: React.FC<Omit<EasterHunt, "generatedAt">> = ({
         eggs.map((egg, index) =>
           !egg.collectedAt ? (
             <MapPlacement x={egg.x} y={egg.y} key={index}>
-              <div className="relative cursor-pointer hover:img-highlight">
+              <div className="relative cursor-pointer hover:img-highlight z-50">
                 <img
                   style={{
                     width: `${PIXEL_SCALE * 8}px`,

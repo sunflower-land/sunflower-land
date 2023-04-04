@@ -44,10 +44,10 @@ const ModalDescription = () => {
   return (
     <>
       <p className="mb-2 text-sm">
-        Hey mate, i lost some of my Easter Eggs around, can you find all of
+        Hey mate, I lost some of my Easter Eggs around, can you find all of
         them?.
       </p>
-      <p className="mb-2 text-sm">Easter Eggs Found Today:</p>
+      <p className="mb-2 text-sm">Easter Eggs Found for the last 12hrs:</p>
       <br />
       <p className="mb-2 text-sm">Bunny Trove Easter Eggs</p>
       <div className="flex items-center mt-2 mb-1">
