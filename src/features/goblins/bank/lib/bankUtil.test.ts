@@ -626,20 +626,6 @@ describe("canWithdraw", () => {
       expect(enabled).toBeTruthy();
     });
 
-    it("enables users to withdraw easter eggs", () => {
-      const enabled = canWithdraw({
-        item: "Red Egg",
-        game: {
-          ...TEST_FARM,
-          inventory: {
-            "Red Egg": new Decimal(1),
-          },
-        },
-      });
-
-      expect(enabled).toBeTruthy();
-    });
-
     it("enables users to withdraw observatory", () => {
       const enabled = canWithdraw({
         item: "Observatory",
@@ -1153,6 +1139,20 @@ describe("canWithdraw", () => {
 
       expect(enabled).toBeFalsy();
     });
+  });
+
+  it("prevents users from withdrawing easter eggs", () => {
+    const enabled = canWithdraw({
+      item: "Red Egg",
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Red Egg": new Decimal(1),
+        },
+      },
+    });
+
+    expect(enabled).toBeFalsy();
   });
 
   it("prevents users from withdrawing basic bear", () => {
