@@ -15,7 +15,9 @@ export type GoblinBlacksmithItemName =
   | "Beach Ball"
   | "Cabbage Boy"
   | "Cabbage Girl"
-  | "Collectible Bear";
+  | "Collectible Bear"
+  | "Pablo The Bunny"
+  | "Easter Bush";
 
 export type GoblinPirateItemName =
   | "Iron Idol"
@@ -212,5 +214,25 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Solar Flare Ticket": new Decimal(250),
     },
     supply: 750,
+  },
+  "Pablo The Bunny": {
+    description: "A cute little bunny that loves carrots.",
+    ingredients: {
+      Gold: new Decimal(3),
+      Carrot: new Decimal(300),
+    },
+    supply: 7000,
+    boost: "+0.1 Carrots",
+  },
+  "Easter Bush": {
+    description: "What is inside?",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Red Egg": new Decimal(10),
+      "Blue Egg": new Decimal(10),
+      "Green Egg": new Decimal(10),
+      "Yellow Egg": new Decimal(10),
+    },
+    supply: 10000,
   },
 };
