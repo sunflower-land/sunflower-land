@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -12,7 +13,7 @@ import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
 import { Context } from "../GameProvider";
-import { INITIAL_SESSION, StateValues } from "../lib/gameMachine";
+import { INITIAL_SESSION } from "../lib/gameMachine";
 import { ToastManager } from "../toast/ToastManager";
 import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
@@ -24,7 +25,6 @@ import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
 // import { Rules } from "../components/Rules";
-import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
 import { Helios } from "features/helios/Helios";
 import { VisitingHud } from "features/island/hud/VisitingHud";
@@ -45,42 +45,53 @@ import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
 import { hasFeatureAccess } from "lib/flags";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
-const SHOW_MODAL: Record<StateValues, boolean> = {
-  loading: true,
-  playing: false,
-  autosaving: false,
-  syncing: true,
-  synced: true,
-  error: true,
-  refreshing: true,
-  deposited: true,
-  hoarding: true,
-  editing: false,
-  noBumpkinFound: true,
-  swarming: true,
-  coolingDown: true,
-  gameRules: true,
-  randomising: false,
-  visiting: false,
-  loadLandToVisit: true,
-  landToVisitNotFound: true,
-  checkIsVisiting: false,
-  revealing: false,
-  revealed: false,
-  buyingSFL: true,
-  depositing: true,
-};
 
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const [gameState, send] = useActor(gameService);
+  const actions = useSelector(gameService, (state) => state.context.actions);
+  const sessionId = useSelector(
+    gameService,
+    (state) => state.context.sessionId
+  );
+  const errorCode = useSelector(
+    gameService,
+    (state) => state.context.errorCode
+  );
+  const bumpkinExperience = useSelector(
+    gameService,
+    (state) => state.context.state.bumpkin?.experience ?? 0
+  );
+  // Used in hasFeatureAccess() to guard feature flagged content
+  const inventory = useSelector(
+    gameService,
+    (state) => state.context.state.inventory
+  );
 
-  useInterval(() => send("SAVE"), AUTO_SAVE_INTERVAL);
+  const state = useSelector(gameService, (state) => ({
+    isLoading: state.matches("loading"),
+    isLoadLandToVisit: state.matches("loadLandToVisit"),
+    isLandToVisitNotFound: state.matches("landToVisitNotFound"),
+    isVisiting: state.matches("visiting"),
+    isRefreshing: state.matches("refreshing"),
+    isBuyingSFL: state.matches("buyingSFL"),
+    isDeposited: state.matches("deposited"),
+    isError: state.matches("error"),
+    isSynced: state.matches("synced"),
+    isSyncing: state.matches("syncing"),
+    isHoarding: state.matches("hoarding"),
+    isSwarming: state.matches("swarming"),
+    isNoBumpkinFound: state.matches("noBumpkinFound"),
+    isCoolingDown: state.matches("coolingDown"),
+    isGameRules: state.matches("gameRules"),
+    isDepositing: state.matches("depositing"),
+  }));
+
+  useInterval(() => gameService.send("SAVE"), AUTO_SAVE_INTERVAL);
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (gameState.context.actions.length === 0) return;
+      if (actions.length === 0) return;
 
       event.preventDefault();
       event.returnValue = "";
@@ -88,33 +99,29 @@ export const Game: React.FC = () => {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
 
-    // cleanup on every gameState update
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [gameState]);
+  }, [actions]);
 
   useEffect(() => {
     const save = () => {
-      send("SAVE");
+      gameService.send("SAVE");
     };
 
     window.addEventListener("blur", save);
 
     screenTracker.start(authService);
 
-    // cleanup on every gameState update
     return () => {
       window.removeEventListener("blur", save);
       screenTracker.pause();
     };
   }, []);
 
-  const loadingSession =
-    gameState.matches("loading") &&
-    gameState.context.sessionId === INITIAL_SESSION;
+  const loadingSession = state.isLoading && sessionId === INITIAL_SESSION;
 
-  if (loadingSession || gameState.matches("loadLandToVisit")) {
+  if (loadingSession || state.isLoadLandToVisit) {
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>
@@ -127,7 +134,7 @@ export const Game: React.FC = () => {
   }
 
   const GameContent = () => {
-    if (gameState.matches("landToVisitNotFound")) {
+    if (state.isLandToVisitNotFound) {
       return (
         <>
           <div className="absolute z-20">
@@ -158,7 +165,7 @@ export const Game: React.FC = () => {
       );
     }
 
-    if (gameState.matches("visiting")) {
+    if (state.isVisiting) {
       return (
         <>
           <div className="absolute z-10 w-full h-full">
@@ -173,9 +180,7 @@ export const Game: React.FC = () => {
       );
     }
 
-    const level = getBumpkinLevel(
-      gameState.context.state.bumpkin?.experience ?? 0
-    );
+    const level = getBumpkinLevel(bumpkinExperience);
 
     return (
       <>
@@ -208,10 +213,7 @@ export const Game: React.FC = () => {
             )}
             <Route path="/studios" element={<Studios key="hq" />} />
 
-            {hasFeatureAccess(
-              gameState.context.state.inventory,
-              "EASTER_EVENT"
-            ) && (
+            {hasFeatureAccess(inventory, "EASTER_EVENT") && (
               <Route path="/bunny-trove" element={<BunnyTrove key="bunny" />} />
             )}
 
@@ -222,32 +224,67 @@ export const Game: React.FC = () => {
     );
   };
 
+  const GameModal = () => {
+    let showModal = true;
+    let ModalContent = <></>;
+
+    switch (true) {
+      case state.isBuyingSFL:
+        ModalContent = <AddingSFL />;
+        break;
+      case state.isCoolingDown:
+        ModalContent = <Cooldown />;
+        break;
+      case state.isDeposited:
+        ModalContent = <Notifications />;
+        break;
+      case state.isDepositing:
+        ModalContent = <Loading text="Depositing" />;
+        break;
+      case state.isError:
+        ModalContent = <ErrorMessage errorCode={errorCode as ErrorCode} />;
+        break;
+      case state.isGameRules:
+        ModalContent = <Rules />;
+        break;
+      case state.isHoarding:
+        ModalContent = <Hoarding />;
+        break;
+      case state.isLoading:
+        ModalContent = <Loading />;
+        break;
+      case state.isNoBumpkinFound:
+        ModalContent = <NoBumpkin />;
+        break;
+      case state.isRefreshing:
+        ModalContent = <Refreshing />;
+        break;
+      case state.isSwarming:
+        ModalContent = <Swarming />;
+        break;
+      case state.isSynced:
+        ModalContent = <Success />;
+        break;
+      case state.isSyncing:
+        ModalContent = <Syncing />;
+        break;
+      default:
+        showModal = false;
+    }
+
+    return showModal ? (
+      <Modal centered>
+        <Panel>{ModalContent}</Panel>
+      </Modal>
+    ) : (
+      <></>
+    );
+  };
+
   return (
     <>
-      <ToastManager isHoarding={gameState.matches("hoarding")} />
-
-      <Modal show={SHOW_MODAL[gameState.value as StateValues]} centered>
-        <Panel>
-          {gameState.matches("loading") && <Loading />}
-          {gameState.matches("refreshing") && <Refreshing />}
-          {gameState.matches("buyingSFL") && <AddingSFL />}
-          {gameState.matches("deposited") && <Notifications />}
-          {gameState.matches("error") && (
-            <ErrorMessage
-              errorCode={gameState.context.errorCode as ErrorCode}
-            />
-          )}
-          {gameState.matches("synced") && <Success />}
-          {gameState.matches("syncing") && <Syncing />}
-          {gameState.matches("hoarding") && <Hoarding />}
-          {gameState.matches("swarming") && <Swarming />}
-          {gameState.matches("noBumpkinFound") && <NoBumpkin />}
-          {gameState.matches("coolingDown") && <Cooldown />}
-          {gameState.matches("gameRules") && <Rules />}
-          {gameState.matches("depositing") && <Loading text="Depositing" />}
-        </Panel>
-      </Modal>
-
+      <ToastManager isHoarding={state.isHoarding} />
+      {GameModal()}
       {GameContent()}
     </>
   );
