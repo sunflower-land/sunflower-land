@@ -40,7 +40,7 @@ export const Leprechaun: React.FC<Props> = ({ x, y }) => {
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <Quest
-          quests={["Leprechaun Quest 1"]}
+          quests={["Pirate Quest 1"]}
           onClose={() => setShowModal(false)}
           questTitle="Top o' the mornin'"
           questDescription={ModalDescription()}
