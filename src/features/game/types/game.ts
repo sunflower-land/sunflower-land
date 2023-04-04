@@ -378,13 +378,15 @@ type Island = "Main" | "Bunny Trove" | "Helios";
 
 export type EasterHunt = {
   generatedAt: number;
-  eggs: {
-    name: InventoryItemName;
-    x: number;
-    y: number;
-    island: Island;
-    collectedAt?: number;
-  }[];
+  eggs: EasterEggPosition[];
+};
+
+export type EasterEggPosition = {
+  name: InventoryItemName;
+  x: number;
+  y: number;
+  island: Island;
+  collectedAt?: number;
 };
 
 export type HayseedHank = {

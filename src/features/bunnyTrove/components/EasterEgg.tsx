@@ -26,7 +26,7 @@ export const EasterEgg: React.FC<Omit<EasterHunt, "generatedAt">> = ({
                   alt={egg.name}
                   onClick={() =>
                     gameService.send("easterEgg.collected", {
-                      eggIndex: index,
+                      egg,
                     })
                   }
                 />
