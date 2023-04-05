@@ -259,14 +259,14 @@ export const PartyIsland: React.FC = () => {
         <img
           src={partyIsland}
           style={{
-            width: `${PIXEL_SCALE * 86}px`,
+            width: `${PIXEL_SCALE * 78}px`,
           }}
         />
         <div
           className="absolute"
           style={{
             left: `${GRID_WIDTH_PX * 1}px`,
-            bottom: `${GRID_WIDTH_PX * 5}px`,
+            bottom: `${GRID_WIDTH_PX * 4.5}px`,
           }}
         >
           <NPC
@@ -281,7 +281,7 @@ export const PartyIsland: React.FC = () => {
           src={SUNNYSIDE.icons.expression_chat}
           className="absolute animate-float"
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
+            width: `${PIXEL_SCALE * 9}px`,
             top: `${PIXEL_SCALE * -4}px`,
             left: `${PIXEL_SCALE * 22}px`,
           }}
@@ -290,7 +290,7 @@ export const PartyIsland: React.FC = () => {
         <div
           className="absolute"
           style={{
-            left: `${GRID_WIDTH_PX * 5}px`,
+            left: `${GRID_WIDTH_PX * 4.5}px`,
             bottom: `${GRID_WIDTH_PX * 3.5}px`,
             transform: "scaleX(-1)",
           }}
@@ -305,7 +305,7 @@ export const PartyIsland: React.FC = () => {
         <div
           className="absolute"
           style={{
-            left: `${GRID_WIDTH_PX * 2.5}px`,
+            left: `${GRID_WIDTH_PX * 2}px`,
             bottom: `${GRID_WIDTH_PX * 3.5}px`,
           }}
         >
