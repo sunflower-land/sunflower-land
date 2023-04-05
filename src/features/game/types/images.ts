@@ -175,6 +175,7 @@ import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/solar_flare_ticket.png";
+import supporterTicket from "assets/icons/supporter_ticket.png";
 
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
@@ -190,6 +191,9 @@ import orangeEgg from "src/assets/sfts/easter/orange_egg.png";
 import pinkEgg from "src/assets/sfts/easter/pink_egg.png";
 import easterBasket from "src/assets/sfts/easter/basket.png";
 import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
+import pabloBunny from "src/assets/sfts/pablo_bunny.gif";
+import easterBush from "src/assets/sfts/easter_bush.gif";
+import giantCarrot from "assets/sfts/giant_carrot.png";
 
 //MOM Event
 import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
@@ -302,6 +306,7 @@ import loveLetter from "src/assets/icons/love_letter.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 import valentineBear from "src/assets/sfts/bears/love_bear.png";
+import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
 
 // Treasure
@@ -1168,6 +1173,10 @@ export const ITEM_DETAILS: Items = {
     description: "A rare Easter item",
     image: easterBunny,
   },
+  "Pablo The Bunny": {
+    description: "A magical Easter bunny",
+    image: pabloBunny,
+  },
   "Blue Egg": {
     description: "A blue easter egg",
     image: blueEgg,
@@ -1877,7 +1886,19 @@ export const ITEM_DETAILS: Items = {
     description: "For those who love.",
     image: valentineBear,
   },
-
+  "Easter Bear": {
+    description: "How can a Bunny lay eggs?",
+    image: easterBear,
+  },
+  "Easter Bush": {
+    description: "What is inside?",
+    image: easterBush,
+  },
+  "Giant Carrot": {
+    description:
+      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    image: giantCarrot,
+  },
   "Iron Idol": {
     image: ironIdol,
     description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
@@ -1891,6 +1912,11 @@ export const ITEM_DETAILS: Items = {
   "Dawn Breaker Ticket": {
     image: dawnBreakerTicket,
     description: "A ticket used during the Dawn Breaker Season",
+  },
+
+  "Sunflower Supporter": {
+    image: supporterTicket,
+    description: "The mark of a true supporter of the game!",
   },
 
   // Solar Flare Season

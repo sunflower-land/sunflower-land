@@ -5,17 +5,15 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CabbageBoy: React.FC = () => {
   return (
-    <>
-      <img
-        src={cabbageBoy}
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 0}px`,
-        }}
-        className="absolute"
-        alt="Cabbage Boy"
-      />
-    </>
+    <img
+      src={cabbageBoy}
+      style={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      className="absolute pointer-events-none"
+      alt="Cabbage Boy"
+    />
   );
 };

@@ -124,7 +124,8 @@ export type BumpkinOnesie =
   | "Shark Onesie"
   | "Bear Onesie"
   | "Tiger Onesie"
-  | "Frog Onesie";
+  | "Frog Onesie"
+  | "Bunny Onesie";
 
 // Goes over clothes
 export type BumpkinSuit = "Reindeer Suit";
@@ -259,6 +260,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Sequence Hat": 114,
   "Sequence Shirt": 115,
   "St Patricks Hat": 116,
+  "Bunny Onesie": 117,
 };
 
 // The reverse of above

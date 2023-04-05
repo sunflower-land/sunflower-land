@@ -1,7 +1,7 @@
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { CROPS, CROP_SEEDS } from "./crops";
-import { FRUIT } from "./fruits";
+import { FRUIT, FruitName } from "./fruits";
 import { COUPONS, FERTILISERS } from "./game";
 import {
   FOODS,
@@ -51,6 +51,12 @@ type CanWithdrawArgs = {
 function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
   return Object.values(game.crops ?? {}).some(
     (plot) => plot.crop && plot.crop.name === item
+  );
+}
+
+function areFruitsGrowing(game: GoblinState, fruit: FruitName): boolean {
+  return Object.values(game.fruitPatches ?? {}).some(
+    (patch) => patch.fruit?.name === fruit
   );
 }
 
@@ -126,7 +132,7 @@ const mutantChickenDefaults = buildDefaults(
   (game) => !areAnyChickensFed(game)
 );
 const flagDefaults = buildDefaults(getKeys(FLAGS), true);
-const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], true);
+const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], false);
 const skillDefaults = buildDefaults(getKeys(SKILL_TREE), false);
 const couponDefaults = buildDefaults(getKeys(COUPONS), false);
 const buildingDefaults = buildDefaults(getKeys(BUILDINGS()), false);
@@ -217,16 +223,21 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "War Skull": true,
   "War Tombstone": true,
   "Maneki Neko": true,
-  "Black Bearry": true,
-  "Squirrel Monkey": false,
   "Lady Bug": false,
   "Cyborg Bear": true,
   "Heart Balloons": true,
   Flamingo: true,
   "Blossom Tree": true,
   "Valentine Bear": true,
+  "Easter Bear": true,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
+  "Easter Bush": true,
+  "Giant Carrot": true,
+
+  "Iron Idol": (game) => !areAnyIronsMined(game),
+  "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
+  "Black Bearry": (game) => !areFruitsGrowing(game, "Blueberry"),
 
   // Conditional Rules
   "Chicken Coop": (game) => !areAnyChickensFed(game),
@@ -236,6 +247,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
   "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
   "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
+  "Pablo The Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
   "Lunar Calendar": (game) => !areAnyCropsPlanted(game),
@@ -282,7 +294,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Human Bear": false,
   "Wooden Compass": false,
   "Whale Bear": true,
-  "Iron Idol": false,
 
   // Seasonal items
   "Beach Ball": false,

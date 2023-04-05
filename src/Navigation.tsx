@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import {
   Routes,
   Route,
@@ -43,8 +43,14 @@ const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
  */
 export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
-  const { provider } = authState.context;
+  const provider = useSelector(authService, (state) => state.context.provider);
+  const farmId = useSelector(authService, (state) => state.context.farmId);
+  const state = useSelector(authService, (state) => ({
+    isAuthorised: state.matches({ connected: "authorised" }),
+    isVisitingContributor: state.matches({ connected: "visitingContributor" }),
+    isVisiting: state.matches("visiting"),
+  }));
+
   const [showGame, setShowGame] = useState(false);
   useImagePreloader();
 
@@ -56,21 +62,21 @@ export const Navigation: React.FC = () => {
     if (provider) {
       if (provider.on) {
         provider.on("chainChanged", () => {
-          send("CHAIN_CHANGED");
+          authService.send("CHAIN_CHANGED");
         });
         provider.on("accountsChanged", function (accounts: string[]) {
           // Metamask Mobile accidentally triggers this on route changes
           const didChange = accounts[0] !== wallet.myAccount;
           if (didChange) {
-            send("ACCOUNT_CHANGED");
+            authService.send("ACCOUNT_CHANGED");
           }
         });
       } else if (provider.givenProvider) {
         provider.givenProvider.on("chainChanged", () => {
-          send("CHAIN_CHANGED");
+          authService.send("CHAIN_CHANGED");
         });
         provider.givenProvider.on("accountsChanged", function () {
-          send("ACCOUNT_CHANGED");
+          authService.send("ACCOUNT_CHANGED");
         });
       }
     }
@@ -78,15 +84,13 @@ export const Navigation: React.FC = () => {
 
   useEffect(() => {
     const _showGame =
-      authState.matches({ connected: "authorised" }) ||
-      authState.matches({ connected: "visitingContributor" }) ||
-      authState.matches("visiting");
+      state.isAuthorised || state.isVisitingContributor || state.isVisiting;
 
     // TODO: look into this further
     // This is to prevent a modal clash when the authmachine switches
     // to the game machine.
     setTimeout(() => setShowGame(_showGame), 20);
-  }, [authState, authState.value]);
+  }, [state]);
 
   return (
     <>
@@ -96,7 +100,7 @@ export const Navigation: React.FC = () => {
           <Routes>
             <Route path="/" element={<LandExpansion />} />
             {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
-            {!authState.matches("visiting") && (
+            {!state.isVisiting && (
               <Route
                 path="/goblins"
                 element={
@@ -112,9 +116,7 @@ export const Navigation: React.FC = () => {
             <Route path="/retreat">
               <Route
                 index
-                element={
-                  <TraderDeeplinkHandler farmId={authState.context.farmId} />
-                }
+                element={<TraderDeeplinkHandler farmId={farmId} />}
               />
               <Route path=":id" element={<Retreat key="retreat" />} />
             </Route>

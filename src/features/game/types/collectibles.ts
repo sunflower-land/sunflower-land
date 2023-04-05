@@ -15,7 +15,10 @@ export type GoblinBlacksmithItemName =
   | "Beach Ball"
   | "Cabbage Boy"
   | "Cabbage Girl"
-  | "Collectible Bear";
+  | "Collectible Bear"
+  | "Pablo The Bunny"
+  | "Easter Bush"
+  | "Giant Carrot";
 
 export type GoblinPirateItemName =
   | "Iron Idol"
@@ -212,5 +215,40 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Solar Flare Ticket": new Decimal(250),
     },
     supply: 750,
+  },
+  "Pablo The Bunny": {
+    description: "The magical bunny that increases your carrot harvests",
+    ingredients: {
+      "Red Egg": new Decimal(12),
+      "Blue Egg": new Decimal(12),
+      "Green Egg": new Decimal(12),
+      "Yellow Egg": new Decimal(12),
+      Gold: new Decimal(5),
+    },
+    supply: 7500,
+    boost: "+0.1 Carrot",
+  },
+  "Easter Bush": {
+    description: "What is inside?",
+    ingredients: {
+      Gold: new Decimal(1),
+      "Purple Egg": new Decimal(12),
+      "Orange Egg": new Decimal(12),
+      "Pink Egg": new Decimal(12),
+    },
+    supply: 20000,
+  },
+  "Giant Carrot": {
+    description:
+      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    ingredients: {
+      Gold: new Decimal(5),
+      Carrot: new Decimal(5000),
+      "Red Egg": new Decimal(12),
+      "Blue Egg": new Decimal(12),
+      "Green Egg": new Decimal(12),
+      "Yellow Egg": new Decimal(12),
+    },
+    supply: 500,
   },
 };

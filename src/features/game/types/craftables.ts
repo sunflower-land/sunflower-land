@@ -1087,7 +1087,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Farm Dog": { width: 1, height: 1 },
   "Chicken Coop": { width: 2, height: 2 },
   "Gold Egg": { width: 1, height: 1 },
-  "Easter Bunny": { width: 2, height: 1 },
   Rooster: { width: 1, height: 1 },
   "Egg Basket": { width: 1, height: 1 },
   "Fat Chicken": { width: 1, height: 1 },
@@ -1126,6 +1125,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
   "Cyborg Bear": { width: 1, height: 1 },
+
+  //Easter Event Items
+  "Easter Bunny": { width: 2, height: 1 },
+  "Pablo The Bunny": { width: 1, height: 1 },
 
   // Treasure Island SFTs
   "Tiki Totem": { height: 1, width: 1 },
