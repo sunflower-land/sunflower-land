@@ -44,9 +44,8 @@ export const Helios: React.FC = () => {
   const { bumpkin } = state;
   const [sealSpawn] = useState(getRandomSpawn());
 
-  const heliosEggs = state.easterHunt?.eggs.filter(
-    (egg) => egg && egg.island === "Helios"
-  );
+  const eggs = state.easterHunt?.eggs || [];
+  const heliosEggs = eggs.filter((egg) => egg && egg.island === "Helios");
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -83,10 +82,12 @@ export const Helios: React.FC = () => {
         <SeasonalNPC />
         <CommunityGardenEntry />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-        <EasterEgg
-          eggs={heliosEggs}
-          generatedAt={state.easterHunt.generatedAt}
-        />
+        {state.easterHunt && (
+          <EasterEgg
+            eggs={heliosEggs}
+            generatedAt={state.easterHunt.generatedAt}
+          />
+        )}
         <IslandTravel
           bumpkin={bumpkin}
           inventory={gameState.context.state.inventory}
