@@ -44,12 +44,12 @@ const ModalDescription = () => {
   return (
     <>
       <p className="mb-3 text-sm">
-        Hey mate, I lost some of my Easter Eggs around, can you find all of
-        them?.
+        Hey mate, I lost some of my Easter Eggs around. Can you find all of
+        them?
       </p>
       <p className="text-sm">Easter Eggs Found for the last 12hrs:</p>
       <p className="mt-5 text-sm">Bunny Trove Easter Eggs</p>
-      <div className="flex items-center mt-2 mb-1">
+      <div className="flex items-center my-1.5">
         <ResizableBar
           percentage={progressPercentage(bunnyTroveEggsCollected, 5)}
           type="progress"
@@ -63,7 +63,7 @@ const ModalDescription = () => {
         )}/5`}</span>
       </div>
       <p className="mt-3 text-sm">Helios Easter Eggs</p>
-      <div className="flex items-center mt-2 mb-1">
+      <div className="flex items-center my-1.5">
         <ResizableBar
           percentage={progressPercentage(heliosEggsCollected, 1)}
           type="progress"
@@ -77,7 +77,7 @@ const ModalDescription = () => {
         )}/1`}</span>
       </div>
       <p className="mt-3 text-sm">Farm Easter Eggs</p>
-      <div className="flex items-center mt-2 mb-1">
+      <div className="flex items-center my-1.5">
         <ResizableBar
           percentage={progressPercentage(mainIslandEggsCollected, 1)}
           type="progress"
