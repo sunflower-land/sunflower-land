@@ -83,30 +83,30 @@ const getIslandElements = ({
     );
   }
 
-  // mapPlacements.push(
-  //   ...getKeys(buildings)
-  //     .filter((name) => buildings[name])
-  //     .flatMap((name, nameIndex) => {
-  //       const items = buildings[name]!;
-  //       return items.map((building, itemIndex) => {
-  //         const { x, y } = building.coordinates;
-  //         const { width, height } = BUILDINGS_DIMENSIONS[name];
+  mapPlacements.push(
+    ...getKeys(buildings)
+      .filter((name) => buildings[name])
+      .flatMap((name, nameIndex) => {
+        const items = buildings[name]!;
+        return items.map((building, itemIndex) => {
+          const { x, y } = building.coordinates;
+          const { width, height } = BUILDINGS_DIMENSIONS[name];
 
-  //         return (
-  //           <MapPlacement
-  //             key={`building-${nameIndex}-${itemIndex}`}
-  //             x={x}
-  //             y={y}
-  //             height={height}
-  //             width={width}
-  //             isEditing={isEditing}
-  //           >
-  //             <Building building={building} name={name as BuildingName} />
-  //           </MapPlacement>
-  //         );
-  //       });
-  //     })
-  // );
+          return (
+            <MapPlacement
+              key={`building-${nameIndex}-${itemIndex}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+              isEditing={isEditing}
+            >
+              <Building building={building} name={name as BuildingName} />
+            </MapPlacement>
+          );
+        });
+      })
+  );
 
   mapPlacements.push(
     ...getKeys(collectibles)
@@ -293,7 +293,6 @@ const getIslandElements = ({
 };
 
 export const Land: React.FC = () => {
-  console.log("Land render");
   const { gameService } = useContext(Context);
 
   const {
@@ -343,24 +342,6 @@ export const Land: React.FC = () => {
           <DirtRenderer plots={crops} />
 
           <Water level={expansionCount} />
-
-          {buildings.Tent?.map((building, itemIndex) => {
-            const { x, y } = building.coordinates;
-            const { width, height } = BUILDINGS_DIMENSIONS["Tent"];
-
-            return (
-              <MapPlacement
-                key={`building-tent}-${itemIndex}`}
-                x={x}
-                y={y}
-                height={height}
-                width={width}
-                isEditing={isEditing}
-              >
-                <Building building={building} name={"Tent"} />
-              </MapPlacement>
-            );
-          })}
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
