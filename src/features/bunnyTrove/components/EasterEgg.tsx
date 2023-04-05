@@ -28,10 +28,12 @@ export const EasterEgg: React.FC<EasterHunt> = ({ eggs, generatedAt }) => {
                   alt={egg.name}
                   onClick={() =>
                     gameService.send("easterEgg.collected", {
-                      x: egg.x,
-                      y: egg.y,
-                      name: egg.name,
-                      island: egg.island,
+                      egg: {
+                        x: egg.x,
+                        y: egg.y,
+                        name: egg.name,
+                        island: egg.island,
+                      },
                     })
                   }
                 />
