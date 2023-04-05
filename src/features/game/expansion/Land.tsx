@@ -333,7 +333,7 @@ export const Land: React.FC = () => {
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
           <DirtRenderer plots={crops} />
-          <EasterEgg eggs={mainEggs} />
+          <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}

@@ -60,7 +60,10 @@ export const BunnyTrove: React.FC = () => {
         <Gobbit />
         <EasterMole />
         <BunnyMan />
-        <EasterEgg eggs={bunnyTroveEggs} />
+        <EasterEgg
+          eggs={bunnyTroveEggs}
+          generatedAt={state.easterHunt.generatedAt}
+        />
 
         <CustomIslandTravel
           bumpkin={bumpkin}

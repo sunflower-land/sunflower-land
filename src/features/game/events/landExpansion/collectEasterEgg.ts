@@ -48,7 +48,7 @@ export function collectEasterEgg({
     throw new Error("Easter egg has already been collected");
   }
 
-  stateCopy.easterHunt.eggs[index].collectedAt = Date.now();
+  stateCopy.easterHunt.eggs[index].collectedAt = createdAt;
 
   bumpkin.activity = trackActivity(`Easter Egg Collected`, bumpkin?.activity);
 

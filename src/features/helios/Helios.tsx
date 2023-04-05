@@ -83,7 +83,10 @@ export const Helios: React.FC = () => {
         <SeasonalNPC />
         <CommunityGardenEntry />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-        <EasterEgg eggs={heliosEggs} />
+        <EasterEgg
+          eggs={heliosEggs}
+          generatedAt={state.easterHunt.generatedAt}
+        />
         <IslandTravel
           bumpkin={bumpkin}
           inventory={gameState.context.state.inventory}
