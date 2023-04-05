@@ -21,7 +21,7 @@ import { Deposit } from "features/goblins/bank/components/Deposit";
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
-export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
+const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -133,3 +133,5 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
     </div>
   );
 };
+
+export const Hud = React.memo(HudComponent);

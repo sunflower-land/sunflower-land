@@ -169,7 +169,7 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
   );
 };
 
-export const Building: React.FC<Prop> = ({ name, building }) => {
+const BuildingComponent: React.FC<Prop> = ({ name, building }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -219,3 +219,5 @@ export const Building: React.FC<Prop> = ({ name, building }) => {
     </>
   );
 };
+
+export const Building = React.memo(BuildingComponent);

@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import classNames from "classnames";
-import Modal from "react-bootstrap/Modal";
 
-import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
 import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Iron } from "features/game/expansion/components/resources/Iron";
@@ -22,6 +18,12 @@ export interface ResourceProps {
   id: string;
   readyAt: number;
   createdAt: number;
+
+  height?: number;
+  width?: number;
+  x: number;
+  y: number;
+  isEditing?: boolean;
 }
 
 // Used for placing
@@ -115,64 +117,47 @@ export const RESOURCE_COMPONENTS: Record<
   Boulder: Boulder,
 };
 
-export const Resource: React.FC<ResourceProps> = ({
+const ResourceComponent: React.FC<ResourceProps> = ({
   name,
   id,
   readyAt,
   createdAt,
+
+  x,
+  y,
+  height,
+  width,
+  isEditing,
 }) => {
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
-
-  const inProgress = readyAt > Date.now();
-
-  useUiRefresher({ active: inProgress });
-
-  const shortcuts = getShortcuts();
-
-  const canRemoveOnClick = shortcuts[0] === "Rusty Shovel";
-  const handleOnClick = () => {
-    if (!canRemoveOnClick) return;
-
-    setShowRemoveModal(true);
-  };
-
   const Component = RESOURCE_COMPONENTS[name];
+
   return (
     <>
       <div
-        className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": canRemoveOnClick,
+        className={classNames("absolute", {
+          "bg-red-background/80": isEditing,
         })}
-        onClick={canRemoveOnClick ? handleOnClick : undefined}
+        style={{
+          top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
+          left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
+          height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
+          width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
+        }}
       >
-        <div
-          className={classNames("h-full", {
-            "pointer-events-none": canRemoveOnClick,
-          })}
-        >
-          <Component
-            key={id}
-            createdAt={createdAt}
-            id={id}
-            name={name}
-            readyAt={readyAt}
-          />
-        </div>
+        <Component
+          key={id}
+          createdAt={createdAt}
+          id={id}
+          name={name}
+          readyAt={readyAt}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        />
       </div>
-      <Modal
-        show={showRemoveModal}
-        centered
-        onHide={() => setShowRemoveModal(false)}
-      >
-        {showRemoveModal && (
-          <RemovePlaceableModal
-            type="resource"
-            placeableId={id}
-            name={name}
-            onClose={() => setShowRemoveModal(false)}
-          />
-        )}
-      </Modal>
     </>
   );
 };
+
+export const Resource = React.memo(ResourceComponent);
