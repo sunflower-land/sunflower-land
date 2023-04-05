@@ -297,6 +297,7 @@ export const Land: React.FC = () => {
     gold,
     crops,
     fruitPatches,
+    easterHunt,
   } = useSelector(gameService, (state) => state.context.state);
   const gameState = useSelector(gameService, (state) => ({
     isAutosaving: state.matches("autosaving"),
@@ -317,7 +318,7 @@ export const Land: React.FC = () => {
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
-  const mainEggs = state.easterHunt?.eggs.filter(
+  const mainEggs = easterHunt?.eggs.filter(
     (egg) => egg && egg.island === "Main"
   );
 
