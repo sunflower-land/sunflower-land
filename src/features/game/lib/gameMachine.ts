@@ -30,7 +30,7 @@ import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
-import { processEvent } from "./processEvent";
+import { checkProgress, processEvent } from "./processEvent";
 import {
   editingMachine,
   SaveEvent,
