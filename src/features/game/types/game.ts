@@ -69,6 +69,30 @@ export type EasterEgg =
   | "Purple Egg"
   | "Yellow Egg";
 
+export const EASTER_EGG: Record<EasterEgg, { description: string }> = {
+  "Red Egg": {
+    description: "A red easter egg",
+  },
+  "Orange Egg": {
+    description: "An orange easter egg",
+  },
+  "Green Egg": {
+    description: "A green easter egg",
+  },
+  "Blue Egg": {
+    description: "A blue easter egg",
+  },
+  "Pink Egg": {
+    description: "A pink easter egg",
+  },
+  "Purple Egg": {
+    description: "A purple easter egg",
+  },
+  "Yellow Egg": {
+    description: "A yellow easter egg",
+  },
+};
+
 export const EASTER_EGGS: EasterEgg[] = [
   "Blue Egg",
   "Green Egg",
