@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { collectEasterEgg } from "./collectEasterEgg";
 
@@ -86,5 +87,68 @@ describe("collecteEasterEgg", () => {
         createdAt: 0,
       })
     ).toThrow("Easter egg has already been collected");
+  });
+  it("collects the egg", () => {
+    const state = collectEasterEgg({
+      state: {
+        ...TEST_FARM,
+        bumpkin: INITIAL_BUMPKIN,
+        easterHunt: {
+          generatedAt: 0,
+          eggs: [
+            {
+              x: 1,
+              y: 1,
+              island: "Main",
+              name: "Pink Egg",
+            },
+          ],
+        },
+      },
+      action: {
+        type: "easterEgg.collected",
+        egg: {
+          x: 1,
+          y: 1,
+          island: "Main",
+          name: "Pink Egg",
+        },
+      },
+      createdAt: 0,
+    });
+
+    expect(state.inventory["Pink Egg"]).toEqual(new Decimal(1));
+  });
+
+  it("tracks the activity", () => {
+    const state = collectEasterEgg({
+      state: {
+        ...TEST_FARM,
+        bumpkin: INITIAL_BUMPKIN,
+        easterHunt: {
+          generatedAt: 0,
+          eggs: [
+            {
+              x: 1,
+              y: 1,
+              island: "Main",
+              name: "Pink Egg",
+            },
+          ],
+        },
+      },
+      action: {
+        type: "easterEgg.collected",
+        egg: {
+          x: 1,
+          y: 1,
+          island: "Main",
+          name: "Pink Egg",
+        },
+      },
+      createdAt: 0,
+    });
+
+    expect(state.bumpkin?.activity?.["Easter Egg Collected"]).toEqual(1);
   });
 });
