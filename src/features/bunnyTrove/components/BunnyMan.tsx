@@ -43,13 +43,12 @@ const ModalDescription = () => {
 
   return (
     <>
-      <p className="mb-2 text-sm">
+      <p className="mb-3 text-sm">
         Hey mate, I lost some of my Easter Eggs around, can you find all of
         them?.
       </p>
-      <p className="mb-2 text-sm">Easter Eggs Found for the last 12hrs:</p>
-      <br />
-      <p className="mb-2 text-sm">Bunny Trove Easter Eggs</p>
+      <p className="text-sm">Easter Eggs Found for the last 12hrs:</p>
+      <p className="mt-5 text-sm">Bunny Trove Easter Eggs</p>
       <div className="flex items-center mt-2 mb-1">
         <ResizableBar
           percentage={progressPercentage(bunnyTroveEggsCollected, 5)}
@@ -63,7 +62,7 @@ const ModalDescription = () => {
           new Decimal(bunnyTroveEggsCollected)
         )}/5`}</span>
       </div>
-      <p className="mb-2 text-sm">Helios Easter Eggs</p>
+      <p className="mt-3 text-sm">Helios Easter Eggs</p>
       <div className="flex items-center mt-2 mb-1">
         <ResizableBar
           percentage={progressPercentage(heliosEggsCollected, 1)}
@@ -77,7 +76,7 @@ const ModalDescription = () => {
           new Decimal(heliosEggsCollected)
         )}/1`}</span>
       </div>
-      <p className="mb-2 text-sm">Farm Easter Eggs</p>
+      <p className="mt-3 text-sm">Farm Easter Eggs</p>
       <div className="flex items-center mt-2 mb-1">
         <ResizableBar
           percentage={progressPercentage(mainIslandEggsCollected, 1)}
@@ -92,7 +91,7 @@ const ModalDescription = () => {
         )}/1`}</span>
       </div>
       <a
-        className="mb-4 underline text-sm"
+        className="underline text-xxs pb-2 pt-3 hover:text-blue-500"
         href="https://docs.sunflower-land.com/player-guides/special-events/bunny-trove"
         target="_blank"
         rel="noreferrer"
