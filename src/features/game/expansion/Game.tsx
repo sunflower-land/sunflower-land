@@ -123,7 +123,7 @@ export const Game: React.FC = () => {
   const level = useSelector(gameService, bumpkinLevel);
   const state = useSelector(gameService, currentState);
   const errorCode = useSelector(gameService, getErrorCode);
-  const actions = []; //useSelector(gameService, getActions);
+  const actions = useSelector(gameService, getActions);
 
   console.log("Game render");
   useInterval(() => {
@@ -144,7 +144,7 @@ export const Game: React.FC = () => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, []);
+  }, [actions]);
 
   useEffect(() => {
     const save = () => {
