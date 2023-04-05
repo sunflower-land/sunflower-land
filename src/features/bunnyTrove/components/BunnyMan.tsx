@@ -92,7 +92,7 @@ const ModalDescription = () => {
       </div>
       <a
         className="underline text-xxs pb-2 pt-3 hover:text-blue-500"
-        href="https://docs.sunflower-land.com/player-guides/special-events/bunny-trove"
+        href="https://docs.sunflower-land.com/player-guides/special-events/easter-egg-hunt"
         target="_blank"
         rel="noreferrer"
       >
