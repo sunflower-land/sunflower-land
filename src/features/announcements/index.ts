@@ -2,6 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import loveLetter from "assets/icons/love_letter.png";
 import solarFlare from "assets/announcements/solar_flare.png";
 import resourceReboot from "assets/announcements/resource-reboot.png";
+import referrals from "assets/announcements/referrals.gif";
 import token from "assets/icons/token_2.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -29,7 +30,27 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
-    date: new Date("2023-04-02T00:00:00"),
+    date: new Date("2023-04-05T00:00:00"),
+    title: "Referral Program",
+    notes: [
+      {
+        text: "The Sunflower Supporters program has officially launched!",
+        icon: SUNNYSIDE.icons.heart,
+      },
+      {
+        text: "Earn $1 USD* for each friend that creates an account",
+        icon: SUNNYSIDE.icons.treasure,
+      },
+      {
+        text: "Help grow our amazing community and spread the word!",
+        icon: SUNNYSIDE.icons.expression_chat,
+      },
+    ],
+    image: referrals,
+    link: "https://sunflower-land.com/#referrals",
+  },
+  {
+    date: new Date("2023-03-30T00:00:00"),
     title: "The Resource Reboot",
     notes: [
       {

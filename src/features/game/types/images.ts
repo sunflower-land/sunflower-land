@@ -175,6 +175,7 @@ import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/solar_flare_ticket.png";
+import supporterTicket from "assets/icons/supporter_ticket.png";
 
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
@@ -1911,6 +1912,11 @@ export const ITEM_DETAILS: Items = {
   "Dawn Breaker Ticket": {
     image: dawnBreakerTicket,
     description: "A ticket used during the Dawn Breaker Season",
+  },
+
+  "Sunflower Supporter": {
+    image: supporterTicket,
+    description: "The mark of a true supporter of the game!",
   },
 
   // Solar Flare Season
