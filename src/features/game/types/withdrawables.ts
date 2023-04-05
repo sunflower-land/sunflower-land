@@ -232,8 +232,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Easter Bear": true,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
-  "Easter Bush": false,
-  "Giant Carrot": false,
+  "Easter Bush": true,
+  "Giant Carrot": true,
 
   "Iron Idol": (game) => !areAnyIronsMined(game),
   "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
