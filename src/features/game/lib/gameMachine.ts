@@ -41,7 +41,7 @@ import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
 
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
-import { MEGA_OFFLINE_FARM } from "./landData";
+import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 import { CONFIG } from "lib/config";
 
@@ -425,7 +425,7 @@ export function startGame(authContext: Options) {
                 };
               }
 
-              return { state: MEGA_OFFLINE_FARM, onChain };
+              return { state: OFFLINE_FARM, onChain };
             },
             onDone: {
               target: "notifying",
