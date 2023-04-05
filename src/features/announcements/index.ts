@@ -2,6 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import loveLetter from "assets/icons/love_letter.png";
 import solarFlare from "assets/announcements/solar_flare.png";
 import resourceReboot from "assets/announcements/resource-reboot.png";
+import referrals from "assets/announcements/referrals.gif";
 import token from "assets/icons/token_2.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -29,6 +30,26 @@ export interface Announcement {
  */
 export const ANNOUNCEMENTS: Announcement[] = [
   {
+    date: new Date("2023-04-05T00:00:00"),
+    title: "Referral Program",
+    notes: [
+      {
+        text: "The Sunflower Supporters program has officially launched!",
+        icon: SUNNYSIDE.icons.heart,
+      },
+      {
+        text: "Earn $1 USD* for each friend that creates an account",
+        icon: SUNNYSIDE.icons.treasure,
+      },
+      {
+        text: "Help grow our amazing community and spread the word!",
+        icon: SUNNYSIDE.icons.expression_chat,
+      },
+    ],
+    image: referrals,
+    link: "https://sunflower-land.com/#referrals",
+  },
+  {
     date: new Date("2023-03-30T00:00:00"),
     title: "The Resource Reboot",
     notes: [
@@ -39,6 +60,10 @@ export const ANNOUNCEMENTS: Announcement[] = [
       {
         text: "You can visit your chest in your inventory and place your crops, trees, fruit & stones where you want!",
         icon: SUNNYSIDE.icons.treasure,
+      },
+      {
+        text: "Landscaping is currently in progress. Once this is completed you will be able to move your resources. Until then, choose wisely where you initially place these resources.",
+        icon: SUNNYSIDE.icons.hammer,
       },
       {
         text: "Any crops or fruit that were in progress, have been automatically sent to your inventory.",

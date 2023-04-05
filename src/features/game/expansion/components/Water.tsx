@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -16,7 +16,6 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
 import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 
-import { merchantAudio } from "lib/utils/sfx";
 import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
 import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
 import CommunityBoundary from "features/community/components/CommunityBoundary";
@@ -31,19 +30,9 @@ interface Props {
   level: number;
 }
 
-export const Water: React.FC<Props> = ({ level }) => {
-  const [showModal, setShowModal] = useState(false);
-
+export const WaterComponent: React.FC<Props> = ({ level }) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(level + 1) * LAND_WIDTH) / 2);
-
-  const openMerchant = () => {
-    setShowModal(true);
-    //Checks if merchantAudio is playing, if false, plays the sound
-    if (!merchantAudio.playing()) {
-      merchantAudio.play();
-    }
-  };
 
   const frogCoordinates = {
     x: level >= 7 ? -2 : 5,
@@ -175,3 +164,5 @@ export const Water: React.FC<Props> = ({ level }) => {
     </div>
   );
 };
+
+export const Water = React.memo(WaterComponent);

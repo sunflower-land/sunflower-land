@@ -1,7 +1,9 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect } from "react";
+import { useSelector } from "@xstate/react";
+import classNames from "classnames";
+
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
-import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
 import {
   ANIMAL_DIMENSIONS,
@@ -18,7 +20,6 @@ import { CharacterPlayground } from "features/island/bumpkin/components/Characte
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
-import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
@@ -28,6 +29,7 @@ import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
+import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 
 const getIslandElements = ({
   buildings,
@@ -156,7 +158,7 @@ const getIslandElements = ({
             width={width}
             isEditing={isEditing}
           >
-            <ChickenElement id={id} />
+            <ChickenElement key={`chicken-${id}`} id={id} />
           </MapPlacement>
         );
       })
@@ -167,16 +169,18 @@ const getIslandElements = ({
       const { x, y, width, height } = trees[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`tree-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Tree" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Tree"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -186,16 +190,18 @@ const getIslandElements = ({
       const { x, y, width, height } = stones[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`stone-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Stone Rock" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Stone Rock"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -205,16 +211,18 @@ const getIslandElements = ({
       const { x, y, width, height } = iron[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`iron-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Iron Rock" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Iron Rock"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -224,16 +232,18 @@ const getIslandElements = ({
       const { x, y, width, height } = gold[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`gold-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Gold Rock" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Gold Rock"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -243,16 +253,18 @@ const getIslandElements = ({
       const { x, y, width, height } = fruitPatches[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`fruitPatches-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Fruit Patch" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Fruit Patch"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -262,16 +274,18 @@ const getIslandElements = ({
       const { x, y, width, height } = crops[id];
 
       return (
-        <MapPlacement
+        <Resource
           key={`crops-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
           isEditing={isEditing}
-        >
-          <Resource name="Crop Plot" createdAt={0} readyAt={0} id={id} />
-        </MapPlacement>
+          name="Crop Plot"
+          createdAt={0}
+          readyAt={0}
+          id={id}
+        />
       );
     })
   );
@@ -281,8 +295,6 @@ const getIslandElements = ({
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { state } = gameState.context;
 
   const {
     expansionConstruction,
@@ -297,8 +309,13 @@ export const Land: React.FC = () => {
     gold,
     crops,
     fruitPatches,
-  } = state;
-  const [isEditing, setIsEditing] = useState(false);
+    easterHunt,
+  } = useSelector(gameService, (state) => state.context.state);
+  const gameState = useSelector(gameService, (state) => ({
+    isAutosaving: state.matches("autosaving"),
+    isEditing: state.matches("editing"),
+    isVisiting: state.matches("visiting"),
+  }));
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -306,29 +323,30 @@ export const Land: React.FC = () => {
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
+    console.log("Land re-rendered");
   }, []);
-
-  useEffect(() => {
-    setIsEditing(gameState.matches("editing"));
-  }, [gameState.value]);
 
   const boatCoordinates = {
     x: expansionCount >= 7 ? -9 : -2,
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
+  const mainEggs = easterHunt?.eggs.filter(
+    (egg) => egg && egg.island === "Main"
+  );
+
   return (
     <>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <div
           className={classNames("relative w-full h-full", {
-            "pointer-events-none": gameState.matches("visiting"),
+            "pointer-events-none": gameState.isVisiting,
           })}
         >
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
           <DirtRenderer plots={crops} />
-
+          <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}
@@ -343,16 +361,15 @@ export const Land: React.FC = () => {
             gold,
             fruitPatches,
             crops,
-            bumpkinParts: gameState.context.state.bumpkin?.equipped,
-            isEditing,
+            bumpkinParts: bumpkin?.equipped,
+            isEditing: gameState.isEditing,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
         <IslandTravel
-          key="island-travel"
           bumpkin={bumpkin}
-          isVisiting={gameState.matches("visiting")}
-          inventory={gameState.context.state.inventory}
-          travelAllowed={!gameState.matches("autosaving")}
+          isVisiting={gameState.isVisiting}
+          inventory={inventory}
+          travelAllowed={!gameState.isAutosaving}
           onTravelDialogOpened={() => gameService.send("SAVE")}
           x={boatCoordinates.x}
           y={boatCoordinates.y}
@@ -360,9 +377,9 @@ export const Land: React.FC = () => {
 
         <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
-        {gameState.matches("editing") && <Placeable />}
+        {gameState.isEditing && <Placeable />}
       </div>
-      <Hud isFarming />
+      <Hud key="1" isFarming />
     </>
   );
 };

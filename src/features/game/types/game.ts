@@ -69,6 +69,30 @@ export type EasterEgg =
   | "Purple Egg"
   | "Yellow Egg";
 
+export const EASTER_EGG: Record<EasterEgg, { description: string }> = {
+  "Red Egg": {
+    description: "A red easter egg",
+  },
+  "Orange Egg": {
+    description: "An orange easter egg",
+  },
+  "Green Egg": {
+    description: "A green easter egg",
+  },
+  "Blue Egg": {
+    description: "A blue easter egg",
+  },
+  "Pink Egg": {
+    description: "A pink easter egg",
+  },
+  "Purple Egg": {
+    description: "A purple easter egg",
+  },
+  "Yellow Egg": {
+    description: "A yellow easter egg",
+  },
+};
+
 export const EASTER_EGGS: EasterEgg[] = [
   "Blue Egg",
   "Green Egg",
@@ -79,7 +103,7 @@ export const EASTER_EGGS: EasterEgg[] = [
   "Yellow Egg",
 ];
 
-export type EasterBunny = "Easter Bunny";
+export type EasterEventItemName = "Easter Bunny" | "Pablo The Bunny";
 
 export type MOMEventItem = "Engine Core";
 
@@ -99,8 +123,8 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
-  | "Solar Flare Ticket"
-  | "Dawn Breaker Ticket";
+  | "Dawn Breaker Ticket"
+  | "Sunflower Supporter";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -134,6 +158,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Dawn Breaker Ticket": {
     description: "A ticket used during the Dawn Breaker Season",
+  },
+  "Sunflower Supporter": {
+    description: "A community and social media supporter of the project",
   },
 };
 
@@ -174,7 +201,7 @@ export type InventoryItemName =
   | ResourceName
   | SkillName
   | EasterEgg
-  | EasterBunny
+  | EasterEventItemName
   | Food
   | MOMEventItem
   | MutantChicken
@@ -193,7 +220,6 @@ export type InventoryItemName =
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
-  | TreasureName
   | TreasureToolName
   | "Basic Land";
 
@@ -372,6 +398,21 @@ export type Bid = {
   auctionTickets: number;
 };
 
+type Island = "Main" | "Bunny Trove" | "Helios";
+
+export type EasterHunt = {
+  generatedAt: number;
+  eggs: EasterEggPosition[];
+};
+
+export type EasterEggPosition = {
+  name: InventoryItemName;
+  x: number;
+  y: number;
+  island: Island;
+  collectedAt?: number;
+};
+
 export type HayseedHank = {
   choresCompleted: number;
   chore: Chore;
@@ -446,6 +487,8 @@ export interface GameState {
     bid?: Bid;
   };
   hayseedHank: HayseedHank;
+
+  easterHunt: EasterHunt;
 }
 
 export interface Context {

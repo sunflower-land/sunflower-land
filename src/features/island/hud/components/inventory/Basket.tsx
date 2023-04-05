@@ -7,6 +7,7 @@ import {
   COUPONS,
   Bumpkin,
   GameState,
+  EASTER_EGG,
 } from "features/game/types/game";
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
@@ -94,6 +95,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const consumables = getItems(CONSUMABLES);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
+  const easterEggs = getItems(EASTER_EGG);
   const bounty = getItems(BEACH_BOUNTY_TREASURE);
 
   const allSeeds = [...seeds, ...fruitSeeds];
@@ -169,6 +171,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Exotic", exotic)}
           {itemsSection("Foods", consumables)}
           {itemsSection("Fertilisers", fertilisers)}
+          {itemsSection("Easter Eggs", easterEggs)}
           {itemsSection("Bounty", bounty)}
           {itemsSection("Coupons", coupons)}
         </>

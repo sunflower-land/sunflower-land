@@ -37,7 +37,6 @@ export const Auth: React.FC = () => {
     authState.matches("connectingToSequence") ||
     authState.matches("setupContracts");
 
-  console.log(authState.value);
   return (
     <Modal
       centered

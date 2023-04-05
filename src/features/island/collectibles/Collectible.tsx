@@ -114,6 +114,10 @@ import { ValentineBear } from "./components/ValentineBear";
 import { BeachBall } from "./components/BeachBall";
 import { PalmTree } from "./components/PalmTree";
 import { Karkinos } from "./components/Karkinos";
+import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
+import { EasterBear } from "features/island/collectibles/components/EasterBear";
+import { EasterBush } from "features/island/collectibles/components/EasterBush";
+import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -206,6 +210,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Rainbow Artist Bear": RainbowArtistBear,
   "Victoria Sisters": VictoriaSisters,
   "Devil Bear": DevilBear,
+  "Valentine Bear": ValentineBear,
+  "Easter Bear": EasterBear,
+  "Easter Bush": EasterBush,
+  "Giant Carrot": GiantCarrot,
   Observatory,
 
   "Golden Bean": Bean,
@@ -229,6 +237,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
+  "Pablo The Bunny": PabloBunny,
 
   // Treasure
   "Abandoned Bear": AbandonedBear,
@@ -254,7 +263,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Heart Balloons": HeartBalloons,
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
-  "Valentine Bear": ValentineBear,
   "Iron Idol": IronIdol,
 
   // Seasonal Items
@@ -263,7 +271,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Karkinos: Karkinos,
 };
 
-export const Collectible: React.FC<CollectibleProps> = ({
+const CollectibleComponent: React.FC<CollectibleProps> = ({
   name,
   id,
   readyAt,
@@ -383,3 +391,5 @@ export const Collectible: React.FC<CollectibleProps> = ({
     </>
   );
 };
+
+export const Collectible = React.memo(CollectibleComponent);
