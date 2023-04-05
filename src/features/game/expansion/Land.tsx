@@ -1,7 +1,9 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect } from "react";
+import { useSelector } from "@xstate/react";
+import classNames from "classnames";
+
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
-import { useActor } from "@xstate/react";
 import { Context } from "../GameProvider";
 import {
   ANIMAL_DIMENSIONS,
@@ -18,7 +20,6 @@ import { CharacterPlayground } from "features/island/bumpkin/components/Characte
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
-import classNames from "classnames";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
@@ -281,8 +282,6 @@ const getIslandElements = ({
 
 export const Land: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { state } = gameState.context;
 
   const {
     expansionConstruction,
@@ -297,8 +296,12 @@ export const Land: React.FC = () => {
     gold,
     crops,
     fruitPatches,
-  } = state;
-  const [isEditing, setIsEditing] = useState(false);
+  } = useSelector(gameService, (state) => state.context.state);
+  const gameState = useSelector(gameService, (state) => ({
+    isAutosaving: state.matches("autosaving"),
+    isEditing: state.matches("editing"),
+    isVisiting: state.matches("visiting"),
+  }));
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -307,10 +310,6 @@ export const Land: React.FC = () => {
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
-
-  useEffect(() => {
-    setIsEditing(gameState.matches("editing"));
-  }, [gameState.value]);
 
   const boatCoordinates = {
     x: expansionCount >= 7 ? -9 : -2,
@@ -322,7 +321,7 @@ export const Land: React.FC = () => {
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <div
           className={classNames("relative w-full h-full", {
-            "pointer-events-none": gameState.matches("visiting"),
+            "pointer-events-none": gameState.isVisiting,
           })}
         >
           <LandBase expandedCount={expansionCount} />
@@ -343,16 +342,15 @@ export const Land: React.FC = () => {
             gold,
             fruitPatches,
             crops,
-            bumpkinParts: gameState.context.state.bumpkin?.equipped,
-            isEditing,
+            bumpkinParts: bumpkin?.equipped,
+            isEditing: gameState.isEditing,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
         <IslandTravel
-          key="island-travel"
           bumpkin={bumpkin}
-          isVisiting={gameState.matches("visiting")}
-          inventory={gameState.context.state.inventory}
-          travelAllowed={!gameState.matches("autosaving")}
+          isVisiting={gameState.isVisiting}
+          inventory={inventory}
+          travelAllowed={!gameState.isAutosaving}
           onTravelDialogOpened={() => gameService.send("SAVE")}
           x={boatCoordinates.x}
           y={boatCoordinates.y}
@@ -360,7 +358,7 @@ export const Land: React.FC = () => {
 
         <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
-        {gameState.matches("editing") && <Placeable />}
+        {gameState.isEditing && <Placeable />}
       </div>
       <Hud isFarming />
     </>
