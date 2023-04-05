@@ -24,7 +24,8 @@ export const BunnyTrove: React.FC = () => {
   const { state } = gameState.context;
   const { bumpkin } = state;
 
-  const bunnyTroveEggs = state.easterHunt?.eggs.filter(
+  const eggs = state.easterHunt?.eggs || [];
+  const bunnyTroveEggs = eggs.filter(
     (egg) => egg && egg.island === "Bunny Trove"
   );
 
@@ -59,11 +60,15 @@ export const BunnyTrove: React.FC = () => {
         <SleepingBumpkin />
         <Gobbit />
         <EasterMole />
-        <BunnyMan />
-        <EasterEgg
-          eggs={bunnyTroveEggs}
-          generatedAt={state.easterHunt.generatedAt}
-        />
+        {state.easterHunt.eggs && (
+          <>
+            <BunnyMan />
+            <EasterEgg
+              eggs={bunnyTroveEggs}
+              generatedAt={state.easterHunt.generatedAt}
+            />
+          </>
+        )}
 
         <CustomIslandTravel
           bumpkin={bumpkin}

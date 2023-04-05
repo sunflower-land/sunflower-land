@@ -211,6 +211,10 @@ export const SandPlot: React.FC<{
 
   const handleDig = () => {
     const holes = gameState.context.state.treasureIsland?.holes ?? {};
+
+    // do not allow digging the same hole twice
+    if (holes[id]) return;
+
     const holesDug = getKeys(holes).filter(
       (holeId) => !canDig(holes[holeId]?.dugAt)
     ).length;
@@ -221,6 +225,11 @@ export const SandPlot: React.FC<{
     }
 
     if (hasSandShovel) {
+      setToast({
+        icon: ITEM_DETAILS["Sand Shovel"].image,
+        content: `-1`,
+      });
+
       gameService.send("REVEAL", {
         event: {
           type: "treasure.dug",
@@ -234,6 +243,11 @@ export const SandPlot: React.FC<{
     }
 
     if (hasSandDrill) {
+      setToast({
+        icon: ITEM_DETAILS["Sand Drill"].image,
+        content: `-1`,
+      });
+
       gameService.send("REVEAL", {
         event: {
           type: "treasure.drilled",
