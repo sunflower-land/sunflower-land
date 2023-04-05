@@ -97,7 +97,6 @@ export interface LimitedItem extends CraftableItem {
   requires?: InventoryItemName;
 }
 
-export type EasterEventItemName = "Easter Bunny" | "Pablo The Bunny";
 export type MOMEventItem = "Engine Core" | "Observatory";
 
 export type TravelingSalesmanItem =
@@ -139,6 +138,7 @@ export type BarnItem =
   | "Farm Dog"
   | "Chicken Coop"
   | "Gold Egg"
+  | "Easter Bunny"
   | "Rooster";
 
 export type MarketItem =
@@ -170,7 +170,6 @@ export type LimitedItemName =
   | BarnItem
   | MarketItem
   | Flag
-  | EasterEventItemName
   | MOMEventItem
   | QuestItem
   | MutantChicken
@@ -191,7 +190,6 @@ export type CollectibleName =
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
   | BoostTreasure
-  | EasterEventItemName
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -952,26 +950,17 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
     description: "Feed chickens without needing wheat",
     type: LimitedItemType.BarnItem,
   },
+  "Easter Bunny": {
+    name: "Easter Bunny",
+    description: "Earn 20% more Carrots",
+    section: Section["Easter Bunny"],
+    type: LimitedItemType.BarnItem,
+  },
   Rooster: {
     name: "Rooster",
     description: "Doubles the chance of dropping a mutant chicken",
     section: Section["Rooster"],
     type: LimitedItemType.BarnItem,
-  },
-};
-
-export const EASTER_EVENT_ITEMS: Record<EasterEventItemName, LimitedItem> = {
-  "Easter Bunny": {
-    name: "Easter Bunny",
-    description: "Earn 20% more Carrots",
-    section: Section["Easter Bunny"],
-    type: LimitedItemType.EasterEventItemName,
-  },
-  "Pablo The Bunny": {
-    name: "Pablo The Bunny",
-    description: "Earn +0.1 more carrots",
-    section: Section["Pablo The Bunny"],
-    type: LimitedItemType.EasterEventItemName,
   },
 };
 
@@ -1030,7 +1019,6 @@ export const LIMITED_ITEMS = {
   ...MUTANT_CHICKENS,
   ...SALESMAN_ITEMS,
   ...WAR_TENT_ITEMS,
-  ...EASTER_EVENT_ITEMS,
 };
 
 export const isLimitedItem = (itemName: any) => {

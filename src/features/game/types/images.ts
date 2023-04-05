@@ -193,6 +193,7 @@ import easterBasket from "src/assets/sfts/easter/basket.png";
 import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
 import pabloBunny from "src/assets/sfts/pablo_bunny.gif";
 import easterBush from "src/assets/sfts/easter_bush.gif";
+import giantCarrot from "assets/sfts/giant_carrot.png";
 
 //MOM Event
 import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
@@ -1892,6 +1893,11 @@ export const ITEM_DETAILS: Items = {
   "Easter Bush": {
     description: "What is inside?",
     image: easterBush,
+  },
+  "Giant Carrot": {
+    description:
+      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    image: giantCarrot,
   },
   "Iron Idol": {
     image: ironIdol,

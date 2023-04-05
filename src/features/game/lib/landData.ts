@@ -1240,6 +1240,17 @@ export const OFFLINE_FARM: GameState = {
     choresCompleted: 0,
     chore: CHORES[0],
   },
+  easterHunt: {
+    generatedAt: Date.now() - 1000,
+    eggs: [
+      {
+        name: "Blue Egg",
+        x: -2,
+        y: 3,
+        island: "Bunny Trove",
+      },
+    ],
+  },
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
     closesAt: new Date("2023-10-08").getTime(),

@@ -315,6 +315,23 @@ export const TEST_FARM: GameState = {
       description: "Harvest 10 Sunflowers",
     },
   },
+  easterHunt: {
+    generatedAt: Date.now() - 1000,
+    eggs: [
+      {
+        name: "Pink Egg",
+        x: 5,
+        y: 5,
+        island: "Helios",
+      },
+      {
+        name: "Orange Egg",
+        x: 6,
+        y: 6,
+        island: "Bunny Trove",
+      },
+    ],
+  },
 
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
@@ -406,6 +423,23 @@ export const EMPTY: GameState = {
       },
       description: "Harvest 10 Sunflowers",
     },
+  },
+  easterHunt: {
+    generatedAt: Date.now() - 1000,
+    eggs: [
+      {
+        name: "Pink Egg",
+        x: 5,
+        y: 5,
+        island: "Helios",
+      },
+      {
+        name: "Orange Egg",
+        x: 6,
+        y: 6,
+        island: "Bunny Trove",
+      },
+    ],
   },
 
   fruitPatches: {},

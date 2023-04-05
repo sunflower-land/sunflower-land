@@ -16,12 +16,17 @@ import { EasterMole } from "features/bunnyTrove/components/EasterMole";
 import { Gobbit } from "features/bunnyTrove/components/Gobbit";
 import { SadGuy } from "features/bunnyTrove/components/SadGuy";
 import { SleepingBumpkin } from "features/bunnyTrove/components/SleepingBumpkin";
+import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 
 export const BunnyTrove: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
   const { bumpkin } = state;
+
+  const bunnyTroveEggs = state.easterHunt?.eggs.filter(
+    (egg) => egg && egg.island === "Bunny Trove"
+  );
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -55,6 +60,10 @@ export const BunnyTrove: React.FC = () => {
         <Gobbit />
         <EasterMole />
         <BunnyMan />
+        <EasterEgg
+          eggs={bunnyTroveEggs}
+          generatedAt={state.easterHunt.generatedAt}
+        />
 
         <CustomIslandTravel
           bumpkin={bumpkin}

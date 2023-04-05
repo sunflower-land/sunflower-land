@@ -29,6 +29,7 @@ import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
+import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 
 const getIslandElements = ({
   buildings,
@@ -308,6 +309,7 @@ export const Land: React.FC = () => {
     gold,
     crops,
     fruitPatches,
+    easterHunt,
   } = useSelector(gameService, (state) => state.context.state);
   const gameState = useSelector(gameService, (state) => ({
     isAutosaving: state.matches("autosaving"),
@@ -329,6 +331,10 @@ export const Land: React.FC = () => {
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
+  const mainEggs = easterHunt?.eggs.filter(
+    (egg) => egg && egg.island === "Main"
+  );
+
   return (
     <>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -340,7 +346,7 @@ export const Land: React.FC = () => {
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
           <DirtRenderer plots={crops} />
-
+          <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}

@@ -132,7 +132,7 @@ const mutantChickenDefaults = buildDefaults(
   (game) => !areAnyChickensFed(game)
 );
 const flagDefaults = buildDefaults(getKeys(FLAGS), true);
-const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], true);
+const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], false);
 const skillDefaults = buildDefaults(getKeys(SKILL_TREE), false);
 const couponDefaults = buildDefaults(getKeys(COUPONS), false);
 const buildingDefaults = buildDefaults(getKeys(BUILDINGS()), false);
@@ -232,7 +232,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Easter Bear": true,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
-  "Easter Bush": false,
+  "Easter Bush": true,
+  "Giant Carrot": true,
 
   "Iron Idol": (game) => !areAnyIronsMined(game),
   "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
