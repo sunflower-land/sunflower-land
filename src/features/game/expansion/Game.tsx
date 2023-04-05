@@ -45,7 +45,7 @@ import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
-  loading: false,
+  loading: true,
   playing: false,
   autosaving: false,
   syncing: true,
@@ -165,6 +165,7 @@ export const Game: React.FC = () => {
   if (loadingSession || loadingLandToVisit) {
 =======
   const loadingSession =
+    gameState.matches("loading") ||
     gameState.matches("loadingGuestGame") ||
     (gameState.matches("loadingFullGame") &&
       gameState.context.sessionId === INITIAL_SESSION);

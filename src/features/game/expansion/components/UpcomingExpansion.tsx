@@ -28,8 +28,13 @@ export const UpcomingExpansion: React.FC = () => {
 
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
+  const playing =
+    gameState.matches("playing") ||
+    gameState.matches("playingGuestGame") ||
+    gameState.matches("playingFullGame");
+
   useEffect(() => {
-    if (isRevealing && gameState.matches("playing")) {
+    if (isRevealing && playing) {
       setIsRevealing(false);
     }
   }, [gameState.value]);

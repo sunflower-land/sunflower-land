@@ -22,6 +22,9 @@ export const BeachParty: React.FC = () => {
   const [gameState] = useActor(gameService);
   const [scrollIntoView] = useScrollIntoView();
 
+  const autosaving =
+    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
+
   useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.BeachParty, "auto");
@@ -72,7 +75,7 @@ export const BeachParty: React.FC = () => {
         x={0.5}
         y={-5.5}
         onTravelDialogOpened={() => gameService.send("SAVE")}
-        travelAllowed={!gameState.matches("autosaving")}
+        travelAllowed={!autosaving}
       />
     </>
   );

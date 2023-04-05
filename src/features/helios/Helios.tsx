@@ -46,6 +46,8 @@ export const Helios: React.FC = () => {
 
   const eggs = state.easterHunt?.eggs || [];
   const heliosEggs = eggs.filter((egg) => egg && egg.island === "Helios");
+  const autosaving =
+    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -94,7 +96,7 @@ export const Helios: React.FC = () => {
           x={3.5}
           y={-17}
           onTravelDialogOpened={() => gameService.send("SAVE")}
-          travelAllowed={!gameState.matches("autosaving")}
+          travelAllowed={!autosaving}
         />
       </div>
       <Hud isFarming={false} />

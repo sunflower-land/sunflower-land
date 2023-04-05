@@ -28,6 +28,8 @@ export const BunnyTrove: React.FC = () => {
   const bunnyTroveEggs = eggs.filter(
     (egg) => egg && egg.island === "Bunny Trove"
   );
+  const autosaving =
+    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -76,7 +78,7 @@ export const BunnyTrove: React.FC = () => {
           x={-7}
           y={-9}
           onTravelDialogOpened={() => gameService.send("SAVE")}
-          isTravelAllowed={!gameState.matches("autosaving")}
+          isTravelAllowed={!autosaving}
           customBoat={boat}
           customWidth={60}
         />

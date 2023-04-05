@@ -33,6 +33,7 @@ import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   editingMachine,
+  GuestSaveEvent,
   SaveEvent,
 } from "../expansion/placeable/editingMachine";
 import { BuildingName } from "../types/buildings";
@@ -56,6 +57,8 @@ import { depositToFarm } from "lib/blockchain/Deposit";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
 import { loadGuestSession } from "../actions/loadGuestSession";
+import { guestAutosave } from "../actions/guestAutosave";
+import { choose } from "xstate/lib/actions";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -252,7 +255,10 @@ export type BlockchainState = {
     // | "gameRules"
     | "gameRules"
     | "playing"
+    | "playingGuestGame"
+    | "playingFullGame"
     | "autosaving"
+    | "guestAutosaving"
     | "syncing"
     | "synced"
     | "buyingSFL"
@@ -281,6 +287,36 @@ export type MachineInterpreter = Interpreter<
   BlockchainEvent,
   BlockchainState
 >;
+
+export const saveGuestGame = async (
+  context: Context,
+  event: any,
+  guestKey: string
+) => {
+  const saveAt = (event as any)?.data?.saveAt || new Date();
+
+  // Skip autosave when no actions were produced and if there is no API_URL
+  if (context.actions.length === 0 || !API_URL) {
+    return { verified: true, saveAt, farm: context.state };
+  }
+
+  const { verified, farm } = await guestAutosave({
+    guestKey,
+    actions: context.actions,
+    deviceTrackerId: context.deviceTrackerId as string,
+    transactionId: context.transactionId as string,
+  });
+
+  // This gives the UI time to indicate that a save is taking place both when clicking save
+  // and when autosaving
+  await new Promise((res) => setTimeout(res, 1000));
+
+  return {
+    saveAt,
+    verified,
+    farm,
+  };
+};
 
 export const saveGame = async (
   context: Context,
@@ -592,6 +628,29 @@ export function startGame(authContext: AuthContext) {
           },
         },
         playing: {
+          always: [
+            {
+              target: "playingGuestGame",
+              cond: () => authContext.user.type === "GUEST",
+            },
+            { target: "playingFullGame" },
+          ],
+        },
+        playingGuestGame: {
+          on: {
+            ...GAME_EVENT_HANDLERS,
+            SAVE: {
+              target: "guestAutosaving",
+            },
+            REFRESH: {
+              target: "loading",
+            },
+            EDIT: {
+              target: "editing",
+            },
+          },
+        },
+        playingFullGame: {
           entry: "clearTransactionId",
           invoke: {
             /**
@@ -712,6 +771,36 @@ export function startGame(authContext: AuthContext) {
                 authContext.user.farmId as number,
                 authContext.user.rawToken as string
               ),
+            onDone: [
+              {
+                target: "playing",
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event)
+                ),
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        guestAutosaving: {
+          entry: "setTransactionId",
+          on: {
+            ...GAME_EVENT_HANDLERS,
+          },
+          invoke: {
+            src: async (context, event) => {
+              if (authContext.user.type !== "GUEST")
+                throw new Error("Not a guest");
+
+              return saveGuestGame(
+                context,
+                event,
+                authContext.user.guestKey as string
+              );
+            },
             onDone: [
               {
                 target: "playing",
@@ -952,16 +1041,32 @@ export function startGame(authContext: AuthContext) {
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
             SAVE: {
-              actions: send(
-                (context) =>
-                  ({
-                    type: "SAVE",
-                    gameMachineContext: context,
-                    rawToken: authContext.user.rawToken as string,
-                    farmId: authContext.user.farmId as number,
-                  } as SaveEvent),
-                { to: "editing" }
-              ),
+              actions: choose([
+                {
+                  cond: () => authContext.user.type === "GUEST",
+                  actions: send(
+                    (context) =>
+                      ({
+                        type: "GUEST_SAVE",
+                        gameMachineContext: context,
+                        guestKey: (authContext.user as any).guestKey,
+                      } as GuestSaveEvent),
+                    { to: "editing" }
+                  ),
+                },
+                {
+                  actions: send(
+                    (context) =>
+                      ({
+                        type: "SAVE",
+                        gameMachineContext: context,
+                        rawToken: authContext.user.rawToken as string,
+                        farmId: authContext.user.farmId as number,
+                      } as SaveEvent),
+                    { to: "editing" }
+                  ),
+                },
+              ]),
             },
             SAVE_SUCCESS: {
               actions: assign((context: Context, event: any) =>

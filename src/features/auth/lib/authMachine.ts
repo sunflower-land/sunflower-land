@@ -310,6 +310,9 @@ export const authMachine = createMachine<
           src: async (context) => {
             if (context.user.type !== "GUEST") throw new Error("Not a guest");
 
+            // Sleep 500ms to show Loading screen
+            await new Promise((resolve) => setTimeout(resolve, 500));
+
             if (!context.user.guestKey) {
               const guestKey = await createGuestAccount({
                 transactionId: context.transactionId as string,
@@ -320,6 +323,12 @@ export const authMachine = createMachine<
           },
           onDone: {
             target: "#authorised",
+            actions: assign({
+              user: (context) => ({
+                ...context.user,
+                guestKey: localStorage.getItem(GUEST_KEY),
+              }),
+            }),
           },
           onError: {
             target: "unauthorised",

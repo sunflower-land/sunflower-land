@@ -22,6 +22,9 @@ export const PumpkinPlaza: React.FC = () => {
   const [gameState] = useActor(gameService);
   const [scrollIntoView] = useScrollIntoView();
 
+  const autosaving =
+    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
+
   useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.PumpkinPlaza, "auto");
@@ -71,7 +74,7 @@ export const PumpkinPlaza: React.FC = () => {
         x={1.5}
         y={-5.5}
         onTravelDialogOpened={() => gameService.send("SAVE")}
-        travelAllowed={!gameState.matches("autosaving")}
+        travelAllowed={!autosaving}
       />
     </>
   );

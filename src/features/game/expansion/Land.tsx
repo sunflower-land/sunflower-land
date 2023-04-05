@@ -330,7 +330,8 @@ export const Land: React.FC = () => {
     easterHunt,
   } = useSelector(gameService, (state) => state.context.state);
   const gameState = useSelector(gameService, (state) => ({
-    isAutosaving: state.matches("autosaving"),
+    isAutosaving:
+      state.matches("autosaving") || state.matches("guestAutosaving"),
     isEditing: state.matches("editing"),
     isVisiting: state.matches("visiting"),
   }));
