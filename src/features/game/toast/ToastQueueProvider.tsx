@@ -17,7 +17,7 @@ export const ToastContext = createContext<{
   toastList: Toast[];
 }>({ removeToast: console.log, setToast: console.log, toastList: [] });
 
-const MAX_TOAST = 5;
+const MAX_TOAST = 6;
 
 export const ToastProvider: FC = ({ children }) => {
   const [toastList, setToastList] = useState<Toast[]>([]);
