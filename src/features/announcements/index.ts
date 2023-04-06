@@ -3,6 +3,7 @@ import loveLetter from "assets/icons/love_letter.png";
 import solarFlare from "assets/announcements/solar_flare.png";
 import resourceReboot from "assets/announcements/resource-reboot.png";
 import referrals from "assets/announcements/referrals.gif";
+import easter from "assets/announcements/easter.png";
 import token from "assets/icons/token_2.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -29,6 +30,26 @@ export interface Announcement {
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2023-04-06T00:00:00"),
+    title: "Easter Egg Hunt",
+    notes: [
+      {
+        text: "The annual easter egg hunt is live!",
+        icon: SUNNYSIDE.icons.basket,
+      },
+      {
+        text: "Visit the new Bunny Trove island and start the hunt.",
+        icon: SUNNYSIDE.icons.heart,
+      },
+      {
+        text: "Find all the eggs and mint rare items and the Bunny Onesie.",
+        icon: SUNNYSIDE.icons.expression_chat,
+      },
+    ],
+    image: easter,
+    link: "https://docs.sunflower-land.com/player-guides/special-events/easter-egg-hunt",
+  },
   {
     date: new Date("2023-04-05T00:00:00"),
     title: "Referral Program",

@@ -323,7 +323,6 @@ export const Land: React.FC = () => {
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
-    console.log("Land re-rendered");
   }, []);
 
   const boatCoordinates = {
