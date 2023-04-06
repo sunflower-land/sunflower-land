@@ -43,7 +43,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
         icon: SUNNYSIDE.icons.heart,
       },
       {
-        text: "Find all the eggs and mint rare items and the Bunny Onesie.",
+        text: "Find the easter eggs to mint rare items and the Bunny Onesie.",
         icon: SUNNYSIDE.icons.expression_chat,
       },
     ],
