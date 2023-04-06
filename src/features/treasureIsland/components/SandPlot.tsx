@@ -213,7 +213,7 @@ export const SandPlot: React.FC<{
     const holes = gameState.context.state.treasureIsland?.holes ?? {};
 
     // do not allow digging the same hole twice
-    if (holes[id]) return;
+    if (!canDig(holes[id]?.dugAt)) return;
 
     const holesDug = getKeys(holes).filter(
       (holeId) => !canDig(holes[holeId]?.dugAt)
