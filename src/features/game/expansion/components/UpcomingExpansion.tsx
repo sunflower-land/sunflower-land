@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import * as Auth from "features/auth/lib/Provider";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
 import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
@@ -16,17 +17,22 @@ import { useActor } from "@xstate/react";
 import { Revealing } from "features/game/components/Revealing";
 import { Panel } from "components/ui/Panel";
 import { Revealed } from "features/game/components/Revealed";
+import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
+import { Equipped } from "features/game/types/bumpkin";
 
 /**
  * The next piece of land to expand into
  */
 export const UpcomingExpansion: React.FC = () => {
+  const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const state = gameState.context.state;
   const [isRevealing, setIsRevealing] = useState(false);
-
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
+
+  const state = gameState.context.state;
+  const { user } = authService.state.context;
+  const isFullUser = user.type === "FULL";
 
   const playing =
     gameState.matches("playing") ||
@@ -40,7 +46,6 @@ export const UpcomingExpansion: React.FC = () => {
   }, [gameState.value]);
 
   const onExpand = () => {
-    console.log("EXPANDED!");
     gameService.send("land.expanded");
     setShowBumpkinModal(false);
   };
@@ -165,23 +170,30 @@ export const UpcomingExpansion: React.FC = () => {
           </Panel>
         </Modal>
       )}
-
       <Modal
         show={showBumpkinModal}
         onHide={() => setShowBumpkinModal(false)}
         centered
       >
-        <CloseButtonPanel
-          bumpkinParts={state.bumpkin?.equipped}
-          title="Expand your land"
-          onClose={() => setShowBumpkinModal(false)}
-        >
-          <UpcomingExpansionModal
-            gameState={state}
+        {isFullUser && (
+          <CloseButtonPanel
+            bumpkinParts={state.bumpkin?.equipped}
+            title="Expand your land"
             onClose={() => setShowBumpkinModal(false)}
-            onExpand={onExpand}
-          />
-        </CloseButtonPanel>
+          >
+            <UpcomingExpansionModal
+              gameState={state}
+              onClose={() => setShowBumpkinModal(false)}
+              onExpand={onExpand}
+            />
+          </CloseButtonPanel>
+        )}
+        {!isFullUser && (
+          <WalletOnboarding
+            bumpkinParts={state.bumpkin?.equipped as Equipped}
+            onClose={() => setShowBumpkinModal(false)}
+          ></WalletOnboarding>
+        )}
       </Modal>
     </>
   );

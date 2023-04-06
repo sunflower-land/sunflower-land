@@ -590,6 +590,9 @@ export const authMachine = createMachine<
                 target: "#idle",
                 actions: ["clearSession", "refreshFarm"],
               },
+              BUY_FULL_ACCOUNT: {
+                target: "donating",
+              },
             },
           },
           supplyReached: {},
@@ -726,7 +729,7 @@ export const authMachine = createMachine<
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
 
-        const { verificationUrl, botStatus, isBanned } = await loadBanDetails(
+        const { verificationUrl, isBanned } = await loadBanDetails(
           farmAccount.tokenId,
           context.user.rawToken as string,
           context.transactionId as string
@@ -744,7 +747,7 @@ export const authMachine = createMachine<
         if (!context.user.rawToken) throw new Error("No token");
         if (!wallet.myAccount) throw new Error("No account");
 
-        const { charityAddress, donation, captcha } = event as CreateFarmEvent;
+        const { charityAddress, captcha } = event as CreateFarmEvent;
 
         await createFarmAction({
           charity: charityAddress,
