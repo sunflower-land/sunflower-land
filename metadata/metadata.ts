@@ -504,7 +504,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A golden egg. What lays inside is known to be the bearer of good fortune.\n\n\n\nFeed chickens without wheat.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/409.png",
+    image_url: "../public/erc1155/images/409.gif",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
@@ -2834,7 +2834,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Cast an enchantment to entice the wood fairies.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/436.png",
+    image_url: "../public/erc1155/images/436.gif",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {

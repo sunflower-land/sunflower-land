@@ -42,7 +42,6 @@ import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
-import { CONFIG } from "lib/config";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
