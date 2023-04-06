@@ -124,7 +124,6 @@ export const Game: React.FC = () => {
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
 
-  console.log("Game render");
   useInterval(() => {
     gameService.send("SAVE");
   }, AUTO_SAVE_INTERVAL);
