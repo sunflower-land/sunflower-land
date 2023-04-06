@@ -252,9 +252,7 @@ export const Game: React.FC = () => {
             )}
             <Route path="/studios" element={<Studios key="hq" />} />
 
-            {CONFIG.NETWORK === "mumbai" && (
-              <Route path="/bunny-trove" element={<BunnyTrove key="bunny" />} />
-            )}
+            <Route path="/bunny-trove" element={<BunnyTrove key="bunny" />} />
 
             <Route path="*" element={<IslandNotFound />} />
           </Routes>
