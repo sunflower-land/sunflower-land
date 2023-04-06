@@ -566,7 +566,7 @@ export const authMachine = createMachine<
 
                 if (!ART_MODE) {
                   if (context.user.type === "GUEST") {
-                    window.location.href = `${window.location.pathname}#/land`;
+                    window.location.href = `${window.location.pathname}#/land/guest`;
                   }
 
                   if (context.user.type === "FULL") {

@@ -97,7 +97,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
     if (state === "noDiscord") {
       return (
         <>
-          <span className="text-shadow my-2 block text-sm">
+          <span className="text-shadow my-2 block text-sm p-2">
             You must be connected to Discord to join a restricted channel.
           </span>
           <Button onClick={oauth}>Connect</Button>

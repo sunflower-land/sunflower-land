@@ -6,6 +6,7 @@ import { InnerPanel } from "components/ui/Panel";
 import token from "assets/icons/token_2.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setPrecision } from "lib/utils/formatNumber";
+import classNames from "classnames";
 
 interface Props {
   balance: Decimal;
@@ -18,7 +19,9 @@ export const Balance: React.FC<Props> = ({ balance, onBalanceClick }) => {
   return (
     <>
       <InnerPanel
-        className="fixed z-50 flex items-center cursor-pointer p-1"
+        className={classNames("fixed z-50 flex items-center p-1", {
+          "cursor-pointer": !!onBalanceClick,
+        })}
         style={{
           top: `${PIXEL_SCALE * 3}px`,
           right: `${PIXEL_SCALE * 3}px`,

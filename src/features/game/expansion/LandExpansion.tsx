@@ -1,20 +1,16 @@
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useEffect } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
-import * as Auth from "features/auth/lib/Provider";
 
 import ocean from "assets/decorations/ocean.webp";
 
 import mapMovement from "../lib/mapMovement";
 import { useParams } from "react-router-dom";
-import { useSelector } from "@xstate/react";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { ModalProvider } from "../components/modal/ModalProvider";
 
 export const LandExpansion: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
-
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
   const { id } = useParams();

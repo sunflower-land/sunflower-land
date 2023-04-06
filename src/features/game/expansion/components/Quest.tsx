@@ -17,6 +17,8 @@ import { Loading } from "features/auth/components";
 import { Panel } from "components/ui/Panel";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { Minting } from "features/game/components/Minting";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -52,6 +54,35 @@ export const Quest: React.FC<Props> = ({
 
   const [state, send] = useActor(questService);
   const quest = QUESTS[state.context.currentQuest as QuestName];
+
+  const isGuest = authState.context.user?.type === "GUEST";
+
+  if (isGuest) {
+    return (
+      <CloseButtonPanel
+        title={questTitle}
+        bumpkinParts={bumpkinParts}
+        onClose={onClose}
+      >
+        <>
+          <div className="flex flex-col p-2 pt-0 space-y-2 mb-1 text-sm w-full">
+            <img
+              src={SUNNYSIDE.icons.heart}
+              className="mx-auto mb-1"
+              style={{
+                width: `${PIXEL_SCALE * 16}px`,
+              }}
+            />
+            <span>Want to be the top bumpkin in town?</span>
+            <span>
+              Upgrade to a full account and complete all the quests like a boss!
+            </span>
+          </div>
+          <Button>Upgrade now!</Button>
+        </>
+      </CloseButtonPanel>
+    );
+  }
 
   if (state.matches("loading")) {
     return (

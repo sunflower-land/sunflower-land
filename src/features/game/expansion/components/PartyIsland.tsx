@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 
 import partyIsland from "assets/land/party_island.png";
+import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
 import lockIcon from "assets/skills/lock.png";
 import levelUpIcon from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -29,6 +30,7 @@ import { OuterPanel } from "components/ui/Panel";
 
 import { MapPlacement } from "./MapPlacement";
 import classNames from "classnames";
+import { Button } from "components/ui/Button";
 
 type PartyRoom = {
   roomId: Room;
@@ -40,7 +42,7 @@ type PartyRoom = {
 
 export const Rooms: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
+  const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -164,12 +166,15 @@ export const Rooms: React.FC = () => {
 };
 
 export const PartyIsland: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showSharkModal, setshowSharkModal] = useState(false);
   const [showTigerModal, setShowTigerModal] = useState(false);
   const [showPirateModal, setShowPirateModal] = useState(false);
+
+  const isGuest = authService.state.context.user.type === "GUEST";
 
   const party = upcomingParty();
 
@@ -178,6 +183,44 @@ export const PartyIsland: React.FC = () => {
   const hasAccess =
     isPartyActive ||
     hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA");
+
+  const PartyModalContent = () => {
+    if (isGuest) {
+      return (
+        <>
+          <div className="p-2 pt-0 mb-2 text-sm space-y-2">
+            <img
+              src={beachBall}
+              className="mb-2 mx-auto"
+              style={{
+                width: `${PIXEL_SCALE * 15}px`,
+              }}
+            />
+            <p>
+              {`Don't miss out on all the fun and excitement of meeting the team and interacting with other Bumpkins on party island.`}
+            </p>
+            <p>Upgrade to a full farm account and be a part of the action!</p>
+          </div>
+          <Button>Upgrade now!</Button>
+        </>
+      );
+    }
+
+    return (
+      <div className="p-2">
+        <p className="text-sm mb-3">
+          Meet the team and interact with other Bumpkins.
+        </p>
+        {!hasAccess && (
+          <p className="text-sm italic mb-2">
+            Coming soon. This is an experimental feature being tested.
+          </p>
+        )}
+
+        {hasAccess && <Rooms />}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -199,18 +242,7 @@ export const PartyIsland: React.FC = () => {
             </div>
           }
         >
-          <div className="p-2">
-            <p className="text-sm mb-3">
-              Meet the team and interact with other Bumpkins.
-            </p>
-            {!hasAccess && (
-              <p className="text-sm italic mb-2">
-                Coming soon. This is an experimental feature being tested.
-              </p>
-            )}
-
-            {hasAccess && <Rooms />}
-          </div>
+          {PartyModalContent()}
         </CloseButtonPanel>
       </Modal>
 
@@ -286,7 +318,6 @@ export const PartyIsland: React.FC = () => {
             left: `${PIXEL_SCALE * 22}px`,
           }}
         />
-
         <div
           className="absolute"
           style={{

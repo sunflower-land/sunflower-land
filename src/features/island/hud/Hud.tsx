@@ -58,6 +58,7 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       <div hidden={isEditing}>
         <Inventory
           state={gameState.context.state}
+          isFullUser={isFullUser}
           shortcutItem={shortcutItem}
           selectedItem={selectedItem as InventoryItemName}
           onPlace={(selected) => {
@@ -113,11 +114,14 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
             }
             balance={gameState.context.state.balance}
           />
-          <BlockBucks
-            blockBucks={
-              gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-            }
-          />
+          {isFullUser && (
+            <BlockBucks
+              blockBucks={
+                gameState.context.state.inventory["Block Buck"] ??
+                new Decimal(0)
+              }
+            />
+          )}
           {landId && <LandId landId={landId} />}
           <Save />
           <BumpkinProfile />

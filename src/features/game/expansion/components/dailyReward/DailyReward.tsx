@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
+import * as Auth from "features/auth/lib/Provider";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -15,10 +16,14 @@ import { Panel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Loading } from "features/auth/components";
 import { CountdownLabel } from "components/ui/CountdownLabel";
+import { Equipped } from "features/game/types/bumpkin";
 
 export const DailyReward: React.FC = () => {
+  const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const isGuest = authService.state.context.user?.type === "GUEST";
 
   const [showModal, setShowModal] = useState(false);
 
@@ -50,7 +55,46 @@ export const DailyReward: React.FC = () => {
     chestService.send("OPEN");
   };
 
+  const pirateBumpkin: Equipped = {
+    body: "Goblin Potion",
+    hair: "White Long Hair",
+    hat: "Pirate Hat",
+    shirt: "Fancy Top",
+    pants: "Pirate Pants",
+    tool: "Pirate Scimitar",
+    background: "Seashore Background",
+    shoes: "Black Farmer Boots",
+  };
+
   const ModalContent = () => {
+    if (isGuest) {
+      return (
+        <CloseButtonPanel
+          title="Daily Reward"
+          onClose={() => setShowModal(false)}
+          bumpkinParts={pirateBumpkin}
+        >
+          <>
+            <div className="flex flex-col items-center p-2 pt-0 space-y-2 mb-1 text-sm w-full">
+              <img
+                src={SUNNYSIDE.decorations.treasure_chest}
+                className="mb-2"
+                style={{
+                  width: `${PIXEL_SCALE * 16}px`,
+                }}
+              />
+              <span>Want to take your farm game to the next level?</span>
+              <span>
+                Upgrade to a full farm account and unlock all the daily rewards
+                waiting for you.
+              </span>
+            </div>
+            <Button>Upgrade now!</Button>
+          </>
+        </CloseButtonPanel>
+      );
+    }
+
     if (chestState.matches("opened")) {
       const now = new Date();
       const nextRefreshInSeconds =

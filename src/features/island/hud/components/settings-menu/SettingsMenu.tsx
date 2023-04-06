@@ -53,6 +53,9 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
   const { openModal } = useContext(ModalContext);
 
+  const { user } = authService.state.context;
+  const isFullUser = user.type === "FULL";
+
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
     onClose();
@@ -155,11 +158,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       </li>
                     </>
                   )}
-                  <li className="p-1">
-                    <Button onClick={storeOnChain}>
-                      <span>Store progress on chain</span>
-                    </Button>
-                  </li>
+                  {isFullUser && (
+                    <li className="p-1">
+                      <Button onClick={storeOnChain}>
+                        <span>Store progress on chain</span>
+                      </Button>
+                    </li>
+                  )}
                   <li className="p-1">
                     <Button onClick={handleHowToPlay}>
                       <div className="flex items-center justify-center">
@@ -172,26 +177,35 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       </div>
                     </Button>
                   </li>
-                  <li className="p-1">
-                    <Button onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}>
-                      <span>Community</span>
-                    </Button>
-                  </li>
-                  <li className="p-1">
-                    <Button onClick={handleDiscordClick}>
-                      <span>Discord</span>
-                    </Button>
-                  </li>
-                  <li className="p-1">
-                    <Button onClick={handleAddMatic}>
-                      <span>Add Matic</span>
-                    </Button>
-                  </li>
-                  <li className="p-1">
-                    <Button onClick={handleAddSFL}>
-                      <span>Add SFL</span>
-                    </Button>
-                  </li>
+                  {isFullUser && (
+                    <>
+                      <li className="p-1">
+                        <Button
+                          onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}
+                        >
+                          <span>Community</span>
+                        </Button>
+                      </li>
+
+                      <li className="p-1">
+                        <Button onClick={handleDiscordClick}>
+                          <span>Discord</span>
+                        </Button>
+                      </li>
+
+                      <li className="p-1">
+                        <Button onClick={handleAddMatic}>
+                          <span>Add Matic</span>
+                        </Button>
+                      </li>
+
+                      <li className="p-1">
+                        <Button onClick={handleAddSFL}>
+                          <span>Add SFL</span>
+                        </Button>
+                      </li>
+                    </>
+                  )}
                   <li className="p-1">
                     <Button onClick={handleSettingsClick}>
                       <span>Settings</span>

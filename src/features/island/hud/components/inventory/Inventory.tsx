@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 interface Props {
   state: GameState;
   selectedItem: InventoryItemName;
+  isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;
   onDepositClick?: () => void;
@@ -25,6 +26,7 @@ export const Inventory: React.FC<Props> = ({
   state,
   selectedItem: selectedBasketItem,
   shortcutItem,
+  isFullUser,
   isFarming,
   isSaving,
   onPlace,
@@ -48,13 +50,15 @@ export const Inventory: React.FC<Props> = ({
     shortcutItem(item);
   };
 
+  const top = isFullUser ? 38 : 24;
+
   return (
     <>
       <div
         className="flex flex-col items-center fixed z-50"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * 38}px`,
+          top: `${PIXEL_SCALE * top}px`,
         }}
       >
         <div

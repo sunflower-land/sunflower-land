@@ -133,7 +133,6 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
           <Pirate />
         </div>
       </MapPlacement>
-
       <MapPlacement x={16} y={-11} width={6}>
         <DailyReward />
         <img
@@ -143,16 +142,6 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
           }}
         />
       </MapPlacement>
-
-      {/* <MapPlacement x={-5} y={-16} width={6}>
-        <img
-          src={smallIsland}
-          style={{
-            width: `${PIXEL_SCALE * 82}px`,
-          }}
-        />
-      </MapPlacement> */}
-
       {/* Community Assets */}
       <CommunityBoundary>
         <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y}>

@@ -22,6 +22,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 interface Island {
   name: string;
   levelRequired: BumpkinLevel;
+  guestAccess: boolean;
   path: string;
   image?: string;
   comingSoon?: boolean;
@@ -43,6 +44,7 @@ const IslandListItem: React.FC<IslandProps> = ({
   levelRequired,
   path,
   bumpkin,
+  guestAccess,
   image,
   comingSoon,
   currentPath,
@@ -77,10 +79,16 @@ const IslandListItem: React.FC<IslandProps> = ({
               {onSameIsland && <Label type="info">You are here</Label>}
               {/* Level requirement */}
               {notEnoughLevel && (
-                <Label type="danger" className="flex gap-2 items-center">
+                <Label
+                  type="danger"
+                  className="flex gap-2 items-center whitespace-nowrap"
+                >
                   <img src={levelUpIcon} className="h-4" />
                   Lvl {levelRequired}
                 </Label>
+              )}
+              {!guestAccess && !comingSoon && (
+                <Label type="info">Full access required</Label>
               )}
               {/* Coming soon */}
               {comingSoon && <Label type="warning">Coming soon</Label>}
@@ -136,57 +144,67 @@ export const IslandList: React.FC<IslandListProps> = ({
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");
 
+  const farmId = id ?? "guest";
+
   const islands: Island[] = [
     {
       name: "Home",
       image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 1,
-      path: `/land/${id}`,
+      guestAccess: true,
+      path: `/land/${farmId}`,
     },
     {
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
+      guestAccess: true,
       image: SUNNYSIDE.icons.helios,
-      path: `/land/${id}/helios`,
+      path: `/land/${farmId}/helios`,
     },
     {
       name: "Bunny Trove",
       levelRequired: 1 as BumpkinLevel,
+      guestAccess: false,
       image: bunnyfower,
       path: `/land/${id}/bunny-trove`,
     },
     {
       name: "Goblin Retreat",
       levelRequired: 5 as BumpkinLevel,
+      guestAccess: false,
       image: goblin,
-      path: `/retreat/${id}`,
+      path: `/retreat/${farmId}`,
     },
     {
       name: "Treasure Island",
       levelRequired: 10 as BumpkinLevel,
+      guestAccess: false,
       image: SUNNYSIDE.icons.treasure,
-      path: `/land/${id}/treasure-island`,
+      path: `/land/${farmId}/treasure-island`,
     },
     {
       name: "Stone Haven",
       levelRequired: 20 as BumpkinLevel,
+      guestAccess: false,
       image: SUNNYSIDE.resource.boulder,
-      path: `/treasure/${id}`,
+      path: `/treasure/${farmId}`,
       comingSoon: true,
     },
     {
       name: "Sunflorea",
       levelRequired: 30 as BumpkinLevel,
+      guestAccess: false,
       image: sunflorea,
-      path: `/treasure/${id}`,
+      path: `/treasure/${farmId}`,
       comingSoon: true,
     },
     {
       name: "Snow Kingdom",
       // Originally it was 50, but BumpkinLevel type has restrictions(current max is 40)
       levelRequired: 40,
+      guestAccess: false,
       image: snowman,
-      path: `/snow/${id}`,
+      path: `/snow/${farmId}`,
       comingSoon: true,
     },
   ];
@@ -211,6 +229,7 @@ export const IslandList: React.FC<IslandListProps> = ({
             name="Home"
             image={CROP_LIFECYCLE.Sunflower.ready}
             levelRequired={1}
+            guestAccess={true}
             path={`/land/${authState.context.user.farmId}`}
             bumpkin={bumpkin}
             currentPath={location.pathname}
