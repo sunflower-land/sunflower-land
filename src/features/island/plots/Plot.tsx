@@ -27,7 +27,6 @@ interface Props {
 }
 
 export const Plot: React.FC<Props> = ({ id }) => {
-  console.log("render plots!");
   const { gameService, selectedItem, showTimers } = useContext(Context);
   const [game] = useActor(gameService);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
