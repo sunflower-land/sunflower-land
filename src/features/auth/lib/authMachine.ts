@@ -154,7 +154,10 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_SEQUENCE" }
   | { type: "CONNECT_AS_GUEST" }
   | { type: "SIGN" }
-  | { type: "VERIFIED" };
+  | { type: "VERIFIED" }
+  | { type: "SET_WALLET" }
+  | { type: "SET_TOKEN" }
+  | { type: "BUY_FULL_ACCOUNT" };
 
 export type BlockchainState = {
   value:
@@ -589,6 +592,12 @@ export const authMachine = createMachine<
               LOGOUT: {
                 target: "#idle",
                 actions: ["clearSession", "refreshFarm"],
+              },
+              SET_WALLET: {
+                actions: "assignGuestUser",
+              },
+              SET_TOKEN: {
+                actions: "assignToken",
               },
               BUY_FULL_ACCOUNT: {
                 target: "donating",
