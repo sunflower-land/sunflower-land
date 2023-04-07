@@ -382,18 +382,18 @@ const CollectibleComponent: React.FC<Props> = ({
           {inProgress ? (
             <InProgressCollectible
               key={id}
-              createdAt={createdAt}
-              id={id}
               name={name}
+              id={id}
+              createdAt={createdAt}
               readyAt={readyAt}
               isRustyShovelSelected={false}
             />
           ) : (
             <CollectiblePlaced
               key={id}
-              createdAt={createdAt}
-              id={id}
               name={name}
+              id={id}
+              createdAt={createdAt}
               readyAt={readyAt}
             />
           )}

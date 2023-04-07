@@ -106,8 +106,11 @@ const getIslandElements = ({
               isEditing={isEditing}
             >
               <Building
-                building={building}
-                name={name as BuildingName}
+                name={name}
+                id={building.id}
+                readyAt={building.readyAt}
+                createdAt={building.createdAt}
+                crafting={building.crafting}
                 isRustyShovelSelected={isRustyShovelSelected}
               />
             </MapPlacement>

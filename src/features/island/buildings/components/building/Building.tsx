@@ -1,10 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
-import {
-  BuildingProduct,
-  PlacedItem as IBuilding,
-} from "features/game/types/game";
+import { BuildingProduct } from "features/game/types/game";
 import { FirePit } from "./firePit/FirePit";
 import { Bar } from "components/ui/ProgressBar";
 import { WithCraftingMachine } from "./WithCraftingMachine";
@@ -28,7 +25,10 @@ import { Toolshed } from "./toolshed/Toolshed";
 
 interface Prop {
   name: BuildingName;
-  building: IBuilding;
+  id: string;
+  readyAt: number;
+  createdAt: number;
+  crafting?: BuildingProduct;
   isRustyShovelSelected: boolean;
 }
 
@@ -96,14 +96,19 @@ export const BUILDING_COMPONENTS: Record<
   ),
 };
 
-const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
+const InProgressBuilding: React.FC<Prop> = ({
+  name,
+  id,
+  readyAt,
+  createdAt,
+}) => {
   const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
-  const totalSeconds = (building.readyAt - building.createdAt) / 1000;
-  const secondsLeft = Math.floor((building.readyAt - Date.now()) / 1000);
+  const totalSeconds = (readyAt - createdAt) / 1000;
+  const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
 
   return (
     <>
@@ -113,7 +118,7 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
         onMouseLeave={() => setShowTooltip(false)}
       >
         <div className="w-full h-full pointer-events-none opacity-50">
-          <BuildingPlaced buildingId={building.id} />
+          <BuildingPlaced buildingId={id} />
         </div>
         {showTimers && (
           <div
@@ -147,14 +152,17 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
 
 const BuildingComponent: React.FC<Prop> = ({
   name,
-  building,
-  isRustyShovelSelected: isRustyShovelSelected,
+  id,
+  readyAt,
+  createdAt,
+  crafting,
+  isRustyShovelSelected,
 }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
-  const inProgress = building.readyAt > Date.now();
+  const inProgress = readyAt > Date.now();
 
   useUiRefresher({ active: inProgress });
 
@@ -174,14 +182,17 @@ const BuildingComponent: React.FC<Prop> = ({
     <>
       {inProgress ? (
         <InProgressBuilding
-          building={building}
+          key={id}
           name={name}
+          id={id}
+          readyAt={readyAt}
+          createdAt={createdAt}
           isRustyShovelSelected={false}
         />
       ) : (
         <BuildingPlaced
-          buildingId={building.id}
-          craftingState={building.crafting}
+          buildingId={id}
+          craftingState={crafting}
           onRemove={isRustyShovelSelected ? handleRemove : undefined}
           isBuilt
         />
@@ -191,7 +202,7 @@ const BuildingComponent: React.FC<Prop> = ({
           <RemovePlaceableModal
             type="building"
             name={name}
-            placeableId={building.id}
+            placeableId={id}
             onClose={handleClose}
           />
         )}
