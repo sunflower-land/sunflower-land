@@ -138,7 +138,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    // harvest crop
+    // harvest crop when ready
     if (readyToHarvest) {
       harvestCrop(crop);
     }
