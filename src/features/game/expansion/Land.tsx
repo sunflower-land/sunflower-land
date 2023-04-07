@@ -323,7 +323,6 @@ export const Land: React.FC = () => {
 
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
-    console.log("Land re-rendered");
   }, []);
 
   const boatCoordinates = {
@@ -331,9 +330,8 @@ export const Land: React.FC = () => {
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
-  const mainEggs = easterHunt?.eggs.filter(
-    (egg) => egg && egg.island === "Main"
-  );
+  const eggs = easterHunt?.eggs || [];
+  const mainEggs = eggs.filter((egg) => egg && egg.island === "Main");
 
   return (
     <>
@@ -346,7 +344,9 @@ export const Land: React.FC = () => {
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
           <DirtRenderer plots={crops} />
-          <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
+          {easterHunt && (
+            <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
+          )}
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}
