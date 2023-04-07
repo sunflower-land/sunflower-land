@@ -23,6 +23,8 @@
   "dependencies": {
     "0xsequence": "^0.43.2",
     "@alch/alchemy-web3": "^1.4.7",
+    "@capacitor/cli": "^4.7.3",
+    "@capacitor/core": "^4.7.3",
     "@types/uuid": "^9.0.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "@xstate/inspect": "^0.6.2",
@@ -61,10 +63,11 @@
     "xstate": "^4.33.1"
   },
   "devDependencies": {
+    "@capacitor/ios": "^4.7.3",
     "@rollup/plugin-inject": "^5.0.2",
     "@testing-library/react-hooks": "^7.0.2",
-    "@types/howler": "^2.2.6",
     "@types/bad-words": "^3.0.1",
+    "@types/howler": "^2.2.6",
     "@types/jest": "^27.4.0",
     "@types/lodash.clonedeep": "^4.5.7",
     "@types/lodash.debounce": "^4.0.7",
