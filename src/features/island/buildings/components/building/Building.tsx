@@ -20,19 +20,16 @@ import { Kitchen } from "./kitchen/Kitchen";
 import { Deli } from "./deli/Deli";
 import { Modal } from "react-bootstrap";
 import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
-import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
-import { SUNNYSIDE } from "assets/sunnyside";
-import classNames from "classnames";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
 
 interface Prop {
   name: BuildingName;
   building: IBuilding;
-  onRemove?: () => void;
+  isRustyShovelSelected: boolean;
 }
 
 export interface BuildingProps {
@@ -102,16 +99,6 @@ export const BUILDING_COMPONENTS: Record<
 const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
   const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [showError, setShowError] = useState(false);
-
-  const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
-
-  const handleClick = async () => {
-    if (hasRustyShovelSelected) setShowError(true);
-    await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
-    setShowError(false);
-  };
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
@@ -121,38 +108,27 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
   return (
     <>
       <div
-        className="w-full h-full opacity-50"
+        className="w-full h-full"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
-        onClick={handleClick}
       >
-        <BuildingPlaced buildingId={building.id} />
-      </div>
-      {/* Error Icon */}
-      <div
-        className={classNames(
-          "transition-opacity absolute bottom-1 left-1/2 -translate-x-1/2 w-full z-40 pointer-events-none flex justify-center",
-          {
-            "opacity-100": showError,
-            "opacity-0": !showError,
-          }
-        )}
-      >
-        <img className="w-5" src={SUNNYSIDE.icons.cancel} />
-      </div>
-      {showTimers && (
-        <div
-          className="absolute bottom-0 left-1/2"
-          style={{
-            marginLeft: `${PIXEL_SCALE * -8}px`,
-          }}
-        >
-          <Bar
-            percentage={(1 - secondsLeft / totalSeconds) * 100}
-            type="progress"
-          />
+        <div className="w-full h-full pointer-events-none opacity-50">
+          <BuildingPlaced buildingId={building.id} />
         </div>
-      )}
+        {showTimers && (
+          <div
+            className="absolute bottom-0 left-1/2"
+            style={{
+              marginLeft: `${PIXEL_SCALE * -8}px`,
+            }}
+          >
+            <Bar
+              percentage={(1 - secondsLeft / totalSeconds) * 100}
+              type="progress"
+            />
+          </div>
+        )}
+      </div>
       <div
         className="flex justify-center absolute w-full pointer-events-none"
         style={{
@@ -169,7 +145,11 @@ const InProgressBuilding: React.FC<Prop> = ({ building, name }) => {
   );
 };
 
-const BuildingComponent: React.FC<Prop> = ({ name, building }) => {
+const BuildingComponent: React.FC<Prop> = ({
+  name,
+  building,
+  isRustyShovelSelected: isRustyShovelSelected,
+}) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -177,9 +157,6 @@ const BuildingComponent: React.FC<Prop> = ({ name, building }) => {
   const inProgress = building.readyAt > Date.now();
 
   useUiRefresher({ active: inProgress });
-
-  const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
 
   const handleRemove = () => {
     setShowRemoveModal(true);
@@ -190,19 +167,22 @@ const BuildingComponent: React.FC<Prop> = ({ name, building }) => {
   };
 
   /**
-   * If a player has the Rusty Shovel selected then the onClick action of the building will open the RemoveModal
+   * If a player has the Rusty Shovel selected then the onClick action of the building will open the RemovePlaceableModal
    * Otherwise the onClick with be the regular onClick located inside the individual buildings component
    */
-
   return (
     <>
       {inProgress ? (
-        <InProgressBuilding building={building} name={name} />
+        <InProgressBuilding
+          building={building}
+          name={name}
+          isRustyShovelSelected={false}
+        />
       ) : (
         <BuildingPlaced
           buildingId={building.id}
           craftingState={building.crafting}
-          onRemove={hasRustyShovelSelected ? handleRemove : undefined}
+          onRemove={isRustyShovelSelected ? handleRemove : undefined}
           isBuilt
         />
       )}

@@ -30,6 +30,7 @@ import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
+import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 
 const getIslandElements = ({
   buildings,
@@ -42,6 +43,7 @@ const getIslandElements = ({
   fruitPatches,
   crops,
   bumpkinParts,
+  isRustyShovelSelected,
   isEditing,
 }: {
   expansionConstruction?: ExpansionConstruction;
@@ -55,6 +57,7 @@ const getIslandElements = ({
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   bumpkinParts: BumpkinParts | undefined;
+  isRustyShovelSelected: boolean;
   isEditing?: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
@@ -102,7 +105,11 @@ const getIslandElements = ({
               width={width}
               isEditing={isEditing}
             >
-              <Building building={building} name={name as BuildingName} />
+              <Building
+                building={building}
+                name={name as BuildingName}
+                isRustyShovelSelected={isRustyShovelSelected}
+              />
             </MapPlacement>
           );
         });
@@ -133,6 +140,7 @@ const getIslandElements = ({
                 id={id}
                 readyAt={readyAt}
                 createdAt={createdAt}
+                isRustyShovelSelected={isRustyShovelSelected}
               />
             </MapPlacement>
           );
@@ -330,6 +338,8 @@ export const Land: React.FC = () => {
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
+  const shortcuts = getShortcuts();
+
   const eggs = easterHunt?.eggs || [];
   const mainEggs = eggs.filter((egg) => egg && egg.island === "Main");
 
@@ -362,6 +372,7 @@ export const Land: React.FC = () => {
             fruitPatches,
             crops,
             bumpkinParts: bumpkin?.equipped,
+            isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             isEditing: gameState.isEditing,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
