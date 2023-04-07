@@ -95,7 +95,9 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
 
     // increase touch count if there is a reward
-    if (crop?.reward && isReadyToHarvest(now, crop, CROPS()[crop.name])) {
+    const readyToHarvest =
+      !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
+    if (crop?.reward && readyToHarvest) {
       if (touchCount < 1) {
         // Add to touch count for reward pickup
         setTouchCount((count) => count + 1);
@@ -137,7 +139,9 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
 
     // harvest crop
-    harvestCrop(crop);
+    if (readyToHarvest) {
+      harvestCrop(crop);
+    }
 
     setTouchCount(0);
   };
