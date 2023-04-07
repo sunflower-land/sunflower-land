@@ -24,13 +24,13 @@ import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
-import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getGameGrid } from "./placeable/lib/makeGrid";
+import { LandscapingHud } from "features/island/hud/LandscapingHud";
 
 const getIslandElements = ({
   buildings,
@@ -386,7 +386,7 @@ export const Land: React.FC = () => {
 
         {gameState.isEditing && <Placeable />}
       </div>
-      <Hud key="1" isFarming />
+      <LandscapingHud key="1" isFarming />
     </>
   );
 };
