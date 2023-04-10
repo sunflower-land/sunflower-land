@@ -3,13 +3,11 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "react-bootstrap";
-import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { hasShownTutorial } from "lib/tutorial";
 import { Bumpkin } from "features/game/types/game";
 import { isTaskComplete } from "./lib/HayseedHankTask";
 import { CONVERSATIONS } from "features/game/types/conversations";
@@ -17,12 +15,7 @@ import { Panel } from "components/ui/Panel";
 import { Conversation } from "features/farming/mail/components/Conversation";
 import { Chore } from "./components/Chore";
 
-interface Props {
-  x: number;
-  y: number;
-}
-
-export const HayseedHank: React.FC<Props> = ({ x, y }) => {
+export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -43,49 +36,45 @@ export const HayseedHank: React.FC<Props> = ({ x, y }) => {
   );
 
   return (
-    <MapPlacement x={7} y={0} height={1} width={1}>
+    <>
       <div
-        className="relative w-full h-full cursor-pointer hover:img-highlight"
-        onClick={handleClick}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+          right: `${PIXEL_SCALE * 2}px`,
+          bottom: `${PIXEL_SCALE * 32}px`,
+          transform: "scaleX(-1)",
+        }}
       >
-        <div
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 16}px`,
-            left: `${PIXEL_SCALE * 0}px`,
-            bottom: `${PIXEL_SCALE * 28}px`,
-            transform: "scaleX(-1)",
-          }}
-        >
-          <NPC
-            body="Light Brown Farmer Potion"
-            shirt="Red Farmer Shirt"
-            pants="Brown Suspenders"
-            hair="Sun Spots"
+        <NPC
+          body="Light Brown Farmer Potion"
+          shirt="Red Farmer Shirt"
+          pants="Brown Suspenders"
+          hair="Sun Spots"
+          onClick={handleClick}
+        />
+        {conversationId && (
+          <img
+            src={SUNNYSIDE.icons.expression_chat}
+            className="absolute animate-pulsate"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              top: `${PIXEL_SCALE * -4}px`,
+              right: `${PIXEL_SCALE * 1}px`,
+            }}
           />
-          {conversationId && (
-            <img
-              src={SUNNYSIDE.icons.expression_chat}
-              className="absolute animate-pulsate"
-              style={{
-                width: `${PIXEL_SCALE * 10}px`,
-                top: `${PIXEL_SCALE * -4}px`,
-                right: `${PIXEL_SCALE * 1}px`,
-              }}
-            />
-          )}
-          {isTaskComplete(hayseedHank, bumpkin) && (
-            <img
-              src={SUNNYSIDE.icons.confirm}
-              className="absolute animate-float"
-              style={{
-                width: `${PIXEL_SCALE * 4}px`,
-                bottom: `${PIXEL_SCALE * -3}px`,
-                left: `${PIXEL_SCALE * 7}px`,
-              }}
-            />
-          )}
-        </div>
+        )}
+        {isTaskComplete(hayseedHank, bumpkin) && (
+          <img
+            src={SUNNYSIDE.icons.confirm}
+            className="absolute animate-float"
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+              bottom: `${PIXEL_SCALE * -3}px`,
+              left: `${PIXEL_SCALE * 7}px`,
+            }}
+          />
+        )}
       </div>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         {conversationId ? (
@@ -116,6 +105,6 @@ export const HayseedHank: React.FC<Props> = ({ x, y }) => {
           </CloseButtonPanel>
         )}
       </Modal>
-    </MapPlacement>
+    </>
   );
 };
