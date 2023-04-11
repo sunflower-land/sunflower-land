@@ -118,9 +118,10 @@ import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
 import { EasterBear } from "features/island/collectibles/components/EasterBear";
 import { EasterBush } from "features/island/collectibles/components/EasterBush";
 import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
-import { Fence } from "./components/Fence";
 import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { Fence } from "./components/Fence";
 
 export interface CollectibleProps {
   name: CollectibleName;
