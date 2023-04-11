@@ -71,7 +71,9 @@ export const UpcomingExpansion: React.FC = () => {
             height={LAND_SIZE}
             width={LAND_SIZE}
           >
-            <Pontoon expansion={state.expansionConstruction} />
+            <div id="craig">
+              <Pontoon expansion={state.expansionConstruction} />
+            </div>
           </MapPlacement>
         );
       }

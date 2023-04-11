@@ -342,7 +342,9 @@ export const Land: React.FC = () => {
           })}
         >
           <LandBase expandedCount={expansionCount} />
+
           <UpcomingExpansion />
+
           <DirtRenderer plots={crops} />
           {easterHunt && (
             <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
@@ -379,6 +381,7 @@ export const Land: React.FC = () => {
 
         {gameState.isEditing && <Placeable />}
       </div>
+
       <Hud key="1" isFarming />
     </>
   );
