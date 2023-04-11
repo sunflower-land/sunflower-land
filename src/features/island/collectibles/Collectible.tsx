@@ -118,12 +118,16 @@ import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
 import { EasterBear } from "features/island/collectibles/components/EasterBear";
 import { EasterBush } from "features/island/collectibles/components/EasterBush";
 import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
+import { Fence } from "./components/Fence";
+import { Bush } from "./components/Bush";
+import { Shrub } from "./components/Shrub";
 
 export interface CollectibleProps {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
+  coordinates: Coordinates;
 }
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
@@ -154,6 +158,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Speed Chicken": SpeedChicken,
   Rooster,
   "Undead Rooster": UndeadRooster,
+
+  "Dirt Path": () => null,
+  Fence: Fence,
+  Bush: Bush,
+  Shrub: Shrub,
 
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
@@ -276,6 +285,7 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
   id,
   readyAt,
   createdAt,
+  coordinates,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const { showTimers } = useContext(Context);
@@ -308,6 +318,7 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
               id={id}
               name={name}
               readyAt={readyAt}
+              coordinates={coordinates}
             />
           </div>
           {showTimers && (
@@ -371,6 +382,7 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
             id={id}
             name={name}
             readyAt={readyAt}
+            coordinates={coordinates}
           />
         </div>
       </div>
