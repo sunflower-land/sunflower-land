@@ -276,6 +276,8 @@ export const OFFLINE_FARM: GameState = {
     "Lunar Calendar": new Decimal(1),
     "Pablo The Bunny": new Decimal(1),
     "Easter Bear": new Decimal(1),
+    "Cabbage Girl": new Decimal(1),
+    "Cabbage Boy": new Decimal(1),
 
     Tree: new Decimal(5),
     "Stone Rock": new Decimal(3),
