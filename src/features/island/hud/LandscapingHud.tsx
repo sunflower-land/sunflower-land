@@ -1,13 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
-import { DepositArgs } from "lib/blockchain/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ITEM_DETAILS } from "features/game/types/images";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import buildingIcon from "assets/icons/building_icon.png";
@@ -24,6 +21,8 @@ import {
 import { Label } from "components/ui/Label";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
 import { LandscapingChest } from "./components/LandscapingChest";
+import { getChestItems } from "./components/inventory/utils/inventory";
+import { getKeys } from "features/game/types/craftables";
 
 const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
@@ -35,6 +34,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
 
   const [state, send] = useActor(child);
 
+  const chestItems = getChestItems(gameState.context.state);
   return (
     <div
       data-html2canvas-ignore="true"
@@ -143,7 +143,10 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                     type="default"
                     className="px-0.5 text-xxs absolute -top-2 -right-2"
                   >
-                    X
+                    {getKeys(chestItems).reduce(
+                      (acc, key) => acc + (chestItems[key]?.toNumber() ?? 0),
+                      0
+                    )}
                   </Label>
                   <img src={chest} className="h-full  " />
                 </InnerPanel>

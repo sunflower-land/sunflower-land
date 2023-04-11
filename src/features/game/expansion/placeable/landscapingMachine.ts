@@ -23,10 +23,11 @@ export const RESOURCE_PLACE_EVENTS: Partial<
 };
 
 export interface Context {
-  placeable?: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
+  action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
+  placeable?: BuildingName | CollectibleName;
+
   origin?: Coordinates;
   requirements: {
     sfl: Decimal;
@@ -221,16 +222,21 @@ export const landscapingMachine = createMachine<
                 ],
               },
               {
-                target: ["#saving.done", "done"],
-                actions: sendParent(
-                  ({ placeable, action, coordinates: { x, y } }) =>
-                    ({
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent)
-                ),
+                target: ["#saving.done", "idle"],
+                actions: [
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }) =>
+                      ({
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                      } as PlacementEvent)
+                  ),
+                  assign({
+                    placeable: (_) => undefined,
+                  }),
+                ],
               },
             ],
           },

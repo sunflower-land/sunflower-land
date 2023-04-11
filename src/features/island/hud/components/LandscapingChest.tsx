@@ -21,7 +21,9 @@ export const LandscapingChest: React.FC<Props> = ({
   onPlace,
 }) => {
   const items = getChestItems(state);
-  const [selected, setSelected] = useState(getKeys(items)[0]);
+  const [selected, setSelected] = useState(
+    getKeys(items).sort((a, b) => (a - b ? -1 : 1))[0]
+  );
 
   return (
     <Modal size="lg" centered show={show} onHide={onHide}>

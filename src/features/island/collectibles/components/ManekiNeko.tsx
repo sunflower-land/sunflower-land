@@ -21,9 +21,7 @@ interface Props {
 
 export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
-  console.log("INIT");
   const [gameState] = useActor(gameService);
-  console.log("INIT 2");
   const [showTooltip, setShowTooltip] = useState(false);
   const manekiNekos = gameState.context.state.collectibles["Maneki Neko"] ?? [];
 

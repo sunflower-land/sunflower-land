@@ -100,19 +100,24 @@ export const Placeable: React.FC = () => {
   if (!placeable) {
     return null;
   }
+  console.log({ everythang: machine.context });
 
-  const { width, height } = {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
-  }[placeable];
+  let dimensions = { width: 0, height: 0 };
+
+  if (placeable) {
+    dimensions = {
+      ...BUILDINGS_DIMENSIONS,
+      ...COLLECTIBLES_DIMENSIONS,
+      ...ANIMAL_DIMENSIONS,
+    }[placeable];
+  }
 
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision(gameService.state.context.state, {
       x,
       y,
-      width,
-      height,
+      width: dimensions.width,
+      height: dimensions.height,
     });
 
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
@@ -133,6 +138,10 @@ export const Placeable: React.FC = () => {
   useEffect(() => {
     setShowHint(true);
   }, [origin]);
+
+  if (!placeable) {
+    return null;
+  }
 
   return (
     <>
@@ -209,8 +218,8 @@ export const Placeable: React.FC = () => {
                 }
               )}
               style={{
-                width: `${width * GRID_WIDTH_PX}px`,
-                height: `${height * GRID_WIDTH_PX}px`,
+                width: `${dimensions.width * GRID_WIDTH_PX}px`,
+                height: `${dimensions.height * GRID_WIDTH_PX}px`,
               }}
             >
               {PLACEABLES[placeable]({
