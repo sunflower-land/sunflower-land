@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineInterpreter } from "./editingMachine";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
@@ -22,24 +22,13 @@ import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
-  "Dirt Path": () => (
-    <img
-      src={ITEM_DETAILS["Dirt Path"].image}
-      style={{ width: `${PIXEL_SCALE * 22}px` }}
-    />
-  ),
-  // Fence: () => (
-  //   <img
-  //     src={ITEM_DETAILS["Fence"].image}
-  //     style={{ width: `${PIXEL_SCALE * 22}px` }}
-  //   />
-  // ),
+  ...READONLY_RESOURCE_COMPONENTS,
 };
 
 // TODO - get dynamic bounds for placeable
@@ -48,7 +37,7 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
 // const BOUNDS_MIN_Y = -5
 // const BOUNDS_MAX_Y = 15
 
-export const getInitialCoordinates = () => {
+export const getInitialCoordinates = (origin?: Coordinates) => {
   // This container helps us to calculate the scroll pixels as in our application
   // window do not scroll but this container dose
   const pageScrollContainer = document.getElementsByClassName(
@@ -63,14 +52,22 @@ export const getInitialCoordinates = () => {
   const land = document
     .getElementById(Section.GenesisBlock)
     ?.getBoundingClientRect();
-  const landMidX =
+  let landMidX =
     pageScrollContainer.scrollLeft +
     (land?.left ?? 0) +
     ((land?.width ?? 0) / 2 ?? 0);
-  const landMidY =
+  let landMidY =
     pageScrollContainer.scrollTop +
     (land?.top ?? 0) +
     ((land?.height ?? 0) / 2 ?? 0);
+
+  if (origin) {
+    const xOffset = viewportMidPointX - landMidX;
+    const yOffset = viewportMidPointY - landMidY;
+
+    landMidX -= GRID_WIDTH_PX * origin.x - xOffset;
+    landMidY += GRID_WIDTH_PX * origin.y + yOffset;
+  }
 
   // This division and then multiplication with GRID_WIDTH_PX has been done as
   // due to a small pixel difference in rounding, the actual placeable square was
@@ -87,23 +84,16 @@ export const Placeable: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const [showHint, setShowHint] = useState(true);
-  const collideRef = useRef(false);
 
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable, coordinates } = machine.context;
+  const { placeable, collisionDetected, origin } = machine.context;
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
     ...ANIMAL_DIMENSIONS,
   }[placeable];
-
-  useEffect(() => {
-    setTimeout(() => {
-      // nodeRef.current.
-    }, 1000);
-  }, []);
 
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision(gameService.state.context.state, {
@@ -113,29 +103,24 @@ export const Placeable: React.FC = () => {
       height,
     });
 
-    collideRef.current = collisionDetected;
-
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
-  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] = getInitialCoordinates();
+  const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] =
+    getInitialCoordinates(origin);
 
   useEffect(() => {
-    console.log({ DEFAULT_POSITION_X, DEFAULT_POSITION_Y });
-    detect({
-      x: Math.round(DEFAULT_POSITION_X / GRID_WIDTH_PX),
-      y: Math.round(-DEFAULT_POSITION_Y / GRID_WIDTH_PX),
-    });
+    const [startingX, startingY] = getInitialCoordinates({ x: 0, y: 0 });
 
-    window.addEventListener("resize", () => {
-      detect({
-        x: Math.round(DEFAULT_POSITION_X / GRID_WIDTH_PX),
-        y: Math.round(-DEFAULT_POSITION_Y / GRID_WIDTH_PX),
-      });
+    detect({
+      x: Math.round(startingX / GRID_WIDTH_PX),
+      y: Math.round(-startingY / GRID_WIDTH_PX),
     });
   }, []);
 
-  console.log({ coordinates, DEFAULT_POSITION_X, DEFAULT_POSITION_Y });
+  useEffect(() => {
+    setShowHint(true);
+  }, [origin]);
 
   return (
     <>
@@ -154,17 +139,15 @@ export const Placeable: React.FC = () => {
       />
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
+          key={`${origin?.x}-${origin?.y}`}
           defaultPosition={{
-            x: DEFAULT_POSITION_X + coordinates.x * GRID_WIDTH_PX,
-            y: DEFAULT_POSITION_Y - coordinates.y * GRID_WIDTH_PX,
+            x: DEFAULT_POSITION_X,
+            y: DEFAULT_POSITION_Y,
           }}
-          // position={{
-          //   x: DEFAULT_POSITION_X + coordinates.x * GRID_WIDTH_PX,
-          //   y: DEFAULT_POSITION_Y - coordinates.y * GRID_WIDTH_PX,
-          // }}
           nodeRef={nodeRef}
           grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
           onStart={() => {
+            // reset
             send("DRAG");
           }}
           onDrag={(_, data) => {
@@ -187,8 +170,8 @@ export const Placeable: React.FC = () => {
             ref={nodeRef}
             data-prevent-drag-scroll
             className={classNames("flex flex-col items-center", {
-              "cursor-grab": !machine.matches("dragging"),
-              "cursor-grabbing": machine.matches("dragging"),
+              "cursor-grab": !machine.matches({ editing: "dragging" }),
+              "cursor-grabbing": machine.matches({ editing: "dragging" }),
             })}
             style={{ pointerEvents: "auto" }}
           >
@@ -209,8 +192,8 @@ export const Placeable: React.FC = () => {
               className={classNames(
                 " w-full h-full relative img-highlight pointer-events-none",
                 {
-                  "bg-green-background/80": !collideRef.current,
-                  "bg-red-background/80": collideRef.current,
+                  "bg-green-background/80": !collisionDetected,
+                  "bg-red-background/80": collisionDetected,
                 }
               )}
               style={{
@@ -218,9 +201,7 @@ export const Placeable: React.FC = () => {
                 height: `${height * GRID_WIDTH_PX}px`,
               }}
             >
-              {PLACEABLES[placeable]({
-                coordinates,
-              })}
+              {PLACEABLES[placeable]({})}
             </div>
           </div>
         </Draggable>
