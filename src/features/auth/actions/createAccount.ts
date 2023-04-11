@@ -11,6 +11,7 @@ type Request = {
   captcha: string;
   transactionId: string;
   referrerId?: number;
+  guestKey?: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -27,6 +28,7 @@ export async function signTransaction(request: Request) {
       charity: request.charity,
       captcha: request.captcha,
       referrerId: request.referrerId,
+      guestKey: request.guestKey,
     }),
   });
 
@@ -65,6 +67,7 @@ type CreateFarmOptions = {
   captcha: string;
   transactionId: string;
   account: string;
+  guestKey?: string;
 };
 
 export async function createAccount({
@@ -73,6 +76,7 @@ export async function createAccount({
   captcha,
   transactionId,
   account,
+  guestKey,
 }: CreateFarmOptions) {
   const referrerId = getReferrerId();
 
@@ -82,6 +86,7 @@ export async function createAccount({
     captcha,
     transactionId,
     referrerId,
+    guestKey,
   });
 
   await createNewAccount({

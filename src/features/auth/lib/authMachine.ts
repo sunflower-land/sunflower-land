@@ -30,8 +30,9 @@ import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { createGuestAccount } from "../actions/createGuestAccount";
 
-const ART_MODE = !CONFIG.API_URL;
-const GUEST_KEY = "guestKey";
+export const ART_MODE = !CONFIG.API_URL;
+export const GUEST_KEY = "guestKey";
+export const GUEST_MODE_COMPLETE = "GUEST_MODE_COMPLETE";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -758,12 +759,18 @@ export const authMachine = createMachine<
 
         const { charityAddress, captcha } = event as CreateFarmEvent;
 
+        let guestKey: string | undefined = undefined;
+        if (context.user.type === "GUEST") {
+          guestKey = context.user.guestKey ?? undefined;
+        }
+
         await createFarmAction({
           charity: charityAddress,
           token: context.user.rawToken,
-          captcha: captcha,
+          captcha,
           transactionId: context.transactionId as string,
           account: wallet.myAccount,
+          guestKey,
         });
       },
       login: async (context): Promise<{ token: string | null }> => {

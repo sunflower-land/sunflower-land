@@ -9,7 +9,6 @@ import { PlaceableController } from "features/farming/hud/components/PlaceableCo
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { LandId } from "./components/LandId";
-import { InventoryItemName } from "features/game/types/game";
 import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
@@ -60,7 +59,7 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           state={gameState.context.state}
           isFullUser={isFullUser}
           shortcutItem={shortcutItem}
-          selectedItem={selectedItem as InventoryItemName}
+          selectedItem={selectedItem}
           onPlace={(selected) => {
             if (selected === "Tree") {
               gameService.send("EDIT", {

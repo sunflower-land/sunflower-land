@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 
 interface Props {
   state: GameState;
-  selectedItem: InventoryItemName;
+  selectedItem?: InventoryItemName;
   isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;

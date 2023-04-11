@@ -10,7 +10,6 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 
-import walletIcon from "assets/icons/wallet.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { login } from "features/auth/actions/login";
 import { wallet } from "lib/blockchain/wallet";

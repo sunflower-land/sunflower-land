@@ -32,6 +32,7 @@ export const VisitingHud: React.FC = () => {
           shortcutItem={shortcutItem}
           selectedItem={selectedItem as InventoryItemName}
           isFarming={false}
+          isFullUser={true}
         />
         <BumpkinProfile />
         <Settings isFarming={false} />

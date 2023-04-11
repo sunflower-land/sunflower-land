@@ -15,7 +15,11 @@ import {
   GameEventName,
 } from "../events";
 
-import { Context as AuthContext } from "features/auth/lib/authMachine";
+import {
+  ART_MODE,
+  Context as AuthContext,
+  GUEST_KEY,
+} from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
 import { GameState, Inventory, InventoryItemName } from "../types/game";
@@ -44,12 +48,10 @@ import { generateTestLand } from "../expansion/actions/generateLand";
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
-import { CONFIG } from "lib/config";
 
 import { getSessionId } from "lib/blockchain/Sessions";
 import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
-const API_URL = CONFIG.API_URL;
 import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
@@ -59,6 +61,8 @@ import Decimal from "decimal.js-light";
 import { loadGuestSession } from "../actions/loadGuestSession";
 import { guestAutosave } from "../actions/guestAutosave";
 import { choose } from "xstate/lib/actions";
+
+export const GUEST_MODE_COMPLETE = "guestModeComplete";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -295,8 +299,8 @@ export const saveGuestGame = async (
 ) => {
   const saveAt = (event as any)?.data?.saveAt || new Date();
 
-  // Skip autosave when no actions were produced and if there is no API_URL
-  if (context.actions.length === 0 || !API_URL) {
+  // Skip autosave when no actions were produced or if playing ART_MODE
+  if (context.actions.length === 0 || ART_MODE) {
     return { verified: true, saveAt, farm: context.state };
   }
 
@@ -326,8 +330,8 @@ export const saveGame = async (
 ) => {
   const saveAt = (event as any)?.data?.saveAt || new Date();
 
-  // Skip autosave when no actions were produced and if there is no API_URL
-  if (context.actions.length === 0 || !API_URL) {
+  // Skip autosave when no actions were produced or if playing ART_MODE
+  if (context.actions.length === 0 || ART_MODE) {
     return { verified: true, saveAt, farm: context.state };
   }
 
@@ -389,6 +393,10 @@ export function startGame(authContext: AuthContext) {
             {
               target: "loadLandToVisit",
               cond: () => window.location.href.includes("visit"),
+            },
+            {
+              target: "loadingArtGame",
+              cond: () => ART_MODE,
             },
             {
               target: "loadingGuestGame",
@@ -461,6 +469,8 @@ export function startGame(authContext: AuthContext) {
               if (sessionId) {
                 const fingerprint = "X";
 
+                const guestKey = localStorage.getItem(GUEST_KEY) ?? undefined;
+
                 const response = await loadSession({
                   farmId,
                   bumpkinTokenUri: bumpkin?.tokenURI,
@@ -468,11 +478,15 @@ export function startGame(authContext: AuthContext) {
                   token: authContext.user.rawToken as string,
                   wallet: authContext.user.web3?.wallet as string,
                   transactionId: context.transactionId as string,
+                  guestKey,
                 });
 
                 if (!response) {
                   throw new Error("NO_FARM");
                 }
+
+                localStorage.removeItem(GUEST_KEY);
+                localStorage.setItem(GUEST_MODE_COMPLETE, "true");
 
                 const {
                   game,
@@ -518,6 +532,14 @@ export function startGame(authContext: AuthContext) {
                 actions: "assignErrorMessage",
               },
             ],
+          },
+        },
+        loadingArtGame: {
+          always: {
+            target: "playing",
+            actions: assign({
+              state: (_context) => OFFLINE_FARM,
+            }),
           },
         },
         loadLandToVisit: {

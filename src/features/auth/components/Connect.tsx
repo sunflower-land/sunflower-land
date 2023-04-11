@@ -1,42 +1,47 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
 import { useActor } from "@xstate/react";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { GUEST_MODE_COMPLETE } from "features/game/lib/gameMachine";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const Connect: React.FC = () => {
+const SignIn = ({ onBack }: { onBack?: () => void }) => {
   const { authService } = useContext(Context);
-  const [
-    {
-      context: { user },
-    },
-  ] = useActor(authService);
-
-  const isGuest = user.type === "GUEST";
-  console.log({ user });
-  const hasGuestKey = isGuest && !!user.guestKey;
-
-  const guestText = hasGuestKey ? "Continue as guest" : "Play as guest!";
 
   return (
-    <div className="px-4">
-      <p className="text-xs text-white mt-2 mb-3 text-center italic">
-        Connect your Web3 wallet to play
-      </p>
-      <Button
-        className="mb-2 py-2 text-sm relative"
-        onClick={() => authService.send("CONNECT_AS_GUEST")}
-      >
-        <div className="px-8">
-          <img
-            src={CROP_LIFECYCLE["Sunflower"].crop}
-            className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-          />
-          {guestText}
+    <>
+      <div className="flex text-center items-center justify-between mb-3 mt-1">
+        <div
+          className="flex items-center"
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        >
+          {onBack && (
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="cursor-pointer"
+              onClick={onBack}
+              style={{
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
+          )}
         </div>
-      </Button>
+        <p className="text-xs text-white mt-2 mb-2 text-center italic leading-3">
+          Connect your Web3 wallet to play
+        </p>
+        <div
+          className="flex-none"
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
+      </div>
       <Button
         className="mb-2 py-2 text-sm relative"
         onClick={() => authService.send("CONNECT_TO_METAMASK")}
@@ -85,6 +90,59 @@ export const Connect: React.FC = () => {
           Sequence
         </div>
       </Button>
+    </>
+  );
+};
+
+export const Connect: React.FC = () => {
+  const { authService } = useContext(Context);
+  const [
+    {
+      context: { user },
+    },
+  ] = useActor(authService);
+
+  const [showSignIn, setShowSignIn] = useState(false);
+
+  const isGuest = user.type === "GUEST";
+  const hasGuestKey = isGuest && !!user.guestKey;
+
+  const guestText = hasGuestKey ? "Continue as guest" : "Play as guest!";
+  const guestModeComplete = !!localStorage.getItem(GUEST_MODE_COMPLETE);
+
+  if (showSignIn) {
+    return (
+      <div className="px-4">
+        <SignIn onBack={() => setShowSignIn(false)} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-4">
+      {!guestModeComplete && (
+        <div className="pt-2">
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() => authService.send("CONNECT_AS_GUEST")}
+          >
+            <div className="px-8">
+              <img
+                src={CROP_LIFECYCLE["Sunflower"].crop}
+                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+              />
+              {guestText}
+            </div>
+          </Button>
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() => setShowSignIn(true)}
+          >
+            <div className="px-8">Sign In</div>
+          </Button>
+        </div>
+      )}
+      {guestModeComplete && <SignIn />}
     </div>
   );
 };

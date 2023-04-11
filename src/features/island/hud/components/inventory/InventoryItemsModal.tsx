@@ -13,7 +13,7 @@ interface Props {
   show: boolean;
   onHide: () => void;
   state: GameState;
-  selectedBasketItem: InventoryItemName;
+  selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
   selectedChestItem: InventoryItemName;
   onSelectChestItem: (name: InventoryItemName) => void;
