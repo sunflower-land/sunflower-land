@@ -23,12 +23,14 @@ import { PlaceableController } from "features/farming/hud/components/PlaceableCo
 import { LandscapingChest } from "./components/LandscapingChest";
 import { getChestItems } from "./components/inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
+import { CraftDecorationsModal } from "./components/craft/CraftDecorationsModal";
 
 const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showChest, setShowChest] = useState(false);
+  const [showDecorations, setShowDecorations] = useState(false);
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
@@ -129,6 +131,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                   style={{
                     width: `${PIXEL_SCALE * 24}px`,
                   }}
+                  onClick={() => setShowDecorations(true)}
                 >
                   <img src={bush} className="h-full" />
                 </InnerPanel>
@@ -167,6 +170,12 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
             placeable: selected,
           });
         }}
+      />
+
+      <CraftDecorationsModal
+        onHide={() => setShowDecorations(false)}
+        show={showDecorations}
+        state={gameState.context.state}
       />
 
       <PlaceableController />
