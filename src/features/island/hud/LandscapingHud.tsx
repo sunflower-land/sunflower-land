@@ -25,6 +25,7 @@ import { getChestItems } from "./components/inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { CraftEquipmentModal } from "./components/equipment/CraftEquipmentModal";
+import { pixelTabBorderMiddleStyle } from "features/game/lib/style";
 
 const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
@@ -100,21 +101,33 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
               style={{
                 bottom: `${PIXEL_SCALE * 2}px`,
               }}
+              className="relative"
             >
+              <div
+                className={"bg-brown-600 flex items-center px-2 absolute"}
+                style={{
+                  ...pixelTabBorderMiddleStyle,
+                  height: "30px",
+                  top: "-30px",
+                  left: "calc(50% - 53px)",
+                }}
+              >
+                <img src={SUNNYSIDE.icons.hammer} className="h-4 mr-1" />
+                <p className="text-xs">Craft</p>
+                <img
+                  src={SUNNYSIDE.icons.hammer}
+                  className="h-4 ml-1"
+                  style={{
+                    transform: "scaleX(-1)",
+                  }}
+                />
+              </div>
               <div
                 className="flex justify-center"
                 style={{
                   height: `${PIXEL_SCALE * 24}px`,
                 }}
               >
-                <InnerPanel
-                  className="relative p-2 flex items-center justify-center mr-2  cursor-pointer hover:bg-brown-200"
-                  style={{
-                    width: `${PIXEL_SCALE * 24}px`,
-                  }}
-                >
-                  <img src={buildingIcon} className="object-fit" />
-                </InnerPanel>
                 <InnerPanel
                   className="relative p-2 flex items-center justify-center mr-2  cursor-pointer hover:bg-brown-200"
                   style={{
@@ -128,6 +141,14 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                       height: `${PIXEL_SCALE * 16}px`,
                     }}
                   />
+                </InnerPanel>
+                <InnerPanel
+                  className="relative p-2 flex items-center justify-center mr-2  cursor-pointer hover:bg-brown-200"
+                  style={{
+                    width: `${PIXEL_SCALE * 24}px`,
+                  }}
+                >
+                  <img src={buildingIcon} className="object-fit" />
                 </InnerPanel>
                 <InnerPanel
                   className="relative p-2 flex items-center justify-center mr-2 cursor-pointer hover:bg-brown-200"
