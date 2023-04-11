@@ -341,6 +341,10 @@ import drill from "assets/icons/drill.png";
 import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
 import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
+import dirt from "assets/sfts/dirt_path.png";
+import bush from "assets/decorations/bush.png";
+import shrub from "assets/decorations/shrub.png";
+import fence from "assets/decorations/fence.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -1965,5 +1969,21 @@ export const ITEM_DETAILS: Items = {
   Boulder: {
     image: SUNNYSIDE.resource.boulder,
     description: "A mythical rock that can drop rare minerals",
+  },
+  "Dirt Path": {
+    image: dirt,
+    description: "?",
+  },
+  Bush: {
+    image: bush,
+    description: "?",
+  },
+  Fence: {
+    image: fence,
+    description: "?",
+  },
+  Shrub: {
+    image: shrub,
+    description: "?",
   },
 };

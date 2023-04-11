@@ -30,6 +30,7 @@ import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
+import { getGameGrid } from "./placeable/lib/makeGrid";
 
 const getIslandElements = ({
   buildings,
@@ -133,6 +134,7 @@ const getIslandElements = ({
                 id={id}
                 readyAt={readyAt}
                 createdAt={createdAt}
+                coordinates={coordinates}
               />
             </MapPlacement>
           );
@@ -333,6 +335,11 @@ export const Land: React.FC = () => {
   const eggs = easterHunt?.eggs || [];
   const mainEggs = eggs.filter((egg) => egg && egg.island === "Main");
 
+  const gameGrid = getGameGrid({
+    crops,
+    collectibles,
+  });
+
   return (
     <>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -343,7 +350,7 @@ export const Land: React.FC = () => {
         >
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
-          <DirtRenderer plots={crops} />
+          <DirtRenderer grid={gameGrid} />
           {easterHunt && (
             <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
           )}
