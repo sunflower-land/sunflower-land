@@ -68,7 +68,6 @@ export const Fence: React.FC<Props> = ({ coordinates }) => {
 
   const grid = getGameGrid(state);
 
-  console.log({ coordinates });
   const edges: Edges = {
     top: grid[coordinates.x]?.[coordinates.y + 1] === "Fence",
     right: grid[coordinates.x + 1]?.[coordinates.y] === "Fence",
