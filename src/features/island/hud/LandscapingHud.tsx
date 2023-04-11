@@ -7,7 +7,6 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import buildingIcon from "assets/icons/building_icon.png";
 import scarecrow from "assets/icons/scarecrow.png";
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
@@ -26,6 +25,8 @@ import { getKeys } from "features/game/types/craftables";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { CraftEquipmentModal } from "./components/equipment/CraftEquipmentModal";
 import { pixelTabBorderMiddleStyle } from "features/game/lib/style";
+import { CraftBuildingModal } from "./components/buildings/CraftBuildingModal";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
@@ -34,6 +35,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const [showChest, setShowChest] = useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
   const [showEquipment, setShowEquipment] = useState(false);
+  const [showBuildings, setShowBuildings] = useState(false);
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
@@ -138,7 +140,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                   <img
                     src={scarecrow}
                     style={{
-                      height: `${PIXEL_SCALE * 16}px`,
+                      height: `${PIXEL_SCALE * 18}px`,
                     }}
                   />
                 </InnerPanel>
@@ -147,8 +149,14 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                   style={{
                     width: `${PIXEL_SCALE * 24}px`,
                   }}
+                  onClick={() => setShowBuildings(true)}
                 >
-                  <img src={buildingIcon} className="object-fit" />
+                  <img
+                    src={ITEM_DETAILS["Water Well"].image}
+                    style={{
+                      height: `${PIXEL_SCALE * 18}px`,
+                    }}
+                  />
                 </InnerPanel>
                 <InnerPanel
                   className="relative p-2 flex items-center justify-center mr-2 cursor-pointer hover:bg-brown-200"
@@ -205,6 +213,12 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
       <CraftEquipmentModal
         onHide={() => setShowEquipment(false)}
         show={showEquipment}
+        state={gameState.context.state}
+      />
+
+      <CraftBuildingModal
+        onHide={() => setShowBuildings(false)}
+        show={showBuildings}
         state={gameState.context.state}
       />
 
