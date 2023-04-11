@@ -677,28 +677,25 @@ describe("isPlotFertile", () => {
       width: 1,
     });
     const isFertile = isPlotFertile({
-      gameState: {
-        ...TEST_FARM,
-        buildings: {},
-        crops: {
-          0: fakePlot(),
-          1: fakePlot(),
-          2: fakePlot(),
-          3: fakePlot(),
-          4: fakePlot(),
-          5: fakePlot(),
-          6: fakePlot(),
-          7: fakePlot(),
-          8: fakePlot(),
-          21: fakePlot(),
-          32: fakePlot(),
-          43: fakePlot(),
-          54: fakePlot(),
-          65: fakePlot(),
-          76: fakePlot(),
-          87: fakePlot(), //16th
-          98: fakePlot(), // 17th
-        },
+      buildings: {},
+      crops: {
+        0: fakePlot(),
+        1: fakePlot(),
+        2: fakePlot(),
+        3: fakePlot(),
+        4: fakePlot(),
+        5: fakePlot(),
+        6: fakePlot(),
+        7: fakePlot(),
+        8: fakePlot(),
+        21: fakePlot(),
+        32: fakePlot(),
+        43: fakePlot(),
+        54: fakePlot(),
+        65: fakePlot(),
+        76: fakePlot(),
+        87: fakePlot(), //16th
+        98: fakePlot(), // 17th
       },
       plotIndex: "87",
     });
@@ -716,44 +713,41 @@ describe("isPlotFertile", () => {
       width: 1,
     });
     const isFertile = isPlotFertile({
-      gameState: {
-        ...TEST_FARM,
-        buildings: {
-          "Water Well": [
-            {
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
-        },
-        crops: {
-          0: fakePlot(),
-          1: fakePlot(),
-          2: fakePlot(),
-          3: fakePlot(),
-          4: fakePlot(),
-          5: fakePlot(),
-          6: fakePlot(),
-          7: fakePlot(),
-          8: fakePlot(),
-          9: fakePlot(),
-          10: fakePlot(), //11th
-          11: fakePlot(), // 12th
-          12: fakePlot(),
-          13: fakePlot(),
-          14: fakePlot(),
-          15: fakePlot(),
-          16: fakePlot(),
-          17: fakePlot(),
-          18: fakePlot(),
-          19: fakePlot(),
-          20: fakePlot(),
-          21: fakePlot(),
-          22: fakePlot(),
-          23: fakePlot(), // 24th
-        },
+      buildings: {
+        "Water Well": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+      crops: {
+        0: fakePlot(),
+        1: fakePlot(),
+        2: fakePlot(),
+        3: fakePlot(),
+        4: fakePlot(),
+        5: fakePlot(),
+        6: fakePlot(),
+        7: fakePlot(),
+        8: fakePlot(),
+        9: fakePlot(),
+        10: fakePlot(), //11th
+        11: fakePlot(), // 12th
+        12: fakePlot(),
+        13: fakePlot(),
+        14: fakePlot(),
+        15: fakePlot(),
+        16: fakePlot(),
+        17: fakePlot(),
+        18: fakePlot(),
+        19: fakePlot(),
+        20: fakePlot(),
+        21: fakePlot(),
+        22: fakePlot(),
+        23: fakePlot(), // 24th
       },
       plotIndex: "23",
     });
@@ -770,23 +764,20 @@ describe("isPlotFertile", () => {
       width: 1,
     };
     const isFertile = isPlotFertile({
-      gameState: {
-        ...TEST_FARM,
-        buildings: {},
-        crops: {
-          0: fakePlot,
-          1: fakePlot,
-          2: fakePlot,
-          3: fakePlot,
-          4: fakePlot,
-          5: fakePlot, //6th
-          6: fakePlot,
-          7: fakePlot,
-          8: fakePlot,
-          9: fakePlot,
-          10: fakePlot,
-          11: fakePlot,
-        },
+      buildings: {},
+      crops: {
+        0: fakePlot,
+        1: fakePlot,
+        2: fakePlot,
+        3: fakePlot,
+        4: fakePlot,
+        5: fakePlot, //6th
+        6: fakePlot,
+        7: fakePlot,
+        8: fakePlot,
+        9: fakePlot,
+        10: fakePlot,
+        11: fakePlot,
       },
       plotIndex: "5",
     });
@@ -802,32 +793,29 @@ describe("isPlotFertile", () => {
       width: 1,
     };
     const isFertile = isPlotFertile({
-      gameState: {
-        ...TEST_FARM,
-        buildings: {
-          "Water Well": [
-            {
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
-        },
-        crops: {
-          0: fakePlot,
-          1: fakePlot,
-          2: fakePlot,
-          3: fakePlot,
-          4: fakePlot,
-          5: fakePlot,
-          6: fakePlot,
-          7: fakePlot,
-          8: fakePlot,
-          9: fakePlot,
-          10: fakePlot, //11th
-          11: fakePlot, // 12th
-        },
+      buildings: {
+        "Water Well": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+      crops: {
+        0: fakePlot,
+        1: fakePlot,
+        2: fakePlot,
+        3: fakePlot,
+        4: fakePlot,
+        5: fakePlot,
+        6: fakePlot,
+        7: fakePlot,
+        8: fakePlot,
+        9: fakePlot,
+        10: fakePlot, //11th
+        11: fakePlot, // 12th
       },
       plotIndex: "8",
     });

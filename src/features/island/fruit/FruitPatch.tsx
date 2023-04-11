@@ -5,7 +5,6 @@ import fruitPatch from "assets/fruit/fruit_patch.png";
 
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
@@ -14,6 +13,7 @@ import { FruitTree } from "./FruitTree";
 import Decimal from "decimal.js-light";
 import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   id: string;
@@ -21,16 +21,17 @@ interface Props {
 
 export const FruitPatch: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [game] = useActor(gameService);
   const { setToast } = useContext(ToastContext);
   const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
-  const patch = game.context.state.fruitPatches[id];
 
-  const fruit = patch && patch.fruit;
-
-  const playing = game.matches("playing") || game.matches("autosaving");
+  const gameState = useSelector(gameService, (state) => ({
+    fruit: state.context.state.fruitPatches[id]?.fruit,
+    isPlaying: state.matches("playing") || state.matches("autosaving"),
+    inventory: state.context.state.inventory,
+    collectibles: state.context.state.collectibles,
+  }));
 
   const displayInformation = async () => {
     // First click show error
@@ -43,7 +44,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   };
 
   const harvestFruit = () => {
-    if (!fruit) return;
+    if (!gameState.fruit) return;
     try {
       const newState = gameService.send("fruit.harvested", {
         index: id,
@@ -53,8 +54,8 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         harvestAudio.play();
         setPlayAnimation(true);
         setToast({
-          icon: ITEM_DETAILS[fruit.name].image,
-          content: `+${fruit.amount || 1}`,
+          icon: ITEM_DETAILS[gameState.fruit.name].image,
+          content: `+${gameState.fruit.amount || 1}`,
         });
       }
     } catch (e: any) {
@@ -64,14 +65,12 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const removeTree = () => {
     try {
-      const { inventory, collectibles } = game.context.state;
-
       const axesNeeded = getRequiredAxeAmount(
-        fruit?.name as FruitName,
-        inventory,
-        collectibles
+        gameState.fruit?.name as FruitName,
+        gameState.inventory,
+        gameState.collectibles
       );
-      const axeAmount = inventory.Axe || new Decimal(0);
+      const axeAmount = gameState.inventory.Axe ?? new Decimal(0);
 
       // Has enough axes to chop the tree
       const hasAxes =
@@ -138,12 +137,12 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           }}
         />
         <FruitTree
-          plantedFruit={fruit}
+          plantedFruit={gameState.fruit}
           plantTree={plantTree}
           harvestFruit={harvestFruit}
           removeTree={removeTree}
           onError={displayInformation}
-          playing={playing}
+          playing={gameState.isPlaying}
           playAnimation={playAnimation}
           showOnClickInfo={showInfo && infoToShow === "info"}
         />
