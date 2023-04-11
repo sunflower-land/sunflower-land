@@ -3413,4 +3413,33 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/625.png",
     attributes: [{ trait_type: "Purpose", value: "Resource" }],
   },
+  "Dirt Path": {
+    description: "Keep your farmer boots clean and travel on paths!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1245.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Bush: {
+    description: "Keep your Bumpkins happy with these bushy bushes.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1246.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Fence: {
+    description: "Those cheeky chickens won't be escaping anymore!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1247.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Shrub: {
+    description:
+      "It aint much, but it adds some green to your beautiful island",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1248.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingProduct } from "features/game/types/game";
@@ -18,7 +18,6 @@ import { Deli } from "./deli/Deli";
 import { Modal } from "react-bootstrap";
 import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
@@ -30,6 +29,7 @@ interface Prop {
   createdAt: number;
   crafting?: BuildingProduct;
   isRustyShovelSelected: boolean;
+  showTimers: boolean;
 }
 
 export interface BuildingProps {
@@ -101,8 +101,8 @@ const InProgressBuilding: React.FC<Prop> = ({
   id,
   readyAt,
   createdAt,
+  showTimers,
 }) => {
-  const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -157,6 +157,7 @@ const BuildingComponent: React.FC<Prop> = ({
   createdAt,
   crafting,
   isRustyShovelSelected,
+  showTimers,
 }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -188,6 +189,7 @@ const BuildingComponent: React.FC<Prop> = ({
           readyAt={readyAt}
           createdAt={createdAt}
           isRustyShovelSelected={false}
+          showTimers={showTimers}
         />
       ) : (
         <BuildingPlaced

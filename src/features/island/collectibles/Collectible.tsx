@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import { CollectibleName } from "features/game/types/craftables";
@@ -69,7 +69,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean, getBeanStates } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
-import { Context } from "features/game/GameProvider";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
 import { ChristmasBear } from "./components/ChristmasBear";
 import { RainbowArtistBear } from "./components/RainbowArtistBear";
@@ -117,16 +116,22 @@ import { EasterBush } from "features/island/collectibles/components/EasterBush";
 import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
 import classNames from "classnames";
 import { isBean } from "features/game/types/beans";
+import { Bush } from "./components/Bush";
+import { Shrub } from "./components/Shrub";
+import { Fence } from "./components/Fence";
 
 export interface CollectibleProps {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
+  x: number;
+  y: number;
 }
 
 type Props = CollectibleProps & {
   isRustyShovelSelected: boolean;
+  showTimers: boolean;
 };
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
@@ -157,6 +162,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Speed Chicken": SpeedChicken,
   Rooster,
   "Undead Rooster": UndeadRooster,
+
+  "Dirt Path": () => null,
+  Fence: Fence,
+  Bush: Bush,
+  Shrub: Shrub,
 
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
@@ -279,8 +289,10 @@ const InProgressCollectible: React.FC<Props> = ({
   id,
   readyAt,
   createdAt,
+  x,
+  y,
+  showTimers,
 }) => {
-  const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -302,6 +314,8 @@ const InProgressCollectible: React.FC<Props> = ({
             id={id}
             name={name}
             readyAt={readyAt}
+            x={x}
+            y={y}
           />
         </div>
         {showTimers && (
@@ -339,7 +353,10 @@ const CollectibleComponent: React.FC<Props> = ({
   id,
   readyAt,
   createdAt,
+  x,
+  y,
   isRustyShovelSelected,
+  showTimers,
 }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -386,7 +403,10 @@ const CollectibleComponent: React.FC<Props> = ({
               id={id}
               createdAt={createdAt}
               readyAt={readyAt}
+              x={x}
+              y={y}
               isRustyShovelSelected={false}
+              showTimers={showTimers}
             />
           ) : (
             <CollectiblePlaced
@@ -395,6 +415,8 @@ const CollectibleComponent: React.FC<Props> = ({
               id={id}
               createdAt={createdAt}
               readyAt={readyAt}
+              x={x}
+              y={y}
             />
           )}
         </div>

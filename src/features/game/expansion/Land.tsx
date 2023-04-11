@@ -31,6 +31,7 @@ import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
+import { getGameGrid } from "./placeable/lib/makeGrid";
 
 const getIslandElements = ({
   buildings,
@@ -44,6 +45,7 @@ const getIslandElements = ({
   crops,
   bumpkinParts,
   isRustyShovelSelected,
+  showTimers,
   isEditing,
 }: {
   expansionConstruction?: ExpansionConstruction;
@@ -58,6 +60,7 @@ const getIslandElements = ({
   fruitPatches: GameState["fruitPatches"];
   bumpkinParts: BumpkinParts | undefined;
   isRustyShovelSelected: boolean;
+  showTimers: boolean;
   isEditing?: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
@@ -112,6 +115,7 @@ const getIslandElements = ({
                 createdAt={building.createdAt}
                 crafting={building.crafting}
                 isRustyShovelSelected={isRustyShovelSelected}
+                showTimers={showTimers}
               />
             </MapPlacement>
           );
@@ -143,7 +147,10 @@ const getIslandElements = ({
                 id={id}
                 readyAt={readyAt}
                 createdAt={createdAt}
+                x={coordinates.x}
+                y={coordinates.y}
                 isRustyShovelSelected={isRustyShovelSelected}
+                showTimers={showTimers}
               />
             </MapPlacement>
           );
@@ -305,7 +312,7 @@ const getIslandElements = ({
 };
 
 export const Land: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
 
   const {
     expansionConstruction,
@@ -346,6 +353,11 @@ export const Land: React.FC = () => {
   const eggs = easterHunt?.eggs || [];
   const mainEggs = eggs.filter((egg) => egg && egg.island === "Main");
 
+  const gameGrid = getGameGrid({
+    crops,
+    collectibles,
+  });
+
   return (
     <>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -356,7 +368,7 @@ export const Land: React.FC = () => {
         >
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
-          <DirtRenderer plots={crops} />
+          <DirtRenderer grid={gameGrid} />
           {easterHunt && (
             <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
           )}
@@ -376,6 +388,7 @@ export const Land: React.FC = () => {
             crops,
             bumpkinParts: bumpkin?.equipped,
             isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
+            showTimers: showTimers,
             isEditing: gameState.isEditing,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>

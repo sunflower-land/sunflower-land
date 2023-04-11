@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineInterpreter } from "./editingMachine";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
@@ -23,12 +23,19 @@ import { Chicken } from "features/island/chickens/Chicken";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
   ...READONLY_RESOURCE_COMPONENTS,
+  "Dirt Path": () => (
+    <img
+      src={ITEM_DETAILS["Dirt Path"].image}
+      style={{ width: `${PIXEL_SCALE * 22}px` }}
+    />
+  ),
 };
 
 // TODO - get dynamic bounds for placeable
@@ -88,7 +95,7 @@ export const Placeable: React.FC = () => {
   const child = gameService.state.children.editing as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable, collisionDetected, origin } = machine.context;
+  const { placeable, collisionDetected, origin, coordinates } = machine.context;
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
@@ -201,7 +208,9 @@ export const Placeable: React.FC = () => {
                 height: `${height * GRID_WIDTH_PX}px`,
               }}
             >
-              {PLACEABLES[placeable]({})}
+              {PLACEABLES[placeable]({
+                coordinates,
+              })}
             </div>
           </div>
         </Draggable>
