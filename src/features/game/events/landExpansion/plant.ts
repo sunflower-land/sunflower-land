@@ -5,14 +5,17 @@ import { CropName, CROPS } from "../../types/crops";
 import {
   Bumpkin,
   Collectibles,
+  CropPlot,
   GameState,
   Inventory,
   InventoryItemName,
+  PlacedItem,
 } from "../../types/game";
 import { getKeys } from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
+import { BuildingName } from "features/game/types/buildings";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -29,7 +32,8 @@ type Options = {
 
 type IsPlotFertile = {
   plotIndex: string;
-  gameState: GameState;
+  crops: Record<string, CropPlot>;
+  buildings: Partial<Record<BuildingName, PlacedItem[]>>;
 };
 
 // First 15 plots do not need water
@@ -39,21 +43,19 @@ const WELL_PLOT_SUPPORT = 8;
 
 export function isPlotFertile({
   plotIndex,
-  gameState,
+  crops,
+  buildings,
 }: IsPlotFertile): boolean {
   // Get the well count
   const wellCount =
-    gameState.buildings["Water Well"]?.filter(
-      (well) => well.readyAt < Date.now()
-    ).length ?? 0;
+    buildings["Water Well"]?.filter((well) => well.readyAt < Date.now())
+      .length ?? 0;
   const cropsWellCanWater =
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
   const cropPosition =
-    getKeys(gameState.crops)
-      .sort((a, b) =>
-        gameState.crops[a].createdAt > gameState.crops[b].createdAt ? 1 : -1
-      )
+    getKeys(crops)
+      .sort((a, b) => (crops[a].createdAt > crops[b].createdAt ? 1 : -1))
       .findIndex((plotId) => plotId === plotIndex) + 1;
 
   return cropPosition <= cropsWellCanWater;
