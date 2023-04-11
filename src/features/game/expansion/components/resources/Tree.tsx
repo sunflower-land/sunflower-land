@@ -59,7 +59,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [errorLabel, setErrorLabel] = useState<"noAxe">();
   const [popover, setPopover] = useState<JSX.Element | null>();
-  const [reward, setReward] = useState<Reward | null>(null);
+  const [reward, setReward] = useState<Reward>();
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
@@ -159,7 +159,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   };
 
   const onCollectReward = (success: boolean) => {
-    setReward(null);
+    setReward(undefined);
     setTouchCount(0);
     if (success && tree) {
       chop();

@@ -42,8 +42,8 @@ import rooster from "assets/sfts/rooster.gif";
 import undeadChicken from "assets/sfts/undead_chicken.gif";
 import wickerMan from "assets/sfts/wicker_man.png";
 import wendy from "assets/sfts/wood_nymph_wendy.gif";
-import cabbageBoy from "assets/sfts/cabbage_boy.png";
-import cabbageGirl from "assets/sfts/cabbage_girl.png";
+import cabbageBoy from "assets/sfts/cabbage_boy.gif";
+import cabbageGirl from "assets/sfts/cabbage_girl.gif";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
 import immortalPear from "assets/sfts/immortal_pear.gif";
 import ladybug from "assets/sfts/ladybug.gif";
@@ -341,6 +341,10 @@ import drill from "assets/icons/drill.png";
 import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
 import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
+import dirt from "assets/sfts/dirt_path.png";
+import bush from "assets/decorations/bush.png";
+import shrub from "assets/decorations/shrub.png";
+import fence from "assets/decorations/fence.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -1965,5 +1969,21 @@ export const ITEM_DETAILS: Items = {
   Boulder: {
     image: SUNNYSIDE.resource.boulder,
     description: "A mythical rock that can drop rare minerals",
+  },
+  "Dirt Path": {
+    image: dirt,
+    description: "?",
+  },
+  Bush: {
+    image: bush,
+    description: "?",
+  },
+  Fence: {
+    image: fence,
+    description: "?",
+  },
+  Shrub: {
+    image: shrub,
+    description: "?",
   },
 };
