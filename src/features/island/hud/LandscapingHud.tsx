@@ -23,7 +23,8 @@ import { PlaceableController } from "features/farming/hud/components/PlaceableCo
 import { LandscapingChest } from "./components/LandscapingChest";
 import { getChestItems } from "./components/inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
-import { CraftDecorationsModal } from "./components/craft/CraftDecorationsModal";
+import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
+import { CraftEquipmentModal } from "./components/equipment/CraftEquipmentModal";
 
 const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
@@ -31,6 +32,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
 
   const [showChest, setShowChest] = useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
+  const [showEquipment, setShowEquipment] = useState(false);
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
@@ -118,6 +120,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                   style={{
                     width: `${PIXEL_SCALE * 24}px`,
                   }}
+                  onClick={() => setShowEquipment(true)}
                 >
                   <img
                     src={scarecrow}
@@ -175,6 +178,12 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
       <CraftDecorationsModal
         onHide={() => setShowDecorations(false)}
         show={showDecorations}
+        state={gameState.context.state}
+      />
+
+      <CraftEquipmentModal
+        onHide={() => setShowEquipment(false)}
+        show={showEquipment}
         state={gameState.context.state}
       />
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import sunflower from "assets/decorations/potted_sunflower.png";
+import lightning from "assets/icons/lightning.png";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
-import { Decorations } from "./Decorations";
+import { Equipment } from "./Equipment";
 
 interface Props {
   show: boolean;
@@ -16,7 +16,7 @@ export type TabItems = Record<string, { items: object }>;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
-export const CraftDecorationsModal: React.FC<Props> = ({
+export const CraftEquipmentModal: React.FC<Props> = ({
   show,
   onHide,
   state,
@@ -24,10 +24,10 @@ export const CraftDecorationsModal: React.FC<Props> = ({
   return (
     <Modal size="lg" centered show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[{ icon: sunflower, name: "Decorations" }]}
+        tabs={[{ icon: lightning, name: "Equipment" }]}
         onClose={onHide}
       >
-        <Decorations onClose={onHide} />
+        <Equipment />
       </CloseButtonPanel>
     </Modal>
   );
