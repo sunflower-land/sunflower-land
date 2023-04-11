@@ -8,9 +8,9 @@ const EasterBushComponent: React.FC = () => {
     <img
       src={easterBush}
       style={{
-        width: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 2}px`,
       }}
       className="absolute pointer-events-none"
       alt="Easter Bush"
