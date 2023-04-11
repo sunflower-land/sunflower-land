@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineInterpreter } from "./editingMachine";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineInterpreter } from "./landscapingMachine";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
@@ -22,8 +22,8 @@ import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -92,10 +92,15 @@ export const Placeable: React.FC = () => {
 
   const [showHint, setShowHint] = useState(true);
 
-  const child = gameService.state.children.editing as MachineInterpreter;
+  const child = gameService.state.children.landscaping as MachineInterpreter;
 
   const [machine, send] = useActor(child);
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
+
+  if (!placeable) {
+    return null;
+  }
+
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,

@@ -5,14 +5,25 @@ import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import Decimal from "decimal.js-light";
-import { Inventory } from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import {
   Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
 
+export const RESOURCE_PLACE_EVENTS: Partial<
+  Record<InventoryItemName, GameEventName<PlacementEvent>>
+> = {
+  Tree: "tree.placed",
+  Stone: "stone.placed",
+  Iron: "iron.placed",
+  Gold: "gold.placed",
+  "Crop Plot": "plot.placed",
+  "Fruit Patch": "fruitPatch.placed",
+};
+
 export interface Context {
-  placeable: BuildingName | CollectibleName;
+  placeable?: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
@@ -22,6 +33,17 @@ export interface Context {
     ingredients: Inventory;
   };
 }
+
+type SelectEvent = {
+  type: "SELECT";
+  placeable: BuildingName | CollectibleName;
+  action: GameEventName<PlacementEvent>;
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
+  collisionDetected: boolean;
+};
 
 type UpdateEvent = {
   type: "UPDATE";
@@ -50,6 +72,7 @@ export type SaveEvent = {
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
+  | SelectEvent
   | ConstructEvent
   | PlaceEvent
   | UpdateEvent
@@ -65,6 +88,7 @@ export type BlockchainState = {
     | { saving: "autosaving" }
     | { saving: "close" }
     | { editing: "idle" }
+    | { editing: "placing" }
     | { editing: "dragging" }
     | { editing: "close" }
     | { editing: "resetting" };
@@ -78,7 +102,7 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export const editingMachine = createMachine<
+export const landscapingMachine = createMachine<
   Context,
   BlockchainEvent,
   BlockchainState
@@ -140,6 +164,27 @@ export const editingMachine = createMachine<
       initial: "idle",
       states: {
         idle: {
+          always: [
+            {
+              target: "placing",
+              cond: (context) => !!context.placeable,
+            },
+          ],
+          on: {
+            SELECT: {
+              target: "placing",
+              actions: assign({
+                placeable: (_, event) => {
+                  console.log({ event });
+                  return event.placeable;
+                },
+                action: (_, event) => event.action,
+                requirements: (_, event) => event.requirements,
+              }),
+            },
+          },
+        },
+        placing: {
           on: {
             UPDATE: {
               actions: assign({
@@ -152,7 +197,7 @@ export const editingMachine = createMachine<
             },
             PLACE: [
               {
-                target: "idle",
+                target: "placing",
                 // They have more to place
                 cond: (_, e) => {
                   return !!e.nextOrigin;
@@ -192,7 +237,7 @@ export const editingMachine = createMachine<
         },
         resetting: {
           always: {
-            target: "idle",
+            target: "placing",
             // Move the next piece
             actions: assign({
               coordinates: (context) => {
@@ -213,7 +258,7 @@ export const editingMachine = createMachine<
               }),
             },
             DROP: {
-              target: "idle",
+              target: "placing",
             },
           },
         },

@@ -12,9 +12,7 @@ export type Position = {
   width?: number;
 } & Coordinates;
 
-type Props = {
-  isEditing?: boolean;
-} & Position;
+type Props = Position;
 
 /**
  * This component is used to place items on the map. It uses the cartesian place coordinates
@@ -26,14 +24,11 @@ export const MapPlacement: React.FC<Props> = ({
   y,
   height,
   width,
-  isEditing = false,
   children,
 }) => {
   return (
     <div
-      className={classNames("absolute", {
-        "bg-red-background/80": isEditing,
-      })}
+      className={"absolute"}
       style={{
         top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,

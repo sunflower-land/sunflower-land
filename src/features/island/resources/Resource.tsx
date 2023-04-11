@@ -23,7 +23,6 @@ export interface ResourceProps {
   width?: number;
   x: number;
   y: number;
-  isEditing?: boolean;
 }
 
 // Used for placing
@@ -127,16 +126,13 @@ const ResourceComponent: React.FC<ResourceProps> = ({
   y,
   height,
   width,
-  isEditing,
 }) => {
   const Component = RESOURCE_COMPONENTS[name];
 
   return (
     <>
       <div
-        className={classNames("absolute", {
-          "bg-red-background/80": isEditing,
-        })}
+        className={"absolute"}
         style={{
           top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
           left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
-import { MachineInterpreter } from "features/game/expansion/placeable/editingMachine";
+import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { Context } from "features/game/GameProvider";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -17,16 +17,22 @@ import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
-  const child = gameService.state.children.editing as MachineInterpreter;
+  const child = gameService.state.children.landscaping as MachineInterpreter;
 
   const [
     {
+      value,
       context: { collisionDetected, placeable, requirements, coordinates },
     },
     send,
   ] = useActor(child);
 
   const [gameState] = useActor(gameService);
+
+  console.log({ value, placeable });
+  if (!placeable) {
+    return null;
+  }
 
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
@@ -40,7 +46,7 @@ export const PlaceableController: React.FC = () => {
 
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
-    if (!child.state.matches({ editing: "idle" })) {
+    if (!child.state.matches({ editing: "placing" })) {
       return;
     }
 
