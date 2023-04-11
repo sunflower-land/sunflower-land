@@ -14,7 +14,7 @@ import { ChestCaptcha } from "features/island/common/chest-reward/ChestCaptcha";
 import { Loading } from "features/auth/components";
 
 interface Props {
-  reward: Reward | null;
+  reward?: Reward;
   onCollected: (success: boolean) => void;
   onOpen: () => void;
 }
