@@ -16,12 +16,8 @@ export const ToastContext = createContext<{
   setToast: (toast: Omit<Toast, "id">) => void;
   toastList: Toast[];
 }>({
-  removeToast: () => {
-    return false;
-  },
-  setToast: () => {
-    return false;
-  },
+  removeToast: () => false,
+  setToast: () => false,
   toastList: [],
 });
 
