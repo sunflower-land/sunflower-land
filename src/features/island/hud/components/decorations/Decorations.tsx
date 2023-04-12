@@ -19,6 +19,7 @@ import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 interface Props {
   onClose: () => void;
@@ -47,7 +48,19 @@ export const Decorations: React.FC<Props> = ({ onClose }) => {
 
   const price = selected.sfl;
 
+  const landscapingMachine = gameService.state.children
+    .landscaping as MachineInterpreter;
+
   const buy = () => {
+    landscapingMachine.send("SELECT", {
+      action: "decoration.bought",
+      placeable: selected.name,
+      requirements: {
+        sfl: selected.sfl,
+        ingredients: selected.ingredients,
+      },
+    });
+
     gameService.send("LANDSCAPE", {
       placeable: selected.name,
       action: "decoration.bought",

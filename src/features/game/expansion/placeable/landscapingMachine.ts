@@ -201,6 +201,7 @@ export const landscapingMachine = createMachine<
                 target: "placing",
                 // They have more to place
                 cond: (_, e) => {
+                  console.log("Placing", e);
                   return !!e.nextOrigin;
                 },
                 actions: [

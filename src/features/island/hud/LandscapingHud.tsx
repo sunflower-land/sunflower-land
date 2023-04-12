@@ -115,7 +115,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                 }}
               >
                 <img src={SUNNYSIDE.icons.hammer} className="h-4 mr-1" />
-                <p className="text-xs">Craft</p>
+                <p className="text-xs">Build</p>
                 <img
                   src={SUNNYSIDE.icons.hammer}
                   className="h-4 ml-1"

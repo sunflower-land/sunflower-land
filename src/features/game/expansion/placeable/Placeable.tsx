@@ -97,8 +97,6 @@ export const Placeable: React.FC = () => {
   const [machine, send] = useActor(child);
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
 
-  console.log({ everythang: machine.context });
-
   let dimensions = { width: 0, height: 0 };
 
   if (placeable) {
