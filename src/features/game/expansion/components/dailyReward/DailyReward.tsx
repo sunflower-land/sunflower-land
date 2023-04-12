@@ -44,6 +44,11 @@ export const DailyReward: React.FC = () => {
     chestService.send("LOAD");
   };
 
+  const onUpgrade = () => {
+    gameService.send("UPGRADE");
+    setShowModal(true);
+  };
+
   const reveal = () => {
     gameService.send("REVEAL", {
       event: {
@@ -89,7 +94,7 @@ export const DailyReward: React.FC = () => {
                 waiting for you.
               </span>
             </div>
-            <Button>Upgrade now!</Button>
+            <Button onClick={onUpgrade}>Upgrade now!</Button>
           </>
         </CloseButtonPanel>
       );

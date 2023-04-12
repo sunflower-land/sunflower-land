@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
@@ -8,6 +8,8 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { GUEST_MODE_COMPLETE } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+
+import walletIcon from "src/assets/icons/wallet.png";
 
 const SignIn = ({ onBack }: { onBack?: () => void }) => {
   const { authService } = useContext(Context);
@@ -96,53 +98,57 @@ const SignIn = ({ onBack }: { onBack?: () => void }) => {
 
 export const Connect: React.FC = () => {
   const { authService } = useContext(Context);
-  const [
-    {
-      context: { user },
-    },
-  ] = useActor(authService);
+  const [authState] = useActor(authService);
 
-  const [showSignIn, setShowSignIn] = useState(false);
-
+  const user = authState.context.user;
   const isGuest = user.type === "GUEST";
   const hasGuestKey = isGuest && !!user.guestKey;
 
   const guestText = hasGuestKey ? "Continue as guest" : "Play as guest!";
   const guestModeComplete = !!localStorage.getItem(GUEST_MODE_COMPLETE);
 
-  if (showSignIn) {
+  if (authState.matches("idle")) {
+    return (
+      <div className="pt-2 px-4">
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => authService.send("CONNECT_AS_GUEST")}
+        >
+          <div className="px-8">
+            <img
+              src={CROP_LIFECYCLE["Sunflower"].crop}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            {guestText}
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => authService.send("SIGN_IN")}
+        >
+          <div className="px-8">
+            <img
+              src={walletIcon}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            Sign In
+          </div>
+        </Button>
+      </div>
+    );
+  }
+
+  if (guestModeComplete) {
     return (
       <div className="px-4">
-        <SignIn onBack={() => setShowSignIn(false)} />
+        <SignIn />
       </div>
     );
   }
 
   return (
     <div className="px-4">
-      {!guestModeComplete && (
-        <div className="pt-2">
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_AS_GUEST")}
-          >
-            <div className="px-8">
-              <img
-                src={CROP_LIFECYCLE["Sunflower"].crop}
-                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-              />
-              {guestText}
-            </div>
-          </Button>
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => setShowSignIn(true)}
-          >
-            <div className="px-8">Sign In</div>
-          </Button>
-        </div>
-      )}
-      {guestModeComplete && <SignIn />}
+      <SignIn onBack={() => authService.send("RETURN")} />
     </div>
   );
 };

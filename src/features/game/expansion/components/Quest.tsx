@@ -57,6 +57,11 @@ export const Quest: React.FC<Props> = ({
 
   const isGuest = authState.context.user?.type === "GUEST";
 
+  const onUpgrade = () => {
+    gameService.send("UPGRADE");
+    onClose();
+  };
+
   if (isGuest) {
     return (
       <CloseButtonPanel
@@ -78,7 +83,7 @@ export const Quest: React.FC<Props> = ({
               Upgrade to a full account and complete all the quests like a boss!
             </span>
           </div>
-          <Button>Upgrade now!</Button>
+          <Button onClick={onUpgrade}>Upgrade now!</Button>
         </>
       </CloseButtonPanel>
     );

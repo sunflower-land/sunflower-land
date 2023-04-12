@@ -29,10 +29,10 @@ import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { createGuestAccount } from "../actions/createGuestAccount";
+import { GUEST_MODE_COMPLETE } from "features/game/lib/gameMachine";
 
 export const ART_MODE = !CONFIG.API_URL;
 export const GUEST_KEY = "guestKey";
-export const GUEST_MODE_COMPLETE = "GUEST_MODE_COMPLETE";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -158,11 +158,13 @@ export type BlockchainEvent =
   | { type: "VERIFIED" }
   | { type: "SET_WALLET" }
   | { type: "SET_TOKEN" }
-  | { type: "BUY_FULL_ACCOUNT" };
+  | { type: "BUY_FULL_ACCOUNT" }
+  | { type: "SIGN_IN" };
 
 export type BlockchainState = {
   value:
     | "idle"
+    | "signIn"
     | "initialising"
     | "visiting"
     | "connectingToMetamask"
@@ -213,6 +215,21 @@ export const authMachine = createMachine<
     states: {
       idle: {
         id: "idle",
+        always: {
+          target: "signIn",
+          cond: () => !!localStorage.getItem(GUEST_MODE_COMPLETE),
+        },
+        on: {
+          SIGN_IN: {
+            target: "signIn",
+          },
+          CONNECT_AS_GUEST: {
+            target: "connectingAsGuest",
+          },
+        },
+      },
+      signIn: {
+        id: "signIn",
         entry: () => {
           const referrerId = getReferrerID();
 
@@ -230,8 +247,8 @@ export const authMachine = createMachine<
           CONNECT_TO_SEQUENCE: {
             target: "connectingToSequence",
           },
-          CONNECT_AS_GUEST: {
-            target: "connectingAsGuest",
+          RETURN: {
+            target: "idle",
           },
         },
       },
@@ -602,6 +619,9 @@ export const authMachine = createMachine<
               },
               BUY_FULL_ACCOUNT: {
                 target: "donating",
+              },
+              SIGN_IN: {
+                target: "#signIn",
               },
             },
           },

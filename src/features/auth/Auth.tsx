@@ -64,7 +64,9 @@ export const Auth: React.FC = () => {
       </div>
       <Panel className="pb-1">
         {loading && <Loading />}
-        {authState.matches("idle") && <Connect />}
+        {(authState.matches("idle") || authState.matches("signIn")) && (
+          <Connect />
+        )}
         {connecting && <Loading text="Connecting" />}
         {authState.matches("connectedToWallet") && <ConnectedToWallet />}
         {authState.matches("signing") && <Signing />}

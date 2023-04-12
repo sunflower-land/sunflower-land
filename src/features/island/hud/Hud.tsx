@@ -113,14 +113,12 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
             }
             balance={gameState.context.state.balance}
           />
-          {isFullUser && (
-            <BlockBucks
-              blockBucks={
-                gameState.context.state.inventory["Block Buck"] ??
-                new Decimal(0)
-              }
-            />
-          )}
+          <BlockBucks
+            blockBucks={
+              gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
+            }
+            isFullUser={isFullUser}
+          />
           {landId && <LandId landId={landId} />}
           <Save />
           <BumpkinProfile />

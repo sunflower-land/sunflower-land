@@ -1,68 +1,51 @@
 import React, { useContext, useState } from "react";
 import { sequence } from "0xsequence";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { Button } from "components/ui/Button";
 import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Equipped } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { Context as AuthContext } from "features/auth/lib/Provider";
-
+import { Context as GameContext } from "features/game/GameProvider";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { login } from "features/auth/actions/login";
 import { wallet } from "lib/blockchain/wallet";
+import { useSelector } from "@xstate/react";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Modal } from "react-bootstrap";
+import { Button } from "components/ui/Button";
 
-interface Props {
-  bumpkinParts: Equipped;
-  onClose: () => void;
-}
+import walletIcon from "src/assets/icons/wallet.png";
 
-type Step = 1 | 2 | 3 | 4;
+type Step = 1 | 2 | 3;
 
 type ModalContent = {
   title: string;
   icon: React.ReactNode;
   text: React.ReactNode;
   buttonText: string;
+  loadingText: string;
 };
 
-export const WalletOnboarding: React.FC<Props> = ({
-  bumpkinParts,
-  onClose,
-}) => {
+export const WalletOnboarding: React.FC = () => {
   const { authService } = useContext(AuthContext);
+  const { gameService } = useContext(GameContext);
+
+  const bumpkin = useSelector(
+    gameService,
+    (state) => state.context.state.bumpkin
+  );
 
   const [currentStep, setCurrentStep] = useState<Step>(1);
+  const [loading, setLoading] = useState(false);
+
+  if (!bumpkin) {
+    throw new Error("Bumpkin is not defined");
+  }
+
+  const onClose = () => gameService.send("CLOSE");
 
   const STEPS: Record<Step, ModalContent> = {
     1: {
-      title: "Ready to expand?",
-      icon: (
-        <img
-          src={SUNNYSIDE.icons.expand}
-          width={16 * PIXEL_SCALE}
-          className="mx-auto mb-3"
-        />
-      ),
-      text: (
-        <>
-          <p>
-            {`Amazing progress! It looks like you're having a great time working on
-            this piece of land. But did you know that you can actually own this
-            farm and everything on it?`}
-          </p>
-
-          <p>
-            In order to continue your progress you will need to create a full
-            account by setting up a wallet and buying your farm.
-          </p>
-        </>
-      ),
-      buttonText: `Let's get started!`,
-    },
-    2: {
       title: "Setting up your wallet",
       icon: (
         <img
@@ -82,16 +65,17 @@ export const WalletOnboarding: React.FC<Props> = ({
           </p>
 
           <a
-            onClick={() => authService.send("RETURN")}
-            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 cursor-pointer"
+            onClick={() => authService.send("SIGN_IN")}
+            className="underline text-xxs pb-1 pt-2 hover:text-blue-500 cursor-pointer"
           >
             I already have a wallet
           </a>
         </>
       ),
       buttonText: `Create wallet`,
+      loadingText: "Signing in...",
     },
-    3: {
+    2: {
       title: "Accept the terms of service",
       icon: (
         <img
@@ -110,8 +94,9 @@ export const WalletOnboarding: React.FC<Props> = ({
         </>
       ),
       buttonText: `Accept terms of service`,
+      loadingText: "Accepting terms...",
     },
-    4: {
+    3: {
       title: "Buy your farm!",
       icon: (
         <img
@@ -132,12 +117,14 @@ export const WalletOnboarding: React.FC<Props> = ({
         </>
       ),
       buttonText: `Let's do this!`,
+      loadingText: `Let's do this!`,
     },
   };
 
-  const { title, text, icon, buttonText } = STEPS[currentStep];
+  const { title, text, icon, buttonText, loadingText } = STEPS[currentStep];
 
   const initSequence = async () => {
+    setLoading(true);
     const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
     const sequenceWallet = await sequence.initWallet(network);
@@ -152,65 +139,63 @@ export const WalletOnboarding: React.FC<Props> = ({
     await wallet.initialise(provider, "SEQUENCE");
 
     authService.send("SET_WALLET", {
-      data: { web3: provider, wallet: "SEQUENCE" },
+      data: { web3: { provider, wallet: "SEQUENCE" } },
     });
-
-    setCurrentStep(3);
+    setLoading(false);
+    setCurrentStep(2);
   };
 
   const initLogin = async () => {
-    if (authService.state.context.user.token) {
-      authService.send("SET_TOKEN", {
-        data: { token: authService.state.context.user.token },
-      });
-      setCurrentStep(4);
-      return;
-    }
-
     if (wallet.myAccount) {
-      const { token } = await login(
-        authService.state.context.transactionId as string,
-        wallet.myAccount
-      );
-      authService.send("SET_TOKEN", { data: { token } });
-      setCurrentStep(4);
+      setLoading(true);
+      try {
+        const { token } = await login(
+          authService.state.context.transactionId as string,
+          wallet.myAccount
+        );
+        authService.send("SET_TOKEN", { data: { token } });
+        setCurrentStep(3);
+      } catch (e) {
+        console.error(e);
+      }
+      setLoading(false);
       return;
     }
   };
 
   const handleOnClick = () => {
-    if (currentStep == 1) {
-      setCurrentStep(2);
-    }
-
-    if (currentStep === 2) {
+    if (currentStep === 1) {
       initSequence();
       return;
     }
 
-    if (currentStep === 3) {
+    if (currentStep === 2) {
       initLogin();
       return;
     }
 
-    if (currentStep === 4) {
+    if (currentStep === 3) {
       authService.send("BUY_FULL_ACCOUNT");
     }
   };
 
   return (
-    <CloseButtonPanel
-      bumpkinParts={bumpkinParts}
-      title={title}
-      onClose={onClose}
-    >
-      <>
-        <div className="p-2 pt-0 text-sm mb-2 space-y-2">
-          {icon}
-          {text}
-        </div>
-        <Button onClick={handleOnClick}>{buttonText}</Button>
-      </>
-    </CloseButtonPanel>
+    <Modal show={true} onHide={onClose} centered>
+      <CloseButtonPanel
+        bumpkinParts={bumpkin.equipped}
+        title={title}
+        onClose={onClose}
+      >
+        <>
+          <div className="p-2 pt-0 text-sm mb-2 space-y-2">
+            {icon}
+            {text}
+          </div>
+          <Button onClick={handleOnClick} disabled={loading}>
+            {loading ? loadingText : buttonText}
+          </Button>
+        </>
+      </CloseButtonPanel>
+    </Modal>
   );
 };

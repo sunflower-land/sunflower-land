@@ -42,6 +42,8 @@ import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
+import { hasFeatureAccess } from "lib/flags";
+import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -72,6 +74,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   revealed: false,
   buyingSFL: true,
   depositing: true,
+  upgradingGuestGame: false,
 };
 
 // State change selectors
@@ -93,7 +96,10 @@ const isDepositing = (state: MachineState) => state.matches("depositing");
 const isLoadingLandToVisit = (state: MachineState) =>
   state.matches("loadLandToVisit");
 const isLoadingSession = (state: MachineState) =>
-  state.matches("loading") && state.context.sessionId === INITIAL_SESSION;
+  state.matches("loading") ||
+  state.matches("loadingGuestGame") ||
+  (state.matches("loadingFullGame") &&
+    state.context.sessionId === INITIAL_SESSION);
 const isLandToVisitNotFound = (state: MachineState) =>
   state.matches("landToVisitNotFound");
 const bumpkinLevel = (state: MachineState) =>
@@ -101,6 +107,8 @@ const bumpkinLevel = (state: MachineState) =>
 const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
+const isUpgradingGuestGame = (state: MachineState) =>
+  state.matches("upgradingGuestGame");
 
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -127,6 +135,7 @@ export const Game: React.FC = () => {
   const state = useSelector(gameService, currentState);
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
+  const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -284,6 +293,8 @@ export const Game: React.FC = () => {
           {depositing && <Loading text="Depositing" />}
         </Panel>
       </Modal>
+
+      {upgradingGuestGame && <WalletOnboarding />}
 
       {GameContent()}
     </ToastProvider>

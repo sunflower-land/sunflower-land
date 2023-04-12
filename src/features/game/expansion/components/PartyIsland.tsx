@@ -170,7 +170,7 @@ export const PartyIsland: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [showSharkModal, setshowSharkModal] = useState(false);
+  const [showSharkModal, setShowSharkModal] = useState(false);
   const [showTigerModal, setShowTigerModal] = useState(false);
   const [showPirateModal, setShowPirateModal] = useState(false);
 
@@ -183,6 +183,11 @@ export const PartyIsland: React.FC = () => {
   const hasAccess =
     isPartyActive ||
     hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA");
+
+  const onUpgrade = () => {
+    gameService.send("UPGRADE");
+    setShowSharkModal(false);
+  };
 
   const PartyModalContent = () => {
     if (isGuest) {
@@ -201,7 +206,7 @@ export const PartyIsland: React.FC = () => {
             </p>
             <p>Upgrade to a full farm account and be a part of the action!</p>
           </div>
-          <Button>Upgrade now!</Button>
+          <Button onClick={onUpgrade}>Upgrade now!</Button>
         </>
       );
     }
@@ -227,10 +232,10 @@ export const PartyIsland: React.FC = () => {
       <Modal
         show={showSharkModal}
         centered
-        onHide={() => setshowSharkModal(false)}
+        onHide={() => setShowSharkModal(false)}
       >
         <CloseButtonPanel
-          onClose={() => setshowSharkModal(false)}
+          onClose={() => setShowSharkModal(false)}
           bumpkinParts={{
             body: "Dark Brown Farmer Potion",
             onesie: "Shark Onesie",
@@ -305,7 +310,7 @@ export const PartyIsland: React.FC = () => {
             body="Dark Brown Farmer Potion"
             onesie="Shark Onesie"
             hair="Buzz Cut"
-            onClick={() => setshowSharkModal(true)}
+            onClick={() => setShowSharkModal(true)}
           />
         </div>
 

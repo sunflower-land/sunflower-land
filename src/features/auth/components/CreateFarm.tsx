@@ -198,7 +198,7 @@ export const CreateFarm: React.FC = () => {
 
       {screen === "create" && (
         <>
-          <ol className="p-2 space-y-3 text-xs">
+          <ol className="p-2 space-y-3 text-sm">
             <li>
               <div>
                 <div className="flex space-x-1 mb-2 items-center">

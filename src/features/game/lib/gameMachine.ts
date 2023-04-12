@@ -175,6 +175,8 @@ export type BlockchainEvent =
   | DepositEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
+  | { type: "UPGRADE" }
+  | { type: "CLOSE" }
   | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -276,6 +278,7 @@ export type BlockchainState = {
     | "editing"
     | "noBumpkinFound"
     | "coolingDown"
+    | "upgradingGuestGame"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -669,6 +672,9 @@ export function startGame(authContext: AuthContext) {
             },
             EDIT: {
               target: "editing",
+            },
+            UPGRADE: {
+              target: "upgradingGuestGame",
             },
           },
         },
@@ -1119,6 +1125,9 @@ export function startGame(authContext: AuthContext) {
               actions: "assignErrorMessage",
             },
           },
+        },
+        upgradingGuestGame: {
+          on: { CLOSE: { target: "playing" } },
         },
       },
     },

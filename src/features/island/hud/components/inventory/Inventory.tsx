@@ -50,15 +50,13 @@ export const Inventory: React.FC<Props> = ({
     shortcutItem(item);
   };
 
-  const top = isFullUser ? 38 : 24;
-
   return (
     <>
       <div
         className="flex flex-col items-center fixed z-50"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * top}px`,
+          top: `${PIXEL_SCALE * 38}px`,
         }}
       >
         <div
