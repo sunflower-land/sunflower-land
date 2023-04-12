@@ -27,7 +27,7 @@ export const CraftBuildingModal: React.FC<Props> = ({
         tabs={[{ icon: ITEM_DETAILS["Water Well"].image, name: "Buildings" }]}
         onClose={onHide}
       >
-        <Buildings />
+        <Buildings onClose={onHide} />
       </CloseButtonPanel>
     </Modal>
   );

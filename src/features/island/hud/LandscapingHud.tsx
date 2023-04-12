@@ -10,6 +10,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import scarecrow from "assets/icons/scarecrow.png";
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
+import lightning from "assets/icons/lightning.png";
 
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
@@ -111,18 +112,11 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                   ...pixelTabBorderMiddleStyle,
                   height: "30px",
                   top: "-30px",
-                  left: "calc(50% - 53px)",
+                  left: "calc(50% - 45px)",
                 }}
               >
                 <img src={SUNNYSIDE.icons.hammer} className="h-4 mr-1" />
                 <p className="text-xs">Build</p>
-                <img
-                  src={SUNNYSIDE.icons.hammer}
-                  className="h-4 ml-1"
-                  style={{
-                    transform: "scaleX(-1)",
-                  }}
-                />
               </div>
               <div
                 className="flex justify-center"
@@ -141,6 +135,15 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                     src={scarecrow}
                     style={{
                       height: `${PIXEL_SCALE * 18}px`,
+                    }}
+                  />
+                  <img
+                    src={lightning}
+                    className="absolute"
+                    style={{
+                      height: `${PIXEL_SCALE * 10}px`,
+                      top: `${PIXEL_SCALE * -0.5}px`,
+                      right: `${PIXEL_SCALE * -0.5}px`,
                     }}
                   />
                 </InnerPanel>

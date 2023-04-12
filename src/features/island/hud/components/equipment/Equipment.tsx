@@ -15,8 +15,14 @@ import {
 } from "features/game/types/collectibles";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import Decimal from "decimal.js-light";
+import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
-export const Equipment: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const Equipment: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
     useState<HeliosBlacksmithItem>("Immortal Pear");
   const { setToast } = useContext(ToastContext);
@@ -31,29 +37,25 @@ export const Equipment: React.FC = () => {
   const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
+  const landscapingMachine = gameService.state.children
+    .landscaping as MachineInterpreter;
+
   const lessIngredients = () =>
     getKeys(selectedItem.ingredients).some((name) =>
       selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
 
   const craft = () => {
-    gameService.send("collectible.crafted", {
-      name: selectedName,
+    landscapingMachine.send("SELECT", {
+      action: "collectible.crafted",
+      placeable: selectedName,
+      requirements: {
+        sfl: new Decimal(0),
+        ingredients: selectedItem.ingredients,
+      },
     });
 
-    getKeys(selectedItem.ingredients).map((name) => {
-      const ingredient = ITEM_DETAILS[name];
-      setToast({
-        icon: ingredient.image,
-        content: `-${selectedItem.ingredients[name]}`,
-      });
-    });
-    setToast({
-      icon: ITEM_DETAILS[selectedName].image,
-      content: "+1",
-    });
-
-    shortcutItem(selectedName);
+    onClose();
   };
 
   return (

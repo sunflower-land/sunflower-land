@@ -266,6 +266,8 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
+    Gold: new Decimal(15),
+    "Wooden Compass": new Decimal(20),
     "Dirt Path": new Decimal(100),
     Fence: new Decimal(50),
     Bush: new Decimal(50),

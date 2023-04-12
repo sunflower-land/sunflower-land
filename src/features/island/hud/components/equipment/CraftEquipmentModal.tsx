@@ -27,7 +27,7 @@ export const CraftEquipmentModal: React.FC<Props> = ({
         tabs={[{ icon: lightning, name: "Equipment" }]}
         onClose={onHide}
       >
-        <Equipment />
+        <Equipment onClose={onHide} />
       </CloseButtonPanel>
     </Modal>
   );

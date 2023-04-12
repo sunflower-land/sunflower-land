@@ -192,7 +192,8 @@ export type PlacementEvent =
   | PlaceGoldAction
   | PlaceIronAction
   | PlaceFruitPatchAction
-  | buyDecorationAction;
+  | buyDecorationAction
+  | CraftCollectibleAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -264,6 +265,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "iron.placed": placeIron,
   "fruitPatch.placed": placeFruitPatch,
   "decoration.bought": buyDecoration,
+  "collectible.crafted": craftCollectible,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
