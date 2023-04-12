@@ -1,5 +1,5 @@
 import { sequence } from "0xsequence";
-import { createMachine, Interpreter, assign } from "xstate";
+import { createMachine, Interpreter, assign, State } from "xstate";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import { loadBanDetails } from "features/game/actions/bans";
@@ -168,6 +168,8 @@ export type BlockchainState = {
 };
 
 const API_URL = CONFIG.API_URL;
+
+export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
 
 export type MachineInterpreter = Interpreter<
   Context,
