@@ -15,6 +15,7 @@ import {
 import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
 } from "features/game/types/craftables";
 import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
 import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
@@ -24,6 +25,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { getGameGrid } from "./lib/makeGrid";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -34,6 +36,12 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
     <img
       src={ITEM_DETAILS["Dirt Path"].image}
       style={{ width: `${PIXEL_SCALE * 22}px` }}
+    />
+  ),
+  "Fire Pit": () => (
+    <img
+      src={ITEM_DETAILS["Fire Pit"].image}
+      style={{ width: `${PIXEL_SCALE * 47}px` }}
     />
   ),
 };
@@ -90,12 +98,15 @@ export const Placeable: React.FC = () => {
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
 
+  const [gameState] = useActor(gameService);
   const [showHint, setShowHint] = useState(true);
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
   const [machine, send] = useActor(child);
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
+
+  const grid = getGameGrid(gameState.context.state);
 
   let dimensions = { width: 0, height: 0 };
 
@@ -219,6 +230,7 @@ export const Placeable: React.FC = () => {
             >
               {PLACEABLES[placeable]({
                 coordinates,
+                grid,
               })}
             </div>
           </div>

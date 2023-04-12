@@ -28,7 +28,10 @@ import bottomAndRightEdge from "assets/decorations/fence/0_1_1_0.png";
 
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { getGameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import {
+  GameGrid,
+  getGameGrid,
+} from "features/game/expansion/placeable/lib/makeGrid";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 const IMAGE_PATHS: Record<string, string> = {
@@ -58,16 +61,9 @@ type Edges = {
 
 interface Props {
   coordinates: Coordinates;
+  grid: GameGrid;
 }
-export const Fence: React.FC<Props> = ({ coordinates }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state },
-  } = gameState;
-
-  const grid = getGameGrid(state);
-
+export const Fence: React.FC<Props> = ({ coordinates, grid }) => {
   const edges: Edges = {
     top: grid[coordinates.x]?.[coordinates.y + 1] === "Fence",
     right: grid[coordinates.x + 1]?.[coordinates.y] === "Fence",

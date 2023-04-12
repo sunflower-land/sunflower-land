@@ -122,6 +122,7 @@ import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Fence } from "./components/Fence";
+import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -129,6 +130,7 @@ export interface CollectibleProps {
   readyAt: number;
   createdAt: number;
   coordinates: Coordinates;
+  grid: GameGrid;
 }
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
@@ -287,6 +289,7 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
   readyAt,
   createdAt,
   coordinates,
+  grid,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const { showTimers } = useContext(Context);
@@ -320,6 +323,7 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
               name={name}
               readyAt={readyAt}
               coordinates={coordinates}
+              grid={grid}
             />
           </div>
           {showTimers && (
@@ -384,6 +388,7 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
             name={name}
             readyAt={readyAt}
             coordinates={coordinates}
+            grid={grid}
           />
         </div>
       </div>

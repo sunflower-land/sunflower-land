@@ -29,7 +29,7 @@ import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
-import { getGameGrid } from "./placeable/lib/makeGrid";
+import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Hud } from "features/island/hud/Hud";
 
@@ -44,6 +44,7 @@ const getIslandElements = ({
   fruitPatches,
   crops,
   bumpkinParts,
+  grid,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -56,6 +57,7 @@ const getIslandElements = ({
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   bumpkinParts: BumpkinParts | undefined;
+  grid: GameGrid;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -131,6 +133,7 @@ const getIslandElements = ({
                 readyAt={readyAt}
                 createdAt={createdAt}
                 coordinates={coordinates}
+                grid={grid}
               />
             </MapPlacement>
           );
@@ -302,6 +305,8 @@ export const Land: React.FC = () => {
     fruitPatches,
     easterHunt,
   } = useSelector(gameService, (state) => state.context.state);
+  // TODO - memo this value
+  const grid = getGameGrid({ crops, collectibles });
   const gameState = useSelector(gameService, (state) => ({
     isAutosaving: state.matches("autosaving"),
     isLandscaping: state.matches("landscaping"),
@@ -358,6 +363,7 @@ export const Land: React.FC = () => {
             fruitPatches,
             crops,
             bumpkinParts: bumpkin?.equipped,
+            grid,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
         <IslandTravel

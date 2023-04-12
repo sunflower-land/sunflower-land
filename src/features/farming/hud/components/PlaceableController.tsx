@@ -40,12 +40,12 @@ export const PlaceableController: React.FC = () => {
 
   const [gameState] = useActor(gameService);
 
+  const { setToast } = useContext(ToastContext);
+
   if (!placeable) {
     return null;
   }
   console.log({ value, placeable, action });
-
-  const { setToast } = useContext(ToastContext);
 
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,

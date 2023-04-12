@@ -22,6 +22,8 @@ import deliIcon from "assets/buildings/deli_icon.png";
 import smoothieIcon from "assets/buildings/smoothie_shack_icon.png";
 import toolshedIcon from "assets/buildings/toolshed_icon.png";
 import warehouseIcon from "assets/buildings/warehouse_icon.png";
+import lock from "assets/skills/lock.png";
+
 import Decimal from "decimal.js-light";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
@@ -64,6 +66,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   );
 
   const sfl = selectedItem[0].sfl;
+  const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
 
   const landscapingMachine = gameService.state.children
     .landscaping as MachineInterpreter;
@@ -86,6 +89,20 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
+  const action = () => {
+    if (isAlreadyCrafted) {
+      return <p className="text-xxs text-center mb-1">Already crafted!</p>;
+    }
+    return (
+      <Button
+        disabled={lessIngredients() || state.balance.lt(sfl)}
+        onClick={craft}
+      >
+        Craft
+      </Button>
+    );
+  };
+
   return (
     <SplitScreenView
       panel={
@@ -105,28 +122,24 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
               {}
             ),
           }}
-          actionView={
-            isAlreadyCrafted ? (
-              <p className="text-xxs text-center mb-1">Already crafted!</p>
-            ) : (
-              <Button disabled={lessIngredients()} onClick={craft}>
-                Craft
-              </Button>
-            )
-          }
+          actionView={action()}
         />
       }
       content={
         <>
-          {getKeys(BUILDINGS()).map((name: BuildingName) => (
-            <Box
-              isSelected={selectedName === name}
-              key={name}
-              onClick={() => setSelectedName(name)}
-              image={ICONS[name] ?? ITEM_DETAILS[name].image}
-              count={inventory[name]}
-            />
-          ))}
+          {getKeys(BUILDINGS()).map((name: BuildingName) => {
+            const isLocked = landCount.lt(BUILDINGS()[name][0].unlocksAtLevel);
+            return (
+              <Box
+                isSelected={selectedName === name}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                image={ICONS[name] ?? ITEM_DETAILS[name].image}
+                secondaryImage={isLocked ? lock : undefined}
+                showOverlay={isLocked}
+              />
+            );
+          })}
         </>
       }
     />
