@@ -6,7 +6,6 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import ocean from "assets/decorations/ocean.webp";
 import background from "assets/land/snow_kingdom.webp";
 import { GameProvider } from "features/game/GameProvider";
-import { ToastProvider } from "features/game/toast/ToastQueueProvider";
 import { IslandTravelWrapper } from "./IslandTravelWrapper";
 
 export const SnowKingdom: React.FC = () => {
@@ -22,43 +21,41 @@ export const SnowKingdom: React.FC = () => {
   // Load data
   return (
     <GameProvider>
-      <ToastProvider>
-        <ScrollContainer
-          className="bg-blue-300 overflow-scroll relative w-full h-full"
-          innerRef={container}
+      <ScrollContainer
+        className="bg-blue-300 overflow-scroll relative w-full h-full"
+        innerRef={container}
+      >
+        <div
+          className="relative"
+          style={{
+            width: `${84 * GRID_WIDTH_PX}px`,
+            height: `${56 * GRID_WIDTH_PX}px`,
+          }}
         >
           <div
-            className="relative"
+            className="absolute inset-0 bg-repeat w-full h-full"
             style={{
-              width: `${84 * GRID_WIDTH_PX}px`,
-              height: `${56 * GRID_WIDTH_PX}px`,
+              backgroundImage: `url(${ocean})`,
+              backgroundSize: `${64 * PIXEL_SCALE}px`,
+              imageRendering: "pixelated",
+            }}
+          />
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: `${40 * GRID_WIDTH_PX}px`,
+              height: `${40 * GRID_WIDTH_PX}px`,
             }}
           >
-            <div
-              className="absolute inset-0 bg-repeat w-full h-full"
-              style={{
-                backgroundImage: `url(${ocean})`,
-                backgroundSize: `${64 * PIXEL_SCALE}px`,
-                imageRendering: "pixelated",
-              }}
+            <img
+              src={background}
+              className="absolute inset-0 w-full h-full"
+              id={Section.SnowKingdomBackground}
             />
-            <div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{
-                width: `${40 * GRID_WIDTH_PX}px`,
-                height: `${40 * GRID_WIDTH_PX}px`,
-              }}
-            >
-              <img
-                src={background}
-                className="absolute inset-0 w-full h-full"
-                id={Section.SnowKingdomBackground}
-              />
-              <IslandTravelWrapper />
-            </div>
+            <IslandTravelWrapper />
           </div>
-        </ScrollContainer>
-      </ToastProvider>
+        </div>
+      </ScrollContainer>
     </GameProvider>
   );
 };

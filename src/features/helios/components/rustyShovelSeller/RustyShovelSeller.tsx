@@ -9,7 +9,6 @@ import token from "assets/icons/token_2.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { CRAFTABLE_TOOLS } from "features/game/events/landExpansion/craftTool";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useActor } from "@xstate/react";
@@ -23,19 +22,13 @@ import { Restock } from "features/island/buildings/components/building/market/Re
 export const RustyShovelSeller: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
   const [{ context }] = useActor(gameService);
-  const { setToast } = useContext(ToastContext);
   const [showModal, setShowModal] = useState(false);
 
   const stock = context.state.stock["Rusty Shovel"] || new Decimal(0);
   const { sfl: price, name: tool } = CRAFTABLE_TOOLS["Rusty Shovel"];
 
-  const craft = (amount: number) => {
+  const craft = () => {
     gameService.send("tool.crafted", { tool });
-
-    setToast({
-      icon: token,
-      content: `-${price?.mul(amount)}`,
-    });
 
     shortcutItem("Rusty Shovel");
   };
@@ -57,7 +50,7 @@ export const RustyShovelSeller: React.FC = () => {
       return <Restock onClose={() => setShowModal(false)} />;
     }
 
-    return <Button onClick={() => craft(1)}>Buy 1</Button>;
+    return <Button onClick={craft}>Buy 1</Button>;
   };
 
   return (

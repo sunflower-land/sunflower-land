@@ -5,14 +5,12 @@ import { Panel } from "components/ui/Panel";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import salesmanImage from "assets/npcs/salesman.gif";
 import shadow from "assets/npcs/shadow.png";
 import { hasAlreadyTraded } from "features/game/events/trade";
 import { Offer } from "./component/Offer";
 import { TradeOffer } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import stopwatch from "assets/icons/stopwatch.png";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -34,7 +32,6 @@ export const Salesman: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { setToast } = useContext(ToastContext);
 
   const { state } = gameState.context;
 
@@ -55,23 +52,6 @@ export const Salesman: React.FC = () => {
   };
 
   const handleTrade = () => {
-    const offer = state.tradeOffer;
-
-    if (offer) {
-      offer.ingredients?.map((ingredient) => {
-        const item = ITEM_DETAILS[ingredient.name];
-        setToast({
-          icon: item.image,
-          content: `-${ingredient.amount}`,
-        });
-      });
-
-      setToast({
-        icon: ITEM_DETAILS[offer.name].image,
-        content: `+${offer.amount}`,
-      });
-    }
-
     gameService.send("item.traded");
     setModalState("tradeCompleted");
   };

@@ -5,8 +5,6 @@ import fruitPatch from "assets/fruit/fruit_patch.png";
 
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
@@ -21,7 +19,6 @@ interface Props {
 
 export const FruitPatch: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const { setToast } = useContext(ToastContext);
   const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
@@ -53,10 +50,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       if (!newState.matches("hoarding")) {
         harvestAudio.play();
         setPlayAnimation(true);
-        setToast({
-          icon: ITEM_DETAILS[gameState.fruit.name].image,
-          content: `+${gameState.fruit.amount || 1}`,
-        });
       }
     } catch (e: any) {
       displayInformation();
@@ -89,15 +82,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       if (!newState.matches("hoarding")) {
         treeFallAudio.play();
         setPlayAnimation(true);
-
-        setToast({
-          icon: ITEM_DETAILS.Axe.image,
-          content: `-1`,
-        });
-        setToast({
-          icon: ITEM_DETAILS.Wood.image,
-          content: `+1`,
-        });
       }
     } catch (e: any) {
       displayInformation();
@@ -112,11 +96,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       });
 
       plantAudio.play();
-
-      setToast({
-        icon: ITEM_DETAILS[selectedItem as FruitName].image,
-        content: `-1`,
-      });
     } catch (e: any) {
       // TODO - catch more elaborate errors
       displayInformation();

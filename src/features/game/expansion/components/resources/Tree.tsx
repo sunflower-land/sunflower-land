@@ -9,7 +9,6 @@ import Decimal from "decimal.js-light";
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
-import sfltoken from "assets/icons/token_2.png";
 
 import {
   GRID_WIDTH_PX,
@@ -18,7 +17,6 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 
 import { getTimeLeft } from "lib/utils/time";
@@ -35,8 +33,6 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { setPrecision } from "lib/utils/formatNumber";
 import { useSelector } from "@xstate/react";
 
 const HITS = 3;
@@ -68,7 +64,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
-  const { setToast } = useContext(ToastContext);
   const tool = "Axe";
 
   const gameState = useSelector(gameService, (state) => ({
@@ -163,20 +158,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
     setTouchCount(0);
     if (success) {
       chop();
-
-      if (reward?.sfl) {
-        setToast({
-          icon: sfltoken,
-          content: `+${reward.sfl.toString()}`,
-        });
-      }
-
-      reward?.items?.forEach((item) => {
-        setToast({
-          icon: ITEM_DETAILS[item.name].image,
-          content: `+${setPrecision(new Decimal(item.amount))}`,
-        });
-      });
     }
   };
 
@@ -203,14 +184,9 @@ export const Tree: React.FC<Props> = ({ id }) => {
                 width: `${PIXEL_SCALE * 11}px`,
               }}
             />
-            <span className="text-sm text-white">{`+${gameState.resource.wood.amount}`}</span>
+            <span className="text-sm">{`+${gameState.resource.wood.amount}`}</span>
           </div>
         );
-
-        setToast({
-          icon: SUNNYSIDE.resource.wood,
-          content: `+${gameState.resource.wood.amount}`,
-        });
 
         await new Promise((res) => setTimeout(res, 2000));
         setCollecting(false);
@@ -220,13 +196,13 @@ export const Tree: React.FC<Props> = ({ id }) => {
         displayPopover(
           <div className="flex">
             <img src={SUNNYSIDE.tools.axe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white">No axes left</span>
+            <span className="text-xs">No axes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(<span className="text-xs text-white">{e.message}</span>);
+      displayPopover(<span className="text-xs">{e.message}</span>);
     }
   };
 
@@ -303,7 +279,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
               }
             )}
           >
-            <div className="text-xxs text-white mx-1 p-1">
+            <div className="text-xxs mx-1 p-1">
               <span>Equip {tool.toLowerCase()}</span>
             </div>
           </InnerPanel>
