@@ -232,6 +232,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Easter Bear": true,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
+
   "Easter Bush": true,
   "Giant Carrot": true,
 
@@ -299,11 +300,14 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Beach Ball": false,
   "Palm Tree": false,
   Karkinos: false,
-  "Cabbage Boy": false,
-  "Cabbage Girl": false,
+  "Cabbage Boy": true,
+  "Cabbage Girl": true,
   "Collectible Bear": false,
 
   "Basic Land": false,
+
+  Orange: true,
+  Blueberry: true,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
