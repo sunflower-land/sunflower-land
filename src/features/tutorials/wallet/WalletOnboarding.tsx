@@ -153,7 +153,9 @@ export const WalletOnboarding: React.FC = () => {
           authService.state.context.transactionId as string,
           wallet.myAccount
         );
-        authService.send("SET_TOKEN", { data: { token } });
+        authService.send("SET_TOKEN", {
+          data: { account: wallet.myAccount, token },
+        });
         setCurrentStep(3);
       } catch (e) {
         console.error(e);

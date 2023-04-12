@@ -615,7 +615,13 @@ export const authMachine = createMachine<
                 actions: "assignGuestUser",
               },
               SET_TOKEN: {
-                actions: "assignToken",
+                actions: [
+                  "assignToken",
+                  (_, event) =>
+                    saveSession((event as any).data.account, {
+                      token: (event as any).data.token,
+                    }),
+                ],
               },
               BUY_FULL_ACCOUNT: {
                 target: "donating",
