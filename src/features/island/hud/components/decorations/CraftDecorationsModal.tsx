@@ -24,7 +24,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({
   return (
     <Modal size="lg" centered show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[{ icon: sunflower, name: "Equipment" }]}
+        tabs={[{ icon: sunflower, name: "Decorations" }]}
         onClose={onHide}
       >
         <Decorations onClose={onHide} />
