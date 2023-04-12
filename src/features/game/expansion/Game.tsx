@@ -13,7 +13,8 @@ import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
 import { Context } from "../GameProvider";
 import { INITIAL_SESSION, MachineState, StateValues } from "../lib/gameMachine";
-import { ToastManager } from "../toast/ToastManager";
+import { ToastProvider } from "../toast/ToastProvider";
+import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
@@ -23,7 +24,6 @@ import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-// import { Rules } from "../components/Rules";
 import { Route, Routes } from "react-router-dom";
 import { Land } from "./Land";
 import { Helios } from "features/helios/Helios";
@@ -260,8 +260,8 @@ export const Game: React.FC = () => {
   };
 
   return (
-    <>
-      <ToastManager isHoarding={hoarding} />
+    <ToastProvider>
+      <ToastPanel />
 
       <Modal show={SHOW_MODAL[state as StateValues]} centered>
         <Panel>
@@ -282,6 +282,6 @@ export const Game: React.FC = () => {
       </Modal>
 
       {GameContent()}
-    </>
+    </ToastProvider>
   );
 };
