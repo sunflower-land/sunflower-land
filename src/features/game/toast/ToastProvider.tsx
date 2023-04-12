@@ -8,7 +8,7 @@ import { InventoryItemName } from "../types/game";
 /**
  * The type of the toast.
  */
-type ToastItem = InventoryItemName | "SFL" | "XP";
+export type ToastItem = InventoryItemName | "SFL" | "XP";
 
 /**
  * The toast props.

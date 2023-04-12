@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { ToastContext } from "./ToastProvider";
+import { ToastContext, ToastItem } from "./ToastProvider";
 import { Context } from "../GameProvider";
 import { PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
@@ -11,6 +11,14 @@ import levelup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "../types/images";
 
 const MAX_TOAST = 6;
+
+const getToastIcon = (item: ToastItem) => {
+  if (item === "SFL") return token;
+
+  if (item === "XP") return levelup;
+
+  return ITEM_DETAILS[item]?.image;
+};
 
 /**
  * The panel that shows temporary inventory/balance/experience state changes.
@@ -94,16 +102,7 @@ export const ToastPanel: React.FC = () => {
             .filter((toast) => !toast.hidden)
             .map(({ item, difference, id }) => (
               <div className="flex items-center justify-center" key={id}>
-                <img
-                  className="h-6"
-                  src={
-                    item === "SFL"
-                      ? token
-                      : item === "XP"
-                      ? levelup
-                      : ITEM_DETAILS[item].image
-                  }
-                />
+                <img className="h-6" src={getToastIcon(item)} />
                 <span className="text-sm mx-1 mb-0.5">{`${
                   difference.greaterThanOrEqualTo(0) ? "+" : ""
                 }${setPrecision(difference)}`}</span>
