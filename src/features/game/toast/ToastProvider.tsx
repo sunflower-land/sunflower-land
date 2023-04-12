@@ -109,7 +109,7 @@ export const ToastProvider: FC = ({ children }) => {
       const newToast = {
         ...toast,
         id: id,
-        difference: difference,
+        difference,
         hidden: false,
       };
       const toasts = [
