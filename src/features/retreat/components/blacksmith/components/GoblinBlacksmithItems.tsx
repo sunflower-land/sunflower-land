@@ -26,6 +26,7 @@ const ALLOW_MULTIPLE_MINTS: InventoryItemName[] = [
   "Heart Balloons",
   "Flamingo",
   "Blossom Tree",
+  "Beach Ball",
 ];
 
 interface Props {

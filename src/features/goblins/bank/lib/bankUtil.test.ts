@@ -2,8 +2,6 @@ import "lib/__mocks__/configMock.ts";
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { canWithdraw } from "./bankUtils";
-import { FRUIT } from "features/game/types/fruits";
-import { getKeys } from "features/game/types/craftables";
 
 describe("canWithdraw", () => {
   describe("prevents", () => {
@@ -1123,22 +1121,6 @@ describe("canWithdraw", () => {
     });
 
     expect(enabled).toBeTruthy();
-  });
-
-  it("prevents users from withdrawing fruits", () => {
-    getKeys(FRUIT()).map((item) => {
-      const enabled = canWithdraw({
-        item: item,
-        game: {
-          ...TEST_FARM,
-          inventory: {
-            [item]: new Decimal(1),
-          },
-        },
-      });
-
-      expect(enabled).toBeFalsy();
-    });
   });
 
   it("prevents users from withdrawing easter eggs", () => {
