@@ -108,7 +108,6 @@ function hasCompletedAchievement(
 
 // Group withdraw conditions for common items
 const cropDefaults = buildDefaults(getKeys(CROPS()), true);
-// Fruits will be disabled untill all the fruit SFT's are sold out
 const seedDefaults = buildDefaults(getKeys(SEEDS()), false);
 const beanDefaults = buildDefaults(getKeys(BEANS()), false);
 const questItemDefaults = buildDefaults(getKeys(QUEST_ITEMS), false);
@@ -126,7 +125,7 @@ const heliosBlacksmithDefaults = buildDefaults(
 );
 const resourceDefaults = buildDefaults(getKeys(RESOURCES), false);
 const commodityDefaults = buildDefaults(getKeys(COMMODITIES), true);
-const fruitDefaults = buildDefaults(getKeys(FRUIT()), false);
+const fruitDefaults = buildDefaults(getKeys(FRUIT()), true);
 const mutantChickenDefaults = buildDefaults(
   getKeys(MUTANT_CHICKENS),
   (game) => !areAnyChickensFed(game)
@@ -232,6 +231,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Easter Bear": true,
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
+
   "Easter Bush": true,
   "Giant Carrot": true,
 
@@ -299,11 +299,13 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Beach Ball": false,
   "Palm Tree": false,
   Karkinos: false,
-  "Cabbage Boy": false,
-  "Cabbage Girl": false,
+  "Cabbage Boy": true,
+  "Cabbage Girl": true,
   "Collectible Bear": false,
 
   "Basic Land": false,
+
+  Apple: false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.
