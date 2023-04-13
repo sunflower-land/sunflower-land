@@ -26,6 +26,8 @@ import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
 
 const ICONS: Partial<Record<BuildingName, string>> = {
   Market: marketIcon,
@@ -89,16 +91,49 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
+  const landLocked = (level: number) => {
+    return (
+      <div className="flex flex-col w-full justify-center">
+        <div className="flex items-center justify-center border-t border-white w-full pt-2">
+          <img src={lock} className="h-4 mr-1" />
+          <p className="text-xxs mb-1">Unlock more land</p>
+        </div>
+        <div className="flex items-center justify-center ">
+          <img src={ITEM_DETAILS["Basic Land"].image} className="h-4 mr-1" />
+          <Label type="danger">{`${landCount.toNumber()}/${level}`}</Label>
+        </div>
+      </div>
+    );
+  };
+
   const action = () => {
+    const level = BUILDINGS()[selectedName][0].unlocksAtLevel;
+    const isLocked = landCount.lt(level);
+
+    // Hasn't unlocked the first
+    if (isLocked) {
+      return landLocked(landCount.toNumber());
+    }
+
+    const nextLockedLevel = BUILDINGS()[selectedName].find((blueprint) =>
+      landCount.lt(blueprint.unlocksAtLevel)
+    );
+
+    // Built one, but needs to level up to build more
+    if (nextLockedLevel) {
+      return landLocked(nextLockedLevel.unlocksAtLevel);
+    }
+
     if (isAlreadyCrafted) {
       return <p className="text-xxs text-center mb-1">Already crafted!</p>;
     }
+
     return (
       <Button
         disabled={lessIngredients() || state.balance.lt(sfl)}
         onClick={craft}
       >
-        Craft
+        Build
       </Button>
     );
   };
@@ -129,13 +164,26 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
         <>
           {getKeys(BUILDINGS()).map((name: BuildingName) => {
             const isLocked = landCount.lt(BUILDINGS()[name][0].unlocksAtLevel);
+
+            let secondaryIcon = undefined;
+            if (isLocked) {
+              secondaryIcon = lock;
+            }
+
+            console.log({ name, built: inventory[name]?.toNumber() });
+            if (
+              inventory[name]?.greaterThanOrEqualTo(BUILDINGS()[name].length)
+            ) {
+              secondaryIcon = SUNNYSIDE.icons.confirm;
+            }
+
             return (
               <Box
                 isSelected={selectedName === name}
                 key={name}
                 onClick={() => setSelectedName(name)}
                 image={ICONS[name] ?? ITEM_DETAILS[name].image}
-                secondaryImage={isLocked ? lock : undefined}
+                secondaryImage={secondaryIcon}
                 showOverlay={isLocked}
               />
             );
