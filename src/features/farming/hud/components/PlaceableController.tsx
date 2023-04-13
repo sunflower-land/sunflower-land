@@ -120,7 +120,7 @@ export const PlaceableController: React.FC = () => {
   };
 
   const handleCancelPlacement = () => {
-    send("CANCEL");
+    send("BACK");
   };
 
   const Hint = () => {

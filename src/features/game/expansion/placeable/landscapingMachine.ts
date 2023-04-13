@@ -117,7 +117,8 @@ export type BlockchainEvent =
   | UpdateEvent
   | SaveEvent
   | MoveEvent
-  | { type: "CANCEL" };
+  | { type: "CANCEL" }
+  | { type: "BACK" };
 
 export type BlockchainState = {
   value:
@@ -250,6 +251,12 @@ export const landscapingMachine = createMachine<
               actions: assign({
                 coordinates: (_, event) => event.coordinates,
                 collisionDetected: (_, event) => event.collisionDetected,
+              }),
+            },
+            BACK: {
+              target: "idle",
+              actions: assign({
+                placeable: (_) => undefined,
               }),
             },
             DRAG: {

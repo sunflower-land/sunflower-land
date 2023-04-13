@@ -535,7 +535,7 @@ export function startGame(authContext: Options) {
             },
 
             {
-              target: "landscaping",
+              target: "playing",
             },
           ],
         },

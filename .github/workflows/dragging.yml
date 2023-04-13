@@ -1,4 +1,4 @@
-name: Testnet deploy
+name: Moving POC deploy
 
 on:
   push:
