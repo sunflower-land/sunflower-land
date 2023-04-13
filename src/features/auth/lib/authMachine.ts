@@ -34,7 +34,6 @@ import {
   getGuestModeComplete,
   setGuestKey,
 } from "../actions/createGuestAccount";
-import { hasFeatureAccess } from "lib/flags";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -226,8 +225,7 @@ export const authMachine = createMachine<
         },
         always: {
           target: "signIn",
-          cond: () =>
-            !!getGuestModeComplete() || !hasFeatureAccess({}, "GUEST_GAME"),
+          cond: () => !!getGuestModeComplete(),
         },
         on: {
           SIGN_IN: {
