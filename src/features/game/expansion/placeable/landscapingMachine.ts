@@ -1,27 +1,74 @@
 import { v4 as uuidv4 } from "uuid";
 import { GameEventName, PlacementEvent } from "features/game/events";
-import { BuildingName } from "features/game/types/buildings";
-import { CollectibleName } from "features/game/types/craftables";
+import {
+  BUILDINGS_DIMENSIONS,
+  BuildingName,
+} from "features/game/types/buildings";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
+} from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import Decimal from "decimal.js-light";
-import { Inventory } from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import {
   Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
+import { RESOURCES } from "features/game/types/resources";
+
+export const RESOURCE_PLACE_EVENTS: Partial<
+  Record<InventoryItemName, GameEventName<PlacementEvent>>
+> = {
+  Tree: "tree.placed",
+  Stone: "stone.placed",
+  Iron: "iron.placed",
+  Gold: "gold.placed",
+  "Crop Plot": "plot.placed",
+  "Fruit Patch": "fruitPatch.placed",
+};
+
+export function placeEvent(
+  name: InventoryItemName
+): GameEventName<PlacementEvent> {
+  if (name in RESOURCES) {
+    return RESOURCE_PLACE_EVENTS[name] as GameEventName<PlacementEvent>;
+  }
+
+  if (name in BUILDINGS_DIMENSIONS) {
+    return "building.placed";
+  }
+
+  return "collectible.placed";
+}
 
 export interface Context {
-  placeable: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
+  action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
+  placeable?: BuildingName | CollectibleName;
+
+  multiple?: boolean;
+
   origin?: Coordinates;
   requirements: {
     sfl: Decimal;
     ingredients: Inventory;
   };
 }
+
+type SelectEvent = {
+  type: "SELECT";
+  placeable: BuildingName | CollectibleName;
+  action: GameEventName<PlacementEvent>;
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
+  collisionDetected: boolean;
+  multiple?: boolean;
+};
 
 type UpdateEvent = {
   type: "UPDATE";
@@ -50,6 +97,7 @@ export type SaveEvent = {
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
+  | SelectEvent
   | ConstructEvent
   | PlaceEvent
   | UpdateEvent
@@ -65,6 +113,7 @@ export type BlockchainState = {
     | { saving: "autosaving" }
     | { saving: "close" }
     | { editing: "idle" }
+    | { editing: "placing" }
     | { editing: "dragging" }
     | { editing: "close" }
     | { editing: "resetting" };
@@ -78,7 +127,7 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export const editingMachine = createMachine<
+export const landscapingMachine = createMachine<
   Context,
   BlockchainEvent,
   BlockchainState
@@ -140,6 +189,28 @@ export const editingMachine = createMachine<
       initial: "idle",
       states: {
         idle: {
+          always: [
+            {
+              target: "placing",
+              cond: (context) => !!context.placeable,
+            },
+          ],
+          on: {
+            SELECT: {
+              target: "placing",
+              actions: assign({
+                placeable: (_, event) => {
+                  console.log({ event });
+                  return event.placeable;
+                },
+                action: (_, event) => event.action,
+                requirements: (_, event) => event.requirements,
+                multiple: (_, event) => event.multiple,
+              }),
+            },
+          },
+        },
+        placing: {
           on: {
             UPDATE: {
               actions: assign({
@@ -152,10 +223,11 @@ export const editingMachine = createMachine<
             },
             PLACE: [
               {
-                target: "idle",
+                target: "placing",
                 // They have more to place
-                cond: (_, e) => {
-                  return !!e.nextOrigin;
+                cond: (context, e) => {
+                  console.log("Placing", e);
+                  return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
                   sendParent(
@@ -176,23 +248,28 @@ export const editingMachine = createMachine<
                 ],
               },
               {
-                target: ["#saving.done", "done"],
-                actions: sendParent(
-                  ({ placeable, action, coordinates: { x, y } }) =>
-                    ({
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent)
-                ),
+                target: ["#saving.done", "idle"],
+                actions: [
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }) =>
+                      ({
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                      } as PlacementEvent)
+                  ),
+                  assign({
+                    placeable: (_) => undefined,
+                  }),
+                ],
               },
             ],
           },
         },
         resetting: {
           always: {
-            target: "idle",
+            target: "placing",
             // Move the next piece
             actions: assign({
               coordinates: (context) => {
@@ -213,7 +290,7 @@ export const editingMachine = createMachine<
               }),
             },
             DROP: {
-              target: "idle",
+              target: "placing",
             },
           },
         },

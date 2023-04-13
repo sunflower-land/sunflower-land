@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineInterpreter } from "./editingMachine";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineInterpreter } from "./landscapingMachine";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
@@ -15,6 +15,7 @@ import {
 import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
 } from "features/game/types/craftables";
 import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
 import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
@@ -22,8 +23,9 @@ import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { getGameGrid } from "./lib/makeGrid";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -34,6 +36,24 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
     <img
       src={ITEM_DETAILS["Dirt Path"].image}
       style={{ width: `${PIXEL_SCALE * 22}px` }}
+    />
+  ),
+  "Fire Pit": () => (
+    <img
+      src={ITEM_DETAILS["Fire Pit"].image}
+      style={{ width: `${PIXEL_SCALE * 47}px` }}
+    />
+  ),
+  Kitchen: () => (
+    <img
+      src={ITEM_DETAILS["Kitchen"].image}
+      style={{ width: `${PIXEL_SCALE * 63}px` }}
+    />
+  ),
+  Workbench: () => (
+    <img
+      src={ITEM_DETAILS["Workbench"].image}
+      style={{ width: `${PIXEL_SCALE * 47}px` }}
     />
   ),
 };
@@ -90,24 +110,32 @@ export const Placeable: React.FC = () => {
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
 
+  const [gameState] = useActor(gameService);
   const [showHint, setShowHint] = useState(true);
 
-  const child = gameService.state.children.editing as MachineInterpreter;
+  const child = gameService.state.children.landscaping as MachineInterpreter;
 
   const [machine, send] = useActor(child);
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
-  const { width, height } = {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
-  }[placeable];
+
+  const grid = getGameGrid(gameState.context.state);
+
+  let dimensions = { width: 0, height: 0 };
+
+  if (placeable) {
+    dimensions = {
+      ...BUILDINGS_DIMENSIONS,
+      ...COLLECTIBLES_DIMENSIONS,
+      ...ANIMAL_DIMENSIONS,
+    }[placeable];
+  }
 
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision(gameService.state.context.state, {
       x,
       y,
-      width,
-      height,
+      width: dimensions.width,
+      height: dimensions.height,
     });
 
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
@@ -128,6 +156,10 @@ export const Placeable: React.FC = () => {
   useEffect(() => {
     setShowHint(true);
   }, [origin]);
+
+  if (!placeable) {
+    return null;
+  }
 
   return (
     <>
@@ -204,12 +236,13 @@ export const Placeable: React.FC = () => {
                 }
               )}
               style={{
-                width: `${width * GRID_WIDTH_PX}px`,
-                height: `${height * GRID_WIDTH_PX}px`,
+                width: `${dimensions.width * GRID_WIDTH_PX}px`,
+                height: `${dimensions.height * GRID_WIDTH_PX}px`,
               }}
             >
               {PLACEABLES[placeable]({
                 coordinates,
+                grid,
               })}
             </div>
           </div>

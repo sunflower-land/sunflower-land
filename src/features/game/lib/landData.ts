@@ -266,6 +266,8 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(10),
   inventory: {
+    Gold: new Decimal(15),
+    "Wooden Compass": new Decimal(20),
     "Dirt Path": new Decimal(100),
     Fence: new Decimal(50),
     Bush: new Decimal(50),
@@ -282,6 +284,10 @@ export const OFFLINE_FARM: GameState = {
     "Easter Bear": new Decimal(1),
     "Cabbage Girl": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
+
+    Market: new Decimal(1),
+    "Fire Pit": new Decimal(1),
+    Kitchen: new Decimal(1),
 
     Tree: new Decimal(5),
     "Stone Rock": new Decimal(3),
@@ -310,161 +316,7 @@ export const OFFLINE_FARM: GameState = {
     readyAt: Date.now() + 5000,
   },
 
-  buildings: {
-    "Water Well": [
-      {
-        coordinates: {
-          x: 3,
-          y: 11,
-        },
-        readyAt: 1678157335443,
-        createdAt: 1678157335443,
-        id: "4f7f2072-85b0-4356-a34a-5df9dadd5d19",
-      },
-      {
-        coordinates: {
-          x: 5,
-          y: 11,
-        },
-        readyAt: 1678157341425,
-        createdAt: 1678157341425,
-        id: "bc1f1018-c396-44f7-bb39-5ce2493fe767",
-      },
-      {
-        coordinates: {
-          x: 7,
-          y: 11,
-        },
-        readyAt: 1678157686003,
-        createdAt: 1678157386003,
-        id: "38805d03-da3e-4c89-99ed-2c46d90d0543",
-      },
-      {
-        coordinates: {
-          x: 3,
-          y: 15,
-        },
-        readyAt: 1680601000994,
-        createdAt: 1680600700994,
-        id: "7c46d622",
-      },
-    ],
-    Kitchen: [
-      {
-        coordinates: {
-          x: 0,
-          y: 7,
-        },
-        readyAt: 1675993131921,
-        createdAt: 1675993131921,
-        id: "f3ee134c-e13c-4e44-a81d-51929452df63",
-      },
-    ],
-    "Hen House": [
-      {
-        coordinates: {
-          x: -4,
-          y: -6,
-        },
-        readyAt: 1680165033445,
-        createdAt: 1680165033445,
-        id: "5f26ffba",
-      },
-      {
-        coordinates: {
-          x: 8,
-          y: -3,
-        },
-        readyAt: 1680237107284,
-        createdAt: 1680226307284,
-        id: "1b2b018f",
-      },
-    ],
-    Bakery: [
-      {
-        coordinates: {
-          x: -5,
-          y: -3,
-        },
-        readyAt: 1680615110689,
-        createdAt: 1680600710689,
-        id: "e244f594",
-      },
-    ],
-    "Fire Pit": [
-      {
-        coordinates: {
-          x: 4,
-          y: 8,
-        },
-        readyAt: 0,
-        createdAt: 0,
-        id: "123",
-      },
-      {
-        coordinates: {
-          x: -1,
-          y: -1,
-        },
-        readyAt: 1680600729738,
-        createdAt: 1680600729738,
-        id: "14f1a7d3",
-      },
-    ],
-    "Smoothie Shack": [
-      {
-        coordinates: {
-          x: -8,
-          y: -1,
-        },
-        readyAt: 1680208225484,
-        createdAt: 1680165025484,
-        id: "18925ee6",
-      },
-    ],
-    Workbench: [
-      {
-        coordinates: {
-          x: 11,
-          y: 11,
-        },
-        readyAt: 1675292052064,
-        createdAt: 1675292052064,
-        id: "f1abadcf-0e08-42bb-80a5-9996a8a4b404",
-      },
-    ],
-    Market: [
-      {
-        coordinates: {
-          x: 2,
-          y: 2,
-        },
-        readyAt: 0,
-        createdAt: 0,
-        id: "123",
-      },
-      {
-        coordinates: {
-          x: 4,
-          y: -2,
-        },
-        readyAt: 1680600723891,
-        createdAt: 1680600723891,
-        id: "8327fc48",
-      },
-    ],
-    Deli: [
-      {
-        coordinates: {
-          x: 8,
-          y: -6,
-        },
-        readyAt: 1680600737005,
-        createdAt: 1680600737005,
-        id: "b22f9c73",
-      },
-    ],
-  },
+  buildings: {},
   airdrops: [],
   collectibles: {
     "Collectible Bear": [

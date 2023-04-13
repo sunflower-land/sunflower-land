@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BuildingName,
+  BUILDINGS_DIMENSIONS,
+} from "features/game/types/buildings";
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
@@ -33,8 +36,6 @@ export const getBasketItems = (inventory: Inventory) => {
 };
 
 export const getChestItems = (state: GameState) => {
-  const { collectibles } = state;
-
   const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
     if (itemName === "Tree") {
       return {
@@ -104,6 +105,17 @@ export const getChestItems = (state: GameState) => {
         [itemName]: new Decimal(
           state.inventory[itemName]?.minus(
             state.collectibles[itemName as CollectibleName]?.length ?? 0
+          ) ?? 0
+        ),
+      };
+    }
+
+    if (itemName in BUILDINGS_DIMENSIONS) {
+      return {
+        ...acc,
+        [itemName]: new Decimal(
+          state.inventory[itemName]?.minus(
+            state.buildings[itemName as BuildingName]?.length ?? 0
           ) ?? 0
         ),
       };

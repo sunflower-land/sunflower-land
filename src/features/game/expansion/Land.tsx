@@ -24,13 +24,14 @@ import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
-import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
-import { getGameGrid } from "./placeable/lib/makeGrid";
+import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
+import { LandscapingHud } from "features/island/hud/LandscapingHud";
+import { Hud } from "features/island/hud/Hud";
 
 const getIslandElements = ({
   buildings,
@@ -43,7 +44,7 @@ const getIslandElements = ({
   fruitPatches,
   crops,
   bumpkinParts,
-  isEditing,
+  grid,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -56,7 +57,7 @@ const getIslandElements = ({
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   bumpkinParts: BumpkinParts | undefined;
-  isEditing?: boolean;
+  grid: GameGrid;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -68,7 +69,6 @@ const getIslandElements = ({
         y={BUMPKIN_POSITION.y}
         width={2}
         height={2}
-        isEditing={isEditing}
       >
         <CharacterPlayground
           body={bumpkinParts.body}
@@ -101,7 +101,6 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
-              isEditing={isEditing}
             >
               <Building building={building} name={name as BuildingName} />
             </MapPlacement>
@@ -127,7 +126,6 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
-              isEditing={isEditing}
             >
               <Collectible
                 name={name}
@@ -135,6 +133,7 @@ const getIslandElements = ({
                 readyAt={readyAt}
                 createdAt={createdAt}
                 coordinates={coordinates}
+                grid={grid}
               />
             </MapPlacement>
           );
@@ -158,7 +157,6 @@ const getIslandElements = ({
             y={y}
             height={height}
             width={width}
-            isEditing={isEditing}
           >
             <ChickenElement key={`chicken-${id}`} id={id} />
           </MapPlacement>
@@ -177,7 +175,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
           name="Tree"
           createdAt={0}
           readyAt={0}
@@ -198,7 +195,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
           name="Stone Rock"
           createdAt={0}
           readyAt={0}
@@ -219,7 +215,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
           name="Iron Rock"
           createdAt={0}
           readyAt={0}
@@ -240,7 +235,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
           name="Gold Rock"
           createdAt={0}
           readyAt={0}
@@ -261,7 +255,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
           name="Fruit Patch"
           createdAt={0}
           readyAt={0}
@@ -282,7 +275,6 @@ const getIslandElements = ({
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
           name="Crop Plot"
           createdAt={0}
           readyAt={0}
@@ -313,9 +305,11 @@ export const Land: React.FC = () => {
     fruitPatches,
     easterHunt,
   } = useSelector(gameService, (state) => state.context.state);
+  // TODO - memo this value
+  const grid = getGameGrid({ crops, collectibles });
   const gameState = useSelector(gameService, (state) => ({
     isAutosaving: state.matches("autosaving"),
-    isEditing: state.matches("editing"),
+    isLandscaping: state.matches("landscaping"),
     isVisiting: state.matches("visiting"),
   }));
 
@@ -369,7 +363,7 @@ export const Land: React.FC = () => {
             fruitPatches,
             crops,
             bumpkinParts: bumpkin?.equipped,
-            isEditing: gameState.isEditing,
+            grid,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
         <IslandTravel
@@ -384,9 +378,13 @@ export const Land: React.FC = () => {
 
         <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
 
-        {gameState.isEditing && <Placeable />}
+        {gameState.isLandscaping && <Placeable />}
       </div>
-      <Hud key="1" isFarming />
+      {gameState.isLandscaping ? (
+        <LandscapingHud isFarming />
+      ) : (
+        <Hud isFarming />
+      )}
     </>
   );
 };

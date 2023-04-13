@@ -32,9 +32,9 @@ import { reset } from "features/farming/hud/actions/reset";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
-  editingMachine,
+  landscapingMachine,
   SaveEvent,
-} from "../expansion/placeable/editingMachine";
+} from "../expansion/placeable/landscapingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
@@ -53,7 +53,6 @@ import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
 
 export type PastAction = GameEvent & {
@@ -100,14 +99,15 @@ type SyncEvent = {
   blockBucks: number;
 };
 
-type EditEvent = {
-  placeable: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
-  type: "EDIT";
-  requirements: {
+type LandscapeEvent = {
+  placeable?: BuildingName | CollectibleName;
+  action?: GameEventName<PlacementEvent>;
+  type: "LANDSCAPE";
+  requirements?: {
     sfl: Decimal;
     ingredients: Inventory;
   };
+  multiple?: boolean;
 };
 
 type VisitEvent = {
@@ -161,7 +161,7 @@ export type BlockchainEvent =
   | WithdrawEvent
   | GameEvent
   | MintEvent
-  | EditEvent
+  | LandscapeEvent
   | VisitEvent
   | BuySFLEvent
   | DepositEvent
@@ -261,7 +261,7 @@ export type BlockchainState = {
     | "swarming"
     | "hoarding"
     | "depositing"
-    | "editing"
+    | "landscaping"
     | "noBumpkinFound"
     | "coolingDown"
     | "randomising"; // TEST ONLY
@@ -627,8 +627,8 @@ export function startGame(authContext: Options) {
             REFRESH: {
               target: "loading",
             },
-            EDIT: {
-              target: "editing",
+            LANDSCAPE: {
+              target: "landscaping",
             },
             RANDOMISE: {
               target: "randomising",
@@ -879,19 +879,19 @@ export function startGame(authContext: Options) {
             },
           },
         },
-        editing: {
+
+        landscaping: {
           invoke: {
-            id: "editing",
-            src: editingMachine,
+            id: "landscaping",
+            src: landscapingMachine,
             data: {
-              placeable: (_: Context, event: EditEvent) => event.placeable,
-              action: (_: Context, event: EditEvent) => event.action,
-              requirements: (_: Context, event: EditEvent) =>
+              placeable: (_: Context, event: LandscapeEvent) => event.placeable,
+              action: (_: Context, event: LandscapeEvent) => event.action,
+              requirements: (_: Context, event: LandscapeEvent) =>
                 event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
-              hasMultiple: (c: Context, event: EditEvent) =>
-                getChestItems(c.state)[event.placeable]?.gt(1),
+              multiple: (_: Context, event: LandscapeEvent) => event.multiple,
             },
             onDone: {
               target: "autosaving",
@@ -919,7 +919,7 @@ export function startGame(authContext: Options) {
                     rawToken: authContext.rawToken as string,
                     farmId: authContext.farmId as number,
                   } as SaveEvent),
-                { to: "editing" }
+                { to: "landscaping" }
               ),
             },
             SAVE_SUCCESS: {
