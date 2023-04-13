@@ -193,7 +193,7 @@ export type BlockchainState = {
   context: Context;
 };
 
-export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
+export type AuthMachineState = State<Context, BlockchainEvent, BlockchainState>;
 
 export type MachineInterpreter = Interpreter<
   Context,

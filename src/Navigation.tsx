@@ -21,7 +21,7 @@ import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
-import { MachineState } from "features/auth/lib/authMachine";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -38,10 +38,10 @@ const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
   );
 };
 
-const selectProvider = (state: MachineState) =>
+const selectProvider = (state: AuthMachineState) =>
   state.context.user.web3?.provider;
-const selectFarmId = (state: MachineState) => state.context.user.farmId;
-const selectState = (state: MachineState) => ({
+const selectFarmId = (state: AuthMachineState) => state.context.user.farmId;
+const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches({ connected: "authorised" }),
   isVisiting: state.matches("visiting"),
 });
