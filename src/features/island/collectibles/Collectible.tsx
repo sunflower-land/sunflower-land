@@ -425,6 +425,12 @@ export const RESOURCE_MOVE_EVENTS: Record<
   GameEventName<PlacementEvent>
 > = {
   Tree: "tree.moved",
+  "Crop Plot": "tree.moved",
+  "Fruit Patch": "tree.moved",
+  "Gold Rock": "tree.moved",
+  "Iron Rock": "tree.moved",
+  "Stone Rock": "tree.moved",
+  Boulder: "tree.moved",
 };
 
 function getMoveAction(name: InventoryItemName): GameEventName<PlacementEvent> {
@@ -448,7 +454,7 @@ export const Collectible: React.FC<CollectibleProps> = (props) => {
 
   if (gameState.matches("landscaping")) {
     return (
-      <MoveableComponent {...props}>
+      <MoveableComponent {...(props as any)}>
         <CollectibleComponent {...props} />
       </MoveableComponent>
     );

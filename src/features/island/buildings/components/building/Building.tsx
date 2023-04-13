@@ -30,11 +30,13 @@ import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
 import { useActor } from "@xstate/react";
 import { MoveableComponent } from "features/island/collectibles/Collectible";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 interface Prop {
   name: BuildingName;
   building: IBuilding;
   onRemove?: () => void;
+  coordinates?: Coordinates;
 }
 
 export interface BuildingProps {
@@ -229,7 +231,7 @@ export const Building: React.FC<Prop> = (props) => {
   console.log({ props });
   if (gameState.matches("landscaping")) {
     return (
-      <MoveableComponent id={props.building.id} {...props}>
+      <MoveableComponent id={props.building.id} {...(props as any)}>
         <BuildingComponent {...props} />
       </MoveableComponent>
     );
