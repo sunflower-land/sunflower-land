@@ -3,11 +3,8 @@ import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { Modal } from "react-bootstrap";
 
-import token from "assets/icons/token_2.png";
-
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -30,7 +27,6 @@ interface Props {
 
 export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
-  const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Workbench")
@@ -91,19 +87,6 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     gameService.send("tool.crafted", {
       tool: selectedName,
       amount,
-    });
-
-    setToast({
-      icon: token,
-      content: `-${price?.mul(amount)}`,
-    });
-
-    getKeys(selected.ingredients).map((name) => {
-      const item = ITEM_DETAILS[name];
-      setToast({
-        icon: item.image,
-        content: `-${selected.ingredients[name]?.mul(amount)}`,
-      });
     });
 
     shortcutItem(selectedName);

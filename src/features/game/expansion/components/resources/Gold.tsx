@@ -16,7 +16,6 @@ import {
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
 import { useSelector } from "@xstate/react";
 
@@ -53,7 +52,6 @@ export const Gold: React.FC<Props> = ({ id }) => {
 
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
-  const { setToast } = useContext(ToastContext);
   const tool = "Iron Pickaxe";
 
   const gameState = useSelector(gameService, (state) => ({
@@ -139,14 +137,9 @@ export const Gold: React.FC<Props> = ({ id }) => {
                 width: `${PIXEL_SCALE * 10}px`,
               }}
             />
-            <span className="text-sm text-white">{`+${gameState.resource.stone.amount}`}</span>
+            <span className="text-sm">{`+${gameState.resource.stone.amount}`}</span>
           </div>
         );
-
-        setToast({
-          icon: gold,
-          content: `+${gameState.resource.stone.amount}`,
-        });
 
         await new Promise((res) => setTimeout(res, 2000));
         setCollecting(false);
@@ -156,13 +149,13 @@ export const Gold: React.FC<Props> = ({ id }) => {
         displayPopover(
           <div className="flex">
             <img src={SUNNYSIDE.tools.iron_pickaxe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white">No pickaxes left</span>
+            <span className="text-xs">No pickaxes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(<span className="text-xs text-white">{e.message}</span>);
+      displayPopover(<span className="text-xs">{e.message}</span>);
     }
   };
 
@@ -234,7 +227,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
                 }
               )}
             >
-              <div className="text-xxs text-white mx-1 p-1">
+              <div className="text-xxs mx-1 p-1">
                 <span>Equip {tool.toLowerCase()}</span>
               </div>
             </InnerPanel>

@@ -1,14 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
-import tokenStatic from "assets/icons/token_2.png";
-
 import { Box } from "components/ui/Box";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import {
   Decoration,
   HELIOS_DECORATIONS,
@@ -21,7 +18,6 @@ export const DecorationItems: React.FC = () => {
   const [selected, setSelected] = useState<Decoration>(
     HELIOS_DECORATIONS()["White Tulips"]
   );
-  const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -46,22 +42,6 @@ export const DecorationItems: React.FC = () => {
   const buy = () => {
     gameService.send("decoration.bought", {
       item: selected.name,
-    });
-
-    setToast({
-      icon: tokenStatic,
-      content: `-${selected.sfl?.toString()}`,
-    });
-    getKeys(selected.ingredients).map((name) => {
-      const ingredient = ITEM_DETAILS[name];
-      setToast({
-        icon: ingredient.image,
-        content: `-${selected.ingredients[name]}`,
-      });
-    });
-    setToast({
-      icon: ITEM_DETAILS[selected.name].image,
-      content: "+1",
     });
 
     shortcutItem(selected.name);

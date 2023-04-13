@@ -4,7 +4,6 @@ import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
@@ -49,7 +48,6 @@ export const Recipes: React.FC<Props> = ({
   crafting,
   craftingService,
 }) => {
-  const { setToast } = useContext(ToastContext);
   const { gameService } = useContext(Context);
 
   const [
@@ -66,15 +64,6 @@ export const Recipes: React.FC<Props> = ({
 
   const cook = () => {
     onCook(selected.name);
-
-    getKeys(selected.ingredients).map((name) => {
-      const item = ITEM_DETAILS[name];
-      setToast({
-        icon: item.image,
-        content: `-${selected.ingredients[name]}`,
-      });
-    });
-
     onClose();
   };
 
