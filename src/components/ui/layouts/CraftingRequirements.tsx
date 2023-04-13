@@ -116,7 +116,11 @@ export const CraftingRequirements: React.FC<Props> = ({
     );
   };
 
-  const getItemDetail = ({ hideDescription }: { hideDescription: boolean }) => {
+  const getItemDetail = ({
+    hideDescription,
+  }: {
+    hideDescription?: boolean;
+  }) => {
     const item = ITEM_DETAILS[details.item];
     const icon = item.image;
     const title = details.quantity
