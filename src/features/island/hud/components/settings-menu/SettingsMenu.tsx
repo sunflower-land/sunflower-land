@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { CONFIG } from "lib/config";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
@@ -37,6 +38,7 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(GameContext);
 
   const [showShareModal, setShowShareModal] = useState(false);
