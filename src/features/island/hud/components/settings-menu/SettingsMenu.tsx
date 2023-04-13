@@ -53,7 +53,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
   const { openModal } = useContext(ModalContext);
 
-  const isFullUser = gameService.state.value === "playingFullGame";
+  const isFullUser = gameService?.state?.value === "playingFullGame";
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
