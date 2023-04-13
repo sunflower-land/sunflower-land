@@ -4,11 +4,11 @@ import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
 import { useActor } from "@xstate/react";
-import { GUEST_MODE_COMPLETE } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import walletIcon from "src/assets/icons/wallet.png";
+import { getGuestModeComplete } from "../actions/createGuestAccount";
 
 const SignIn = ({ onBack }: { onBack?: () => void }) => {
   const { authService } = useContext(Context);
@@ -104,7 +104,7 @@ export const Connect: React.FC = () => {
   const hasGuestKey = isGuest && !!user.guestKey;
 
   const guestText = hasGuestKey ? "Continue as guest" : "Play as guest!";
-  const guestModeComplete = !!localStorage.getItem(GUEST_MODE_COMPLETE);
+  const guestModeComplete = !!getGuestModeComplete();
 
   if (authState.matches("idle")) {
     return (
