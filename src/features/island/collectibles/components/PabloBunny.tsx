@@ -4,7 +4,7 @@ import pablo from "assets/sfts/pablo_bunny.gif";
 import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-const PabloBunnyComponent: React.FC = () => {
+export const PabloBunny: React.FC = () => {
   return (
     <div
       className="absolute top-0 left-0 h-full pointer-events-none"
@@ -32,5 +32,3 @@ const PabloBunnyComponent: React.FC = () => {
     </div>
   );
 };
-
-export const PabloBunny = React.memo(PabloBunnyComponent);
