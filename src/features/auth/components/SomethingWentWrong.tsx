@@ -9,7 +9,7 @@ import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 
 interface BoundaryErrorProps {
-  landId?: number;
+  farmId?: number;
   error?: string;
   stack?: string;
   transactionId?: string;
@@ -21,7 +21,7 @@ interface BoundaryErrorProps {
  * to display errors that may occur outside of the state machines.
  */
 export const BoundaryError: React.FC<BoundaryErrorProps> = ({
-  landId,
+  farmId,
   error,
   transactionId,
   onAcknowledge,
@@ -65,7 +65,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           </p>
         </div>
         <div className="flex flex-col w-full text-left mb-2 text-[12px]">
-          {landId && <p className="leading-3">Land: {landId}</p>}
+          {farmId && <p className="leading-3">Farm: {farmId}</p>}
           {error && (
             <p className="leading-3 whitespace-nowrap">Error: {error}</p>
           )}
@@ -96,7 +96,7 @@ export const SomethingWentWrong: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
 
-  const { farmId: landId } = authService.state.context;
+  const { farmId } = authService.state.context.user;
   // If we get a connecting error before the game has loaded then try to connect again via the authService
   const service = gameService ?? authService;
 
@@ -112,7 +112,7 @@ export const SomethingWentWrong: React.FC = () => {
 
   return (
     <BoundaryError
-      landId={landId}
+      farmId={farmId}
       transactionId={transactionId}
       error={errorCode}
       onAcknowledge={onAcknowledge}

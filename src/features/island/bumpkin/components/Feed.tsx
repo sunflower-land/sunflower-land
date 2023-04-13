@@ -3,7 +3,6 @@ import { useActor } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -13,7 +12,6 @@ import {
 } from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
-import heart from "assets/icons/level_up.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 import { Bumpkin } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -28,8 +26,7 @@ interface Props {
 
 export const Feed: React.FC<Props> = ({ food, onFeed }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
-  const { setToast } = useContext(ToastContext);
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const [
     {
@@ -48,19 +45,6 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
 
   const feed = (food: Consumable) => {
     onFeed(food.name);
-
-    setToast({
-      icon: heart,
-      content: `+${getFoodExpBoost(
-        food,
-        state.bumpkin as Bumpkin,
-        state.collectibles
-      )}`,
-    });
-    setToast({
-      icon: ITEM_DETAILS[food.name].image,
-      content: `-1`,
-    });
   };
 
   if (!selected) {

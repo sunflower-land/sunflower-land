@@ -20,11 +20,7 @@ export const BumpkinTrade: React.FC<Props> = ({ accountId }) => {
 
   useEffect(() => {
     const load = async () => {
-      const items = await getFarmSlots(
-        wallet.web3Provider,
-        wallet.myAccount,
-        accountId
-      );
+      const items = await getFarmSlots(wallet.web3Provider, accountId);
 
       setListings(items);
       setIsLoading(false);

@@ -12,6 +12,7 @@ type Request = {
   token: string;
   transactionId: string;
   wallet: string;
+  guestKey?: string;
 };
 
 export type MintedAt = Partial<Record<InventoryItemName, number>>;
@@ -45,6 +46,7 @@ export async function loadSession(
       bumpkinTokenUri: request.bumpkinTokenUri,
       clientVersion: CONFIG.CLIENT_VERSION as string,
       wallet: request.wallet,
+      guestKey: request.guestKey,
     }),
   });
 
@@ -66,7 +68,6 @@ export async function loadSession(
 
   const {
     farm,
-    startedAt,
     isBlacklisted,
     whitelistedAt,
     itemsMintedAt,

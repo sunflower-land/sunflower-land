@@ -223,7 +223,7 @@ const NoWish = ({
         <Button
           className="text-xs mt-2"
           onClick={() =>
-            mintTestnetTokens(wallet.web3Provider, wallet.myAccount)
+            mintTestnetTokens(wallet.web3Provider, wallet.myAccount as string)
           }
         >
           Mint testnet LP tokens

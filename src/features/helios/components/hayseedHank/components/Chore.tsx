@@ -10,7 +10,6 @@ import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Loading } from "features/auth/components";
 import { getProgress, isTaskComplete } from "../lib/HayseedHankTask";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -18,7 +17,8 @@ import { ResizableBar } from "components/ui/ProgressBar";
 export const Chore: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { setToast } = useContext(ToastContext);
+
+  const autosaving = gameState.matches("autosaving");
 
   const hayseedHank = gameState.context.state.hayseedHank;
   const chore = hayseedHank.chore;
@@ -29,19 +29,12 @@ export const Chore: React.FC = () => {
   };
 
   const complete = () => {
-    getKeys(chore.reward.items).forEach((name) => {
-      setToast({
-        icon: ITEM_DETAILS[name].image,
-        content: `+${chore.reward.items[name]?.toString()}`,
-      });
-    });
-
     gameService.send("chore.completed");
 
     gameService.send("SAVE");
   };
 
-  if (!hayseedHank.progress && gameState.matches("autosaving")) {
+  if (!hayseedHank.progress && autosaving) {
     return <Loading />;
   }
 

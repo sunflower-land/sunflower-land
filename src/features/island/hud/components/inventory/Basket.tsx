@@ -31,7 +31,7 @@ import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 
 interface Prop {
   gameState: GameState;
-  selected: InventoryItemName;
+  selected?: InventoryItemName;
   onSelect: (name: InventoryItemName) => void;
 }
 
@@ -57,15 +57,18 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     );
   }
 
-  const isFruitSeed = (selected: InventoryItemName) =>
-    selected in FRUIT_SEEDS();
-  const isSeed = (selected: InventoryItemName) =>
+  const selectedItem = selected ?? getKeys(basketMap)[0];
+
+  const isFruitSeed = (
+    selected: InventoryItemName
+  ): selected is FruitSeedName => selected in FRUIT_SEEDS();
+  const isSeed = (selected: InventoryItemName): selected is SeedName =>
     isFruitSeed(selected) || selected in CROP_SEEDS();
   const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
 
   const getHarvestTime = (seedName: SeedName) => {
-    if (isFruitSeed(selected)) {
-      return getFruitTime(seedName as FruitSeedName, collectibles);
+    if (isFruitSeed(seedName)) {
+      return getFruitTime(seedName, collectibles);
     }
 
     const crop = SEEDS()[seedName].yield as CropName;
@@ -113,7 +116,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {items.map((item) => (
             <Box
               count={inventory[item]}
-              isSelected={selected === item}
+              isSelected={selectedItem === item}
               key={item}
               onClick={() => handleItemClick(item)}
               image={ITEM_DETAILS[item].image}
@@ -130,21 +133,21 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       divRef={divRef}
       tallMobileContent={true}
       wideModal={true}
-      showPanel={!!selected}
+      showPanel={!!selectedItem}
       panel={
-        selected && (
+        selectedItem && (
           <InventoryItemDetails
             details={{
-              item: selected,
+              item: selectedItem,
             }}
             properties={{
-              harvests: isFruitSeed(selected)
+              harvests: isFruitSeed(selectedItem)
                 ? {
                     minHarvest: harvestCounts[0],
                     maxHarvest: harvestCounts[1],
                   }
                 : undefined,
-              xp: isFood(selected)
+              xp: isFood(selectedItem)
                 ? new Decimal(
                     getFoodExpBoost(
                       CONSUMABLES[selected as ConsumableName],
@@ -153,8 +156,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                     )
                   )
                 : undefined,
-              timeSeconds: isSeed(selected)
-                ? getHarvestTime(selected as SeedName)
+              timeSeconds: isSeed(selectedItem)
+                ? getHarvestTime(selectedItem)
                 : undefined,
               showOpenSeaLink: true,
             }}

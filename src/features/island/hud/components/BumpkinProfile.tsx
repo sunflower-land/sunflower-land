@@ -176,7 +176,9 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
   );
 };
 
-export const BumpkinProfile: React.FC = () => {
+export const BumpkinProfile: React.FC<{
+  isFullUser: boolean;
+}> = ({ isFullUser }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -234,6 +236,7 @@ export const BumpkinProfile: React.FC = () => {
           readonly={gameState.matches("visiting")}
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
+          isFullUser={isFullUser}
         />
       </Modal>
 

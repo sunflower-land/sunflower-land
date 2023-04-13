@@ -1,15 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
-import token from "assets/icons/token_2.png";
-
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import {
   BeachBountyTreasure,
@@ -31,7 +28,6 @@ export const TreasureShopSell: React.FC = () => {
   );
 
   const selected = BEACH_BOUNTY_TREASURE[selectedName];
-  const { setToast } = useContext(ToastContext);
   const { gameService } = useContext(Context);
   const [
     {
@@ -48,11 +44,6 @@ export const TreasureShopSell: React.FC = () => {
     gameService.send("treasure.sold", {
       item: selectedName,
       amount,
-    });
-
-    setToast({
-      icon: token,
-      content: `+${price?.mul(amount).toString()}`,
     });
   };
 

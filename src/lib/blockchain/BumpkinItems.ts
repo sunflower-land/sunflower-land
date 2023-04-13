@@ -10,7 +10,6 @@ const address = CONFIG.BUMPKIN_ITEMS_CONTRACT;
 
 export async function loadSupplyBatch(
   web3: Web3,
-  account: string,
   ids: number[],
   attempts = 0
 ): Promise<string[]> {
@@ -24,13 +23,13 @@ export async function loadSupplyBatch(
       ) as unknown as IBumpkinItems
     ).methods
       .totalSupplyBatch(ids)
-      .call({ from: account });
+      .call();
 
     return supplies;
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
-      return loadSupplyBatch(web3, account, ids, attempts + 1);
+      return loadSupplyBatch(web3, ids, attempts + 1);
     }
 
     throw error;

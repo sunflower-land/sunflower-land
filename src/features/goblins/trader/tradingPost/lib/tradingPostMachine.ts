@@ -12,6 +12,7 @@ import { list } from "./actions/list";
 import { cancel } from "./actions/cancel";
 import { escalate } from "xstate/lib/actions";
 import { randomID } from "lib/utils/random";
+import { wallet } from "lib/blockchain/wallet";
 
 export interface Cancel {
   listingId: number;
@@ -149,12 +150,15 @@ export const tradingPostMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
+            if (!wallet.myAccount) throw new Error("No account");
+
             await list({
               slotId: (event as ListEvent).slotId,
               draft: (event as ListEvent).draft,
               farmId: context.farmId,
               token: context.token,
               transactionId: context.transactionId as string,
+              account: wallet.myAccount,
             });
           },
           onDone: {
@@ -172,11 +176,14 @@ export const tradingPostMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
+            if (!wallet.myAccount) throw new Error("No account");
+
             await cancel({
               listingId: (event as CancelEvent).listingId,
               farmId: context.farmId,
               token: context.token,
               transactionId: context.transactionId as string,
+              account: wallet.myAccount,
             });
           },
           onDone: {
@@ -194,6 +201,8 @@ export const tradingPostMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
+            if (!wallet.myAccount) throw new Error("No account");
+
             await purchase({
               listingId: (event as PurchaseEvent).listingId,
               sfl: (event as PurchaseEvent).sfl,
@@ -201,6 +210,7 @@ export const tradingPostMachine = createMachine<
               token: context.token,
               deviceTrackerId: context.deviceTrackerId,
               transactionId: context.transactionId as string,
+              account: wallet.myAccount,
             });
           },
           onDone: {
@@ -218,8 +228,11 @@ export const tradingPostMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context) => {
+            if (!wallet.myAccount) throw new Error("No account");
+
             return loadUpdatedSession(
               context.farmId,
+              wallet.myAccount,
               context.farmAddress,
               context.token,
               context.transactionId as string,

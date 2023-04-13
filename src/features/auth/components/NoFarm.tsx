@@ -20,14 +20,14 @@ export const NoFarm: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="px-4 py-2">
       <Button onClick={create} className="overflow-hidden mb-2">
-        Get Started
+        Mint farm
       </Button>
 
       <Button onClick={explore} className="overflow-hidden">
         {`Explore a friend's land`}
       </Button>
-    </>
+    </div>
   );
 };

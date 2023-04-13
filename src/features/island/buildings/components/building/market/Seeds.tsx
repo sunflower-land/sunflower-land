@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import token from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -8,7 +7,6 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
@@ -32,7 +30,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
 
   const selected = SEEDS()[selectedName];
-  const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -60,17 +57,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     gameService.send("seed.bought", {
       item: selectedName,
       amount,
-    });
-
-    if (price.greaterThan(0)) {
-      setToast({
-        icon: token,
-        content: `-${price.mul(amount)}`,
-      });
-    }
-    setToast({
-      icon: ITEM_DETAILS[selectedName].image,
-      content: `+${amount}`,
     });
 
     shortcutItem(selectedName);

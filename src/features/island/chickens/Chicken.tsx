@@ -18,7 +18,6 @@ import {
   PIXEL_SCALE,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
@@ -69,7 +68,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
         }
       )}
     >
-      <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
+      <div className="flex flex-col text-xxs ml-2 mr-2">
         <div className="flex flex-1 items-center justify-center">
           <img src={SUNNYSIDE.resource.egg} className="w-4 mr-1" />
           <span>Egg</span>
@@ -98,8 +97,6 @@ export const Chicken: React.FC<Props> = ({ id }) => {
       context: { state },
     },
   ] = useActor(gameService);
-
-  const { setToast } = useContext(ToastContext);
 
   const chicken = state.chickens[id];
 
@@ -193,11 +190,6 @@ export const Chicken: React.FC<Props> = ({ id }) => {
     chickenService.send("FEED", {
       fedAt: chicken.fedAt,
     });
-
-    setToast({
-      icon: CROP_LIFECYCLE.Wheat.crop,
-      content: `-${wheatRequired}`,
-    });
   };
 
   const handleCollect = () => {
@@ -221,11 +213,6 @@ export const Chicken: React.FC<Props> = ({ id }) => {
 
     if (!newState.matches("hoarding")) {
       chickenService.send("COLLECT");
-
-      setToast({
-        icon: SUNNYSIDE.resource.egg,
-        content: `+${chicken.multiplier}`,
-      });
     }
   };
 

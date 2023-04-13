@@ -29,8 +29,12 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
 
     if (isNaN(landId) || landId <= 0) return;
 
+    const playing =
+      gameState.matches("playingGuestGame") ||
+      gameState.matches("playingFullGame");
+
     // If the player has been playing and there are unsaved actions then save progress
-    if (gameState.matches("playing") && gameState.context.actions.length > 0) {
+    if (playing && gameState.context.actions.length > 0) {
       gameSend("SAVE");
     }
 
@@ -48,7 +52,7 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   const handleEndVisit = () => {
     if (authState.matches({ connected: "authorised" })) {
       gameService.send("END_VISIT");
-      navigate(`/land/${authState.context.farmId}`);
+      navigate(`/land/${authState.context.user.farmId}`);
     } else {
       authService.send("RETURN");
     }

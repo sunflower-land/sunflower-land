@@ -24,27 +24,19 @@ export type WishingWellTokens = {
 /**
  * Load Blockchain data for the wishing well
  */
-export async function loadWishingWell(): Promise<WishingWellTokens> {
-  const tokensInWellPromise = getWellBalance(
-    wallet.web3Provider,
-    wallet.myAccount
-  );
-  const canCollectPromise = canCollectFromWell(
-    wallet.web3Provider,
-    wallet.myAccount
-  );
+export async function loadWishingWell(
+  account: string
+): Promise<WishingWellTokens> {
+  const tokensInWellPromise = getWellBalance(wallet.web3Provider, account);
+  const canCollectPromise = canCollectFromWell(wallet.web3Provider, account);
   const lastCollectedPromise = lastCollectedFromWell(
     wallet.web3Provider,
-    wallet.myAccount
+    account
   );
-  const lockedPeriodPromise = getLockedPeriod(
-    wallet.web3Provider,
-    wallet.myAccount
-  );
-  const lpTokensPromise = getPairBalance(wallet.web3Provider, wallet.myAccount);
+  const lockedPeriodPromise = getLockedPeriod(wallet.web3Provider, account);
+  const lpTokensPromise = getPairBalance(wallet.web3Provider, account);
   const totalTokensInWellPromise = sflBalanceOf(
     wallet.web3Provider,
-    wallet.myAccount,
     wishingWellAddress as string
   );
 

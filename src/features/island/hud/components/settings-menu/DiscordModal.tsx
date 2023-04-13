@@ -44,7 +44,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [state, setState] = useState<
     "idle" | "noDiscord" | "joining" | "joined" | "error"
-  >(authState.context.token?.discordId ? "idle" : "noDiscord");
+  >(authState.context.user.token?.discordId ? "idle" : "noDiscord");
 
   const inventory = gameState.context.state.inventory;
   const oauth = () => {
@@ -52,7 +52,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const addRole = async (role: DiscordRole) => {
-    if (!authState.context.token?.discordId) {
+    if (!authState.context.user.token?.discordId) {
       setState("noDiscord");
       return;
     }
@@ -61,8 +61,8 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
 
     try {
       await addDiscordRole({
-        farmId: authState.context.farmId as number,
-        token: authState.context.rawToken as string,
+        farmId: authState.context.user.farmId as number,
+        token: authState.context.user.rawToken as string,
         role: role,
       });
       setState("joined");
@@ -97,7 +97,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
     if (state === "noDiscord") {
       return (
         <>
-          <span className="text-shadow my-2 block text-sm">
+          <span className="text-shadow my-2 block text-sm p-2">
             You must be connected to Discord to join a restricted channel.
           </span>
           <Button onClick={oauth}>Connect</Button>

@@ -333,6 +333,8 @@ export const Land: React.FC = () => {
     isAutosaving: state.matches("autosaving"),
     isEditing: state.matches("editing"),
     isVisiting: state.matches("visiting"),
+    isPlaying:
+      state.matches("playingGuestGame") || state.matches("playingFullGame"),
   }));
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
@@ -402,7 +404,9 @@ export const Land: React.FC = () => {
           y={boatCoordinates.y}
         />
 
-        <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
+        {gameState.isPlaying && (
+          <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
+        )}
 
         {gameState.isEditing && <Placeable />}
       </div>
