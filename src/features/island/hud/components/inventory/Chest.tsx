@@ -25,6 +25,30 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 import { DECORATION_DIMENSIONS } from "features/game/types/decorations";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
+import marketIcon from "assets/buildings/market_icon.png";
+import firePitIcon from "assets/buildings/fire_pit_icon.png";
+import workbenchIcon from "assets/buildings/workbench_icon.png";
+import kitchenIcon from "assets/buildings/kitchen_icon.png";
+import henHouseIcon from "assets/buildings/hen_house_icon.png";
+import bakeryIcon from "assets/buildings/bakery_icon.png";
+import deliIcon from "assets/buildings/deli_icon.png";
+import smoothieIcon from "assets/buildings/smoothie_shack_icon.png";
+import toolshedIcon from "assets/buildings/toolshed_icon.png";
+import warehouseIcon from "assets/buildings/warehouse_icon.png";
+
+export const ITEM_ICONS: Partial<Record<InventoryItemName, string>> = {
+  Market: marketIcon,
+  "Fire Pit": firePitIcon,
+  Workbench: workbenchIcon,
+  Kitchen: kitchenIcon,
+  "Hen House": henHouseIcon,
+  Bakery: bakeryIcon,
+  Deli: deliIcon,
+  "Smoothie Shack": smoothieIcon,
+  Toolshed: toolshedIcon,
+  Warehouse: warehouseIcon,
+};
+
 interface Props {
   state: GameState;
   selected: InventoryItemName;
@@ -50,19 +74,7 @@ export const Chest: React.FC<Props> = ({
   const collectibles = getKeys(chestMap)
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
     .reduce((acc, item) => {
-      if (
-        item in LIMITED_ITEMS ||
-        item in AUCTIONEER_ITEMS ||
-        item in BEANS() ||
-        item in HELIOS_BLACKSMITH_ITEMS ||
-        item in GOBLIN_BLACKSMITH_ITEMS ||
-        item in GOBLIN_PIRATE_ITEMS ||
-        item in DECORATION_DIMENSIONS ||
-        item in RESOURCE_DIMENSIONS
-      ) {
-        return { ...acc, [item]: chestMap[item] };
-      }
-      return acc;
+      return { ...acc, [item]: chestMap[item] };
     }, {} as Record<CollectibleName, Decimal>);
 
   // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
@@ -138,7 +150,7 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_DETAILS[item].image}
+                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
                     parentDivRef={divRef}
                   />
                 ))}

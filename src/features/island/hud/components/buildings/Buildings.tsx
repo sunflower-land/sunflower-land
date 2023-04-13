@@ -12,35 +12,13 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
-import marketIcon from "assets/buildings/market_icon.png";
-import firePitIcon from "assets/buildings/fire_pit_icon.png";
-import workbenchIcon from "assets/buildings/workbench_icon.png";
-import kitchenIcon from "assets/buildings/kitchen_icon.png";
-import henHouseIcon from "assets/buildings/hen_house_icon.png";
-import bakeryIcon from "assets/buildings/bakery_icon.png";
-import deliIcon from "assets/buildings/deli_icon.png";
-import smoothieIcon from "assets/buildings/smoothie_shack_icon.png";
-import toolshedIcon from "assets/buildings/toolshed_icon.png";
-import warehouseIcon from "assets/buildings/warehouse_icon.png";
 import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-
-const ICONS: Partial<Record<BuildingName, string>> = {
-  Market: marketIcon,
-  "Fire Pit": firePitIcon,
-  Workbench: workbenchIcon,
-  Kitchen: kitchenIcon,
-  "Hen House": henHouseIcon,
-  Bakery: bakeryIcon,
-  Deli: deliIcon,
-  "Smoothie Shack": smoothieIcon,
-  Toolshed: toolshedIcon,
-  Warehouse: warehouseIcon,
-};
+import { ITEM_ICONS } from "../inventory/Chest";
 
 interface Props {
   onClose: () => void;
@@ -110,18 +88,22 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     const level = BUILDINGS()[selectedName][0].unlocksAtLevel;
     const isLocked = landCount.lt(level);
 
+    console.log({ isLocked });
     // Hasn't unlocked the first
     if (isLocked) {
       return landLocked(landCount.toNumber());
     }
 
-    const nextLockedLevel = BUILDINGS()[selectedName].find((blueprint) =>
+    const nextBuildingIndex = BUILDINGS()[selectedName].findIndex((blueprint) =>
       landCount.lt(blueprint.unlocksAtLevel)
     );
+    console.log({ nextLockedLevel: nextBuildingIndex });
 
     // Built one, but needs to level up to build more
-    if (nextLockedLevel) {
-      return landLocked(nextLockedLevel.unlocksAtLevel);
+    if (inventory[selectedName]?.lte(nextBuildingIndex)) {
+      return landLocked(
+        BUILDINGS()[selectedName][nextBuildingIndex].unlocksAtLevel
+      );
     }
 
     if (isAlreadyCrafted) {
@@ -170,7 +152,6 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
               secondaryIcon = lock;
             }
 
-            console.log({ name, built: inventory[name]?.toNumber() });
             if (
               inventory[name]?.greaterThanOrEqualTo(BUILDINGS()[name].length)
             ) {
@@ -182,7 +163,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
                 isSelected={selectedName === name}
                 key={name}
                 onClick={() => setSelectedName(name)}
-                image={ICONS[name] ?? ITEM_DETAILS[name].image}
+                image={ITEM_ICONS[name] ?? ITEM_DETAILS[name].image}
                 secondaryImage={secondaryIcon}
                 showOverlay={isLocked}
               />

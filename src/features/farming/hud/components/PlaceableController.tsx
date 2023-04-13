@@ -45,7 +45,6 @@ export const PlaceableController: React.FC = () => {
   if (!placeable) {
     return null;
   }
-  console.log({ value, placeable, action });
 
   const { width, height } = {
     ...BUILDINGS_DIMENSIONS,
@@ -78,8 +77,10 @@ export const PlaceableController: React.FC = () => {
       hasRequirements = hasSFL && hasIngredients;
     }
 
-    // Has requirements for more?
-    const placeMore = requirements ? hasRequirements : available.gt(1);
+    const placeMore =
+      placeable in COLLECTIBLES_DIMENSIONS && requirements
+        ? hasRequirements
+        : available.gt(1);
     if (placeMore) {
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
       const collisionDetected = detectCollision(

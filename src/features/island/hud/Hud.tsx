@@ -18,7 +18,11 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { RESOURCE_PLACE_EVENTS } from "features/game/expansion/placeable/landscapingMachine";
+import {
+  RESOURCE_PLACE_EVENTS,
+  placeEvent,
+} from "features/game/expansion/placeable/landscapingMachine";
+import { BUILDINGS } from "features/game/types/buildings";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -86,7 +90,7 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           selectedItem={selectedItem as InventoryItemName}
           onPlace={(selected) => {
             gameService.send("LANDSCAPE", {
-              action: RESOURCE_PLACE_EVENTS[selected] ?? "collectible.placed",
+              action: placeEvent(selected),
               placeable: selected,
             });
           }}

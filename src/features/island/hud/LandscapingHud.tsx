@@ -17,6 +17,7 @@ import { Box } from "components/ui/Box";
 import {
   MachineInterpreter,
   RESOURCE_PLACE_EVENTS,
+  placeEvent,
 } from "features/game/expansion/placeable/landscapingMachine";
 import { Label } from "components/ui/Label";
 import { PlaceableController } from "features/farming/hud/components/PlaceableController";
@@ -199,9 +200,8 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
         onHide={() => setShowChest(false)}
         show={showChest}
         onPlace={(selected) => {
-          console.log({ selected });
           child.send("SELECT", {
-            action: RESOURCE_PLACE_EVENTS[selected] ?? "collectible.placed",
+            action: placeEvent(selected),
             placeable: selected,
           });
         }}

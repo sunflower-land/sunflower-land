@@ -44,6 +44,18 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
       style={{ width: `${PIXEL_SCALE * 47}px` }}
     />
   ),
+  Kitchen: () => (
+    <img
+      src={ITEM_DETAILS["Kitchen"].image}
+      style={{ width: `${PIXEL_SCALE * 63}px` }}
+    />
+  ),
+  Workbench: () => (
+    <img
+      src={ITEM_DETAILS["Workbench"].image}
+      style={{ width: `${PIXEL_SCALE * 47}px` }}
+    />
+  ),
 };
 
 // TODO - get dynamic bounds for placeable

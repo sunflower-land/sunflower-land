@@ -1,7 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
 import { GameEventName, PlacementEvent } from "features/game/events";
-import { BuildingName } from "features/game/types/buildings";
-import { CollectibleName } from "features/game/types/craftables";
+import {
+  BUILDINGS_DIMENSIONS,
+  BuildingName,
+} from "features/game/types/buildings";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
+} from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import Decimal from "decimal.js-light";
@@ -10,6 +16,7 @@ import {
   Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
+import { RESOURCES } from "features/game/types/resources";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<InventoryItemName, GameEventName<PlacementEvent>>
@@ -21,6 +28,20 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Crop Plot": "plot.placed",
   "Fruit Patch": "fruitPatch.placed",
 };
+
+export function placeEvent(
+  name: InventoryItemName
+): GameEventName<PlacementEvent> {
+  if (name in RESOURCES) {
+    return RESOURCE_PLACE_EVENTS[name] as GameEventName<PlacementEvent>;
+  }
+
+  if (name in BUILDINGS_DIMENSIONS) {
+    return "building.placed";
+  }
+
+  return "collectible.placed";
+}
 
 export interface Context {
   action?: GameEventName<PlacementEvent>;
