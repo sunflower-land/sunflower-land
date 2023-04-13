@@ -10,6 +10,7 @@ import { Bumpkin, Inventory } from "features/game/types/game";
 import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 import lockIcon from "assets/skills/lock.png";
 import levelUpIcon from "assets/icons/level_up.png";
@@ -128,6 +129,14 @@ const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
   );
 };
 
+const userTypeSelector = (state: AuthMachineState) => state.context.user.type;
+const farmIdSelector = (state: AuthMachineState) =>
+  state.context.user.farmId ?? "guest";
+const stateSelector = (state: AuthMachineState) => ({
+  isAuthorised: state.matches({ connected: "authorised" }),
+  isVisiting: state.matches("visiting"),
+});
+
 export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
   showVisitList,
@@ -135,15 +144,9 @@ export const IslandList: React.FC<IslandListProps> = ({
   travelAllowed,
 }) => {
   const { authService } = useContext(Auth.Context);
-  const userType = useSelector(authService, (state) => state.context.user.type);
-  const farmId = useSelector(
-    authService,
-    (state) => state.context.user.farmId || "guest"
-  );
-  const state = useSelector(authService, (state) => ({
-    isAuthorised: state.matches({ connected: "authorised" }),
-    isVisiting: state.matches("visiting"),
-  }));
+  const userType = useSelector(authService, userTypeSelector);
+  const farmId = useSelector(authService, farmIdSelector);
+  const state = useSelector(authService, stateSelector);
 
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");
