@@ -1128,7 +1128,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   //Easter Event Items
   "Easter Bunny": { width: 2, height: 1 },
-  "Pablo The Bunny": { width: 1, height: 1 },
+  "Pablo The Bunny": { width: 1, height: 2 },
+  "Easter Bear": { width: 1, height: 2 },
+  "Giant Carrot": { width: 2, height: 2 },
+  "Easter Bush": { width: 2, height: 2 },
 
   // Treasure Island SFTs
   "Tiki Totem": { height: 1, width: 1 },
