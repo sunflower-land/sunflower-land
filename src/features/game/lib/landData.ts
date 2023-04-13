@@ -316,7 +316,16 @@ export const OFFLINE_FARM: GameState = {
     readyAt: Date.now() + 5000,
   },
 
-  buildings: {},
+  buildings: {
+    Market: [
+      {
+        coordinates: { x: 0, y: 0 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+  },
   airdrops: [],
   collectibles: {
     "Collectible Bear": [
