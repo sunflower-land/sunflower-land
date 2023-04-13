@@ -5,7 +5,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
-import { PlaceableController } from "features/farming/hud/components/PlaceableController";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { LandId } from "./components/LandId";
@@ -18,11 +17,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import {
-  RESOURCE_PLACE_EVENTS,
-  placeEvent,
-} from "features/game/expansion/placeable/landscapingMachine";
-import { BUILDINGS } from "features/game/types/buildings";
+import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -92,6 +87,7 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
             gameService.send("LANDSCAPE", {
               action: placeEvent(selected),
               placeable: selected,
+              multiple: true,
             });
           }}
           onDepositClick={() => setShowDepositModal(true)}

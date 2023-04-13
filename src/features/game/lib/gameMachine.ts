@@ -53,7 +53,6 @@ import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
 
 export type PastAction = GameEvent & {
@@ -108,6 +107,7 @@ type LandscapeEvent = {
     sfl: Decimal;
     ingredients: Inventory;
   };
+  multiple?: boolean;
 };
 
 type VisitEvent = {
@@ -891,9 +891,7 @@ export function startGame(authContext: Options) {
                 event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
-              hasMultiple: (c: Context, event: LandscapeEvent) =>
-                event.placeable &&
-                getChestItems(c.state)[event.placeable]?.gt(1),
+              multiple: (_: Context, event: LandscapeEvent) => event.multiple,
             },
             onDone: {
               target: "autosaving",
