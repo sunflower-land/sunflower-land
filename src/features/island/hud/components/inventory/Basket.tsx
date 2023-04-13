@@ -57,7 +57,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     );
   }
 
-  const selectedItem = selected ?? getKeys(basketMap)[0];
+  const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
 
   const isFruitSeed = (
     selected: InventoryItemName
@@ -150,7 +150,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
               xp: isFood(selectedItem)
                 ? new Decimal(
                     getFoodExpBoost(
-                      CONSUMABLES[selected as ConsumableName],
+                      CONSUMABLES[selectedItem as ConsumableName],
                       gameState.bumpkin as Bumpkin,
                       gameState.collectibles
                     )
