@@ -69,5 +69,15 @@ export const isRemovable = (
     return !areUnsupportedChickensBrewing(stateCopy);
   }
 
+  if (
+    name === "Tree" ||
+    name === "Stone Rock" ||
+    name === "Iron Rock" ||
+    name === "Gold Rock" ||
+    name === "Fruit Patch"
+  ) {
+    return false;
+  }
+
   return true;
 };

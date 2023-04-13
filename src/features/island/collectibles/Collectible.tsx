@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import classNames from "classnames";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import { CollectibleName } from "features/game/types/craftables";
@@ -66,14 +65,11 @@ import { VictoriaSisters } from "./components/VictoriaSisters";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
 import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean, getBeanStates } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
-import { Context } from "features/game/GameProvider";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
-import { isBean } from "features/game/types/beans";
 import { ChristmasBear } from "./components/ChristmasBear";
 import { RainbowArtistBear } from "./components/RainbowArtistBear";
 import { Observatory } from "./components/Observatory";
@@ -114,13 +110,29 @@ import { ValentineBear } from "./components/ValentineBear";
 import { BeachBall } from "./components/BeachBall";
 import { PalmTree } from "./components/PalmTree";
 import { Karkinos } from "./components/Karkinos";
+import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
+import { EasterBear } from "features/island/collectibles/components/EasterBear";
+import { EasterBush } from "features/island/collectibles/components/EasterBush";
+import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
+import classNames from "classnames";
+import { isBean } from "features/game/types/beans";
+import { Bush } from "./components/Bush";
+import { Shrub } from "./components/Shrub";
+import { Fence } from "./components/Fence";
 
 export interface CollectibleProps {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
+  x: number;
+  y: number;
 }
+
+type Props = CollectibleProps & {
+  isRustyShovelSelected: boolean;
+  showTimers: boolean;
+};
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 export const COLLECTIBLE_COMPONENTS: Record<
@@ -150,6 +162,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Speed Chicken": SpeedChicken,
   Rooster,
   "Undead Rooster": UndeadRooster,
+
+  "Dirt Path": () => null,
+  Fence: Fence,
+  Bush: Bush,
+  Shrub: Shrub,
 
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
@@ -206,6 +223,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Rainbow Artist Bear": RainbowArtistBear,
   "Victoria Sisters": VictoriaSisters,
   "Devil Bear": DevilBear,
+  "Valentine Bear": ValentineBear,
+  "Easter Bear": EasterBear,
+  "Easter Bush": EasterBush,
+  "Giant Carrot": GiantCarrot,
   Observatory,
 
   "Golden Bean": Bean,
@@ -229,6 +250,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
+  "Pablo The Bunny": PabloBunny,
 
   // Treasure
   "Abandoned Bear": AbandonedBear,
@@ -254,7 +276,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Heart Balloons": HeartBalloons,
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
-  "Valentine Bear": ValentineBear,
   "Iron Idol": IronIdol,
 
   // Seasonal Items
@@ -263,123 +284,155 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Karkinos: Karkinos,
 };
 
-export const Collectible: React.FC<CollectibleProps> = ({
+const InProgressCollectible: React.FC<Props> = ({
   name,
   id,
   readyAt,
   createdAt,
+  x,
+  y,
+  showTimers,
 }) => {
-  const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-  const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
 
-  const inProgress = readyAt > Date.now();
+  const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
-  useUiRefresher({ active: inProgress });
-
-  if (inProgress) {
-    const totalSeconds = (readyAt - createdAt) / 1000;
-    const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
-
-    return (
-      <>
-        <div
-          className="w-full h-full cursor-pointer"
-          onMouseEnter={() => setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
-        >
-          <div
-            className={classNames("w-full h-full pointer-events-none", {
-              "opacity-50": inProgress,
-            })}
-          >
-            <CollectiblePlaced
-              key={id}
-              createdAt={createdAt}
-              id={id}
-              name={name}
-              readyAt={readyAt}
-            />
-          </div>
-          {showTimers && (
-            <div
-              className="absolute bottom-0 left-1/2"
-              style={{
-                marginLeft: `${PIXEL_SCALE * -8}px`,
-              }}
-            >
-              <Bar
-                percentage={(1 - secondsLeft / totalSeconds) * 100}
-                type="progress"
-              />
-            </div>
-          )}
-        </div>
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -20}px`,
-          }}
-        >
-          <TimeLeftPanel
-            text="Ready in:"
-            timeLeft={secondsLeft}
-            showTimeLeft={showTooltip}
-          />
-        </div>
-      </>
-    );
-  }
-
-  const shortcuts = getShortcuts();
-  const isBeanAndFullyGrown =
-    isBean(name) && getBeanStates(name, createdAt).isReady;
-  const canRemoveOnClick =
-    shortcuts[0] === "Rusty Shovel" && !isBeanAndFullyGrown;
-
-  const handleOnClick = () => {
-    if (!canRemoveOnClick) return;
-
-    setShowRemoveModal(true);
-  };
+  const totalSeconds = (readyAt - createdAt) / 1000;
+  const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
 
   return (
     <>
       <div
-        className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": canRemoveOnClick,
-        })}
-        onClick={canRemoveOnClick ? handleOnClick : undefined}
+        className="w-full h-full"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
       >
-        <div
-          className={classNames("h-full", {
-            "pointer-events-none": canRemoveOnClick,
-          })}
-        >
+        <div className="w-full h-full pointer-events-none opacity-50">
           <CollectiblePlaced
             key={id}
             createdAt={createdAt}
             id={id}
             name={name}
             readyAt={readyAt}
+            x={x}
+            y={y}
           />
         </div>
+        {showTimers && (
+          <div
+            className="absolute bottom-0 left-1/2"
+            style={{
+              marginLeft: `${PIXEL_SCALE * -8}px`,
+            }}
+          >
+            <Bar
+              percentage={(1 - secondsLeft / totalSeconds) * 100}
+              type="progress"
+            />
+          </div>
+        )}
       </div>
-      <Modal
-        show={showRemoveModal}
-        centered
-        onHide={() => setShowRemoveModal(false)}
+      <div
+        className="flex justify-center absolute w-full pointer-events-none"
+        style={{
+          top: `${PIXEL_SCALE * -20}px`,
+        }}
       >
+        <TimeLeftPanel
+          text="Ready in:"
+          timeLeft={secondsLeft}
+          showTimeLeft={showTooltip}
+        />
+      </div>
+    </>
+  );
+};
+
+const CollectibleComponent: React.FC<Props> = ({
+  name,
+  id,
+  readyAt,
+  createdAt,
+  x,
+  y,
+  isRustyShovelSelected,
+  showTimers,
+}) => {
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+
+  const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
+
+  const inProgress = readyAt > Date.now();
+
+  useUiRefresher({ active: inProgress });
+
+  const isBeanAndFullyGrown =
+    isBean(name) && getBeanStates(name, createdAt).isReady;
+  const canRemoveOnClick =
+    isRustyShovelSelected && !isBeanAndFullyGrown && !inProgress;
+
+  const handleRemove = () => {
+    setShowRemoveModal(true);
+  };
+
+  const handleClose = () => {
+    setShowRemoveModal(false);
+  };
+
+  /**
+   * If a player has the Rusty Shovel selected then the onClick action of the collectible will open the RemovePlaceableModal
+   * Otherwise the onClick with be the regular onClick located inside the individual collectible component
+   */
+  return (
+    <>
+      <div
+        className={classNames("h-full", {
+          "cursor-pointer hover:img-highlight": canRemoveOnClick,
+        })}
+        onClick={canRemoveOnClick ? handleRemove : undefined}
+      >
+        <div
+          className={classNames("h-full", {
+            "pointer-events-none": canRemoveOnClick,
+          })}
+        >
+          {inProgress ? (
+            <InProgressCollectible
+              key={id}
+              name={name}
+              id={id}
+              createdAt={createdAt}
+              readyAt={readyAt}
+              x={x}
+              y={y}
+              isRustyShovelSelected={false}
+              showTimers={showTimers}
+            />
+          ) : (
+            <CollectiblePlaced
+              key={id}
+              name={name}
+              id={id}
+              createdAt={createdAt}
+              readyAt={readyAt}
+              x={x}
+              y={y}
+            />
+          )}
+        </div>
+      </div>
+      <Modal show={showRemoveModal} centered onHide={handleClose}>
         {showRemoveModal && (
           <RemovePlaceableModal
             type="collectible"
             placeableId={id}
             name={name}
-            onClose={() => setShowRemoveModal(false)}
+            onClose={handleClose}
           />
         )}
       </Modal>
     </>
   );
 };
+
+export const Collectible = React.memo(CollectibleComponent);

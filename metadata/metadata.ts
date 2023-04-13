@@ -504,7 +504,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A golden egg. What lays inside is known to be the bearer of good fortune.\n\n\n\nFeed chickens without wheat.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/409.png",
+    image_url: "../public/erc1155/images/409.gif",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
@@ -2834,7 +2834,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Cast an enchantment to entice the wood fairies.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/436.png",
+    image_url: "../public/erc1155/images/436.gif",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
@@ -3234,6 +3234,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1240.png",
     attributes: [],
   },
+  "Easter Bear": {
+    description: "A bear with bunny ears?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1236.png",
+    attributes: [],
+  },
+  "Easter Bush": {
+    description: "What is inside?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1243.png",
+    attributes: [],
+  },
+  "Giant Carrot": {
+    description:
+      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1244.png",
+    attributes: [],
+  },
   "Iron Idol": {
     description: "The Idol adds 1 iron every time you mine iron.",
     decimals: 0,
@@ -3299,6 +3321,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/720.png",
     attributes: [],
   },
+  "Sunflower Supporter": {
+    description: "A true supporter of the project",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/721.png",
+    attributes: [],
+  },
   "Palm Tree": {
     description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
     decimals: 0,
@@ -3320,5 +3349,97 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/455.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Pablo The Bunny": {
+    description: "The magical bunny that increases your carrot harvests",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Crop Plot": {
+    description: "A precious piece of soil used to plant crops.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/622.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Fruit Patch": {
+    description: "A bountiful piece of land used to plant fruit",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/623.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Gold Rock": {
+    description: "A scarce resource that can be used to mine gold",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/621.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Iron Rock": {
+    description: "Wow, a shiny iron rock. Used to mine iron ore",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/620.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Stone Rock": {
+    description: "A staple mineral for your mining journey",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/619.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  Boulder: {
+    description: "???",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  Tree: {
+    description: "Nature's most precious resource. Used to collect wood",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/618.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Basic Land": {
+    description: "Build your farming empire with this basic piece of land",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/625.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Dirt Path": {
+    description: "Keep your farmer boots clean and travel on paths!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1245.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Bush: {
+    description: "Keep your Bumpkins happy with these bushy bushes.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1246.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Fence: {
+    description: "Those cheeky chickens won't be escaping anymore!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1247.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Shrub: {
+    description:
+      "It aint much, but it adds some green to your beautiful island",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1248.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
 };

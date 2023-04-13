@@ -6,7 +6,6 @@ import { Box } from "components/ui/Box";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import { Button } from "components/ui/Button";
 import {
@@ -19,7 +18,6 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 export const HeliosBlacksmithItems: React.FC = () => {
   const [selectedName, setSelectedName] =
     useState<HeliosBlacksmithItem>("Immortal Pear");
-  const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -39,18 +37,6 @@ export const HeliosBlacksmithItems: React.FC = () => {
   const craft = () => {
     gameService.send("collectible.crafted", {
       name: selectedName,
-    });
-
-    getKeys(selectedItem.ingredients).map((name) => {
-      const ingredient = ITEM_DETAILS[name];
-      setToast({
-        icon: ingredient.image,
-        content: `-${selectedItem.ingredients[name]}`,
-      });
-    });
-    setToast({
-      icon: ITEM_DETAILS[selectedName].image,
-      content: "+1",
     });
 
     shortcutItem(selectedName);

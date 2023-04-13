@@ -20,41 +20,43 @@ export const GarbageCollector: React.FC = () => {
   };
 
   return (
-    <MapPlacement x={-6} y={-9} height={3} width={4}>
-      <div
-        className="relative w-full h-full cursor-pointer hover:img-highlight"
-        onClick={handleClick}
-      >
-        <img
-          src={building}
-          className="absolute "
-          style={{
-            width: `${PIXEL_SCALE * 62}px`,
-            left: `${PIXEL_SCALE * 9}px`,
-            bottom: `${PIXEL_SCALE * 20}px`,
-          }}
-        />
-        <img
-          src={stall}
-          className="absolute z-20"
-          style={{
-            width: `${PIXEL_SCALE * 36}px`,
-            left: `${PIXEL_SCALE * 22}px`,
-            bottom: `${PIXEL_SCALE * 6}px`,
-          }}
-        />
-
+    <>
+      <MapPlacement x={-6} y={-9} height={3} width={4}>
         <div
-          className="absolute z-10"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 32}px`,
-            bottom: `${PIXEL_SCALE * 41}px`,
-          }}
+          className="relative w-full h-full cursor-pointer hover:img-highlight"
+          onClick={handleClick}
         >
-          <NPC body="Goblin Potion" hair="Teal Mohawk" shirt="Fire Shirt" />
+          <img
+            src={building}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 62}px`,
+              left: `${PIXEL_SCALE * 9}px`,
+              bottom: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+          <img
+            src={stall}
+            className="absolute z-20"
+            style={{
+              width: `${PIXEL_SCALE * 36}px`,
+              left: `${PIXEL_SCALE * 22}px`,
+              bottom: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+
+          <div
+            className="absolute z-10"
+            style={{
+              width: `${PIXEL_SCALE * 14}px`,
+              left: `${PIXEL_SCALE * 32}px`,
+              bottom: `${PIXEL_SCALE * 41}px`,
+            }}
+          >
+            <NPC body="Goblin Potion" hair="Teal Mohawk" shirt="Fire Shirt" />
+          </div>
         </div>
-      </div>
+      </MapPlacement>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           onClose={() => setIsOpen(false)}
@@ -75,6 +77,6 @@ export const GarbageCollector: React.FC = () => {
           <GarbageCollectorModal />
         </CloseButtonPanel>
       </Modal>
-    </MapPlacement>
+    </>
   );
 };

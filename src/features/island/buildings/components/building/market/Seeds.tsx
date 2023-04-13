@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import token from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -8,12 +7,11 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
-import { makeBulkSeedBuyAmount } from "./lib/makeBulkSeedBuyAmount";
+import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
@@ -32,7 +30,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
 
   const selected = SEEDS()[selectedName];
-  const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -62,16 +59,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       amount,
     });
 
-    if (price.greaterThan(0)) {
-      setToast({
-        icon: token,
-        content: `-${price.mul(amount)}`,
-      });
-    }
-    setToast({
-      icon: ITEM_DETAILS[selectedName].image,
-      content: `+${amount}`,
-    });
+    shortcutItem(selectedName);
   };
 
   const lessFunds = (amount = 1) => {
@@ -79,7 +67,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
-  const bulkSeedBuyAmount = makeBulkSeedBuyAmount(stock);
+  const bulkSeedBuyAmount = makeBulkBuyAmount(stock);
 
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS()[seedName];

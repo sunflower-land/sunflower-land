@@ -1,9 +1,4 @@
-import {
-  GameState,
-  LandExpansion,
-  PlacedItem,
-  Position,
-} from "features/game/types/game";
+import { GameState, PlacedItem, Position } from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
 import { Coordinates } from "../../components/MapPlacement";
 import {
@@ -13,6 +8,7 @@ import {
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 type BoundingBox = Position;
 
@@ -35,46 +31,6 @@ const extractBoundingBox = <T extends Record<number, BoundingBox>>(
     width,
   }));
 };
-
-type Resources = Required<Omit<LandExpansion, "createdAt" | "readyAt">>;
-
-const getAllResources = (expansions: LandExpansion[]): Resources[] => {
-  return expansions.map((expansion) => ({
-    trees: expansion.trees ?? {},
-    iron: expansion.iron ?? {},
-    stones: expansion.stones ?? {},
-    plots: expansion.plots ?? {},
-    gold: expansion.gold ?? {},
-    fruitPatches: expansion.fruitPatches ?? {},
-    boulders: expansion.boulders ?? {},
-  }));
-};
-
-export const getBoundingBoxes = (
-  expansionResources: Resources,
-  expansionIndex: number
-) => {
-  const resources = Object.values(expansionResources);
-
-  const boundingBoxes = resources.flatMap((resource) => {
-    return extractBoundingBox(resource, expansionIndex);
-  });
-
-  return boundingBoxes;
-};
-
-/**
- * Extracts the bounding boxes for all resources on all land expansions.
- * @param expansions
- * @returns Array of all bounding boxes
- */
-export function extractResourceBoundingBoxes(
-  expansions: LandExpansion[]
-): BoundingBox[] {
-  const allResources = getAllResources(expansions);
-
-  return allResources.flatMap(getBoundingBoxes);
-}
 
 /**
  * Axis aligned bounding box collision detection
@@ -110,28 +66,15 @@ const splitBoundingBox = (boundingBox: BoundingBox) => {
   }));
 };
 
-function detectResourceCollision(state: GameState, boundingBox: BoundingBox) {
-  const { expansions } = state;
-
-  const resourceBoundingBoxes = extractResourceBoundingBoxes(expansions);
-
-  return resourceBoundingBoxes.some((resourceBoundingBox) =>
-    isOverlapping(boundingBox, resourceBoundingBox)
-  );
-}
-
-function detectWaterCollision(
-  expansions: LandExpansion[],
-  boundingBox: BoundingBox
-) {
-  const expansionBoundingBoxes: BoundingBox[] = expansions.map(
-    (_, expansionIndex) => ({
+function detectWaterCollision(expansions: number, boundingBox: BoundingBox) {
+  const expansionBoundingBoxes: BoundingBox[] = new Array(expansions)
+    .fill(null)
+    .map((_, expansionIndex) => ({
       x: EXPANSION_ORIGINS[expansionIndex].x - LAND_SIZE / 2,
       y: EXPANSION_ORIGINS[expansionIndex].y + LAND_SIZE / 2,
       width: LAND_SIZE,
       height: LAND_SIZE,
-    })
-  );
+    }));
 
   /**
    * A bounding box may overlap multiple land expansions.
@@ -154,29 +97,55 @@ function detectWaterCollision(
 const PLACEABLE_DIMENSIONS = {
   ...BUILDINGS_DIMENSIONS,
   ...COLLECTIBLES_DIMENSIONS,
+  ...RESOURCE_DIMENSIONS,
 };
 
 function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
-  const { collectibles, buildings } = state;
+  const {
+    collectibles,
+    buildings,
+    crops,
+    trees,
+    stones,
+    gold,
+    iron,
+    fruitPatches,
+  } = state;
 
   const placed = {
     ...collectibles,
     ...buildings,
   };
 
-  const boundingBoxes = getKeys(placed).flatMap((name) => {
+  const placeableBounds = getKeys(placed).flatMap((name) => {
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
-    return items
-      ? items.map((item) => ({
-          x: item.coordinates.x,
-          y: item.coordinates.y,
-          height: dimensions.height,
-          width: dimensions.width,
-        }))
-      : [];
+    return items.map((item) => ({
+      x: item.coordinates.x,
+      y: item.coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    }));
   });
+
+  const resources = [
+    ...Object.values(trees),
+    ...Object.values(stones),
+    ...Object.values(iron),
+    ...Object.values(gold),
+    ...Object.values(crops),
+    ...Object.values(fruitPatches),
+  ];
+
+  const resourceBoundingBoxes = resources.map((item) => ({
+    x: item.x,
+    y: item.y,
+    height: item.height,
+    width: item.width,
+  }));
+
+  const boundingBoxes = [...placeableBounds, ...resourceBoundingBoxes];
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(boundingBox, resourceBoundingBox)
@@ -221,13 +190,13 @@ enum Direction {
  * @returns boolean
  */
 function detectLandCornerCollision(
-  expansions: LandExpansion[],
+  expansions: number,
   boundingBox: BoundingBox
 ) {
   // Mid point coordinates for all land expansions
-  const originCoordinatesForExpansions: Coordinates[] = expansions.map(
-    (_, i) => EXPANSION_ORIGINS[i]
-  );
+  const originCoordinatesForExpansions: Coordinates[] = new Array(expansions)
+    .fill(null)
+    .map((_, i) => EXPANSION_ORIGINS[i]);
 
   /**
    *
@@ -325,18 +294,12 @@ function detectBumpkinCollision(boundingBox: BoundingBox) {
   });
 }
 export function detectCollision(state: GameState, position: Position) {
-  const { expansions } = state;
-  const latestLand = expansions[expansions.length - 1];
-  const completedExpansions = [
-    ...expansions.slice(0, expansions.length - 1),
-    ...(latestLand.readyAt <= Date.now() ? [latestLand] : []),
-  ];
+  const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
   return (
-    detectWaterCollision(completedExpansions, position) ||
-    detectResourceCollision(state, position) ||
+    detectWaterCollision(expansions, position) ||
     detectPlaceableCollision(state, position) ||
-    detectLandCornerCollision(completedExpansions, position) ||
+    detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectBumpkinCollision(position)
   );

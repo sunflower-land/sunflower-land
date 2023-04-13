@@ -1,16 +1,15 @@
 import React from "react";
 
 import lock from "assets/skills/lock.png";
-import heart from "assets/icons/level_up.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { OuterPanel } from "components/ui/Panel";
 import { BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { GameState } from "features/game/types/game";
-import { getBumpkinLevel } from "features/game/lib/level";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const CONTENT_HEIGHT = 380;
 
@@ -34,19 +33,19 @@ export const ListView: React.FC<{
         const buildingUnlockLevels = BUILDINGS()[buildingName].map(
           ({ unlocksAtLevel }) => unlocksAtLevel
         );
-        const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
+        const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
         // Holds how many desired placed buildings (e.g. water wells)
         const buildingsPlaced = new Decimal(
           state.buildings[buildingName]?.length || 0
         );
         // Holds how many allowed buildings the user can place on the island at the current level.
-        const allowedBuildings = buildingUnlockLevels.filter(
-          (level) => bumpkinLevel >= level
+        const allowedBuildings = buildingUnlockLevels.filter((level) =>
+          landCount.gte(level)
         ).length;
         // Whats the next level of the desired building (e.g. water wells), user is yet to unlock.
         // If this is undefined then that means the user has unlocked all the levels of the building.
-        const nextLockedLevel = buildingUnlockLevels.find(
-          (level) => level > bumpkinLevel
+        const nextLockedLevel = buildingUnlockLevels.find((level) =>
+          landCount.lt(level)
         );
 
         const buildingLimitReached = (
@@ -93,12 +92,12 @@ export const ListView: React.FC<{
                 {!nextLockedLevel ||
                   (buildingLimitReached && (
                     <div className="flex items-center">
-                      <img src={heart} className="h-4 mr-1" />
+                      <img src={SUNNYSIDE.resource.land} className="h-4 mr-1" />
                       <span
                         className="bg-error border text-xxs p-1 rounded-md"
                         style={{ lineHeight: "10px" }}
                       >
-                        Lvl {nextLockedLevel}
+                        {`${landCount.toNumber()}/${nextLockedLevel} Expansions Required`}
                       </span>
 
                       <img src={lock} className="h-4 ml-1" />

@@ -59,11 +59,14 @@ export async function signCollectFromWell({
   return transaction as SignedTransaction;
 }
 
-export async function collectFromWell(transaction: SignedTransaction) {
+export async function collectFromWell(
+  account: string,
+  transaction: SignedTransaction
+) {
   const receipt = await collectFromWellOnChain({
     ...transaction,
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: account,
   });
 
   return receipt;

@@ -3,11 +3,8 @@ import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { Modal } from "react-bootstrap";
 
-import token from "assets/icons/token_2.png";
-
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -21,6 +18,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { makeBulkBuyAmount } from "../../market/lib/makeBulkBuyAmount";
 
 interface Props {
   isOpen: boolean;
@@ -29,7 +27,6 @@ interface Props {
 
 export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
-  const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Workbench")
@@ -85,42 +82,45 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     shortcutItem(toolName);
   };
 
-  const craft = (event: SyntheticEvent, amount = 1) => {
+  const craft = (event: SyntheticEvent, amount: number) => {
     event.stopPropagation();
     gameService.send("tool.crafted", {
       tool: selectedName,
+      amount,
     });
 
-    setToast({
-      icon: token,
-      content: `-${price?.mul(amount)}`,
-    });
-
-    getKeys(selected.ingredients).map((name) => {
-      const item = ITEM_DETAILS[name];
-      setToast({
-        icon: item.image,
-        content: `-${selected.ingredients[name]?.mul(amount)}`,
-      });
-    });
+    shortcutItem(selectedName);
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
 
+  const bulkToolCraftAmount = makeBulkBuyAmount(stock);
+
   const Action = () => {
-    if (stock?.equals(0)) {
+    if (stock.equals(0)) {
       return <Restock onClose={onClose}></Restock>;
     }
 
     return (
-      <>
+      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
         <Button
-          disabled={lessFunds() || lessIngredients() || stock?.lessThan(1)}
-          onClick={(e) => craft(e)}
+          disabled={lessFunds() || lessIngredients() || stock.lessThan(1)}
+          onClick={(e) => craft(e, 1)}
         >
           Craft 1
         </Button>
-      </>
+        {bulkToolCraftAmount > 1 && (
+          <Button
+            disabled={
+              lessFunds(bulkToolCraftAmount) ||
+              lessIngredients(bulkToolCraftAmount)
+            }
+            onClick={(e) => craft(e, bulkToolCraftAmount)}
+          >
+            Craft {bulkToolCraftAmount}
+          </Button>
+        )}
+      </div>
     );
   };
 

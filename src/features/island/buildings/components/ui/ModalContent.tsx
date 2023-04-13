@@ -29,6 +29,11 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
     gameService.send("EDIT", {
       placeable: selected,
       action: hasUnplacedBuildings ? "building.placed" : "building.constructed",
+      // Not used yet
+      requirements: {
+        sfl: new Decimal(0),
+        ingredients: {},
+      },
     });
     closeModal();
   };

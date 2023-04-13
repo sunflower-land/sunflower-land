@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
-import { Dimensions, CollectibleName } from "./craftables";
+import { CollectibleName } from "./craftables";
 import { InventoryItemName } from "./game";
+import { ResourceName } from "./resources";
 
 export type BuildingName =
   | "Fire Pit"
@@ -29,7 +30,11 @@ export type BuildingBluePrint = {
   constructionSeconds: number;
 };
 
-export type PlaceableName = CollectibleName | BuildingName | "Chicken";
+export type PlaceableName =
+  | CollectibleName
+  | BuildingName
+  | "Chicken"
+  | ResourceName;
 
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {};
 
@@ -39,7 +44,7 @@ export const BUILDINGS: () => Record<
 > = () => ({
   Market: [
     {
-      unlocksAtLevel: 1,
+      unlocksAtLevel: 3,
       ingredients: [],
       sfl: new Decimal(0),
       constructionSeconds: 30,
@@ -47,7 +52,7 @@ export const BUILDINGS: () => Record<
   ],
   "Fire Pit": [
     {
-      unlocksAtLevel: 1,
+      unlocksAtLevel: 3,
       ingredients: [],
       sfl: new Decimal(0),
       constructionSeconds: 30,
@@ -78,7 +83,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 5,
     },
     {
-      unlocksAtLevel: 8,
+      unlocksAtLevel: 6,
       ingredients: [
         { item: "Wood", amount: new Decimal(5) },
         {
@@ -90,7 +95,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 5,
     },
     {
-      unlocksAtLevel: 13,
+      unlocksAtLevel: 10,
       ingredients: [
         { item: "Wood", amount: new Decimal(5) },
         {
@@ -102,7 +107,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 5,
     },
     {
-      unlocksAtLevel: 18,
+      unlocksAtLevel: 12,
       ingredients: [
         { item: "Wood", amount: new Decimal(5) },
         {
@@ -133,7 +138,7 @@ export const BUILDINGS: () => Record<
   ],
   Tent: [
     {
-      unlocksAtLevel: 7,
+      unlocksAtLevel: 9,
       ingredients: [
         {
           item: "Wood",
@@ -146,7 +151,7 @@ export const BUILDINGS: () => Record<
   ],
   "Hen House": [
     {
-      unlocksAtLevel: 9,
+      unlocksAtLevel: 7,
       ingredients: [
         {
           item: "Wood",
@@ -166,7 +171,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 2,
     },
     {
-      unlocksAtLevel: 21,
+      unlocksAtLevel: 13,
       ingredients: [
         {
           item: "Wood",
@@ -191,7 +196,7 @@ export const BUILDINGS: () => Record<
   ],
   Bakery: [
     {
-      unlocksAtLevel: 11,
+      unlocksAtLevel: 8,
       ingredients: [
         {
           item: "Wood",
@@ -212,7 +217,7 @@ export const BUILDINGS: () => Record<
   ],
   Deli: [
     {
-      unlocksAtLevel: 13,
+      unlocksAtLevel: 12,
       ingredients: [
         {
           item: "Wood",
@@ -233,7 +238,7 @@ export const BUILDINGS: () => Record<
   ],
   "Smoothie Shack": [
     {
-      unlocksAtLevel: 15,
+      unlocksAtLevel: 14,
       ingredients: [
         {
           item: "Wood",
@@ -252,9 +257,10 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 12,
     },
   ],
+
   Toolshed: [
     {
-      unlocksAtLevel: 26,
+      unlocksAtLevel: 15,
       ingredients: [
         {
           item: "Wood",
@@ -283,7 +289,7 @@ export const BUILDINGS: () => Record<
   ],
   Warehouse: [
     {
-      unlocksAtLevel: 21,
+      unlocksAtLevel: 14,
       ingredients: [
         {
           item: "Wood",
@@ -315,6 +321,8 @@ export const BUILDINGS: () => Record<
     },
   ],
 });
+
+export type Dimensions = { width: number; height: number };
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Market: { height: 2, width: 3 },

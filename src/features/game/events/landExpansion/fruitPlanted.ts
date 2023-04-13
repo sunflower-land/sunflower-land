@@ -13,8 +13,7 @@ import { getFruitYield } from "./fruitHarvested";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
-  expansionIndex: number;
-  index: number;
+  index: string;
   seed: FruitSeedName;
 };
 
@@ -71,29 +70,10 @@ export function plantFruit({
   harvestsLeft = getHarvestsLeft,
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { expansions, bumpkin } = stateCopy;
-  const expansion = expansions[action.expansionIndex];
+  const { fruitPatches, bumpkin } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
-  }
-
-  if (!expansion) {
-    throw new Error("Expansion does not exist");
-  }
-
-  if (!expansion.fruitPatches) {
-    throw new Error("Expansion does not have any fruit patches");
-  }
-
-  const { fruitPatches } = expansion;
-
-  if (action.index < 0) {
-    throw new Error("Fruit patch does not exist");
-  }
-
-  if (!Number.isInteger(action.index)) {
-    throw new Error("Fruit patch does not exist");
   }
 
   const patch = fruitPatches[action.index];

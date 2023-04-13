@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -8,13 +8,9 @@ import { Quest } from "features/game/expansion/components/Quest";
 import appleTree from "assets/fruit/apple/apple_tree.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { NPC } from "../bumpkin/components/DynamicMiniNFT";
 
 export const FruitQuest: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [game] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
 
   const ModalDescription = () => {

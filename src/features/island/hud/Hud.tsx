@@ -9,7 +9,6 @@ import { PlaceableController } from "features/farming/hud/components/PlaceableCo
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { LandId } from "./components/LandId";
-import { InventoryItemName } from "features/game/types/game";
 import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
@@ -21,13 +20,15 @@ import { Deposit } from "features/goblins/bank/components/Deposit";
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
-export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
+const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
+
+  const autosaving = gameState.matches("autosaving");
 
   const handleClose = () => {
     setShowDepositModal(false);
@@ -41,7 +42,10 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
 
   const isEditing = gameState.matches("editing");
   const landId = gameState.context.state.id;
-  const farmAddress = authService.state.context.address as string;
+
+  const user = authService.state.context.user;
+  const isFullUser = user.type === "FULL";
+  const farmAddress = isFullUser ? user.farmAddress : undefined;
 
   return (
     <div
@@ -52,16 +56,49 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       <div hidden={isEditing}>
         <Inventory
           state={gameState.context.state}
+          isFullUser={isFullUser}
           shortcutItem={shortcutItem}
-          selectedItem={selectedItem as InventoryItemName}
+          selectedItem={selectedItem}
           onPlace={(selected) => {
-            gameService.send("EDIT", {
-              placeable: selected,
-              action: "collectible.placed",
-            });
+            if (selected === "Tree") {
+              gameService.send("EDIT", {
+                action: "tree.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Crop Plot") {
+              gameService.send("EDIT", {
+                action: "plot.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Stone Rock") {
+              gameService.send("EDIT", {
+                action: "stone.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Iron Rock") {
+              gameService.send("EDIT", {
+                action: "iron.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Gold Rock") {
+              gameService.send("EDIT", {
+                action: "gold.placed",
+                placeable: selected,
+              });
+            } else if (selected === "Fruit Patch") {
+              gameService.send("EDIT", {
+                action: "fruitPatch.placed",
+                placeable: selected,
+              });
+            } else {
+              gameService.send("EDIT", {
+                placeable: selected,
+                action: "collectible.placed",
+              });
+            }
           }}
           onDepositClick={() => setShowDepositModal(true)}
-          isSaving={gameState.matches("autosaving")}
+          isSaving={autosaving}
           isFarming={isFarming}
         />
       </div>
@@ -70,34 +107,40 @@ export const Hud: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       ) : (
         <>
           <Balance
-            farmAddress={gameState.context.state.farmAddress as string}
-            onBalanceClick={() => setShowDepositModal(true)}
+            onBalanceClick={
+              farmAddress ? () => setShowDepositModal(true) : undefined
+            }
             balance={gameState.context.state.balance}
           />
           <BlockBucks
             blockBucks={
               gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
             }
+            isFullUser={isFullUser}
           />
           {landId && <LandId landId={landId} />}
           <Save />
-          <BumpkinProfile />
+          <BumpkinProfile isFullUser={isFullUser} />
           <Settings isFarming={isFarming} />
         </>
       )}
-      <Modal show={showDepositModal} centered>
-        <CloseButtonPanel
-          title={depositDataLoaded ? "Deposit" : undefined}
-          onClose={depositDataLoaded ? handleClose : undefined}
-        >
-          <Deposit
-            farmAddress={farmAddress}
-            onDeposit={handleDeposit}
-            onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-            onClose={handleClose}
-          />
-        </CloseButtonPanel>
-      </Modal>
+      {farmAddress && (
+        <Modal show={showDepositModal} centered>
+          <CloseButtonPanel
+            title={depositDataLoaded ? "Deposit" : undefined}
+            onClose={depositDataLoaded ? handleClose : undefined}
+          >
+            <Deposit
+              farmAddress={farmAddress}
+              onDeposit={handleDeposit}
+              onLoaded={(loaded) => setDepositDataLoaded(loaded)}
+              onClose={handleClose}
+            />
+          </CloseButtonPanel>
+        </Modal>
+      )}
     </div>
   );
 };
+
+export const Hud = React.memo(HudComponent);

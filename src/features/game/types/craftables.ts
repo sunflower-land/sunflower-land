@@ -14,6 +14,7 @@ import {
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { BoostTreasure } from "./treasure";
+import { RESOURCE_DIMENSIONS } from "./resources";
 
 export { FLAGS };
 
@@ -1049,6 +1050,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   ...DECORATION_DIMENSIONS,
 
+  ...RESOURCE_DIMENSIONS,
+
   // Blacksmith Items
   "Sunflower Statue": { width: 3, height: 4 },
   "Potato Statue": { width: 2, height: 2 },
@@ -1084,7 +1087,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Farm Dog": { width: 1, height: 1 },
   "Chicken Coop": { width: 2, height: 2 },
   "Gold Egg": { width: 1, height: 1 },
-  "Easter Bunny": { width: 2, height: 1 },
   Rooster: { width: 1, height: 1 },
   "Egg Basket": { width: 1, height: 1 },
   "Fat Chicken": { width: 1, height: 1 },
@@ -1123,6 +1125,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
   "Cyborg Bear": { width: 1, height: 1 },
+
+  //Easter Event Items
+  "Easter Bunny": { width: 2, height: 1 },
+  "Pablo The Bunny": { width: 1, height: 2 },
+  "Easter Bear": { width: 1, height: 2 },
+  "Giant Carrot": { width: 2, height: 2 },
+  "Easter Bush": { width: 2, height: 2 },
 
   // Treasure Island SFTs
   "Tiki Totem": { height: 1, width: 1 },

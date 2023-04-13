@@ -2,8 +2,8 @@ import { Decimal } from "decimal.js-light";
 
 import { CropName, CropSeedName } from "./crops";
 
-import { CollectibleName, CraftableName, Food, Ingredient } from "./craftables";
-import { ResourceName } from "./resources";
+import { CollectibleName, CraftableName, Food } from "./craftables";
+import { CommodityName, ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
@@ -55,18 +55,6 @@ export type FieldItem = {
   fertilisers?: Fertilisers;
 };
 
-export type Tree = {
-  wood: Decimal;
-  // Epoch time in milliseconds
-  choppedAt: number;
-} & Position;
-
-export type Rock = {
-  amount: Decimal;
-  // Epoch time in milliseconds
-  minedAt: number;
-};
-
 export type ChickenPosition = {
   top: number;
   right: number;
@@ -81,6 +69,30 @@ export type EasterEgg =
   | "Purple Egg"
   | "Yellow Egg";
 
+export const EASTER_EGG: Record<EasterEgg, { description: string }> = {
+  "Red Egg": {
+    description: "A red easter egg",
+  },
+  "Orange Egg": {
+    description: "An orange easter egg",
+  },
+  "Green Egg": {
+    description: "A green easter egg",
+  },
+  "Blue Egg": {
+    description: "A blue easter egg",
+  },
+  "Pink Egg": {
+    description: "A pink easter egg",
+  },
+  "Purple Egg": {
+    description: "A purple easter egg",
+  },
+  "Yellow Egg": {
+    description: "A yellow easter egg",
+  },
+};
+
 export const EASTER_EGGS: EasterEgg[] = [
   "Blue Egg",
   "Green Egg",
@@ -91,7 +103,7 @@ export const EASTER_EGGS: EasterEgg[] = [
   "Yellow Egg",
 ];
 
-export type EasterBunny = "Easter Bunny";
+export type EasterEventItemName = "Easter Bunny" | "Pablo The Bunny";
 
 export type MOMEventItem = "Engine Core";
 
@@ -111,8 +123,8 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
-  | "Solar Flare Ticket"
-  | "Dawn Breaker Ticket";
+  | "Dawn Breaker Ticket"
+  | "Sunflower Supporter";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -146,6 +158,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Dawn Breaker Ticket": {
     description: "A ticket used during the Dawn Breaker Season",
+  },
+  "Sunflower Supporter": {
+    description: "A community and social media supporter of the project",
   },
 };
 
@@ -182,10 +197,11 @@ export type InventoryItemName =
   | FruitName
   | FruitSeedName
   | CraftableName
+  | CommodityName
   | ResourceName
   | SkillName
   | EasterEgg
-  | EasterBunny
+  | EasterEventItemName
   | Food
   | MOMEventItem
   | MutantChicken
@@ -204,8 +220,8 @@ export type InventoryItemName =
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
-  | TreasureName
-  | TreasureToolName;
+  | TreasureToolName
+  | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -287,7 +303,7 @@ export type PlantedFruit = {
   harvestedAt: number;
 };
 
-export type LandExpansionTree = {
+export type Tree = {
   wood: Wood;
 } & Position;
 
@@ -297,12 +313,13 @@ export type Stone = {
   minedAt: number;
 };
 
-export type LandExpansionRock = {
+export type Rock = {
   stone: Stone;
 } & Position;
 
-export type LandExpansionPlot = {
+export type CropPlot = {
   crop?: PlantedCrop;
+  createdAt: number;
 } & Position;
 
 export type FruitPatch = {
@@ -343,22 +360,13 @@ type PlacedTypes<Name extends CollectibleName> = {
 
 export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
 
-export type LandExpansion = {
+export type ExpansionConstruction = {
   createdAt: number;
   readyAt: number;
-
-  gold?: Record<number, LandExpansionRock>;
-  iron?: Record<number, LandExpansionRock>;
-  plots?: Record<number, LandExpansionPlot>;
-  fruitPatches?: Record<number, FruitPatch>;
-  boulders?: Record<number, Mine>;
-  trees?: Record<number, LandExpansionTree>;
-  stones?: Record<number, LandExpansionRock>;
 };
 
 interface ExpansionRequirements {
-  sfl: Decimal;
-  resources: Ingredient[];
+  resources: Partial<Record<InventoryItemName, number>>;
   seconds: number;
   bumpkinLevel: number;
 }
@@ -390,6 +398,21 @@ export type Bid = {
   auctionTickets: number;
 };
 
+type Island = "Main" | "Bunny Trove" | "Helios";
+
+export type EasterHunt = {
+  generatedAt: number;
+  eggs: EasterEggPosition[];
+};
+
+export type EasterEggPosition = {
+  name: InventoryItemName;
+  x: number;
+  y: number;
+  island: Island;
+  collectedAt?: number;
+};
+
 export type HayseedHank = {
   choresCompleted: number;
   chore: Chore;
@@ -418,8 +441,16 @@ export interface GameState {
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
 
-  expansions: LandExpansion[];
+  trees: Record<string, Tree>;
+  stones: Record<string, Rock>;
+  gold: Record<string, Rock>;
+  iron: Record<string, Rock>;
+  crops: Record<string, CropPlot>;
+  fruitPatches: Record<string, FruitPatch>;
+
+  expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;
+
   bumpkin?: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;
@@ -456,6 +487,8 @@ export interface GameState {
     bid?: Bid;
   };
   hayseedHank: HayseedHank;
+
+  easterHunt: EasterHunt;
 }
 
 export interface Context {

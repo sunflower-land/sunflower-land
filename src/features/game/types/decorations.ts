@@ -24,9 +24,17 @@ export type ShopDecorationName =
   | "Potted Potato"
   | "Potted Pumpkin"
   | "Cactus"
-  | "Basic Bear";
+  | "Basic Bear"
+  | "Dirt Path"
+  | "Bush"
+  | "Shrub"
+  | "Fence";
 
-export type EventDecorationName = "Valentine Bear";
+export type EventDecorationName =
+  | "Valentine Bear"
+  | "Easter Bear"
+  | "Easter Bush"
+  | "Giant Carrot";
 
 export type DecorationName =
   | AchievementDecorationName
@@ -184,6 +192,34 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
     width: 1,
   },
+  "Easter Bear": {
+    height: 1,
+    width: 1,
+  },
+  "Easter Bush": {
+    height: 2,
+    width: 2,
+  },
+  "Giant Carrot": {
+    height: 3,
+    width: 2,
+  },
+  "Dirt Path": {
+    width: 1,
+    height: 1,
+  },
+  Bush: {
+    width: 2,
+    height: 1,
+  },
+  Fence: {
+    width: 1,
+    height: 1,
+  },
+  Shrub: {
+    width: 1,
+    height: 1,
+  },
 };
 
 export type Decoration = {
@@ -239,5 +275,31 @@ export const HELIOS_DECORATIONS: () => Record<
     sfl: marketRate(50),
     ingredients: {},
     description: "A basic bear. Use this at Goblin Retreat to build a bear!",
+  },
+  "Dirt Path": {
+    name: "Dirt Path",
+    sfl: marketRate(50),
+    ingredients: {},
+    description: "A dirt path",
+  },
+  Bush: {
+    name: "Bush",
+    sfl: marketRate(50),
+    ingredients: {},
+    description: "A dirt path",
+  },
+  Fence: {
+    name: "Fence",
+    sfl: marketRate(50),
+    ingredients: {
+      Wood: new Decimal(5),
+    },
+    description: "A dirt path",
+  },
+  Shrub: {
+    name: "Shrub",
+    sfl: marketRate(50),
+    ingredients: {},
+    description: "A dirt path",
   },
 });

@@ -55,9 +55,9 @@ export const Room: React.FC<Props> = ({
   const websocketService = useInterpret(websocketMachine, {
     context: {
       currentPosition: spawnPoint,
-      accountId: authState.context.farmId as number,
+      accountId: authState.context.user.farmId as number,
       roomId,
-      jwt: authState.context.rawToken,
+      jwt: authState.context.user.rawToken,
       bumpkin: gameState.context.state.bumpkin,
       canAccess,
       kickedAt: gameState.context.state.pumpkinPlaza?.kickedAt,
@@ -88,7 +88,7 @@ export const Room: React.FC<Props> = ({
 
     if (
       !allowedArea[clampedX]?.[clampedY] &&
-      !authState.context.token?.userAccess.admin
+      !authState.context.user.token?.userAccess.admin
     ) {
       setRestrictedHelper({ x, y });
       return;

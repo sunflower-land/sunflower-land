@@ -36,7 +36,6 @@ import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { RetreatPirate } from "./components/pirate/RetreatPirate";
-import { ToastManager } from "features/game/toast/ToastManager";
 
 const spawn = [
   [35, 15],
@@ -69,7 +68,7 @@ export const Game = () => {
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
   const [retreatLoaded, setRetreatLoaded] = useState(false);
-  const [sealSpawn, setSealSpawn] = useState(getRandomSpawn());
+  const [sealSpawn] = useState(getRandomSpawn());
 
   useLayoutEffect(() => {
     if (retreatLoaded) {
@@ -84,8 +83,6 @@ export const Game = () => {
 
   return (
     <>
-      <ToastManager />
-
       <Modal
         show={SHOW_MODAL[goblinState.value as StateValues]}
         centered
@@ -143,9 +140,7 @@ export const Game = () => {
               <RetreatStorageHouse />
               <RetreatHotAirBalloon />
               <RetreatTailor />
-              <RetreatBlacksmith
-                inventory={goblinState.context.state.inventory}
-              />
+              <RetreatBlacksmith />
               {/* <Auctioneer /> */}
               <RetreatPirate />
               <Resale />

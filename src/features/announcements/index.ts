@@ -1,6 +1,9 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import loveLetter from "assets/icons/love_letter.png";
 import solarFlare from "assets/announcements/solar_flare.png";
+import resourceReboot from "assets/announcements/resource-reboot.png";
+import referrals from "assets/announcements/referrals.gif";
+import easter from "assets/announcements/easter.png";
 import token from "assets/icons/token_2.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -20,12 +23,100 @@ export interface Announcement {
   }[];
   link?: string;
   type?: "war" | "bumpkin";
+  autoOpen?: boolean;
 }
 
 /**
  * Announcements are shown in game after the `date`.
  */
 export const ANNOUNCEMENTS: Announcement[] = [
+  {
+    date: new Date("2023-04-06T00:00:00"),
+    title: "Easter Egg Hunt",
+    notes: [
+      {
+        text: "The annual easter egg hunt is live!",
+        icon: SUNNYSIDE.icons.basket,
+      },
+      {
+        text: "Visit the new Bunny Trove island and start the hunt.",
+        icon: SUNNYSIDE.icons.heart,
+      },
+      {
+        text: "Find the easter eggs to mint rare items and the Bunny Onesie.",
+        icon: SUNNYSIDE.icons.expression_chat,
+      },
+    ],
+    image: easter,
+    link: "https://docs.sunflower-land.com/player-guides/special-events/easter-egg-hunt",
+  },
+  {
+    date: new Date("2023-04-05T00:00:00"),
+    title: "Referral Program",
+    notes: [
+      {
+        text: "The Sunflower Supporters program has officially launched!",
+        icon: SUNNYSIDE.icons.heart,
+      },
+      {
+        text: "Earn $1 USD* for each friend that creates an account",
+        icon: SUNNYSIDE.icons.treasure,
+      },
+      {
+        text: "Help grow our amazing community and spread the word!",
+        icon: SUNNYSIDE.icons.expression_chat,
+      },
+    ],
+    image: referrals,
+    link: "https://sunflower-land.com/#referrals",
+  },
+  {
+    date: new Date("2023-03-30T00:00:00"),
+    title: "The Resource Reboot",
+    notes: [
+      {
+        text: "A magical rumble was heard in the mountainous regions of Sunflower Land and suddenly all of the natural resources were reorganized in a massive upheaval.",
+        icon: SUNNYSIDE.icons.stressed,
+      },
+      {
+        text: "You can visit your chest in your inventory and place your crops, trees, fruit & stones where you want!",
+        icon: SUNNYSIDE.icons.treasure,
+      },
+      {
+        text: "Landscaping is currently in progress. Once this is completed you will be able to move your resources. Until then, choose wisely where you initially place these resources.",
+        icon: SUNNYSIDE.icons.hammer,
+      },
+      {
+        text: "Any crops or fruit that were in progress, have been automatically sent to your inventory.",
+        icon: SUNNYSIDE.icons.heart,
+      },
+    ],
+    image: resourceReboot,
+    link: "https://docs.sunflower-land.com/player-guides/land-expansion-and-resources",
+    autoOpen: true,
+  },
+  {
+    date: new Date("2023-03-30T00:00:00"),
+    title: "Maintenance Mode",
+    notes: [
+      {
+        text: "The team are working on exciting updates!",
+        icon: SUNNYSIDE.icons.hammer,
+      },
+      {
+        text: "Next week, we expect roughly 1 hour of downtime to make these updgrades",
+        icon: SUNNYSIDE.icons.timer,
+        date: new Date(
+          "Mon April 3 2023 11:00:00 GMT+1100 (Australian Eastern Daylight Time)"
+        ),
+      },
+      {
+        text: "Thank you for your patience!",
+        icon: SUNNYSIDE.icons.heart,
+      },
+    ],
+  },
+
   {
     date: new Date("2023-03-08T00:00:00"),
     title: "Solar Flare Season Has Begun!",

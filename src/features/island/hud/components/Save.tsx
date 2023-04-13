@@ -14,7 +14,9 @@ export const Save: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const playing = gameState.matches("playing");
+  const playing =
+    gameState.matches("playingGuestGame") ||
+    gameState.matches("playingFullGame");
   const autoSaving = gameState.matches("autosaving");
   const hasUnsavedProgress = gameState.context.actions.length > 0;
   const savedWithoutError = playing && !hasUnsavedProgress;

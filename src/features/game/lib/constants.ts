@@ -5,7 +5,7 @@ import {
   ChickenPosition,
   GameState,
   Inventory,
-  LandExpansion,
+  ExpansionConstruction,
   PlacedItem,
 } from "../types/game";
 
@@ -115,7 +115,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     ...seeds,
 
     Shovel: new Decimal(1),
-    "Rusty Shovel": new Decimal(10),
+    "Rusty Shovel": new Decimal(100),
     "Power Shovel": new Decimal(5),
     "Sand Shovel": new Decimal(25),
     "Sand Drill": new Decimal(5),
@@ -129,7 +129,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
   };
 };
 
-export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
+export const INITIAL_GOLD_MINES: GameState["gold"] = {
   0: {
     stone: {
       amount: 0.1,
@@ -142,7 +142,7 @@ export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
   },
 };
 
-export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
+export const INITIAL_EXPANSION_IRON: GameState["iron"] = {
   0: {
     stone: {
       amount: 0.1,
@@ -155,180 +155,24 @@ export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
   },
 };
 
-export const GENESIS_LAND_EXPANSION: LandExpansion = {
+export const GENESIS_LAND_EXPANSION: ExpansionConstruction = {
   createdAt: 1,
   readyAt: 0,
-
-  // gold: INITIAL_GOLD_MINES,
-  iron: INITIAL_EXPANSION_IRON,
 };
 
-export const INITIAL_EXPANSIONS: LandExpansion[] = [
+export const INITIAL_EXPANSIONS: ExpansionConstruction[] = [
   {
     createdAt: 2,
     readyAt: 0,
-
-    plots: {
-      0: {
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      2: {
-        x: 0,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      3: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      4: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -1,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      5: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: 0,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      6: {
-        x: -2,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-      7: {
-        x: -1,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-      8: {
-        x: 0,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-    },
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: -3,
-        y: 3,
-        height: 2,
-        width: 2,
-      },
-    },
-    stones: {
-      0: {
-        x: 0,
-        y: 3,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
   },
 
   {
     createdAt: 3,
     readyAt: 0,
-
-    plots: {},
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 1,
-        height: 2,
-        width: 2,
-      },
-    },
-
-    stones: {
-      0: {
-        x: 1,
-        y: -2,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
   },
   {
     createdAt: 4,
     readyAt: 0,
-
-    plots: {
-      0: {
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      2: {
-        x: -2,
-        y: -2,
-        height: 1,
-        width: 1,
-      },
-      3: {
-        x: -1,
-        y: -2,
-        height: 1,
-        width: 1,
-      },
-    },
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 1,
-        height: 2,
-        width: 2,
-      },
-    },
   },
 ];
 
@@ -373,9 +217,19 @@ export const TEST_FARM: GameState = {
     "Human War Banner": new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Sunflower Cake": new Decimal(1),
+    "Basic Land": new Decimal(1),
   },
   stock: INITIAL_STOCK(),
   chickens: {},
+  crops: {
+    1: {
+      height: 1,
+      width: 1,
+      x: 1,
+      y: 1,
+      createdAt: Date.now(),
+    },
+  },
   mysteryPrizes: {},
   stockExpiry: {
     "Sunflower Cake": "1970-06-06",
@@ -391,7 +245,6 @@ export const TEST_FARM: GameState = {
   },
   pumpkinPlaza: {},
   auctioneer: {},
-  expansions: INITIAL_EXPANSIONS,
   buildings: {
     "Fire Pit": [
       {
@@ -462,6 +315,23 @@ export const TEST_FARM: GameState = {
       description: "Harvest 10 Sunflowers",
     },
   },
+  easterHunt: {
+    generatedAt: Date.now() - 1000,
+    eggs: [
+      {
+        name: "Pink Egg",
+        x: 5,
+        y: 5,
+        island: "Helios",
+      },
+      {
+        name: "Orange Egg",
+        x: 6,
+        y: 6,
+        island: "Bunny Trove",
+      },
+    ],
+  },
 
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
@@ -511,16 +381,18 @@ export const TEST_FARM: GameState = {
   },
   expansionRequirements: {
     bumpkinLevel: 20,
-    resources: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
+    resources: {
+      Wood: 10,
+    },
     seconds: 60,
-    sfl: new Decimal(0),
   },
   dailyRewards: {},
+
+  fruitPatches: {},
+  gold: {},
+  iron: {},
+  stones: {},
+  trees: {},
 };
 
 export const EMPTY: GameState = {
@@ -534,7 +406,6 @@ export const EMPTY: GameState = {
   chickens: {},
   stock: {},
   stockExpiry: {},
-  expansions: INITIAL_EXPANSIONS,
 
   buildings: {},
   collectibles: {},
@@ -553,6 +424,30 @@ export const EMPTY: GameState = {
       description: "Harvest 10 Sunflowers",
     },
   },
+  easterHunt: {
+    generatedAt: Date.now() - 1000,
+    eggs: [
+      {
+        name: "Pink Egg",
+        x: 5,
+        y: 5,
+        island: "Helios",
+      },
+      {
+        name: "Orange Egg",
+        x: 6,
+        y: 6,
+        island: "Bunny Trove",
+      },
+    ],
+  },
+
+  fruitPatches: {},
+  gold: {},
+  iron: {},
+  crops: {},
+  stones: {},
+  trees: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

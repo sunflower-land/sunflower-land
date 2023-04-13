@@ -1,34 +1,10 @@
 import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Ingredient } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
-
-/**
- * The props for the details.
- * @param title The title.
- * @param description The description.
- */
-interface DetailsProps {
-  title: string;
-  description: string;
-}
-
-/**
- * The props for the crafting requirements.
- * @param resources The item resources requirements.
- * @param sfl The SFL requirements.
- * @param level The level requirements.
- * @param timeSeconds The wait time in seconds for crafting the item.
- */
-interface RequirementsProps {
-  resources?: Ingredient[];
-  sfl?: Decimal;
-  level?: number;
-  timeSeconds?: number;
-}
 
 /**
  * The props for the component.
@@ -40,8 +16,17 @@ interface RequirementsProps {
 interface Props {
   gameState: GameState | GoblinState;
   details: DetailsProps;
-  requirements?: RequirementsProps;
+  requirements?: GameState["expansionRequirements"];
   actionView?: JSX.Element;
+}
+
+/**
+ * The props for the details.
+ * @param title The title.
+ * @param description The description.
+ */
+interface DetailsProps {
+  description: string;
 }
 
 /**
@@ -55,14 +40,10 @@ export const ExpansionRequirements: React.FC<Props> = ({
   actionView,
 }: Props) => {
   const getItemDetail = () => {
-    const title = details.title;
     const description = details.description;
 
     return (
       <>
-        <div className="flex space-x-2 justify-start mb-1 items-center sm:flex-col-reverse md:space-x-0">
-          <span className="sm:text-center">{title}</span>
-        </div>
         <span className="text-xs mt-1 whitespace-pre-line sm:text-center">
           {description}
         </span>
@@ -76,42 +57,30 @@ export const ExpansionRequirements: React.FC<Props> = ({
     return (
       <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
         {/* Item ingredients requirements */}
-        {requirements.resources?.map((ingredient, index) => {
+        {getKeys(requirements.resources)?.map((name, index) => {
           return (
             <RequirementLabel
               key={index}
               type="item"
-              item={ingredient.item}
-              balance={gameState.inventory[ingredient.item] ?? new Decimal(0)}
-              requirement={ingredient.amount}
+              item={name}
+              balance={gameState.inventory[name] ?? new Decimal(0)}
+              requirement={new Decimal(requirements.resources[name] ?? 0)}
             />
           );
         })}
 
-        {/* SFL requirement */}
-        {requirements.sfl?.greaterThan(0) && (
-          <RequirementLabel
-            type="sfl"
-            balance={gameState.balance}
-            requirement={requirements.sfl}
-          />
-        )}
-
         {/* Level requirement */}
-        {!!requirements.level && (
+        {!!requirements.bumpkinLevel && (
           <RequirementLabel
             type="level"
             currentLevel={getBumpkinLevel(gameState.bumpkin?.experience ?? 0)}
-            requirement={requirements.level}
+            requirement={requirements.bumpkinLevel}
           />
         )}
 
         {/* Time requirement display */}
-        {!!requirements.timeSeconds && (
-          <RequirementLabel
-            type="time"
-            waitSeconds={requirements.timeSeconds}
-          />
+        {!!requirements.seconds && (
+          <RequirementLabel type="time" waitSeconds={requirements.seconds} />
         )}
       </div>
     );
