@@ -125,7 +125,7 @@ async function loadItems(): Promise<BumpkinShopItem[]> {
   let supply: string[] = [];
 
   try {
-    supply = await loadSupplyBatch(wallet.web3Provider, wallet.myAccount, ids);
+    supply = await loadSupplyBatch(wallet.web3Provider, ids);
   } catch (e) {
     console.log("Loading supply failed: ", e);
   }

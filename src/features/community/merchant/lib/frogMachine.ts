@@ -142,6 +142,8 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
       check_token: {
         invoke: {
           src: async () => {
+            if (!wallet.myAccount) throw new Error("No account");
+
             const isTokenApproved = await isTokenApprovedForContract(
               wallet.web3Provider,
               wallet.myAccount,
@@ -175,7 +177,9 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
       approving: {
         invoke: {
           src: async () => {
-            const _approve = await approve(frogAddress);
+            if (!wallet.myAccount) throw new Error("No account");
+
+            const _approve = await approve(frogAddress, wallet.myAccount);
 
             return { _approve };
           },
@@ -198,6 +202,8 @@ export const frogMachine = createMachine<Context, FrogEvent, FrogState>(
       minting: {
         invoke: {
           src: async () => {
+            if (!wallet.myAccount) throw new Error("No account");
+
             const farm = await getFarms(wallet.web3Provider, wallet.myAccount);
             const mint = await mintFrog({ farmId: Number(farm[0].tokenId) });
 

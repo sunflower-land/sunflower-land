@@ -18,6 +18,8 @@ export const Chore: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const autosaving = gameState.matches("autosaving");
+
   const hayseedHank = gameState.context.state.hayseedHank;
   const chore = hayseedHank.chore;
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
@@ -32,7 +34,7 @@ export const Chore: React.FC = () => {
     gameService.send("SAVE");
   };
 
-  if (!hayseedHank.progress && gameState.matches("autosaving")) {
+  if (!hayseedHank.progress && autosaving) {
     return <Loading />;
   }
 

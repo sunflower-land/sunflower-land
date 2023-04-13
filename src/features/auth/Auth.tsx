@@ -12,9 +12,8 @@ import {
   NoFarm,
   CreatingFarm,
   Loading,
-  StartFarm,
-  VisitFarm,
   CreateFarm,
+  VisitFarm,
 } from "./components";
 
 import { Signing } from "./components/Signing";
@@ -30,6 +29,13 @@ export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
+  const loading =
+    authState.matches({ connected: "authorised" }) ||
+    authState.matches({ connected: "loadingFarm" }) ||
+    authState.matches("checkFarm") ||
+    authState.matches("initialising") ||
+    authState.matches("connectingAsGuest");
+
   const connecting =
     authState.matches("reconnecting") ||
     authState.matches("connectingToMetamask") ||
@@ -42,7 +48,6 @@ export const Auth: React.FC = () => {
       centered
       show={
         !authState.matches({ connected: "authorised" }) &&
-        !authState.matches({ connected: "visitingContributor" }) &&
         !authState.matches("visiting")
       }
       backdrop={false}
@@ -58,10 +63,10 @@ export const Auth: React.FC = () => {
         />
       </div>
       <Panel className="pb-1">
-        {(authState.matches({ connected: "loadingFarm" }) ||
-          authState.matches("checkFarm") ||
-          authState.matches("initialising")) && <Loading />}
-        {authState.matches("idle") && <Connect />}
+        {loading && <Loading />}
+        {(authState.matches("idle") || authState.matches("signIn")) && (
+          <Connect />
+        )}
         {connecting && <Loading text="Connecting" />}
         {authState.matches("connectedToWallet") && <ConnectedToWallet />}
         {authState.matches("signing") && <Signing />}
@@ -71,7 +76,6 @@ export const Auth: React.FC = () => {
         {authState.matches({ connected: "donating" }) && <CreateFarm />}
         {authState.matches({ connected: "countdown" }) && <Countdown />}
         {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
-        {authState.matches({ connected: "readyToStart" }) && <StartFarm />}
         {(authState.matches({ connected: "blacklisted" }) ||
           authState.matches("blacklisted")) && (
           <Blacklisted

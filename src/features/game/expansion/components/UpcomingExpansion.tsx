@@ -16,6 +16,7 @@ import { useActor } from "@xstate/react";
 import { Revealing } from "features/game/components/Revealing";
 import { Panel } from "components/ui/Panel";
 import { Revealed } from "features/game/components/Revealed";
+import { Button } from "components/ui/Button";
 
 /**
  * The next piece of land to expand into
@@ -23,20 +24,29 @@ import { Revealed } from "features/game/components/Revealed";
 export const UpcomingExpansion: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const state = gameState.context.state;
   const [isRevealing, setIsRevealing] = useState(false);
-
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
+  const state = gameState.context.state;
+  const isFullUser = gameState.matches("playingFullGame");
+
+  const playing =
+    gameState.matches("playingGuestGame") ||
+    gameState.matches("playingFullGame");
+
   useEffect(() => {
-    if (isRevealing && gameState.matches("playing")) {
+    if (isRevealing && playing) {
       setIsRevealing(false);
     }
   }, [gameState.value]);
 
   const onExpand = () => {
-    console.log("EXPANDED!");
     gameService.send("land.expanded");
+    setShowBumpkinModal(false);
+  };
+
+  const onUpgrade = () => {
+    gameService.send("UPGRADE");
     setShowBumpkinModal(false);
   };
 
@@ -160,23 +170,53 @@ export const UpcomingExpansion: React.FC = () => {
           </Panel>
         </Modal>
       )}
-
       <Modal
         show={showBumpkinModal}
         onHide={() => setShowBumpkinModal(false)}
         centered
       >
-        <CloseButtonPanel
-          bumpkinParts={state.bumpkin?.equipped}
-          title="Expand your land"
-          onClose={() => setShowBumpkinModal(false)}
-        >
-          <UpcomingExpansionModal
-            gameState={state}
+        {isFullUser && (
+          <CloseButtonPanel
+            bumpkinParts={state.bumpkin?.equipped}
+            title="Expand your land"
             onClose={() => setShowBumpkinModal(false)}
-            onExpand={onExpand}
-          />
-        </CloseButtonPanel>
+          >
+            <UpcomingExpansionModal
+              gameState={state}
+              onClose={() => setShowBumpkinModal(false)}
+              onExpand={onExpand}
+            />
+          </CloseButtonPanel>
+        )}
+        {!isFullUser && (
+          <CloseButtonPanel
+            bumpkinParts={state.bumpkin?.equipped}
+            title={"Ready to expand?"}
+            onClose={() => setShowBumpkinModal(false)}
+          >
+            <>
+              <div className="p-2 pt-0 text-sm mb-2 space-y-2">
+                <img
+                  src={SUNNYSIDE.icons.expand}
+                  width={16 * PIXEL_SCALE}
+                  className="mx-auto mb-3"
+                />
+
+                <p>
+                  {`Amazing progress! It looks like you're having a great time working on
+            this piece of land. But did you know that you can actually own this
+            farm and everything on it?`}
+                </p>
+
+                <p>
+                  In order to continue your progress you will need to create a
+                  full account by setting up a wallet and buying your farm.
+                </p>
+              </div>
+              <Button onClick={onUpgrade}>{`Let's get started!`}</Button>
+            </>
+          </CloseButtonPanel>
+        )}
       </Modal>
     </>
   );

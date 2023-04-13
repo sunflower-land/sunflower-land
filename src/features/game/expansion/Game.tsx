@@ -42,10 +42,13 @@ import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
+import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
+  playingFullGame: false,
+  playingGuestGame: false,
   playing: false,
   autosaving: false,
   syncing: true,
@@ -63,11 +66,11 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   visiting: false,
   loadLandToVisit: true,
   landToVisitNotFound: true,
-  checkIsVisiting: false,
   revealing: false,
   revealed: false,
   buyingSFL: true,
   depositing: true,
+  upgradingGuestGame: false,
 };
 
 // State change selectors
@@ -97,6 +100,8 @@ const bumpkinLevel = (state: MachineState) =>
 const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
+const isUpgradingGuestGame = (state: MachineState) =>
+  state.matches("upgradingGuestGame");
 
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -123,6 +128,7 @@ export const Game: React.FC = () => {
   const state = useSelector(gameService, currentState);
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
+  const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -226,7 +232,6 @@ export const Game: React.FC = () => {
             <Route path="/" element={<Land />} />
             <Route path="/helios" element={<Helios key="helios" />} />
             <Route path="/snow" element={<SnowKingdom key="snow" />} />
-
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
             <Route
@@ -281,6 +286,8 @@ export const Game: React.FC = () => {
           {depositing && <Loading text="Depositing" />}
         </Panel>
       </Modal>
+
+      {upgradingGuestGame && <WalletOnboarding />}
 
       {GameContent()}
     </ToastProvider>

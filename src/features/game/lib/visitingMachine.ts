@@ -92,13 +92,10 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
     {
       services: {
         loadFarmToVisit: async (): Promise<Context | undefined> => {
-          const farmAccount = await getFarm(
-            wallet.web3Provider,
-            wallet.myAccount,
-            farmToVisitID
-          );
+          const farmAccount = await getFarm(wallet.web3Provider, farmToVisitID);
 
           const { game: onChain, owner } = await getOnChainState({
+            account: farmAccount.owner,
             farmAddress: farmAccount.account,
             id: farmToVisitID,
           });

@@ -25,7 +25,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const gameState = useSelector(gameService, (state) => ({
     fruit: state.context.state.fruitPatches[id]?.fruit,
-    isPlaying: state.matches("playing") || state.matches("autosaving"),
+    isPlaying:
+      state.matches("playingGuestGame") ||
+      state.matches("playingFullGame") ||
+      state.matches("autosaving"),
     inventory: state.context.state.inventory,
     collectibles: state.context.state.collectibles,
   }));

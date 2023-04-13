@@ -9,6 +9,7 @@ import { Inventory } from "features/game/types/game";
 import {
   Context as GameMachineContext,
   saveGame,
+  saveGuestGame,
 } from "features/game/lib/gameMachine";
 
 export interface Context {
@@ -47,6 +48,12 @@ export type SaveEvent = {
   farmId: number;
 };
 
+export type GuestSaveEvent = {
+  type: "GUEST_SAVE";
+  gameMachineContext: GameMachineContext;
+  guestKey: string;
+};
+
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
@@ -54,6 +61,7 @@ export type BlockchainEvent =
   | PlaceEvent
   | UpdateEvent
   | SaveEvent
+  | GuestSaveEvent
   | { type: "CANCEL" };
 
 export type BlockchainState = {
@@ -98,8 +106,34 @@ export const editingMachine = createMachine<
       states: {
         idle: {
           on: {
-            SAVE: {
-              target: "autosaving",
+            SAVE: { target: "autosaving" },
+            GUEST_SAVE: { target: "guestAutosaving" },
+          },
+        },
+        guestAutosaving: {
+          invoke: {
+            src: async (_: Context, event: any) => {
+              const saveEvent = event as GuestSaveEvent;
+
+              const result = await saveGuestGame(
+                saveEvent.gameMachineContext,
+                undefined,
+                saveEvent.guestKey
+              );
+
+              return result;
+            },
+            onDone: {
+              target: "idle",
+              actions: sendParent((_, event) => ({
+                type: "SAVE_SUCCESS",
+                data: event.data,
+              })),
+            },
+            onError: {
+              actions: (_, event) => {
+                console.error(event);
+              },
             },
           },
         },

@@ -95,9 +95,17 @@ export const Chest: React.FC<Props> = ({
         <span className="text-xs text-center mt-2">
           Your chest is empty, discover rare items today!
         </span>
-        <p className="underline text-xxs text-center mt-2 cursor-pointer">
-          Deposit items from your wallet
-        </p>
+        {onDepositClick && (
+          <p
+            className="underline text-xxs text-center mt-2 cursor-pointer"
+            onClick={() => {
+              onDepositClick();
+              closeModal();
+            }}
+          >
+            Deposit items from your wallet
+          </p>
+        )}
       </div>
     );
   }

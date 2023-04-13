@@ -8,5 +8,6 @@ export const SEQUENCE_CONNECT_OPTIONS: ConnectOptions = {
     includedPaymentProviders: ["ramp"],
     lockFundingCurrencyToDefault: true,
     defaultFundingCurrency: "matic",
+    defaultPurchaseAmount: 10,
   },
 };

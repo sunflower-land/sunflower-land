@@ -26,7 +26,7 @@ export const Label: React.FC<Props> = ({
       {type === "default" && (
         <div
           className={classnames(
-            "bg-silver-500 text-xxs object-contain justify-center items-center flex px-1 items-center",
+            "bg-silver-500 text-xxs object-contain justify-center flex px-1 items-center",
             className
           )}
           style={{ ...pixelGrayBorderStyle, ...style }}

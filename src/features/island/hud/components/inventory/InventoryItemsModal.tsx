@@ -13,7 +13,7 @@ interface Props {
   show: boolean;
   onHide: () => void;
   state: GameState;
-  selectedBasketItem: InventoryItemName;
+  selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
   selectedChestItem: InventoryItemName;
   onSelectChestItem: (name: InventoryItemName) => void;
@@ -21,6 +21,7 @@ interface Props {
   onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
+  isFullUser: boolean;
 }
 
 export type TabItems = Record<string, { items: object }>;
@@ -39,6 +40,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onPlace,
   isSaving,
   isFarming,
+  isFullUser,
 }) => {
   const [currentTab, setCurrentTab] = useState<number>(0);
 
@@ -70,7 +72,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onSelect={onSelectChestItem}
             closeModal={onHide}
             onPlace={isFarming ? onPlace : undefined}
-            onDepositClick={onDepositClick}
+            onDepositClick={isFullUser ? onDepositClick : undefined}
             isSaving={isSaving}
           />
         )}

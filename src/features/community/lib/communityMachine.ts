@@ -47,23 +47,25 @@ export function startCommunityMachine(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
+              if (!wallet.myAccount) throw new Error("No account");
+
+              const user = authContext.user;
+              const isFullUser = user.type === "FULL";
+              if (!isFullUser) throw new Error("Not a full user");
+
               const balance = await sflBalanceOf(
                 wallet.web3Provider,
-                wallet.myAccount,
-                wallet.myAccount as string
+                wallet.myAccount
               );
 
-              const farmId = authContext.farmId as number;
+              const farmId = authContext.user.farmId as number;
 
               const onChainStateFn = await getOnChainState({
-                farmAddress: authContext.address as string,
-                id: Number(authContext.farmId),
+                farmAddress: user.farmAddress as string,
+                account: wallet.myAccount,
+                id: farmId,
               });
-              const sessionIdFn = getSessionId(
-                wallet.web3Provider,
-                wallet.myAccount,
-                farmId
-              );
+              const sessionIdFn = getSessionId(wallet.web3Provider, farmId);
               const [onChainState, sessionId] = await Promise.all([
                 onChainStateFn,
                 sessionIdFn,
@@ -72,8 +74,8 @@ export function startCommunityMachine(authContext: AuthContext) {
               const response = await loadSession({
                 farmId,
                 sessionId,
-                token: authContext.rawToken as string,
-                wallet: authContext.wallet as string,
+                token: authContext.user.rawToken as string,
+                wallet: authContext.user.web3?.wallet as string,
                 bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
                 transactionId: context.transactionId as string,
               });

@@ -3,15 +3,46 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
+import { useActor } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const Connect: React.FC = () => {
+import walletIcon from "src/assets/icons/wallet.png";
+import { getGuestModeComplete } from "../actions/createGuestAccount";
+
+const SignIn = ({ onBack }: { onBack?: () => void }) => {
   const { authService } = useContext(Context);
 
   return (
-    <div className="px-4">
-      <p className="text-xs text-white mt-2 mb-3 text-center italic">
-        Connect your Web3 wallet to play
-      </p>
+    <>
+      <div className="flex text-center items-center justify-between mb-3 mt-1">
+        <div
+          className="flex items-center"
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        >
+          {onBack && (
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="cursor-pointer"
+              onClick={onBack}
+              style={{
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
+          )}
+        </div>
+        <p className="text-xs text-white mt-2 mb-2 text-center italic leading-3">
+          Connect your Web3 wallet to play
+        </p>
+        <div
+          className="flex-none"
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        />
+      </div>
       <Button
         className="mb-2 py-2 text-sm relative"
         onClick={() => authService.send("CONNECT_TO_METAMASK")}
@@ -21,30 +52,6 @@ export const Connect: React.FC = () => {
           Metamask
         </div>
       </Button>
-      {/* <Button className="mb-2 py-2 text-sm relative " disabled>
-        <div className="px-8">
-          <svg
-            baseProfile="tiny"
-            id="Layer_1"
-            xmlns="http://www.w3.org/2000/svg"
-            x="0px"
-            y="0px"
-            viewBox="0 0 1024 1024"
-            overflow="visible"
-            className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-          >
-            <path
-              fill="#0052FF"
-              d="M512,0L512,0c282.8,0,512,229.2,512,512l0,0c0,282.8-229.2,512-512,512l0,0C229.2,1024,0,794.8,0,512l0,0 C0,229.2,229.2,0,512,0z"
-            ></path>
-            <path
-              fill="#FFFFFF"
-              d="M512.1,692c-99.4,0-180-80.5-180-180s80.6-180,180-180c89.1,0,163.1,65,177.3,150h181.3 c-15.3-184.8-170-330-358.7-330c-198.8,0-360,161.2-360,360s161.2,360,360,360c188.7,0,343.4-145.2,358.7-330H689.3 C675,627,601.2,692,512.1,692z"
-            ></path>
-          </svg>
-          Coinbase
-        </div>
-      </Button> */}
       <Button
         className="mb-2 py-2 text-sm relative"
         onClick={() => authService.send("CONNECT_TO_WALLET_CONNECT")}
@@ -84,6 +91,63 @@ export const Connect: React.FC = () => {
           Sequence
         </div>
       </Button>
+    </>
+  );
+};
+
+export const Connect: React.FC = () => {
+  const { authService } = useContext(Context);
+  const [authState] = useActor(authService);
+
+  const user = authState.context.user;
+  const isGuest = user.type === "GUEST";
+  const hasGuestKey = isGuest && !!user.guestKey;
+
+  const guestText = hasGuestKey ? "Continue as guest" : "Play as guest!";
+  const guestModeComplete = !!getGuestModeComplete();
+
+  if (authState.matches("idle")) {
+    return (
+      <div className="pt-2 px-4">
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => authService.send("CONNECT_AS_GUEST")}
+        >
+          <div className="px-8">
+            <img
+              src={SUNNYSIDE.icons.player}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            {guestText}
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => authService.send("SIGN_IN")}
+        >
+          <div className="px-8">
+            <img
+              src={walletIcon}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            Sign In
+          </div>
+        </Button>
+      </div>
+    );
+  }
+
+  if (guestModeComplete) {
+    return (
+      <div className="px-4">
+        <SignIn />
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-4">
+      <SignIn onBack={() => authService.send("RETURN")} />
     </div>
   );
 };

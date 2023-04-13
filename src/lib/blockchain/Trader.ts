@@ -40,7 +40,6 @@ export type FarmSlot = {
 
 export async function getFarmSlots(
   web3: Web3,
-  account: string,
   farmId: number
 ): Promise<FarmSlot[]> {
   const farmSlots = await (
@@ -79,7 +78,6 @@ export async function getFarmSlots(
 
 export async function getRemainingListings(
   web3: Web3,
-  account: string,
   farmId: number
 ): Promise<number> {
   return Number(
@@ -94,10 +92,7 @@ export async function getRemainingListings(
   );
 }
 
-export async function getLimits(
-  web3: Web3,
-  account: string
-): Promise<ItemLimits> {
+export async function getLimits(web3: Web3): Promise<ItemLimits> {
   const ids = Object.values(KNOWN_IDS);
   const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
