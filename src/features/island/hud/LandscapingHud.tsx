@@ -108,6 +108,19 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
           />
         </div>
 
+        {state.matches({ editing: "moving" }) && (
+          <div className="fixed  bottom-2 w-full flex justify-center">
+            <OuterPanel
+              style={{
+                bottom: `${PIXEL_SCALE * 2}px`,
+              }}
+              className="relative flex justify-center items-center p-1"
+            >
+              <img src={SUNNYSIDE.icons.drag} className="h-6 mr-1" />
+              <p className="text-sm">Click & Drag Objects</p>
+            </OuterPanel>
+          </div>
+        )}
         {state.matches({ editing: "idle" }) && (
           <div className="fixed  bottom-2 w-full flex justify-center">
             <OuterPanel
