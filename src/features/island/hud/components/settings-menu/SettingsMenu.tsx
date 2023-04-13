@@ -5,7 +5,6 @@ import { CONFIG } from "lib/config";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 
-import { Context as AuthContext } from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
 
 import { Share } from "features/island/hud/components/settings-menu/Share";
@@ -38,7 +37,6 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
-  const { authService } = useContext(AuthContext);
   const { gameService } = useContext(GameContext);
 
   const [showShareModal, setShowShareModal] = useState(false);
@@ -53,8 +51,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
   const { openModal } = useContext(ModalContext);
 
-  const { user } = authService.state.context;
-  const isFullUser = user.type === "FULL";
+  const isFullUser = gameService.state.value === "playingFullGame";
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);

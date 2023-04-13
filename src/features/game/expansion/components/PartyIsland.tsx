@@ -166,7 +166,6 @@ export const Rooms: React.FC = () => {
 };
 
 export const PartyIsland: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -174,7 +173,7 @@ export const PartyIsland: React.FC = () => {
   const [showTigerModal, setShowTigerModal] = useState(false);
   const [showPirateModal, setShowPirateModal] = useState(false);
 
-  const isGuest = authService.state.context.user.type === "GUEST";
+  const isGuest = gameState.matches("playingGuestGame");
 
   const party = upcomingParty();
 

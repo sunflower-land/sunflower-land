@@ -55,7 +55,7 @@ export const Quest: React.FC<Props> = ({
   const [state, send] = useActor(questService);
   const quest = QUESTS[state.context.currentQuest as QuestName];
 
-  const isGuest = authState.context.user?.type === "GUEST";
+  const isGuest = gameState.matches("playingGuestGame");
 
   const onUpgrade = () => {
     gameService.send("UPGRADE");

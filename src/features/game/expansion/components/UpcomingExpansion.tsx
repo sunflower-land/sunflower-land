@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import * as Auth from "features/auth/lib/Provider";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
 import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
@@ -23,15 +22,13 @@ import { Button } from "components/ui/Button";
  * The next piece of land to expand into
  */
 export const UpcomingExpansion: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [isRevealing, setIsRevealing] = useState(false);
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const state = gameState.context.state;
-  const { user } = authService.state.context;
-  const isFullUser = user.type === "FULL";
+  const isFullUser = gameState.matches("playingFullGame");
 
   const playing =
     gameState.matches("playingGuestGame") ||

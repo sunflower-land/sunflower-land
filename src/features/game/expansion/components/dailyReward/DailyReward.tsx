@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useActor, useInterpret } from "@xstate/react";
-import * as Auth from "features/auth/lib/Provider";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -19,11 +18,10 @@ import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Equipped } from "features/game/types/bumpkin";
 
 export const DailyReward: React.FC = () => {
-  const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const isGuest = authService.state.context.user?.type === "GUEST";
+  const isGuest = gameState.matches("playingGuestGame");
 
   const [showModal, setShowModal] = useState(false);
 
