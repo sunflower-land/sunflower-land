@@ -66,6 +66,7 @@ interface Props {
   bumpkin: Bumpkin;
   inventory: Inventory;
   readonly: boolean;
+  isFullUser: boolean;
 }
 
 export const BumpkinModal: React.FC<Props> = ({
@@ -74,6 +75,7 @@ export const BumpkinModal: React.FC<Props> = ({
   bumpkin,
   inventory,
   readonly,
+  isFullUser,
 }) => {
   const [view, setView] = useState<ViewState>(initialView);
 
@@ -141,16 +143,18 @@ export const BumpkinModal: React.FC<Props> = ({
               bumpkinParts={bumpkin?.equipped as BumpkinParts}
             />
           </div>
-          <div className="ml-1">
-            <a
-              href={getVisitBumpkinUrl()}
-              target="_blank"
-              className="underline text-xxs"
-              rel="noreferrer"
-            >
-              Visit Bumpkin
-            </a>
-          </div>
+          {isFullUser && (
+            <div className="ml-1">
+              <a
+                href={getVisitBumpkinUrl()}
+                target="_blank"
+                className="underline text-xxs"
+                rel="noreferrer"
+              >
+                Visit Bumpkin
+              </a>
+            </div>
+          )}
         </div>
 
         <div className="flex-1">

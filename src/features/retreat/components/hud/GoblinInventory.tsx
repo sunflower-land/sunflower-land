@@ -74,6 +74,7 @@ export const GoblinInventory: React.FC<Props> = ({ state, onDepositClick }) => {
         onSelectChestItem={setSelectedChestItem}
         onDepositClick={onDepositClick}
         isFarming={false}
+        isFullUser={true}
       />
     </div>
   );

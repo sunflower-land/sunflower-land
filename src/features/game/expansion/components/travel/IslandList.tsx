@@ -31,6 +31,7 @@ interface Island {
 interface IslandProps extends Island {
   bumpkin: Bumpkin | undefined;
   currentPath: string;
+  isGuest: boolean;
 }
 
 interface IslandListProps {
@@ -48,13 +49,15 @@ const IslandListItem: React.FC<IslandProps> = ({
   image,
   comingSoon,
   currentPath,
+  isGuest,
 }) => {
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
   const notEnoughLevel =
     !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
+  const guestDenied = guestAccess === false && isGuest;
   const cannotNavigate =
-    (bumpkin && notEnoughLevel) || onSameIsland || comingSoon;
+    (bumpkin && notEnoughLevel) || onSameIsland || comingSoon || guestDenied;
 
   if (cannotNavigate) {
     // Disabled item
@@ -87,7 +90,7 @@ const IslandListItem: React.FC<IslandProps> = ({
                   Lvl {levelRequired}
                 </Label>
               )}
-              {!guestAccess && !comingSoon && (
+              {guestDenied && !comingSoon && (
                 <Label type="info">Full access required</Label>
               )}
               {/* Coming soon */}
@@ -230,6 +233,7 @@ export const IslandList: React.FC<IslandListProps> = ({
             image={CROP_LIFECYCLE.Sunflower.ready}
             levelRequired={1}
             guestAccess={true}
+            isGuest={authState.context.user.type === "GUEST"}
             path={`/land/${authState.context.user.farmId}`}
             bumpkin={bumpkin}
             currentPath={location.pathname}
@@ -249,6 +253,7 @@ export const IslandList: React.FC<IslandListProps> = ({
         <IslandListItem
           key={item.name}
           {...item}
+          isGuest={authState.context.user.type === "GUEST"}
           bumpkin={bumpkin}
           currentPath={location.pathname}
         />

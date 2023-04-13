@@ -121,6 +121,7 @@ export const Inventory: React.FC<Props> = ({
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}
+        isFullUser={isFullUser}
       />
     </>
   );

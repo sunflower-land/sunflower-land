@@ -424,8 +424,6 @@ export function startGame(authContext: AuthContext) {
               if (!wallet.myAccount) throw new Error("No account");
 
               const user = authContext.user;
-              const isFullUser = user.type === "FULL";
-              if (!isFullUser) throw new Error("Not a full user");
 
               const farmAddress = user.farmAddress as string;
               const farmId = user.farmId as number;
@@ -497,7 +495,16 @@ export function startGame(authContext: AuthContext) {
             },
             onDone: {
               target: "notifying",
-              actions: "assignGame",
+              actions: choose([
+                {
+                  cond: () => authContext.user.type === "GUEST",
+                  actions: "assignGuestGame",
+                },
+                {
+                  cond: () => authContext.user.type === "FULL",
+                  actions: "assignGame",
+                },
+              ]),
             },
             onError: [
               {
@@ -1084,6 +1091,10 @@ export function startGame(authContext: AuthContext) {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
           actions: [],
+        }),
+        assignGuestGame: assign<Context, any>({
+          state: (_, event) => event.data.state,
+          deviceTrackerId: (_, event) => event.data.deviceTrackerId,
         }),
         assignGame: assign<Context, any>({
           state: (_, event) => event.data.state,

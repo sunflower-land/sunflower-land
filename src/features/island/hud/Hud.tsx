@@ -120,7 +120,7 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           />
           {landId && <LandId landId={landId} />}
           <Save />
-          <BumpkinProfile />
+          <BumpkinProfile isFullUser={isFullUser} />
           <Settings isFarming={isFarming} />
         </>
       )}
