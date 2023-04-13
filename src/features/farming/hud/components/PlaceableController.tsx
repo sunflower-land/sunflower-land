@@ -62,7 +62,6 @@ export const PlaceableController: React.FC = () => {
       return;
     }
 
-    // TODO - include bumpkin level and or expansions
     let hasRequirements = false;
     if (requirements) {
       const hasSFL = gameState.context.state.balance.gte(
