@@ -71,6 +71,7 @@ interface Props {
   boost?: string;
   requirements?: RequirementsProps;
   actionView?: JSX.Element;
+  hideDescription?: boolean;
 }
 
 /**
@@ -85,6 +86,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   boost,
   requirements,
   actionView,
+  hideDescription,
 }: Props) => {
   const getStock = () => {
     if (!stock) return <></>;
@@ -114,7 +116,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     );
   };
 
-  const getItemDetail = () => {
+  const getItemDetail = ({ hideDescription }: { hideDescription: boolean }) => {
     const item = ITEM_DETAILS[details.item];
     const icon = item.image;
     const title = details.quantity
@@ -132,9 +134,11 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
           <span className="sm:text-center">{title}</span>
         </div>
-        <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
-          {description}
-        </span>
+        {!hideDescription && (
+          <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
+            {description}
+          </span>
+        )}
       </>
     );
   };
@@ -145,7 +149,9 @@ export const CraftingRequirements: React.FC<Props> = ({
     return (
       <div className="flex flex-col space-y-1 mt-2">
         <div className="flex justify-start sm:justify-center">
-          <Label type="info">{boost}</Label>
+          <Label type="info" className="text-center">
+            {boost}
+          </Label>
         </div>
       </div>
     );
@@ -218,7 +224,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     <div className="flex flex-col justify-center">
       <div className="flex flex-col justify-center px-1 py-0">
         {getStock()}
-        {getItemDetail()}
+        {getItemDetail({ hideDescription })}
         {getBoost()}
         {getRequirements()}
       </div>

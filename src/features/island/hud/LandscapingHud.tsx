@@ -203,6 +203,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
           child.send("SELECT", {
             action: placeEvent(selected),
             placeable: selected,
+            multiple: true,
           });
         }}
       />

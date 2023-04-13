@@ -77,10 +77,8 @@ export const PlaceableController: React.FC = () => {
       hasRequirements = hasSFL && hasIngredients;
     }
 
-    const placeMore =
-      placeable in COLLECTIBLES_DIMENSIONS && requirements
-        ? hasRequirements
-        : available.gt(1);
+    const placeMore = requirements ? hasRequirements : available.gt(1);
+
     if (placeMore) {
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
       const collisionDetected = detectCollision(

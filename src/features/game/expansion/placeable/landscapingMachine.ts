@@ -49,6 +49,8 @@ export interface Context {
   collisionDetected: boolean;
   placeable?: BuildingName | CollectibleName;
 
+  multiple?: boolean;
+
   origin?: Coordinates;
   requirements: {
     sfl: Decimal;
@@ -65,6 +67,7 @@ type SelectEvent = {
     ingredients: Inventory;
   };
   collisionDetected: boolean;
+  multiple?: boolean;
 };
 
 type UpdateEvent = {
@@ -202,6 +205,7 @@ export const landscapingMachine = createMachine<
                 },
                 action: (_, event) => event.action,
                 requirements: (_, event) => event.requirements,
+                multiple: (_, event) => event.multiple,
               }),
             },
           },
@@ -221,9 +225,9 @@ export const landscapingMachine = createMachine<
               {
                 target: "placing",
                 // They have more to place
-                cond: (_, e) => {
+                cond: (context, e) => {
                   console.log("Placing", e);
-                  return !!e.nextOrigin;
+                  return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
                   sendParent(

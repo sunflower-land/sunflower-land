@@ -56,6 +56,7 @@ export const Decorations: React.FC<Props> = ({ onClose }) => {
         sfl: selected.sfl,
         ingredients: selected.ingredients,
       },
+      multiple: true,
     });
 
     onClose();
