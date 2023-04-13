@@ -25,7 +25,6 @@ export const GoblinDigging: React.FC = () => {
       date.getUTCSeconds());
 
   const playing =
-    gameState.matches("playing") ||
     gameState.matches("playingGuestGame") ||
     gameState.matches("playingFullGame");
 

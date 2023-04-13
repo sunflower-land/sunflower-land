@@ -22,8 +22,7 @@ export const PumpkinPlaza: React.FC = () => {
   const [gameState] = useActor(gameService);
   const [scrollIntoView] = useScrollIntoView();
 
-  const autosaving =
-    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
+  const autosaving = gameState.matches("autosaving");
 
   useLayoutEffect(() => {
     // Start with island centered

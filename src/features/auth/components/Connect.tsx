@@ -4,7 +4,6 @@ import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
 import { useActor } from "@xstate/react";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { GUEST_MODE_COMPLETE } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -116,7 +115,7 @@ export const Connect: React.FC = () => {
         >
           <div className="px-8">
             <img
-              src={CROP_LIFECYCLE["Sunflower"].crop}
+              src={SUNNYSIDE.icons.player}
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
             />
             {guestText}

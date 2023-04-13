@@ -46,8 +46,7 @@ export const Helios: React.FC = () => {
 
   const eggs = state.easterHunt?.eggs || [];
   const heliosEggs = eggs.filter((egg) => egg && egg.island === "Helios");
-  const autosaving =
-    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
+  const autosaving = gameState.matches("autosaving");
 
   const [scrollIntoView] = useScrollIntoView();
 

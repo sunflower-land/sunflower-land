@@ -30,7 +30,6 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
     if (isNaN(landId) || landId <= 0) return;
 
     const playing =
-      gameState.matches("playing") ||
       gameState.matches("playingGuestGame") ||
       gameState.matches("playingFullGame");
 

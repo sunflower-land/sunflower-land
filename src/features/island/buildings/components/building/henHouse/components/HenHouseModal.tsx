@@ -32,8 +32,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const autosaving =
-    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
+  const autosaving = gameState.matches("autosaving");
 
   const inventory = state.inventory;
 

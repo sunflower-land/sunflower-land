@@ -34,7 +34,6 @@ export const UpcomingExpansion: React.FC = () => {
   const isFullUser = user.type === "FULL";
 
   const playing =
-    gameState.matches("playing") ||
     gameState.matches("playingGuestGame") ||
     gameState.matches("playingFullGame");
 

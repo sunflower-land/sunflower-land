@@ -330,14 +330,11 @@ export const Land: React.FC = () => {
     easterHunt,
   } = useSelector(gameService, (state) => state.context.state);
   const gameState = useSelector(gameService, (state) => ({
-    isAutosaving:
-      state.matches("autosaving") || state.matches("guestAutosaving"),
+    isAutosaving: state.matches("autosaving"),
     isEditing: state.matches("editing"),
     isVisiting: state.matches("visiting"),
     isPlaying:
-      state.matches("playing") ||
-      state.matches("playingGuestGame") ||
-      state.matches("playingFullGame"),
+      state.matches("playingGuestGame") || state.matches("playingFullGame"),
   }));
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;

@@ -18,8 +18,7 @@ export const Chore: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const autosaving =
-    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
+  const autosaving = gameState.matches("autosaving");
 
   const hayseedHank = gameState.context.state.hayseedHank;
   const chore = hayseedHank.chore;

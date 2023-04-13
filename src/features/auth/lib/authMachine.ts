@@ -28,11 +28,14 @@ import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
-import { createGuestAccount } from "../actions/createGuestAccount";
-import { GUEST_MODE_COMPLETE } from "features/game/lib/gameMachine";
+import {
+  createGuestAccount,
+  getGuestKey,
+  getGuestModeComplete,
+  setGuestKey,
+} from "../actions/createGuestAccount";
 
 export const ART_MODE = !CONFIG.API_URL;
-export const GUEST_KEY = "guestKey";
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -54,11 +57,6 @@ const getReferrerID = () => {
 
 const deleteFarmUrl = () =>
   window.history.pushState({}, "", window.location.pathname);
-
-const guestUser = (): GuestUser => ({
-  type: "GUEST",
-  guestKey: localStorage.getItem(GUEST_KEY),
-});
 
 type Farm = {
   farmId: number;
@@ -210,14 +208,17 @@ export const authMachine = createMachine<
     id: "authMachine",
     initial: ART_MODE ? "connected" : "idle",
     context: {
-      user: guestUser(),
+      user: {
+        type: "GUEST",
+        guestKey: getGuestKey(),
+      },
     },
     states: {
       idle: {
         id: "idle",
         always: {
           target: "signIn",
-          cond: () => !!localStorage.getItem(GUEST_MODE_COMPLETE),
+          cond: () => !!getGuestModeComplete(),
         },
         on: {
           SIGN_IN: {
@@ -339,7 +340,7 @@ export const authMachine = createMachine<
                 transactionId: context.transactionId as string,
               });
 
-              localStorage.setItem(GUEST_KEY, guestKey);
+              setGuestKey(guestKey);
             }
           },
           onDone: {
@@ -347,7 +348,7 @@ export const authMachine = createMachine<
             actions: assign({
               user: (context) => ({
                 ...context.user,
-                guestKey: localStorage.getItem(GUEST_KEY),
+                guestKey: getGuestKey(),
               }),
             }),
           },
@@ -866,12 +867,15 @@ export const authMachine = createMachine<
       assignGuestUser: assign<Context, any>({
         user: (_context, event) => ({
           type: "GUEST",
-          guestKey: localStorage.getItem(GUEST_KEY),
+          guestKey: getGuestKey(),
           web3: event.data.web3,
         }),
       }),
       refreshFarm: assign<Context, any>({
-        user: () => guestUser(),
+        user: () => ({
+          type: "GUEST",
+          guestKey: getGuestKey(),
+        }),
         visitingFarmId: undefined,
       }),
       clearSession: () => removeSession(wallet.myAccount as string),

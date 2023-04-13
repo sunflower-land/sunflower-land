@@ -18,7 +18,6 @@ import {
 import {
   ART_MODE,
   Context as AuthContext,
-  GUEST_KEY,
 } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
@@ -61,8 +60,11 @@ import Decimal from "decimal.js-light";
 import { loadGuestSession } from "../actions/loadGuestSession";
 import { guestAutosave } from "../actions/guestAutosave";
 import { choose } from "xstate/lib/actions";
-
-export const GUEST_MODE_COMPLETE = "guestModeComplete";
+import {
+  getGuestKey,
+  removeGuestKey,
+  setGuestModeComplete,
+} from "features/auth/actions/createGuestAccount";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -254,17 +256,13 @@ export type BlockchainState = {
     | "loading"
     | "loadLandToVisit"
     | "landToVisitNotFound"
-    | "loadingFullGame"
-    | "loadingGuestGame"
     | "deposited"
     | "visiting"
-    // | "gameRules"
     | "gameRules"
     | "playing"
     | "playingGuestGame"
     | "playingFullGame"
     | "autosaving"
-    | "guestAutosaving"
     | "syncing"
     | "synced"
     | "buyingSFL"
@@ -398,52 +396,31 @@ export function startGame(authContext: AuthContext) {
               cond: () => window.location.href.includes("visit"),
             },
             {
-              target: "loadingArtGame",
+              target: "playing",
               cond: () => ART_MODE,
+              actions: assign({
+                state: (_context) => OFFLINE_FARM,
+              }),
             },
-            {
-              target: "loadingGuestGame",
-              cond: () => authContext.user.type === "GUEST",
-            },
-            { target: "loadingFullGame" },
           ],
-        },
-        loadingGuestGame: {
-          entry: "setTransactionId",
           invoke: {
             src: async (context) => {
-              if (authContext.user.type === "FULL") {
-                throw new Error("Not a guest user");
+              if (authContext.user.type === "GUEST") {
+                const response = await loadGuestSession({
+                  transactionId: context.transactionId as string,
+                  guestKey: authContext.user.guestKey as string,
+                });
+
+                if (!response) throw new Error("NO_FARM");
+
+                const { game, deviceTrackerId } = response;
+
+                return {
+                  state: game,
+                  deviceTrackerId,
+                };
               }
 
-              const response = await loadGuestSession({
-                transactionId: context.transactionId as string,
-                guestKey: authContext.user.guestKey as string,
-              });
-
-              if (!response) throw new Error("NO_FARM");
-
-              const { game, deviceTrackerId } = response;
-
-              return {
-                state: game,
-                deviceTrackerId,
-              };
-            },
-            onDone: {
-              target: "notifying",
-              actions: "assignGuestGame",
-            },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
-        loadingFullGame: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context) => {
               if (!wallet.myAccount) throw new Error("No account");
 
               const user = authContext.user;
@@ -472,7 +449,7 @@ export function startGame(authContext: AuthContext) {
               if (sessionId) {
                 const fingerprint = "X";
 
-                const guestKey = localStorage.getItem(GUEST_KEY) ?? undefined;
+                const guestKey = getGuestKey() ?? undefined;
 
                 const response = await loadSession({
                   farmId,
@@ -488,8 +465,8 @@ export function startGame(authContext: AuthContext) {
                   throw new Error("NO_FARM");
                 }
 
-                localStorage.removeItem(GUEST_KEY);
-                localStorage.setItem(GUEST_MODE_COMPLETE, "true");
+                removeGuestKey();
+                setGuestModeComplete();
 
                 const {
                   game,
@@ -535,14 +512,6 @@ export function startGame(authContext: AuthContext) {
                 actions: "assignErrorMessage",
               },
             ],
-          },
-        },
-        loadingArtGame: {
-          always: {
-            target: "playing",
-            actions: assign({
-              state: (_context) => OFFLINE_FARM,
-            }),
           },
         },
         loadLandToVisit: {
@@ -665,7 +634,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             ...GAME_EVENT_HANDLERS,
             SAVE: {
-              target: "guestAutosaving",
+              target: "autosaving",
             },
             REFRESH: {
               target: "loading",
@@ -792,41 +761,20 @@ export function startGame(authContext: AuthContext) {
             ...GAME_EVENT_HANDLERS,
           },
           invoke: {
-            src: async (context, event) =>
-              saveGame(
+            src: async (context, event) => {
+              if (authContext.user.type !== "FULL") {
+                return saveGuestGame(
+                  context,
+                  event,
+                  authContext.user.guestKey as string
+                );
+              }
+
+              return saveGame(
                 context,
                 event,
                 authContext.user.farmId as number,
                 authContext.user.rawToken as string
-              ),
-            onDone: [
-              {
-                target: "playing",
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event)
-                ),
-              },
-            ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
-        guestAutosaving: {
-          entry: "setTransactionId",
-          on: {
-            ...GAME_EVENT_HANDLERS,
-          },
-          invoke: {
-            src: async (context, event) => {
-              if (authContext.user.type !== "GUEST")
-                throw new Error("Not a guest");
-
-              return saveGuestGame(
-                context,
-                event,
-                authContext.user.guestKey as string
               );
             },
             onDone: [
@@ -1136,10 +1084,6 @@ export function startGame(authContext: AuthContext) {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
           actions: [],
-        }),
-        assignGuestGame: assign<Context, any>({
-          state: (_, event) => event.data.state,
-          deviceTrackerId: (_, event) => event.data.deviceTrackerId,
         }),
         assignGame: assign<Context, any>({
           state: (_, event) => event.data.state,

@@ -2,6 +2,8 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
+export const GUEST_KEY = "guestKey";
+export const GUEST_MODE_COMPLETE = "guestModeComplete";
 
 export interface Request {
   transactionId: string;
@@ -28,3 +30,13 @@ export async function createGuestAccount(request: Request) {
 
   return guestKey;
 }
+
+export const getGuestKey = () => localStorage.getItem(GUEST_KEY);
+export const setGuestKey = (guestKey: string) =>
+  localStorage.setItem(GUEST_KEY, guestKey);
+export const removeGuestKey = () => localStorage.removeItem(GUEST_KEY);
+
+export const getGuestModeComplete = () =>
+  localStorage.getItem(GUEST_MODE_COMPLETE);
+export const setGuestModeComplete = () =>
+  localStorage.setItem(GUEST_MODE_COMPLETE, "true");

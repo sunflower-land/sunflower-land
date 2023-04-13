@@ -387,7 +387,6 @@ export const SandPlot: React.FC<{
   }
 
   const gameMachinePlaying =
-    gameState.matches("playing") ||
     gameState.matches("playingGuestGame") ||
     gameState.matches("playingFullGame");
 

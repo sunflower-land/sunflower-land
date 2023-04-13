@@ -49,7 +49,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
   playingFullGame: false,
   playingGuestGame: false,
-  guestAutosaving: false,
   playing: false,
   autosaving: false,
   syncing: true,
@@ -67,8 +66,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   visiting: false,
   loadLandToVisit: true,
   landToVisitNotFound: true,
-  loadingFullGame: true,
-  loadingGuestGame: true,
   revealing: false,
   revealed: false,
   buyingSFL: true,
@@ -95,10 +92,7 @@ const isDepositing = (state: MachineState) => state.matches("depositing");
 const isLoadingLandToVisit = (state: MachineState) =>
   state.matches("loadLandToVisit");
 const isLoadingSession = (state: MachineState) =>
-  state.matches("loading") ||
-  state.matches("loadingGuestGame") ||
-  (state.matches("loadingFullGame") &&
-    state.context.sessionId === INITIAL_SESSION);
+  state.matches("loading") && state.context.sessionId === INITIAL_SESSION;
 const isLandToVisitNotFound = (state: MachineState) =>
   state.matches("landToVisitNotFound");
 const bumpkinLevel = (state: MachineState) =>

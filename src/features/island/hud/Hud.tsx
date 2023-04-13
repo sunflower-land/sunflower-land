@@ -28,8 +28,7 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
-  const autosaving =
-    gameState.matches("autosaving") || gameState.matches("guestAutosaving");
+  const autosaving = gameState.matches("autosaving");
 
   const handleClose = () => {
     setShowDepositModal(false);
