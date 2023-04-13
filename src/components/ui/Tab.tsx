@@ -1,10 +1,14 @@
 import React from "react";
 
 import classNames from "classnames";
-import { pixelTabBorderStyle } from "features/game/lib/style";
+import {
+  pixelTabBorderStartStyle,
+  pixelTabBorderMiddleStyle,
+} from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
+  isFirstTab?: boolean;
   isActive?: boolean;
   className?: string;
   onClick?: () => void;
@@ -14,9 +18,10 @@ interface Props {
  * Light panel with border effect
  */
 export const Tab: React.FC<Props> = ({
+  isFirstTab = true,
+  isActive,
   children,
   className,
-  isActive,
   onClick,
 }) => {
   if (!isActive) {
@@ -42,7 +47,7 @@ export const Tab: React.FC<Props> = ({
     <div
       className={classNames("bg-brown-300 flex items-center px-2", className)}
       style={{
-        ...pixelTabBorderStyle,
+        ...(isFirstTab ? pixelTabBorderStartStyle : pixelTabBorderMiddleStyle),
         paddingLeft: `${PIXEL_SCALE * 2}px`,
         paddingRight: `${PIXEL_SCALE * 2}px`,
         height: `${PIXEL_SCALE * 16}px`,

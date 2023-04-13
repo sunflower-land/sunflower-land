@@ -1,4 +1,3 @@
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { login, saveSession } from "./login";
@@ -35,14 +34,13 @@ export async function oauthoriseRequest(request: Request) {
 
 export async function oauthorise(
   code: string,
-  transactionId: string
+  transactionId: string,
+  account: string
 ): Promise<{ token: string }> {
   // Remove query parameters from url
   window.history.pushState({}, "", window.location.pathname);
 
-  const address = wallet.myAccount as string;
-
-  const { token: oldToken } = await login(transactionId);
+  const { token: oldToken } = await login(transactionId, account);
 
   const { token } = await oauthoriseRequest({
     token: oldToken,
@@ -50,7 +48,7 @@ export async function oauthorise(
     transactionId,
   });
 
-  saveSession(address, { token });
+  saveSession(account, { token });
 
   return { token };
 }

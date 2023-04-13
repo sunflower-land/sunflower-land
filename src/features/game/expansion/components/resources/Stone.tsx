@@ -14,13 +14,10 @@ import {
   STONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
-import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
-import { LandExpansionRock } from "features/game/types/game";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -28,17 +25,17 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { MINE_ERRORS } from "features/game/events/landExpansion/ironMine";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useSelector } from "@xstate/react";
+import Decimal from "decimal.js-light";
 
 const HITS = 3;
 
 interface Props {
-  rockIndex: number;
-  expansionIndex: number;
+  id: string;
 }
 
-export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
+export const Stone: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
   const [errorLabel, setErrorLabel] = useState<"noPickaxe">();
@@ -54,10 +51,12 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
-  const { setToast } = useContext(ToastContext);
-  const expansion = game.context.state.expansions[expansionIndex];
-  const rock = expansion.stones?.[rockIndex] as LandExpansionRock;
   const tool = "Pickaxe";
+
+  const gameState = useSelector(gameService, (state) => ({
+    resource: state.context.state.stones[id],
+    toolCount: state.context.state.inventory[tool] ?? new Decimal(0),
+  }));
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -76,7 +75,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
   }, []);
 
   // Users will need to refresh to strike the rock again
-  const mined = !canMine(rock, STONE_RECOVERY_TIME);
+  const mined = !canMine(gameState.resource, STONE_RECOVERY_TIME);
 
   useUiRefresher({ active: mined });
 
@@ -88,8 +87,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     setShowPopover(false);
   };
 
-  const hasPickaxes =
-    selectedItem === tool && game.context.state.inventory[tool]?.gte(1);
+  const hasPickaxes = selectedItem === tool && gameState.toolCount.gte(1);
 
   const strike = () => {
     if (mined) {
@@ -122,8 +120,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
 
     try {
       const newState = gameService.send("stoneRock.mined", {
-        index: rockIndex,
-        expansionIndex,
+        index: id,
       });
 
       if (!newState.matches("hoarding")) {
@@ -139,14 +136,9 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 width: `${PIXEL_SCALE * 10}px`,
               }}
             />
-            <span className="text-sm text-white">{`+${rock.stone.amount}`}</span>
+            <span className="text-sm">{`+${gameState.resource.stone.amount}`}</span>
           </div>
         );
-
-        setToast({
-          icon: SUNNYSIDE.resource.stone,
-          content: `+${rock.stone.amount}`,
-        });
 
         await new Promise((res) => setTimeout(res, 2000));
         setCollecting(false);
@@ -156,13 +148,13 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
         displayPopover(
           <div className="flex">
             <img src={SUNNYSIDE.tools.wood_pickaxe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white">No pickaxes left</span>
+            <span className="text-xs">No pickaxes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(<span className="text-xs text-white">{e.message}</span>);
+      displayPopover(<span className="text-xs">{e.message}</span>);
     }
   };
 
@@ -182,7 +174,10 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(rock.stone.minedAt, STONE_RECOVERY_TIME);
+  const timeLeft = getTimeLeft(
+    gameState.resource.stone.minedAt,
+    STONE_RECOVERY_TIME
+  );
 
   return (
     <div
@@ -231,7 +226,7 @@ export const Stone: React.FC<Props> = ({ rockIndex, expansionIndex }) => {
                 }
               )}
             >
-              <div className="text-xxs text-white mx-1 p-1">
+              <div className="text-xxs mx-1 p-1">
                 <span>Equip {tool.toLowerCase()}</span>
               </div>
             </InnerPanel>

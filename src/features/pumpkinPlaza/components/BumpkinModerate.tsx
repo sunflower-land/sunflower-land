@@ -18,7 +18,7 @@ export const BumpkinModerate: React.FC<Props> = ({ accountId }) => {
     setIsLoading(true);
 
     await kickPlayer({
-      token: authState.context.rawToken as string,
+      token: authState.context.user.rawToken as string,
       farmId: accountId,
     });
 

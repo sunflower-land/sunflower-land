@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
 import Decimal from "decimal.js-light";
-import token from "assets/icons/token_2.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -8,7 +7,6 @@ import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Bumpkin } from "features/game/types/game";
@@ -22,7 +20,6 @@ export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop | Fruit>(
     cropsAndFruits.Sunflower
   );
-  const { setToast } = useContext(ToastContext);
   const [isSellAllModalOpen, showSellAllModal] = useState(false);
   const { gameService } = useContext(Context);
   const [
@@ -39,14 +36,6 @@ export const Crops: React.FC = () => {
     gameService.send("crop.sold", {
       crop: selected.name,
       amount: setPrecision(amount),
-    });
-    setToast({
-      icon: ITEM_DETAILS[selected.name].image,
-      content: `-${setPrecision(amount)}`,
-    });
-    setToast({
-      icon: token,
-      content: `+${setPrecision(displaySellPrice(selected).mul(amount))}`,
     });
   };
 

@@ -72,7 +72,6 @@ export type Recipe = {
 
 export async function getSessionId(
   web3: Web3,
-  account: string,
   farmId: number,
   attempts = 0
 ): Promise<string> {
@@ -84,15 +83,13 @@ export async function getSessionId(
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
-    const sessionId = await contract.methods
-      .getSessionId(farmId)
-      .call({ from: account });
+    const sessionId = await contract.methods.getSessionId(farmId).call();
 
     return sessionId;
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
-      return getSessionId(web3, account, farmId, attempts + 1);
+      return getSessionId(web3, farmId, attempts + 1);
     }
 
     throw error;
@@ -110,7 +107,7 @@ export async function getNextSessionId(
 ): Promise<string> {
   await new Promise((res) => setTimeout(res, 3000));
 
-  const sessionId = await getSessionId(web3, account, farmId);
+  const sessionId = await getSessionId(web3, farmId);
 
   // Try again
   if (sessionId === oldSessionId) {
@@ -189,7 +186,6 @@ export async function getRecipes(
 
 export async function getMintedAtBatch(
   web3: Web3,
-  account: string,
   farmId: number,
   ids: number[],
   attempts = 0
@@ -202,14 +198,14 @@ export async function getMintedAtBatch(
       address as string
     ).methods
       .getMintedAtBatch(farmId, ids)
-      .call({ from: account });
+      .call();
 
     return mintedAts;
   } catch (e) {
     const error = parseMetamaskError(e);
 
     if (attempts < 3) {
-      return getMintedAtBatch(web3, account, farmId, ids, attempts + 1);
+      return getMintedAtBatch(web3, farmId, ids, attempts + 1);
     }
 
     throw error;
@@ -229,7 +225,7 @@ export async function syncProgress({
   fee,
   expansion,
 }: SyncProgressArgs): Promise<string> {
-  const oldSessionId = await getSessionId(web3, account, farmId);
+  const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
@@ -298,7 +294,7 @@ export async function mint({
   mintId: number;
   fee: string;
 }): Promise<string> {
-  const oldSessionId = await getSessionId(web3, account, farmId);
+  const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
@@ -350,7 +346,7 @@ export async function mintCollectible({
   fee,
   mintData,
 }: MintCollectibleArgs): Promise<string> {
-  const oldSessionId = await getSessionId(web3, account, farmId);
+  const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
@@ -425,7 +421,7 @@ export async function withdrawItems({
   sfl: number;
   tax: number;
 }): Promise<string> {
-  const oldSessionId = await getSessionId(web3, account, farmId);
+  const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
@@ -507,7 +503,7 @@ export async function listTrade({
   deadline: number;
   nextSessionId: string;
 }) {
-  const oldSessionId = await getSessionId(web3, account, farmId);
+  const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
@@ -580,7 +576,7 @@ export async function cancelTrade({
   farmId: number;
   listingId: number;
 }) {
-  const oldSessionId = await getSessionId(web3, account, farmId);
+  const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
@@ -650,7 +646,7 @@ export async function purchaseTrade({
   listingId: number;
   sfl: number;
 }) {
-  const oldSessionId = await getSessionId(web3, account, farmId);
+  const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
@@ -727,7 +723,7 @@ export async function expandLand({
   resourceIds: number[];
   resourceAmounts: string[];
 }) {
-  const oldSessionId = await getSessionId(web3, account, farmId);
+  const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {

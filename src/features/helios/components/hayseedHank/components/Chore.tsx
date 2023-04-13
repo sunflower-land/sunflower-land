@@ -3,34 +3,22 @@ import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bumpkin } from "features/game/types/game";
 
-import progressBarEdge from "assets/ui/progress/transparent_bar_edge.png";
-import progressBar from "assets/ui/progress/transparent_bar_long.png";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Loading } from "features/auth/components";
 import { getProgress, isTaskComplete } from "../lib/HayseedHankTask";
-
-const PROGRESS_BAR_DIMENSIONS = {
-  width: 80,
-  height: 10,
-  innerWidth: 76,
-  innerHeight: 5,
-  innerTop: 2,
-  innerLeft: 2,
-  innerRight: 2,
-};
+import { ResizableBar } from "components/ui/ProgressBar";
 
 export const Chore: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { setToast } = useContext(ToastContext);
+
+  const autosaving = gameState.matches("autosaving");
 
   const hayseedHank = gameState.context.state.hayseedHank;
   const chore = hayseedHank.chore;
@@ -41,19 +29,12 @@ export const Chore: React.FC = () => {
   };
 
   const complete = () => {
-    getKeys(chore.reward.items).forEach((name) => {
-      setToast({
-        icon: ITEM_DETAILS[name].image,
-        content: `+${chore.reward.items[name]?.toString()}`,
-      });
-    });
-
     gameService.send("chore.completed");
 
     gameService.send("SAVE");
   };
 
-  if (!hayseedHank.progress && gameState.matches("autosaving")) {
+  if (!hayseedHank.progress && autosaving) {
     return <Loading />;
   }
 
@@ -94,12 +75,7 @@ export const Chore: React.FC = () => {
 
   const progress = getProgress(hayseedHank, bumpkin);
 
-  const progressWidth = Math.min(
-    Math.floor(
-      (PROGRESS_BAR_DIMENSIONS.innerWidth * progress) / chore.requirement
-    ),
-    PROGRESS_BAR_DIMENSIONS.innerWidth
-  );
+  const progressPercentage = Math.min(1, progress / chore.requirement) * 100;
 
   return (
     <>
@@ -110,81 +86,17 @@ export const Chore: React.FC = () => {
 
         <div className="flex items-center justify-center pt-1 w-full">
           <div className="flex items-center mt-2">
-            <div
-              className="absolute"
-              style={{
-                width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
-                height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height}px`,
+            <ResizableBar
+              percentage={progressPercentage}
+              type="progress"
+              outerDimensions={{
+                width: 80,
+                height: 10,
               }}
-            >
-              {/* Progress bar frame */}
-              <img
-                src={progressBar}
-                className="absolute"
-                style={{
-                  left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                  width: `${
-                    PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
-                  }px`,
-                  height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height}px`,
-                }}
-              />
-              <img
-                src={progressBarEdge}
-                className="absolute"
-                style={{
-                  left: `0px`,
-                  width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                  height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height}px`,
-                }}
-              />
-              <img
-                src={progressBarEdge}
-                className="absolute"
-                style={{
-                  right: `0px`,
-                  width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                  height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height}px`,
-                  transform: "scaleX(-1)",
-                }}
-              />
-              <div
-                className="absolute bg-[#193c3e]"
-                style={{
-                  top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
-                  left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                  width: `${
-                    PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth
-                  }px`,
-                  height: `${
-                    PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
-                  }px`,
-                }}
-              />
-
-              {/* Progress */}
-              <div
-                className="absolute bg-[#63c74d]"
-                style={{
-                  top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
-                  left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                  width: `${PIXEL_SCALE * progressWidth}px`,
-                  height: `${
-                    PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
-                  }px`,
-                }}
-              />
-            </div>
-            <span
-              className="text-xxs"
-              style={{
-                marginLeft: `${
-                  PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
-                }px`,
-              }}
-            >{`${setPrecision(new Decimal(progress))}/${
-              chore.requirement
-            }`}</span>
+            />
+            <span className="text-xxs ml-2">{`${setPrecision(
+              new Decimal(progress)
+            )}/${chore.requirement}`}</span>
           </div>
         </div>
       </div>

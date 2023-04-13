@@ -10,6 +10,8 @@ type Request = {
   token: string;
   captcha: string;
   transactionId: string;
+  referrerId?: number;
+  guestKey?: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -25,6 +27,8 @@ export async function signTransaction(request: Request) {
     body: JSON.stringify({
       charity: request.charity,
       captcha: request.captcha,
+      referrerId: request.referrerId,
+      guestKey: request.guestKey,
     }),
   });
 
@@ -43,6 +47,7 @@ export async function signTransaction(request: Request) {
     fee,
     bumpkinWearableIds,
     bumpkinTokenUri,
+    referrerId,
   } = await response.json();
 
   return {
@@ -52,6 +57,7 @@ export async function signTransaction(request: Request) {
     fee,
     bumpkinWearableIds,
     bumpkinTokenUri,
+    referrerId,
   };
 }
 
@@ -60,6 +66,8 @@ type CreateFarmOptions = {
   token: string;
   captcha: string;
   transactionId: string;
+  account: string;
+  guestKey?: string;
 };
 
 export async function createAccount({
@@ -67,21 +75,42 @@ export async function createAccount({
   token,
   captcha,
   transactionId,
+  account,
+  guestKey,
 }: CreateFarmOptions) {
+  const referrerId = getReferrerId();
+
   const transaction = await signTransaction({
     charity,
     token,
     captcha,
     transactionId,
+    referrerId,
+    guestKey,
   });
 
   await createNewAccount({
     ...transaction,
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account,
   });
 
-  const farm = await getNewFarm(wallet.web3Provider, wallet.myAccount);
+  await getNewFarm(wallet.web3Provider, account);
+}
 
-  return farm;
+const host = window.location.host.replace(/^www\./, "");
+const REFERRER_LS_KEY = `sb_wiz.ref-key.v.${host}-${window.location.pathname}`;
+
+export function saveReferrerId(id: string) {
+  localStorage.setItem(REFERRER_LS_KEY, id);
+}
+
+function getReferrerId() {
+  const item = localStorage.getItem(REFERRER_LS_KEY);
+
+  if (!item) {
+    return undefined;
+  }
+
+  return Number(item);
 }

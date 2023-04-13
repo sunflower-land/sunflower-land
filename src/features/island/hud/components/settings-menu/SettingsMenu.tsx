@@ -1,16 +1,15 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { CONFIG } from "lib/config";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 
-import { Context as AuthContext } from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
 
 import { Share } from "features/island/hud/components/settings-menu/Share";
 
-import { DEV_BurnLandButton } from "./DEV_BurnLandButton";
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "./howToPlay/HowToPlay";
@@ -39,7 +38,7 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
-  const { authService } = useContext(AuthContext);
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(GameContext);
 
   const [showShareModal, setShowShareModal] = useState(false);
@@ -53,6 +52,8 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
   const { openModal } = useContext(ModalContext);
+
+  const isFullUser = gameService.state.value === "playingFullGame";
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -75,7 +76,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     setLoadingOnRamp(true);
 
     // Temporarily link to sequence when adding funds. Until Wyre is ready.
-    if (authService.state.context.wallet === "SEQUENCE") {
+    if (authService.state.context.user.web3?.wallet === "SEQUENCE") {
       const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
       const sequenceWallet = await sequence.initWallet(network);
@@ -152,18 +153,17 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   {CONFIG.NETWORK === "mumbai" && (
                     <>
                       <li className="p-1">
-                        <DEV_BurnLandButton />
-                      </li>
-                      <li className="p-1">
                         <DEV_GenerateLandButton />
                       </li>
                     </>
                   )}
-                  <li className="p-1">
-                    <Button onClick={storeOnChain}>
-                      <span>Store progress on chain</span>
-                    </Button>
-                  </li>
+                  {isFullUser && (
+                    <li className="p-1">
+                      <Button onClick={storeOnChain}>
+                        <span>Store progress on chain</span>
+                      </Button>
+                    </li>
+                  )}
                   <li className="p-1">
                     <Button onClick={handleHowToPlay}>
                       <div className="flex items-center justify-center">
@@ -176,26 +176,35 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       </div>
                     </Button>
                   </li>
-                  <li className="p-1">
-                    <Button onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}>
-                      <span>Community</span>
-                    </Button>
-                  </li>
-                  <li className="p-1">
-                    <Button onClick={handleDiscordClick}>
-                      <span>Discord</span>
-                    </Button>
-                  </li>
-                  <li className="p-1">
-                    <Button onClick={handleAddMatic}>
-                      <span>Add Matic</span>
-                    </Button>
-                  </li>
-                  <li className="p-1">
-                    <Button onClick={handleAddSFL}>
-                      <span>Add SFL</span>
-                    </Button>
-                  </li>
+                  {isFullUser && (
+                    <>
+                      <li className="p-1">
+                        <Button
+                          onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}
+                        >
+                          <span>Community</span>
+                        </Button>
+                      </li>
+
+                      <li className="p-1">
+                        <Button onClick={handleDiscordClick}>
+                          <span>Discord</span>
+                        </Button>
+                      </li>
+
+                      <li className="p-1">
+                        <Button onClick={handleAddMatic}>
+                          <span>Add Matic</span>
+                        </Button>
+                      </li>
+
+                      <li className="p-1">
+                        <Button onClick={handleAddSFL}>
+                          <span>Add SFL</span>
+                        </Button>
+                      </li>
+                    </>
+                  )}
                   <li className="p-1">
                     <Button onClick={handleSettingsClick}>
                       <span>Settings</span>

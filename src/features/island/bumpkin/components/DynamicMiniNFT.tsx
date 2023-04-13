@@ -77,6 +77,7 @@ import sharkOnesie from "assets/npc-layers/shark-onesie.png";
 import frogOnesie from "assets/npc-layers/frog_onesie.png";
 import bearOnesie from "assets/npc-layers/bear_onesie.png";
 import tigerOnesie from "assets/npc-layers/tiger_onesie.png";
+import bunnyOnesie from "assets/npc-layers/bunny_onesie.png";
 
 import reindeerSuit from "assets/npc-layers/reindeer_suit.png";
 import fruitShirt from "assets/npc-layers/fruit_shirt.png";
@@ -208,6 +209,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Bear Onesie": bearOnesie,
   "Frog Onesie": frogOnesie,
   "Tiger Onesie": tigerOnesie,
+  "Bunny Onesie": bunnyOnesie,
 };
 
 export interface DynamicMiniNFTProps {

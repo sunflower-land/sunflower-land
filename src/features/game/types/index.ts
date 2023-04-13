@@ -10,6 +10,7 @@ export enum LimitedItemType {
   MutantChicken = "MutantChicken",
   SalesmanItem = "SalesmanItem",
   WarTentItem = "WarTentItem",
+  EasterEventItemName = "EasterEventItemName",
 }
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
@@ -178,6 +179,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wild Mushroom": 615,
   "Magic Mushroom": 616,
   Diamond: 617,
+  Tree: 618,
+  "Stone Rock": 619,
+  "Iron Rock": 620,
+  "Gold Rock": 621,
+  "Crop Plot": 622,
+  "Fruit Patch": 623,
+  Boulder: 624,
+  "Basic Land": 625,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -199,6 +208,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Block Buck": 718,
   "Solar Flare Ticket": 719,
   "Dawn Breaker Ticket": 720,
+  "Sunflower Supporter": 721,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -269,6 +279,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   //Golden crop event
   "Golden Crop": 924,
   "Wooden Compass": 925,
+  "Pablo The Bunny": 926,
 
   // Buildings
   Market: 1001,
@@ -336,13 +347,19 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pirate Bear": 1233,
   "Goblin Bear": 1234,
   Galleon: 1235,
-  // "": 1236,Available for use
+  "Easter Bear": 1236,
   "Dinosaur Bone": 1237,
   "Human Bear": 1238,
   "Whale Bear": 1239,
   "Valentine Bear": 1240,
   "Palm Tree": 1241,
   "Beach Ball": 1242,
+  "Easter Bush": 1243,
+  "Giant Carrot": 1244,
+  "Dirt Path": 1245,
+  Bush: 1246,
+  Fence: 1247,
+  Shrub: 1248,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

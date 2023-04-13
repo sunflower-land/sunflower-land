@@ -2,7 +2,9 @@ import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Ingredient } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
+import { CROP_SEEDS } from "features/game/types/crops";
+import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
@@ -42,7 +44,7 @@ interface HarvestsRequirementProps {
  * @param level The level requirements.
  */
 interface RequirementsProps {
-  resources?: Ingredient[];
+  resources?: Partial<Record<InventoryItemName, Decimal>>;
   sfl?: Decimal;
   showSflIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
@@ -57,7 +59,7 @@ interface RequirementsProps {
  * @param stock The stock of the item available to craft.  Undefined if the stock is unlimited.
  * @param isLimitedItem true if the item quantity is limited to a certain number in the blockchain, else false. Defaults to false.
  * @param details The item details.
- * @param boosts The available boosts of the item.
+ * @param boost The available boost of the item.
  * @param requirements The item quantity requirement.
  * @param actionView The view for displaying the crafting action.
  */
@@ -66,7 +68,7 @@ interface Props {
   stock?: Decimal;
   isLimitedItem?: boolean;
   details: ItemDetailsProps;
-  boosts?: string[];
+  boost?: string;
   requirements?: RequirementsProps;
   actionView?: JSX.Element;
 }
@@ -80,7 +82,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   stock,
   isLimitedItem = false,
   details,
-  boosts = [],
+  boost,
   requirements,
   actionView,
 }: Props) => {
@@ -89,7 +91,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     if (stock.lessThanOrEqualTo(0)) {
       return (
-        <div className="flex justify-center -mt-1.5 mb-1.5">
+        <div className="flex justify-center mt-0 sm:mb-1">
           <Label type="danger">Sold out</Label>
         </div>
       );
@@ -97,11 +99,14 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     const inventoryCount = gameState.inventory[details.item] ?? new Decimal(0);
     const limit = INITIAL_STOCK(gameState)[details.item];
+    const isSeed =
+      details.item in FRUIT_SEEDS() || details.item in CROP_SEEDS();
     const isInventoryFull =
-      limit === undefined ? false : inventoryCount.greaterThan(limit);
+      isSeed &&
+      (limit === undefined ? false : inventoryCount.greaterThan(limit));
 
     return (
-      <div className="flex justify-center -mt-1.5 mb-1.5">
+      <div className="flex justify-center mt-0 sm:mb-1">
         <Label type={isInventoryFull ? "danger" : "info"}>
           {`${stock} ${isLimitedItem ? "left" : "in stock"}`}
         </Label>
@@ -119,7 +124,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex space-x-2 justify-start mb-1 items-center sm:flex-col-reverse md:space-x-0">
+        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
           {icon && (
             <div className="sm:mt-2">
               <SquareIcon icon={icon} width={14} />
@@ -127,25 +132,21 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
           <span className="sm:text-center">{title}</span>
         </div>
-        <span className="text-xs mt-1 whitespace-pre-line sm:text-center">
+        <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
           {description}
         </span>
       </>
     );
   };
 
-  const getBoosts = () => {
-    if (!boosts) return <></>;
+  const getBoost = () => {
+    if (!boost) return <></>;
 
     return (
       <div className="flex flex-col space-y-1 mt-2">
-        {boosts.map((boost, index) => {
-          return (
-            <div key={index} className="flex justify-start sm:justify-center">
-              <Label type="info">{boost}</Label>
-            </div>
-          );
-        })}
+        <div className="flex justify-start sm:justify-center">
+          <Label type="info">{boost}</Label>
+        </div>
       </div>
     );
   };
@@ -156,17 +157,18 @@ export const CraftingRequirements: React.FC<Props> = ({
     return (
       <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
         {/* Item ingredients requirements */}
-        {requirements.resources?.map((ingredient, index) => {
-          return (
+        {!!requirements.resources &&
+          getKeys(requirements.resources).map((ingredientName, index) => (
             <RequirementLabel
               key={index}
               type="item"
-              item={ingredient.item}
-              balance={gameState.inventory[ingredient.item] ?? new Decimal(0)}
-              requirement={ingredient.amount}
+              item={ingredientName}
+              balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
+              requirement={
+                (requirements.resources ?? {})[ingredientName] ?? new Decimal(0)
+              }
             />
-          );
-        })}
+          ))}
 
         {/* SFL requirement */}
         {!!requirements.sfl &&
@@ -214,10 +216,10 @@ export const CraftingRequirements: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col justify-center">
-      <div className="flex flex-col justify-center p-2 pb-0">
+      <div className="flex flex-col justify-center px-1 py-0">
         {getStock()}
         {getItemDetail()}
-        {getBoosts()}
+        {getBoost()}
         {getRequirements()}
       </div>
       {actionView}

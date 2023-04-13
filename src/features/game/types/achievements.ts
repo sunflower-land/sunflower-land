@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_EXPANSIONS } from "../lib/constants";
 import { marketRate } from "../lib/halvening";
 import { getBumpkinLevel } from "../lib/level";
 import { GameState, Inventory } from "../types/game";
@@ -114,7 +113,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   Explorer: {
     description: "Expand your land 5 times",
     progress: (gameState: GameState) =>
-      gameState.expansions.length - INITIAL_EXPANSIONS.length,
+      gameState.inventory["Basic Land"]?.toNumber() ?? 0,
     requirement: 5,
     sfl: marketRate(50),
   },

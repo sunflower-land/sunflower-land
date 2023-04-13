@@ -1,32 +1,22 @@
 import React from "react";
 
-import { getTimeLeft } from "lib/utils/time";
-import { ProgressBar } from "components/ui/ProgressBar";
-import { CROPS } from "features/game/types/crops";
-import { addNoise } from "lib/images";
-import { CROP_LIFECYCLE } from "../lib/plant";
-import { PlantedCrop } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { CropName } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { TimerPopover } from "features/island/common/TimerPopover";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "../lib/plant";
+
+export type GrowthStage = "seedling" | "halfway" | "almost" | "ready";
 
 interface Props {
-  showCropDetails: boolean;
-  showTimers: boolean;
-  isRemoving?: boolean;
-  plantedCrop?: PlantedCrop;
+  cropName?: CropName;
+  stage?: GrowthStage;
 }
 
-const CROP_NOISE_LEVEL = 0.1;
-
-const getCropImage = (imageSource: any): JSX.Element => {
+const getCropImage = (imageSource: string): JSX.Element => {
   return (
     <img
-      className="absolute"
+      className="absolute pointer-events-none"
       src={imageSource}
-      onLoad={(e) => addNoise(e.currentTarget, CROP_NOISE_LEVEL)}
       style={{
         top: `${PIXEL_SCALE * -12}px`,
         width: `${PIXEL_SCALE * 16}px`,
@@ -35,86 +25,21 @@ const getCropImage = (imageSource: any): JSX.Element => {
   );
 };
 
-export const Soil: React.FC<Props> = ({
-  plantedCrop,
-  showCropDetails,
-  isRemoving,
-  showTimers,
-}) => {
-  useUiRefresher({ active: !!plantedCrop });
+const SoilComponent: React.FC<Props> = ({ cropName, stage }) => {
+  if (!cropName || !stage) return getCropImage(SUNNYSIDE.soil.soil2);
 
-  if (!plantedCrop) {
-    return getCropImage(SUNNYSIDE.soil.soil2);
+  const lifecycle = CROP_LIFECYCLE[cropName];
+
+  switch (stage) {
+    case "seedling":
+      return getCropImage(lifecycle.seedling);
+    case "halfway":
+      return getCropImage(lifecycle.halfway);
+    case "almost":
+      return getCropImage(lifecycle.almost);
+    case "ready":
+      return getCropImage(lifecycle.ready);
   }
-
-  const { harvestSeconds } = CROPS()[plantedCrop.name];
-  const lifecycle = CROP_LIFECYCLE[plantedCrop.name];
-  const timeLeft = getTimeLeft(plantedCrop.plantedAt, harvestSeconds);
-
-  // Seedling
-  if (timeLeft > 0) {
-    const growPercentage = 100 - (timeLeft / harvestSeconds) * 100;
-    const isAlmostReady = growPercentage >= 50;
-    const isHalfway = growPercentage >= 25 && !isAlmostReady;
-
-    return (
-      <div className="relative w-full h-full">
-        {plantedCrop?.fertilisers && (
-          <div
-            className="absolute z-10"
-            style={{
-              top: `${PIXEL_SCALE * -6}px`,
-              left: `${PIXEL_SCALE * 9}px`,
-              width: `${PIXEL_SCALE * 10}px`,
-            }}
-          >
-            {plantedCrop.fertilisers.map(({ name }) => (
-              <img
-                key={name}
-                src={ITEM_DETAILS[name].image}
-                onLoad={(e) => addNoise(e.currentTarget, CROP_NOISE_LEVEL)}
-                style={{
-                  width: `${PIXEL_SCALE * 10}px`,
-                }}
-              />
-            ))}
-          </div>
-        )}
-
-        {getCropImage(
-          isAlmostReady
-            ? lifecycle.almost
-            : isHalfway
-            ? lifecycle.halfway
-            : lifecycle.seedling
-        )}
-
-        {showTimers && (
-          <div
-            className="absolute"
-            style={{
-              top: `${PIXEL_SCALE * 9}px`,
-              width: `${PIXEL_SCALE * 15}px`,
-            }}
-          >
-            <ProgressBar
-              percentage={isRemoving ? 50 : growPercentage}
-              seconds={timeLeft}
-              type={isRemoving ? "error" : "progress"}
-              formatLength="short"
-            />
-          </div>
-        )}
-
-        <TimerPopover
-          image={lifecycle.ready}
-          name={plantedCrop.name}
-          showPopover={showCropDetails}
-          timeLeft={timeLeft}
-        />
-      </div>
-    );
-  }
-
-  return getCropImage(lifecycle.ready);
 };
+
+export const Soil = React.memo(SoilComponent);

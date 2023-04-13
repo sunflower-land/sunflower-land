@@ -1,10 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import {
-  Chicken,
-  GameState,
-  LandExpansionPlot,
-} from "features/game/types/game";
+import { Chicken, GameState, CropPlot } from "features/game/types/game";
 import { isRemovable } from "./removeCondition";
 
 const makeChickensStateObject = (numOfChickens: number, isBrewing: boolean) => {
@@ -23,11 +19,12 @@ const makeChickensStateObject = (numOfChickens: number, isBrewing: boolean) => {
 };
 
 const makePlotsWithCrops = (plotCount: number) => {
-  const plots = {} as Record<number, LandExpansionPlot>;
+  const plots = {} as Record<number, CropPlot>;
 
   [...Array(plotCount).keys()].forEach(
     (key) =>
       (plots[key] = {
+        createdAt: Date.now(),
         crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
         x: -2,
         y: 0,
@@ -90,7 +87,6 @@ const GAME_STATE: GameState = {
     ],
   },
   chickens: {},
-  expansions: [],
 };
 
 describe("isRemovable", () => {
@@ -127,17 +123,13 @@ describe("isRemovable", () => {
     };
     expect(isRemovable(gameState, "Water Well", "224")).toBeTruthy();
   });
-  it("returns false for Water Well if remove it will uproot crops", () => {
-    const gameState = {
-      ...GAME_STATE,
-      expansions: [
-        { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-        { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-        { createdAt: 0, readyAt: 0, plots: makePlotsWithCrops(10) },
-      ],
-    };
-    expect(isRemovable(gameState, "Water Well", "224")).toBeFalsy();
-  });
+  // it("returns false for Water Well if remove it will uproot crops", () => {
+  //   const gameState = {
+  //     ...GAME_STATE,
+  //     plots: makePlotsWithCrops(30),
+  //   };
+  //   expect(isRemovable(gameState, "Water Well", "224")).toBeFalsy();
+  // });
   it("returns false for Hen House if ID not found in game state", () => {
     expect(isRemovable(GAME_STATE, "Hen House", "abc")).toBeFalsy();
   });

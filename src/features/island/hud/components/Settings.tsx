@@ -7,10 +7,12 @@ import settings from "assets/icons/settings.png";
 import sound_on from "assets/icons/sound_on.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bar } from "components/ui/ProgressBar";
+import { ResizableBar } from "components/ui/ProgressBar";
 import { SettingsMenu } from "./settings-menu/SettingsMenu";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
+  getEasterSong,
+  getEasterSongCount,
   getFarmingSong,
   getFarmingSongCount,
   getGoblinSong,
@@ -68,8 +70,16 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   const [songIndex, setSongIndex] = useState<number>(0);
   const musicPlayer = useRef<any>(null);
 
+  const getSongCount = () => {
+    if (onEasterIsland) {
+      return getEasterSongCount();
+    }
+    return isFarming ? getFarmingSongCount() : getGoblinSongCount();
+  };
+
+  const onEasterIsland = pathname.includes("bunny-trove");
   const handlePreviousSong = () => {
-    const songCount = isFarming ? getFarmingSongCount() : getGoblinSongCount();
+    const songCount = getSongCount();
     if (songIndex === 0) {
       setSongIndex(songCount - 1);
     } else {
@@ -78,7 +88,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   };
 
   const handleNextSong = () => {
-    const songCount = isFarming ? getFarmingSongCount() : getGoblinSongCount();
+    const songCount = getSongCount();
     if (songCount === songIndex + 1) {
       setSongIndex(0);
     } else {
@@ -86,7 +96,14 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     }
   };
 
-  const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
+  const getSong = () => {
+    if (onEasterIsland) {
+      return getEasterSong(0);
+    }
+    return isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
+  };
+
+  const song = getSong();
 
   // buttons
 
@@ -165,7 +182,10 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           left: `${PIXEL_SCALE * 3.5}px`,
         }}
       >
-        <Bar percentage={70} type={showTimers ? "progress" : "error"} />
+        <ResizableBar
+          percentage={70}
+          type={showTimers ? "progress" : "error"}
+        />
       </div>
     );
 

@@ -24,6 +24,10 @@ export const GoblinDigging: React.FC = () => {
       date.getUTCMinutes() * 60 +
       date.getUTCSeconds());
 
+  const playing =
+    gameState.matches("playingGuestGame") ||
+    gameState.matches("playingFullGame");
+
   return (
     <MapPlacement x={6} y={0} height={1} width={2}>
       <img
@@ -48,7 +52,7 @@ export const GoblinDigging: React.FC = () => {
         <img
           src={SUNNYSIDE.npcs.goblin_treasure}
           className={classNames("relative cursor-pointer hover:img-highlight", {
-            "pointer-events-none": !gameState.matches("playing"),
+            "pointer-events-none": !playing,
           })}
           style={{
             width: `${PIXEL_SCALE * 33}px`,

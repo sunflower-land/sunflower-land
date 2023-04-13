@@ -7,7 +7,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import shadow from "assets/npcs/shadow.png";
 import drillingGoblin from "assets/npcs/drilling.gif";
@@ -139,7 +138,6 @@ export const SandPlot: React.FC<{
   onMissingShovelAcknowledge: () => void;
 }> = ({ id, shownMissingShovelModal, onMissingShovelAcknowledge }) => {
   const goblinDiggingRef = useRef<SpriteSheetInstance>();
-  const { setToast } = useContext(ToastContext);
 
   const { gameService, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -211,6 +209,10 @@ export const SandPlot: React.FC<{
 
   const handleDig = () => {
     const holes = gameState.context.state.treasureIsland?.holes ?? {};
+
+    // do not allow digging the same hole twice
+    if (!canDig(holes[id]?.dugAt)) return;
+
     const holesDug = getKeys(holes).filter(
       (holeId) => !canDig(holes[holeId]?.dugAt)
     ).length;
@@ -250,11 +252,6 @@ export const SandPlot: React.FC<{
 
   const handleAcknowledgeTreasureFound = () => {
     if (!newReward?.discovered) return;
-
-    setToast({
-      icon: ITEM_DETAILS[newReward.discovered].image,
-      content: `+1`,
-    });
 
     sandPlotService.send("ACKNOWLEDGE");
     // Modal prevents hover state from resetting
@@ -389,7 +386,10 @@ export const SandPlot: React.FC<{
     );
   }
 
-  const gameMachinePlaying = gameState.matches("playing");
+  const gameMachinePlaying =
+    gameState.matches("playingGuestGame") ||
+    gameState.matches("playingFullGame");
+
   const showShovelGoblin = !idle && !dug && !noShovel;
   const showSelectBox =
     showHoverState &&

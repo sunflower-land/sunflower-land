@@ -56,7 +56,6 @@ export async function ownerOf(
 
 export async function getFarm(
   web3: Web3,
-  account: string,
   tokenId: number
 ): Promise<FarmAccount> {
   const farm = await new web3.eth.Contract(
