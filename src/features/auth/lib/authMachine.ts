@@ -217,6 +217,13 @@ export const authMachine = createMachine<
     states: {
       idle: {
         id: "idle",
+        entry: () => {
+          const referrerId = getReferrerID();
+
+          if (referrerId) {
+            saveReferrerId(referrerId);
+          }
+        },
         always: {
           target: "signIn",
           cond: () =>
@@ -233,13 +240,6 @@ export const authMachine = createMachine<
       },
       signIn: {
         id: "signIn",
-        entry: () => {
-          const referrerId = getReferrerID();
-
-          if (referrerId) {
-            saveReferrerId(referrerId);
-          }
-        },
         on: {
           CONNECT_TO_METAMASK: {
             target: "connectingToMetamask",
