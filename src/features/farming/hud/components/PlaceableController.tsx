@@ -146,7 +146,7 @@ export const PlaceableController: React.FC = () => {
           </div>
         )}
         {getKeys(requirements.ingredients).map((name) => (
-          <div className="flex mr-2">
+          <div className="flex mr-2" key={name}>
             <img src={ITEM_DETAILS[name].image} className="h-6 mr-1" />
             <p className="text-sm">
               {requirements.ingredients[name]?.toNumber()}
