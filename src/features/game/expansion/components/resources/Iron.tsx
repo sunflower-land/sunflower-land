@@ -16,13 +16,11 @@ import {
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { miningAudio, miningFallAudio } from "lib/utils/sfx";
-import { Rock } from "features/game/types/game";
 import { MINE_ERRORS } from "features/game/events/landExpansion/ironMine";
 import { canMine } from "../../lib/utils";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
@@ -30,6 +28,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import Decimal from "decimal.js-light";
 
 const HITS = 3;
 
@@ -39,7 +38,6 @@ interface Props {
 
 export const Iron: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
   const [errorLabel, setErrorLabel] = useState<"noPickaxe">();
@@ -55,9 +53,12 @@ export const Iron: React.FC<Props> = ({ id }) => {
 
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
-  const { setToast } = useContext(ToastContext);
-  const ironRock = game.context.state.iron[id] as Rock;
   const tool = "Stone Pickaxe";
+
+  const gameState = useSelector(gameService, (state) => ({
+    resource: state.context.state.iron[id],
+    toolCount: state.context.state.inventory[tool] ?? new Decimal(0),
+  }));
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -76,7 +77,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
   }, []);
 
   // Users will need to refresh to strike the iron again
-  const mined = !canMine(ironRock, IRON_RECOVERY_TIME);
+  const mined = !canMine(gameState.resource, IRON_RECOVERY_TIME);
 
   useUiRefresher({ active: mined });
 
@@ -88,8 +89,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
     setShowPopover(false);
   };
 
-  const hasPickaxes =
-    selectedItem === tool && game.context.state.inventory[tool]?.gte(1);
+  const hasPickaxes = selectedItem === tool && gameState.toolCount.gte(1);
 
   const strike = () => {
     if (mined) return;
@@ -136,14 +136,9 @@ export const Iron: React.FC<Props> = ({ id }) => {
                 width: `${PIXEL_SCALE * 10}px`,
               }}
             />
-            <span className="text-sm text-white">{`+${ironRock.stone.amount}`}</span>
+            <span className="text-sm">{`+${gameState.resource.stone.amount}`}</span>
           </div>
         );
-
-        setToast({
-          icon: iron,
-          content: `+${ironRock.stone.amount}`,
-        });
 
         await new Promise((res) => setTimeout(res, 2000));
         setCollecting(false);
@@ -153,13 +148,13 @@ export const Iron: React.FC<Props> = ({ id }) => {
         displayPopover(
           <div className="flex">
             <img src={SUNNYSIDE.tools.stone_pickaxe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white">No pickaxes left</span>
+            <span className="text-xs">No pickaxes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(<span className="text-xs text-white">{e.message}</span>);
+      displayPopover(<span className="text-xs">{e.message}</span>);
     }
   };
 
@@ -179,7 +174,10 @@ export const Iron: React.FC<Props> = ({ id }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(ironRock.stone.minedAt, IRON_RECOVERY_TIME);
+  const timeLeft = getTimeLeft(
+    gameState.resource.stone.minedAt,
+    IRON_RECOVERY_TIME
+  );
 
   return (
     <div
@@ -228,7 +226,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
                 }
               )}
             >
-              <div className="text-xxs text-white mx-1 p-1">
+              <div className="text-xxs mx-1 p-1">
                 <span>Equip {tool.toLowerCase()}</span>
               </div>
             </InnerPanel>

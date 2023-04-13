@@ -9,7 +9,6 @@ import Decimal from "decimal.js-light";
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
-import sfltoken from "assets/icons/token_2.png";
 
 import {
   GRID_WIDTH_PX,
@@ -18,14 +17,12 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import classNames from "classnames";
-import { useActor } from "@xstate/react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { Reward, Tree as ITree, Wood } from "features/game/types/game";
+import { Reward } from "features/game/types/game";
 import {
   canChop,
   CHOP_ERRORS,
@@ -36,11 +33,9 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { setPrecision } from "lib/utils/formatNumber";
+import { useSelector } from "@xstate/react";
 
 const HITS = 3;
-const tool = "Axe";
 
 const SHAKE_SHEET_FRAME_WIDTH = 448 / 7;
 const SHAKE_SHEET_FRAME_HEIGHT = 48;
@@ -54,12 +49,11 @@ interface Props {
 
 export const Tree: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem } = useContext(Context);
-  const [game] = useActor(gameService);
 
   const [showPopover, setShowPopover] = useState(true);
   const [errorLabel, setErrorLabel] = useState<"noAxe">();
   const [popover, setPopover] = useState<JSX.Element | null>();
-  const [reward, setReward] = useState<Reward | null>(null);
+  const [reward, setReward] = useState<Reward>();
   const [touchCount, setTouchCount] = useState(0);
   // When to hide the wood that pops out
   const [collecting, setCollecting] = useState(false);
@@ -70,10 +64,16 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
-  const { setToast } = useContext(ToastContext);
-  const tree = game.context.state.trees[id] as ITree;
+  const tool = "Axe";
 
-  const chopped = !canChop(tree);
+  const gameState = useSelector(gameService, (state) => ({
+    resource: state.context.state.trees[id],
+    toolCount: state.context.state.inventory[tool] ?? new Decimal(0),
+    inventory: state.context.state.inventory,
+    collectibles: state.context.state.collectibles,
+  }));
+
+  const chopped = !canChop(gameState.resource);
 
   useUiRefresher({ active: chopped });
 
@@ -90,11 +90,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  if (!tree) {
-    return null;
-  }
-  const woodObj = tree.wood as Wood;
-
   const displayPopover = async (element: JSX.Element) => {
     setPopover(element);
     setShowPopover(true);
@@ -104,14 +99,14 @@ export const Tree: React.FC<Props> = ({ id }) => {
   };
 
   const axesNeeded = getRequiredAxeAmount(
-    game.context.state.inventory,
-    game.context.state.collectibles
+    gameState.inventory,
+    gameState.collectibles
   );
-  const axeAmount = game.context.state.inventory.Axe || new Decimal(0);
 
   // Has enough axes to chop the tree
   const hasAxes =
-    (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
+    (selectedItem === "Axe" || axesNeeded.eq(0)) &&
+    gameState.toolCount.gte(axesNeeded);
 
   const shake = async () => {
     if (chopped) {
@@ -141,7 +136,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       }
 
       // increase touch count if there is a reward
-      if (woodObj.reward && canChop(tree)) {
+      if (gameState.resource.wood.reward && canChop(gameState.resource)) {
         if (touchCount < 1) {
           // Add to touch count for reward pickup
           setTouchCount((count) => count + 1);
@@ -149,7 +144,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         }
 
         // They have touched enough!
-        setReward(woodObj.reward);
+        setReward(gameState.resource.wood.reward);
 
         return;
       }
@@ -159,24 +154,10 @@ export const Tree: React.FC<Props> = ({ id }) => {
   };
 
   const onCollectReward = (success: boolean) => {
-    setReward(null);
+    setReward(undefined);
     setTouchCount(0);
-    if (success && tree) {
+    if (success) {
       chop();
-
-      if (reward?.sfl) {
-        setToast({
-          icon: sfltoken,
-          content: `+${reward.sfl.toString()}`,
-        });
-      }
-
-      reward?.items?.forEach((item) => {
-        setToast({
-          icon: ITEM_DETAILS[item.name].image,
-          content: `+${setPrecision(new Decimal(item.amount))}`,
-        });
-      });
     }
   };
 
@@ -203,14 +184,9 @@ export const Tree: React.FC<Props> = ({ id }) => {
                 width: `${PIXEL_SCALE * 11}px`,
               }}
             />
-            <span className="text-sm text-white">{`+${tree.wood.amount}`}</span>
+            <span className="text-sm">{`+${gameState.resource.wood.amount}`}</span>
           </div>
         );
-
-        setToast({
-          icon: SUNNYSIDE.resource.wood,
-          content: `+${tree.wood.amount}`,
-        });
 
         await new Promise((res) => setTimeout(res, 2000));
         setCollecting(false);
@@ -220,13 +196,13 @@ export const Tree: React.FC<Props> = ({ id }) => {
         displayPopover(
           <div className="flex">
             <img src={SUNNYSIDE.tools.axe} className="w-4 h-4 mr-2" />
-            <span className="text-xs text-white">No axes left</span>
+            <span className="text-xs">No axes left</span>
           </div>
         );
         return;
       }
 
-      displayPopover(<span className="text-xs text-white">{e.message}</span>);
+      displayPopover(<span className="text-xs">{e.message}</span>);
     }
   };
 
@@ -246,7 +222,10 @@ export const Tree: React.FC<Props> = ({ id }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(tree.wood.choppedAt, TREE_RECOVERY_TIME);
+  const timeLeft = getTimeLeft(
+    gameState.resource.wood.choppedAt,
+    TREE_RECOVERY_TIME
+  );
 
   return (
     <div
@@ -300,7 +279,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
               }
             )}
           >
-            <div className="text-xxs text-white mx-1 p-1">
+            <div className="text-xxs mx-1 p-1">
               <span>Equip {tool.toLowerCase()}</span>
             </div>
           </InnerPanel>

@@ -11,7 +11,6 @@ import Decimal from "decimal.js-light";
  */
 export async function sflBalanceOf(
   web3: Web3,
-  account: string,
   address: string,
   attempts = 0
 ): Promise<string> {
@@ -23,13 +22,13 @@ export async function sflBalanceOf(
       ) as unknown as SunflowerLandToken
     ).methods
       .balanceOf(address)
-      .call({ from: account });
+      .call();
 
     return balance;
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
-      return await sflBalanceOf(web3, account, address, attempts + 1);
+      return await sflBalanceOf(web3, address, attempts + 1);
     }
 
     throw error;

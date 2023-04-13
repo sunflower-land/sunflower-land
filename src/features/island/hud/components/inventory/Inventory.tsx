@@ -13,7 +13,8 @@ import { useLocation } from "react-router-dom";
 
 interface Props {
   state: GameState;
-  selectedItem: InventoryItemName;
+  selectedItem?: InventoryItemName;
+  isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;
   onDepositClick?: () => void;
@@ -25,6 +26,7 @@ export const Inventory: React.FC<Props> = ({
   state,
   selectedItem: selectedBasketItem,
   shortcutItem,
+  isFullUser,
   isFarming,
   isSaving,
   onPlace,
@@ -119,6 +121,7 @@ export const Inventory: React.FC<Props> = ({
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}
+        isFullUser={isFullUser}
       />
     </>
   );

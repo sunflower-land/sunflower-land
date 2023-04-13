@@ -4,10 +4,14 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { hasCompletedQuest, mintQuestItemOnChain } from "lib/blockchain/Quests";
 
-async function waitForQuest(questId: number, bumpkinId: number): Promise<void> {
+async function waitForQuest(
+  questId: number,
+  bumpkinId: number,
+  account: string
+): Promise<void> {
   const statuses = await hasCompletedQuest(
     wallet.web3Provider,
-    wallet.myAccount,
+    account,
     [questId],
     bumpkinId
   );
@@ -15,7 +19,7 @@ async function waitForQuest(questId: number, bumpkinId: number): Promise<void> {
   if (statuses[0] === false) {
     await new Promise((res) => setTimeout(res, 5000));
 
-    return waitForQuest(questId, bumpkinId);
+    return waitForQuest(questId, bumpkinId, account);
   }
 }
 
@@ -68,10 +72,12 @@ export async function mintQuestItem({
   quest,
   jwt,
   farmId,
+  account,
 }: {
   quest: QuestName;
   jwt: string;
   farmId: number;
+  account: string;
 }) {
   await new Promise((res) => setTimeout(res, 1000));
 
@@ -84,14 +90,14 @@ export async function mintQuestItem({
 
   await mintQuestItemOnChain({
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account,
     bumpkinId,
     deadline,
     questId,
     signature,
   });
 
-  await waitForQuest(questId, bumpkinId);
+  await waitForQuest(questId, bumpkinId, account);
 
   return true;
 }

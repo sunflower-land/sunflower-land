@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import smoothieShack from "assets/buildings/smoothie_shack_background.webp";
@@ -8,10 +8,8 @@ import smoothieChefMaking from "assets/npcs/smoothie_making.gif";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
-import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
@@ -30,7 +28,6 @@ export const SmoothieShack: React.FC<Props> = ({
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const { setToast } = useContext(ToastContext);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({
@@ -48,11 +45,6 @@ export const SmoothieShack: React.FC<Props> = ({
       type: "COLLECT",
       item: name,
       event: "recipe.collected",
-    });
-
-    setToast({
-      icon: ITEM_DETAILS[name as InventoryItemName].image,
-      content: "+1",
     });
   };
 

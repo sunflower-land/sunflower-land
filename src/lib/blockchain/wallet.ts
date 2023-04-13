@@ -8,7 +8,7 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 import Decimal from "decimal.js-light";
 
-export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
+export type WalletType = "METAMASK" | "SEQUENCE" | string;
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
 const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
@@ -17,7 +17,11 @@ const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
  * A wrapper of Web3 which handles retries and other common errors.
  */
 export class Wallet {
-  private web3: Web3 | null = null;
+  private web3: Web3 = new Web3(
+    CONFIG.NETWORK === "mainnet"
+      ? "https://rpc-mainnet.maticvigil.com"
+      : "https://rpc-mumbai.maticvigil.com"
+  );
 
   private account: string | null = null;
 
@@ -275,7 +279,7 @@ export class Wallet {
   }
 
   public get myAccount() {
-    return this.account as string;
+    return this.account;
   }
 
   public async getBlockNumber() {
@@ -320,7 +324,7 @@ export class Wallet {
   }
 
   public get web3Provider() {
-    return this.web3 as Web3;
+    return this.web3;
   }
 
   public async getSFLForMatic(matic: string) {

@@ -38,6 +38,7 @@ async function loadMetadata(id: number) {
 
 type GetStateArgs = {
   farmAddress: string;
+  account: string;
   id: number;
 };
 
@@ -59,7 +60,7 @@ export type LimitedItemRecipeWithMintedAt = Recipe & {
 
 export async function getGameOnChainState({
   farmAddress,
-  id,
+  account,
 }: GetStateArgs): Promise<{
   game: GameState;
   bumpkin?: OnChainBumpkin;
@@ -68,17 +69,9 @@ export async function getGameOnChainState({
     return { game: EMPTY };
   }
 
-  const balance = await sflBalanceOf(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmAddress
-  );
-  const balances = await getInventoryBalances(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmAddress
-  );
-  const bumpkins = await loadBumpkins(wallet.web3Provider, wallet.myAccount);
+  const balance = await sflBalanceOf(wallet.web3Provider, farmAddress);
+  const balances = await getInventoryBalances(wallet.web3Provider, farmAddress);
+  const bumpkins = await loadBumpkins(wallet.web3Provider, account);
 
   const inventory = balancesToInventory(balances);
 
@@ -95,6 +88,7 @@ export async function getGameOnChainState({
 
 export async function getOnChainState({
   farmAddress,
+  account,
   id,
 }: GetStateArgs): Promise<{
   game: GameState;
@@ -106,25 +100,12 @@ export async function getOnChainState({
     return { game: EMPTY, owner: "", mintedAtTimes: {} };
   }
 
-  const balanceFn = sflBalanceOf(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmAddress
-  );
-  const balancesFn = getInventoryBalances(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmAddress
-  );
-  const farmFn = getFarm(wallet.web3Provider, wallet.myAccount, id);
-  const bumpkinFn = loadBumpkins(wallet.web3Provider, wallet.myAccount);
+  const balanceFn = sflBalanceOf(wallet.web3Provider, farmAddress);
+  const balancesFn = getInventoryBalances(wallet.web3Provider, farmAddress);
+  const farmFn = getFarm(wallet.web3Provider, id);
+  const bumpkinFn = loadBumpkins(wallet.web3Provider, account);
 
-  const mintedAtsFn = getMintedAtBatch(
-    wallet.web3Provider,
-    wallet.myAccount,
-    id,
-    RECIPES_IDS
-  );
+  const mintedAtsFn = getMintedAtBatch(wallet.web3Provider, id, RECIPES_IDS);
 
   // Promise all
   const [balance, balances, farm, mintedAts, bumpkins] = await Promise.all([
@@ -162,7 +143,6 @@ export async function getTreasuryItems() {
 
   const treasuryItems = await getInventoryBalances(
     wallet.web3Provider,
-    wallet.myAccount,
     CONFIG.TREASURY_ADDRESS
   );
 

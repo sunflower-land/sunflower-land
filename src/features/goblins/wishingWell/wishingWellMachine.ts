@@ -117,7 +117,9 @@ export const wishingWellMachine = createMachine<
       loading: {
         invoke: {
           src: async () => {
-            const well = await loadWishingWell();
+            if (!wallet.myAccount) throw new Error("No account");
+
+            const well = await loadWishingWell(wallet.myAccount);
 
             return { state: well };
           },
@@ -161,6 +163,8 @@ export const wishingWellMachine = createMachine<
       wishing: {
         invoke: {
           src: async () => {
+            if (!wallet.myAccount) throw new Error("No account");
+
             await wish(wallet.web3Provider, wallet.myAccount);
           },
           onDone: {
@@ -227,9 +231,12 @@ export const wishingWellMachine = createMachine<
       granting: {
         entry: "setTransactionId",
         invoke: {
-          src: async (context, event) => {
+          src: async (context) => {
+            if (!wallet.myAccount) throw new Error("No account");
+
             // Collect from well and await receipt
             const receipt: any = await collectFromWell(
+              wallet.myAccount,
               context.transaction as SignedTransaction
             );
 
@@ -256,7 +263,7 @@ export const wishingWellMachine = createMachine<
               wallet: context.wallet as string,
             });
 
-            const well = await loadWishingWell();
+            const well = await loadWishingWell(wallet.myAccount);
 
             return {
               state: well,

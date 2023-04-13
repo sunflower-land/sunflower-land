@@ -129,8 +129,10 @@ export function hasValidSession(): boolean {
   return false;
 }
 
-export async function login(transactionId: string): Promise<{ token: string }> {
-  const address = wallet.myAccount as string;
+export async function login(
+  transactionId: string,
+  address: string
+): Promise<{ token: string }> {
   const session = getSession(address);
 
   if (session) {

@@ -15,7 +15,6 @@ export type ItemSupply = Record<InventoryItemName, Decimal>;
 
 async function loadSupplyBatch(
   web3: Web3,
-  account: string,
   ids: number[],
   attempts = 0
 ): Promise<string[]> {
@@ -29,24 +28,24 @@ async function loadSupplyBatch(
       ) as unknown as SunflowerLandInventory
     ).methods
       .totalSupplyBatch(ids)
-      .call({ from: account });
+      .call();
 
     return supplies;
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
-      return loadSupplyBatch(web3, account, ids, attempts + 1);
+      return loadSupplyBatch(web3, ids, attempts + 1);
     }
 
     throw error;
   }
 }
 
-export async function totalSupply(web3: Web3, account: string) {
+export async function totalSupply(web3: Web3) {
   const ids = Object.values(KNOWN_IDS);
   const names = Object.keys(KNOWN_IDS) as InventoryItemName[];
 
-  const supplies: string[] = await loadSupplyBatch(web3, account, ids);
+  const supplies: string[] = await loadSupplyBatch(web3, ids);
 
   return supplies.reduce(
     (items, supply, index) => ({
@@ -57,18 +56,13 @@ export async function totalSupply(web3: Web3, account: string) {
   );
 }
 
-export async function getInventorySupply(
-  web3: Web3,
-  account: string,
-  ids: number[]
-) {
-  const supply = await loadSupplyBatch(web3, account, ids);
+export async function getInventorySupply(web3: Web3, ids: number[]) {
+  const supply = await loadSupplyBatch(web3, ids);
   return supply.map(Number);
 }
 
 export async function getInventoryBalances(
   web3: Web3,
-  account: string,
   address: string,
   attempts = 0
 ): Promise<string[]> {
@@ -81,13 +75,13 @@ export async function getInventoryBalances(
       ) as unknown as SunflowerLandInventory
     ).methods
       .balanceOfBatch(batchAccounts, IDS)
-      .call({ from: account });
+      .call();
 
     return balances;
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {
-      return getInventoryBalances(web3, account, address, attempts + 1);
+      return getInventoryBalances(web3, address, attempts + 1);
     }
 
     throw error;
@@ -96,7 +90,6 @@ export async function getInventoryBalances(
 
 export async function getInventoryBalance(
   web3: Web3,
-  account: string,
   farmAddress: string,
   id: number
 ): Promise<string> {

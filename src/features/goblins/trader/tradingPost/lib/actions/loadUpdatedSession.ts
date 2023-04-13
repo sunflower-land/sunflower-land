@@ -7,18 +7,19 @@ import { wallet } from "lib/blockchain/wallet";
 
 export const loadUpdatedSession = async (
   farmId: number,
+  account: string,
   farmAddress: string,
   token: string,
   transactionId: string,
   walletName: string
 ) => {
-  const onChainState = await getOnChainState({ farmAddress, id: farmId });
+  const onChainState = await getOnChainState({
+    farmAddress,
+    account,
+    id: farmId,
+  });
 
-  const sessionId = await getSessionId(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmId
-  );
+  const sessionId = await getSessionId(wallet.web3Provider, farmId);
 
   const response = await loadSession({
     farmId,

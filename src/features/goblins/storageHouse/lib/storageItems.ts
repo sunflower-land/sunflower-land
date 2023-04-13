@@ -1,4 +1,5 @@
 import { CROPS } from "features/game/types/crops";
+import { FRUIT } from "features/game/types/fruits";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { COMMODITIES } from "features/game/types/resources";
 
@@ -10,6 +11,8 @@ export function getDeliverableItems(inventory: Inventory) {
     (acc, itemName) => {
       if (
         itemName in CROPS() ||
+        itemName === "Blueberry" ||
+        itemName === "Orange" ||
         (itemName in COMMODITIES && itemName !== "Chicken")
       ) {
         return {
@@ -32,6 +35,7 @@ export function getBankItems(inventory: Inventory) {
     (acc, itemName) => {
       if (
         itemName in CROPS() ||
+        itemName in FRUIT() ||
         (itemName in COMMODITIES && itemName !== "Chicken")
       ) {
         return acc;

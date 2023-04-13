@@ -25,7 +25,7 @@ import topAndLeftEdge from "assets/land/dirt/1_0_0_1.png";
 import bottomAndLeftEdge from "assets/land/dirt/0_0_1_1.png";
 import topAndRightEdge from "assets/land/dirt/1_1_0_0.png";
 import bottomAndRightEdge from "assets/land/dirt/0_1_1_0.png";
-import { GameState } from "features/game/types/game";
+import { GameGrid } from "../placeable/lib/makeGrid";
 
 const IMAGE_PATHS: Record<string, string> = {
   top_right_bottom_left: fullEdge,
@@ -52,40 +52,27 @@ type Edges = {
   left: boolean;
 };
 
-/**
- * X + Y Coordinates
- * { 1: { 2: true} , 2: { 2: true, 3: true }}
- */
-export type Positions = Record<number, Record<number, boolean>>;
-
 interface Props {
-  plots: GameState["crops"];
+  grid: GameGrid;
 }
 
-const Renderer: React.FC<Props> = ({ plots }) => {
-  const dirtPositions: Positions = {};
-  getKeys(plots || {}).forEach((plotId) => {
-    const plot = plots[plotId];
-
-    // TODO - offset with expansion
-    if (!dirtPositions[plot.x]) {
-      dirtPositions[plot.x] = {};
-    }
-
-    dirtPositions[plot.x][plot.y] = true;
-  });
-  const xPositions = getKeys(dirtPositions).map(Number);
+const Renderer: React.FC<Props> = ({ grid }) => {
+  const xPositions = getKeys(grid).map(Number);
 
   const dirt = xPositions.flatMap((x) => {
-    const yPositions = getKeys(dirtPositions[x]).map(Number);
+    const yPositions = getKeys(grid[x]).map(Number);
 
     return yPositions.map((y) => {
+      if (grid[x][y] !== "Dirt Path") {
+        return;
+      }
+
       // It is an edge, if there is NOT a piece next to it
       const edges: Edges = {
-        top: !dirtPositions[x][y + 1],
-        right: !dirtPositions[x + 1]?.[y],
-        bottom: !dirtPositions[x][y - 1],
-        left: !dirtPositions[x - 1]?.[y],
+        top: grid[x][y + 1] !== "Dirt Path",
+        right: grid[x + 1]?.[y] !== "Dirt Path",
+        bottom: grid[x][y - 1] !== "Dirt Path",
+        left: grid[x - 1]?.[y] !== "Dirt Path",
       };
 
       let image = noEdge;

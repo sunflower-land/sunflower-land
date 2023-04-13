@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 
 import token from "assets/icons/token_2.png";
-import tokenStatic from "assets/icons/token_2.png";
 
 import { Box } from "components/ui/Box";
 import { OuterPanel } from "components/ui/Panel";
@@ -11,7 +10,6 @@ import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { Decimal } from "decimal.js-light";
 import { Stock } from "components/ui/Stock";
 import { Bean, BeanName, BEANS } from "features/game/types/beans";
@@ -29,7 +27,6 @@ interface Props {
 
 export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
   const [selected, setSelected] = useState<Bean>(BEANS()["Magic Bean"]);
-  const { setToast } = useContext(ToastContext);
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -40,23 +37,18 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
   const collectibles = state.collectibles;
 
   const price = selected.sfl;
-  const buy = (amount = 1) => {
+  const buy = () => {
     gameService.send("bean.bought", {
       bean: selected.name,
-    });
-
-    setToast({
-      icon: tokenStatic,
-      content: `-${selected.sfl?.mul(amount).toString()}`,
     });
 
     shortcutItem(selected.name);
   };
 
-  const lessFunds = (amount = 1) => {
+  const lessFunds = () => {
     if (!price) return false;
 
-    return state.balance.lessThan(price.mul(amount).toString());
+    return state.balance.lessThan(price.toString());
   };
 
   const lessIngredients = () => {
@@ -130,7 +122,7 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
             inventoryFull
           }
           className="text-xxs sm:text-xs mt-1"
-          onClick={() => buy(1)}
+          onClick={buy}
         >
           Buy 1
         </Button>
