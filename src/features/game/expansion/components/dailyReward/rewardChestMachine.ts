@@ -90,6 +90,8 @@ export const rewardChestMachine = createMachine<
     loading: {
       invoke: {
         src: async () => {
+          if (!wallet.myAccount) throw new Error("No account");
+
           const code = await getDailyCode(
             wallet.web3Provider,
             wallet.myAccount
@@ -125,6 +127,8 @@ export const rewardChestMachine = createMachine<
     unlocking: {
       invoke: {
         src: async (context) => {
+          if (!wallet.myAccount) throw new Error("No account");
+
           const nextCode = (context.code + 1) % 100;
           await trackDailyReward({
             web3: wallet.web3Provider,

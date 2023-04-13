@@ -3,7 +3,6 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Modal } from "react-bootstrap";
@@ -22,7 +21,6 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [disableBuy, setDisableBuy] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
-  const { setToast } = useContext(ToastContext);
   const { openModal } = useContext(ModalContext);
 
   const canRestock = gameState.context.state.inventory["Block Buck"]?.gte(1);
@@ -44,11 +42,6 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
   };
 
   const handleRestock = () => {
-    setToast({
-      icon: ITEM_DETAILS["Block Buck"].image,
-      content: `-1`,
-    });
-
     gameService.send("shops.restocked");
 
     () => setShowConfirm(false);

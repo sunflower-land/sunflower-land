@@ -1,16 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  Reward,
-  FERTILISERS,
-  PlantedCrop,
-  InventoryItemName,
-} from "features/game/types/game";
-import { CropName, CROPS } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { Reward, FERTILISERS, PlantedCrop } from "features/game/types/game";
+import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import { isPlotFertile } from "features/game/events/landExpansion/plant";
 import Spritesheet from "components/animation/SpriteAnimator";
@@ -32,7 +25,6 @@ interface Props {
 export const Plot: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem, showTimers } = useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
-  const { setToast } = useContext(ToastContext);
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward>();
   const clickedAt = useRef<number>(0);
@@ -78,11 +70,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
         />
       );
     }
-
-    setToast({
-      icon: ITEM_DETAILS[crop.name].image,
-      content: `+${crop.amount || 1}`,
-    });
   };
 
   const onClick = () => {
@@ -125,11 +112,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
       plantAudio.play();
 
-      setToast({
-        icon: ITEM_DETAILS[selectedItem as CropName].image,
-        content: `-1`,
-      });
-
       return;
     }
 
@@ -156,12 +138,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
     setTouchCount(0);
 
     if (success && crop) {
-      const rewardItemName = reward?.items?.[0].name;
-      const rewardItemAmount = reward?.items?.[0].amount;
-      setToast({
-        icon: ITEM_DETAILS[rewardItemName as InventoryItemName].image,
-        content: `+${rewardItemAmount}`,
-      });
       harvestCrop(crop);
     }
   };

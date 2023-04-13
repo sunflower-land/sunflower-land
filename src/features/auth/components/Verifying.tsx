@@ -4,6 +4,7 @@ import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 
 import { Context } from "../lib/Provider";
+import { wallet } from "lib/blockchain/wallet";
 
 export const Verifying: React.FC = () => {
   const { authService } = useContext(Context);
@@ -35,6 +36,7 @@ export const Verifying: React.FC = () => {
           ) {
             authService.send("VERIFIED", {
               data: {
+                account: wallet.myAccount,
                 token: e.data,
               },
             });
@@ -51,7 +53,7 @@ export const Verifying: React.FC = () => {
     <>
       <iframe
         hidden
-        src={`${CONFIG.API_URL}/auth/verify?token=${authState.context.rawToken}`}
+        src={`${CONFIG.API_URL}/auth/verify?token=${authState.context.user.rawToken}`}
         title="Yeeeet!"
         id="iframe"
       ></iframe>

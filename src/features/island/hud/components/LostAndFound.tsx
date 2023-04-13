@@ -54,6 +54,8 @@ export const LostAndFound: React.FC<Props> = ({ onClose }) => {
     setStatus("sending");
 
     try {
+      if (!wallet.myAccount) throw new Error("No account");
+
       await transferLostItems(
         wallet.web3Provider,
         wallet.myAccount,
@@ -104,7 +106,7 @@ export const LostAndFound: React.FC<Props> = ({ onClose }) => {
             className="w-6"
             alt="Personal address"
           />
-          <p className="text-sm">{shortAddress(wallet.myAccount)}</p>
+          <p className="text-sm">{shortAddress(wallet.myAccount as string)}</p>
         </div>
       </div>
       <Button

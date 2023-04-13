@@ -34,22 +34,25 @@ export const Hud: React.FC = () => {
     goblinService.send("DEPOSIT", args);
   };
 
+  const user = authService.state.context.user;
+  const isFullUser = user.type === "FULL";
+  const farmAddress = isFullUser ? user.farmAddress : undefined;
+
   const handleDepositClose = () => {
+    if (!farmAddress) return;
     setShowDepositModal(false);
   };
 
   const handleDepositOpen = () => {
+    if (!farmAddress) return;
     setShowDepositModal(true);
   };
-
-  const farmAddress = authService.state.context.address as string;
 
   return (
     <div data-html2canvas-ignore="true" aria-label="Hud">
       <>
         <Balance
           onBalanceClick={handleDepositOpen}
-          farmAddress={farmAddress}
           balance={goblinState.context.state.balance}
         />
         <GoblinInventory
@@ -59,19 +62,21 @@ export const Hud: React.FC = () => {
         {landId && <LandId landId={landId} />}
         <BumpkinAvatar bumpkin={state.bumpkin} />
         <Settings isFarming={false} />
-        <Modal show={showDepositModal} centered>
-          <CloseButtonPanel
-            title={depositDataLoaded ? "Deposit" : undefined}
-            onClose={depositDataLoaded ? handleDepositClose : undefined}
-          >
-            <Deposit
-              farmAddress={farmAddress}
-              onDeposit={handleDeposit}
-              onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-              onClose={handleDepositClose}
-            />
-          </CloseButtonPanel>
-        </Modal>
+        {farmAddress && (
+          <Modal show={showDepositModal} centered>
+            <CloseButtonPanel
+              title={depositDataLoaded ? "Deposit" : undefined}
+              onClose={depositDataLoaded ? handleDepositClose : undefined}
+            >
+              <Deposit
+                farmAddress={farmAddress}
+                onDeposit={handleDeposit}
+                onLoaded={(loaded) => setDepositDataLoaded(loaded)}
+                onClose={handleDepositClose}
+              />
+            </CloseButtonPanel>
+          </Modal>
+        )}
       </>
     </div>
   );

@@ -21,9 +21,8 @@ export const getBasketItems = (inventory: Inventory) => {
       setPrecision(new Decimal(inventory[itemName] || 0)).greaterThan(0)
     )
     .reduce((acc, itemName) => {
-      if (itemName in PLACEABLE_DIMENSIONS) {
-        return acc;
-      }
+      if (itemName in PLACEABLE_DIMENSIONS) return acc;
+      if (itemName === "Basic Land") return acc;
 
       return {
         ...acc,
@@ -33,8 +32,6 @@ export const getBasketItems = (inventory: Inventory) => {
 };
 
 export const getChestItems = (state: GameState) => {
-  const { collectibles } = state;
-
   const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
     if (itemName === "Tree") {
       return {

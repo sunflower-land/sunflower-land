@@ -13,6 +13,7 @@ type Request = {
   token: string;
   deviceTrackerId: string;
   transactionId: string;
+  account: string;
 };
 
 type Payload = {
@@ -75,6 +76,6 @@ export async function purchase(request: Request) {
     ...response.payload,
     signature: response.signature,
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: request.account,
   });
 }

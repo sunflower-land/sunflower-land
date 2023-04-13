@@ -19,13 +19,7 @@ import { Tutorial } from "../Tutorial";
 import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CountdownLabel } from "components/ui/CountdownLabel";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { InventoryItemName } from "features/game/types/game";
-import sflToken from "assets/icons/token_2.png";
-import {
-  getSeasonalTicket,
-  SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER,
-} from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 interface Props {
   onClose: () => void;
@@ -36,7 +30,6 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     !hasShownTutorial("Grub Shop")
   );
   const { gameService } = useContext(Context);
-  const { setToast } = useContext(ToastContext);
   const [
     {
       context: { state },
@@ -55,26 +48,6 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
   const handleSell = () => {
     gameService.send("grubOrder.fulfilled", {
       id: selectedId,
-    });
-
-    const item = grubShop.orders.find((order) => order.id === selectedId);
-
-    const itemDetails = ITEM_DETAILS[item?.name as InventoryItemName];
-    setToast({
-      icon: itemDetails.image,
-      content: `-1`,
-    });
-
-    setToast({
-      icon: sflToken,
-      content: `+${item?.sfl}`,
-    });
-
-    const ticket = ITEM_DETAILS[getSeasonalTicket()];
-
-    setToast({
-      icon: ticket.image,
-      content: `+${SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER}`,
     });
   };
 
@@ -192,7 +165,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                   <a
                     href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-tickets"
                     target="_blank"
-                    className="text-xxs underline text-white"
+                    className="text-xxs underline hover:text-blue-500"
                     rel="noreferrer"
                   >
                     Bonus Offer
@@ -229,7 +202,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                   <div className="flex justify-between px-1 mb-2 max-h-14 sm:max-h-full sm:flex-col sm:items-center">
                     <div className="flex justify-center space-x-1 items-center sm:justify-center">
                       <img src={token} className="h-4 sm:h-5" />
-                      <span className="text-xs text-shadow text-center">
+                      <span className="text-xs text-center">
                         {`${getOrderSellPrice(
                           state.bumpkin as Bumpkin,
                           selected

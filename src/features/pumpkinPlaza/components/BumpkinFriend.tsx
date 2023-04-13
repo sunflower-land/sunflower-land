@@ -35,7 +35,7 @@ export const BumpkinFriend: React.FC<Props> = ({
     },
   ];
 
-  if (authState.context.token?.userAccess.admin) {
+  if (authState.context.user.token?.userAccess.admin) {
     tabs.push({
       icon: SUNNYSIDE.icons.death,
       name: "Mod",

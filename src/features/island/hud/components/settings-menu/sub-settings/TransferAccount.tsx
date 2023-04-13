@@ -13,6 +13,7 @@ import { transferAccount } from "features/farming/hud/actions/transfer";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { wallet } from "lib/blockchain/wallet";
 
 interface Props {
   isOpen: boolean;
@@ -23,7 +24,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const [wallet, setWallet] = useState({ address: "" });
+  const [receiver, setReceiver] = useState({ address: "" });
   const [state, setState] = useState<"idle" | "loading" | "error" | "success">(
     "idle"
   );
@@ -32,9 +33,10 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
     setState("loading");
     try {
       await transferAccount({
-        receiver: wallet.address,
-        farmId: authState.context.farmId as number,
-        token: authState.context.rawToken as string,
+        receiver: receiver.address,
+        farmId: authState.context.user.farmId as number,
+        token: authState.context.user.rawToken as string,
+        account: wallet.myAccount as string,
       });
       setState("success");
     } catch {
@@ -62,8 +64,8 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           className="text-center mb-2"
         >
           {`Your Account #${
-            authState.context.farmId as number
-          } has been transferred to: ${wallet.address}`}
+            authState.context.user.farmId as number
+          } has been transferred to: ${receiver.address}`}
           !
         </span>
         <Button onClick={handleContinue}>Continue</Button>
@@ -96,8 +98,8 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           type="text"
           name="farmId"
           className="text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2"
-          value={wallet.address}
-          onChange={(e) => setWallet({ address: e.target.value })}
+          value={receiver.address}
+          onChange={(e) => setReceiver({ address: e.target.value })}
         />
         <div className="flex items-start">
           <img
@@ -113,7 +115,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
         <Button
           className="mt-2"
           onClick={transfer}
-          disabled={!isAddress(wallet.address.toLowerCase())}
+          disabled={!isAddress(receiver.address.toLowerCase())}
         >
           Transfer
         </Button>

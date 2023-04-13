@@ -38,11 +38,11 @@ const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
   );
 };
 
-const selectProvider = (state: MachineState) => state.context.provider;
-const selectFarmId = (state: MachineState) => state.context.farmId;
+const selectProvider = (state: MachineState) =>
+  state.context.user.web3?.provider;
+const selectFarmId = (state: MachineState) => state.context.user.farmId;
 const selectState = (state: MachineState) => ({
   isAuthorised: state.matches({ connected: "authorised" }),
-  isVisitingContributor: state.matches({ connected: "visitingContributor" }),
   isVisiting: state.matches("visiting"),
 });
 
@@ -88,8 +88,7 @@ export const Navigation: React.FC = () => {
   }, [provider]);
 
   useEffect(() => {
-    const _showGame =
-      state.isAuthorised || state.isVisitingContributor || state.isVisiting;
+    const _showGame = state.isAuthorised || state.isVisiting;
 
     // TODO: look into this further
     // This is to prevent a modal clash when the authmachine switches
@@ -117,7 +116,7 @@ export const Navigation: React.FC = () => {
             )}
 
             <Route path="/visit/*" element={<LandExpansion key="visit" />} />
-            <Route path="/land/:id/*" element={<LandExpansion key="land" />} />
+            <Route path="/land/:id?/*" element={<LandExpansion key="land" />} />
             <Route path="/retreat">
               <Route
                 index

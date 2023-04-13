@@ -316,6 +316,8 @@ const selectGameState = (state: MachineState) => state.context.state;
 const isAutosaving = (state: MachineState) => state.matches("autosaving");
 const isEditing = (state: MachineState) => state.matches("editing");
 const isVisiting = (state: MachineState) => state.matches("visiting");
+const isPlaying = (state: MachineState) =>
+  state.matches("playingGuestGame") || state.matches("playingFullGame");
 
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
@@ -338,6 +340,7 @@ export const Land: React.FC = () => {
   const autosaving = useSelector(gameService, isAutosaving);
   const editing = useSelector(gameService, isEditing);
   const visiting = useSelector(gameService, isVisiting);
+  const playing = useSelector(gameService, isPlaying);
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -406,7 +409,7 @@ export const Land: React.FC = () => {
           y={boatCoordinates.y}
         />
 
-        <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
+        {playing && <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />}
 
         {editing && <Placeable />}
       </div>

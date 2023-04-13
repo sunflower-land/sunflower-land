@@ -5,7 +5,6 @@ import { Modal } from "react-bootstrap";
 
 import token from "src/assets/icons/token_2.png";
 import { Context } from "features/game/GameProvider";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -15,7 +14,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 export const Airdrop: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { setToast } = useContext(ToastContext);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -32,20 +30,6 @@ export const Airdrop: React.FC = () => {
     gameService.send("airdrop.claimed", {
       id: airdrop.id,
     });
-
-    itemNames.forEach((name) => {
-      setToast({
-        icon: ITEM_DETAILS[name].image,
-        content: `+${airdrop.items[name]?.toString()}`,
-      });
-    });
-
-    if (airdrop.sfl) {
-      setToast({
-        icon: token,
-        content: `+${airdrop.sfl.toString()}`,
-      });
-    }
 
     setShowModal(false);
   };

@@ -32,6 +32,8 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
+  const autosaving = gameState.matches("autosaving");
+
   const inventory = state.inventory;
 
   // V1 may have ones without coords
@@ -90,8 +92,6 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const isSaving = gameState.matches("autosaving");
-
   const Details = () => {
     if (selectedChicken === "buy") {
       return (
@@ -119,11 +119,11 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               </div>
             </div>
             <Button
-              disabled={!canBuyChicken || isSaving}
+              disabled={!canBuyChicken || autosaving}
               className="text-xs mt-3 whitespace-nowrap"
               onClick={handleBuy}
             >
-              {isSaving ? "Saving..." : "Buy"}
+              {autosaving ? "Saving..." : "Buy"}
             </Button>
           </>
         </div>
@@ -148,9 +148,9 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           <Button
             className="text-xs mt-3 whitespace-nowrap"
             onClick={handlePlace}
-            disabled={!canPlaceLazyChicken || isSaving}
+            disabled={!canPlaceLazyChicken || autosaving}
           >
-            {isSaving ? "Saving..." : "Place"}
+            {autosaving ? "Saving..." : "Place"}
           </Button>
         </div>
       );
