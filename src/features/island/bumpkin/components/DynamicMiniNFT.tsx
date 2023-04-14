@@ -504,3 +504,42 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
     </>
   );
 };
+
+export const NPCFixed: React.FC<DynamicMiniNFTProps & { width: number }> = ({
+  body,
+  shirt,
+  pants,
+  hair,
+  width,
+}) => {
+  const parts = [
+    PARTS[body],
+    PARTS[shirt as BumpkinShirt],
+    PARTS[pants as BumpkinPant],
+    PARTS[hair as BumpkinHair],
+  ];
+
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{
+        imageRendering: "pixelated" as const,
+        width: `${width}px`,
+        height: `${width}px`,
+      }}
+    >
+      {parts.map((sheet, index) => (
+        <img
+          key={index}
+          src={sheet}
+          className="block absolute"
+          style={{
+            transform: "scale(9)",
+            top: `${PIXEL_SCALE * 6}px`,
+            left: "100%",
+          }}
+        />
+      ))}
+    </div>
+  );
+};

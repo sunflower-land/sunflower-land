@@ -13,12 +13,11 @@ import {
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { Equipped } from "features/game/types/bumpkin";
-import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
-import { Tutorial } from "./Tutorial";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ConversationName } from "features/game/types/conversations";
 import { Conversation } from "features/farming/mail/components/Conversation";
 import { Panel } from "components/ui/Panel";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   isOpen: boolean;
@@ -50,16 +49,7 @@ export const FirePitModal: React.FC<Props> = ({
       firePitRecipes[0]
   );
 
-  const bumpkinParts: Partial<Equipped> = {
-    body: "Beige Farmer Potion",
-    hair: "Buzz Cut",
-    pants: "Farmer Pants",
-    shirt: "Yellow Farmer Shirt",
-    coat: "Chef Apron",
-    tool: "Farmer Pitchfork",
-    background: "Farm Background",
-    shoes: "Black Farmer Boots",
-  };
+  const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.bruce;
 
   if (conversation) {
     return (

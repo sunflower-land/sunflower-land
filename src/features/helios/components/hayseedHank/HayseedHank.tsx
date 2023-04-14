@@ -14,6 +14,7 @@ import { CONVERSATIONS } from "features/game/types/conversations";
 import { Panel } from "components/ui/Panel";
 import { Conversation } from "features/farming/mail/components/Conversation";
 import { Chore } from "./components/Chore";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -93,13 +94,7 @@ export const HayseedHank: React.FC = () => {
         ) : (
           <CloseButtonPanel
             title={"Ready to work?"}
-            bumpkinParts={{
-              body: "Light Brown Farmer Potion",
-              shirt: "Red Farmer Shirt",
-              pants: "Brown Suspenders",
-              hair: "Sun Spots",
-              tool: "Farmer Pitchfork",
-            }}
+            bumpkinParts={NPC_WEARABLES.hank}
             onClose={() => setIsOpen(false)}
           >
             <Chore onClose={() => setIsOpen(false)} />

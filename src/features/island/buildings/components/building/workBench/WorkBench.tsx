@@ -15,6 +15,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Conversation } from "features/farming/mail/components/Conversation";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
@@ -86,17 +87,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={handleClose}>
         {conversationId ? (
-          <Panel
-            bumpkinParts={{
-              body: "Light Brown Farmer Potion",
-              hair: "Blacksmith Hair",
-              pants: "Lumberjack Overalls",
-              shirt: "SFL T-Shirt",
-              tool: "Hammer",
-              background: "Farm Background",
-              shoes: "Brown Boots",
-            }}
-          >
+          <Panel bumpkinParts={NPC_WEARABLES.blacksmith}>
             <Conversation conversationId={conversationId} />
           </Panel>
         ) : (

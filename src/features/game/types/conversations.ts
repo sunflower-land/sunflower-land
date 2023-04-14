@@ -5,6 +5,7 @@ import chores from "assets/tutorials/chores.png";
 import crafting from "assets/tutorials/crafting.png";
 
 import { InventoryItemName } from "./game";
+import { NPCName } from "lib/npcs";
 
 export type ConversationName =
   | "betty-intro"
@@ -24,7 +25,7 @@ type Conversation = {
   reward?: {
     items: Partial<Record<InventoryItemName, number>>;
   };
-  from: "betty" | "bruce" | "hank" | "player" | "blacksmith";
+  from: NPCName | "player";
 };
 
 export const CONVERSATIONS: Record<ConversationName, Conversation> = {
@@ -65,7 +66,7 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
     from: "hank",
   },
   "betty-intro": {
-    headline: "Welcome to the Farmer's Market",
+    headline: "Parsnips, Potatoes, Pumpkins...",
     content: [
       {
         text: "Howdy y'all! Welcome to the Farmer's Market.",

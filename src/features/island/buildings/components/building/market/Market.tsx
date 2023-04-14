@@ -14,6 +14,7 @@ import { useActor } from "@xstate/react";
 import { Conversation } from "features/farming/mail/components/Conversation";
 import { CONVERSATIONS } from "features/game/types/conversations";
 import { Panel } from "components/ui/Panel";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -81,17 +82,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         {conversationId ? (
-          <Panel
-            bumpkinParts={{
-              body: "Beige Farmer Potion",
-              hair: "Rancher Hair",
-              pants: "Farmer Overalls",
-              shirt: "Red Farmer Shirt",
-              tool: "Parsnip",
-              background: "Farm Background",
-              shoes: "Black Farmer Boots",
-            }}
-          >
+          <Panel bumpkinParts={NPC_WEARABLES.betty}>
             <Conversation conversationId={conversationId} />
           </Panel>
         ) : (

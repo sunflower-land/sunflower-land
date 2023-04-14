@@ -1,7 +1,6 @@
 import React, { SyntheticEvent, useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
-import { Modal } from "react-bootstrap";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -10,8 +9,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
-import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
-import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -19,6 +16,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { makeBulkBuyAmount } from "../../market/lib/makeBulkBuyAmount";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   isOpen: boolean;
@@ -35,15 +33,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     },
   ] = useActor(gameService);
 
-  const bumpkinParts: Partial<Equipped> = {
-    body: "Light Brown Farmer Potion",
-    hair: "Blacksmith Hair",
-    pants: "Lumberjack Overalls",
-    shirt: "SFL T-Shirt",
-    tool: "Hammer",
-    background: "Farm Background",
-    shoes: "Brown Boots",
-  };
+  const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.blacksmith;
 
   const selected = WORKBENCH_TOOLS()[selectedName];
   const inventory = state.inventory;

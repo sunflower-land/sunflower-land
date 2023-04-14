@@ -5,10 +5,12 @@ import {
   CONVERSATIONS,
   ConversationName,
 } from "features/game/types/conversations";
-import npc from "assets/npcs/still_example.png";
 import React, { useContext, useState } from "react";
 import { Conversation } from "./Conversation";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { NPCFixed } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Mail: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -39,6 +41,7 @@ export const Mail: React.FC = () => {
       </>
     );
   }
+  console.log("Mail");
 
   return (
     <div>
@@ -49,12 +52,17 @@ export const Mail: React.FC = () => {
           <OuterPanel
             key={id}
             onClick={() => setSelected(id)}
-            className="flex cursor-pointer hover:bg-brown-200"
+            className="flex cursor-pointer hover:bg-brown-200 mb-1"
           >
-            <img src={npc} className="h-10 mr-2" />
+            <div className="h-10 mr-2">
+              <NPCFixed
+                width={PIXEL_SCALE * 16}
+                {...NPC_WEARABLES[details.from as NPCName]}
+              />
+            </div>
             <div>
-              <p>{details.headline}</p>
-              <p className="text-xs capitalize">{details.from}</p>
+              <p className="text-sm">{details.headline}</p>
+              <p className="text-xs capitalize underline">{details.from}</p>
             </div>
           </OuterPanel>
         );
