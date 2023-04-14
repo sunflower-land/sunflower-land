@@ -95,7 +95,12 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             <Conversation conversationId={conversationId} />
           </Panel>
         ) : (
-          <ShopItems onClose={() => setIsOpen(false)} />
+          <ShopItems
+            onClose={() => setIsOpen(false)}
+            hasSoldBefore={
+              !!gameState.context.state.bumpkin?.activity?.["Sunflower Sold"]
+            }
+          />
         )}
       </Modal>
     </>

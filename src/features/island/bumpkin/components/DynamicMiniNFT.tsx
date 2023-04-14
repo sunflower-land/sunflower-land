@@ -102,8 +102,11 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ConsumableName } from "features/game/types/consumables";
-import { FeedModal } from "./FeedModal";
+import { NPCModal } from "./NPCModal";
 import classNames from "classnames";
+import { useActor } from "@xstate/react";
+import { CONVERSATIONS } from "features/game/types/conversations";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type VisiblePart =
   | BumpkinBody
@@ -238,6 +241,7 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
   dress,
 }) => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const [open, setOpen] = useState(false);
 
@@ -245,6 +249,11 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
     gameService.send("bumpkin.feed", { food });
   };
 
+  const conversationId = gameState.context.state.conversations.find(
+    (id) => CONVERSATIONS[id].from === "player"
+  );
+
+  console.log({ conversationId });
   return (
     <>
       <NPC
@@ -260,7 +269,18 @@ export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
         dress={dress}
         onClick={() => setOpen(true)}
       />
-      <FeedModal
+      {conversationId && (
+        <img
+          src={SUNNYSIDE.icons.expression_chat}
+          className="absolute animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            bottom: `${PIXEL_SCALE * 26}px`,
+            right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      )}
+      <NPCModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onFeed={(food) => eat(food)}

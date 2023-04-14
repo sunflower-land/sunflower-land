@@ -7,13 +7,19 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Conversation } from "features/farming/mail/components/Conversation";
+import { ConversationName } from "features/game/types/conversations";
 
 interface Props {
   onClose: () => void;
-  conversation?: string;
+  conversation?: ConversationName;
+  hasSoldBefore?: boolean;
 }
 
-export const ShopItems: React.FC<Props> = ({ onClose, conversation }) => {
+export const ShopItems: React.FC<Props> = ({
+  onClose,
+  conversation,
+  hasSoldBefore,
+}) => {
   const [tab, setTab] = useState(0);
 
   const bumpkinParts: Partial<Equipped> = {
@@ -35,7 +41,11 @@ export const ShopItems: React.FC<Props> = ({ onClose, conversation }) => {
       bumpkinParts={bumpkinParts}
       tabs={[
         { icon: SUNNYSIDE.icons.seeds, name: "Buy" },
-        { icon: CROP_LIFECYCLE.Sunflower.crop, name: "Sell" },
+        {
+          icon: CROP_LIFECYCLE.Sunflower.crop,
+          name: "Sell",
+          unread: !hasSoldBefore,
+        },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}

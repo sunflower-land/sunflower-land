@@ -1,8 +1,15 @@
 import harvesting from "assets/tutorials/harvesting_tutorial.png";
 import firePit from "assets/tutorials/fire_pit.png";
 import chores from "assets/tutorials/chores.png";
+import { InventoryItemName } from "./game";
 
-export type ConversationName = "betty-intro" | "bruce-intro" | "hank-intro";
+export type ConversationName =
+  | "betty-intro"
+  | "bruce-intro"
+  | "hank-intro"
+  | "blacksmith-intro"
+  | "hank-chore-complete"
+  | "hungry-player";
 
 type Conversation = {
   headline: string;
@@ -10,7 +17,10 @@ type Conversation = {
     text: string;
     image?: string;
   }[];
-  from: "betty" | "bruce" | "hank";
+  reward?: {
+    items: Partial<Record<InventoryItemName, number>>;
+  };
+  from: "betty" | "bruce" | "hank" | "player" | "blacksmith";
 };
 
 export const CONVERSATIONS: Record<ConversationName, Conversation> = {
@@ -22,6 +32,19 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
       },
       {
         text: "You look like a strong Bumpkin!",
+      },
+      {
+        text: "If you complete my daily chores, I will reward you!",
+        image: chores,
+      },
+    ],
+    from: "hank",
+  },
+  "hank-chore-complete": {
+    headline: "Well done.",
+    content: [
+      {
+        text: "You can now visit Betty and trade your crops for more seeds.",
       },
       {
         text: "If you complete my daily chores, I will reward you!",
@@ -46,6 +69,15 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
     ],
     from: "betty",
   },
+  "hungry-player": {
+    headline: "My tummy is rumbling",
+    content: [
+      {
+        text: "Fed me",
+      },
+    ],
+    from: "player",
+  },
   "bruce-intro": {
     headline: "Cooking Is Pure Joy.",
     content: [
@@ -58,5 +90,24 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
       },
     ],
     from: "bruce",
+    reward: {
+      items: {
+        "Mashed Potato": 1,
+      },
+    },
+  },
+  "blacksmith-intro": {
+    headline: "Chop chop chop.",
+    content: [
+      {
+        text: "Loreum Ipsum",
+      },
+    ],
+    from: "blacksmith",
+    reward: {
+      items: {
+        Axe: 3,
+      },
+    },
   },
 };

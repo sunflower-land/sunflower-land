@@ -45,10 +45,10 @@ export function completeChore({ state }: Options): GameState {
   }
 
   // Add rewards
-  getKeys(game.hayseedHank.chore.reward.items).forEach((name) => {
+  getKeys(game.hayseedHank.chore.reward.items ?? {}).forEach((name) => {
     const previous = game.inventory[name] ?? new Decimal(0);
     game.inventory[name] = previous.add(
-      game.hayseedHank.chore.reward.items[name] ?? 0
+      game.hayseedHank.chore.reward.items?.[name] ?? 0
     );
   });
 
@@ -65,6 +65,19 @@ export function completeChore({ state }: Options): GameState {
     "Chore Completed",
     game.bumpkin.activity
   );
+
+  if (game.hayseedHank.choresCompleted === 1) {
+    game.conversations.push("hank-chore-complete");
+    game.conversations.push("betty-intro");
+  }
+
+  if (game.hayseedHank.choresCompleted === 2) {
+    game.conversations.push("bruce-intro");
+  }
+
+  if (game.hayseedHank.choresCompleted === 3) {
+    game.conversations.push("blacksmith-intro");
+  }
 
   return game;
 }

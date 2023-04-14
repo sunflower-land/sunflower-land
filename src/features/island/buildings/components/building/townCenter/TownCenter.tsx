@@ -71,10 +71,12 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       />
 
       <div
-        className="absolute"
+        className="absolute z-20"
         style={{
           top: `${PIXEL_SCALE * 16}px`,
           left: `${PIXEL_SCALE * 4}px`,
+          width: `${PIXEL_SCALE * 16}px`,
+          height: `${PIXEL_SCALE * 32}px`,
         }}
       >
         {bumpkin && (

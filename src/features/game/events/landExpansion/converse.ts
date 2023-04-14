@@ -1,4 +1,9 @@
-import { ConversationName } from "features/game/types/conversations";
+import Decimal from "decimal.js-light";
+import {
+  CONVERSATIONS,
+  ConversationName,
+} from "features/game/types/conversations";
+import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -31,13 +36,21 @@ export function endConversation({
     throw new Error("Conversation does not exist");
   }
 
+  const reward = CONVERSATIONS[conversation].reward;
+  if (reward) {
+    getKeys(reward.items).forEach((name) => {
+      const previous = game.inventory[name] ?? new Decimal(0);
+      game.inventory[name] = previous.add(reward.items[name] ?? 0);
+    });
+  }
+
   game.mailbox.read.push(conversation);
 
   // Remove it
   game.conversations = game.conversations.filter((id) => id !== action.id);
 
-  if (action.id === "hank-intro") {
-    game.conversations.push("betty-intro");
+  if (action.id === "bruce-intro") {
+    game.conversations.push("hungry-player");
   }
 
   return game;

@@ -175,16 +175,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               onClick={() => onSeedClick(name)}
               image={ITEM_DETAILS[name].image}
               showOverlay={isSeedLocked(name)}
-              overlayIcon={
-                <img
-                  src={lock}
-                  alt="locked"
-                  className="relative object-contain"
-                  style={{
-                    width: `${PIXEL_SCALE * 12}px`,
-                  }}
-                />
-              }
+              secondaryImage={isSeedLocked(name) ? lock : undefined}
               count={inventory[name]}
             />
           ))}

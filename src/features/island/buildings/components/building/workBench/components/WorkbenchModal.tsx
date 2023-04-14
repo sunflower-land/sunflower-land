@@ -28,9 +28,6 @@ interface Props {
 export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
   const { gameService, shortcutItem } = useContext(Context);
-  const [showTutorial, setShowTutorial] = useState<boolean>(
-    !hasShownTutorial("Workbench")
-  );
 
   const [
     {
@@ -47,19 +44,6 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     background: "Farm Background",
     shoes: "Brown Boots",
   };
-
-  const acknowledge = () => {
-    acknowledgeTutorial("Workbench");
-    setShowTutorial(false);
-  };
-
-  if (showTutorial) {
-    return (
-      <Modal show={isOpen} onHide={acknowledge} centered>
-        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />
-      </Modal>
-    );
-  }
 
   const selected = WORKBENCH_TOOLS()[selectedName];
   const inventory = state.inventory;
@@ -125,42 +109,40 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal centered show={isOpen} onHide={onClose}>
-      <CloseButtonPanel
-        bumpkinParts={bumpkinParts}
-        onClose={onClose}
-        tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Tools" }]}
-      >
-        <SplitScreenView
-          panel={
-            <CraftingRequirements
-              gameState={state}
-              stock={stock}
-              details={{
-                item: selectedName,
-              }}
-              requirements={{
-                sfl: price,
-                resources: selected.ingredients,
-              }}
-              actionView={Action()}
-            />
-          }
-          content={
-            <>
-              {getKeys(WORKBENCH_TOOLS()).map((toolName) => (
-                <Box
-                  isSelected={selectedName === toolName}
-                  key={toolName}
-                  onClick={() => onToolClick(toolName)}
-                  image={ITEM_DETAILS[toolName].image}
-                  count={inventory[toolName]}
-                />
-              ))}
-            </>
-          }
-        />
-      </CloseButtonPanel>
-    </Modal>
+    <CloseButtonPanel
+      bumpkinParts={bumpkinParts}
+      onClose={onClose}
+      tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Tools" }]}
+    >
+      <SplitScreenView
+        panel={
+          <CraftingRequirements
+            gameState={state}
+            stock={stock}
+            details={{
+              item: selectedName,
+            }}
+            requirements={{
+              sfl: price,
+              resources: selected.ingredients,
+            }}
+            actionView={Action()}
+          />
+        }
+        content={
+          <>
+            {getKeys(WORKBENCH_TOOLS()).map((toolName) => (
+              <Box
+                isSelected={selectedName === toolName}
+                key={toolName}
+                onClick={() => onToolClick(toolName)}
+                image={ITEM_DETAILS[toolName].image}
+                count={inventory[toolName]}
+              />
+            ))}
+          </>
+        }
+      />
+    </CloseButtonPanel>
   );
 };

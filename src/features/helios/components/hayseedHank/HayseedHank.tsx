@@ -67,11 +67,12 @@ export const HayseedHank: React.FC = () => {
         {isTaskComplete(hayseedHank, bumpkin) && (
           <img
             src={SUNNYSIDE.icons.confirm}
-            className="absolute animate-float"
+            className="absolute"
             style={{
-              width: `${PIXEL_SCALE * 4}px`,
-              bottom: `${PIXEL_SCALE * -3}px`,
-              left: `${PIXEL_SCALE * 7}px`,
+              width: `${PIXEL_SCALE * 10}px`,
+              bottom: `${PIXEL_SCALE * -7}px`,
+              left: `${PIXEL_SCALE * 3.5}px`,
+              transform: "scaleX(-1)",
             }}
           />
         )}

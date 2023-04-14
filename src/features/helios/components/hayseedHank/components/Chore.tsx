@@ -52,9 +52,9 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
           </div>
           <Label type="info">Reward</Label>
 
-          {getKeys(chore.reward.items).map((name) => (
+          {getKeys(chore.reward.items ?? {}).map((name) => (
             <div className="flex items-center mt-1" key={name}>
-              <p className="text-sm whitespace-nowrap">{`${name} x ${chore.reward.items[name]}`}</p>
+              <p className="text-sm whitespace-nowrap">{`${name} x ${chore.reward.items?.[name]}`}</p>
               <img
                 src={ITEM_DETAILS[name].image}
                 className="w-6 h-6 object-contain ml-2 text-sm"
@@ -108,9 +108,9 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
       <div className="flex flex-col items-center mb-3">
         <Label type="info">Reward</Label>
 
-        {getKeys(chore.reward.items).map((name) => (
+        {getKeys(chore.reward.items ?? {}).map((name) => (
           <div className="flex mt-1" key={name}>
-            <p className="text-sm whitespace-nowrap">{`${name} x ${chore.reward.items[name]}`}</p>
+            <p className="text-sm whitespace-nowrap">{`${name} x ${chore.reward.items?.[name]}`}</p>
             <img src={ITEM_DETAILS[name].image} className="h-6 ml-2 text-sm" />
           </div>
         ))}

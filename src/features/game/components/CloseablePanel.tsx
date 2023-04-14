@@ -11,6 +11,7 @@ import classNames from "classnames";
 export interface PanelTabs {
   icon: string;
   name: string;
+  unread?: boolean;
 }
 
 interface Props {
@@ -75,7 +76,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
               <Tab
                 key={`tab-${index}`}
                 isFirstTab={index === 0}
-                className="flex items-center"
+                className="flex items-center relative"
                 isActive={currentTab === index}
                 onClick={() => handleTabClick(index)}
               >
@@ -83,6 +84,9 @@ export const CloseButtonPanel: React.FC<Props> = ({
                 <span className="text-xs sm:text-sm text-ellipsis ml-2">
                   {tab.name}
                 </span>
+                {currentTab !== index && tab.unread && (
+                  <div className="bg-red-500 img-highlight w-2 h-2 rounded-full absolute right-[1px] top-2" />
+                )}
               </Tab>
             ))}
           </div>

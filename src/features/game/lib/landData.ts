@@ -67,6 +67,7 @@ export const INITIAL_RESOURCES: Pick<
   crops: {
     1: {
       createdAt: Date.now(),
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: -2,
       y: -1,
       height: 1,
@@ -74,6 +75,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     2: {
       createdAt: Date.now(),
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: -1,
       y: -1,
       height: 1,
@@ -81,6 +83,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     3: {
       createdAt: Date.now(),
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: 0,
       y: -1,
       height: 1,
@@ -112,6 +115,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     7: {
       createdAt: Date.now(),
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: -2,
       y: 1,
       height: 1,
@@ -119,6 +123,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     8: {
       createdAt: Date.now(),
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: -1,
       y: 1,
       height: 1,
@@ -126,6 +131,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     9: {
       createdAt: Date.now(),
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: 0,
       y: 1,
       height: 1,
@@ -133,29 +139,30 @@ export const INITIAL_RESOURCES: Pick<
     },
     10: {
       createdAt: Date.now(),
-      x: 4,
-      y: 5,
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: 6,
+      y: -2,
       height: 1,
       width: 1,
     },
     11: {
       createdAt: Date.now(),
-      x: 5,
-      y: 5,
+      x: 6,
+      y: -1,
       height: 1,
       width: 1,
     },
     12: {
       createdAt: Date.now(),
-      x: 4,
-      y: 4,
+      x: 7,
+      y: -2,
       height: 1,
       width: 1,
     },
     13: {
       createdAt: Date.now(),
-      x: 5,
-      y: 4,
+      x: 7,
+      y: -1,
       height: 1,
       width: 1,
     },
@@ -179,7 +186,7 @@ export const INITIAL_RESOURCES: Pick<
         choppedAt: 0,
       },
       x: 7,
-      y: 1,
+      y: 3,
       height: 2,
       width: 2,
     },
@@ -190,7 +197,7 @@ export const INITIAL_RESOURCES: Pick<
         choppedAt: 0,
       },
       x: 7,
-      y: 7,
+      y: 9,
       height: 2,
       width: 2,
     },
@@ -209,8 +216,8 @@ export const INITIAL_RESOURCES: Pick<
     },
     2: {
       createdAt: Date.now(),
-      x: 7,
-      y: -2,
+      x: 4,
+      y: 5,
       width: 1,
       height: 1,
       stone: {
@@ -253,6 +260,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(0),
   inventory: {
+    "Mashed Potato": new Decimal(2),
     Market: new Decimal(1),
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
@@ -269,20 +277,10 @@ export const OFFLINE_FARM: GameState = {
 
   chickens: {},
 
-  airdrops: [
-    {
-      createdAt: 0,
-      id: "test",
-      items: {
-        "Abandoned Bear": 1,
-      },
-      sfl: 0,
-      message: "Yo!",
-    },
-  ],
+  airdrops: [],
 
   stock: INITIAL_STOCK,
-  conversations: [],
+  conversations: ["hank-intro"],
 
   mailbox: {
     read: [],
@@ -302,8 +300,19 @@ export const OFFLINE_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: 2,
-          y: 1,
+          x: 3,
+          y: 3,
+        },
+        createdAt: 0,
+      },
+    ],
+    Workbench: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 9,
         },
         createdAt: 0,
       },
@@ -313,8 +322,8 @@ export const OFFLINE_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: 4,
-          y: 8,
+          x: 2,
+          y: -1,
         },
         createdAt: 0,
       },
@@ -325,7 +334,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         coordinates: {
           x: 6,
-          y: 5,
+          y: 6,
         },
         createdAt: 0,
       },

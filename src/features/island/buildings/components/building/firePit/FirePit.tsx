@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import firePit from "assets/buildings/fire_pit.png";
 import npc from "assets/npcs/cook.gif";

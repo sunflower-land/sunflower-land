@@ -1,3 +1,4 @@
+import { marketRate } from "../lib/halvening";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { InventoryItemName } from "./game";
 import { getSeasonalTicket } from "./seasons";
@@ -7,41 +8,58 @@ export type Chore = {
   description: string;
   requirement: number;
   reward: {
-    items: Partial<Record<InventoryItemName, number>>;
+    items?: Partial<Record<InventoryItemName, number>>;
+    sfl?: number;
   };
 };
+
+// Goals should be means - not do X task - reach level 2, not eat 2 potatos
 
 export const CHORES: Chore[] = [
   {
     activity: "Sunflower Harvested",
-    description: "Plant 3 Sunflowers",
+    description: "Harvest 3 Sunflowers",
     requirement: 3,
+    reward: {
+      items: {},
+      sfl: marketRate(5).toNumber(),
+    },
+  },
+  {
+    activity: "Sunflower Sold",
+    description: "Sell 5 Sunflowers",
+    requirement: 5,
+    reward: {
+      items: {},
+    },
+  },
+  {
+    activity: "Mashed Potato Fed",
+    description: "Grow your Bumpkin!",
+    requirement: 2,
+    reward: {
+      items: {},
+    },
+  },
+  {
+    activity: "Tree Chopped",
+    description: "Chop 3 Trees",
+    requirement: 3,
+    reward: {
+      items: {},
+    },
+  },
+  // Craft Scarecrow
+  {
+    activity: "Bush Bought",
+    description: "Craft a scarecrow",
+    requirement: 1,
     reward: {
       items: {
         "Potato Seed": 5,
       },
     },
   },
-  {
-    activity: "Mashed Potato Fed",
-    description: "Eat 1 Mashed Potato",
-    requirement: 1,
-    reward: {
-      items: {
-        "Pumpkin Seed": 5,
-        [getSeasonalTicket()]: 2,
-      },
-    },
-  },
-  {
-    activity: "Potato Harvested",
-    description: "Harvest 50 Potatoes",
-    requirement: 50,
-    reward: {
-      items: {
-        "Potato Seed": 10,
-        [getSeasonalTicket()]: 5,
-      },
-    },
-  },
+
+  // Level up
 ];
