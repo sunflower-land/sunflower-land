@@ -47,7 +47,7 @@ export const GarbageSale: React.FC = () => {
         <Button disabled={amount.lt(1)} onClick={() => sell(1)}>
           Sell 1
         </Button>
-        <Button disabled={amount.lt(1)} onClick={() => sell(10)}>
+        <Button disabled={amount.lt(10)} onClick={() => sell(10)}>
           Sell 10
         </Button>
       </div>
