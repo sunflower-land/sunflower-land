@@ -2196,6 +2196,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/921.png",
     attributes: [],
   },
+  "Town Center": {
+    name: "Town Center",
+    description: "Gather round the town center and hear the latest news!.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1013.png",
+    attributes: [],
+  },
   Bakery: {
     name: "Bakery",
     description: "A bakery used to cook recipes in Sunflower Land.",

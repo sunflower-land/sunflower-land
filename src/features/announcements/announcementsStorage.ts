@@ -21,10 +21,7 @@ export function hasImportantAnnouncement() {
   const lastRead = getAnnouncementLastRead();
 
   const latestAnnouncement = PAST_ANNOUNCEMENTS[0];
-  if (
-    latestAnnouncement.autoOpen &&
-    (!lastRead || new Date(lastRead) < latestAnnouncement.date)
-  ) {
+  if (!lastRead || new Date(lastRead) < latestAnnouncement.date) {
     return true;
   }
 

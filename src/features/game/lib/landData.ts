@@ -169,7 +169,6 @@ export const INITIAL_RESOURCES: Pick<
   },
   trees: {
     1: {
-      createdAt: Date.now(),
       wood: {
         amount: 1,
         choppedAt: 0,
@@ -180,7 +179,6 @@ export const INITIAL_RESOURCES: Pick<
       width: 2,
     },
     2: {
-      createdAt: Date.now(),
       wood: {
         amount: 1,
         choppedAt: 0,
@@ -191,7 +189,6 @@ export const INITIAL_RESOURCES: Pick<
       width: 2,
     },
     3: {
-      createdAt: Date.now(),
       wood: {
         amount: 1,
         choppedAt: 0,
@@ -204,7 +201,6 @@ export const INITIAL_RESOURCES: Pick<
   },
   stones: {
     1: {
-      createdAt: Date.now(),
       x: 0,
       y: 3,
       width: 1,
@@ -215,7 +211,6 @@ export const INITIAL_RESOURCES: Pick<
       },
     },
     2: {
-      createdAt: Date.now(),
       x: 4,
       y: 5,
       width: 1,

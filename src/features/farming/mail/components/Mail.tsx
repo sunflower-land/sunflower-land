@@ -47,6 +47,7 @@ export const Mail: React.FC = () => {
 
         return (
           <OuterPanel
+            key={id}
             onClick={() => setSelected(id)}
             className="flex cursor-pointer hover:bg-brown-200"
           >

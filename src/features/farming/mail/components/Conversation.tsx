@@ -1,13 +1,11 @@
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import {
   CONVERSATIONS,
   ConversationName,
 } from "features/game/types/conversations";
 import { getKeys } from "features/game/types/craftables";
-import { NPCDialogue } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useState } from "react";
 
@@ -42,7 +40,7 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
     if (showReward && conversation.reward) {
       return (
         <>
-          <p className="text-center">I've got something for you!</p>
+          <p className="text-center">{`I've got something for you!`}</p>
 
           <div className="flex flex-col items-center">
             {getKeys(conversation.reward?.items).map((name) => (
@@ -70,8 +68,8 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
     }
     return (
       <>
-        {conversation.content.map((content) => (
-          <div className="mb-2">
+        {conversation.content.map((content, index) => (
+          <div className="mb-2" key={index}>
             <p className="text-sm">{content.text}</p>
             {content.image && (
               <img
