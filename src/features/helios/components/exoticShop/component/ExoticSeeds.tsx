@@ -37,13 +37,13 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const lessIngredients = () => {
-      return getKeys(selected.ingredients).some((name) =>
-          selected.ingredients[name]?.greaterThan(inventory[name] || 0)
-    ); 
-  }
-    getKeys(selected.ingredients).some((name) =>
+    return getKeys(selected.ingredients).some((name) =>
       selected.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
+  };
+  getKeys(selected.ingredients).some((name) =>
+    selected.ingredients[name]?.greaterThan(inventory[name] || 0)
+  );
 
   const buy = () => {
     gameService.send("bean.bought", {
