@@ -1,9 +1,9 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/levels/level_1.webp";
-import { GameProvider } from "features/game/GameProvider";
+import { Context, GameProvider } from "features/game/GameProvider";
 import waterMovement from "assets/decorations/water_movement.png";
 import { getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
@@ -21,6 +21,8 @@ import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource
  * A test component for collision detection and resource sizing/dimensions
  */
 export const Builder: React.FC = () => {
+  const { gameService } = useContext(Context);
+
   const container = useRef(null);
 
   const [selected, setSelected] = useState<keyof Layout>();
@@ -185,7 +187,16 @@ export const Builder: React.FC = () => {
                         height={height}
                         width={width}
                       >
-                        {READONLY_RESOURCE_COMPONENTS[resourceName]}
+                        {READONLY_RESOURCE_COMPONENTS[resourceName]({
+                          gameService: gameService,
+                          showTimers: false,
+                          name: "Crop Plot",
+                          id: "",
+                          readyAt: 0,
+                          createdAt: 0,
+                          x: 0,
+                          y: 0,
+                        })}
                       </MapPlacement>
                     );
                   });
