@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
-import { BuildingProduct } from "features/game/types/game";
 import { FirePit } from "./firePit/FirePit";
 import { Bar } from "components/ui/ProgressBar";
 import { WithCraftingMachine } from "./WithCraftingMachine";
@@ -21,41 +20,69 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { CookableName } from "features/game/types/consumables";
 
 interface Prop {
+  gameService: MachineInterpreter;
   name: BuildingName;
   id: string;
   readyAt: number;
   createdAt: number;
-  crafting?: BuildingProduct;
+  craftingItemName?: CookableName;
+  craftingReadyAt?: number;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
 }
 
 export interface BuildingProps {
   buildingId: string;
-  craftingState?: BuildingProduct;
+  craftingItemName?: CookableName;
+  craftingReadyAt?: number;
   isBuilt?: boolean;
   onRemove?: () => void;
 }
 
+type BuildingComponentsProps = BuildingProps & {
+  gameService: MachineInterpreter;
+};
+
 export const BUILDING_COMPONENTS: Record<
   BuildingName,
-  React.FC<BuildingProps>
+  React.FC<BuildingComponentsProps>
 > = {
   "Fire Pit": ({
+    gameService,
     buildingId,
-    craftingState,
+    craftingItemName,
+    craftingReadyAt,
     isBuilt,
     onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  }: BuildingComponentsProps) => (
+    <WithCraftingMachine
+      gameService={gameService}
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <FirePit buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
   Workbench: WorkBench,
-  Bakery: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  Bakery: ({
+    gameService,
+    buildingId,
+    craftingItemName,
+    craftingReadyAt,
+    isBuilt,
+    onRemove,
+  }: BuildingComponentsProps) => (
+    <WithCraftingMachine
+      gameService={gameService}
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <Bakery buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
@@ -66,27 +93,53 @@ export const BUILDING_COMPONENTS: Record<
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Kitchen: ({
+    gameService,
     buildingId,
-    craftingState,
+    craftingItemName,
+    craftingReadyAt,
     isBuilt,
     onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  }: BuildingComponentsProps) => (
+    <WithCraftingMachine
+      gameService={gameService}
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <Kitchen buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
-  Deli: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  Deli: ({
+    gameService,
+    buildingId,
+    craftingItemName,
+    craftingReadyAt,
+    isBuilt,
+    onRemove,
+  }: BuildingComponentsProps) => (
+    <WithCraftingMachine
+      gameService={gameService}
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <Deli buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
     </WithCraftingMachine>
   ),
   "Smoothie Shack": ({
+    gameService,
     buildingId,
-    craftingState,
+    craftingItemName,
+    craftingReadyAt,
     isBuilt,
     onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  }: BuildingComponentsProps) => (
+    <WithCraftingMachine
+      gameService={gameService}
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <SmoothieShack
         buildingId={buildingId}
         isBuilt={isBuilt}
@@ -97,6 +150,7 @@ export const BUILDING_COMPONENTS: Record<
 };
 
 const InProgressBuilding: React.FC<Prop> = ({
+  gameService,
   name,
   id,
   readyAt,
@@ -118,7 +172,7 @@ const InProgressBuilding: React.FC<Prop> = ({
         onMouseLeave={() => setShowTooltip(false)}
       >
         <div className="w-full h-full pointer-events-none opacity-50">
-          <BuildingPlaced buildingId={id} />
+          <BuildingPlaced gameService={gameService} buildingId={id} />
         </div>
         {showTimers && (
           <div
@@ -151,11 +205,13 @@ const InProgressBuilding: React.FC<Prop> = ({
 };
 
 const BuildingComponent: React.FC<Prop> = ({
+  gameService,
   name,
   id,
   readyAt,
   createdAt,
-  crafting,
+  craftingItemName,
+  craftingReadyAt,
   isRustyShovelSelected,
   showTimers,
 }) => {
@@ -183,6 +239,7 @@ const BuildingComponent: React.FC<Prop> = ({
     <>
       {inProgress ? (
         <InProgressBuilding
+          gameService={gameService}
           key={id}
           name={name}
           id={id}
@@ -193,8 +250,10 @@ const BuildingComponent: React.FC<Prop> = ({
         />
       ) : (
         <BuildingPlaced
+          gameService={gameService}
           buildingId={id}
-          craftingState={crafting}
+          craftingItemName={craftingItemName}
+          craftingReadyAt={craftingReadyAt}
           onRemove={isRustyShovelSelected ? handleRemove : undefined}
           isBuilt
         />

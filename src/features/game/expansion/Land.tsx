@@ -32,8 +32,10 @@ import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getGameGrid } from "./placeable/lib/makeGrid";
+import { MachineInterpreter } from "../lib/gameMachine";
 
 const getIslandElements = ({
+  gameService,
   buildings,
   collectibles,
   chickens,
@@ -49,6 +51,7 @@ const getIslandElements = ({
   isEditing,
 }: {
   expansionConstruction?: ExpansionConstruction;
+  gameService: MachineInterpreter;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<string, Chicken>>;
@@ -109,11 +112,13 @@ const getIslandElements = ({
               isEditing={isEditing}
             >
               <Building
+                gameService={gameService}
                 name={name}
                 id={building.id}
                 readyAt={building.readyAt}
                 createdAt={building.createdAt}
-                crafting={building.crafting}
+                craftingItemName={building.crafting?.name}
+                craftingReadyAt={building.crafting?.readyAt}
                 isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
               />
@@ -379,6 +384,7 @@ export const Land: React.FC = () => {
           {/* Sort island elements by y axis */}
           {getIslandElements({
             expansionConstruction,
+            gameService,
             buildings,
             collectibles,
             chickens,
