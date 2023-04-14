@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import Draggable from "react-draggable";
@@ -22,6 +22,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { InventoryItemName } from "features/game/types/game";
+import { Context } from "features/game/GameProvider";
 
 interface ResourceProps {
   id: string;
@@ -38,7 +39,7 @@ export const RESOURCES: Record<
     dimensions: Dimensions;
   }
 > = {
-  trees: {
+  Tree: {
     component: Tree,
     icon: SUNNYSIDE.resource.tree,
     dimensions: {
@@ -46,7 +47,7 @@ export const RESOURCES: Record<
       width: 2,
     },
   },
-  fruitPatches: {
+  "Fruit Patch": {
     component: FruitPatch,
     icon: fruitPatch,
     dimensions: {
@@ -54,7 +55,7 @@ export const RESOURCES: Record<
       width: 2,
     },
   },
-  stones: {
+  "Stone Rock": {
     component: Stone,
     dimensions: {
       height: 1,
@@ -62,7 +63,7 @@ export const RESOURCES: Record<
     },
     icon: SUNNYSIDE.resource.small_stone,
   },
-  iron: {
+  "Iron Rock": {
     component: Iron,
     dimensions: {
       height: 1,
@@ -70,7 +71,7 @@ export const RESOURCES: Record<
     },
     icon: ironStone,
   },
-  gold: {
+  "Gold Rock": {
     component: Gold,
     dimensions: {
       height: 1,
@@ -78,7 +79,7 @@ export const RESOURCES: Record<
     },
     icon: goldStone,
   },
-  plots: {
+  "Crop Plot": {
     component: Plot,
     dimensions: {
       height: 1,
@@ -86,7 +87,7 @@ export const RESOURCES: Record<
     },
     icon: CROP_LIFECYCLE.Sunflower.seedling,
   },
-  boulder: {
+  Boulder: {
     component: Boulder,
     dimensions: {
       height: 2,
@@ -102,21 +103,17 @@ type Dimensions = {
 };
 
 interface Props {
-  gameService: MachineInterpreter;
-  selectedItem?: InventoryItemName;
-  showTimers: boolean;
   name: keyof Layout;
   onCancel: () => void;
   onPlace: (coords: Coordinates) => void;
 }
 export const ResourcePlacer: React.FC<Props> = ({
-  gameService,
-  selectedItem,
-  showTimers,
   name,
   onCancel,
   onPlace,
 }) => {
+  const { gameService } = useContext(Context);
+
   const nodeRef = useRef(null);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -178,8 +175,7 @@ export const ResourcePlacer: React.FC<Props> = ({
               {component({
                 id: "0",
                 gameService: gameService,
-                selectedItem: selectedItem,
-                showTimers: showTimers,
+                showTimers: false,
               })}
             </div>
           </div>

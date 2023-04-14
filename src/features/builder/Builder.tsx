@@ -1,9 +1,9 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/levels/level_1.webp";
-import { Context, GameProvider } from "features/game/GameProvider";
+import { GameProvider } from "features/game/GameProvider";
 import waterMovement from "assets/decorations/water_movement.png";
 import { getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
@@ -15,25 +15,24 @@ import {
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
 import { INITIAL_LAYOUTS, Layout } from "./lib/layouts";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 
 /**
  * A test component for collision detection and resource sizing/dimensions
  */
 export const Builder: React.FC = () => {
-  const { gameService, selectedItem, showTimers } = useContext(Context);
-
   const container = useRef(null);
 
   const [selected, setSelected] = useState<keyof Layout>();
 
   const [placed, setPlaced] = useState<Layout>({
-    plots: [],
-    fruitPatches: [],
-    gold: [],
-    iron: [],
-    stones: [],
-    trees: [],
-    boulder: [],
+    "Crop Plot": [],
+    "Fruit Patch": [],
+    "Gold Rock": [],
+    "Iron Rock": [],
+    "Stone Rock": [],
+    Tree: [],
+    Boulder: [],
   });
 
   const [layouts, setLayouts] = useState<Layout[]>(
@@ -94,9 +93,6 @@ export const Builder: React.FC = () => {
           >
             {selected && (
               <ResourcePlacer
-                gameService={gameService}
-                selectedItem={selectedItem}
-                showTimers={showTimers}
                 name={selected}
                 onCancel={() => setSelected(undefined)}
                 onPlace={place}
@@ -126,13 +122,13 @@ export const Builder: React.FC = () => {
           <Button
             onClick={() =>
               setPlaced({
-                plots: [],
-                fruitPatches: [],
-                gold: [],
-                iron: [],
-                stones: [],
-                trees: [],
-                boulder: [],
+                "Crop Plot": [],
+                "Fruit Patch": [],
+                "Gold Rock": [],
+                "Iron Rock": [],
+                "Stone Rock": [],
+                Tree: [],
+                Boulder: [],
               })
             }
           >
@@ -175,7 +171,6 @@ export const Builder: React.FC = () => {
                 }}
               >
                 {getKeys(placed).flatMap((resourceName) => {
-                  const resource = RESOURCES[resourceName];
                   const positions = placed[resourceName];
 
                   const { width, height } = RESOURCES[resourceName].dimensions;
@@ -190,12 +185,7 @@ export const Builder: React.FC = () => {
                         height={height}
                         width={width}
                       >
-                        {resource.component({
-                          id: "0",
-                          gameService: gameService,
-                          selectedItem: selectedItem,
-                          showTimers: showTimers,
-                        })}
+                        {READONLY_RESOURCE_COMPONENTS[resourceName]}
                       </MapPlacement>
                     );
                   });
