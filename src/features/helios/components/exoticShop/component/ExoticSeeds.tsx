@@ -36,7 +36,11 @@ export const ExoticSeeds: React.FC<Props> = ({ onClose }) => {
     return state.balance.lessThan(price.toString());
   };
 
-  const lessIngredients = () =>
+  const lessIngredients = () => {
+      return getKeys(selected.ingredients).some((name) =>
+          selected.ingredients[name]?.greaterThan(inventory[name] || 0)
+    ); 
+  }
     getKeys(selected.ingredients).some((name) =>
       selected.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
