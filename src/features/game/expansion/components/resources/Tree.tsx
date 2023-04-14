@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -16,7 +16,6 @@ import {
   POPOVER_TIME_MS,
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
 import classNames from "classnames";
 
 import { getTimeLeft } from "lib/utils/time";
@@ -34,6 +33,8 @@ import { InnerPanel } from "components/ui/Panel";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { InventoryItemName } from "features/game/types/game";
 
 const HITS = 3;
 
@@ -45,11 +46,11 @@ const CHOPPED_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
   id: string;
+  gameService: MachineInterpreter;
+  selectedItem?: InventoryItemName;
 }
 
-export const Tree: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem } = useContext(Context);
-
+export const Tree: React.FC<Props> = ({ id, gameService, selectedItem }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [errorLabel, setErrorLabel] = useState<"noAxe">();
   const [popover, setPopover] = useState<JSX.Element | null>();

@@ -13,7 +13,12 @@ import {
 } from "../types/craftables";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
-import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
+import {
+  GameState,
+  ExpansionConstruction,
+  PlacedItem,
+  InventoryItemName,
+} from "../types/game";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
@@ -32,8 +37,10 @@ import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getGameGrid } from "./placeable/lib/makeGrid";
+import { MachineInterpreter } from "../lib/gameMachine";
 
 const getIslandElements = ({
+  gameService,
   buildings,
   collectibles,
   chickens,
@@ -44,11 +51,12 @@ const getIslandElements = ({
   fruitPatches,
   crops,
   bumpkinParts,
-  isRustyShovelSelected,
+  selectedItem,
   showTimers,
   isEditing,
 }: {
   expansionConstruction?: ExpansionConstruction;
+  gameService: MachineInterpreter;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<string, Chicken>>;
@@ -59,10 +67,11 @@ const getIslandElements = ({
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   bumpkinParts: BumpkinParts | undefined;
-  isRustyShovelSelected: boolean;
+  selectedItem?: InventoryItemName;
   showTimers: boolean;
   isEditing?: boolean;
 }) => {
+  const isRustyShovelSelected = selectedItem === "Rusty Shovel";
   const mapPlacements: Array<JSX.Element> = [];
 
   if (bumpkinParts) {
@@ -188,6 +197,9 @@ const getIslandElements = ({
 
       return (
         <Resource
+          gameService={gameService}
+          selectedItem={selectedItem}
+          showTimers={showTimers}
           key={`tree-${id}`}
           x={x}
           y={y}
@@ -209,6 +221,9 @@ const getIslandElements = ({
 
       return (
         <Resource
+          gameService={gameService}
+          selectedItem={selectedItem}
+          showTimers={showTimers}
           key={`stone-${id}`}
           x={x}
           y={y}
@@ -230,6 +245,9 @@ const getIslandElements = ({
 
       return (
         <Resource
+          gameService={gameService}
+          selectedItem={selectedItem}
+          showTimers={showTimers}
           key={`iron-${id}`}
           x={x}
           y={y}
@@ -251,6 +269,9 @@ const getIslandElements = ({
 
       return (
         <Resource
+          gameService={gameService}
+          selectedItem={selectedItem}
+          showTimers={showTimers}
           key={`gold-${id}`}
           x={x}
           y={y}
@@ -272,6 +293,9 @@ const getIslandElements = ({
 
       return (
         <Resource
+          gameService={gameService}
+          selectedItem={selectedItem}
+          showTimers={showTimers}
           key={`fruitPatches-${id}`}
           x={x}
           y={y}
@@ -293,6 +317,9 @@ const getIslandElements = ({
 
       return (
         <Resource
+          gameService={gameService}
+          selectedItem={selectedItem}
+          showTimers={showTimers}
           key={`crops-${id}`}
           x={x}
           y={y}
@@ -379,6 +406,7 @@ export const Land: React.FC = () => {
           {/* Sort island elements by y axis */}
           {getIslandElements({
             expansionConstruction,
+            gameService,
             buildings,
             collectibles,
             chickens,
@@ -389,7 +417,7 @@ export const Land: React.FC = () => {
             fruitPatches,
             crops,
             bumpkinParts: bumpkin?.equipped,
-            isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
+            selectedItem: shortcuts[0],
             showTimers: showTimers,
             isEditing: gameState.isEditing,
           }).sort((a, b) => b.props.y - a.props.y)}

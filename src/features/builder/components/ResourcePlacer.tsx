@@ -20,17 +20,26 @@ import { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { InventoryItemName } from "features/game/types/game";
+
+interface ResourceProps {
+  id: string;
+  gameService: MachineInterpreter;
+  selectedItem?: InventoryItemName;
+  showTimers: boolean;
+}
 
 export const RESOURCES: Record<
   keyof Layout,
   {
-    component: React.FC;
+    component: React.FC<ResourceProps>;
     icon: string;
     dimensions: Dimensions;
   }
 > = {
   trees: {
-    component: () => <Tree id="0" />,
+    component: Tree,
     icon: SUNNYSIDE.resource.tree,
     dimensions: {
       height: 2,
@@ -38,7 +47,7 @@ export const RESOURCES: Record<
     },
   },
   fruitPatches: {
-    component: () => <FruitPatch id="0" />,
+    component: FruitPatch,
     icon: fruitPatch,
     dimensions: {
       height: 2,
@@ -46,7 +55,7 @@ export const RESOURCES: Record<
     },
   },
   stones: {
-    component: () => <Stone id="0" />,
+    component: Stone,
     dimensions: {
       height: 1,
       width: 1,
@@ -54,7 +63,7 @@ export const RESOURCES: Record<
     icon: SUNNYSIDE.resource.small_stone,
   },
   iron: {
-    component: () => <Iron id="0" />,
+    component: Iron,
     dimensions: {
       height: 1,
       width: 1,
@@ -62,7 +71,7 @@ export const RESOURCES: Record<
     icon: ironStone,
   },
   gold: {
-    component: () => <Gold id="0" />,
+    component: Gold,
     dimensions: {
       height: 1,
       width: 1,
@@ -70,7 +79,7 @@ export const RESOURCES: Record<
     icon: goldStone,
   },
   plots: {
-    component: () => <Plot id="0" />,
+    component: Plot,
     dimensions: {
       height: 1,
       width: 1,
@@ -78,7 +87,7 @@ export const RESOURCES: Record<
     icon: CROP_LIFECYCLE.Sunflower.seedling,
   },
   boulder: {
-    component: () => <Boulder />,
+    component: Boulder,
     dimensions: {
       height: 2,
       width: 2,
@@ -93,11 +102,17 @@ type Dimensions = {
 };
 
 interface Props {
+  gameService: MachineInterpreter;
+  selectedItem?: InventoryItemName;
+  showTimers: boolean;
   name: keyof Layout;
   onCancel: () => void;
   onPlace: (coords: Coordinates) => void;
 }
 export const ResourcePlacer: React.FC<Props> = ({
+  gameService,
+  selectedItem,
+  showTimers,
   name,
   onCancel,
   onPlace,
@@ -160,7 +175,12 @@ export const ResourcePlacer: React.FC<Props> = ({
                 height: `${dimensions.height * GRID_WIDTH_PX}px`,
               }}
             >
-              {component({})}
+              {component({
+                id: "0",
+                gameService: gameService,
+                selectedItem: selectedItem,
+                showTimers: showTimers,
+              })}
             </div>
           </div>
         </Draggable>

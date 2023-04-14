@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { Reward, FERTILISERS, PlantedCrop } from "features/game/types/game";
@@ -12,15 +12,23 @@ import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { NonFertilePlot } from "./components/NonFertilePlot";
 import { FertilePlot } from "./components/FertilePlot";
 import { ChestReward } from "../common/chest-reward/ChestReward";
-import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { InventoryItemName } from "features/game/types/game";
 
 interface Props {
   id: string;
+  gameService: MachineInterpreter;
+  selectedItem?: InventoryItemName;
+  showTimers: boolean;
 }
 
-export const Plot: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem, showTimers } = useContext(Context);
+export const Plot: React.FC<Props> = ({
+  id,
+  gameService,
+  selectedItem,
+  showTimers,
+}) => {
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward>();

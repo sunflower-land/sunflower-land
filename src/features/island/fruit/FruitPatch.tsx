@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import fruitPatch from "assets/fruit/fruit_patch.png";
 
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
@@ -12,13 +11,20 @@ import Decimal from "decimal.js-light";
 import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { InventoryItemName } from "features/game/types/game";
 
 interface Props {
   id: string;
+  gameService: MachineInterpreter;
+  selectedItem?: InventoryItemName;
 }
 
-export const FruitPatch: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem } = useContext(Context);
+export const FruitPatch: React.FC<Props> = ({
+  id,
+  gameService,
+  selectedItem,
+}) => {
   const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);

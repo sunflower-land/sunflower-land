@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -15,7 +15,6 @@ import {
   PIXEL_SCALE,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
 import classNames from "classnames";
 import { useSelector } from "@xstate/react";
 
@@ -29,16 +28,18 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { InventoryItemName } from "features/game/types/game";
 
 const HITS = 3;
 
 interface Props {
   id: string;
+  gameService: MachineInterpreter;
+  selectedItem?: InventoryItemName;
 }
 
-export const Iron: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem } = useContext(Context);
-
+export const Iron: React.FC<Props> = ({ id, gameService, selectedItem }) => {
   const [showPopover, setShowPopover] = useState(true);
   const [errorLabel, setErrorLabel] = useState<"noPickaxe">();
   const [popover, setPopover] = useState<JSX.Element | null>();

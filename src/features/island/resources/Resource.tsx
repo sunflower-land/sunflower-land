@@ -12,8 +12,14 @@ import { Plot } from "../plots/Plot";
 import { FruitPatch } from "../fruit/FruitPatch";
 import { Boulder } from "../boulder/Boulder";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { InventoryItemName } from "features/game/types/game";
 
 export interface ResourceProps {
+  gameService: MachineInterpreter;
+  selectedItem?: InventoryItemName;
+  showTimers: boolean;
+
   name: ResourceName;
   id: string;
   readyAt: number;
@@ -118,6 +124,10 @@ export const RESOURCE_COMPONENTS: Record<
 };
 
 const ResourceComponent: React.FC<ResourceProps> = ({
+  gameService,
+  selectedItem,
+  showTimers,
+
   name,
   id,
   readyAt,
@@ -145,6 +155,9 @@ const ResourceComponent: React.FC<ResourceProps> = ({
         }}
       >
         <Component
+          gameService={gameService}
+          selectedItem={selectedItem}
+          showTimers={showTimers}
           key={id}
           createdAt={createdAt}
           id={id}

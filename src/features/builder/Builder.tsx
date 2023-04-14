@@ -1,9 +1,9 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import background from "assets/land/levels/level_1.webp";
-import { GameProvider } from "features/game/GameProvider";
+import { Context, GameProvider } from "features/game/GameProvider";
 import waterMovement from "assets/decorations/water_movement.png";
 import { getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
@@ -20,6 +20,8 @@ import { INITIAL_LAYOUTS, Layout } from "./lib/layouts";
  * A test component for collision detection and resource sizing/dimensions
  */
 export const Builder: React.FC = () => {
+  const { gameService, selectedItem, showTimers } = useContext(Context);
+
   const container = useRef(null);
 
   const [selected, setSelected] = useState<keyof Layout>();
@@ -92,6 +94,9 @@ export const Builder: React.FC = () => {
           >
             {selected && (
               <ResourcePlacer
+                gameService={gameService}
+                selectedItem={selectedItem}
+                showTimers={showTimers}
                 name={selected}
                 onCancel={() => setSelected(undefined)}
                 onPlace={place}
@@ -185,7 +190,12 @@ export const Builder: React.FC = () => {
                         height={height}
                         width={width}
                       >
-                        {resource.component({})}
+                        {resource.component({
+                          id: "0",
+                          gameService: gameService,
+                          selectedItem: selectedItem,
+                          showTimers: showTimers,
+                        })}
                       </MapPlacement>
                     );
                   });
