@@ -1,6 +1,9 @@
 import harvesting from "assets/tutorials/harvesting_tutorial.png";
 import firePit from "assets/tutorials/fire_pit.png";
+import workbench from "assets/tutorials/workbench.png";
 import chores from "assets/tutorials/chores.png";
+import crafting from "assets/tutorials/crafting.png";
+
 import { InventoryItemName } from "./game";
 
 export type ConversationName =
@@ -9,6 +12,7 @@ export type ConversationName =
   | "hank-intro"
   | "blacksmith-intro"
   | "hank-chore-complete"
+  | "hank-crafting"
   | "hungry-player";
 
 type Conversation = {
@@ -30,11 +34,9 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
       {
         text: "I've been working this land for fifty years, but I still need help sometimes.",
       },
+
       {
-        text: "You look like a strong Bumpkin!",
-      },
-      {
-        text: "If you complete my daily chores, I will reward you!",
+        text: "You look strong! Do you mind helping an old man?",
         image: chores,
       },
     ],
@@ -44,11 +46,20 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
     headline: "Well done.",
     content: [
       {
-        text: "You can now visit Betty and trade your crops for more seeds.",
+        text: "Visit Betty and trade your crops for more seeds.",
+      },
+    ],
+    from: "hank",
+  },
+  "hank-crafting": {
+    headline: "I ain't got time to wait",
+    content: [
+      {
+        text: "Those crops are crops are growing slow...",
       },
       {
-        text: "If you complete my daily chores, I will reward you!",
-        image: chores,
+        text: "Craft a scarecrow.",
+        image: crafting,
       },
     ],
     from: "hank",
@@ -101,6 +112,7 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
     content: [
       {
         text: "Loreum Ipsum",
+        image: workbench,
       },
     ],
     from: "blacksmith",

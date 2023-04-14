@@ -1,7 +1,5 @@
-import { marketRate } from "../lib/halvening";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { InventoryItemName } from "./game";
-import { getSeasonalTicket } from "./seasons";
 
 export type Chore = {
   activity: BumpkinActivityName;
@@ -13,7 +11,7 @@ export type Chore = {
   };
 };
 
-// Goals should be means - not do X task - reach level 2, not eat 2 potatos
+// TODO Goals should be means - not do X task - reach level 2, not eat 2 potatos
 
 export const CHORES: Chore[] = [
   {
@@ -22,7 +20,6 @@ export const CHORES: Chore[] = [
     requirement: 3,
     reward: {
       items: {},
-      sfl: marketRate(5).toNumber(),
     },
   },
   {
@@ -50,16 +47,32 @@ export const CHORES: Chore[] = [
     },
   },
   // Craft Scarecrow
-  {
-    activity: "Bush Bought",
-    description: "Craft a scarecrow",
-    requirement: 1,
-    reward: {
-      items: {
-        "Potato Seed": 5,
-      },
-    },
-  },
+  // {
+  //   activity: "Bush Bought",
+  //   description: "Craft a scarecrow",
+  //   requirement: 1,
+  //   reward: {
+  //     items: {
+  //       "Potato Seed": 5,
+  //     },
+  //   },
+  // },
+  // {
+  //   activity: "Pumpkin Harvested",
+  //   description: "Harvest 10 Pumpkins",
+  //   requirement: 10,
+  //   reward: {
+  //     items: {},
+  //   },
+  // },
+  // {
+  //   activity: "Pumpkin Harvested",
+  //   description: "Time to expand",
+  //   requirement: 1,
+  //   reward: {
+  //     items: {},
+  //   },
+  // },
 
   // Level up
 ];

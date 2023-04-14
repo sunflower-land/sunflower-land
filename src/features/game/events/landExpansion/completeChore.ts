@@ -79,5 +79,17 @@ export function completeChore({ state }: Options): GameState {
     game.conversations.push("blacksmith-intro");
   }
 
+  if (game.hayseedHank.choresCompleted === 4) {
+    game.conversations.push("hank-crafting");
+  }
+
+  /* TODO
+    1. Betty's Water Well Conversation
+    2. Job Board Conversation
+    2. Kitchen Conversation
+    3. Hen House Conversation
+    4. Fruit Conversation
+  */
+
   return game;
 }

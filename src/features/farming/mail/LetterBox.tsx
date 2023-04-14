@@ -17,7 +17,8 @@ import { Mail } from "./components/Mail";
 
 export const LetterBox: React.FC = () => {
   const [tab, setTab] = useState(0);
-  const [isOpen, setIsOpen] = useState(hasImportantAnnouncement());
+  // const [isOpen, setIsOpen] = useState(hasImportantAnnouncement());
+  const [isOpen, setIsOpen] = useState(true);
 
   const close = () => {
     acknowledgeRead();

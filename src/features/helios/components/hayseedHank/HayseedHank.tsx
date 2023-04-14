@@ -67,7 +67,7 @@ export const HayseedHank: React.FC = () => {
         {isTaskComplete(hayseedHank, bumpkin) && (
           <img
             src={SUNNYSIDE.icons.confirm}
-            className="absolute"
+            className="absolute img-highlight-heavy"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
               bottom: `${PIXEL_SCALE * -7}px`,

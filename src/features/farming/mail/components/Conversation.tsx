@@ -13,11 +13,12 @@ import React, { useContext, useState } from "react";
 
 interface Props {
   conversationId: ConversationName;
+  read?: boolean;
 }
 
 const CONTENT_HEIGHT = 300;
 
-export const Conversation: React.FC<Props> = ({ conversationId }) => {
+export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -30,7 +31,7 @@ export const Conversation: React.FC<Props> = ({ conversationId }) => {
   const conversation = CONVERSATIONS[conversationId];
 
   const next = () => {
-    if (conversation.reward) {
+    if (conversation.reward && !read) {
       setShowReward(true);
       return;
     }
@@ -81,7 +82,7 @@ export const Conversation: React.FC<Props> = ({ conversationId }) => {
           </div>
         ))}
 
-        <Button onClick={next}>Got it</Button>
+        {!read && <Button onClick={next}>Got it</Button>}
       </>
     );
   };

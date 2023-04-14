@@ -283,7 +283,7 @@ export const OFFLINE_FARM: GameState = {
   conversations: ["hank-intro"],
 
   mailbox: {
-    read: [],
+    read: ["hank-intro"],
     unread: [],
   },
 
