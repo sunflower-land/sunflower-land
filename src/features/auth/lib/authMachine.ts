@@ -34,7 +34,6 @@ import {
   getGuestModeComplete,
   setGuestKey,
 } from "../actions/createGuestAccount";
-import { hasFeatureAccess } from "lib/flags";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -228,8 +227,7 @@ export const authMachine = createMachine<
         },
         always: {
           target: "signIn",
-          cond: () =>
-            !!getGuestModeComplete() || !hasFeatureAccess({}, "GUEST_GAME"),
+          cond: () => !!getGuestModeComplete(),
         },
         on: {
           SIGN_IN: {
@@ -854,9 +852,9 @@ export const authMachine = createMachine<
           web3: context.user.web3,
           farmId: event.data.farmId,
           farmAddress: event.data.address,
-          blacklistStatus: event.data.blacklistStatus,
-          verificationUrl: event.data.verificationUrl,
         }),
+        blacklistStatus: (_, event) => event.data.blacklistStatus,
+        verificationUrl: (_, event) => event.data.verificationUrl,
       }),
       assignToken: assign<Context, any>({
         user: (context, event) => ({

@@ -3,7 +3,7 @@ import React from "react";
 import easterBush from "assets/sfts/easter_bush.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-const EasterBushComponent: React.FC = () => {
+export const EasterBush: React.FC = () => {
   return (
     <img
       src={easterBush}
@@ -17,5 +17,3 @@ const EasterBushComponent: React.FC = () => {
     />
   );
 };
-
-export const EasterBush = React.memo(EasterBushComponent);

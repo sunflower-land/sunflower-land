@@ -1,22 +1,24 @@
 import React, { useContext, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "@xstate/react";
+import classNames from "classnames";
+
 import * as Auth from "features/auth/lib/Provider";
 import { OuterPanel } from "components/ui/Panel";
 import { BumpkinLevel, getBumpkinLevel } from "features/game/lib/level";
 import { Bumpkin, Inventory } from "features/game/types/game";
+import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
+import { Label } from "components/ui/Label";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 import lockIcon from "assets/skills/lock.png";
 import levelUpIcon from "assets/icons/level_up.png";
-
 import goblin from "assets/buildings/goblin_sign.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
 import land from "assets/land/islands/island.webp";
 import bunnyfower from "assets/events/easter/2023/decorations/bunnyflower.png";
-import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
-import { useActor } from "@xstate/react";
-import { Label } from "components/ui/Label";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Island {
@@ -32,12 +34,14 @@ interface IslandProps extends Island {
   bumpkin: Bumpkin | undefined;
   currentPath: string;
   isGuest: boolean;
+  disabled: boolean;
 }
 
 interface IslandListProps {
   bumpkin: Bumpkin | undefined;
   showVisitList: boolean;
   inventory: Inventory;
+  travelAllowed: boolean;
 }
 
 const IslandListItem: React.FC<IslandProps> = ({
@@ -50,6 +54,7 @@ const IslandListItem: React.FC<IslandProps> = ({
   comingSoon,
   currentPath,
   isGuest,
+  disabled,
 }) => {
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
@@ -57,64 +62,53 @@ const IslandListItem: React.FC<IslandProps> = ({
     !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
   const guestDenied = guestAccess === false && isGuest;
   const cannotNavigate =
-    (bumpkin && notEnoughLevel) || onSameIsland || comingSoon || guestDenied;
+    notEnoughLevel || onSameIsland || comingSoon || guestDenied || disabled;
 
-  if (cannotNavigate) {
-    // Disabled item
-    return (
-      <div>
-        <OuterPanel className="flex relative items-center py-2 mb-1 opacity-70">
-          {image && (
-            <div className="w-16 justify-center flex mr-2">
-              <img src={image} className="h-9" />
-            </div>
-          )}
-          <div className="flex-1 flex flex-col justify-center">
-            <div className="flex gap-2 items-center mb-1">
-              {(notEnoughLevel || comingSoon) && (
-                <img src={lockIcon} className="h-4" />
-              )}
-              <span className="text-sm">{name}</span>
-            </div>
-
-            <div className="flex gap-2 items-center">
-              {/* Current island */}
-              {onSameIsland && <Label type="info">You are here</Label>}
-              {/* Level requirement */}
-              {notEnoughLevel && (
-                <Label
-                  type="danger"
-                  className="flex gap-2 items-center whitespace-nowrap"
-                >
-                  <img src={levelUpIcon} className="h-4" />
-                  Lvl {levelRequired}
-                </Label>
-              )}
-              {guestDenied && !comingSoon && (
-                <Label type="info">Full access required</Label>
-              )}
-              {/* Coming soon */}
-              {comingSoon && <Label type="warning">Coming soon</Label>}
-            </div>
-          </div>
-        </OuterPanel>
-      </div>
-    );
-  }
+  const onClick = () => {
+    if (!cannotNavigate) {
+      navigate(path);
+    }
+  };
 
   return (
-    <div onClick={() => navigate(path)}>
-      <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
-        {image && (
-          <div className="w-16 justify-center flex mr-2">
-            <img src={image} className="h-9" />
-          </div>
-        )}
-        <div className="flex-1 flex flex-col justify-center">
+    <OuterPanel
+      onClick={onClick}
+      className={classNames(
+        "flex relative items-center py-2 mb-1",
+        cannotNavigate ? "opacity-70" : "cursor-pointer hover:bg-brown-200"
+      )}
+    >
+      {image && (
+        <div className="w-16 justify-center flex mr-2">
+          <img src={image} className="h-9" />
+        </div>
+      )}
+      <div className="flex-1 flex flex-col justify-center">
+        <div className="flex gap-2 items-center mb-1">
+          {(notEnoughLevel || comingSoon) && (
+            <img src={lockIcon} className="h-4" />
+          )}
           <span className="text-sm">{name}</span>
         </div>
-      </OuterPanel>
-    </div>
+
+        <div className="flex gap-2 items-center">
+          {/* Current island */}
+          {onSameIsland && <Label type="info">You are here</Label>}
+          {/* Level requirement */}
+          {notEnoughLevel && (
+            <Label type="danger" className="flex gap-2 items-center">
+              <img src={levelUpIcon} className="h-4" />
+              Lvl {levelRequired}
+            </Label>
+          )}
+          {guestDenied && !comingSoon && (
+            <Label type="info">Full access required</Label>
+          )}
+          {/* Coming soon */}
+          {comingSoon && <Label type="warning">Coming soon</Label>}
+        </div>
+      </div>
+    </OuterPanel>
   );
 };
 
@@ -135,19 +129,27 @@ const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
   );
 };
 
+const userTypeSelector = (state: AuthMachineState) => state.context.user.type;
+const farmIdSelector = (state: AuthMachineState) =>
+  state.context.user.farmId ?? "guest";
+const stateSelector = (state: AuthMachineState) => ({
+  isAuthorised: state.matches({ connected: "authorised" }),
+  isVisiting: state.matches("visiting"),
+});
+
 export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
   showVisitList,
   inventory,
+  travelAllowed,
 }) => {
   const { authService } = useContext(Auth.Context);
-  const [authState, send] = useActor(authService);
+  const userType = useSelector(authService, userTypeSelector);
+  const farmId = useSelector(authService, farmIdSelector);
+  const state = useSelector(authService, stateSelector);
 
-  const { id } = useParams();
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");
-
-  const farmId = id ?? "guest";
 
   const islands: Island[] = [
     {
@@ -169,7 +171,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       levelRequired: 1 as BumpkinLevel,
       guestAccess: false,
       image: bunnyfower,
-      path: `/land/${id}/bunny-trove`,
+      path: `/land/${farmId}/bunny-trove`,
     },
     {
       name: "Goblin Retreat",
@@ -203,8 +205,7 @@ export const IslandList: React.FC<IslandListProps> = ({
     },
     {
       name: "Snow Kingdom",
-      // Originally it was 50, but BumpkinLevel type has restrictions(current max is 40)
-      levelRequired: 40,
+      levelRequired: 50 as BumpkinLevel,
       guestAccess: false,
       image: snowman,
       path: `/snow/${farmId}`,
@@ -213,12 +214,13 @@ export const IslandList: React.FC<IslandListProps> = ({
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm
-  const unAuthenticatedVisit = authState.matches("visiting");
-  if (view === "visitForm" || unAuthenticatedVisit) {
+  if (view === "visitForm" || state.isVisiting) {
     return (
       <VisitLandExpansionForm
         onBack={
-          unAuthenticatedVisit ? () => send("RETURN") : () => setView("list")
+          state.isVisiting
+            ? () => authService.send("RETURN")
+            : () => setView("list")
         }
       />
     );
@@ -227,16 +229,17 @@ export const IslandList: React.FC<IslandListProps> = ({
   if (showVisitList) {
     return (
       <>
-        {authState.matches({ connected: "authorised" }) && (
+        {state.isAuthorised && (
           <IslandListItem
             name="Home"
             image={CROP_LIFECYCLE.Sunflower.ready}
             levelRequired={1}
             guestAccess={true}
-            isGuest={authState.context.user.type === "GUEST"}
-            path={`/land/${authState.context.user.farmId}`}
+            isGuest={userType === "GUEST"}
+            path={`/land/${farmId}`}
             bumpkin={bumpkin}
             currentPath={location.pathname}
+            disabled={!travelAllowed}
           />
         )}
         <VisitFriendListItem onClick={() => setView("visitForm")} />
@@ -253,9 +256,10 @@ export const IslandList: React.FC<IslandListProps> = ({
         <IslandListItem
           key={item.name}
           {...item}
-          isGuest={authState.context.user.type === "GUEST"}
+          isGuest={userType === "GUEST"}
           bumpkin={bumpkin}
           currentPath={location.pathname}
+          disabled={!travelAllowed}
         />
       ))}
       {!hideVisitOption && (
