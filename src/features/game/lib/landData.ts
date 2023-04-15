@@ -254,7 +254,6 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   balance: new Decimal(0),
   inventory: {
-    "Mashed Potato": new Decimal(2),
     Market: new Decimal(1),
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),

@@ -4,8 +4,6 @@ import workbench from "assets/tutorials/workbench.png";
 import chores from "assets/tutorials/chores.png";
 import crafting from "assets/tutorials/crafting.png";
 
-import referrals from "assets/announcements/referrals.gif";
-
 import { InventoryItemName } from "./game";
 import { NPCName } from "lib/npcs";
 
@@ -15,8 +13,7 @@ export type ConversationName =
   | "hank-intro"
   | "blacksmith-intro"
   | "hank-chore-complete"
-  | "hank-crafting"
-  | "referral-announcement";
+  | "hank-crafting";
 
 export type Message = {
   headline: string;
@@ -29,7 +26,6 @@ export type Message = {
   };
   from: NPCName;
   link?: string;
-  announceAt?: number;
 };
 
 export const CONVERSATIONS: Record<ConversationName, Message> = {
@@ -118,20 +114,6 @@ export const CONVERSATIONS: Record<ConversationName, Message> = {
       },
     },
   },
-
-  "referral-announcement": {
-    headline: "Referral Program",
-    announceAt: new Date("2023-04-04").getTime(),
-    content: [
-      {
-        text: "The Sunflower Supporters program has officially launched!",
-      },
-      {
-        text: "Earn $1 USD* for each friend that creates an account",
-        image: referrals,
-      },
-    ],
-    from: "grimbly",
-    link: "https://sunflower-land.com/#referrals",
-  },
 };
+
+export type Announcements = Record<string, Message>;

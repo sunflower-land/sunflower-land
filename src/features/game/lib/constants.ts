@@ -414,7 +414,6 @@ export const EMPTY: GameState = {
   conversations: [],
   mailbox: {
     read: [],
-    unread: [],
   },
 
   buildings: {},

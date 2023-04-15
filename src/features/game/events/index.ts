@@ -138,6 +138,7 @@ import {
   CollectEasterEggAction,
 } from "features/game/events/landExpansion/collectEasterEgg";
 import { ConversationEnded, endConversation } from "./landExpansion/converse";
+import { MessageRead, readMessage } from "./landExpansion/readMessage";
 
 export type PlayingEvent =
   | TradeAction
@@ -180,7 +181,8 @@ export type PlayingEvent =
   | CompleteChoreAction
   | ExpandLandAction
   | CollectEasterEggAction
-  | ConversationEnded;
+  | ConversationEnded
+  | MessageRead;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -260,6 +262,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.expanded": expandLand,
   "easterEgg.collected": collectEasterEgg,
   "conversation.ended": endConversation,
+  "message.read": readMessage,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

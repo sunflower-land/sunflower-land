@@ -89,7 +89,7 @@ export function completeChore({ state }: Options): GameState {
     2. Kitchen Conversation
     3. Hen House Conversation
     4. Fruit Conversation
-K  */
+  */
 
   return game;
 }

@@ -22,11 +22,14 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
 
   const [showReward, setShowReward] = useState(false);
 
+  const announcements = gameState.context.announcements;
+
   const acknowledge = () => {
     gameService.send({ type: "conversation.ended", id: conversationId });
   };
 
-  const conversation = CONVERSATIONS[conversationId];
+  const conversation =
+    CONVERSATIONS[conversationId] ?? announcements[conversationId];
 
   const next = () => {
     if (conversation.reward && !read) {

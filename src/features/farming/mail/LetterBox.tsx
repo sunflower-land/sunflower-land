@@ -24,21 +24,17 @@ export const LetterBox: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const [tab, setTab] = useState(0);
-  // const [isOpen, setIsOpen] = useState(hasImportantAnnouncement());
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const [selected, setSelected] = useState<ConversationName>();
+
+  const announcements = gameState.context.announcements;
 
   const close = () => {
     setIsOpen(false);
   };
 
-  const hasAnnouncement = getKeys(CONVERSATIONS)
-    .filter(
-      (id) =>
-        CONVERSATIONS[id].announceAt &&
-        CONVERSATIONS[id].announceAt < Date.now()
-    )
+  const hasAnnouncement = getKeys(gameState.context.announcements)
     // Ensure they haven't read it already
     .some(
       (id) =>
@@ -49,7 +45,7 @@ export const LetterBox: React.FC = () => {
 
   const Content = () => {
     if (selected) {
-      const details = CONVERSATIONS[selected];
+      const details = CONVERSATIONS[selected] ?? announcements[selected];
       return (
         <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
           <div className="flex items-center mb-1">

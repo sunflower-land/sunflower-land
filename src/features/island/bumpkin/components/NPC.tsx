@@ -469,7 +469,7 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
           style={{
             transform: "scale(9)",
             top: `${PIXEL_SCALE * 6}px`,
-            left: "100%",
+            left: "400%",
           }}
         />
       ))}

@@ -20,12 +20,8 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
   const [gameState] = useActor(gameService);
 
   let ids = gameState.context.state.mailbox.read.map((item) => item.id);
-  const announcementIds: string[] = getKeys(CONVERSATIONS)
-    .filter(
-      (id) =>
-        CONVERSATIONS[id].announceAt &&
-        CONVERSATIONS[id].announceAt < Date.now()
-    )
+  const announcements = gameState.context.announcements;
+  const announcementIds: string[] = getKeys(announcements)
     // Ensure they haven't read it already
     .filter((id) => !ids.find((readId) => readId === id));
 
@@ -35,13 +31,27 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
     return <p>No mail</p>;
   }
 
+  const open = (id: string) => {
+    setSelected(id);
+
+    const read = gameState.context.state.mailbox.read.find(
+      (item) => item.id === id
+    );
+    if (!read) {
+      gameService.send("message.read", {
+        id,
+      });
+    }
+  };
+
   console.log("Mail");
 
   return (
     <div>
       {ids.map((id) => {
         console.log({ id });
-        const details = CONVERSATIONS[id as ConversationName];
+        const details =
+          CONVERSATIONS[id as ConversationName] ?? announcements[id];
 
         // Message was removed
         if (!details) {
@@ -51,7 +61,7 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
         return (
           <OuterPanel
             key={id}
-            onClick={() => setSelected(id)}
+            onClick={() => open(id)}
             className="flex cursor-pointer hover:bg-brown-200 mb-1 relative"
           >
             <div className="h-10 mr-2">
@@ -64,7 +74,9 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
               <p className="text-sm">{details.headline}</p>
               <p className="text-xs capitalize underline">{details.from}</p>
             </div>
-            {announcementIds.includes(id) && (
+            {!gameState.context.state.mailbox.read.find(
+              (item) => item.id === id
+            ) && (
               <div className="bg-blue-500 border-1 border-white w-3 h-3 rounded-full absolute right-1 top-1" />
             )}
           </OuterPanel>

@@ -68,6 +68,7 @@ import {
   removeGuestKey,
   setGuestModeComplete,
 } from "features/auth/actions/createGuestAccount";
+import { Announcements } from "../types/conversations";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -91,6 +92,7 @@ export interface Context {
     balance: string;
     inventory: Record<InventoryItemName, string>;
   };
+  announcements: Announcements;
 }
 
 type MintEvent = {
@@ -391,6 +393,24 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
+        announcements: {
+          "referral-announcement": {
+            headline: "Referral Program",
+            announceAt: new Date("2023-04-04").getTime(),
+            content: [
+              {
+                text: "The Sunflower Supporters program has officially launched!",
+              },
+              {
+                text: "Earn $1 USD* for each friend that creates an account",
+                image:
+                  "https://sunflower-land.com/testnet-assets/announcements/referrals.gif",
+              },
+            ],
+            from: "grimbly",
+            link: "https://sunflower-land.com/#referrals",
+          },
+        },
       },
       states: {
         loading: {
@@ -476,6 +496,7 @@ export function startGame(authContext: AuthContext) {
                   itemsMintedAt,
                   deviceTrackerId,
                   status,
+                  announcements,
                 } = response;
 
                 return {
@@ -492,6 +513,7 @@ export function startGame(authContext: AuthContext) {
                   notifications: onChainEvents,
                   deviceTrackerId,
                   status,
+                  announcements,
                 };
               }
 
@@ -1127,6 +1149,7 @@ export function startGame(authContext: AuthContext) {
           notifications: (_, event) => event.data.notifications,
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           status: (_, event) => event.data.status,
+          announcements: (_, event) => event.data.announcements,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
