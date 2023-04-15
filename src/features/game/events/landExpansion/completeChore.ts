@@ -67,7 +67,6 @@ export function completeChore({ state }: Options): GameState {
   );
 
   if (game.hayseedHank.choresCompleted === 1) {
-    game.conversations.push("hank-chore-complete");
     game.conversations.push("betty-intro");
   }
 

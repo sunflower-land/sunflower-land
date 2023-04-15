@@ -20,7 +20,7 @@ export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleClick = () => {
     // Trigger an autosave in case they have changes so user can sync right away
@@ -93,7 +93,17 @@ export const HayseedHank: React.FC = () => {
           </Panel>
         ) : (
           <CloseButtonPanel
-            title={"Ready to work?"}
+            title={
+              isTaskComplete(hayseedHank, bumpkin) ? (
+                <div className="flex justify-center">
+                  <p>Well done</p>
+                </div>
+              ) : (
+                <div className="flex justify-center">
+                  <p>Lend a hand?</p>
+                </div>
+              )
+            }
             bumpkinParts={NPC_WEARABLES.hank}
             onClose={() => setIsOpen(false)}
           >

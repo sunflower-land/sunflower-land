@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -13,6 +13,11 @@ import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 import { getProgress, isTaskComplete } from "../lib/HayseedHankTask";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { Chore as IChore } from "features/game/types/chores";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
@@ -29,8 +34,6 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
 
   const start = () => {
     gameService.send("chore.started");
-
-    onClose();
   };
 
   const complete = () => {
@@ -39,32 +42,14 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     gameService.send("SAVE");
   };
 
-  if (!hayseedHank.progress && autosaving) {
+  useEffect(() => {
+    if (!hayseedHank.progress) {
+      start();
+    }
+  }, [hayseedHank.progress]);
+
+  if (!hayseedHank.progress || autosaving) {
     return <Loading />;
-  }
-
-  if (!hayseedHank.progress) {
-    return (
-      <>
-        <div className="flex flex-col items-center w-full relative mb-2">
-          <div className="flex mt-1 mb-3">
-            <p>{chore.description}</p>
-          </div>
-          <Label type="info">Reward</Label>
-
-          {getKeys(chore.reward.items ?? {}).map((name) => (
-            <div className="flex items-center mt-1" key={name}>
-              <p className="text-sm whitespace-nowrap">{`${name} x ${chore.reward.items?.[name]}`}</p>
-              <img
-                src={ITEM_DETAILS[name].image}
-                className="w-6 h-6 object-contain ml-2 text-sm"
-              />
-            </div>
-          ))}
-        </div>
-        <Button onClick={start}>Start</Button>
-      </>
-    );
   }
 
   if (hayseedHank.progress.bumpkinId !== bumpkin.id) {
@@ -78,49 +63,80 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     );
   }
 
+  if (isTaskComplete(hayseedHank, bumpkin)) {
+    return (
+      <div className="flex flex-col items-center">
+        <img
+          src={SUNNYSIDE.icons.confirm}
+          style={{ width: `${PIXEL_SCALE * 16}px` }}
+        />
+        <p className="text-sm my-2">You've got a knack for this!</p>
+        <Button onClick={() => complete()}>Complete</Button>
+      </div>
+    );
+  }
+
   const progress = getProgress(hayseedHank, bumpkin);
 
   const progressPercentage = Math.min(1, progress / chore.requirement) * 100;
 
   return (
     <>
-      <div className="p-2 flex flex-col items-center w-full relative mb-2">
-        <div className="flex mt-1 mb-1">
-          <p>{chore.description}</p>
-        </div>
+      <div className="px-2 flex flex-col  w-full relative mb-2">
+        <p className="text-sm text-center">{chore.introduction}</p>
+        {chore.image && (
+          <img src={chore.image} className="w-2/3 mx-auto rounded-lg my-1" />
+        )}
+        <OuterPanel className="w-2/3 mx-auto mt-1">
+          <div className=" pt-2 text-center">
+            <p className="text-sm">{`Task: ${chore.action}`}</p>
+          </div>
 
-        <div className="flex items-center justify-center pt-1 w-full">
-          <div className="flex items-center mt-2">
+          <div className="flex items-center justify-center my-2">
             <ResizableBar
               percentage={progressPercentage}
               type="progress"
               outerDimensions={{
-                width: 80,
-                height: 10,
+                width: 40,
+                height: 8,
               }}
             />
             <span className="text-xxs ml-2">{`${setPrecision(
               new Decimal(progress)
             )}/${chore.requirement}`}</span>
           </div>
-        </div>
-      </div>
-      <div className="flex flex-col items-center mb-3">
-        <Label type="info">Reward</Label>
-
-        {getKeys(chore.reward.items ?? {}).map((name) => (
-          <div className="flex mt-1" key={name}>
-            <p className="text-sm whitespace-nowrap">{`${name} x ${chore.reward.items?.[name]}`}</p>
-            <img src={ITEM_DETAILS[name].image} className="h-6 ml-2 text-sm" />
+        </OuterPanel>
+        {/* <div className="flex items-center justify-center pt-1 w-full">
+          <div className="flex items-center mt-2">
+            <ResizableBar
+              percentage={progressPercentage}
+              type="progress"
+              outerDimensions={{
+                width: 40,
+                height: 8,
+              }}
+            />
+            <span className="text-xxs ml-2">{`${setPrecision(
+              new Decimal(progress)
+            )}/${chore.requirement}`}</span>
           </div>
-        ))}
+        </div> */}
       </div>
-      <Button
-        disabled={!isTaskComplete(hayseedHank, bumpkin)}
-        onClick={() => complete()}
-      >
-        Complete
-      </Button>
+      {getKeys(chore.reward.items ?? {}).length > 0 && (
+        <div className="flex flex-col items-center mb-3">
+          <Label type="info">Reward</Label>
+
+          {getKeys(chore.reward.items ?? {}).map((name) => (
+            <div className="flex mt-1" key={name}>
+              <p className="text-sm whitespace-nowrap">{`${name} x ${chore.reward.items?.[name]}`}</p>
+              <img
+                src={ITEM_DETAILS[name].image}
+                className="h-6 ml-2 text-sm"
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };

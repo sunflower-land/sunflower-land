@@ -1,9 +1,13 @@
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { InventoryItemName } from "./game";
 
+import clickToHarvest from "assets/tutorials/click_to_harvest.png";
+import betty from "assets/tutorials/betty.png";
 export type Chore = {
   activity: BumpkinActivityName;
-  description: string;
+  action: string;
+  image?: string;
+  introduction?: string;
   requirement: number;
   reward: {
     items?: Partial<Record<InventoryItemName, number>>;
@@ -16,7 +20,10 @@ export type Chore = {
 export const CHORES: Chore[] = [
   {
     activity: "Sunflower Harvested",
-    description: "Harvest 3 Sunflowers",
+    action: "Harvest 3 Sunflowers",
+    image: clickToHarvest,
+    introduction:
+      "These fields ain't gonna plow themselves. Mind lendin' an old farmer a hand with these Sunflowers?",
     requirement: 3,
     reward: {
       items: {},
@@ -24,7 +31,10 @@ export const CHORES: Chore[] = [
   },
   {
     activity: "Sunflower Sold",
-    description: "Sell 5 Sunflowers",
+    action: "Sell 5 Sunflowers",
+    image: betty,
+    introduction:
+      "My old bones ain't cut out for haggling with city folk, could you visit Betty at the market and sell these Sunflowers.",
     requirement: 5,
     reward: {
       items: {},
@@ -32,7 +42,7 @@ export const CHORES: Chore[] = [
   },
   {
     activity: "Mashed Potato Fed",
-    description: "Grow your Bumpkin!",
+    action: "Grow your Bumpkin!",
     requirement: 2,
     reward: {
       items: {},
@@ -40,7 +50,7 @@ export const CHORES: Chore[] = [
   },
   {
     activity: "Tree Chopped",
-    description: "Chop 3 Trees",
+    action: "Chop 3 Trees",
     requirement: 3,
     reward: {
       items: {},
@@ -49,7 +59,7 @@ export const CHORES: Chore[] = [
   // Craft Scarecrow
   // {
   //   activity: "Bush Bought",
-  //   description: "Craft a scarecrow",
+  //   action:"Craft a scarecrow",
   //   requirement: 1,
   //   reward: {
   //     items: {
@@ -59,7 +69,7 @@ export const CHORES: Chore[] = [
   // },
   // {
   //   activity: "Pumpkin Harvested",
-  //   description: "Harvest 10 Pumpkins",
+  //   action:"Harvest 10 Pumpkins",
   //   requirement: 10,
   //   reward: {
   //     items: {},
@@ -67,7 +77,7 @@ export const CHORES: Chore[] = [
   // },
   // {
   //   activity: "Pumpkin Harvested",
-  //   description: "Time to expand",
+  //   action:"Time to expand",
   //   requirement: 1,
   //   reward: {
   //     items: {},

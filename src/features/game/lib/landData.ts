@@ -273,7 +273,8 @@ export const OFFLINE_FARM: GameState = {
   airdrops: [],
 
   stock: INITIAL_STOCK,
-  conversations: ["hank-intro"],
+  conversations: [],
+  // conversations: ["hank-intro"],
 
   mailbox: {
     read: [],
