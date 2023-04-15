@@ -7,7 +7,7 @@ import stall from "assets/buildings/garbage_stall.png";
 
 import { Modal } from "react-bootstrap";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { GarbageCollectorModal } from "./components/GarbageCollectorModal";
 import { ITEM_DETAILS } from "features/game/types/images";

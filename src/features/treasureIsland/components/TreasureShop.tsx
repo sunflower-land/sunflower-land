@@ -11,7 +11,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { TreasureShopSell } from "./TreasureShopSell";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 
 export const TreasureShop: React.FC = () => {
   const [showModal, setShowModal] = useState(false);

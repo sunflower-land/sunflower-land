@@ -1,32 +1,92 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import mailbox from "assets/decorations/mailbox.png";
 import classNames from "classnames";
-import {
-  acknowledgeRead,
-  hasAnnouncements,
-  hasImportantAnnouncement,
-  PAST_ANNOUNCEMENTS,
-} from "features/announcements/announcementsStorage";
-import { Announcement } from "features/announcements/Announcement";
+
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Mail } from "./components/Mail";
+import {
+  ConversationName,
+  CONVERSATIONS,
+} from "features/game/types/conversations";
+import { Conversation } from "./components/Conversation";
+import { Panel } from "components/ui/Panel";
+import { NPC_WEARABLES } from "lib/npcs";
+import { getKeys } from "features/game/types/craftables";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 export const LetterBox: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const [tab, setTab] = useState(0);
   // const [isOpen, setIsOpen] = useState(hasImportantAnnouncement());
   const [isOpen, setIsOpen] = useState(true);
 
+  const [selected, setSelected] = useState<ConversationName>();
+
   const close = () => {
-    acknowledgeRead();
     setIsOpen(false);
   };
 
-  const hasUnread = hasAnnouncements();
+  const hasAnnouncement = getKeys(CONVERSATIONS)
+    .filter(
+      (id) =>
+        CONVERSATIONS[id].announceAt &&
+        CONVERSATIONS[id].announceAt < Date.now()
+    )
+    // Ensure they haven't read it already
+    .some(
+      (id) =>
+        !gameState.context.state.mailbox.read.find(
+          (message) => message.id === id
+        )
+    );
 
+  const Content = () => {
+    if (selected) {
+      const details = CONVERSATIONS[selected];
+      return (
+        <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
+          <div className="flex items-center mb-1">
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="h-6 mr-2 cursor-pointer"
+              onClick={() => setSelected(undefined)}
+            />
+            <p className="text-sm capitalize ml-1 underline">{details.from}</p>
+          </div>
+
+          <Conversation conversationId={selected} read />
+        </Panel>
+      );
+    }
+
+    return (
+      <CloseButtonPanel
+        onClose={close}
+        tabs={[
+          { icon: SUNNYSIDE.icons.expression_chat, name: "Bumpkin Buzz" },
+          // { icon: SUNNYSIDE.icons.heart, name: "Announcements" },
+        ]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+      >
+        <Mail selected={selected} setSelected={setSelected} />
+        {/* {tab === 1 && (
+      <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
+        {PAST_ANNOUNCEMENTS.map((announcement, index) => (
+          <Announcement key={index} announcement={announcement} />
+        ))}
+      </div>
+    )} */}
+      </CloseButtonPanel>
+    );
+  };
   return (
     <>
       <div
@@ -38,7 +98,7 @@ export const LetterBox: React.FC = () => {
           height: `${PIXEL_SCALE * 16}px`,
         }}
       >
-        {hasUnread && (
+        {hasAnnouncement && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className="absolute animate-float pointer-events-none z-20"
@@ -52,9 +112,7 @@ export const LetterBox: React.FC = () => {
 
         <img
           src={mailbox}
-          className={classNames("absolute pointer-events-none", {
-            "img-highlight-heavy": hasUnread,
-          })}
+          className={classNames("absolute pointer-events-none")}
           style={{
             width: `${PIXEL_SCALE * 8}px`,
             top: `${PIXEL_SCALE * 0}px`,
@@ -63,24 +121,7 @@ export const LetterBox: React.FC = () => {
         />
       </div>
       <Modal centered show={isOpen} onHide={close}>
-        <CloseButtonPanel
-          onClose={close}
-          tabs={[
-            { icon: SUNNYSIDE.icons.expression_chat, name: "Chat" },
-            { icon: SUNNYSIDE.icons.heart, name: "Announcements" },
-          ]}
-          currentTab={tab}
-          setCurrentTab={setTab}
-        >
-          {tab === 0 && <Mail />}
-          {tab === 1 && (
-            <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
-              {PAST_ANNOUNCEMENTS.map((announcement, index) => (
-                <Announcement key={index} announcement={announcement} />
-              ))}
-            </div>
-          )}
-        </CloseButtonPanel>
+        <Content />
       </Modal>
     </>
   );

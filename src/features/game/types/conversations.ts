@@ -4,6 +4,8 @@ import workbench from "assets/tutorials/workbench.png";
 import chores from "assets/tutorials/chores.png";
 import crafting from "assets/tutorials/crafting.png";
 
+import referrals from "assets/announcements/referrals.gif";
+
 import { InventoryItemName } from "./game";
 import { NPCName } from "lib/npcs";
 
@@ -14,9 +16,9 @@ export type ConversationName =
   | "blacksmith-intro"
   | "hank-chore-complete"
   | "hank-crafting"
-  | "hungry-player";
+  | "referral-announcement";
 
-type Conversation = {
+export type Message = {
   headline: string;
   content: {
     text: string;
@@ -25,10 +27,12 @@ type Conversation = {
   reward?: {
     items: Partial<Record<InventoryItemName, number>>;
   };
-  from: NPCName | "player";
+  from: NPCName;
+  link?: string;
+  announceAt?: number;
 };
 
-export const CONVERSATIONS: Record<ConversationName, Conversation> = {
+export const CONVERSATIONS: Record<ConversationName, Message> = {
   "hank-intro": {
     headline: "Help an old man?",
     content: [
@@ -81,15 +85,6 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
     ],
     from: "betty",
   },
-  "hungry-player": {
-    headline: "My tummy is rumbling",
-    content: [
-      {
-        text: "Fed me",
-      },
-    ],
-    from: "player",
-  },
   "bruce-intro": {
     headline: "Cooking Is Pure Joy.",
     content: [
@@ -122,5 +117,21 @@ export const CONVERSATIONS: Record<ConversationName, Conversation> = {
         Axe: 3,
       },
     },
+  },
+
+  "referral-announcement": {
+    headline: "Referral Program",
+    announceAt: new Date("2023-04-04").getTime(),
+    content: [
+      {
+        text: "The Sunflower Supporters program has officially launched!",
+      },
+      {
+        text: "Earn $1 USD* for each friend that creates an account",
+        image: referrals,
+      },
+    ],
+    from: "grimbly",
+    link: "https://sunflower-land.com/#referrals",
   },
 };

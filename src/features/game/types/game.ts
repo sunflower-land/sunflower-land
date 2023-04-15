@@ -485,8 +485,10 @@ export interface GameState {
   };
   conversations: ConversationName[];
   mailbox: {
-    unread: ConversationName[];
-    read: ConversationName[];
+    read: {
+      id: string;
+      createdAt: number;
+    }[];
   };
   dailyRewards: {
     chest?: {

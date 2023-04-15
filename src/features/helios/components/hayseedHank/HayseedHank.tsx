@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "react-bootstrap";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";

@@ -235,10 +235,9 @@ const INITIAL_BUMPKIN: Bumpkin = {
   equipped: {
     body: "Beige Farmer Potion",
     hair: "Basic Hair",
-    // shirt: "Lifeguard Shirt",
-    // pants: "Lifeguard Pants",
-    dress: "Tropical Sarong",
-    hat: "Sleeping Otter",
+    shirt: "Red Farmer Shirt",
+    pants: "Brown Suspenders",
+
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
@@ -278,8 +277,7 @@ export const OFFLINE_FARM: GameState = {
   conversations: ["hank-intro"],
 
   mailbox: {
-    read: ["hank-intro", "betty-intro"],
-    unread: [],
+    read: [],
   },
 
   stockExpiry: {},

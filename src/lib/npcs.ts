@@ -1,6 +1,6 @@
 import { Equipped } from "features/game/types/bumpkin";
 
-export type NPCName = "betty" | "bruce" | "hank" | "blacksmith";
+export type NPCName = "betty" | "bruce" | "hank" | "blacksmith" | "grimbly";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   betty: {
@@ -39,5 +39,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
+  },
+  grimbly: {
+    body: "Goblin Potion",
+    pants: "Brown Suspenders",
+    tool: "Hammer",
+    hair: "Blacksmith Hair",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    shirt: "Yellow Farmer Shirt",
   },
 };

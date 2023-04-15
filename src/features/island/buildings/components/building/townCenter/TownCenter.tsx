@@ -9,7 +9,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Airdrop } from "features/game/expansion/components/Airdrop";
 import { LetterBox } from "features/farming/mail/LetterBox";
-import { DynamicMiniNFT } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 
@@ -80,7 +80,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         }}
       >
         {bumpkin && (
-          <DynamicMiniNFT
+          <PlayerNPC
             body={bumpkin.equipped.body}
             hair={bumpkin.equipped.hair}
             shirt={bumpkin.equipped.shirt}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // Bodies
 import beigeBody from "assets/npc-layers/beige_body.png";
@@ -100,13 +100,7 @@ import {
   BumpkinDress,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
-import { ConsumableName } from "features/game/types/consumables";
-import { NPCModal } from "./NPCModal";
 import classNames from "classnames";
-import { useActor } from "@xstate/react";
-import { CONVERSATIONS } from "features/game/types/conversations";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 type VisiblePart =
   | BumpkinBody
@@ -215,7 +209,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Bunny Onesie": bunnyOnesie,
 };
 
-export interface DynamicMiniNFTProps {
+export interface NPCProps {
   body: BumpkinBody;
   hair: BumpkinHair;
   shirt?: BumpkinShirt;
@@ -228,68 +222,7 @@ export interface DynamicMiniNFTProps {
   dress?: BumpkinDress;
 }
 
-export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
-  body,
-  hair,
-  shirt,
-  pants,
-  hat,
-  suit,
-  onesie,
-  wings,
-  coat,
-  dress,
-}) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const [open, setOpen] = useState(false);
-
-  const eat = (food: ConsumableName) => {
-    gameService.send("bumpkin.feed", { food });
-  };
-
-  const conversationId = gameState.context.state.conversations.find(
-    (id) => CONVERSATIONS[id].from === "player"
-  );
-
-  console.log({ conversationId });
-  return (
-    <>
-      <NPC
-        body={body}
-        hair={hair}
-        shirt={shirt}
-        pants={pants}
-        hat={hat}
-        suit={suit}
-        onesie={onesie}
-        wings={wings}
-        coat={coat}
-        dress={dress}
-        onClick={() => setOpen(true)}
-      />
-      {conversationId && (
-        <img
-          src={SUNNYSIDE.icons.expression_chat}
-          className="absolute animate-pulsate"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            bottom: `${PIXEL_SCALE * 26}px`,
-            right: `${PIXEL_SCALE * 0}px`,
-          }}
-        />
-      )}
-      <NPCModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onFeed={(food) => eat(food)}
-      />
-    </>
-  );
-};
-
-export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
+export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   body,
   hair,
   shirt,
@@ -505,7 +438,7 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
   );
 };
 
-export const NPCFixed: React.FC<DynamicMiniNFTProps & { width: number }> = ({
+export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
   body,
   shirt,
   pants,

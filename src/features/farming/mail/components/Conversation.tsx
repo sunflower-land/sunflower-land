@@ -80,6 +80,18 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
           </div>
         ))}
 
+        {/* Links */}
+        {conversation.link && (
+          <a
+            href={conversation.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
+          >
+            Read more
+          </a>
+        )}
+
         {!read && <Button onClick={next}>Got it</Button>}
       </>
     );

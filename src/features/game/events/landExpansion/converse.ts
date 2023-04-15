@@ -44,14 +44,13 @@ export function endConversation({
     });
   }
 
-  game.mailbox.read.push(conversation);
+  game.mailbox.read.push({
+    id: conversation,
+    createdAt,
+  });
 
   // Remove it
   game.conversations = game.conversations.filter((id) => id !== action.id);
-
-  if (action.id === "bruce-intro") {
-    game.conversations.push("hungry-player");
-  }
 
   return game;
 }
