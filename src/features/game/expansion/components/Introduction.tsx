@@ -22,8 +22,8 @@ export const Introduction: React.FC = () => {
         <>
           <div className="p-2">
             <p className="mb-2 text-sm">
-              After navigating treacherous waters and exploring uncharted lands,
-              I've finally found the perfect island.
+              After navigating treacherous waters I've finally found the perfect
+              island.
             </p>
             <p className="text-sm">
               With a little hard work and some seeds, we can turn this land into

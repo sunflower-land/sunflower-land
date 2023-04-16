@@ -37,7 +37,7 @@ export const FirePit: React.FC<Props> = ({
   const [gameState] = useActor(gameService);
 
   const messageId = gameState.context.state.conversations.find(
-    (id) => CONVERSATIONS[id].from === "bruce"
+    (id) => CONVERSATIONS[id]?.from === "bruce"
   );
 
   const handleCook = (item: CookableName) => {

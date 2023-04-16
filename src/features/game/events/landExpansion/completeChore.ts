@@ -99,12 +99,14 @@ export function completeChore({
   */
 
   // Automatically start next chore
-  game = startChore({
-    state: game,
-    action: {
-      type: "chore.started",
-    },
-  });
+  if (!CONFIG.API_URL) {
+    game = startChore({
+      state: game,
+      action: {
+        type: "chore.started",
+      },
+    });
+  }
 
   return game;
 }

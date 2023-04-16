@@ -23,7 +23,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [gameState] = useActor(gameService);
 
   const conversationId = gameState.context.state.conversations.find(
-    (id) => CONVERSATIONS[id].from === "betty"
+    (id) => CONVERSATIONS[id]?.from === "betty"
   );
 
   const handleClick = () => {

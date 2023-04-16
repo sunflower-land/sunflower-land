@@ -41,7 +41,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   };
 
   console.log({ chore, hayseedHank });
-  if (!chore) {
+  if (!chore || !hayseedHank.progress) {
     return <Loading />;
   }
 

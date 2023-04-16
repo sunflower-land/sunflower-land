@@ -22,7 +22,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [gameState] = useActor(gameService);
 
   const conversationId = gameState.context.state.conversations.find(
-    (id) => CONVERSATIONS[id].from === "blacksmith"
+    (id) => CONVERSATIONS[id]?.from === "blacksmith"
   );
 
   const [isOpen, setIsOpen] = React.useState(false);

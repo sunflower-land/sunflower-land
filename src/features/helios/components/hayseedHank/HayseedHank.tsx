@@ -30,16 +30,19 @@ export const HayseedHank: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!gameState.context.state.hayseedHank.progress) {
+    // First ever chore
+    if (isOpen && !gameState.context.state.hayseedHank.progress) {
+      console.log("STart");
       gameService.send("chore.started");
+      gameService.send("SAVE");
     }
-  }, [gameState.context.state.hayseedHank.progress]);
+  }, [isOpen, gameState.context.state.hayseedHank.progress]);
 
   const hayseedHank = gameState.context.state.hayseedHank;
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
 
   const conversationId = gameState.context.state.conversations.find(
-    (id) => CONVERSATIONS[id].from === "hank"
+    (id) => CONVERSATIONS[id]?.from === "hank"
   );
 
   return (

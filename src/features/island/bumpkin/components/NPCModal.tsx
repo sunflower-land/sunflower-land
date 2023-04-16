@@ -31,7 +31,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
     .map(([_, consumable]) => consumable);
 
   const conversationId = state.conversations.find(
-    (id) => CONVERSATIONS[id].from === "player"
+    (id) => CONVERSATIONS[id]?.from === "player"
   );
 
   return (
