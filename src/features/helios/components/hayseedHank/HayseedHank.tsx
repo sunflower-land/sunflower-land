@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -20,14 +20,20 @@ export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
     // Trigger an autosave in case they have changes so user can sync right away
-    gameService.send("SAVE");
+    // gameService.send("SAVE");
 
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    if (!gameState.context.state.hayseedHank.progress) {
+      gameService.send("chore.started");
+    }
+  }, [gameState.context.state.hayseedHank.progress]);
 
   const hayseedHank = gameState.context.state.hayseedHank;
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
@@ -65,7 +71,7 @@ export const HayseedHank: React.FC = () => {
             }}
           />
         )}
-        {isTaskComplete(hayseedHank, bumpkin) && (
+        {isTaskComplete(hayseedHank, gameState.context.state) && (
           <img
             src={SUNNYSIDE.icons.confirm}
             className="absolute img-highlight-heavy"
@@ -94,7 +100,7 @@ export const HayseedHank: React.FC = () => {
         ) : (
           <CloseButtonPanel
             title={
-              isTaskComplete(hayseedHank, bumpkin) ? (
+              isTaskComplete(hayseedHank, gameState.context.state) ? (
                 <div className="flex justify-center">
                   <p>Well done</p>
                 </div>

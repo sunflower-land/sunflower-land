@@ -3,8 +3,18 @@ import { InventoryItemName } from "./game";
 
 import clickToHarvest from "assets/tutorials/click_to_harvest.png";
 import betty from "assets/tutorials/betty.png";
+import bruce from "assets/tutorials/bruce_intro.png";
+import workbench from "assets/tutorials/workbench_chat.png";
+
+import { marketRate } from "../lib/halvening";
+import { CROPS } from "./crops";
 export type Chore = {
-  activity: BumpkinActivityName;
+  // Challenges
+  activity?: BumpkinActivityName;
+  bumpkinLevel?: number;
+  expansionCount?: number;
+  sfl?: number;
+
   action: string;
   image?: string;
   introduction?: string;
@@ -20,29 +30,32 @@ export type Chore = {
 export const CHORES: Chore[] = [
   {
     activity: "Sunflower Harvested",
-    action: "Harvest 3 Sunflowers",
+    action: "Harvest the fields",
     image: clickToHarvest,
     introduction:
-      "These fields ain't gonna plow themselves. Mind lendin' an old farmer a hand with these Sunflowers?",
+      "These fields ain't gonna plow themselves. Harvest 3 Sunflowers.",
     requirement: 3,
     reward: {
       items: {},
     },
   },
   {
-    activity: "Sunflower Sold",
-    action: "Sell 5 Sunflowers",
+    action: `Earn ${CROPS().Sunflower.sellPrice.mul(5)} SFL`,
+    sfl: CROPS().Sunflower.sellPrice.mul(5).toNumber(),
     image: betty,
     introduction:
-      "My old bones ain't cut out for haggling with city folk, could you visit Betty at the market and sell these Sunflowers.",
-    requirement: 5,
+      "If you want to make it big in the farming business, you better start by sellin' sunflowers, buyin' seeds, and reaping the profit.",
+    requirement: CROPS().Sunflower.sellPrice.mul(5).toNumber(),
     reward: {
       items: {},
     },
   },
   {
-    activity: "Mashed Potato Fed",
-    action: "Grow your Bumpkin!",
+    action: "Reach Level 2",
+    bumpkinLevel: 2,
+    image: bruce,
+    introduction:
+      "If you want to level up & unlock new abilities, you better start cookin' up food & chowin' it down.",
     requirement: 2,
     reward: {
       items: {},
@@ -52,6 +65,9 @@ export const CHORES: Chore[] = [
     activity: "Tree Chopped",
     action: "Chop 3 Trees",
     requirement: 3,
+    image: workbench,
+    introduction:
+      "My old bones ain't what they used to be, reckon you could lend me a hand with these darn trees needin' choppin? Our local Blacksmith will help you craft some tools.",
     reward: {
       items: {},
     },

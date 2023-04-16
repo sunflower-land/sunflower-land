@@ -26,8 +26,6 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const autosaving = gameState.matches("autosaving");
-
   const hayseedHank = gameState.context.state.hayseedHank;
   const chore = hayseedHank.chore;
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
@@ -42,17 +40,12 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     gameService.send("SAVE");
   };
 
-  useEffect(() => {
-    if (!hayseedHank.progress) {
-      start();
-    }
-  }, [hayseedHank.progress]);
-
-  if (!hayseedHank.progress || autosaving) {
+  console.log({ chore, hayseedHank });
+  if (!chore) {
     return <Loading />;
   }
 
-  if (hayseedHank.progress.bumpkinId !== bumpkin.id) {
+  if (hayseedHank.progress?.bumpkinId !== bumpkin.id) {
     return (
       <>
         <div className="p-2 text-sm">
@@ -63,7 +56,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  if (isTaskComplete(hayseedHank, bumpkin)) {
+  if (isTaskComplete(hayseedHank, gameState.context.state)) {
     return (
       <div className="flex flex-col items-center">
         <img
@@ -76,7 +69,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  const progress = getProgress(hayseedHank, bumpkin);
+  const progress = getProgress(hayseedHank, gameState.context.state);
 
   const progressPercentage = Math.min(1, progress / chore.requirement) * 100;
 

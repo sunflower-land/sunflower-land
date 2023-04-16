@@ -3,7 +3,10 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CHORES } from "features/game/types/chores";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
+import { getProgress } from "features/helios/components/hayseedHank/lib/HayseedHankTask";
+import { CONFIG } from "lib/config";
 import cloneDeep from "lodash.clonedeep";
+import { startChore } from "./startChore";
 
 export type CompleteChoreAction = {
   type: "chore.completed";
@@ -19,8 +22,11 @@ const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
-export function completeChore({ state }: Options): GameState {
-  const game = clone(state);
+export function completeChore({
+  state,
+  createdAt = Date.now(),
+}: Options): GameState {
+  let game = clone(state);
 
   if (!game.bumpkin) {
     throw new Error("No Bumpkin Found");
@@ -36,9 +42,7 @@ export function completeChore({ state }: Options): GameState {
 
   const activity = game.hayseedHank.chore.activity;
 
-  const progress =
-    (game.bumpkin.activity?.[activity] ?? 0) -
-    game.hayseedHank.progress.startCount;
+  const progress = getProgress(game.hayseedHank, game);
 
   if (progress < game.hayseedHank.chore.requirement) {
     throw new Error("Chore is not completed");
@@ -53,9 +57,12 @@ export function completeChore({ state }: Options): GameState {
   });
 
   // Front-end testing only - real chore is hidden as a surpise on the backend
-  const nextChoreIndex = (game.hayseedHank.choresCompleted + 1) % CHORES.length;
-  const nextChore = CHORES[nextChoreIndex];
-  game.hayseedHank.chore = nextChore;
+  if (!CONFIG.API_URL) {
+    const nextChoreIndex =
+      (game.hayseedHank.choresCompleted + 1) % CHORES.length;
+    const nextChore = CHORES[nextChoreIndex];
+    game.hayseedHank.chore = nextChore;
+  }
 
   game.hayseedHank.choresCompleted += 1;
   delete game.hayseedHank.progress;
@@ -79,7 +86,8 @@ export function completeChore({ state }: Options): GameState {
   }
 
   if (game.hayseedHank.choresCompleted === 4) {
-    game.conversations.push("hank-crafting");
+    // TODO - once scarecrow gets crafted
+    // game.conversations.push("hank-crafting");
   }
 
   /* TODO
@@ -89,6 +97,14 @@ export function completeChore({ state }: Options): GameState {
     3. Hen House Conversation
     4. Fruit Conversation
   */
+
+  // Automatically start next chore
+  game = startChore({
+    state: game,
+    action: {
+      type: "chore.started",
+    },
+  });
 
   return game;
 }

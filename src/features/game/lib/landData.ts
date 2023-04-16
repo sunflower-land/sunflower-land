@@ -262,6 +262,7 @@ export const OFFLINE_FARM: GameState = {
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
+    "Mashed Potato": new Decimal(2),
   },
 
   ...INITIAL_RESOURCES,
@@ -273,8 +274,7 @@ export const OFFLINE_FARM: GameState = {
   airdrops: [],
 
   stock: INITIAL_STOCK,
-  conversations: [],
-  // conversations: ["hank-intro"],
+  conversations: ["hank-intro"],
 
   mailbox: {
     read: [],

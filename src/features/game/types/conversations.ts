@@ -12,7 +12,6 @@ export type ConversationName =
   | "bruce-intro"
   | "hank-intro"
   | "blacksmith-intro"
-  | "hank-chore-complete"
   | "hank-crafting";
 
 export type Message = {
@@ -33,62 +32,57 @@ export const CONVERSATIONS: Record<ConversationName, Message> = {
     headline: "Help an old man?",
     content: [
       {
-        text: "I've been working this land for fifty years, but I still need help sometimes.",
+        text: "Howdy Bumpkin! Welcome to our little patch of paradise.",
+      },
+      {
+        text: "I've been working this land for fifty years but could sure use some help.",
       },
 
       {
-        text: "You look strong! Do you mind helping an old man?",
+        text: "I can teach you the basics of farming, as long as you help me with my daily chores.",
         image: chores,
       },
     ],
     from: "hank",
   },
-  "hank-chore-complete": {
-    headline: "Well done.",
-    content: [
-      {
-        text: "Visit Betty and trade your crops for more seeds.",
-      },
-    ],
-    from: "hank",
-  },
+
   "hank-crafting": {
-    headline: "I ain't got time to wait",
+    headline: "Craft a scarecrow",
     content: [
       {
-        text: "Those crops are crops are growing slow...",
+        text: "Hmmm, those crops are growing awfully slow. I aint' got time to wait around.",
       },
       {
-        text: "Craft a scarecrow.",
+        text: "Craft a scarecrow to speed up your crops.",
         image: crafting,
       },
     ],
     from: "hank",
   },
   "betty-intro": {
-    headline: "Parsnips, Potatoes, Pumpkins...",
+    headline: "How to grow your farm",
     content: [
       {
-        text: "Howdy y'all! Welcome to the Farmer's Market.",
+        text: "Hey, hey! Welcome to my market.",
       },
       {
-        text: "From potatoes to parsnips, I've got you covered!",
+        text: "Bring me your finest harvest, and I will give you a fair price for them!",
       },
       {
-        text: "Farming is much easier than you think. Plant seeds, harvest crops & sell for money!",
+        text: "You need seeds? From potatoes to parsnips, I've got you covered!",
         image: harvesting,
       },
     ],
     from: "betty",
   },
   "bruce-intro": {
-    headline: "Cooking Is Pure Joy.",
+    headline: "Cooking Introduction",
     content: [
       {
         text: "I'm the owner of this lovely little bistro.",
       },
       {
-        text: "Bring me resources and I will cook food you can eat! This is the how you level up and unlock new skills.",
+        text: "Bring me resources and I will cook all the food you can eat!",
         image: firePit,
       },
     ],
@@ -103,7 +97,7 @@ export const CONVERSATIONS: Record<ConversationName, Message> = {
     headline: "Chop chop chop.",
     content: [
       {
-        text: "Loreum Ipsum",
+        text: "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
         image: workbench,
       },
     ],
