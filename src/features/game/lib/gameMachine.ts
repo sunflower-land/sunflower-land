@@ -396,7 +396,6 @@ export function startGame(authContext: AuthContext) {
         announcements: {
           "referral-announcement": {
             headline: "Referral Program",
-            announceAt: new Date("2023-04-04").getTime(),
             content: [
               {
                 text: "The Sunflower Supporters program has officially launched!",

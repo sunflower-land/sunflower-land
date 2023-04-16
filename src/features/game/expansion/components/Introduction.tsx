@@ -21,9 +21,13 @@ export const Introduction: React.FC = () => {
       return (
         <>
           <div className="p-2">
-            <p className="mb-2">Welcome to Sunflower Land.</p>
+            <p className="mb-2 text-sm">
+              After navigating treacherous waters and exploring uncharted lands,
+              I've finally found the perfect island.
+            </p>
             <p className="text-sm">
-              Farm, Chop, Mine, Craft & Build your farming empire!
+              With a little hard work and some seeds, we can turn this land into
+              a farming paradise!"
             </p>
           </div>
           <img src={welcome} className="w-full rounded-md mb-2" />
@@ -35,8 +39,9 @@ export const Introduction: React.FC = () => {
     return (
       <>
         <div className="p-2">
-          <p>This island looks like the perfect place to start our journey.</p>
-          <p>Let’s meet the locals & figure out how to make money.</p>
+          <p className="text-sm">
+            Let’s meet the local Bumpkins & figure out how to get started.
+          </p>
         </div>
         <img src={locals} className="w-full rounded-md mb-2" />
         <Button
