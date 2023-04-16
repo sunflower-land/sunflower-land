@@ -1,5 +1,5 @@
-import { useActor, useInterpret, useSelector } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import { useInterpret, useSelector } from "@xstate/react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import hungryChicken from "assets/animals/chickens/hungry_2.gif";
@@ -10,8 +10,6 @@ import chickenShadow from "assets/animals/chickens/chicken_shadow.png";
 import layingEggSheet from "assets/animals/chickens/laying-egg-sheet_2.png";
 import wheatOnGround from "assets/animals/chickens/wheat_2.png";
 
-import { Context } from "features/game/GameProvider";
-
 import Spritesheet from "components/animation/SpriteAnimator";
 import {
   CHICKEN_TIME_TO_EGG,
@@ -21,14 +19,17 @@ import {
 import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
-import { secondsToString } from "lib/utils/time";
 import { MutantChicken } from "features/game/types/craftables";
 import {
   ChickenContext,
   chickenMachine,
-  MachineInterpreter,
-  MachineState,
+  MachineState as ChickenMachineState,
+  MachineInterpreter as ChickenMachineInterpreter,
 } from "features/farming/animals/chickenMachine";
+import {
+  MachineState as GameMachineState,
+  MachineInterpreter as GameMachineInterpreter,
+} from "features/game/lib/gameMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
 import { Modal } from "react-bootstrap";
 import { RemoveChickenModal } from "features/farming/animals/components/RemoveChickenModal";
@@ -36,9 +37,8 @@ import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-interface Props {
-  id: string;
-}
+import { InventoryItemName } from "features/game/types/game";
+import { secondsToString } from "lib/utils/time";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -50,13 +50,18 @@ const getPercentageComplete = (fedAt?: number) => {
   return Math.ceil((timePassedSinceFed / CHICKEN_TIME_TO_EGG) * 100);
 };
 
+const selectTimeToEgg = (state: ChickenMachineState) => state.context.timeToEgg;
+const selectTimeElapsed = (state: ChickenMachineState) =>
+  state.context.timeElapsed;
+
 interface TimeToEggProps {
-  service: MachineInterpreter;
+  service: ChickenMachineInterpreter;
   showTimeToEgg: boolean;
 }
 
 const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
-  const [{ context }] = useActor(service);
+  const timeToEgg = useSelector(service, selectTimeToEgg);
+  const timeElapsed = useSelector(service, selectTimeElapsed);
 
   return (
     <InnerPanel
@@ -74,7 +79,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
           <span>Egg</span>
         </div>
         <span className="flex-1">
-          {secondsToString(context.timeToEgg - context.timeElapsed, {
+          {secondsToString(timeToEgg - timeElapsed, {
             length: "medium",
           })}
         </span>
@@ -83,20 +88,54 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   );
 };
 
-const isHungry = (state: MachineState) => state.matches("hungry");
-const isEating = (state: MachineState) => state.matches("eating");
-const isSleeping = (state: MachineState) => state.matches({ fed: "sleeping" });
-const isHappy = (state: MachineState) => state.matches({ fed: "happy" });
-const isEggReady = (state: MachineState) => state.matches("eggReady");
-const isEggLaid = (state: MachineState) => state.matches("eggLaid");
+export const HungryChicken = () => {
+  return (
+    <>
+      <img
+        src={chickenShadow}
+        className="absolute pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 13}px`,
+          top: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+      <img
+        src={hungryChicken}
+        className="absolute pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+          top: `${PIXEL_SCALE * -5}px`,
+          left: `${PIXEL_SCALE * 2}px`,
+        }}
+      />
+    </>
+  );
+};
 
-export const Chicken: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem, showTimers } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+const isHungry = (state: ChickenMachineState) => state.matches("hungry");
+const isEating = (state: ChickenMachineState) => state.matches("eating");
+const isSleeping = (state: ChickenMachineState) =>
+  state.matches({ fed: "sleeping" });
+const isHappy = (state: ChickenMachineState) => state.matches({ fed: "happy" });
+const isEggReady = (state: ChickenMachineState) => state.matches("eggReady");
+const isEggLaid = (state: ChickenMachineState) => state.matches("eggLaid");
+const selectGameState = (state: GameMachineState) => state.context.state;
+
+interface Props {
+  id: string;
+  gameService: GameMachineInterpreter;
+  selectedItem?: InventoryItemName;
+  showTimers: boolean;
+}
+
+export const Chicken: React.FC<Props> = ({
+  id,
+  gameService,
+  selectedItem,
+  showTimers,
+}) => {
+  const state = useSelector(gameService, selectGameState);
 
   const chicken = state.chickens[id];
 
@@ -108,7 +147,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
   const chickenService = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
-  }) as unknown as MachineInterpreter;
+  }) as unknown as ChickenMachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
@@ -230,25 +269,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
         <div className="relative pointer-events-none">
           {hungry && (
             <>
-              <img
-                src={chickenShadow}
-                className="absolute"
-                style={{
-                  width: `${PIXEL_SCALE * 13}px`,
-                  top: `${PIXEL_SCALE * 10}px`,
-                  left: `${PIXEL_SCALE * 1}px`,
-                }}
-              />
-              <img
-                src={hungryChicken}
-                alt="hungry-chicken"
-                style={{
-                  width: `${PIXEL_SCALE * 16}px`,
-                  top: `${PIXEL_SCALE * -5}px`,
-                  left: `${PIXEL_SCALE * 2}px`,
-                }}
-                className="absolute"
-              />
+              <HungryChicken />
               <img
                 src={SUNNYSIDE.icons.cancel}
                 className={classNames("transition-opacity absolute z-20", {

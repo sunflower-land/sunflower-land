@@ -18,15 +18,15 @@ import {
 } from "features/game/types/craftables";
 import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
 import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
-import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { HungryChicken } from "features/island/chickens/Chicken";
 
 const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
+  Chicken: () => <HungryChicken />,
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
   ...READONLY_RESOURCE_COMPONENTS,
@@ -37,12 +37,6 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
     />
   ),
 };
-
-// TODO - get dynamic bounds for placeable
-// const BOUNDS_MIN_X = -15
-// const BOUNDS_MAX_X = 5
-// const BOUNDS_MIN_Y = -5
-// const BOUNDS_MAX_Y = 15
 
 export const getInitialCoordinates = (origin?: Coordinates) => {
   // This container helps us to calculate the scroll pixels as in our application

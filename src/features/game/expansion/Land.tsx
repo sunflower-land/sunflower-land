@@ -185,7 +185,13 @@ const getIslandElements = ({
             width={width}
             isEditing={isEditing}
           >
-            <ChickenElement key={`chicken-${id}`} id={id} />
+            <ChickenElement
+              gameService={gameService}
+              selectedItem={selectedItem}
+              showTimers={showTimers}
+              key={`chicken-${id}`}
+              id={id}
+            />
           </MapPlacement>
         );
       })
