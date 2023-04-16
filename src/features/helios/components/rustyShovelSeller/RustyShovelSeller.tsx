@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 
 import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -18,6 +18,7 @@ import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
+import { makeBulkBuyAmount } from "features/island/buildings/components/building/market/lib/makeBulkBuyAmount";
 
 export const RustyShovelSeller: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
@@ -25,10 +26,12 @@ export const RustyShovelSeller: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const stock = context.state.stock["Rusty Shovel"] || new Decimal(0);
+  const bulkToolCraftAmount = makeBulkBuyAmount(stock);
   const { sfl: price, name: tool } = CRAFTABLE_TOOLS["Rusty Shovel"];
 
-  const craft = () => {
-    gameService.send("tool.crafted", { tool });
+  const craft = (event: SyntheticEvent, amount: number) => {
+    event.stopPropagation();
+    gameService.send("tool.crafted", { tool, amount });
 
     shortcutItem("Rusty Shovel");
   };
@@ -45,12 +48,32 @@ export const RustyShovelSeller: React.FC = () => {
     return <Stock item={{ name: "Rusty Shovel" }} inventoryFull={false} />;
   };
 
+  const lessFunds = (amount = 1) => {
+    if (!price) return;
+
+    return context.state.balance.lessThan(price.mul(amount));
+  };
+
   const Action = () => {
-    if (stock.equals(0)) {
+    if (stock.lessThan(1)) {
       return <Restock onClose={() => setShowModal(false)} />;
     }
 
-    return <Button onClick={craft}>Buy 1</Button>;
+    return (
+      <div className="flex space-x-1 w-full">
+        <Button disabled={lessFunds()} onClick={(e) => craft(e, 1)}>
+          Buy 1
+        </Button>
+        {bulkToolCraftAmount > 1 && (
+          <Button
+            disabled={lessFunds(bulkToolCraftAmount)}
+            onClick={(e) => craft(e, bulkToolCraftAmount)}
+          >
+            Buy {bulkToolCraftAmount}
+          </Button>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -99,12 +122,12 @@ export const RustyShovelSeller: React.FC = () => {
         >
           <div className="flex flex-wrap justify-center mb-3 space-x-2">
             <img
+              width={PIXEL_SCALE * 14}
               src={ITEM_DETAILS["Rusty Shovel"].image}
-              className="h-7 md:h-8"
             />
           </div>
           <div className="flex justify-center">{labelState()}</div>
-          <div className="space-y-3 text-sm px-1 mb-3">
+          <div className="space-y-4 text-sm px-1 mb-3">
             <p>
               I am assuming you are here because you need to dig something up on
               your land.
@@ -114,14 +137,10 @@ export const RustyShovelSeller: React.FC = () => {
               Well, I have plenty of these Rusty Shovels which will be perfect
               for the job.
             </p>
-            <div>
-              I am selling them for
-              <img
-                src={token}
-                className="h-4 inline mx-1"
-                style={{ imageRendering: "pixelated" }}
-              />
-              {`${price.toString()} SFL a piece. Interested?`}
+            <div className="justify-center">
+              I am selling them for{" "}
+              <img src={token} className="h-5 inline mx-1 mb-1" />
+              {`${price} SFL a piece. Interested?`}
             </div>
           </div>
           {Action()}
