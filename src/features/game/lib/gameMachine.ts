@@ -281,6 +281,7 @@ export type BlockchainState = {
     | "depositing"
     | "editing"
     | "noBumpkinFound"
+    | "noTownCenter"
     | "coolingDown"
     | "upgradingGuestGame"
     | "randomising"; // TEST ONLY
@@ -419,7 +420,7 @@ export function startGame(authContext: AuthContext) {
               cond: () => window.location.href.includes("visit"),
             },
             {
-              target: "playing",
+              target: "notifying",
               cond: () => ART_MODE,
               actions: assign({
                 state: (_context) => OFFLINE_FARM,
@@ -612,6 +613,7 @@ export function startGame(authContext: AuthContext) {
               cond: (context: Context) =>
                 !!context.notifications && context.notifications?.length > 0,
             },
+
             {
               target: "gameRules",
               cond: () => {
@@ -643,11 +645,32 @@ export function startGame(authContext: AuthContext) {
                 window.location.hash.includes("/land"),
             },
             {
+              target: "noTownCenter",
+              cond: (context: Context) => {
+                console.log({
+                  test: context.state.buildings["Town Center"],
+                  val:
+                    (context.state.buildings["Town Center"] ?? []).length === 0,
+                });
+
+                return (
+                  (context.state.buildings["Town Center"] ?? []).length === 0
+                );
+              },
+            },
+            {
               target: "playing",
             },
           ],
         },
         noBumpkinFound: {},
+        noTownCenter: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
+            },
+          },
+        },
         deposited: {
           on: {
             ACKNOWLEDGE: {
@@ -1023,7 +1046,7 @@ export function startGame(authContext: AuthContext) {
         introduction: {
           on: {
             ACKNOWLEDGE: {
-              target: "playing",
+              target: "notifying",
             },
           },
         },
