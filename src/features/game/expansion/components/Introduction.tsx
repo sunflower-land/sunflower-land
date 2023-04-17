@@ -5,7 +5,6 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { acknowledgeIntroduction } from "features/announcements/announcementsStorage";
 import { Context } from "features/game/GameProvider";
-import { Bumpkin } from "features/game/types/game";
 import React, { useContext, useState } from "react";
 
 import welcome from "assets/tutorials/welcome.png";
@@ -22,12 +21,12 @@ export const Introduction: React.FC = () => {
         <>
           <div className="p-2">
             <p className="mb-2 text-sm">
-              After navigating treacherous waters I've finally found the perfect
-              island.
+              {`After navigating treacherous waters I've finally found the perfect
+              island.`}
             </p>
             <p className="text-sm">
-              With a little hard work and some seeds, we can turn this land into
-              a farming paradise!"
+              {`With a little hard work and some seeds, we can turn this land into
+              a farming paradise!`}
             </p>
           </div>
           <img src={welcome} className="w-full rounded-md mb-2" />
@@ -40,7 +39,7 @@ export const Introduction: React.FC = () => {
       <>
         <div className="p-2">
           <p className="text-sm">
-            Let’s meet the local Bumpkins & figure out how to get started.
+            {`Let’s meet the local Bumpkins & figure out how to get started.`}
           </p>
         </div>
         <img src={locals} className="w-full rounded-md mb-2" />

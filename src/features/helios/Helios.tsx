@@ -20,7 +20,6 @@ import { randomInt } from "lib/utils/random";
 import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "features/island/hud/Hud";
 import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
-import { HayseedHank } from "./components/hayseedHank/HayseedHank";
 import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";

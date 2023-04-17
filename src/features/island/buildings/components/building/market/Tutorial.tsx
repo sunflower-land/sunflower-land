@@ -4,7 +4,6 @@ import { Equipped } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "../../../../../game/components/CloseablePanel";
 
-import token from "assets/icons/token_2.png";
 import { UNLOCKABLES } from "../../ui/DetailView";
 
 interface Props {
