@@ -148,7 +148,8 @@ import {
   moveFruitPatch,
   MoveFruitPatchAction,
 } from "./landExpansion/moveFruitPatch";
-import { MoveIronAction } from "./landExpansion/moveIron";
+import { moveIron, MoveIronAction } from "./landExpansion/moveIron";
+import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
 
 export type PlayingEvent =
   | TradeAction
@@ -211,7 +212,8 @@ export type PlacementEvent =
   | MoveCropAction
   | MoveFruitPatchAction
   | MoveTreeAction
-  | MoveIronAction;
+  | MoveIronAction
+  | MoveStoneAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -290,6 +292,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "tree.moved": moveTree,
   "crop.moved": moveCrop,
   "iron.moved": moveIron,
+  "stone.moved": moveStone,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
