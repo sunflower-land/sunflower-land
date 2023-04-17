@@ -17,7 +17,7 @@ describe("chore.started", () => {
             choresCompleted: 0,
             chore: {
               activity: "Sunflower Harvested",
-              action: "Harvest 10 Sunflowers",
+              description: "Harvest 10 Sunflowers",
               requirement: 10,
               reward: {
                 items: {
@@ -56,7 +56,7 @@ describe("chore.started", () => {
         hayseedHank: {
           choresCompleted: 0,
           chore: {
-            action: "Harvest 10 Sunflowers",
+            description: "Harvest 10 Sunflowers",
             activity: "Sunflower Harvested",
             requirement: 10,
             reward: {
@@ -93,7 +93,7 @@ describe("chore.started", () => {
         hayseedHank: {
           choresCompleted: 0,
           chore: {
-            action: "Harvest 10 Sunflowers",
+            description: "Harvest 10 Sunflowers",
             activity: "Sunflower Harvested",
             requirement: 10,
             reward: {

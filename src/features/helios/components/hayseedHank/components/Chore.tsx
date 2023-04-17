@@ -61,7 +61,24 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
           src={SUNNYSIDE.icons.confirm}
           style={{ width: `${PIXEL_SCALE * 16}px` }}
         />
-        <p className="text-sm my-2">{`You've got a knack for this!`}</p>
+
+        {getKeys(chore.reward.items ?? {}).length > 0 ? (
+          <div className="flex flex-col items-center mb-3 mt-2">
+            <Label type="info">Reward</Label>
+
+            {getKeys(chore.reward.items ?? {}).map((name) => (
+              <div className="flex mt-1" key={name}>
+                <p className="text-sm whitespace-nowrap">{`${name} x ${chore.reward.items?.[name]}`}</p>
+                <img
+                  src={ITEM_DETAILS[name].image}
+                  className="h-6 ml-2 text-sm"
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm my-2">{`You've got a knack for this!`}</p>
+        )}
         <Button onClick={() => complete()}>Complete</Button>
       </div>
     );
@@ -80,7 +97,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
         )}
         <OuterPanel className="w-2/3 mx-auto mt-1">
           <div className=" pt-2 text-center">
-            <p className="text-sm">{`Task: ${chore.action}`}</p>
+            <p className="text-sm">{`Task: ${chore.description}`}</p>
           </div>
 
           <div className="flex items-center justify-center my-2">
@@ -97,21 +114,6 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
             )}/${chore.requirement}`}</span>
           </div>
         </OuterPanel>
-        {/* <div className="flex items-center justify-center pt-1 w-full">
-          <div className="flex items-center mt-2">
-            <ResizableBar
-              percentage={progressPercentage}
-              type="progress"
-              outerDimensions={{
-                width: 40,
-                height: 8,
-              }}
-            />
-            <span className="text-xxs ml-2">{`${setPrecision(
-              new Decimal(progress)
-            )}/${chore.requirement}`}</span>
-          </div>
-        </div> */}
       </div>
       {getKeys(chore.reward.items ?? {}).length > 0 && (
         <div className="flex flex-col items-center mb-3">

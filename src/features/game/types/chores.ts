@@ -6,7 +6,6 @@ import betty from "assets/tutorials/betty.png";
 import bruce from "assets/tutorials/bruce_intro.png";
 import workbench from "assets/tutorials/workbench_chat.png";
 
-import { marketRate } from "../lib/halvening";
 import { CROPS } from "./crops";
 export type Chore = {
   // Challenges
@@ -15,7 +14,7 @@ export type Chore = {
   expansionCount?: number;
   sfl?: number;
 
-  action: string;
+  description: string;
   image?: string;
   introduction?: string;
   requirement: number;
@@ -30,7 +29,7 @@ export type Chore = {
 export const CHORES: Chore[] = [
   {
     activity: "Sunflower Harvested",
-    action: "Harvest the fields",
+    description: "Harvest the fields",
     image: clickToHarvest,
     introduction:
       "These fields ain't gonna plow themselves. Harvest 3 Sunflowers.",
@@ -40,7 +39,7 @@ export const CHORES: Chore[] = [
     },
   },
   {
-    action: `Earn ${CROPS().Sunflower.sellPrice.mul(5)} SFL`,
+    description: `Earn ${CROPS().Sunflower.sellPrice.mul(5)} SFL`,
     sfl: CROPS().Sunflower.sellPrice.mul(5).toNumber(),
     image: betty,
     introduction:
@@ -51,7 +50,7 @@ export const CHORES: Chore[] = [
     },
   },
   {
-    action: "Reach Level 2",
+    description: "Reach Level 2",
     bumpkinLevel: 2,
     image: bruce,
     introduction:
@@ -63,7 +62,7 @@ export const CHORES: Chore[] = [
   },
   {
     activity: "Tree Chopped",
-    action: "Chop 3 Trees",
+    description: "Chop 3 Trees",
     requirement: 3,
     image: workbench,
     introduction:
@@ -75,7 +74,7 @@ export const CHORES: Chore[] = [
   // Craft Scarecrow
   // {
   //   activity: "Bush Bought",
-  //   action:"Craft a scarecrow",
+  //   description:"Craft a scarecrow",
   //   requirement: 1,
   //   reward: {
   //     items: {
@@ -85,7 +84,7 @@ export const CHORES: Chore[] = [
   // },
   // {
   //   activity: "Pumpkin Harvested",
-  //   action:"Harvest 10 Pumpkins",
+  //   description:"Harvest 10 Pumpkins",
   //   requirement: 10,
   //   reward: {
   //     items: {},
@@ -93,7 +92,7 @@ export const CHORES: Chore[] = [
   // },
   // {
   //   activity: "Pumpkin Harvested",
-  //   action:"Time to expand",
+  //   description:"Time to expand",
   //   requirement: 1,
   //   reward: {
   //     items: {},

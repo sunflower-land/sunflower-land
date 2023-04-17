@@ -316,7 +316,7 @@ export const TEST_FARM: GameState = {
       reward: {
         items: { "Solar Flare Ticket": 1 },
       },
-      action: "Harvest 10 Sunflowers",
+      description: "Harvest 10 Sunflowers",
     },
   },
   easterHunt: {
@@ -429,7 +429,7 @@ export const EMPTY: GameState = {
       reward: {
         items: { "Solar Flare Ticket": 1 },
       },
-      action: "Harvest 10 Sunflowers",
+      description: "Harvest 10 Sunflowers",
     },
   },
   easterHunt: {

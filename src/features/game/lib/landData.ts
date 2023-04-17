@@ -288,6 +288,17 @@ export const OFFLINE_FARM: GameState = {
   },
 
   buildings: {
+    "Town Center": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 3,
+          y: 3,
+        },
+        createdAt: 0,
+      },
+    ],
     Workbench: [
       {
         id: "123",

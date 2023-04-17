@@ -13,7 +13,7 @@ const HAYSEED_HANK: GameState["hayseedHank"] = {
   },
   chore: {
     activity: "Sunflower Harvested" as BumpkinActivityName,
-    action: "Harvest 20 Sunflowers",
+    description: "Harvest 20 Sunflowers",
     requirement: 20,
     reward: {
       items: { "Solar Flare Ticket": 1 },
