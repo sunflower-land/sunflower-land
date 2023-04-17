@@ -3,10 +3,10 @@ import { BuildingName } from "features/game/types/buildings";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
-export enum MOVE_COLLECTIBLE_ERRORS {
+export enum MOVE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
-  NO_COLLECTIBLES = "You don't have any collectible of this type placed!",
-  COLLECTIBLE_NOT_PLACED = "This collectible is not placed!",
+  NO_BUILDINGS = "You don't have any buildings of this type placed!",
+  BUILDING_NOT_PLACED = "This building is not placed!",
 }
 
 export type MoveBuildingAction = {
@@ -32,11 +32,11 @@ export function moveBuilding({
   const buildings = stateCopy.buildings[action.name];
 
   if (stateCopy.bumpkin === undefined) {
-    throw new Error(MOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);
+    throw new Error(MOVE_BUILDING_ERRORS.NO_BUMPKIN);
   }
 
   if (!buildings) {
-    throw new Error(MOVE_COLLECTIBLE_ERRORS.NO_COLLECTIBLES);
+    throw new Error(MOVE_BUILDING_ERRORS.NO_BUILDINGS);
   }
 
   const collectibleToMoveIndex = buildings.findIndex(
@@ -44,7 +44,7 @@ export function moveBuilding({
   );
 
   if (collectibleToMoveIndex < 0) {
-    throw new Error(MOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_NOT_PLACED);
+    throw new Error(MOVE_BUILDING_ERRORS.BUILDING_NOT_PLACED);
   }
 
   buildings[collectibleToMoveIndex].coordinates = action.coordinates;
