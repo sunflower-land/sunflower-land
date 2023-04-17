@@ -26,11 +26,11 @@ export const RESOURCE_MOVE_EVENTS: Record<
   GameEventName<PlacementEvent>
 > = {
   Tree: "tree.moved",
-  "Crop Plot": "tree.moved",
-  "Fruit Patch": "tree.moved",
-  "Gold Rock": "tree.moved",
-  "Iron Rock": "tree.moved",
-  "Stone Rock": "tree.moved",
+  "Crop Plot": "crop.moved",
+  "Fruit Patch": "fruitPatch.moved",
+  "Gold Rock": "gold.moved",
+  "Iron Rock": "iron.moved",
+  "Stone Rock": "stone.moved",
   Boulder: "tree.moved",
 };
 
