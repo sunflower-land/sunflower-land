@@ -142,7 +142,8 @@ import {
   MoveCollectibleAction,
 } from "./landExpansion/moveCollectible";
 import { moveBuilding, MoveBuildingAction } from "./landExpansion/moveBuilding";
-import { moveTree, MoveTreeAction } from "./landExpansion/moveTree";
+import { moveTree } from "./landExpansion/moveTree";
+import { moveCrop, MoveCropAction } from "./landExpansion/moveCrop";
 
 export type PlayingEvent =
   | TradeAction
@@ -184,8 +185,7 @@ export type PlayingEvent =
   | StartChoreAction
   | CompleteChoreAction
   | ExpandLandAction
-  | CollectEasterEggAction
-  | MoveCollectibleAction;
+  | CollectEasterEggAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -203,7 +203,7 @@ export type PlacementEvent =
   | CraftCollectibleAction
   | MoveCollectibleAction
   | MoveBuildingAction
-  | MoveTreeAction;
+  | MoveCropAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -260,7 +260,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.started": startChore,
   "land.expanded": expandLand,
   "easterEgg.collected": collectEasterEgg,
-  "collectible.moved": moveCollectible,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -280,6 +279,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "collectible.moved": moveCollectible,
   "building.moved": moveBuilding,
   "tree.moved": moveTree,
+  "crop.moved": moveCrop,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
