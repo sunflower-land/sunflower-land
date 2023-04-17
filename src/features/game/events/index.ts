@@ -142,6 +142,7 @@ import {
   MoveCollectibleAction,
 } from "./landExpansion/moveCollectible";
 import { moveBuilding, MoveBuildingAction } from "./landExpansion/moveBuilding";
+import { moveTree, MoveTreeAction } from "./landExpansion/moveTree";
 import { moveCrop, MoveCropAction } from "./landExpansion/moveCrop";
 import {
   moveFruitPatch,
@@ -207,7 +208,8 @@ export type PlacementEvent =
   | MoveCollectibleAction
   | MoveBuildingAction
   | MoveCropAction
-  | MoveFruitPatchAction;
+  | MoveFruitPatchAction
+  | MoveTreeAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -282,8 +284,9 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "collectible.crafted": craftCollectible,
   "collectible.moved": moveCollectible,
   "building.moved": moveBuilding,
-  "crop.moved": moveCrop,
   "fruitPatch.moved": moveFruitPatch,
+  "tree.moved": moveTree,
+  "crop.moved": moveCrop,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
