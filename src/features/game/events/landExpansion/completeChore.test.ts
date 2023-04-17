@@ -20,7 +20,7 @@ describe("chore.completed", () => {
               reward: {
                 items: { "Solar Flare Ticket": 1 },
               },
-              description: "Harvest 10 Sunflowers",
+              action: "Harvest 10 Sunflowers",
             },
           },
         },
@@ -44,7 +44,7 @@ describe("chore.completed", () => {
               reward: {
                 items: { "Solar Flare Ticket": 1 },
               },
-              description: "Harvest 10 Sunflowers",
+              action: "Harvest 10 Sunflowers",
             },
             progress: {
               bumpkinId: 22,
@@ -79,7 +79,7 @@ describe("chore.completed", () => {
               reward: {
                 items: { "Solar Flare Ticket": 1 },
               },
-              description: "Harvest 10 Sunflowers",
+              action: "Harvest 10 Sunflowers",
             },
             progress: {
               bumpkinId: INITIAL_BUMPKIN.id,
@@ -114,7 +114,7 @@ describe("chore.completed", () => {
               reward: {
                 items: { "Solar Flare Ticket": 1 },
               },
-              description: "Harvest 10 Sunflowers",
+              action: "Harvest 10 Sunflowers",
             },
             progress: {
               bumpkinId: INITIAL_BUMPKIN.id,
@@ -148,7 +148,7 @@ describe("chore.completed", () => {
             reward: {
               items: { "Solar Flare Ticket": 1 },
             },
-            description: "Harvest 10 Sunflowers",
+            action: "Harvest 10 Sunflowers",
           },
           progress: {
             bumpkinId: INITIAL_BUMPKIN.id,
@@ -184,7 +184,7 @@ describe("chore.completed", () => {
             reward: {
               items: { "Solar Flare Ticket": 1 },
             },
-            description: "Harvest 10 Sunflowers",
+            action: "Harvest 10 Sunflowers",
           },
           progress: {
             bumpkinId: INITIAL_BUMPKIN.id,
@@ -220,7 +220,7 @@ describe("chore.completed", () => {
             reward: {
               items: { "Solar Flare Ticket": 1 },
             },
-            description: "Harvest 10 Sunflowers",
+            action: "Harvest 10 Sunflowers",
           },
           progress: {
             bumpkinId: INITIAL_BUMPKIN.id,
@@ -255,7 +255,7 @@ describe("chore.completed", () => {
             reward: {
               items: { "Solar Flare Ticket": 1, "Sunflower Seed": 5 },
             },
-            description: "Harvest 10 Sunflowers",
+            action: "Harvest 10 Sunflowers",
           },
           progress: {
             bumpkinId: INITIAL_BUMPKIN.id,
@@ -291,7 +291,7 @@ describe("chore.completed", () => {
             reward: {
               items: { "Solar Flare Ticket": 1 },
             },
-            description: "Harvest 10 Sunflowers",
+            action: "Harvest 10 Sunflowers",
           },
           progress: {
             bumpkinId: INITIAL_BUMPKIN.id,
@@ -326,7 +326,7 @@ describe("chore.completed", () => {
             reward: {
               items: { "Solar Flare Ticket": 1 },
             },
-            description: "Harvest 10 Sunflowers",
+            action: "Harvest 10 Sunflowers",
           },
           progress: {
             bumpkinId: INITIAL_BUMPKIN.id,

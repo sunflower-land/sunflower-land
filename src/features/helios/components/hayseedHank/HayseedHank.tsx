@@ -74,7 +74,7 @@ export const HayseedHank: React.FC = () => {
             }}
           />
         )}
-        {isTaskComplete(hayseedHank, gameState.context.state) && (
+        {isTaskComplete(gameState.context.state) && (
           <img
             src={SUNNYSIDE.icons.confirm}
             className="absolute img-highlight-heavy"
@@ -103,7 +103,7 @@ export const HayseedHank: React.FC = () => {
         ) : (
           <CloseButtonPanel
             title={
-              isTaskComplete(hayseedHank, gameState.context.state) ? (
+              isTaskComplete(gameState.context.state) ? (
                 <div className="flex justify-center">
                   <p>Well done</p>
                 </div>

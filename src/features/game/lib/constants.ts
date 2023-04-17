@@ -224,7 +224,6 @@ export const TEST_FARM: GameState = {
   conversations: [],
   mailbox: {
     read: [],
-    unread: [],
   },
   crops: {
     1: {
@@ -317,7 +316,7 @@ export const TEST_FARM: GameState = {
       reward: {
         items: { "Solar Flare Ticket": 1 },
       },
-      description: "Harvest 10 Sunflowers",
+      action: "Harvest 10 Sunflowers",
     },
   },
   easterHunt: {
@@ -430,7 +429,7 @@ export const EMPTY: GameState = {
       reward: {
         items: { "Solar Flare Ticket": 1 },
       },
-      description: "Harvest 10 Sunflowers",
+      action: "Harvest 10 Sunflowers",
     },
   },
   easterHunt: {

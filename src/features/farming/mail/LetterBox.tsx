@@ -26,7 +26,7 @@ export const LetterBox: React.FC = () => {
   const [tab, setTab] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
-  const [selected, setSelected] = useState<ConversationName>();
+  const [selected, setSelected] = useState<string>();
 
   const announcements = gameState.context.announcements;
 
@@ -45,7 +45,8 @@ export const LetterBox: React.FC = () => {
 
   const Content = () => {
     if (selected) {
-      const details = CONVERSATIONS[selected] ?? announcements[selected];
+      const details =
+        CONVERSATIONS[selected as ConversationName] ?? announcements[selected];
       return (
         <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
           <div className="flex items-center mb-1">
@@ -57,7 +58,7 @@ export const LetterBox: React.FC = () => {
             <p className="text-sm capitalize ml-1 underline">{details.from}</p>
           </div>
 
-          <Conversation conversationId={selected} read />
+          <Conversation conversationId={selected as ConversationName} read />
         </Panel>
       );
     }

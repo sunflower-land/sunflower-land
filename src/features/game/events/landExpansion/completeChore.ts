@@ -42,7 +42,7 @@ export function completeChore({
 
   const activity = game.hayseedHank.chore.activity;
 
-  const progress = getProgress(game.hayseedHank, game);
+  const progress = getProgress(game);
 
   if (progress < game.hayseedHank.chore.requirement) {
     throw new Error("Chore is not completed");

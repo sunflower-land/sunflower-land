@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -13,8 +13,6 @@ import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 import { getProgress, isTaskComplete } from "../lib/HayseedHankTask";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { Chore as IChore } from "features/game/types/chores";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { OuterPanel } from "components/ui/Panel";
@@ -56,20 +54,20 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  if (isTaskComplete(hayseedHank, gameState.context.state)) {
+  if (isTaskComplete(gameState.context.state)) {
     return (
       <div className="flex flex-col items-center">
         <img
           src={SUNNYSIDE.icons.confirm}
           style={{ width: `${PIXEL_SCALE * 16}px` }}
         />
-        <p className="text-sm my-2">You've got a knack for this!</p>
+        <p className="text-sm my-2">{`You've got a knack for this!`}</p>
         <Button onClick={() => complete()}>Complete</Button>
       </div>
     );
   }
 
-  const progress = getProgress(hayseedHank, gameState.context.state);
+  const progress = getProgress(gameState.context.state);
 
   const progressPercentage = Math.min(1, progress / chore.requirement) * 100;
 

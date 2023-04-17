@@ -1,15 +1,14 @@
-import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Bumpkin, GameState, HayseedHank } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 
-export const getProgress = (hayseedHank: HayseedHank, game: GameState) => {
-  if (!hayseedHank.progress) return 0;
+export const getProgress = (game: GameState) => {
+  if (!game.hayseedHank.progress) return 0;
 
-  const chore = hayseedHank.chore;
+  const chore = game.hayseedHank.chore;
   if (chore.activity) {
     return (
       (game.bumpkin?.activity?.[chore.activity] ?? 0) -
-      hayseedHank.progress.startCount
+      game.hayseedHank.progress.startCount
     );
   }
 
@@ -28,6 +27,6 @@ export const getProgress = (hayseedHank: HayseedHank, game: GameState) => {
   return 0;
 };
 
-export const isTaskComplete = (hayseedHank: HayseedHank, game: GameState) => {
-  return getProgress(hayseedHank, game) >= hayseedHank.chore.requirement;
+export const isTaskComplete = (game: GameState) => {
+  return getProgress(game) >= game.hayseedHank.chore.requirement;
 };
