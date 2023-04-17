@@ -13,8 +13,8 @@ import { Boulder } from "../boulder/Boulder";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { MoveableComponent } from "../collectibles/Collectible";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { MoveableComponent } from "../collectibles/MovableComponent";
 
 export interface ResourceProps {
   name: ResourceName;

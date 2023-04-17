@@ -29,8 +29,8 @@ import classNames from "classnames";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
 import { useActor } from "@xstate/react";
-import { MoveableComponent } from "features/island/collectibles/Collectible";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 
 interface Prop {
   name: BuildingName;

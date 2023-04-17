@@ -1,12 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import Modal from "react-bootstrap/Modal";
 
-import {
-  ANIMAL_DIMENSIONS,
-  COLLECTIBLES_DIMENSIONS,
-  CollectibleName,
-} from "features/game/types/craftables";
+import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
 import { WarSkulls } from "./components/WarSkulls";
 import { WarTombstone } from "./components/WarTombstone";
@@ -72,7 +68,7 @@ import { Bar } from "components/ui/ProgressBar";
 import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean, getBeanStates } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { Context } from "features/game/GameProvider";
@@ -127,14 +123,8 @@ import { Shrub } from "./components/Shrub";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Fence } from "./components/Fence";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
-import Draggable from "react-draggable";
-import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { useActor } from "@xstate/react";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
-import { GameEventName, PlacementEvent } from "features/game/events";
-import { RESOURCES, ResourceName } from "features/game/types/resources";
-import { InventoryItemName } from "features/game/types/game";
+import { MoveableComponent } from "./MovableComponent";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -420,34 +410,6 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
   );
 };
 
-export const RESOURCE_MOVE_EVENTS: Record<
-  ResourceName,
-  GameEventName<PlacementEvent>
-> = {
-  Tree: "tree.moved",
-  "Crop Plot": "tree.moved",
-  "Fruit Patch": "tree.moved",
-  "Gold Rock": "tree.moved",
-  "Iron Rock": "tree.moved",
-  "Stone Rock": "tree.moved",
-  Boulder: "tree.moved",
-};
-
-function getMoveAction(name: InventoryItemName): GameEventName<PlacementEvent> {
-  if (name in BUILDINGS_DIMENSIONS) {
-    return "building.moved";
-  }
-
-  if (name in RESOURCES) {
-    return RESOURCE_MOVE_EVENTS[name as ResourceName];
-  }
-
-  if (name in COLLECTIBLES_DIMENSIONS) {
-    return "collectible.moved";
-  }
-
-  throw new Error("No matching move event");
-}
 export const Collectible: React.FC<CollectibleProps> = (props) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -461,148 +423,4 @@ export const Collectible: React.FC<CollectibleProps> = (props) => {
   }
 
   return <CollectibleComponent {...props} />;
-};
-
-export interface MovableProps {
-  name: CollectibleName;
-  id: string;
-  readyAt: number;
-  createdAt: number;
-  coordinates: Coordinates;
-  grid: GameGrid;
-  height?: number;
-  width?: number;
-  x: number;
-  y: number;
-}
-
-export const MoveableComponent: React.FC<MovableProps> = ({
-  name,
-  id,
-  coordinates,
-  children,
-}) => {
-  const nodeRef = useRef(null);
-  const { gameService } = useContext(Context);
-  const [isColliding, setIsColliding] = useState(false);
-  const [counts, setCounts] = useState(0);
-  const isActive = useRef(false);
-
-  const landscapingMachine = gameService.state.children
-    .landscaping as MachineInterpreter;
-
-  const [landscapingState] = useActor(landscapingMachine);
-
-  useEffect(() => {
-    if (isActive.current && landscapingState.context.moving?.id !== id) {
-      console.log("Reset");
-      // Reset
-      setCounts((prev) => prev + 1);
-      setIsColliding(false);
-      isActive.current = false;
-    }
-  }, [landscapingState.context.moving]);
-
-  const dimensions = {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
-  }[name];
-
-  const detect = ({ x, y }: Coordinates) => {
-    const collisionDetected = detectCollision(gameService.state.context.state, {
-      x,
-      y,
-      width: dimensions.width,
-      height: dimensions.height,
-    });
-
-    setIsColliding(collisionDetected);
-    // send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
-  };
-
-  const origin = useRef<Coordinates>({ x: 0, y: 0 });
-
-  return (
-    <>
-      <Draggable
-        key={`${coordinates?.x}-${coordinates?.y}-${counts}`}
-        nodeRef={nodeRef}
-        grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
-        disabled={!landscapingState.matches({ editing: "moving" })}
-        onMouseDown={() => {
-          console.log("Mouse down");
-          landscapingMachine.send("HIGHLIGHT", {
-            name,
-            id,
-          });
-          isActive.current = true;
-        }}
-        onStart={(_, data) => {
-          const x = Math.round(data.x);
-          const y = Math.round(-data.y);
-          origin.current = { x, y };
-          console.log({ x, y });
-          // reset
-          // send("DRAG");
-        }}
-        onDrag={(_, data) => {
-          const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
-          const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
-
-          console.log({ coordinates });
-          const x = coordinates.x + xDiff;
-          const y = coordinates.y + yDiff;
-          console.log({ x, y });
-          detect({ x, y });
-          // setShowHint(false);
-        }}
-        onStop={(_, data) => {
-          const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
-          const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
-
-          const x = coordinates.x + xDiff;
-          const y = coordinates.y + yDiff;
-          console.log({ xDiff, yDiff, origin });
-
-          const collisionDetected = detectCollision(
-            gameService.state.context.state,
-            {
-              x,
-              y,
-              width: dimensions.width,
-              height: dimensions.height,
-            }
-          );
-
-          if (!collisionDetected) {
-            console.log({ action: getMoveAction(name), name });
-            gameService.send(getMoveAction(name), {
-              name,
-              coordinates: {
-                x: coordinates.x + xDiff,
-                y: coordinates.y + yDiff,
-              },
-              id,
-            });
-          }
-        }}
-      >
-        <div
-          ref={nodeRef}
-          data-prevent-drag-scroll
-          className={classNames("h-full cursor-pointer")}
-        >
-          <div
-            className={classNames("h-full", {
-              "opacity-50": isColliding,
-              "opacity-100": !isColliding,
-            })}
-          >
-            {children}
-          </div>
-        </div>
-      </Draggable>
-    </>
-  );
 };
