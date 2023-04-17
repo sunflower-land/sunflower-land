@@ -8,7 +8,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { Bumpkin } from "features/game/types/game";
 import { isTaskComplete } from "./lib/HayseedHankTask";
 import { CONVERSATIONS } from "features/game/types/conversations";
 import { Panel } from "components/ui/Panel";
@@ -31,15 +30,16 @@ export const HayseedHank: React.FC = () => {
 
   useEffect(() => {
     // First ever chore
-    if (isOpen && !gameState.context.state.hayseedHank.progress) {
+    if (
+      isOpen &&
+      !gameState.context.state.hayseedHank.progress &&
+      gameState.context.state.hayseedHank.choresCompleted === 0
+    ) {
       console.log("STart");
       gameService.send("chore.started");
       gameService.send("SAVE");
     }
   }, [isOpen, gameState.context.state.hayseedHank.progress]);
-
-  const hayseedHank = gameState.context.state.hayseedHank;
-  const bumpkin = gameState.context.state.bumpkin as Bumpkin;
 
   const conversationId = gameState.context.state.conversations.find(
     (id) => CONVERSATIONS[id]?.from === "hank"

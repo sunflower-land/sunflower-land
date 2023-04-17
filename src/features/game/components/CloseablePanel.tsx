@@ -81,12 +81,16 @@ export const CloseButtonPanel: React.FC<Props> = ({
                 onClick={() => handleTabClick(index)}
               >
                 <SquareIcon icon={tab.icon} width={7} />
-                <span className="text-xs sm:text-sm text-ellipsis ml-2">
+                <span
+                  className={classNames(
+                    "text-xs sm:text-sm text-ellipsis ml-2",
+                    {
+                      "animate-pulse": currentTab !== index && tab.unread,
+                    }
+                  )}
+                >
                   {tab.name}
                 </span>
-                {currentTab !== index && tab.unread && (
-                  <div className="bg-red-500 img-highlight w-2 h-2 rounded-full absolute right-[1px] top-2" />
-                )}
               </Tab>
             ))}
           </div>

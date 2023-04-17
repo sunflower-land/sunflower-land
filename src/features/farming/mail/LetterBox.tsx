@@ -34,7 +34,7 @@ export const LetterBox: React.FC = () => {
     setIsOpen(false);
   };
 
-  const hasAnnouncement = getKeys(gameState.context.announcements)
+  const hasAnnouncement = getKeys(gameState.context.announcements ?? {})
     // Ensure they haven't read it already
     .some(
       (id) =>
