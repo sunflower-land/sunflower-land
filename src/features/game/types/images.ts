@@ -258,6 +258,7 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 import kitchen from "src/assets/buildings/kitchen.png";
 import market from "src/assets/buildings/market.png";
+import townCenter from "src/assets/buildings/town_center.png";
 import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent.png";
 import well from "src/assets/buildings/well1.png";
@@ -1264,6 +1265,10 @@ export const ITEM_DETAILS: Items = {
   Market: {
     image: market,
     description: "Buy and sell at the Farmer's Market",
+  },
+  "Town Center": {
+    image: townCenter,
+    description: "Gather around the town center for the latest news",
   },
   Kitchen: {
     image: kitchen,

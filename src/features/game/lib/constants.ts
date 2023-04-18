@@ -221,6 +221,10 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
+  conversations: [],
+  mailbox: {
+    read: [],
+  },
   crops: {
     1: {
       height: 1,
@@ -406,6 +410,10 @@ export const EMPTY: GameState = {
   chickens: {},
   stock: {},
   stockExpiry: {},
+  conversations: [],
+  mailbox: {
+    read: [],
+  },
 
   buildings: {},
   collectibles: {},

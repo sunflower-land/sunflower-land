@@ -294,6 +294,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Smoothie Shack": 1010,
   Toolshed: 1011,
   Warehouse: 1012,
+  "Town Center": 1013,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,

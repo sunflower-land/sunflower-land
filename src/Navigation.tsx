@@ -21,6 +21,7 @@ import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -37,21 +38,23 @@ const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
   );
 };
 
+const selectProvider = (state: AuthMachineState) =>
+  state.context.user.web3?.provider;
+const selectFarmId = (state: AuthMachineState) => state.context.user.farmId;
+const selectState = (state: AuthMachineState) => ({
+  isAuthorised: state.matches({ connected: "authorised" }),
+  isVisiting: state.matches("visiting"),
+});
+
 /**
  * Entry point for game which reflects the user session state
  * Controls flow of authorised and unauthorised games
  */
 export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const provider = useSelector(
-    authService,
-    (state) => state.context.user.web3?.provider
-  );
-  const farmId = useSelector(authService, (state) => state.context.user.farmId);
-  const state = useSelector(authService, (state) => ({
-    isAuthorised: state.matches({ connected: "authorised" }),
-    isVisiting: state.matches("visiting"),
-  }));
+  const provider = useSelector(authService, selectProvider);
+  const farmId = useSelector(authService, selectFarmId);
+  const state = useSelector(authService, selectState);
 
   const [showGame, setShowGame] = useState(false);
   useImagePreloader();

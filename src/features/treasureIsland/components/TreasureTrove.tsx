@@ -17,7 +17,7 @@ import {
   TreasureDetail,
   REWARDS,
 } from "features/game/types/treasure";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { Equipped } from "features/game/types/bumpkin";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { CountdownLabel } from "components/ui/CountdownLabel";

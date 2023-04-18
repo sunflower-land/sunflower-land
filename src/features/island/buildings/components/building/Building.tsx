@@ -22,6 +22,7 @@ import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { CookableName } from "features/game/types/consumables";
+import { TownCenter } from "./townCenter/TownCenter";
 
 interface Prop {
   gameService: MachineInterpreter;
@@ -88,6 +89,7 @@ export const BUILDING_COMPONENTS: Record<
   ),
   Market: Market,
   Tent: Tent,
+  "Town Center": TownCenter,
   "Water Well": WaterWell,
   Warehouse: Warehouse,
   Toolshed: Toolshed,

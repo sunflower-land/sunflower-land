@@ -14,11 +14,14 @@ import { FertilePlot } from "./components/FertilePlot";
 import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const selectCrops = (state: MachineState) => state.context.state.crops;
+const selectBuildings = (state: MachineState) => state.context.state.buildings;
 
 interface Props {
   id: string;
 }
-
 export const Plot: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem, showTimers } = useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
@@ -26,17 +29,15 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const [reward, setReward] = useState<Reward>();
   const clickedAt = useRef<number>(0);
 
-  const gameState = useSelector(gameService, (state) => ({
-    crops: state.context.state.crops,
-    buildings: state.context.state.buildings,
-  }));
+  const crops = useSelector(gameService, selectCrops);
+  const buildings = useSelector(gameService, selectBuildings);
 
-  const crop = gameState.crops?.[id]?.crop;
+  const crop = crops?.[id]?.crop;
 
   const isFertile = isPlotFertile({
     plotIndex: id,
-    crops: gameState.crops,
-    buildings: gameState.buildings,
+    crops: crops,
+    buildings: buildings,
   });
 
   if (!isFertile) return <NonFertilePlot />;
