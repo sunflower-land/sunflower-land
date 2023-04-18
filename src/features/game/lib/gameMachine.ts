@@ -1042,7 +1042,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
         introduction: {
           on: {
             ACKNOWLEDGE: {

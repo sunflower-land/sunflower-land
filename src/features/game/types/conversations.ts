@@ -45,7 +45,6 @@ export const CONVERSATIONS: Record<ConversationName, Message> = {
     ],
     from: "hank",
   },
-
   "hank-crafting": {
     headline: "Craft a scarecrow",
     content: [

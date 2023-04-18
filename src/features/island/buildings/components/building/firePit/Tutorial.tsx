@@ -20,7 +20,7 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
     return (
       <>
         <div className="space-y-3 text-sm px-1 mb-3">
-          <p> Woh, it’s been a long time since I’ve seen a customer! </p>
+          <p> Woah, it’s been a long time since I’ve seen a customer! </p>
           <p>Welcome...</p>
         </div>
         <Button onClick={() => setPageNumber(2)}>Next</Button>

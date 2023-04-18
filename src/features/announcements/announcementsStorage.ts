@@ -1,8 +1,6 @@
 export function getGameRulesLastRead(): Date | null {
   const value = localStorage.getItem("gameRulesLastRead");
-  if (!value) {
-    return null;
-  }
+  if (!value) return null;
 
   return new Date(value);
 }
@@ -13,9 +11,7 @@ export function acknowledgeGameRules() {
 
 export function getCodeOfConductLastRead(): Date | null {
   const value = localStorage.getItem("codeOfConductLastRead");
-  if (!value) {
-    return null;
-  }
+  if (!value) return null;
 
   return new Date(value);
 }
@@ -29,9 +25,7 @@ export function acknowledgeCodeOfConduct() {
 
 export function getIntroductionRead(): Date | null {
   const value = localStorage.getItem("islesIntroduction");
-  if (!value) {
-    return null;
-  }
+  if (!value) return null;
 
   return new Date(value);
 }

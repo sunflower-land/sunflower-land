@@ -35,7 +35,6 @@ export const HayseedHank: React.FC = () => {
       !gameState.context.state.hayseedHank.progress &&
       gameState.context.state.hayseedHank.choresCompleted === 0
     ) {
-      console.log("STart");
       gameService.send("chore.started");
       gameService.send("SAVE");
     }

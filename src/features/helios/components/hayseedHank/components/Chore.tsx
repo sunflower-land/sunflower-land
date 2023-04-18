@@ -38,10 +38,7 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
     gameService.send("SAVE");
   };
 
-  console.log({ chore, hayseedHank });
-  if (!chore || !hayseedHank.progress) {
-    return <Loading />;
-  }
+  if (!chore || !hayseedHank.progress) return <Loading />;
 
   if (hayseedHank.progress?.bumpkinId !== bumpkin.id) {
     return (
