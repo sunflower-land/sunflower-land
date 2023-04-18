@@ -86,7 +86,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
   },
   Eggplant: {
     sellPrice: marketRate(8),
-    harvestSeconds: 1 * 60,
+    harvestSeconds: 16 * 60 * 60,
     name: "Eggplant",
     description: "Nature's edible work of art.",
     bumpkinLevel: 5,
