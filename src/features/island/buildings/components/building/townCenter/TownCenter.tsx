@@ -12,12 +12,25 @@ import { LetterBox } from "features/farming/mail/LetterBox";
 import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
+import { BuildingImageWrapper } from "../BuildingImageWrapper";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showHeart, setShowHeart] = useState(false);
+
+  const handleClick = () => {
+    if (onRemove) {
+      onRemove();
+      return;
+    }
+
+    if (isBuilt) {
+      // Add future on click actions here
+      return;
+    }
+  };
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -47,15 +60,17 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         left: `${PIXEL_SCALE * 1}px`,
       }}
     >
-      <img
-        src={townCenter}
-        className="absolute pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 62}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-        }}
-      />
+      <BuildingImageWrapper onClick={handleClick} nonInteractible={!onRemove}>
+        <img
+          src={townCenter}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 62}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+          }}
+        />
+      </BuildingImageWrapper>
 
       <HayseedHank />
 
