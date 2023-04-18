@@ -5,6 +5,7 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { getProgress } from "features/helios/components/hayseedHank/lib/HayseedHankTask";
 import { CONFIG } from "lib/config";
+import { analytics } from "lib/analytics";
 import cloneDeep from "lodash.clonedeep";
 import { startChore } from "./startChore";
 
@@ -56,11 +57,11 @@ export function completeChore({
     );
   });
 
+  const choreIndex = (game.hayseedHank.choresCompleted + 1) % CHORES.length;
+  const nextChore = CHORES[choreIndex + 1];
+
   // Front-end testing only - real chore is hidden as a surpise on the backend
   if (!CONFIG.API_URL) {
-    const nextChoreIndex =
-      (game.hayseedHank.choresCompleted + 1) % CHORES.length;
-    const nextChore = CHORES[nextChoreIndex];
     game.hayseedHank.chore = nextChore;
   }
 
@@ -107,6 +108,10 @@ export function completeChore({
       },
     });
   }
+
+  analytics.logEvent("chore_complete", {
+    choreIndex,
+  });
 
   return game;
 }

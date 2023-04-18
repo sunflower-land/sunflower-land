@@ -56,6 +56,7 @@ export async function sync({
     ...transaction,
     web3: wallet.web3Provider,
     account: wallet.myAccount,
+    blockBucks,
   });
 
   return { verified: true, sessionId: newSessionId };

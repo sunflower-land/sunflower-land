@@ -8,6 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { analytics } from "lib/analytics";
 
 interface Props {
   onClose: () => void;
@@ -28,6 +29,8 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   useEffect(() => {
     // Trigger an autosave in case they have changes so user can sync right away
     gameService.send("SAVE");
+
+    analytics.logEvent("begin_checkout");
   }, []);
 
   const Content = () => {

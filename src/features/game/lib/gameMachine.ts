@@ -637,6 +637,8 @@ export function startGame(authContext: AuthContext) {
               target: "swarming",
               cond: () => isSwarming(),
             },
+            // TODO - introduction > tutorial_begin
+
             {
               target: "noBumpkinFound",
               cond: (context: Context, event: any) =>
