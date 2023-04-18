@@ -241,7 +241,7 @@ const INITIAL_EXPANSIONS: ExpansionConstruction[] = [
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 200000,
+  experience: 2000,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
