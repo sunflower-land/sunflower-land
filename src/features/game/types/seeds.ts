@@ -70,6 +70,13 @@ export const SEEDS: () => Record<SeedName, Seed> = () => ({
     plantSeconds: 12 * 60 * 60,
     yield: "Parsnip",
   },
+  "Eggplant Seed": {
+    description: "Nature's edible work of art.",
+    sfl: marketRate(6),
+    bumpkinLevel: 5,
+    plantSeconds: 1 * 60,
+    yield: "Eggplant",
+  },
   "Radish Seed": {
     description: "Takes time but is worth the wait!",
     sfl: marketRate(7),
