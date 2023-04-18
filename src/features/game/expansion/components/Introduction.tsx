@@ -29,7 +29,7 @@ export const Introduction: React.FC = () => {
               a farming paradise!`}
             </p>
           </div>
-          <img src={welcome} className="w-full rounded-md mb-2" />
+          <img src={welcome} className="w-full rounded-md my-2" />
           <Button onClick={() => setPage(1)}>Continue</Button>
         </>
       );
@@ -42,7 +42,7 @@ export const Introduction: React.FC = () => {
             {`Let’s meet the local Bumpkins & figure out how to get started.`}
           </p>
         </div>
-        <img src={locals} className="w-full rounded-md mb-2" />
+        <img src={locals} className="w-full rounded-md my-2" />
         <Button
           onClick={() => {
             acknowledgeIntroduction();

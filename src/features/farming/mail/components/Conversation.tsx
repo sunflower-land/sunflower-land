@@ -71,29 +71,31 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
     }
     return (
       <>
-        {conversation.content.map((content, index) => (
-          <div className="mb-2" key={index}>
-            <p className="text-sm">{content.text}</p>
-            {content.image && (
-              <img
-                src={content.image}
-                className="w-full mx-auto rounded-md mt-1"
-              />
-            )}
-          </div>
-        ))}
+        <div className="">
+          {conversation.content.map((content, index) => (
+            <div className="mb-2" key={index}>
+              <p className="text-sm mb-2">{content.text}</p>
+              {content.image && (
+                <img
+                  src={content.image}
+                  className="w-full mx-auto rounded-md mt-1"
+                />
+              )}
+            </div>
+          ))}
 
-        {/* Links */}
-        {conversation.link && (
-          <a
-            href={conversation.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
-          >
-            Read more
-          </a>
-        )}
+          {/* Links */}
+          {conversation.link && (
+            <a
+              href={conversation.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
+            >
+              Read more
+            </a>
+          )}
+        </div>
 
         {!read && <Button onClick={next}>Got it</Button>}
       </>
@@ -101,13 +103,11 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
   };
 
   return (
-    <div>
-      <div
-        style={{ maxHeight: CONTENT_HEIGHT }}
-        className="overflow-y-auto p-2 divide-brown-600 scrollable"
-      >
-        <Content />
-      </div>
+    <div
+      style={{ maxHeight: CONTENT_HEIGHT }}
+      className="overflow-y-auto divide-brown-600 p-2 pb-0 scrollable"
+    >
+      <Content />
     </div>
   );
 };

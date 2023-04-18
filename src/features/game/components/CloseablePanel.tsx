@@ -85,7 +85,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
                   className={classNames(
                     "text-xs sm:text-sm text-ellipsis ml-2",
                     {
-                      "animate-pulse": currentTab !== index && tab.unread,
+                      pulse: currentTab !== index && tab.unread,
                     }
                   )}
                 >

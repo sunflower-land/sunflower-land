@@ -90,14 +90,14 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      <div className="px-2 flex flex-col  w-full relative mb-2">
-        <p className="text-sm text-center">{chore.introduction}</p>
+      <div className="px-2 flex flex-col w-full relative mb-2">
+        <p className="text-sm mb-2">{chore.introduction}</p>
         {chore.image && (
-          <img src={chore.image} className="w-2/3 mx-auto rounded-lg my-1" />
+          <img src={chore.image} className="w-full rounded-lg my-1" />
         )}
-        <OuterPanel className="w-2/3 mx-auto mt-1">
-          <div className=" pt-2 text-center">
-            <p className="text-sm">{`Task: ${chore.description}`}</p>
+        <OuterPanel className="w-full mt-1">
+          <div className="pt-1">
+            <p className="text-sm text-center">{`Task: ${chore.description}`}</p>
           </div>
 
           <div className="flex items-center justify-center my-2">
