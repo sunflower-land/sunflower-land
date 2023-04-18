@@ -74,6 +74,15 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/108.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
   },
+  "Eggplant Seed": {
+    name: "Eggplant Seed",
+    description:
+      "A seed used to grow eggplant.\n\nYou can buy eggplant seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/118.png",
+    attributes: [{ trait_type: "Purpose", value: "Seed" }],
+  },
   "Wheat Seed": {
     name: "Wheat Seed",
     description:
@@ -211,6 +220,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Parsnip",
     description:
       "A crop grown at Sunflower Land.\n\nNot to be mistaken for carrots.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/208.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { value: "Tradable" },
+    ],
+  },
+  Eggplant: {
+    name: "Eggplant",
+    description:
+      "A crop grown at Sunflower Land.\n\nNature's edible work of art.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/208.png",
