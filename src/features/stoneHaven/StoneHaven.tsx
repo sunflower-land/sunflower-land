@@ -26,7 +26,7 @@ export const StoneHaven: React.FC = () => {
   return (
     <GameProvider>
       <ScrollContainer
-        className="bg-blue-300 overflow-scroll relative w-full h-full"
+        className="bg-blue-300 overflow-scroll relative w-full h-full overscroll-none"
         innerRef={container}
       >
         <div

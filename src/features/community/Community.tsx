@@ -23,7 +23,7 @@ export const Community: React.FC = () => {
   return (
     <CommunityProvider>
       <ScrollContainer
-        className="bg-blue-300 overflow-scroll relative w-full h-full"
+        className="bg-blue-300 overflow-scroll relative w-full h-full overscroll-none"
         innerRef={container}
       >
         <div
