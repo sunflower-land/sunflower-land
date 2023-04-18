@@ -63,7 +63,9 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
   }
 
   //developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#level_up
-  analytics.logEvent("level_up", game.inventory["Basic Land"]?.toNumber() ?? 3);
+  analytics.logEvent("level_up", {
+    level: game.inventory["Basic Land"]?.toNumber() ?? 3,
+  });
 
   return {
     ...game,
