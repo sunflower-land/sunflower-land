@@ -6,12 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CabbageBoy: React.FC = () => {
   return (
-    <div
-      className="absolute top-0 left-0 h-full"
-      style={{
-        width: `${PIXEL_SCALE * 16}px`,
-      }}
-    >
+    <>
       <img
         src={shadow}
         style={{
@@ -29,6 +24,6 @@ export const CabbageBoy: React.FC = () => {
         className="absolute left-0 pointer-events-none"
         alt="Cabbage Boy"
       />
-    </div>
+    </>
   );
 };

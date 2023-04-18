@@ -8,12 +8,21 @@ import Spritesheet from "components/animation/SpriteAnimator";
 export const SquirrelMonkey: React.FC = () => {
   return (
     <>
+      <img
+        src={shadow}
+        style={{
+          width: `${PIXEL_SCALE * 15}px`,
+          bottom: `${PIXEL_SCALE * 5}px`,
+          left: `${PIXEL_SCALE * 7}px`,
+        }}
+        className="absolute pointer-events-none"
+      />
       <Spritesheet
-        className="absolute z-20"
+        className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${0}px`,
+          left: `${PIXEL_SCALE * 4}px`,
           imageRendering: "pixelated",
         }}
         image={sheet}
@@ -21,19 +30,9 @@ export const SquirrelMonkey: React.FC = () => {
         heightFrame={32}
         fps={12}
         steps={9}
-        direction={`forward`}
+        direction="forward"
         autoplay={true}
         loop={true}
-      />
-      <img
-        src={shadow}
-        style={{
-          width: `${PIXEL_SCALE * 14}px`,
-          bottom: `${PIXEL_SCALE * 5}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-        }}
-        className="absolute"
-        alt="Basic Bear"
       />
     </>
   );
