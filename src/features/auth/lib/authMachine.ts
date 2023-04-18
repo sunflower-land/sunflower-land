@@ -1,5 +1,5 @@
 import { sequence } from "0xsequence";
-import { createMachine, Interpreter, assign } from "xstate";
+import { createMachine, Interpreter, State, assign } from "xstate";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import { loadBanDetails } from "features/game/actions/bans";
@@ -34,7 +34,6 @@ import {
   getGuestModeComplete,
   setGuestKey,
 } from "../actions/createGuestAccount";
-import { hasFeatureAccess } from "lib/flags";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -200,6 +199,8 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
+export type AuthMachineState = State<Context, BlockchainEvent, BlockchainState>;
+
 export const authMachine = createMachine<
   Context,
   BlockchainEvent,
@@ -226,8 +227,7 @@ export const authMachine = createMachine<
         },
         always: {
           target: "signIn",
-          cond: () =>
-            !!getGuestModeComplete() || !hasFeatureAccess({}, "GUEST_GAME"),
+          cond: () => !!getGuestModeComplete(),
         },
         on: {
           SIGN_IN: {
@@ -852,9 +852,9 @@ export const authMachine = createMachine<
           web3: context.user.web3,
           farmId: event.data.farmId,
           farmAddress: event.data.address,
-          blacklistStatus: event.data.blacklistStatus,
-          verificationUrl: event.data.verificationUrl,
         }),
+        blacklistStatus: (_, event) => event.data.blacklistStatus,
+        verificationUrl: (_, event) => event.data.verificationUrl,
       }),
       assignToken: assign<Context, any>({
         user: (context, event) => ({

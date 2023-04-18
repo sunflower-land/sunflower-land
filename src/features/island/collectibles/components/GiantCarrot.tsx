@@ -3,7 +3,7 @@ import React from "react";
 import giantCarrot from "assets/sfts/giant_carrot.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-const GiantCarrotComponent: React.FC = () => {
+export const GiantCarrot: React.FC = () => {
   return (
     <img
       src={giantCarrot}
@@ -17,5 +17,3 @@ const GiantCarrotComponent: React.FC = () => {
     />
   );
 };
-
-export const GiantCarrot = React.memo(GiantCarrotComponent);

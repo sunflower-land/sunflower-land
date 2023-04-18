@@ -15,7 +15,7 @@ interface Props {
   onClose: () => void;
   onFeed: (name: ConsumableName) => void;
 }
-export const FeedModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
+export const NPCModal: React.FC<Props> = ({ isOpen, onFeed, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {

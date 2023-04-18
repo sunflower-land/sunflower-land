@@ -7,7 +7,6 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
-import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 type BoundingBox = Position;
@@ -285,14 +284,6 @@ function detectLandCornerCollision(
   });
 }
 
-function detectBumpkinCollision(boundingBox: BoundingBox) {
-  return isOverlapping(boundingBox, {
-    x: BUMPKIN_POSITION.x,
-    y: BUMPKIN_POSITION.y,
-    height: 2,
-    width: 2,
-  });
-}
 export function detectCollision(state: GameState, position: Position) {
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -300,7 +291,6 @@ export function detectCollision(state: GameState, position: Position) {
     detectWaterCollision(expansions, position) ||
     detectPlaceableCollision(state, position) ||
     detectLandCornerCollision(expansions, position) ||
-    detectChickenCollision(state, position) ||
-    detectBumpkinCollision(position)
+    detectChickenCollision(state, position)
   );
 }

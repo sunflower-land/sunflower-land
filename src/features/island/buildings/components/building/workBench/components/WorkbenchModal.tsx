@@ -1,7 +1,6 @@
 import React, { SyntheticEvent, useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
-import { Modal } from "react-bootstrap";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -10,8 +9,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import { WorkbenchToolName, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getKeys } from "features/game/types/craftables";
-import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
-import { Tutorial } from "./Tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -19,6 +16,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { makeBulkBuyAmount } from "../../market/lib/makeBulkBuyAmount";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   isOpen: boolean;
@@ -28,9 +26,6 @@ interface Props {
 export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [selectedName, setSelectedName] = useState<WorkbenchToolName>("Axe");
   const { gameService, shortcutItem } = useContext(Context);
-  const [showTutorial, setShowTutorial] = useState<boolean>(
-    !hasShownTutorial("Workbench")
-  );
 
   const [
     {
@@ -38,28 +33,7 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
     },
   ] = useActor(gameService);
 
-  const bumpkinParts: Partial<Equipped> = {
-    body: "Light Brown Farmer Potion",
-    hair: "Blacksmith Hair",
-    pants: "Lumberjack Overalls",
-    shirt: "SFL T-Shirt",
-    tool: "Hammer",
-    background: "Farm Background",
-    shoes: "Brown Boots",
-  };
-
-  const acknowledge = () => {
-    acknowledgeTutorial("Workbench");
-    setShowTutorial(false);
-  };
-
-  if (showTutorial) {
-    return (
-      <Modal show={isOpen} onHide={acknowledge} centered>
-        <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />
-      </Modal>
-    );
-  }
+  const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.blacksmith;
 
   const selected = WORKBENCH_TOOLS()[selectedName];
   const inventory = state.inventory;
@@ -125,42 +99,40 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal centered show={isOpen} onHide={onClose}>
-      <CloseButtonPanel
-        bumpkinParts={bumpkinParts}
-        onClose={onClose}
-        tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Tools" }]}
-      >
-        <SplitScreenView
-          panel={
-            <CraftingRequirements
-              gameState={state}
-              stock={stock}
-              details={{
-                item: selectedName,
-              }}
-              requirements={{
-                sfl: price,
-                resources: selected.ingredients,
-              }}
-              actionView={Action()}
-            />
-          }
-          content={
-            <>
-              {getKeys(WORKBENCH_TOOLS()).map((toolName) => (
-                <Box
-                  isSelected={selectedName === toolName}
-                  key={toolName}
-                  onClick={() => onToolClick(toolName)}
-                  image={ITEM_DETAILS[toolName].image}
-                  count={inventory[toolName]}
-                />
-              ))}
-            </>
-          }
-        />
-      </CloseButtonPanel>
-    </Modal>
+    <CloseButtonPanel
+      bumpkinParts={bumpkinParts}
+      onClose={onClose}
+      tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Tools" }]}
+    >
+      <SplitScreenView
+        panel={
+          <CraftingRequirements
+            gameState={state}
+            stock={stock}
+            details={{
+              item: selectedName,
+            }}
+            requirements={{
+              sfl: price,
+              resources: selected.ingredients,
+            }}
+            actionView={Action()}
+          />
+        }
+        content={
+          <>
+            {getKeys(WORKBENCH_TOOLS()).map((toolName) => (
+              <Box
+                isSelected={selectedName === toolName}
+                key={toolName}
+                onClick={() => onToolClick(toolName)}
+                image={ITEM_DETAILS[toolName].image}
+                count={inventory[toolName]}
+              />
+            ))}
+          </>
+        }
+      />
+    </CloseButtonPanel>
   );
 };

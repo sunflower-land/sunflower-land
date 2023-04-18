@@ -16,18 +16,15 @@ import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
-import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
-import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
-import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
@@ -36,6 +33,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
 
 export const LAND_WIDTH = 6;
+import { MachineState } from "../lib/gameMachine";
 
 const getIslandElements = ({
   buildings,
@@ -68,31 +66,6 @@ const getIslandElements = ({
   isEditing?: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
-
-  if (bumpkinParts) {
-    mapPlacements.push(
-      <MapPlacement
-        key="bumpkin-parts"
-        x={BUMPKIN_POSITION.x}
-        y={BUMPKIN_POSITION.y}
-        width={2}
-        height={2}
-        isEditing={isEditing}
-      >
-        <CharacterPlayground
-          body={bumpkinParts.body}
-          hair={bumpkinParts.hair}
-          shirt={bumpkinParts.shirt}
-          pants={bumpkinParts.pants}
-          suit={bumpkinParts.suit}
-          hat={bumpkinParts.hat}
-          onesie={bumpkinParts.onesie}
-          wings={bumpkinParts.wings}
-          dress={bumpkinParts.dress}
-        />
-      </MapPlacement>
-    );
-  }
 
   mapPlacements.push(
     ...getKeys(buildings)
@@ -315,6 +288,13 @@ const getIslandElements = ({
   return mapPlacements;
 };
 
+const selectGameState = (state: MachineState) => state.context.state;
+const isAutosaving = (state: MachineState) => state.matches("autosaving");
+const isEditing = (state: MachineState) => state.matches("editing");
+const isVisiting = (state: MachineState) => state.matches("visiting");
+const isPlaying = (state: MachineState) =>
+  state.matches("playingGuestGame") || state.matches("playingFullGame");
+
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
 
@@ -332,14 +312,11 @@ export const Land: React.FC = () => {
     crops,
     fruitPatches,
     easterHunt,
-  } = useSelector(gameService, (state) => state.context.state);
-  const gameState = useSelector(gameService, (state) => ({
-    isAutosaving: state.matches("autosaving"),
-    isEditing: state.matches("editing"),
-    isVisiting: state.matches("visiting"),
-    isPlaying:
-      state.matches("playingGuestGame") || state.matches("playingFullGame"),
-  }));
+  } = useSelector(gameService, selectGameState);
+  const autosaving = useSelector(gameService, isAutosaving);
+  const editing = useSelector(gameService, isEditing);
+  const visiting = useSelector(gameService, isVisiting);
+  const playing = useSelector(gameService, isPlaying);
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -389,7 +366,7 @@ export const Land: React.FC = () => {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
             className={classNames("relative w-full h-full", {
-              "pointer-events-none": gameState.isVisiting,
+              "pointer-events-none": visiting,
             })}
           >
             <LandBase expandedCount={expansionCount} />
@@ -415,24 +392,20 @@ export const Land: React.FC = () => {
               bumpkinParts: bumpkin?.equipped,
               isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
               showTimers: showTimers,
-              isEditing: gameState.isEditing,
+              isEditing: editing,
             }).sort((a, b) => b.props.y - a.props.y)}
           </div>
           <IslandTravel
             bumpkin={bumpkin}
-            isVisiting={gameState.isVisiting}
+            isVisiting={visiting}
             inventory={inventory}
-            travelAllowed={!gameState.isAutosaving}
+            travelAllowed={!autosaving}
             onTravelDialogOpened={() => gameService.send("SAVE")}
             x={boatCoordinates.x}
             y={boatCoordinates.y}
           />
 
-          {gameState.isPlaying && (
-            <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
-          )}
-
-          {gameState.isEditing && <Placeable />}
+          {editing && <Placeable />}
         </div>
       </div>
       <Hud key="1" isFarming />

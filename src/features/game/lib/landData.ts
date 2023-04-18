@@ -1,12 +1,8 @@
 import Decimal from "decimal.js-light";
 import { CHORES } from "../types/chores";
-import {
-  Bumpkin,
-  GameState,
-  Inventory,
-  ExpansionConstruction,
-} from "../types/game";
+import { Bumpkin, GameState, Inventory } from "../types/game";
 import { makeGame } from "./transforms";
+import { getKeys } from "../types/craftables";
 
 const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
@@ -64,25 +60,23 @@ export type ResourceFieldName =
   | "crops"
   | "fruitPatches";
 
-export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
+export const INITIAL_RESOURCES: Pick<
+  GameState,
+  "crops" | "trees" | "stones" | "iron" | "gold" | "fruitPatches"
+> = {
   crops: {
-    0: {
-      createdAt: Date.now(),
-      x: -2,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
     1: {
       createdAt: Date.now(),
-      x: -1,
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: -2,
       y: -1,
       height: 1,
       width: 1,
     },
     2: {
       createdAt: Date.now(),
-      x: 0,
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: -1,
       y: -1,
       height: 1,
       width: 1,
@@ -90,15 +84,15 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
     3: {
       createdAt: Date.now(),
       crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-      x: -2,
-      y: 0,
+      x: 0,
+      y: -1,
       height: 1,
       width: 1,
     },
     4: {
       createdAt: Date.now(),
       crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-      x: -1,
+      x: -2,
       y: 0,
       height: 1,
       width: 1,
@@ -106,63 +100,75 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
     5: {
       createdAt: Date.now(),
       crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-      x: 0,
+      x: -1,
       y: 0,
       height: 1,
       width: 1,
     },
     6: {
       createdAt: Date.now(),
-      x: -2,
-      y: 1,
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: 0,
+      y: 0,
       height: 1,
       width: 1,
     },
     7: {
       createdAt: Date.now(),
-      x: -1,
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: -2,
       y: 1,
       height: 1,
       width: 1,
     },
     8: {
       createdAt: Date.now(),
-      x: 0,
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: -1,
       y: 1,
       height: 1,
       width: 1,
     },
     9: {
       createdAt: Date.now(),
-      x: -2,
-      y: -1,
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: 0,
+      y: 1,
       height: 1,
       width: 1,
     },
     10: {
       createdAt: Date.now(),
-      x: -1,
-      y: -1,
+      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      x: 6,
+      y: -2,
       height: 1,
       width: 1,
     },
     11: {
       createdAt: Date.now(),
-      x: -2,
-      y: -2,
+      x: 6,
+      y: -1,
       height: 1,
       width: 1,
     },
     12: {
       createdAt: Date.now(),
-      x: -1,
+      x: 7,
       y: -2,
+      height: 1,
+      width: 1,
+    },
+    13: {
+      createdAt: Date.now(),
+      x: 7,
+      y: -1,
       height: 1,
       width: 1,
     },
   },
   trees: {
-    0: {
+    1: {
       wood: {
         amount: 1,
         choppedAt: 0,
@@ -172,29 +178,29 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
       height: 2,
       width: 2,
     },
-    1: {
-      wood: {
-        amount: 1,
-        choppedAt: 0,
-      },
-      x: 1,
-      y: 1,
-      height: 2,
-      width: 2,
-    },
     2: {
       wood: {
         amount: 1,
         choppedAt: 0,
       },
-      x: 1,
-      y: 1,
+      x: 7,
+      y: 3,
+      height: 2,
+      width: 2,
+    },
+    3: {
+      wood: {
+        amount: 1,
+        choppedAt: 0,
+      },
+      x: 7,
+      y: 9,
       height: 2,
       width: 2,
     },
   },
   stones: {
-    0: {
+    1: {
       x: 0,
       y: 3,
       width: 1,
@@ -204,9 +210,9 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
         minedAt: 0,
       },
     },
-    1: {
-      x: 1,
-      y: -2,
+    2: {
+      x: 4,
+      y: 5,
       width: 1,
       height: 1,
       stone: {
@@ -220,36 +226,18 @@ export const INITIAL_RESOURCES: Pick<GameState, ResourceFieldName> = {
   iron: {},
 };
 
-const INITIAL_EXPANSIONS: ExpansionConstruction[] = [
-  {
-    createdAt: 2,
-    readyAt: 0,
-  },
-  {
-    createdAt: 3,
-    readyAt: 0,
-  },
-  {
-    createdAt: 4,
-    readyAt: 0,
-  },
-  {
-    createdAt: 4,
-    readyAt: Date.now() + 5000,
-  },
-];
+export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 2000,
+  experience: 0,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
     hair: "Basic Hair",
-    // shirt: "Lifeguard Shirt",
-    // pants: "Lifeguard Pants",
-    dress: "Tropical Sarong",
-    hat: "Sleeping Otter",
+    shirt: "Red Farmer Shirt",
+    pants: "Brown Suspenders",
+
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
@@ -264,1809 +252,97 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
-  balance: new Decimal(10),
+  balance: new Decimal(0),
   inventory: {
-    "Dirt Path": new Decimal(100),
-    Fence: new Decimal(50),
-    Bush: new Decimal(50),
-    Shrub: new Decimal(50),
-    "White Tulips": new Decimal(10),
-    Artist: new Decimal(1),
-    Sunflower: new Decimal(2999),
-    Wood: new Decimal(100),
-    Stone: new Decimal(50),
-    Axe: new Decimal(10),
-    "Maneki Neko": new Decimal(2),
-    "Lunar Calendar": new Decimal(1),
-    "Pablo The Bunny": new Decimal(1),
-    "Easter Bear": new Decimal(1),
-    "Cabbage Girl": new Decimal(1),
-    "Cabbage Boy": new Decimal(1),
-
-    Tree: new Decimal(5),
-    "Stone Rock": new Decimal(3),
-    "Iron Rock": new Decimal(3),
-    "Fruit Patch": new Decimal(3),
-    "Gold Rock": new Decimal(3),
-    "Crop Plot": new Decimal(23),
-    "Basic Land": new Decimal(17),
-    "Easter Bush": new Decimal(3),
-    // ...getKeys(KNOWN_IDS).reduce(
-    //   (acc, name) => ({
-    //     ...acc,
-    //     [name]: new Decimal(1),
-    //   }),
-    //   {}
-    // ),
-    "Block Buck": new Decimal(1),
+    Market: new Decimal(1),
+    "Fire Pit": new Decimal(1),
+    "Town Center": new Decimal(1),
+    Workbench: new Decimal(1),
+    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
+    "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
+    Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
+    "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
+    "Mashed Potato": new Decimal(2),
   },
-  migrated: true,
-  stock: INITIAL_STOCK,
-  chickens: {},
-  stockExpiry: {},
 
-  expansionConstruction: {
-    createdAt: Date.now(),
-    readyAt: Date.now() + 5000,
+  ...INITIAL_RESOURCES,
+
+  bumpkin: INITIAL_BUMPKIN,
+
+  chickens: {},
+
+  airdrops: [],
+
+  stock: INITIAL_STOCK,
+  conversations: ["hank-intro"],
+
+  mailbox: {
+    read: [],
+  },
+
+  stockExpiry: {},
+  dailyRewards: {},
+  easterHunt: {
+    eggs: [],
+    generatedAt: 0,
   },
 
   buildings: {
-    "Water Well": [
+    "Town Center": [
       {
-        coordinates: {
-          x: 3,
-          y: 11,
-        },
-        readyAt: 1678157335443,
-        createdAt: 1678157335443,
-        id: "4f7f2072-85b0-4356-a34a-5df9dadd5d19",
-      },
-      {
-        coordinates: {
-          x: 5,
-          y: 11,
-        },
-        readyAt: 1678157341425,
-        createdAt: 1678157341425,
-        id: "bc1f1018-c396-44f7-bb39-5ce2493fe767",
-      },
-      {
-        coordinates: {
-          x: 7,
-          y: 11,
-        },
-        readyAt: 1678157686003,
-        createdAt: 1678157386003,
-        id: "38805d03-da3e-4c89-99ed-2c46d90d0543",
-      },
-      {
-        coordinates: {
-          x: 3,
-          y: 15,
-        },
-        readyAt: 1680601000994,
-        createdAt: 1680600700994,
-        id: "7c46d622",
-      },
-    ],
-    Kitchen: [
-      {
-        coordinates: {
-          x: 0,
-          y: 7,
-        },
-        readyAt: 1675993131921,
-        createdAt: 1675993131921,
-        id: "f3ee134c-e13c-4e44-a81d-51929452df63",
-      },
-    ],
-    "Hen House": [
-      {
-        coordinates: {
-          x: -4,
-          y: -6,
-        },
-        readyAt: 1680165033445,
-        createdAt: 1680165033445,
-        id: "5f26ffba",
-      },
-      {
-        coordinates: {
-          x: 8,
-          y: -3,
-        },
-        readyAt: 1680237107284,
-        createdAt: 1680226307284,
-        id: "1b2b018f",
-      },
-    ],
-    Bakery: [
-      {
-        coordinates: {
-          x: -5,
-          y: -3,
-        },
-        readyAt: 1680615110689,
-        createdAt: 1680600710689,
-        id: "e244f594",
-      },
-    ],
-    "Fire Pit": [
-      {
-        coordinates: {
-          x: 4,
-          y: 8,
-        },
-        readyAt: 0,
-        createdAt: 0,
         id: "123",
-      },
-      {
+        readyAt: 0,
         coordinates: {
-          x: -1,
-          y: -1,
+          x: 3,
+          y: 3,
         },
-        readyAt: 1680600729738,
-        createdAt: 1680600729738,
-        id: "14f1a7d3",
-      },
-    ],
-    "Smoothie Shack": [
-      {
-        coordinates: {
-          x: -8,
-          y: -1,
-        },
-        readyAt: 1680208225484,
-        createdAt: 1680165025484,
-        id: "18925ee6",
+        createdAt: 0,
       },
     ],
     Workbench: [
       {
+        id: "123",
+        readyAt: 0,
         coordinates: {
-          x: 11,
-          y: 11,
+          x: 4,
+          y: 9,
         },
-        readyAt: 1675292052064,
-        createdAt: 1675292052064,
-        id: "f1abadcf-0e08-42bb-80a5-9996a8a4b404",
+        createdAt: 0,
+      },
+    ],
+    "Fire Pit": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 2,
+          y: -1,
+        },
+        createdAt: 0,
       },
     ],
     Market: [
       {
-        coordinates: {
-          x: 2,
-          y: 2,
-        },
-        readyAt: 0,
-        createdAt: 0,
         id: "123",
-      },
-      {
-        coordinates: {
-          x: 4,
-          y: -2,
-        },
-        readyAt: 1680600723891,
-        createdAt: 1680600723891,
-        id: "8327fc48",
-      },
-    ],
-    Deli: [
-      {
-        coordinates: {
-          x: 8,
-          y: -6,
-        },
-        readyAt: 1680600737005,
-        createdAt: 1680600737005,
-        id: "b22f9c73",
-      },
-    ],
-  },
-  airdrops: [],
-  collectibles: {
-    "Collectible Bear": [
-      {
-        coordinates: {
-          x: 4,
-          y: 0,
-        },
-        readyAt: 1678160795537,
-        createdAt: 1678160795537,
-        id: "db87aa28-be25-458a-88dc-b25040b32d52",
-      },
-    ],
-    "Lifeguard Bear": [
-      {
-        coordinates: {
-          x: -2,
-          y: 14,
-        },
-        readyAt: 1680226979268,
-        createdAt: 1680226979268,
-        id: "4402987d",
-      },
-      {
-        coordinates: {
-          x: -2,
-          y: 13,
-        },
-        readyAt: 1680226979538,
-        createdAt: 1680226979538,
-        id: "88f0fb66",
-      },
-      {
-        coordinates: {
-          x: -2,
-          y: 12,
-        },
-        readyAt: 1680226979884,
-        createdAt: 1680226979884,
-        id: "cddc55ca",
-      },
-      {
-        coordinates: {
-          x: -2,
-          y: 11,
-        },
-        readyAt: 1680226980467,
-        createdAt: 1680226980467,
-        id: "9753fc9f",
-      },
-      {
-        coordinates: {
-          x: -2,
-          y: 10,
-        },
-        readyAt: 1680226980848,
-        createdAt: 1680226980848,
-        id: "1d31217f",
-      },
-    ],
-    "Basic Bear": [
-      {
-        coordinates: {
-          x: -8,
-          y: 15,
-        },
-        readyAt: 1680600650307,
-        createdAt: 1680600650307,
-        id: "4887d48b",
-      },
-      {
-        coordinates: {
-          x: -8,
-          y: 14,
-        },
-        readyAt: 1680600650460,
-        createdAt: 1680600650460,
-        id: "16c01b59",
-      },
-      {
-        coordinates: {
-          x: -8,
-          y: 13,
-        },
-        readyAt: 1680600650576,
-        createdAt: 1680600650576,
-        id: "b3410c94",
-      },
-      {
-        coordinates: {
-          x: -8,
-          y: 12,
-        },
-        readyAt: 1680600650676,
-        createdAt: 1680600650676,
-        id: "bbf43fdf",
-      },
-      {
-        coordinates: {
-          x: -8,
-          y: 11,
-        },
-        readyAt: 1680600650828,
-        createdAt: 1680600650828,
-        id: "2d0980d4",
-      },
-      {
-        coordinates: {
-          x: -8,
-          y: 10,
-        },
-        readyAt: 1680600650942,
-        createdAt: 1680600650942,
-        id: "ad0f49e2",
-      },
-      {
-        coordinates: {
-          x: -8,
-          y: 9,
-        },
-        readyAt: 1680600651061,
-        createdAt: 1680600651061,
-        id: "1d7a7c0f",
-      },
-      {
-        coordinates: {
-          x: -7,
-          y: 15,
-        },
-        readyAt: 1680600653757,
-        createdAt: 1680600653757,
-        id: "3722bc6d",
-      },
-      {
-        coordinates: {
-          x: -7,
-          y: 14,
-        },
-        readyAt: 1680600653893,
-        createdAt: 1680600653893,
-        id: "ee3ab258",
-      },
-      {
-        coordinates: {
-          x: -7,
-          y: 13,
-        },
-        readyAt: 1680600654028,
-        createdAt: 1680600654028,
-        id: "9c48aadf",
-      },
-      {
-        coordinates: {
-          x: -7,
-          y: 12,
-        },
-        readyAt: 1680600654145,
-        createdAt: 1680600654145,
-        id: "b8694ce4",
-      },
-    ],
-    "Potted Sunflower": [
-      {
-        coordinates: {
-          x: -9,
-          y: 15,
-        },
-        readyAt: 1680600636674,
-        createdAt: 1680600636674,
-        id: "5bbcd6d7",
-      },
-      {
-        coordinates: {
-          x: -9,
-          y: 14,
-        },
-        readyAt: 1680600636827,
-        createdAt: 1680600636827,
-        id: "e29ff121",
-      },
-      {
-        coordinates: {
-          x: -9,
-          y: 13,
-        },
-        readyAt: 1680600636941,
-        createdAt: 1680600636941,
-        id: "b44f213d",
-      },
-      {
-        coordinates: {
-          x: -9,
-          y: 12,
-        },
-        readyAt: 1680600637042,
-        createdAt: 1680600637042,
-        id: "c6b29d9e",
-      },
-      {
-        coordinates: {
-          x: -9,
-          y: 11,
-        },
-        readyAt: 1680600637175,
-        createdAt: 1680600637175,
-        id: "cea2f776",
-      },
-      {
-        coordinates: {
-          x: -9,
-          y: 10,
-        },
-        readyAt: 1680600637309,
-        createdAt: 1680600637309,
-        id: "a3595daa",
-      },
-      {
-        coordinates: {
-          x: -9,
-          y: 9,
-        },
-        readyAt: 1680600637426,
-        createdAt: 1680600637426,
-        id: "5b9eefb3",
-      },
-      {
-        coordinates: {
-          x: -15,
-          y: 14,
-        },
-        readyAt: 1680600640589,
-        createdAt: 1680600640589,
-        id: "6439e62c",
-      },
-      {
-        coordinates: {
-          x: -15,
-          y: 12,
-        },
-        readyAt: 1680600643138,
-        createdAt: 1680600643138,
-        id: "7a2a67c8",
-      },
-    ],
-    "Heart of Davy Jones": [
-      {
-        coordinates: {
-          x: 11,
-          y: 9,
-        },
-        readyAt: 1680227272798,
-        createdAt: 1680226972798,
-        id: "db074fb7",
-      },
-    ],
-    "Palm Tree": [
-      {
-        coordinates: {
-          x: 7,
-          y: 13,
-        },
-        readyAt: 1680226986081,
-        createdAt: 1680226986081,
-        id: "f37071f9",
-      },
-    ],
-    "Lady Bug": [
-      {
-        coordinates: {
-          x: 8,
-          y: 8,
-        },
-        readyAt: 1680600537109,
-        createdAt: 1680600537109,
-        id: "b9d2b3fe",
-      },
-    ],
-    Flamingo: [
-      {
-        coordinates: {
-          x: 10,
-          y: 15,
-        },
-        readyAt: 1680600555572,
-        createdAt: 1680600555572,
-        id: "72a6dd1a",
-      },
-    ],
-    Cactus: [
-      {
-        coordinates: {
-          x: -7,
-          y: 11,
-        },
-        readyAt: 1680600661257,
-        createdAt: 1680600661257,
-        id: "e6de8b09",
-      },
-      {
-        coordinates: {
-          x: -7,
-          y: 10,
-        },
-        readyAt: 1680600661409,
-        createdAt: 1680600661409,
-        id: "4bd97979",
-      },
-      {
-        coordinates: {
-          x: -7,
-          y: 9,
-        },
-        readyAt: 1680600661526,
-        createdAt: 1680600661526,
-        id: "0a06df91",
-      },
-      {
-        coordinates: {
-          x: -15,
-          y: 11,
-        },
-        readyAt: 1680600664155,
-        createdAt: 1680600664155,
-        id: "cb1a8967",
-      },
-    ],
-    "Beach Ball": [
-      {
+        readyAt: 0,
         coordinates: {
           x: 6,
-          y: -1,
+          y: 6,
         },
-        readyAt: 1678160805502,
-        createdAt: 1678160805502,
-        id: "0deb3890-c0af-4f8f-bfb2-0d9a2f89cf09",
-      },
-    ],
-    "Immortal Pear": [
-      {
-        coordinates: {
-          x: 13,
-          y: 8,
-        },
-        readyAt: 1680600545006,
-        createdAt: 1680600545006,
-        id: "eb0bc167",
-      },
-    ],
-    "White Tulips": [
-      {
-        coordinates: {
-          x: -14,
-          y: 15,
-        },
-        readyAt: 1680600602622,
-        createdAt: 1680600602622,
-        id: "26723aea",
-      },
-      {
-        coordinates: {
-          x: -14,
-          y: 14,
-        },
-        readyAt: 1680600602758,
-        createdAt: 1680600602758,
-        id: "698e7426",
-      },
-      {
-        coordinates: {
-          x: -14,
-          y: 13,
-        },
-        readyAt: 1680600602909,
-        createdAt: 1680600602909,
-        id: "e676e952",
-      },
-      {
-        coordinates: {
-          x: -14,
-          y: 12,
-        },
-        readyAt: 1680600603232,
-        createdAt: 1680600603232,
-        id: "e6c0ac7c",
-      },
-      {
-        coordinates: {
-          x: -14,
-          y: 11,
-        },
-        readyAt: 1680600603478,
-        createdAt: 1680600603478,
-        id: "861470ec",
-      },
-      {
-        coordinates: {
-          x: -14,
-          y: 10,
-        },
-        readyAt: 1680600604048,
-        createdAt: 1680600604048,
-        id: "5fc3fd88",
-      },
-      {
-        coordinates: {
-          x: -13,
-          y: 15,
-        },
-        readyAt: 1680600606858,
-        createdAt: 1680600606858,
-        id: "9578e52e",
-      },
-      {
-        coordinates: {
-          x: -13,
-          y: 14,
-        },
-        readyAt: 1680600607008,
-        createdAt: 1680600607008,
-        id: "bd845334",
-      },
-      {
-        coordinates: {
-          x: -13,
-          y: 13,
-        },
-        readyAt: 1680600607126,
-        createdAt: 1680600607126,
-        id: "da7a8c0a",
-      },
-      {
-        coordinates: {
-          x: -13,
-          y: 12,
-        },
-        readyAt: 1680600607260,
-        createdAt: 1680600607260,
-        id: "202967e9",
-      },
-      {
-        coordinates: {
-          x: -13,
-          y: 11,
-        },
-        readyAt: 1680600607375,
-        createdAt: 1680600607375,
-        id: "3698a057",
-      },
-      {
-        coordinates: {
-          x: -13,
-          y: 10,
-        },
-        readyAt: 1680600607475,
-        createdAt: 1680600607475,
-        id: "4489386d",
-      },
-      {
-        coordinates: {
-          x: -12,
-          y: 15,
-        },
-        readyAt: 1680600610264,
-        createdAt: 1680600610264,
-        id: "0b93aa1e",
-      },
-      {
-        coordinates: {
-          x: -12,
-          y: 14,
-        },
-        readyAt: 1680600610394,
-        createdAt: 1680600610394,
-        id: "950e8344",
-      },
-      {
-        coordinates: {
-          x: -12,
-          y: 13,
-        },
-        readyAt: 1680600610525,
-        createdAt: 1680600610525,
-        id: "803a0924",
-      },
-      {
-        coordinates: {
-          x: -12,
-          y: 12,
-        },
-        readyAt: 1680600610642,
-        createdAt: 1680600610642,
-        id: "1d64044f",
-      },
-      {
-        coordinates: {
-          x: -12,
-          y: 11,
-        },
-        readyAt: 1680600610776,
-        createdAt: 1680600610776,
-        id: "f24286a8",
-      },
-      {
-        coordinates: {
-          x: -12,
-          y: 10,
-        },
-        readyAt: 1680600610892,
-        createdAt: 1680600610892,
-        id: "c8310553",
-      },
-      {
-        coordinates: {
-          x: -11,
-          y: 15,
-        },
-        readyAt: 1680600613239,
-        createdAt: 1680600613239,
-        id: "57b77f63",
-      },
-      {
-        coordinates: {
-          x: -11,
-          y: 14,
-        },
-        readyAt: 1680600613375,
-        createdAt: 1680600613375,
-        id: "4c4b94a4",
-      },
-      {
-        coordinates: {
-          x: -11,
-          y: 13,
-        },
-        readyAt: 1680600613491,
-        createdAt: 1680600613491,
-        id: "c317d977",
-      },
-      {
-        coordinates: {
-          x: -11,
-          y: 12,
-        },
-        readyAt: 1680600613608,
-        createdAt: 1680600613608,
-        id: "44a8aba0",
-      },
-      {
-        coordinates: {
-          x: -11,
-          y: 11,
-        },
-        readyAt: 1680600613742,
-        createdAt: 1680600613742,
-        id: "1e226610",
-      },
-      {
-        coordinates: {
-          x: -11,
-          y: 10,
-        },
-        readyAt: 1680600613876,
-        createdAt: 1680600613876,
-        id: "a530b2c9",
-      },
-      {
-        coordinates: {
-          x: -10,
-          y: 15,
-        },
-        readyAt: 1680600616356,
-        createdAt: 1680600616356,
-        id: "deb6979a",
-      },
-      {
-        coordinates: {
-          x: -10,
-          y: 14,
-        },
-        readyAt: 1680600616492,
-        createdAt: 1680600616492,
-        id: "db6596a5",
-      },
-      {
-        coordinates: {
-          x: -10,
-          y: 13,
-        },
-        readyAt: 1680600616627,
-        createdAt: 1680600616627,
-        id: "33fbadff",
-      },
-      {
-        coordinates: {
-          x: -10,
-          y: 12,
-        },
-        readyAt: 1680600616742,
-        createdAt: 1680600616742,
-        id: "25ea4ea3",
-      },
-      {
-        coordinates: {
-          x: -10,
-          y: 11,
-        },
-        readyAt: 1680600616893,
-        createdAt: 1680600616893,
-        id: "b1bd5aaf",
-      },
-      {
-        coordinates: {
-          x: -10,
-          y: 10,
-        },
-        readyAt: 1680600617025,
-        createdAt: 1680600617025,
-        id: "16702d47",
-      },
-      {
-        coordinates: {
-          x: -15,
-          y: 13,
-        },
-        readyAt: 1680600620556,
-        createdAt: 1680600620556,
-        id: "fe593c81",
-      },
-    ],
-    "Potted Potato": [
-      {
-        coordinates: {
-          x: -3,
-          y: 15,
-        },
-        readyAt: 1680600671155,
-        createdAt: 1680600671155,
-        id: "322b0671",
-      },
-      {
-        coordinates: {
-          x: -3,
-          y: 14,
-        },
-        readyAt: 1680600671293,
-        createdAt: 1680600671293,
-        id: "b6675a4a",
-      },
-      {
-        coordinates: {
-          x: -3,
-          y: 13,
-        },
-        readyAt: 1680600671425,
-        createdAt: 1680600671425,
-        id: "1e9f1187",
-      },
-      {
-        coordinates: {
-          x: -3,
-          y: 12,
-        },
-        readyAt: 1680600671594,
-        createdAt: 1680600671594,
-        id: "ba63b90d",
-      },
-      {
-        coordinates: {
-          x: -3,
-          y: 11,
-        },
-        readyAt: 1680600671725,
-        createdAt: 1680600671725,
-        id: "2975a856",
-      },
-      {
-        coordinates: {
-          x: -3,
-          y: 10,
-        },
-        readyAt: 1680600671878,
-        createdAt: 1680600671878,
-        id: "9e89cb22",
-      },
-      {
-        coordinates: {
-          x: -3,
-          y: 9,
-        },
-        readyAt: 1680600673665,
-        createdAt: 1680600673665,
-        id: "af5651b4",
-      },
-      {
-        coordinates: {
-          x: -2,
-          y: 15,
-        },
-        readyAt: 1680600676289,
-        createdAt: 1680600676289,
-        id: "51d50273",
-      },
-      {
-        coordinates: {
-          x: -1,
-          y: 15,
-        },
-        readyAt: 1680600678771,
-        createdAt: 1680600678771,
-        id: "c26c291d",
-      },
-      {
-        coordinates: {
-          x: -1,
-          y: 14,
-        },
-        readyAt: 1680600678925,
-        createdAt: 1680600678925,
-        id: "45250f07",
-      },
-    ],
-    "Peeled Potato": [
-      {
-        coordinates: {
-          x: 9,
-          y: 1,
-        },
-        readyAt: 1680226876689,
-        createdAt: 1680226876689,
-        id: "b38b4e49",
-      },
-    ],
-    "Magic Bean": [
-      {
-        coordinates: {
-          x: 12,
-          y: 15,
-        },
-        readyAt: 1680600549505,
-        createdAt: 1680600549505,
-        id: "4698e2e9",
-      },
-      {
-        coordinates: {
-          x: 12,
-          y: 13,
-        },
-        readyAt: 1680600550960,
-        createdAt: 1680600550960,
-        id: "f823c620",
+        createdAt: 0,
       },
     ],
   },
+  collectibles: {},
   mysteryPrizes: {},
-  bumpkin: {
-    ...INITIAL_BUMPKIN,
-    activity: {
-      "Sunflower Harvested": 24,
-    },
-  },
   pumpkinPlaza: {},
-  tradeOffer: {
-    amount: 1,
-    endAt: new Date(Date.now() + 100000000000000).toISOString(),
-    startAt: new Date().toISOString(),
-    name: "Algerian Flag",
-    ingredients: [],
-  },
-  dailyRewards: {},
   treasureIsland: {
     holes: {},
-    rareTreasure: {
-      discoveredAt: 0,
-      holeId: 1,
-      reward: "Sunflower Cake",
-    },
   },
+  auctioneer: {},
   hayseedHank: {
-    choresCompleted: 0,
     chore: CHORES[0],
-  },
-  easterHunt: {
-    generatedAt: Date.now() - 1000,
-    eggs: [
-      {
-        name: "Blue Egg",
-        x: -2,
-        y: 3,
-        island: "Bunny Trove",
-      },
-    ],
-  },
-  grubShop: {
-    opensAt: new Date("2022-10-05").getTime(),
-    closesAt: new Date("2023-10-08").getTime(),
-    orders: [
-      {
-        id: "asdj123",
-        name: "Boiled Eggs",
-        sfl: new Decimal(10),
-      },
-      {
-        id: "asdasd",
-        name: "Beetroot Cake",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "3",
-        name: "Sunflower Cake",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "4",
-        name: "Bumpkin Broth",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "5",
-        name: "Mashed Potato",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "6",
-        name: "Wheat Cake",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "7",
-        name: "Pumpkin Soup",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "8",
-        name: "Mashed Potato",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "asdj123",
-        name: "Boiled Eggs",
-        sfl: new Decimal(10),
-      },
-      {
-        id: "asdasd",
-        name: "Beetroot Cake",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "3",
-        name: "Sunflower Cake",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "4",
-        name: "Bumpkin Broth",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "5",
-        name: "Mashed Potato",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "6",
-        name: "Wheat Cake",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "7",
-        name: "Pumpkin Soup",
-        sfl: new Decimal(20),
-      },
-      {
-        id: "8",
-        name: "Mashed Potato",
-        sfl: new Decimal(20),
-      },
-    ],
-  },
-  expansionRequirements: {
-    bumpkinLevel: 20,
-    resources: { Wood: 30 },
-    seconds: 60,
-  },
-  auctioneer: {
-    bid: {
-      bidAt: Date.now(),
-      ingredients: {
-        Gold: 5,
-      },
-      item: "Peeled Potato",
-      sfl: 10,
-      auctionTickets: 10,
-    },
-  },
-  gold: {
-    "0": {
-      height: 1,
-      width: 1,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: -3,
-      y: 2,
-    },
-  },
-  fruitPatches: {
-    0: {
-      x: 6,
-      y: 3,
-      width: 2,
-      height: 2,
-      fruit: {
-        amount: 1,
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        name: "Apple",
-        plantedAt: 0,
-      },
-    },
-  },
-  iron: {
-    0: {
-      x: 4,
-      y: 0,
-      width: 1,
-      height: 1,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-    },
-  },
-  crops: {
-    "19695656": {
-      width: 1,
-      x: 6,
-      createdAt: 1680307504979,
-      y: -7,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "7df3db09",
-        plantedAt: 1680600760543,
-      },
-      height: 1,
-    },
-    df8b3ffc: {
-      x: -6,
-      width: 1,
-      createdAt: 1680600584376,
-      y: 14,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "ede37148",
-        plantedAt: 1680600776227,
-      },
-      height: 1,
-    },
-    f932347b: {
-      x: -4,
-      width: 1,
-      createdAt: 1680600626226,
-      y: 10,
-      height: 1,
-    },
-    "21e387eb": {
-      width: 1,
-      x: 10,
-      createdAt: 1680215090521,
-      y: 2,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "029a5b33",
-        plantedAt: 1680600766662,
-      },
-      height: 1,
-    },
-    d3da1c03: {
-      width: 1,
-      x: 4,
-      createdAt: 1680307498596,
-      y: -6,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "d0c6f6cf",
-        plantedAt: 1680600757388,
-      },
-      height: 1,
-    },
-    c4e735f9: {
-      width: 1,
-      x: 6,
-      createdAt: 1680307505179,
-      y: -8,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "aff1eddc",
-        plantedAt: 1680600760963,
-      },
-      height: 1,
-    },
-    "2bfd6ea7": {
-      x: -2,
-      width: 1,
-      createdAt: 1680600525257,
-      y: 7,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "e087cc0f",
-        plantedAt: 1680600771178,
-      },
-      height: 1,
-    },
-    "7ccbcde4": {
-      width: 1,
-      x: 8,
-      createdAt: 1680307490616,
-      y: 4,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "088754c8",
-        plantedAt: 1680600765314,
-      },
-      height: 1,
-    },
-    b7e53140: {
-      x: -6,
-      width: 1,
-      createdAt: 1680600629289,
-      y: 9,
-      height: 1,
-    },
-    df23a919: {
-      x: -5,
-      width: 1,
-      createdAt: 1680600588106,
-      y: 15,
-      height: 1,
-    },
-    "828f08c4": {
-      width: 1,
-      x: 5,
-      createdAt: 1680307501996,
-      y: -7,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "5db4c846",
-        plantedAt: 1680600758863,
-      },
-      height: 1,
-    },
-    "3e6e1200": {
-      width: 1,
-      x: 7,
-      createdAt: 1680307494147,
-      y: 5,
-      crop: {
-        name: "Sunflower",
-        reward: {
-          items: [
-            {
-              name: "Sunflower Seed",
-              amount: 3,
-            },
-          ],
-        },
-        amount: 1,
-        id: "e37abd40",
-        plantedAt: 1680579595314,
-      },
-      height: 1,
-    },
-    "2726a361": {
-      x: -2,
-      width: 1,
-      createdAt: 1680600525123,
-      y: 8,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "4681b369",
-        plantedAt: 1680600771577,
-      },
-      height: 1,
-    },
-    de6f1538: {
-      x: -4,
-      width: 1,
-      createdAt: 1680600626091,
-      y: 11,
-      height: 1,
-    },
-    "6d491e00": {
-      x: -6,
-      width: 1,
-      createdAt: 1680600585008,
-      y: 10,
-      height: 1,
-    },
-    "204f4c75": {
-      x: -3,
-      width: 1,
-      createdAt: 1680600522124,
-      y: 6,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "9f871e17",
-        plantedAt: 1680600772797,
-      },
-      height: 1,
-    },
-    "0912e968": {
-      x: -4,
-      width: 1,
-      createdAt: 1680600625977,
-      y: 12,
-      height: 1,
-    },
-    "17faef5b": {
-      x: -6,
-      width: 1,
-      createdAt: 1680600584223,
-      y: 15,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "312a75d8",
-        plantedAt: 1680600775794,
-      },
-      height: 1,
-    },
-    "9bfc0b82": {
-      x: -4,
-      width: 1,
-      createdAt: 1680600626325,
-      y: 9,
-      height: 1,
-    },
-    "3796cc4f": {
-      x: -4,
-      width: 1,
-      createdAt: 1680600625605,
-      y: 15,
-      height: 1,
-    },
-    d694bd9d: {
-      width: 1,
-      x: 4,
-      createdAt: 1680307498896,
-      y: -8,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "8abc829f",
-        plantedAt: 1680600757995,
-      },
-      height: 1,
-    },
-    b2d1c5f6: {
-      x: -2,
-      width: 1,
-      createdAt: 1680600525407,
-      y: 6,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "c06c4c34",
-        plantedAt: 1680600770760,
-      },
-      height: 1,
-    },
-    e68e1cda: {
-      x: -6,
-      width: 1,
-      createdAt: 1680600584875,
-      y: 11,
-      height: 1,
-    },
-    "11582f23": {
-      x: -3,
-      width: 1,
-      createdAt: 1680600521974,
-      y: 7,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "a97d2bcf",
-        plantedAt: 1680600772393,
-      },
-      height: 1,
-    },
-    c02719be: {
-      width: 1,
-      x: 5,
-      createdAt: 1680307501831,
-      y: -6,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "0490371c",
-        plantedAt: 1680600759761,
-      },
-      height: 1,
-    },
-    d1f58c57: {
-      width: 1,
-      x: 7,
-      createdAt: 1680307494778,
-      y: 1,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "3a88d7b6",
-        plantedAt: 1680600762663,
-      },
-      height: 1,
-    },
-    "5376e452": {
-      x: -1,
-      width: 1,
-      createdAt: 1680600528708,
-      y: 7,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "809855a1",
-        plantedAt: 1680600769062,
-      },
-      height: 1,
-    },
-    c05839e9: {
-      x: -4,
-      width: 1,
-      createdAt: 1680600626442,
-      y: 8,
-      height: 1,
-    },
-    "58ab6449": {
-      width: 1,
-      x: 7,
-      createdAt: 1680307496332,
-      y: 0,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "93180d2f",
-        plantedAt: 1680600761731,
-      },
-      height: 1,
-    },
-    b5c5e48c: {
-      width: 1,
-      x: 4,
-      createdAt: 1680215065601,
-      y: 3,
-      height: 1,
-    },
-    f73f66c5: {
-      x: -6,
-      width: 1,
-      createdAt: 1680600584726,
-      y: 12,
-      height: 1,
-    },
-    "095bddaf": {
-      x: -5,
-      width: 1,
-      createdAt: 1680600588426,
-      y: 13,
-      height: 1,
-    },
-    "874d69bd": {
-      x: -5,
-      width: 1,
-      createdAt: 1680600588575,
-      y: 12,
-      height: 1,
-    },
-    a04266fa: {
-      x: -4,
-      width: 1,
-      createdAt: 1680600625861,
-      y: 13,
-      height: 1,
-    },
-    d5a3189e: {
-      x: -3,
-      width: 1,
-      createdAt: 1680600521848,
-      y: 8,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "7595be79",
-        plantedAt: 1680600771978,
-      },
-      height: 1,
-    },
-    "7b0d958c": {
-      x: -5,
-      width: 1,
-      createdAt: 1680600589042,
-      y: 9,
-      height: 1,
-    },
-    "89e1f869": {
-      width: 1,
-      x: 10,
-      createdAt: 1680215091552,
-      y: 0,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "bbd46005",
-        plantedAt: 1680600767478,
-      },
-      height: 1,
-    },
-    a58082eb: {
-      x: -5,
-      width: 1,
-      createdAt: 1680600588258,
-      y: 14,
-      height: 1,
-    },
-    "016c25dc": {
-      x: -2,
-      width: 1,
-      createdAt: 1680600525726,
-      y: 5,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "cd0b3efd",
-        plantedAt: 1680600770328,
-      },
-      height: 1,
-    },
-    ecc923e1: {
-      width: 1,
-      x: 10,
-      createdAt: 1680215091119,
-      y: 1,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "950e08f7",
-        plantedAt: 1680600767027,
-      },
-      height: 1,
-    },
-    ca2f18d2: {
-      x: -5,
-      width: 1,
-      createdAt: 1680600588875,
-      y: 10,
-      height: 1,
-    },
-    "3f368c27": {
-      x: -6,
-      width: 1,
-      createdAt: 1680600584525,
-      y: 13,
-      height: 1,
-    },
-    "71951b39": {
-      width: 1,
-      x: 7,
-      createdAt: 1680307494630,
-      y: 2,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "aeb3f312",
-        plantedAt: 1680600762097,
-      },
-      height: 1,
-    },
-    "5a80101a": {
-      width: 1,
-      x: 7,
-      createdAt: 1680307494447,
-      y: 3,
-      height: 1,
-    },
-    "99c086a8": {
-      x: -1,
-      width: 1,
-      createdAt: 1680600528877,
-      y: 6,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "54880590",
-        plantedAt: 1680600769463,
-      },
-      height: 1,
-    },
-    aa290a2f: {
-      width: 1,
-      x: 6,
-      createdAt: 1680307504832,
-      y: -6,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "336006c5",
-        plantedAt: 1680600760162,
-      },
-      height: 1,
-    },
-    dd8ddb51: {
-      x: -3,
-      width: 1,
-      createdAt: 1680600522256,
-      y: 5,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "80ace755",
-        plantedAt: 1680600773226,
-      },
-      height: 1,
-    },
-    b8d729bb: {
-      width: 1,
-      x: 8,
-      createdAt: 1680307491853,
-      y: 0,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "f4c72024",
-        plantedAt: 1680600763481,
-      },
-      height: 1,
-    },
-    c4d43f41: {
-      x: -1,
-      width: 1,
-      createdAt: 1680600529379,
-      y: 5,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "41106c7b",
-        plantedAt: 1680600769932,
-      },
-      height: 1,
-    },
-    "298a7f72": {
-      width: 1,
-      x: 8,
-      createdAt: 1680307491564,
-      y: 1,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "c95d2400",
-        plantedAt: 1680600763078,
-      },
-      height: 1,
-    },
-    eb1bcb43: {
-      width: 1,
-      x: 8,
-      createdAt: 1680307490898,
-      y: 3,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "8381b590",
-        plantedAt: 1680600764397,
-      },
-      height: 1,
-    },
-    eb8171b1: {
-      x: -1,
-      width: 1,
-      createdAt: 1680600528555,
-      y: 8,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "d01ac809",
-        plantedAt: 1680600768703,
-      },
-      height: 1,
-    },
-    cf37cc44: {
-      width: 1,
-      x: 5,
-      createdAt: 1680307502179,
-      y: -8,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "ce92869e",
-        plantedAt: 1680600759231,
-      },
-      height: 1,
-    },
-    f74eec57: {
-      width: 1,
-      x: 4,
-      createdAt: 1680307498745,
-      y: -7,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "0a4e73a1",
-        plantedAt: 1680600758463,
-      },
-      height: 1,
-    },
-    "2e1f1bc6": {
-      x: -4,
-      width: 1,
-      createdAt: 1680600626576,
-      y: 7,
-      height: 1,
-    },
-    "4f0c1e32": {
-      width: 1,
-      x: 7,
-      createdAt: 1680307494296,
-      y: 4,
-      height: 1,
-    },
-    "2679743d": {
-      x: -5,
-      width: 1,
-      createdAt: 1680600588725,
-      y: 11,
-      height: 1,
-    },
-    ebcbd90e: {
-      width: 1,
-      x: 8,
-      createdAt: 1680209945506,
-      y: 5,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "26def921",
-        plantedAt: 1680600765746,
-      },
-      height: 1,
-    },
-    ae8b5be9: {
-      x: -4,
-      width: 1,
-      createdAt: 1680600625741,
-      y: 14,
-      height: 1,
-    },
-    "2590f571": {
-      width: 1,
-      x: 8,
-      createdAt: 1680307491200,
-      y: 2,
-      crop: {
-        name: "Pumpkin",
-        amount: 1,
-        id: "20ff4558",
-        plantedAt: 1680600763964,
-      },
-      height: 1,
-    },
-  },
-  trees: {
-    0: {
-      x: -1,
-      y: 1,
-      width: 2,
-      height: 2,
-      wood: {
-        amount: 1,
-        choppedAt: 0,
-      },
-    },
-  },
-  stones: {
-    0: {
-      x: 1,
-      y: 3,
-      width: 1,
-      height: 1,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-    },
+    choresCompleted: 0,
   },
 };
 

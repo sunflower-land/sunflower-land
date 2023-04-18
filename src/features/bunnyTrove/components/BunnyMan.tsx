@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { Modal } from "react-bootstrap";
 import { Equipped } from "features/game/types/bumpkin";
 import { Quest } from "features/game/expansion/components/Quest";

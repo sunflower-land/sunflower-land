@@ -70,6 +70,11 @@ export function makeGame(farm: any): GameState {
     gold: farm.gold ?? {},
     crops: farm.crops ?? {},
     fruitPatches: farm.fruitPatches ?? {},
+    conversations: farm.conversations ?? [],
+    mailbox: farm.mailbox ?? {
+      read: [],
+      unread: [],
+    },
   };
 }
 

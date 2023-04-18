@@ -13,7 +13,7 @@ import { hasFeatureAccess } from "lib/flags";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { upcomingParty } from "features/pumpkinPlaza/lib/streaming";
