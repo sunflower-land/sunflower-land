@@ -27,7 +27,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { InventoryItemName } from "features/game/types/game";
+import { InventoryItemName, Rock } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 
 const HITS = 3;
@@ -35,6 +35,17 @@ const tool = "Pickaxe";
 
 const selectInventoryToolCount = (state: MachineState) =>
   state.context.state.inventory[tool] ?? new Decimal(0);
+
+const compareResource = (prev: Rock, next: Rock) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareInventoryToolCount = (prev: Decimal, next: Decimal) => {
+  return (
+    prev.equals(next) ||
+    prev.greaterThanOrEqualTo(1) ||
+    next.greaterThanOrEqualTo(1)
+  );
+};
 
 interface Props {
   id: string;
@@ -59,9 +70,14 @@ export const Stone: React.FC<Props> = ({ id, gameService, selectedItem }) => {
 
   const resource = useSelector(
     gameService,
-    (state) => state.context.state.stones[id]
+    (state) => state.context.state.stones[id],
+    compareResource
   );
-  const inventoryToolCount = useSelector(gameService, selectInventoryToolCount);
+  const inventoryToolCount = useSelector(
+    gameService,
+    selectInventoryToolCount,
+    compareInventoryToolCount
+  );
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {

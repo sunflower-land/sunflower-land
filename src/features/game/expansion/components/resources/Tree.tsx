@@ -19,7 +19,7 @@ import classNames from "classnames";
 import { getTimeLeft } from "lib/utils/time";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { Reward } from "features/game/types/game";
+import { Collectibles, Reward } from "features/game/types/game";
 import {
   canChop,
   CHOP_ERRORS,
@@ -32,8 +32,10 @@ import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { InventoryItemName } from "features/game/types/game";
+import { InventoryItemName, Tree as TreeType } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
+import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const HITS = 3;
 const tool = "Axe";
@@ -44,9 +46,32 @@ const SHAKE_SHEET_FRAME_HEIGHT = 48;
 const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
 const CHOPPED_SHEET_FRAME_HEIGHT = 48;
 
+const HasAxes = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+  collectibles: Collectibles,
+  selectedItem?: string
+) => {
+  const axesNeeded = getRequiredAxeAmount(inventory, collectibles);
+
+  // has enough axes to chop the tree
+
+  if (axesNeeded.lte(0)) return true;
+
+  return (
+    selectedItem === tool && (inventory[tool] ?? new Decimal(0)).gte(axesNeeded)
+  );
+};
+
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectCollectibles = (state: MachineState) =>
   state.context.state.collectibles;
+
+const compareResource = (prev: TreeType, next: TreeType) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
+  isCollectibleBuilt("Foreman Beaver", prev) ===
+  isCollectibleBuilt("Foreman Beaver", next);
 
 interface Props {
   id: string;
@@ -71,10 +96,22 @@ export const Tree: React.FC<Props> = ({ id, gameService, selectedItem }) => {
 
   const resource = useSelector(
     gameService,
-    (state) => state.context.state.trees[id]
+    (state) => state.context.state.trees[id],
+    compareResource
   );
-  const inventory = useSelector(gameService, selectInventory);
-  const collectibles = useSelector(gameService, selectCollectibles);
+  const collectibles = useSelector(
+    gameService,
+    selectCollectibles,
+    compareCollectibles
+  );
+  const inventory = useSelector(
+    gameService,
+    selectInventory,
+    (prev, next) =>
+      HasAxes(prev, collectibles, selectedItem) ===
+        HasAxes(next, collectibles, selectedItem) &&
+      (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
+  );
 
   const chopped = !canChop(resource);
 
@@ -101,12 +138,7 @@ export const Tree: React.FC<Props> = ({ id, gameService, selectedItem }) => {
     setShowPopover(false);
   };
 
-  const axesNeeded = getRequiredAxeAmount(inventory, collectibles);
-
-  // Has enough axes to chop the tree
-  const hasAxes =
-    (selectedItem === "Axe" || axesNeeded.eq(0)) &&
-    inventory[tool]?.gte(axesNeeded);
+  const hasAxes = HasAxes(inventory, collectibles, selectedItem);
 
   const shake = async () => {
     if (chopped) {

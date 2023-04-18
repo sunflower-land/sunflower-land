@@ -12,8 +12,34 @@ import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTr
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  Collectibles,
+  InventoryItemName,
+  PlantedFruit,
+} from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+
+const HasAxes = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+  collectibles: Collectibles,
+  fruit?: PlantedFruit,
+  selectedItem?: string
+) => {
+  const axesNeeded = getRequiredAxeAmount(
+    fruit?.name as FruitName,
+    inventory,
+    collectibles
+  );
+
+  // has enough axes to chop the tree
+
+  if (axesNeeded.lte(0)) return true;
+
+  return (
+    selectedItem === "Axe" && (inventory.Axe ?? new Decimal(0)).gte(axesNeeded)
+  );
+};
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectCollectibles = (state: MachineState) =>
@@ -22,6 +48,13 @@ const isPlaying = (state: MachineState) =>
   state.matches("playingGuestGame") ||
   state.matches("playingFullGame") ||
   state.matches("autosaving");
+
+const compareFruit = (prev?: PlantedFruit, next?: PlantedFruit) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
+  isCollectibleBuilt("Foreman Beaver", prev) ===
+  isCollectibleBuilt("Foreman Beaver", next);
 
 interface Props {
   id: string;
@@ -38,13 +71,24 @@ export const FruitPatch: React.FC<Props> = ({
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
 
-  const inventory = useSelector(gameService, selectInventory);
-  const collectibles = useSelector(gameService, selectCollectibles);
-  const playing = useSelector(gameService, isPlaying);
   const fruit = useSelector(
     gameService,
-    (state) => state.context.state.fruitPatches[id]?.fruit
+    (state) => state.context.state.fruitPatches[id]?.fruit,
+    compareFruit
   );
+  const collectibles = useSelector(
+    gameService,
+    selectCollectibles,
+    compareCollectibles
+  );
+  const inventory = useSelector(
+    gameService,
+    selectInventory,
+    (prev, next) =>
+      HasAxes(prev, collectibles, fruit, selectedItem) ===
+      HasAxes(next, collectibles, fruit, selectedItem)
+  );
+  const playing = useSelector(gameService, isPlaying);
 
   const displayInformation = async () => {
     // First click show error
@@ -74,17 +118,7 @@ export const FruitPatch: React.FC<Props> = ({
 
   const removeTree = () => {
     try {
-      const axesNeeded = getRequiredAxeAmount(
-        fruit?.name as FruitName,
-        inventory,
-        collectibles
-      );
-      const axeAmount = inventory.Axe ?? new Decimal(0);
-
-      // Has enough axes to chop the tree
-      const hasAxes =
-        (selectedItem === "Axe" || axesNeeded.eq(0)) &&
-        axeAmount.gte(axesNeeded);
+      const hasAxes = HasAxes(inventory, collectibles, fruit, selectedItem);
 
       if (!hasAxes) {
         return displayInformation();

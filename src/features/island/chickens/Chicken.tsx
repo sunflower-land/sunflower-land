@@ -37,8 +37,13 @@ import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  Collectibles,
+  InventoryItemName,
+  Chicken as ChickenType,
+} from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -113,6 +118,20 @@ export const HungryChicken = () => {
   );
 };
 
+const HasWheat = (
+  inventoryWheatCount: Decimal,
+  collectibles: Collectibles,
+  selectedItem?: string
+) => {
+  const wheatRequired = getWheatRequiredToFeed(collectibles);
+
+  // has enough wheat to feed chickens
+
+  if (wheatRequired.lte(0)) return true;
+
+  return selectedItem === "Wheat" && inventoryWheatCount.gte(wheatRequired);
+};
+
 const isHungry = (state: ChickenMachineState) => state.matches("hungry");
 const isEating = (state: ChickenMachineState) => state.matches("eating");
 const isSleeping = (state: ChickenMachineState) =>
@@ -120,7 +139,19 @@ const isSleeping = (state: ChickenMachineState) =>
 const isHappy = (state: ChickenMachineState) => state.matches({ fed: "happy" });
 const isEggReady = (state: ChickenMachineState) => state.matches("eggReady");
 const isEggLaid = (state: ChickenMachineState) => state.matches("eggLaid");
-const selectGameState = (state: GameMachineState) => state.context.state;
+const selectInventoryWheatCount = (state: GameMachineState) =>
+  state.context.state.inventory.Wheat ?? new Decimal(0);
+const selectCollectibles = (state: GameMachineState) =>
+  state.context.state.collectibles;
+
+const compareChicken = (prev: ChickenType, next: ChickenType) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
+  isCollectibleBuilt("Gold Egg", prev) ===
+    isCollectibleBuilt("Gold Egg", next) &&
+  isCollectibleBuilt("Fat Chicken", prev) ===
+    isCollectibleBuilt("Fat Chicken", next);
 
 interface Props {
   id: string;
@@ -129,15 +160,29 @@ interface Props {
   showTimers: boolean;
 }
 
-export const Chicken: React.FC<Props> = ({
+const ChickenComponent: React.FC<Props> = ({
   id,
   gameService,
   selectedItem,
   showTimers,
 }) => {
-  const state = useSelector(gameService, selectGameState);
-
-  const chicken = state.chickens[id];
+  const chicken = useSelector(
+    gameService,
+    (state) => state.context.state.chickens[id],
+    compareChicken
+  );
+  const collectibles = useSelector(
+    gameService,
+    selectCollectibles,
+    compareCollectibles
+  );
+  const inventoryWheatCount = useSelector(
+    gameService,
+    selectInventoryWheatCount,
+    (prev: Decimal, next: Decimal) =>
+      HasWheat(prev, collectibles, selectedItem) ===
+      HasWheat(next, collectibles, selectedItem)
+  );
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
 
@@ -203,13 +248,9 @@ export const Chicken: React.FC<Props> = ({
   };
 
   const feed = async () => {
-    const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
-    const wheatRequired = getWheatRequiredToFeed(state.collectibles);
+    const hasWheat = HasWheat(inventoryWheatCount, collectibles, selectedItem);
 
-    if (
-      (wheatRequired.gt(0) && selectedItem !== "Wheat") ||
-      currentWheatAmount.lt(wheatRequired)
-    ) {
+    if (!hasWheat) {
       setShowPopover(true);
       await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
       setShowPopover(false);
@@ -455,7 +496,6 @@ export const Chicken: React.FC<Props> = ({
           show={showMutantModal}
           type={chicken.reward?.items?.[0].name as MutantChicken}
           onContinue={handleContinue}
-          inventory={state.inventory}
         />
       )}
 
@@ -477,3 +517,5 @@ export const Chicken: React.FC<Props> = ({
     </>
   );
 };
+
+export const Chicken = React.memo(ChickenComponent);
