@@ -30,8 +30,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { InventoryItemName } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
 
 const HITS = 3;
+const tool = "Stone Pickaxe";
+
+const selectInventoryToolCount = (state: MachineState) =>
+  state.context.state.inventory[tool] ?? new Decimal(0);
 
 interface Props {
   id: string;
@@ -54,12 +59,11 @@ export const Iron: React.FC<Props> = ({ id, gameService, selectedItem }) => {
 
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
-  const tool = "Stone Pickaxe";
-
-  const gameState = useSelector(gameService, (state) => ({
-    resource: state.context.state.iron[id],
-    toolCount: state.context.state.inventory[tool] ?? new Decimal(0),
-  }));
+  const resource = useSelector(
+    gameService,
+    (state) => state.context.state.iron[id]
+  );
+  const inventoryToolCount = useSelector(gameService, selectInventoryToolCount);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -78,7 +82,7 @@ export const Iron: React.FC<Props> = ({ id, gameService, selectedItem }) => {
   }, []);
 
   // Users will need to refresh to strike the iron again
-  const mined = !canMine(gameState.resource, IRON_RECOVERY_TIME);
+  const mined = !canMine(resource, IRON_RECOVERY_TIME);
 
   useUiRefresher({ active: mined });
 
@@ -90,7 +94,7 @@ export const Iron: React.FC<Props> = ({ id, gameService, selectedItem }) => {
     setShowPopover(false);
   };
 
-  const hasPickaxes = selectedItem === tool && gameState.toolCount.gte(1);
+  const hasPickaxes = selectedItem === tool && inventoryToolCount.gte(1);
 
   const strike = () => {
     if (mined) return;
@@ -137,7 +141,7 @@ export const Iron: React.FC<Props> = ({ id, gameService, selectedItem }) => {
                 width: `${PIXEL_SCALE * 10}px`,
               }}
             />
-            <span className="text-sm">{`+${gameState.resource.stone.amount}`}</span>
+            <span className="text-sm">{`+${resource.stone.amount}`}</span>
           </div>
         );
 
@@ -175,10 +179,7 @@ export const Iron: React.FC<Props> = ({ id, gameService, selectedItem }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(
-    gameState.resource.stone.minedAt,
-    IRON_RECOVERY_TIME
-  );
+  const timeLeft = getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME);
 
   return (
     <div

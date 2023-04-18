@@ -13,6 +13,15 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { InventoryItemName } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const selectInventory = (state: MachineState) => state.context.state.inventory;
+const selectCollectibles = (state: MachineState) =>
+  state.context.state.collectibles;
+const isPlaying = (state: MachineState) =>
+  state.matches("playingGuestGame") ||
+  state.matches("playingFullGame") ||
+  state.matches("autosaving");
 
 interface Props {
   id: string;
@@ -29,15 +38,13 @@ export const FruitPatch: React.FC<Props> = ({
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
 
-  const gameState = useSelector(gameService, (state) => ({
-    fruit: state.context.state.fruitPatches[id]?.fruit,
-    isPlaying:
-      state.matches("playingGuestGame") ||
-      state.matches("playingFullGame") ||
-      state.matches("autosaving"),
-    inventory: state.context.state.inventory,
-    collectibles: state.context.state.collectibles,
-  }));
+  const inventory = useSelector(gameService, selectInventory);
+  const collectibles = useSelector(gameService, selectCollectibles);
+  const playing = useSelector(gameService, isPlaying);
+  const fruit = useSelector(
+    gameService,
+    (state) => state.context.state.fruitPatches[id]?.fruit
+  );
 
   const displayInformation = async () => {
     // First click show error
@@ -50,7 +57,7 @@ export const FruitPatch: React.FC<Props> = ({
   };
 
   const harvestFruit = () => {
-    if (!gameState.fruit) return;
+    if (!fruit) return;
     try {
       const newState = gameService.send("fruit.harvested", {
         index: id,
@@ -68,11 +75,11 @@ export const FruitPatch: React.FC<Props> = ({
   const removeTree = () => {
     try {
       const axesNeeded = getRequiredAxeAmount(
-        gameState.fruit?.name as FruitName,
-        gameState.inventory,
-        gameState.collectibles
+        fruit?.name as FruitName,
+        inventory,
+        collectibles
       );
-      const axeAmount = gameState.inventory.Axe ?? new Decimal(0);
+      const axeAmount = inventory.Axe ?? new Decimal(0);
 
       // Has enough axes to chop the tree
       const hasAxes =
@@ -125,12 +132,12 @@ export const FruitPatch: React.FC<Props> = ({
           }}
         />
         <FruitTree
-          plantedFruit={gameState.fruit}
+          plantedFruit={fruit}
           plantTree={plantTree}
           harvestFruit={harvestFruit}
           removeTree={removeTree}
           onError={displayInformation}
-          playing={gameState.isPlaying}
+          playing={playing}
           playAnimation={playAnimation}
           showOnClickInfo={showInfo && infoToShow === "info"}
         />

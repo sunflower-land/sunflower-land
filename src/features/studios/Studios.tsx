@@ -9,7 +9,6 @@ import harry from "assets/npcs/harry.gif";
 import roulette from "assets/npcs/roulette.gif";
 import steve from "assets/npcs/steve.gif";
 import craig from "assets/npcs/craig.gif";
-import harnoor from "assets/npcs/harnoor.gif";
 import romy from "assets/npcs/romy.gif";
 import diggle from "assets/npcs/diggle.gif";
 
@@ -104,27 +103,6 @@ export const Studios: React.FC = () => {
         />
         <img
           src={craig}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            bottom: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 0}px`,
-          }}
-        />
-      </MapPlacement>
-
-      <MapPlacement x={1.2} y={-4} height={1} width={1}>
-        <img
-          src={shadow}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            bottom: `0px`,
-            left: `0px`,
-          }}
-        />
-        <img
-          src={harnoor}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 14}px`,

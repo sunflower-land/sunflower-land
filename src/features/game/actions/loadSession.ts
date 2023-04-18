@@ -4,6 +4,7 @@ import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName } from "../types/game";
+import { Announcements } from "../types/conversations";
 
 type Request = {
   sessionId: string;
@@ -23,6 +24,7 @@ type Response = {
   itemsMintedAt?: MintedAt;
   deviceTrackerId: string;
   status?: "COOL_DOWN";
+  announcements: Announcements;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -73,6 +75,7 @@ export async function loadSession(
     itemsMintedAt,
     deviceTrackerId,
     status,
+    announcements,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -81,6 +84,7 @@ export async function loadSession(
     itemsMintedAt: MintedAt;
     deviceTrackerId: string;
     status?: "COOL_DOWN";
+    announcements: Announcements;
   }>(response);
 
   saveSession(request.farmId);
@@ -92,6 +96,7 @@ export async function loadSession(
     itemsMintedAt,
     deviceTrackerId,
     status,
+    announcements,
   };
 }
 

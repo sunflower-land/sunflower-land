@@ -21,6 +21,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
+import { TownCenter } from "./townCenter/TownCenter";
 
 interface Prop {
   name: BuildingName;
@@ -61,6 +62,7 @@ export const BUILDING_COMPONENTS: Record<
   ),
   Market: Market,
   Tent: Tent,
+  "Town Center": TownCenter,
   "Water Well": WaterWell,
   Warehouse: Warehouse,
   Toolshed: Toolshed,
