@@ -1,11 +1,19 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Reward, FERTILISERS, PlantedCrop } from "features/game/types/game";
+import {
+  Reward,
+  FERTILISERS,
+  PlantedCrop,
+  PlacedItem,
+} from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
-import { isPlotFertile } from "features/game/events/landExpansion/plant";
+import {
+  getCompletedWellCount,
+  isPlotFertile,
+} from "features/game/events/landExpansion/plant";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { HARVEST_PROC_ANIMATION } from "features/island/plots/lib/plant";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
@@ -15,9 +23,17 @@ import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { BuildingName } from "features/game/types/buildings";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
+
+const compareBuildings = (
+  prev: Partial<Record<BuildingName, PlacedItem[]>>,
+  next: Partial<Record<BuildingName, PlacedItem[]>>
+) => {
+  return getCompletedWellCount(prev) === getCompletedWellCount(next);
+};
 
 interface Props {
   id: string;
@@ -29,8 +45,10 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const [reward, setReward] = useState<Reward>();
   const clickedAt = useRef<number>(0);
 
-  const crops = useSelector(gameService, selectCrops);
-  const buildings = useSelector(gameService, selectBuildings);
+  const crops = useSelector(gameService, selectCrops, (prev, next) => {
+    return JSON.stringify(prev[id].crop) === JSON.stringify(next[id].crop);
+  });
+  const buildings = useSelector(gameService, selectBuildings, compareBuildings);
 
   const crop = crops?.[id]?.crop;
 
