@@ -15,6 +15,7 @@ import { Conversation } from "features/farming/mail/components/Conversation";
 import { CONVERSATIONS } from "features/game/types/conversations";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
+import { getKeys } from "features/game/types/craftables";
 
 export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -89,7 +90,9 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           <ShopItems
             onClose={() => setIsOpen(false)}
             hasSoldBefore={
-              !!gameState.context.state.bumpkin?.activity?.["Sunflower Sold"]
+              !!getKeys(gameState.context.state.bumpkin?.activity ?? {}).find(
+                (activity) => activity.includes("Sold")
+              )
             }
           />
         )}
