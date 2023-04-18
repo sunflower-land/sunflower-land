@@ -34,6 +34,7 @@ import {
   getGuestModeComplete,
   setGuestKey,
 } from "../actions/createGuestAccount";
+import { analytics } from "lib/analytics";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -343,6 +344,8 @@ export const authMachine = createMachine<
               });
 
               setGuestKey(guestKey);
+
+              analytics.logEvent("play_as_guest");
             }
           },
           onDone: {
@@ -385,6 +388,10 @@ export const authMachine = createMachine<
             },
             {
               target: "connectedToWallet",
+              actions: (context) =>
+                analytics.logEvent("wallet_connected", {
+                  wallet: context.user.web3?.wallet,
+                }),
             },
           ],
           onError: {
@@ -598,6 +605,12 @@ export const authMachine = createMachine<
                   }
                 }
               },
+              (context) =>
+                analytics.initialise({
+                  id: context.user.farmId as number,
+                  type: context.user.type,
+                }),
+              () => analytics.logEvent("login"),
             ],
             on: {
               RETURN: {
