@@ -16,18 +16,15 @@ import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
-import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
-import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
-import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
 import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
@@ -65,31 +62,6 @@ const getIslandElements = ({
   isEditing?: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
-
-  if (bumpkinParts) {
-    mapPlacements.push(
-      <MapPlacement
-        key="bumpkin-parts"
-        x={BUMPKIN_POSITION.x}
-        y={BUMPKIN_POSITION.y}
-        width={2}
-        height={2}
-        isEditing={isEditing}
-      >
-        <CharacterPlayground
-          body={bumpkinParts.body}
-          hair={bumpkinParts.hair}
-          shirt={bumpkinParts.shirt}
-          pants={bumpkinParts.pants}
-          suit={bumpkinParts.suit}
-          hat={bumpkinParts.hat}
-          onesie={bumpkinParts.onesie}
-          wings={bumpkinParts.wings}
-          dress={bumpkinParts.dress}
-        />
-      </MapPlacement>
-    );
-  }
 
   mapPlacements.push(
     ...getKeys(buildings)
@@ -408,8 +380,6 @@ export const Land: React.FC = () => {
           x={boatCoordinates.x}
           y={boatCoordinates.y}
         />
-
-        {playing && <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />}
 
         {editing && <Placeable />}
       </div>

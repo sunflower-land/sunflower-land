@@ -14,6 +14,8 @@ import { Fruit, FRUIT } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { getBumpkinLevel } from "features/game/lib/level";
+import lock from "assets/skills/lock.png";
 
 export const Crops: React.FC = () => {
   const cropsAndFruits = { ...CROPS(), ...FRUIT() };
@@ -39,6 +41,7 @@ export const Crops: React.FC = () => {
     });
   };
 
+  const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
   const cropAmount = setPrecision(new Decimal(inventory[selected.name] || 0));
   const noCrop = cropAmount.lessThanOrEqualTo(0);
   const displaySellPrice = (crop: Crop | Fruit) =>
@@ -125,6 +128,10 @@ export const Crops: React.FC = () => {
                   image={ITEM_DETAILS[item.name].image}
                   count={inventory[item.name]}
                   parentDivRef={divRef}
+                  secondaryImage={
+                    bumpkinLevel < item.bumpkinLevel ? lock : undefined
+                  }
+                  showOverlay={bumpkinLevel < item.bumpkinLevel}
                 />
               ))}
           </>

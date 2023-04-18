@@ -53,7 +53,10 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
-import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
+import {
+  getGameRulesLastRead,
+  getIntroductionRead,
+} from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
@@ -65,6 +68,7 @@ import {
   removeGuestKey,
   setGuestModeComplete,
 } from "features/auth/actions/createGuestAccount";
+import { Announcements } from "../types/conversations";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -88,6 +92,7 @@ export interface Context {
     balance: string;
     inventory: Record<InventoryItemName, string>;
   };
+  announcements: Announcements;
 }
 
 type MintEvent = {
@@ -259,6 +264,7 @@ export type BlockchainState = {
     | "deposited"
     | "visiting"
     | "gameRules"
+    | "introduction"
     | "playing"
     | "playingGuestGame"
     | "playingFullGame"
@@ -275,6 +281,7 @@ export type BlockchainState = {
     | "depositing"
     | "editing"
     | "noBumpkinFound"
+    | "noTownCenter"
     | "coolingDown"
     | "upgradingGuestGame"
     | "randomising"; // TEST ONLY
@@ -387,6 +394,23 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
+        announcements: {
+          "referral-announcement": {
+            headline: "Referral Program",
+            content: [
+              {
+                text: "The Sunflower Supporters program has officially launched!",
+              },
+              {
+                text: "Earn $1 USD* for each friend that creates an account",
+                image:
+                  "https://sunflower-land.com/testnet-assets/announcements/referrals.gif",
+              },
+            ],
+            from: "grimbly",
+            link: "https://sunflower-land.com/#referrals",
+          },
+        },
       },
       states: {
         loading: {
@@ -396,7 +420,7 @@ export function startGame(authContext: AuthContext) {
               cond: () => window.location.href.includes("visit"),
             },
             {
-              target: "playing",
+              target: "notifying",
               cond: () => ART_MODE,
               actions: assign({
                 state: (_context) => OFFLINE_FARM,
@@ -472,6 +496,7 @@ export function startGame(authContext: AuthContext) {
                   itemsMintedAt,
                   deviceTrackerId,
                   status,
+                  announcements,
                 } = response;
 
                 return {
@@ -488,6 +513,7 @@ export function startGame(authContext: AuthContext) {
                   notifications: onChainEvents,
                   deviceTrackerId,
                   status,
+                  announcements,
                 };
               }
 
@@ -587,6 +613,7 @@ export function startGame(authContext: AuthContext) {
               cond: (context: Context) =>
                 !!context.notifications && context.notifications?.length > 0,
             },
+
             {
               target: "gameRules",
               cond: () => {
@@ -594,6 +621,15 @@ export function startGame(authContext: AuthContext) {
                 return (
                   !lastRead ||
                   Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
+                );
+              },
+            },
+            {
+              target: "introduction",
+              cond: (context) => {
+                return (
+                  context.state.bumpkin?.experience === 0 &&
+                  !getIntroductionRead()
                 );
               },
             },
@@ -609,11 +645,32 @@ export function startGame(authContext: AuthContext) {
                 window.location.hash.includes("/land"),
             },
             {
+              target: "noTownCenter",
+              cond: (context: Context) => {
+                console.log({
+                  test: context.state.buildings["Town Center"],
+                  val:
+                    (context.state.buildings["Town Center"] ?? []).length === 0,
+                });
+
+                return (
+                  (context.state.buildings["Town Center"] ?? []).length === 0
+                );
+              },
+            },
+            {
               target: "playing",
             },
           ],
         },
         noBumpkinFound: {},
+        noTownCenter: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
+            },
+          },
+        },
         deposited: {
           on: {
             ACKNOWLEDGE: {
@@ -985,6 +1042,14 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        introduction: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+
         swarming: {
           on: {
             REFRESH: {
@@ -1105,6 +1170,7 @@ export function startGame(authContext: AuthContext) {
           notifications: (_, event) => event.data.notifications,
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           status: (_, event) => event.data.status,
+          announcements: (_, event) => event.data.announcements,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

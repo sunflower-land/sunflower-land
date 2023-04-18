@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // Bodies
 import beigeBody from "assets/npc-layers/beige_body.png";
@@ -100,9 +100,6 @@ import {
   BumpkinDress,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context } from "features/game/GameProvider";
-import { ConsumableName } from "features/game/types/consumables";
-import { FeedModal } from "./FeedModal";
 import classNames from "classnames";
 
 type VisiblePart =
@@ -212,7 +209,7 @@ const PARTS: Partial<Record<VisiblePart, string>> = {
   "Bunny Onesie": bunnyOnesie,
 };
 
-export interface DynamicMiniNFTProps {
+export interface NPCProps {
   body: BumpkinBody;
   hair: BumpkinHair;
   shirt?: BumpkinShirt;
@@ -225,51 +222,7 @@ export interface DynamicMiniNFTProps {
   dress?: BumpkinDress;
 }
 
-export const DynamicMiniNFT: React.FC<DynamicMiniNFTProps> = ({
-  body,
-  hair,
-  shirt,
-  pants,
-  hat,
-  suit,
-  onesie,
-  wings,
-  coat,
-  dress,
-}) => {
-  const { gameService } = useContext(Context);
-
-  const [open, setOpen] = useState(false);
-
-  const eat = (food: ConsumableName) => {
-    gameService.send("bumpkin.feed", { food });
-  };
-
-  return (
-    <>
-      <NPC
-        body={body}
-        hair={hair}
-        shirt={shirt}
-        pants={pants}
-        hat={hat}
-        suit={suit}
-        onesie={onesie}
-        wings={wings}
-        coat={coat}
-        dress={dress}
-        onClick={() => setOpen(true)}
-      />
-      <FeedModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onFeed={(food) => eat(food)}
-      />
-    </>
-  );
-};
-
-export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
+export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   body,
   hair,
   shirt,
@@ -482,5 +435,44 @@ export const NPC: React.FC<DynamicMiniNFTProps & { onClick?: () => void }> = ({
         )}
       </div>
     </>
+  );
+};
+
+export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
+  body,
+  shirt,
+  pants,
+  hair,
+  width,
+}) => {
+  const parts = [
+    PARTS[body],
+    PARTS[shirt as BumpkinShirt],
+    PARTS[pants as BumpkinPant],
+    PARTS[hair as BumpkinHair],
+  ];
+
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{
+        imageRendering: "pixelated" as const,
+        width: `${width}px`,
+        height: `${width}px`,
+      }}
+    >
+      {parts.map((sheet, index) => (
+        <img
+          key={index}
+          src={sheet}
+          className="block absolute"
+          style={{
+            transform: "scale(9)",
+            top: `${PIXEL_SCALE * 6}px`,
+            left: "400%",
+          }}
+        />
+      ))}
+    </div>
   );
 };
