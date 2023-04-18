@@ -210,10 +210,11 @@ export const authMachine = createMachine<
     id: "authMachine",
     initial: ART_MODE ? "connected" : "idle",
     context: {
-      user: {
-        type: "GUEST",
-        guestKey: getGuestKey(),
-      },
+      // user: {
+      //   type: "GUEST",
+      //   guestKey: getGuestKey(),
+      // },
+      user: { type: "FULL" },
     },
     states: {
       idle: {

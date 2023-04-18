@@ -1,7 +1,6 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from "react";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
-import ocean from "assets/decorations/ocean.webp";
 import background from "assets/land/retreat.webp";
 import { RetreatBank } from "./components/bank/RetreatBank";
 import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHouse";
@@ -36,6 +35,8 @@ import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { RetreatPirate } from "./components/pirate/RetreatPirate";
+import { ZoomContext } from "components/ZoomProvider";
+import { GameBoard } from "components/GameBoard";
 
 const spawn = [
   [35, 15],
@@ -69,6 +70,8 @@ export const Game = () => {
   const [scrollIntoView] = useScrollIntoView();
   const [retreatLoaded, setRetreatLoaded] = useState(false);
   const [sealSpawn] = useState(getRandomSpawn());
+
+  const { scale } = useContext(ZoomContext);
 
   useLayoutEffect(() => {
     if (retreatLoaded) {
@@ -104,24 +107,10 @@ export const Game = () => {
         </Panel>
       </Modal>
       <ScrollContainer
-        className="bg-blue-300 overflow-scroll relative w-full h-full"
+        className="bg-blue-300 overflow-scroll relative w-full h-full overscroll-none"
         innerRef={container}
       >
-        <div
-          className="relative"
-          style={{
-            width: `${84 * GRID_WIDTH_PX}px`,
-            height: `${56 * GRID_WIDTH_PX}px`,
-          }}
-        >
-          <div
-            className="absolute inset-0 bg-repeat w-full h-full"
-            style={{
-              backgroundImage: `url(${ocean})`,
-              backgroundSize: `${64 * PIXEL_SCALE}px`,
-              imageRendering: "pixelated",
-            }}
-          />
+        <GameBoard>
           {hasRequiredLevel && !goblinState.matches("loading") && (
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -154,7 +143,7 @@ export const Game = () => {
               <Forbidden />
             </Splash>
           )}
-        </div>
+        </GameBoard>
       </ScrollContainer>
       <div className="absolute z-20">
         <Hud />

@@ -5,6 +5,8 @@ import { Context } from "features/game/GameProvider";
 import more from "assets/ui/more.png";
 import settings from "assets/icons/settings.png";
 import sound_on from "assets/icons/sound_on.png";
+import zoomIn from "assets/icons/zoomin.png";
+import zoomOut from "assets/icons/zoomout.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -20,6 +22,7 @@ import {
 } from "assets/songs/playlist";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useLocation } from "react-router-dom";
+import { ZoomContext } from "components/ZoomProvider";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
@@ -41,6 +44,9 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     pathname.includes("retreat") || pathname.includes("visit");
 
   const cogRef = useRef<HTMLDivElement>(null);
+
+  const { scale, setMin, setMax, canZoom, isZoomedIn } =
+    useContext(ZoomContext);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -204,11 +210,29 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       />
     );
 
+  const zoomButton = (index: number) =>
+    settingButton(
+      index,
+      () => {
+        scale.get() >= 1 ? setMin() : setMax();
+      },
+      <img
+        src={isZoomedIn ? zoomOut : zoomIn}
+        className="absolute"
+        style={{
+          top: `${PIXEL_SCALE * 3.5}px`,
+          left: `${PIXEL_SCALE * 3.5}px`,
+          width: `${PIXEL_SCALE * 15}px`,
+        }}
+      />
+    );
+
   // list of buttons to show in the HUD from right to left in order
   const buttons = [
     gearButton,
     ...(isFarming ? [progressBarButton] : []),
     audioButton,
+    ...(canZoom ? [zoomButton] : []),
     ...(!showLimitedButtons ? [moreButton] : []),
   ];
 

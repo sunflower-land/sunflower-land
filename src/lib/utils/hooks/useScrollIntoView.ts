@@ -52,6 +52,8 @@ export enum Section {
   PumpkinPlaza = "pumpkinPlaza",
   BeachParty = "beachParty",
   BunnyTrove = "bunnyTrove",
+
+  GameCenter = "gameCenter",
 }
 
 export const useScrollIntoView = () => {
