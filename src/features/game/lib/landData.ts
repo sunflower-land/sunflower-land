@@ -252,7 +252,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
-  balance: new Decimal(0),
+  balance: new Decimal(10),
   inventory: {
     Market: new Decimal(1),
     "Fire Pit": new Decimal(1),
