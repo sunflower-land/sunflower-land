@@ -278,10 +278,16 @@ export const authMachine = createMachine<
         id: "connectingToMetamask",
         invoke: {
           src: "initMetamask",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignGuestUser",
-          },
+          onDone: [
+            {
+              target: "setupContracts",
+              cond: (context) => context.user.type === "GUEST",
+              actions: "assignGuestUser",
+            },
+            {
+              target: "setupContracts",
+            },
+          ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -292,10 +298,16 @@ export const authMachine = createMachine<
         id: "connectingToWalletConnect",
         invoke: {
           src: "initWalletConnect",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignGuestUser",
-          },
+          onDone: [
+            {
+              target: "setupContracts",
+              cond: (context) => context.user.type === "GUEST",
+              actions: "assignGuestUser",
+            },
+            {
+              target: "setupContracts",
+            },
+          ],
           onError: [
             {
               target: "idle",
@@ -312,10 +324,16 @@ export const authMachine = createMachine<
         id: "connectingToSequence",
         invoke: {
           src: "initSequence",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignGuestUser",
-          },
+          onDone: [
+            {
+              target: "setupContracts",
+              cond: (context) => context.user.type === "GUEST",
+              actions: "assignGuestUser",
+            },
+            {
+              target: "setupContracts",
+            },
+          ],
           onError: [
             {
               target: "idle",
