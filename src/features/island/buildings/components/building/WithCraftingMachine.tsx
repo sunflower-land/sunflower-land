@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useInterpret, useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 import {
   CraftingContext,
   craftingMachine,
@@ -8,7 +9,6 @@ import {
 } from "../../lib/craftingMachine";
 import { BuildingProps } from "./Building";
 import { CookableName } from "features/game/types/consumables";
-import { MachineInterpreter as GameMachineInterpreter } from "features/game/lib/gameMachine";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isCrafting = (state: MachineState) => state.matches("crafting");
@@ -25,7 +25,6 @@ export interface CraftingMachineChildProps extends BuildingProps {
 }
 
 type WithCraftingMachineProps = BuildingProps & {
-  gameService: GameMachineInterpreter;
   children: React.ReactElement<CraftingMachineChildProps>;
 };
 
@@ -34,12 +33,12 @@ type WithCraftingMachineProps = BuildingProps & {
  * inject the craftingMachine into the building which will handle the crafting process for that building.
  */
 export const WithCraftingMachine = ({
-  gameService,
   craftingItemName,
   craftingReadyAt,
   buildingId,
   children,
 }: WithCraftingMachineProps) => {
+  const { gameService } = useContext(Context);
   const craftingMachineContext: CraftingContext = {
     gameService,
     buildingId,

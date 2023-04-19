@@ -19,7 +19,6 @@ import { Building } from "features/island/buildings/components/building/Building
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
-import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { Hud } from "features/island/hud/Hud";
@@ -28,11 +27,9 @@ import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getGameGrid } from "./placeable/lib/makeGrid";
-import { MachineInterpreter } from "../lib/gameMachine";
 import { MachineState } from "../lib/gameMachine";
 
 const getIslandElements = ({
-  gameService,
   buildings,
   collectibles,
   chickens,
@@ -42,13 +39,11 @@ const getIslandElements = ({
   gold,
   fruitPatches,
   crops,
-  bumpkinParts,
   isRustyShovelSelected,
   showTimers,
   isEditing,
 }: {
   expansionConstruction?: ExpansionConstruction;
-  gameService: MachineInterpreter;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<string, Chicken>>;
@@ -58,7 +53,6 @@ const getIslandElements = ({
   gold: GameState["gold"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
-  bumpkinParts: BumpkinParts | undefined;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
   isEditing?: boolean;
@@ -84,7 +78,6 @@ const getIslandElements = ({
               isEditing={isEditing}
             >
               <Building
-                gameService={gameService}
                 name={name}
                 id={building.id}
                 readyAt={building.readyAt}
@@ -292,8 +285,6 @@ const selectGameState = (state: MachineState) => state.context.state;
 const isAutosaving = (state: MachineState) => state.matches("autosaving");
 const isEditing = (state: MachineState) => state.matches("editing");
 const isVisiting = (state: MachineState) => state.matches("visiting");
-const isPlaying = (state: MachineState) =>
-  state.matches("playingGuestGame") || state.matches("playingFullGame");
 
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
@@ -315,7 +306,6 @@ export const Land: React.FC = () => {
   const autosaving = useSelector(gameService, isAutosaving);
   const editing = useSelector(gameService, isEditing);
   const visiting = useSelector(gameService, isVisiting);
-  const playing = useSelector(gameService, isPlaying);
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -353,7 +343,6 @@ export const Land: React.FC = () => {
           {/* Sort island elements by y axis */}
           {getIslandElements({
             expansionConstruction,
-            gameService,
             buildings,
             collectibles,
             chickens,
@@ -363,7 +352,6 @@ export const Land: React.FC = () => {
             gold,
             fruitPatches,
             crops,
-            bumpkinParts: bumpkin?.equipped,
             isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             showTimers: showTimers,
             isEditing: editing,

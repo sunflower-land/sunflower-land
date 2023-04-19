@@ -20,12 +20,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { CookableName } from "features/game/types/consumables";
 import { TownCenter } from "./townCenter/TownCenter";
 
 interface Prop {
-  gameService: MachineInterpreter;
   name: BuildingName;
   id: string;
   readyAt: number;
@@ -44,24 +42,18 @@ export interface BuildingProps {
   onRemove?: () => void;
 }
 
-type BuildingComponentsProps = BuildingProps & {
-  gameService: MachineInterpreter;
-};
-
 export const BUILDING_COMPONENTS: Record<
   BuildingName,
-  React.FC<BuildingComponentsProps>
+  React.FC<BuildingProps>
 > = {
   "Fire Pit": ({
-    gameService,
     buildingId,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
     onRemove,
-  }: BuildingComponentsProps) => (
+  }: BuildingProps) => (
     <WithCraftingMachine
-      gameService={gameService}
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
@@ -71,15 +63,13 @@ export const BUILDING_COMPONENTS: Record<
   ),
   Workbench: WorkBench,
   Bakery: ({
-    gameService,
     buildingId,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
     onRemove,
-  }: BuildingComponentsProps) => (
+  }: BuildingProps) => (
     <WithCraftingMachine
-      gameService={gameService}
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
@@ -95,15 +85,13 @@ export const BUILDING_COMPONENTS: Record<
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Kitchen: ({
-    gameService,
     buildingId,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
     onRemove,
-  }: BuildingComponentsProps) => (
+  }: BuildingProps) => (
     <WithCraftingMachine
-      gameService={gameService}
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
@@ -112,15 +100,13 @@ export const BUILDING_COMPONENTS: Record<
     </WithCraftingMachine>
   ),
   Deli: ({
-    gameService,
     buildingId,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
     onRemove,
-  }: BuildingComponentsProps) => (
+  }: BuildingProps) => (
     <WithCraftingMachine
-      gameService={gameService}
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
@@ -129,15 +115,13 @@ export const BUILDING_COMPONENTS: Record<
     </WithCraftingMachine>
   ),
   "Smoothie Shack": ({
-    gameService,
     buildingId,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
     onRemove,
-  }: BuildingComponentsProps) => (
+  }: BuildingProps) => (
     <WithCraftingMachine
-      gameService={gameService}
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
@@ -152,7 +136,6 @@ export const BUILDING_COMPONENTS: Record<
 };
 
 const InProgressBuilding: React.FC<Prop> = ({
-  gameService,
   name,
   id,
   readyAt,
@@ -174,7 +157,7 @@ const InProgressBuilding: React.FC<Prop> = ({
         onMouseLeave={() => setShowTooltip(false)}
       >
         <div className="w-full h-full pointer-events-none opacity-50">
-          <BuildingPlaced gameService={gameService} buildingId={id} />
+          <BuildingPlaced buildingId={id} />
         </div>
         {showTimers && (
           <div
@@ -207,7 +190,6 @@ const InProgressBuilding: React.FC<Prop> = ({
 };
 
 const BuildingComponent: React.FC<Prop> = ({
-  gameService,
   name,
   id,
   readyAt,
@@ -217,6 +199,7 @@ const BuildingComponent: React.FC<Prop> = ({
   isRustyShovelSelected,
   showTimers,
 }) => {
+  console.log("BUILDING UPDATED!");
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -241,7 +224,6 @@ const BuildingComponent: React.FC<Prop> = ({
     <>
       {inProgress ? (
         <InProgressBuilding
-          gameService={gameService}
           key={id}
           name={name}
           id={id}
@@ -252,7 +234,6 @@ const BuildingComponent: React.FC<Prop> = ({
         />
       ) : (
         <BuildingPlaced
-          gameService={gameService}
           buildingId={id}
           craftingItemName={craftingItemName}
           craftingReadyAt={craftingReadyAt}
