@@ -263,6 +263,32 @@ export const OFFLINE_FARM: GameState = {
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     "Mashed Potato": new Decimal(2),
+    Gold: new Decimal(15),
+    "Wooden Compass": new Decimal(20),
+    "Dirt Path": new Decimal(100),
+    Fence: new Decimal(50),
+    Bush: new Decimal(50),
+    Shrub: new Decimal(50),
+    "White Tulips": new Decimal(10),
+    Artist: new Decimal(1),
+    Sunflower: new Decimal(2999),
+    Wood: new Decimal(100),
+    Stone: new Decimal(50),
+    Axe: new Decimal(10),
+    "Maneki Neko": new Decimal(2),
+    "Lunar Calendar": new Decimal(1),
+    "Pablo The Bunny": new Decimal(1),
+    "Easter Bear": new Decimal(1),
+    "Cabbage Girl": new Decimal(1),
+    "Cabbage Boy": new Decimal(1),
+
+    Kitchen: new Decimal(1),
+
+    "Iron Rock": new Decimal(3),
+    "Fruit Patch": new Decimal(3),
+    "Gold Rock": new Decimal(3),
+    "Easter Bush": new Decimal(3),
+    "Block Buck": new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,
@@ -288,52 +314,341 @@ export const OFFLINE_FARM: GameState = {
   },
 
   buildings: {
-    "Town Center": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 3,
-          y: 3,
-        },
-        createdAt: 0,
-      },
-    ],
-    Workbench: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 9,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Fire Pit": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 2,
-          y: -1,
-        },
-        createdAt: 0,
-      },
-    ],
     Market: [
       {
+        coordinates: { x: 0, y: 0 },
+        createdAt: 0,
         id: "123",
         readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 6,
-        },
-        createdAt: 0,
       },
     ],
   },
-  collectibles: {},
+  collectibles: {
+    "Collectible Bear": [
+      {
+        coordinates: {
+          x: 4,
+          y: 0,
+        },
+        readyAt: 1678160795537,
+        createdAt: 1678160795537,
+        id: "db87aa28-be25-458a-88dc-b25040b32d52",
+      },
+    ],
+    "Lifeguard Bear": [
+      {
+        coordinates: {
+          x: -2,
+          y: 14,
+        },
+        readyAt: 1680226979268,
+        createdAt: 1680226979268,
+        id: "4402987d",
+      },
+      {
+        coordinates: {
+          x: -2,
+          y: 13,
+        },
+        readyAt: 1680226979538,
+        createdAt: 1680226979538,
+        id: "88f0fb66",
+      },
+      {
+        coordinates: {
+          x: -2,
+          y: 12,
+        },
+        readyAt: 1680226979884,
+        createdAt: 1680226979884,
+        id: "cddc55ca",
+      },
+      {
+        coordinates: {
+          x: -2,
+          y: 11,
+        },
+        readyAt: 1680226980467,
+        createdAt: 1680226980467,
+        id: "9753fc9f",
+      },
+      {
+        coordinates: {
+          x: -2,
+          y: 10,
+        },
+        readyAt: 1680226980848,
+        createdAt: 1680226980848,
+        id: "1d31217f",
+      },
+    ],
+    "Basic Bear": [
+      {
+        coordinates: {
+          x: -8,
+          y: 15,
+        },
+        readyAt: 1680600650307,
+        createdAt: 1680600650307,
+        id: "4887d48b",
+      },
+      {
+        coordinates: {
+          x: -8,
+          y: 14,
+        },
+        readyAt: 1680600650460,
+        createdAt: 1680600650460,
+        id: "16c01b59",
+      },
+      {
+        coordinates: {
+          x: -8,
+          y: 13,
+        },
+        readyAt: 1680600650576,
+        createdAt: 1680600650576,
+        id: "b3410c94",
+      },
+      {
+        coordinates: {
+          x: -8,
+          y: 12,
+        },
+        readyAt: 1680600650676,
+        createdAt: 1680600650676,
+        id: "bbf43fdf",
+      },
+      {
+        coordinates: {
+          x: -8,
+          y: 11,
+        },
+        readyAt: 1680600650828,
+        createdAt: 1680600650828,
+        id: "2d0980d4",
+      },
+      {
+        coordinates: {
+          x: -8,
+          y: 10,
+        },
+        readyAt: 1680600650942,
+        createdAt: 1680600650942,
+        id: "ad0f49e2",
+      },
+      {
+        coordinates: {
+          x: -8,
+          y: 9,
+        },
+        readyAt: 1680600651061,
+        createdAt: 1680600651061,
+        id: "1d7a7c0f",
+      },
+      {
+        coordinates: {
+          x: -7,
+          y: 15,
+        },
+        readyAt: 1680600653757,
+        createdAt: 1680600653757,
+        id: "3722bc6d",
+      },
+      {
+        coordinates: {
+          x: -7,
+          y: 14,
+        },
+        readyAt: 1680600653893,
+        createdAt: 1680600653893,
+        id: "ee3ab258",
+      },
+      {
+        coordinates: {
+          x: -7,
+          y: 13,
+        },
+        readyAt: 1680600654028,
+        createdAt: 1680600654028,
+        id: "9c48aadf",
+      },
+      {
+        coordinates: {
+          x: -7,
+          y: 12,
+        },
+        readyAt: 1680600654145,
+        createdAt: 1680600654145,
+        id: "b8694ce4",
+      },
+    ],
+    "Potted Sunflower": [
+      {
+        coordinates: {
+          x: -9,
+          y: 15,
+        },
+        readyAt: 1680600636674,
+        createdAt: 1680600636674,
+        id: "5bbcd6d7",
+      },
+      {
+        coordinates: {
+          x: -9,
+          y: 14,
+        },
+        readyAt: 1680600636827,
+        createdAt: 1680600636827,
+        id: "e29ff121",
+      },
+      {
+        coordinates: {
+          x: -9,
+          y: 13,
+        },
+        readyAt: 1680600636941,
+        createdAt: 1680600636941,
+        id: "b44f213d",
+      },
+      {
+        coordinates: {
+          x: -9,
+          y: 12,
+        },
+        readyAt: 1680600637042,
+        createdAt: 1680600637042,
+        id: "c6b29d9e",
+      },
+      {
+        coordinates: {
+          x: -9,
+          y: 11,
+        },
+        readyAt: 1680600637175,
+        createdAt: 1680600637175,
+        id: "cea2f776",
+      },
+      {
+        coordinates: {
+          x: -9,
+          y: 10,
+        },
+        readyAt: 1680600637309,
+        createdAt: 1680600637309,
+        id: "a3595daa",
+      },
+      {
+        coordinates: {
+          x: -9,
+          y: 9,
+        },
+        readyAt: 1680600637426,
+        createdAt: 1680600637426,
+        id: "5b9eefb3",
+      },
+      {
+        coordinates: {
+          x: -15,
+          y: 14,
+        },
+        readyAt: 1680600640589,
+        createdAt: 1680600640589,
+        id: "6439e62c",
+      },
+      {
+        coordinates: {
+          x: -15,
+          y: 12,
+        },
+        readyAt: 1680600643138,
+        createdAt: 1680600643138,
+        id: "7a2a67c8",
+      },
+    ],
+    "Heart of Davy Jones": [
+      {
+        coordinates: {
+          x: 11,
+          y: 9,
+        },
+        readyAt: 1680227272798,
+        createdAt: 1680226972798,
+        id: "db074fb7",
+      },
+    ],
+    "Palm Tree": [
+      {
+        coordinates: {
+          x: 7,
+          y: 13,
+        },
+        readyAt: 1680226986081,
+        createdAt: 1680226986081,
+        id: "f37071f9",
+      },
+    ],
+    "Lady Bug": [
+      {
+        coordinates: {
+          x: 8,
+          y: 8,
+        },
+        readyAt: 1680600537109,
+        createdAt: 1680600537109,
+        id: "b9d2b3fe",
+      },
+    ],
+    Flamingo: [
+      {
+        coordinates: {
+          x: 10,
+          y: 15,
+        },
+        readyAt: 1680600555572,
+        createdAt: 1680600555572,
+        id: "72a6dd1a",
+      },
+    ],
+    Cactus: [
+      {
+        coordinates: {
+          x: -7,
+          y: 11,
+        },
+        readyAt: 1680600661257,
+        createdAt: 1680600661257,
+        id: "e6de8b09",
+      },
+      {
+        coordinates: {
+          x: -7,
+          y: 10,
+        },
+        readyAt: 1680600661409,
+        createdAt: 1680600661409,
+        id: "4bd97979",
+      },
+      {
+        coordinates: {
+          x: -7,
+          y: 9,
+        },
+        readyAt: 1680600661526,
+        createdAt: 1680600661526,
+        id: "0a06df91",
+      },
+      {
+        coordinates: {
+          x: -15,
+          y: 11,
+        },
+        readyAt: 1680600664155,
+        createdAt: 1680600664155,
+        id: "cb1a8967",
+      },
+    ],
+  },
   mysteryPrizes: {},
   pumpkinPlaza: {},
   treasureIsland: {
