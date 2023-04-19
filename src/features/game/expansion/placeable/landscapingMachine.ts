@@ -1,28 +1,78 @@
 import { v4 as uuidv4 } from "uuid";
 import { GameEventName, PlacementEvent } from "features/game/events";
-import { BuildingName } from "features/game/types/buildings";
+import {
+  BUILDINGS_DIMENSIONS,
+  BuildingName,
+} from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
-import { assign, createMachine, Interpreter, sendParent } from "xstate";
+import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import Decimal from "decimal.js-light";
-import { Inventory } from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import {
   Context as GameMachineContext,
   saveGame,
   saveGuestGame,
 } from "features/game/lib/gameMachine";
+import { RESOURCES } from "features/game/types/resources";
+
+export const RESOURCE_PLACE_EVENTS: Partial<
+  Record<InventoryItemName, GameEventName<PlacementEvent>>
+> = {
+  Tree: "tree.placed",
+  Stone: "stone.placed",
+  Iron: "iron.placed",
+  Gold: "gold.placed",
+  "Crop Plot": "plot.placed",
+  "Fruit Patch": "fruitPatch.placed",
+};
+
+export function placeEvent(
+  name: InventoryItemName
+): GameEventName<PlacementEvent> {
+  if (name in RESOURCES) {
+    return RESOURCE_PLACE_EVENTS[name] as GameEventName<PlacementEvent>;
+  }
+
+  if (name in BUILDINGS_DIMENSIONS) {
+    return "building.placed";
+  }
+
+  return "collectible.placed";
+}
 
 export interface Context {
-  placeable: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
+  action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
+  placeable?: BuildingName | CollectibleName;
+  hasLandscapingAccess: boolean;
+
+  multiple?: boolean;
+
   origin?: Coordinates;
   requirements: {
     sfl: Decimal;
     ingredients: Inventory;
   };
+
+  moving?: {
+    id: string;
+    name: InventoryItemName;
+  };
 }
+
+type SelectEvent = {
+  type: "SELECT";
+  placeable: BuildingName | CollectibleName;
+  action: GameEventName<PlacementEvent>;
+  requirements: {
+    sfl: Decimal;
+    ingredients: Inventory;
+  };
+  collisionDetected: boolean;
+  multiple?: boolean;
+};
 
 type UpdateEvent = {
   type: "UPDATE";
@@ -41,6 +91,16 @@ type ConstructEvent = {
   actionName: PlacementEvent;
 };
 
+type MoveEvent = {
+  type: "MOVE";
+};
+
+type HighlightEvent = {
+  type: "HIGHLIGHT";
+  id: string;
+  name: InventoryItemName;
+};
+
 export type SaveEvent = {
   type: "SAVE";
   gameMachineContext: GameMachineContext;
@@ -57,12 +117,17 @@ export type GuestSaveEvent = {
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
+  | { type: "BUILD" }
+  | SelectEvent
+  | HighlightEvent
   | ConstructEvent
   | PlaceEvent
   | UpdateEvent
   | SaveEvent
   | GuestSaveEvent
-  | { type: "CANCEL" };
+  | MoveEvent
+  | { type: "CANCEL" }
+  | { type: "BACK" };
 
 export type BlockchainState = {
   value:
@@ -73,11 +138,15 @@ export type BlockchainState = {
     | { saving: "autosaving" }
     | { saving: "close" }
     | { editing: "idle" }
+    | { editing: "moving" }
+    | { editing: "placing" }
     | { editing: "dragging" }
     | { editing: "close" }
     | { editing: "resetting" };
   context: Context;
 };
+
+export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
 
 export type MachineInterpreter = Interpreter<
   Context,
@@ -86,7 +155,7 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export const editingMachine = createMachine<
+export const landscapingMachine = createMachine<
   Context,
   BlockchainEvent,
   BlockchainState
@@ -174,6 +243,46 @@ export const editingMachine = createMachine<
       initial: "idle",
       states: {
         idle: {
+          always: [
+            {
+              target: "placing",
+              cond: (context) => !!context.placeable,
+            },
+          ],
+          on: {
+            SELECT: {
+              target: "placing",
+              actions: assign({
+                placeable: (_, event) => {
+                  console.log({ event });
+                  return event.placeable;
+                },
+                action: (_, event) => event.action,
+                requirements: (_, event) => event.requirements,
+                multiple: (_, event) => event.multiple,
+              }),
+            },
+            MOVE: {
+              target: "moving",
+            },
+          },
+        },
+        moving: {
+          on: {
+            HIGHLIGHT: {
+              actions: assign({
+                moving: (_, event) => ({
+                  id: event.id,
+                  name: event.name,
+                }),
+              }),
+            },
+            BUILD: {
+              target: "idle",
+            },
+          },
+        },
+        placing: {
           on: {
             UPDATE: {
               actions: assign({
@@ -181,15 +290,22 @@ export const editingMachine = createMachine<
                 collisionDetected: (_, event) => event.collisionDetected,
               }),
             },
+            BACK: {
+              target: "idle",
+              actions: assign({
+                placeable: (_) => undefined,
+              }),
+            },
             DRAG: {
               target: "dragging",
             },
             PLACE: [
               {
-                target: "idle",
+                target: "placing",
                 // They have more to place
-                cond: (_, e) => {
-                  return !!e.nextOrigin;
+                cond: (context, e) => {
+                  console.log("Placing", e);
+                  return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
                   sendParent(
@@ -211,22 +327,45 @@ export const editingMachine = createMachine<
               },
               {
                 target: ["#saving.done", "done"],
-                actions: sendParent(
-                  ({ placeable, action, coordinates: { x, y } }) =>
-                    ({
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent)
-                ),
+                cond: (context) => !context.hasLandscapingAccess,
+                actions: [
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }) =>
+                      ({
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                      } as PlacementEvent)
+                  ),
+                  assign({
+                    placeable: (_) => undefined,
+                  }),
+                ],
+              },
+              {
+                target: ["#saving.done", "idle"],
+                actions: [
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }) =>
+                      ({
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                      } as PlacementEvent)
+                  ),
+                  assign({
+                    placeable: (_) => undefined,
+                  }),
+                ],
               },
             ],
           },
         },
         resetting: {
           always: {
-            target: "idle",
+            target: "placing",
             // Move the next piece
             actions: assign({
               coordinates: (context) => {
@@ -247,7 +386,7 @@ export const editingMachine = createMachine<
               }),
             },
             DROP: {
-              target: "idle",
+              target: "placing",
             },
           },
         },
