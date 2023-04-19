@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
+import { analytics } from "lib/analytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type RestockAction = {
@@ -26,6 +27,13 @@ export function restock({ state, action }: Options): GameState {
 
   game.stock = INITIAL_STOCK(state);
   game.inventory["Block Buck"] = blockBucks.sub(1);
+
+  // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
+  analytics.logEvent("spend_virtual_currency", {
+    value: 1,
+    virtual_currency_name: "Block Buck",
+    item_name: "Restock",
+  });
 
   return game;
 }

@@ -5,6 +5,7 @@ import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
 import SessionABI from "./abis/Session.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
+import { analytics } from "lib/analytics";
 
 const address = CONFIG.SESSION_CONTRACT;
 
@@ -39,6 +40,7 @@ export type SyncProgressArgs = {
   progress: ProgressData;
   fee: string;
   expansion: LandExpansionData;
+  blockBucks: number;
 };
 
 export type MintCollectibleArgs = {
@@ -224,6 +226,7 @@ export async function syncProgress({
   progress,
   fee,
   expansion,
+  blockBucks,
 }: SyncProgressArgs): Promise<string> {
   const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
@@ -247,6 +250,24 @@ export async function syncProgress({
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        console.log({ blockBucks });
+        if (blockBucks) {
+          // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
+          analytics.logEvent("purchase", {
+            currency: "MATIC",
+            // Unique ID to prevent duplicate events
+            transaction_id: `${sessionId}-${farmId}`,
+            value: Number(fromWei(fee)),
+            items: [
+              {
+                item_id: "BLOCK_BUCK",
+                item_name: "Block Buck",
+                quantity: blockBucks,
+              },
+            ],
+          });
+        }
+
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned

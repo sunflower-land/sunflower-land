@@ -80,7 +80,7 @@ import { CollectibleBear } from "./components/CollectibleBear";
 import { CyborgBear } from "./components/CyborgBear";
 import { ManekiNeko } from "./components/ManekiNeko";
 import { LadyBug } from "./components/LadyBug";
-import { BlackBear } from "./components/BlackBear";
+import { BlackBearry } from "./components/BlackBearry";
 import { SquirrelMonkey } from "./components/SquirrelMonkey";
 import { TikiTotem } from "./components/TikiTotem";
 import { LunarCalendar } from "./components/LunarCalendar";
@@ -245,7 +245,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Immortal Pear": ImmortalPear,
   "Lady Bug": LadyBug,
   "Squirrel Monkey": SquirrelMonkey,
-  "Black Bearry": BlackBear,
+  "Black Bearry": BlackBearry,
   "Ayam Cemani": AyamCemani,
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,

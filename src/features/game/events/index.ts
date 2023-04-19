@@ -133,10 +133,6 @@ import {
   placeFruitPatch,
   PlaceFruitPatchAction,
 } from "./landExpansion/placeFruitPatch";
-import {
-  collectEasterEgg,
-  CollectEasterEggAction,
-} from "features/game/events/landExpansion/collectEasterEgg";
 import { ConversationEnded, endConversation } from "./landExpansion/converse";
 import { MessageRead, readMessage } from "./landExpansion/readMessage";
 
@@ -180,7 +176,6 @@ export type PlayingEvent =
   | StartChoreAction
   | CompleteChoreAction
   | ExpandLandAction
-  | CollectEasterEggAction
   | ConversationEnded
   | MessageRead;
 
@@ -260,7 +255,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.completed": completeChore,
   "chore.started": startChore,
   "land.expanded": expandLand,
-  "easterEgg.collected": collectEasterEgg,
   "conversation.ended": endConversation,
   "message.read": readMessage,
 };

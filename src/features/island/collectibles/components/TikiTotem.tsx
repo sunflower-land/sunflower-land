@@ -10,10 +10,10 @@ export const TikiTotem: React.FC = () => {
         src={tikiTotem}
         style={{
           width: `${PIXEL_SCALE * 13}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 1}px`,
         }}
-        className="absolute"
+        className="absolute pointer-events-none"
         alt="Tiki Totem"
       />
     </>
