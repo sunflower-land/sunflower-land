@@ -399,21 +399,6 @@ export type Bid = {
   auctionTickets: number;
 };
 
-type Island = "Main" | "Bunny Trove" | "Helios";
-
-export type EasterHunt = {
-  generatedAt: number;
-  eggs: EasterEggPosition[];
-};
-
-export type EasterEggPosition = {
-  name: InventoryItemName;
-  x: number;
-  y: number;
-  island: Island;
-  collectedAt?: number;
-};
-
 export type HayseedHank = {
   choresCompleted: number;
   chore: Chore;
@@ -500,8 +485,6 @@ export interface GameState {
     bid?: Bid;
   };
   hayseedHank: HayseedHank;
-
-  easterHunt: EasterHunt;
 }
 
 export interface Context {

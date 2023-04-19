@@ -22,7 +22,6 @@ import { Hud } from "features/island/hud/Hud";
 import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
 import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
-import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 
 const spawn = [
   [30, 15],
@@ -43,8 +42,6 @@ export const Helios: React.FC = () => {
   const { bumpkin } = state;
   const [sealSpawn] = useState(getRandomSpawn());
 
-  const eggs = state.easterHunt?.eggs || [];
-  const heliosEggs = eggs.filter((egg) => egg && egg.island === "Helios");
   const autosaving = gameState.matches("autosaving");
 
   const [scrollIntoView] = useScrollIntoView();
@@ -81,12 +78,6 @@ export const Helios: React.FC = () => {
         <SeasonalNPC />
         <CommunityGardenEntry />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
-        {state.easterHunt && (
-          <EasterEgg
-            eggs={heliosEggs}
-            generatedAt={state.easterHunt.generatedAt}
-          />
-        )}
         <IslandTravel
           bumpkin={bumpkin}
           inventory={gameState.context.state.inventory}

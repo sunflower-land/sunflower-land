@@ -282,10 +282,6 @@ export const OFFLINE_FARM: GameState = {
 
   stockExpiry: {},
   dailyRewards: {},
-  easterHunt: {
-    eggs: [],
-    generatedAt: 0,
-  },
 
   buildings: {
     "Town Center": [
