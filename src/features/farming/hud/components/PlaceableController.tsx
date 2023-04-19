@@ -19,6 +19,7 @@ import {
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 import { ToastContext } from "features/game/toast/ToastQueueProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -120,7 +121,11 @@ export const PlaceableController: React.FC = () => {
   };
 
   const handleCancelPlacement = () => {
-    send("BACK");
+    if (hasFeatureAccess(gameState.context.state.inventory, "LANDSCAPING")) {
+      send("BACK");
+    } else {
+      send("CANCEL");
+    }
   };
 
   const Hint = () => {

@@ -45,6 +45,7 @@ export interface Context {
   coordinates: Coordinates;
   collisionDetected: boolean;
   placeable?: BuildingName | CollectibleName;
+  hasLandscapingAccess: boolean;
 
   multiple?: boolean;
 
@@ -285,6 +286,24 @@ export const landscapingMachine = createMachine<
                     origin: (_, event) => event.nextOrigin ?? { x: 0, y: 0 },
                     coordinates: (_, event) =>
                       event.nextOrigin ?? { x: 0, y: 0 },
+                  }),
+                ],
+              },
+              {
+                target: ["#saving.done", "done"],
+                cond: (context) => !context.hasLandscapingAccess,
+                actions: [
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }) =>
+                      ({
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                      } as PlacementEvent)
+                  ),
+                  assign({
+                    placeable: (_) => undefined,
                   }),
                 ],
               },

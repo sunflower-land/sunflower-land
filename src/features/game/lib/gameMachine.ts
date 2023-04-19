@@ -54,6 +54,7 @@ import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
+import { hasFeatureAccess } from "lib/flags";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -892,6 +893,8 @@ export function startGame(authContext: Options) {
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
+              hasLandscapingAccess: (context: Context) =>
+                hasFeatureAccess(context.state.inventory, "LANDSCAPING"),
             },
             onDone: {
               target: "autosaving",
