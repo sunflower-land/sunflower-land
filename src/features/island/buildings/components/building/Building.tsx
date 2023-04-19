@@ -28,11 +28,15 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
+import { useActor } from "@xstate/react";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 
 interface Prop {
   name: BuildingName;
   building: IBuilding;
   onRemove?: () => void;
+  coordinates?: Coordinates;
 }
 
 export interface BuildingProps {
@@ -220,4 +224,18 @@ const BuildingComponent: React.FC<Prop> = ({ name, building }) => {
   );
 };
 
-export const Building = React.memo(BuildingComponent);
+export const Building: React.FC<Prop> = (props) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  console.log({ props });
+  if (gameState.matches("landscaping")) {
+    return (
+      <MoveableComponent id={props.building.id} {...(props as any)}>
+        <BuildingComponent {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <BuildingComponent {...props} />;
+};

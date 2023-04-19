@@ -123,6 +123,8 @@ import { Shrub } from "./components/Shrub";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Fence } from "./components/Fence";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import { useActor } from "@xstate/react";
+import { MoveableComponent } from "./MovableComponent";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -292,7 +294,7 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
   grid,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-  const { showTimers } = useContext(Context);
+  const { showTimers, gameService } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -371,9 +373,7 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
   return (
     <>
       <div
-        className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": canRemoveOnClick,
-        })}
+        className={classNames("h-full cursor-pointer")}
         onClick={canRemoveOnClick ? handleOnClick : undefined}
       >
         <div
@@ -410,4 +410,17 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
   );
 };
 
-export const Collectible = React.memo(CollectibleComponent);
+export const Collectible: React.FC<CollectibleProps> = (props) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  if (gameState.matches("landscaping")) {
+    return (
+      <MoveableComponent {...(props as any)}>
+        <CollectibleComponent {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <CollectibleComponent {...props} />;
+};

@@ -102,7 +102,11 @@ const getIslandElements = ({
               height={height}
               width={width}
             >
-              <Building building={building} name={name as BuildingName} />
+              <Building
+                building={building}
+                name={name as BuildingName}
+                coordinates={{ x, y }}
+              />
             </MapPlacement>
           );
         });
@@ -169,17 +173,22 @@ const getIslandElements = ({
       const { x, y, width, height } = trees[id];
 
       return (
-        <Resource
-          key={`tree-${id}`}
+        <MapPlacement
+          key={`trees-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          name="Tree"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            key={`tree-${id}`}
+            coordinates={{ x, y }}
+            name="Tree"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -189,17 +198,22 @@ const getIslandElements = ({
       const { x, y, width, height } = stones[id];
 
       return (
-        <Resource
-          key={`stone-${id}`}
+        <MapPlacement
+          key={`stones-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          name="Stone Rock"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            key={`stone-${id}`}
+            coordinates={{ x, y }}
+            name="Stone Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -209,17 +223,22 @@ const getIslandElements = ({
       const { x, y, width, height } = iron[id];
 
       return (
-        <Resource
+        <MapPlacement
           key={`iron-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          name="Iron Rock"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            key={`iron-${id}`}
+            name="Iron Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            coordinates={{ x, y }}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -229,17 +248,22 @@ const getIslandElements = ({
       const { x, y, width, height } = gold[id];
 
       return (
-        <Resource
+        <MapPlacement
           key={`gold-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          name="Gold Rock"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            key={`gold-${id}`}
+            name="Gold Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            coordinates={{ x, y }}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -249,17 +273,21 @@ const getIslandElements = ({
       const { x, y, width, height } = fruitPatches[id];
 
       return (
-        <Resource
+        <MapPlacement
           key={`fruitPatches-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          name="Fruit Patch"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            name="Fruit Patch"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            coordinates={{ x, y }}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -269,17 +297,21 @@ const getIslandElements = ({
       const { x, y, width, height } = crops[id];
 
       return (
-        <Resource
+        <MapPlacement
           key={`crops-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          name="Crop Plot"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            name="Crop Plot"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            coordinates={{ x, y }}
+          />
+        </MapPlacement>
       );
     })
   );

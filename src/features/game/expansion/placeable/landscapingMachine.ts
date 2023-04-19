@@ -4,10 +4,7 @@ import {
   BUILDINGS_DIMENSIONS,
   BuildingName,
 } from "features/game/types/buildings";
-import {
-  COLLECTIBLES_DIMENSIONS,
-  CollectibleName,
-} from "features/game/types/craftables";
+import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import Decimal from "decimal.js-light";
@@ -56,6 +53,11 @@ export interface Context {
     sfl: Decimal;
     ingredients: Inventory;
   };
+
+  moving?: {
+    id: string;
+    name: InventoryItemName;
+  };
 }
 
 type SelectEvent = {
@@ -87,6 +89,16 @@ type ConstructEvent = {
   actionName: PlacementEvent;
 };
 
+type MoveEvent = {
+  type: "MOVE";
+};
+
+type HighlightEvent = {
+  type: "HIGHLIGHT";
+  id: string;
+  name: InventoryItemName;
+};
+
 export type SaveEvent = {
   type: "SAVE";
   gameMachineContext: GameMachineContext;
@@ -97,12 +109,16 @@ export type SaveEvent = {
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
+  | { type: "BUILD" }
   | SelectEvent
+  | HighlightEvent
   | ConstructEvent
   | PlaceEvent
   | UpdateEvent
   | SaveEvent
-  | { type: "CANCEL" };
+  | MoveEvent
+  | { type: "CANCEL" }
+  | { type: "BACK" };
 
 export type BlockchainState = {
   value:
@@ -113,6 +129,7 @@ export type BlockchainState = {
     | { saving: "autosaving" }
     | { saving: "close" }
     | { editing: "idle" }
+    | { editing: "moving" }
     | { editing: "placing" }
     | { editing: "dragging" }
     | { editing: "close" }
@@ -208,6 +225,24 @@ export const landscapingMachine = createMachine<
                 multiple: (_, event) => event.multiple,
               }),
             },
+            MOVE: {
+              target: "moving",
+            },
+          },
+        },
+        moving: {
+          on: {
+            HIGHLIGHT: {
+              actions: assign({
+                moving: (_, event) => ({
+                  id: event.id,
+                  name: event.name,
+                }),
+              }),
+            },
+            BUILD: {
+              target: "idle",
+            },
           },
         },
         placing: {
@@ -216,6 +251,12 @@ export const landscapingMachine = createMachine<
               actions: assign({
                 coordinates: (_, event) => event.coordinates,
                 collisionDetected: (_, event) => event.collisionDetected,
+              }),
+            },
+            BACK: {
+              target: "idle",
+              actions: assign({
+                placeable: (_) => undefined,
               }),
             },
             DRAG: {

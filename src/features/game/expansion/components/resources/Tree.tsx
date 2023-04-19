@@ -250,7 +250,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   return (
     <div
-      className="relative w-full h-full"
+      className="relative w-full h-full pointer-events-none"
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >

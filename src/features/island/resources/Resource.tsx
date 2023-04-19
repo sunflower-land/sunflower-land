@@ -1,7 +1,6 @@
-import React from "react";
-import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
 import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Iron } from "features/game/expansion/components/resources/Iron";
@@ -12,17 +11,17 @@ import { Plot } from "../plots/Plot";
 import { FruitPatch } from "../fruit/FruitPatch";
 import { Boulder } from "../boulder/Boulder";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { MoveableComponent } from "../collectibles/MovableComponent";
 
 export interface ResourceProps {
   name: ResourceName;
   id: string;
   readyAt: number;
   createdAt: number;
-
-  height?: number;
-  width?: number;
-  x: number;
-  y: number;
+  coordinates?: Coordinates;
 }
 
 // Used for placing
@@ -121,39 +120,33 @@ const ResourceComponent: React.FC<ResourceProps> = ({
   id,
   readyAt,
   createdAt,
-
-  x,
-  y,
-  height,
-  width,
 }) => {
   const Component = RESOURCE_COMPONENTS[name];
 
   return (
     <>
-      <div
-        className={"absolute"}
-        style={{
-          top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
-          left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
-          height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
-          width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
-        }}
-      >
-        <Component
-          key={id}
-          createdAt={createdAt}
-          id={id}
-          name={name}
-          readyAt={readyAt}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        />
-      </div>
+      <Component
+        key={id}
+        createdAt={createdAt}
+        id={id}
+        name={name}
+        readyAt={readyAt}
+      />
     </>
   );
 };
 
-export const Resource = React.memo(ResourceComponent);
+export const Resource: React.FC<ResourceProps> = (props) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  if (gameState.matches("landscaping")) {
+    return (
+      <MoveableComponent {...(props as any)}>
+        <ResourceComponent {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <ResourceComponent {...props} />;
+};

@@ -16,7 +16,6 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import {
   MachineInterpreter,
-  RESOURCE_PLACE_EVENTS,
   placeEvent,
 } from "features/game/expansion/placeable/landscapingMachine";
 import { Label } from "components/ui/Label";
@@ -60,46 +59,69 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
         }
       />
 
-      {state.matches({ editing: "idle" }) && (
-        <>
-          <div
-            onClick={() => send("CANCEL")}
-            className="fixed flex z-50 cursor-pointer hover:img-highlight"
+      <>
+        <div
+          onClick={() => send("CANCEL")}
+          className="fixed flex z-50 cursor-pointer hover:img-highlight"
+          style={{
+            marginLeft: `${PIXEL_SCALE * 2}px`,
+            marginBottom: `${PIXEL_SCALE * 25}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+            right: `${PIXEL_SCALE * 3}px`,
+            top: `${PIXEL_SCALE * 38}px`,
+          }}
+        >
+          <img
+            src={SUNNYSIDE.ui.round_button}
+            className="absolute"
             style={{
-              marginLeft: `${PIXEL_SCALE * 2}px`,
-              marginBottom: `${PIXEL_SCALE * 25}px`,
               width: `${PIXEL_SCALE * 22}px`,
-              right: `${PIXEL_SCALE * 3}px`,
-              top: `${PIXEL_SCALE * 38}px`,
             }}
-          >
-            <img
-              src={SUNNYSIDE.ui.round_button}
-              className="absolute"
-              style={{
-                width: `${PIXEL_SCALE * 22}px`,
-              }}
-            />
-            <img
-              src={SUNNYSIDE.icons.cancel}
-              className="absolute"
-              style={{
-                top: `${PIXEL_SCALE * 5}px`,
-                left: `${PIXEL_SCALE * 5}px`,
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
-            />
-          </div>
-
-          <div
-            className="flex flex-col items-center fixed z-50"
+          />
+          <img
+            src={SUNNYSIDE.icons.cancel}
+            className="absolute"
             style={{
-              right: `${PIXEL_SCALE * 1}px`,
-              top: `${PIXEL_SCALE * 64}px`,
+              top: `${PIXEL_SCALE * 5}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+              width: `${PIXEL_SCALE * 12}px`,
             }}
-          >
-            <Box isSelected image={SUNNYSIDE.icons.drag} />
+          />
+        </div>
+
+        <div
+          className="flex flex-col items-center fixed z-50"
+          style={{
+            right: `${PIXEL_SCALE * 1}px`,
+            top: `${PIXEL_SCALE * 64}px`,
+          }}
+        >
+          <Box
+            isSelected={!state.matches({ editing: "moving" })}
+            image={SUNNYSIDE.icons.hammer}
+            onClick={() => child.send("BUILD")}
+          />
+          <Box
+            isSelected={state.matches({ editing: "moving" })}
+            image={SUNNYSIDE.icons.drag}
+            onClick={() => child.send("MOVE")}
+          />
+        </div>
+
+        {state.matches({ editing: "moving" }) && (
+          <div className="fixed  bottom-2 w-full flex justify-center">
+            <OuterPanel
+              style={{
+                bottom: `${PIXEL_SCALE * 2}px`,
+              }}
+              className="relative flex justify-center items-center p-1"
+            >
+              <img src={SUNNYSIDE.icons.drag} className="h-6 mr-1" />
+              <p className="text-sm">Click & Drag Objects</p>
+            </OuterPanel>
           </div>
+        )}
+        {state.matches({ editing: "idle" }) && (
           <div className="fixed  bottom-2 w-full flex justify-center">
             <OuterPanel
               style={{
@@ -192,8 +214,8 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
               </div>
             </OuterPanel>
           </div>
-        </>
-      )}
+        )}
+      </>
 
       <LandscapingChest
         state={gameState.context.state}
