@@ -15,14 +15,15 @@ import {
   saveGuestGame,
 } from "features/game/lib/gameMachine";
 import { RESOURCES } from "features/game/types/resources";
+import { ResourceName } from "features/game/types/resources";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
-  Record<InventoryItemName, GameEventName<PlacementEvent>>
+  Record<ResourceName, GameEventName<PlacementEvent>>
 > = {
   Tree: "tree.placed",
-  Stone: "stone.placed",
-  Iron: "iron.placed",
-  Gold: "gold.placed",
+  "Stone Rock": "stone.placed",
+  "Iron Rock": "iron.placed",
+  "Gold Rock": "gold.placed",
   "Crop Plot": "plot.placed",
   "Fruit Patch": "fruitPatch.placed",
 };
@@ -31,7 +32,9 @@ export function placeEvent(
   name: InventoryItemName
 ): GameEventName<PlacementEvent> {
   if (name in RESOURCES) {
-    return RESOURCE_PLACE_EVENTS[name] as GameEventName<PlacementEvent>;
+    return RESOURCE_PLACE_EVENTS[
+      name as ResourceName
+    ] as GameEventName<PlacementEvent>;
   }
 
   if (name in BUILDINGS_DIMENSIONS) {
@@ -304,7 +307,7 @@ export const landscapingMachine = createMachine<
                 target: "placing",
                 // They have more to place
                 cond: (context, e) => {
-                  console.log("Placing", e);
+                  console.log("Placing", e, context);
                   return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
