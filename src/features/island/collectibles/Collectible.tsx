@@ -123,8 +123,9 @@ import { Shrub } from "./components/Shrub";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Fence } from "./components/Fence";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "./MovableComponent";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -410,11 +411,14 @@ const CollectibleComponent: React.FC<CollectibleProps> = ({
   );
 };
 
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
 export const Collectible: React.FC<CollectibleProps> = (props) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
-  if (gameState.matches("landscaping")) {
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  if (landscaping) {
     return (
       <MoveableComponent {...(props as any)}>
         <CollectibleComponent {...props} />

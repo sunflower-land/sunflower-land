@@ -69,6 +69,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   coordinates,
   children,
 }) => {
+  console.log({ name, id });
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);

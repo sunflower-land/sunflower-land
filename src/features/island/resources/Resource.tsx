@@ -12,9 +12,10 @@ import { FruitPatch } from "../fruit/FruitPatch";
 import { Boulder } from "../boulder/Boulder";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "../collectibles/MovableComponent";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -115,38 +116,44 @@ export const RESOURCE_COMPONENTS: Record<
   Boulder: Boulder,
 };
 
-const ResourceComponent: React.FC<ResourceProps> = ({
-  name,
-  id,
-  readyAt,
-  createdAt,
-}) => {
-  const Component = RESOURCE_COMPONENTS[name];
+// const ResourceComponent: React.FC<ResourceProps> = ({
+//   name,
+//   id,
+//   readyAt,
+//   createdAt,
+// }) => {
+//   const Component = RESOURCE_COMPONENTS[name];
 
-  return (
-    <>
-      <Component
-        key={id}
-        createdAt={createdAt}
-        id={id}
-        name={name}
-        readyAt={readyAt}
-      />
-    </>
-  );
-};
+//   return (
+//     <>
+//       <Component
+//         key={id}
+//         createdAt={createdAt}
+//         id={id}
+//         name={name}
+//         readyAt={readyAt}
+//       />
+//     </>
+//   );
+// };
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-export const Resource: React.FC<ResourceProps> = (props) => {
+const ResourceComponent: React.FC<ResourceProps> = (props) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
-  if (gameState.matches("landscaping")) {
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  const Component = RESOURCE_COMPONENTS[props.name];
+
+  if (landscaping) {
     return (
       <MoveableComponent {...(props as any)}>
-        <ResourceComponent {...props} />
+        <Component {...props} />
       </MoveableComponent>
     );
   }
 
-  return <ResourceComponent {...props} />;
+  return <Component {...props} />;
 };
+
+export const Resource = React.memo(ResourceComponent);

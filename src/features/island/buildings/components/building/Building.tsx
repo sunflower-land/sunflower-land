@@ -28,9 +28,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Prop {
   name: BuildingName;
@@ -224,12 +225,14 @@ const BuildingComponent: React.FC<Prop> = ({ name, building }) => {
   );
 };
 
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
 export const Building: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
-  console.log({ props });
-  if (gameState.matches("landscaping")) {
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  if (landscaping) {
     return (
       <MoveableComponent id={props.building.id} {...(props as any)}>
         <BuildingComponent {...props} />
