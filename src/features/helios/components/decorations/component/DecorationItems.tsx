@@ -8,12 +8,19 @@ import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   Decoration,
+  DecorationName,
   HELIOS_DECORATIONS,
 } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
+const ADVANCED_DECORATIONS: DecorationName[] = [
+  "Fence",
+  "Dirt Path",
+  "Bush",
+  "Shrub",
+];
 export const DecorationItems: React.FC = () => {
   const [selected, setSelected] = useState<Decoration>(
     HELIOS_DECORATIONS()["White Tulips"]
@@ -41,7 +48,7 @@ export const DecorationItems: React.FC = () => {
 
   const buy = () => {
     gameService.send("decoration.bought", {
-      item: selected.name,
+      name: selected.name,
     });
 
     shortcutItem(selected.name);
@@ -68,15 +75,17 @@ export const DecorationItems: React.FC = () => {
       }
       content={
         <>
-          {Object.values(HELIOS_DECORATIONS()).map((item: Decoration) => (
-            <Box
-              isSelected={selected.name === item.name}
-              key={item.name}
-              onClick={() => setSelected(item)}
-              image={ITEM_DETAILS[item.name].image}
-              count={inventory[item.name]}
-            />
-          ))}
+          {Object.values(HELIOS_DECORATIONS())
+            .filter((item) => !ADVANCED_DECORATIONS.includes(item.name))
+            .map((item: Decoration) => (
+              <Box
+                isSelected={selected.name === item.name}
+                key={item.name}
+                onClick={() => setSelected(item)}
+                image={ITEM_DETAILS[item.name].image}
+                count={inventory[item.name]}
+              />
+            ))}
         </>
       }
     />
