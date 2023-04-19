@@ -133,12 +133,22 @@ import {
   placeFruitPatch,
   PlaceFruitPatchAction,
 } from "./landExpansion/placeFruitPatch";
-import {
-  collectEasterEgg,
-  CollectEasterEggAction,
-} from "features/game/events/landExpansion/collectEasterEgg";
 import { ConversationEnded, endConversation } from "./landExpansion/converse";
 import { MessageRead, readMessage } from "./landExpansion/readMessage";
+import {
+  moveCollectible,
+  MoveCollectibleAction,
+} from "./landExpansion/moveCollectible";
+import { moveBuilding, MoveBuildingAction } from "./landExpansion/moveBuilding";
+import { moveTree, MoveTreeAction } from "./landExpansion/moveTree";
+import { moveCrop, MoveCropAction } from "./landExpansion/moveCrop";
+import {
+  moveFruitPatch,
+  MoveFruitPatchAction,
+} from "./landExpansion/moveFruitPatch";
+import { moveIron, MoveIronAction } from "./landExpansion/moveIron";
+import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
+import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 
 export type PlayingEvent =
   | TradeAction
@@ -180,7 +190,6 @@ export type PlayingEvent =
   | StartChoreAction
   | CompleteChoreAction
   | ExpandLandAction
-  | CollectEasterEggAction
   | ConversationEnded
   | MessageRead;
 
@@ -195,7 +204,17 @@ export type PlacementEvent =
   | PlaceStoneAction
   | PlaceGoldAction
   | PlaceIronAction
-  | PlaceFruitPatchAction;
+  | PlaceFruitPatchAction
+  | buyDecorationAction
+  | CraftCollectibleAction
+  | MoveCollectibleAction
+  | MoveBuildingAction
+  | MoveCropAction
+  | MoveFruitPatchAction
+  | MoveTreeAction
+  | MoveIronAction
+  | MoveStoneAction
+  | MoveGoldAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -260,7 +279,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.completed": completeChore,
   "chore.started": startChore,
   "land.expanded": expandLand,
-  "easterEgg.collected": collectEasterEgg,
   "conversation.ended": endConversation,
   "message.read": readMessage,
 };
@@ -277,6 +295,16 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "gold.placed": placeGold,
   "iron.placed": placeIron,
   "fruitPatch.placed": placeFruitPatch,
+  "decoration.bought": buyDecoration,
+  "collectible.crafted": craftCollectible,
+  "collectible.moved": moveCollectible,
+  "building.moved": moveBuilding,
+  "fruitPatch.moved": moveFruitPatch,
+  "tree.moved": moveTree,
+  "crop.moved": moveCrop,
+  "iron.moved": moveIron,
+  "stone.moved": moveStone,
+  "gold.moved": moveGold,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

@@ -35,10 +35,10 @@ import { reset } from "features/farming/hud/actions/reset";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
-  editingMachine,
   GuestSaveEvent,
+  landscapingMachine,
   SaveEvent,
-} from "../expansion/placeable/editingMachine";
+} from "../expansion/placeable/landscapingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
@@ -58,7 +58,6 @@ import {
   getIntroductionRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
 import { loadGuestSession } from "../actions/loadGuestSession";
 import { guestAutosave } from "../actions/guestAutosave";
@@ -69,6 +68,7 @@ import {
   setGuestModeComplete,
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
+import { hasFeatureAccess } from "lib/flags";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -115,14 +115,15 @@ type SyncEvent = {
   blockBucks: number;
 };
 
-type EditEvent = {
-  placeable: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
-  type: "EDIT";
-  requirements: {
+type LandscapeEvent = {
+  placeable?: BuildingName | CollectibleName;
+  action?: GameEventName<PlacementEvent>;
+  type: "LANDSCAPE";
+  requirements?: {
     sfl: Decimal;
     ingredients: Inventory;
   };
+  multiple?: boolean;
 };
 
 type VisitEvent = {
@@ -176,7 +177,7 @@ export type BlockchainEvent =
   | WithdrawEvent
   | GameEvent
   | MintEvent
-  | EditEvent
+  | LandscapeEvent
   | VisitEvent
   | BuySFLEvent
   | DepositEvent
@@ -279,7 +280,7 @@ export type BlockchainState = {
     | "swarming"
     | "hoarding"
     | "depositing"
-    | "editing"
+    | "landscaping"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -394,23 +395,7 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
-        announcements: {
-          "referral-announcement": {
-            headline: "Referral Program",
-            content: [
-              {
-                text: "The Sunflower Supporters program has officially launched!",
-              },
-              {
-                text: "Earn $1 USD* for each friend that creates an account",
-                image:
-                  "https://sunflower-land.com/testnet-assets/announcements/referrals.gif",
-              },
-            ],
-            from: "grimbly",
-            link: "https://sunflower-land.com/#referrals",
-          },
-        },
+        announcements: {},
       },
       states: {
         loading: {
@@ -705,8 +690,8 @@ export function startGame(authContext: AuthContext) {
             REFRESH: {
               target: "loading",
             },
-            EDIT: {
-              target: "editing",
+            LANDSCAPE: {
+              target: "landscaping",
             },
             UPGRADE: {
               target: "upgradingGuestGame",
@@ -789,8 +774,8 @@ export function startGame(authContext: AuthContext) {
             REFRESH: {
               target: "loading",
             },
-            EDIT: {
-              target: "editing",
+            LANDSCAPE: {
+              target: "landscaping",
             },
             RANDOMISE: {
               target: "randomising",
@@ -1059,19 +1044,21 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        editing: {
+
+        landscaping: {
           invoke: {
-            id: "editing",
-            src: editingMachine,
+            id: "landscaping",
+            src: landscapingMachine,
             data: {
-              placeable: (_: Context, event: EditEvent) => event.placeable,
-              action: (_: Context, event: EditEvent) => event.action,
-              requirements: (_: Context, event: EditEvent) =>
+              placeable: (_: Context, event: LandscapeEvent) => event.placeable,
+              action: (_: Context, event: LandscapeEvent) => event.action,
+              requirements: (_: Context, event: LandscapeEvent) =>
                 event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
-              hasMultiple: (c: Context, event: EditEvent) =>
-                getChestItems(c.state)[event.placeable]?.gt(1),
+              multiple: (_: Context, event: LandscapeEvent) => event.multiple,
+              hasLandscapingAccess: (context: Context) =>
+                hasFeatureAccess(context.state.inventory, "LANDSCAPING"),
             },
             onDone: {
               target: "autosaving",
@@ -1101,7 +1088,7 @@ export function startGame(authContext: AuthContext) {
                         gameMachineContext: context,
                         guestKey: (authContext.user as any).guestKey,
                       } as GuestSaveEvent),
-                    { to: "editing" }
+                    { to: "landscaping" }
                   ),
                 },
                 {
@@ -1113,7 +1100,7 @@ export function startGame(authContext: AuthContext) {
                         rawToken: authContext.user.rawToken as string,
                         farmId: authContext.user.farmId as number,
                       } as SaveEvent),
-                    { to: "editing" }
+                    { to: "landscaping" }
                   ),
                 },
               ]),

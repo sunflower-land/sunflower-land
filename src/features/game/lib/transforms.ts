@@ -63,7 +63,6 @@ export function makeGame(farm: any): GameState {
     auctioneer: farm.auctioneer ?? {},
     hayseedHank: farm.hayseedHank,
     tradedAt: farm.tradedAt,
-    easterHunt: farm.easterHunt ?? {},
     trees: farm.trees ?? {},
     stones: farm.stones ?? {},
     iron: farm.iron ?? {},

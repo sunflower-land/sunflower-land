@@ -16,7 +16,7 @@ describe("buyDecoration", () => {
         state: GAME_STATE,
         action: {
           type: "decoration.bought",
-          item: "Goblin Key" as ShopDecorationName,
+          name: "Goblin Key" as ShopDecorationName,
         },
       })
     ).toThrow("This item is not a decoration");
@@ -31,7 +31,7 @@ describe("buyDecoration", () => {
         },
         action: {
           type: "decoration.bought",
-          item: "Potted Sunflower",
+          name: "Potted Sunflower",
         },
       })
     ).toThrow("Insufficient tokens");
@@ -47,7 +47,7 @@ describe("buyDecoration", () => {
         },
         action: {
           type: "decoration.bought",
-          item: "Potted Sunflower",
+          name: "Potted Sunflower",
         },
       })
     ).toThrow("Insufficient ingredient: Sunflower");
@@ -65,7 +65,7 @@ describe("buyDecoration", () => {
       },
       action: {
         type: "decoration.bought",
-        item: "Potted Sunflower",
+        name: "Potted Sunflower",
       },
     });
 
@@ -86,7 +86,7 @@ describe("buyDecoration", () => {
         },
       },
       action: {
-        item,
+        name: item,
         type: "decoration.bought",
       },
     });
@@ -105,7 +105,7 @@ describe("buyDecoration", () => {
         },
         action: {
           type: "decoration.bought",
-          item: "Potted Sunflower",
+          name: "Potted Sunflower",
         },
       })
     ).toThrow("Bumpkin not found");
@@ -122,7 +122,7 @@ describe("buyDecoration", () => {
       },
       action: {
         type: "decoration.bought",
-        item: "Potted Sunflower",
+        name: "Potted Sunflower",
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
@@ -141,9 +141,99 @@ describe("buyDecoration", () => {
       },
       action: {
         type: "decoration.bought",
-        item: "Potted Sunflower",
+        name: "Potted Sunflower",
       },
     });
     expect(state.bumpkin?.activity?.["Potted Sunflower Bought"]).toEqual(1);
+  });
+
+  it("requires ID does not exist", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(1),
+          inventory: {
+            Sunflower: new Decimal(150),
+            "Basic Land": new Decimal(10),
+          },
+          buildings: {},
+          collectibles: {
+            "Potted Sunflower": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Potted Sunflower",
+          coordinates: { x: 0, y: 5 },
+          id: "123",
+        },
+      })
+    ).toThrow("ID already exists");
+  });
+
+  it("requires decoration does not collide", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(1),
+          inventory: {
+            Sunflower: new Decimal(150),
+            "Basic Land": new Decimal(10),
+          },
+          buildings: {},
+          collectibles: {
+            "Potted Sunflower": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Potted Sunflower",
+          coordinates: { x: 0, y: 0 },
+          id: "456",
+        },
+      })
+    ).toThrow("Decoration collides");
+  });
+
+  it("places decoration", () => {
+    const state = buyDecoration({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+        inventory: {
+          Sunflower: new Decimal(150),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {},
+        collectibles: {},
+      },
+      action: {
+        type: "decoration.bought",
+        name: "Potted Sunflower",
+        coordinates: { x: 0, y: 5 },
+        id: "456",
+      },
+    });
+
+    expect(state.collectibles["Potted Sunflower"]?.[0]?.coordinates).toEqual({
+      x: 0,
+      y: 5,
+    });
   });
 });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingProduct } from "features/game/types/game";
@@ -22,6 +22,11 @@ import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
 import { TownCenter } from "./townCenter/TownCenter";
+import { useSelector } from "@xstate/react";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { MoveableComponent } from "features/island/collectibles/MovableComponent";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
 
 interface Prop {
   name: BuildingName;
@@ -31,6 +36,7 @@ interface Prop {
   crafting?: BuildingProduct;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
+  coordinates?: Coordinates;
 }
 
 export interface BuildingProps {
@@ -215,4 +221,20 @@ const BuildingComponent: React.FC<Prop> = ({
   );
 };
 
-export const Building = React.memo(BuildingComponent);
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
+export const Building: React.FC<Prop> = (props) => {
+  const { gameService } = useContext(Context);
+
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  if (landscaping) {
+    return (
+      <MoveableComponent id={props.id} {...(props as any)}>
+        <BuildingComponent {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <BuildingComponent {...props} />;
+};
