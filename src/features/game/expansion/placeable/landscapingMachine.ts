@@ -5,7 +5,7 @@ import {
   BuildingName,
 } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
-import { assign, createMachine, Interpreter, sendParent } from "xstate";
+import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
 import Decimal from "decimal.js-light";
 import { Inventory, InventoryItemName } from "features/game/types/game";
@@ -137,6 +137,8 @@ export type BlockchainState = {
     | { editing: "resetting" };
   context: Context;
 };
+
+export type MachineState = State<Context, BlockchainEvent, BlockchainState>;
 
 export type MachineInterpreter = Interpreter<
   Context,

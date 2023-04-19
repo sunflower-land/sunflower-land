@@ -14,8 +14,11 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import Draggable from "react-draggable";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
-import { useActor } from "@xstate/react";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import { useSelector } from "@xstate/react";
+import {
+  MachineInterpreter,
+  MachineState,
+} from "features/game/expansion/placeable/landscapingMachine";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
@@ -63,13 +66,15 @@ export interface MovableProps {
   y: number;
 }
 
+const isMoving = (state: MachineState) => state.matches("moving");
+const getMovingItem = (state: MachineState) => state.context.moving;
+
 export const MoveableComponent: React.FC<MovableProps> = ({
   name,
   id,
   coordinates,
   children,
 }) => {
-  console.log({ name, id });
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);
@@ -79,17 +84,18 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const landscapingMachine = gameService.state.children
     .landscaping as MachineInterpreter;
 
-  const [landscapingState] = useActor(landscapingMachine);
+  const moving = useSelector(gameService, isMoving);
+  const movingItem = useSelector(gameService, getMovingItem);
 
   useEffect(() => {
-    if (isActive.current && landscapingState.context.moving?.id !== id) {
+    if (isActive.current && movingItem?.id !== id) {
       console.log("Reset");
       // Reset
       setCounts((prev) => prev + 1);
       setIsColliding(false);
       isActive.current = false;
     }
-  }, [landscapingState.context.moving]);
+  }, [movingItem]);
 
   const dimensions = {
     ...BUILDINGS_DIMENSIONS,
@@ -117,7 +123,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         key={`${coordinates?.x}-${coordinates?.y}-${counts}`}
         nodeRef={nodeRef}
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
-        disabled={!landscapingState.matches({ editing: "moving" })}
+        disabled={!moving}
         onMouseDown={() => {
           console.log("Mouse down");
           landscapingMachine.send("HIGHLIGHT", {
