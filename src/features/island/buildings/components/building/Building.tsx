@@ -23,7 +23,6 @@ import { Toolshed } from "./toolshed/Toolshed";
 import { CookableName } from "features/game/types/consumables";
 import { TownCenter } from "./townCenter/TownCenter";
 import { useSelector } from "@xstate/react";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -37,7 +36,8 @@ interface Prop {
   craftingReadyAt?: number;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
-  coordinates?: Coordinates;
+  x?: number;
+  y?: number;
 }
 
 export interface BuildingProps {
@@ -271,12 +271,7 @@ export const Building: React.FC<Prop> = (props) => {
 
   if (landscaping) {
     return (
-      <MoveableComponent
-        id={props.id}
-        x={props.coordinates?.x}
-        y={props.coordinates?.y}
-        {...(props as any)}
-      >
+      <MoveableComponent id={props.id} {...(props as any)}>
         <MemorizedBuildingComponent {...props} />
       </MoveableComponent>
     );

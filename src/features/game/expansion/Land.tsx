@@ -84,7 +84,8 @@ const getIslandElements = ({
                 craftingReadyAt={building.crafting?.readyAt}
                 isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
-                coordinates={{ x, y }}
+                x={x}
+                y={y}
               />
             </MapPlacement>
           );
