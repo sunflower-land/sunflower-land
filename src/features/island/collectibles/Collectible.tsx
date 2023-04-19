@@ -373,7 +373,6 @@ const CollectibleComponent: React.FC<Props> = ({
   isRustyShovelSelected,
   showTimers,
 }) => {
-  console.log("esgoinoingsneso");
   const { gameService } = useContext(Context);
 
   const crops = useSelector(gameService, selectCrops, compareCrops);
