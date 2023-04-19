@@ -57,7 +57,7 @@ While we appreciate UI and gameplay PRs, we need these pieces of work to fit int
 
 Due to the limited time resources of the team, at this point of time, we cannot accept any PRs that introduce major gameplay changes or UI workflows.
 
-If you have an idea that introduces new UI workflows or gameplay, the best way forward is to first raise the idea for community and if consensus is met, it will get added to the roadmap. Once an item is on the roadmap, the core functionality will be developed by Thought Farm with the support from certified developers and and the community. For new gameplay and UI workflows there will be plenty of tasks that can be worked on by community members.
+If you have an idea that introduces new UI workflows or gameplay, the best way forward is to first raise the idea for community and if consensus is met, it will get added to the roadmap. Once an item is on the roadmap, the core functionality will be developed by Thought Farm with the support from certified developers and the community. For new gameplay and UI workflows there will be plenty of tasks that can be worked on by community members.
 
 **Examples of what can be worked on independently**
 
