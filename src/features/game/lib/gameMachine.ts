@@ -394,23 +394,7 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
-        announcements: {
-          "referral-announcement": {
-            headline: "Referral Program",
-            content: [
-              {
-                text: "The Sunflower Supporters program has officially launched!",
-              },
-              {
-                text: "Earn $1 USD* for each friend that creates an account",
-                image:
-                  "https://sunflower-land.com/testnet-assets/announcements/referrals.gif",
-              },
-            ],
-            from: "grimbly",
-            link: "https://sunflower-land.com/#referrals",
-          },
-        },
+        announcements: {},
       },
       states: {
         loading: {
