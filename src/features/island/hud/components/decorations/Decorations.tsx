@@ -16,7 +16,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
-import { ToastContext } from "features/game/toast/ToastProvider";
 
 interface Props {
   onClose: () => void;

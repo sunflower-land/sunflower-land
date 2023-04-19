@@ -23,7 +23,6 @@ import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { Hud } from "features/island/hud/Hud";
-import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
