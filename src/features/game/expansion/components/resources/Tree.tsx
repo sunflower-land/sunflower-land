@@ -161,6 +161,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   };
 
   const chop = async () => {
+    console.log("CHOP");
     setTouchCount(0);
 
     try {
@@ -225,7 +226,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   return (
     <div
-      className="relative w-full h-full pointer-events-none"
+      className="relative w-full h-full cursor-pointer"
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
