@@ -17,7 +17,7 @@ type FeatureName =
   | "JEST_TEST"
   | "FRUIT_QUEST"
   | "PUMPKIN_PLAZA"
-  | "DAWN_BREAKER";
+  | "DAWN_BREAKER"
   | "LANDSCAPING";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
