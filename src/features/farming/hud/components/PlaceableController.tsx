@@ -18,10 +18,8 @@ import {
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
-// import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { hasFeatureAccess } from "lib/flags";
 import { ToastContext } from "features/game/toast/ToastProvider";
-import { InventoryItemName } from "features/game/types/game";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -101,20 +99,6 @@ export const PlaceableController: React.FC = () => {
       send({
         type: "PLACE",
       });
-    }
-
-    if (requirements) {
-      setBalance(requirements.sfl.negated());
-      getKeys(requirements.ingredients).map((name) => {
-        const inventory = Object.fromEntries(
-          Object.entries(requirements.ingredients).map(([name, amount]) => [
-            name as InventoryItemName,
-            amount.negated(),
-          ])
-        );
-        setInventory(inventory);
-      });
-      setInventory({ [placeable]: new Decimal(1) });
     }
   };
 
