@@ -11,7 +11,6 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import Draggable from "react-draggable";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { useSelector } from "@xstate/react";
@@ -53,15 +52,9 @@ function getMoveAction(name: InventoryItemName): GameEventName<PlacementEvent> {
   throw new Error("No matching move event");
 }
 
-export interface MovableProps {
+interface MovableProps {
   name: CollectibleName;
   id: string;
-  readyAt: number;
-  createdAt: number;
-  coordinates: Coordinates;
-  grid: GameGrid;
-  height?: number;
-  width?: number;
   x: number;
   y: number;
 }
@@ -72,7 +65,8 @@ const getMovingItem = (state: MachineState) => state.context.moving;
 export const MoveableComponent: React.FC<MovableProps> = ({
   name,
   id,
-  coordinates,
+  x: coordinatesX,
+  y: coordinatesY,
   children,
 }) => {
   const nodeRef = useRef(null);
@@ -120,7 +114,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   return (
     <>
       <Draggable
-        key={`${coordinates?.x}-${coordinates?.y}-${counts}`}
+        key={`${coordinatesX}-${coordinatesY}-${counts}`}
         nodeRef={nodeRef}
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
         disabled={!moving}
@@ -144,9 +138,9 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
           const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
 
-          console.log({ coordinates });
-          const x = coordinates.x + xDiff;
-          const y = coordinates.y + yDiff;
+          console.log({ coordinatesX, coordinatesY });
+          const x = coordinatesX + xDiff;
+          const y = coordinatesY + yDiff;
           console.log({ x, y });
           detect({ x, y });
           // setShowHint(false);
@@ -155,8 +149,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
           const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
 
-          const x = coordinates.x + xDiff;
-          const y = coordinates.y + yDiff;
+          const x = coordinatesX + xDiff;
+          const y = coordinatesY + yDiff;
           console.log({ xDiff, yDiff, origin });
 
           const collisionDetected = detectCollision(
@@ -174,8 +168,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
               // Don't send name for resource events
               ...(name in RESOURCE_MOVE_EVENTS ? {} : { name }),
               coordinates: {
-                x: coordinates.x + xDiff,
-                y: coordinates.y + yDiff,
+                x: coordinatesX + xDiff,
+                y: coordinatesY + yDiff,
               },
               id,
             });

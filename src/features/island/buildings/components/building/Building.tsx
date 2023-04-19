@@ -271,7 +271,12 @@ export const Building: React.FC<Prop> = (props) => {
 
   if (landscaping) {
     return (
-      <MoveableComponent id={props.id} {...(props as any)}>
+      <MoveableComponent
+        id={props.id}
+        x={props.coordinates?.x}
+        y={props.coordinates?.y}
+        {...(props as any)}
+      >
         <MemorizedBuildingComponent {...props} />
       </MoveableComponent>
     );

@@ -147,7 +147,11 @@ const ResourceComponent: React.FC<ResourceProps> = (props) => {
 
   if (landscaping) {
     return (
-      <MoveableComponent {...(props as any)}>
+      <MoveableComponent
+        x={props.coordinates?.x}
+        y={props.coordinates?.y}
+        {...(props as any)}
+      >
         <Component {...props} />
       </MoveableComponent>
     );

@@ -119,21 +119,23 @@ import { isBean } from "features/game/types/beans";
 import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
 import { Fence } from "./components/Fence";
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import {
+  GameGrid,
+  getGameGrid,
+} from "features/game/expansion/placeable/lib/makeGrid";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "./MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
-export interface CollectibleProps {
+export type CollectibleProps = {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
-  coordinates: Coordinates;
-  grid: GameGrid;
-}
+  x: number;
+  y: number;
+};
 
 type Props = CollectibleProps & {
   isRustyShovelSelected: boolean;
@@ -143,7 +145,11 @@ type Props = CollectibleProps & {
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName,
-  React.FC<CollectibleProps>
+  React.FC<
+    CollectibleProps & {
+      grid: GameGrid;
+    }
+  >
 > = {
   "Mysterious Head": MysteriousHead,
   "War Skull": WarSkulls,
@@ -290,15 +296,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Karkinos: Karkinos,
 };
 
-const InProgressCollectible: React.FC<Props> = ({
-  name,
-  id,
-  readyAt,
-  createdAt,
-  showTimers,
-  coordinates,
-  grid,
-}) => {
+const InProgressCollectible: React.FC<
+  Props & {
+    grid: GameGrid;
+  }
+> = ({ name, id, readyAt, createdAt, showTimers, x, y, grid }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -319,7 +321,8 @@ const InProgressCollectible: React.FC<Props> = ({
             id={id}
             name={name}
             readyAt={readyAt}
-            coordinates={coordinates}
+            x={x}
+            y={y}
             grid={grid}
           />
         </div>
@@ -353,16 +356,35 @@ const InProgressCollectible: React.FC<Props> = ({
   );
 };
 
+const selectCrops = (state: MachineState) => state.context.state.crops;
+const selectCollectibles = (state: MachineState) =>
+  state.context.state.collectibles;
+
+const compareCrops = () => true;
+const compareCollectibles = () => true;
+
 const CollectibleComponent: React.FC<Props> = ({
   name,
   id,
   readyAt,
   createdAt,
-  coordinates,
+  x,
+  y,
   isRustyShovelSelected,
   showTimers,
-  grid,
 }) => {
+  console.log("esgoinoingsneso");
+  const { gameService } = useContext(Context);
+
+  const crops = useSelector(gameService, selectCrops, compareCrops);
+  const collectibles = useSelector(
+    gameService,
+    selectCollectibles,
+    compareCollectibles
+  );
+
+  const gameGrid = getGameGrid({ crops, collectibles });
+
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -408,10 +430,11 @@ const CollectibleComponent: React.FC<Props> = ({
               id={id}
               createdAt={createdAt}
               readyAt={readyAt}
-              coordinates={coordinates}
+              x={x}
+              y={y}
               isRustyShovelSelected={false}
               showTimers={showTimers}
-              grid={grid}
+              grid={gameGrid}
             />
           ) : (
             <CollectiblePlaced
@@ -420,8 +443,9 @@ const CollectibleComponent: React.FC<Props> = ({
               id={id}
               createdAt={createdAt}
               readyAt={readyAt}
-              coordinates={coordinates}
-              grid={grid}
+              x={x}
+              y={y}
+              grid={gameGrid}
             />
           )}
         </div>
@@ -442,6 +466,8 @@ const CollectibleComponent: React.FC<Props> = ({
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
+const MemorizedCollectibleComponent = React.memo(CollectibleComponent);
+
 export const Collectible: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
 
@@ -450,10 +476,10 @@ export const Collectible: React.FC<Props> = (props) => {
   if (landscaping) {
     return (
       <MoveableComponent {...(props as any)}>
-        <CollectibleComponent {...props} />
+        <MemorizedCollectibleComponent {...props} />
       </MoveableComponent>
     );
   }
 
-  return <CollectibleComponent {...props} />;
+  return <MemorizedCollectibleComponent {...props} />;
 };

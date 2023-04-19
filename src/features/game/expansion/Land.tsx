@@ -27,7 +27,7 @@ import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { MachineState } from "../lib/gameMachine";
-import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
+import { getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 
 const getIslandElements = ({
@@ -42,8 +42,6 @@ const getIslandElements = ({
   crops,
   isRustyShovelSelected,
   showTimers,
-  isEditing,
-  grid,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -57,8 +55,6 @@ const getIslandElements = ({
   fruitPatches: GameState["fruitPatches"];
   isRustyShovelSelected: boolean;
   showTimers: boolean;
-  isEditing?: boolean;
-  grid: GameGrid;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -121,8 +117,8 @@ const getIslandElements = ({
                 createdAt={createdAt}
                 isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
-                coordinates={coordinates}
-                grid={grid}
+                x={coordinates.x}
+                y={coordinates.x}
               />
             </MapPlacement>
           );
@@ -306,7 +302,6 @@ const getIslandElements = ({
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isAutosaving = (state: MachineState) => state.matches("autosaving");
-const isEditing = (state: MachineState) => state.matches("editing");
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 
@@ -328,11 +323,8 @@ export const Land: React.FC = () => {
     fruitPatches,
   } = useSelector(gameService, selectGameState);
   const autosaving = useSelector(gameService, isAutosaving);
-  const editing = useSelector(gameService, isEditing);
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
-
-  const grid = getGameGrid({ crops, collectibles });
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -381,8 +373,6 @@ export const Land: React.FC = () => {
             crops,
             isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             showTimers: showTimers,
-            isEditing: editing,
-            grid,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
         <IslandTravel
