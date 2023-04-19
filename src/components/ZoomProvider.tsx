@@ -7,7 +7,7 @@ const getScaleLimits = () => {
   const gameboardWidth = 84 * GRID_WIDTH_PX;
   const gameboardHeight = 56 * GRID_WIDTH_PX;
 
-  // Todo base this off the count of expansions
+  // For now, you can only zoom if your screen is less than 1/4 of the game board size
   const maxZoomWidth = gameboardWidth / 4;
   const maxZoomHeight = gameboardHeight / 4;
 
