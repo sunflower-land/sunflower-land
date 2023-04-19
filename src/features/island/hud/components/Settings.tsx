@@ -11,8 +11,6 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SettingsMenu } from "./settings-menu/SettingsMenu";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
-  getEasterSong,
-  getEasterSongCount,
   getFarmingSong,
   getFarmingSongCount,
   getGoblinSong,
@@ -71,13 +69,9 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   const musicPlayer = useRef<any>(null);
 
   const getSongCount = () => {
-    if (onEasterIsland) {
-      return getEasterSongCount();
-    }
     return isFarming ? getFarmingSongCount() : getGoblinSongCount();
   };
 
-  const onEasterIsland = pathname.includes("bunny-trove");
   const handlePreviousSong = () => {
     const songCount = getSongCount();
     if (songIndex === 0) {
@@ -97,9 +91,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   };
 
   const getSong = () => {
-    if (onEasterIsland) {
-      return getEasterSong(0);
-    }
     return isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
   };
 

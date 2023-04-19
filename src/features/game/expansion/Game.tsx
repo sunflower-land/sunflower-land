@@ -41,7 +41,6 @@ import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
-import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
@@ -261,8 +260,6 @@ export const Game: React.FC = () => {
               <Route path="/snow" element={<SnowKingdom key="snow" />} />
             )}
             <Route path="/studios" element={<Studios key="hq" />} />
-
-            <Route path="/bunny-trove" element={<BunnyTrove key="bunny" />} />
 
             <Route path="*" element={<IslandNotFound />} />
           </Routes>

@@ -26,7 +26,6 @@ import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
-import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getGameGrid } from "./placeable/lib/makeGrid";
 import { MachineState } from "../lib/gameMachine";
@@ -307,7 +306,6 @@ export const Land: React.FC = () => {
     gold,
     crops,
     fruitPatches,
-    easterHunt,
   } = useSelector(gameService, selectGameState);
   const autosaving = useSelector(gameService, isAutosaving);
   const editing = useSelector(gameService, isEditing);
@@ -329,9 +327,6 @@ export const Land: React.FC = () => {
 
   const shortcuts = getShortcuts();
 
-  const eggs = easterHunt?.eggs || [];
-  const mainEggs = eggs.filter((egg) => egg && egg.island === "Main");
-
   const gameGrid = getGameGrid({
     crops,
     collectibles,
@@ -348,9 +343,6 @@ export const Land: React.FC = () => {
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
           <DirtRenderer grid={gameGrid} />
-          {easterHunt && (
-            <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
-          )}
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}

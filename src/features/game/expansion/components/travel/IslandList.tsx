@@ -18,7 +18,6 @@ import goblin from "assets/buildings/goblin_sign.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
 import land from "assets/land/islands/island.webp";
-import bunnyfower from "assets/events/easter/2023/decorations/bunnyflower.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { analytics } from "lib/analytics";
 
@@ -170,13 +169,6 @@ export const IslandList: React.FC<IslandListProps> = ({
       guestAccess: true,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
-    },
-    {
-      name: "Bunny Trove",
-      levelRequired: 1 as BumpkinLevel,
-      guestAccess: false,
-      image: bunnyfower,
-      path: `/land/${farmId}/bunny-trove`,
     },
     {
       name: "Goblin Retreat",
