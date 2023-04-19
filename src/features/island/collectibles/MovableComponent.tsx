@@ -66,7 +66,7 @@ export interface MovableProps {
   y: number;
 }
 
-const isMoving = (state: MachineState) => state.matches("moving");
+const isMoving = (state: MachineState) => state.matches("editing.moving");
 const getMovingItem = (state: MachineState) => state.context.moving;
 
 export const MoveableComponent: React.FC<MovableProps> = ({
@@ -84,8 +84,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const landscapingMachine = gameService.state.children
     .landscaping as MachineInterpreter;
 
-  const moving = useSelector(gameService, isMoving);
-  const movingItem = useSelector(gameService, getMovingItem);
+  const moving = useSelector(landscapingMachine, isMoving);
+  const movingItem = useSelector(landscapingMachine, getMovingItem);
 
   useEffect(() => {
     if (isActive.current && movingItem?.id !== id) {
@@ -170,9 +170,9 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           );
 
           if (!collisionDetected) {
-            console.log({ action: getMoveAction(name), name });
             gameService.send(getMoveAction(name), {
-              name,
+              // Don't send name for resource events
+              ...(name in RESOURCE_MOVE_EVENTS ? {} : { name }),
               coordinates: {
                 x: coordinates.x + xDiff,
                 y: coordinates.y + yDiff,
