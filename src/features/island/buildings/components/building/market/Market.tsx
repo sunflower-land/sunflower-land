@@ -15,6 +15,19 @@ import { Conversation } from "features/farming/mail/components/Conversation";
 import { CONVERSATIONS } from "features/game/types/conversations";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
+import { getKeys } from "features/game/types/craftables";
+import { CROPS } from "features/game/types/crops";
+import { Bumpkin } from "features/game/types/game";
+
+const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
+  if (!bumpkin) return false;
+
+  const { activity = {} } = bumpkin;
+
+  return !!getKeys(CROPS()).find((crop) =>
+    getKeys(activity).includes(`${crop} Sold`)
+  );
+};
 
 export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -37,6 +50,8 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       return;
     }
   };
+
+  const hasSoldBefore = hasSoldCropsBefore(gameState.context.state.bumpkin);
 
   return (
     <>
@@ -88,9 +103,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         ) : (
           <ShopItems
             onClose={() => setIsOpen(false)}
-            hasSoldBefore={
-              !!gameState.context.state.bumpkin?.activity?.["Sunflower Sold"]
-            }
+            hasSoldBefore={hasSoldBefore}
           />
         )}
       </Modal>

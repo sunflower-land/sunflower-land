@@ -58,7 +58,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refreshing: true,
   deposited: true,
   hoarding: true,
-  editing: false,
+  landscaping: false,
   noBumpkinFound: true,
   noTownCenter: true,
   swarming: true,

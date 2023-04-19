@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { FirePit } from "./firePit/FirePit";
@@ -22,6 +22,11 @@ import { Warehouse } from "./warehouse/Warehouse";
 import { Toolshed } from "./toolshed/Toolshed";
 import { CookableName } from "features/game/types/consumables";
 import { TownCenter } from "./townCenter/TownCenter";
+import { useSelector } from "@xstate/react";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { MoveableComponent } from "features/island/collectibles/MovableComponent";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
 
 interface Prop {
   name: BuildingName;
@@ -32,6 +37,7 @@ interface Prop {
   craftingReadyAt?: number;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
+  coordinates?: Coordinates;
 }
 
 export interface BuildingProps {
@@ -199,7 +205,6 @@ const BuildingComponent: React.FC<Prop> = ({
   isRustyShovelSelected,
   showTimers,
 }) => {
-  console.log("BUILDING UPDATED!");
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
@@ -255,4 +260,22 @@ const BuildingComponent: React.FC<Prop> = ({
   );
 };
 
-export const Building = React.memo(BuildingComponent);
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
+const MemorizedBuildingComponent = React.memo(BuildingComponent);
+
+export const Building: React.FC<Prop> = (props) => {
+  const { gameService } = useContext(Context);
+
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  if (landscaping) {
+    return (
+      <MoveableComponent id={props.id} {...(props as any)}>
+        <MemorizedBuildingComponent {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <MemorizedBuildingComponent {...props} />;
+};

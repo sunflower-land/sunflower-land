@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  getKeys,
+} from "features/game/types/craftables";
 
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
@@ -9,10 +12,16 @@ import {
   HeliosBlacksmithItem,
   HELIOS_BLACKSMITH_ITEMS,
 } from "features/game/types/collectibles";
+import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type CraftCollectibleAction = {
   type: "collectible.crafted";
   name: HeliosBlacksmithItem;
+  id?: string;
+  coordinates?: {
+    x: number;
+    y: number;
+  };
 };
 
 type Options = {
@@ -58,6 +67,33 @@ export function craftCollectible({ state, action }: Options) {
   const oldAmount = stateCopy.inventory[action.name] || new Decimal(0);
 
   bumpkin.activity = trackActivity(`${action.name} Crafted`, bumpkin.activity);
+
+  if (action.coordinates && action.id) {
+    const dimensions = COLLECTIBLES_DIMENSIONS[action.name];
+    const collides = detectCollision(stateCopy, {
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    });
+
+    if (collides) {
+      throw new Error("Decoration collides");
+    }
+
+    const previous = stateCopy.collectibles[action.name] ?? [];
+
+    if (previous.find((item) => item.id === action.id)) {
+      throw new Error("ID already exists");
+    }
+
+    stateCopy.collectibles[action.name] = previous.concat({
+      id: action.id,
+      coordinates: { x: action.coordinates.x, y: action.coordinates.y },
+      readyAt: Date.now(),
+      createdAt: Date.now(),
+    });
+  }
 
   return {
     ...stateCopy,
