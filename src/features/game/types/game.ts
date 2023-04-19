@@ -409,6 +409,17 @@ export type HayseedHank = {
   };
 };
 
+export type Mushroom = {
+  amount: number;
+  x: number;
+  y: number;
+};
+
+export type Mushrooms = {
+  mushroomSpawnedAt: number;
+  mushrooms: Record<string, Mushroom>;
+};
+
 export type NPCDialogue = {
   id: string;
   from: "aunt" | "bumpkin" | "betty" | "bruce";
@@ -485,6 +496,7 @@ export interface GameState {
     bid?: Bid;
   };
   hayseedHank: HayseedHank;
+  mushrooms: Mushrooms;
 }
 
 export interface Context {

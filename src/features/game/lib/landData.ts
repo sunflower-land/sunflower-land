@@ -655,6 +655,10 @@ export const OFFLINE_FARM: GameState = {
     chore: CHORES[0],
     choresCompleted: 0,
   },
+  mushrooms: {
+    mushroomSpawnedAt: 0,
+    mushrooms: {},
+  },
 };
 
 export const MEGA_OFFLINE_FARM: GameState = makeGame({
@@ -4069,5 +4073,9 @@ export const MEGA_OFFLINE_FARM: GameState = makeGame({
       startCount: 100,
     },
     choresCompleted: 188,
+  },
+  mushrooms: {
+    mushroomSpawnedAt: 0,
+    mushrooms: {},
   },
 });

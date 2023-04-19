@@ -382,6 +382,10 @@ export const TEST_FARM: GameState = {
   iron: {},
   stones: {},
   trees: {},
+  mushrooms: {
+    mushroomSpawnedAt: 0,
+    mushrooms: {},
+  },
 };
 
 export const EMPTY: GameState = {
@@ -424,6 +428,10 @@ export const EMPTY: GameState = {
   crops: {},
   stones: {},
   trees: {},
+  mushrooms: {
+    mushroomSpawnedAt: 0,
+    mushrooms: {},
+  },
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
