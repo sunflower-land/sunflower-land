@@ -32,6 +32,7 @@ import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
+import { MUSHROOM_DIMENSIONS } from "../types/resources";
 
 const getIslandElements = ({
   buildings,
@@ -316,8 +317,18 @@ const getIslandElements = ({
         const { x, y } = mushrooms[id]!;
 
         return (
-          <MapPlacement key={`mushroom-${id}`} x={x} y={y} height={1} width={1}>
-            <Mushroom key={`mushroom-${id}`} id={id} grow={isFirstRender} />
+          <MapPlacement
+            key={`mushroom-${id}`}
+            x={x}
+            y={y}
+            height={MUSHROOM_DIMENSIONS.height}
+            width={MUSHROOM_DIMENSIONS.width}
+          >
+            <Mushroom
+              key={`mushroom-${id}`}
+              id={id}
+              isFirstRender={isFirstRender}
+            />
           </MapPlacement>
         );
       })

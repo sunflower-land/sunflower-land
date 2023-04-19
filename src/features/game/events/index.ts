@@ -149,6 +149,7 @@ import {
 import { moveIron, MoveIronAction } from "./landExpansion/moveIron";
 import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
 import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
+import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 
 export type PlayingEvent =
   | TradeAction
@@ -191,7 +192,8 @@ export type PlayingEvent =
   | CompleteChoreAction
   | ExpandLandAction
   | ConversationEnded
-  | MessageRead;
+  | MessageRead
+  | PickMushroomAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -281,6 +283,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.expanded": expandLand,
   "conversation.ended": endConversation,
   "message.read": readMessage,
+  "mushroom.picked": pickMushroom,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

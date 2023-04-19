@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   id: string;
@@ -9,14 +10,16 @@ interface Props {
 }
 
 export const Mushroom: React.FC<Props> = ({ id, isFirstRender }) => {
+  const { gameService } = useContext(Context);
+
   const pickMushroom = (id: string) => {
-    console.log(id);
+    gameService.send("mushroom.picked", { id });
   };
 
   const [grow, setGrow] = useState(false);
 
   useEffect(() => {
-    setGrow(isFirstRender);
+    setGrow(!isFirstRender);
   }, []);
 
   return (

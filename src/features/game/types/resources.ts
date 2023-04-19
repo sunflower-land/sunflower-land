@@ -98,3 +98,8 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
     height: 2,
   },
 };
+
+export const MUSHROOM_DIMENSIONS = {
+  width: 1,
+  height: 1,
+};
