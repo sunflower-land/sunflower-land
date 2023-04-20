@@ -26,6 +26,7 @@ import { CraftDecorationsModal } from "./components/decorations/CraftDecorations
 import { CraftEquipmentModal } from "./components/equipment/CraftEquipmentModal";
 import { CraftBuildingModal } from "./components/buildings/CraftBuildingModal";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { LandscapingIntroduction } from "./components/LandscapingIntroduction";
 
 const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const { gameService } = useContext(Context);
@@ -54,6 +55,8 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
         }
         isFullUser={false}
       />
+
+      <LandscapingIntroduction />
 
       <>
         {state.matches({ editing: "idle" }) && (
