@@ -2001,7 +2001,6 @@ export const ITEM_DETAILS: Items = {
     image: shrub,
     description: "?",
   },
-
   "Solar Flare Banner": {
     image: solarFlareBanner,
     description: "?",
@@ -2009,5 +2008,18 @@ export const ITEM_DETAILS: Items = {
   "Dawn Breaker Banner": {
     image: dawnBreakerBanner,
     description: "?",
+  },
+  "Luminous Lantern": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A bright paper lantern that illuminates the way.",
+  },
+  "Radiance Lantern": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A radiant paper lantern that shines with a powerful light.",
+  },
+  "Aurora Lantern": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      "A paper lantern that transforms any space into a magical wonderland.",
   },
 };

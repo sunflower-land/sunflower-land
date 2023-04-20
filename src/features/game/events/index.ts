@@ -151,6 +151,7 @@ import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
 import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
+import { craftLantern, CraftLanternAction } from "./landExpansion/craftLantern";
 
 export type PlayingEvent =
   | TradeAction
@@ -195,7 +196,8 @@ export type PlayingEvent =
   // TODO - remove once landscaping is released
   | RemoveBuildingAction
   | RemoveCollectibleAction
-  | RemoveChickenAction;
+  | RemoveChickenAction
+  | CraftLanternAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -292,6 +294,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
+  "lantern.crafted": craftLantern,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

@@ -224,6 +224,7 @@ export type InventoryItemName =
   | GoblinPirateItemName
   | SeasonPassName
   | TreasureToolName
+  | LanternName
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -428,6 +429,24 @@ export type NPCDialogue = {
   from: "aunt" | "bumpkin" | "betty" | "bruce";
 };
 
+export type LanternName =
+  | "Luminous Lantern"
+  | "Radiance Lantern"
+  | "Aurora Lantern";
+
+type Ingredient = {
+  name: InventoryItemName;
+  amount: Decimal;
+};
+
+export type LanternOffering = {
+  name: LanternName;
+  startAt: string;
+  endAt: string;
+  sfl?: Decimal;
+  ingredients: Ingredient[];
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -500,6 +519,7 @@ export interface GameState {
   };
   hayseedHank: HayseedHank;
   mushrooms: Mushrooms;
+  lantern?: LanternOffering;
 }
 
 export interface Context {
