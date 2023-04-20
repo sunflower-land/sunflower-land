@@ -40,9 +40,9 @@ export const maxItems: Inventory = {
   "Radish Seed": new Decimal(78),
   "Wheat Seed": new Decimal(78),
   "Kale Seed": new Decimal(66),
-  "Apple Seed": new Decimal(42),
-  "Orange Seed": new Decimal(42),
-  "Blueberry Seed": new Decimal(42),
+  "Apple Seed": new Decimal(50),
+  "Orange Seed": new Decimal(50),
+  "Blueberry Seed": new Decimal(50),
 
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
