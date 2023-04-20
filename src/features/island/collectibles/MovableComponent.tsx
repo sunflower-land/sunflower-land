@@ -197,8 +197,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         >
           <div
             className={classNames("h-full", {
-              "opacity-50": isColliding,
-              "opacity-100": !isColliding,
+              "bg-red-500 bg-opacity-75": isColliding,
             })}
           >
             {children}
