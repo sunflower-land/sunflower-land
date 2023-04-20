@@ -86,7 +86,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const landscapingMachine = gameService.state.children
     .landscaping as MachineInterpreter;
 
-  const moving = useSelector(landscapingMachine, isMoving);
   const movingItem = useSelector(landscapingMachine, getMovingItem);
 
   useEffect(() => {
@@ -130,7 +129,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         key={`${coordinates?.x}-${coordinates?.y}-${counts}`}
         nodeRef={nodeRef}
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
-        disabled={!moving}
         onMouseDown={() => {
           console.log("Mouse down");
           landscapingMachine.send("HIGHLIGHT", {

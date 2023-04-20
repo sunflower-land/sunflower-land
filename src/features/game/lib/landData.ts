@@ -310,7 +310,7 @@ export const OFFLINE_FARM: GameState = {
   dailyRewards: {},
 
   buildings: {
-    Market: [
+    "Town Center": [
       {
         coordinates: { x: 0, y: 0 },
         createdAt: 0,

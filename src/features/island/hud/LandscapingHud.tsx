@@ -12,8 +12,7 @@ import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
 import lightning from "assets/icons/lightning.png";
 
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { Box } from "components/ui/Box";
+import { OuterPanel } from "components/ui/Panel";
 import {
   MachineInterpreter,
   placeEvent,
@@ -25,7 +24,6 @@ import { getChestItems } from "./components/inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { CraftEquipmentModal } from "./components/equipment/CraftEquipmentModal";
-import { pixelTabBorderMiddleStyle } from "features/game/lib/style";
 import { CraftBuildingModal } from "./components/buildings/CraftBuildingModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 
@@ -58,53 +56,171 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
       />
 
       <>
-        <div
-          onClick={() => send("CANCEL")}
-          className="fixed flex z-50 cursor-pointer hover:img-highlight"
-          style={{
-            marginLeft: `${PIXEL_SCALE * 2}px`,
-            marginBottom: `${PIXEL_SCALE * 25}px`,
-            width: `${PIXEL_SCALE * 22}px`,
-            right: `${PIXEL_SCALE * 3}px`,
-            top: `${PIXEL_SCALE * 38}px`,
-          }}
-        >
-          <img
-            src={SUNNYSIDE.ui.round_button}
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 22}px`,
-            }}
-          />
-          <img
-            src={SUNNYSIDE.icons.cancel}
-            className="absolute"
-            style={{
-              top: `${PIXEL_SCALE * 5}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-              width: `${PIXEL_SCALE * 12}px`,
-            }}
-          />
-        </div>
-
-        <div
-          className="flex flex-col items-center fixed z-50"
-          style={{
-            right: `${PIXEL_SCALE * 1}px`,
-            top: `${PIXEL_SCALE * 64}px`,
-          }}
-        >
-          <Box
-            isSelected={!state.matches({ editing: "moving" })}
-            image={SUNNYSIDE.icons.hammer}
-            onClick={() => child.send("BUILD")}
-          />
-          <Box
-            isSelected={state.matches({ editing: "moving" })}
-            image={SUNNYSIDE.icons.drag}
-            onClick={() => child.send("MOVE")}
-          />
-        </div>
+        {state.matches({ editing: "idle" }) && (
+          <>
+            <div
+              className="fixed flex z-50 flex-col"
+              style={{
+                marginLeft: `${PIXEL_SCALE * 2}px`,
+                marginBottom: `${PIXEL_SCALE * 25}px`,
+                width: `${PIXEL_SCALE * 22}px`,
+                right: `${PIXEL_SCALE * 3}px`,
+                top: `${PIXEL_SCALE * 38}px`,
+              }}
+            >
+              <div
+                onClick={() => send("CANCEL")}
+                className="w-full z-10 cursor-pointer hover:img-highlight relative"
+                style={{
+                  width: `${PIXEL_SCALE * 22}px`,
+                  height: `${PIXEL_SCALE * 22}px`,
+                  marginBottom: `${PIXEL_SCALE * 4}px`,
+                }}
+              >
+                <img
+                  src={SUNNYSIDE.ui.round_button}
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * 22}px`,
+                  }}
+                />
+                <img
+                  src={SUNNYSIDE.icons.cancel}
+                  className="absolute"
+                  style={{
+                    top: `${PIXEL_SCALE * 5}px`,
+                    left: `${PIXEL_SCALE * 5}px`,
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+              </div>
+              <div
+                onClick={() => setShowEquipment(true)}
+                className="w-full z-10 cursor-pointer hover:img-highlight relative"
+                style={{
+                  width: `${PIXEL_SCALE * 22}px`,
+                  height: `${PIXEL_SCALE * 22}px`,
+                  marginBottom: `${PIXEL_SCALE * 4}px`,
+                }}
+              >
+                <img
+                  src={SUNNYSIDE.ui.round_button}
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * 22}px`,
+                  }}
+                />
+                <img
+                  src={scarecrow}
+                  className="absolute"
+                  style={{
+                    top: `${PIXEL_SCALE * 3}px`,
+                    left: `${PIXEL_SCALE * 5}px`,
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+                <img
+                  src={lightning}
+                  className="absolute"
+                  style={{
+                    top: `${PIXEL_SCALE * 2}px`,
+                    right: `${PIXEL_SCALE * 3}px`,
+                    width: `${PIXEL_SCALE * 6}px`,
+                  }}
+                />
+              </div>
+              <div
+                onClick={() => setShowBuildings(true)}
+                className="w-full z-10 cursor-pointer hover:img-highlight relative"
+                style={{
+                  width: `${PIXEL_SCALE * 22}px`,
+                  height: `${PIXEL_SCALE * 22}px`,
+                  marginBottom: `${PIXEL_SCALE * 4}px`,
+                }}
+              >
+                <img
+                  src={SUNNYSIDE.ui.round_button}
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * 22}px`,
+                  }}
+                />
+                <img
+                  src={ITEM_DETAILS["Water Well"].image}
+                  className="absolute"
+                  style={{
+                    top: `${PIXEL_SCALE * 4}px`,
+                    left: `${PIXEL_SCALE * 5}px`,
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+              </div>
+              <div
+                onClick={() => setShowDecorations(true)}
+                className="w-full z-10 cursor-pointer hover:img-highlight relative"
+                style={{
+                  width: `${PIXEL_SCALE * 22}px`,
+                  height: `${PIXEL_SCALE * 22}px`,
+                  marginBottom: `${PIXEL_SCALE * 4}px`,
+                }}
+              >
+                <img
+                  src={SUNNYSIDE.ui.round_button}
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * 22}px`,
+                  }}
+                />
+                <img
+                  src={bush}
+                  className="absolute"
+                  style={{
+                    top: `${PIXEL_SCALE * 5}px`,
+                    left: `${PIXEL_SCALE * 5}px`,
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+              </div>
+            </div>
+            <div
+              onClick={() => setShowChest(true)}
+              className="fixed flex z-50 cursor-pointer hover:img-highlight"
+              style={{
+                width: `${PIXEL_SCALE * 22}px`,
+                height: `${PIXEL_SCALE * 22}px`,
+                marginBottom: `${PIXEL_SCALE * 4}px`,
+                bottom: `${PIXEL_SCALE * 3}px`,
+                right: `${PIXEL_SCALE * 3}px`,
+              }}
+            >
+              <img
+                src={SUNNYSIDE.ui.round_button}
+                className="absolute"
+                style={{
+                  width: `${PIXEL_SCALE * 22}px`,
+                }}
+              />
+              <img
+                src={chest}
+                className="absolute"
+                style={{
+                  top: `${PIXEL_SCALE * 5}px`,
+                  left: `${PIXEL_SCALE * 5}px`,
+                  width: `${PIXEL_SCALE * 12}px`,
+                }}
+              />
+              <Label
+                type="default"
+                className="px-0.5 text-xxs absolute -top-2 -right-2"
+              >
+                {getKeys(chestItems).reduce(
+                  (acc, key) => acc + (chestItems[key]?.toNumber() ?? 0),
+                  0
+                )}
+              </Label>
+            </div>
+          </>
+        )}
 
         {state.matches({ editing: "moving" }) && (
           <div className="fixed  bottom-2 w-full flex justify-center">
@@ -116,100 +232,6 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
             >
               <img src={SUNNYSIDE.icons.drag} className="h-6 mr-1" />
               <p className="text-sm">Click & Drag Objects</p>
-            </OuterPanel>
-          </div>
-        )}
-        {state.matches({ editing: "idle" }) && (
-          <div className="fixed  bottom-2 w-full flex justify-center">
-            <OuterPanel
-              style={{
-                bottom: `${PIXEL_SCALE * 2}px`,
-              }}
-              className="relative"
-            >
-              <div
-                className={"bg-brown-600 flex items-center px-2 absolute"}
-                style={{
-                  ...pixelTabBorderMiddleStyle,
-                  height: "30px",
-                  top: "-30px",
-                  left: "calc(50% - 45px)",
-                }}
-              >
-                <img src={SUNNYSIDE.icons.hammer} className="h-4 mr-1" />
-                <p className="text-xs">Build</p>
-              </div>
-              <div
-                className="flex justify-center"
-                style={{
-                  height: `${PIXEL_SCALE * 24}px`,
-                }}
-              >
-                <InnerPanel
-                  className="relative p-2 flex items-center justify-center mr-2  cursor-pointer hover:bg-brown-200"
-                  style={{
-                    width: `${PIXEL_SCALE * 24}px`,
-                  }}
-                  onClick={() => setShowEquipment(true)}
-                >
-                  <img
-                    src={scarecrow}
-                    style={{
-                      height: `${PIXEL_SCALE * 18}px`,
-                    }}
-                  />
-                  <img
-                    src={lightning}
-                    className="absolute"
-                    style={{
-                      height: `${PIXEL_SCALE * 10}px`,
-                      top: `${PIXEL_SCALE * -0.5}px`,
-                      right: `${PIXEL_SCALE * -0.5}px`,
-                    }}
-                  />
-                </InnerPanel>
-                <InnerPanel
-                  className="relative p-2 flex items-center justify-center mr-2  cursor-pointer hover:bg-brown-200"
-                  style={{
-                    width: `${PIXEL_SCALE * 24}px`,
-                  }}
-                  onClick={() => setShowBuildings(true)}
-                >
-                  <img
-                    src={ITEM_DETAILS["Water Well"].image}
-                    style={{
-                      height: `${PIXEL_SCALE * 18}px`,
-                    }}
-                  />
-                </InnerPanel>
-                <InnerPanel
-                  className="relative p-2 flex items-center justify-center mr-2 cursor-pointer hover:bg-brown-200"
-                  style={{
-                    width: `${PIXEL_SCALE * 24}px`,
-                  }}
-                  onClick={() => setShowDecorations(true)}
-                >
-                  <img src={bush} className="h-full" />
-                </InnerPanel>
-                <InnerPanel
-                  className="relative p-2 flex items-center justify-center mr-2 cursor-pointer hover:bg-brown-200"
-                  style={{
-                    width: `${PIXEL_SCALE * 24}px`,
-                  }}
-                  onClick={() => setShowChest(true)}
-                >
-                  <Label
-                    type="default"
-                    className="px-0.5 text-xxs absolute -top-2 -right-2"
-                  >
-                    {getKeys(chestItems).reduce(
-                      (acc, key) => acc + (chestItems[key]?.toNumber() ?? 0),
-                      0
-                    )}
-                  </Label>
-                  <img src={chest} className="h-full  " />
-                </InnerPanel>
-              </div>
             </OuterPanel>
           </div>
         )}
