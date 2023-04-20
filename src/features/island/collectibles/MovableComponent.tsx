@@ -79,6 +79,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [counts, setCounts] = useState(0);
   const isActive = useRef(false);
 
@@ -137,6 +138,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
             id,
           });
           isActive.current = true;
+          setIsDragging(true);
         }}
         onStart={(_, data) => {
           const x = Math.round(data.x);
@@ -188,12 +190,17 @@ export const MoveableComponent: React.FC<MovableProps> = ({
               id,
             });
           }
+
+          setIsDragging(false);
         }}
       >
         <div
           ref={nodeRef}
           data-prevent-drag-scroll
-          className={classNames("h-full cursor-pointer")}
+          className={classNames("h-full", {
+            "cursor-grabbing": isDragging,
+            "cursor-pointer": !isDragging,
+          })}
         >
           <div
             className={classNames("h-full", {
