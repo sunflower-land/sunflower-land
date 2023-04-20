@@ -9,6 +9,7 @@ import scarecrow from "assets/icons/scarecrow.png";
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { NPC_WEARABLES } from "lib/npcs";
 
 function acknowledge() {
   localStorage.setItem("landscaping.introduction", "complete");
@@ -30,13 +31,7 @@ export const LandscapingIntroduction: React.FC = () => {
     <Modal centered show={showModal} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
-        bumpkinParts={{
-          body: "Goblin Potion",
-          shirt: "Red Farmer Shirt",
-          pants: "Lumberjack Overalls",
-          hair: "Blacksmith Hair",
-          tool: "Hammer",
-        }}
+        bumpkinParts={NPC_WEARABLES.grimtooth}
         title="Time to build!"
       >
         <div className="p-2">

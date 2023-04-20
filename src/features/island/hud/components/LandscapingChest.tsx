@@ -6,6 +6,7 @@ import { Modal } from "react-bootstrap";
 import { Chest } from "./inventory/Chest";
 import { getChestItems } from "./inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   show: boolean;
@@ -31,6 +32,7 @@ export const LandscapingChest: React.FC<Props> = ({
         tabs={[{ icon: chest, name: "Chest" }]}
         currentTab={0}
         onClose={onHide}
+        bumpkinParts={NPC_WEARABLES.grimtooth}
       >
         <Chest
           state={state}

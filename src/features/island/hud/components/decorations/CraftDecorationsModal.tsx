@@ -5,6 +5,7 @@ import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
 import { Decorations } from "./Decorations";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   show: boolean;
@@ -26,6 +27,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({
       <CloseButtonPanel
         tabs={[{ icon: sunflower, name: "Decorations" }]}
         onClose={onHide}
+        bumpkinParts={NPC_WEARABLES.grimtooth}
       >
         <Decorations onClose={onHide} />
       </CloseButtonPanel>
