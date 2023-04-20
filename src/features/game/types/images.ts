@@ -431,6 +431,10 @@ export const ITEM_DETAILS: Items = {
     ...crops.Parsnip,
     image: CROP_LIFECYCLE.Parsnip.crop,
   },
+  Eggplant: {
+    ...crops.Eggplant,
+    image: CROP_LIFECYCLE.Eggplant.crop,
+  },
   Radish: {
     ...crops.Radish,
     image: CROP_LIFECYCLE.Radish.crop,
@@ -484,6 +488,11 @@ export const ITEM_DETAILS: Items = {
     ...seeds["Parsnip Seed"],
     image: CROP_LIFECYCLE.Parsnip.seed,
     secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
+  },
+  "Eggplant Seed": {
+    ...seeds["Eggplant Seed"],
+    image: CROP_LIFECYCLE.Eggplant.seed,
+    secondaryImage: CROP_LIFECYCLE.Eggplant.crop,
   },
   "Radish Seed": {
     ...seeds["Radish Seed"],

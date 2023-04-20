@@ -64,7 +64,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
             and asking our community.
           </p>
         </div>
-        <div className="flex flex-col w-full text-left mb-2 text-[12px]">
+        <div className="flex flex-col w-full text-left mb-2 text-[12px] overflow-hidden">
           {farmId && <p className="leading-3">Farm: {farmId}</p>}
           {error && (
             <p className="leading-3 whitespace-nowrap">Error: {error}</p>
