@@ -41,15 +41,22 @@ const INITIAL_SUPPORTED_PLOTS = 15;
 // Each well can support an additional 8 plots
 const WELL_PLOT_SUPPORT = 8;
 
+export const getCompletedWellCount = (
+  buildings: Partial<Record<BuildingName, PlacedItem[]>>
+) => {
+  return (
+    buildings["Water Well"]?.filter((well) => well.readyAt < Date.now())
+      .length ?? 0
+  );
+};
+
 export function isPlotFertile({
   plotIndex,
   crops,
   buildings,
 }: IsPlotFertile): boolean {
-  // Get the well count
-  const wellCount =
-    buildings["Water Well"]?.filter((well) => well.readyAt < Date.now())
-      .length ?? 0;
+  // get the well count
+  const wellCount = getCompletedWellCount(buildings);
   const cropsWellCanWater =
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
