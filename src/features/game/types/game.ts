@@ -24,6 +24,7 @@ import {
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
+import { ConversationName } from "./conversations";
 
 export type Reward = {
   sfl?: Decimal;
@@ -398,21 +399,6 @@ export type Bid = {
   auctionTickets: number;
 };
 
-type Island = "Main" | "Bunny Trove" | "Helios";
-
-export type EasterHunt = {
-  generatedAt: number;
-  eggs: EasterEggPosition[];
-};
-
-export type EasterEggPosition = {
-  name: InventoryItemName;
-  x: number;
-  y: number;
-  island: Island;
-  collectedAt?: number;
-};
-
 export type HayseedHank = {
   choresCompleted: number;
   chore: Chore;
@@ -421,6 +407,11 @@ export type HayseedHank = {
     startedAt: number;
     startCount: number;
   };
+};
+
+export type NPCDialogue = {
+  id: string;
+  from: "aunt" | "bumpkin" | "betty" | "bruce";
 };
 
 export interface GameState {
@@ -477,6 +468,13 @@ export interface GameState {
     kickedAt?: number;
     kickedById?: number;
   };
+  conversations: ConversationName[];
+  mailbox: {
+    read: {
+      id: string;
+      createdAt: number;
+    }[];
+  };
   dailyRewards: {
     chest?: {
       collectedAt: number;
@@ -487,8 +485,6 @@ export interface GameState {
     bid?: Bid;
   };
   hayseedHank: HayseedHank;
-
-  easterHunt: EasterHunt;
 }
 
 export interface Context {

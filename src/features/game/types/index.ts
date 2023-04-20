@@ -31,6 +31,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Magic Bean": 115,
   "Shiny Bean": 116,
   "Golden Bean": 117,
+  "Eggplant Seed": 118,
 
   Sunflower: 201,
   Potato: 202,
@@ -46,6 +47,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Apple: 212,
   Blueberry: 213,
   Orange: 214,
+  Eggplant: 215,
 
   Axe: 301,
   Pickaxe: 302,
@@ -294,6 +296,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Smoothie Shack": 1010,
   Toolshed: 1011,
   Warehouse: 1012,
+  "Town Center": 1013,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,

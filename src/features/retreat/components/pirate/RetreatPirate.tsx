@@ -7,7 +7,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { GoblinPirateItems } from "./components/GoblinPirateItems";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { Equipped } from "features/game/types/bumpkin";
 
 const bumpkin: Equipped = {

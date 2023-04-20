@@ -4,6 +4,7 @@ import { assign, createMachine, Interpreter } from "xstate";
 import { escalate } from "xstate/lib/actions";
 import { signTransaction } from "../actions/createAccount";
 import { CharityAddress } from "../components";
+import { analytics } from "lib/analytics";
 
 export interface Context {
   token?: string;
@@ -95,7 +96,9 @@ export const createFarmMachine = createMachine<
           1000: "notEnoughMatic",
         },
       },
-      hasEnoughMatic: {},
+      hasEnoughMatic: {
+        entry: () => analytics.logEvent("wallet_funded"),
+      },
     },
   },
   {

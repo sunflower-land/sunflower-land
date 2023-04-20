@@ -1,7 +1,6 @@
-import React from "react";
-import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
 import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Iron } from "features/game/expansion/components/resources/Iron";
@@ -12,18 +11,18 @@ import { Plot } from "../plots/Plot";
 import { FruitPatch } from "../fruit/FruitPatch";
 import { Boulder } from "../boulder/Boulder";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { MoveableComponent } from "../collectibles/MovableComponent";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export interface ResourceProps {
   name: ResourceName;
   id: string;
   readyAt: number;
   createdAt: number;
-
-  height?: number;
-  width?: number;
-  x: number;
-  y: number;
-  isEditing?: boolean;
+  coordinates?: Coordinates;
 }
 
 // Used for placing
@@ -117,47 +116,44 @@ export const RESOURCE_COMPONENTS: Record<
   Boulder: Boulder,
 };
 
-const ResourceComponent: React.FC<ResourceProps> = ({
-  name,
-  id,
-  readyAt,
-  createdAt,
+// const ResourceComponent: React.FC<ResourceProps> = ({
+//   name,
+//   id,
+//   readyAt,
+//   createdAt,
+// }) => {
+//   const Component = RESOURCE_COMPONENTS[name];
 
-  x,
-  y,
-  height,
-  width,
-  isEditing,
-}) => {
-  const Component = RESOURCE_COMPONENTS[name];
+//   return (
+//     <>
+//       <Component
+//         key={id}
+//         createdAt={createdAt}
+//         id={id}
+//         name={name}
+//         readyAt={readyAt}
+//       />
+//     </>
+//   );
+// };
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-  return (
-    <>
-      <div
-        className={classNames("absolute", {
-          "bg-red-background/80": isEditing,
-        })}
-        style={{
-          top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
-          left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
-          height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
-          width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
-        }}
-      >
-        <Component
-          key={id}
-          createdAt={createdAt}
-          id={id}
-          name={name}
-          readyAt={readyAt}
-          x={x}
-          y={y}
-          height={height}
-          width={width}
-        />
-      </div>
-    </>
-  );
+const ResourceComponent: React.FC<ResourceProps> = (props) => {
+  const { gameService } = useContext(Context);
+
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  const Component = RESOURCE_COMPONENTS[props.name];
+
+  if (landscaping) {
+    return (
+      <MoveableComponent {...(props as any)}>
+        <Component {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <Component {...props} />;
 };
 
 export const Resource = React.memo(ResourceComponent);

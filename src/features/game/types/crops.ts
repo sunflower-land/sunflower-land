@@ -11,6 +11,7 @@ export type CropName =
   | "Beetroot"
   | "Cauliflower"
   | "Parsnip"
+  | "Eggplant"
   | "Radish"
   | "Wheat"
   | "Kale";
@@ -20,6 +21,7 @@ export type Crop = {
   harvestSeconds: number;
   name: CropName;
   description: string;
+  bumpkinLevel: number;
 };
 
 /**
@@ -31,66 +33,84 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 1 * 60,
     name: "Sunflower",
     description: "A sunny flower",
+    bumpkinLevel: 1,
   },
   Potato: {
     sellPrice: marketRate(0.14),
     harvestSeconds: 5 * 60,
     name: "Potato",
     description: "Healthier than you might think.",
+    bumpkinLevel: 1,
   },
   Pumpkin: {
     sellPrice: marketRate(0.4),
     harvestSeconds: 30 * 60,
     name: "Pumpkin",
     description: "There's more to pumpkin than pie.",
+    bumpkinLevel: 2,
   },
   Carrot: {
     sellPrice: marketRate(0.8),
     harvestSeconds: 60 * 60,
     name: "Carrot",
     description: "They're good for your eyes!",
+    bumpkinLevel: 2,
   },
   Cabbage: {
     sellPrice: marketRate(1.5),
     harvestSeconds: 2 * 60 * 60,
     name: "Cabbage",
     description: "Once a luxury, now a food for many.",
+    bumpkinLevel: 3,
   },
   Beetroot: {
     sellPrice: marketRate(2.8),
     harvestSeconds: 4 * 60 * 60,
     name: "Beetroot",
     description: "Good for hangovers!",
+    bumpkinLevel: 3,
   },
   Cauliflower: {
     sellPrice: marketRate(4.25),
     harvestSeconds: 8 * 60 * 60,
     name: "Cauliflower",
     description: "Excellent rice substitute!",
+    bumpkinLevel: 4,
   },
   Parsnip: {
     sellPrice: marketRate(6.5),
     harvestSeconds: 12 * 60 * 60,
     name: "Parsnip",
     description: "Not to be mistaken for carrots.",
+    bumpkinLevel: 4,
+  },
+  Eggplant: {
+    sellPrice: marketRate(8),
+    harvestSeconds: 16 * 60 * 60,
+    name: "Eggplant",
+    description: "Nature's edible work of art.",
+    bumpkinLevel: 5,
   },
   Radish: {
     sellPrice: marketRate(9.5),
     harvestSeconds: 24 * 60 * 60,
     name: "Radish",
     description: "Takes time but is worth the wait!",
+    bumpkinLevel: 5,
   },
   Wheat: {
     sellPrice: marketRate(7),
     harvestSeconds: 24 * 60 * 60,
     name: "Wheat",
     description: "The most harvested crop in the world.",
+    bumpkinLevel: 5,
   },
   Kale: {
     sellPrice: marketRate(10),
     harvestSeconds: 36 * 60 * 60,
     name: "Kale",
     description: "Bumpkin Power Food",
+    bumpkinLevel: 7,
   },
 });
 
@@ -150,6 +170,13 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     tokenAmount: marketRate(5),
     ingredients: [],
     bumpkinLevel: 4,
+  },
+  "Eggplant Seed": {
+    name: "Eggplant Seed",
+    description: "Nature's edible work of art.",
+    tokenAmount: marketRate(6),
+    ingredients: [],
+    bumpkinLevel: 5,
   },
   "Radish Seed": {
     name: "Radish Seed",

@@ -52,6 +52,7 @@ export type Fruit = {
   isBush?: boolean;
   sellPrice: Decimal;
   seed: FruitSeedName;
+  bumpkinLevel: number;
 };
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({
@@ -61,17 +62,20 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     sellPrice: marketRate(12),
     isBush: true,
     seed: "Blueberry Seed",
+    bumpkinLevel: 13,
   },
   Orange: {
     description: "Vitamin C to keep your Bumpkin Healthy",
     name: "Orange",
     sellPrice: marketRate(18),
     seed: "Orange Seed",
+    bumpkinLevel: 14,
   },
   Apple: {
     description: "Perfect for homemade Apple Pie",
     name: "Apple",
     sellPrice: marketRate(25),
     seed: "Apple Seed",
+    bumpkinLevel: 15,
   },
 });

@@ -27,8 +27,25 @@ import { MINE_ERRORS } from "features/game/events/landExpansion/ironMine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Rock } from "features/game/types/game";
 
 const HITS = 3;
+const tool = "Pickaxe";
+
+const selectInventoryToolCount = (state: MachineState) =>
+  state.context.state.inventory[tool] ?? new Decimal(0);
+
+const compareResource = (prev: Rock, next: Rock) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareInventoryToolCount = (prev: Decimal, next: Decimal) => {
+  return (
+    prev.equals(next) ||
+    prev.greaterThanOrEqualTo(1) ||
+    next.greaterThanOrEqualTo(1)
+  );
+};
 
 interface Props {
   id: string;
@@ -51,12 +68,16 @@ export const Stone: React.FC<Props> = ({ id }) => {
 
   const [showRockTimeLeft, setShowRockTimeLeft] = useState(false);
 
-  const tool = "Pickaxe";
-
-  const gameState = useSelector(gameService, (state) => ({
-    resource: state.context.state.stones[id],
-    toolCount: state.context.state.inventory[tool] ?? new Decimal(0),
-  }));
+  const resource = useSelector(
+    gameService,
+    (state) => state.context.state.stones[id],
+    compareResource
+  );
+  const inventoryToolCount = useSelector(
+    gameService,
+    selectInventoryToolCount,
+    compareInventoryToolCount
+  );
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -75,7 +96,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
   }, []);
 
   // Users will need to refresh to strike the rock again
-  const mined = !canMine(gameState.resource, STONE_RECOVERY_TIME);
+  const mined = !canMine(resource, STONE_RECOVERY_TIME);
 
   useUiRefresher({ active: mined });
 
@@ -87,7 +108,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     setShowPopover(false);
   };
 
-  const hasPickaxes = selectedItem === tool && gameState.toolCount.gte(1);
+  const hasPickaxes = selectedItem === tool && inventoryToolCount.gte(1);
 
   const strike = () => {
     if (mined) {
@@ -136,7 +157,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
                 width: `${PIXEL_SCALE * 10}px`,
               }}
             />
-            <span className="text-sm">{`+${gameState.resource.stone.amount}`}</span>
+            <span className="text-sm">{`+${resource.stone.amount}`}</span>
           </div>
         );
 
@@ -174,10 +195,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(
-    gameState.resource.stone.minedAt,
-    STONE_RECOVERY_TIME
-  );
+  const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
 
   return (
     <div

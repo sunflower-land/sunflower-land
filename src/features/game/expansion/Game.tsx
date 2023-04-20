@@ -41,8 +41,9 @@ import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
-import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
+import { Introduction } from "./components/Introduction";
+import { NoTownCenter } from "../components/NoTownCenter";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -57,8 +58,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refreshing: true,
   deposited: true,
   hoarding: true,
-  editing: false,
+  landscaping: false,
   noBumpkinFound: true,
+  noTownCenter: true,
   swarming: true,
   coolingDown: true,
   gameRules: true,
@@ -71,6 +73,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   buyingSFL: true,
   depositing: true,
   upgradingGuestGame: false,
+  introduction: false,
 };
 
 // State change selectors
@@ -84,6 +87,7 @@ const isSyncing = (state: MachineState) => state.matches("syncing");
 const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
+const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
@@ -117,6 +121,7 @@ export const Game: React.FC = () => {
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
+  const noTownCenter = useSelector(gameService, isNoTownCenter);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const gameRules = useSelector(gameService, isGameRules);
   const depositing = useSelector(gameService, isDepositing);
@@ -256,8 +261,6 @@ export const Game: React.FC = () => {
             )}
             <Route path="/studios" element={<Studios key="hq" />} />
 
-            <Route path="/bunny-trove" element={<BunnyTrove key="bunny" />} />
-
             <Route path="*" element={<IslandNotFound />} />
           </Routes>
         </div>
@@ -281,6 +284,7 @@ export const Game: React.FC = () => {
           {hoarding && <Hoarding />}
           {swarming && <Swarming />}
           {noBumpkinFound && <NoBumpkin />}
+          {noTownCenter && <NoTownCenter />}
           {coolingDown && <Cooldown />}
           {gameRules && <Rules />}
           {depositing && <Loading text="Depositing" />}
@@ -288,6 +292,7 @@ export const Game: React.FC = () => {
       </Modal>
 
       {upgradingGuestGame && <WalletOnboarding />}
+      <Introduction />
 
       {GameContent()}
     </ToastProvider>

@@ -134,7 +134,7 @@ export const PirateChest: React.FC = () => {
                 width: `${PIXEL_SCALE * 16}px`,
               }}
             />
-            <span className="text-center mb-2 text-sm">
+            <span className="mb-2 text-sm">
               Ahoy there! This chest be filled with treasures fit for a pirate
               king, but beware, only those with a pirate skin can open it and
               claim the booty within!

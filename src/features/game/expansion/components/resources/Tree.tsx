@@ -4,8 +4,6 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import Decimal from "decimal.js-light";
-
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import stump from "assets/resources/tree/stump.png";
@@ -22,7 +20,12 @@ import classNames from "classnames";
 import { getTimeLeft } from "lib/utils/time";
 import { chopAudio, treeFallAudio } from "lib/utils/sfx";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { Reward } from "features/game/types/game";
+import {
+  Collectibles,
+  InventoryItemName,
+  Reward,
+  Tree as TreeType,
+} from "features/game/types/game";
 import {
   canChop,
   CHOP_ERRORS,
@@ -34,14 +37,45 @@ import { InnerPanel } from "components/ui/Panel";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const HITS = 3;
+const tool = "Axe";
 
 const SHAKE_SHEET_FRAME_WIDTH = 448 / 7;
 const SHAKE_SHEET_FRAME_HEIGHT = 48;
 
 const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
 const CHOPPED_SHEET_FRAME_HEIGHT = 48;
+
+const HasAxes = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+  collectibles: Collectibles,
+  selectedItem?: string
+) => {
+  const axesNeeded = getRequiredAxeAmount(inventory, collectibles);
+
+  // has enough axes to chop the tree
+
+  if (axesNeeded.lte(0)) return true;
+
+  return (
+    selectedItem === tool && (inventory[tool] ?? new Decimal(0)).gte(axesNeeded)
+  );
+};
+
+const selectInventory = (state: MachineState) => state.context.state.inventory;
+const selectCollectibles = (state: MachineState) =>
+  state.context.state.collectibles;
+
+const compareResource = (prev: TreeType, next: TreeType) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
+  isCollectibleBuilt("Foreman Beaver", prev) ===
+  isCollectibleBuilt("Foreman Beaver", next);
 
 interface Props {
   id: string;
@@ -64,16 +98,26 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   const [showStumpTimeLeft, setShowStumpTimeLeft] = useState(false);
 
-  const tool = "Axe";
+  const resource = useSelector(
+    gameService,
+    (state) => state.context.state.trees[id],
+    compareResource
+  );
+  const collectibles = useSelector(
+    gameService,
+    selectCollectibles,
+    compareCollectibles
+  );
+  const inventory = useSelector(
+    gameService,
+    selectInventory,
+    (prev, next) =>
+      HasAxes(prev, collectibles, selectedItem) ===
+        HasAxes(next, collectibles, selectedItem) &&
+      (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
+  );
 
-  const gameState = useSelector(gameService, (state) => ({
-    resource: state.context.state.trees[id],
-    toolCount: state.context.state.inventory[tool] ?? new Decimal(0),
-    inventory: state.context.state.inventory,
-    collectibles: state.context.state.collectibles,
-  }));
-
-  const chopped = !canChop(gameState.resource);
+  const chopped = !canChop(resource);
 
   useUiRefresher({ active: chopped });
 
@@ -98,15 +142,12 @@ export const Tree: React.FC<Props> = ({ id }) => {
     setShowPopover(false);
   };
 
-  const axesNeeded = getRequiredAxeAmount(
-    gameState.inventory,
-    gameState.collectibles
-  );
+  const axesNeeded = getRequiredAxeAmount(inventory, collectibles);
 
   // Has enough axes to chop the tree
   const hasAxes =
     (selectedItem === "Axe" || axesNeeded.eq(0)) &&
-    gameState.toolCount.gte(axesNeeded);
+    inventory[tool]?.gte(axesNeeded);
 
   const shake = async () => {
     if (chopped) {
@@ -136,7 +177,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       }
 
       // increase touch count if there is a reward
-      if (gameState.resource.wood.reward && canChop(gameState.resource)) {
+      if (resource.wood.reward && canChop(resource)) {
         if (touchCount < 1) {
           // Add to touch count for reward pickup
           setTouchCount((count) => count + 1);
@@ -144,7 +185,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         }
 
         // They have touched enough!
-        setReward(gameState.resource.wood.reward);
+        setReward(resource.wood.reward);
 
         return;
       }
@@ -162,6 +203,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   };
 
   const chop = async () => {
+    console.log("CHOP");
     setTouchCount(0);
 
     try {
@@ -184,7 +226,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
                 width: `${PIXEL_SCALE * 11}px`,
               }}
             />
-            <span className="text-sm">{`+${gameState.resource.wood.amount}`}</span>
+            <span className="text-sm">{`+${resource.wood.amount}`}</span>
           </div>
         );
 
@@ -222,14 +264,11 @@ export const Tree: React.FC<Props> = ({ id }) => {
     setErrorLabel(undefined);
   };
 
-  const timeLeft = getTimeLeft(
-    gameState.resource.wood.choppedAt,
-    TREE_RECOVERY_TIME
-  );
+  const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
 
   return (
     <div
-      className="relative w-full h-full"
+      className="relative w-full h-full cursor-pointer"
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >

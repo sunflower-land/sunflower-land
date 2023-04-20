@@ -76,6 +76,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Beetroot Seed": new Decimal(80),
     "Cauliflower Seed": new Decimal(80),
     "Parsnip Seed": new Decimal(60),
+    "Eggplant Seed": new Decimal(50),
     "Radish Seed": new Decimal(40),
     "Wheat Seed": new Decimal(40),
     "Kale Seed": new Decimal(30),
@@ -98,6 +99,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Beetroot Seed": new Decimal(96),
       "Cauliflower Seed": new Decimal(96),
       "Parsnip Seed": new Decimal(72),
+      "Eggplant Seed": new Decimal(60),
       "Radish Seed": new Decimal(48),
       "Wheat Seed": new Decimal(48),
       "Kale Seed": new Decimal(36),
@@ -221,6 +223,10 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
+  conversations: [],
+  mailbox: {
+    read: [],
+  },
   crops: {
     1: {
       height: 1,
@@ -315,23 +321,6 @@ export const TEST_FARM: GameState = {
       description: "Harvest 10 Sunflowers",
     },
   },
-  easterHunt: {
-    generatedAt: Date.now() - 1000,
-    eggs: [
-      {
-        name: "Pink Egg",
-        x: 5,
-        y: 5,
-        island: "Helios",
-      },
-      {
-        name: "Orange Egg",
-        x: 6,
-        y: 6,
-        island: "Bunny Trove",
-      },
-    ],
-  },
 
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
@@ -406,6 +395,10 @@ export const EMPTY: GameState = {
   chickens: {},
   stock: {},
   stockExpiry: {},
+  conversations: [],
+  mailbox: {
+    read: [],
+  },
 
   buildings: {},
   collectibles: {},
@@ -423,23 +416,6 @@ export const EMPTY: GameState = {
       },
       description: "Harvest 10 Sunflowers",
     },
-  },
-  easterHunt: {
-    generatedAt: Date.now() - 1000,
-    eggs: [
-      {
-        name: "Pink Egg",
-        x: 5,
-        y: 5,
-        island: "Helios",
-      },
-      {
-        name: "Orange Egg",
-        x: 6,
-        y: 6,
-        island: "Bunny Trove",
-      },
-    ],
   },
 
   fruitPatches: {},

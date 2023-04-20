@@ -4,7 +4,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "react-bootstrap";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SeasonalNPCModal } from "./components/SeasonalNPCModal";
 import { SUNNYSIDE } from "assets/sunnyside";

@@ -53,7 +53,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [loadingOnRamp, setLoadingOnRamp] = useState(false);
   const { openModal } = useContext(ModalContext);
 
-  const isFullUser = gameService.state.value === "playingFullGame";
+  const isFullUser = gameService?.state?.value === "playingFullGame";
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -75,7 +75,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const handleAddMatic = async () => {
     setLoadingOnRamp(true);
 
-    // Temporarily link to sequence when adding funds. Until Wyre is ready.
     if (authService.state.context.user.web3?.wallet === "SEQUENCE") {
       const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
@@ -94,11 +93,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
         "_blank"
       );
     }
-
-    // await onramp({
-    //   token: authService.state.context.rawToken as string,
-    //   transactionId: randomID(),
-    // });
 
     onClose();
 
