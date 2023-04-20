@@ -258,7 +258,7 @@ export const OFFLINE_FARM: GameState = {
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
+    "Basic Land": new Decimal(17),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
