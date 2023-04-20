@@ -410,24 +410,6 @@ img {
   }
 }
 
-/* Bulge every 15 seconds */
-.mushroom-bulge-repeat {
-  animation: mushroomBulgeRepeat 15000ms steps(16, jump-none) infinite;
-}
-
-@keyframes mushroomBulgeRepeat {
-  0% {
-    transform: scale(1);
-  }
-  1% {
-    transform: scale(1.15, 0.9);
-  }
-  2%,
-  100% {
-    transform: scale(1);
-  }
-}
-
 .flip {
   animation: flipping 2s linear infinite;
 }
@@ -495,7 +477,8 @@ img {
   }
 }
 
-.treasure-reward {
+.treasure-reward,
+.mushroom {
   animation: rise-up 750ms ease;
   animation-fill-mode: both;
   transform-origin: bottom center;
