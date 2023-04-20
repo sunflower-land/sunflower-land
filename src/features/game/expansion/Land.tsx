@@ -311,27 +311,25 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(mushrooms)
-      // Only show placed chickens (V1 may have ones without coords)
-      .flatMap((id) => {
-        const { x, y } = mushrooms[id]!;
+    ...getKeys(mushrooms).flatMap((id) => {
+      const { x, y } = mushrooms[id]!;
 
-        return (
-          <MapPlacement
+      return (
+        <MapPlacement
+          key={`mushroom-${id}`}
+          x={x}
+          y={y}
+          height={MUSHROOM_DIMENSIONS.height}
+          width={MUSHROOM_DIMENSIONS.width}
+        >
+          <Mushroom
             key={`mushroom-${id}`}
-            x={x}
-            y={y}
-            height={MUSHROOM_DIMENSIONS.height}
-            width={MUSHROOM_DIMENSIONS.width}
-          >
-            <Mushroom
-              key={`mushroom-${id}`}
-              id={id}
-              isFirstRender={isFirstRender}
-            />
-          </MapPlacement>
-        );
-      })
+            id={id}
+            isFirstRender={isFirstRender}
+          />
+        </MapPlacement>
+      );
+    })
   );
 
   return mapPlacements;
