@@ -70,9 +70,9 @@ You will want your pixel width to match up with the pixel width that is used in 
 
 _Colour palette is coming soon..._
 
-## How do I submit the art work?
+## How do I submit the artwork?
 
-To help organize what art work the project needs, what is being voted on and what is accepted please upload your image as an attachment to the Github issue.
+To help organize what artwork the project needs, what is being voted on and what is accepted please upload your image as an attachment to the Github issue.
 
 You will need to include:
 
