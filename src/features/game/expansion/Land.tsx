@@ -27,7 +27,7 @@ import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { MachineState } from "../lib/gameMachine";
-import { getGameGrid } from "./placeable/lib/makeGrid";
+import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 
 const getIslandElements = ({
@@ -42,6 +42,7 @@ const getIslandElements = ({
   crops,
   isRustyShovelSelected,
   showTimers,
+  grid,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -55,6 +56,7 @@ const getIslandElements = ({
   fruitPatches: GameState["fruitPatches"];
   isRustyShovelSelected: boolean;
   showTimers: boolean;
+  grid: GameGrid;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -120,6 +122,7 @@ const getIslandElements = ({
                 showTimers={showTimers}
                 x={coordinates.x}
                 y={coordinates.x}
+                grid={grid}
               />
             </MapPlacement>
           );
@@ -374,6 +377,7 @@ export const Land: React.FC = () => {
             crops,
             isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             showTimers: showTimers,
+            grid: gameGrid,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
         <IslandTravel

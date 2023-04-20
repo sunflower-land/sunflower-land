@@ -119,10 +119,7 @@ import { isBean } from "features/game/types/beans";
 import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
 import { Fence } from "./components/Fence";
-import {
-  GameGrid,
-  getGameGrid,
-} from "features/game/expansion/placeable/lib/makeGrid";
+import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "./MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -135,6 +132,7 @@ export type CollectibleProps = {
   createdAt: number;
   x: number;
   y: number;
+  grid: GameGrid;
 };
 
 type Props = CollectibleProps & {
@@ -145,11 +143,7 @@ type Props = CollectibleProps & {
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName,
-  React.FC<
-    CollectibleProps & {
-      grid: GameGrid;
-    }
-  >
+  React.FC<CollectibleProps>
 > = {
   "Mysterious Head": MysteriousHead,
   "War Skull": WarSkulls,
@@ -296,11 +290,16 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Karkinos: Karkinos,
 };
 
-const InProgressCollectible: React.FC<
-  Props & {
-    grid: GameGrid;
-  }
-> = ({ name, id, readyAt, createdAt, showTimers, x, y, grid }) => {
+const InProgressCollectible: React.FC<Props> = ({
+  name,
+  id,
+  readyAt,
+  createdAt,
+  showTimers,
+  x,
+  y,
+  grid,
+}) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -356,13 +355,6 @@ const InProgressCollectible: React.FC<
   );
 };
 
-const selectCrops = (state: MachineState) => state.context.state.crops;
-const selectCollectibles = (state: MachineState) =>
-  state.context.state.collectibles;
-
-const compareCrops = () => true;
-const compareCollectibles = () => true;
-
 const CollectibleComponent: React.FC<Props> = ({
   name,
   id,
@@ -372,18 +364,8 @@ const CollectibleComponent: React.FC<Props> = ({
   y,
   isRustyShovelSelected,
   showTimers,
+  grid,
 }) => {
-  const { gameService } = useContext(Context);
-
-  const crops = useSelector(gameService, selectCrops, compareCrops);
-  const collectibles = useSelector(
-    gameService,
-    selectCollectibles,
-    compareCollectibles
-  );
-
-  const gameGrid = getGameGrid({ crops, collectibles });
-
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -433,7 +415,7 @@ const CollectibleComponent: React.FC<Props> = ({
               y={y}
               isRustyShovelSelected={false}
               showTimers={showTimers}
-              grid={gameGrid}
+              grid={grid}
             />
           ) : (
             <CollectiblePlaced
@@ -444,7 +426,7 @@ const CollectibleComponent: React.FC<Props> = ({
               readyAt={readyAt}
               x={x}
               y={y}
-              grid={gameGrid}
+              grid={grid}
             />
           )}
         </div>
