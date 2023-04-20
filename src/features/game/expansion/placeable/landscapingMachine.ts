@@ -96,10 +96,6 @@ type ConstructEvent = {
 
 type MoveEvent = {
   type: "MOVE";
-};
-
-type HighlightEvent = {
-  type: "HIGHLIGHT";
   id: string;
   name: InventoryItemName;
 };
@@ -122,7 +118,6 @@ export type BlockchainEvent =
   | { type: "DROP" }
   | { type: "BUILD" }
   | SelectEvent
-  | HighlightEvent
   | ConstructEvent
   | PlaceEvent
   | UpdateEvent
@@ -141,7 +136,6 @@ export type BlockchainState = {
     | { saving: "autosaving" }
     | { saving: "close" }
     | { editing: "idle" }
-    | { editing: "moving" }
     | { editing: "placing" }
     | { editing: "dragging" }
     | { editing: "close" }
@@ -266,13 +260,6 @@ export const landscapingMachine = createMachine<
               }),
             },
             MOVE: {
-              target: "moving",
-            },
-          },
-        },
-        moving: {
-          on: {
-            HIGHLIGHT: {
               actions: assign({
                 moving: (_, event) => ({
                   id: event.id,
@@ -285,6 +272,7 @@ export const landscapingMachine = createMachine<
             },
           },
         },
+
         placing: {
           on: {
             UPDATE: {

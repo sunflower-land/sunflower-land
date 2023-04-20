@@ -131,7 +131,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
         onMouseDown={() => {
           console.log("Mouse down");
-          landscapingMachine.send("HIGHLIGHT", {
+          landscapingMachine.send("MOVE", {
             name,
             id,
           });

@@ -12,7 +12,6 @@ import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
 import lightning from "assets/icons/lightning.png";
 
-import { OuterPanel } from "components/ui/Panel";
 import {
   MachineInterpreter,
   placeEvent,
@@ -184,59 +183,43 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                   }}
                 />
               </div>
-            </div>
-            <div
-              onClick={() => setShowChest(true)}
-              className="fixed flex z-50 cursor-pointer hover:img-highlight"
-              style={{
-                width: `${PIXEL_SCALE * 22}px`,
-                height: `${PIXEL_SCALE * 22}px`,
-                marginBottom: `${PIXEL_SCALE * 4}px`,
-                bottom: `${PIXEL_SCALE * 3}px`,
-                right: `${PIXEL_SCALE * 3}px`,
-              }}
-            >
-              <img
-                src={SUNNYSIDE.ui.round_button}
-                className="absolute"
+              <div
+                onClick={() => setShowChest(true)}
+                className="z-50 cursor-pointer hover:img-highlight relative"
                 style={{
                   width: `${PIXEL_SCALE * 22}px`,
+                  height: `${PIXEL_SCALE * 22}px`,
+                  marginBottom: `${PIXEL_SCALE * 4}px`,
                 }}
-              />
-              <img
-                src={chest}
-                className="absolute"
-                style={{
-                  top: `${PIXEL_SCALE * 5}px`,
-                  left: `${PIXEL_SCALE * 5}px`,
-                  width: `${PIXEL_SCALE * 12}px`,
-                }}
-              />
-              <Label
-                type="default"
-                className="px-0.5 text-xxs absolute -top-2 -right-2"
               >
-                {getKeys(chestItems).reduce(
-                  (acc, key) => acc + (chestItems[key]?.toNumber() ?? 0),
-                  0
-                )}
-              </Label>
+                <img
+                  src={SUNNYSIDE.ui.round_button}
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * 22}px`,
+                  }}
+                />
+                <img
+                  src={chest}
+                  className="absolute"
+                  style={{
+                    top: `${PIXEL_SCALE * 5}px`,
+                    left: `${PIXEL_SCALE * 5}px`,
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+                <Label
+                  type="default"
+                  className="px-0.5 text-xxs absolute -top-2 -right-2"
+                >
+                  {getKeys(chestItems).reduce(
+                    (acc, key) => acc + (chestItems[key]?.toNumber() ?? 0),
+                    0
+                  )}
+                </Label>
+              </div>
             </div>
           </>
-        )}
-
-        {state.matches({ editing: "moving" }) && (
-          <div className="fixed  bottom-2 w-full flex justify-center">
-            <OuterPanel
-              style={{
-                bottom: `${PIXEL_SCALE * 2}px`,
-              }}
-              className="relative flex justify-center items-center p-1"
-            >
-              <img src={SUNNYSIDE.icons.drag} className="h-6 mr-1" />
-              <p className="text-sm">Click & Drag Objects</p>
-            </OuterPanel>
-          </div>
         )}
       </>
 
