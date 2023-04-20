@@ -23,6 +23,7 @@ import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
 import { InventoryItemName } from "features/game/types/game";
+import { removePlaceable } from "./lib/placing";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -104,7 +105,12 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   }[name];
 
   const detect = ({ x, y }: Coordinates) => {
-    const collisionDetected = detectCollision(gameService.state.context.state, {
+    const game = removePlaceable({
+      state: gameService.state.context.state,
+      id,
+      name,
+    });
+    const collisionDetected = detectCollision(game, {
       x,
       y,
       width: dimensions.width,
@@ -159,15 +165,17 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           const y = coordinates.y + yDiff;
           console.log({ xDiff, yDiff, origin });
 
-          const collisionDetected = detectCollision(
-            gameService.state.context.state,
-            {
-              x,
-              y,
-              width: dimensions.width,
-              height: dimensions.height,
-            }
-          );
+          const game = removePlaceable({
+            state: gameService.state.context.state,
+            id,
+            name,
+          });
+          const collisionDetected = detectCollision(game, {
+            x,
+            y,
+            width: dimensions.width,
+            height: dimensions.height,
+          });
 
           if (!collisionDetected) {
             gameService.send(getMoveAction(name), {
