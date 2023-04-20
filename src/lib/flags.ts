@@ -17,6 +17,7 @@ type FeatureName =
   | "JEST_TEST"
   | "FRUIT_QUEST"
   | "PUMPKIN_PLAZA"
+  | "DAWN_BREAKER"
   | "LANDSCAPING";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
@@ -25,6 +26,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   FRUIT_QUEST: testnetFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
+  DAWN_BREAKER: testnetFeatureFlag,
   LANDSCAPING: defaultFeatureFlag,
 };
 

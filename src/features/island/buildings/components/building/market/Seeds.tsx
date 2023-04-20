@@ -21,6 +21,7 @@ import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -138,7 +139,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     return getFruitHarvests(state);
   };
+
   const harvestCount = getHarvestCount();
+  const seeds = hasFeatureAccess(state.inventory, "DAWN_BREAKER")
+    ? getKeys(SEEDS())
+    : getKeys(SEEDS()).filter((seed) => seed !== "Eggplant Seed");
 
   return (
     <SplitScreenView
@@ -168,7 +173,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(SEEDS()).map((name: SeedName) => (
+          {seeds.map((name: SeedName) => (
             <Box
               isSelected={selectedName === name}
               key={name}

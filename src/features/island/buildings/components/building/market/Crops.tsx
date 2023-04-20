@@ -16,12 +16,10 @@ import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lock from "assets/skills/lock.png";
+import { hasFeatureAccess } from "lib/flags";
 
 export const Crops: React.FC = () => {
-  const cropsAndFruits = { ...CROPS(), ...FRUIT() };
-  const [selected, setSelected] = useState<Crop | Fruit>(
-    cropsAndFruits.Sunflower
-  );
+  const [selected, setSelected] = useState<Crop | Fruit>(CROPS().Sunflower);
   const [isSellAllModalOpen, showSellAllModal] = useState(false);
   const { gameService } = useContext(Context);
   const [
@@ -81,6 +79,12 @@ export const Crops: React.FC = () => {
     return `Sell ${cropAmount}`;
   };
 
+  const cropsAndFruits = hasFeatureAccess(inventory, "DAWN_BREAKER")
+    ? Object.values({ ...CROPS(), ...FRUIT() })
+    : Object.values({ ...CROPS(), ...FRUIT() }).filter(
+        (val) => val.name !== "Eggplant"
+      );
+
   return (
     <>
       <SplitScreenView
@@ -118,7 +122,7 @@ export const Crops: React.FC = () => {
         }
         content={
           <>
-            {Object.values(cropsAndFruits)
+            {cropsAndFruits
               .filter((crop) => !!crop.sellPrice)
               .map((item) => (
                 <Box

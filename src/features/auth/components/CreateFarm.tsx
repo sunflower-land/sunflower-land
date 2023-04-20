@@ -128,7 +128,6 @@ export const CreateFarm: React.FC = () => {
   };
 
   const addFunds = async () => {
-    // Temporarily link to sequence when adding funds. Until Wyre is ready.
     if (authState.context.user.web3?.wallet === "SEQUENCE") {
       const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
@@ -147,14 +146,6 @@ export const CreateFarm: React.FC = () => {
         "_blank"
       );
     }
-
-    // await onramp(
-    //   {
-    //     token: authService.state.context.rawToken as string,
-    //     transactionId: randomID(),
-    //   },
-    //   () => setPaymentConfirmed(true)
-    // );
   };
 
   if (showCaptcha) {
