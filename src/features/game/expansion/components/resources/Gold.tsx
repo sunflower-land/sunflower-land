@@ -74,11 +74,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.gold[id],
     compareResource
   );
-  const inventoryToolCount = useSelector(
-    gameService,
-    selectInventoryToolCount,
-    compareInventoryToolCount
-  );
+  const inventoryToolCount = useSelector(gameService, selectInventoryToolCount);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
