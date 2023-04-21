@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   env: {
     browser: true,
@@ -30,6 +31,12 @@ module.exports = {
         varsIgnorePattern: "^_",
         args: "after-used",
         argsIgnorePattern: "^_",
+      },
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
       },
     ],
   },
