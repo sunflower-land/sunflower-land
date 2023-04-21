@@ -46,11 +46,13 @@ export const TreasureShop: React.FC = () => {
           }}
         >
           <NPC
-            body="Pirate Potion"
-            hair="Teal Mohawk"
+            parts={{
+              body: "Pirate Potion",
+              hair: "Teal Mohawk",
+              pants: "Blue Suspenders",
+              shirt: "Red Farmer Shirt",
+            }}
             onClick={() => setShowModal(true)}
-            pants="Blue Suspenders"
-            shirt="Red Farmer Shirt"
           />
         </div>
       </div>
