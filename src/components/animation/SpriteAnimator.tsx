@@ -244,7 +244,7 @@ class Spritesheet extends React.Component<Props> {
   resize = (callback = true) => {
     const { widthFrame, onResize } = this.props;
 
-    this.spriteScale = this.spriteEl.getBoundingClientRect().width / widthFrame;
+    this.spriteScale = this.spriteEl.clientWidth / widthFrame;
     this.spriteElContainer.style.transform = `scale(${this.spriteScale})`;
     this.spriteEl.style.height = `${this.getInfo("height")}px`;
     if (callback && onResize) onResize(this.setInstance());
@@ -372,9 +372,9 @@ class Spritesheet extends React.Component<Props> {
       case "steps":
         return this.steps;
       case "width":
-        return this.spriteElContainer.getBoundingClientRect().width;
+        return this.spriteElContainer.clientWidth;
       case "height":
-        return this.spriteElContainer.getBoundingClientRect().height;
+        return this.spriteElContainer.clientHeight;
       case "scale":
         return this.spriteScale;
       case "isPlaying":
