@@ -174,8 +174,6 @@ export type PlayingEvent =
   | CraftToolAction
   | buyDecorationAction
   | SellCropAction
-  | RemoveBuildingAction
-  | RemoveCollectibleAction
   | RemoveChickenAction
   | BeanBoughtAction
   | CollectCropRewardAction
@@ -216,7 +214,9 @@ export type PlacementEvent =
   | MoveTreeAction
   | MoveIronAction
   | MoveStoneAction
-  | MoveGoldAction;
+  | MoveGoldAction
+  | RemoveBuildingAction
+  | RemoveCollectibleAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -265,8 +265,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "tool.crafted": craftTool,
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
-  "building.removed": removeBuilding,
-  "collectible.removed": removeCollectible,
+
   "chicken.removed": removeChicken,
   "bean.bought": beanBought,
   "cropReward.collected": collectCropReward,
@@ -308,6 +307,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "iron.moved": moveIron,
   "stone.moved": moveStone,
   "gold.moved": moveGold,
+  "building.removed": removeBuilding,
+  "collectible.removed": removeCollectible,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

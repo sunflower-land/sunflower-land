@@ -88,7 +88,7 @@ describe("removeBuilding", () => {
         },
         action: {
           type: "building.removed",
-          building: "Bakery",
+          name: "Bakery",
           id: "1",
         },
       })
@@ -113,7 +113,7 @@ describe("removeBuilding", () => {
         },
         action: {
           type: "building.removed",
-          building: "Bakery",
+          name: "Bakery",
           id: "1",
         },
       })
@@ -141,7 +141,7 @@ describe("removeBuilding", () => {
         },
         action: {
           type: "building.removed",
-          building: "Fire Pit",
+          name: "Fire Pit",
           id: "123",
         },
       })
@@ -169,7 +169,7 @@ describe("removeBuilding", () => {
         },
         action: {
           type: "building.removed",
-          building: "Fire Pit",
+          name: "Fire Pit",
           id: "123",
         },
       })
@@ -208,7 +208,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         id: "123",
       },
     });
@@ -252,7 +252,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         id: "123",
       },
     });
@@ -300,7 +300,7 @@ describe("removeBuilding", () => {
   //       },
   //       action: {
   //         type: "building.removed",
-  //         building: "Water Well",
+  //         name: "Water Well",
   //         id: "123",
   //       },
   //     })
@@ -336,7 +336,7 @@ describe("removeBuilding", () => {
   //       },
   //       action: {
   //         type: "building.removed",
-  //         building: "Water Well",
+  //         name: "Water Well",
   //         id: "123",
   //       },
   //     })
@@ -409,7 +409,7 @@ describe("removeBuilding", () => {
   //       },
   //       action: {
   //         type: "building.removed",
-  //         building: "Water Well",
+  //         name: "Water Well",
   //         id: "123",
   //       },
   //     })
@@ -450,7 +450,7 @@ describe("removeBuilding", () => {
   //       },
   //       action: {
   //         type: "building.removed",
-  //         building: "Water Well",
+  //         name: "Water Well",
   //         id: "123",
   //       },
   //     })
@@ -522,7 +522,7 @@ describe("removeBuilding", () => {
   //     },
   //     action: {
   //       type: "building.removed",
-  //       building: "Water Well",
+  //       name: "Water Well",
   //       id: "123",
   //     },
   //   });
@@ -557,7 +557,7 @@ describe("removeBuilding", () => {
         state: gameState,
         action: {
           type: "building.removed",
-          building: "Hen House",
+          name: "Hen House",
           id: "123",
         },
       })
@@ -585,7 +585,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Hen House",
+        name: "Hen House",
         id: "123",
       },
     });
@@ -620,7 +620,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Hen House",
+        name: "Hen House",
         id: "123",
       },
     });
@@ -665,7 +665,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Hen House",
+        name: "Hen House",
         id: "123",
       },
     });
@@ -704,7 +704,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Hen House",
+        name: "Hen House",
         id: "123",
       },
     });

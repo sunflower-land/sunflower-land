@@ -29,6 +29,7 @@ export function getGameGrid({
     grid[coords.x][coords.y] = "Dirt Path";
   });
 
+  console.log({ collectibles });
   getKeys(collectibles).forEach((name) => {
     collectibles[name]?.forEach(({ coordinates }) => {
       if (!grid[coordinates.x]) {

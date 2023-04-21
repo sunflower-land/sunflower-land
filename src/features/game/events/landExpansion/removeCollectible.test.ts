@@ -35,7 +35,7 @@ describe("removeCollectible", () => {
         },
         action: {
           type: "collectible.removed",
-          collectible: "Algerian Flag",
+          name: "Algerian Flag",
           id: "1",
         },
       })
@@ -60,7 +60,7 @@ describe("removeCollectible", () => {
         },
         action: {
           type: "collectible.removed",
-          collectible: "Nugget",
+          name: "Nugget",
           id: "1",
         },
       })
@@ -88,7 +88,7 @@ describe("removeCollectible", () => {
         },
         action: {
           type: "collectible.removed",
-          collectible: "Nugget",
+          name: "Nugget",
           id: "123",
         },
       })
@@ -127,7 +127,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Nugget",
+        name: "Nugget",
         id: "123",
       },
     });
@@ -168,7 +168,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Nugget",
+        name: "Nugget",
         id: "123",
       },
     });
@@ -210,7 +210,7 @@ describe("removeCollectible", () => {
         state: gameState,
         action: {
           type: "collectible.removed",
-          collectible: "Chicken Coop",
+          name: "Chicken Coop",
           id: "123",
         },
       })
@@ -248,7 +248,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Chicken Coop",
+        name: "Chicken Coop",
         id: "123",
       },
     });
@@ -293,7 +293,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Chicken Coop",
+        name: "Chicken Coop",
         id: "123",
       },
     });
@@ -322,7 +322,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Rock Golem",
+        name: "Rock Golem",
         id: "123",
       },
     });

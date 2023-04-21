@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -11,6 +11,8 @@ import scarecrow from "assets/icons/scarecrow.png";
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
 import lightning from "assets/icons/lightning.png";
+
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 import {
   MachineInterpreter,
@@ -26,21 +28,51 @@ import { CraftEquipmentModal } from "./components/equipment/CraftEquipmentModal"
 import { CraftBuildingModal } from "./components/buildings/CraftBuildingModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { LandscapingIntroduction } from "./components/LandscapingIntroduction";
+import { getRemoveAction } from "../collectibles/MovableComponent";
+import { InventoryItemName } from "features/game/types/game";
 
 const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const [isMobile] = useIsMobile();
 
   const [showChest, setShowChest] = useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
   const [showEquipment, setShowEquipment] = useState(false);
   const [showBuildings, setShowBuildings] = useState(false);
+  const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
   const [state, send] = useActor(child);
 
   const chestItems = getChestItems(gameState.context.state);
+
+  const selectedItem = state.context.moving?.name;
+  const showRemove = isMobile && selectedItem && getRemoveAction(selectedItem);
+
+  useEffect(() => {
+    setShowRemoveConfirmation(false);
+  }, [selectedItem]);
+
+  console.log({ isMobile });
+  const remove = () => {
+    const action = getRemoveAction(selectedItem as InventoryItemName);
+    if (!action) {
+      return;
+    }
+
+    if (showRemoveConfirmation) {
+      child.send("REMOVE", {
+        event: action,
+        id: state.context.moving?.id,
+        name: selectedItem,
+      });
+    } else {
+      setShowRemoveConfirmation(true);
+    }
+  };
+
   return (
     <div
       data-html2canvas-ignore="true"
@@ -222,6 +254,58 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
           </>
         )}
       </>
+
+      {showRemove && (
+        <div
+          onClick={() => remove()}
+          className="fixed flex z-50 flex-col cursor-pointer"
+          style={{
+            marginLeft: `${PIXEL_SCALE * 2}px`,
+            marginBottom: `${PIXEL_SCALE * 25}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+            right: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 3}px`,
+          }}
+        >
+          <div
+            className="absolute"
+            style={{
+              top: `${PIXEL_SCALE * -10}px`,
+              right: `${PIXEL_SCALE * -2}px`,
+            }}
+          >
+            <Label type="danger">Remove</Label>
+          </div>
+          <img
+            src={SUNNYSIDE.ui.round_button}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          />
+          {showRemoveConfirmation ? (
+            <img
+              className="absolute"
+              src={SUNNYSIDE.icons.confirm}
+              style={{
+                width: `${PIXEL_SCALE * 12}px`,
+                right: `${PIXEL_SCALE * 4.5}px`,
+                top: `${PIXEL_SCALE * 5}px`,
+              }}
+            />
+          ) : (
+            <img
+              className="absolute"
+              src={ITEM_DETAILS["Rusty Shovel"].image}
+              style={{
+                width: `${PIXEL_SCALE * 14}px`,
+                right: `${PIXEL_SCALE * 4.5}px`,
+                top: `${PIXEL_SCALE * 4.5}px`,
+              }}
+            />
+          )}
+        </div>
+      )}
 
       <LandscapingChest
         state={gameState.context.state}
