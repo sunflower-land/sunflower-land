@@ -275,6 +275,7 @@ export const OFFLINE_FARM: GameState = {
     Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
+    "Rusty Shovel": new Decimal(5),
     "Maneki Neko": new Decimal(2),
     "Lunar Calendar": new Decimal(1),
     "Pablo The Bunny": new Decimal(1),
@@ -295,7 +296,12 @@ export const OFFLINE_FARM: GameState = {
 
   bumpkin: INITIAL_BUMPKIN,
 
-  chickens: {},
+  chickens: {
+    "1": {
+      multiplier: 1,
+      coordinates: { x: 4, y: 4 },
+    },
+  },
 
   airdrops: [],
 

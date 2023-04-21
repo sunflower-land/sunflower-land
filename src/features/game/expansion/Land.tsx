@@ -151,7 +151,14 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <ChickenElement key={`chicken-${id}`} id={id} />
+            <ChickenElement
+              key={`chicken-${id}`}
+              id={id}
+              coordinates={{
+                x,
+                y,
+              }}
+            />
           </MapPlacement>
         );
       })

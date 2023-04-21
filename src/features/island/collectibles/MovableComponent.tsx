@@ -11,7 +11,6 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import Draggable from "react-draggable";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { useSelector } from "@xstate/react";
@@ -54,6 +53,10 @@ function getMoveAction(name: InventoryItemName): GameEventName<PlacementEvent> {
     return "collectible.moved";
   }
 
+  if (name === "Chicken") {
+    return "chicken.moved";
+  }
+
   throw new Error("No matching move event");
 }
 
@@ -69,7 +72,7 @@ export function getRemoveAction(
   }
 
   if (name === "Chicken") {
-    return null;
+    return "chicken.removed";
   }
 
   if (name in COLLECTIBLES_DIMENSIONS) {
@@ -80,16 +83,9 @@ export function getRemoveAction(
 }
 
 export interface MovableProps {
-  name: CollectibleName;
+  name: CollectibleName | "Chicken";
   id: string;
-  readyAt: number;
-  createdAt: number;
   coordinates: Coordinates;
-  grid: GameGrid;
-  height?: number;
-  width?: number;
-  x: number;
-  y: number;
 }
 
 const isMoving = (state: MachineState) => state.matches("editing.moving");
