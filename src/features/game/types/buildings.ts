@@ -7,6 +7,7 @@ import { ResourceName } from "./resources";
 export type BuildingName =
   | "Fire Pit"
   | "Market"
+  | "Town Center"
   | "Workbench"
   | "Kitchen"
   | "Tent"
@@ -42,6 +43,14 @@ export const BUILDINGS: () => Record<
   BuildingName,
   BuildingBluePrint[]
 > = () => ({
+  "Town Center": [
+    {
+      unlocksAtLevel: 3,
+      ingredients: [],
+      sfl: new Decimal(0),
+      constructionSeconds: 30,
+    },
+  ],
   Market: [
     {
       unlocksAtLevel: 3,
@@ -327,6 +336,7 @@ export type Dimensions = { width: number; height: number };
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Market: { height: 2, width: 3 },
   "Fire Pit": { height: 2, width: 3 },
+  "Town Center": { height: 3, width: 4 },
   Workbench: { height: 2, width: 3 },
   Kitchen: { height: 3, width: 4 },
   Bakery: { height: 3, width: 4 },

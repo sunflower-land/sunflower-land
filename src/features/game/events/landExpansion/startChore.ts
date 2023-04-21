@@ -30,9 +30,16 @@ export function startChore({
     throw new Error("Chore already in progress");
   }
 
+  let startCount = 0;
+
+  if (game.hayseedHank.chore.activity) {
+    startCount = game.bumpkin.activity?.[game.hayseedHank.chore.activity] ?? 0;
+  }
+
+  // Start the next chore
   game.hayseedHank.progress = {
     bumpkinId: game.bumpkin.id,
-    startCount: game.bumpkin.activity?.[game.hayseedHank.chore.activity] ?? 0,
+    startCount,
     startedAt: createdAt,
   };
 

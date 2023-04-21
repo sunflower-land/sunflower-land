@@ -6,12 +6,7 @@ import shadow from "assets/npcs/shadow.png";
 
 export const LadyBug: React.FC = () => {
   return (
-    <div
-      className="absolute top-0 left-0 h-full"
-      style={{
-        width: `${PIXEL_SCALE * 16}px`,
-      }}
-    >
+    <>
       <img
         src={shadow}
         style={{
@@ -28,6 +23,6 @@ export const LadyBug: React.FC = () => {
         className="absolute left-0 pointer-events-none"
         alt="Lady Bug"
       />
-    </div>
+    </>
   );
 };

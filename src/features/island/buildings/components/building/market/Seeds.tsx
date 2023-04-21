@@ -10,7 +10,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
-import { INITIAL_STOCK, PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_STOCK } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
@@ -21,6 +21,7 @@ import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -138,7 +139,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     return getFruitHarvests(state);
   };
+
   const harvestCount = getHarvestCount();
+  const seeds = hasFeatureAccess(state.inventory, "DAWN_BREAKER")
+    ? getKeys(SEEDS())
+    : getKeys(SEEDS()).filter((seed) => seed !== "Eggplant Seed");
 
   return (
     <SplitScreenView
@@ -168,23 +173,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(SEEDS()).map((name: SeedName) => (
+          {seeds.map((name: SeedName) => (
             <Box
               isSelected={selectedName === name}
               key={name}
               onClick={() => onSeedClick(name)}
               image={ITEM_DETAILS[name].image}
               showOverlay={isSeedLocked(name)}
-              overlayIcon={
-                <img
-                  src={lock}
-                  alt="locked"
-                  className="relative object-contain"
-                  style={{
-                    width: `${PIXEL_SCALE * 12}px`,
-                  }}
-                />
-              }
+              secondaryImage={isSeedLocked(name) ? lock : undefined}
               count={inventory[name]}
             />
           ))}

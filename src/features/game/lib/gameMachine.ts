@@ -35,10 +35,10 @@ import { reset } from "features/farming/hud/actions/reset";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
-  editingMachine,
   GuestSaveEvent,
+  landscapingMachine,
   SaveEvent,
-} from "../expansion/placeable/editingMachine";
+} from "../expansion/placeable/landscapingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
@@ -53,9 +53,11 @@ import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
-import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
+import {
+  getGameRulesLastRead,
+  getIntroductionRead,
+} from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
 import { loadGuestSession } from "../actions/loadGuestSession";
 import { guestAutosave } from "../actions/guestAutosave";
@@ -65,6 +67,8 @@ import {
   removeGuestKey,
   setGuestModeComplete,
 } from "features/auth/actions/createGuestAccount";
+import { Announcements } from "../types/conversations";
+import { hasFeatureAccess } from "lib/flags";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -88,6 +92,7 @@ export interface Context {
     balance: string;
     inventory: Record<InventoryItemName, string>;
   };
+  announcements: Announcements;
 }
 
 type MintEvent = {
@@ -110,14 +115,15 @@ type SyncEvent = {
   blockBucks: number;
 };
 
-type EditEvent = {
-  placeable: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
-  type: "EDIT";
-  requirements: {
+type LandscapeEvent = {
+  placeable?: BuildingName | CollectibleName;
+  action?: GameEventName<PlacementEvent>;
+  type: "LANDSCAPE";
+  requirements?: {
     sfl: Decimal;
     ingredients: Inventory;
   };
+  multiple?: boolean;
 };
 
 type VisitEvent = {
@@ -171,7 +177,7 @@ export type BlockchainEvent =
   | WithdrawEvent
   | GameEvent
   | MintEvent
-  | EditEvent
+  | LandscapeEvent
   | VisitEvent
   | BuySFLEvent
   | DepositEvent
@@ -259,6 +265,7 @@ export type BlockchainState = {
     | "deposited"
     | "visiting"
     | "gameRules"
+    | "introduction"
     | "playing"
     | "playingGuestGame"
     | "playingFullGame"
@@ -273,8 +280,9 @@ export type BlockchainState = {
     | "swarming"
     | "hoarding"
     | "depositing"
-    | "editing"
+    | "landscaping"
     | "noBumpkinFound"
+    | "noTownCenter"
     | "coolingDown"
     | "upgradingGuestGame"
     | "randomising"; // TEST ONLY
@@ -387,6 +395,7 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
+        announcements: {},
       },
       states: {
         loading: {
@@ -396,7 +405,7 @@ export function startGame(authContext: AuthContext) {
               cond: () => window.location.href.includes("visit"),
             },
             {
-              target: "playing",
+              target: "notifying",
               cond: () => ART_MODE,
               actions: assign({
                 state: (_context) => OFFLINE_FARM,
@@ -472,6 +481,7 @@ export function startGame(authContext: AuthContext) {
                   itemsMintedAt,
                   deviceTrackerId,
                   status,
+                  announcements,
                 } = response;
 
                 return {
@@ -488,6 +498,7 @@ export function startGame(authContext: AuthContext) {
                   notifications: onChainEvents,
                   deviceTrackerId,
                   status,
+                  announcements,
                 };
               }
 
@@ -587,6 +598,7 @@ export function startGame(authContext: AuthContext) {
               cond: (context: Context) =>
                 !!context.notifications && context.notifications?.length > 0,
             },
+
             {
               target: "gameRules",
               cond: () => {
@@ -598,9 +610,20 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "introduction",
+              cond: (context) => {
+                return (
+                  context.state.bumpkin?.experience === 0 &&
+                  !getIntroductionRead()
+                );
+              },
+            },
+            {
               target: "swarming",
               cond: () => isSwarming(),
             },
+            // TODO - introduction > tutorial_begin
+
             {
               target: "noBumpkinFound",
               cond: (context: Context, event: any) =>
@@ -609,11 +632,32 @@ export function startGame(authContext: AuthContext) {
                 window.location.hash.includes("/land"),
             },
             {
+              target: "noTownCenter",
+              cond: (context: Context) => {
+                console.log({
+                  test: context.state.buildings["Town Center"],
+                  val:
+                    (context.state.buildings["Town Center"] ?? []).length === 0,
+                });
+
+                return (
+                  (context.state.buildings["Town Center"] ?? []).length === 0
+                );
+              },
+            },
+            {
               target: "playing",
             },
           ],
         },
         noBumpkinFound: {},
+        noTownCenter: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
+            },
+          },
+        },
         deposited: {
           on: {
             ACKNOWLEDGE: {
@@ -646,8 +690,8 @@ export function startGame(authContext: AuthContext) {
             REFRESH: {
               target: "loading",
             },
-            EDIT: {
-              target: "editing",
+            LANDSCAPE: {
+              target: "landscaping",
             },
             UPGRADE: {
               target: "upgradingGuestGame",
@@ -730,8 +774,8 @@ export function startGame(authContext: AuthContext) {
             REFRESH: {
               target: "loading",
             },
-            EDIT: {
-              target: "editing",
+            LANDSCAPE: {
+              target: "landscaping",
             },
             RANDOMISE: {
               target: "randomising",
@@ -985,6 +1029,14 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        introduction: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+
         swarming: {
           on: {
             REFRESH: {
@@ -992,19 +1044,21 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        editing: {
+
+        landscaping: {
           invoke: {
-            id: "editing",
-            src: editingMachine,
+            id: "landscaping",
+            src: landscapingMachine,
             data: {
-              placeable: (_: Context, event: EditEvent) => event.placeable,
-              action: (_: Context, event: EditEvent) => event.action,
-              requirements: (_: Context, event: EditEvent) =>
+              placeable: (_: Context, event: LandscapeEvent) => event.placeable,
+              action: (_: Context, event: LandscapeEvent) => event.action,
+              requirements: (_: Context, event: LandscapeEvent) =>
                 event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
-              hasMultiple: (c: Context, event: EditEvent) =>
-                getChestItems(c.state)[event.placeable]?.gt(1),
+              multiple: (_: Context, event: LandscapeEvent) => event.multiple,
+              hasLandscapingAccess: (context: Context) =>
+                hasFeatureAccess(context.state.inventory, "LANDSCAPING"),
             },
             onDone: {
               target: "autosaving",
@@ -1034,7 +1088,7 @@ export function startGame(authContext: AuthContext) {
                         gameMachineContext: context,
                         guestKey: (authContext.user as any).guestKey,
                       } as GuestSaveEvent),
-                    { to: "editing" }
+                    { to: "landscaping" }
                   ),
                 },
                 {
@@ -1046,7 +1100,7 @@ export function startGame(authContext: AuthContext) {
                         rawToken: authContext.user.rawToken as string,
                         farmId: authContext.user.farmId as number,
                       } as SaveEvent),
-                    { to: "editing" }
+                    { to: "landscaping" }
                   ),
                 },
               ]),
@@ -1105,6 +1159,7 @@ export function startGame(authContext: AuthContext) {
           notifications: (_, event) => event.data.notifications,
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           status: (_, event) => event.data.status,
+          announcements: (_, event) => event.data.announcements,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

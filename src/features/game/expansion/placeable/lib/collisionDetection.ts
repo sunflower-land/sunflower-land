@@ -7,8 +7,10 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
-import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import {
+  MUSHROOM_DIMENSIONS,
+  RESOURCE_DIMENSIONS,
+} from "features/game/types/resources";
 
 type BoundingBox = Position;
 
@@ -172,6 +174,27 @@ function detectChickenCollision(state: GameState, boundingBox: BoundingBox) {
   );
 }
 
+function detectMushroomCollision(state: GameState, boundingBox: BoundingBox) {
+  const { mushrooms } = state;
+  if (!mushrooms) return false;
+
+  const boundingBoxes = getKeys(mushrooms.mushrooms).flatMap((id) => {
+    const mushroom = mushrooms.mushrooms[id];
+    const dimensions = MUSHROOM_DIMENSIONS;
+
+    return {
+      x: mushroom.x,
+      y: mushroom.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    };
+  });
+
+  return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(boundingBox, resourceBoundingBox)
+  );
+}
+
 enum Direction {
   Left,
   Right,
@@ -285,14 +308,6 @@ function detectLandCornerCollision(
   });
 }
 
-function detectBumpkinCollision(boundingBox: BoundingBox) {
-  return isOverlapping(boundingBox, {
-    x: BUMPKIN_POSITION.x,
-    y: BUMPKIN_POSITION.y,
-    height: 2,
-    width: 2,
-  });
-}
 export function detectCollision(state: GameState, position: Position) {
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -301,6 +316,6 @@ export function detectCollision(state: GameState, position: Position) {
     detectPlaceableCollision(state, position) ||
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
-    detectBumpkinCollision(position)
+    detectMushroomCollision(state, position)
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/esm/Modal";
 import { Panel } from "components/ui/Panel";
-import { Inventory, MutantChicken } from "features/game/types/game";
+import { MutantChicken } from "features/game/types/game";
 
 import richChicken from "assets/animals/chickens/rich_chicken.png";
 import fatChicken from "assets/animals/chickens/fat_chicken.png";
@@ -33,17 +33,9 @@ interface Props {
   type: MutantChicken;
   show: boolean;
   onContinue: () => void;
-  inventory: Inventory;
 }
 
-export const MutantChickenModal = ({
-  type,
-  show,
-  onContinue,
-  inventory,
-}: Props) => {
-  // Boosts don't stack so only show boost information if the user doesn't already have the mutant
-  const showDescription = !inventory[type];
+export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
   return (
     <Modal show={show} centered>
       <Panel>
@@ -53,15 +45,11 @@ export const MutantChickenModal = ({
             <img src={mutants[type].image} style={{ width: "50px" }} />
           </div>
           <p className="text-sm mb-2">{`Congratulations, your chicken has laid a very rare mutant chicken!`}</p>
-          {showDescription && (
-            <p className="text-sm mb-2">{mutants[type].description}</p>
-          )}
+          <p className="text-sm mb-2">{mutants[type].description}</p>
         </div>
 
         <div className="flex">
-          <Button className="text-sm" onClick={onContinue}>
-            Continue
-          </Button>
+          <Button onClick={onContinue}>Continue</Button>
         </div>
       </Panel>
     </Modal>

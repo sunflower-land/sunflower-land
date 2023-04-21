@@ -3,7 +3,7 @@ import React from "react";
 import easterBear from "assets/sfts/bears/easter_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-const EasterBearComponent: React.FC = () => {
+export const EasterBear: React.FC = () => {
   return (
     <img
       src={easterBear}
@@ -17,5 +17,3 @@ const EasterBearComponent: React.FC = () => {
     />
   );
 };
-
-export const EasterBear = React.memo(EasterBearComponent);

@@ -12,6 +12,11 @@ export type CommodityName =
   | "Wild Mushroom"
   | "Magic Mushroom";
 
+export type MushroomName = Extract<
+  CommodityName,
+  "Wild Mushroom" | "Magic Mushroom"
+>;
+
 export type Commodity = {
   description: string;
 };
@@ -97,4 +102,9 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
     width: 2,
     height: 2,
   },
+};
+
+export const MUSHROOM_DIMENSIONS = {
+  width: 1,
+  height: 1,
 };

@@ -9,11 +9,11 @@ export const LunarCalendar: React.FC = () => {
       <img
         src={lunarCalendar}
         style={{
-          width: `${PIXEL_SCALE * 13}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          width: `${PIXEL_SCALE * 15}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute"
+        className="absolute pointer-events-none"
         alt="Lunar Calendar"
       />
     </>

@@ -16,22 +16,23 @@ import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
-import { CharacterPlayground } from "features/island/bumpkin/components/CharacterPlayground";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
 import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
-import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
-import { BumpkinTutorial } from "./BumpkinTutorial";
 import { Placeable } from "./placeable/Placeable";
-import { EasterEgg } from "features/bunnyTrove/components/EasterEgg";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
-import { getGameGrid } from "./placeable/lib/makeGrid";
+import { MachineState } from "../lib/gameMachine";
+import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
+import { LandscapingHud } from "features/island/hud/LandscapingHud";
+import { Mushroom } from "features/island/mushrooms/Mushroom";
+import { useFirstRender } from "lib/utils/hooks/useFirstRender";
+import { MUSHROOM_DIMENSIONS } from "../types/resources";
 
 const getIslandElements = ({
   buildings,
@@ -47,6 +48,9 @@ const getIslandElements = ({
   isRustyShovelSelected,
   showTimers,
   isEditing,
+  grid,
+  mushrooms,
+  isFirstRender,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -62,33 +66,11 @@ const getIslandElements = ({
   isRustyShovelSelected: boolean;
   showTimers: boolean;
   isEditing?: boolean;
+  grid: GameGrid;
+  mushrooms: GameState["mushrooms"]["mushrooms"];
+  isFirstRender: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
-
-  if (bumpkinParts) {
-    mapPlacements.push(
-      <MapPlacement
-        key="bumpkin-parts"
-        x={BUMPKIN_POSITION.x}
-        y={BUMPKIN_POSITION.y}
-        width={2}
-        height={2}
-        isEditing={isEditing}
-      >
-        <CharacterPlayground
-          body={bumpkinParts.body}
-          hair={bumpkinParts.hair}
-          shirt={bumpkinParts.shirt}
-          pants={bumpkinParts.pants}
-          suit={bumpkinParts.suit}
-          hat={bumpkinParts.hat}
-          onesie={bumpkinParts.onesie}
-          wings={bumpkinParts.wings}
-          dress={bumpkinParts.dress}
-        />
-      </MapPlacement>
-    );
-  }
 
   mapPlacements.push(
     ...getKeys(buildings)
@@ -106,7 +88,6 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
-              isEditing={isEditing}
             >
               <Building
                 name={name}
@@ -116,6 +97,7 @@ const getIslandElements = ({
                 crafting={building.crafting}
                 isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
+                coordinates={{ x, y }}
               />
             </MapPlacement>
           );
@@ -140,17 +122,16 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
-              isEditing={isEditing}
             >
               <Collectible
                 name={name}
                 id={id}
                 readyAt={readyAt}
                 createdAt={createdAt}
-                x={coordinates.x}
-                y={coordinates.y}
                 isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
+                coordinates={coordinates}
+                grid={grid}
               />
             </MapPlacement>
           );
@@ -174,7 +155,6 @@ const getIslandElements = ({
             y={y}
             height={height}
             width={width}
-            isEditing={isEditing}
           >
             <ChickenElement key={`chicken-${id}`} id={id} />
           </MapPlacement>
@@ -187,18 +167,22 @@ const getIslandElements = ({
       const { x, y, width, height } = trees[id];
 
       return (
-        <Resource
-          key={`tree-${id}`}
+        <MapPlacement
+          key={`trees-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
-          name="Tree"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            key={`tree-${id}`}
+            coordinates={{ x, y }}
+            name="Tree"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -208,18 +192,22 @@ const getIslandElements = ({
       const { x, y, width, height } = stones[id];
 
       return (
-        <Resource
-          key={`stone-${id}`}
+        <MapPlacement
+          key={`stones-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
-          name="Stone Rock"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            key={`stone-${id}`}
+            coordinates={{ x, y }}
+            name="Stone Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -229,18 +217,22 @@ const getIslandElements = ({
       const { x, y, width, height } = iron[id];
 
       return (
-        <Resource
+        <MapPlacement
           key={`iron-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
-          name="Iron Rock"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            key={`iron-${id}`}
+            name="Iron Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            coordinates={{ x, y }}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -250,18 +242,22 @@ const getIslandElements = ({
       const { x, y, width, height } = gold[id];
 
       return (
-        <Resource
+        <MapPlacement
           key={`gold-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
-          name="Gold Rock"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            key={`gold-${id}`}
+            name="Gold Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            coordinates={{ x, y }}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -271,18 +267,21 @@ const getIslandElements = ({
       const { x, y, width, height } = fruitPatches[id];
 
       return (
-        <Resource
+        <MapPlacement
           key={`fruitPatches-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
-          name="Fruit Patch"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            name="Fruit Patch"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            coordinates={{ x, y }}
+          />
+        </MapPlacement>
       );
     })
   );
@@ -292,24 +291,54 @@ const getIslandElements = ({
       const { x, y, width, height } = crops[id];
 
       return (
-        <Resource
+        <MapPlacement
           key={`crops-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
-          isEditing={isEditing}
-          name="Crop Plot"
-          createdAt={0}
-          readyAt={0}
-          id={id}
-        />
+        >
+          <Resource
+            name="Crop Plot"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            coordinates={{ x, y }}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(mushrooms).flatMap((id) => {
+      const { x, y } = mushrooms[id]!;
+
+      return (
+        <MapPlacement
+          key={`mushroom-${id}`}
+          x={x}
+          y={y}
+          height={MUSHROOM_DIMENSIONS.height}
+          width={MUSHROOM_DIMENSIONS.width}
+        >
+          <Mushroom
+            key={`mushroom-${id}`}
+            id={id}
+            isFirstRender={isFirstRender}
+          />
+        </MapPlacement>
       );
     })
   );
 
   return mapPlacements;
 };
+
+const selectGameState = (state: MachineState) => state.context.state;
+const isAutosaving = (state: MachineState) => state.matches("autosaving");
+const isEditing = (state: MachineState) => state.matches("editing");
+const isVisiting = (state: MachineState) => state.matches("visiting");
 
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
@@ -327,14 +356,17 @@ export const Land: React.FC = () => {
     gold,
     crops,
     fruitPatches,
-    easterHunt,
-  } = useSelector(gameService, (state) => state.context.state);
+    mushrooms,
+  } = useSelector(gameService, selectGameState);
+  const autosaving = useSelector(gameService, isAutosaving);
+  const editing = useSelector(gameService, isEditing);
+  const visiting = useSelector(gameService, isVisiting);
+
+  const grid = getGameGrid({ crops, collectibles });
   const gameState = useSelector(gameService, (state) => ({
     isAutosaving: state.matches("autosaving"),
-    isEditing: state.matches("editing"),
+    isLandscaping: state.matches("landscaping"),
     isVisiting: state.matches("visiting"),
-    isPlaying:
-      state.matches("playingGuestGame") || state.matches("playingFullGame"),
   }));
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
@@ -345,15 +377,14 @@ export const Land: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
+  const isFirstRender = useFirstRender();
+
   const boatCoordinates = {
     x: expansionCount >= 7 ? -9 : -2,
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
   const shortcuts = getShortcuts();
-
-  const eggs = easterHunt?.eggs || [];
-  const mainEggs = eggs.filter((egg) => egg && egg.island === "Main");
 
   const gameGrid = getGameGrid({
     crops,
@@ -365,15 +396,12 @@ export const Land: React.FC = () => {
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <div
           className={classNames("relative w-full h-full", {
-            "pointer-events-none": gameState.isVisiting,
+            "pointer-events-none": visiting,
           })}
         >
           <LandBase expandedCount={expansionCount} />
           <UpcomingExpansion />
           <DirtRenderer grid={gameGrid} />
-          {easterHunt && (
-            <EasterEgg eggs={mainEggs} generatedAt={easterHunt.generatedAt} />
-          )}
           <Water level={expansionCount} />
 
           {/* Sort island elements by y axis */}
@@ -391,26 +419,29 @@ export const Land: React.FC = () => {
             bumpkinParts: bumpkin?.equipped,
             isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             showTimers: showTimers,
-            isEditing: gameState.isEditing,
+            isEditing: editing,
+            grid,
+            mushrooms: mushrooms.mushrooms,
+            isFirstRender,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
         <IslandTravel
           bumpkin={bumpkin}
-          isVisiting={gameState.isVisiting}
+          isVisiting={visiting}
           inventory={inventory}
-          travelAllowed={!gameState.isAutosaving}
+          travelAllowed={!autosaving}
           onTravelDialogOpened={() => gameService.send("SAVE")}
           x={boatCoordinates.x}
           y={boatCoordinates.y}
         />
 
-        {gameState.isPlaying && (
-          <BumpkinTutorial bumpkinParts={bumpkin?.equipped} />
-        )}
-
-        {gameState.isEditing && <Placeable />}
+        {gameState.isLandscaping && <Placeable />}
       </div>
-      <Hud key="1" isFarming />
+      {gameState.isLandscaping ? (
+        <LandscapingHud isFarming />
+      ) : (
+        <Hud isFarming />
+      )}
     </>
   );
 };

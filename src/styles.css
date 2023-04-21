@@ -477,7 +477,8 @@ img {
   }
 }
 
-.treasure-reward {
+.treasure-reward,
+.mushroom {
   animation: rise-up 750ms ease;
   animation-fill-mode: both;
   transform-origin: bottom center;
@@ -502,6 +503,22 @@ img {
 @keyframes scaler {
   0% {
     transforms: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
   }
   100% {
     transform: scale(1);
