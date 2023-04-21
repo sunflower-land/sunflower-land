@@ -4,6 +4,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
+import tree from "assets/resources/tree/tree.png";
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -24,13 +25,21 @@ interface Props {
 }
 
 const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
+  const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
-  const treeRef = useRef<HTMLDivElement>(null);
   const shakeGif = useRef<SpriteSheetInstance>();
+
+  // prevent performing react state update on an unmounted component
+  useEffect(() => {
+    return () => {
+      shakeGif.current = undefined;
+    };
+  }, []);
 
   useEffect(() => {
     if (touchCount > 0) {
+      setShowSpritesheet(true);
       chopAudio.play();
       shakeGif.current?.goToAndPlay(0);
     }
@@ -54,40 +63,59 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
     >
       {/* Unchopped tree which is choppable */}
       <div
-        ref={treeRef}
         className={classNames("absolute w-full h-full", {
           "cursor-pointer hover:img-highlight": !showEquipTool,
           "cursor-not-allowed": showEquipTool,
         })}
       >
-        <Spritesheet
-          className="pointer-events-none"
-          style={{
-            position: "absolute",
-            width: `${SHAKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
-            height: `${SHAKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
-            imageRendering: "pixelated",
+        {/* static tree image */}
+        {!showSpritesheet && (
+          <img
+            src={tree}
+            className="absolute pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 26}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
+              right: `${PIXEL_SCALE * 3}px`,
+            }}
+          />
+        )}
 
-            // Adjust the base of tree to be perfectly aligned to
-            // on a grid point.
-            bottom: `${PIXEL_SCALE * 2}px`,
-            right: `${PIXEL_SCALE * -4}px`,
-          }}
-          getInstance={(spritesheet) => {
-            shakeGif.current = spritesheet;
-          }}
-          image={shakeSheet}
-          widthFrame={SHAKE_SHEET_FRAME_WIDTH}
-          heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
-          fps={14}
-          steps={7}
-          direction={`forward`}
-          autoplay={false}
-          loop={true}
-          onLoopComplete={(spritesheet) => {
-            spritesheet.pause();
-          }}
-        />
+        {/* spritesheet */}
+        {showSpritesheet && (
+          <Spritesheet
+            className="pointer-events-none"
+            style={{
+              position: "absolute",
+              width: `${SHAKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+              height: `${SHAKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
+              imageRendering: "pixelated",
+
+              // Adjust the base of tree to be perfectly aligned to
+              // on a grid point.
+              bottom: `${PIXEL_SCALE * 2}px`,
+              right: `${PIXEL_SCALE * -4}px`,
+            }}
+            getInstance={(spritesheet) => {
+              shakeGif.current = spritesheet;
+              spritesheet.goToAndPlay(0);
+            }}
+            image={shakeSheet}
+            widthFrame={SHAKE_SHEET_FRAME_WIDTH}
+            heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
+            fps={14}
+            steps={7}
+            direction={`forward`}
+            autoplay={false}
+            loop={true}
+            onLoopComplete={(spritesheet) => {
+              spritesheet.pause();
+              if (touchCount == 0 && !!shakeGif.current) {
+                setShowSpritesheet(false);
+              }
+            }}
+          />
+        )}
       </div>
 
       {/* No tool warning */}
