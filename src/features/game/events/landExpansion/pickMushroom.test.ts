@@ -10,10 +10,10 @@ describe("pickMushroom", () => {
     state = {
       ...TEST_FARM,
       mushrooms: {
-        mushroomSpawnedAt: 0,
+        spawnedAt: 0,
         mushrooms: {
-          "1": { x: 1, y: 1, amount: 1 },
-          "2": { x: 2, y: 2, amount: 1 },
+          "1": { x: 1, y: 1, amount: 1, name: "Wild Mushroom" },
+          "2": { x: 2, y: 2, amount: 1, name: "Wild Mushroom" },
         },
       },
     };

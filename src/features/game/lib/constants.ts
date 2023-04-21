@@ -383,7 +383,7 @@ export const TEST_FARM: GameState = {
   stones: {},
   trees: {},
   mushrooms: {
-    mushroomSpawnedAt: 0,
+    spawnedAt: 0,
     mushrooms: {},
   },
 };
@@ -429,7 +429,7 @@ export const EMPTY: GameState = {
   stones: {},
   trees: {},
   mushrooms: {
-    mushroomSpawnedAt: 0,
+    spawnedAt: 0,
     mushrooms: {},
   },
 };

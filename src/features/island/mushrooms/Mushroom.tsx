@@ -18,13 +18,11 @@ interface Props {
 export const Mushroom: React.FC<Props> = ({ id, isFirstRender }) => {
   const { gameService } = useContext(Context);
   const [grow, setGrow] = useState(false);
-  const [picked, setPicked] = useState(false);
 
   const mushroomGif = useRef<SpriteSheetInstance>();
 
   const pickMushroom = () => {
-    setPicked(true);
-    mushroomGif.current?.play();
+    gameService.send("mushroom.picked", { id });
   };
 
   useEffect(() => {
@@ -59,13 +57,7 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender }) => {
             loop={true}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
-
-              if (picked) {
-                setPicked(false);
-                gameService.send("mushroom.picked", { id });
-              } else {
-                setTimeout(() => spritesheet.play(), getDelay());
-              }
+              setTimeout(() => spritesheet.play(), getDelay());
             }}
           />
         </div>

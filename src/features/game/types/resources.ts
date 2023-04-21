@@ -12,6 +12,11 @@ export type CommodityName =
   | "Wild Mushroom"
   | "Magic Mushroom";
 
+export type MushroomName = Extract<
+  CommodityName,
+  "Wild Mushroom" | "Magic Mushroom"
+>;
+
 export type Commodity = {
   description: string;
 };
