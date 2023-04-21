@@ -2,31 +2,19 @@ import React, { useContext, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingProduct } from "features/game/types/game";
-import { FirePit } from "./firePit/FirePit";
 import { Bar } from "components/ui/ProgressBar";
-import { WithCraftingMachine } from "./WithCraftingMachine";
-import { Market } from "./market/Market";
-import { WorkBench } from "./workBench/WorkBench";
-import { Tent } from "./tent/Tent";
-import { WaterWell } from "./waterWell/WaterWell";
-import { ChickenHouse } from "./henHouse/HenHouse";
-import { Bakery } from "./bakery/Bakery";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { Kitchen } from "./kitchen/Kitchen";
-import { Deli } from "./deli/Deli";
 import { Modal } from "react-bootstrap";
 import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SmoothieShack } from "./smoothieShack/SmoothieShack";
-import { Warehouse } from "./warehouse/Warehouse";
-import { Toolshed } from "./toolshed/Toolshed";
-import { TownCenter } from "./townCenter/TownCenter";
 import { useSelector } from "@xstate/react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
+import { PLACEABLES } from "features/game/expansion/placeable/Placeable";
+import { BUILDING_COMPONENTS } from "./BuildingComponents";
 
 interface Prop {
   name: BuildingName;
@@ -45,64 +33,6 @@ export interface BuildingProps {
   isBuilt?: boolean;
   onRemove?: () => void;
 }
-
-export const BUILDING_COMPONENTS: Record<
-  BuildingName,
-  React.FC<BuildingProps>
-> = {
-  "Fire Pit": ({
-    buildingId,
-    craftingState,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <FirePit buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
-    </WithCraftingMachine>
-  ),
-  Workbench: WorkBench,
-  Bakery: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Bakery buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
-    </WithCraftingMachine>
-  ),
-  Market: Market,
-  Tent: Tent,
-  "Town Center": TownCenter,
-  "Water Well": WaterWell,
-  Warehouse: Warehouse,
-  Toolshed: Toolshed,
-  "Hen House": ChickenHouse,
-  Kitchen: ({
-    buildingId,
-    craftingState,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Kitchen buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
-    </WithCraftingMachine>
-  ),
-  Deli: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Deli buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
-    </WithCraftingMachine>
-  ),
-  "Smoothie Shack": ({
-    buildingId,
-    craftingState,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <SmoothieShack
-        buildingId={buildingId}
-        isBuilt={isBuilt}
-        onRemove={onRemove}
-      />
-    </WithCraftingMachine>
-  ),
-};
 
 const InProgressBuilding: React.FC<Prop> = ({
   name,
@@ -229,9 +159,13 @@ export const Building: React.FC<Prop> = (props) => {
   const landscaping = useSelector(gameService, isLandscaping);
 
   if (landscaping) {
+    // In Landscaping mode, use readonly building
     return (
       <MoveableComponent id={props.id} {...(props as any)}>
-        <BuildingComponent {...props} />
+        {PLACEABLES[props.name]({
+          coordinates: props.coordinates,
+          grid: {},
+        })}
       </MoveableComponent>
     );
   }
