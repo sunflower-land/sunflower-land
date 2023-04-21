@@ -55,7 +55,6 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
     setShowRemoveConfirmation(false);
   }, [selectedItem]);
 
-  console.log({ isMobile });
   const remove = () => {
     const action = getRemoveAction(selectedItem as InventoryItemName);
     if (!action) {

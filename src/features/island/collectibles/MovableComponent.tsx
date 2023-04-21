@@ -124,7 +124,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
     }
 
     if (showRemoveConfirmation) {
-      console.log("REMOVE");
       landscapingMachine.send("REMOVE", {
         event: removeAction,
         id: id,
@@ -136,7 +135,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   };
   useEffect(() => {
     if (isActive.current && !isSelected) {
-      console.log("Reset");
       // Reset
       setCounts((prev) => prev + 1);
       setIsColliding(false);
@@ -178,7 +176,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
         allowAnyClick
         onMouseDown={() => {
-          console.log("Mouse down");
           landscapingMachine.send("MOVE", {
             name,
             id,
@@ -189,21 +186,15 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           const x = Math.round(data.x);
           const y = Math.round(-data.y);
           origin.current = { x, y };
-          console.log({ x, y });
-          // reset
-          // send("DRAG");
         }}
         onDrag={(_, data) => {
           const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
           const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
 
-          console.log({ coordinates });
           const x = coordinates.x + xDiff;
           const y = coordinates.y + yDiff;
-          console.log({ x, y });
           detect({ x, y });
           setIsDragging(true);
-          // setShowHint(false);
         }}
         onStop={(_, data) => {
           setIsDragging(false);
@@ -219,8 +210,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
             return;
           }
 
-          console.log({ xDiff, yDiff, origin });
-
           const game = removePlaceable({
             state: gameService.state.context.state,
             id,
@@ -234,7 +223,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           });
 
           if (!collisionDetected) {
-            console.log({ move: name });
             gameService.send(getMoveAction(name), {
               // Don't send name for resource events
               ...(name in RESOURCE_MOVE_EVENTS ? {} : { name }),
@@ -254,11 +242,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
             "cursor-grabbing": isDragging,
             "cursor-pointer": !isDragging,
           })}
-          onBlur={() => {
-            if (isSelected) {
-              console.log("Blur");
-            }
-          }}
         >
           {isSelected && (
             <div
@@ -304,7 +287,6 @@ export const MoveableComponent: React.FC<MovableProps> = ({
                     width: `${PIXEL_SCALE * 18}px`,
                   }}
                   onClick={(e) => {
-                    console.log("On clik");
                     remove();
                     e.preventDefault();
                   }}
