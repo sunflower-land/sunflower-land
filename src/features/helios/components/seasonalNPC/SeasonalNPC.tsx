@@ -37,10 +37,12 @@ export const SeasonalNPC: React.FC = () => {
           }}
         >
           <NPC
-            body="Light Brown Farmer Potion"
-            shirt="Hawaiian Shirt"
-            pants="Farmer Pants"
-            hair="Brown Long Hair"
+            parts={{
+              body: "Light Brown Farmer Potion",
+              shirt: "Hawaiian Shirt",
+              pants: "Farmer Pants",
+              hair: "Brown Long Hair",
+            }}
           />
           {!gameState.context.state.hayseedHank.progress && (
             <img

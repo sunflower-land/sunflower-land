@@ -5,18 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { ConsumableName } from "features/game/types/consumables";
 import { NPCModal } from "./NPCModal";
 
-export const PlayerNPC: React.FC<NPCProps> = ({
-  body,
-  hair,
-  shirt,
-  pants,
-  hat,
-  suit,
-  onesie,
-  wings,
-  coat,
-  dress,
-}) => {
+export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const { gameService } = useContext(Context);
 
   const [open, setOpen] = useState(false);
@@ -29,19 +18,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({
 
   return (
     <>
-      <NPC
-        body={body}
-        hair={hair}
-        shirt={shirt}
-        pants={pants}
-        hat={hat}
-        suit={suit}
-        onesie={onesie}
-        wings={wings}
-        coat={coat}
-        dress={dress}
-        onClick={() => setOpen(true)}
-      />
+      <NPC parts={bumpkinParts} onClick={() => setOpen(true)} />
 
       <NPCModal
         isOpen={open}
