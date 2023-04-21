@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
@@ -27,7 +28,6 @@ type Options = {
 };
 
 export function removeCollectible({ state, action }: Options) {
-  console.log({ remove: action });
   const stateCopy = cloneDeep(state) as GameState;
 
   const { collectibles, inventory, bumpkin } = stateCopy;
@@ -47,6 +47,12 @@ export function removeCollectible({ state, action }: Options) {
 
   if (!collectibleToRemove) {
     throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
+  }
+
+  const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
+
+  if (shovelAmount.lessThan(1)) {
+    throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   }
 
   stateCopy.collectibles[action.name] = collectibleGroup.filter(
@@ -69,6 +75,8 @@ export function removeCollectible({ state, action }: Options) {
   }
 
   bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
+
+  inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
   return stateCopy;
 }
