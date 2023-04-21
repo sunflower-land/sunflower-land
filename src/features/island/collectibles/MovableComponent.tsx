@@ -175,11 +175,22 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         nodeRef={nodeRef}
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
         allowAnyClick
+        // Mobile must click first, before dragging
+        disabled={isMobile && !isSelected}
         onMouseDown={() => {
+          // Mobile must click first, before dragging
+
+          if (isMobile && !isActive.current) {
+            isActive.current = true;
+
+            return;
+          }
+
           landscapingMachine.send("MOVE", {
             name,
             id,
           });
+
           isActive.current = true;
         }}
         onStart={(_, data) => {
