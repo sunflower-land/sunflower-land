@@ -30,7 +30,7 @@ import {
 } from "features/island/buildings/components/building/BuildingComponents";
 
 export const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
+  Chicken: () => <Chicken coordinates={{ x: 0, y: 0 }} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...BUILDING_COMPONENTS,
   ...COLLECTIBLE_COMPONENTS,
   ...READONLY_RESOURCE_COMPONENTS,
