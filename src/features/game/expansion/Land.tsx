@@ -30,6 +30,9 @@ import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { MachineState } from "../lib/gameMachine";
 import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
+import { Mushroom } from "features/island/mushrooms/Mushroom";
+import { useFirstRender } from "lib/utils/hooks/useFirstRender";
+import { MUSHROOM_DIMENSIONS } from "../types/resources";
 
 const getIslandElements = ({
   buildings,
@@ -46,6 +49,8 @@ const getIslandElements = ({
   showTimers,
   isEditing,
   grid,
+  mushrooms,
+  isFirstRender,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -62,6 +67,8 @@ const getIslandElements = ({
   showTimers: boolean;
   isEditing?: boolean;
   grid: GameGrid;
+  mushrooms: GameState["mushrooms"]["mushrooms"];
+  isFirstRender: boolean;
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -303,6 +310,28 @@ const getIslandElements = ({
     })
   );
 
+  mapPlacements.push(
+    ...getKeys(mushrooms).flatMap((id) => {
+      const { x, y } = mushrooms[id]!;
+
+      return (
+        <MapPlacement
+          key={`mushroom-${id}`}
+          x={x}
+          y={y}
+          height={MUSHROOM_DIMENSIONS.height}
+          width={MUSHROOM_DIMENSIONS.width}
+        >
+          <Mushroom
+            key={`mushroom-${id}`}
+            id={id}
+            isFirstRender={isFirstRender}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
   return mapPlacements;
 };
 
@@ -327,6 +356,7 @@ export const Land: React.FC = () => {
     gold,
     crops,
     fruitPatches,
+    mushrooms,
   } = useSelector(gameService, selectGameState);
   const autosaving = useSelector(gameService, isAutosaving);
   const editing = useSelector(gameService, isEditing);
@@ -346,6 +376,8 @@ export const Land: React.FC = () => {
   useLayoutEffect(() => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
+
+  const isFirstRender = useFirstRender();
 
   const boatCoordinates = {
     x: expansionCount >= 7 ? -9 : -2,
@@ -389,6 +421,8 @@ export const Land: React.FC = () => {
             showTimers: showTimers,
             isEditing: editing,
             grid,
+            mushrooms: mushrooms.mushrooms,
+            isFirstRender,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
         <IslandTravel
