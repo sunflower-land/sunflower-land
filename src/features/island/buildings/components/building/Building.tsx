@@ -13,7 +13,6 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { PLACEABLES } from "features/game/expansion/placeable/Placeable";
 import { BUILDING_COMPONENTS } from "./BuildingComponents";
 
 interface Prop {
@@ -24,7 +23,7 @@ interface Prop {
   crafting?: BuildingProduct;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
-  coordinates?: Coordinates;
+  coordinates: Coordinates;
 }
 
 export interface BuildingProps {
@@ -96,6 +95,7 @@ const BuildingComponent: React.FC<Prop> = ({
   crafting,
   isRustyShovelSelected,
   showTimers,
+  coordinates,
 }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -128,6 +128,7 @@ const BuildingComponent: React.FC<Prop> = ({
           createdAt={createdAt}
           isRustyShovelSelected={false}
           showTimers={showTimers}
+          coordinates={coordinates}
         />
       ) : (
         <BuildingPlaced
@@ -161,11 +162,12 @@ export const Building: React.FC<Prop> = (props) => {
   if (landscaping) {
     // In Landscaping mode, use readonly building
     return (
-      <MoveableComponent id={props.id} {...(props as any)}>
-        {PLACEABLES[props.name]({
-          coordinates: props.coordinates,
-          grid: {},
-        })}
+      <MoveableComponent
+        id={props.id}
+        name={props.name}
+        coordinates={props.coordinates}
+      >
+        <BuildingComponent {...props} />
       </MoveableComponent>
     );
   }

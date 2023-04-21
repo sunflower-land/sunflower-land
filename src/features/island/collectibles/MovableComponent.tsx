@@ -18,7 +18,10 @@ import {
   MachineInterpreter,
   MachineState,
 } from "features/game/expansion/placeable/landscapingMachine";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BUILDINGS_DIMENSIONS,
+  BuildingName,
+} from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
 import { InventoryItemName } from "features/game/types/game";
@@ -83,7 +86,7 @@ export function getRemoveAction(
 }
 
 export interface MovableProps {
-  name: CollectibleName | "Chicken";
+  name: CollectibleName | BuildingName | "Chicken";
   id: string;
   coordinates: Coordinates;
 }
