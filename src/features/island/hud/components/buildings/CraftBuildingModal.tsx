@@ -5,6 +5,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
 import { Buildings } from "./Buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   show: boolean;
@@ -26,6 +27,7 @@ export const CraftBuildingModal: React.FC<Props> = ({
       <CloseButtonPanel
         tabs={[{ icon: ITEM_DETAILS["Water Well"].image, name: "Buildings" }]}
         onClose={onHide}
+        bumpkinParts={NPC_WEARABLES.grimtooth}
       >
         <Buildings onClose={onHide} />
       </CloseButtonPanel>

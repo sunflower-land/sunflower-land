@@ -74,6 +74,7 @@ export function makeGame(farm: any): GameState {
       read: [],
       unread: [],
     },
+    mushrooms: farm.mushrooms,
   };
 }
 

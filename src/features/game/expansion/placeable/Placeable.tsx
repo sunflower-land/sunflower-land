@@ -52,7 +52,33 @@ const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Workbench: () => (
     <img
       src={ITEM_DETAILS["Workbench"].image}
-      style={{ width: `${PIXEL_SCALE * 47}px` }}
+      className="relative"
+      style={{ width: `${PIXEL_SCALE * 47}px`, bottom: `${PIXEL_SCALE * 2}px` }}
+    />
+  ),
+  Market: () => (
+    <img
+      src={ITEM_DETAILS["Market"].image}
+      className="relative"
+      style={{ width: `${PIXEL_SCALE * 48}px`, bottom: `${PIXEL_SCALE * 6}px` }}
+    />
+  ),
+  "Hen House": () => (
+    <img
+      src={ITEM_DETAILS["Hen House"].image}
+      className="relative"
+      style={{ width: `${PIXEL_SCALE * 61}px`, bottom: `${PIXEL_SCALE * 2}px` }}
+    />
+  ),
+  "Town Center": () => (
+    <img
+      src={ITEM_DETAILS["Town Center"].image}
+      className="relative"
+      style={{
+        width: `${PIXEL_SCALE * 62}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+      }}
     />
   ),
 };

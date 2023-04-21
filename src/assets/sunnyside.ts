@@ -96,6 +96,7 @@ export const SUNNYSIDE = {
     stump: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stump.png`,
     tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree.png`,
     wild_mushroom: `${CONFIG.PROTECTED_IMAGE_URL}/resources/wild_mushroom.png`,
+    wild_mushroom_sheet: `${CONFIG.PROTECTED_IMAGE_URL}/resources/wild_mushroom_sheet.png`,
     wood: `${CONFIG.PROTECTED_IMAGE_URL}/resources/wood.png`,
     gold_rock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/gold_rock.png`,
     stone_rock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/stone_rock.png`,

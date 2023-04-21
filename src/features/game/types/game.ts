@@ -3,7 +3,7 @@ import { Decimal } from "decimal.js-light";
 import { CropName, CropSeedName } from "./crops";
 
 import { CollectibleName, CraftableName, Food } from "./craftables";
-import { CommodityName, ResourceName } from "./resources";
+import { CommodityName, MushroomName, ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
@@ -409,6 +409,18 @@ export type HayseedHank = {
   };
 };
 
+export type Mushroom = {
+  name: MushroomName;
+  amount: number;
+  x: number;
+  y: number;
+};
+
+export type Mushrooms = {
+  spawnedAt: number;
+  mushrooms: Record<string, Mushroom>;
+};
+
 export type NPCDialogue = {
   id: string;
   from: "aunt" | "bumpkin" | "betty" | "bruce";
@@ -485,6 +497,7 @@ export interface GameState {
     bid?: Bid;
   };
   hayseedHank: HayseedHank;
+  mushrooms: Mushrooms;
 }
 
 export interface Context {

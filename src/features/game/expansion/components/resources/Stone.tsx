@@ -42,8 +42,7 @@ const compareResource = (prev: Rock, next: Rock) => {
 const compareInventoryToolCount = (prev: Decimal, next: Decimal) => {
   return (
     prev.equals(next) ||
-    prev.greaterThanOrEqualTo(1) ||
-    next.greaterThanOrEqualTo(1)
+    prev.greaterThanOrEqualTo(1) == next.greaterThanOrEqualTo(1)
   );
 };
 

@@ -22,6 +22,7 @@ import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
 import { InventoryItemName } from "features/game/types/game";
+import { removePlaceable } from "./lib/placing";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -72,13 +73,13 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [counts, setCounts] = useState(0);
   const isActive = useRef(false);
 
   const landscapingMachine = gameService.state.children
     .landscaping as MachineInterpreter;
 
-  const moving = useSelector(landscapingMachine, isMoving);
   const movingItem = useSelector(landscapingMachine, getMovingItem);
 
   useEffect(() => {
@@ -98,7 +99,12 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   }[name];
 
   const detect = ({ x, y }: Coordinates) => {
-    const collisionDetected = detectCollision(gameService.state.context.state, {
+    const game = removePlaceable({
+      state: gameService.state.context.state,
+      id,
+      name,
+    });
+    const collisionDetected = detectCollision(game, {
       x,
       y,
       width: dimensions.width,
@@ -117,14 +123,14 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         key={`${coordinatesX}-${coordinatesY}-${counts}`}
         nodeRef={nodeRef}
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
-        disabled={!moving}
         onMouseDown={() => {
           console.log("Mouse down");
-          landscapingMachine.send("HIGHLIGHT", {
+          landscapingMachine.send("MOVE", {
             name,
             id,
           });
           isActive.current = true;
+          setIsDragging(true);
         }}
         onStart={(_, data) => {
           const x = Math.round(data.x);
@@ -153,15 +159,17 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           const y = coordinatesY + yDiff;
           console.log({ xDiff, yDiff, origin });
 
-          const collisionDetected = detectCollision(
-            gameService.state.context.state,
-            {
-              x,
-              y,
-              width: dimensions.width,
-              height: dimensions.height,
-            }
-          );
+          const game = removePlaceable({
+            state: gameService.state.context.state,
+            id,
+            name,
+          });
+          const collisionDetected = detectCollision(game, {
+            x,
+            y,
+            width: dimensions.width,
+            height: dimensions.height,
+          });
 
           if (!collisionDetected) {
             gameService.send(getMoveAction(name), {
@@ -174,17 +182,21 @@ export const MoveableComponent: React.FC<MovableProps> = ({
               id,
             });
           }
+
+          setIsDragging(false);
         }}
       >
         <div
           ref={nodeRef}
           data-prevent-drag-scroll
-          className={classNames("h-full cursor-pointer")}
+          className={classNames("h-full", {
+            "cursor-grabbing": isDragging,
+            "cursor-pointer": !isDragging,
+          })}
         >
           <div
             className={classNames("h-full", {
-              "opacity-50": isColliding,
-              "opacity-100": !isColliding,
+              "bg-red-500 bg-opacity-75": isColliding,
             })}
           >
             {children}

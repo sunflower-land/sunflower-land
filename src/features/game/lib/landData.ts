@@ -258,7 +258,7 @@ export const OFFLINE_FARM: GameState = {
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
+    "Basic Land": new Decimal(17),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
@@ -310,7 +310,7 @@ export const OFFLINE_FARM: GameState = {
   dailyRewards: {},
 
   buildings: {
-    Market: [
+    "Town Center": [
       {
         coordinates: { x: 0, y: 0 },
         createdAt: 0,
@@ -654,6 +654,10 @@ export const OFFLINE_FARM: GameState = {
   hayseedHank: {
     chore: CHORES[0],
     choresCompleted: 0,
+  },
+  mushrooms: {
+    spawnedAt: 0,
+    mushrooms: {},
   },
 };
 
@@ -4069,5 +4073,9 @@ export const MEGA_OFFLINE_FARM: GameState = makeGame({
       startCount: 100,
     },
     choresCompleted: 188,
+  },
+  mushrooms: {
+    spawnedAt: 0,
+    mushrooms: {},
   },
 });
