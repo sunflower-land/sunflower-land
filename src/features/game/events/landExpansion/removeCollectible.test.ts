@@ -67,34 +67,6 @@ describe("removeCollectible", () => {
     ).toThrow(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
   });
 
-  it("does not remove if not enough Rusty Shovel in inventory", () => {
-    expect(() =>
-      removeCollectible({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Rusty Shovel": new Decimal(0),
-          },
-          collectibles: {
-            Nugget: [
-              {
-                id: "123",
-                createdAt: 0,
-                coordinates: { x: 1, y: 1 },
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        action: {
-          type: "collectible.removed",
-          name: "Nugget",
-          id: "123",
-        },
-      })
-    ).toThrow(REMOVE_COLLECTIBLE_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
-  });
-
   it("removes a collectible and does not affect collectibles of the same type", () => {
     const gameState = removeCollectible({
       state: {

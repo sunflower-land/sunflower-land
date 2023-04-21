@@ -49,10 +49,10 @@ export function removeCollectible({ state, action }: Options) {
     throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
   }
 
+  // TODO - remove once landscaping is launched
   const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
-
-  if (shovelAmount.lessThan(1)) {
-    throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
+  if (shovelAmount.gte(1)) {
+    inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
   }
 
   stateCopy.collectibles[action.name] = collectibleGroup.filter(
@@ -75,8 +75,6 @@ export function removeCollectible({ state, action }: Options) {
   }
 
   bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
-
-  inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
   return stateCopy;
 }

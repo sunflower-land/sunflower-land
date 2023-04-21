@@ -120,34 +120,6 @@ describe("removeBuilding", () => {
     ).toThrow(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
   });
 
-  it("does not remove if not enough Rusty Shovel in inventory", () => {
-    expect(() =>
-      removeBuilding({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Rusty Shovel": new Decimal(0),
-          },
-          buildings: {
-            "Fire Pit": [
-              {
-                id: "123",
-                coordinates: { x: 1, y: 1 },
-                createdAt: 0,
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        action: {
-          type: "building.removed",
-          name: "Fire Pit",
-          id: "123",
-        },
-      })
-    ).toThrow(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
-  });
-
   it("does not remove a building if it's under construction", () => {
     expect(() =>
       removeBuilding({
