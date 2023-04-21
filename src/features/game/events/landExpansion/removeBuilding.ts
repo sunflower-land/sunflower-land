@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
@@ -148,6 +149,12 @@ export function removeBuilding({
     throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
   }
 
+  const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
+
+  if (shovelAmount.lessThan(1)) {
+    throw new Error(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
+  }
+
   stateCopy.buildings[action.name] = buildingGroup.filter(
     (building) => building.id !== buildingToRemove.id
   );
@@ -170,6 +177,8 @@ export function removeBuilding({
   }
 
   bumpkin.activity = trackActivity("Building Removed", bumpkin.activity);
+
+  inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
   return stateCopy;
 }
