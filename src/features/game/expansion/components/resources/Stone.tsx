@@ -42,8 +42,7 @@ const compareResource = (prev: Rock, next: Rock) => {
 const compareInventoryToolCount = (prev: Decimal, next: Decimal) => {
   return (
     prev.equals(next) ||
-    prev.greaterThanOrEqualTo(1) ||
-    next.greaterThanOrEqualTo(1)
+    prev.greaterThanOrEqualTo(1) == next.greaterThanOrEqualTo(1)
   );
 };
 
@@ -73,7 +72,11 @@ export const Stone: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.stones[id],
     compareResource
   );
-  const inventoryToolCount = useSelector(gameService, selectInventoryToolCount);
+  const inventoryToolCount = useSelector(
+    gameService,
+    selectInventoryToolCount,
+    compareInventoryToolCount
+  );
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
