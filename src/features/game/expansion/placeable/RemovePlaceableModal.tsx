@@ -37,12 +37,12 @@ export const RemovePlaceableModal: React.FC<Props> = ({
   const handleRemove = () => {
     if (type === "building") {
       gameService.send("building.removed", {
-        building: name,
+        name: name,
         id: placeableId,
       });
     } else {
       gameService.send("collectible.removed", {
-        collectible: name,
+        name: name,
         id: placeableId,
       });
     }

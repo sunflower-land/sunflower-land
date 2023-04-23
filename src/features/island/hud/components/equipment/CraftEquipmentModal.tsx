@@ -1,5 +1,5 @@
 import React from "react";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import lightning from "assets/icons/lightning.png";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -10,18 +10,13 @@ import { NPC_WEARABLES } from "lib/npcs";
 interface Props {
   show: boolean;
   onHide: () => void;
-  state: GameState;
 }
 
 export type TabItems = Record<string, { items: object }>;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
-export const CraftEquipmentModal: React.FC<Props> = ({
-  show,
-  onHide,
-  state,
-}) => {
+export const CraftEquipmentModal: React.FC<Props> = ({ show, onHide }) => {
   return (
     <Modal size="lg" centered show={show} onHide={onHide}>
       <CloseButtonPanel

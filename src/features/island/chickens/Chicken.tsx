@@ -39,6 +39,9 @@ import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { Collectibles, Chicken as ChickenType } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { MachineState } from "features/game/expansion/placeable/landscapingMachine";
+import { MoveableComponent } from "../collectibles/MovableComponent";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -125,6 +128,7 @@ const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
 
 interface Props {
   id: string;
+  coordinates: Coordinates;
 }
 
 const ChickenComponent: React.FC<Props> = ({ id }) => {
@@ -500,4 +504,25 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
   );
 };
 
-export const Chicken = React.memo(ChickenComponent);
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
+export const Chicken: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
+
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  if (landscaping) {
+    // In Landscaping mode, use readonly building
+    return (
+      <MoveableComponent
+        name="Chicken"
+        coordinates={props.coordinates}
+        id={props.id}
+      >
+        <ChickenComponent {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <ChickenComponent {...props} />;
+};

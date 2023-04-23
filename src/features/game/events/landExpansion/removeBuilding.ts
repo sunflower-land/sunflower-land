@@ -17,7 +17,7 @@ export enum REMOVE_BUILDING_ERRORS {
 
 export type RemoveBuildingAction = {
   type: "building.removed";
-  building: BuildingName;
+  name: BuildingName;
   id: string;
 };
 
@@ -127,7 +127,7 @@ export function removeBuilding({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
   const { buildings, inventory, bumpkin } = stateCopy;
-  const buildingGroup = buildings[action.building];
+  const buildingGroup = buildings[action.name];
 
   if (bumpkin === undefined) {
     throw new Error(REMOVE_BUILDING_ERRORS.NO_BUMPKIN);
@@ -149,17 +149,17 @@ export function removeBuilding({
     throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
   }
 
+  // TODO - remove once landscaping is launched
   const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
-
-  if (shovelAmount.lessThan(1)) {
-    throw new Error(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
+  if (shovelAmount.gte(1)) {
+    inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
   }
 
-  stateCopy.buildings[action.building] = buildingGroup.filter(
+  stateCopy.buildings[action.name] = buildingGroup.filter(
     (building) => building.id !== buildingToRemove.id
   );
 
-  if (action.building === "Water Well") {
+  if (action.name === "Water Well") {
     const { plots, hasUnsupportedCrops } = removeUnsupportedCrops(stateCopy);
     if (hasUnsupportedCrops) {
       throw new Error(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
@@ -168,7 +168,7 @@ export function removeBuilding({
     stateCopy.crops = plots;
   }
 
-  if (action.building === "Hen House") {
+  if (action.name === "Hen House") {
     if (areUnsupportedChickensBrewing(stateCopy)) {
       throw new Error(REMOVE_BUILDING_ERRORS.HEN_HOUSE_REMOVE_BREWING_CHICKEN);
     }
@@ -177,8 +177,6 @@ export function removeBuilding({
   }
 
   bumpkin.activity = trackActivity("Building Removed", bumpkin.activity);
-
-  inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
   return stateCopy;
 }

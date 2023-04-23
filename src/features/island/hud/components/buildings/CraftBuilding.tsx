@@ -50,11 +50,7 @@ export const CraftBuilding: React.FC<Props> = ({ state }) => {
         </div>
       </div>
 
-      <CraftBuildingModal
-        show={isOpen}
-        onHide={() => setIsOpen(false)}
-        state={state}
-      />
+      <CraftBuildingModal show={isOpen} onHide={() => setIsOpen(false)} />
     </>
   );
 };

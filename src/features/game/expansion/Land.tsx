@@ -19,7 +19,6 @@ import { Building } from "features/island/buildings/components/building/Building
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
-import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { Hud } from "features/island/hud/Hud";
@@ -44,10 +43,8 @@ const getIslandElements = ({
   gold,
   fruitPatches,
   crops,
-  bumpkinParts,
   isRustyShovelSelected,
   showTimers,
-  isEditing,
   grid,
   mushrooms,
   isFirstRender,
@@ -62,10 +59,8 @@ const getIslandElements = ({
   gold: GameState["gold"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
-  bumpkinParts: BumpkinParts | undefined;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
-  isEditing?: boolean;
   grid: GameGrid;
   mushrooms: GameState["mushrooms"]["mushrooms"];
   isFirstRender: boolean;
@@ -156,7 +151,14 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <ChickenElement key={`chicken-${id}`} id={id} />
+            <ChickenElement
+              key={`chicken-${id}`}
+              id={id}
+              coordinates={{
+                x,
+                y,
+              }}
+            />
           </MapPlacement>
         );
       })
@@ -400,9 +402,21 @@ export const Land: React.FC = () => {
           })}
         >
           <LandBase expandedCount={expansionCount} />
-          <UpcomingExpansion />
           <DirtRenderer grid={gameGrid} />
-          <Water level={expansionCount} />
+
+          {!gameState.isLandscaping && <Water level={expansionCount} />}
+          {!gameState.isLandscaping && <UpcomingExpansion />}
+          {!gameState.isLandscaping && (
+            <IslandTravel
+              bumpkin={bumpkin}
+              isVisiting={visiting}
+              inventory={inventory}
+              travelAllowed={!autosaving}
+              onTravelDialogOpened={() => gameService.send("SAVE")}
+              x={boatCoordinates.x}
+              y={boatCoordinates.y}
+            />
+          )}
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
@@ -416,24 +430,13 @@ export const Land: React.FC = () => {
             gold,
             fruitPatches,
             crops,
-            bumpkinParts: bumpkin?.equipped,
             isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             showTimers: showTimers,
-            isEditing: editing,
             grid,
             mushrooms: mushrooms.mushrooms,
             isFirstRender,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
-        <IslandTravel
-          bumpkin={bumpkin}
-          isVisiting={visiting}
-          inventory={inventory}
-          travelAllowed={!autosaving}
-          onTravelDialogOpened={() => gameService.send("SAVE")}
-          x={boatCoordinates.x}
-          y={boatCoordinates.y}
-        />
 
         {gameState.isLandscaping && <Placeable />}
       </div>
