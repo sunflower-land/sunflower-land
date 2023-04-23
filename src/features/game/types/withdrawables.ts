@@ -296,7 +296,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Wooden Compass": false,
   "Whale Bear": true,
 
-  // Seasonal items
+  // Solar Flare items
   "Beach Ball": false,
   "Palm Tree": false,
   Karkinos: false,
@@ -311,6 +311,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Eggplant Grill": false,
   "Giant Dawn Mushroom": false,
   "Shroom Glow": false,
+  // Dawn Breaker items
+  "Mushroom House": false,
 
   "Basic Land": false,
   "Solar Flare Banner": false,
