@@ -5,7 +5,6 @@ import cloneDeep from "lodash.clonedeep";
 export enum REMOVE_CHICKEN_ERRORS {
   INVALID_CHICKEN = "This chicken does not exist",
   CHICKEN_BREWING_EGG = "This chicken is brewing an egg",
-  NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
 }
 
 export type RemoveChickenAction = {
@@ -35,15 +34,13 @@ export function removeChicken({ state, action }: Options) {
     throw new Error(REMOVE_CHICKEN_ERRORS.CHICKEN_BREWING_EGG);
   }
 
+  // TODO - remove once landscaping is launched
   const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
-
-  if (shovelAmount.lessThan(1)) {
-    throw new Error(REMOVE_CHICKEN_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
+  if (shovelAmount.gte(1)) {
+    inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
   }
 
   delete chickens[action.id];
-
-  inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
   return stateCopy;
 }

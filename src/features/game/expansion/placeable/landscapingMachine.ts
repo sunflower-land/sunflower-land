@@ -49,7 +49,7 @@ export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?: BuildingName | CollectibleName;
+  placeable?: BuildingName | CollectibleName | "Chicken";
   hasLandscapingAccess: boolean;
 
   multiple?: boolean;
@@ -340,7 +340,9 @@ export const landscapingMachine = createMachine<
               },
               {
                 target: ["#saving.done", "done"],
-                cond: (context) => !context.hasLandscapingAccess,
+                cond: (context) =>
+                  !context.hasLandscapingAccess ||
+                  context.placeable === "Chicken",
                 actions: [
                   sendParent(
                     ({ placeable, action, coordinates: { x, y } }) =>
