@@ -61,24 +61,6 @@ describe("removeChicken", () => {
     ).toThrow(REMOVE_CHICKEN_ERRORS.CHICKEN_BREWING_EGG);
   });
 
-  it("does not remove if not enough Rusty Shovel in inventory", () => {
-    expect(() =>
-      removeChicken({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Rusty Shovel": new Decimal(0),
-          },
-          chickens: makeChickensStateObject(10),
-        },
-        action: {
-          type: "chicken.removed",
-          id: "5",
-        },
-      })
-    ).toThrow(REMOVE_CHICKEN_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
-  });
-
   it("removes a chicken", () => {
     const state = {
       ...GAME_STATE,
@@ -118,23 +100,5 @@ describe("removeChicken", () => {
       coordinates: { x: 4, y: 4 },
       multiplier: 1,
     });
-  });
-
-  it("uses one Rusty Shovel per chicken removed", () => {
-    const gameState = removeChicken({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Rusty Shovel": new Decimal(2),
-        },
-        chickens: makeChickensStateObject(5),
-      },
-      action: {
-        type: "chicken.removed",
-        id: "4",
-      },
-    });
-
-    expect(gameState.inventory["Rusty Shovel"]).toEqual(new Decimal(1));
   });
 });

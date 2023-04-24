@@ -306,9 +306,11 @@ export const PartyIsland: React.FC = () => {
           }}
         >
           <NPC
-            body="Dark Brown Farmer Potion"
-            onesie="Shark Onesie"
-            hair="Buzz Cut"
+            parts={{
+              body: "Dark Brown Farmer Potion",
+              onesie: "Shark Onesie",
+              hair: "Buzz Cut",
+            }}
             onClick={() => setShowSharkModal(true)}
           />
         </div>
@@ -331,9 +333,11 @@ export const PartyIsland: React.FC = () => {
           }}
         >
           <NPC
-            body="Goblin Potion"
-            hat="Pirate Hat"
-            hair="Buzz Cut"
+            parts={{
+              body: "Goblin Potion",
+              hat: "Pirate Hat",
+              hair: "Buzz Cut",
+            }}
             onClick={() => setShowPirateModal(true)}
           />
         </div>
@@ -345,9 +349,11 @@ export const PartyIsland: React.FC = () => {
           }}
         >
           <NPC
-            body="Beige Farmer Potion"
-            onesie="Tiger Onesie"
-            hair="Red Long Hair"
+            parts={{
+              body: "Beige Farmer Potion",
+              onesie: "Tiger Onesie",
+              hair: "Red Long Hair",
+            }}
             onClick={() => setShowTigerModal(true)}
           />
         </div>

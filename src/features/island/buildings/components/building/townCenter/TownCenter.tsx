@@ -96,15 +96,17 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       >
         {bumpkin && (
           <PlayerNPC
-            body={bumpkin.equipped.body}
-            hair={bumpkin.equipped.hair}
-            shirt={bumpkin.equipped.shirt}
-            pants={bumpkin.equipped.pants}
-            hat={bumpkin.equipped.hat}
-            suit={bumpkin.equipped.suit}
-            onesie={bumpkin.equipped.onesie}
-            wings={bumpkin.equipped.wings}
-            dress={bumpkin.equipped.dress}
+            parts={{
+              body: bumpkin.equipped.body,
+              hair: bumpkin.equipped.hair,
+              shirt: bumpkin.equipped.shirt,
+              pants: bumpkin.equipped.pants,
+              hat: bumpkin.equipped.hat,
+              suit: bumpkin.equipped.suit,
+              onesie: bumpkin.equipped.onesie,
+              wings: bumpkin.equipped.wings,
+              dress: bumpkin.equipped.dress,
+            }}
           />
         )}
       </div>

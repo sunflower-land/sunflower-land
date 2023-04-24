@@ -56,10 +56,12 @@ export const HayseedHank: React.FC = () => {
         }}
       >
         <NPC
-          body="Light Brown Farmer Potion"
-          shirt="Red Farmer Shirt"
-          pants="Brown Suspenders"
-          hair="Sun Spots"
+          parts={{
+            body: "Light Brown Farmer Potion",
+            shirt: "Red Farmer Shirt",
+            pants: "Brown Suspenders",
+            hair: "Sun Spots",
+          }}
           onClick={handleClick}
         />
         {conversationId && (

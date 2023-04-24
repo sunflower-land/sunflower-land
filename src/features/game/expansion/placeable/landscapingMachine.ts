@@ -3,6 +3,7 @@ import { GameEventName, PlacementEvent } from "features/game/events";
 import {
   BUILDINGS_DIMENSIONS,
   BuildingName,
+  PlaceableName,
 } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
@@ -48,7 +49,7 @@ export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?: BuildingName | CollectibleName;
+  placeable?: BuildingName | CollectibleName | "Chicken";
   hasLandscapingAccess: boolean;
 
   multiple?: boolean;
@@ -89,6 +90,13 @@ type PlaceEvent = {
   nextWillCollide?: boolean;
 };
 
+type RemoveEvent = {
+  type: "REMOVE";
+  event: GameEventName<PlacementEvent>;
+  id: string;
+  name: PlaceableName;
+};
+
 type ConstructEvent = {
   type: "CONSTRUCT";
   actionName: PlacementEvent;
@@ -124,6 +132,7 @@ export type BlockchainEvent =
   | SaveEvent
   | GuestSaveEvent
   | MoveEvent
+  | RemoveEvent
   | { type: "CANCEL" }
   | { type: "BACK" };
 
@@ -270,6 +279,20 @@ export const landscapingMachine = createMachine<
             BUILD: {
               target: "idle",
             },
+            REMOVE: {
+              target: "idle",
+              actions: [
+                sendParent(
+                  (_context, event: RemoveEvent) =>
+                    ({
+                      type: event.event,
+                      name: event.name,
+                      id: event.id,
+                    } as PlacementEvent)
+                ),
+                assign({ moving: (_) => undefined }),
+              ],
+            },
           },
         },
 
@@ -317,7 +340,9 @@ export const landscapingMachine = createMachine<
               },
               {
                 target: ["#saving.done", "done"],
-                cond: (context) => !context.hasLandscapingAccess,
+                cond: (context) =>
+                  !context.hasLandscapingAccess ||
+                  context.placeable === "Chicken",
                 actions: [
                   sendParent(
                     ({ placeable, action, coordinates: { x, y } }) =>

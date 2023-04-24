@@ -634,12 +634,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "noTownCenter",
               cond: (context: Context) => {
-                console.log({
-                  test: context.state.buildings["Town Center"],
-                  val:
-                    (context.state.buildings["Town Center"] ?? []).length === 0,
-                });
-
                 return (
                   (context.state.buildings["Town Center"] ?? []).length === 0
                 );

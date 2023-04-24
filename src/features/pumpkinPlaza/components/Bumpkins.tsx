@@ -182,7 +182,7 @@ export const Bumpkins: React.FC<Props> = ({
           {myMessage && <Message {...myMessage} />}
           {myDiscovery && <Discovery {...myDiscovery} />}
 
-          <NPC {...bumpkin.equipped} />
+          <NPC parts={bumpkin.equipped} />
 
           <div
             className="absolute text-center"
@@ -234,7 +234,7 @@ export const Bumpkins: React.FC<Props> = ({
               {discovery && <Discovery {...discovery} />}
 
               <NPC
-                {...otherBumpkin.bumpkin.equipped}
+                parts={otherBumpkin.bumpkin.equipped}
                 onClick={() => setSelectedBumpkin(otherBumpkin)}
               />
               <div

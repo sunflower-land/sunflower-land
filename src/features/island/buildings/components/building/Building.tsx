@@ -1,31 +1,18 @@
 import React, { useContext, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
-import { FirePit } from "./firePit/FirePit";
 import { Bar } from "components/ui/ProgressBar";
-import { WithCraftingMachine } from "./WithCraftingMachine";
-import { Market } from "./market/Market";
-import { WorkBench } from "./workBench/WorkBench";
-import { Tent } from "./tent/Tent";
-import { WaterWell } from "./waterWell/WaterWell";
-import { ChickenHouse } from "./henHouse/HenHouse";
-import { Bakery } from "./bakery/Bakery";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { Kitchen } from "./kitchen/Kitchen";
-import { Deli } from "./deli/Deli";
 import { Modal } from "react-bootstrap";
 import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SmoothieShack } from "./smoothieShack/SmoothieShack";
-import { Warehouse } from "./warehouse/Warehouse";
-import { Toolshed } from "./toolshed/Toolshed";
-import { CookableName } from "features/game/types/consumables";
-import { TownCenter } from "./townCenter/TownCenter";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
+import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
+import { CookableName } from "features/game/types/consumables";
 
 interface Prop {
   name: BuildingName;
@@ -36,8 +23,8 @@ interface Prop {
   craftingReadyAt?: number;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
-  x?: number;
-  y?: number;
+  x: number;
+  y: number;
 }
 
 export interface BuildingProps {
@@ -47,99 +34,6 @@ export interface BuildingProps {
   isBuilt?: boolean;
   onRemove?: () => void;
 }
-
-export const BUILDING_COMPONENTS: Record<
-  BuildingName,
-  React.FC<BuildingProps>
-> = {
-  "Fire Pit": ({
-    buildingId,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-    >
-      <FirePit buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
-    </WithCraftingMachine>
-  ),
-  Workbench: WorkBench,
-  Bakery: ({
-    buildingId,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-    >
-      <Bakery buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
-    </WithCraftingMachine>
-  ),
-  Market: Market,
-  Tent: Tent,
-  "Town Center": TownCenter,
-  "Water Well": WaterWell,
-  Warehouse: Warehouse,
-  Toolshed: Toolshed,
-  "Hen House": ChickenHouse,
-  Kitchen: ({
-    buildingId,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-    >
-      <Kitchen buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
-    </WithCraftingMachine>
-  ),
-  Deli: ({
-    buildingId,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-    >
-      <Deli buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
-    </WithCraftingMachine>
-  ),
-  "Smoothie Shack": ({
-    buildingId,
-    craftingItemName,
-    craftingReadyAt,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
-    <WithCraftingMachine
-      buildingId={buildingId}
-      craftingItemName={craftingItemName}
-      craftingReadyAt={craftingReadyAt}
-    >
-      <SmoothieShack
-        buildingId={buildingId}
-        isBuilt={isBuilt}
-        onRemove={onRemove}
-      />
-    </WithCraftingMachine>
-  ),
-};
 
 const InProgressBuilding: React.FC<Prop> = ({
   name,
@@ -204,6 +98,8 @@ const BuildingComponent: React.FC<Prop> = ({
   craftingReadyAt,
   isRustyShovelSelected,
   showTimers,
+  x,
+  y,
 }) => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
@@ -236,6 +132,8 @@ const BuildingComponent: React.FC<Prop> = ({
           createdAt={createdAt}
           isRustyShovelSelected={false}
           showTimers={showTimers}
+          x={x}
+          y={y}
         />
       ) : (
         <BuildingPlaced
@@ -262,20 +160,33 @@ const BuildingComponent: React.FC<Prop> = ({
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-const MemorizedBuildingComponent = React.memo(BuildingComponent);
-
-export const Building: React.FC<Prop> = (props) => {
+const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
 
   const landscaping = useSelector(gameService, isLandscaping);
-
   if (landscaping) {
+    const BuildingPlaced = READONLY_BUILDINGS[props.name];
+
+    const inProgress = props.readyAt > Date.now();
+
+    // In Landscaping mode, use readonly building
     return (
-      <MoveableComponent id={props.id} {...(props as any)}>
-        <MemorizedBuildingComponent {...props} />
+      <MoveableComponent
+        id={props.id}
+        name={props.name}
+        x={props.x}
+        y={props.y}
+      >
+        {inProgress ? (
+          <BuildingComponent {...props} />
+        ) : (
+          <BuildingPlaced buildingId={props.id} {...props} />
+        )}
       </MoveableComponent>
     );
   }
 
-  return <MemorizedBuildingComponent {...props} />;
+  return <BuildingComponent {...props} />;
 };
+
+export const Building = React.memo(MoveableBuilding);

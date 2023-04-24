@@ -154,7 +154,14 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <ChickenElement key={`chicken-${id}`} id={id} />
+            <ChickenElement
+              key={`chicken-${id}`}
+              id={id}
+              coordinates={{
+                x,
+                y,
+              }}
+            />
           </MapPlacement>
         );
       })
@@ -391,9 +398,21 @@ export const Land: React.FC = () => {
           })}
         >
           <LandBase expandedCount={expansionCount} />
-          <UpcomingExpansion />
           <DirtRenderer grid={gameGrid} />
-          <Water level={expansionCount} />
+
+          {!landscaping && <Water level={expansionCount} />}
+          {!landscaping && <UpcomingExpansion />}
+          {!landscaping && (
+            <IslandTravel
+              bumpkin={bumpkin}
+              isVisiting={visiting}
+              inventory={inventory}
+              travelAllowed={!autosaving}
+              onTravelDialogOpened={() => gameService.send("SAVE")}
+              x={boatCoordinates.x}
+              y={boatCoordinates.y}
+            />
+          )}
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
@@ -414,15 +433,6 @@ export const Land: React.FC = () => {
             isFirstRender,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
-        <IslandTravel
-          bumpkin={bumpkin}
-          isVisiting={visiting}
-          inventory={inventory}
-          travelAllowed={!autosaving}
-          onTravelDialogOpened={() => gameService.send("SAVE")}
-          x={boatCoordinates.x}
-          y={boatCoordinates.y}
-        />
 
         {landscaping && <Placeable />}
       </div>

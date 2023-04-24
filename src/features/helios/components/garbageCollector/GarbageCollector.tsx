@@ -53,7 +53,13 @@ export const GarbageCollector: React.FC = () => {
               bottom: `${PIXEL_SCALE * 41}px`,
             }}
           >
-            <NPC body="Goblin Potion" hair="Teal Mohawk" shirt="Fire Shirt" />
+            <NPC
+              parts={{
+                body: "Goblin Potion",
+                hair: "Teal Mohawk",
+                shirt: "Fire Shirt",
+              }}
+            />
           </div>
         </div>
       </MapPlacement>
