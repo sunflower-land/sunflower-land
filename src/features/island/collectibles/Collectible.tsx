@@ -127,6 +127,8 @@ import { Context } from "features/game/GameProvider";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { DawnBreakerBanner } from "./components/DawnBreakerBanner";
 import { SolarFlareBanner } from "./components/SolarFlareBanner";
+import { HumanBanner } from "./components/HumanBanner";
+import { GoblinBanner } from "./components/GoblinBanner";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -292,6 +294,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Karkinos: Karkinos,
   "Dawn Breaker Banner": DawnBreakerBanner,
   "Solar Flare Banner": SolarFlareBanner,
+  "Human War Banner": HumanBanner,
+  "Goblin War Banner": GoblinBanner,
 };
 
 const InProgressCollectible: React.FC<Props> = ({

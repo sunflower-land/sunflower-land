@@ -291,6 +291,8 @@ export const OFFLINE_FARM: GameState = {
     "Easter Bush": new Decimal(3),
     "Block Buck": new Decimal(1),
 
+    "Human War Banner": new Decimal(1),
+
     // "Dawn Breaker Banner": new Decimal(1),
     // "Solar Flare Banner": new Decimal(1),
   },
