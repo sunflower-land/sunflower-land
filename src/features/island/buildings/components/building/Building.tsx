@@ -13,7 +13,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { BUILDING_COMPONENTS } from "./BuildingComponents";
+import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 
 interface Prop {
   name: BuildingName;
@@ -158,8 +158,11 @@ export const Building: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
 
   const landscaping = useSelector(gameService, isLandscaping);
-
   if (landscaping) {
+    const BuildingPlaced = READONLY_BUILDINGS[props.name];
+
+    const inProgress = props.readyAt > Date.now();
+
     // In Landscaping mode, use readonly building
     return (
       <MoveableComponent
@@ -167,7 +170,11 @@ export const Building: React.FC<Prop> = (props) => {
         name={props.name}
         coordinates={props.coordinates}
       >
-        <BuildingComponent {...props} />
+        {inProgress ? (
+          <InProgressBuilding {...props} />
+        ) : (
+          <BuildingPlaced buildingId={props.id} {...props} />
+        )}
       </MoveableComponent>
     );
   }
