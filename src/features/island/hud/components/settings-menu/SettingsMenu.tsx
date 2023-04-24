@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { CONFIG } from "lib/config";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
@@ -36,12 +35,10 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(GameContext);
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const [showAddMaticModal, setShowAddMaticModal] = useState(false);
   const [showAddSFLModal, setShowAddSFLModal] = useState(false);
   const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
@@ -111,7 +108,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     <>
       <Modal show={show} centered onHide={onHide}>
         <Panel>
-          <ul className="list-none pt-1">
+          <ul className="list-none">
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
@@ -178,22 +175,18 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               </>
             )}
 
-            {/* Back button when not Root */}
-            {menuLevel == MENU_LEVELS.COMMUNITY && (
-              <li className="p-1">
-                <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
-                  <img
-                    src={SUNNYSIDE.icons.arrow_left}
-                    className="w-4 mr-2"
-                    alt="left"
-                  />
-                </Button>
-              </li>
-            )}
-
             {/* Community menu */}
             {menuLevel === MENU_LEVELS.COMMUNITY && (
               <>
+                <li className="p-1">
+                  <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
+                    <img
+                      src={SUNNYSIDE.icons.arrow_left}
+                      className="w-4 mr-2"
+                      alt="left"
+                    />
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={handleCommunityGardenClick}>
                     <span>Community Garden</span>
@@ -207,7 +200,9 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               </>
             )}
 
-            {menuLevel === MENU_LEVELS.ON_RAMP && <AddMATIC />}
+            {menuLevel === MENU_LEVELS.ON_RAMP && (
+              <AddMATIC onClose={() => setMenuLevel(MENU_LEVELS.ROOT)} />
+            )}
           </ul>
         </Panel>
       </Modal>
