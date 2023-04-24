@@ -516,7 +516,8 @@ export const Chicken: React.FC<Props> = (props) => {
     return (
       <MoveableComponent
         name="Chicken"
-        coordinates={props.coordinates}
+        x={props.coordinates.x}
+        y={props.coordinates.y}
         id={props.id}
       >
         <ChickenComponent {...props} />
