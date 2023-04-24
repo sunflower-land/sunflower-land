@@ -669,6 +669,9 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+            PURCHASE_ITEM: {
+              target: "purchasing",
+            },
           },
         },
         noTownCenter: {
