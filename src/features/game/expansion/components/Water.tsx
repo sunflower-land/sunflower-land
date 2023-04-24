@@ -23,6 +23,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { PartyIsland } from "./PartyIsland";
+import { DawnTeaser } from "./DawnTeaser";
 
 export const LAND_WIDTH = 6;
 
@@ -114,6 +115,7 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
       </MapPlacement>
 
       <PartyIsland />
+      <DawnTeaser />
       <FruitQuest />
 
       <MapPlacement x={-20} y={-15} width={6}>

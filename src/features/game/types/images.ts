@@ -174,9 +174,10 @@ import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
-import dawnBreakerTicket from "assets/icons/solar_flare_ticket.png";
+import dawnBreakerTicket from "assets/icons/dawn_breake_ticket.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
-
+import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
 import humanBanner from "assets/sfts/human_banner.png";
@@ -1998,6 +1999,15 @@ export const ITEM_DETAILS: Items = {
   },
   Shrub: {
     image: shrub,
+    description: "?",
+  },
+
+  "Solar Flare Banner": {
+    image: solarFlareBanner,
+    description: "?",
+  },
+  "Dawn Breaker Banner": {
+    image: dawnBreakerBanner,
     description: "?",
   },
 };

@@ -125,6 +125,8 @@ import { MoveableComponent } from "./MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { DawnBreakerBanner } from "./components/DawnBreakerBanner";
+import { SolarFlareBanner } from "./components/SolarFlareBanner";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -288,6 +290,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
+  "Dawn Breaker Banner": DawnBreakerBanner,
+  "Solar Flare Banner": SolarFlareBanner,
 };
 
 const InProgressCollectible: React.FC<Props> = ({
