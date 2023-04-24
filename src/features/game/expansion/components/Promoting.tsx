@@ -103,7 +103,7 @@ export const PromotingModal: React.FC<Props> = ({
         <>
           <div className="p-2">
             <p className="mb-2 text-sm">
-              {`Step right up and take a gander at Grubnuk's fabulous selection of items!.`}
+              {`Step right up and take a gander at Grubnuk's fabulous selection of items!`}
             </p>
             <p className="mb-2 text-sm">
               {`I have got an exclusive deal for you!`}
@@ -154,10 +154,7 @@ export const PromotingModal: React.FC<Props> = ({
             <>
               <div className="flex items-center mt-2">
                 <p className="text-sm mr-2">Solar Flare Discount</p>
-                <img
-                  src={ITEM_DETAILS["Solar Flare Banner"].image}
-                  className="h-8"
-                />
+                <img src={SUNNYSIDE.icons.confirm} className="h-6" />
               </div>
 
               <ul className="list-disc mb-2">
@@ -166,7 +163,7 @@ export const PromotingModal: React.FC<Props> = ({
                 </li>
                 <li className="text-xs ml-4 mt-0.5">
                   <Label
-                    type="danger"
+                    type="info"
                     style={{
                       width: "fit-content",
                     }}

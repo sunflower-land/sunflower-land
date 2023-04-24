@@ -654,7 +654,9 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "promoting",
-              cond: () => !getSeasonPassRead(),
+              cond: (context) =>
+                !getSeasonPassRead() &&
+                (context.state.bumpkin?.experience ?? 0) > 0,
             },
             {
               target: "playing",
