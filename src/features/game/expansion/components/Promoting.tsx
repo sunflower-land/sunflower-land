@@ -51,6 +51,8 @@ export const PromotingModal: React.FC<Props> = ({
     ? new Date("2023-05-01")
     : new Date("2023-05-07");
 
+  const price = isPreSeason ? 3.99 : 7.99;
+
   const { gameService } = useContext(Context);
 
   const Content = () => {
@@ -132,6 +134,22 @@ export const PromotingModal: React.FC<Props> = ({
             <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
             <li className="text-xs ml-4">Access to exclusive cosmetics</li>
           </ul>
+          {!isPreSeason && (
+            <Label
+              type="info"
+              className="mt-2"
+              style={{
+                width: "fit-content",
+              }}
+            >
+              <SquareIcon
+                icon={SUNNYSIDE.icons.timer}
+                width={5}
+                className="-mb-0.5"
+              />
+              <span className="ml-1">Limited time only!</span>
+            </Label>
+          )}
           {isPreSeason && (
             <>
               <div className="flex items-center mt-2">
@@ -194,7 +212,7 @@ export const PromotingModal: React.FC<Props> = ({
               onClose();
             }}
           >
-            Buy now $3.99
+            {`Buy now $${price}`}
           </Button>
         </div>
       </>
