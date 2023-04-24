@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
 import { Inventory } from "./game";
 
+export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
+
 export type HeliosBlacksmithItem = "Immortal Pear" | "Treasure Map";
 
 export type GoblinBlacksmithItemName =
@@ -56,7 +58,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
 };
 
 export type GoblinBlacksmithCraftable = CraftableCollectible & {
-  supply: number;
+  supply?: number;
   disabled?: boolean;
 };
 
@@ -250,5 +252,23 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Yellow Egg": new Decimal(12),
     },
     supply: 500,
+  },
+};
+
+export type Purchasable = CraftableCollectible & {
+  usd: number;
+};
+
+export const SEASON_PASS_ITEMS: Record<SeasonPassName, Purchasable> = {
+  "Solar Flare Banner": {
+    description: "?",
+    ingredients: {},
+    usd: 3.99,
+  },
+  "Dawn Breaker Banner": {
+    description: "?",
+    ingredients: {},
+    boost: "?",
+    usd: 3.99,
   },
 };

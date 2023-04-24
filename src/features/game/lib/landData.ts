@@ -290,6 +290,9 @@ export const OFFLINE_FARM: GameState = {
     "Gold Rock": new Decimal(3),
     "Easter Bush": new Decimal(3),
     "Block Buck": new Decimal(1),
+
+    "Dawn Breaker Banner": new Decimal(1),
+    "Solar Flare Banner": new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,
