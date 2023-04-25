@@ -56,36 +56,38 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
       className="absolute z-40"
     >
       <div>
-        <div
-          onClick={() => gameService.send("LANDSCAPE")}
-          className="fixed flex z-50 cursor-pointer hover:img-highlight"
-          style={{
-            marginLeft: `${PIXEL_SCALE * 2}px`,
-            marginBottom: `${PIXEL_SCALE * 25}px`,
-            width: `${PIXEL_SCALE * 22}px`,
-            right: `${PIXEL_SCALE * 3}px`,
-            top: `${PIXEL_SCALE * 38}px`,
-          }}
-        >
-          <img
-            src={SUNNYSIDE.ui.round_button}
-            className="absolute"
+        {isFarming && (
+          <div
+            onClick={() => gameService.send("LANDSCAPE")}
+            className="fixed flex z-50 cursor-pointer hover:img-highlight"
             style={{
+              marginLeft: `${PIXEL_SCALE * 2}px`,
+              marginBottom: `${PIXEL_SCALE * 25}px`,
               width: `${PIXEL_SCALE * 22}px`,
+              right: `${PIXEL_SCALE * 3}px`,
+              top: `${PIXEL_SCALE * 38}px`,
             }}
-          />
-          <img
-            src={SUNNYSIDE.icons.drag}
-            className={classNames("absolute", {
-              "opacity-50 cursor-not-allowed": !isFarming,
-            })}
-            style={{
-              top: `${PIXEL_SCALE * 5}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-              width: `${PIXEL_SCALE * 12}px`,
-            }}
-          />
-        </div>
+          >
+            <img
+              src={SUNNYSIDE.ui.round_button}
+              className="absolute"
+              style={{
+                width: `${PIXEL_SCALE * 22}px`,
+              }}
+            />
+            <img
+              src={SUNNYSIDE.icons.drag}
+              className={classNames("absolute", {
+                "opacity-50 cursor-not-allowed": !isFarming,
+              })}
+              style={{
+                top: `${PIXEL_SCALE * 5}px`,
+                left: `${PIXEL_SCALE * 5}px`,
+                width: `${PIXEL_SCALE * 12}px`,
+              }}
+            />
+          </div>
+        )}
         <Inventory
           state={gameState.context.state}
           isFullUser={isFullUser}

@@ -37,7 +37,9 @@ export const Inventory: React.FC<Props> = ({
   const { pathname } = useLocation();
   // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
   const limitedInventory =
-    pathname.includes("retreat") || pathname.includes("visit");
+    pathname.includes("retreat") ||
+    pathname.includes("visit") ||
+    pathname.includes("dawn-breaker");
 
   const [selectedChestItem, setSelectedChestItem] = useState<InventoryItemName>(
     getKeys(getChestItems(state)).sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
@@ -59,7 +61,9 @@ export const Inventory: React.FC<Props> = ({
           right: `${PIXEL_SCALE * 3}px`,
           top: `${
             PIXEL_SCALE *
-            (hasFeatureAccess(state.inventory, "LANDSCAPING") ? 64 : 38)
+            (hasFeatureAccess(state.inventory, "LANDSCAPING") && isFarming
+              ? 64
+              : 38)
           }px`,
         }}
       >

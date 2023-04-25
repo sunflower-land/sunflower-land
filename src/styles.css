@@ -557,3 +557,14 @@ img {
     transform: translate(0, 0);
   }
 }
+
+.dawn-breaker-gradient {
+  background: rgb(62, 39, 49);
+  background: linear-gradient(
+    90deg,
+    rgba(62, 39, 49, 1) 8%,
+    rgba(104, 56, 108, 1) 33%,
+    rgba(181, 80, 136, 1) 70%,
+    rgba(246, 117, 122, 1) 100%
+  );
+}

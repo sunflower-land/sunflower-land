@@ -22,7 +22,7 @@ export const ClickableGridCoordinatesBuilder: React.FC<{
 
   return (
     <div
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
       style={{
         width: `${gridCols * GRID_WIDTH_PX}px`,
         height: `${gridRows * GRID_WIDTH_PX}px`,
@@ -46,6 +46,7 @@ export const ClickableGridCoordinatesBuilder: React.FC<{
 
             return (
               <div
+                className="cursor-pointer"
                 key={`${colNum} + ${rowNum}`}
                 style={{
                   boxSizing: "border-box",

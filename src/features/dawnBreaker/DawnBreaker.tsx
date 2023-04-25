@@ -27,6 +27,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { bumpkinPositions, lanternPositions } from "./lib/positions";
+import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -105,6 +106,13 @@ export const DawnBreaker: React.FC = () => {
       </div>
 
       <Hud isFarming={false} />
+      {availableLantern && (
+        <WeeklyLanternCount
+          lanternName={availableLantern.name}
+          previousMintCount={0}
+          weeklyMintGoal={20}
+        />
+      )}
       {/* <ClickableGridCoordinatesBuilder gridCols={40} gridRows={40} /> */}
     </>
   );
