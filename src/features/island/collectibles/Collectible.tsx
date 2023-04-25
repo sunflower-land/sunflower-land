@@ -124,6 +124,10 @@ import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "./MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
+import { DawnBreakerBanner } from "./components/DawnBreakerBanner";
+import { SolarFlareBanner } from "./components/SolarFlareBanner";
+import { HumanBanner } from "./components/HumanBanner";
+import { GoblinBanner } from "./components/GoblinBanner";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -288,6 +292,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
+  "Dawn Breaker Banner": DawnBreakerBanner,
+  "Solar Flare Banner": SolarFlareBanner,
+  "Human War Banner": HumanBanner,
+  "Goblin War Banner": GoblinBanner,
 };
 
 const InProgressCollectible: React.FC<Props> = ({

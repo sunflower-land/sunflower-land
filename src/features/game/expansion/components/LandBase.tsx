@@ -53,7 +53,7 @@ export const LandBase: React.FC<Props> = ({ expandedCount }) => {
       id={Section.GenesisBlock}
       src={LEVEL_IMAGES[expandedCount]}
       alt="land"
-      className="h-auto"
+      className="h-auto -z-10"
       style={{
         width: `${IMAGE_GRID_WIDTH * GRID_WIDTH_PX}px`,
       }}

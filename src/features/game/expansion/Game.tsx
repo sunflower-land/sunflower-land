@@ -44,6 +44,8 @@ import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
+import { Promoting } from "./components/Promoting";
+import { Purchasing } from "../components/Purchasing";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -55,6 +57,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   syncing: true,
   synced: true,
   error: true,
+  purchasing: true,
   refreshing: true,
   deposited: true,
   hoarding: true,
@@ -74,6 +77,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositing: true,
   upgradingGuestGame: false,
   introduction: false,
+  promoting: false,
 };
 
 // State change selectors
@@ -87,6 +91,7 @@ const isSyncing = (state: MachineState) => state.matches("syncing");
 const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
+const isPurchasing = (state: MachineState) => state.matches("purchasing");
 const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
@@ -118,6 +123,7 @@ export const Game: React.FC = () => {
   const error = useSelector(gameService, isError);
   const synced = useSelector(gameService, isSynced);
   const syncing = useSelector(gameService, isSyncing);
+  const purchasing = useSelector(gameService, isPurchasing);
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
@@ -281,6 +287,7 @@ export const Game: React.FC = () => {
           {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
           {synced && <Success />}
           {syncing && <Syncing />}
+          {purchasing && <Purchasing />}
           {hoarding && <Hoarding />}
           {swarming && <Swarming />}
           {noBumpkinFound && <NoBumpkin />}
@@ -292,6 +299,7 @@ export const Game: React.FC = () => {
       </Modal>
 
       {upgradingGuestGame && <WalletOnboarding />}
+      <Promoting />
       <Introduction />
 
       {GameContent()}

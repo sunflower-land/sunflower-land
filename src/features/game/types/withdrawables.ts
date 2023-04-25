@@ -305,6 +305,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Collectible Bear": false,
 
   "Basic Land": false,
+  "Solar Flare Banner": false,
+  "Dawn Breaker Banner": false,
 
   Orange: true,
   Blueberry: true,
