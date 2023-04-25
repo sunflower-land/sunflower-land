@@ -434,17 +434,22 @@ export type LanternName =
   | "Radiance Lantern"
   | "Aurora Lantern";
 
-type Ingredient = {
-  name: InventoryItemName;
-  amount: Decimal;
-};
+export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
 
 export type LanternOffering = {
   name: LanternName;
   startAt: string;
   endAt: string;
   sfl?: Decimal;
-  ingredients: Ingredient[];
+  ingredients: LanternIngredients;
+};
+
+export type LanternsCraftedByWeek = Record<string, number>;
+
+export type DawnBreaker = {
+  currentWeek: number;
+  availableLantern?: LanternOffering;
+  lanternsCraftedByWeek: LanternsCraftedByWeek;
 };
 
 export interface GameState {
@@ -519,7 +524,7 @@ export interface GameState {
   };
   hayseedHank: HayseedHank;
   mushrooms: Mushrooms;
-  lantern?: LanternOffering;
+  dawnBreaker?: DawnBreaker;
 }
 
 export interface Context {

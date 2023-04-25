@@ -3,7 +3,8 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { GameState, Inventory, InventoryItemName, Rock } from "../types/game";
+import { getKeys } from "../types/craftables";
+import { GameState, Inventory, InventoryItemName } from "../types/game";
 
 /**
  * Converts API response into a game state
@@ -75,10 +76,29 @@ export function makeGame(farm: any): GameState {
       unread: [],
     },
     mushrooms: farm.mushrooms,
+    dawnBreaker: {
+      ...farm.dawnBreaker,
+      currentWeek: Number(farm.dawnBreaker.currentWeek),
+      availableLantern: farm.dawnBreaker.availableLantern
+        ? {
+            ...farm.dawnBreaker.availableLantern,
+            sfl: new Decimal(farm.dawnBreaker.availableLantern.sfl),
+            ingredients: getKeys(
+              farm.dawnBreaker.availableLantern.ingredients
+            ).reduce(
+              (ingredients, name) => ({
+                ...ingredients,
+                [name]: new Decimal(
+                  farm.dawnBreaker.availableLantern.ingredients[name]
+                ),
+              }),
+              {}
+            ),
+          }
+        : undefined,
+    },
   };
 }
-
-type Rocks = Record<number, Rock>;
 
 /**
  * Returns the lowest values out of 2 game states

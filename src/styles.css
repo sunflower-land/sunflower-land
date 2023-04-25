@@ -136,18 +136,6 @@ img {
   image-rendering: pixelated;
 }
 
-@keyframes floating {
-  from {
-    transform: translate(0, 0px);
-  }
-  65% {
-    transform: translate(0, 10px);
-  }
-  to {
-    transform: translate(0, -0px);
-  }
-}
-
 @keyframes marquee-like-effect {
   from {
     transform: translateX(100%);
@@ -538,5 +526,34 @@ img {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+.blur-to-focus {
+  animation: blurToFocus 2s linear;
+}
+
+@keyframes blurToFocus {
+  0% {
+    filter: blur(10px);
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+
+.paper-floating {
+  animation: floating 5s linear infinite;
+}
+
+@keyframes floating {
+  from {
+    transform: translate(0, 0);
+  }
+  65% {
+    transform: translate(0, 5px);
+  }
+  to {
+    transform: translate(0, 0);
   }
 }

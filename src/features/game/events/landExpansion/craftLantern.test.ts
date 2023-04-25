@@ -1,50 +1,32 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState, LanternOffering } from "features/game/types/game";
+import {
+  LanternOffering,
+  LanternsCraftedByWeek,
+} from "features/game/types/game";
 import { craftLantern } from "./craftLantern";
 
-const GAME_STATE: GameState = TEST_FARM;
-
-const lantern: LanternOffering = {
+const availableLantern: LanternOffering = {
   name: "Radiance Lantern",
   startAt: "2023-05-08T00:00:00.000Z",
   endAt: "2023-05-15T00:00:00.000Z",
   sfl: new Decimal(50),
-  ingredients: [
-    {
-      name: "Carrot",
-      amount: new Decimal(200),
-    },
-    {
-      name: "Cauliflower",
-      amount: new Decimal(40),
-    },
-    {
-      name: "Beetroot",
-      amount: new Decimal(30),
-    },
-    {
-      name: "Cabbage",
-      amount: new Decimal(100),
-    },
-    {
-      name: "Wood",
-      amount: new Decimal(10),
-    },
-  ],
+  ingredients: {
+    Carrot: new Decimal(200),
+    Cauliflower: new Decimal(40),
+    Beetroot: new Decimal(30),
+    Cabbage: new Decimal(100),
+    Wood: new Decimal(10),
+  },
 };
 
+const currentWeek = 1;
+
 describe("craftLantern", () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
   it("throws an error if no bumpkin", () => {
-    const { bumpkin, ...noBumpkinState } = TEST_FARM;
-
     expect(() =>
       craftLantern({
-        state: noBumpkinState,
+        state: { ...TEST_FARM, bumpkin: undefined },
         action: {
           type: "lantern.crafted",
           name: "Luminous Lantern",
@@ -56,7 +38,7 @@ describe("craftLantern", () => {
   it("throws an error if lantern is not currently available", () => {
     expect(() =>
       craftLantern({
-        state: GAME_STATE,
+        state: TEST_FARM,
         action: {
           type: "lantern.crafted",
           name: "Luminous Lantern",
@@ -69,8 +51,12 @@ describe("craftLantern", () => {
     expect(() =>
       craftLantern({
         state: {
-          ...GAME_STATE,
-          lantern,
+          ...TEST_FARM,
+          dawnBreaker: {
+            currentWeek,
+            availableLantern,
+            lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+          },
           balance: new Decimal(10),
           inventory: {},
         },
@@ -86,8 +72,12 @@ describe("craftLantern", () => {
     expect(() =>
       craftLantern({
         state: {
-          ...GAME_STATE,
-          lantern,
+          ...TEST_FARM,
+          dawnBreaker: {
+            currentWeek,
+            availableLantern,
+            lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+          },
           balance: new Decimal(50),
           inventory: {
             Carrot: new Decimal(200),
@@ -104,8 +94,12 @@ describe("craftLantern", () => {
   it("crafts a lantern", () => {
     const state = craftLantern({
       state: {
-        ...GAME_STATE,
-        lantern,
+        ...TEST_FARM,
+        dawnBreaker: {
+          currentWeek,
+          availableLantern,
+          lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+        },
         balance: new Decimal(51),
         inventory: {
           Carrot: new Decimal(201),
@@ -133,8 +127,12 @@ describe("craftLantern", () => {
   it("adds activity to bumpkin", () => {
     const state = craftLantern({
       state: {
-        ...GAME_STATE,
-        lantern,
+        ...TEST_FARM,
+        dawnBreaker: {
+          currentWeek,
+          availableLantern,
+          lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+        },
         balance: new Decimal(51),
         inventory: {
           Carrot: new Decimal(201),
@@ -151,5 +149,63 @@ describe("craftLantern", () => {
     });
 
     expect(state.bumpkin?.activity?.["Radiance Lantern Crafted"]).toEqual(1);
+  });
+
+  it("adds lantern to lanternsCraftedByWeek", () => {
+    const state = craftLantern({
+      state: {
+        ...TEST_FARM,
+        dawnBreaker: {
+          currentWeek,
+          availableLantern,
+          lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+        },
+        balance: new Decimal(51),
+        inventory: {
+          Carrot: new Decimal(201),
+          Cauliflower: new Decimal(41),
+          Beetroot: new Decimal(31),
+          Cabbage: new Decimal(101),
+          Wood: new Decimal(10),
+        },
+      },
+      action: {
+        type: "lantern.crafted",
+        name: "Radiance Lantern",
+      },
+    });
+
+    expect(state.dawnBreaker?.lanternsCraftedByWeek[currentWeek]).toBeDefined();
+    expect(state.dawnBreaker?.lanternsCraftedByWeek[currentWeek]).toEqual(1);
+  });
+
+  it("increments lanternsCraftedByWeek", () => {
+    const state = craftLantern({
+      state: {
+        ...TEST_FARM,
+        dawnBreaker: {
+          currentWeek,
+          availableLantern,
+          lanternsCraftedByWeek: {
+            [currentWeek]: 1,
+          } as LanternsCraftedByWeek,
+        },
+        balance: new Decimal(51),
+        inventory: {
+          Carrot: new Decimal(201),
+          Cauliflower: new Decimal(41),
+          Beetroot: new Decimal(31),
+          Cabbage: new Decimal(101),
+          Wood: new Decimal(10),
+        },
+      },
+      action: {
+        type: "lantern.crafted",
+        name: "Radiance Lantern",
+      },
+    });
+
+    expect(state.dawnBreaker?.lanternsCraftedByWeek[currentWeek]).toBeDefined();
+    expect(state.dawnBreaker?.lanternsCraftedByWeek[currentWeek]).toEqual(2);
   });
 });
