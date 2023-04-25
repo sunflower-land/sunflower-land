@@ -4,10 +4,12 @@ import { useScrollIntoView, Section } from "lib/utils/hooks/useScrollIntoView";
 import { Hud } from "features/island/hud/Hud";
 
 import background from "assets/land/dawn_breaker.webp";
+// import week2 from "assets/land/week_2.png";
+// import week3 from "assets/land/week_3.png";
 import { IslandTravel } from "features/game/expansion/components/travel/IslandTravel";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import {
   Bumpkin,
@@ -24,7 +26,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
-import { lanternPositions } from "./lib/positions";
+import { bumpkinPositions, lanternPositions } from "./lib/positions";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -41,21 +43,14 @@ export const DawnBreaker: React.FC = () => {
   const inventory = useSelector(gameService, _inventory);
   const autosaving = useSelector(gameService, _autosaving);
 
-  const { availableLantern, lanternsCraftedByWeek } = dawnBreaker;
+  const { availableLantern, lanternsCraftedByWeek, currentWeek } = dawnBreaker;
 
   useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.DawnBreakerBackGround, "auto");
   }, []);
 
-  const getLaternsCraftedCount = () => {
-    if (!availableLantern) return 0;
-
-    return lanternsCraftedByWeek[availableLantern.startAt] ?? 0;
-  };
-
-  const laternsCraftedThisWeek =
-    availableLantern && lanternsCraftedByWeek[availableLantern.startAt];
+  const craftedLanternCount = lanternsCraftedByWeek[currentWeek] ?? 0;
 
   return (
     <>
@@ -80,14 +75,15 @@ export const DawnBreaker: React.FC = () => {
           travelAllowed={!autosaving}
         />
         <Bumpkin
+          currentWeek={currentWeek}
           bumpkin={bumpkin as Bumpkin}
-          lantern={availableLantern}
+          availableLantern={availableLantern}
           inventory={inventory}
         />
         {availableLantern &&
-          [...Array(getLaternsCraftedCount()).keys()].map((_, index) => {
-            const { name, startAt } = availableLantern;
-            const positions = lanternPositions[startAt];
+          [...Array(craftedLanternCount).keys()].slice(0, 5).map((_, index) => {
+            const { name } = availableLantern;
+            const positions = lanternPositions[currentWeek];
 
             return (
               <MapPlacement
@@ -96,7 +92,7 @@ export const DawnBreaker: React.FC = () => {
                 y={positions[index].y}
                 width={1}
               >
-                <div className="w-full flex justify-center">
+                <div className="w-full flex justify-center paper-floating">
                   <img
                     src={ITEM_DETAILS[name].image}
                     alt={name}
@@ -114,18 +110,22 @@ export const DawnBreaker: React.FC = () => {
   );
 };
 
+const _balance = (state: MachineState) => state.context.state.balance;
+
 const Bumpkin = ({
   bumpkin,
-  lantern = {} as LanternOffering,
+  availableLantern,
   inventory,
+  currentWeek,
 }: {
+  currentWeek: number;
   bumpkin: Bumpkin;
   inventory: Inventory;
-  lantern?: LanternOffering;
+  availableLantern?: LanternOffering;
 }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
+  const balance = useSelector(gameService, _balance);
 
   const handleOpen = () => {
     setShowModal(true);
@@ -137,34 +137,38 @@ const Bumpkin = ({
 
   const handleCraft = () => {
     gameService.send("lantern.crafted", {
-      name: lantern?.name,
+      name: availableLantern?.name,
     });
 
     handleClose();
   };
 
-  const hasMissingIngredients = getKeys(lantern?.ingredients ?? {}).some(
-    (name) => {
-      const balance = inventory[name] ?? new Decimal(0);
-      const amount = lantern?.ingredients[name] ?? new Decimal(0);
+  const hasMissingIngredients = getKeys(
+    availableLantern?.ingredients ?? {}
+  ).some((name) => {
+    const balance = inventory[name] ?? new Decimal(0);
+    const amount = availableLantern?.ingredients[name] ?? new Decimal(0);
 
-      return balance.lt(amount);
-    }
-  );
+    return balance.lt(amount);
+  });
 
-  const hasSflRequirement = gameState.context.state.balance.gte(
-    lantern?.sfl ?? new Decimal(0)
+  const hasSflRequirement = balance.gte(
+    availableLantern?.sfl ?? new Decimal(0)
   );
   const disableCraft = hasMissingIngredients || !hasSflRequirement;
 
   return (
     <>
-      <MapPlacement x={-11} y={5} width={1}>
+      <MapPlacement
+        x={bumpkinPositions[currentWeek].x}
+        y={bumpkinPositions[currentWeek].y}
+        width={1}
+      >
         <NPC {...bumpkin.equipped} onClick={handleOpen} />
       </MapPlacement>
-      {lantern && (
+      {availableLantern && (
         <Modal show={showModal} onHide={handleClose} centered>
-          <CloseButtonPanel title={lantern.name} onClose={handleClose}>
+          <CloseButtonPanel title={availableLantern.name} onClose={handleClose}>
             <div className="p-2 pt-0">
               <p className="text-sm">
                 Im baby ramps pork belly DSA umami. Ramps wayfarers poutine kogi
@@ -174,26 +178,26 @@ const Bumpkin = ({
               <OuterPanel className="flex p-2 w-1/2 mx-auto mt-3 mb-2">
                 <div className="flex flex-1 items-center justify-center">
                   <img
-                    src={ITEM_DETAILS[lantern.name].image}
-                    alt={lantern.name}
+                    src={ITEM_DETAILS[availableLantern.name].image}
+                    alt={availableLantern.name}
                     className="w-10"
                   />
                 </div>
                 <div className="flex flex-1 items-center justify-center flex-col">
-                  {lantern.sfl && (
+                  {availableLantern.sfl && (
                     <RequirementLabel
                       type="sellForSfl"
-                      requirement={lantern.sfl}
+                      requirement={availableLantern.sfl}
                     />
                   )}
-                  {lantern.ingredients &&
-                    getKeys(lantern.ingredients).map((name) => (
+                  {availableLantern.ingredients &&
+                    getKeys(availableLantern.ingredients).map((name) => (
                       <RequirementLabel
                         key={name}
                         type="item"
                         item={name}
                         requirement={
-                          lantern.ingredients[name] ?? new Decimal(0)
+                          availableLantern.ingredients[name] ?? new Decimal(0)
                         }
                         balance={inventory[name] ?? new Decimal(0)}
                       />

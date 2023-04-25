@@ -116,6 +116,8 @@ type Props = (
  * @props The component props.
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
+  console.log({ props });
+
   const getIcon = () => {
     switch (props.type) {
       case "sfl":
@@ -132,6 +134,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return SUNNYSIDE.icons.seedling;
     }
   };
+
   const getText = () => {
     switch (props.type) {
       case "sfl": {

@@ -144,7 +144,6 @@ const stateSelector = (state: AuthMachineState) => ({
 export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
   showVisitList,
-  inventory,
   travelAllowed,
 }) => {
   const { authService } = useContext(Auth.Context);
@@ -169,6 +168,13 @@ export const IslandList: React.FC<IslandListProps> = ({
       guestAccess: true,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
+    },
+    {
+      name: "Dawn Breaker",
+      image: SUNNYSIDE.icons.expression_confused,
+      levelRequired: 1,
+      guestAccess: true,
+      path: `/land/${farmId}/dawn-breaker`,
     },
     {
       name: "Goblin Retreat",
