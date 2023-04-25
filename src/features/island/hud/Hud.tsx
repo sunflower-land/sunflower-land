@@ -74,7 +74,7 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
             }}
           />
           <img
-            src={SUNNYSIDE.icons.hammer}
+            src={SUNNYSIDE.icons.drag}
             className="absolute"
             style={{
               top: `${PIXEL_SCALE * 5}px`,

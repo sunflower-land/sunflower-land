@@ -57,7 +57,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     );
 
   const craft = () => {
-    landscapingMachine.send("SELECT", {
+    gameService.send("LANDSCAPE", {
       action: "building.constructed",
       placeable: selectedName,
       requirements: {
