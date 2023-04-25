@@ -419,8 +419,8 @@ export const Land: React.FC = () => {
             className={classNames(
               `w-full h-full top-0 absolute transition-opacity pointer-events-none`,
               {
-                "opacity-0": !gameState.isLandscaping,
-                "opacity-100": gameState.isLandscaping,
+                "opacity-0": !landscaping,
+                "opacity-100": landscaping,
               }
             )}
             style={{
@@ -459,8 +459,8 @@ export const Land: React.FC = () => {
         className={classNames(
           "absolute w-full h-full bg-black -z-10  transition-opacity pointer-events-none",
           {
-            "opacity-0": !gameState.isLandscaping,
-            "opacity-50": gameState.isLandscaping,
+            "opacity-0": !landscaping,
+            "opacity-50": landscaping,
           }
         )}
       />
