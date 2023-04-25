@@ -328,7 +328,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
             </div>
           )}
           <div
-            className={classNames("h-full", {
+            className={classNames("h-full pointer-events-none", {
               "bg-red-500 bg-opacity-75": isColliding,
               "bg-green-300 bg-opacity-50": !isColliding && isSelected,
             })}
