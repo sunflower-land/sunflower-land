@@ -91,6 +91,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
   "Fire Pit": () => (
     <img
       src={ITEM_DETAILS["Fire Pit"].image}
+      className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 47}px` }}
     />
   ),
@@ -104,7 +105,10 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
     <img
       src={ITEM_DETAILS["Workbench"].image}
       className="relative"
-      style={{ width: `${PIXEL_SCALE * 47}px`, bottom: `${PIXEL_SCALE * 2}px` }}
+      style={{
+        width: `${PIXEL_SCALE * 47}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+      }}
     />
   ),
   Market: () => (
