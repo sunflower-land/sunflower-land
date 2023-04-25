@@ -32,6 +32,7 @@ import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
+import { GRID_WIDTH_PX } from "../lib/constants";
 
 const getIslandElements = ({
   buildings,
@@ -418,6 +419,22 @@ export const Land: React.FC = () => {
             />
           )}
 
+          <div
+            className={classNames(
+              `w-full h-full top-0 absolute transition-opacity pointer-events-none`,
+              {
+                "opacity-0": !gameState.isLandscaping,
+                "opacity-100": gameState.isLandscaping,
+              }
+            )}
+            style={{
+              backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+              backgroundImage: `
+            linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
+            linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
+            }}
+          />
+
           {/* Sort island elements by y axis */}
           {getIslandElements({
             expansionConstruction,
@@ -440,8 +457,22 @@ export const Land: React.FC = () => {
 
         {gameState.isLandscaping && <Placeable />}
       </div>
+
+      {/* Background darkens in landscaping */}
+      <div
+        className={classNames(
+          "absolute w-full h-full bg-black -z-10  transition-opacity pointer-events-none",
+          {
+            "opacity-0": !gameState.isLandscaping,
+            "opacity-50": gameState.isLandscaping,
+          }
+        )}
+      />
+
       {gameState.isLandscaping ? (
-        <LandscapingHud isFarming />
+        <>
+          <LandscapingHud isFarming />
+        </>
       ) : (
         <Hud isFarming />
       )}
