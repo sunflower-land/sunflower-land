@@ -543,18 +543,22 @@ img {
 }
 
 .paper-floating {
-  animation: floating 5s linear infinite;
+  animation-name: floating;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-delay: calc(var(--animation-order) * 250ms);
+  animation-timing-function: ease-in-out;
 }
 
 @keyframes floating {
-  from {
-    transform: translate(0, 0);
+  0% {
+    transform: translate(0, 0px);
   }
-  65% {
-    transform: translate(0, 5px);
+  50% {
+    transform: translate(0, 6px);
   }
-  to {
-    transform: translate(0, 0);
+  100% {
+    transform: translate(0, -0px);
   }
 }
 

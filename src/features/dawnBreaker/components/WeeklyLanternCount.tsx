@@ -20,6 +20,7 @@ interface Props {
   endAt: number;
   previousMintCount: number;
   weeklyMintGoal: number;
+  onLoaded: () => void;
 }
 
 export const WeeklyLanternCount: React.FC<Props> = ({
@@ -27,6 +28,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
   endAt,
   previousMintCount,
   weeklyMintGoal,
+  onLoaded,
 }) => {
   const [lanternsMinted, setLanternsMinted] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -56,11 +58,16 @@ export const WeeklyLanternCount: React.FC<Props> = ({
       const totalSupply = Number(supplyBatch[0]) ?? 0;
 
       setLanternsMinted(totalSupply - previousMintCount);
-      setLoaded(true);
+      handleLoaded();
     };
 
     getCount();
   }, []);
+
+  const handleLoaded = () => {
+    setLoaded(true);
+    onLoaded();
+  };
 
   const goalReached = lanternsMinted >= weeklyMintGoal;
   // get percentage of lanterns minted based on weekly goal.
@@ -73,7 +80,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
         className="fixed w-[96%] lg:w-96 z-[99999] bottom-4 cursor-pointer"
         style={{
           transform: `translateY(${loaded ? "9px" : "120px"}) translateX(-50%)`,
-          transition: "all .3s ease-in-out",
+          transition: "all .5s ease-in-out",
           left: "50%",
         }}
       >
@@ -152,15 +159,12 @@ export const WeeklyLanternCount: React.FC<Props> = ({
           </div>
           <div className="text-sm p-2 mb-2">
             <p>
-              Each week, our collective goal is to mint a certain number of
-              lanterns that will shed light on the island and brighten up the
-              dawn.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+              sagittis purus odio, vel eleifend risus molestie ac.
             </p>
             <p>
-              {`As you create your lanterns, imagine how they'll illuminate the
-              island and bring joy to its inhabitants. And if we reach our
-              weekly goal, there will be prizes and giveaways for all who
-              participate.`}
+              Nulla luctus, est vitae convallis dignissim, augue justo laoreet
+              eros, sit amet commodo leo sapien ac diam.
             </p>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>
