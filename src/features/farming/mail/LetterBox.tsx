@@ -58,7 +58,14 @@ export const LetterBox: React.FC = () => {
             <p className="text-sm capitalize ml-1 underline">{details.from}</p>
           </div>
 
-          <Conversation conversationId={selected as ConversationName} read />
+          <Conversation
+            conversationId={selected as ConversationName}
+            read={
+              !gameState.context.state.mailbox.read.find(
+                (item) => item.id === selected
+              )
+            }
+          />
         </Panel>
       );
     }
