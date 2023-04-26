@@ -7,12 +7,14 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useLocation } from "react-router-dom";
 
 type ButtonState = "unsaved" | "inProgress" | "saved";
 
 export const Save: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const location = useLocation();
 
   const playing =
     gameState.matches("playingGuestGame") ||
@@ -55,6 +57,8 @@ export const Save: React.FC = () => {
     gameService.send("SAVE");
   };
 
+  const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
+
   return (
     <div
       onClick={enableButton ? save : undefined}
@@ -64,7 +68,7 @@ export const Save: React.FC = () => {
       })}
       style={{
         right: `${PIXEL_SCALE * 3}px`,
-        bottom: `${PIXEL_SCALE * 52}px`,
+        bottom: `${PIXEL_SCALE * (isDawnBreakerIsland ? 63 : 52)}px`,
         width: `${PIXEL_SCALE * 22}px`,
       }}
     >

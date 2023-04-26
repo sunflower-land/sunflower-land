@@ -109,6 +109,7 @@ export const DawnBreaker: React.FC = () => {
       {availableLantern && (
         <WeeklyLanternCount
           lanternName={availableLantern.name}
+          endAt={new Date(availableLantern.endAt).getTime()}
           previousMintCount={0}
           weeklyMintGoal={20}
         />
