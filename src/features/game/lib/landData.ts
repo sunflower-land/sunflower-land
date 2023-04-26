@@ -2,8 +2,7 @@ import Decimal from "decimal.js-light";
 import { CHORES } from "../types/chores";
 import { Bumpkin, GameState, Inventory } from "../types/game";
 import { makeGame } from "./transforms";
-import { getKeys } from "../types/craftables";
-import { BUILDINGS } from "../types/buildings";
+import { COLLECTIBLES_DIMENSIONS, getKeys } from "../types/craftables";
 
 const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
@@ -253,7 +252,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 console.log({
-  got: getKeys(BUILDINGS()).reduce(
+  got: getKeys(COLLECTIBLES_DIMENSIONS).reduce(
     (acc, key) => ({
       ...acc,
       [key]: new Decimal(1),
@@ -306,7 +305,7 @@ export const OFFLINE_FARM: GameState = {
 
     // "Dawn Breaker Banner": new Decimal(1),
     // "Solar Flare Banner": new Decimal(1),
-    ...getKeys(BUILDINGS()).reduce(
+    ...getKeys(COLLECTIBLES_DIMENSIONS).reduce(
       (acc, key) => ({
         ...acc,
         [key]: new Decimal(1),

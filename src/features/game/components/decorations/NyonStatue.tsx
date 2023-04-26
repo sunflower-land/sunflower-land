@@ -15,7 +15,7 @@ export const NyonStatue: React.FC = () => {
     <>
       <img
         style={{
-          width: `${GRID_WIDTH_PX * 1.8}px`,
+          width: `${PIXEL_SCALE * 32}px`,
         }}
         className="hover:img-highlight cursor-pointer"
         src={nyonStatue}
