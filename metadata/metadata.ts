@@ -3491,8 +3491,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A bright paper lantern that illuminates the way.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1249.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Radiance Lantern": {
