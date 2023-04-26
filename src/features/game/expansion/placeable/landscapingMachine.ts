@@ -50,7 +50,6 @@ export interface Context {
   coordinates: Coordinates;
   collisionDetected: boolean;
   placeable?: BuildingName | CollectibleName | "Chicken";
-  hasLandscapingAccess: boolean;
 
   multiple?: boolean;
 
@@ -347,7 +346,6 @@ export const landscapingMachine = createMachine<
               {
                 target: ["#saving.done", "done"],
                 cond: (context) =>
-                  !context.hasLandscapingAccess ||
                   // When buying/crafting items, return them to playing mode once bought
                   context.action === "chicken.bought" ||
                   context.action === "collectible.crafted" ||

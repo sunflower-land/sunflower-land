@@ -10,7 +10,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getChestItems } from "./utils/inventory";
 import { KNOWN_IDS } from "features/game/types";
 import { useLocation } from "react-router-dom";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   state: GameState;
@@ -57,10 +56,7 @@ export const Inventory: React.FC<Props> = ({
         className="flex flex-col items-center fixed z-50"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
-          top: `${
-            PIXEL_SCALE *
-            (hasFeatureAccess(state.inventory, "LANDSCAPING") ? 64 : 38)
-          }px`,
+          top: `${PIXEL_SCALE * 64}px`,
         }}
       >
         <div
