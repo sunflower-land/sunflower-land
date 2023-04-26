@@ -64,8 +64,6 @@ export const PlayerBumpkin: React.FC<Props> = ({
   );
   const disableCraft = hasMissingIngredients || !hasSflRequirement;
 
-  console.log(currentWeek === 8);
-
   return (
     <>
       <MapPlacement
