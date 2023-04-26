@@ -18,15 +18,22 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import classNames from "classnames";
+import { useLocation } from "react-router-dom";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
-const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
+const HudComponent: React.FC<{
+  isFarming: boolean;
+  moveButtonsUp?: boolean;
+}> = ({ isFarming, moveButtonsUp }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const location = useLocation();
+  const [isMobile] = useIsMobile();
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
@@ -48,6 +55,8 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
   const user = authService.state.context.user;
   const isFullUser = user.type === "FULL";
   const farmAddress = isFullUser ? user.farmAddress : undefined;
+
+  const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
 
   return (
     <div
@@ -105,7 +114,6 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           isFarming={isFarming}
         />
       </div>
-
       <Balance
         onBalanceClick={
           farmAddress ? () => setShowDepositModal(true) : undefined
@@ -118,11 +126,27 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
         }
         isFullUser={isFullUser}
       />
-      {landId && <LandId landId={landId} />}
-      <Save />
+      {landId && !isDawnBreakerIsland && <LandId landId={landId} />}
+      <div
+        id="test-button"
+        className="fixed z-50 flex flex-col justify-between"
+        style={{
+          right: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 3}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+          ...(isDawnBreakerIsland &&
+            isMobile && {
+              transform: moveButtonsUp ? "translateY(-100px)" : "translateY(0)",
+              transition: "transform 0.5s ease-in-out",
+            }),
+        }}
+      >
+        <Save />
+        <Settings isFarming={isFarming} />
+      </div>
       <BumpkinProfile isFullUser={isFullUser} />
-      <Settings isFarming={isFarming} />
-
+      {/* Hides this button on Dawn breaker island when comp */}!
       {farmAddress && (
         <Modal show={showDepositModal} centered>
           <CloseButtonPanel
