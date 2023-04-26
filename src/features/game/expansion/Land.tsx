@@ -403,17 +403,6 @@ export const Land: React.FC = () => {
 
           {!landscaping && <Water level={expansionCount} />}
           {!landscaping && <UpcomingExpansion />}
-          {!landscaping && (
-            <IslandTravel
-              bumpkin={bumpkin}
-              isVisiting={visiting}
-              inventory={inventory}
-              travelAllowed={!autosaving}
-              onTravelDialogOpened={() => gameService.send("SAVE")}
-              x={boatCoordinates.x}
-              y={boatCoordinates.y}
-            />
-          )}
 
           <div
             className={classNames(
@@ -453,6 +442,18 @@ export const Land: React.FC = () => {
 
         {landscaping && <Placeable />}
       </div>
+
+      {!landscaping && (
+        <IslandTravel
+          bumpkin={bumpkin}
+          isVisiting={visiting}
+          inventory={inventory}
+          travelAllowed={!autosaving}
+          onTravelDialogOpened={() => gameService.send("SAVE")}
+          x={boatCoordinates.x}
+          y={boatCoordinates.y}
+        />
+      )}
 
       {/* Background darkens in landscaping */}
       <div

@@ -125,6 +125,7 @@ export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
   | { type: "BUILD" }
+  | { type: "BLUR" }
   | SelectEvent
   | ConstructEvent
   | PlaceEvent
@@ -276,6 +277,11 @@ export const landscapingMachine = createMachine<
                 }),
               }),
             },
+            BLUR: {
+              actions: assign({
+                moving: (_, event) => undefined,
+              }),
+            },
             BUILD: {
               target: "idle",
             },
@@ -342,7 +348,10 @@ export const landscapingMachine = createMachine<
                 target: ["#saving.done", "done"],
                 cond: (context) =>
                   !context.hasLandscapingAccess ||
-                  context.placeable === "Chicken",
+                  // When buying/crafting items, return them to playing mode once bought
+                  context.action === "chicken.bought" ||
+                  context.action === "collectible.crafted" ||
+                  context.action === "building.constructed",
                 actions: [
                   sendParent(
                     ({ placeable, action, coordinates: { x, y } }) =>

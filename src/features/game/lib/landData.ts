@@ -230,7 +230,7 @@ export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 0,
+  experience: 10000000,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -292,9 +292,6 @@ export const OFFLINE_FARM: GameState = {
     "Block Buck": new Decimal(1),
 
     "Human War Banner": new Decimal(1),
-
-    // "Dawn Breaker Banner": new Decimal(1),
-    // "Solar Flare Banner": new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,

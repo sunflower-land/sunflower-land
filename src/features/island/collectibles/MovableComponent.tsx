@@ -102,6 +102,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   children,
 }) => {
   const nodeRef = useRef(null);
+
   const [isMobile] = useIsMobile();
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);
@@ -117,6 +118,27 @@ export const MoveableComponent: React.FC<MovableProps> = ({
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
   const removeAction = !isMobile && getRemoveAction(name);
+
+  /**
+   * Deselect if clicked outside of element
+   */
+  // https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        isSelected &&
+        (event as any).target.id === "genesisBlock" &&
+        nodeRef.current &&
+        !(nodeRef.current as any).contains(event.target)
+      ) {
+        landscapingMachine.send("BLUR");
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [nodeRef, isSelected]);
 
   const remove = () => {
     if (!removeAction) {
@@ -328,7 +350,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           </div>
         )}
         <div
-          className={classNames("h-full", {
+          className={classNames("h-full pointer-events-none", {
             "bg-red-500 bg-opacity-75": isColliding,
             "bg-green-300 bg-opacity-50": !isColliding && isSelected,
           })}

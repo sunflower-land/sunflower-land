@@ -128,6 +128,7 @@ import { DawnBreakerBanner } from "./components/DawnBreakerBanner";
 import { SolarFlareBanner } from "./components/SolarFlareBanner";
 import { HumanBanner } from "./components/HumanBanner";
 import { GoblinBanner } from "./components/GoblinBanner";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -298,6 +299,46 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin War Banner": GoblinBanner,
 };
 
+// Need readonly versions for some troublesome components while in design mode
+export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
+  ...COLLECTIBLE_COMPONENTS,
+  Observatory: () => (
+    <img
+      src={ITEM_DETAILS["Observatory"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 31}px` }}
+    />
+  ),
+  "Maneki Neko": () => (
+    <img
+      src={ITEM_DETAILS["Maneki Neko"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 16}px` }}
+    />
+  ),
+  "Nyon Statue": () => (
+    <img
+      src={ITEM_DETAILS["Nyon Statue"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 32}px` }}
+    />
+  ),
+  "Rock Golem": () => (
+    <img
+      src={ITEM_DETAILS["Rock Golem"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 34}px` }}
+    />
+  ),
+  "Wicker Man": () => (
+    <img
+      src={ITEM_DETAILS["Wicker Man"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 19}px` }}
+    />
+  ),
+};
+
 const InProgressCollectible: React.FC<Props> = ({
   name,
   id,
@@ -463,9 +504,11 @@ export const Collectible: React.FC<Props> = (props) => {
   const landscaping = useSelector(gameService, isLandscaping);
 
   if (landscaping) {
+    const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
+
     return (
       <MoveableComponent {...(props as any)}>
-        <MemorizedCollectibleComponent {...props} />
+        <CollectiblePlaced {...props} />
       </MoveableComponent>
     );
   }

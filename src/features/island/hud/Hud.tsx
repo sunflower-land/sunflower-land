@@ -17,6 +17,7 @@ import { Deposit } from "features/goblins/bank/components/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
+import classNames from "classnames";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -74,8 +75,10 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
             }}
           />
           <img
-            src={SUNNYSIDE.icons.hammer}
-            className="absolute"
+            src={SUNNYSIDE.icons.drag}
+            className={classNames("absolute", {
+              "opacity-50 cursor-not-allowed": !isFarming,
+            })}
             style={{
               top: `${PIXEL_SCALE * 5}px`,
               left: `${PIXEL_SCALE * 5}px`,

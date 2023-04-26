@@ -96,7 +96,6 @@ export const Decorations: React.FC<Props> = ({ onClose }) => {
               key={item.name}
               onClick={() => setSelectedName(item.name as ShopDecorationName)}
               image={ITEM_DETAILS[item.name].image}
-              count={inventory[item.name]}
             />
           ))}
         </>
