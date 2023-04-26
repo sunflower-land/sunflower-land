@@ -63,5 +63,10 @@ export function removePlaceable({
     return game;
   }
 
+  if (name === "Chicken") {
+    delete game.chickens[id];
+    return game;
+  }
+
   return game;
 }
