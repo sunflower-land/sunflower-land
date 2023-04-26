@@ -72,7 +72,6 @@ import {
   setGuestModeComplete,
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
-import { hasFeatureAccess } from "lib/flags";
 import { purchaseItem } from "../actions/purchaseItem";
 
 export type PastAction = GameEvent & {
@@ -1118,8 +1117,6 @@ export function startGame(authContext: AuthContext) {
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
-              hasLandscapingAccess: (context: Context) =>
-                hasFeatureAccess(context.state.inventory, "LANDSCAPING"),
             },
             onDone: {
               target: "autosaving",

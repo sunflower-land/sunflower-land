@@ -67,8 +67,17 @@ const HudComponent: React.FC<{
       <div>
         {isFarming && (
           <div
-            onClick={() => gameService.send("LANDSCAPE")}
-            className="fixed flex z-50 cursor-pointer hover:img-highlight"
+            onClick={() => {
+              if (isFarming) {
+                gameService.send("LANDSCAPE");
+              }
+            }}
+            className={classNames(
+              "fixed flex z-50 cursor-pointer hover:img-highlight",
+              {
+                "opacity-50 cursor-not-allowed": !isFarming,
+              }
+            )}
             style={{
               marginLeft: `${PIXEL_SCALE * 2}px`,
               marginBottom: `${PIXEL_SCALE * 25}px`,
@@ -86,9 +95,7 @@ const HudComponent: React.FC<{
             />
             <img
               src={SUNNYSIDE.icons.drag}
-              className={classNames("absolute", {
-                "opacity-50 cursor-not-allowed": !isFarming,
-              })}
+              className={"absolute"}
               style={{
                 top: `${PIXEL_SCALE * 5}px`,
                 left: `${PIXEL_SCALE * 5}px`,
@@ -114,6 +121,7 @@ const HudComponent: React.FC<{
           isFarming={isFarming}
         />
       </div>
+
       <Balance
         onBalanceClick={
           farmAddress ? () => setShowDepositModal(true) : undefined
@@ -135,6 +143,7 @@ const HudComponent: React.FC<{
           bottom: `${PIXEL_SCALE * 3}px`,
           width: `${PIXEL_SCALE * 22}px`,
           height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+          // Shifts buttons up to make room for weekly latern counter component
           ...(isDawnBreakerIsland &&
             isMobile && {
               transform: moveButtonsUp ? "translateY(-100px)" : "translateY(0)",
@@ -146,7 +155,7 @@ const HudComponent: React.FC<{
         <Settings isFarming={isFarming} />
       </div>
       <BumpkinProfile isFullUser={isFullUser} />
-      {/* Hides this button on Dawn breaker island when comp */}!
+
       {farmAddress && (
         <Modal show={showDepositModal} centered>
           <CloseButtonPanel

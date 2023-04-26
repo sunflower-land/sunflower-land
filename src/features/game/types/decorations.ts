@@ -280,26 +280,30 @@ export const HELIOS_DECORATIONS: () => Record<
     name: "Dirt Path",
     sfl: marketRate(50),
     ingredients: {},
-    description: "A dirt path",
+    description: "Keep your farmer boots clean with a well trodden path.",
   },
   Bush: {
     name: "Bush",
-    sfl: marketRate(50),
-    ingredients: {},
-    description: "A dirt path",
-  },
-  Fence: {
-    name: "Fence",
-    sfl: marketRate(50),
+    sfl: marketRate(100),
     ingredients: {
       Wood: new Decimal(5),
     },
-    description: "A dirt path",
+    description: "What's lurking in the bushes?",
+  },
+  Fence: {
+    name: "Fence",
+    sfl: marketRate(10),
+    ingredients: {
+      Wood: new Decimal(5),
+    },
+    description: "Add a touch of rustic charm to your farm.",
   },
   Shrub: {
     name: "Shrub",
     sfl: marketRate(50),
-    ingredients: {},
-    description: "A dirt path",
+    ingredients: {
+      Wood: new Decimal(3),
+    },
+    description: "Enhance your in-game landscaping with a beautiful shrub",
   },
 });

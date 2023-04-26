@@ -1988,19 +1988,19 @@ export const ITEM_DETAILS: Items = {
   },
   "Dirt Path": {
     image: dirt,
-    description: "?",
+    description: "Keep your farmer boots clean with a well trodden path.",
   },
   Bush: {
     image: bush,
-    description: "?",
+    description: "What's lurking in the bushes?",
   },
   Fence: {
     image: fence,
-    description: "?",
+    description: "Add a touch of rustic charm to your farm.",
   },
   Shrub: {
     image: shrub,
-    description: "?",
+    description: "Enhance your in-game landscaping with a beautiful shrub",
   },
   "Solar Flare Banner": {
     image: solarFlareBanner,
