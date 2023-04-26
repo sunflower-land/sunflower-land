@@ -18,7 +18,6 @@ import {
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
-import { hasFeatureAccess } from "lib/flags";
 import { ToastContext } from "features/game/toast/ToastProvider";
 
 export const PlaceableController: React.FC = () => {
@@ -103,11 +102,7 @@ export const PlaceableController: React.FC = () => {
   };
 
   const handleCancelPlacement = () => {
-    if (hasFeatureAccess(gameState.context.state.inventory, "LANDSCAPING")) {
-      send("BACK");
-    } else {
-      send("CANCEL");
-    }
+    send("BACK");
   };
 
   const Hint = () => {
