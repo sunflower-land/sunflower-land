@@ -125,6 +125,7 @@ export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
   | { type: "BUILD" }
+  | { type: "BLUR" }
   | SelectEvent
   | ConstructEvent
   | PlaceEvent
@@ -274,6 +275,11 @@ export const landscapingMachine = createMachine<
                   id: event.id,
                   name: event.name,
                 }),
+              }),
+            },
+            BLUR: {
+              actions: assign({
+                moving: (_, event) => undefined,
               }),
             },
             BUILD: {
