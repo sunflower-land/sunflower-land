@@ -57,8 +57,17 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
     >
       <div>
         <div
-          onClick={() => gameService.send("LANDSCAPE")}
-          className="fixed flex z-50 cursor-pointer hover:img-highlight"
+          onClick={() => {
+            if (isFarming) {
+              gameService.send("LANDSCAPE");
+            }
+          }}
+          className={classNames(
+            "fixed flex z-50 cursor-pointer hover:img-highlight",
+            {
+              "opacity-50 cursor-not-allowed": !isFarming,
+            }
+          )}
           style={{
             marginLeft: `${PIXEL_SCALE * 2}px`,
             marginBottom: `${PIXEL_SCALE * 25}px`,
@@ -76,9 +85,7 @@ const HudComponent: React.FC<{ isFarming: boolean }> = ({ isFarming }) => {
           />
           <img
             src={SUNNYSIDE.icons.drag}
-            className={classNames("absolute", {
-              "opacity-50 cursor-not-allowed": !isFarming,
-            })}
+            className={"absolute"}
             style={{
               top: `${PIXEL_SCALE * 5}px`,
               left: `${PIXEL_SCALE * 5}px`,
