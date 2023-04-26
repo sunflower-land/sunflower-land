@@ -77,7 +77,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
     <>
       <div
         onClick={() => setShowModal(true)}
-        className="fixed w-[96%] lg:w-96 z-[99999] bottom-4 cursor-pointer"
+        className="fixed w-[96%] sm:w-96 z-[99999] bottom-4 cursor-pointer"
         style={{
           transform: `translateY(${loaded ? "9px" : "120px"}) translateX(-50%)`,
           transition: "all .5s ease-in-out",
