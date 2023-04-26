@@ -17,9 +17,11 @@ import levelUpIcon from "assets/icons/level_up.png";
 import goblin from "assets/buildings/goblin_sign.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
+import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 import land from "assets/land/islands/island.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { analytics } from "lib/analytics";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Island {
   name: string;
@@ -143,6 +145,7 @@ const stateSelector = (state: AuthMachineState) => ({
 
 export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
+  inventory,
   showVisitList,
   travelAllowed,
 }) => {
@@ -169,13 +172,17 @@ export const IslandList: React.FC<IslandListProps> = ({
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
     },
-    {
-      name: "Dawn Breaker",
-      image: SUNNYSIDE.icons.expression_confused,
-      levelRequired: 1,
-      guestAccess: true,
-      path: `/land/${farmId}/dawn-breaker`,
-    },
+    ...(hasFeatureAccess(inventory, "DAWN_BREAKER")
+      ? [
+          {
+            name: "Dawn Breaker",
+            image: dawnBreakerBanner,
+            levelRequired: 1 as BumpkinLevel,
+            guestAccess: true,
+            path: `/land/${farmId}/dawn-breaker`,
+          },
+        ]
+      : []),
     {
       name: "Goblin Retreat",
       levelRequired: 5 as BumpkinLevel,

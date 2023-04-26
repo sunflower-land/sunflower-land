@@ -26,6 +26,7 @@ import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
+import { Week } from "features/dawnBreaker/lib/positions";
 
 export type Reward = {
   sfl?: Decimal;
@@ -447,7 +448,7 @@ export type LanternOffering = {
 export type LanternsCraftedByWeek = Record<string, number>;
 
 export type DawnBreaker = {
-  currentWeek: number;
+  currentWeek: Week;
   availableLantern?: LanternOffering;
   lanternsCraftedByWeek: LanternsCraftedByWeek;
 };
