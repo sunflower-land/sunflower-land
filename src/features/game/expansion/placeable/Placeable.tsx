@@ -16,7 +16,7 @@ import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
+import { READONLY_COLLECTIBLES } from "features/island/collectibles/Collectible";
 import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -24,23 +24,19 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { getGameGrid } from "./lib/makeGrid";
-import {
-  BUILDING_COMPONENTS,
-  READONLY_BUILDINGS,
-} from "features/island/buildings/components/building/BuildingComponents";
+import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 
 export const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken coordinates={{ x: 0, y: 0 }} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
-  ...BUILDING_COMPONENTS,
-  ...COLLECTIBLE_COMPONENTS,
+  ...READONLY_COLLECTIBLES,
   ...READONLY_RESOURCE_COMPONENTS,
+  ...READONLY_BUILDINGS,
   "Dirt Path": () => (
     <img
       src={ITEM_DETAILS["Dirt Path"].image}
       style={{ width: `${PIXEL_SCALE * 22}px` }}
     />
   ),
-  ...READONLY_BUILDINGS,
 };
 
 // TODO - get dynamic bounds for placeable
