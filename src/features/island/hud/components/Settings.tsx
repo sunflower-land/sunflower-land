@@ -32,7 +32,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   const { showTimers, toggleTimers } = useContext(Context);
   const [showMoreButtons, setShowMoreButtons] = useState(false);
   const [openAudioMenu, setOpenAudioMenu] = useState(false);
-  const [openSettingsMenu, setOpenSettingsMenu] = useState(true);
+  const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
   const { pathname } = useLocation();
   // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
   const showLimitedButtons =
