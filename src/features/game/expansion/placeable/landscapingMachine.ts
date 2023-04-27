@@ -63,6 +63,8 @@ export interface Context {
     id: string;
     name: InventoryItemName;
   };
+
+  maximum?: number;
 }
 
 type SelectEvent = {
@@ -75,6 +77,7 @@ type SelectEvent = {
   };
   collisionDetected: boolean;
   multiple?: boolean;
+  maximum?: number;
 };
 
 type UpdateEvent = {
@@ -266,6 +269,7 @@ export const landscapingMachine = createMachine<
                 action: (_, event) => event.action,
                 requirements: (_, event) => event.requirements,
                 multiple: (_, event) => event.multiple,
+                maximum: (_, event) => event.maximum,
               }),
             },
             MOVE: {

@@ -133,6 +133,7 @@ type LandscapeEvent = {
     ingredients: Inventory;
   };
   multiple?: boolean;
+  maximum?: number;
 };
 
 type VisitEvent = {
@@ -1117,6 +1118,7 @@ export function startGame(authContext: AuthContext) {
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
+              maximum: (_: Context, event: LandscapeEvent) => event.maximum,
             },
             onDone: {
               target: "autosaving",

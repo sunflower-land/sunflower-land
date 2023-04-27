@@ -50,6 +50,7 @@ export const SeasonalDecorations: React.FC<Props> = ({ onClose }) => {
         ingredients: selected.ingredients,
       },
       multiple: true,
+      maximum: selected.limit,
     });
 
     onClose();
