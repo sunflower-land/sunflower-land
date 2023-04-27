@@ -76,6 +76,7 @@ export const DawnBreaker: React.FC = () => {
         <PlayerBumpkin
           currentWeek={currentWeek}
           bumpkin={bumpkin as Bumpkin}
+          lanternsCraftedByWeek={lanternsCraftedByWeek}
           availableLantern={availableLantern}
           inventory={inventory}
         />

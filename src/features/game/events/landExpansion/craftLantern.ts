@@ -32,9 +32,12 @@ export const craftLantern = ({ state, action }: Options): GameState => {
 
   // Requirements are multiplied by the number of lanterns crafted + 1 (for the current week)
   // eg. 1st lantern requires 1x, 2nd lantern requires 2x, 3rd lantern requires 3x, etc.
-  const multiplier = lanternsCraftedByWeek[currentWeek]
-    ? lanternsCraftedByWeek[currentWeek] + 1
-    : 1;
+  let multiplier = 1;
+  const currentCraftCount = lanternsCraftedByWeek[currentWeek];
+
+  if (currentCraftCount) {
+    multiplier = currentCraftCount + 1;
+  }
 
   if (requiredSFL) {
     let cost = requiredSFL.mul(multiplier);

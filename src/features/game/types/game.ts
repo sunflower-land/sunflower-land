@@ -445,7 +445,7 @@ export type LanternOffering = {
   ingredients: LanternIngredients;
 };
 
-export type LanternsCraftedByWeek = Record<string, number>;
+export type LanternsCraftedByWeek = Partial<Record<Week, number>>;
 
 export type DawnBreaker = {
   currentWeek: Week;
