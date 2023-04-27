@@ -18,7 +18,6 @@ import {
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
-import { hasFeatureAccess } from "lib/flags";
 import { ToastContext } from "features/game/toast/ToastProvider";
 
 export const PlaceableController: React.FC = () => {
@@ -33,6 +32,7 @@ export const PlaceableController: React.FC = () => {
         placeable,
         requirements,
         coordinates,
+        maximum,
         action,
       },
     },
@@ -77,7 +77,21 @@ export const PlaceableController: React.FC = () => {
       hasRequirements = hasSFL && hasIngredients;
     }
 
-    const placeMore = requirements ? hasRequirements : available.gt(1);
+    let placeMore = false;
+
+    // Placing from chest
+    if (!requirements) {
+      placeMore = available.gt(1);
+    } else {
+      placeMore = hasRequirements;
+    }
+
+    const previous =
+      gameState.context.state.inventory[placeable] ?? new Decimal(0);
+
+    if (maximum && previous.gte(maximum - 1)) {
+      placeMore = false;
+    }
 
     if (placeMore) {
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
@@ -103,11 +117,7 @@ export const PlaceableController: React.FC = () => {
   };
 
   const handleCancelPlacement = () => {
-    if (hasFeatureAccess(gameState.context.state.inventory, "LANDSCAPING")) {
-      send("BACK");
-    } else {
-      send("CANCEL");
-    }
+    send("BACK");
   };
 
   const Hint = () => {

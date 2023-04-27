@@ -2,9 +2,10 @@ import React, { useRef, useEffect } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import ocean from "assets/decorations/ocean.webp";
+import darkOcean from "assets/decorations/dark_ocean.webp";
 
 import mapMovement from "../lib/mapMovement";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
@@ -14,6 +15,7 @@ export const LandExpansion: React.FC = () => {
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
   const { id } = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     mapMovement.addListeners(container.current);
@@ -21,6 +23,8 @@ export const LandExpansion: React.FC = () => {
       mapMovement.removeListeners();
     };
   }, [container]);
+
+  const isDawnBreaker = location.pathname.includes("dawn-breaker");
 
   // Load data
   return (
@@ -43,7 +47,7 @@ export const LandExpansion: React.FC = () => {
             <div
               className="absolute inset-0 bg-repeat w-full h-full"
               style={{
-                backgroundImage: `url(${ocean})`,
+                backgroundImage: `url(${isDawnBreaker ? darkOcean : ocean})`,
                 backgroundSize: `${64 * PIXEL_SCALE}px`,
                 imageRendering: "pixelated",
               }}

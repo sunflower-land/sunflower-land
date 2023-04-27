@@ -304,12 +304,25 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Cabbage Girl": true,
   "Collectible Bear": false,
 
+  // Dawn Season deocrations - turn on after season
+  Clementine: false,
+  Cobalt: false,
+  "Dawn Umbrella Seat": false,
+  "Eggplant Grill": false,
+  "Giant Dawn Mushroom": false,
+  "Shroom Glow": false,
+
   "Basic Land": false,
   "Solar Flare Banner": false,
   "Dawn Breaker Banner": false,
 
   Orange: true,
   Blueberry: true,
+
+  // Dawn Breaker
+  "Luminous Lantern": false,
+  "Radiance Lantern": false,
+  "Aurora Lantern": false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

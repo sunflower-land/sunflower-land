@@ -11,7 +11,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Tools } from "./Tools";
 import { Equipment } from "features/island/hud/components/equipment/Equipment";
 import { Buildings } from "features/island/hud/components/buildings/Buildings";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -34,20 +33,14 @@ export const WorkbenchModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.blacksmith;
 
-  const hasAccess = hasFeatureAccess(gameInventory, "LANDSCAPING");
-
   return (
     <CloseButtonPanel
       bumpkinParts={bumpkinParts}
       onClose={onClose}
       tabs={[
         { icon: ITEM_DETAILS.Pickaxe.image, name: "Tools" },
-        ...(hasAccess
-          ? [
-              { icon: lightning, name: "Special" },
-              { icon: SUNNYSIDE.icons.hammer, name: "Build" },
-            ]
-          : []),
+        { icon: lightning, name: "Special" },
+        { icon: SUNNYSIDE.icons.hammer, name: "Build" },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}

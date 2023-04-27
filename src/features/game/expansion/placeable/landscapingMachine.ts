@@ -50,7 +50,6 @@ export interface Context {
   coordinates: Coordinates;
   collisionDetected: boolean;
   placeable?: BuildingName | CollectibleName | "Chicken";
-  hasLandscapingAccess: boolean;
 
   multiple?: boolean;
 
@@ -64,6 +63,8 @@ export interface Context {
     id: string;
     name: InventoryItemName;
   };
+
+  maximum?: number;
 }
 
 type SelectEvent = {
@@ -76,6 +77,7 @@ type SelectEvent = {
   };
   collisionDetected: boolean;
   multiple?: boolean;
+  maximum?: number;
 };
 
 type UpdateEvent = {
@@ -267,6 +269,7 @@ export const landscapingMachine = createMachine<
                 action: (_, event) => event.action,
                 requirements: (_, event) => event.requirements,
                 multiple: (_, event) => event.multiple,
+                maximum: (_, event) => event.maximum,
               }),
             },
             MOVE: {
@@ -347,7 +350,6 @@ export const landscapingMachine = createMachine<
               {
                 target: ["#saving.done", "done"],
                 cond: (context) =>
-                  !context.hasLandscapingAccess ||
                   // When buying/crafting items, return them to playing mode once bought
                   context.action === "chicken.bought" ||
                   context.action === "collectible.crafted" ||

@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
-import { Bumpkin } from "../types/game";
+import { Bumpkin, LanternName } from "../types/game";
 import { BeanName } from "./beans";
 import { HeliosBlacksmithItem } from "./collectibles";
 import { DecorationName } from "./decorations";
@@ -33,7 +33,8 @@ export type CraftedEvent = `${
   | ToolName
   | WorkbenchToolName
   | TreasureToolName
-  | HeliosBlacksmithItem} Crafted`;
+  | HeliosBlacksmithItem
+  | LanternName} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;

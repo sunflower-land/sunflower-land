@@ -65,6 +65,7 @@ jobs:
           VITE_DAILY_REWARD_CONTRACT: "0x3F2f4AA023c6Ed149D342229afAc6E140E149114"
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
+          VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
           VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/game-assets"
 
           VITE_BUMPKIN_DETAILS_CONTRACT: "0x687BcED586A8AECEdA5bd6b142577DE1d83a2a9c"

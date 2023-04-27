@@ -46,6 +46,8 @@ import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
 import { Promoting } from "./components/Promoting";
 import { Purchasing } from "../components/Purchasing";
+import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
+import { hasFeatureAccess } from "lib/flags";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -111,6 +113,7 @@ const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
 const isUpgradingGuestGame = (state: MachineState) =>
   state.matches("upgradingGuestGame");
+const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -140,6 +143,7 @@ export const Game: React.FC = () => {
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
   const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
+  const inventory = useSelector(gameService, _inventory);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -245,6 +249,12 @@ export const Game: React.FC = () => {
             <Route path="/snow" element={<SnowKingdom key="snow" />} />
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
+            {hasFeatureAccess(inventory, "DAWN_BREAKER") && (
+              <Route
+                path="/dawn-breaker"
+                element={<DawnBreaker key="dawn-breaker" />}
+              />
+            )}
             <Route
               path="/headquarters"
               element={<HeadQuarters key="headquarters" />}

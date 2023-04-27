@@ -68,6 +68,7 @@ describe("Construct building", () => {
           },
           inventory: {
             "Water Well": new Decimal(4),
+            "Basic Land": new Decimal(20),
           },
           buildings: {
             "Water Well": [
@@ -97,6 +98,34 @@ describe("Construct building", () => {
               },
             ],
           },
+        },
+        action: {
+          id: "123",
+          type: "building.constructed",
+          name: "Water Well",
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+      })
+    ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+  });
+
+  it("does not construct if max building limit is reached in inventory", () => {
+    expect(() =>
+      constructBuilding({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[20],
+          },
+          inventory: {
+            "Water Well": new Decimal(4),
+            "Basic Land": new Decimal(20),
+          },
+          buildings: {},
         },
         action: {
           id: "123",

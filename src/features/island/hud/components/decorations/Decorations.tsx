@@ -21,10 +21,6 @@ interface Props {
   onClose: () => void;
 }
 
-const DECORATIONS = {
-  ...HELIOS_DECORATIONS(),
-};
-
 export const Decorations: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
     useState<ShopDecorationName>("Basic Bear");

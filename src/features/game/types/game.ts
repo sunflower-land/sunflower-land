@@ -26,6 +26,7 @@ import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
+import { Week } from "features/dawnBreaker/lib/positions";
 
 export type Reward = {
   sfl?: Decimal;
@@ -224,6 +225,7 @@ export type InventoryItemName =
   | GoblinPirateItemName
   | SeasonPassName
   | TreasureToolName
+  | LanternName
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -428,6 +430,29 @@ export type NPCDialogue = {
   from: "aunt" | "bumpkin" | "betty" | "bruce";
 };
 
+export type LanternName =
+  | "Luminous Lantern"
+  | "Radiance Lantern"
+  | "Aurora Lantern";
+
+export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
+
+export type LanternOffering = {
+  name: LanternName;
+  startAt: string;
+  endAt: string;
+  sfl?: Decimal;
+  ingredients: LanternIngredients;
+};
+
+export type LanternsCraftedByWeek = Partial<Record<Week, number>>;
+
+export type DawnBreaker = {
+  currentWeek: Week;
+  availableLantern?: LanternOffering;
+  lanternsCraftedByWeek: LanternsCraftedByWeek;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -500,6 +525,7 @@ export interface GameState {
   };
   hayseedHank: HayseedHank;
   mushrooms: Mushrooms;
+  dawnBreaker?: DawnBreaker;
 }
 
 export interface Context {
