@@ -252,7 +252,6 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
-  balance: new Decimal(10),
   dawnBreaker: {
     currentWeek: 1,
     availableLantern: {
@@ -269,6 +268,7 @@ export const OFFLINE_FARM: GameState = {
       1: 5,
     },
   },
+  balance: new Decimal(1000),
   inventory: {
     "Luminous Lantern": new Decimal(5),
     Market: new Decimal(1),
@@ -309,6 +309,24 @@ export const OFFLINE_FARM: GameState = {
     "Block Buck": new Decimal(1),
 
     "Human War Banner": new Decimal(1),
+
+    "Wild Mushroom": new Decimal(1000),
+    Eggplant: new Decimal(1000),
+
+    "Bonnie's Tombstone": new Decimal(1),
+    "Grubnash's Tombstone": new Decimal(1),
+    "Crimson Cap": new Decimal(1),
+    "Toadstool Seat": new Decimal(1),
+    "Chestnut Fungi Stool": new Decimal(1),
+    "Mahogany Cap": new Decimal(1),
+    Clementine: new Decimal(1),
+    Cobalt: new Decimal(1),
+    "Dawn Umbrella Seat": new Decimal(1),
+    "Eggplant Grill": new Decimal(1),
+    "Giant Dawn Mushroom": new Decimal(1),
+    "Shroom Glow": new Decimal(1),
+
+    Chicken: new Decimal(5),
   },
 
   ...INITIAL_RESOURCES,
@@ -343,9 +361,9 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Market: [
+    "Hen House": [
       {
-        coordinates: { x: 0, y: 0 },
+        coordinates: { x: 6, y: 0 },
         createdAt: 0,
         id: "123",
         readyAt: 0,
