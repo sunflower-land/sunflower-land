@@ -88,14 +88,10 @@ export const PlaceableController: React.FC = () => {
 
     const previous =
       gameState.context.state.inventory[placeable] ?? new Decimal(0);
-    console.log({
-      maximum,
-      count: previous.toNumber(),
-    });
+
     if (maximum && previous.gte(maximum - 1)) {
       placeMore = false;
     }
-    console.log({ placeMore });
 
     if (placeMore) {
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
