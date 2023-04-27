@@ -28,19 +28,36 @@ export const craftLantern = ({ state, action }: Options): GameState => {
   const { availableLantern, currentWeek, lanternsCraftedByWeek } =
     copy.dawnBreaker;
 
-  const { startAt, ingredients, sfl: requiredSFL } = availableLantern;
+  const { ingredients, sfl: requiredSFL } = availableLantern;
+
+  // Requirements are multiplied by the number of lanterns crafted + 1 (for the current week)
+  // eg. 1st lantern requires 1x, 2nd lantern requires 2x, 3rd lantern requires 3x, etc.
+  let multiplier = 1;
+  const currentCraftCount = lanternsCraftedByWeek[currentWeek];
+
+  if (currentCraftCount) {
+    multiplier = currentCraftCount + 1;
+  }
 
   if (requiredSFL) {
-    if (copy.balance.lt(requiredSFL)) {
+    let cost = requiredSFL.mul(multiplier);
+
+    // Season Pass holders get a 25% discount on SFL
+    if (copy.inventory["Dawn Breaker Banner"]) {
+      cost = cost.mul(0.75);
+    }
+
+    if (copy.balance.lt(cost)) {
       throw new Error("Insufficient SFL balance");
     }
 
-    copy.balance = copy.balance.sub(requiredSFL);
+    copy.balance = copy.balance.sub(cost);
   }
 
   const subtractedInventory = getKeys(ingredients).reduce((inventory, name) => {
     const count = inventory[name] ?? new Decimal(0);
-    const amount = ingredients[name] ?? new Decimal(0);
+    const amount = (ingredients[name] ?? new Decimal(0)).mul(multiplier);
+
     if (count.lt(amount)) {
       throw new Error(`Insufficient ingredient: ${name}`);
     }
