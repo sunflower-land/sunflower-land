@@ -291,6 +291,7 @@ export type Decoration = {
   description: string;
   // If no SFL it is not available for purchase
   sfl?: Decimal;
+  limit?: number;
 };
 
 export const HELIOS_DECORATIONS: () => Record<
@@ -445,15 +446,17 @@ export const SEASONAL_DECORATIONS: () => Record<
       Eggplant: new Decimal(50),
       "Dawn Breaker Ticket": new Decimal(100),
     },
+    limit: 1,
   },
   "Giant Dawn Mushroom": {
     name: "Giant Dawn Mushroom",
     sfl: marketRate(1600),
     description: "?",
     ingredients: {
-      Mushroom: new Decimal(5),
+      "Wild Mushroom": new Decimal(5),
       Eggplant: new Decimal(25),
     },
+    limit: 5,
   },
   Clementine: {
     name: "Clementine",
@@ -463,6 +466,7 @@ export const SEASONAL_DECORATIONS: () => Record<
       Gold: new Decimal(5),
       "Wild Mushroom": new Decimal(20),
     },
+    limit: 1,
   },
   Cobalt: {
     name: "Cobalt",
@@ -472,6 +476,7 @@ export const SEASONAL_DECORATIONS: () => Record<
       "Wild Mushroom": new Decimal(10),
     },
     description: "?",
+    limit: 1,
   },
   "Shroom Glow": {
     name: "Shroom Glow",

@@ -2,9 +2,9 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import {
-  ShopDecorationName,
-  HELIOS_DECORATIONS,
   Decoration,
+  SeasonalDecorationName,
+  SEASONAL_DECORATIONS,
 } from "features/game/types/decorations";
 
 import { Box } from "components/ui/Box";
@@ -16,16 +16,17 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
 }
 
-export const Decorations: React.FC<Props> = ({ onClose }) => {
+export const SeasonalDecorations: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
-    useState<ShopDecorationName>("Basic Bear");
+    useState<SeasonalDecorationName>("Clementine");
 
-  const selected = HELIOS_DECORATIONS()[selectedName];
+  const selected = SEASONAL_DECORATIONS()[selectedName];
   const { gameService } = useContext(Context);
   const [
     {
@@ -65,6 +66,8 @@ export const Decorations: React.FC<Props> = ({ onClose }) => {
       selected.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
 
+  const maxCrafted = () =>
+    !!selected.limit && inventory[selectedName]?.gte(selected.limit);
   return (
     <SplitScreenView
       panel={
@@ -77,23 +80,38 @@ export const Decorations: React.FC<Props> = ({ onClose }) => {
             resources: selected.ingredients,
             sfl: price,
           }}
+          limit={selected.limit}
           actionView={
-            <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
-              Buy
-            </Button>
+            maxCrafted() ? (
+              <div className="flex items-center justify-center">
+                <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-2" />
+                <span className="text-xs">Already crafted</span>
+              </div>
+            ) : (
+              <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
+                Buy
+              </Button>
+            )
           }
         />
       }
       content={
         <>
-          {Object.values(HELIOS_DECORATIONS()).map((item: Decoration) => (
+          {Object.values(SEASONAL_DECORATIONS()).map((item: Decoration) => (
             <Box
               isSelected={selected.name === item.name}
               key={item.name}
-              onClick={() => setSelectedName(item.name as ShopDecorationName)}
+              onClick={() =>
+                setSelectedName(item.name as SeasonalDecorationName)
+              }
               image={ITEM_DETAILS[item.name].image}
             />
           ))}
+
+          <div className="flex mt-1">
+            <img src={SUNNYSIDE.icons.timer} className="h-4 mr-1" />
+            <p className="text-xs">Available until the end of the season.</p>
+          </div>
         </>
       }
     />

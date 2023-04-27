@@ -252,7 +252,6 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
-  balance: new Decimal(10),
   dawnBreaker: {
     currentWeek: 1,
     availableLantern: {
@@ -269,6 +268,7 @@ export const OFFLINE_FARM: GameState = {
       1: 5,
     },
   },
+  balance: new Decimal(1000),
   inventory: {
     "Luminous Lantern": new Decimal(5),
     Market: new Decimal(1),
@@ -309,6 +309,9 @@ export const OFFLINE_FARM: GameState = {
     "Block Buck": new Decimal(1),
 
     "Human War Banner": new Decimal(1),
+
+    "Wild Mushroom": new Decimal(1000),
+    Eggplant: new Decimal(1000),
 
     "Bonnie's Tombstone": new Decimal(1),
     "Grubnash's Tombstone": new Decimal(1),

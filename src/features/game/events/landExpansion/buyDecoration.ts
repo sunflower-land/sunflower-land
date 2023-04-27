@@ -7,6 +7,8 @@ import {
 } from "features/game/types/craftables";
 import {
   HELIOS_DECORATIONS,
+  SEASONAL_DECORATIONS,
+  SeasonalDecorationName,
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
@@ -14,7 +16,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
   type: "decoration.bought";
-  name: ShopDecorationName;
+  name: ShopDecorationName | SeasonalDecorationName;
   id?: string;
   coordinates?: {
     x: number;
@@ -27,11 +29,15 @@ type Options = {
   action: buyDecorationAction;
 };
 
+const DECORATIONS = {
+  ...HELIOS_DECORATIONS(),
+  ...SEASONAL_DECORATIONS(),
+};
 export function buyDecoration({ state, action }: Options) {
   console.log({ action });
   const stateCopy = cloneDeep(state);
   const { name } = action;
-  const desiredItem = HELIOS_DECORATIONS()[name];
+  const desiredItem = DECORATIONS[name];
 
   if (!desiredItem) {
     throw new Error("This item is not a decoration");
@@ -47,6 +53,10 @@ export function buyDecoration({ state, action }: Options) {
 
   if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {
     throw new Error("Insufficient tokens");
+  }
+
+  if (desiredItem.limit && stateCopy.inventory[name]?.gte(desiredItem.limit)) {
+    throw new Error("Max limit reached");
   }
 
   const subtractedInventory = getKeys(desiredItem.ingredients)?.reduce(
