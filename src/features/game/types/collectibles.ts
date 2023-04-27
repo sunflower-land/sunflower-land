@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Inventory } from "./game";
 import { SEASONS } from "./seasons";
+import { marketRate } from "../lib/halvening";
 
 export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
 
@@ -22,7 +23,10 @@ export type GoblinBlacksmithItemName =
   | "Pablo The Bunny"
   | "Easter Bush"
   | "Giant Carrot"
-  | "Mushroom House";
+  | "Mushroom House"
+  | "Purple Trail"
+  | "Obie"
+  | "Maximus";
 
 export type GoblinPirateItemName =
   | "Iron Idol"
@@ -63,6 +67,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
 export type GoblinBlacksmithCraftable = CraftableCollectible & {
   supply?: number;
   disabled?: boolean;
+  sfl?: Decimal;
 };
 
 export type GoblinPirateCraftable = CraftableCollectible & {
@@ -266,6 +271,42 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     sfl: new Decimal(30),
     boost: "+0.2 Wild Mushroom",
     // only available when SEASONS["DAWN_BREAKER"] starts
+    disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+  },
+  Maximus: {
+    description: "Squash the competition with plump Maximus",
+    // Placeholders
+    ingredients: {
+      Eggplant: new Decimal(100),
+      "Dawn Breaker Ticket": new Decimal(100),
+    },
+    sfl: marketRate(20000),
+    supply: 360,
+    boost: "+1 Eggplant",
+    disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+  },
+  Obie: {
+    description: "A fierce eggplant solider",
+    // Placeholders
+    ingredients: {
+      Eggplant: new Decimal(50),
+      "Dawn Breaker Ticket": new Decimal(75),
+    },
+    sfl: marketRate(2000),
+    supply: 2500,
+    boost: "25% faster eggplants",
+    disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+  },
+  "Purple Trail": {
+    description:
+      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+    // Placeholders
+    ingredients: {
+      Eggplant: new Decimal(25),
+      "Dawn Breaker Ticket": new Decimal(25),
+    },
+    sfl: marketRate(2000),
+    boost: "+0.2 Eggplant",
     disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
   },
 };

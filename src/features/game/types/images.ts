@@ -361,6 +361,9 @@ import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
 import eggplantGrill from "assets/decorations/eggplant_grill.png";
 import giantDawnMushroom from "assets/decorations/giant_dawn_mushroom.png";
 import shroomGlow from "assets/decorations/shroom_glow.png";
+import purpleTrail from "assets/sfts/purple_trail.png";
+import obie from "assets/sfts/obie.png";
+import maximus from "assets/sfts/maximus.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -2090,5 +2093,18 @@ export const ITEM_DETAILS: Items = {
   Cobalt: {
     image: cobalt,
     description: SEASONAL_DECORATIONS()["Cobalt"].description,
+  },
+  "Purple Trail": {
+    image: purpleTrail,
+    description:
+      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+  },
+  Maximus: {
+    image: maximus,
+    description: "Squash the competition with plump Maximus",
+  },
+  Obie: {
+    image: obie,
+    description: "A fierce eggplant solider",
   },
 };

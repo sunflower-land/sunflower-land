@@ -327,6 +327,10 @@ export const OFFLINE_FARM: GameState = {
     "Shroom Glow": new Decimal(1),
 
     Chicken: new Decimal(5),
+
+    "Purple Trail": new Decimal(1),
+    Obie: new Decimal(1),
+    Maximus: new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,
