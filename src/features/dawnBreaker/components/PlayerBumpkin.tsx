@@ -91,7 +91,7 @@ export const PlayerBumpkin: React.FC<Props> = ({
       >
         {/* Shift NPC a little on week 8 to fit map position */}
         <div style={{ marginLeft: currentWeek === 8 ? "18px" : 0 }}>
-          <NPC parts={{ ...bumpkin.equipped }} onClick={handleOpen} />
+          <NPC parts={bumpkin.equipped} onClick={handleOpen} />
         </div>
       </MapPlacement>
       {availableLantern && (
