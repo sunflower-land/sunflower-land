@@ -3487,4 +3487,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/722.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Luminous Lantern": {
+    description: "A bright paper lantern that illuminates the way.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1249.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Radiance Lantern": {
+    description: "A radiant paper lantern that shines with a powerful light.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // TODO: Add image
+    image_url: "",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Aurora Lantern": {
+    description:
+      "A paper lantern that transforms any space into a magical wonderland.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // TODO: Add image
+    image_url: "",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
 };

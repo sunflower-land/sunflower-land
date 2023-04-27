@@ -132,6 +132,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return SUNNYSIDE.icons.seedling;
     }
   };
+
   const getText = () => {
     switch (props.type) {
       case "sfl": {

@@ -49,6 +49,7 @@ import immortalPear from "assets/sfts/immortal_pear.gif";
 import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
+import luminousLantern from "assets/sfts/luminous_lantern.webp";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -2001,7 +2002,6 @@ export const ITEM_DETAILS: Items = {
     image: shrub,
     description: "Enhance your in-game landscaping with a beautiful shrub",
   },
-
   "Solar Flare Banner": {
     image: solarFlareBanner,
     description: "?",
@@ -2009,5 +2009,18 @@ export const ITEM_DETAILS: Items = {
   "Dawn Breaker Banner": {
     image: dawnBreakerBanner,
     description: "?",
+  },
+  "Luminous Lantern": {
+    image: luminousLantern,
+    description: "A bright paper lantern that illuminates the way.",
+  },
+  "Radiance Lantern": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A radiant paper lantern that shines with a powerful light.",
+  },
+  "Aurora Lantern": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      "A paper lantern that transforms any space into a magical wonderland.",
   },
 };
