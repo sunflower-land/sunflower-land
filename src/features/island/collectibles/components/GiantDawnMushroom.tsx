@@ -9,9 +9,9 @@ export const GiantDawnMushroom: React.FC = () => {
       <img
         src={image}
         style={{
-          width: `${PIXEL_SCALE * 24}px`,
+          width: `${PIXEL_SCALE * 28}px`,
           bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${PIXEL_SCALE * 4}px`,
+          left: `${PIXEL_SCALE * 2}px`,
         }}
         className="absolute"
         alt="GiantDawnMushroom"

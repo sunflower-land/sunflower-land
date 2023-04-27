@@ -309,6 +309,19 @@ export const OFFLINE_FARM: GameState = {
     "Block Buck": new Decimal(1),
 
     "Human War Banner": new Decimal(1),
+
+    "Bonnie's Tombstone": new Decimal(1),
+    "Grubnash's Tombstone": new Decimal(1),
+    "Crimson Cap": new Decimal(1),
+    "Toadstool Seat": new Decimal(1),
+    "Chestnut Fungi Stool": new Decimal(1),
+    "Mahogany Cap": new Decimal(1),
+    Clementine: new Decimal(1),
+    Cobalt: new Decimal(1),
+    "Dawn Umbrella Seat": new Decimal(1),
+    "Eggplant Grill": new Decimal(1),
+    "Giant Dawn Mushroom": new Decimal(1),
+    "Shroom Glow": new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,
