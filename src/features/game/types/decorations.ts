@@ -376,7 +376,8 @@ export const HELIOS_DECORATIONS: () => Record<
     ingredients: {
       Stone: new Decimal(10),
     },
-    description: "?",
+    description:
+      "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
   },
   "Crimson Cap": {
     name: "Crimson Cap",
@@ -384,7 +385,8 @@ export const HELIOS_DECORATIONS: () => Record<
     ingredients: {
       "Wild Mushroom": new Decimal(20),
     },
-    description: "?",
+    description:
+      "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
   },
   "Grubnash's Tombstone": {
     name: "Grubnash's Tombstone",
@@ -393,7 +395,7 @@ export const HELIOS_DECORATIONS: () => Record<
       Stone: new Decimal(20),
       Iron: new Decimal(10),
     },
-    description: "?",
+    description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
   },
   "Toadstool Seat": {
     name: "Toadstool Seat",
@@ -401,7 +403,7 @@ export const HELIOS_DECORATIONS: () => Record<
     ingredients: {
       "Wild Mushroom": new Decimal(5),
     },
-    description: "?",
+    description: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
   },
   "Chestnut Fungi Stool": {
     name: "Chestnut Fungi Stool",
@@ -410,7 +412,8 @@ export const HELIOS_DECORATIONS: () => Record<
       "Toadstool Seat": new Decimal(1),
       Wood: new Decimal(10),
     },
-    description: "?",
+    description:
+      "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
   },
   "Mahogany Cap": {
     name: "Mahogany Cap",
@@ -419,7 +422,8 @@ export const HELIOS_DECORATIONS: () => Record<
       "Crimson Cap": new Decimal(1),
       Wood: new Decimal(100),
     },
-    description: "?",
+    description:
+      "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
   },
 });
 
@@ -434,12 +438,14 @@ export const SEASONAL_DECORATIONS: () => Record<
       Eggplant: new Decimal(10),
       "Dawn Breaker Ticket": new Decimal(10),
     },
-    description: "?",
+    description:
+      "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
   },
   "Eggplant Grill": {
     name: "Eggplant Grill",
     sfl: new Decimal(0),
-    description: "?",
+    description:
+      "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
     ingredients: {
       Wood: new Decimal(50),
       Gold: new Decimal(5),
@@ -451,7 +457,8 @@ export const SEASONAL_DECORATIONS: () => Record<
   "Giant Dawn Mushroom": {
     name: "Giant Dawn Mushroom",
     sfl: marketRate(1600),
-    description: "?",
+    description:
+      "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
     ingredients: {
       "Wild Mushroom": new Decimal(5),
       Eggplant: new Decimal(25),
@@ -461,7 +468,8 @@ export const SEASONAL_DECORATIONS: () => Record<
   Clementine: {
     name: "Clementine",
     sfl: marketRate(1600),
-    description: "?",
+    description:
+      "The Clementine Gnome is a cheerful companion for your farming adventures.",
     ingredients: {
       Gold: new Decimal(5),
       "Wild Mushroom": new Decimal(20),
@@ -475,13 +483,15 @@ export const SEASONAL_DECORATIONS: () => Record<
       Gold: new Decimal(2),
       "Wild Mushroom": new Decimal(10),
     },
-    description: "?",
+    description:
+      "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
     limit: 1,
   },
   "Shroom Glow": {
     name: "Shroom Glow",
     sfl: marketRate(800),
-    description: "?",
+    description:
+      "Illuminate your farm with the enchanting glow of Shroom Glow.",
     ingredients: {
       Gold: new Decimal(5),
       Wood: new Decimal(100),

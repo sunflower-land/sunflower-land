@@ -385,7 +385,7 @@ import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { HELIOS_DECORATIONS } from "./decorations";
+import { HELIOS_DECORATIONS, SEASONAL_DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -2038,50 +2038,50 @@ export const ITEM_DETAILS: Items = {
 
   "Bonnie's Tombstone": {
     image: bonniesTombstone,
-    description: "?",
+    description: HELIOS_DECORATIONS()["Bonnie's Tombstone"].description,
   },
   "Chestnut Fungi Stool": {
     image: chestnutStool,
-    description: "?",
+    description: HELIOS_DECORATIONS()["Chestnut Fungi Stool"].description,
   },
   "Crimson Cap": {
     image: crimsonCap,
-    description: "?",
+    description: HELIOS_DECORATIONS()["Crimson Cap"].description,
   },
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
-    description: "?",
+    description: SEASONAL_DECORATIONS()["Dawn Umbrella Seat"].description,
   },
   "Eggplant Grill": {
     image: eggplantGrill,
-    description: "?",
+    description: SEASONAL_DECORATIONS()["Eggplant Grill"].description,
   },
   "Giant Dawn Mushroom": {
     image: giantDawnMushroom,
-    description: "?",
+    description: SEASONAL_DECORATIONS()["Giant Dawn Mushroom"].description,
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
-    description: "?",
+    description: HELIOS_DECORATIONS()["Grubnash's Tombstone"].description,
   },
   "Mahogany Cap": {
     image: mahoganyCap,
-    description: "?",
+    description: HELIOS_DECORATIONS()["Mahogany Cap"].description,
   },
   "Shroom Glow": {
     image: shroomGlow,
-    description: "?",
+    description: SEASONAL_DECORATIONS()["Shroom Glow"].description,
   },
   "Toadstool Seat": {
     image: toadstoolSeat,
-    description: "?",
+    description: HELIOS_DECORATIONS()["Toadstool Seat"].description,
   },
   Clementine: {
     image: clementine,
-    description: "?",
+    description: SEASONAL_DECORATIONS()["Clementine"].description,
   },
   Cobalt: {
     image: cobalt,
-    description: "?",
+    description: SEASONAL_DECORATIONS()["Cobalt"].description,
   },
 };

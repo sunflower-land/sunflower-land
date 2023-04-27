@@ -693,7 +693,6 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
-  collectibles: {},
   mysteryPrizes: {},
   pumpkinPlaza: {},
   treasureIsland: {
