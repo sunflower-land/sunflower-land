@@ -10,7 +10,7 @@ import {
 } from "features/game/types/game";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Week, bumpkinPositions } from "../lib/positions";
+import { Week, positions } from "../lib/positions";
 import { OuterPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
@@ -85,8 +85,8 @@ export const PlayerBumpkin: React.FC<Props> = ({
   return (
     <>
       <MapPlacement
-        x={bumpkinPositions[currentWeek].x}
-        y={bumpkinPositions[currentWeek].y}
+        x={positions[currentWeek].bumpkin.x}
+        y={positions[currentWeek].bumpkin.y}
         width={1}
       >
         {/* Shift NPC a little on week 8 to fit map position */}

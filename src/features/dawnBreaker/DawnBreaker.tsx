@@ -10,12 +10,9 @@ import {
   Bumpkin,
   DawnBreaker as DawnBreakerType,
 } from "features/game/types/game";
-import {
-  Coordinates,
-  MapPlacement,
-} from "features/game/expansion/components/MapPlacement";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { lanternPositions } from "./lib/positions";
+import { positions } from "./lib/positions";
 import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
@@ -83,13 +80,13 @@ export const DawnBreaker: React.FC = () => {
         {showMintedLanterns &&
           [...Array(craftedLanternCount).keys()].slice(0, 5).map((_, index) => {
             const { name } = availableLantern;
-            const positions = lanternPositions[currentWeek] as Coordinates[];
+            const { lanterns } = positions[currentWeek];
 
             return (
               <MapPlacement
                 key={index}
-                x={positions[index].x}
-                y={positions[index].y}
+                x={lanterns[index].x}
+                y={lanterns[index].y}
                 width={1}
               >
                 <div
