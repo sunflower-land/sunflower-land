@@ -124,11 +124,9 @@ export const Navigation: React.FC = () => {
               />
               <Route path=":id" element={<Retreat key="retreat" />} />
             </Route>
-
             {CONFIG.NETWORK === "mumbai" && (
               <Route path="/builder" element={<Builder key="builder" />} />
             )}
-
             <Route
               path="/community-garden/:id"
               element={<Community key="community" />}

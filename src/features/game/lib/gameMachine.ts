@@ -52,10 +52,14 @@ import { getSessionId } from "lib/blockchain/Sessions";
 import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
-import { GoblinBlacksmithItemName } from "../types/collectibles";
+import {
+  GoblinBlacksmithItemName,
+  SeasonPassName,
+} from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
+  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -68,7 +72,7 @@ import {
   setGuestModeComplete,
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
-import { hasFeatureAccess } from "lib/flags";
+import { purchaseItem } from "../actions/purchaseItem";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -115,6 +119,11 @@ type SyncEvent = {
   blockBucks: number;
 };
 
+type PurchaseEvent = {
+  type: "PURCHASE_ITEM";
+  name: SeasonPassName;
+};
+
 type LandscapeEvent = {
   placeable?: BuildingName | CollectibleName;
   action?: GameEventName<PlacementEvent>;
@@ -124,6 +133,7 @@ type LandscapeEvent = {
     ingredients: Inventory;
   };
   multiple?: boolean;
+  maximum?: number;
 };
 
 type VisitEvent = {
@@ -149,6 +159,7 @@ export type BlockchainEvent =
       type: "SAVE";
     }
   | SyncEvent
+  | PurchaseEvent
   | {
       type: "REFRESH";
     }
@@ -272,6 +283,7 @@ export type BlockchainState = {
     | "autosaving"
     | "syncing"
     | "synced"
+    | "purchasing"
     | "buyingSFL"
     | "revealing"
     | "revealed"
@@ -281,6 +293,7 @@ export type BlockchainState = {
     | "hoarding"
     | "depositing"
     | "landscaping"
+    | "promoting"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -634,16 +647,16 @@ export function startGame(authContext: AuthContext) {
             {
               target: "noTownCenter",
               cond: (context: Context) => {
-                console.log({
-                  test: context.state.buildings["Town Center"],
-                  val:
-                    (context.state.buildings["Town Center"] ?? []).length === 0,
-                });
-
                 return (
                   (context.state.buildings["Town Center"] ?? []).length === 0
                 );
               },
+            },
+            {
+              target: "promoting",
+              cond: (context) =>
+                !getSeasonPassRead() &&
+                (context.state.bumpkin?.experience ?? 0) > 0,
             },
             {
               target: "playing",
@@ -651,6 +664,13 @@ export function startGame(authContext: AuthContext) {
           ],
         },
         noBumpkinFound: {},
+        promoting: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
         noTownCenter: {
           on: {
             ACKNOWLEDGE: {
@@ -755,6 +775,9 @@ export function startGame(authContext: AuthContext) {
             },
             SYNC: {
               target: "syncing",
+            },
+            PURCHASE_ITEM: {
+              target: "purchasing",
             },
             REVEAL: {
               target: "revealing",
@@ -866,6 +889,44 @@ export function startGame(authContext: AuthContext) {
                 captcha: (event as SyncEvent).captcha,
                 transactionId: context.transactionId as string,
                 blockBucks: (event as SyncEvent).blockBucks,
+              });
+
+              return {
+                sessionId: sessionId,
+              };
+            },
+            onDone: {
+              target: "synced",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
+        purchasing: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { sessionId } = await purchaseItem({
+                farmId: Number(authContext.user.farmId),
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+                item: (event as PurchaseEvent).name,
               });
 
               return {
@@ -1057,8 +1118,7 @@ export function startGame(authContext: AuthContext) {
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
-              hasLandscapingAccess: (context: Context) =>
-                hasFeatureAccess(context.state.inventory, "LANDSCAPING"),
+              maximum: (_: Context, event: LandscapeEvent) => event.maximum,
             },
             onDone: {
               target: "autosaving",

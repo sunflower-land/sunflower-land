@@ -125,6 +125,23 @@ import { MoveableComponent } from "./MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { DawnBreakerBanner } from "./components/DawnBreakerBanner";
+import { SolarFlareBanner } from "./components/SolarFlareBanner";
+import { HumanBanner } from "./components/HumanBanner";
+import { GoblinBanner } from "./components/GoblinBanner";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { BonniesTombstone } from "./components/BonniesTombstone";
+import { ChestnutFungiStool } from "./components/ChestnutFungiStool";
+import { CrimsonCap } from "./components/CrimsonCap";
+import { DawnUmbreallSeat } from "./components/DawnUmbrellaSeat";
+import { EggplantGrill } from "./components/EggplantGrill";
+import { GiantDawnMushroom } from "./components/GiantDawnMushroom";
+import { GrubnashTombstone } from "./components/GrubnashTombstone";
+import { MahoganyCap } from "./components/MahoganyCap";
+import { ShroomGlow } from "./components/ShroomGlow";
+import { ToadstoolSeat } from "./components/ToadstoolSeat";
+import { Clementine } from "./components/Clementine";
+import { Cobalt } from "./components/Cobalt";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -288,6 +305,63 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
+  "Dawn Breaker Banner": DawnBreakerBanner,
+  "Solar Flare Banner": SolarFlareBanner,
+  "Human War Banner": HumanBanner,
+  "Goblin War Banner": GoblinBanner,
+
+  "Bonnie's Tombstone": BonniesTombstone,
+  "Chestnut Fungi Stool": ChestnutFungiStool,
+  "Crimson Cap": CrimsonCap,
+  "Dawn Umbrella Seat": DawnUmbreallSeat,
+  "Eggplant Grill": EggplantGrill,
+  "Giant Dawn Mushroom": GiantDawnMushroom,
+  "Grubnash's Tombstone": GrubnashTombstone,
+  "Mahogany Cap": MahoganyCap,
+  "Shroom Glow": ShroomGlow,
+  "Toadstool Seat": ToadstoolSeat,
+  Clementine: Clementine,
+  Cobalt: Cobalt,
+};
+
+// Need readonly versions for some troublesome components while in design mode
+export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
+  ...COLLECTIBLE_COMPONENTS,
+  Observatory: () => (
+    <img
+      src={ITEM_DETAILS["Observatory"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 31}px` }}
+    />
+  ),
+  "Maneki Neko": () => (
+    <img
+      src={ITEM_DETAILS["Maneki Neko"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 16}px` }}
+    />
+  ),
+  "Nyon Statue": () => (
+    <img
+      src={ITEM_DETAILS["Nyon Statue"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 32}px` }}
+    />
+  ),
+  "Rock Golem": () => (
+    <img
+      src={ITEM_DETAILS["Rock Golem"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 34}px` }}
+    />
+  ),
+  "Wicker Man": () => (
+    <img
+      src={ITEM_DETAILS["Wicker Man"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 19}px` }}
+    />
+  ),
 };
 
 const InProgressCollectible: React.FC<Props> = ({
@@ -448,9 +522,11 @@ export const Collectible: React.FC<Props> = (props) => {
   const landscaping = useSelector(gameService, isLandscaping);
 
   if (landscaping) {
+    const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
+
     return (
       <MoveableComponent {...(props as any)}>
-        <CollectibleComponent {...props} />
+        <CollectiblePlaced {...props} />
       </MoveableComponent>
     );
   }

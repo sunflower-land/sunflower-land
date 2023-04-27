@@ -171,7 +171,7 @@ export const TreasureTrove: React.FC = () => {
 
   return (
     <MapPlacement x={-5} y={1} height={1} width={1}>
-      <NPC onClick={() => setShowModal(true)} {...bumpkin} />
+      <NPC onClick={() => setShowModal(true)} parts={bumpkin} />
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <TreasureTroveModal onClose={() => setShowModal(false)} />
       </Modal>

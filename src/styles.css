@@ -136,18 +136,6 @@ img {
   image-rendering: pixelated;
 }
 
-@keyframes floating {
-  from {
-    transform: translate(0, 0px);
-  }
-  65% {
-    transform: translate(0, 10px);
-  }
-  to {
-    transform: translate(0, -0px);
-  }
-}
-
 @keyframes marquee-like-effect {
   from {
     transform: translateX(100%);
@@ -523,4 +511,64 @@ img {
   100% {
     transform: scale(1);
   }
+}
+
+.npc-loading {
+  animation: subtle-pulse 2s infinite;
+}
+
+@keyframes subtle-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.blur-to-focus {
+  animation: blurToFocus 2s linear;
+}
+
+@keyframes blurToFocus {
+  0% {
+    filter: blur(10px);
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+
+.paper-floating {
+  animation-name: floating;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-delay: calc(var(--animation-order) * 250ms);
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes floating {
+  0% {
+    transform: translate(0, 0px);
+  }
+  50% {
+    transform: translate(0, 6px);
+  }
+  100% {
+    transform: translate(0, -0px);
+  }
+}
+
+.dawn-breaker-gradient {
+  background: rgb(62, 39, 49);
+  background: linear-gradient(
+    90deg,
+    rgba(62, 39, 49, 1) 8%,
+    rgba(104, 56, 108, 1) 33%,
+    rgba(181, 80, 136, 1) 70%,
+    rgba(246, 117, 122, 1) 100%
+  );
 }

@@ -80,12 +80,14 @@ export const FruitQuest: React.FC = () => {
         }}
       >
         <NPC
+          parts={{
+            pants: "Blue Suspenders",
+            body: "Beige Farmer Potion",
+            hair: "Sun Spots",
+            shirt: "Fruit Picker Shirt",
+            hat: "Fruit Bowl",
+          }}
           onClick={() => setShowModal(true)}
-          pants="Blue Suspenders"
-          body="Beige Farmer Potion"
-          hair="Sun Spots"
-          shirt="Fruit Picker Shirt"
-          hat="Fruit Bowl"
         />
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>

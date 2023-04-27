@@ -88,7 +88,7 @@ describe("removeBuilding", () => {
         },
         action: {
           type: "building.removed",
-          building: "Bakery",
+          name: "Bakery",
           id: "1",
         },
       })
@@ -113,39 +113,11 @@ describe("removeBuilding", () => {
         },
         action: {
           type: "building.removed",
-          building: "Bakery",
+          name: "Bakery",
           id: "1",
         },
       })
     ).toThrow(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
-  });
-
-  it("does not remove if not enough Rusty Shovel in inventory", () => {
-    expect(() =>
-      removeBuilding({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Rusty Shovel": new Decimal(0),
-          },
-          buildings: {
-            "Fire Pit": [
-              {
-                id: "123",
-                coordinates: { x: 1, y: 1 },
-                createdAt: 0,
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        action: {
-          type: "building.removed",
-          building: "Fire Pit",
-          id: "123",
-        },
-      })
-    ).toThrow(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   });
 
   it("does not remove a building if it's under construction", () => {
@@ -169,7 +141,7 @@ describe("removeBuilding", () => {
         },
         action: {
           type: "building.removed",
-          building: "Fire Pit",
+          name: "Fire Pit",
           id: "123",
         },
       })
@@ -208,7 +180,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         id: "123",
       },
     });
@@ -252,7 +224,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Fire Pit",
+        name: "Fire Pit",
         id: "123",
       },
     });
@@ -300,7 +272,7 @@ describe("removeBuilding", () => {
   //       },
   //       action: {
   //         type: "building.removed",
-  //         building: "Water Well",
+  //         name: "Water Well",
   //         id: "123",
   //       },
   //     })
@@ -336,7 +308,7 @@ describe("removeBuilding", () => {
   //       },
   //       action: {
   //         type: "building.removed",
-  //         building: "Water Well",
+  //         name: "Water Well",
   //         id: "123",
   //       },
   //     })
@@ -409,7 +381,7 @@ describe("removeBuilding", () => {
   //       },
   //       action: {
   //         type: "building.removed",
-  //         building: "Water Well",
+  //         name: "Water Well",
   //         id: "123",
   //       },
   //     })
@@ -450,7 +422,7 @@ describe("removeBuilding", () => {
   //       },
   //       action: {
   //         type: "building.removed",
-  //         building: "Water Well",
+  //         name: "Water Well",
   //         id: "123",
   //       },
   //     })
@@ -522,7 +494,7 @@ describe("removeBuilding", () => {
   //     },
   //     action: {
   //       type: "building.removed",
-  //       building: "Water Well",
+  //       name: "Water Well",
   //       id: "123",
   //     },
   //   });
@@ -557,7 +529,7 @@ describe("removeBuilding", () => {
         state: gameState,
         action: {
           type: "building.removed",
-          building: "Hen House",
+          name: "Hen House",
           id: "123",
         },
       })
@@ -585,7 +557,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Hen House",
+        name: "Hen House",
         id: "123",
       },
     });
@@ -620,7 +592,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Hen House",
+        name: "Hen House",
         id: "123",
       },
     });
@@ -665,7 +637,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Hen House",
+        name: "Hen House",
         id: "123",
       },
     });
@@ -704,7 +676,7 @@ describe("removeBuilding", () => {
       },
       action: {
         type: "building.removed",
-        building: "Hen House",
+        name: "Hen House",
         id: "123",
       },
     });

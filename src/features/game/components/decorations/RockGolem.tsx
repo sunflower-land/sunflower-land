@@ -4,7 +4,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { GameState, Rock } from "../../types/game";
-import { GRID_WIDTH_PX } from "../../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../../lib/constants";
 
 import golemSheet from "assets/sfts/rock_golem.png";
 import { canMine } from "features/game/events/landExpansion/stoneMine";
@@ -24,7 +24,7 @@ export const RockGolem: React.FC<{ state: GameState }> = ({ state }) => {
           key="standing"
           className="group-hover:img-highlight pointer-events-none transform z-10"
           style={{
-            width: `${GRID_WIDTH_PX * 5}px`,
+            width: `${PIXEL_SCALE * 34}px`,
             imageRendering: "pixelated",
           }}
           getInstance={(spritesheet) => {

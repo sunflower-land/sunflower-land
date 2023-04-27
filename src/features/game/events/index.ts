@@ -150,6 +150,8 @@ import { moveIron, MoveIronAction } from "./landExpansion/moveIron";
 import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
 import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
+import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
+import { craftLantern, CraftLanternAction } from "./landExpansion/craftLantern";
 
 export type PlayingEvent =
   | TradeAction
@@ -174,9 +176,6 @@ export type PlayingEvent =
   | CraftToolAction
   | buyDecorationAction
   | SellCropAction
-  | RemoveBuildingAction
-  | RemoveCollectibleAction
-  | RemoveChickenAction
   | BeanBoughtAction
   | CollectCropRewardAction
   | CollectTreeRewardAction
@@ -193,7 +192,12 @@ export type PlayingEvent =
   | ExpandLandAction
   | ConversationEnded
   | MessageRead
-  | PickMushroomAction;
+  | PickMushroomAction
+  // TODO - remove once landscaping is released
+  | RemoveBuildingAction
+  | RemoveCollectibleAction
+  | RemoveChickenAction
+  | CraftLanternAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -216,7 +220,11 @@ export type PlacementEvent =
   | MoveTreeAction
   | MoveIronAction
   | MoveStoneAction
-  | MoveGoldAction;
+  | MoveGoldAction
+  | MoveChickenAction
+  | RemoveBuildingAction
+  | RemoveCollectibleAction
+  | RemoveChickenAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -265,9 +273,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "tool.crafted": craftTool,
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
-  "building.removed": removeBuilding,
-  "collectible.removed": removeCollectible,
-  "chicken.removed": removeChicken,
+
   "bean.bought": beanBought,
   "cropReward.collected": collectCropReward,
   "treeReward.collected": collectTreeReward,
@@ -284,6 +290,11 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "conversation.ended": endConversation,
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
+  // TODO - remove once landscaping is released
+  "building.removed": removeBuilding,
+  "collectible.removed": removeCollectible,
+  "chicken.removed": removeChicken,
+  "lantern.crafted": craftLantern,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -308,6 +319,10 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "iron.moved": moveIron,
   "stone.moved": moveStone,
   "gold.moved": moveGold,
+  "chicken.moved": moveChicken,
+  "building.removed": removeBuilding,
+  "collectible.removed": removeCollectible,
+  "chicken.removed": removeChicken,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

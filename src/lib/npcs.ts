@@ -6,7 +6,8 @@ export type NPCName =
   | "hank"
   | "blacksmith"
   | "grimbly"
-  | "grimtooth";
+  | "grimtooth"
+  | "grubnuk";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   betty: {
@@ -63,5 +64,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Cemetery Background",
     shoes: "Black Farmer Boots",
+  },
+  grubnuk: {
+    body: "Goblin Potion",
+    shirt: "SFL T-Shirt",
+    pants: "Farmer Pants",
+    hair: "Buzz Cut",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    tool: "Pirate Scimitar",
   },
 };
