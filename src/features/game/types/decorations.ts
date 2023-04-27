@@ -480,7 +480,7 @@ export const SEASONAL_DECORATIONS: () => Record<
   },
   "Shroom Glow": {
     name: "Shroom Glow",
-    sfl: new Decimal(800),
+    sfl: marketRate(800),
     description: "?",
     ingredients: {
       Gold: new Decimal(5),
