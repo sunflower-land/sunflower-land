@@ -44,8 +44,6 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
     }
   };
 
-  console.log("Mail");
-
   return (
     <div>
       {ids.map((id) => {
@@ -67,7 +65,7 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
             <div className="h-10 mr-2">
               <NPCFixed
                 width={PIXEL_SCALE * 16}
-                {...NPC_WEARABLES[details.from as NPCName]}
+                parts={NPC_WEARABLES[details.from as NPCName]}
               />
             </div>
             <div>

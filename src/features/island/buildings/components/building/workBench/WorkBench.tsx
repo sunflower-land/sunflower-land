@@ -52,7 +52,6 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           className="absolute bottom-0"
           style={{
             width: `${PIXEL_SCALE * 47}px`,
-            height: `${PIXEL_SCALE * 36}px`,
           }}
         />
         <img

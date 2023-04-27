@@ -216,7 +216,6 @@ export const TEST_FARM: GameState = {
     "Iron Pickaxe": new Decimal(5),
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
-    "Human War Banner": new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Sunflower Cake": new Decimal(1),
     "Basic Land": new Decimal(1),

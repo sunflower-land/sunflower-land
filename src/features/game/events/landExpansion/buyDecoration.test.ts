@@ -236,4 +236,29 @@ describe("buyDecoration", () => {
       y: 5,
     });
   });
+
+  it("throws an error if max limit reached", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(100),
+          inventory: {
+            Gold: new Decimal(150),
+            "Basic Land": new Decimal(10),
+            "Wild Mushroom": new Decimal(50),
+            Clementine: new Decimal(1),
+          },
+          buildings: {},
+          collectibles: {},
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Clementine",
+          coordinates: { x: 0, y: 5 },
+          id: "123",
+        },
+      })
+    ).toThrow("Max limit reached");
+  });
 });

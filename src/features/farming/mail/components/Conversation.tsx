@@ -83,21 +83,25 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
               )}
             </div>
           ))}
-
-          {/* Links */}
-          {conversation.link && (
-            <a
-              href={conversation.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
-            >
-              Read more
-            </a>
-          )}
         </div>
 
-        {!read && <Button onClick={next}>Got it</Button>}
+        {!read && (
+          <Button onClick={next}>
+            {!!conversation.reward && !read ? "Open Gift" : `Got it`}
+          </Button>
+        )}
+
+        {/* Links */}
+        {conversation.link && (
+          <a
+            href={conversation.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
+          >
+            Read more
+          </a>
+        )}
       </>
     );
   };

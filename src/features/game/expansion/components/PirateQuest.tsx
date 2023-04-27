@@ -77,7 +77,7 @@ export const PirateQuest: React.FC = () => {
           />
         )}
         <div className="-scale-x-100">
-          <NPC onClick={openQuest} {...bumpkin} />
+          <NPC onClick={openQuest} parts={bumpkin} />
         </div>
       </MapPlacement>
 

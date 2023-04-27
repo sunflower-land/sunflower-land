@@ -72,9 +72,11 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       action: "chicken.bought",
       // Not used yet
       requirements: {
-        sfl: new Decimal(0),
+        sfl: price,
         ingredients: {},
       },
+      maximum: availableSpots,
+      multiple: true,
     });
     onClose();
   };

@@ -19,7 +19,6 @@ import { Building } from "features/island/buildings/components/building/Building
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
 import { DirtRenderer } from "./components/DirtRenderer";
-import { Equipped as BumpkinParts } from "../types/bumpkin";
 import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { Hud } from "features/island/hud/Hud";
@@ -33,6 +32,7 @@ import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
+import { GRID_WIDTH_PX } from "../lib/constants";
 
 const getIslandElements = ({
   buildings,
@@ -44,10 +44,8 @@ const getIslandElements = ({
   gold,
   fruitPatches,
   crops,
-  bumpkinParts,
   isRustyShovelSelected,
   showTimers,
-  isEditing,
   grid,
   mushrooms,
   isFirstRender,
@@ -62,10 +60,8 @@ const getIslandElements = ({
   gold: GameState["gold"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
-  bumpkinParts: BumpkinParts | undefined;
   isRustyShovelSelected: boolean;
   showTimers: boolean;
-  isEditing?: boolean;
   grid: GameGrid;
   mushrooms: GameState["mushrooms"]["mushrooms"];
   isFirstRender: boolean;
@@ -156,7 +152,14 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <ChickenElement key={`chicken-${id}`} id={id} />
+            <ChickenElement
+              key={`chicken-${id}`}
+              id={id}
+              coordinates={{
+                x,
+                y,
+              }}
+            />
           </MapPlacement>
         );
       })
@@ -400,9 +403,26 @@ export const Land: React.FC = () => {
           })}
         >
           <LandBase expandedCount={expansionCount} />
-          <UpcomingExpansion />
           <DirtRenderer grid={gameGrid} />
-          <Water level={expansionCount} />
+
+          {!gameState.isLandscaping && <Water level={expansionCount} />}
+          {!gameState.isLandscaping && <UpcomingExpansion />}
+
+          <div
+            className={classNames(
+              `w-full h-full top-0 absolute transition-opacity pointer-events-none`,
+              {
+                "opacity-0": !gameState.isLandscaping,
+                "opacity-100": gameState.isLandscaping,
+              }
+            )}
+            style={{
+              backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+              backgroundImage: `
+            linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
+            linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
+            }}
+          />
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
@@ -416,15 +436,18 @@ export const Land: React.FC = () => {
             gold,
             fruitPatches,
             crops,
-            bumpkinParts: bumpkin?.equipped,
             isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             showTimers: showTimers,
-            isEditing: editing,
             grid,
             mushrooms: mushrooms.mushrooms,
             isFirstRender,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
+
+        {gameState.isLandscaping && <Placeable />}
+      </div>
+
+      {!gameState.isLandscaping && (
         <IslandTravel
           bumpkin={bumpkin}
           isVisiting={visiting}
@@ -434,11 +457,23 @@ export const Land: React.FC = () => {
           x={boatCoordinates.x}
           y={boatCoordinates.y}
         />
+      )}
 
-        {gameState.isLandscaping && <Placeable />}
-      </div>
+      {/* Background darkens in landscaping */}
+      <div
+        className={classNames(
+          "absolute w-full h-full bg-black -z-10  transition-opacity pointer-events-none",
+          {
+            "opacity-0": !gameState.isLandscaping,
+            "opacity-50": gameState.isLandscaping,
+          }
+        )}
+      />
+
       {gameState.isLandscaping ? (
-        <LandscapingHud isFarming />
+        <>
+          <LandscapingHud isFarming />
+        </>
       ) : (
         <Hud isFarming />
       )}

@@ -33,3 +33,14 @@ export function getIntroductionRead(): Date | null {
 export function acknowledgeIntroduction() {
   return localStorage.setItem("islesIntroduction", new Date().toISOString());
 }
+
+export function getSeasonPassRead(): Date | null {
+  const value = localStorage.getItem("dawnBreakerPassPromo");
+  if (!value) return null;
+
+  return new Date(value);
+}
+
+export function acknowledgeSeasonPass() {
+  return localStorage.setItem("dawnBreakerPassPromo", new Date().toISOString());
+}

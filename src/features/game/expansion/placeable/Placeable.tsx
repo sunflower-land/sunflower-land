@@ -16,8 +16,7 @@ import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
-import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
+import { READONLY_COLLECTIBLES } from "features/island/collectibles/Collectible";
 import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -25,60 +24,17 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { getGameGrid } from "./lib/makeGrid";
+import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 
-const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
-  ...BUILDING_COMPONENTS,
-  ...COLLECTIBLE_COMPONENTS,
+export const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
+  Chicken: () => <Chicken coordinates={{ x: 0, y: 0 }} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
+  ...READONLY_COLLECTIBLES,
   ...READONLY_RESOURCE_COMPONENTS,
+  ...READONLY_BUILDINGS,
   "Dirt Path": () => (
     <img
       src={ITEM_DETAILS["Dirt Path"].image}
       style={{ width: `${PIXEL_SCALE * 22}px` }}
-    />
-  ),
-  "Fire Pit": () => (
-    <img
-      src={ITEM_DETAILS["Fire Pit"].image}
-      style={{ width: `${PIXEL_SCALE * 47}px` }}
-    />
-  ),
-  Kitchen: () => (
-    <img
-      src={ITEM_DETAILS["Kitchen"].image}
-      style={{ width: `${PIXEL_SCALE * 63}px` }}
-    />
-  ),
-  Workbench: () => (
-    <img
-      src={ITEM_DETAILS["Workbench"].image}
-      className="relative"
-      style={{ width: `${PIXEL_SCALE * 47}px`, bottom: `${PIXEL_SCALE * 2}px` }}
-    />
-  ),
-  Market: () => (
-    <img
-      src={ITEM_DETAILS["Market"].image}
-      className="relative"
-      style={{ width: `${PIXEL_SCALE * 48}px`, bottom: `${PIXEL_SCALE * 6}px` }}
-    />
-  ),
-  "Hen House": () => (
-    <img
-      src={ITEM_DETAILS["Hen House"].image}
-      className="relative"
-      style={{ width: `${PIXEL_SCALE * 61}px`, bottom: `${PIXEL_SCALE * 2}px` }}
-    />
-  ),
-  "Town Center": () => (
-    <img
-      src={ITEM_DETAILS["Town Center"].image}
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 62}px`,
-        left: `${PIXEL_SCALE * 2}px`,
-        bottom: `${PIXEL_SCALE * 2}px`,
-      }}
     />
   ),
 };

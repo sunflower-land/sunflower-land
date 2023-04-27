@@ -3,6 +3,7 @@ import { GameEventName, PlacementEvent } from "features/game/events";
 import {
   BUILDINGS_DIMENSIONS,
   BuildingName,
+  PlaceableName,
 } from "features/game/types/buildings";
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
@@ -48,8 +49,7 @@ export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?: BuildingName | CollectibleName;
-  hasLandscapingAccess: boolean;
+  placeable?: BuildingName | CollectibleName | "Chicken";
 
   multiple?: boolean;
 
@@ -63,6 +63,8 @@ export interface Context {
     id: string;
     name: InventoryItemName;
   };
+
+  maximum?: number;
 }
 
 type SelectEvent = {
@@ -75,6 +77,7 @@ type SelectEvent = {
   };
   collisionDetected: boolean;
   multiple?: boolean;
+  maximum?: number;
 };
 
 type UpdateEvent = {
@@ -87,6 +90,13 @@ type PlaceEvent = {
   type: "PLACE";
   nextOrigin?: Coordinates;
   nextWillCollide?: boolean;
+};
+
+type RemoveEvent = {
+  type: "REMOVE";
+  event: GameEventName<PlacementEvent>;
+  id: string;
+  name: PlaceableName;
 };
 
 type ConstructEvent = {
@@ -117,6 +127,7 @@ export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
   | { type: "BUILD" }
+  | { type: "BLUR" }
   | SelectEvent
   | ConstructEvent
   | PlaceEvent
@@ -124,6 +135,7 @@ export type BlockchainEvent =
   | SaveEvent
   | GuestSaveEvent
   | MoveEvent
+  | RemoveEvent
   | { type: "CANCEL" }
   | { type: "BACK" };
 
@@ -257,6 +269,7 @@ export const landscapingMachine = createMachine<
                 action: (_, event) => event.action,
                 requirements: (_, event) => event.requirements,
                 multiple: (_, event) => event.multiple,
+                maximum: (_, event) => event.maximum,
               }),
             },
             MOVE: {
@@ -267,8 +280,27 @@ export const landscapingMachine = createMachine<
                 }),
               }),
             },
+            BLUR: {
+              actions: assign({
+                moving: (_, event) => undefined,
+              }),
+            },
             BUILD: {
               target: "idle",
+            },
+            REMOVE: {
+              target: "idle",
+              actions: [
+                sendParent(
+                  (_context, event: RemoveEvent) =>
+                    ({
+                      type: event.event,
+                      name: event.name,
+                      id: event.id,
+                    } as PlacementEvent)
+                ),
+                assign({ moving: (_) => undefined }),
+              ],
             },
           },
         },
@@ -317,7 +349,11 @@ export const landscapingMachine = createMachine<
               },
               {
                 target: ["#saving.done", "done"],
-                cond: (context) => !context.hasLandscapingAccess,
+                cond: (context) =>
+                  // When buying/crafting items, return them to playing mode once bought
+                  context.action === "chicken.bought" ||
+                  context.action === "collectible.crafted" ||
+                  context.action === "building.constructed",
                 actions: [
                   sendParent(
                     ({ placeable, action, coordinates: { x, y } }) =>

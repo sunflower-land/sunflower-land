@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 
-import { GameState } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CraftDecorationsModal } from "./CraftDecorationsModal";
 
-interface Props {
-  state: GameState;
-}
-
-export const CraftDecorations: React.FC<Props> = ({ state }) => {
+export const CraftDecorations: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -50,11 +45,7 @@ export const CraftDecorations: React.FC<Props> = ({ state }) => {
         </div>
       </div>
 
-      <CraftDecorationsModal
-        show={isOpen}
-        onHide={() => setIsOpen(false)}
-        state={state}
-      />
+      <CraftDecorationsModal show={isOpen} onHide={() => setIsOpen(false)} />
     </>
   );
 };

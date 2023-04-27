@@ -7,11 +7,10 @@ import {
   CollectibleName,
 } from "features/game/types/craftables";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import Draggable from "react-draggable";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { useSelector } from "@xstate/react";
@@ -19,11 +18,17 @@ import {
   MachineInterpreter,
   MachineState,
 } from "features/game/expansion/placeable/landscapingMachine";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BUILDINGS_DIMENSIONS,
+  BuildingName,
+} from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
 import { InventoryItemName } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -51,23 +56,41 @@ function getMoveAction(name: InventoryItemName): GameEventName<PlacementEvent> {
     return "collectible.moved";
   }
 
+  if (name === "Chicken") {
+    return "chicken.moved";
+  }
+
   throw new Error("No matching move event");
 }
 
-export interface MovableProps {
-  name: CollectibleName;
-  id: string;
-  readyAt: number;
-  createdAt: number;
-  coordinates: Coordinates;
-  grid: GameGrid;
-  height?: number;
-  width?: number;
-  x: number;
-  y: number;
+export function getRemoveAction(
+  name: InventoryItemName
+): GameEventName<PlacementEvent> | null {
+  if (name in BUILDINGS_DIMENSIONS) {
+    return "building.removed";
+  }
+
+  if (name in RESOURCES) {
+    return null;
+  }
+
+  if (name === "Chicken") {
+    return "chicken.removed";
+  }
+
+  if (name in COLLECTIBLES_DIMENSIONS) {
+    return "collectible.removed";
+  }
+
+  return null;
 }
 
-const isMoving = (state: MachineState) => state.matches("editing.moving");
+export interface MovableProps {
+  name: CollectibleName | BuildingName | "Chicken";
+  id: string;
+  coordinates: Coordinates;
+}
+
 const getMovingItem = (state: MachineState) => state.context.moving;
 
 export const MoveableComponent: React.FC<MovableProps> = ({
@@ -77,23 +100,65 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   children,
 }) => {
   const nodeRef = useRef(null);
+
+  const [isMobile] = useIsMobile();
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [counts, setCounts] = useState(0);
   const isActive = useRef(false);
+  const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
 
   const landscapingMachine = gameService.state.children
     .landscaping as MachineInterpreter;
 
   const movingItem = useSelector(landscapingMachine, getMovingItem);
 
+  const isSelected = movingItem?.id === id && movingItem?.name === name;
+  const removeAction = !isMobile && getRemoveAction(name);
+
+  /**
+   * Deselect if clicked outside of element
+   */
+  // https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
   useEffect(() => {
-    if (isActive.current && movingItem?.id !== id) {
-      console.log("Reset");
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        isSelected &&
+        (event as any).target.id === "genesisBlock" &&
+        nodeRef.current &&
+        !(nodeRef.current as any).contains(event.target)
+      ) {
+        landscapingMachine.send("BLUR");
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [nodeRef, isSelected]);
+
+  const remove = () => {
+    if (!removeAction) {
+      return;
+    }
+
+    if (showRemoveConfirmation) {
+      landscapingMachine.send("REMOVE", {
+        event: removeAction,
+        id: id,
+        name: name,
+      });
+    } else {
+      setShowRemoveConfirmation(true);
+    }
+  };
+  useEffect(() => {
+    if (isActive.current && !isSelected) {
       // Reset
       setCounts((prev) => prev + 1);
       setIsColliding(false);
+      setShowRemoveConfirmation(false);
       isActive.current = false;
     }
   }, [movingItem]);
@@ -129,41 +194,52 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         key={`${coordinates?.x}-${coordinates?.y}-${counts}`}
         nodeRef={nodeRef}
         grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
+        allowAnyClick
+        // Mobile must click first, before dragging
+        disabled={isMobile && !isSelected}
         onMouseDown={() => {
-          console.log("Mouse down");
+          // Mobile must click first, before dragging
+
+          if (isMobile && !isActive.current) {
+            isActive.current = true;
+
+            return;
+          }
+
           landscapingMachine.send("MOVE", {
             name,
             id,
           });
+
           isActive.current = true;
-          setIsDragging(true);
         }}
         onStart={(_, data) => {
           const x = Math.round(data.x);
           const y = Math.round(-data.y);
           origin.current = { x, y };
-          console.log({ x, y });
-          // reset
-          // send("DRAG");
         }}
         onDrag={(_, data) => {
           const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
           const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
 
-          console.log({ coordinates });
           const x = coordinates.x + xDiff;
           const y = coordinates.y + yDiff;
-          console.log({ x, y });
           detect({ x, y });
-          // setShowHint(false);
+          setIsDragging(true);
         }}
         onStop={(_, data) => {
+          setIsDragging(false);
+
           const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
           const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
 
           const x = coordinates.x + xDiff;
           const y = coordinates.y + yDiff;
-          console.log({ xDiff, yDiff, origin });
+
+          const hasMoved = x !== coordinates.x || y !== coordinates.y;
+          if (!hasMoved) {
+            return;
+          }
 
           const game = removePlaceable({
             state: gameService.state.context.state,
@@ -188,21 +264,94 @@ export const MoveableComponent: React.FC<MovableProps> = ({
               id,
             });
           }
-
-          setIsDragging(false);
         }}
       >
         <div
           ref={nodeRef}
           data-prevent-drag-scroll
-          className={classNames("h-full", {
+          className={classNames("h-full relative", {
             "cursor-grabbing": isDragging,
             "cursor-pointer": !isDragging,
           })}
         >
+          {isSelected && (
+            <div
+              className="absolute z-10 flex"
+              style={{
+                right: `${PIXEL_SCALE * -(removeAction ? 34 : 12)}px`,
+                top: `${PIXEL_SCALE * -12}px`,
+              }}
+            >
+              <div
+                className="relative mr-2"
+                style={{
+                  width: `${PIXEL_SCALE * 18}px`,
+                }}
+              >
+                <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                {isDragging ? (
+                  <img
+                    className="absolute"
+                    src={SUNNYSIDE.icons.dragging}
+                    style={{
+                      width: `${PIXEL_SCALE * 12}px`,
+                      right: `${PIXEL_SCALE * 4}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                ) : (
+                  <img
+                    className="absolute"
+                    src={SUNNYSIDE.icons.drag}
+                    style={{
+                      width: `${PIXEL_SCALE * 14}px`,
+                      right: `${PIXEL_SCALE * 2}px`,
+                      top: `${PIXEL_SCALE * 2}px`,
+                    }}
+                  />
+                )}
+              </div>
+              {!!removeAction && (
+                <div
+                  className="relative cursor-pointer"
+                  style={{
+                    width: `${PIXEL_SCALE * 18}px`,
+                  }}
+                  onClick={(e) => {
+                    remove();
+                    e.preventDefault();
+                  }}
+                >
+                  <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                  {isSelected && showRemoveConfirmation ? (
+                    <img
+                      className="absolute"
+                      src={SUNNYSIDE.icons.confirm}
+                      style={{
+                        width: `${PIXEL_SCALE * 12}px`,
+                        right: `${PIXEL_SCALE * 3}px`,
+                        top: `${PIXEL_SCALE * 3}px`,
+                      }}
+                    />
+                  ) : (
+                    <img
+                      className="absolute"
+                      src={ITEM_DETAILS["Rusty Shovel"].image}
+                      style={{
+                        width: `${PIXEL_SCALE * 12}px`,
+                        right: `${PIXEL_SCALE * 3}px`,
+                        top: `${PIXEL_SCALE * 3}px`,
+                      }}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
           <div
-            className={classNames("h-full", {
+            className={classNames("h-full pointer-events-none", {
               "bg-red-500 bg-opacity-75": isColliding,
+              "bg-green-300 bg-opacity-50": !isColliding && isSelected,
             })}
           >
             {children}

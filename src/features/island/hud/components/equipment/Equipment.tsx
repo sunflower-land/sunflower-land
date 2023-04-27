@@ -54,9 +54,9 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
     );
 
   const craft = () => {
-    landscapingMachine.send("SELECT", {
-      action: "collectible.crafted",
+    gameService.send("LANDSCAPE", {
       placeable: selectedName,
+      action: "collectible.crafted",
       requirements: {
         sfl: new Decimal(0),
         ingredients: selectedItem.ingredients,

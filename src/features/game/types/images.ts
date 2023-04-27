@@ -1,5 +1,4 @@
 // CROPS
-
 import magicBean from "assets/crops/magic_bean.png";
 import shinyBean from "assets/crops/shiny_bean.png";
 import goldenBean from "assets/crops/golden_bean.png";
@@ -12,7 +11,7 @@ import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
 import farmCat from "assets/sfts/farm_cat.gif";
 import farmDog from "assets/sfts/farm_dog.gif";
-import gnome from "assets/sfts/gnome.png";
+import gnome from "assets/decorations/scarlet.png";
 import goldEgg from "assets/sfts/gold_egg.png";
 import potatoStatue from "assets/sfts/potato_statue.png";
 import scarecrow from "assets/sfts/scarecrow.png";
@@ -49,6 +48,7 @@ import immortalPear from "assets/sfts/immortal_pear.gif";
 import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
+import luminousLantern from "assets/sfts/luminous_lantern.webp";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -174,9 +174,10 @@ import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
-import dawnBreakerTicket from "assets/icons/solar_flare_ticket.png";
+import dawnBreakerTicket from "assets/icons/dawn_breake_ticket.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
-
+import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
 import humanBanner from "assets/sfts/human_banner.png";
@@ -347,6 +348,19 @@ import bush from "assets/decorations/bush.png";
 import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
 
+import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
+import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
+import crimsonCap from "assets/decorations/crimson_cap.png";
+import toadstoolSeat from "assets/decorations/toadstool_seat.png";
+import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
+import mahoganyCap from "assets/decorations/mahogony_cap.png";
+import clementine from "assets/decorations/clemtine.png";
+import cobalt from "assets/decorations/cobalt.png";
+import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
+import eggplantGrill from "assets/decorations/eggplant_grill.png";
+import giantDawnMushroom from "assets/decorations/giant_dawn_mushroom.png";
+import shroomGlow from "assets/decorations/shroom_glow.png";
+
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
@@ -371,7 +385,7 @@ import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { HELIOS_DECORATIONS } from "./decorations";
+import { HELIOS_DECORATIONS, SEASONAL_DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -1986,18 +2000,88 @@ export const ITEM_DETAILS: Items = {
   },
   "Dirt Path": {
     image: dirt,
-    description: "?",
+    description: "Keep your farmer boots clean with a well trodden path.",
   },
   Bush: {
     image: bush,
-    description: "?",
+    description: "What's lurking in the bushes?",
   },
   Fence: {
     image: fence,
-    description: "?",
+    description: "Add a touch of rustic charm to your farm.",
   },
   Shrub: {
     image: shrub,
+    description: "Enhance your in-game landscaping with a beautiful shrub",
+  },
+  "Solar Flare Banner": {
+    image: solarFlareBanner,
     description: "?",
+  },
+  "Dawn Breaker Banner": {
+    image: dawnBreakerBanner,
+    description: "?",
+  },
+  "Luminous Lantern": {
+    image: luminousLantern,
+    description: "A bright paper lantern that illuminates the way.",
+  },
+  "Radiance Lantern": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A radiant paper lantern that shines with a powerful light.",
+  },
+  "Aurora Lantern": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      "A paper lantern that transforms any space into a magical wonderland.",
+  },
+
+  "Bonnie's Tombstone": {
+    image: bonniesTombstone,
+    description: HELIOS_DECORATIONS()["Bonnie's Tombstone"].description,
+  },
+  "Chestnut Fungi Stool": {
+    image: chestnutStool,
+    description: HELIOS_DECORATIONS()["Chestnut Fungi Stool"].description,
+  },
+  "Crimson Cap": {
+    image: crimsonCap,
+    description: HELIOS_DECORATIONS()["Crimson Cap"].description,
+  },
+  "Dawn Umbrella Seat": {
+    image: dawnUmbrellaSeat,
+    description: SEASONAL_DECORATIONS()["Dawn Umbrella Seat"].description,
+  },
+  "Eggplant Grill": {
+    image: eggplantGrill,
+    description: SEASONAL_DECORATIONS()["Eggplant Grill"].description,
+  },
+  "Giant Dawn Mushroom": {
+    image: giantDawnMushroom,
+    description: SEASONAL_DECORATIONS()["Giant Dawn Mushroom"].description,
+  },
+  "Grubnash's Tombstone": {
+    image: grubnashTombstone,
+    description: HELIOS_DECORATIONS()["Grubnash's Tombstone"].description,
+  },
+  "Mahogany Cap": {
+    image: mahoganyCap,
+    description: HELIOS_DECORATIONS()["Mahogany Cap"].description,
+  },
+  "Shroom Glow": {
+    image: shroomGlow,
+    description: SEASONAL_DECORATIONS()["Shroom Glow"].description,
+  },
+  "Toadstool Seat": {
+    image: toadstoolSeat,
+    description: HELIOS_DECORATIONS()["Toadstool Seat"].description,
+  },
+  Clementine: {
+    image: clementine,
+    description: SEASONAL_DECORATIONS()["Clementine"].description,
+  },
+  Cobalt: {
+    image: cobalt,
+    description: SEASONAL_DECORATIONS()["Cobalt"].description,
   },
 };

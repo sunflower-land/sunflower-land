@@ -44,13 +44,13 @@ export function constructBuilding({
 
   const landCount = inventory["Basic Land"] ?? new Decimal(0);
 
-  const buildingsPlaced = stateCopy.buildings[action.name]?.length || 0;
   const allowedBuildings = building.filter(({ unlocksAtLevel }) =>
     landCount.gte(unlocksAtLevel)
   ).length;
   const buildingToConstruct = building[buildingNumber];
 
-  if (buildingsPlaced >= allowedBuildings) {
+  const built = stateCopy.inventory[action.name] || new Decimal(0);
+  if (built.gte(allowedBuildings)) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   }
 

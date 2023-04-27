@@ -70,6 +70,7 @@ interface Props {
   details: ItemDetailsProps;
   boost?: string;
   requirements?: RequirementsProps;
+  limit?: number;
   actionView?: JSX.Element;
   hideDescription?: boolean;
 }
@@ -82,6 +83,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   gameState,
   stock,
   isLimitedItem = false,
+  limit,
   details,
   boost,
   requirements,
@@ -229,6 +231,9 @@ export const CraftingRequirements: React.FC<Props> = ({
       <div className="flex flex-col justify-center px-1 py-0">
         {getStock()}
         {getItemDetail({ hideDescription })}
+        {limit && (
+          <p className="my-1 text-xs text-left sm:text-center">{`Max ${limit} per player`}</p>
+        )}
         {getBoost()}
         {getRequirements()}
       </div>

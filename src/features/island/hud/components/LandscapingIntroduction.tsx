@@ -5,10 +5,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import scarecrow from "assets/icons/scarecrow.png";
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 
 function acknowledge() {
@@ -32,7 +30,7 @@ export const LandscapingIntroduction: React.FC = () => {
       <CloseButtonPanel
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES.grimtooth}
-        title="Time to build!"
+        title="Design your dream island!"
       >
         <div className="p-2">
           <div className="flex mb-1 items-center">
@@ -54,51 +52,10 @@ export const LandscapingIntroduction: React.FC = () => {
               />
             </div>
             <p className="text-sm flex-1">
-              In build mode you can hold, drag & move items around.
+              In design mode you can hold, drag & move items around.
             </p>
           </div>
-          <div className="flex mb-1 items-center">
-            <div className="relative mr-2">
-              <img
-                src={SUNNYSIDE.ui.round_button}
-                style={{
-                  width: `${PIXEL_SCALE * 18}px`,
-                }}
-              />
-              <img
-                src={scarecrow}
-                className="absolute"
-                style={{
-                  top: `${PIXEL_SCALE * 2}px`,
-                  left: `${PIXEL_SCALE * 3}px`,
-                  width: `${PIXEL_SCALE * 12}px`,
-                }}
-              />
-            </div>
-            <p className="text-sm flex-1">
-              Craft equipment & boost your farming
-            </p>
-          </div>
-          <div className="flex mb-1 items-center">
-            <div className="relative mr-2">
-              <img
-                src={SUNNYSIDE.ui.round_button}
-                style={{
-                  width: `${PIXEL_SCALE * 18}px`,
-                }}
-              />
-              <img
-                src={ITEM_DETAILS["Water Well"].image}
-                className="absolute"
-                style={{
-                  top: `${PIXEL_SCALE * 3}px`,
-                  left: `${PIXEL_SCALE * 4}px`,
-                  width: `${PIXEL_SCALE * 10}px`,
-                }}
-              />
-            </div>
-            <p className="text-sm flex-1">Craft buildings & unlock resources</p>
-          </div>
+
           <div className="flex mb-1 items-center">
             <div className="relative mr-2">
               <img

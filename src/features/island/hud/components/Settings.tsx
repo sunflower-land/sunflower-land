@@ -21,8 +21,6 @@ import { useLocation } from "react-router-dom";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
-const buttonBottom = PIXEL_SCALE * 3;
-const buttonRight = PIXEL_SCALE * 3;
 
 interface Props {
   isFarming: boolean;
@@ -103,20 +101,20 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     onClick: () => void,
     children: JSX.Element
   ) => {
+    const rightMargin = 8;
+
     return (
       <div
         key={`button-${index}`}
         onClick={onClick}
-        className="fixed z-50 cursor-pointer hover:img-highlight"
+        className="absolute z-50 mb-2 cursor-pointer hover:img-highlight"
         style={{
-          right: `${buttonRight}px`,
-          bottom: `${buttonBottom}px`,
           width: `${buttonWidth}px`,
           height: `${buttonHeight}px`,
           transition: "transform 250ms ease",
           transform: "translateX(0)",
           ...(showMoreButtons && {
-            transform: `translateX(-${(buttonWidth + buttonRight) * index}px)`,
+            transform: `translateX(-${(buttonWidth + rightMargin) * index}px)`,
           }),
         }}
       >
@@ -227,7 +225,11 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         show={openAudioMenu}
         onClose={handleCloseAudioMenu}
       />
-      <div ref={cogRef}>
+      <div
+        className="relative"
+        style={{ height: `${buttonHeight}px`, width: `${buttonWidth}px` }}
+        ref={cogRef}
+      >
         {buttons.map((item, index) => item(index)).reverse()}
       </div>
     </>
