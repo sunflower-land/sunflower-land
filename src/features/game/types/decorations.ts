@@ -28,7 +28,21 @@ export type ShopDecorationName =
   | "Dirt Path"
   | "Bush"
   | "Shrub"
-  | "Fence";
+  | "Fence"
+  | "Bonnie's Tombstone"
+  | "Grubnash's Tombstone"
+  | "Crimson Cap"
+  | "Toadstool Seat"
+  | "Chestnut Fungi Stool"
+  | "Mahogany Cap";
+
+export type SeasonalDecorationName =
+  | "Clementine"
+  | "Cobalt"
+  | "Dawn Umbrella Seat"
+  | "Eggplant Grill"
+  | "Giant Dawn Mushroom"
+  | "Shroom Glow";
 
 export type EventDecorationName =
   | "Valentine Bear"
@@ -41,7 +55,8 @@ export type DecorationName =
   | ShopDecorationName
   | EventDecorationName
   | DecorationTreasure
-  | BoostTreasure;
+  | BoostTreasure
+  | SeasonalDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "White Tulips": {
@@ -220,6 +235,54 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
+  "Bonnie's Tombstone": {
+    width: 1,
+    height: 1,
+  },
+  "Chestnut Fungi Stool": {
+    width: 1,
+    height: 1,
+  },
+  "Crimson Cap": {
+    width: 2,
+    height: 2,
+  },
+  "Dawn Umbrella Seat": {
+    width: 1,
+    height: 1,
+  },
+  "Eggplant Grill": {
+    width: 1,
+    height: 1,
+  },
+  "Giant Dawn Mushroom": {
+    width: 2,
+    height: 2,
+  },
+  "Grubnash's Tombstone": {
+    width: 1,
+    height: 1,
+  },
+  "Mahogany Cap": {
+    width: 2,
+    height: 2,
+  },
+  "Toadstool Seat": {
+    width: 1,
+    height: 1,
+  },
+  Clementine: {
+    width: 1,
+    height: 1,
+  },
+  Cobalt: {
+    width: 1,
+    height: 1,
+  },
+  "Shroom Glow": {
+    width: 2,
+    height: 2,
+  },
 };
 
 export type Decoration = {
@@ -305,5 +368,119 @@ export const HELIOS_DECORATIONS: () => Record<
       Wood: new Decimal(3),
     },
     description: "Enhance your in-game landscaping with a beautiful shrub",
+  },
+  "Bonnie's Tombstone": {
+    name: "Bonnie's Tombstone",
+    sfl: marketRate(0),
+    ingredients: {
+      Stone: new Decimal(10),
+    },
+    description: "?",
+  },
+  "Crimson Cap": {
+    name: "Crimson Cap",
+    sfl: new Decimal(50),
+    ingredients: {
+      "Wild Mushroom": new Decimal(20),
+    },
+    description: "?",
+  },
+  "Grubnash's Tombstone": {
+    name: "Grubnash's Tombstone",
+    sfl: marketRate(0),
+    ingredients: {
+      Stone: new Decimal(20),
+      Iron: new Decimal(10),
+    },
+    description: "?",
+  },
+  "Toadstool Seat": {
+    name: "Toadstool Seat",
+    sfl: new Decimal(0),
+    ingredients: {
+      "Wild Mushroom": new Decimal(5),
+    },
+    description: "?",
+  },
+  "Chestnut Fungi Stool": {
+    name: "Chestnut Fungi Stool",
+    sfl: new Decimal(5),
+    ingredients: {
+      "Toadstool Seat": new Decimal(1),
+      Wood: new Decimal(10),
+    },
+    description: "?",
+  },
+  "Mahogany Cap": {
+    name: "Mahogany Cap",
+    sfl: new Decimal(5),
+    ingredients: {
+      "Crimson Cap": new Decimal(1),
+      Wood: new Decimal(100),
+    },
+    description: "?",
+  },
+});
+
+export const SEASONAL_DECORATIONS: () => Record<
+  SeasonalDecorationName,
+  Decoration
+> = () => ({
+  "Dawn Umbrella Seat": {
+    name: "Dawn Umbrella Seat",
+    sfl: new Decimal(0),
+    ingredients: {
+      Eggplant: new Decimal(10),
+      "Dawn Breaker Ticket": new Decimal(10),
+    },
+    description: "?",
+  },
+  "Eggplant Grill": {
+    name: "Eggplant Grill",
+    sfl: new Decimal(0),
+    description: "?",
+    ingredients: {
+      Wood: new Decimal(50),
+      Gold: new Decimal(5),
+      Eggplant: new Decimal(50),
+      "Dawn Breaker Ticket": new Decimal(100),
+    },
+  },
+  "Giant Dawn Mushroom": {
+    name: "Giant Dawn Mushroom",
+    sfl: marketRate(1600),
+    description: "?",
+    ingredients: {
+      Mushroom: new Decimal(5),
+      Eggplant: new Decimal(25),
+    },
+  },
+  Clementine: {
+    name: "Clementine",
+    sfl: marketRate(1600),
+    description: "?",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Wild Mushroom": new Decimal(20),
+    },
+  },
+  Cobalt: {
+    name: "Cobalt",
+    sfl: marketRate(800),
+    ingredients: {
+      Gold: new Decimal(2),
+      "Wild Mushroom": new Decimal(10),
+    },
+    description: "?",
+  },
+  "Shroom Glow": {
+    name: "Shroom Glow",
+    sfl: new Decimal(800),
+    description: "?",
+    ingredients: {
+      Gold: new Decimal(5),
+      Wood: new Decimal(100),
+      "Wild Mushroom": new Decimal(5),
+    },
   },
 });

@@ -130,6 +130,18 @@ import { SolarFlareBanner } from "./components/SolarFlareBanner";
 import { HumanBanner } from "./components/HumanBanner";
 import { GoblinBanner } from "./components/GoblinBanner";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { BonniesTombstone } from "./components/BonniesTombstone";
+import { ChestnutFungiStool } from "./components/ChestnutFungiStool";
+import { CrimsonCap } from "./components/CrimsonCap";
+import { DawnUmbreallSeat } from "./components/DawnUmbrellaSeat";
+import { EggplantGrill } from "./components/EggplantGrill";
+import { GiantDawnMushroom } from "./components/GiantDawnMushroom";
+import { GrubnashTombstone } from "./components/GrubnashTombstone";
+import { MahoganyCap } from "./components/MahoganyCap";
+import { ShroomGlow } from "./components/ShroomGlow";
+import { ToadstoolSeat } from "./components/ToadstoolSeat";
+import { Clementine } from "./components/Clementine";
+import { Cobalt } from "./components/Cobalt";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -297,6 +309,19 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Solar Flare Banner": SolarFlareBanner,
   "Human War Banner": HumanBanner,
   "Goblin War Banner": GoblinBanner,
+
+  "Bonnie's Tombstone": BonniesTombstone,
+  "Chestnut Fungi Stool": ChestnutFungiStool,
+  "Crimson Cap": CrimsonCap,
+  "Dawn Umbrella Seat": DawnUmbreallSeat,
+  "Eggplant Grill": EggplantGrill,
+  "Giant Dawn Mushroom": GiantDawnMushroom,
+  "Grubnash's Tombstone": GrubnashTombstone,
+  "Mahogany Cap": MahoganyCap,
+  "Shroom Glow": ShroomGlow,
+  "Toadstool Seat": ToadstoolSeat,
+  Clementine: Clementine,
+  Cobalt: Cobalt,
 };
 
 // Need readonly versions for some troublesome components while in design mode

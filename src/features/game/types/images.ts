@@ -1,5 +1,4 @@
 // CROPS
-
 import magicBean from "assets/crops/magic_bean.png";
 import shinyBean from "assets/crops/shiny_bean.png";
 import goldenBean from "assets/crops/golden_bean.png";
@@ -12,7 +11,7 @@ import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
 import farmCat from "assets/sfts/farm_cat.gif";
 import farmDog from "assets/sfts/farm_dog.gif";
-import gnome from "assets/sfts/gnome.png";
+import gnome from "assets/decorations/scarlet.png";
 import goldEgg from "assets/sfts/gold_egg.png";
 import potatoStatue from "assets/sfts/potato_statue.png";
 import scarecrow from "assets/sfts/scarecrow.png";
@@ -348,6 +347,19 @@ import dirt from "assets/sfts/dirt_path.png";
 import bush from "assets/decorations/bush.png";
 import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
+
+import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
+import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
+import crimsonCap from "assets/decorations/crimson_cap.png";
+import toadstoolSeat from "assets/decorations/toadstool_seat.png";
+import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
+import mahoganyCap from "assets/decorations/mahogony_cap.png";
+import clementine from "assets/decorations/clemtine.png";
+import cobalt from "assets/decorations/cobalt.png";
+import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
+import eggplantGrill from "assets/decorations/eggplant_grill.png";
+import giantDawnMushroom from "assets/decorations/giant_dawn_mushroom.png";
+import shroomGlow from "assets/decorations/shroom_glow.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -2022,5 +2034,54 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description:
       "A paper lantern that transforms any space into a magical wonderland.",
+  },
+
+  "Bonnie's Tombstone": {
+    image: bonniesTombstone,
+    description: "?",
+  },
+  "Chestnut Fungi Stool": {
+    image: chestnutStool,
+    description: "?",
+  },
+  "Crimson Cap": {
+    image: crimsonCap,
+    description: "?",
+  },
+  "Dawn Umbrella Seat": {
+    image: dawnUmbrellaSeat,
+    description: "?",
+  },
+  "Eggplant Grill": {
+    image: eggplantGrill,
+    description: "?",
+  },
+  "Giant Dawn Mushroom": {
+    image: giantDawnMushroom,
+    description: "?",
+  },
+  "Grubnash's Tombstone": {
+    image: grubnashTombstone,
+    description: "?",
+  },
+  "Mahogany Cap": {
+    image: mahoganyCap,
+    description: "?",
+  },
+  "Shroom Glow": {
+    image: shroomGlow,
+    description: "?",
+  },
+  "Toadstool Seat": {
+    image: toadstoolSeat,
+    description: "?",
+  },
+  Clementine: {
+    image: clementine,
+    description: "?",
+  },
+  Cobalt: {
+    image: cobalt,
+    description: "?",
   },
 };
