@@ -7,25 +7,28 @@ export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
 
 export type HeliosBlacksmithItem = "Immortal Pear" | "Treasure Map";
 
-export type GoblinBlacksmithItemName =
-  | "Lady Bug"
-  | "Squirrel Monkey"
-  | "Black Bearry"
-  | "Maneki Neko"
-  | "Heart Balloons"
-  | "Flamingo"
-  | "Blossom Tree"
+export type SoldOutCollectibleName =
   | "Palm Tree"
   | "Beach Ball"
   | "Cabbage Boy"
   | "Cabbage Girl"
+  | "Heart Balloons"
+  | "Flamingo"
+  | "Blossom Tree"
   | "Collectible Bear"
   | "Pablo The Bunny"
   | "Easter Bush"
   | "Giant Carrot"
-  | "Mushroom House"
+  | "Maneki Neko"
+  | "Squirrel Monkey"
+  | "Black Bearry"
+  | "Hoot";
+
+export type GoblinBlacksmithItemName =
+  | "Lady Bug"
   | "Purple Trail"
   | "Obie"
+  | "Mushroom House"
   | "Maximus";
 
 export type GoblinPirateItemName =
@@ -126,140 +129,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     },
     supply: 2535,
     boost: "+0.25 Apples",
-  },
-  "Squirrel Monkey": {
-    description:
-      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
-    ingredients: {
-      Gold: new Decimal(25),
-      Orange: new Decimal(300),
-    },
-    supply: 1035,
-    boost: "1/2 Orange Tree grow time",
-  },
-  "Black Bearry": {
-    description:
-      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
-    ingredients: {
-      Gold: new Decimal(25),
-      Blueberry: new Decimal(700),
-    },
-    supply: 535,
-    boost: "+1 Blueberry",
-  },
-  "Maneki Neko": {
-    description: "The beckoning cat. Pull its arm and good luck will come",
-    ingredients: {
-      Gold: new Decimal(1),
-      "Red Envelope": new Decimal(50),
-    },
-    supply: 30000,
-    disabled: true,
-  },
-  "Heart Balloons": {
-    description: "Use them as decorations for romantic occasions.",
-    ingredients: {
-      "Love Letter": new Decimal(10),
-    },
-    supply: 20000,
-  },
-  Flamingo: {
-    description:
-      "Represents a symbol of love's beauty standing tall and confident.",
-    ingredients: {
-      "Love Letter": new Decimal(75),
-    },
-    supply: 3000,
-  },
-  "Blossom Tree": {
-    description:
-      "Its delicate petals symbolizes the beauty and fragility of love",
-    ingredients: {
-      "Love Letter": new Decimal(350),
-      Wood: new Decimal(500),
-    },
-    supply: 250,
-  },
-  "Palm Tree": {
-    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
-    ingredients: {
-      Wood: new Decimal(1000),
-      Gold: new Decimal(10),
-      "Solar Flare Ticket": new Decimal(300),
-    },
-    supply: 500,
-  },
-  "Beach Ball": {
-    description: "Bouncy ball brings beachy vibes, blows boredom away.",
-    ingredients: {
-      Gold: new Decimal(3),
-      "Solar Flare Ticket": new Decimal(50),
-    },
-    supply: 20000,
-  },
-  "Cabbage Boy": {
-    description: "Don't wake the baby!",
-    ingredients: {
-      Cabbage: new Decimal(2000),
-      Gold: new Decimal(15),
-      "Solar Flare Ticket": new Decimal(750),
-    },
-    supply: 1050, // 1000 + 50 Goblin Treasury Supply
-    boost: "+0.25 Cabbage",
-  },
-  "Cabbage Girl": {
-    description: "Shhh it's sleeping",
-    ingredients: {
-      Cabbage: new Decimal(2000),
-      Gold: new Decimal(25),
-      "Solar Flare Ticket": new Decimal(1000),
-    },
-    supply: 365, // 360 + 5 Goblin Treasury Supply
-    boost: "50% Faster Cabbages",
-  },
-  "Collectible Bear": {
-    description: "A prized possession still in mint condition!",
-    ingredients: {
-      "Basic Bear": new Decimal(1),
-      Gold: new Decimal(5),
-      "Solar Flare Ticket": new Decimal(250),
-    },
-    supply: 750,
-  },
-  "Pablo The Bunny": {
-    description: "The magical bunny that increases your carrot harvests",
-    ingredients: {
-      "Red Egg": new Decimal(12),
-      "Blue Egg": new Decimal(12),
-      "Green Egg": new Decimal(12),
-      "Yellow Egg": new Decimal(12),
-      Gold: new Decimal(5),
-    },
-    supply: 7500,
-    boost: "+0.1 Carrot",
-  },
-  "Easter Bush": {
-    description: "What is inside?",
-    ingredients: {
-      Gold: new Decimal(1),
-      "Purple Egg": new Decimal(12),
-      "Orange Egg": new Decimal(12),
-      "Pink Egg": new Decimal(12),
-    },
-    supply: 20000,
-  },
-  "Giant Carrot": {
-    description:
-      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
-    ingredients: {
-      Gold: new Decimal(5),
-      Carrot: new Decimal(5000),
-      "Red Egg": new Decimal(12),
-      "Blue Egg": new Decimal(12),
-      "Green Egg": new Decimal(12),
-      "Yellow Egg": new Decimal(12),
-    },
-    supply: 500,
   },
   "Mushroom House": {
     description:
