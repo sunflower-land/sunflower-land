@@ -167,7 +167,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
               {`For every lantern you mint, you'll receive a raffle ticket for a
             chance to a win weekly prizes worth up to 5000 SFL or one of 10 Hoot SFT's (Total Supply 100). But if we come together
             and collectively reach our weekly goal, we'll double the prize pool
-            to 10000 SFL.`}
+            to 10,000 SFL.`}
             </p>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>

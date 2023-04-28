@@ -113,7 +113,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       flip: true,
       dialogue: (
         <>
-          <p>{`What's happening? Why has the darkness come?`}</p>
+          <p>{`Marcus: What's happening? Why has the darkness come?`}</p>
           <p>{`I need to protect my family, but how can I when we can't even see what's out there?`}</p>
         </>
       ),
@@ -124,7 +124,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       flip: true,
       dialogue: (
         <>
-          <p>{`Oh no, my crops! They won't survive without sunlight. How will we feed ourselves?`}</p>
+          <p>{`Bella: Oh no, my crops! They won't survive without sunlight. How will we feed ourselves?`}</p>
           <p>{`Marcus, I'm so scared.`}</p>
         </>
       ),
@@ -135,8 +135,8 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       dialogue: (
         <>
           <p>
-            This is so scary, but also kind of exciting. What do you think is
-            causing this darkness?
+            Sofia: This is so scary, but also kind of exciting. What do you
+            think is causing this darkness?
           </p>
           <p>I want to help however I can.</p>
         </>
@@ -148,8 +148,8 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       dialogue: (
         <>
           <p>
-            Embrace the darkness, my friends. It holds the key to your freedom.
-            Dance with darkness until the fire lights.
+            Hoot: Embrace the darkness, my friends. It holds the key to your
+            freedom. Dance with darkness until the fire lights.
           </p>
         </>
       ),
