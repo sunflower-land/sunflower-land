@@ -19,7 +19,7 @@ const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
 const STEPS = 9;
 
-type NPCParts = Omit<
+export type NPCParts = Omit<
   BumpkinParts,
   "background" | "hair" | "body" | "shoes" | "tool"
 > & {
@@ -30,24 +30,14 @@ type NPCParts = Omit<
   tool: BumpkinTool;
 };
 
-/**
- * These parts are required as part of the image building process. They will be overriden
- * by any parts passed in as props.
- */
-const DEFAULT_PARTS: NPCParts = {
-  background: "Farm Background",
-  body: "Dark Brown Farmer Potion",
-  hair: "Basic Hair",
-  shoes: "Black Farmer Boots",
-  tool: "Farmer Pitchfork",
-};
-
 export interface NPCProps {
   parts: Partial<NPCParts>;
+  flip?: boolean;
 }
 
 export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   parts,
+  flip,
   onClick,
 }) => {
   const [sheetSrc, setSheetSrc] = useState<string>();
@@ -56,7 +46,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   useEffect(() => {
     const load = async () => {
       const sheet = await buildNPCSheet({
-        parts: { ...DEFAULT_PARTS, ...parts },
+        parts,
       });
 
       setSheetSrc(sheet);
@@ -70,6 +60,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
       <div
         className={classNames(`absolute `, {
           "cursor-pointer hover:img-highlight": !!onClick,
+          "-scale-x-100": !!flip,
         })}
         onClick={() => !!onClick && onClick()}
         style={{
@@ -132,7 +123,7 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
   useEffect(() => {
     const load = async () => {
       const sheet = await buildNPCSheet({
-        parts: { ...DEFAULT_PARTS, ...parts },
+        parts,
       });
 
       setSheetSrc(sheet);

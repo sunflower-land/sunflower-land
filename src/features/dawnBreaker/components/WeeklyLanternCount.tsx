@@ -14,20 +14,20 @@ import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
+import classNames from "classnames";
+
+export const WEEKLY_MINT_GOAL = 25000;
+export const PREVIOUS_MINT_COUNT = 0;
 
 interface Props {
   lanternName: LanternName;
   endAt: number;
-  previousMintCount: number;
-  weeklyMintGoal: number;
   onLoaded: () => void;
 }
 
 export const WeeklyLanternCount: React.FC<Props> = ({
   lanternName,
   endAt,
-  previousMintCount,
-  weeklyMintGoal,
   onLoaded,
 }) => {
   const [lanternsMinted, setLanternsMinted] = useState(0);
@@ -57,7 +57,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
       ]);
       const totalSupply = Number(supplyBatch[0]) ?? 0;
 
-      setLanternsMinted(totalSupply - previousMintCount);
+      setLanternsMinted(totalSupply - PREVIOUS_MINT_COUNT);
       handleLoaded();
     };
 
@@ -69,9 +69,8 @@ export const WeeklyLanternCount: React.FC<Props> = ({
     onLoaded();
   };
 
-  const goalReached = lanternsMinted >= weeklyMintGoal;
-  // get percentage of lanterns minted based on weekly goal.
-  const percentage = (lanternsMinted / weeklyMintGoal) * 100;
+  const goalReached = lanternsMinted >= WEEKLY_MINT_GOAL;
+  const percentage = (lanternsMinted / WEEKLY_MINT_GOAL) * 100;
 
   return (
     <>
@@ -95,7 +94,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
               style={{ width: PIXEL_SCALE * 20 }}
             />
             <div
-              className="flex flex-col w-full mx-1"
+              className="relative flex flex-col w-full mx-1"
               style={{ ...progressBarBorderStyle }}
             >
               <div
@@ -120,12 +119,17 @@ export const WeeklyLanternCount: React.FC<Props> = ({
                     }}
                   />
                 </div>
-                <p className="text-xxs mb-1">
-                  {goalReached
-                    ? `Mint goal reached`
-                    : `${lanternsMinted}/${weeklyMintGoal}`}
-                </p>
               </div>
+              <p
+                className={classNames(
+                  "absolute text-xxs mb-1 top-1/2 -translate-y-1/2",
+                  { "left-2": percentage > 50, "right-2": percentage <= 50 }
+                )}
+              >
+                {goalReached
+                  ? `Mint goal reached`
+                  : `${lanternsMinted.toLocaleString()}/${WEEKLY_MINT_GOAL.toLocaleString()}`}
+              </p>
             </div>
             <img
               src={
@@ -157,14 +161,17 @@ export const WeeklyLanternCount: React.FC<Props> = ({
           <div className="flex justify-center mb-1">
             <CountdownLabel timeLeft={secondsLeft} endText="remaining" />
           </div>
-          <div className="text-sm p-2 mb-2">
+          <div className="text-sm p-2 mb-2 space-y-2">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-              sagittis purus odio, vel eleifend risus molestie ac.
+              {`Each week, we'll be raffling off prizes to those who help us bring
+              light back to the island. The more lanterns we craft as a community, the brighter
+              our chances of success.`}
             </p>
             <p>
-              Nulla luctus, est vitae convallis dignissim, augue justo laoreet
-              eros, sit amet commodo leo sapien ac diam.
+              {`For every lantern you mint, you'll receive a raffle ticket for a
+            chance to a win weekly prizes worth up to 5000 SFL or one of 10 Hoot SFT's (Total Supply 100). But if we come together
+            and collectively reach our weekly goal, we'll double the prize pool
+            to 10,000 SFL.`}
             </p>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>

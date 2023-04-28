@@ -98,7 +98,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
           {showCloseButton && (
             <img
               src={SUNNYSIDE.icons.close}
-              className="flex-none cursor-pointer"
+              className="flex-none cursor-pointer float-right"
               onClick={onClose}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
