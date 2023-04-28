@@ -3189,7 +3189,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/460.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Love Letter": {
     description: "Convey feelings of love",
