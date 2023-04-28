@@ -141,8 +141,6 @@ export const DawnBreaker: React.FC = () => {
         <WeeklyLanternCount
           lanternName={availableLantern.name}
           endAt={new Date(availableLantern.endAt).getTime()}
-          previousMintCount={0}
-          weeklyMintGoal={20}
           onLoaded={() => setWeeklyStatsLoaded(true)}
         />
       )}
