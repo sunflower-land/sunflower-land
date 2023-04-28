@@ -67,7 +67,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
 
   const inventory = state.inventory;
 
-  const selectedItem = GOBLIN_BLACKSMITH_ITEMS[selectedName];
+  const selectedItem = GOBLIN_BLACKSMITH_ITEMS(state)[selectedName];
 
   const lessIngredients = () =>
     getKeys(selectedItem.ingredients).some((name) =>
@@ -139,8 +139,8 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(GOBLIN_BLACKSMITH_ITEMS)
-            .filter((name) => !GOBLIN_BLACKSMITH_ITEMS[name].disabled)
+          {getKeys(GOBLIN_BLACKSMITH_ITEMS(state))
+            .filter((name) => !GOBLIN_BLACKSMITH_ITEMS(state)[name].disabled)
             .map((name) => (
               <Box
                 isSelected={selectedName === name}

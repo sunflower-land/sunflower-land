@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { Dimensions } from "./craftables";
-import { Inventory } from "./game";
+import { GameState, Inventory } from "./game";
 import { BoostTreasure, DecorationTreasure } from "./treasure";
+import { SFLDiscount } from "../lib/SFLDiscount";
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -427,16 +428,14 @@ export const HELIOS_DECORATIONS: () => Record<
   },
 });
 
-export const SEASONAL_DECORATIONS: () => Record<
-  SeasonalDecorationName,
-  Decoration
-> = () => ({
+export const SEASONAL_DECORATIONS: (
+  state?: GameState
+) => Record<SeasonalDecorationName, Decoration> = (state) => ({
   "Dawn Umbrella Seat": {
     name: "Dawn Umbrella Seat",
-    sfl: new Decimal(0),
+    sfl: SFLDiscount(state, marketRate(400)),
     ingredients: {
-      Eggplant: new Decimal(10),
-      "Dawn Breaker Ticket": new Decimal(10),
+      "Dawn Breaker Ticket": new Decimal(20),
     },
     description:
       "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
@@ -456,18 +455,18 @@ export const SEASONAL_DECORATIONS: () => Record<
   },
   "Giant Dawn Mushroom": {
     name: "Giant Dawn Mushroom",
-    sfl: marketRate(1600),
+    sfl: SFLDiscount(state, marketRate(1600)),
     description:
       "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
     ingredients: {
-      "Wild Mushroom": new Decimal(5),
-      Eggplant: new Decimal(25),
+      "Wild Mushroom": new Decimal(10),
+      Eggplant: new Decimal(30),
     },
     limit: 5,
   },
   Clementine: {
     name: "Clementine",
-    sfl: marketRate(1600),
+    sfl: SFLDiscount(state, marketRate(1600)),
     description:
       "The Clementine Gnome is a cheerful companion for your farming adventures.",
     ingredients: {
@@ -478,7 +477,7 @@ export const SEASONAL_DECORATIONS: () => Record<
   },
   Cobalt: {
     name: "Cobalt",
-    sfl: marketRate(800),
+    sfl: SFLDiscount(state, marketRate(800)),
     ingredients: {
       Gold: new Decimal(2),
       "Wild Mushroom": new Decimal(10),
@@ -489,13 +488,13 @@ export const SEASONAL_DECORATIONS: () => Record<
   },
   "Shroom Glow": {
     name: "Shroom Glow",
-    sfl: marketRate(800),
+    sfl: SFLDiscount(state, marketRate(800)),
     description:
       "Illuminate your farm with the enchanting glow of Shroom Glow.",
     ingredients: {
       Gold: new Decimal(5),
-      Wood: new Decimal(100),
-      "Wild Mushroom": new Decimal(5),
+      Wood: new Decimal(70),
+      "Wild Mushroom": new Decimal(30),
     },
   },
 });

@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
-import { Inventory } from "./game";
+import { GameState, Inventory } from "./game";
 import { SEASONS } from "./seasons";
 import { marketRate } from "../lib/halvening";
+import { SFLDiscount } from "../lib/SFLDiscount";
 
 export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
 
@@ -115,69 +116,71 @@ export const GOBLIN_PIRATE_ITEMS: Record<
   },
 };
 
-export const GOBLIN_BLACKSMITH_ITEMS: Record<
-  GoblinBlacksmithItemName,
-  GoblinBlacksmithCraftable
-> = {
-  "Lady Bug": {
-    description:
-      "An incredible bug that feeds on aphids. Improves Apple quality.",
-    ingredients: {
-      Gold: new Decimal(25),
-      Apple: new Decimal(100),
+export const GOBLIN_BLACKSMITH_ITEMS: (
+  state?: GameState
+) => Record<GoblinBlacksmithItemName, GoblinBlacksmithCraftable> = (state) => {
+  return {
+    "Lady Bug": {
+      description:
+        "An incredible bug that feeds on aphids. Improves Apple quality.",
+      ingredients: {
+        Gold: new Decimal(25),
+        Apple: new Decimal(100),
+      },
+      supply: 2535,
+      boost: "+0.25 Apples",
     },
-    supply: 2535,
-    boost: "+0.25 Apples",
-  },
-  "Mushroom House": {
-    description:
-      "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
-    ingredients: {
-      "Wild Mushroom": new Decimal(90),
+    "Mushroom House": {
+      description:
+        "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
+      ingredients: {
+        "Wild Mushroom": new Decimal(50),
+        Gold: new Decimal(10),
+      },
+      supply: 2000,
+      sfl: SFLDiscount(state, new Decimal(50)),
+      boost: "+0.2 Wild Mushroom",
+      // only available when SEASONS["DAWN_BREAKER"] starts
+      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
-    supply: 2000,
-    sfl: new Decimal(30),
-    boost: "+0.2 Wild Mushroom",
-    // only available when SEASONS["DAWN_BREAKER"] starts
-    disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
-  },
-  Maximus: {
-    description: "Squash the competition with plump Maximus",
-    // Placeholders
-    ingredients: {
-      Eggplant: new Decimal(100),
-      "Dawn Breaker Ticket": new Decimal(100),
+    Maximus: {
+      description: "Squash the competition with plump Maximus",
+      // Placeholders
+      ingredients: {
+        Eggplant: new Decimal(100),
+        "Dawn Breaker Ticket": new Decimal(100),
+      },
+      sfl: SFLDiscount(state, marketRate(20000)),
+      supply: 350,
+      boost: "+1 Eggplant",
+      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
-    sfl: marketRate(20000),
-    supply: 360,
-    boost: "+1 Eggplant",
-    disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
-  },
-  Obie: {
-    description: "A fierce eggplant soldier",
-    // Placeholders
-    ingredients: {
-      Eggplant: new Decimal(50),
-      "Dawn Breaker Ticket": new Decimal(75),
+    Obie: {
+      description: "A fierce eggplant soldier",
+      // Placeholders
+      ingredients: {
+        Eggplant: new Decimal(150),
+        "Dawn Breaker Ticket": new Decimal(1200),
+      },
+      sfl: SFLDiscount(state, marketRate(2000)),
+      supply: 2500,
+      boost: "25% faster eggplants",
+      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
-    sfl: marketRate(2000),
-    supply: 2500,
-    boost: "25% faster eggplants",
-    disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
-  },
-  "Purple Trail": {
-    description:
-      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
-    // Placeholders
-    ingredients: {
-      Eggplant: new Decimal(25),
-      "Dawn Breaker Ticket": new Decimal(25),
+    "Purple Trail": {
+      description:
+        "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+      // Placeholders
+      ingredients: {
+        Eggplant: new Decimal(25),
+        "Dawn Breaker Ticket": new Decimal(25),
+      },
+      sfl: SFLDiscount(state, marketRate(800)),
+      supply: 10000,
+      boost: "+0.2 Eggplant",
+      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
-    sfl: marketRate(2000),
-    supply: 10000,
-    boost: "+0.2 Eggplant",
-    disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
-  },
+  };
 };
 
 export type Purchasable = CraftableCollectible & {

@@ -1719,7 +1719,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Lady Bug": {
     image: ladybug,
-    description: GOBLIN_BLACKSMITH_ITEMS["Lady Bug"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS()["Lady Bug"].description,
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
@@ -1974,7 +1974,7 @@ export const ITEM_DETAILS: Items = {
   // Dawn Breaker Season
   "Mushroom House": {
     image: mushroomHouse,
-    description: GOBLIN_BLACKSMITH_ITEMS["Mushroom House"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS()["Mushroom House"].description,
   },
 
   "Basic Land": {

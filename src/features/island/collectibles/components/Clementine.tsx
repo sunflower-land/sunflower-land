@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/decorations/clemtine.png";
+import image from "assets/decorations/clementine.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Clementine: React.FC = () => {
