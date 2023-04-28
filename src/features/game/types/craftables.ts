@@ -12,6 +12,7 @@ import {
   GoblinPirateItemName,
   HeliosBlacksmithItem,
   SeasonPassName,
+  SoldOutCollectibleName,
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { BoostTreasure } from "./treasure";
@@ -189,6 +190,7 @@ export type CollectibleName =
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | SoldOutCollectibleName
   | GoblinPirateItemName
   | SeasonPassName
   | BoostTreasure

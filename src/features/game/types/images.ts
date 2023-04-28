@@ -1662,12 +1662,12 @@ export const ITEM_DETAILS: Items = {
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Boy"].description,
+    description: "Don't wake the baby!",
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Girl"].description,
+    description: "Shhh it's sleeping",
   },
 
   "Wood Nymph Wendy": {
@@ -1723,11 +1723,13 @@ export const ITEM_DETAILS: Items = {
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
-    description: GOBLIN_BLACKSMITH_ITEMS["Squirrel Monkey"].description,
+    description:
+      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
   },
   "Black Bearry": {
     image: blackBear,
-    description: GOBLIN_BLACKSMITH_ITEMS["Black Bearry"].description,
+    description:
+      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
   },
   "Devil Bear": {
     image: devilBear,
@@ -1958,11 +1960,11 @@ export const ITEM_DETAILS: Items = {
   // Solar Flare Season
   "Beach Ball": {
     image: beachBall,
-    description: GOBLIN_BLACKSMITH_ITEMS["Beach Ball"].description,
+    description: "Bouncy ball brings beachy vibes, blows boredom away.",
   },
   "Palm Tree": {
     image: palmTree,
-    description: GOBLIN_BLACKSMITH_ITEMS["Palm Tree"].description,
+    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
   },
   Karkinos: {
     image: karkinos,

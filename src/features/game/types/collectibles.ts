@@ -21,8 +21,7 @@ export type SoldOutCollectibleName =
   | "Giant Carrot"
   | "Maneki Neko"
   | "Squirrel Monkey"
-  | "Black Bearry"
-  | "Hoot";
+  | "Black Bearry";
 
 export type GoblinBlacksmithItemName =
   | "Lady Bug"
@@ -155,7 +154,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
     disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
   },
   Obie: {
-    description: "A fierce eggplant solider",
+    description: "A fierce eggplant soldier",
     // Placeholders
     ingredients: {
       Eggplant: new Decimal(50),
@@ -175,6 +174,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Dawn Breaker Ticket": new Decimal(25),
     },
     sfl: marketRate(2000),
+    supply: 10000,
     boost: "+0.2 Eggplant",
     disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
   },
