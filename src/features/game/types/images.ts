@@ -361,6 +361,9 @@ import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
 import eggplantGrill from "assets/decorations/eggplant_grill.png";
 import giantDawnMushroom from "assets/decorations/giant_dawn_mushroom.png";
 import shroomGlow from "assets/decorations/shroom_glow.png";
+import purpleTrail from "assets/sfts/purple_trail.png";
+import obie from "assets/sfts/obie.png";
+import maximus from "assets/sfts/maximus.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -1659,12 +1662,12 @@ export const ITEM_DETAILS: Items = {
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Boy"].description,
+    description: "Don't wake the baby!",
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Girl"].description,
+    description: "Shhh it's sleeping",
   },
 
   "Wood Nymph Wendy": {
@@ -1720,11 +1723,13 @@ export const ITEM_DETAILS: Items = {
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
-    description: GOBLIN_BLACKSMITH_ITEMS["Squirrel Monkey"].description,
+    description:
+      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
   },
   "Black Bearry": {
     image: blackBear,
-    description: GOBLIN_BLACKSMITH_ITEMS["Black Bearry"].description,
+    description:
+      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
   },
   "Devil Bear": {
     image: devilBear,
@@ -1955,11 +1960,11 @@ export const ITEM_DETAILS: Items = {
   // Solar Flare Season
   "Beach Ball": {
     image: beachBall,
-    description: GOBLIN_BLACKSMITH_ITEMS["Beach Ball"].description,
+    description: "Bouncy ball brings beachy vibes, blows boredom away.",
   },
   "Palm Tree": {
     image: palmTree,
-    description: GOBLIN_BLACKSMITH_ITEMS["Palm Tree"].description,
+    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
   },
   Karkinos: {
     image: karkinos,
@@ -2090,5 +2095,18 @@ export const ITEM_DETAILS: Items = {
   Cobalt: {
     image: cobalt,
     description: SEASONAL_DECORATIONS()["Cobalt"].description,
+  },
+  "Purple Trail": {
+    image: purpleTrail,
+    description:
+      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+  },
+  Maximus: {
+    image: maximus,
+    description: "Squash the competition with plump Maximus",
+  },
+  Obie: {
+    image: obie,
+    description: "A fierce eggplant solider",
   },
 };

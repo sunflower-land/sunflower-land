@@ -143,6 +143,9 @@ import { ShroomGlow } from "./components/ShroomGlow";
 import { ToadstoolSeat } from "./components/ToadstoolSeat";
 import { Clementine } from "./components/Clementine";
 import { Cobalt } from "./components/Cobalt";
+import { PurpleTrail } from "./components/PurpleTrail";
+import { Obie } from "./components/Obie";
+import { Maximus } from "./components/Maximus";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -326,6 +329,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
   // Dawn Breaker items
   "Mushroom House": MushroomHouse,
+  "Purple Trail": PurpleTrail,
+  Obie: Obie,
+  Maximus: Maximus,
 };
 
 // Need readonly versions for some troublesome components while in design mode

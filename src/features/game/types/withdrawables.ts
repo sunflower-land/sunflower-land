@@ -325,6 +325,9 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Luminous Lantern": false,
   "Radiance Lantern": false,
   "Aurora Lantern": false,
+  "Purple Trail": false,
+  Obie: false,
+  Maximus: false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

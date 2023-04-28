@@ -21,6 +21,7 @@ import {
   GoblinPirateItemName,
   HeliosBlacksmithItem,
   SeasonPassName,
+  SoldOutCollectibleName,
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
@@ -221,6 +222,7 @@ export type InventoryItemName =
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem
+  | SoldOutCollectibleName
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
   | SeasonPassName

@@ -3621,9 +3621,32 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Mushroom House": {
     description:
       "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
+
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/456.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Purple Trail": {
+    description:
+      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/457.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Obie: {
+    description: "A fierce eggplant soldier",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/458.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Maximus: {
+    description: "Squash the competition with plump Maximus",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/459.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
 };
