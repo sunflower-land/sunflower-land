@@ -1155,6 +1155,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Solar Flare Banner": { width: 1, height: 2 },
   "Human War Banner": { width: 1, height: 2 },
   "Goblin War Banner": { width: 1, height: 2 },
+  // Dawn Breaker SFTs
+  "Mushroom House": { height: 3, width: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

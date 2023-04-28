@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Inventory } from "./game";
+import { SEASONS } from "./seasons";
 
 export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
 
@@ -20,7 +21,8 @@ export type GoblinBlacksmithItemName =
   | "Collectible Bear"
   | "Pablo The Bunny"
   | "Easter Bush"
-  | "Giant Carrot";
+  | "Giant Carrot"
+  | "Mushroom House";
 
 export type GoblinPirateItemName =
   | "Iron Idol"
@@ -31,6 +33,7 @@ export type CraftableCollectible = {
   ingredients: Inventory;
   description: string;
   boost?: string;
+  sfl?: Decimal;
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<
@@ -252,6 +255,18 @@ export const GOBLIN_BLACKSMITH_ITEMS: Record<
       "Yellow Egg": new Decimal(12),
     },
     supply: 500,
+  },
+  "Mushroom House": {
+    description:
+      "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
+    ingredients: {
+      "Wild Mushroom": new Decimal(90),
+    },
+    supply: 2000,
+    sfl: new Decimal(30),
+    boost: "+0.2 Wild Mushroom",
+    // only available when SEASONS["DAWN_BREAKER"] starts
+    disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
   },
 };
 

@@ -114,6 +114,7 @@ import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
 import { EasterBear } from "features/island/collectibles/components/EasterBear";
 import { EasterBush } from "features/island/collectibles/components/EasterBush";
 import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
+import { MushroomHouse } from "./components/MushroomHouse";
 import classNames from "classnames";
 import { isBean } from "features/game/types/beans";
 import { Bush } from "./components/Bush";
@@ -301,7 +302,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Blossom Tree": BlossomTree,
   "Iron Idol": IronIdol,
 
-  // Seasonal Items
+  // Solar Flare Items
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
@@ -322,6 +323,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Toadstool Seat": ToadstoolSeat,
   Clementine: Clementine,
   Cobalt: Cobalt,
+
+  // Dawn Breaker items
+  "Mushroom House": MushroomHouse,
 };
 
 // Need readonly versions for some troublesome components while in design mode

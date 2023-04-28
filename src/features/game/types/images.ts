@@ -347,6 +347,7 @@ import dirt from "assets/sfts/dirt_path.png";
 import bush from "assets/decorations/bush.png";
 import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
+import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 
 import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
 import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
@@ -1963,6 +1964,12 @@ export const ITEM_DETAILS: Items = {
   Karkinos: {
     image: karkinos,
     description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
+  },
+
+  // Dawn Breaker Season
+  "Mushroom House": {
+    image: mushroomHouse,
+    description: GOBLIN_BLACKSMITH_ITEMS["Mushroom House"].description,
   },
 
   "Basic Land": {
