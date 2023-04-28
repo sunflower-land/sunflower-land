@@ -157,14 +157,17 @@ export const WeeklyLanternCount: React.FC<Props> = ({
           <div className="flex justify-center mb-1">
             <CountdownLabel timeLeft={secondsLeft} endText="remaining" />
           </div>
-          <div className="text-sm p-2 mb-2">
+          <div className="text-sm p-2 mb-2 space-y-2">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-              sagittis purus odio, vel eleifend risus molestie ac.
+              {`Each week, we'll be raffling off prizes to those who help us bring
+              light back to the island. The more lanterns we craft as a community, the brighter
+              our chances of success.`}
             </p>
             <p>
-              Nulla luctus, est vitae convallis dignissim, augue justo laoreet
-              eros, sit amet commodo leo sapien ac diam.
+              {`For every lantern you mint, you'll receive a raffle ticket for a
+            chance to a win weekly prizes worth up to 5000 SFL or one of 10 Hoot SFT's (Total Supply 100). But if we come together
+            and collectively reach our weekly goal, we'll double the prize pool
+            to 10000 SFL.`}
             </p>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>
