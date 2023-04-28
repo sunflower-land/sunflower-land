@@ -27,8 +27,13 @@ import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
+<<<<<<< HEAD
 import { Week } from "features/dawnBreaker/lib/characters";
 import { Riddle } from "./riddles";
+=======
+import { Week } from "features/dawnBreaker/lib/positions";
+import { NPCName } from "lib/npcs";
+>>>>>>> 43fcbb43e (Add delivery UI)
 
 export type Reward = {
   sfl?: Decimal;
@@ -462,6 +467,22 @@ export type DawnBreaker = {
   answeredRiddleIds: string[];
 };
 
+export type Order = {
+  id: string;
+  from: NPCName;
+  items: Partial<Record<InventoryItemName, number>>;
+  reward: {
+    sfl: number;
+  };
+  createdAt: number;
+  expiresAt: number;
+};
+
+export type Delivery = {
+  orders: Order[];
+  fulfilledCount: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -493,6 +514,7 @@ export interface GameState {
   bumpkin?: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;
+  delivery: Delivery;
   grubShop?: GrubShop;
   grubOrdersFulfilled?: {
     id: string;

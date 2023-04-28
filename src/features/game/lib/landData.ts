@@ -404,6 +404,35 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
+  delivery: {
+    orders: [
+      {
+        id: "123",
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 5000,
+        from: "betty",
+        items: {
+          Sunflower: 5,
+        },
+        reward: {
+          sfl: 5,
+        },
+      },
+      {
+        id: "124",
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 5000,
+        from: "grubnuk",
+        items: {
+          Potato: 5,
+        },
+        reward: {
+          sfl: 5,
+        },
+      },
+    ],
+    fulfilledCount: 0,
+  },
   mysteryPrizes: {},
   pumpkinPlaza: {},
   treasureIsland: {
