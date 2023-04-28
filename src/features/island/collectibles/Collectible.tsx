@@ -146,6 +146,7 @@ import { Cobalt } from "./components/Cobalt";
 import { PurpleTrail } from "./components/PurpleTrail";
 import { Obie } from "./components/Obie";
 import { Maximus } from "./components/Maximus";
+import { GenieLamp } from "./components/GenieLamp";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -332,6 +333,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Purple Trail": PurpleTrail,
   Obie: Obie,
   Maximus: Maximus,
+  "Genie Lamp": GenieLamp,
 };
 
 // Need readonly versions for some troublesome components while in design mode

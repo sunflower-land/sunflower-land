@@ -283,6 +283,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
     height: 2,
   },
+  "Genie Lamp": {
+    width: 1,
+    height: 1,
+  },
 };
 
 export type Decoration = {

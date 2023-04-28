@@ -4,7 +4,7 @@ import { marketRate } from "../lib/halvening";
 import { CONSUMABLES } from "./consumables";
 import { DECORATION_DIMENSIONS } from "./decorations";
 import { RESOURCES } from "./resources";
-import { getCurrentSeason, SEASONS } from "./seasons";
+import { getCurrentSeason, SeasonName, SEASONS } from "./seasons";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
@@ -37,7 +37,6 @@ export type DecorationTreasure =
   | "Turtle Bear"
   | "T-Rex Skull"
   | "Sunflower Coin"
-  | "Foliant"
   | "Skeleton King Staff"
   | "Lifeguard Bear"
   | "Snorkel Bear"
@@ -50,7 +49,11 @@ export type DecorationTreasure =
   | "Dinosaur Bone"
   | "Human Bear";
 
-export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
+export type BoostTreasure =
+  | "Tiki Totem"
+  | "Lunar Calendar"
+  | "Foliant"
+  | "Genie Lamp";
 export type ResourceTreasure = "Gold" | "Stone" | "Iron";
 export type ToolTreasure = "Sand Drill";
 
@@ -124,10 +127,7 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
   },
 };
 
-export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
-  "Whale Bear": {
-    type: "rare",
-  },
+export const REWARDS = (): Partial<Record<TreasureName, TreasureDetail>> => ({
   "Pirate Cake": {
     type: "good",
   },
@@ -152,19 +152,7 @@ export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
   "Pumpkin Soup": {
     type: "average",
   },
-  "Lunar Calendar": {
-    type: "rare",
-  },
-  "Tiki Totem": {
-    type: "rare",
-  },
-  "T-Rex Skull": {
-    type: "rare",
-  },
   "Sunflower Coin": {
-    type: "rare",
-  },
-  "Pirate Bear": {
     type: "rare",
   },
   "Boiled Eggs": {
@@ -193,33 +181,87 @@ export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
   },
 
   ...BEACH_BOUNTY_TREASURE,
-};
+});
+
+export const SOLAR_FLARE_REWARDS = (): Partial<
+  Record<TreasureName, TreasureDetail>
+> => ({
+  "Tiki Totem": {
+    type: "rare",
+  },
+  "Lunar Calendar": {
+    type: "rare",
+  },
+  "Pirate Bear": {
+    type: "rare",
+  },
+  "Whale Bear": {
+    type: "rare",
+  },
+  "T-Rex Skull": {
+    type: "rare",
+  },
+});
+
+export const DAWN_BREAKER_REWARDS = (): Partial<
+  Record<TreasureName, TreasureDetail>
+> => ({
+  Foliant: {
+    type: "rare",
+  },
+  "Dinosaur Bone": {
+    type: "rare",
+  },
+  "Lifeguard Bear": {
+    type: "rare",
+  },
+  "Snorkel Bear": {
+    type: "rare",
+  },
+  "Turtle Bear": {
+    type: "rare",
+  },
+  "Genie Lamp": {
+    type: "good",
+  },
+});
 
 type SeasonalRewards = {
   startDate: number;
   endDate: number;
-  rewards: Partial<Record<TreasureName, unknown>>;
+  rewards: Partial<Record<TreasureName, TreasureDetail>>;
 };
 
-const currentSeason = SEASONS[getCurrentSeason()];
+const getSeasonRewards = (
+  season: SeasonName
+): Partial<Record<TreasureName, TreasureDetail>> => {
+  if (season === "Dawn Breaker") {
+    return DAWN_BREAKER_REWARDS();
+  }
 
-export const SEASONAL_REWARDS: SeasonalRewards = {
-  startDate: currentSeason.startDate.getTime(),
-  endDate: currentSeason.endDate.getTime(),
-  rewards: {
-    "Pirate Bear": {},
-    "Tiki Totem": {},
-    "Lunar Calendar": {},
-    "Turtle Bear": {},
-    "Whale Bear": {},
-    "T-Rex Skull": {},
-    "Sunflower Coin": {},
-  },
+  if (season === "Solar Flare") {
+    return SOLAR_FLARE_REWARDS();
+  }
+
+  return {};
+};
+
+export const SEASONAL_REWARDS: () => SeasonalRewards = () => {
+  const currentSeason = getCurrentSeason();
+  const seasonDates = SEASONS[currentSeason];
+
+  return {
+    startDate: seasonDates.startDate.getTime(),
+    endDate: seasonDates.endDate.getTime(),
+    rewards: getSeasonRewards(currentSeason),
+  };
 };
 
 export const BOOST_TREASURE: Record<BoostTreasure, string> = {
   "Tiki Totem": "+0.1 wood per tree",
   "Lunar Calendar": "10% faster crop growth",
+  Foliant: "+0.2 Kale per harvest",
+  "Genie Lamp": "Grants 3 wishes",
 };
 
 export function isBoostTreasure(

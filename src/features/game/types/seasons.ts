@@ -1,4 +1,4 @@
-type SeasonName = "Solar Flare" | "Dawn Breaker";
+export type SeasonName = "Solar Flare" | "Dawn Breaker";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 

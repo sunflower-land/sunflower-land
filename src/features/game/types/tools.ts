@@ -89,6 +89,7 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
     description: "Drill deep for rare treasure",
     ingredients: {
       Gold: new Decimal(1),
+      Iron: new Decimal(3),
     },
     sfl: marketRate(10),
   },

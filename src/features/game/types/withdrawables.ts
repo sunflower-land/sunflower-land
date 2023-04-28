@@ -313,6 +313,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Shroom Glow": false,
   // Dawn Breaker items
   "Mushroom House": false,
+  "Genie Lamp": false,
 
   "Basic Land": false,
   "Solar Flare Banner": false,

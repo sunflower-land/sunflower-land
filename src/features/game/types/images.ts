@@ -348,6 +348,7 @@ import bush from "assets/decorations/bush.png";
 import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
 import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
+import genieLamp from "assets/sfts/genie_lamp.png";
 
 import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
 import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
@@ -1940,6 +1941,11 @@ export const ITEM_DETAILS: Items = {
   "Iron Idol": {
     image: ironIdol,
     description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
+  },
+  "Genie Lamp": {
+    image: genieLamp,
+    description:
+      "A magical lamp that contains a genie who will grant you three wishes.",
   },
 
   // Season tickets
