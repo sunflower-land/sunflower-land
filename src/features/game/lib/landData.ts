@@ -282,7 +282,7 @@ export const OFFLINE_FARM: GameState = {
       },
     },
   },
-  balance: new Decimal(1),
+  balance: new Decimal(10),
   inventory: {
     Carrot: new Decimal(500),
     Cauliflower: new Decimal(700),
@@ -424,10 +424,10 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "124",
         createdAt: Date.now(),
-        expiresAt: Date.now() + 5000,
+        expiresAt: Date.now() + 500000000,
         from: "blacksmith",
         items: {
-          Stone: 15,
+          Sunflower: 15,
         },
         reward: {
           sfl: 2.225,
@@ -458,7 +458,11 @@ export const OFFLINE_FARM: GameState = {
         },
       },
     ],
-    fulfilledCount: 0,
+    fulfilledCount: 23,
+    reward: {
+      goal: 12,
+      total: 25,
+    },
   },
   mysteryPrizes: {},
   pumpkinPlaza: {},

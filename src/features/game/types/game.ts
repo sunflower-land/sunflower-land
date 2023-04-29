@@ -482,6 +482,12 @@ export type Order = {
 export type Delivery = {
   orders: Order[];
   fulfilledCount: number;
+
+  reward: {
+    goal: number;
+    total: number;
+    claimedAt?: number;
+  };
 };
 
 export interface GameState {
