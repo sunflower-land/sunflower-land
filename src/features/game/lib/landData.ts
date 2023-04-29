@@ -308,8 +308,8 @@ export const OFFLINE_FARM: GameState = {
     Shrub: new Decimal(50),
     "White Tulips": new Decimal(10),
     Artist: new Decimal(1),
-    Sunflower: new Decimal(1),
-    Stone: new Decimal(50),
+    Sunflower: new Decimal(10000),
+    Stone: new Decimal(1),
     Axe: new Decimal(10),
     "Rusty Shovel": new Decimal(5),
     "Maneki Neko": new Decimal(2),
@@ -416,10 +416,25 @@ export const OFFLINE_FARM: GameState = {
         },
         reward: {
           sfl: 5,
+          items: {
+            "Dawn Breaker Ticket": 2,
+          },
         },
       },
       {
         id: "124",
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 5000,
+        from: "blacksmith",
+        items: {
+          Stone: 15,
+        },
+        reward: {
+          sfl: 2.225,
+        },
+      },
+      {
+        id: "122",
         createdAt: Date.now(),
         expiresAt: Date.now() + 5000,
         from: "grubnuk",
@@ -427,7 +442,19 @@ export const OFFLINE_FARM: GameState = {
           Potato: 5,
         },
         reward: {
-          sfl: 5,
+          sfl: 2.225,
+        },
+      },
+      {
+        id: "125",
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 5000,
+        from: "grimtooth",
+        items: {
+          Potato: 5,
+        },
+        reward: {
+          sfl: 2.225,
         },
       },
     ],

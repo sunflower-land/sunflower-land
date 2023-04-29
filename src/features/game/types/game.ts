@@ -472,7 +472,8 @@ export type Order = {
   from: NPCName;
   items: Partial<Record<InventoryItemName, number>>;
   reward: {
-    sfl: number;
+    sfl?: number;
+    items?: Partial<Record<InventoryItemName, number>>;
   };
   createdAt: number;
   expiresAt: number;

@@ -228,6 +228,9 @@ img {
 
 /* Custom scrollbar for item modal */
 
+.lg-modal {
+  max-width: 80%;
+}
 .scrollable::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
