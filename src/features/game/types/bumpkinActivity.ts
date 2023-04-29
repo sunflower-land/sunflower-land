@@ -21,6 +21,8 @@ type SellableName =
   | FruitName
   | GarbageName;
 
+type DiscardableName = SeedName;
+
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
 
@@ -37,6 +39,7 @@ export type CraftedEvent = `${
   | LanternName} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
+export type DiscardEvent = `${DiscardableName} Discarded`;
 export type TreasureEvent = `${TreasureName} Dug`;
 
 export type BumpkinActivityName =
@@ -46,6 +49,7 @@ export type BumpkinActivityName =
   | CraftedEvent
   | ConsumableEvent
   | SellEvent
+  | DiscardEvent
   | HarvestEvent
   | PlantFruitEvent
   | TreasureEvent
