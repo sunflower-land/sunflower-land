@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -11,9 +11,11 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { GarbageCollectorModal } from "./components/GarbageCollectorModal";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { GarbageDiscard } from "./components/GarbageDiscard";
 
 export const GarbageCollector: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [currentTab, setCurrentTab] = useState<number>(0);
 
   const handleClick = () => {
     setIsOpen(true);
@@ -78,9 +80,16 @@ export const GarbageCollector: React.FC = () => {
               icon: ITEM_DETAILS["Solar Flare Ticket"].image,
               name: "Sell",
             },
+            {
+              icon: ITEM_DETAILS["Sunflower Seed"].image,
+              name: "Discard",
+            },
           ]}
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
         >
-          <GarbageCollectorModal />
+          {currentTab === 0 && <GarbageCollectorModal />}
+          {currentTab === 1 && <GarbageDiscard />}
         </CloseButtonPanel>
       </Modal>
     </>
