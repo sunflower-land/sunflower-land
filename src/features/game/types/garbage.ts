@@ -60,3 +60,36 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: marketRate(1),
   },
 };
+
+export type DiscardName =
+  | "Sunflower Seed"
+  | "Potato Seed"
+  | "Pumpkin Seed"
+  | "Carrot Seed"
+  | "Cabbage Seed"
+  | "Beetroot Seed"
+  | "Cauliflower Seed"
+  | "Parsnip Seed"
+  | "Eggplant Seed"
+  | "Radish Seed"
+  | "Wheat Seed"
+  | "Apple Seed"
+  | "Blueberry Seed"
+  | "Orange Seed";
+
+export const DISCARD: DiscardName[] = [
+  "Sunflower Seed",
+  "Potato Seed",
+  "Pumpkin Seed",
+  "Carrot Seed",
+  "Cabbage Seed",
+  "Beetroot Seed",
+  "Cauliflower Seed",
+  "Parsnip Seed",
+  "Eggplant Seed",
+  "Radish Seed",
+  "Wheat Seed",
+  "Apple Seed",
+  "Blueberry Seed",
+  "Orange Seed",
+];
