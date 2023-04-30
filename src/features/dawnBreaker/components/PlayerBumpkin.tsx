@@ -102,6 +102,14 @@ export const PlayerBumpkin: React.FC<Props> = ({
                 Each crafted lantern will bring light to the darkness and help
                 to conquer the darkness hidden in the shadows.
               </p>
+              <a
+                href="https://docs.sunflower-land.com/player-guides/seasons/dawn-breaker#dawn-breaker-island"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
+              >
+                Read more
+              </a>
               <OuterPanel className="flex p-2 w-3/4 md:w-1/2 mx-auto mt-3 mb-2">
                 <div className="flex flex-1 items-center justify-center">
                   <img
