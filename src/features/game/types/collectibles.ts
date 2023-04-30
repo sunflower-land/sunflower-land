@@ -148,7 +148,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       // Placeholders
       ingredients: {
         Eggplant: new Decimal(100),
-        "Dawn Breaker Ticket": new Decimal(100),
+        "Dawn Breaker Ticket": new Decimal(3200),
       },
       sfl: SFLDiscount(state, marketRate(20000)),
       supply: 350,
@@ -173,7 +173,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       // Placeholders
       ingredients: {
         Eggplant: new Decimal(25),
-        "Dawn Breaker Ticket": new Decimal(25),
+        "Dawn Breaker Ticket": new Decimal(500),
       },
       sfl: SFLDiscount(state, marketRate(800)),
       supply: 10000,
