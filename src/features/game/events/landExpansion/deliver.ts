@@ -1,11 +1,7 @@
 import Decimal from "decimal.js-light";
-import {
-  AchievementName,
-  ACHIEVEMENTS,
-} from "features/game/types/achievements";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import { analytics } from "lib/analytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type DeliverOrderAction = {
@@ -66,6 +62,8 @@ export function deliverOrder({ state, action }: Options): GameState {
   );
 
   game.delivery.fulfilledCount += 1;
+
+  bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
 
   return game;
 }
