@@ -21,7 +21,6 @@ import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 import land from "assets/land/islands/island.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { analytics } from "lib/analytics";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Island {
   name: string;
@@ -172,17 +171,13 @@ export const IslandList: React.FC<IslandListProps> = ({
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
     },
-    ...(hasFeatureAccess(inventory, "DAWN_BREAKER")
-      ? [
-          {
-            name: "Dawn Breaker",
-            image: dawnBreakerBanner,
-            levelRequired: 1 as BumpkinLevel,
-            guestAccess: true,
-            path: `/land/${farmId}/dawn-breaker`,
-          },
-        ]
-      : []),
+    {
+      name: "Dawn Breaker",
+      image: dawnBreakerBanner,
+      levelRequired: 1 as BumpkinLevel,
+      guestAccess: true,
+      path: `/land/${farmId}/dawn-breaker`,
+    },
     {
       name: "Goblin Retreat",
       levelRequired: 5 as BumpkinLevel,
