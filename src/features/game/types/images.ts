@@ -355,7 +355,7 @@ import crimsonCap from "assets/decorations/crimson_cap.png";
 import toadstoolSeat from "assets/decorations/toadstool_seat.png";
 import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
 import mahoganyCap from "assets/decorations/mahogony_cap.png";
-import clementine from "assets/decorations/clemtine.png";
+import clementine from "assets/decorations/clementine.png";
 import cobalt from "assets/decorations/cobalt.png";
 import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
 import eggplantGrill from "assets/decorations/eggplant_grill.png";
