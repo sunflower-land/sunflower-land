@@ -356,7 +356,7 @@ import crimsonCap from "assets/decorations/crimson_cap.png";
 import toadstoolSeat from "assets/decorations/toadstool_seat.png";
 import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
 import mahoganyCap from "assets/decorations/mahogony_cap.png";
-import clementine from "assets/decorations/clemtine.png";
+import clementine from "assets/decorations/clementine.png";
 import cobalt from "assets/decorations/cobalt.png";
 import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
 import eggplantGrill from "assets/decorations/eggplant_grill.png";
@@ -1720,7 +1720,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Lady Bug": {
     image: ladybug,
-    description: GOBLIN_BLACKSMITH_ITEMS["Lady Bug"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS()["Lady Bug"].description,
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
@@ -1980,7 +1980,7 @@ export const ITEM_DETAILS: Items = {
   // Dawn Breaker Season
   "Mushroom House": {
     image: mushroomHouse,
-    description: GOBLIN_BLACKSMITH_ITEMS["Mushroom House"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS()["Mushroom House"].description,
   },
 
   "Basic Land": {
