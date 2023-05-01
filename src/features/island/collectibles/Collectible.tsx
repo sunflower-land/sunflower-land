@@ -147,6 +147,7 @@ import { PurpleTrail } from "./components/PurpleTrail";
 import { Obie } from "./components/Obie";
 import { Maximus } from "./components/Maximus";
 import { GenieLamp } from "./components/GenieLamp";
+import { LuminousLantern } from "./components/LuminousLantern";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -256,6 +257,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Easter Bush": EasterBush,
   "Giant Carrot": GiantCarrot,
   Observatory,
+  "Luminous Lantern": LuminousLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
