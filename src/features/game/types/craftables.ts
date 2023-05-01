@@ -195,6 +195,7 @@ export type CollectibleName =
   | SeasonPassName
   | BoostTreasure
   | WarBanner
+  | "Luminous Lantern"
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -1159,6 +1160,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Goblin War Banner": { width: 1, height: 2 },
   // Dawn Breaker SFTs
   "Mushroom House": { height: 3, width: 2 },
+  "Luminous Lantern": { height: 2, width: 1 },
 
   "Purple Trail": { width: 1, height: 1 },
   Obie: { width: 1, height: 1 },
