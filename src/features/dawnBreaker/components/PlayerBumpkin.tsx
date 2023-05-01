@@ -19,6 +19,7 @@ import { getKeys } from "features/game/types/craftables";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
+import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 interface Props {
   currentWeek: Week;
@@ -122,7 +123,10 @@ export const PlayerBumpkin: React.FC<Props> = ({
                   {availableLantern.sfl && (
                     <RequirementLabel
                       type="sellForSfl"
-                      requirement={availableLantern.sfl.mul(multiplier)}
+                      requirement={SFLDiscount(
+                        gameService.state.context.state,
+                        availableLantern.sfl.mul(multiplier)
+                      )}
                     />
                   )}
                   {availableLantern.ingredients &&
