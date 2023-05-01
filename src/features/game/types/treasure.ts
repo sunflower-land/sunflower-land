@@ -222,7 +222,7 @@ export const DAWN_BREAKER_REWARDS = (): Partial<
     type: "rare",
   },
   "Genie Lamp": {
-    type: "good",
+    type: "rare",
   },
 });
 
