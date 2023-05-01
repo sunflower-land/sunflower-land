@@ -13,6 +13,7 @@ import { DepositArgs } from "lib/blockchain/Deposit";
 import Modal from "react-bootstrap/esm/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -61,7 +62,16 @@ export const Hud: React.FC = () => {
         />
         {landId && <LandId landId={landId} />}
         <BumpkinAvatar bumpkin={state.bumpkin} />
-        <Settings isFarming={false} />
+        <div
+          className="fixed z-50 flex flex-col justify-between"
+          style={{
+            right: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        >
+          <Settings isFarming={false} />
+        </div>
         {farmAddress && (
           <Modal show={showDepositModal} centered>
             <CloseButtonPanel
