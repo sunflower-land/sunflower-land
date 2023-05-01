@@ -173,6 +173,14 @@ export const WeeklyLanternCount: React.FC<Props> = ({
             and collectively reach our weekly goal, we'll double the prize pool
             to 10,000 SFL.`}
             </p>
+            <a
+              href="https://docs.sunflower-land.com/player-guides/seasons/dawn-breaker#crafting-lanterns"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-xxs pt-1 hover:text-blue-500"
+            >
+              Note: Only Lanterns stored on chain will be counted.
+            </a>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>
         </CloseButtonPanel>
