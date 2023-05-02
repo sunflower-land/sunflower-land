@@ -20,6 +20,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { setImageWidth } from "lib/images";
 
 interface Props {
   currentWeek: Week;
@@ -116,15 +117,16 @@ export const PlayerBumpkin: React.FC<Props> = ({
                   <img
                     src={ITEM_DETAILS[availableLantern.name].image}
                     alt={availableLantern.name}
-                    className="w-10"
+                    onLoad={(e) => setImageWidth(e.currentTarget)}
                   />
                 </div>
                 <div className="flex flex-1 items-center justify-center flex-col">
                   {availableLantern.sfl && (
                     <RequirementLabel
-                      type="sellForSfl"
+                      type="sfl"
+                      balance={balance}
                       requirement={SFLDiscount(
-                        gameService.state.context.state,
+                        gameService.state?.context.state,
                         availableLantern.sfl.mul(multiplier)
                       )}
                     />
