@@ -8,7 +8,7 @@ import { NPCModal } from "./NPCModal";
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const { gameService } = useContext(Context);
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const eat = (food: ConsumableName) => {
     gameService.send("bumpkin.feed", { food });
