@@ -19,10 +19,13 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
 
   const count =
     gameState.context.state.inventory["Block Buck"] ?? new Decimal(0);
-  const canBuyMore = count.eq(0);
 
-  const onBuy = (amount: 1 | 5) => {
-    gameService.send("SYNC", { captcha: "", blockBucks: amount });
+  const onBuy = (amount: 1 | 5 | 15) => {
+    gameService.send("PURCHASE_ITEM", {
+      name: "Block Buck",
+      amount,
+    });
+    // gameService.send("SYNC", { captcha: "", blockBucks: amount });
     onClose();
   };
 
@@ -44,12 +47,6 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
 
     return (
       <>
-        {!canBuyMore && (
-          <p className="text-xs text-center mb-4 leading-none">
-            {`You have ${count} Block Bucks. You must use these before purchasing more.`}
-          </p>
-        )}
-
         <div className="flex justify-around mx-3 space-x-5">
           <OuterPanel className="w-full h-full flex flex-col items-center relative">
             <div className="flex w-full items-center justify-center py-4 px-2">
@@ -61,9 +58,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
                 }}
               />
             </div>
-            <Button disabled={!canBuyMore} onClick={() => onBuy(1)}>
-              $0.10 USD
-            </Button>
+            <Button onClick={() => onBuy(1)}>$0.10 USD</Button>
           </OuterPanel>
           <OuterPanel className="w-full h-full flex flex-col items-center relative">
             <div className="h-10 absolute" style={{ top: "-20px" }}>
@@ -78,18 +73,35 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
                 }}
               />
             </div>
-            <Button disabled={!canBuyMore} onClick={() => onBuy(5)}>
-              $0.75 USD
-            </Button>
+            <Button onClick={() => onBuy(5)}>$0.75 USD</Button>
+          </OuterPanel>
+          <OuterPanel className="w-full h-full flex flex-col items-center relative">
+            <div className="flex w-full items-center justify-center py-4 px-2">
+              <p className="mr-2 mb-1">15 x</p>
+              <img
+                src={ticket}
+                style={{
+                  width: `${PIXEL_SCALE * 19}px`,
+                }}
+              />
+            </div>
+            <Button onClick={() => onBuy(15)}>$2.49 USD</Button>
           </OuterPanel>
         </div>
 
-        <p className="text-xs text-center pt-2">
-          Game progress will be stored on Blockchain.
-        </p>
-        <p className="text-xxs italic text-center py-2">
-          *Prices exclude Blockchain transaction fees.
-        </p>
+        <div className="flex flex-col">
+          <p className="text-xxs italic text-center pt-2">
+            *Prices exclude Blockchain transaction fees.
+          </p>
+          <a
+            href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+            className="mx-auto text-xxs underline text-center pb-2"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Why does the price increase when buying multiple?
+          </a>
+        </div>
       </>
     );
   };

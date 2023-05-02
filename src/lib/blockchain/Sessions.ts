@@ -40,7 +40,10 @@ export type SyncProgressArgs = {
   progress: ProgressData;
   fee: string;
   expansion: LandExpansionData;
-  blockBucks: number;
+  purchase: {
+    name: string;
+    amount: number;
+  };
 };
 
 export type MintCollectibleArgs = {
@@ -226,7 +229,7 @@ export async function syncProgress({
   progress,
   fee,
   expansion,
-  blockBucks,
+  purchase,
 }: SyncProgressArgs): Promise<string> {
   const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
@@ -250,8 +253,8 @@ export async function syncProgress({
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
-        console.log({ blockBucks });
-        if (blockBucks) {
+        console.log({ purchase });
+        if (purchase) {
           // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
           analytics.logEvent("purchase", {
             currency: "MATIC",
@@ -260,9 +263,9 @@ export async function syncProgress({
             value: Number(fromWei(fee)),
             items: [
               {
-                item_id: "BLOCK_BUCK",
-                item_name: "Block Buck",
-                quantity: blockBucks,
+                item_id: purchase.name.split(" ").join("_"),
+                item_name: purchase.name,
+                quantity: purchase.amount,
               },
             ],
           });
