@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -18,6 +18,8 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { LevelUp } from "./LevelUp";
 
 interface Props {
   food: Consumable[];
@@ -28,11 +30,16 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
   const { gameService } = useContext(Context);
 
+  const [showLevelUp, setShowLevelUp] = useState(true);
+
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const bumpkinLevel = useRef(getBumpkinLevel(state.bumpkin?.experience ?? 0));
+
   const inventory = state.inventory;
 
   useEffect(() => {
@@ -43,9 +50,22 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
     }
   }, [food.length]);
 
+  useEffect(() => {
+    const newLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+
+    if (newLevel !== bumpkinLevel.current) {
+      setShowLevelUp(true);
+      bumpkinLevel.current = newLevel;
+    }
+  }, [state.bumpkin?.experience]);
+
   const feed = (food: Consumable) => {
     onFeed(food.name);
   };
+
+  if (showLevelUp) {
+    return <LevelUp level={bumpkinLevel.current} />;
+  }
 
   if (!selected) {
     return (

@@ -52,6 +52,7 @@
     "react-indiana-drag-scroll": "^2.1.0",
     "react-markdown": "^8.0.0",
     "react-router-dom": "^6.10.0",
+    "react-share": "^4.4.1",
     "remark-gfm": "^3.0.1",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.4",
