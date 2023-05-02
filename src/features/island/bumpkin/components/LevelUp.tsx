@@ -126,7 +126,7 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
           url={" "}
           title={shareMessage}
           className="mr-1"
-          onClick={() => clicked("twitter")}
+          onClick={() => clicked("Twitter")}
         >
           <TwitterIcon size={40} round />
         </TwitterShareButton>
@@ -134,7 +134,7 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
           url={" "}
           title={shareMessage}
           className="mr-1"
-          onClick={() => clicked("telegram")}
+          onClick={() => clicked("Telegram")}
         >
           <TelegramIcon size={40} round />
         </TelegramShareButton>
@@ -142,14 +142,14 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
           url={"sunflower-land.com"}
           quote={shareMessage}
           className="mr-1"
-          onClick={() => clicked("facebook")}
+          onClick={() => clicked("Facebook")}
         >
           <FacebookIcon size={40} round />
         </FacebookShareButton>
         <RedditShareButton
           url={" "}
           title={shareMessage}
-          onClick={() => clicked("reddit")}
+          onClick={() => clicked("Reddit")}
         >
           <RedditIcon size={40} round />
         </RedditShareButton>
