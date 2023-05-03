@@ -183,6 +183,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...pointDefaults,
 
   // Explicit Rules
+  Eggplant: false,
   "Wild Mushroom": false,
   Chicken: false,
   Cow: false,
