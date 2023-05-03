@@ -15,7 +15,8 @@ export type BumpkinBody =
   | "Light Brown Farmer Potion"
   | "Dark Brown Farmer Potion"
   | "Goblin Potion"
-  | "Pirate Potion";
+  | "Pirate Potion"
+  | "Light Brown Worried Farmer Potion";
 
 export type BumpkinHair =
   | "Basic Hair"
@@ -52,7 +53,8 @@ export type BumpkinShirt =
   | "Pirate Leather Polo"
   | "Hawaiian Shirt"
   | "Lifeguard Shirt"
-  | "Sequence Shirt";
+  | "Sequence Shirt"
+  | "Polkastarter Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -261,6 +263,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Sequence Shirt": 115,
   "St Patricks Hat": 116,
   "Bunny Onesie": 117,
+  "Light Brown Worried Farmer Potion": 118,
+  "Polkastarter Shirt": 119,
 };
 
 // The reverse of above

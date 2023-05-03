@@ -664,6 +664,27 @@ describe("getCropTime", () => {
 
     expect(time).toEqual(cabbageHarvestSeconds * 0.5);
   });
+
+  it("applies a 25% speed boost with Obie placed", () => {
+    const eggplantHarvestSeconds = CROPS()["Eggplant"].harvestSeconds;
+    const time = getCropTime(
+      "Eggplant",
+      {},
+      {
+        Obie: [
+          {
+            id: "123",
+            coordinates: { x: -1, y: -1 },
+            createdAt: Date.now() - 100,
+            readyAt: Date.now() - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN }
+    );
+
+    expect(time).toEqual(eggplantHarvestSeconds * 0.75);
+  });
 });
 
 describe("isPlotFertile", () => {

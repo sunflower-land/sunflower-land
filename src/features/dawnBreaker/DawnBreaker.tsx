@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useScrollIntoView, Section } from "lib/utils/hooks/useScrollIntoView";
 import { Hud } from "features/island/hud/Hud";
@@ -10,16 +10,22 @@ import {
   Bumpkin,
   DawnBreaker as DawnBreakerType,
 } from "features/game/types/game";
-import {
-  Coordinates,
-  MapPlacement,
-} from "features/game/expansion/components/MapPlacement";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { lanternPositions } from "./lib/positions";
+import { characters } from "./lib/characters";
 import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
 import background from "assets/land/dawn_breaker.webp";
+import { Characters } from "./components/Characters";
+import { Modal } from "react-bootstrap";
+import {
+  hasVisitedDawnbreakerIsland,
+  setDawnbreakerIslandVisited,
+} from "./lib/dawnbreaker";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+
+import hootImg from "assets/npcs/hoot.png";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -39,6 +45,7 @@ export const DawnBreaker: React.FC = () => {
   const autosaving = useSelector(gameService, _autosaving);
 
   const [weeklyStatsLoaded, setWeeklyStatsLoaded] = useState(false);
+  const [showIntroModal, setShowIntroModal] = useState(false);
 
   const { availableLantern, lanternsCraftedByWeek, currentWeek } = dawnBreaker;
 
@@ -46,6 +53,19 @@ export const DawnBreaker: React.FC = () => {
     // Start with island centered
     scrollIntoView(Section.DawnBreakerBackGround, "auto");
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!hasVisitedDawnbreakerIsland()) {
+        setShowIntroModal(true);
+      }
+    }, 2500);
+  }, []);
+
+  const handleIntroModalClose = () => {
+    setShowIntroModal(false);
+    setDawnbreakerIslandVisited();
+  };
 
   const craftedLanternCount = lanternsCraftedByWeek[currentWeek] ?? 0;
   const weeklyChallengeAvailable = currentWeek <= CHALLENGE_WEEKS;
@@ -80,16 +100,17 @@ export const DawnBreaker: React.FC = () => {
           availableLantern={availableLantern}
           inventory={inventory}
         />
+        <Characters currentWeek={currentWeek} />
         {showMintedLanterns &&
           [...Array(craftedLanternCount).keys()].slice(0, 5).map((_, index) => {
             const { name } = availableLantern;
-            const positions = lanternPositions[currentWeek] as Coordinates[];
+            const { lanterns } = characters[currentWeek];
 
             return (
               <MapPlacement
                 key={index}
-                x={positions[index].x}
-                y={positions[index].y}
+                x={lanterns[index].x}
+                y={lanterns[index].y}
                 width={1}
               >
                 <div
@@ -112,7 +133,6 @@ export const DawnBreaker: React.FC = () => {
             );
           })}
       </div>
-
       <Hud
         isFarming={false}
         moveButtonsUp={weeklyChallengeAvailable && weeklyStatsLoaded}
@@ -121,11 +141,37 @@ export const DawnBreaker: React.FC = () => {
         <WeeklyLanternCount
           lanternName={availableLantern.name}
           endAt={new Date(availableLantern.endAt).getTime()}
-          previousMintCount={0}
-          weeklyMintGoal={20}
           onLoaded={() => setWeeklyStatsLoaded(true)}
         />
       )}
+      <Modal show={showIntroModal} onHide={handleIntroModalClose} centered>
+        <CloseButtonPanel
+          title="Dawn Breaker Island is in Danger!"
+          onClose={handleIntroModalClose}
+        >
+          <div className="p-2 pt-0 flex flex-col items-center">
+            <img
+              src={hootImg}
+              alt="Hoot"
+              className="mb-2"
+              style={{ width: `${PIXEL_SCALE * 16}px` }}
+            />
+            <p className="mb-2">
+              This remote island, once a beacon of hope and safety for the
+              surrounding isles, has fallen into darkness.
+            </p>
+            <p className="mb-2">
+              The family that lives on the island, responsible for ringing the
+              bell that warns of danger, is now scared and alone. Without their
+              warning bell, all hope for safety is lost in Sunflower Land.
+            </p>
+            <p className="mb-2">
+              Can you uncover the secrets of the island and bring peace back to
+              their lives?
+            </p>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
     </>
   );
 };

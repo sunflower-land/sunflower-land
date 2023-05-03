@@ -7,7 +7,10 @@ export type NPCName =
   | "blacksmith"
   | "grimbly"
   | "grimtooth"
-  | "grubnuk";
+  | "grubnuk"
+  | "marcus"
+  | "bella"
+  | "sofia";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   betty: {
@@ -73,5 +76,33 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Black Farmer Boots",
     tool: "Pirate Scimitar",
+  },
+  marcus: {
+    hair: "Blacksmith Hair",
+    shirt: "Striped Blue Shirt",
+    pants: "Lumberjack Overalls",
+    body: "Light Brown Worried Farmer Potion",
+    background: "Farm Background",
+    tool: "Farmer Pitchfork",
+    shoes: "Black Farmer Boots",
+  },
+  bella: {
+    hair: "Parlour Hair",
+    shirt: "Maiden Top",
+    pants: "Peasant Skirt",
+    tool: "Farmer Pitchfork",
+    body: "Light Brown Worried Farmer Potion",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
+  sofia: {
+    hair: "Red Long Hair",
+    shirt: "Fire Shirt",
+    necklace: "Artist Scarf",
+    pants: "Farmer Pants",
+    body: "Light Brown Worried Farmer Potion",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
   },
 };

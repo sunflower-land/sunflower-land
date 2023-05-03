@@ -182,6 +182,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...pointDefaults,
 
   // Explicit Rules
+  Eggplant: false,
+  "Wild Mushroom": false,
   Chicken: false,
   Cow: false,
   Pig: false,
@@ -295,7 +297,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Wooden Compass": false,
   "Whale Bear": true,
 
-  // Seasonal items
+  // Solar Flare items
   "Beach Ball": false,
   "Palm Tree": false,
   Karkinos: false,
@@ -310,6 +312,9 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Eggplant Grill": false,
   "Giant Dawn Mushroom": false,
   "Shroom Glow": false,
+  // Dawn Breaker items
+  "Mushroom House": false,
+  "Genie Lamp": false,
 
   "Basic Land": false,
   "Solar Flare Banner": false,
@@ -321,6 +326,9 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Luminous Lantern": false,
   "Radiance Lantern": false,
   "Aurora Lantern": false,
+  "Purple Trail": false,
+  Obie: false,
+  Maximus: false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

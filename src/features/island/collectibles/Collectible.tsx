@@ -114,6 +114,7 @@ import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
 import { EasterBear } from "features/island/collectibles/components/EasterBear";
 import { EasterBush } from "features/island/collectibles/components/EasterBush";
 import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
+import { MushroomHouse } from "./components/MushroomHouse";
 import classNames from "classnames";
 import { isBean } from "features/game/types/beans";
 import { Bush } from "./components/Bush";
@@ -142,6 +143,11 @@ import { ShroomGlow } from "./components/ShroomGlow";
 import { ToadstoolSeat } from "./components/ToadstoolSeat";
 import { Clementine } from "./components/Clementine";
 import { Cobalt } from "./components/Cobalt";
+import { PurpleTrail } from "./components/PurpleTrail";
+import { Obie } from "./components/Obie";
+import { Maximus } from "./components/Maximus";
+import { GenieLamp } from "./components/GenieLamp";
+import { LuminousLantern } from "./components/LuminousLantern";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -251,6 +257,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Easter Bush": EasterBush,
   "Giant Carrot": GiantCarrot,
   Observatory,
+  "Luminous Lantern": LuminousLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
@@ -301,7 +308,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Blossom Tree": BlossomTree,
   "Iron Idol": IronIdol,
 
-  // Seasonal Items
+  // Solar Flare Items
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
@@ -322,6 +329,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Toadstool Seat": ToadstoolSeat,
   Clementine: Clementine,
   Cobalt: Cobalt,
+
+  // Dawn Breaker items
+  "Mushroom House": MushroomHouse,
+  "Purple Trail": PurpleTrail,
+  Obie: Obie,
+  Maximus: Maximus,
+  "Genie Lamp": GenieLamp,
 };
 
 // Need readonly versions for some troublesome components while in design mode

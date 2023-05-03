@@ -29,15 +29,14 @@ type Options = {
   action: buyDecorationAction;
 };
 
-const DECORATIONS = {
-  ...HELIOS_DECORATIONS(),
-  ...SEASONAL_DECORATIONS(),
+const DECORATIONS = (state: GameState) => {
+  return { ...HELIOS_DECORATIONS(), ...SEASONAL_DECORATIONS(state) };
 };
 export function buyDecoration({ state, action }: Options) {
   console.log({ action });
   const stateCopy = cloneDeep(state);
   const { name } = action;
-  const desiredItem = DECORATIONS[name];
+  const desiredItem = DECORATIONS(stateCopy)[name];
 
   if (!desiredItem) {
     throw new Error("This item is not a decoration");

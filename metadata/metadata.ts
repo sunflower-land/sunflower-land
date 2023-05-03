@@ -3183,6 +3183,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/453.png",
     attributes: [],
   },
+  "Genie Lamp": {
+    description:
+      "A magical lamp that contains a genie who will grant you three wishes.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/460.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
   "Love Letter": {
     description: "Convey feelings of love",
     decimals: 0,
@@ -3617,5 +3625,36 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     // TODO: Add image
     image_url: "",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Mushroom House": {
+    description:
+      "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/456.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Purple Trail": {
+    description:
+      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/457.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Obie: {
+    description: "A fierce eggplant soldier",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/458.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Maximus: {
+    description: "Squash the competition with plump Maximus",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/459.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
 };

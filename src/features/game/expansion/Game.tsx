@@ -47,7 +47,6 @@ import { NoTownCenter } from "../components/NoTownCenter";
 import { Promoting } from "./components/Promoting";
 import { Purchasing } from "../components/Purchasing";
 import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
-import { hasFeatureAccess } from "lib/flags";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -249,12 +248,10 @@ export const Game: React.FC = () => {
             <Route path="/snow" element={<SnowKingdom key="snow" />} />
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
-            {hasFeatureAccess(inventory, "DAWN_BREAKER") && (
-              <Route
-                path="/dawn-breaker"
-                element={<DawnBreaker key="dawn-breaker" />}
-              />
-            )}
+            <Route
+              path="/dawn-breaker"
+              element={<DawnBreaker key="dawn-breaker" />}
+            />
             <Route
               path="/headquarters"
               element={<HeadQuarters key="headquarters" />}

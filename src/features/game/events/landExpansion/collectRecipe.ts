@@ -49,10 +49,7 @@ export function collectRecipe({
 
   const consumableCount = game.inventory[recipe.name] || new Decimal(0);
 
-  bumpkin.activity = trackActivity(
-    `${recipe.name} Collected`,
-    bumpkin.activity
-  );
+  bumpkin.activity = trackActivity(`${recipe.name} Cooked`, bumpkin.activity);
 
   return {
     ...game,

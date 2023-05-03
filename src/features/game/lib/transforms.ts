@@ -113,7 +113,13 @@ export function getAvailableGameState({
   // Grab items that are available in inventory(not placed)
   const chestItems = getChestItems(offChain);
   const basketItems = getBasketItems(offChain.inventory);
-  const availableItems = { ...chestItems, ...basketItems };
+  const availableItems = {
+    ...chestItems,
+    ...basketItems,
+    ...(offChain.inventory["Dawn Breaker Banner"] && {
+      "Dawn Breaker Banner": offChain.inventory["Dawn Breaker Banner"],
+    }),
+  };
 
   const balance = onChain.balance.lt(offChain.balance)
     ? onChain.balance
