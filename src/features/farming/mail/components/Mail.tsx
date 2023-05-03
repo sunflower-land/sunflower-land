@@ -10,6 +10,7 @@ import { NPCFixed } from "features/island/bumpkin/components/NPC";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
+import chest from "assets/icons/chest.png";
 
 interface Props {
   selected?: string;
@@ -37,7 +38,10 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
     const read = gameState.context.state.mailbox.read.find(
       (item) => item.id === id
     );
-    if (!read) {
+
+    const details = CONVERSATIONS[id as ConversationName] ?? announcements[id];
+
+    if (!read && !details.reward) {
       gameService.send("message.read", {
         id,
       });
@@ -56,6 +60,9 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
           return null;
         }
 
+        const isRead = gameState.context.state.mailbox.read.find(
+          (item) => item.id === id
+        );
         return (
           <OuterPanel
             key={id}
@@ -72,10 +79,14 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
               <p className="text-sm">{details.headline}</p>
               <p className="text-xs capitalize underline">{details.from}</p>
             </div>
-            {!gameState.context.state.mailbox.read.find(
-              (item) => item.id === id
-            ) && (
+            {!isRead && !details.reward && (
               <div className="bg-blue-500 border-1 border-white w-3 h-3 rounded-full absolute right-1 top-1" />
+            )}
+            {!isRead && !!details.reward && (
+              <img
+                src={chest}
+                className="w-6 animate-pulsate img-highlight-heavy absolute right-1 top-1"
+              />
             )}
           </OuterPanel>
         );

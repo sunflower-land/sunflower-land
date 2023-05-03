@@ -3,51 +3,52 @@ import { EVENTS, GameEvent } from "../events";
 import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
+import { Announcements } from "../types/conversations";
 
 export const maxItems: Inventory = {
   Sunflower: new Decimal("9000"),
-  Potato: new Decimal("4500"),
-  Pumpkin: new Decimal("2400"),
-  Carrot: new Decimal("1750"),
-  Cabbage: new Decimal("1000"),
-  Beetroot: new Decimal("1000"),
+  Potato: new Decimal("5000"),
+  Pumpkin: new Decimal("3000"),
+  Carrot: new Decimal("2000"),
+  Cabbage: new Decimal("1500"),
+  Beetroot: new Decimal("1500"),
   Cauliflower: new Decimal("1000"),
-  Parsnip: new Decimal("750"),
-  Eggplant: new Decimal("500"),
+  Parsnip: new Decimal("850"),
+  Eggplant: new Decimal("600"),
   Radish: new Decimal("500"),
   Wheat: new Decimal("500"),
   Kale: new Decimal("500"),
 
-  Apple: new Decimal("100"),
-  Orange: new Decimal("100"),
-  Blueberry: new Decimal("100"),
+  Apple: new Decimal("200"),
+  Orange: new Decimal("200"),
+  Blueberry: new Decimal("200"),
 
   Chicken: new Decimal("20"),
-  Egg: new Decimal("200"),
+  Egg: new Decimal("400"),
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
 
-  // Seed limits + buffer of 30
-  "Sunflower Seed": new Decimal(510),
-  "Potato Seed": new Decimal(270),
-  "Pumpkin Seed": new Decimal(210),
-  "Carrot Seed": new Decimal(150),
-  "Cabbage Seed": new Decimal(138),
-  "Beetroot Seed": new Decimal(126),
-  "Cauliflower Seed": new Decimal(126),
-  "Parsnip Seed": new Decimal(102),
-  "Radish Seed": new Decimal(78),
-  "Wheat Seed": new Decimal(78),
-  "Kale Seed": new Decimal(66),
-  "Apple Seed": new Decimal(50),
-  "Orange Seed": new Decimal(50),
-  "Blueberry Seed": new Decimal(50),
+  // Seed limits + buffer
+  "Sunflower Seed": new Decimal(1000),
+  "Potato Seed": new Decimal(500),
+  "Pumpkin Seed": new Decimal(400),
+  "Carrot Seed": new Decimal(300),
+  "Cabbage Seed": new Decimal(250),
+  "Beetroot Seed": new Decimal(200),
+  "Cauliflower Seed": new Decimal(150),
+  "Parsnip Seed": new Decimal(150),
+  "Radish Seed": new Decimal(100),
+  "Wheat Seed": new Decimal(100),
+  "Kale Seed": new Decimal(100),
+  "Apple Seed": new Decimal(100),
+  "Orange Seed": new Decimal(100),
+  "Blueberry Seed": new Decimal(100),
 
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
   Stone: new Decimal("500"),
-  Wood: new Decimal("1000"),
+  Wood: new Decimal("1500"),
   "Wild Mushroom": new Decimal("80"),
 
   "War Bond": new Decimal(500),
@@ -88,7 +89,7 @@ export const maxItems: Inventory = {
 
   // Seasonal Tickets
   "Solar Flare Ticket": new Decimal(350),
-  "Dawn Breaker Ticket": new Decimal(350),
+  "Dawn Breaker Ticket": new Decimal(750),
 
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),
@@ -178,9 +179,14 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
 type ProcessEventArgs = {
   state: GameState;
   action: GameEvent;
+  announcements?: Announcements;
 };
 
-export function processEvent({ state, action }: ProcessEventArgs): GameState {
+export function processEvent({
+  state,
+  action,
+  announcements,
+}: ProcessEventArgs): GameState {
   const handler = EVENTS[action.type];
 
   if (!handler) {
@@ -191,6 +197,7 @@ export function processEvent({ state, action }: ProcessEventArgs): GameState {
     state,
     // TODO - fix type error
     action: action as never,
+    announcements,
   });
 
   return newState;
