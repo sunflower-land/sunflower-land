@@ -386,7 +386,11 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   );
 
   const updatedState = recentActions.reduce((state, action) => {
-    return processEvent({ state, action, announcments: context.announcements });
+    return processEvent({
+      state,
+      action,
+      announcements: context.announcements,
+    });
   }, event.data.farm);
 
   return {
@@ -409,30 +413,7 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
-        announcements: {
-          "block-buck-new-pricing": {
-            headline: "Block Buck & Gas Improvements",
-            announceAt: new Date("2023-05-03").getTime(),
-            content: [
-              {
-                text: "The team has launched a new Block Buck purchase system, which requires less transaction fees.",
-              },
-              {
-                text: "We now have options to purchase 10 and 20 Block Bucks in bulk!",
-              },
-              {
-                text: "To help with the high network fees, we have reduced the data that is stored on chain.",
-              },
-            ],
-            reward: {
-              items: {
-                "Block Buck": 2,
-              },
-            },
-            from: "grimbly",
-            link: "https://docs.sunflower-land.com/fundamentals/block-bucks",
-          },
-        },
+        announcements: {},
       },
       states: {
         loading: {

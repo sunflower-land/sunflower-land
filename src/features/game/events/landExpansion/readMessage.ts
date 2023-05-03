@@ -41,7 +41,6 @@ export function readMessage({
   const announcement = announcements?.[action.id];
 
   const reward = announcement?.reward;
-  console.log({ reward });
   if (reward) {
     getKeys(reward.items).forEach((name) => {
       const previous = game.inventory[name] ?? new Decimal(0);
