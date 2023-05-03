@@ -3,6 +3,7 @@ import { EVENTS, GameEvent } from "../events";
 import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
+import { Announcements } from "../types/conversations";
 
 export const maxItems: Inventory = {
   Sunflower: new Decimal("9000"),
@@ -178,9 +179,14 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
 type ProcessEventArgs = {
   state: GameState;
   action: GameEvent;
+  announcements?: Announcements;
 };
 
-export function processEvent({ state, action }: ProcessEventArgs): GameState {
+export function processEvent({
+  state,
+  action,
+  announcements,
+}: ProcessEventArgs): GameState {
   const handler = EVENTS[action.type];
 
   if (!handler) {
@@ -191,6 +197,7 @@ export function processEvent({ state, action }: ProcessEventArgs): GameState {
     state,
     // TODO - fix type error
     action: action as never,
+    announcements,
   });
 
   return newState;
