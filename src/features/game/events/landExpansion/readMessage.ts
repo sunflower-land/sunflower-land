@@ -28,6 +28,11 @@ export function readMessage({
 }: Options): GameState {
   const game = clone(state);
 
+  const message = state.mailbox.read.find((mail) => mail.id === action.id);
+  if (message) {
+    throw new Error("Message already read");
+  }
+
   game.mailbox.read.push({
     id: action.id,
     createdAt,

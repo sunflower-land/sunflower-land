@@ -42,7 +42,6 @@ export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
     const details = CONVERSATIONS[id as ConversationName] ?? announcements[id];
 
     if (!read && !details.reward) {
-      console.log("READ IT");
       gameService.send("message.read", {
         id,
       });
