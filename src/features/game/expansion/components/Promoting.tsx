@@ -51,7 +51,7 @@ export const PromotingModal: React.FC<Props> = ({
     ? new Date("2023-05-01")
     : new Date("2023-05-07");
 
-  const price = isPreSeason ? 3.99 : 7.99;
+  const price = isPreSeason ? 3.99 : 6.99;
 
   const { gameService } = useContext(Context);
 
