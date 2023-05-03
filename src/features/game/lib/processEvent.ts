@@ -89,7 +89,7 @@ export const maxItems: Inventory = {
 
   // Seasonal Tickets
   "Solar Flare Ticket": new Decimal(350),
-  "Dawn Breaker Ticket": new Decimal(350),
+  "Dawn Breaker Ticket": new Decimal(750),
 
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),
