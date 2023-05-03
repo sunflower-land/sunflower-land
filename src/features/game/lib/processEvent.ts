@@ -6,11 +6,11 @@ import { SKILL_TREE } from "../types/skills";
 
 export const maxItems: Inventory = {
   Sunflower: new Decimal("9000"),
-  Potato: new Decimal("4500"),
-  Pumpkin: new Decimal("2400"),
-  Carrot: new Decimal("1750"),
-  Cabbage: new Decimal("1000"),
-  Beetroot: new Decimal("1000"),
+  Potato: new Decimal("5000"),
+  Pumpkin: new Decimal("3000"),
+  Carrot: new Decimal("2000"),
+  Cabbage: new Decimal("1500"),
+  Beetroot: new Decimal("1500"),
   Cauliflower: new Decimal("1000"),
   Parsnip: new Decimal("850"),
   Eggplant: new Decimal("600"),
@@ -18,12 +18,12 @@ export const maxItems: Inventory = {
   Wheat: new Decimal("500"),
   Kale: new Decimal("500"),
 
-  Apple: new Decimal("100"),
-  Orange: new Decimal("100"),
-  Blueberry: new Decimal("100"),
+  Apple: new Decimal("200"),
+  Orange: new Decimal("200"),
+  Blueberry: new Decimal("200"),
 
   Chicken: new Decimal("20"),
-  Egg: new Decimal("250"),
+  Egg: new Decimal("400"),
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
@@ -47,7 +47,7 @@ export const maxItems: Inventory = {
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
   Stone: new Decimal("500"),
-  Wood: new Decimal("1000"),
+  Wood: new Decimal("1500"),
   "Wild Mushroom": new Decimal("80"),
 
   "War Bond": new Decimal(500),
