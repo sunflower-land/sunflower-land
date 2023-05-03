@@ -122,6 +122,7 @@ type SyncEvent = {
 type PurchaseEvent = {
   type: "PURCHASE_ITEM";
   name: SeasonPassName;
+  amount: number;
 };
 
 type LandscapeEvent = {
@@ -927,6 +928,7 @@ export function startGame(authContext: AuthContext) {
                 token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
                 item: (event as PurchaseEvent).name,
+                amount: (event as PurchaseEvent).amount,
               });
 
               return {

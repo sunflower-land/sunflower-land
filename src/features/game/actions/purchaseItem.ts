@@ -1,4 +1,4 @@
-import { mintCollectible } from "lib/blockchain/Sessions";
+import { syncProgress } from "lib/blockchain/Sessions";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -8,6 +8,7 @@ type Request = {
   farmId: number;
   item: SeasonPassName;
   token: string;
+  amount?: number;
   transactionId: string;
 };
 
@@ -25,6 +26,7 @@ export async function purchaseItem(request: Request) {
       },
       body: JSON.stringify({
         item: request.item,
+        amount: request.amount,
       }),
     }
   );
@@ -39,10 +41,14 @@ export async function purchaseItem(request: Request) {
 
   const transaction = await response.json();
 
-  const sessionId = await mintCollectible({
+  const sessionId = await syncProgress({
     ...transaction,
     web3: wallet.web3Provider,
     account: wallet.myAccount,
+    purchase: {
+      name: request.item,
+      amount: request.amount,
+    },
   });
 
   return { sessionId, verified: true };
