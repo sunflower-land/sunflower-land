@@ -25,7 +25,11 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
   const announcements = gameState.context.announcements;
 
   const acknowledge = () => {
-    gameService.send({ type: "conversation.ended", id: conversationId });
+    if (conversationId in CONVERSATIONS) {
+      gameService.send({ type: "conversation.ended", id: conversationId });
+    } else {
+      gameService.send({ type: "message.read", id: conversationId });
+    }
   };
 
   const conversation =
@@ -40,6 +44,7 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
     acknowledge();
   };
   const Content = () => {
+    console.log({ showReward, conversation, read });
     if (showReward && conversation.reward) {
       return (
         <>
