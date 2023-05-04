@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 
 import genieLamp from "assets/sfts/genie_lamp.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { useActor } from "@xstate/react";
+import Modal from "react-bootstrap/esm/Modal";
 
 interface Props {
   id: string;
@@ -18,9 +18,11 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const [isRevealing, setIsRevealing] = useState(false);
+
   const wish = () => {
     // setIsShaking(true);
-    // setIsRevealing(true);
+    setIsRevealing(true);
 
     // // Can only shake a Maneki every 24 hours (even if you have multiple)
     // if (hasShakenRecently) {
@@ -47,15 +49,15 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
         className="absolute cursor-pointer hover:img-highlight"
         alt="Genie Lamp"
       />
-      {gameState.matches("revealing") && (
-        <Modal show centered>
+      {gameState.matches("revealing") && isRevealing && (
+        <Modal show centered onHide={() => setIsRevealing(false)}>
           <Panel>
             <Revealing icon={genieLamp} />
           </Panel>
         </Modal>
       )}
-      {gameState.matches("revealed") && (
-        <Modal show centered>
+      {gameState.matches("revealed") && isRevealing && (
+        <Modal show centered onHide={() => setIsRevealing(false)}>
           <Panel>
             <Revealed />
           </Panel>

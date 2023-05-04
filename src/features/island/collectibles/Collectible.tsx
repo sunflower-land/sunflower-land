@@ -342,6 +342,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Maximus: Maximus,
   "Genie Lamp": GenieLamp,
   Hoot: Hoot,
+  "Genie Bear": () => null,
 };
 
 // Need readonly versions for some troublesome components while in design mode
@@ -382,6 +383,13 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
     >
       <img src={ITEM_DETAILS["Wicker Man"].image} className="w-full" />
     </div>
+  ),
+  "Genie Lamp": () => (
+    <img
+      src={ITEM_DETAILS["Genie Lamp"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 22}px` }}
+    />
   ),
 };
 

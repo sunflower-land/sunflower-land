@@ -2122,4 +2122,8 @@ export const ITEM_DETAILS: Items = {
     image: hoot,
     description: "Hoot hoot! Have you solved my riddle yet?",
   },
+  "Genie Bear": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "????",
+  },
 };

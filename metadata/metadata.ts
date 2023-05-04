@@ -3650,4 +3650,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/461.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
+  "Genie Bear": {
+    description: "Exactly what I wished for!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "",
+    attributes: [],
+  },
 };
