@@ -14,6 +14,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -57,6 +58,7 @@ export const Kitchen: React.FC<Props> = ({
     if (isBuilt) {
       // Add future on click actions here
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }

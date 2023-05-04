@@ -14,6 +14,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { SmoothieShackModal } from "./SmoothieShackModal";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -56,6 +57,7 @@ export const SmoothieShack: React.FC<Props> = ({
 
     if (isBuilt) {
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }

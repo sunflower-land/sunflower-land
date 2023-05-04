@@ -18,6 +18,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONVERSATIONS } from "features/game/types/conversations";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -68,6 +69,7 @@ export const FirePit: React.FC<Props> = ({
     if (isBuilt) {
       // Add future on click actions here
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }
