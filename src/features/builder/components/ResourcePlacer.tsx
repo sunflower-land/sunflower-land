@@ -15,7 +15,7 @@ import { Stone } from "features/game/expansion/components/resources/Stone";
 import { Iron } from "features/game/expansion/components/resources/Iron";
 import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Plot } from "features/island/plots/Plot";
-import { Tree } from "features/game/expansion/components/resources/Tree";
+import { Tree } from "features/game/expansion/components/resources/tree/Tree";
 import { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";
 import { SUNNYSIDE } from "assets/sunnyside";
