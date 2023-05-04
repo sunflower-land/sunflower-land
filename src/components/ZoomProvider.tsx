@@ -1,7 +1,7 @@
 import { SpringValue, useSpringValue } from "@react-spring/web";
 import { usePinch } from "@use-gesture/react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import React, { createContext, useState } from "react";
+import React, { createContext } from "react";
 
 const getScaleLimits = () => {
   const gameboardWidth = 84 * GRID_WIDTH_PX;
@@ -31,16 +31,13 @@ const getScaleLimits = () => {
 
 interface Context {
   scale: SpringValue;
-  isZoomedIn: boolean;
 }
 
 export const ZoomContext = createContext<Context>({
   scale: new SpringValue(1),
-  isZoomedIn: false,
 });
 
 export const ZoomProvider: React.FC = ({ children }) => {
-  const [isZoomedIn, setIsZoomedIn] = useState(true);
   const scale = useSpringValue(1);
 
   window.addEventListener("resize", () => updateScale(0));
@@ -53,7 +50,6 @@ export const ZoomProvider: React.FC = ({ children }) => {
     if (newScale > maxScale) newScale = maxScale;
 
     scale.start(newScale);
-    setIsZoomedIn(newScale > (maxScale + minScale) / 2);
   };
 
   usePinch(
@@ -64,8 +60,6 @@ export const ZoomProvider: React.FC = ({ children }) => {
   );
 
   return (
-    <ZoomContext.Provider value={{ scale, isZoomedIn }}>
-      {children}
-    </ZoomContext.Provider>
+    <ZoomContext.Provider value={{ scale }}>{children}</ZoomContext.Provider>
   );
 };
