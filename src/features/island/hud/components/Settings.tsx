@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-
-import { Context } from "features/game/GameProvider";
+import { useLocation } from "react-router-dom";
 
 import more from "assets/ui/more.png";
 import settings from "assets/icons/settings.png";
 import sound_on from "assets/icons/sound_on.png";
-
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ResizableBar } from "components/ui/ProgressBar";
-import { SettingsMenu } from "./settings-menu/SettingsMenu";
-import { AudioMenu } from "features/game/components/AudioMenu";
+import chest from "assets/icons/chest.png";
 import {
   getFarmingSong,
   getFarmingSongCount,
@@ -17,7 +12,13 @@ import {
   getGoblinSongCount,
 } from "assets/songs/playlist";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useLocation } from "react-router-dom";
+
+import { Context } from "features/game/GameProvider";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ResizableBar } from "components/ui/ProgressBar";
+import { SettingsMenu } from "./settings-menu/SettingsMenu";
+import { AudioMenu } from "features/game/components/AudioMenu";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
@@ -28,6 +29,7 @@ interface Props {
 
 export const Settings: React.FC<Props> = ({ isFarming }) => {
   const { showTimers, toggleTimers } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const [showMoreButtons, setShowMoreButtons] = useState(false);
   const [openAudioMenu, setOpenAudioMenu] = useState(false);
   const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
@@ -61,10 +63,15 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     setShowMoreButtons(false);
   };
 
+  const handleOpenSyncModal = () => {
+    openModal("STORE_ON_CHAIN");
+    setShowMoreButtons(false);
+  };
+
   // music controls
 
   const [songIndex, setSongIndex] = useState<number>(0);
-  const musicPlayer = useRef<any>(null);
+  const musicPlayer = useRef<HTMLAudioElement>(null);
 
   const getSongCount = () => {
     return isFarming ? getFarmingSongCount() : getGoblinSongCount();
@@ -136,6 +143,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       () => setShowMoreButtons(!showMoreButtons),
       <img
         src={settings}
+        alt="settings"
         className="absolute"
         style={{
           top: `${PIXEL_SCALE * 4}px`,
@@ -151,6 +159,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       () => setOpenAudioMenu(true),
       <img
         src={sound_on}
+        alt="audio"
         className="absolute"
         style={{
           top: `${PIXEL_SCALE * 4}px`,
@@ -178,6 +187,22 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       </div>
     );
 
+  const syncButton = (index: number) =>
+    settingButton(
+      index,
+      handleOpenSyncModal,
+      <img
+        src={chest}
+        alt="sync on chain"
+        className="absolute"
+        style={{
+          top: `${PIXEL_SCALE * 4.5}px`,
+          left: `${PIXEL_SCALE * 4.8}px`,
+          width: `${PIXEL_SCALE * 12}px`,
+        }}
+      />
+    );
+
   const moreButton = (index: number) =>
     settingButton(
       index,
@@ -196,7 +221,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   // list of buttons to show in the HUD from right to left in order
   const buttons = [
     gearButton,
-    ...(isFarming ? [progressBarButton] : []),
+    ...(isFarming ? [progressBarButton, syncButton] : []),
     audioButton,
     ...(!showLimitedButtons ? [moreButton] : []),
   ];

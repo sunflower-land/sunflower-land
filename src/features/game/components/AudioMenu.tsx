@@ -33,7 +33,7 @@ function getCachedAudioSetting<T>(
 }
 
 interface Props {
-  musicPlayer: React.MutableRefObject<HTMLAudioElement>;
+  musicPlayer: React.RefObject<HTMLAudioElement>;
   song: Song;
   handlePreviousSong: () => void;
   handleNextSong: () => void;
