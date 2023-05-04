@@ -12,7 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { setPrecision } from "lib/utils/formatNumber";
 
 /**
- * The props for SFL requirement label.
+ * The props for SFL requirement label. Use this when the item costs SFL.
  * @param type The type is SFL.
  * @param balance The SFL balance of the player.
  * @param requirement The SFL requirement.
@@ -24,7 +24,7 @@ interface SFLProps {
 }
 
 /**
- * The props for sell for SFL requirement label.
+ * The props for sell for SFL requirement label. Use this when selling the item gives players SFL.
  * @param type The type is sell for SFL.
  * @param requirement The SFL requirement.
  */
