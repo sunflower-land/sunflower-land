@@ -74,7 +74,7 @@ export const Bakery: React.FC<Props> = ({
       <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={bakery}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -89,7 +89,7 @@ export const Bakery: React.FC<Props> = ({
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 28}px`,
+            left: `${PIXEL_SCALE * 30}px`,
           }}
         />
         {crafting ? (
@@ -109,7 +109,7 @@ export const Bakery: React.FC<Props> = ({
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 22}px`,
-              left: `${PIXEL_SCALE * 27}px`,
+              left: `${PIXEL_SCALE * 29}px`,
               bottom: `${PIXEL_SCALE * 3}px`,
               transform: "scaleX(-1)",
             }}
@@ -150,7 +150,7 @@ export const Bakery: React.FC<Props> = ({
             }}
             style={{
               opacity: 0,
-              bottom: `${PIXEL_SCALE * 4}px`,
+              bottom: `${PIXEL_SCALE * 5}px`,
             }}
           />
         )}

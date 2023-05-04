@@ -50,7 +50,7 @@ export const HayseedHank: React.FC = () => {
         className="absolute"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
-          right: `${PIXEL_SCALE * 2}px`,
+          right: `${PIXEL_SCALE * 4}px`,
           bottom: `${PIXEL_SCALE * 32}px`,
           transform: "scaleX(-1)",
         }}
@@ -67,10 +67,10 @@ export const HayseedHank: React.FC = () => {
         {conversationId && (
           <img
             src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-pulsate"
+            className="absolute animate-float pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              top: `${PIXEL_SCALE * -4}px`,
+              width: `${PIXEL_SCALE * 9}px`,
+              top: `${PIXEL_SCALE * -5}px`,
               right: `${PIXEL_SCALE * 1}px`,
             }}
           />
@@ -78,11 +78,11 @@ export const HayseedHank: React.FC = () => {
         {isTaskComplete(gameState.context.state) && (
           <img
             src={SUNNYSIDE.icons.confirm}
-            className="absolute img-highlight-heavy"
+            className="absolute img-highlight-heavy pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              bottom: `${PIXEL_SCALE * -7}px`,
-              left: `${PIXEL_SCALE * 3.5}px`,
+              width: `${PIXEL_SCALE * 12}px`,
+              bottom: `${PIXEL_SCALE * -5}px`,
+              left: `${PIXEL_SCALE * 2}px`,
               transform: "scaleX(-1)",
             }}
           />

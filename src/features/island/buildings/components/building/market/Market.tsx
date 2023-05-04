@@ -58,7 +58,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       <BuildingImageWrapper onClick={handleClick}>
         <img
           src={market}
-          className="absolute bottom-0"
+          className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 48}px`,
             height: `${PIXEL_SCALE * 38}px`,
@@ -66,7 +66,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         />
         <img
           src={shadow}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 6}px`,
@@ -75,7 +75,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         />
         <img
           src={SUNNYSIDE.npcs.betty}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 8}px`,
@@ -86,11 +86,11 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         {conversationId && (
           <img
             src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-pulsate"
+            className="absolute animate-float pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              bottom: `${PIXEL_SCALE * 26}px`,
-              right: `${PIXEL_SCALE * 5}px`,
+              width: `${PIXEL_SCALE * 9}px`,
+              bottom: `${PIXEL_SCALE * 31}px`,
+              right: `${PIXEL_SCALE * 1}px`,
             }}
           />
         )}
