@@ -4,7 +4,6 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import tree from "assets/resources/tree/tree.png";
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -13,6 +12,7 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { chopAudio } from "lib/utils/sfx";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const tool = "Axe";
 
@@ -71,7 +71,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
         {/* static tree image */}
         {!showSpritesheet && (
           <img
-            src={tree}
+            src={SUNNYSIDE.resource.tree}
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 26}px`,
