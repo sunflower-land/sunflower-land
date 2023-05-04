@@ -42,7 +42,7 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
         image={choppedSheet}
         widthFrame={CHOPPED_SHEET_FRAME_WIDTH}
         heightFrame={CHOPPED_SHEET_FRAME_HEIGHT}
-        fps={14}
+        fps={20}
         steps={11}
         direction={`forward`}
         autoplay={false}

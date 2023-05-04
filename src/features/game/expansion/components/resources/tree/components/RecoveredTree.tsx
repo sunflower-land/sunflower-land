@@ -103,7 +103,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
             image={shakeSheet}
             widthFrame={SHAKE_SHEET_FRAME_WIDTH}
             heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
-            fps={14}
+            fps={24}
             steps={7}
             direction={`forward`}
             autoplay={false}
