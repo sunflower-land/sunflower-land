@@ -1,10 +1,8 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
-import { CROP_SEEDS } from "features/game/types/crops";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
@@ -102,12 +100,8 @@ export const CraftingRequirements: React.FC<Props> = ({
     }
 
     const inventoryCount = gameState.inventory[details.item] ?? new Decimal(0);
-    const limit = INITIAL_STOCK(gameState)[details.item];
-    const isSeed =
-      details.item in FRUIT_SEEDS() || details.item in CROP_SEEDS();
-    const isInventoryFull =
-      isSeed &&
-      (limit === undefined ? false : inventoryCount.greaterThan(limit));
+    const limit = INVENTORY_LIMIT(gameState)[details.item];
+    const isInventoryFull = !!limit && inventoryCount.greaterThan(limit);
 
     return (
       <div className="flex justify-center mt-0 sm:mb-1">

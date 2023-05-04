@@ -45,7 +45,6 @@ export const CHICKEN_POSITIONS: ChickenPosition[] = [
 function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
-
 export const INITIAL_STOCK = (state?: GameState): Inventory => {
   let tools = {
     Axe: new Decimal(200),
@@ -82,8 +81,8 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Kale Seed": new Decimal(30),
 
     "Apple Seed": new Decimal(10),
-    "Orange Seed": new Decimal(10),
-    "Blueberry Seed": new Decimal(10),
+    "Orange Seed": new Decimal(15),
+    "Blueberry Seed": new Decimal(20),
   };
 
   if (
@@ -105,8 +104,8 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Kale Seed": new Decimal(36),
 
       "Apple Seed": new Decimal(12),
-      "Orange Seed": new Decimal(12),
-      "Blueberry Seed": new Decimal(12),
+      "Orange Seed": new Decimal(18),
+      "Blueberry Seed": new Decimal(24),
     };
   }
 
@@ -129,6 +128,53 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
 
     "Immortal Pear": new Decimal(1),
   };
+};
+
+export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
+  let seeds = {
+    "Sunflower Seed": new Decimal(1000),
+    "Potato Seed": new Decimal(500),
+    "Pumpkin Seed": new Decimal(400),
+    "Carrot Seed": new Decimal(250),
+    "Cabbage Seed": new Decimal(240),
+    "Beetroot Seed": new Decimal(220),
+    "Cauliflower Seed": new Decimal(200),
+    "Parsnip Seed": new Decimal(150),
+    "Eggplant Seed": new Decimal(120),
+    "Radish Seed": new Decimal(100),
+    "Wheat Seed": new Decimal(100),
+    "Kale Seed": new Decimal(80),
+
+    "Apple Seed": new Decimal(25),
+    "Orange Seed": new Decimal(38),
+    "Blueberry Seed": new Decimal(50),
+  };
+
+  if (
+    state?.buildings["Warehouse"] &&
+    isBuildingReady(state.buildings["Warehouse"])
+  ) {
+    seeds = {
+      "Sunflower Seed": new Decimal(1200),
+      "Potato Seed": new Decimal(600),
+      "Pumpkin Seed": new Decimal(480),
+      "Carrot Seed": new Decimal(300),
+      "Cabbage Seed": new Decimal(288),
+      "Beetroot Seed": new Decimal(264),
+      "Cauliflower Seed": new Decimal(240),
+      "Parsnip Seed": new Decimal(180),
+      "Eggplant Seed": new Decimal(144),
+      "Radish Seed": new Decimal(120),
+      "Wheat Seed": new Decimal(120),
+      "Kale Seed": new Decimal(96),
+
+      "Apple Seed": new Decimal(30),
+      "Orange Seed": new Decimal(45),
+      "Blueberry Seed": new Decimal(60),
+    };
+  }
+
+  return seeds;
 };
 
 export const INITIAL_GOLD_MINES: GameState["gold"] = {

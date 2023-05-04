@@ -10,7 +10,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
@@ -88,7 +88,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     // return message if inventory is full
     if (
       (inventory[selectedName] ?? new Decimal(0)).greaterThan(
-        INITIAL_STOCK(state)[selectedName] ?? new Decimal(0)
+        INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0)
       )
     ) {
       return (
