@@ -32,7 +32,7 @@ export const LandExpansion: React.FC = () => {
           innerRef={container}
           ignoreElements={"*[data-prevent-drag-scroll]"}
         >
-          <GameBoard isDawnBreaker>
+          <GameBoard isDawnBreaker={isDawnBreaker}>
             <Game />
           </GameBoard>
         </ScrollContainer>
