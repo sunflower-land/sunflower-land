@@ -435,8 +435,5 @@ export const EMPTY: GameState = {
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
-// This can be deleted once all players are on the Sunflower Isles
-// @c-py 08/12/2022
-export const FARM_IRON_RECOVERY_TIME = 12 * 60 * 60;
 export const IRON_RECOVERY_TIME = 8 * 60 * 60;
 export const GOLD_RECOVERY_TIME = 24 * 60 * 60;
