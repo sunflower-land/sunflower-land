@@ -23,7 +23,7 @@ export const SquirrelMonkey: React.FC = () => {
         className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 26}px`,
-          top: `${PIXEL_SCALE * 0}px`,
+          bottom: 0,
           left: `${PIXEL_SCALE * 4}px`,
           imageRendering: "pixelated",
         }}

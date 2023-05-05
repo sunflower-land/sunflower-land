@@ -31,7 +31,7 @@ export const WickerMan: React.FC = () => {
         className="absolute group-hover:img-highlight pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 48}px`,
-          bottom: "94.25px",
+          bottom: 0,
           left: `${PIXEL_SCALE * -14}px`,
           imageRendering: "pixelated",
         }}

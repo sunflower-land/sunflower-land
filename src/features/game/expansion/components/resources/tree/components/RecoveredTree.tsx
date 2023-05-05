@@ -95,7 +95,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
 
               // Adjust the base of tree to be perfectly aligned to
               // on a grid point.
-              top: `${PIXEL_SCALE * -18}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
               right: `${PIXEL_SCALE * -4}px`,
             }}
             getInstance={(spritesheet) => {

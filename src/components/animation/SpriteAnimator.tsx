@@ -144,7 +144,7 @@ class Spritesheet extends React.Component<Props> {
       overflow: "hidden",
       width: `${widthFrame}px`,
       height: `${heightFrame}px`,
-      transform: `scale(${this.spriteScale / this.zoomScale})`,
+      transform: `scale(${this.spriteScale})`,
       transformOrigin: "0 0",
       backgroundImage: `url(${background})`,
       backgroundSize,
@@ -246,10 +246,9 @@ class Spritesheet extends React.Component<Props> {
   resize = (callback = true) => {
     const { widthFrame, onResize } = this.props;
 
-    this.spriteScale = this.spriteEl.getBoundingClientRect().width / widthFrame;
-    this.spriteElContainer.style.transform = `scale(${
-      this.spriteScale / this.zoomScale
-    })`;
+    this.spriteScale =
+      this.spriteEl.getBoundingClientRect().width / widthFrame / this.zoomScale;
+    this.spriteElContainer.style.transform = `scale(${this.spriteScale})`;
     this.spriteEl.style.height = `${this.getInfo("height")}px`;
     if (callback && onResize) onResize(this.setInstance());
   };
@@ -376,9 +375,13 @@ class Spritesheet extends React.Component<Props> {
       case "steps":
         return this.steps;
       case "width":
-        return this.spriteElContainer.getBoundingClientRect().width;
+        return (
+          this.spriteElContainer.getBoundingClientRect().width / this.zoomScale
+        );
       case "height":
-        return this.spriteElContainer.getBoundingClientRect().height;
+        return (
+          this.spriteElContainer.getBoundingClientRect().height / this.zoomScale
+        );
       case "scale":
         return this.spriteScale;
       case "zoomScale":

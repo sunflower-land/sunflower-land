@@ -55,7 +55,6 @@ export const GameBoard: React.FC<{ isDawnBreaker: boolean }> = ({
             top: 28 * GRID_WIDTH_PX,
             width: 0,
           }}
-          id="gameCenter"
         />
         {children}
       </animated.div>

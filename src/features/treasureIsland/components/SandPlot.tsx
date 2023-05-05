@@ -426,12 +426,12 @@ export const SandPlot: React.FC<{
         />
       </div>
 
-      {(showShovelGoblin || true) && (
+      {showShovelGoblin && (
         <>
           <div
             className={classNames("w-full h-full absolute transition-opacity", {
-              // "opacity-100": !finishing,
-              // "opacity-0": finishing,
+              "opacity-100": !finishing,
+              "opacity-0": finishing,
             })}
           >
             {newReward && showGoblinEmotion && (
