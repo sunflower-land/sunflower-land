@@ -31,6 +31,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Rock } from "features/game/types/game";
+import { ZoomContext } from "components/ZoomProvider";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -53,6 +54,7 @@ interface Props {
 }
 
 export const Iron: React.FC<Props> = ({ id }) => {
+  const { scale } = useContext(ZoomContext);
   const { gameService, selectedItem } = useContext(Context);
 
   const [showPopover, setShowPopover] = useState(true);
@@ -225,6 +227,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
               image={sparkSheet}
               widthFrame={112}
               heightFrame={48}
+              zoomScale={scale.get()}
               fps={24}
               steps={6}
               direction={`forward`}
@@ -268,6 +271,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
         image={dropSheet}
         widthFrame={112}
         heightFrame={48}
+        zoomScale={scale.get()}
         fps={18}
         steps={10}
         direction={`forward`}

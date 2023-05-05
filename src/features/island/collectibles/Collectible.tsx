@@ -370,11 +370,12 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
     />
   ),
   "Wicker Man": () => (
-    <img
-      src={ITEM_DETAILS["Wicker Man"].image}
+    <div
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 19}px` }}
-    />
+    >
+      <img src={ITEM_DETAILS["Wicker Man"].image} className="w-full" />
+    </div>
   ),
 };
 

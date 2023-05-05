@@ -30,7 +30,7 @@ const getScaleLimits = () => {
 };
 
 interface Context {
-  scale: SpringValue;
+  scale: SpringValue<number>;
 }
 
 export const ZoomContext = createContext<Context>({

@@ -23,6 +23,7 @@ import Spritesheet, {
 import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ZoomContext } from "components/ZoomProvider";
 
 const DIMENSIONS = {
   original: 80,
@@ -67,6 +68,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
   showSkillPointAlert,
   onClick,
 }) => {
+  const { scale } = useContext(ZoomContext);
   const progressBarEl = useRef<SpriteSheetInstance>();
 
   const experience = bumpkin?.experience ?? 0;
@@ -141,6 +143,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           image={progressBarSprite}
           widthFrame={DIMENSIONS.original}
           heightFrame={DIMENSIONS.original}
+          zoomScale={scale.get()}
           fps={10}
           steps={SPRITE_STEPS}
           autoplay={false}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -13,6 +13,7 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { chopAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ZoomContext } from "components/ZoomProvider";
 
 const tool = "Axe";
 
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
+  const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
@@ -76,7 +78,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
             style={{
               width: `${PIXEL_SCALE * 26}px`,
               bottom: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 3}px`,
+              right: `${PIXEL_SCALE * 2.8}px`,
             }}
           />
         )}
@@ -93,7 +95,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
 
               // Adjust the base of tree to be perfectly aligned to
               // on a grid point.
-              bottom: `${PIXEL_SCALE * 2}px`,
+              top: `${PIXEL_SCALE * -18}px`,
               right: `${PIXEL_SCALE * -4}px`,
             }}
             getInstance={(spritesheet) => {
@@ -103,6 +105,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
             image={shakeSheet}
             widthFrame={SHAKE_SHEET_FRAME_WIDTH}
             heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
+            zoomScale={scale.get()}
             fps={24}
             steps={7}
             direction={`forward`}

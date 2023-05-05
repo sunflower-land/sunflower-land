@@ -139,7 +139,6 @@ const HudComponent: React.FC<{
           />
           {landId && !isDawnBreakerIsland && <LandId landId={landId} />}
           <div
-            id="test-button"
             className="fixed z-50 flex flex-col justify-between"
             style={{
               right: `${PIXEL_SCALE * 3}px`,

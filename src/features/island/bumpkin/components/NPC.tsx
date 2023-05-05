@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spritesheet from "components/animation/SpriteAnimator";
 import classNames from "classnames";
 import {
@@ -14,6 +14,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import shadow from "assets/npcs/shadow.png";
 import silhouette from "assets/npcs/silhouette.webp";
+import { ZoomContext } from "components/ZoomProvider";
 
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
@@ -42,6 +43,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   hideShadow,
   onClick,
 }) => {
+  const { scale } = useContext(ZoomContext);
   const [sheetSrc, setSheetSrc] = useState<string>();
 
   // make sure all body parts are synchronized
@@ -107,6 +109,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
               image={sheetSrc}
               widthFrame={FRAME_WIDTH}
               heightFrame={FRAME_HEIGHT}
+              zoomScale={scale.get()}
               steps={STEPS}
               fps={14}
               autoplay={true}
