@@ -79,10 +79,13 @@ export const PlayerBumpkin: React.FC<Props> = ({
     return balance.lt(amount);
   });
 
-  const hasSflRequirement = balance.gte(
-    (availableLantern?.sfl ?? new Decimal(0)).mul(multiplier)
+  const lessFunds = balance.lt(
+    SFLDiscount(
+      gameService.state?.context.state,
+      (availableLantern?.sfl ?? new Decimal(0)).mul(multiplier)
+    )
   );
-  const disableCraft = hasMissingIngredients || !hasSflRequirement;
+  const disableCraft = hasMissingIngredients || lessFunds;
 
   return (
     <>

@@ -6,6 +6,7 @@ import { Context } from "features/game/GameProvider";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
+import { ZoomContext } from "components/ZoomProvider";
 
 const FIFTEEN_SECONDS = 15000;
 const getDelay = () => Math.random() * FIFTEEN_SECONDS;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export const Mushroom: React.FC<Props> = ({ id, isFirstRender }) => {
+  const { scale } = useContext(ZoomContext);
   const { gameService } = useContext(Context);
   const [grow, setGrow] = useState(false);
 
@@ -48,6 +50,7 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender }) => {
             image={SUNNYSIDE.resource.wild_mushroom_sheet}
             widthFrame={10}
             heightFrame={12}
+            zoomScale={scale}
             fps={10}
             timeout={getDelay()}
             endAt={5}

@@ -48,8 +48,9 @@ export function getNextDiscordChatTime() {
       .find((date) => date.getTime() + DISCORD_LENGTH_MS > Date.now())
       ?.getTime() ?? 0;
   return {
-    startAt,
-    endAt: startAt + DISCORD_LENGTH_MS,
+    // Give a buffer to enter
+    startAt: startAt - DISCORD_LENGTH_MS,
+    endAt: startAt + DISCORD_LENGTH_MS * 2,
   };
 }
 
@@ -62,7 +63,8 @@ export function getNextTwitchTime() {
       ?.getTime() ?? 0;
 
   return {
-    startAt,
-    endAt: startAt + TWITCH_LENGTH_MS,
+    // Give a buffer to enter
+    startAt: startAt - TWITCH_LENGTH_MS,
+    endAt: startAt + TWITCH_LENGTH_MS * 2,
   };
 }

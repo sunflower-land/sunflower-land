@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import seal_sprite from "../assets/seal_sprite.png";
@@ -7,8 +7,10 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { ZoomContext } from "components/ZoomProvider";
 
 export const Seal: React.FC = () => {
+  const { scale } = useContext(ZoomContext);
   const sealGif = useRef<SpriteSheetInstance>();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +41,7 @@ export const Seal: React.FC = () => {
           image={seal_sprite}
           widthFrame={32}
           heightFrame={32}
+          zoomScale={scale}
           fps={8}
           endAt={20}
           steps={20}

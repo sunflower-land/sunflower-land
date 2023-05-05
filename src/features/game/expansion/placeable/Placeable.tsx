@@ -25,6 +25,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
+import { ZoomContext } from "components/ZoomProvider";
 
 export const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
   Chicken: () => <Chicken coordinates={{ x: 0, y: 0 }} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -88,6 +89,8 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
 };
 
 export const Placeable: React.FC = () => {
+  const { scale } = useContext(ZoomContext);
+
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
 
@@ -165,7 +168,8 @@ export const Placeable: React.FC = () => {
             y: DEFAULT_POSITION_Y,
           }}
           nodeRef={nodeRef}
-          grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
+          grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+          scale={scale.get()}
           onStart={() => {
             // reset
             send("DRAG");

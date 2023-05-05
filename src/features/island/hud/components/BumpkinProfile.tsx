@@ -23,6 +23,7 @@ import Spritesheet, {
 import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { SpringValue } from "@react-spring/web";
 
 const DIMENSIONS = {
   original: 80,
@@ -141,6 +142,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           image={progressBarSprite}
           widthFrame={DIMENSIONS.original}
           heightFrame={DIMENSIONS.original}
+          zoomScale={new SpringValue(1)}
           fps={10}
           steps={SPRITE_STEPS}
           autoplay={false}

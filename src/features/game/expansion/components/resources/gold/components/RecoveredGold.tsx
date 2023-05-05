@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -13,6 +13,7 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { miningAudio } from "lib/utils/sfx";
 import gold from "assets/resources/gold_small.png";
+import { ZoomContext } from "components/ZoomProvider";
 
 const tool = "Iron Pickaxe";
 
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const RecoveredGoldComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
+  const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
 
@@ -103,6 +105,7 @@ const RecoveredGoldComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
             image={strikeSheet}
             widthFrame={STRIKE_SHEET_FRAME_WIDTH}
             heightFrame={STRIKE_SHEET_FRAME_HEIGHT}
+            zoomScale={scale}
             fps={24}
             steps={6}
             direction={`forward`}

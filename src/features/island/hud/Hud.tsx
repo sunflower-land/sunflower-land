@@ -20,6 +20,7 @@ import { placeEvent } from "features/game/expansion/placeable/landscapingMachine
 import classNames from "classnames";
 import { useLocation } from "react-router-dom";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { createPortal } from "react-dom";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -59,119 +60,125 @@ const HudComponent: React.FC<{
   const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
 
   return (
-    <div
-      data-html2canvas-ignore="true"
-      aria-label="Hud"
-      className="absolute z-40"
-    >
-      <div>
-        {isFarming && (
-          <div
-            onClick={() => {
-              if (isFarming) {
-                gameService.send("LANDSCAPE");
-              }
-            }}
-            className={classNames(
-              "fixed flex z-50 cursor-pointer hover:img-highlight",
-              {
-                "opacity-50 cursor-not-allowed": !isFarming,
-              }
+    <>
+      {createPortal(
+        <div
+          data-html2canvas-ignore="true"
+          aria-label="Hud"
+          className="absolute z-40"
+        >
+          <div>
+            {isFarming && (
+              <div
+                onClick={() => {
+                  if (isFarming) {
+                    gameService.send("LANDSCAPE");
+                  }
+                }}
+                className={classNames(
+                  "fixed flex z-50 cursor-pointer hover:img-highlight",
+                  {
+                    "opacity-50 cursor-not-allowed": !isFarming,
+                  }
+                )}
+                style={{
+                  marginLeft: `${PIXEL_SCALE * 2}px`,
+                  marginBottom: `${PIXEL_SCALE * 25}px`,
+                  width: `${PIXEL_SCALE * 22}px`,
+                  right: `${PIXEL_SCALE * 3}px`,
+                  top: `${PIXEL_SCALE * 38}px`,
+                }}
+              >
+                <img
+                  src={SUNNYSIDE.ui.round_button}
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * 22}px`,
+                  }}
+                />
+                <img
+                  src={SUNNYSIDE.icons.drag}
+                  className={"absolute"}
+                  style={{
+                    top: `${PIXEL_SCALE * 5}px`,
+                    left: `${PIXEL_SCALE * 5}px`,
+                    width: `${PIXEL_SCALE * 12}px`,
+                  }}
+                />
+              </div>
             )}
-            style={{
-              marginLeft: `${PIXEL_SCALE * 2}px`,
-              marginBottom: `${PIXEL_SCALE * 25}px`,
-              width: `${PIXEL_SCALE * 22}px`,
-              right: `${PIXEL_SCALE * 3}px`,
-              top: `${PIXEL_SCALE * 38}px`,
-            }}
-          >
-            <img
-              src={SUNNYSIDE.ui.round_button}
-              className="absolute"
-              style={{
-                width: `${PIXEL_SCALE * 22}px`,
+            <Inventory
+              state={gameState.context.state}
+              isFullUser={isFullUser}
+              shortcutItem={shortcutItem}
+              selectedItem={selectedItem}
+              onPlace={(selected) => {
+                gameService.send("LANDSCAPE", {
+                  action: placeEvent(selected),
+                  placeable: selected,
+                  multiple: true,
+                });
               }}
-            />
-            <img
-              src={SUNNYSIDE.icons.drag}
-              className={"absolute"}
-              style={{
-                top: `${PIXEL_SCALE * 5}px`,
-                left: `${PIXEL_SCALE * 5}px`,
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
+              onDepositClick={() => setShowDepositModal(true)}
+              isSaving={autosaving}
+              isFarming={isFarming}
             />
           </div>
-        )}
-        <Inventory
-          state={gameState.context.state}
-          isFullUser={isFullUser}
-          shortcutItem={shortcutItem}
-          selectedItem={selectedItem}
-          onPlace={(selected) => {
-            gameService.send("LANDSCAPE", {
-              action: placeEvent(selected),
-              placeable: selected,
-              multiple: true,
-            });
-          }}
-          onDepositClick={() => setShowDepositModal(true)}
-          isSaving={autosaving}
-          isFarming={isFarming}
-        />
-      </div>
 
-      <Balance
-        onBalanceClick={
-          farmAddress ? () => setShowDepositModal(true) : undefined
-        }
-        balance={gameState.context.state.balance}
-      />
-      <BlockBucks
-        blockBucks={
-          gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-        }
-        isFullUser={isFullUser}
-      />
-      {landId && !isDawnBreakerIsland && <LandId landId={landId} />}
-      <div
-        id="test-button"
-        className="fixed z-50 flex flex-col justify-between"
-        style={{
-          right: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 3}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-          // Shifts buttons up to make room for weekly latern counter component
-          ...(isDawnBreakerIsland &&
-            isMobile && {
-              transform: moveButtonsUp ? "translateY(-100px)" : "translateY(0)",
-              transition: "transform 0.5s ease-in-out",
-            }),
-        }}
-      >
-        <Save />
-        <Settings isFarming={isFarming} />
-      </div>
-      <BumpkinProfile isFullUser={isFullUser} />
-
-      {farmAddress && (
-        <Modal show={showDepositModal} centered>
-          <CloseButtonPanel
-            title={depositDataLoaded ? "Deposit" : undefined}
-            onClose={depositDataLoaded ? handleClose : undefined}
+          <Balance
+            onBalanceClick={
+              farmAddress ? () => setShowDepositModal(true) : undefined
+            }
+            balance={gameState.context.state.balance}
+          />
+          <BlockBucks
+            blockBucks={
+              gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
+            }
+            isFullUser={isFullUser}
+          />
+          {landId && !isDawnBreakerIsland && <LandId landId={landId} />}
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              right: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 22}px`,
+              height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+              // Shifts buttons up to make room for weekly latern counter component
+              ...(isDawnBreakerIsland &&
+                isMobile && {
+                  transform: moveButtonsUp
+                    ? "translateY(-100px)"
+                    : "translateY(0)",
+                  transition: "transform 0.5s ease-in-out",
+                }),
+            }}
           >
-            <Deposit
-              farmAddress={farmAddress}
-              onDeposit={handleDeposit}
-              onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-              onClose={handleClose}
-            />
-          </CloseButtonPanel>
-        </Modal>
+            <Save />
+            <Settings isFarming={isFarming} />
+          </div>
+          <BumpkinProfile isFullUser={isFullUser} />
+
+          {farmAddress && (
+            <Modal show={showDepositModal} centered>
+              <CloseButtonPanel
+                title={depositDataLoaded ? "Deposit" : undefined}
+                onClose={depositDataLoaded ? handleClose : undefined}
+              >
+                <Deposit
+                  farmAddress={farmAddress}
+                  onDeposit={handleDeposit}
+                  onLoaded={(loaded) => setDepositDataLoaded(loaded)}
+                  onClose={handleClose}
+                />
+              </CloseButtonPanel>
+            </Modal>
+          )}
+        </div>,
+        document.body
       )}
-    </div>
+    </>
   );
 };
 

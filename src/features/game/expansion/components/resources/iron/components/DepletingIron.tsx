@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import dropSheet from "assets/resources/iron/iron_rock_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import iron from "assets/resources/iron_ore.png";
+import { ZoomContext } from "components/ZoomProvider";
 
 const DROP_SHEET_FRAME_WIDTH = 112;
 const DROP_SHEET_FRAME_HEIGHT = 48;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const DepletingIronComponent: React.FC<Props> = ({ resourceAmount }) => {
+  const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
   const sparkGif = useRef<SpriteSheetInstance>();
 
@@ -42,6 +44,7 @@ const DepletingIronComponent: React.FC<Props> = ({ resourceAmount }) => {
         image={dropSheet}
         widthFrame={DROP_SHEET_FRAME_WIDTH}
         heightFrame={DROP_SHEET_FRAME_HEIGHT}
+        zoomScale={scale}
         fps={20}
         steps={10}
         direction={`forward`}
@@ -69,7 +72,7 @@ const DepletingIronComponent: React.FC<Props> = ({ resourceAmount }) => {
         >
           <img
             src={iron}
-            className="mr-2"
+            className="mr-2 img-highlight-heavy"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
             }}

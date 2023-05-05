@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import choppedSheet from "assets/resources/tree/chopped_sheet.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ZoomContext } from "components/ZoomProvider";
 
 const CHOPPED_SHEET_FRAME_WIDTH = 1040 / 13;
 const CHOPPED_SHEET_FRAME_HEIGHT = 48;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
+  const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
   const choppedGif = useRef<SpriteSheetInstance>();
 
@@ -42,6 +44,7 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
         image={choppedSheet}
         widthFrame={CHOPPED_SHEET_FRAME_WIDTH}
         heightFrame={CHOPPED_SHEET_FRAME_HEIGHT}
+        zoomScale={scale}
         fps={20}
         steps={11}
         direction={`forward`}
@@ -60,6 +63,8 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
         <div
           className="flex justify-center absolute w-full z-40"
           style={{
+            width: `${PIXEL_SCALE * 48}px`,
+            left: `${PIXEL_SCALE * -8}px`,
             top: `${PIXEL_SCALE * -2}px`,
             opacity: playing ? 1 : 0,
             transition: "opacity 0.2s ease-in",
@@ -67,7 +72,7 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
         >
           <img
             src={SUNNYSIDE.resource.wood}
-            className="mr-2"
+            className="mr-2 img-highlight-heavy"
             style={{
               width: `${PIXEL_SCALE * 11}px`,
             }}
