@@ -22,6 +22,7 @@ import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
+import { ZoomProvider } from "components/ZoomProvider";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -100,39 +101,44 @@ export const Navigation: React.FC = () => {
     <>
       <Auth />
       {showGame ? (
-        <HashRouter>
-          <Routes>
-            <Route path="/" element={<LandExpansion />} />
-            {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
-            {!state.isVisiting && (
-              <Route
-                path="/goblins"
-                element={
-                  <Splash>
-                    <Forbidden />
-                  </Splash>
-                }
-              />
-            )}
+        <ZoomProvider>
+          <HashRouter>
+            <Routes>
+              <Route path="/" element={<LandExpansion />} />
+              {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+              {!state.isVisiting && (
+                <Route
+                  path="/goblins"
+                  element={
+                    <Splash>
+                      <Forbidden />
+                    </Splash>
+                  }
+                />
+              )}
 
-            <Route path="/visit/*" element={<LandExpansion key="visit" />} />
-            <Route path="/land/:id?/*" element={<LandExpansion key="land" />} />
-            <Route path="/retreat">
+              <Route path="/visit/*" element={<LandExpansion key="visit" />} />
               <Route
-                index
-                element={<TraderDeeplinkHandler farmId={farmId} />}
+                path="/land/:id?/*"
+                element={<LandExpansion key="land" />}
               />
-              <Route path=":id" element={<Retreat key="retreat" />} />
-            </Route>
-            {CONFIG.NETWORK === "mumbai" && (
-              <Route path="/builder" element={<Builder key="builder" />} />
-            )}
-            <Route
-              path="/community-garden/:id"
-              element={<Community key="community" />}
-            />
-          </Routes>
-        </HashRouter>
+              <Route path="/retreat">
+                <Route
+                  index
+                  element={<TraderDeeplinkHandler farmId={farmId} />}
+                />
+                <Route path=":id" element={<Retreat key="retreat" />} />
+              </Route>
+              {CONFIG.NETWORK === "mumbai" && (
+                <Route path="/builder" element={<Builder key="builder" />} />
+              )}
+              <Route
+                path="/community-garden/:id"
+                element={<Community key="community" />}
+              />
+            </Routes>
+          </HashRouter>
+        </ZoomProvider>
       ) : (
         <Splash />
       )}

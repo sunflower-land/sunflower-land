@@ -42,6 +42,7 @@ import { MachineState as GameMachineState } from "features/game/lib/gameMachine"
 import { MachineState } from "features/game/expansion/placeable/landscapingMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { ZoomContext } from "components/ZoomProvider";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -132,6 +133,7 @@ interface Props {
 }
 
 const ChickenComponent: React.FC<Props> = ({ id }) => {
+  const { scale } = useContext(ZoomContext);
   const { gameService, selectedItem, showTimers } = useContext(Context);
 
   const chicken = useSelector(
@@ -345,6 +347,7 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
                 image={walkingChickenSheet}
                 widthFrame={32}
                 heightFrame={32}
+                zoomScale={scale.get()}
                 fps={10}
                 steps={50}
                 direction={`forward`}
@@ -423,6 +426,7 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
                 image={layingEggSheet}
                 widthFrame={17}
                 heightFrame={31}
+                zoomScale={scale.get()}
                 fps={3}
                 steps={21}
                 endAt={7}
@@ -454,6 +458,7 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
                 }}
                 widthFrame={17}
                 heightFrame={31}
+                zoomScale={scale.get()}
                 fps={20}
                 steps={21}
                 direction={`forward`}

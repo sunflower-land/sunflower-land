@@ -42,6 +42,7 @@ export interface Props {
   image: string;
   widthFrame: number;
   heightFrame: number;
+  zoomScale: number;
   steps: number;
   fps: number;
   direction?: Direction;
@@ -81,7 +82,7 @@ class Spritesheet extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    const { startAt, endAt, fps, steps, direction } = props;
+    const { startAt, endAt, fps, steps, direction, zoomScale } = props;
 
     this.id = `react-responsive-spritesheet--${randomID()}`;
     this.spriteEl =
@@ -99,6 +100,7 @@ class Spritesheet extends React.Component<Props> {
     this.completeLoopCycles = 0;
     this.isPlaying = false;
     this.spriteScale = 1;
+    this.zoomScale = zoomScale;
     this.direction = this.setDirection(direction);
     this.frame = this.startAt
       ? this.startAt
@@ -244,7 +246,8 @@ class Spritesheet extends React.Component<Props> {
   resize = (callback = true) => {
     const { widthFrame, onResize } = this.props;
 
-    this.spriteScale = this.spriteEl.getBoundingClientRect().width / widthFrame;
+    this.spriteScale =
+      this.spriteEl.getBoundingClientRect().width / widthFrame / this.zoomScale;
     this.spriteElContainer.style.transform = `scale(${this.spriteScale})`;
     this.spriteEl.style.height = `${this.getInfo("height")}px`;
     if (callback && onResize) onResize(this.setInstance());
@@ -372,11 +375,17 @@ class Spritesheet extends React.Component<Props> {
       case "steps":
         return this.steps;
       case "width":
-        return this.spriteElContainer.getBoundingClientRect().width;
+        return (
+          this.spriteElContainer.getBoundingClientRect().width / this.zoomScale
+        );
       case "height":
-        return this.spriteElContainer.getBoundingClientRect().height;
+        return (
+          this.spriteElContainer.getBoundingClientRect().height / this.zoomScale
+        );
       case "scale":
         return this.spriteScale;
+      case "zoomScale":
+        return this.zoomScale;
       case "isPlaying":
         return this.isPlaying;
       case "isPaused":

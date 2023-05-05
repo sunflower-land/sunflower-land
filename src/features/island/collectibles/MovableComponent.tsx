@@ -29,6 +29,7 @@ import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { ZoomContext } from "components/ZoomProvider";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -99,6 +100,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   coordinates,
   children,
 }) => {
+  const { scale } = useContext(ZoomContext);
+
   const nodeRef = useRef(null);
 
   const [isMobile] = useIsMobile();
@@ -193,7 +196,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
       <Draggable
         key={`${coordinates?.x}-${coordinates?.y}-${counts}`}
         nodeRef={nodeRef}
-        grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
+        grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+        scale={scale.get()}
         allowAnyClick
         // Mobile must click first, before dragging
         disabled={isMobile && !isSelected}

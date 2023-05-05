@@ -141,6 +141,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           image={progressBarSprite}
           widthFrame={DIMENSIONS.original}
           heightFrame={DIMENSIONS.original}
+          zoomScale={1}
           fps={10}
           steps={SPRITE_STEPS}
           autoplay={false}

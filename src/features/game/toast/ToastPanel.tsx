@@ -9,6 +9,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import token from "assets/icons/token_2.png";
 import levelup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "../types/images";
+import { createPortal } from "react-dom";
 
 const MAX_TOAST = 6;
 
@@ -88,28 +89,30 @@ export const ToastPanel: React.FC = () => {
 
   return (
     <>
-      {showToasts && (
-        <InnerPanel
-          className="flex flex-col items-start fixed z-[99999] pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * 54}px`,
-            left: `${PIXEL_SCALE * 3}px`,
-          }}
-        >
-          {/* show visible toasts only */}
-          {toastsList
-            .slice(0, MAX_TOAST)
-            .filter((toast) => !toast.hidden)
-            .map(({ item, difference, id }) => (
-              <div className="flex items-center justify-center" key={id}>
-                <img className="h-6" src={getToastIcon(item)} />
-                <span className="text-sm mx-1 mb-0.5">{`${
-                  difference.greaterThanOrEqualTo(0) ? "+" : ""
-                }${setPrecision(difference)}`}</span>
-              </div>
-            ))}
-        </InnerPanel>
-      )}
+      {showToasts &&
+        createPortal(
+          <InnerPanel
+            className="flex flex-col items-start fixed z-[99999] pointer-events-none"
+            style={{
+              top: `${PIXEL_SCALE * 54}px`,
+              left: `${PIXEL_SCALE * 3}px`,
+            }}
+          >
+            {/* show visible toasts only */}
+            {toastsList
+              .slice(0, MAX_TOAST)
+              .filter((toast) => !toast.hidden)
+              .map(({ item, difference, id }) => (
+                <div className="flex items-center justify-center" key={id}>
+                  <img className="h-6" src={getToastIcon(item)} />
+                  <span className="text-sm mx-1 mb-0.5">{`${
+                    difference.greaterThanOrEqualTo(0) ? "+" : ""
+                  }${setPrecision(difference)}`}</span>
+                </div>
+              ))}
+          </InnerPanel>,
+          document.body
+        )}
     </>
   );
 };

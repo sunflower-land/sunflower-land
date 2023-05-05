@@ -9,8 +9,11 @@ import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { ZoomContext } from "components/ZoomProvider";
 
 export const RockGolem: React.FC = () => {
+  const { scale } = useContext(ZoomContext);
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -41,6 +44,7 @@ export const RockGolem: React.FC = () => {
           image={golemSheet}
           widthFrame={34}
           heightFrame={42}
+          zoomScale={scale.get()}
           fps={10}
           startAt={8}
           endAt={23}
@@ -65,6 +69,7 @@ export const RockGolem: React.FC = () => {
           image={golemSheet}
           widthFrame={34}
           heightFrame={42}
+          zoomScale={scale.get()}
           fps={6}
           steps={38}
           endAt={8}
