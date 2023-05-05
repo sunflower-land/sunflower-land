@@ -142,7 +142,7 @@ export const Builder: React.FC = () => {
         </div>
         <div className="pointer-events-none">
           <ScrollContainer
-            className="relative w-full h-full bg-[#0099db] overflow-scroll"
+            className="relative w-full h-full bg-[#0099db] overflow-scroll overscroll-none"
             innerRef={container}
           >
             <div

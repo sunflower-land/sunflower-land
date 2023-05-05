@@ -36,7 +36,7 @@ export const ChestReward: React.FC<Props> = ({
   useEffect(() => {
     if (reward) {
       setLoading(true);
-      setTimeout(() => setLoading(false), 750);
+      setTimeout(() => setLoading(false), 500);
     }
   }, [reward]);
 

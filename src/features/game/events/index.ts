@@ -152,6 +152,7 @@ import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
 import { craftLantern, CraftLanternAction } from "./landExpansion/craftLantern";
+import { Announcements } from "../types/conversations";
 
 export type PlayingEvent =
   | TradeAction
@@ -246,6 +247,7 @@ type Handlers<T> = {
     state: GameState;
     // Extract the correct event payload from the list of events
     action: Extract<GameEventName<T>, { type: Name }>;
+    announcements?: Announcements;
   }) => GameState;
 };
 

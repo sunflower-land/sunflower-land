@@ -122,6 +122,7 @@ type SyncEvent = {
 type PurchaseEvent = {
   type: "PURCHASE_ITEM";
   name: SeasonPassName;
+  amount: number;
 };
 
 type LandscapeEvent = {
@@ -230,6 +231,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
             state: processEvent({
               state: context.state as GameState,
               action: event,
+              announcements: context.announcements,
             }) as GameState,
             actions: [
               ...context.actions,
@@ -385,7 +387,11 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   );
 
   const updatedState = recentActions.reduce((state, action) => {
-    return processEvent({ state, action });
+    return processEvent({
+      state,
+      action,
+      announcements: context.announcements,
+    });
   }, event.data.farm);
 
   return {
@@ -927,6 +933,7 @@ export function startGame(authContext: AuthContext) {
                 token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
                 item: (event as PurchaseEvent).name,
+                amount: (event as PurchaseEvent).amount,
               });
 
               return {

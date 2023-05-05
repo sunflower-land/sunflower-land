@@ -17,6 +17,9 @@ import level14 from "assets/land/levels/level_14.webp";
 import level15 from "assets/land/levels/level_15.webp";
 import level16 from "assets/land/levels/level_16.webp";
 import level17 from "assets/land/levels/level_17.webp";
+import level18 from "assets/land/levels/level_18.png";
+import level19 from "assets/land/levels/level_19.png";
+import level20 from "assets/land/levels/level_20.png";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -45,6 +48,9 @@ const LEVEL_IMAGES: Record<number, string> = {
   15: level15,
   16: level16,
   17: level17,
+  18: level18,
+  19: level19,
+  20: level20,
 };
 
 export const LandBase: React.FC<Props> = ({ expandedCount }) => {

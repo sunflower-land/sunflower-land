@@ -123,6 +123,11 @@ export const getCropTime = (
     seconds = seconds * 0.5;
   }
 
+  // If Obie: 25% reduction
+  if (crop === "Eggplant" && isCollectibleBuilt("Obie", collectibles)) {
+    seconds = seconds * 0.75;
+  }
+
   return seconds;
 };
 

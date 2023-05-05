@@ -21,12 +21,13 @@ import {
   GoblinPirateItemName,
   HeliosBlacksmithItem,
   SeasonPassName,
+  SoldOutCollectibleName,
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
-import { Week } from "features/dawnBreaker/lib/positions";
+import { Week } from "features/dawnBreaker/lib/characters";
 
 export type Reward = {
   sfl?: Decimal;
@@ -221,6 +222,7 @@ export type InventoryItemName =
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem
+  | SoldOutCollectibleName
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
   | SeasonPassName

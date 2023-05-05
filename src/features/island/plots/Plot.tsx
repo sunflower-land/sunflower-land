@@ -24,6 +24,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
+import { ZoomContext } from "components/ZoomProvider";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -39,6 +40,7 @@ interface Props {
   id: string;
 }
 export const Plot: React.FC<Props> = ({ id }) => {
+  const { scale } = useContext(ZoomContext);
   const { gameService, selectedItem, showTimers } = useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
@@ -82,6 +84,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
           image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
           widthFrame={HARVEST_PROC_ANIMATION.size}
           heightFrame={HARVEST_PROC_ANIMATION.size}
+          zoomScale={scale}
           fps={HARVEST_PROC_ANIMATION.fps}
           steps={HARVEST_PROC_ANIMATION.steps}
           onPause={() => setProcAnimation(<></>)}

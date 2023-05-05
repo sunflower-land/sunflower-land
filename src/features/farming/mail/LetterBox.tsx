@@ -61,7 +61,7 @@ export const LetterBox: React.FC = () => {
           <Conversation
             conversationId={selected as ConversationName}
             read={
-              !gameState.context.state.mailbox.read.find(
+              !!gameState.context.state.mailbox.read.find(
                 (item) => item.id === selected
               )
             }

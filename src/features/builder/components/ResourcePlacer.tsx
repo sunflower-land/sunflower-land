@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import Draggable from "react-draggable";
@@ -15,11 +15,12 @@ import { Stone } from "features/game/expansion/components/resources/Stone";
 import { Iron } from "features/game/expansion/components/resources/Iron";
 import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Plot } from "features/island/plots/Plot";
-import { Tree } from "features/game/expansion/components/resources/Tree";
+import { Tree } from "features/game/expansion/components/resources/tree/Tree";
 import { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { ZoomContext } from "components/ZoomProvider";
 
 export const RESOURCES: Record<
   keyof Layout,
@@ -102,6 +103,8 @@ export const ResourcePlacer: React.FC<Props> = ({
   onCancel,
   onPlace,
 }) => {
+  const { scale } = useContext(ZoomContext);
+
   const nodeRef = useRef(null);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -126,7 +129,8 @@ export const ResourcePlacer: React.FC<Props> = ({
       >
         <Draggable
           nodeRef={nodeRef}
-          grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
+          grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+          scale={scale.get()}
           onStart={() => {
             setIsDragging(true);
           }}

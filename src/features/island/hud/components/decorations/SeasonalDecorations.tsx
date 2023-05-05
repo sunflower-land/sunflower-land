@@ -26,13 +26,14 @@ export const SeasonalDecorations: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
     useState<SeasonalDecorationName>("Clementine");
 
-  const selected = SEASONAL_DECORATIONS()[selectedName];
   const { gameService } = useContext(Context);
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+
+  const selected = SEASONAL_DECORATIONS(state)[selectedName];
 
   const inventory = state.inventory;
 
@@ -98,16 +99,18 @@ export const SeasonalDecorations: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {Object.values(SEASONAL_DECORATIONS()).map((item: Decoration) => (
-            <Box
-              isSelected={selected.name === item.name}
-              key={item.name}
-              onClick={() =>
-                setSelectedName(item.name as SeasonalDecorationName)
-              }
-              image={ITEM_DETAILS[item.name].image}
-            />
-          ))}
+          {Object.values(SEASONAL_DECORATIONS(state)).map(
+            (item: Decoration) => (
+              <Box
+                isSelected={selected.name === item.name}
+                key={item.name}
+                onClick={() =>
+                  setSelectedName(item.name as SeasonalDecorationName)
+                }
+                image={ITEM_DETAILS[item.name].image}
+              />
+            )
+          )}
 
           <div className="flex mt-1">
             <img src={SUNNYSIDE.icons.timer} className="h-4 mr-1" />

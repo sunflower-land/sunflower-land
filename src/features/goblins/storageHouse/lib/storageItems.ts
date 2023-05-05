@@ -2,6 +2,7 @@ import { CROPS } from "features/game/types/crops";
 import { FRUIT } from "features/game/types/fruits";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { COMMODITIES } from "features/game/types/resources";
+import { isNeverWithdrawable } from "features/game/types/withdrawables";
 
 /**
  * Items for the storage house
@@ -9,12 +10,13 @@ import { COMMODITIES } from "features/game/types/resources";
 export function getDeliverableItems(inventory: Inventory) {
   return (Object.keys(inventory) as InventoryItemName[]).reduce(
     (acc, itemName) => {
-      if (
+      const isDeliverable =
         itemName in CROPS() ||
         itemName === "Blueberry" ||
         itemName === "Orange" ||
-        (itemName in COMMODITIES && itemName !== "Chicken")
-      ) {
+        (itemName in COMMODITIES && itemName !== "Chicken");
+
+      if (isDeliverable && !isNeverWithdrawable(itemName)) {
         return {
           ...acc,
           [itemName]: inventory[itemName],

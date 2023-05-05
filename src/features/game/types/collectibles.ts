@@ -1,26 +1,35 @@
 import Decimal from "decimal.js-light";
-import { Inventory } from "./game";
+import { GameState, Inventory } from "./game";
+import { SEASONS } from "./seasons";
+import { marketRate } from "../lib/halvening";
+import { SFLDiscount } from "../lib/SFLDiscount";
 
 export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
 
 export type HeliosBlacksmithItem = "Immortal Pear" | "Treasure Map";
 
-export type GoblinBlacksmithItemName =
-  | "Lady Bug"
-  | "Squirrel Monkey"
-  | "Black Bearry"
-  | "Maneki Neko"
-  | "Heart Balloons"
-  | "Flamingo"
-  | "Blossom Tree"
+export type SoldOutCollectibleName =
   | "Palm Tree"
   | "Beach Ball"
   | "Cabbage Boy"
   | "Cabbage Girl"
+  | "Heart Balloons"
+  | "Flamingo"
+  | "Blossom Tree"
   | "Collectible Bear"
   | "Pablo The Bunny"
   | "Easter Bush"
-  | "Giant Carrot";
+  | "Giant Carrot"
+  | "Maneki Neko"
+  | "Squirrel Monkey"
+  | "Black Bearry";
+
+export type GoblinBlacksmithItemName =
+  | "Lady Bug"
+  | "Purple Trail"
+  | "Obie"
+  | "Mushroom House"
+  | "Maximus";
 
 export type GoblinPirateItemName =
   | "Iron Idol"
@@ -31,6 +40,7 @@ export type CraftableCollectible = {
   ingredients: Inventory;
   description: string;
   boost?: string;
+  sfl?: Decimal;
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<
@@ -60,6 +70,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
 export type GoblinBlacksmithCraftable = CraftableCollectible & {
   supply?: number;
   disabled?: boolean;
+  sfl?: Decimal;
 };
 
 export type GoblinPirateCraftable = CraftableCollectible & {
@@ -105,154 +116,71 @@ export const GOBLIN_PIRATE_ITEMS: Record<
   },
 };
 
-export const GOBLIN_BLACKSMITH_ITEMS: Record<
-  GoblinBlacksmithItemName,
-  GoblinBlacksmithCraftable
-> = {
-  "Lady Bug": {
-    description:
-      "An incredible bug that feeds on aphids. Improves Apple quality.",
-    ingredients: {
-      Gold: new Decimal(25),
-      Apple: new Decimal(100),
+export const GOBLIN_BLACKSMITH_ITEMS: (
+  state?: GameState
+) => Record<GoblinBlacksmithItemName, GoblinBlacksmithCraftable> = (state) => {
+  return {
+    "Lady Bug": {
+      description:
+        "An incredible bug that feeds on aphids. Improves Apple quality.",
+      ingredients: {
+        Gold: new Decimal(25),
+        Apple: new Decimal(100),
+      },
+      supply: 2535,
+      boost: "+0.25 Apples",
     },
-    supply: 2535,
-    boost: "+0.25 Apples",
-  },
-  "Squirrel Monkey": {
-    description:
-      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
-    ingredients: {
-      Gold: new Decimal(25),
-      Orange: new Decimal(300),
+    "Mushroom House": {
+      description:
+        "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
+      ingredients: {
+        "Wild Mushroom": new Decimal(50),
+        Gold: new Decimal(10),
+      },
+      supply: 2000,
+      sfl: SFLDiscount(state, new Decimal(50)),
+      boost: "+0.2 Wild Mushroom",
+      // only available when SEASONS["DAWN_BREAKER"] starts
+      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
-    supply: 1035,
-    boost: "1/2 Orange Tree grow time",
-  },
-  "Black Bearry": {
-    description:
-      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
-    ingredients: {
-      Gold: new Decimal(25),
-      Blueberry: new Decimal(700),
+    Maximus: {
+      description: "Squash the competition with plump Maximus",
+      // Placeholders
+      ingredients: {
+        Eggplant: new Decimal(100),
+        "Dawn Breaker Ticket": new Decimal(3200),
+      },
+      sfl: SFLDiscount(state, marketRate(20000)),
+      supply: 350,
+      boost: "+1 Eggplant",
+      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
-    supply: 535,
-    boost: "+1 Blueberry",
-  },
-  "Maneki Neko": {
-    description: "The beckoning cat. Pull its arm and good luck will come",
-    ingredients: {
-      Gold: new Decimal(1),
-      "Red Envelope": new Decimal(50),
+    Obie: {
+      description: "A fierce eggplant soldier",
+      // Placeholders
+      ingredients: {
+        Eggplant: new Decimal(150),
+        "Dawn Breaker Ticket": new Decimal(1200),
+      },
+      sfl: SFLDiscount(state, marketRate(2000)),
+      supply: 2500,
+      boost: "25% faster eggplants",
+      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
-    supply: 30000,
-    disabled: true,
-  },
-  "Heart Balloons": {
-    description: "Use them as decorations for romantic occasions.",
-    ingredients: {
-      "Love Letter": new Decimal(10),
+    "Purple Trail": {
+      description:
+        "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+      // Placeholders
+      ingredients: {
+        Eggplant: new Decimal(25),
+        "Dawn Breaker Ticket": new Decimal(500),
+      },
+      sfl: SFLDiscount(state, marketRate(800)),
+      supply: 10000,
+      boost: "+0.2 Eggplant",
+      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
-    supply: 20000,
-  },
-  Flamingo: {
-    description:
-      "Represents a symbol of love's beauty standing tall and confident.",
-    ingredients: {
-      "Love Letter": new Decimal(75),
-    },
-    supply: 3000,
-  },
-  "Blossom Tree": {
-    description:
-      "Its delicate petals symbolizes the beauty and fragility of love",
-    ingredients: {
-      "Love Letter": new Decimal(350),
-      Wood: new Decimal(500),
-    },
-    supply: 250,
-  },
-  "Palm Tree": {
-    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
-    ingredients: {
-      Wood: new Decimal(1000),
-      Gold: new Decimal(10),
-      "Solar Flare Ticket": new Decimal(300),
-    },
-    supply: 500,
-  },
-  "Beach Ball": {
-    description: "Bouncy ball brings beachy vibes, blows boredom away.",
-    ingredients: {
-      Gold: new Decimal(3),
-      "Solar Flare Ticket": new Decimal(50),
-    },
-    supply: 20000,
-  },
-  "Cabbage Boy": {
-    description: "Don't wake the baby!",
-    ingredients: {
-      Cabbage: new Decimal(2000),
-      Gold: new Decimal(15),
-      "Solar Flare Ticket": new Decimal(750),
-    },
-    supply: 1050, // 1000 + 50 Goblin Treasury Supply
-    boost: "+0.25 Cabbage",
-  },
-  "Cabbage Girl": {
-    description: "Shhh it's sleeping",
-    ingredients: {
-      Cabbage: new Decimal(2000),
-      Gold: new Decimal(25),
-      "Solar Flare Ticket": new Decimal(1000),
-    },
-    supply: 365, // 360 + 5 Goblin Treasury Supply
-    boost: "50% Faster Cabbages",
-  },
-  "Collectible Bear": {
-    description: "A prized possession still in mint condition!",
-    ingredients: {
-      "Basic Bear": new Decimal(1),
-      Gold: new Decimal(5),
-      "Solar Flare Ticket": new Decimal(250),
-    },
-    supply: 750,
-  },
-  "Pablo The Bunny": {
-    description: "The magical bunny that increases your carrot harvests",
-    ingredients: {
-      "Red Egg": new Decimal(12),
-      "Blue Egg": new Decimal(12),
-      "Green Egg": new Decimal(12),
-      "Yellow Egg": new Decimal(12),
-      Gold: new Decimal(5),
-    },
-    supply: 7500,
-    boost: "+0.1 Carrot",
-  },
-  "Easter Bush": {
-    description: "What is inside?",
-    ingredients: {
-      Gold: new Decimal(1),
-      "Purple Egg": new Decimal(12),
-      "Orange Egg": new Decimal(12),
-      "Pink Egg": new Decimal(12),
-    },
-    supply: 20000,
-  },
-  "Giant Carrot": {
-    description:
-      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
-    ingredients: {
-      Gold: new Decimal(5),
-      Carrot: new Decimal(5000),
-      "Red Egg": new Decimal(12),
-      "Blue Egg": new Decimal(12),
-      "Green Egg": new Decimal(12),
-      "Yellow Egg": new Decimal(12),
-    },
-    supply: 500,
-  },
+  };
 };
 
 export type Purchasable = CraftableCollectible & {

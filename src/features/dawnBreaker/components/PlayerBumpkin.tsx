@@ -10,7 +10,7 @@ import {
 } from "features/game/types/game";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Week, bumpkinPositions } from "../lib/positions";
+import { Week, characters } from "../lib/characters";
 import { OuterPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
@@ -19,6 +19,8 @@ import { getKeys } from "features/game/types/craftables";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
+import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { setImageWidth } from "lib/images";
 
 interface Props {
   currentWeek: Week;
@@ -77,16 +79,19 @@ export const PlayerBumpkin: React.FC<Props> = ({
     return balance.lt(amount);
   });
 
-  const hasSflRequirement = balance.gte(
-    (availableLantern?.sfl ?? new Decimal(0)).mul(multiplier)
+  const lessFunds = balance.lt(
+    SFLDiscount(
+      gameService.state?.context.state,
+      (availableLantern?.sfl ?? new Decimal(0)).mul(multiplier)
+    )
   );
-  const disableCraft = hasMissingIngredients || !hasSflRequirement;
+  const disableCraft = hasMissingIngredients || lessFunds;
 
   return (
     <>
       <MapPlacement
-        x={bumpkinPositions[currentWeek].x}
-        y={bumpkinPositions[currentWeek].y}
+        x={characters[currentWeek].bumpkin.x}
+        y={characters[currentWeek].bumpkin.y}
         width={1}
       >
         {/* Shift NPC a little on week 8 to fit map position */}
@@ -99,23 +104,34 @@ export const PlayerBumpkin: React.FC<Props> = ({
           <CloseButtonPanel title={availableLantern.name} onClose={handleClose}>
             <div className="p-2 pt-0">
               <p className="text-sm">
-                Im baby ramps pork belly DSA umami. Ramps wayfarers poutine kogi
-                health goth. Health goth iceland meh XOXO, tousled meditation
-                dreamcatcher swag skateboard.
+                Each crafted lantern will bring light to the darkness and help
+                to conquer the darkness hidden in the shadows.
               </p>
+              <a
+                href="https://docs.sunflower-land.com/player-guides/seasons/dawn-breaker#dawn-breaker-island"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
+              >
+                Read more
+              </a>
               <OuterPanel className="flex p-2 w-3/4 md:w-1/2 mx-auto mt-3 mb-2">
                 <div className="flex flex-1 items-center justify-center">
                   <img
                     src={ITEM_DETAILS[availableLantern.name].image}
                     alt={availableLantern.name}
-                    className="w-10"
+                    onLoad={(e) => setImageWidth(e.currentTarget)}
                   />
                 </div>
                 <div className="flex flex-1 items-center justify-center flex-col">
                   {availableLantern.sfl && (
                     <RequirementLabel
-                      type="sellForSfl"
-                      requirement={availableLantern.sfl.mul(multiplier)}
+                      type="sfl"
+                      balance={balance}
+                      requirement={SFLDiscount(
+                        gameService.state?.context.state,
+                        availableLantern.sfl.mul(multiplier)
+                      )}
                     />
                   )}
                   {availableLantern.ingredients &&

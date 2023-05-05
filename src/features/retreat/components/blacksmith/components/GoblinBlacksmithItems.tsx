@@ -67,12 +67,14 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
 
   const inventory = state.inventory;
 
-  const selectedItem = GOBLIN_BLACKSMITH_ITEMS[selectedName];
+  const selectedItem = GOBLIN_BLACKSMITH_ITEMS(state)[selectedName];
 
   const lessIngredients = () =>
     getKeys(selectedItem.ingredients).some((name) =>
       selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
+
+  const notEnoughSFL = selectedItem.sfl?.greaterThan(state.balance);
 
   const craft = async () => {
     goblinService.send("MINT", { item: selectedName, captcha: "" });
@@ -95,6 +97,9 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
 
   const soldOut = amountLeft <= 0;
 
+  const disabled =
+    notEnoughSFL || lessIngredients() || selectedItem.ingredients === undefined;
+
   const Action = () => {
     if (soldOut) return <></>;
 
@@ -108,10 +113,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
       return <span className="text-xxs text-center my-1">Already minted!</span>;
 
     return (
-      <Button
-        disabled={lessIngredients() || selectedItem.ingredients === undefined}
-        onClick={craft}
-      >
+      <Button disabled={disabled} onClick={craft}>
         Craft
       </Button>
     );
@@ -130,14 +132,15 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
           boost={selectedItem.boost}
           requirements={{
             resources: selectedItem.ingredients,
+            sfl: selectedItem.sfl,
           }}
           actionView={Action()}
         />
       }
       content={
         <>
-          {getKeys(GOBLIN_BLACKSMITH_ITEMS)
-            .filter((name) => !GOBLIN_BLACKSMITH_ITEMS[name].disabled)
+          {getKeys(GOBLIN_BLACKSMITH_ITEMS(state))
+            .filter((name) => !GOBLIN_BLACKSMITH_ITEMS(state)[name].disabled)
             .map((name) => (
               <Box
                 isSelected={selectedName === name}
