@@ -42,7 +42,7 @@ export interface Props {
   image: string;
   widthFrame: number;
   heightFrame: number;
-  zoomScale: number;
+  zoomScale: SpringValue<number>;
   steps: number;
   fps: number;
   direction?: Direction;
@@ -247,7 +247,9 @@ class Spritesheet extends React.Component<Props> {
     const { widthFrame, onResize } = this.props;
 
     this.spriteScale =
-      this.spriteEl.getBoundingClientRect().width / widthFrame / this.zoomScale;
+      this.spriteEl.getBoundingClientRect().width /
+      widthFrame /
+      this.zoomScale.get();
     this.spriteElContainer.style.transform = `scale(${this.spriteScale})`;
     this.spriteEl.style.height = `${this.getInfo("height")}px`;
     if (callback && onResize) onResize(this.setInstance());
@@ -376,11 +378,13 @@ class Spritesheet extends React.Component<Props> {
         return this.steps;
       case "width":
         return (
-          this.spriteElContainer.getBoundingClientRect().width / this.zoomScale
+          this.spriteElContainer.getBoundingClientRect().width /
+          this.zoomScale.get()
         );
       case "height":
         return (
-          this.spriteElContainer.getBoundingClientRect().height / this.zoomScale
+          this.spriteElContainer.getBoundingClientRect().height /
+          this.zoomScale.get()
         );
       case "scale":
         return this.spriteScale;

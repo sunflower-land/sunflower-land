@@ -227,7 +227,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
               image={sparkSheet}
               widthFrame={112}
               heightFrame={48}
-              zoomScale={scale.get()}
+              zoomScale={scale}
               fps={24}
               steps={6}
               direction={`forward`}
@@ -271,7 +271,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
         image={dropSheet}
         widthFrame={112}
         heightFrame={48}
-        zoomScale={scale.get()}
+        zoomScale={scale}
         fps={18}
         steps={10}
         direction={`forward`}

@@ -451,7 +451,7 @@ export const SandPlot: React.FC<{
               image={SUNNYSIDE.npcs.goblin_treasure_sheet}
               widthFrame={33}
               heightFrame={28}
-              zoomScale={scale.get()}
+              zoomScale={scale}
               fps={14}
               steps={13}
               endAt={13}

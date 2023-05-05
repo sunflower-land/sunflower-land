@@ -41,7 +41,7 @@ export const Seal: React.FC = () => {
           image={seal_sprite}
           widthFrame={32}
           heightFrame={32}
-          zoomScale={scale.get()}
+          zoomScale={scale}
           fps={8}
           endAt={20}
           steps={20}

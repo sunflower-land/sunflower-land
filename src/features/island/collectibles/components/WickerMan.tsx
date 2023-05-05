@@ -41,7 +41,7 @@ export const WickerMan: React.FC = () => {
         image={wickerManFire}
         widthFrame={48}
         heightFrame={58}
-        zoomScale={scale.get()}
+        zoomScale={scale}
         fps={12}
         endAt={32}
         steps={32}

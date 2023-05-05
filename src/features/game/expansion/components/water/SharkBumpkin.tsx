@@ -71,7 +71,7 @@ export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
             image={fin}
             widthFrame={13}
             heightFrame={11}
-            zoomScale={scale.get()}
+            zoomScale={scale}
             fps={8}
             endAt={55}
             steps={55}

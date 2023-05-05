@@ -347,7 +347,7 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
                 image={walkingChickenSheet}
                 widthFrame={32}
                 heightFrame={32}
-                zoomScale={scale.get()}
+                zoomScale={scale}
                 fps={10}
                 steps={50}
                 direction={`forward`}
@@ -426,7 +426,7 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
                 image={layingEggSheet}
                 widthFrame={17}
                 heightFrame={31}
-                zoomScale={scale.get()}
+                zoomScale={scale}
                 fps={3}
                 steps={21}
                 endAt={7}
@@ -458,7 +458,7 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
                 }}
                 widthFrame={17}
                 heightFrame={31}
-                zoomScale={scale.get()}
+                zoomScale={scale}
                 fps={20}
                 steps={21}
                 direction={`forward`}

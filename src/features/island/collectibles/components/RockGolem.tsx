@@ -44,7 +44,7 @@ export const RockGolem: React.FC = () => {
           image={golemSheet}
           widthFrame={34}
           heightFrame={42}
-          zoomScale={scale.get()}
+          zoomScale={scale}
           fps={10}
           startAt={8}
           endAt={23}
@@ -69,7 +69,7 @@ export const RockGolem: React.FC = () => {
           image={golemSheet}
           widthFrame={34}
           heightFrame={42}
-          zoomScale={scale.get()}
+          zoomScale={scale}
           fps={6}
           steps={38}
           endAt={8}

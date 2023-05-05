@@ -50,7 +50,7 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender }) => {
             image={SUNNYSIDE.resource.wild_mushroom_sheet}
             widthFrame={10}
             heightFrame={12}
-            zoomScale={scale.get()}
+            zoomScale={scale}
             fps={10}
             timeout={getDelay()}
             endAt={5}

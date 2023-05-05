@@ -30,7 +30,7 @@ export const SquirrelMonkey: React.FC = () => {
         image={sheet}
         widthFrame={26}
         heightFrame={32}
-        zoomScale={scale.get()}
+        zoomScale={scale}
         fps={12}
         steps={9}
         direction="forward"

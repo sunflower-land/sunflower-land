@@ -109,7 +109,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
               image={sheetSrc}
               widthFrame={FRAME_WIDTH}
               heightFrame={FRAME_HEIGHT}
-              zoomScale={scale.get()}
+              zoomScale={scale}
               steps={STEPS}
               fps={14}
               autoplay={true}

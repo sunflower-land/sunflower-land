@@ -105,7 +105,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
             image={shakeSheet}
             widthFrame={SHAKE_SHEET_FRAME_WIDTH}
             heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
-            zoomScale={scale.get()}
+            zoomScale={scale}
             fps={24}
             steps={7}
             direction={`forward`}

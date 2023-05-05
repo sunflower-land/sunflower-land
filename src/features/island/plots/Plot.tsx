@@ -84,7 +84,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
           image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
           widthFrame={HARVEST_PROC_ANIMATION.size}
           heightFrame={HARVEST_PROC_ANIMATION.size}
-          zoomScale={scale.get()}
+          zoomScale={scale}
           fps={HARVEST_PROC_ANIMATION.fps}
           steps={HARVEST_PROC_ANIMATION.steps}
           onPause={() => setProcAnimation(<></>)}

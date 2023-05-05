@@ -44,7 +44,7 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
         image={choppedSheet}
         widthFrame={CHOPPED_SHEET_FRAME_WIDTH}
         heightFrame={CHOPPED_SHEET_FRAME_HEIGHT}
-        zoomScale={scale.get()}
+        zoomScale={scale}
         fps={20}
         steps={11}
         direction={`forward`}
