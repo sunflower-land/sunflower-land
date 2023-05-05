@@ -144,7 +144,7 @@ class Spritesheet extends React.Component<Props> {
       overflow: "hidden",
       width: `${widthFrame}px`,
       height: `${heightFrame}px`,
-      transform: `scale(${this.spriteScale})`,
+      transform: `scale(${this.spriteScale / this.zoomScale})`,
       transformOrigin: "0 0",
       backgroundImage: `url(${background})`,
       backgroundSize,
@@ -248,7 +248,7 @@ class Spritesheet extends React.Component<Props> {
 
     this.spriteScale = this.spriteEl.getBoundingClientRect().width / widthFrame;
     this.spriteElContainer.style.transform = `scale(${
-      this.spriteScale * this.zoomScale
+      this.spriteScale / this.zoomScale
     })`;
     this.spriteEl.style.height = `${this.getInfo("height")}px`;
     if (callback && onResize) onResize(this.setInstance());
