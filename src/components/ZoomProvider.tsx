@@ -1,7 +1,7 @@
-import { SpringValue, useSpringValue } from "@react-spring/web";
+import { SpringValue, useSpringValue, config } from "@react-spring/web";
 import { usePinch } from "@use-gesture/react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 
 const getScaleLimits = () => {
   const gameboardWidth = 84 * GRID_WIDTH_PX;
@@ -38,7 +38,7 @@ export const ZoomContext = createContext<Context>({
 });
 
 export const ZoomProvider: React.FC = ({ children }) => {
-  const scale = useSpringValue(1);
+  const scale = useSpringValue(1, { config: config.stiff });
 
   window.addEventListener("resize", () => updateScale(0));
 
@@ -51,6 +51,18 @@ export const ZoomProvider: React.FC = ({ children }) => {
 
     scale.start(newScale);
   };
+
+  useEffect(() => {
+    const handler = (e: Event) => e.preventDefault();
+    document.addEventListener("gesturestart", handler);
+    document.addEventListener("gesturechange", handler);
+    document.addEventListener("gestureend", handler);
+    return () => {
+      document.removeEventListener("gesturestart", handler);
+      document.removeEventListener("gesturechange", handler);
+      document.removeEventListener("gestureend", handler);
+    };
+  }, []);
 
   usePinch(
     ({ movement: [s] }) => {
