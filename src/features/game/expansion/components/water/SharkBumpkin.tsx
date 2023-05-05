@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -11,6 +11,7 @@ import { MapPlacement } from "../MapPlacement";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ZoomContext } from "components/ZoomProvider";
 
 export const LAND_WIDTH = 6;
 
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
+  const { scale } = useContext(ZoomContext);
   const [showModal, setShowModal] = useState(false);
   const [showFin, setShowFin] = useState(false);
 
@@ -69,6 +71,7 @@ export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
             image={fin}
             widthFrame={13}
             heightFrame={11}
+            zoomScale={scale}
             fps={8}
             endAt={55}
             steps={55}

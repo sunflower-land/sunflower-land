@@ -15,6 +15,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
+import { createPortal } from "react-dom";
 
 export const WEEKLY_MINT_GOAL = 25000;
 export const PREVIOUS_MINT_COUNT = 0;
@@ -72,11 +73,11 @@ export const WeeklyLanternCount: React.FC<Props> = ({
   const goalReached = lanternsMinted >= WEEKLY_MINT_GOAL;
   const percentage = (lanternsMinted / WEEKLY_MINT_GOAL) * 100;
 
-  return (
+  return createPortal(
     <>
       <div
         onClick={() => setShowModal(true)}
-        className="fixed w-[96%] sm:w-96 z-[99999] bottom-4 cursor-pointer"
+        className="fixed w-[96%] sm:w-96 bottom-4 cursor-pointer z-30"
         style={{
           transform: `translateY(${loaded ? "9px" : "120px"}) translateX(-50%)`,
           transition: "all .5s ease-in-out",
@@ -185,6 +186,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
           <Button onClick={() => setShowModal(false)}>Got it</Button>
         </CloseButtonPanel>
       </Modal>
-    </>
+    </>,
+    document.body
   );
 };

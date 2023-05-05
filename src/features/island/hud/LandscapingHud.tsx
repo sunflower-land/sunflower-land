@@ -27,6 +27,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { LandscapingIntroduction } from "./components/LandscapingIntroduction";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
+import { createPortal } from "react-dom";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -90,7 +91,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
     }
   };
 
-  return (
+  return createPortal(
     <div
       data-html2canvas-ignore="true"
       aria-label="Hud"
@@ -239,7 +240,8 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
       />
 
       <PlaceableController />
-    </div>
+    </div>,
+    document.body
   );
 };
 

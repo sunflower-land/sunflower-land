@@ -35,6 +35,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { Panel } from "components/ui/Panel";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { ZoomContext } from "components/ZoomProvider";
 
 const Reward: React.FC<{ reward?: TreasureHole }> = ({ reward }) => {
   if (!reward || !reward.discovered) return null;
@@ -137,6 +138,8 @@ export const SandPlot: React.FC<{
   shownMissingShovelModal: boolean;
   onMissingShovelAcknowledge: () => void;
 }> = ({ id, shownMissingShovelModal, onMissingShovelAcknowledge }) => {
+  const { scale } = useContext(ZoomContext);
+
   const goblinDiggingRef = useRef<SpriteSheetInstance>();
 
   const { gameService, selectedItem } = useContext(Context);
@@ -439,7 +442,7 @@ export const SandPlot: React.FC<{
               style={{
                 width: `${PIXEL_SCALE * 33}px`,
                 imageRendering: "pixelated",
-                bottom: "19px",
+                top: "-50px",
                 left: "-56px",
               }}
               getInstance={(spritesheet) => {
@@ -448,6 +451,7 @@ export const SandPlot: React.FC<{
               image={SUNNYSIDE.npcs.goblin_treasure_sheet}
               widthFrame={33}
               heightFrame={28}
+              zoomScale={scale}
               fps={14}
               steps={13}
               endAt={13}
