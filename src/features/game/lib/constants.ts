@@ -81,8 +81,8 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Kale Seed": new Decimal(30),
 
     "Apple Seed": new Decimal(10),
-    "Orange Seed": new Decimal(15),
-    "Blueberry Seed": new Decimal(20),
+    "Orange Seed": new Decimal(13),
+    "Blueberry Seed": new Decimal(16),
   };
 
   if (
@@ -104,8 +104,8 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Kale Seed": new Decimal(36),
 
       "Apple Seed": new Decimal(12),
-      "Orange Seed": new Decimal(18),
-      "Blueberry Seed": new Decimal(24),
+      "Orange Seed": new Decimal(16),
+      "Blueberry Seed": new Decimal(20),
     };
   }
 
@@ -146,8 +146,8 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Kale Seed": new Decimal(80),
 
     "Apple Seed": new Decimal(25),
-    "Orange Seed": new Decimal(38),
-    "Blueberry Seed": new Decimal(50),
+    "Orange Seed": new Decimal(33),
+    "Blueberry Seed": new Decimal(40),
   };
 
   if (
@@ -169,8 +169,8 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
       "Kale Seed": new Decimal(96),
 
       "Apple Seed": new Decimal(30),
-      "Orange Seed": new Decimal(45),
-      "Blueberry Seed": new Decimal(60),
+      "Orange Seed": new Decimal(40),
+      "Blueberry Seed": new Decimal(50),
     };
   }
 
