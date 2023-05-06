@@ -14,13 +14,6 @@ export const LandExpansion: React.FC = () => {
   const { id } = useParams();
   const location = useLocation();
 
-  useEffect(() => {
-    mapMovement.addListeners(container.current);
-    return () => {
-      mapMovement.removeListeners();
-    };
-  }, [container]);
-
   const isDawnBreaker = location.pathname.includes("dawn-breaker");
 
   // Load data

@@ -1,31 +1,101 @@
-import React from "react";
-import { Game, AUTO } from "phaser";
+import React, { useEffect } from "react";
+import { Game, AUTO, Scale } from "phaser";
+import GridEngine from "grid-engine";
 import { PhaserScene } from "./Scene";
+import Preloader from "./Preloader";
+import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
+import { OFFLINE_FARM } from "features/game/lib/landData";
 
-const config: Phaser.Types.Core.GameConfig = {
-  type: AUTO,
-  fps: {
-    target: 60,
-    forceSetTimeOut: true,
-    smoothStep: false,
-  },
-  width: 800,
-  height: 600,
-  // height: 200,
-  backgroundColor: "#b6d53c",
-  parent: "phaser-example",
-  physics: {
-    default: "arcade",
-  },
-  pixelArt: true,
-  scene: [PhaserScene],
-};
+export const TILE_WIDTH = 16;
+export const TILE_HEIGHT = 16;
+
+export const MIN_GAME_WIDTH = 40 * TILE_WIDTH; // 400
+export const MIN_GAME_HEIGHT = 40 * TILE_HEIGHT; // 224
+
+type SubCallback = (text: string) => void;
+class Subber {
+  private subbers: SubCallback[] = [];
+
+  public subscribe(cb: SubCallback) {
+    this.subbers.push(cb);
+  }
+
+  public broadcast(text: string) {
+    this.subbers.forEach((cb) => {
+      cb(text);
+    });
+  }
+}
+
+export const subber = new Subber();
 
 export const Phaser: React.FC = () => {
-  const game = new Game({
-    // ...configs,
-    parent: "game-content",
-  });
+  useEffect(() => {
+    const config: Phaser.Types.Core.GameConfig = {
+      type: AUTO,
+      fps: {
+        target: 60,
+        forceSetTimeOut: true,
+        smoothStep: true,
+      },
+      backgroundColor: "#099fe0",
+      parent: "phaser-example",
 
-  return <div id="game-content" />;
+      // zoom,
+      autoRound: true,
+      pixelArt: true,
+      // plugins: {
+      //   scene: [
+      //     {
+      //       key: "gridEngine",
+      //       plugin: GridEngine,
+      //       mapping: "gridEngine",
+      //     },
+      //   ],
+      // },
+
+      width: window.innerWidth,
+      height: window.innerHeight,
+      // width: 600,
+      // height: 600,
+
+      // scale: {
+      //   autoCenter: Scale.CENTER_BOTH,
+      //   mode: Scale.NONE,
+      // },
+
+      // Allows Phaser canvas to be responsive to browser sizing
+      scale: {
+        // mode: Scale.ENVELOP,
+        // width: window.innerWidth,
+        // height: window.innerHeight,
+      },
+      physics: {
+        default: "arcade",
+        arcade: {
+          debug: true,
+          gravity: { y: 0 },
+        },
+      },
+      scene: [PhaserScene],
+    };
+
+    const game = new Game({
+      ...config,
+      parent: "game-content",
+    });
+  }, []);
+
+  return (
+    <>
+      <div
+        id="game-content"
+        className="flex w-full justify-center items-center h-full"
+      />
+      <ChatUI
+        game={OFFLINE_FARM}
+        onMessage={(m) => subber.broadcast(m.text ?? "?")}
+      />
+    </>
+  );
 };

@@ -12,6 +12,15 @@
 import Phaser from "phaser";
 import { Room, Client } from "colyseus.js";
 
+import mapPng from "./assets/embedded.png";
+import mapJson from "./assets/large.json";
+import tilesheet from "./assets/idle-Sheet.png";
+import walking from "./assets/walking.png";
+import { CONFIG } from "lib/config";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { SQUARE_WIDTH } from "features/game/lib/constants";
+import { setLogLevel } from "firebase/app";
+import { subber } from "./Phaser";
 export const BACKEND_URL =
   window.location.href.indexOf("localhost") === -1
     ? `${window.location.protocol.replace("http", "ws")}//${
@@ -24,10 +33,16 @@ export const BACKEND_HTTP_URL = BACKEND_URL.replace("ws", "http");
 export class PhaserScene extends Phaser.Scene {
   room: Room;
 
-  currentPlayer: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
+  currentPlayer: Phaser.Physics.Arcade.Sprite;
   playerEntities: {
     [sessionId: string]: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
   } = {};
+  playerMessages: {
+    [sessionId: string]: Phaser.GameObjects.Text;
+  } = {};
+
+  /** @type {Phaser.Physics.Arcade.StaticGroup} */
+  boxGroup;
 
   debugFPS: Phaser.GameObjects.Text;
 
@@ -35,7 +50,6 @@ export class PhaserScene extends Phaser.Scene {
   remoteRef: Phaser.GameObjects.Rectangle;
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
-
   inputPayload = {
     left: false,
     right: false,
@@ -50,20 +64,41 @@ export class PhaserScene extends Phaser.Scene {
   currentTick = 0;
 
   constructor() {
-    super({ key: "part4" });
+    super("game");
   }
 
   preload() {
-    // load the PNG file
-    this.load.image("base_tiles", "assets/base_tiles.png");
-
+    console.log("Preload");
     // load the JSON file
-    this.load.tilemapTiledJSON("tilemap", "assets/base_tiles.json");
+    this.load.tilemapTiledJSON("main-map", mapJson);
+
+    // load the PNG file
+    this.load.image("tileset", mapPng);
+
+    this.load.spritesheet("bumpkin", tilesheet, {
+      frameWidth: 14,
+      frameHeight: 18,
+    });
+    this.load.spritesheet("walking", walking, {
+      frameWidth: 13,
+      frameHeight: 18,
+    });
   }
 
   async create() {
-    // 👌 sanity check by displaying the entire tileset image
-    this.add.image(0, 0, "base_tiles");
+    console.log("Creat");
+
+    const map = this.make.tilemap({
+      key: "main-map",
+    });
+    const tileset = map.addTilesetImage("embedded", "tileset", 16, 16);
+
+    const belowLayer = map.createLayer("Grass", tileset, 0, 0);
+    const collisionLayer = map.createLayer("Collides", tileset, 0, 0);
+    const pathLayer = map.createLayer("Pathj", tileset, 0, 0);
+    const treeLayer = map.createLayer("Trees", tileset, 0, 0);
+
+    collisionLayer.setCollisionByExclusion([-1]);
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.debugFPS = this.add.text(4, 4, "", { color: "#ff0000" });
@@ -71,8 +106,41 @@ export class PhaserScene extends Phaser.Scene {
     // connect with the room
     await this.connect();
 
+    subber.subscribe((text: string) => {
+      this.room.send(0, { text });
+    });
+
+    this.room.state.messages.onAdd((message) => {
+      console.log({ message: message, sId: message.sessionId });
+
+      if (message.sessionId && String(message.sessionId).length > 4) {
+        const previous = this.playerMessages[message.sessionId];
+
+        if (previous) {
+          previous.destroy();
+          delete this.playerEntities[message.sessionId];
+        }
+
+        this.playerMessages[message.sessionId] = this.add
+          .text(50, 50, message.text, {
+            font: "8px Arial",
+            color: "#000000",
+            backgroundColor: "#ffffff",
+          })
+          .setResolution(10);
+      }
+
+      // sprite.addChild(text);
+
+      //       var text = game.add.text(0, 0, "Some text", {font: "16px Arial", fill: "#ffffff"});
+      // sprite.addChild(text);
+    });
+
     this.room.state.players.onAdd((player, sessionId) => {
-      const entity = this.physics.add.image(player.x, player.y, "ship_0001");
+      console.log({ player, sessionId });
+      const entity = this.physics.add
+        .sprite(player.x, player.y, "bumpkin")
+        .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
       this.playerEntities[sessionId] = entity;
 
       // is current player
@@ -89,9 +157,15 @@ export class PhaserScene extends Phaser.Scene {
           this.remoteRef.x = player.x;
           this.remoteRef.y = player.y;
         });
+
+        this.physics.add.collider(this.currentPlayer, collisionLayer);
+        this.currentPlayer.setCollideWorldBounds(true);
+
+        camera.startFollow(this.currentPlayer, true, 0.05, 0.05);
       } else {
         // listening for server updates
         player.onChange(() => {
+          console.log({ player });
           //
           // we're going to LERP the positions during the render loop.
           //
@@ -110,9 +184,49 @@ export class PhaserScene extends Phaser.Scene {
       }
     });
 
-    // this.cameras.main.startFollow(this.ship, true, 0.2, 0.2);
-    // this.cameras.main.setZoom(1);
-    this.cameras.main.setBounds(0, 0, 800, 600);
+    const { width, height } = this.scale;
+
+    console.log({ width, height });
+
+    // this.currentPlayer = this.physics.add
+    //   .sprite(200, 200, "bumpkin")
+    //   .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+    console.log("Pre play");
+
+    this.anims.create({
+      key: "bumpkin-idle",
+      frames: this.anims.generateFrameNumbers("bumpkin", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    this.anims.create({
+      key: "bumpkin-walking",
+      frames: this.anims.generateFrameNumbers("walking", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    console.log("play");
+
+    this.boxGroup = this.physics.add.staticGroup();
+
+    const { game } = this.sys;
+    const camera = this.cameras.main;
+    console.log(JSON.stringify(game.scale.gameSize));
+
+    camera.setBounds(0, 0, 40 * SQUARE_WIDTH, 40 * SQUARE_WIDTH);
+    camera.setZoom(3);
+
+    this.physics.world.setBounds(0, 0, 40 * SQUARE_WIDTH, 40 * SQUARE_WIDTH);
+
+    // setInterval(() => {
+    //   this.room.send(0, { text: "Yo!" });
+    // }, 1000);
   }
 
   async connect() {
@@ -135,11 +249,65 @@ export class PhaserScene extends Phaser.Scene {
     }
   }
 
-  update(time: number, delta: number): void {
-    // skip loop if not connected yet.
-    if (!this.currentPlayer) {
+  updatePlayer() {
+    if (!this.currentPlayer.active) {
       return;
     }
+
+    const speed = 100;
+
+    if (this.cursorKeys.left.isDown) {
+      this.currentPlayer.setVelocityX(-speed);
+      this.currentPlayer.setScale(-1, 1);
+    } else if (this.cursorKeys.right.isDown) {
+      this.currentPlayer.setVelocityX(speed);
+      this.currentPlayer.setScale(1, 1);
+      // this.currentPlayer.play("right-walk", true);
+    } else {
+      this.currentPlayer.setVelocityX(0);
+    }
+
+    this.currentPlayer.setMaxVelocity(50);
+    if (this.cursorKeys.up.isDown) {
+      this.currentPlayer.setVelocityY(-speed);
+      // this.currentPlayer.play("up-walk", true);
+    } else if (this.cursorKeys.down.isDown) {
+      this.currentPlayer.setVelocityY(speed);
+      // this.currentPlayer.play("down-walk", true);
+    } else {
+      this.currentPlayer.setVelocityY(0);
+    }
+
+    if (
+      !this.cursorKeys.down.isDown &&
+      !this.cursorKeys.up.isDown &&
+      !this.cursorKeys.left.isDown &&
+      !this.cursorKeys.right.isDown
+    ) {
+      // const key = this.currentPlayer.anims.currentAnim.key;
+      // const parts = key.split("-");
+      // const direction = parts[0];
+      this.currentPlayer.play(`bumpkin-idle`, true);
+    } else {
+      this.currentPlayer.play("bumpkin-walking", true);
+    }
+
+    // const spaceJustPressed = Phaser.Input.Keyboard.JustUp(this.cursorKeys.space);
+    // if (spaceJustPressed && this.activeBox) {
+    //   this.openBox(this.activeBox);
+
+    //   this.activeBox.setFrame(10);
+    //   this.activeBox = undefined;
+    // }
+  }
+
+  update(time: number, delta: number): void {
+    // skip loop if not connected yet.
+    // if (!this.currentPlayer) {
+    //   return;
+    // }
+
+    // this.updatePlayer();
 
     this.elapsedTime += delta;
     while (this.elapsedTime >= this.fixedTimeStep) {
@@ -150,35 +318,66 @@ export class PhaserScene extends Phaser.Scene {
     this.debugFPS.text = `Frame rate: ${this.game.loop.actualFps}`;
   }
 
-  fixedTick(time, delta) {
+  fixedTick(time: number, delta: number) {
     this.currentTick++;
 
     // const currentPlayerRemote = this.room.state.players.get(this.room.sessionId);
     // const ticksBehind = this.currentTick - currentPlayerRemote.tick;
     // console.log({ ticksBehind });
+    const speed = 100;
 
-    const velocity = 2;
+    const velocity = 1;
     this.inputPayload.left = this.cursorKeys.left.isDown;
     this.inputPayload.right = this.cursorKeys.right.isDown;
     this.inputPayload.up = this.cursorKeys.up.isDown;
     this.inputPayload.down = this.cursorKeys.down.isDown;
     this.inputPayload.tick = this.currentTick;
-    this.room.send(0, this.inputPayload);
 
     if (this.inputPayload.left) {
-      this.currentPlayer.x -= velocity;
+      this.currentPlayer.setVelocityX(-speed);
+      this.currentPlayer.setScale(-1, 1);
     } else if (this.inputPayload.right) {
-      this.currentPlayer.x += velocity;
+      this.currentPlayer.setVelocityX(speed);
+      this.currentPlayer.setScale(1, 1);
+    } else {
+      this.currentPlayer.setVelocityX(0);
     }
 
     if (this.inputPayload.up) {
-      this.currentPlayer.y -= velocity;
+      // this.currentPlayer.y -= velocity;
+      this.currentPlayer.setVelocityY(-speed);
     } else if (this.inputPayload.down) {
-      this.currentPlayer.y += velocity;
+      // this.currentPlayer.y += velocity;
+      this.currentPlayer.setVelocityY(speed);
+    } else {
+      this.currentPlayer.setVelocityY(0);
+    }
+
+    if (
+      this.inputPayload.down ||
+      this.inputPayload.up ||
+      this.inputPayload.left ||
+      this.inputPayload.right
+    ) {
+      console.log("Walk it!");
+      this.currentPlayer.play("bumpkin-walking", true);
+    } else {
+      this.currentPlayer.play(`bumpkin-idle`, true);
     }
 
     this.localRef.x = this.currentPlayer.x;
     this.localRef.y = this.currentPlayer.y;
+
+    this.room.send(0, {
+      x: this.currentPlayer.x,
+      y: this.currentPlayer.y,
+    });
+
+    const message = this.playerMessages[this.room.sessionId];
+    if (message) {
+      message.x = this.currentPlayer.x;
+      message.y = this.currentPlayer.y;
+    }
 
     for (const sessionId in this.playerEntities) {
       // interpolate all player entities
@@ -190,8 +389,29 @@ export class PhaserScene extends Phaser.Scene {
       const entity = this.playerEntities[sessionId];
       const { serverX, serverY } = entity.data.values;
 
+      if (
+        serverX.toFixed(1) !== entity.x.toFixed(1) ||
+        serverY.toFixed(1) !== entity.y.toFixed(1)
+      ) {
+        entity.play("bumpkin-walking", true);
+      } else {
+        entity.play(`bumpkin-idle`, true);
+      }
+
+      if (serverX > entity.x) {
+        entity.setScale(1, 1);
+      } else if (serverX < entity.x) {
+        entity.setScale(-1, 1);
+      }
+
       entity.x = Phaser.Math.Linear(entity.x, serverX, 0.2);
       entity.y = Phaser.Math.Linear(entity.y, serverY, 0.2);
+
+      const message = this.playerMessages[sessionId];
+      if (message) {
+        message.x = entity.x;
+        message.y = entity.y;
+      }
     }
   }
 }
