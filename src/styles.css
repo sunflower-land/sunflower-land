@@ -518,7 +518,7 @@ img {
 }
 
 .blur-to-focus {
-  animation: blurToFocus 2s linear;
+  animation: blurToFocus 3s linear;
 }
 
 @keyframes blurToFocus {
