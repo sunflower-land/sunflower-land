@@ -16,11 +16,9 @@ import mapPng from "./assets/embedded.png";
 import mapJson from "./assets/large.json";
 import tilesheet from "./assets/idle-Sheet.png";
 import walking from "./assets/walking.png";
-import { CONFIG } from "lib/config";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
-import { setLogLevel } from "firebase/app";
 import { subber } from "./Phaser";
+import { npcModalManager } from "./SceneModals";
 export const BACKEND_URL =
   window.location.href.indexOf("localhost") === -1
     ? `${window.location.protocol.replace("http", "ws")}//${
@@ -88,6 +86,8 @@ export class PhaserScene extends Phaser.Scene {
   async create() {
     console.log("Creat");
 
+    // CSSString: 'url(assets/input/cursors/sword.cur), pointer'
+
     const map = this.make.tilemap({
       key: "main-map",
     });
@@ -102,6 +102,17 @@ export class PhaserScene extends Phaser.Scene {
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.debugFPS = this.add.text(4, 4, "", { color: "#ff0000" });
+
+    const betty = this.physics.add
+      .sprite(10, 10, "bumpkin")
+      .setSize(SQUARE_WIDTH, SQUARE_WIDTH)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        console.log("Bumpkin clicked");
+        npcModalManager.open("betty");
+      });
+
+    this.physics.world.enable(betty);
 
     // connect with the room
     await this.connect();

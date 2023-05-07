@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { Game, AUTO, Scale } from "phaser";
-import GridEngine from "grid-engine";
+import { Game, AUTO } from "phaser";
 import { PhaserScene } from "./Scene";
-import Preloader from "./Preloader";
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
 import { OFFLINE_FARM } from "features/game/lib/landData";
+import { NPCModals } from "./SceneModals";
 
 export const TILE_WIDTH = 16;
 export const TILE_HEIGHT = 16;
@@ -96,6 +95,7 @@ export const Phaser: React.FC = () => {
         game={OFFLINE_FARM}
         onMessage={(m) => subber.broadcast(m.text ?? "?")}
       />
+      <NPCModals />
     </>
   );
 };
