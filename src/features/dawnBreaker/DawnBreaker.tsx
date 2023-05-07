@@ -25,10 +25,56 @@ import {
   setDawnbreakerIslandVisited,
 } from "./lib/dawnbreaker";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-
 import hootImg from "assets/npcs/hoot.png";
 import classNames from "classnames";
 import { HootRiddle } from "./components/Hoot";
+import lanternIcon from "assets/icons/lantern.webp";
+import dawnbreakerTicket from "assets/icons/dawn_breaker_ticket.png";
+import { Leaderboard, getLeaderboard } from "./actions/leaderboards";
+import { useParams } from "react-router-dom";
+import { LeaderboardButton } from "./components/LeaderboardButton";
+import { getRelativeTime } from "lib/utils/time";
+import { LeaderboardTable } from "./components/LeaderboardTable";
+import { SUNNYSIDE } from "assets/sunnyside";
+import {
+  Leaderboards,
+  cacheLeaderboardData,
+  getCachedLeaderboardData,
+} from "./actions/cache";
+
+async function getLeaderboardData(farmId: number): Promise<Leaderboards> {
+  const cachedLeaderboardData = getCachedLeaderboardData();
+
+  if (cachedLeaderboardData) return cachedLeaderboardData;
+
+  const fetchLanternsFn = getLeaderboard({
+    farmId: Number(farmId),
+    leaderboardName: "lanterns",
+  });
+  const fetchTicketsFn = getLeaderboard({
+    farmId: Number(farmId),
+    leaderboardName: "tickets",
+  });
+
+  const [lanternLeaderboard, ticketLeaderboard] = await Promise.all([
+    fetchLanternsFn,
+    fetchTicketsFn,
+  ]);
+
+  const lastUpdated = lanternLeaderboard.lastUpdated;
+
+  cacheLeaderboardData({
+    lanterns: lanternLeaderboard,
+    tickets: ticketLeaderboard,
+    lastUpdated,
+  });
+
+  return {
+    lanterns: lanternLeaderboard,
+    tickets: ticketLeaderboard,
+    lastUpdated,
+  };
+}
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -41,22 +87,30 @@ const CHALLENGE_WEEKS = 8;
 export const DawnBreaker: React.FC = () => {
   const { gameService } = useContext(Context);
   const [scrollIntoView] = useScrollIntoView();
+  const { id: farmId } = useParams();
 
   const bumpkin = useSelector(gameService, _bumpkin);
   const dawnBreaker = useSelector(gameService, _dawnBreaker);
   const inventory = useSelector(gameService, _inventory);
   const autosaving = useSelector(gameService, _autosaving);
 
-  const [weeklyStatsLoaded, setWeeklyStatsLoaded] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showIntroModal, setShowIntroModal] = useState(false);
   const [showNextStep, setShowNextStep] = useState(false);
   const [showMapTransition, setShowMapTransition] = useState(true);
+  const [leaderboardTab, setLeaderboardTab] = useState(0);
+  const [loadingLeaderboards, setLoadingLeaderboards] = useState(true);
+  const [lanternLeaderboard, setLanternLeaderboard] = useState<Leaderboard>();
+  const [ticketLeaderboard, setTicketLeaderboard] = useState<Leaderboard>();
 
   const { availableLantern, lanternsCraftedByWeek, currentWeek } = dawnBreaker;
 
   const craftedLanternCount = lanternsCraftedByWeek[currentWeek] ?? 0;
   const weeklyChallengeAvailable = currentWeek <= CHALLENGE_WEEKS;
-  const showMintedLanterns = availableLantern && weeklyChallengeAvailable;
+  const showCraftedLanterns =
+    availableLantern && weeklyChallengeAvailable && !loadingLeaderboards;
+
+  console.log(lanternLeaderboard);
 
   useLayoutEffect(() => {
     if (craftedLanternCount >= 5) {
@@ -83,6 +137,18 @@ export const DawnBreaker: React.FC = () => {
       setShowNextStep(true);
     }
   }, [craftedLanternCount]);
+
+  useEffect(() => {
+    const getLeaderboards = async () => {
+      const { lanterns, tickets } = await getLeaderboardData(Number(farmId));
+
+      setLanternLeaderboard(lanterns);
+      setTicketLeaderboard(tickets);
+      setLoadingLeaderboards(false);
+    };
+
+    getLeaderboards();
+  }, []);
 
   const handleIntroModalClose = () => {
     setShowIntroModal(false);
@@ -137,7 +203,7 @@ export const DawnBreaker: React.FC = () => {
           currentWeek={(showNextStep ? currentWeek + 1 : currentWeek) as Week}
         />
         <HootRiddle />
-        {showMintedLanterns &&
+        {showCraftedLanterns &&
           [...Array(craftedLanternCount).keys()].slice(0, 5).map((_, index) => {
             const { name } = availableLantern;
             const { lanterns } = characters[currentWeek];
@@ -171,14 +237,18 @@ export const DawnBreaker: React.FC = () => {
       </div>
       <Hud
         isFarming={false}
-        moveButtonsUp={weeklyChallengeAvailable && weeklyStatsLoaded}
+        moveButtonsUp={weeklyChallengeAvailable && !loadingLeaderboards}
       />
-      {/* <ClickableGridCoordinatesBuilder gridCols={40} gridRows={40} /> */}
-      {availableLantern && weeklyChallengeAvailable && (
+      <LeaderboardButton
+        onClick={() => setShowLeaderboard(true)}
+        loaded={!loadingLeaderboards}
+      />
+      {showCraftedLanterns && (
         <WeeklyLanternCount
           lanternName={availableLantern.name}
           endAt={new Date(availableLantern.endAt).getTime()}
-          onLoaded={() => setWeeklyStatsLoaded(true)}
+          totalCrafted={lanternLeaderboard?.total ?? 0}
+          loaded={!loadingLeaderboards}
         />
       )}
       <Modal show={showIntroModal} onHide={handleIntroModalClose} centered>
@@ -207,6 +277,88 @@ export const DawnBreaker: React.FC = () => {
               their lives?
             </p>
           </div>
+        </CloseButtonPanel>
+      </Modal>
+      <Modal show={showLeaderboard} centered>
+        <CloseButtonPanel
+          onClose={() => setShowLeaderboard(false)}
+          tabs={[
+            { icon: lanternIcon, name: "Lanterns" },
+            { icon: dawnbreakerTicket, name: "Tickets" },
+          ]}
+          currentTab={leaderboardTab}
+          setCurrentTab={setLeaderboardTab}
+        >
+          {leaderboardTab === 0 && (
+            <div>
+              <div className="p-1 mb-1 space-y-1">
+                <p className="text-sm">Lanterns Leaderboard</p>
+                {lanternLeaderboard?.lastUpdated && (
+                  <p className="text-[12px]">
+                    Last updated:{" "}
+                    {getRelativeTime(lanternLeaderboard.lastUpdated)}
+                  </p>
+                )}
+              </div>
+              {lanternLeaderboard && (
+                <LeaderboardTable
+                  rankings={lanternLeaderboard.topTen}
+                  farmId={Number(farmId)}
+                />
+              )}
+              {lanternLeaderboard?.farmRankingDetails && (
+                <>
+                  <div className="flex flex-col items-center py-2">
+                    <img
+                      src={SUNNYSIDE.icons.indicator}
+                      alt="Indicator"
+                      style={{ width: `${PIXEL_SCALE * 8}px` }}
+                    />
+                  </div>
+                  <LeaderboardTable
+                    showHeader={false}
+                    rankings={lanternLeaderboard.farmRankingDetails}
+                    farmId={Number(farmId)}
+                  />
+                </>
+              )}
+            </div>
+          )}
+          {leaderboardTab === 1 && (
+            <div>
+              <div className="p-1 mb-1 space-y-1">
+                <p className="text-sm">Tickets Leaderboard</p>
+                {lanternLeaderboard?.lastUpdated && (
+                  <p className="text-[12px]">
+                    Last updated:{" "}
+                    {getRelativeTime(lanternLeaderboard.lastUpdated)}
+                  </p>
+                )}
+              </div>
+              {ticketLeaderboard && (
+                <LeaderboardTable
+                  rankings={ticketLeaderboard.topTen}
+                  farmId={Number(farmId)}
+                />
+              )}
+              {ticketLeaderboard?.farmRankingDetails && (
+                <>
+                  <div className="flex flex-col items-center py-2">
+                    <img
+                      src={SUNNYSIDE.icons.indicator}
+                      alt="Indicator"
+                      style={{ width: `${PIXEL_SCALE * 8}px` }}
+                    />
+                  </div>
+                  <LeaderboardTable
+                    showHeader={false}
+                    rankings={ticketLeaderboard.farmRankingDetails}
+                    farmId={Number(farmId)}
+                  />
+                </>
+              )}
+            </div>
+          )}
         </CloseButtonPanel>
       </Modal>
     </>
