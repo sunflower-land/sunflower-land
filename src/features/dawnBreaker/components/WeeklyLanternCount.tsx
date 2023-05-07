@@ -50,9 +50,8 @@ export const WeeklyLanternCount: React.FC<Props> = ({
 
   useEffect(() => {
     if (loaded) {
-      setTimeout(() => {
-        setAnimate(true);
-      }, 200);
+      // Allow for smooth animations
+      setTimeout(() => setAnimate(true), 200);
     }
   }, [loaded]);
 
