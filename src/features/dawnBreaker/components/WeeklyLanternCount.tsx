@@ -13,7 +13,7 @@ import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
 
-export const WEEKLY_MINT_GOAL = 15000;
+export const WEEKLY_GOAL = 15000;
 export const PREVIOUS_MINT_COUNT = 0;
 
 interface Props {
