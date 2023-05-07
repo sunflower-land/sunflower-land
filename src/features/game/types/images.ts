@@ -49,6 +49,8 @@ import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
 import luminousLantern from "assets/sfts/luminous_lantern.webp";
+import auroraLantern from "assets/sfts/aurora_lantern.webp";
+import radianceLantern from "assets/sfts/radiance_lantern.webp";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -2045,11 +2047,11 @@ export const ITEM_DETAILS: Items = {
     description: "A bright paper lantern that illuminates the way.",
   },
   "Radiance Lantern": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: radianceLantern,
     description: "A radiant paper lantern that shines with a powerful light.",
   },
   "Aurora Lantern": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: auroraLantern,
     description:
       "A paper lantern that transforms any space into a magical wonderland.",
   },
