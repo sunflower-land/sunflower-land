@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-import { wallet } from "lib/blockchain/wallet";
-import { KNOWN_IDS } from "features/game/types";
 import { LanternName } from "features/game/types/game";
-import { loadSupplyBatch } from "lib/blockchain/Inventory";
 import { Panel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import twoBumpkins from "assets/npcs/two_bumpkins.png";
@@ -23,20 +19,21 @@ export const PREVIOUS_MINT_COUNT = 0;
 interface Props {
   lanternName: LanternName;
   endAt: number;
-  onLoaded: () => void;
+  loaded: boolean;
+  totalCrafted: number;
 }
 
 export const WeeklyLanternCount: React.FC<Props> = ({
   lanternName,
   endAt,
-  onLoaded,
+  loaded,
+  totalCrafted,
 }) => {
-  const [lanternsMinted, setLanternsMinted] = useState(0);
-  const [loaded, setLoaded] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState<number>(
     (endAt - Date.now()) / 1000
   );
   const [showModal, setShowModal] = useState(false);
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,26 +49,15 @@ export const WeeklyLanternCount: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    const getCount = async () => {
-      const supplyBatch: string[] = await loadSupplyBatch(wallet.web3Provider, [
-        KNOWN_IDS[lanternName],
-      ]);
-      const totalSupply = Number(supplyBatch[0]) ?? 0;
+    if (loaded) {
+      setTimeout(() => {
+        setAnimate(true);
+      }, 200);
+    }
+  }, [loaded]);
 
-      setLanternsMinted(totalSupply - PREVIOUS_MINT_COUNT);
-      handleLoaded();
-    };
-
-    getCount();
-  }, []);
-
-  const handleLoaded = () => {
-    setLoaded(true);
-    onLoaded();
-  };
-
-  const goalReached = lanternsMinted >= WEEKLY_MINT_GOAL;
-  const percentage = (lanternsMinted / WEEKLY_MINT_GOAL) * 100;
+  const goalReached = totalCrafted >= WEEKLY_GOAL;
+  const percentage = (totalCrafted / WEEKLY_GOAL) * 100;
 
   return createPortal(
     <>
@@ -79,7 +65,9 @@ export const WeeklyLanternCount: React.FC<Props> = ({
         onClick={() => setShowModal(true)}
         className="fixed w-[96%] sm:w-96 bottom-4 cursor-pointer z-30"
         style={{
-          transform: `translateY(${loaded ? "9px" : "120px"}) translateX(-50%)`,
+          transform: `translateY(${
+            animate ? "9px" : "120px"
+          }) translateX(-50%)`,
           transition: "all .5s ease-in-out",
           left: "50%",
         }}
@@ -129,7 +117,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
               >
                 {goalReached
                   ? `Mint goal reached`
-                  : `${lanternsMinted.toLocaleString()}/${WEEKLY_MINT_GOAL.toLocaleString()}`}
+                  : `${totalCrafted.toLocaleString()}/${WEEKLY_GOAL.toLocaleString()}`}
               </p>
             </div>
             <img
@@ -174,14 +162,6 @@ export const WeeklyLanternCount: React.FC<Props> = ({
             and collectively reach our weekly goal, we'll double the prize pool
             to 10,000 SFL.`}
             </p>
-            <a
-              href="https://docs.sunflower-land.com/player-guides/seasons/dawn-breaker#crafting-lanterns"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-xxs pt-1 hover:text-blue-500"
-            >
-              Note: Only Lanterns stored on chain will be counted.
-            </a>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>
         </CloseButtonPanel>
