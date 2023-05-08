@@ -353,10 +353,12 @@ export type PlacedItem = {
 export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
 
 type PlacedManeki = PlacedItem & { shakenAt?: number };
+export type PlacedLamp = PlacedItem & { rubbedCount?: number };
 
 // Support custom types for collectibles
 type CustomCollectibles = {
   "Maneki Neko": PlacedManeki[];
+  "Genie Lamp": PlacedLamp[];
 };
 
 // Mapping to determine which type should be used for a placed collectible

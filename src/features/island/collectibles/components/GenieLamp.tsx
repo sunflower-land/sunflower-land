@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 
@@ -8,7 +8,10 @@ import { Panel } from "components/ui/Panel";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { useActor } from "@xstate/react";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "react-bootstrap";
+import classNames from "classnames";
+
+import genieImg from "assets/npcs/genie.png";
 
 interface Props {
   id: string;
@@ -18,16 +21,24 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const lamps = gameState.context.state.collectibles["Genie Lamp"];
+  const lamp = lamps?.find((lamp) => lamp.id === id);
+  const rubbedCount = lamp?.rubbedCount ?? 0;
+  const hasBeenRubbed = rubbedCount > 0;
+
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const wish = () => {
-    // setIsShaking(true);
-    setIsRevealing(true);
+  // This useEffect is for the case where it is the last genie lamp wish.
+  // Genie Lamp will be deleted from the game state, so we need to make sure
+  // we do no get stuck in the revealing state.
+  useEffect(() => {
+    return () => {
+      gameService.send("CONTINUE");
+    };
+  }, []);
 
-    // // Can only shake a Maneki every 24 hours (even if you have multiple)
-    // if (hasShakenRecently) {
-    //   return;
-    // }
+  const rub = () => {
+    setIsRevealing(true);
 
     gameService.send("REVEAL", {
       event: {
@@ -41,25 +52,45 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
   return (
     <>
       <img
-        onClick={wish}
+        onClick={rub}
         src={genieLamp}
         style={{
           width: `${PIXEL_SCALE * 22}px`,
         }}
-        className="absolute cursor-pointer hover:img-highlight"
+        className={classNames("absolute cursor-pointer hover:img-highlight", {
+          "saturate-50": hasBeenRubbed,
+        })}
         alt="Genie Lamp"
       />
       {gameState.matches("revealing") && isRevealing && (
-        <Modal show centered onHide={() => setIsRevealing(false)}>
-          <Panel>
+        <Modal show centered>
+          <img
+            src={genieImg}
+            className="absolute z-0"
+            style={{
+              width: `${PIXEL_SCALE * 100}px`,
+              top: `${PIXEL_SCALE * -55}px`,
+              left: `${PIXEL_SCALE * -10}px`,
+            }}
+          />
+          <Panel className="z-10">
             <Revealing icon={genieLamp} />
           </Panel>
         </Modal>
       )}
       {gameState.matches("revealed") && isRevealing && (
-        <Modal show centered onHide={() => setIsRevealing(false)}>
-          <Panel>
-            <Revealed />
+        <Modal show centered>
+          <img
+            src={genieImg}
+            className="absolute z-0"
+            style={{
+              width: `${PIXEL_SCALE * 100}px`,
+              top: `${PIXEL_SCALE * -55}px`,
+              left: `${PIXEL_SCALE * -10}px`,
+            }}
+          />
+          <Panel className="z-10">
+            <Revealed onAcknowledged={() => setIsRevealing(false)} />
           </Panel>
         </Modal>
       )}
