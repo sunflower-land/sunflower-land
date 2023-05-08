@@ -56,6 +56,7 @@ describe("craftLantern", () => {
             currentWeek,
             availableLantern,
             lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+            answeredRiddleIds: [],
           },
           balance: new Decimal(10),
           inventory: {},
@@ -77,6 +78,7 @@ describe("craftLantern", () => {
             currentWeek,
             availableLantern,
             lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+            answeredRiddleIds: [],
           },
           balance: new Decimal(50),
           inventory: {
@@ -99,6 +101,7 @@ describe("craftLantern", () => {
           currentWeek,
           availableLantern,
           lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+          answeredRiddleIds: [],
         },
         balance: new Decimal(51),
         inventory: {
@@ -141,6 +144,7 @@ describe("craftLantern", () => {
           lanternsCraftedByWeek: {
             [currentWeek]: 1,
           } as LanternsCraftedByWeek,
+          answeredRiddleIds: [],
         },
         balance: new Decimal(200),
         inventory: {
@@ -184,6 +188,7 @@ describe("craftLantern", () => {
           lanternsCraftedByWeek: {
             [currentWeek]: 2,
           } as LanternsCraftedByWeek,
+          answeredRiddleIds: [],
         },
         balance: new Decimal(200),
         inventory: {
@@ -218,6 +223,7 @@ describe("craftLantern", () => {
           currentWeek,
           availableLantern,
           lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+          answeredRiddleIds: [],
         },
         balance: new Decimal(200),
         inventory: {
@@ -252,6 +258,7 @@ describe("craftLantern", () => {
           currentWeek,
           availableLantern,
           lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+          answeredRiddleIds: [],
         },
         balance: new Decimal(51),
         inventory: {
@@ -279,6 +286,7 @@ describe("craftLantern", () => {
           currentWeek,
           availableLantern,
           lanternsCraftedByWeek: {} as LanternsCraftedByWeek,
+          answeredRiddleIds: [],
         },
         balance: new Decimal(51),
         inventory: {
@@ -309,6 +317,7 @@ describe("craftLantern", () => {
           lanternsCraftedByWeek: {
             [currentWeek]: 1,
           } as LanternsCraftedByWeek,
+          answeredRiddleIds: [],
         },
         balance: new Decimal(100),
         inventory: {

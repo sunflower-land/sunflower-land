@@ -269,6 +269,18 @@ export const OFFLINE_FARM: GameState = {
       1: 4,
       2: 3,
     },
+    answeredRiddleIds: [],
+    riddle: {
+      hint: "Tester",
+      endAt: 0,
+      startAt: 0,
+      id: "test-id",
+      reward: {
+        items: {
+          "Dawn Breaker Ticket": 50,
+        },
+      },
+    },
   },
   balance: new Decimal(1),
   inventory: {
