@@ -18,7 +18,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [isSkipping, setisSkipping] = useState(false);
+  const [isSkipping, setIsSkipping] = useState(false);
   const [canSkip, setCanSkip] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -33,15 +33,16 @@ export const HayseedHank: React.FC = () => {
   const isSaving = gameState.matches("autosaving");
 
   const skip = () => {
-    setisSkipping(true);
+    setIsSkipping(true);
     gameService.send("chore.skipped");
     gameService.send("SAVE");
     setIsDialogOpen(false);
+    setCanSkip(false);
   };
 
   const close = () => {
     setIsOpen(false);
-    setisSkipping(false);
+    setIsSkipping(false);
     setIsDialogOpen(false);
   };
 
