@@ -18,7 +18,9 @@ import { NPC_WEARABLES } from "lib/npcs";
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
+  const [isSkipping, setisSkipping] = useState(false);
+  const [canSkip, setCanSkip] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -26,6 +28,64 @@ export const HayseedHank: React.FC = () => {
     // gameService.send("SAVE");
 
     setIsOpen(true);
+  };
+
+  const isSaving = gameState.matches("autosaving");
+
+  const skip = () => {
+    setisSkipping(true);
+    gameService.send("chore.skipped");
+    gameService.send("SAVE");
+    setIsDialogOpen(false);
+  };
+
+  const close = () => {
+    setIsOpen(false);
+    setisSkipping(false);
+    setIsDialogOpen(false);
+  };
+
+  const getTimeToChore = () => {
+    const twentyFourHrsInMilliseconds = 86400000;
+    const startedAt = gameState.context.state.hayseedHank.progress?.startedAt;
+    if (!startedAt) return;
+
+    // if startedAt is more than 24hrs ago, can skip
+    if (new Date().getTime() > startedAt + twentyFourHrsInMilliseconds) {
+      setCanSkip(true);
+      return;
+    }
+
+    const now = new Date().getTime();
+    const timeToChore = new Date(startedAt + twentyFourHrsInMilliseconds - now);
+
+    return `${timeToChore.getUTCHours()}hrs ${timeToChore.getUTCMinutes()}min`;
+  };
+
+  const content = () => {
+    return (
+      <>
+        <p
+          className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+          onClick={() => setIsDialogOpen(!isDialogOpen)}
+        >
+          Cannot complete this chore?
+        </p>
+        {isDialogOpen && canSkip && (
+          <p
+            className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+            onClick={skip}
+          >
+            Skip chore
+          </p>
+        )}
+        {isDialogOpen && !canSkip && (
+          <p className="text-xxs pb-1 pt-0.5">
+            You can skip this chore in {getTimeToChore()}
+          </p>
+        )}
+      </>
+    );
   };
 
   useEffect(() => {
@@ -88,7 +148,7 @@ export const HayseedHank: React.FC = () => {
           />
         )}
       </div>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal centered show={isOpen} onHide={close}>
         {conversationId ? (
           <Panel
             bumpkinParts={{
@@ -115,9 +175,11 @@ export const HayseedHank: React.FC = () => {
               )
             }
             bumpkinParts={NPC_WEARABLES.hank}
-            onClose={() => setIsOpen(false)}
+            onClose={close}
           >
-            <Chore onClose={() => setIsOpen(false)} />
+            <Chore skipping={isSaving && isSkipping} onClose={close} />
+
+            {!(isSaving && isSkipping) && content()}
           </CloseButtonPanel>
         )}
       </Modal>

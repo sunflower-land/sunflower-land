@@ -411,6 +411,8 @@ export const EMPTY: GameState = {
   auctioneer: {},
   hayseedHank: {
     choresCompleted: 0,
+    dawnBreakerChoresCompleted: 0,
+    dawnBreakerChoresSkipped: 0,
     chore: {
       activity: "Sunflower Harvested",
       requirement: 10,
