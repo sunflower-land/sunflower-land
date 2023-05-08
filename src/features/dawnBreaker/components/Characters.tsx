@@ -28,7 +28,7 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
     parts?: Partial<NPCParts>;
   } | null>(null);
   const [showDialogue, setShowDialogue] = useState(false);
-  const { marcus, bella, sofia, obie, hoot, maximus, wendy, snail } =
+  const { marcus, bella, sofia, obie, maximus, wendy, snail } =
     characters[currentWeek];
 
   const handleDialogueClose = () => {
@@ -120,25 +120,7 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
           />
         </MapPlacement>
       )}
-      {hoot && (
-        <MapPlacement x={hoot.x} y={hoot.y}>
-          <img
-            src={characterImages.hoot}
-            alt="Hoot"
-            style={{
-              width: `${PIXEL_SCALE * 15}px`,
-              transform: "translate(-3px, -10px)",
-            }}
-            // Remove brightness-50  if npc is in a bright part of the map
-            className={classNames("brightness-50", {
-              "cursor-pointer hover:img-highlight": hasDialogue("hoot"),
-            })}
-            onClick={
-              hasDialogue("hoot") ? () => handleDialogueOpen("hoot") : undefined
-            }
-          />
-        </MapPlacement>
-      )}
+
       {maximus && (
         <MapPlacement x={maximus.x} y={maximus.y}>
           <img

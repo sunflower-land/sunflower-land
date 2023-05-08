@@ -454,7 +454,7 @@ export type DawnBreaker = {
   currentWeek: Week;
   availableLantern?: LanternOffering;
   lanternsCraftedByWeek: LanternsCraftedByWeek;
-  riddle: Riddle & { id: string };
+  riddle?: Riddle & { id: string };
   answeredRiddleIds: string[];
 };
 
