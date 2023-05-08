@@ -26,6 +26,7 @@ import {
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import hootImg from "assets/npcs/hoot.png";
+import { HootRiddle } from "./components/Hoot";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -101,6 +102,7 @@ export const DawnBreaker: React.FC = () => {
           inventory={inventory}
         />
         <Characters currentWeek={currentWeek} />
+        <HootRiddle />
         {showMintedLanterns &&
           [...Array(craftedLanternCount).keys()].slice(0, 5).map((_, index) => {
             const { name } = availableLantern;

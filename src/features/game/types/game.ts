@@ -28,6 +28,7 @@ import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
 import { Week } from "features/dawnBreaker/lib/characters";
+import { Riddle } from "./riddles";
 
 export type Reward = {
   sfl?: Decimal;
@@ -453,6 +454,8 @@ export type DawnBreaker = {
   currentWeek: Week;
   availableLantern?: LanternOffering;
   lanternsCraftedByWeek: LanternsCraftedByWeek;
+  riddle: Riddle & { id: string };
+  answeredRiddleIds: string[];
 };
 
 export interface GameState {
