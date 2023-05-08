@@ -312,6 +312,7 @@ import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 import valentineBear from "src/assets/sfts/bears/love_bear.png";
 import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
+import genieBear from "src/assets/sfts/bears/genie_bear.png";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -2123,7 +2124,7 @@ export const ITEM_DETAILS: Items = {
     description: "Hoot hoot! Have you solved my riddle yet?",
   },
   "Genie Bear": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "????",
+    image: genieBear,
+    description: "Exactly what I wished for!",
   },
 };
