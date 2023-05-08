@@ -20,8 +20,7 @@ export const HayseedHank: React.FC = () => {
   const [gameState] = useActor(gameService);
   const [isSkipping, setisSkipping] = useState(false);
   const [canSkip, setCanSkip] = useState(false);
-  const [isCounterOpen, setIsCounterOpen] = useState(false);
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -37,18 +36,15 @@ export const HayseedHank: React.FC = () => {
     setisSkipping(true);
     gameService.send("chore.skipped");
     gameService.send("SAVE");
+    setIsDialogOpen(false);
   };
 
   const close = () => {
     setIsOpen(false);
     setisSkipping(false);
+    setIsDialogOpen(false);
   };
 
-  const openCounter = () => {
-    setIsCounterOpen(isCounterOpen ? false : true);
-  };
-
-  // calculate how long until chore can be skipped based on now being at least 24hrs from startedAt
   const getTimeToChore = () => {
     const twentyFourHrsInMilliseconds = 86400000;
     const startedAt = gameState.context.state.hayseedHank.progress?.startedAt;
@@ -63,7 +59,33 @@ export const HayseedHank: React.FC = () => {
     const now = new Date().getTime();
     const timeToChore = new Date(startedAt + twentyFourHrsInMilliseconds - now);
 
-    return `${timeToChore.getUTCHours()}h ${timeToChore.getUTCMinutes()}m`;
+    return `${timeToChore.getUTCHours()}hrs ${timeToChore.getUTCMinutes()}min`;
+  };
+
+  const content = () => {
+    return (
+      <>
+        <p
+          className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+          onClick={() => setIsDialogOpen(!isDialogOpen)}
+        >
+          Cannot complete this chore?
+        </p>
+        {isDialogOpen && canSkip && (
+          <p
+            className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+            onClick={skip}
+          >
+            Skip chore
+          </p>
+        )}
+        {isDialogOpen && !canSkip && (
+          <p className="text-xxs pb-1 pt-0.5">
+            You can skip this chore in {getTimeToChore()}
+          </p>
+        )}
+      </>
+    );
   };
 
   useEffect(() => {
@@ -157,29 +179,7 @@ export const HayseedHank: React.FC = () => {
           >
             <Chore skipping={isSaving && isSkipping} onClose={close} />
 
-            {!isSkipping && (
-              <>
-                <p
-                  className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
-                  onClick={openCounter}
-                >
-                  Cannot complete this chore?
-                </p>
-                {canSkip && (
-                  <p
-                    className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
-                    onClick={skip}
-                  >
-                    Skip this chore
-                  </p>
-                )}
-                {isCounterOpen && !canSkip && (
-                  <p className="text-xxs pb-1 pt-0.5">
-                    You can skip this chore in {getTimeToChore()}
-                  </p>
-                )}
-              </>
-            )}
+            {!(isSaving && isSkipping) && content()}
           </CloseButtonPanel>
         )}
       </Modal>
