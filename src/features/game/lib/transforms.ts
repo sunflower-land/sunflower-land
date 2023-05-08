@@ -82,7 +82,7 @@ export function makeGame(farm: any): GameState {
       availableLantern: farm.dawnBreaker.availableLantern
         ? {
             ...farm.dawnBreaker.availableLantern,
-            sfl: new Decimal(farm.dawnBreaker.availableLantern.sfl),
+            sfl: new Decimal(farm.dawnBreaker.availableLantern.sfl ?? 0),
             ingredients: getKeys(
               farm.dawnBreaker.availableLantern.ingredients
             ).reduce(
