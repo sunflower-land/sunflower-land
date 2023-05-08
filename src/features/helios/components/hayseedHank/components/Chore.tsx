@@ -19,8 +19,9 @@ import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
+  skipping: boolean;
 }
-export const Chore: React.FC<Props> = ({ onClose }) => {
+export const Chore: React.FC<Props> = ({ onClose, skipping }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -39,6 +40,8 @@ export const Chore: React.FC<Props> = ({ onClose }) => {
   };
 
   if (!chore || !hayseedHank.progress) return <Loading />;
+
+  if (skipping) return <Loading text="Skipping" />;
 
   if (hayseedHank.progress?.bumpkinId !== bumpkin.id) {
     return (

@@ -18,6 +18,9 @@ import { NPC_WEARABLES } from "lib/npcs";
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const [isSkipping, setisSkipping] = useState(false);
+  const [canSkip, setCanSkip] = useState(false);
+  const [isCounterOpen, setIsCounterOpen] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,6 +29,41 @@ export const HayseedHank: React.FC = () => {
     // gameService.send("SAVE");
 
     setIsOpen(true);
+  };
+
+  const isSaving = gameState.matches("autosaving");
+
+  const skip = () => {
+    setisSkipping(true);
+    gameService.send("chore.skipped");
+    gameService.send("SAVE");
+  };
+
+  const close = () => {
+    setIsOpen(false);
+    setisSkipping(false);
+  };
+
+  const openCounter = () => {
+    setIsCounterOpen(isCounterOpen ? false : true);
+  };
+
+  // calculate how long until chore can be skipped based on now being at least 24hrs from startedAt
+  const getTimeToChore = () => {
+    const twentyFourHrsInMilliseconds = 86400000;
+    const startedAt = gameState.context.state.hayseedHank.progress?.startedAt;
+    if (!startedAt) return;
+
+    // if startedAt is more than 24hrs ago, can skip
+    if (new Date().getTime() > startedAt + twentyFourHrsInMilliseconds) {
+      setCanSkip(true);
+      return;
+    }
+
+    const now = new Date().getTime();
+    const timeToChore = new Date(startedAt + twentyFourHrsInMilliseconds - now);
+
+    return `${timeToChore.getUTCHours()}h ${timeToChore.getUTCMinutes()}m`;
   };
 
   useEffect(() => {
@@ -88,7 +126,7 @@ export const HayseedHank: React.FC = () => {
           />
         )}
       </div>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal centered show={isOpen} onHide={close}>
         {conversationId ? (
           <Panel
             bumpkinParts={{
@@ -115,9 +153,33 @@ export const HayseedHank: React.FC = () => {
               )
             }
             bumpkinParts={NPC_WEARABLES.hank}
-            onClose={() => setIsOpen(false)}
+            onClose={close}
           >
-            <Chore onClose={() => setIsOpen(false)} />
+            <Chore skipping={isSaving && isSkipping} onClose={close} />
+
+            {!isSkipping && (
+              <>
+                <p
+                  className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+                  onClick={openCounter}
+                >
+                  Cannot complete this chore?
+                </p>
+                {canSkip && (
+                  <p
+                    className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+                    onClick={skip}
+                  >
+                    Skip this chore
+                  </p>
+                )}
+                {isCounterOpen && !canSkip && (
+                  <p className="text-xxs pb-1 pt-0.5">
+                    You can skip this chore in {getTimeToChore()}
+                  </p>
+                )}
+              </>
+            )}
           </CloseButtonPanel>
         )}
       </Modal>

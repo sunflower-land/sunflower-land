@@ -153,6 +153,7 @@ import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
 import { craftLantern, CraftLanternAction } from "./landExpansion/craftLantern";
 import { Announcements } from "../types/conversations";
+import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
 
 export type PlayingEvent =
   | TradeAction
@@ -188,8 +189,10 @@ export type PlayingEvent =
   | SellTreasureAction
   | RestockAction
   | SellGarbageAction
+  // Chores
   | StartChoreAction
   | CompleteChoreAction
+  | SkipChoreAction
   | ExpandLandAction
   | ConversationEnded
   | MessageRead
@@ -229,8 +232,6 @@ export type PlacementEvent =
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
-
-type EventNames = GameEventName<GameEvent>;
 
 export function isEventType<T extends PlayingEvent>(
   action: PlayingEvent,
@@ -288,6 +289,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "garbage.sold": sellGarbage,
   "chore.completed": completeChore,
   "chore.started": startChore,
+  "chore.skipped": skipChore,
   "land.expanded": expandLand,
   "conversation.ended": endConversation,
   "message.read": readMessage,
