@@ -150,6 +150,7 @@ import { GenieLamp } from "./components/GenieLamp";
 import { LuminousLantern } from "./components/LuminousLantern";
 import { AuroraLantern } from "./components/AuroraLantern";
 import { RadianceLantern } from "./components/RadianceLantern";
+import { Hoot } from "./components/Hoot";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -340,6 +341,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Obie: Obie,
   Maximus: Maximus,
   "Genie Lamp": GenieLamp,
+  Hoot: Hoot,
 };
 
 // Need readonly versions for some troublesome components while in design mode

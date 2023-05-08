@@ -22,7 +22,8 @@ export type SoldOutCollectibleName =
   | "Giant Carrot"
   | "Maneki Neko"
   | "Squirrel Monkey"
-  | "Black Bearry";
+  | "Black Bearry"
+  | "Hoot";
 
 export type GoblinBlacksmithItemName =
   | "Lady Bug"

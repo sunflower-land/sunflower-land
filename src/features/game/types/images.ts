@@ -367,6 +367,7 @@ import shroomGlow from "assets/decorations/shroom_glow.png";
 import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
+import hoot from "assets/sfts/hoot.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -2116,5 +2117,9 @@ export const ITEM_DETAILS: Items = {
   Obie: {
     image: obie,
     description: "A fierce eggplant solider",
+  },
+  Hoot: {
+    image: hoot,
+    description: "Hoot hoot! Have you solved my riddle yet?",
   },
 };

@@ -1172,6 +1172,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Purple Trail": { width: 1, height: 1 },
   Obie: { width: 1, height: 1 },
   Maximus: { width: 2, height: 2 },
+  Hoot: { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
