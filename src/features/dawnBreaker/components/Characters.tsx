@@ -67,41 +67,47 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
       </MapPlacement>
       {marcus && (
         <MapPlacement x={marcus.x} y={marcus.y}>
-          <NPC
-            parts={bumpkinParts.marcus}
-            flip={marcus.flip}
-            onClick={
-              hasDialogue("marcus")
-                ? () => handleDialogueOpen("marcus")
-                : undefined
-            }
-          />
+          <div className={classNames({ "brightness-50": marcus.inDarkness })}>
+            <NPC
+              parts={bumpkinParts.marcus}
+              flip={marcus.flip}
+              onClick={
+                hasDialogue("marcus")
+                  ? () => handleDialogueOpen("marcus")
+                  : undefined
+              }
+            />
+          </div>
         </MapPlacement>
       )}
       {bella && (
         <MapPlacement x={bella.x} y={bella.y}>
-          <NPC
-            parts={bumpkinParts.bella}
-            flip={bella.flip}
-            onClick={
-              hasDialogue("bella")
-                ? () => handleDialogueOpen("bella")
-                : undefined
-            }
-          />
+          <div className={classNames({ "brightness-50": bella.inDarkness })}>
+            <NPC
+              parts={bumpkinParts.bella}
+              flip={bella.flip}
+              onClick={
+                hasDialogue("bella")
+                  ? () => handleDialogueOpen("bella")
+                  : undefined
+              }
+            />
+          </div>
         </MapPlacement>
       )}
       {sofia && (
         <MapPlacement x={sofia.x} y={sofia.y}>
-          <NPC
-            parts={bumpkinParts.sofia}
-            flip={sofia.flip}
-            onClick={
-              hasDialogue("sofia")
-                ? () => handleDialogueOpen("sofia")
-                : undefined
-            }
-          />
+          <div className={classNames({ "brightness-50": sofia.inDarkness })}>
+            <NPC
+              parts={bumpkinParts.sofia}
+              flip={sofia.flip}
+              onClick={
+                hasDialogue("sofia")
+                  ? () => handleDialogueOpen("sofia")
+                  : undefined
+              }
+            />
+          </div>
         </MapPlacement>
       )}
       {obie && (
@@ -113,6 +119,7 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
             // Remove brightness if npc is on a bright part of the map
             className={classNames("brightness-50", {
               "cursor-pointer hover:img-highlight": hasDialogue("obie"),
+              "-scale-x-100": !!obie.flip,
             })}
             onClick={
               hasDialogue("obie") ? () => handleDialogueOpen("obie") : undefined
@@ -120,7 +127,6 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
           />
         </MapPlacement>
       )}
-
       {maximus && (
         <MapPlacement x={maximus.x} y={maximus.y}>
           <img
@@ -130,6 +136,7 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
             // Remove brightness-50  if npc is in a bright part of the map
             className={classNames("brightness-50", {
               "cursor-pointer hover:img-highlight": hasDialogue("maximus"),
+              "-scale-x-100": !!maximus.flip,
             })}
             onClick={
               hasDialogue("maximus")
@@ -200,7 +207,7 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
                   />
                 </div>
               )}
-              <div className="space-y-2">
+              <div className="p-1 space-y-2 flex flex-col justify-center">
                 {characters[currentWeek][speaking.character]?.dialogue}
               </div>
             </div>
