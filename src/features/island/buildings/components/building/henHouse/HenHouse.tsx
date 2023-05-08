@@ -7,6 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HenHouseModal } from "./components/HenHouseModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
+import { barnAudio } from "lib/utils/sfx";
 
 export const ChickenHouse: React.FC<BuildingProps> = ({
   isBuilt,
@@ -22,6 +23,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
 
     if (isBuilt) {
       // Add future on click actions here
+      barnAudio.play();
       setIsOpen(true);
       return;
     }

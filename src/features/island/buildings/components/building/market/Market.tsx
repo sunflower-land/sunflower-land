@@ -18,6 +18,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
+import { shopAudio } from "lib/utils/sfx";
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return false;
@@ -46,6 +47,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     }
     if (isBuilt) {
       // Add future on click actions here
+      shopAudio.play();
       setIsOpen(true);
       return;
     }
