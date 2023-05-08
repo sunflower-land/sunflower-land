@@ -1,54 +1,52 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import hootImg from "assets/npcs/hoot.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Riddle } from "features/game/types/riddles";
 import { Modal } from "react-bootstrap";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { Revealed } from "features/game/components/Revealed";
+import { Panel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const HootRiddle = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [riddle, setRiddle] = useState<Riddle | undefined>();
-  const [isOpen, setIsOpen] = useState(true);
-  const [state, setState] = useState<
-    "idle" | "solving" | "solved" | "unsolved"
-  >("idle");
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
       return;
     }
     const riddle = gameState.context.state.dawnBreaker?.riddle;
-    const isSolved =
-      riddle &&
-      gameState.context.state.dawnBreaker?.answeredRiddleIds.includes(
-        riddle.id
-      );
-
-    console.log({ riddle, isSolved });
-    if (isSolved) {
-      setState("solved");
-    }
 
     setRiddle(riddle);
   }, [isOpen]);
 
   const open = () => {
-    setState("idle");
     setIsOpen(true);
   };
 
-  const solve = () => {
-    setState("solving");
+  const close = useCallback(() => {
+    // Only close when not revealing
+    if (!gameState.matches("revealing")) {
+      setIsOpen(false);
+    }
 
+    if (gameState.matches("revealed")) {
+      setTimeout(() => gameService.send("CONTINUE"), 500);
+    }
+  }, [gameState.value]);
+
+  const solve = () => {
     gameService.send("REVEAL", {
       event: {
         type: "riddle.solved",
         id: riddle?.id,
+        createdAt: new Date(),
       },
     });
   };
@@ -62,18 +60,7 @@ export const HootRiddle = () => {
       );
     }
 
-    if (state === "idle") {
-      return (
-        <>
-          <div className="p-2">
-            <p>{riddle.hint}</p>
-          </div>
-          <Button onClick={solve}>Continue</Button>
-        </>
-      );
-    }
-
-    if (state === "solving") {
+    if (gameState.matches("revealing")) {
       return (
         <div className="p-2">
           <p className="loading">Loading</p>
@@ -81,36 +68,56 @@ export const HootRiddle = () => {
       );
     }
 
-    if (state === "unsolved") {
-      return (
-        <div className="p-2">
-          <p>
-            Hoot hoot! You're close, but you haven't quite cracked the code.
-          </p>
-        </div>
+    const solved =
+      gameState.context.state.dawnBreaker?.answeredRiddleIds.includes(
+        riddle.id
       );
+
+    if (gameState.matches("revealed") && solved) {
+      return <Revealed />;
     }
 
-    if (state === "solved") {
+    if (solved) {
       return (
         <div className="p-2">
           <p className="mb-2">Congratulations, clever Bumpkin!</p>
-          <p>You've solved my riddle and unlocked the prize.</p>
+          <p>{`You've solved my riddle and unlocked the prize.`}</p>
         </div>
       );
     }
 
-    // Fallback
+    if (gameState.matches("revealed") && !solved) {
+      return (
+        <div className="p-2">
+          <p className="mb-2">
+            {`Hoot hoot! You're close, but you haven't quite cracked the code.`}
+          </p>
+          <a
+            href="https://docs.sunflower-land.com/player-guides/seasons/dawn-breaker#hoots-cryptic-riddles"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-white text-xs"
+          >
+            Read more
+          </a>
+        </div>
+      );
+    }
+
     return (
-      <div className="p-2">
-        <p>Oh oh!</p>
-      </div>
+      <>
+        <div className="p-2">
+          <p className="mb-2">Listen closely...</p>
+          <p className="mb-2 text-sm">{riddle.hint}</p>
+        </div>
+        <Button onClick={solve}>Continue</Button>
+      </>
     );
   };
 
   return (
     <>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal centered show={isOpen} onHide={close}>
         <img
           src={hootImg}
           className="absolute z-0"
@@ -121,12 +128,17 @@ export const HootRiddle = () => {
             transform: `scaleX(-1)`,
           }}
         />
-        <CloseButtonPanel
-          title="Listen closely..."
-          onClose={() => setIsOpen(false)}
-        >
+        <Panel className="z-10">
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="absolute top-4 right-4 cursor-pointer"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+            }}
+            onClick={close}
+          />
           <Riddle />
-        </CloseButtonPanel>
+        </Panel>
       </Modal>
       <img
         className="brightness-[0.6]  absolute z-10 cursor-pointer hover:img-highlight"
