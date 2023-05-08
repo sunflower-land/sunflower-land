@@ -4,13 +4,12 @@ import { NPCParts } from "features/island/bumpkin/components/NPC";
 
 import obieImg from "assets/npcs/obie.png";
 import maxiumusImg from "assets/npcs/maximus.png";
-import hootImg from "assets/npcs/hoot.png";
 import snailImg from "assets/npcs/snail.png";
 
 export type Week = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type SpeakingBumpkin = "marcus" | "bella" | "sofia";
-export type SpeakingNonBumpkin = "hoot" | "maximus" | "obie" | "snail";
+export type SpeakingNonBumpkin = "maximus" | "obie" | "snail";
 export type SpeakingCharacter = SpeakingBumpkin | SpeakingNonBumpkin;
 
 export function isSpeakingBumpkin(
@@ -22,7 +21,7 @@ export function isSpeakingBumpkin(
 export function isSpeakingNonBumpkin(
   value: SpeakingCharacter
 ): value is SpeakingNonBumpkin {
-  return ["hoot", "maximus", "obie", "wendy", "snail"].includes(value);
+  return ["maximus", "obie", "wendy", "snail"].includes(value);
 }
 
 const marcusParts: Partial<NPCParts> = {
@@ -59,7 +58,6 @@ type DawnBreakerPositions = {
   marcus?: CharacterDetails;
   bella?: CharacterDetails;
   sofia?: CharacterDetails;
-  hoot?: CharacterDetails;
   maximus?: CharacterDetails;
   obie?: CharacterDetails;
   wendy?: CharacterDetails;
@@ -73,7 +71,6 @@ export const bumpkinParts: Record<SpeakingBumpkin, Partial<NPCParts>> = {
 };
 
 export const characterImages: Record<SpeakingNonBumpkin, string> = {
-  hoot: hootImg,
   maximus: maxiumusImg,
   obie: obieImg,
   snail: snailImg,
@@ -142,18 +139,6 @@ export const characters: Record<Week, DawnBreakerPositions> = {
         </>
       ),
     },
-    hoot: {
-      x: -7,
-      y: -9,
-      dialogue: (
-        <>
-          <p>
-            Hoot: Embrace the darkness, my friends. It holds the key to your
-            freedom. Dance with darkness until the fire lights.
-          </p>
-        </>
-      ),
-    },
     maximus: {
       x: -7,
       y: -12,
@@ -199,10 +184,6 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       x: 1,
       y: 1,
     },
-    hoot: {
-      x: -7,
-      y: -9,
-    },
     maximus: {
       x: -7,
       y: -12,
@@ -247,10 +228,6 @@ export const characters: Record<Week, DawnBreakerPositions> = {
     bumpkin: {
       x: 10,
       y: 3,
-    },
-    hoot: {
-      x: -7,
-      y: -9,
     },
     maximus: {
       x: -7,
