@@ -225,7 +225,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "War Skull": true,
   "War Tombstone": true,
   "Maneki Neko": true,
-  "Lady Bug": false,
+  "Lady Bug": true,
   "Cyborg Bear": true,
   "Heart Balloons": true,
   Flamingo: true,
@@ -299,12 +299,12 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Whale Bear": true,
 
   // Solar Flare items
-  "Beach Ball": false,
-  "Palm Tree": false,
-  Karkinos: false,
+  "Beach Ball": true,
+  "Palm Tree": true,
+  Karkinos: true,
   "Cabbage Boy": true,
   "Cabbage Girl": true,
-  "Collectible Bear": false,
+  "Collectible Bear": true,
 
   // Dawn Season deocrations - turn on after season
   Clementine: false,
