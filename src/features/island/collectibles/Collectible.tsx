@@ -148,6 +148,8 @@ import { Obie } from "./components/Obie";
 import { Maximus } from "./components/Maximus";
 import { GenieLamp } from "./components/GenieLamp";
 import { LuminousLantern } from "./components/LuminousLantern";
+import { AuroraLantern } from "./components/AuroraLantern";
+import { RadianceLantern } from "./components/RadianceLantern";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -258,6 +260,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Giant Carrot": GiantCarrot,
   Observatory,
   "Luminous Lantern": LuminousLantern,
+  "Aurora Lantern": AuroraLantern,
+  "Radiance Lantern": RadianceLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
