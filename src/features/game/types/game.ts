@@ -408,6 +408,8 @@ export type Bid = {
 
 export type HayseedHank = {
   choresCompleted: number;
+  dawnBreakerChoresCompleted?: number;
+  dawnBreakerChoresSkipped?: number;
   chore: Chore;
   progress?: {
     bumpkinId: number;
