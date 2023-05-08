@@ -12,11 +12,12 @@ import {
 } from "features/game/types/game";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { characters } from "./lib/characters";
+import { Week, characters } from "./lib/characters";
 import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
 import background from "assets/land/dawn_breaker_2.webp";
+import nextBackground from "assets/land/dawn_breaker_3.webp";
 import { Characters } from "./components/Characters";
 import { Modal } from "react-bootstrap";
 import {
@@ -26,6 +27,7 @@ import {
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import hootImg from "assets/npcs/hoot.png";
+import classNames from "classnames";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -46,8 +48,21 @@ export const DawnBreaker: React.FC = () => {
 
   const [weeklyStatsLoaded, setWeeklyStatsLoaded] = useState(false);
   const [showIntroModal, setShowIntroModal] = useState(false);
+  const [showNextStep, setShowNextStep] = useState(false);
+  const [showMapTransition, setShowMapTransition] = useState(true);
 
   const { availableLantern, lanternsCraftedByWeek, currentWeek } = dawnBreaker;
+
+  const craftedLanternCount = lanternsCraftedByWeek[currentWeek] ?? 0;
+  const weeklyChallengeAvailable = currentWeek <= CHALLENGE_WEEKS;
+  const showMintedLanterns = availableLantern && weeklyChallengeAvailable;
+
+  useLayoutEffect(() => {
+    if (craftedLanternCount >= 5) {
+      setShowMapTransition(false);
+      setShowNextStep(true);
+    }
+  }, []);
 
   useLayoutEffect(() => {
     // Start with island centered
@@ -62,14 +77,16 @@ export const DawnBreaker: React.FC = () => {
     }, 2500);
   }, []);
 
+  useEffect(() => {
+    if (craftedLanternCount >= 5 && !showNextStep) {
+      setShowNextStep(true);
+    }
+  }, [craftedLanternCount]);
+
   const handleIntroModalClose = () => {
     setShowIntroModal(false);
     setDawnbreakerIslandVisited();
   };
-
-  const craftedLanternCount = lanternsCraftedByWeek[currentWeek] ?? 0;
-  const weeklyChallengeAvailable = currentWeek <= CHALLENGE_WEEKS;
-  const showMintedLanterns = availableLantern && weeklyChallengeAvailable;
 
   return (
     <>
@@ -81,8 +98,23 @@ export const DawnBreaker: React.FC = () => {
         }}
       >
         <img
+          src={nextBackground}
+          alt="dawnbreaker-island"
+          className={classNames("absolute inset-0 w-full h-full", {
+            "transition-opacity duration-1000": showMapTransition,
+            "opacity-100": showNextStep,
+            "opacity-0": !showNextStep,
+          })}
+          id={Section.DawnBreakerBackGround}
+        />
+        <img
           src={background}
-          className="absolute inset-0 w-full h-full"
+          alt="dawnbreaker-island"
+          className={classNames("absolute inset-0 w-full h-full", {
+            "transition-opacity duration-1000": showMapTransition,
+            "opacity-100": !showNextStep,
+            "opacity-0": showNextStep,
+          })}
           id={Section.DawnBreakerBackGround}
         />
         <IslandTravel
@@ -100,7 +132,9 @@ export const DawnBreaker: React.FC = () => {
           availableLantern={availableLantern}
           inventory={inventory}
         />
-        <Characters currentWeek={currentWeek} />
+        <Characters
+          currentWeek={(showNextStep ? currentWeek + 1 : currentWeek) as Week}
+        />
         {showMintedLanterns &&
           [...Array(craftedLanternCount).keys()].slice(0, 5).map((_, index) => {
             const { name } = availableLantern;
@@ -137,6 +171,7 @@ export const DawnBreaker: React.FC = () => {
         isFarming={false}
         moveButtonsUp={weeklyChallengeAvailable && weeklyStatsLoaded}
       />
+      {/* <ClickableGridCoordinatesBuilder gridCols={40} gridRows={40} /> */}
       {availableLantern && weeklyChallengeAvailable && (
         <WeeklyLanternCount
           lanternName={availableLantern.name}

@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { CHORES } from "../types/chores";
 import { Bumpkin, GameState, Inventory } from "../types/game";
 import { getKeys } from "../types/craftables";
-import { marketRate } from "./halvening";
 
 const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
@@ -253,24 +252,33 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   dawnBreaker: {
-    currentWeek: 1,
+    currentWeek: 2,
     availableLantern: {
-      name: "Luminous Lantern",
-      startAt: "2023-04-01T00:00:00.000Z",
-      endAt: "2023-05-08T00:00:00.000Z",
-      sfl: marketRate(5),
+      name: "Radiance Lantern",
+      startAt: "2023-05-08T00:00:00.000Z",
+      endAt: "2023-05-15T00:00:00.000Z",
       ingredients: {
-        Sunflower: new Decimal(1000),
-        Wood: new Decimal(10),
+        Carrot: new Decimal(50),
+        Cauliflower: new Decimal(7),
+        Beetroot: new Decimal(10),
+        Cabbage: new Decimal(10),
+        Wood: new Decimal(3),
       },
     },
     lanternsCraftedByWeek: {
-      1: 5,
+      1: 4,
+      2: 3,
     },
   },
   balance: new Decimal(1),
   inventory: {
+    Carrot: new Decimal(500),
+    Cauliflower: new Decimal(700),
+    Beetroot: new Decimal(1000),
+    Cabbage: new Decimal(1000),
+    Wood: new Decimal(300),
     "Luminous Lantern": new Decimal(5),
+    "Radiance Lantern": new Decimal(3),
     Market: new Decimal(1),
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),

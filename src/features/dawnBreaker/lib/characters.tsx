@@ -50,6 +50,7 @@ const sofiaParts: Partial<NPCParts> = {
 
 type CharacterDetails = Coordinates & {
   flip?: boolean;
+  inDarkness?: boolean;
   dialogue?: JSX.Element;
 };
 
@@ -203,9 +204,53 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       x: -7,
       y: -9,
     },
+    marcus: {
+      x: 4,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: I should never have cast my line into the waters of that distant land.`}</p>
+          <p>{`I was lured by temptation and the promise of a great catch. But what I reeled in was something far more sinister.`}</p>
+          <p>{`This darkness continues to cast shadows on all I hold dear. How do I find the light again?`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 2,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: I can see the weight on Marcus' shoulders.`}</p>
+          <p>{`What could have happened while he was away? What has he done?`}</p>
+          <p>{`Whatever it was, it's caused this darkness to descend upon us.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: -3,
+      y: -12,
+      flip: true,
+      inDarkness: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: I have to keep going. Hopefully Hoot knows something. `}</p>
+          <p>
+            {`There has to be a way to bring back the light. I just hope I'm not too late...`}
+          </p>
+        </>
+      ),
+    },
     maximus: {
       x: -7,
       y: -12,
+      flip: true,
+      dialogue: (
+        <>
+          <p>Humph... go away!</p>
+        </>
+      ),
     },
     wendy: {
       x: -11,
@@ -244,6 +289,40 @@ export const characters: Record<Week, DawnBreakerPositions> = {
         y: 3,
       },
     ],
+    marcus: {
+      x: 2,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: I should have never gone to the north. I brought this darkness upon us.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 4,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: Don't blame yourself, Marcus."`}</p>
+          <p>{`We'll get through this together.`}</p>
+          <p>{`Hopefully Sofia will return soon with some news.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: -4,
+      y: -11,
+      flip: true,
+      inDarkness: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: I'm scared, but I have to be brave.`}</p>
+          <p>{`Just keep going.`}</p>
+        </>
+      ),
+    },
     bumpkin: {
       x: 10,
       y: 3,
