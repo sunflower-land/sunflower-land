@@ -388,8 +388,8 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
   "Genie Lamp": () => (
     <img
       src={ITEM_DETAILS["Genie Lamp"].image}
-      className={classNames("absolute bottom-0", { "saturate-50": false })}
-      style={{ width: `${PIXEL_SCALE * 22}px` }}
+      className={classNames("absolute", { "saturate-50": false })}
+      style={{ width: `${PIXEL_SCALE * 22}px`, bottom: `${PIXEL_SCALE * 4}px` }}
     />
   ),
 };

@@ -12,6 +12,9 @@ import { Modal } from "react-bootstrap";
 import classNames from "classnames";
 
 import genieImg from "assets/npcs/genie.png";
+import { setImageWidth } from "lib/images";
+import { Button } from "components/ui/Button";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   id: string;
@@ -24,8 +27,10 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
   const lamps = gameState.context.state.collectibles["Genie Lamp"];
   const lamp = lamps?.find((lamp) => lamp.id === id);
   const rubbedCount = lamp?.rubbedCount ?? 0;
+  const wishesRemaining = 3 - rubbedCount;
   const hasBeenRubbed = rubbedCount > 0;
 
+  const [isConfirming, setIsConfirming] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
   // This useEffect is for the case where it is the last genie lamp wish.
@@ -38,6 +43,7 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
   }, []);
 
   const rub = () => {
+    setIsConfirming(false);
     setIsRevealing(true);
 
     gameService.send("REVEAL", {
@@ -52,27 +58,54 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
   return (
     <>
       <img
-        onClick={rub}
+        onClick={() => setIsConfirming(true)}
         src={genieLamp}
         style={{
           width: `${PIXEL_SCALE * 22}px`,
+          bottom: `${PIXEL_SCALE * 4}px`,
         }}
         className={classNames("absolute cursor-pointer hover:img-highlight", {
           "saturate-50": hasBeenRubbed,
         })}
         alt="Genie Lamp"
       />
+      <Modal show={isConfirming} centered onHide={() => setIsConfirming(false)}>
+        <img
+          src={genieImg}
+          className="absolute z-0"
+          style={{
+            width: `${PIXEL_SCALE * 100}px`,
+            top: `${PIXEL_SCALE * -55}px`,
+            left: `${PIXEL_SCALE * -10}px`,
+          }}
+        />
+        <CloseButtonPanel
+          className="z-10"
+          onClose={() => setIsConfirming(false)}
+          title="Ready to make a wish?"
+        >
+          <div className="flex flex-col items-center p-2">
+            <img
+              src={genieLamp}
+              alt="genieLamp"
+              className="mb-2"
+              onLoad={(e) => setImageWidth(e.currentTarget)}
+            />
+            <span
+              className="text-center text-xs mb-1"
+              style={{
+                height: "24px",
+              }}
+            >
+              {wishesRemaining} wish{wishesRemaining > 1 && "es"} remaining!
+            </span>
+          </div>
+          <Button onClick={rub}>Make a wish</Button>
+        </CloseButtonPanel>
+      </Modal>
+
       {gameState.matches("revealing") && isRevealing && (
         <Modal show centered>
-          <img
-            src={genieImg}
-            className="absolute z-0"
-            style={{
-              width: `${PIXEL_SCALE * 100}px`,
-              top: `${PIXEL_SCALE * -55}px`,
-              left: `${PIXEL_SCALE * -10}px`,
-            }}
-          />
           <Panel className="z-10">
             <Revealing icon={genieLamp} />
           </Panel>
