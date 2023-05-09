@@ -6,12 +6,12 @@ import twoBumpkins from "assets/npcs/two_bumpkins.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { progressBarBorderStyle } from "features/game/lib/style";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
+import { TimeRemaining } from "./TimeRemaining";
 
 export const WEEKLY_GOAL = 15000;
 export const PREVIOUS_MINT_COUNT = 0;
@@ -29,27 +29,11 @@ export const WeeklyLanternCount: React.FC<Props> = ({
   loaded,
   totalCrafted,
 }) => {
-  const [secondsLeft, setSecondsLeft] = useState<number>(
-    (endAt - Date.now()) / 1000
-  );
   const [showModal, setShowModal] = useState(false);
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const seconds = (endAt - Date.now()) / 1000;
-      setSecondsLeft(seconds);
-
-      if (seconds <= 0) {
-        clearInterval(interval);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (loaded) {
+    if (loaded && !animate) {
       // Allow for smooth animations
       setTimeout(() => setAnimate(true), 200);
     }
@@ -72,9 +56,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
         }}
       >
         <Panel>
-          <div className="flex justify-center mb-1">
-            <CountdownLabel timeLeft={secondsLeft} endText="remaining" />
-          </div>
+          <TimeRemaining endAt={endAt} />
           <div className="flex items-center px-1">
             <img
               src={twoBumpkins}
@@ -146,9 +128,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
             shoes: "Black Farmer Boots",
           }}
         >
-          <div className="flex justify-center mb-1">
-            <CountdownLabel timeLeft={secondsLeft} endText="remaining" />
-          </div>
+          <TimeRemaining endAt={endAt} />
           <div className="text-sm p-2 mb-2 space-y-2">
             <p>
               {`Each week, we'll be raffling off prizes to those who help us bring
