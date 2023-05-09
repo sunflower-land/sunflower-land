@@ -25,10 +25,14 @@ import {
   setDawnbreakerIslandVisited,
 } from "./lib/dawnbreaker";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-
 import hootImg from "assets/npcs/hoot.png";
 import classNames from "classnames";
 import { HootRiddle } from "./components/Hoot";
+import { useParams } from "react-router-dom";
+import { LeaderboardButton } from "./components/LeaderboardButton";
+import { Leaderboards } from "./components/Leaderboards";
+import { fetchLeaderboardData } from "./actions/leaderboards";
+import { LeaderboardsType } from "./actions/cache";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -41,33 +45,41 @@ const CHALLENGE_WEEKS = 8;
 export const DawnBreaker: React.FC = () => {
   const { gameService } = useContext(Context);
   const [scrollIntoView] = useScrollIntoView();
+  const { id } = useParams();
+  // "0" will be assigned to guest farms
+  const farmId = parseInt(id ?? "0", 10);
 
   const bumpkin = useSelector(gameService, _bumpkin);
   const dawnBreaker = useSelector(gameService, _dawnBreaker);
   const inventory = useSelector(gameService, _inventory);
   const autosaving = useSelector(gameService, _autosaving);
 
-  const [weeklyStatsLoaded, setWeeklyStatsLoaded] = useState(false);
   const [showIntroModal, setShowIntroModal] = useState(false);
+  // Each week contains two steps to the story/map. Once 5 lanterns have been crafted by the player
+  // they will be shown the second part of the story/map.
   const [showNextStep, setShowNextStep] = useState(false);
   const [showMapTransition, setShowMapTransition] = useState(true);
 
-  const { availableLantern, lanternsCraftedByWeek, currentWeek } = dawnBreaker;
+  const [loadingLeaderboards, setLoadingLeaderboards] = useState(true);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [leaderboards, setLeaderboards] = useState<LeaderboardsType>();
 
+  const { availableLantern, lanternsCraftedByWeek, currentWeek } = dawnBreaker;
   const craftedLanternCount = lanternsCraftedByWeek[currentWeek] ?? 0;
   const weeklyChallengeAvailable = currentWeek <= CHALLENGE_WEEKS;
-  const showMintedLanterns = availableLantern && weeklyChallengeAvailable;
-
-  useLayoutEffect(() => {
-    if (craftedLanternCount >= 5) {
-      setShowMapTransition(false);
-      setShowNextStep(true);
-    }
-  }, []);
+  const showCraftedLanterns = availableLantern && weeklyChallengeAvailable;
+  const showWeeklyLanternCount =
+    availableLantern && weeklyChallengeAvailable && !loadingLeaderboards;
+  const moveHudButtonsUp = weeklyChallengeAvailable && !loadingLeaderboards;
 
   useLayoutEffect(() => {
     // Start with island centered
     scrollIntoView(Section.DawnBreakerBackGround, "auto");
+
+    if (craftedLanternCount >= 5) {
+      setShowMapTransition(false);
+      setShowNextStep(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -83,6 +95,24 @@ export const DawnBreaker: React.FC = () => {
       setShowNextStep(true);
     }
   }, [craftedLanternCount]);
+
+  useEffect(() => {
+    const getLeaderboards = async () => {
+      try {
+        const leaderboards = await fetchLeaderboardData(Number(farmId));
+
+        if (leaderboards) {
+          setLeaderboards(leaderboards);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      setLoadingLeaderboards(false);
+    };
+
+    getLeaderboards();
+  }, []);
 
   const handleIntroModalClose = () => {
     setShowIntroModal(false);
@@ -137,16 +167,16 @@ export const DawnBreaker: React.FC = () => {
           currentWeek={(showNextStep ? currentWeek + 1 : currentWeek) as Week}
         />
         <HootRiddle />
-        {showMintedLanterns &&
+        {showCraftedLanterns &&
           [...Array(craftedLanternCount).keys()].slice(0, 5).map((_, index) => {
             const { name } = availableLantern;
-            const { lanterns } = characters[currentWeek];
+            const { lanterns: lanternPositions } = characters[currentWeek];
 
             return (
               <MapPlacement
                 key={index}
-                x={lanterns[index].x}
-                y={lanterns[index].y}
+                x={lanternPositions[index].x}
+                y={lanternPositions[index].y}
                 width={1}
               >
                 <div
@@ -169,16 +199,17 @@ export const DawnBreaker: React.FC = () => {
             );
           })}
       </div>
-      <Hud
-        isFarming={false}
-        moveButtonsUp={weeklyChallengeAvailable && weeklyStatsLoaded}
+      <Hud isFarming={false} moveButtonsUp={moveHudButtonsUp} />
+      <LeaderboardButton
+        onClick={() => setShowLeaderboard(true)}
+        loaded={!loadingLeaderboards}
       />
-      {/* <ClickableGridCoordinatesBuilder gridCols={40} gridRows={40} /> */}
-      {availableLantern && weeklyChallengeAvailable && (
+      {showWeeklyLanternCount && (
         <WeeklyLanternCount
           lanternName={availableLantern.name}
           endAt={new Date(availableLantern.endAt).getTime()}
-          onLoaded={() => setWeeklyStatsLoaded(true)}
+          totalCrafted={leaderboards?.lanterns?.total ?? 0}
+          loaded={!loadingLeaderboards}
         />
       )}
       <Modal show={showIntroModal} onHide={handleIntroModalClose} centered>
@@ -208,6 +239,15 @@ export const DawnBreaker: React.FC = () => {
             </p>
           </div>
         </CloseButtonPanel>
+      </Modal>
+      <Modal show={showLeaderboard} centered>
+        {!loadingLeaderboards && (
+          <Leaderboards
+            farmId={farmId}
+            leaderboards={leaderboards}
+            onClose={() => setShowLeaderboard(false)}
+          />
+        )}
       </Modal>
     </>
   );

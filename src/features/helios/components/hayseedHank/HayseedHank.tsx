@@ -63,9 +63,9 @@ export const HayseedHank: React.FC = () => {
     return `${timeToChore.getUTCHours()}hrs ${timeToChore.getUTCMinutes()}min`;
   };
 
-  const content = () => {
+  const Content = () => {
     return (
-      <>
+      <div className="px-2">
         <p
           className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
           onClick={() => setIsDialogOpen(!isDialogOpen)}
@@ -85,7 +85,7 @@ export const HayseedHank: React.FC = () => {
             You can skip this chore in {getTimeToChore()}
           </p>
         )}
-      </>
+      </div>
     );
   };
 
@@ -180,7 +180,7 @@ export const HayseedHank: React.FC = () => {
           >
             <Chore skipping={isSaving && isSkipping} onClose={close} />
 
-            {!(isSaving && isSkipping) && content()}
+            {!(isSaving && isSkipping) && Content()}
           </CloseButtonPanel>
         )}
       </Modal>
