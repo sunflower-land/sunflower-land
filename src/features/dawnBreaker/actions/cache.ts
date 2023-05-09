@@ -5,17 +5,17 @@ const CACHE_DURATION_IN_MS = 4 * 60 * 60 * 1000;
 
 const CACHE_KEY = "leaderboardData";
 
-export type Leaderboards = {
+export type LeaderboardsType = {
   lanterns: Leaderboard;
   tickets: Leaderboard;
   lastUpdated: number;
 };
 
-export function cacheLeaderboardData(data: Leaderboards): void {
+export function cacheLeaderboardData(data: LeaderboardsType): void {
   localStorage.setItem(CACHE_KEY, JSON.stringify(data));
 }
 
-export function getCachedLeaderboardData(): Leaderboards | null {
+export function getCachedLeaderboardData(): LeaderboardsType | null {
   const cachedData = localStorage.getItem(CACHE_KEY);
   if (!cachedData) return null;
 

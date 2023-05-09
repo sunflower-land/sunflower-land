@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { createPortal } from "react-dom";
 
-import dawnbreakerTicket from "assets/icons/dawn_breaker_ticket.png";
+import trophy from "assets/icons/trophy.png";
 
 export const LeaderboardButton: React.FC<{
   loaded: boolean;
@@ -32,14 +32,14 @@ export const LeaderboardButton: React.FC<{
         }}
       />
       <img
-        src={dawnbreakerTicket}
+        src={trophy}
         className={classNames("absolute", {
           "opacity-100": loaded,
           "opacity-40": !loaded,
         })}
         style={{
-          width: `${PIXEL_SCALE * 13}px`,
-          top: `${PIXEL_SCALE * 7}px`,
+          width: `${PIXEL_SCALE * 13.3}px`,
+          top: `${PIXEL_SCALE * 5.6}px`,
           left: `${PIXEL_SCALE * 4.3}px`,
           transition: "opacity 0.5s",
         }}
