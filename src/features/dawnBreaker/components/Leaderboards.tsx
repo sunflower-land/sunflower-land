@@ -25,7 +25,7 @@ export const Leaderboards: React.FC<Props> = ({
     return (
       <CloseButtonPanel onClose={onClose}>
         <div className="p-2 text-sm">
-          <p>There is no Leaderboard data available.</p>
+          <p>Leaderboards coming soon..</p>
         </div>
       </CloseButtonPanel>
     );
