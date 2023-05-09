@@ -29,10 +29,8 @@ enum RarityOrder {
 }
 
 const TREASURE_TROVE_ITEMS = (
-  getEntries(REWARDS) as [TreasureName, TreasureDetail][]
+  getEntries(REWARDS()) as [TreasureName, TreasureDetail][]
 )
-  // Skip the seasonal rewards as these are displayed separately
-  .filter(([name]) => !(name in SEASONAL_REWARDS.rewards))
   // Sort by name first
   .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
   // Then sort by rarity
@@ -51,7 +49,7 @@ const getTreasurePurpose = (treasureName: TreasureName) => {
 };
 
 const TreasureTroveItem: React.FC<{
-  treasureName: keyof typeof REWARDS;
+  treasureName: TreasureName;
   rarity: "good" | "average" | "rare";
 }> = ({ treasureName, rarity }) => (
   <div key={treasureName} className="flex">
@@ -95,17 +93,15 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   useUiRefresher();
 
   const SEASONAL_ITEMS = (
-    getEntries(REWARDS) as [TreasureName, TreasureDetail][]
+    getEntries(SEASONAL_REWARDS().rewards) as [TreasureName, TreasureDetail][]
   )
     .filter(([name]) => {
-      const item = SEASONAL_REWARDS.rewards[name];
-      if (!item) {
-        return false;
-      }
+      const item = SEASONAL_REWARDS().rewards[name];
+      if (!item) return false;
 
       return (
-        Date.now() > SEASONAL_REWARDS.startDate &&
-        Date.now() < SEASONAL_REWARDS.endDate
+        Date.now() > SEASONAL_REWARDS().startDate &&
+        Date.now() < SEASONAL_REWARDS().endDate
       );
     })
     // Sort by name first
@@ -116,7 +112,7 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         RarityOrder[treasureA.type] - RarityOrder[treasureB.type]
     );
 
-  const secondsLeftInSeason = (SEASONAL_REWARDS.endDate - Date.now()) / 1000;
+  const secondsLeftInSeason = (SEASONAL_REWARDS().endDate - Date.now()) / 1000;
 
   return (
     <CloseButtonPanel
@@ -171,7 +167,7 @@ export const TreasureTrove: React.FC = () => {
 
   return (
     <MapPlacement x={-5} y={1} height={1} width={1}>
-      <NPC onClick={() => setShowModal(true)} {...bumpkin} />
+      <NPC onClick={() => setShowModal(true)} parts={bumpkin} />
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <TreasureTroveModal onClose={() => setShowModal(false)} />
       </Modal>

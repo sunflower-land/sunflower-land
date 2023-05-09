@@ -18,6 +18,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONVERSATIONS } from "features/game/types/conversations";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -68,6 +69,7 @@ export const FirePit: React.FC<Props> = ({
     if (isBuilt) {
       // Add future on click actions here
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }
@@ -84,7 +86,7 @@ export const FirePit: React.FC<Props> = ({
       <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={firePit}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -153,10 +155,10 @@ export const FirePit: React.FC<Props> = ({
         {messageId && (
           <img
             src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-pulsate"
+            className="absolute animate-float pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              bottom: `${PIXEL_SCALE * 32}px`,
+              width: `${PIXEL_SCALE * 9}px`,
+              bottom: `${PIXEL_SCALE * 35}px`,
               left: `${PIXEL_SCALE * 15}px`,
             }}
           />

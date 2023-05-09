@@ -86,9 +86,10 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   },
   "Sand Drill": {
     name: "Sand Drill",
-    description: "Drill deep for rare treasure",
+    description: "Drill deep for uncommon or rare treasure",
     ingredients: {
       Gold: new Decimal(1),
+      Iron: new Decimal(3),
     },
     sfl: marketRate(10),
   },

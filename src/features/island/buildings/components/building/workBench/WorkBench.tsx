@@ -16,6 +16,7 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Conversation } from "features/farming/mail/components/Conversation";
 import { NPC_WEARABLES } from "lib/npcs";
+import { shopAudio } from "lib/utils/sfx";
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
@@ -35,6 +36,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
     if (isBuilt) {
       // Add future on click actions here
+      shopAudio.play();
       setIsOpen(true);
       return;
     }
@@ -49,15 +51,14 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       <BuildingImageWrapper onClick={handleClick}>
         <img
           src={workbench}
-          className="absolute bottom-0"
+          className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 47}px`,
-            height: `${PIXEL_SCALE * 36}px`,
           }}
         />
         <img
           src={shadow}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 14}px`,
@@ -67,17 +68,17 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         {conversationId && (
           <img
             src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-pulsate"
+            className="absolute animate-float pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              bottom: `${PIXEL_SCALE * 32}px`,
-              right: `${PIXEL_SCALE * 9}px`,
+              width: `${PIXEL_SCALE * 9}px`,
+              bottom: `${PIXEL_SCALE * 36}px`,
+              right: `${PIXEL_SCALE * 8}px`,
             }}
           />
         )}
         <img
           src={npc}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
             bottom: `${PIXEL_SCALE * 16}px`,

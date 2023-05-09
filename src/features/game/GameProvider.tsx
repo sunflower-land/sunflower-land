@@ -42,6 +42,14 @@ export const GameProvider: React.FC = ({ children }) => {
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
+    const originalShortcuts = getShortcuts();
+    const originalSelectedItem =
+      originalShortcuts.length > 0 ? originalShortcuts[0] : undefined;
+
+    // skip shortcut logic if selected item is the same
+    // to avoid unnecessary rerenders for components using useContext(Context)
+    if (originalSelectedItem === item) return;
+
     const items = cacheShortcuts(item);
 
     setShortcuts(items);

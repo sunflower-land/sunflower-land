@@ -1,4 +1,4 @@
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
@@ -26,8 +26,8 @@ import { MutantChicken } from "features/game/types/craftables";
 import {
   ChickenContext,
   chickenMachine,
-  MachineInterpreter,
-  MachineState,
+  MachineInterpreter as ChickenMachineInterpreter,
+  MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
 import { Modal } from "react-bootstrap";
@@ -36,9 +36,13 @@ import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-interface Props {
-  id: string;
-}
+import { Collectibles, Chicken as ChickenType } from "features/game/types/game";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { MachineState } from "features/game/expansion/placeable/landscapingMachine";
+import { MoveableComponent } from "../collectibles/MovableComponent";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { ZoomContext } from "components/ZoomProvider";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -50,13 +54,18 @@ const getPercentageComplete = (fedAt?: number) => {
   return Math.ceil((timePassedSinceFed / CHICKEN_TIME_TO_EGG) * 100);
 };
 
+const selectTimeToEgg = (state: ChickenMachineState) => state.context.timeToEgg;
+const selectTimeElapsed = (state: ChickenMachineState) =>
+  state.context.timeElapsed;
+
 interface TimeToEggProps {
-  service: MachineInterpreter;
+  service: ChickenMachineInterpreter;
   showTimeToEgg: boolean;
 }
 
 const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
-  const [{ context }] = useActor(service);
+  const timeToEgg = useSelector(service, selectTimeToEgg);
+  const timeElapsed = useSelector(service, selectTimeElapsed);
 
   return (
     <InnerPanel
@@ -74,7 +83,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
           <span>Egg</span>
         </div>
         <span className="flex-1">
-          {secondsToString(context.timeToEgg - context.timeElapsed, {
+          {secondsToString(timeToEgg - timeElapsed, {
             length: "medium",
           })}
         </span>
@@ -83,22 +92,67 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   );
 };
 
-const isHungry = (state: MachineState) => state.matches("hungry");
-const isEating = (state: MachineState) => state.matches("eating");
-const isSleeping = (state: MachineState) => state.matches({ fed: "sleeping" });
-const isHappy = (state: MachineState) => state.matches({ fed: "happy" });
-const isEggReady = (state: MachineState) => state.matches("eggReady");
-const isEggLaid = (state: MachineState) => state.matches("eggLaid");
+const HasWheat = (
+  inventoryWheatCount: Decimal,
+  collectibles: Collectibles,
+  selectedItem?: string
+) => {
+  const wheatRequired = getWheatRequiredToFeed(collectibles);
 
-export const Chicken: React.FC<Props> = ({ id }) => {
+  // has enough wheat to feed chickens
+
+  if (wheatRequired.lte(0)) return true;
+
+  return selectedItem === "Wheat" && inventoryWheatCount.gte(wheatRequired);
+};
+
+const isHungry = (state: ChickenMachineState) => state.matches("hungry");
+const isEating = (state: ChickenMachineState) => state.matches("eating");
+const isSleeping = (state: ChickenMachineState) =>
+  state.matches({ fed: "sleeping" });
+const isHappy = (state: ChickenMachineState) => state.matches({ fed: "happy" });
+const isEggReady = (state: ChickenMachineState) => state.matches("eggReady");
+const isEggLaid = (state: ChickenMachineState) => state.matches("eggLaid");
+const selectInventoryWheatCount = (state: GameMachineState) =>
+  state.context.state.inventory.Wheat ?? new Decimal(0);
+const selectCollectibles = (state: GameMachineState) =>
+  state.context.state.collectibles;
+
+const compareChicken = (prev: ChickenType, next: ChickenType) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
+  isCollectibleBuilt("Gold Egg", prev) ===
+    isCollectibleBuilt("Gold Egg", next) &&
+  isCollectibleBuilt("Fat Chicken", prev) ===
+    isCollectibleBuilt("Fat Chicken", next);
+
+interface Props {
+  id: string;
+  coordinates: Coordinates;
+}
+
+const ChickenComponent: React.FC<Props> = ({ id }) => {
+  const { scale } = useContext(ZoomContext);
   const { gameService, selectedItem, showTimers } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
-  const chicken = state.chickens[id];
+  const chicken = useSelector(
+    gameService,
+    (state) => state.context.state.chickens[id],
+    compareChicken
+  );
+  const collectibles = useSelector(
+    gameService,
+    selectCollectibles,
+    compareCollectibles
+  );
+  const inventoryWheatCount = useSelector(
+    gameService,
+    selectInventoryWheatCount,
+    (prev: Decimal, next: Decimal) =>
+      HasWheat(prev, collectibles, selectedItem) ===
+      HasWheat(next, collectibles, selectedItem)
+  );
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
 
@@ -108,7 +162,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
   const chickenService = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
-  }) as unknown as MachineInterpreter;
+  }) as unknown as ChickenMachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
@@ -164,13 +218,9 @@ export const Chicken: React.FC<Props> = ({ id }) => {
   };
 
   const feed = async () => {
-    const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
-    const wheatRequired = getWheatRequiredToFeed(state.collectibles);
+    const hasWheat = HasWheat(inventoryWheatCount, collectibles, selectedItem);
 
-    if (
-      (wheatRequired.gt(0) && selectedItem !== "Wheat") ||
-      currentWheatAmount.lt(wheatRequired)
-    ) {
+    if (!hasWheat) {
       setShowPopover(true);
       await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
       setShowPopover(false);
@@ -297,6 +347,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
                 image={walkingChickenSheet}
                 widthFrame={32}
                 heightFrame={32}
+                zoomScale={scale}
                 fps={10}
                 steps={50}
                 direction={`forward`}
@@ -375,6 +426,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
                 image={layingEggSheet}
                 widthFrame={17}
                 heightFrame={31}
+                zoomScale={scale}
                 fps={3}
                 steps={21}
                 endAt={7}
@@ -406,6 +458,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
                 }}
                 widthFrame={17}
                 heightFrame={31}
+                zoomScale={scale}
                 fps={20}
                 steps={21}
                 direction={`forward`}
@@ -434,7 +487,6 @@ export const Chicken: React.FC<Props> = ({ id }) => {
           show={showMutantModal}
           type={chicken.reward?.items?.[0].name as MutantChicken}
           onContinue={handleContinue}
-          inventory={state.inventory}
         />
       )}
 
@@ -455,4 +507,27 @@ export const Chicken: React.FC<Props> = ({ id }) => {
       )}
     </>
   );
+};
+
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
+export const Chicken: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
+
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  if (landscaping) {
+    // In Landscaping mode, use readonly building
+    return (
+      <MoveableComponent
+        name="Chicken"
+        coordinates={props.coordinates}
+        id={props.id}
+      >
+        <ChickenComponent {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <ChickenComponent {...props} />;
 };

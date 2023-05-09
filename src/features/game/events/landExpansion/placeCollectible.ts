@@ -19,9 +19,14 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
   "Treasure Map": 5 * 60,
   "Heart of Davy Jones": 5 * 60,
   "Gold Egg": 60 * 60 * 6,
+
+  // Solar Flare items
   "Cabbage Boy": 30 * 60,
   "Cabbage Girl": 30 * 60,
   Karkinos: 30 * 60,
+
+  // Dawn Breaker items
+  "Mushroom House": 60 * 60 * 1,
 };
 
 export type PlaceCollectibleAction = {

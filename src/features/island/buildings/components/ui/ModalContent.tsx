@@ -26,7 +26,7 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
   const handleBuild = () => {
     if (!selected) return;
 
-    gameService.send("EDIT", {
+    gameService.send("LANDSCAPE", {
       placeable: selected,
       action: hasUnplacedBuildings ? "building.placed" : "building.constructed",
       // Not used yet

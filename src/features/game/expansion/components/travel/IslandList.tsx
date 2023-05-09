@@ -17,9 +17,10 @@ import levelUpIcon from "assets/icons/level_up.png";
 import goblin from "assets/buildings/goblin_sign.png";
 import sunflorea from "assets/land/islands/sunflorea.png";
 import snowman from "assets/npcs/snowman.png";
+import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 import land from "assets/land/islands/island.webp";
-import bunnyfower from "assets/events/easter/2023/decorations/bunnyflower.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { analytics } from "lib/analytics";
 
 interface Island {
   name: string;
@@ -67,6 +68,10 @@ const IslandListItem: React.FC<IslandProps> = ({
   const onClick = () => {
     if (!cannotNavigate) {
       navigate(path);
+      analytics.logEvent("select_content", {
+        content_type: "island",
+        content_id: name,
+      });
     }
   };
 
@@ -139,8 +144,8 @@ const stateSelector = (state: AuthMachineState) => ({
 
 export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
-  showVisitList,
   inventory,
+  showVisitList,
   travelAllowed,
 }) => {
   const { authService } = useContext(Auth.Context);
@@ -167,11 +172,11 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/land/${farmId}/helios`,
     },
     {
-      name: "Bunny Trove",
+      name: "Dawn Breaker",
+      image: dawnBreakerBanner,
       levelRequired: 1 as BumpkinLevel,
-      guestAccess: false,
-      image: bunnyfower,
-      path: `/land/${farmId}/bunny-trove`,
+      guestAccess: true,
+      path: `/land/${farmId}/dawn-breaker`,
     },
     {
       name: "Goblin Retreat",

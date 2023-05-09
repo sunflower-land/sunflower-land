@@ -183,6 +183,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...pointDefaults,
 
   // Explicit Rules
+  Eggplant: false,
+  "Wild Mushroom": false,
   Chicken: false,
   Cow: false,
   Pig: false,
@@ -223,7 +225,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "War Skull": true,
   "War Tombstone": true,
   "Maneki Neko": true,
-  "Lady Bug": false,
+  "Lady Bug": true,
   "Cyborg Bear": true,
   "Heart Balloons": true,
   Flamingo: true,
@@ -296,18 +298,40 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Wooden Compass": false,
   "Whale Bear": true,
 
-  // Seasonal items
-  "Beach Ball": false,
-  "Palm Tree": false,
-  Karkinos: false,
+  // Solar Flare items
+  "Beach Ball": true,
+  "Palm Tree": true,
+  Karkinos: true,
   "Cabbage Boy": true,
   "Cabbage Girl": true,
-  "Collectible Bear": false,
+  "Collectible Bear": true,
+
+  // Dawn Season deocrations - turn on after season
+  Clementine: false,
+  Cobalt: false,
+  "Dawn Umbrella Seat": false,
+  "Eggplant Grill": false,
+  "Giant Dawn Mushroom": false,
+  "Shroom Glow": false,
+  // Dawn Breaker items
+  "Mushroom House": false,
+  "Genie Lamp": false,
 
   "Basic Land": false,
+  "Solar Flare Banner": false,
+  "Dawn Breaker Banner": false,
 
   Orange: true,
   Blueberry: true,
+
+  // Dawn Breaker
+  "Luminous Lantern": false,
+  "Radiance Lantern": false,
+  "Aurora Lantern": false,
+  "Purple Trail": false,
+  Obie: false,
+  Maximus: false,
+  Hoot: false,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

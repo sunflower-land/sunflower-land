@@ -25,7 +25,11 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
   const announcements = gameState.context.announcements;
 
   const acknowledge = () => {
-    gameService.send({ type: "conversation.ended", id: conversationId });
+    if (conversationId in CONVERSATIONS) {
+      gameService.send({ type: "conversation.ended", id: conversationId });
+    } else {
+      gameService.send({ type: "message.read", id: conversationId });
+    }
   };
 
   const conversation =
@@ -40,6 +44,7 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
     acknowledge();
   };
   const Content = () => {
+    console.log({ showReward, conversation, read });
     if (showReward && conversation.reward) {
       return (
         <>
@@ -83,21 +88,25 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
               )}
             </div>
           ))}
-
-          {/* Links */}
-          {conversation.link && (
-            <a
-              href={conversation.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
-            >
-              Read more
-            </a>
-          )}
         </div>
 
-        {!read && <Button onClick={next}>Got it</Button>}
+        {!read && (
+          <Button onClick={next}>
+            {!!conversation.reward && !read ? "Open Gift" : `Got it`}
+          </Button>
+        )}
+
+        {/* Links */}
+        {conversation.link && (
+          <a
+            href={conversation.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
+          >
+            Read more
+          </a>
+        )}
       </>
     );
   };

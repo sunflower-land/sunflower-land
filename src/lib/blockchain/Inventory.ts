@@ -13,7 +13,7 @@ const contractAddress = CONFIG.INVENTORY_CONTRACT;
 
 export type ItemSupply = Record<InventoryItemName, Decimal>;
 
-async function loadSupplyBatch(
+export async function loadSupplyBatch(
   web3: Web3,
   ids: number[],
   attempts = 0
@@ -144,7 +144,6 @@ export async function getInventoryTransfers(
 
 export async function getInventoryBatchTransfers(
   web3: Web3,
-  account: string,
   farmAddress: string,
   fromBlock: number
 ) {

@@ -18,10 +18,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import lock from "assets/skills/lock.png";
 
 export const Crops: React.FC = () => {
-  const cropsAndFruits = { ...CROPS(), ...FRUIT() };
-  const [selected, setSelected] = useState<Crop | Fruit>(
-    cropsAndFruits.Sunflower
-  );
+  const [selected, setSelected] = useState<Crop | Fruit>(CROPS().Sunflower);
   const [isSellAllModalOpen, showSellAllModal] = useState(false);
   const { gameService } = useContext(Context);
   const [
@@ -81,6 +78,8 @@ export const Crops: React.FC = () => {
     return `Sell ${cropAmount}`;
   };
 
+  const cropsAndFruits = Object.values({ ...CROPS(), ...FRUIT() });
+
   return (
     <>
       <SplitScreenView
@@ -118,7 +117,7 @@ export const Crops: React.FC = () => {
         }
         content={
           <>
-            {Object.values(cropsAndFruits)
+            {cropsAndFruits
               .filter((crop) => !!crop.sellPrice)
               .map((item) => (
                 <Box

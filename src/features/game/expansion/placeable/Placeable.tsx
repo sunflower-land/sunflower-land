@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineInterpreter } from "./editingMachine";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { MachineInterpreter } from "./landscapingMachine";
 
 import Draggable from "react-draggable";
 import { detectCollision } from "./lib/collisionDetection";
@@ -16,20 +16,22 @@ import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { BUILDING_COMPONENTS } from "features/island/buildings/components/building/Building";
-import { COLLECTIBLE_COMPONENTS } from "features/island/collectibles/Collectible";
+import { READONLY_COLLECTIBLES } from "features/island/collectibles/Collectible";
 import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { getGameGrid } from "./lib/makeGrid";
+import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
+import { ZoomContext } from "components/ZoomProvider";
 
-const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
-  ...BUILDING_COMPONENTS,
-  ...COLLECTIBLE_COMPONENTS,
+export const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
+  Chicken: () => <Chicken coordinates={{ x: 0, y: 0 }} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
+  ...READONLY_COLLECTIBLES,
   ...READONLY_RESOURCE_COMPONENTS,
+  ...READONLY_BUILDINGS,
   "Dirt Path": () => (
     <img
       src={ITEM_DETAILS["Dirt Path"].image}
@@ -87,27 +89,37 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
 };
 
 export const Placeable: React.FC = () => {
+  const { scale } = useContext(ZoomContext);
+
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
 
+  const [gameState] = useActor(gameService);
   const [showHint, setShowHint] = useState(true);
 
-  const child = gameService.state.children.editing as MachineInterpreter;
+  const child = gameService.state.children.landscaping as MachineInterpreter;
 
   const [machine, send] = useActor(child);
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
-  const { width, height } = {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
-  }[placeable];
+
+  const grid = getGameGrid(gameState.context.state);
+
+  let dimensions = { width: 0, height: 0 };
+
+  if (placeable) {
+    dimensions = {
+      ...BUILDINGS_DIMENSIONS,
+      ...COLLECTIBLES_DIMENSIONS,
+      ...ANIMAL_DIMENSIONS,
+    }[placeable];
+  }
 
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision(gameService.state.context.state, {
       x,
       y,
-      width,
-      height,
+      width: dimensions.width,
+      height: dimensions.height,
     });
 
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
@@ -128,6 +140,10 @@ export const Placeable: React.FC = () => {
   useEffect(() => {
     setShowHint(true);
   }, [origin]);
+
+  if (!placeable) {
+    return null;
+  }
 
   return (
     <>
@@ -152,7 +168,8 @@ export const Placeable: React.FC = () => {
             y: DEFAULT_POSITION_Y,
           }}
           nodeRef={nodeRef}
-          grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
+          grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+          scale={scale.get()}
           onStart={() => {
             // reset
             send("DRAG");
@@ -204,12 +221,13 @@ export const Placeable: React.FC = () => {
                 }
               )}
               style={{
-                width: `${width * GRID_WIDTH_PX}px`,
-                height: `${height * GRID_WIDTH_PX}px`,
+                width: `${dimensions.width * GRID_WIDTH_PX}px`,
+                height: `${dimensions.height * GRID_WIDTH_PX}px`,
               }}
             >
               {PLACEABLES[placeable]({
                 coordinates,
+                grid,
               })}
             </div>
           </div>

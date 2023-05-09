@@ -23,6 +23,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { PartyIsland } from "./PartyIsland";
+import { DawnTeaser } from "./DawnTeaser";
 import { LAND_WIDTH } from "../Land";
 
 interface Props {
@@ -102,7 +103,7 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
       {/* Islands */}
 
       {/* Top right island */}
-      <MapPlacement x={10 + offset} y={15 + offset} width={6}>
+      <MapPlacement x={9 + offset} y={14 + offset} width={6}>
         <img
           src={bearIsland}
           style={{
@@ -124,7 +125,7 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
       <FruitQuest offset={offset} />
 
       {/* Bottom left island */}
-      <MapPlacement x={-12 - offset} y={-7 - offset} width={6}>
+      <MapPlacement x={-11 - offset} y={-6 - offset} width={6}>
         <img
           src={pirateIsland}
           style={{
@@ -142,8 +143,11 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
         </div>
       </MapPlacement>
 
+      {/* Bottom island */}
+      <DawnTeaser offset={offset} />
+
       {/* Bottom right island */}
-      <MapPlacement x={12 + offset} y={-7 - offset} width={6}>
+      <MapPlacement x={11 + offset} y={-6 - offset} width={6}>
         <DailyReward />
         <img
           src={abandonedLand}

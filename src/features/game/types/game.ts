@@ -3,7 +3,7 @@ import { Decimal } from "decimal.js-light";
 import { CropName, CropSeedName } from "./crops";
 
 import { CollectibleName, CraftableName, Food } from "./craftables";
-import { CommodityName, ResourceName } from "./resources";
+import { CommodityName, MushroomName, ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
@@ -20,11 +20,15 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  SeasonPassName,
+  SoldOutCollectibleName,
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
+import { Week } from "features/dawnBreaker/lib/characters";
+import { Riddle } from "./riddles";
 
 export type Reward = {
   sfl?: Decimal;
@@ -219,9 +223,12 @@ export type InventoryItemName =
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem
+  | SoldOutCollectibleName
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
+  | SeasonPassName
   | TreasureToolName
+  | LanternName
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -399,23 +406,10 @@ export type Bid = {
   auctionTickets: number;
 };
 
-type Island = "Main" | "Bunny Trove" | "Helios";
-
-export type EasterHunt = {
-  generatedAt: number;
-  eggs: EasterEggPosition[];
-};
-
-export type EasterEggPosition = {
-  name: InventoryItemName;
-  x: number;
-  y: number;
-  island: Island;
-  collectedAt?: number;
-};
-
 export type HayseedHank = {
   choresCompleted: number;
+  dawnBreakerChoresCompleted?: number;
+  dawnBreakerChoresSkipped?: number;
   chore: Chore;
   progress?: {
     bumpkinId: number;
@@ -424,9 +418,46 @@ export type HayseedHank = {
   };
 };
 
+export type Mushroom = {
+  name: MushroomName;
+  amount: number;
+  x: number;
+  y: number;
+};
+
+export type Mushrooms = {
+  spawnedAt: number;
+  mushrooms: Record<string, Mushroom>;
+};
+
 export type NPCDialogue = {
   id: string;
   from: "aunt" | "bumpkin" | "betty" | "bruce";
+};
+
+export type LanternName =
+  | "Luminous Lantern"
+  | "Radiance Lantern"
+  | "Aurora Lantern";
+
+export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
+
+export type LanternOffering = {
+  name: LanternName;
+  startAt: string;
+  endAt: string;
+  sfl?: Decimal;
+  ingredients: LanternIngredients;
+};
+
+export type LanternsCraftedByWeek = Partial<Record<Week, number>>;
+
+export type DawnBreaker = {
+  currentWeek: Week;
+  availableLantern?: LanternOffering;
+  lanternsCraftedByWeek: LanternsCraftedByWeek;
+  riddle?: Riddle & { id: string };
+  answeredRiddleIds: string[];
 };
 
 export interface GameState {
@@ -500,8 +531,8 @@ export interface GameState {
     bid?: Bid;
   };
   hayseedHank: HayseedHank;
-
-  easterHunt: EasterHunt;
+  mushrooms: Mushrooms;
+  dawnBreaker?: DawnBreaker;
 }
 
 export interface Context {

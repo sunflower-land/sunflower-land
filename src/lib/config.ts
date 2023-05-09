@@ -45,14 +45,13 @@ const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
 const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
+const POKO_API_KEY = import.meta.env.VITE_POKO_API_KEY as string;
 
 // Arcade Mini Games Donation Addresses
 const GREEDY_GOBLIN_DONATION = import.meta.env
   .VITE_GREEDY_GOBLIN_DONATION as string;
 const CHICKEN_FIGHT_DONATION = import.meta.env
   .VITE_CHICKEN_FIGHT_DONATION as string;
-const BUNNY_TROVE_EVENT_DONATION = import.meta.env
-  .VITE_BUNNY_TROVE_EVENT_DONATION as string;
 
 export const CONFIG = {
   NETWORK,
@@ -94,7 +93,7 @@ export const CONFIG = {
 
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
-  BUNNY_TROVE_EVENT_DONATION,
   PROTECTED_IMAGE_URL,
   WEBSOCKET_URL,
+  POKO_API_KEY,
 };

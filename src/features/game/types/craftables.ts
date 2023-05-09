@@ -11,6 +11,8 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  SeasonPassName,
+  SoldOutCollectibleName,
 } from "./collectibles";
 import { AuctioneerItemName } from "./auctioneer";
 import { BoostTreasure } from "./treasure";
@@ -175,6 +177,11 @@ export type LimitedItemName =
   | MutantChicken
   | WarTentItem;
 
+export type Lantern =
+  | "Luminous Lantern"
+  | "Radiance Lantern"
+  | "Aurora Lantern";
+
 export type CollectibleName =
   | LegacyItem
   | BarnItem
@@ -188,8 +195,12 @@ export type CollectibleName =
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | SoldOutCollectibleName
   | GoblinPirateItemName
+  | SeasonPassName
   | BoostTreasure
+  | WarBanner
+  | Lantern
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -1146,6 +1157,22 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Palm Tree": { height: 2, width: 2 },
   "Beach Ball": { height: 1, width: 1 },
   Karkinos: { height: 2, width: 2 },
+
+  // Banners
+  "Dawn Breaker Banner": { width: 1, height: 2 },
+  "Solar Flare Banner": { width: 1, height: 2 },
+  "Human War Banner": { width: 1, height: 2 },
+  "Goblin War Banner": { width: 1, height: 2 },
+  // Dawn Breaker SFTs
+  "Mushroom House": { height: 3, width: 2 },
+  "Luminous Lantern": { height: 2, width: 1 },
+  "Aurora Lantern": { height: 2, width: 1 },
+  "Radiance Lantern": { height: 2, width: 1 },
+
+  "Purple Trail": { width: 1, height: 1 },
+  Obie: { width: 1, height: 1 },
+  Maximus: { width: 2, height: 2 },
+  Hoot: { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

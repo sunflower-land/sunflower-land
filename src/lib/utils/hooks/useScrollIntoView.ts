@@ -51,7 +51,7 @@ export enum Section {
   StoneHaven = "stoneHavenBackground",
   PumpkinPlaza = "pumpkinPlaza",
   BeachParty = "beachParty",
-  BunnyTrove = "bunnyTrove",
+  DawnBreakerBackGround = "dawnBreakerBackground",
 }
 
 export const useScrollIntoView = () => {

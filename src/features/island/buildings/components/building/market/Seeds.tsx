@@ -138,7 +138,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     return getFruitHarvests(state);
   };
+
   const harvestCount = getHarvestCount();
+  const seeds = getKeys(SEEDS());
 
   return (
     <SplitScreenView
@@ -168,7 +170,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(SEEDS()).map((name: SeedName) => (
+          {seeds.map((name: SeedName) => (
             <Box
               isSelected={selectedName === name}
               key={name}

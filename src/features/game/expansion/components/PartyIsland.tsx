@@ -295,7 +295,7 @@ export const PartyIsland: React.FC<Props> = ({ offset }) => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      <MapPlacement x={16 + offset} y={3} width={6}>
+      <MapPlacement x={15 + offset} y={3} width={6}>
         <img
           src={partyIsland}
           style={{
@@ -310,9 +310,11 @@ export const PartyIsland: React.FC<Props> = ({ offset }) => {
           }}
         >
           <NPC
-            body="Dark Brown Farmer Potion"
-            onesie="Shark Onesie"
-            hair="Buzz Cut"
+            parts={{
+              body: "Dark Brown Farmer Potion",
+              onesie: "Shark Onesie",
+              hair: "Buzz Cut",
+            }}
             onClick={() => setShowSharkModal(true)}
           />
         </div>
@@ -335,9 +337,11 @@ export const PartyIsland: React.FC<Props> = ({ offset }) => {
           }}
         >
           <NPC
-            body="Goblin Potion"
-            hat="Pirate Hat"
-            hair="Buzz Cut"
+            parts={{
+              body: "Goblin Potion",
+              hat: "Pirate Hat",
+              hair: "Buzz Cut",
+            }}
             onClick={() => setShowPirateModal(true)}
           />
         </div>
@@ -349,9 +353,11 @@ export const PartyIsland: React.FC<Props> = ({ offset }) => {
           }}
         >
           <NPC
-            body="Beige Farmer Potion"
-            onesie="Tiger Onesie"
-            hair="Red Long Hair"
+            parts={{
+              body: "Beige Farmer Potion",
+              onesie: "Tiger Onesie",
+              hair: "Red Long Hair",
+            }}
             onClick={() => setShowTigerModal(true)}
           />
         </div>

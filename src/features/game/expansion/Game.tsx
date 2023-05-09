@@ -41,10 +41,12 @@ import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
 import { BeachParty } from "features/pumpkinPlaza/BeachParty";
 import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
 import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
-import { BunnyTrove } from "features/bunnyTrove/BunnyTrove";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
+import { Promoting } from "./components/Promoting";
+import { Purchasing } from "../components/Purchasing";
+import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -56,10 +58,11 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   syncing: true,
   synced: true,
   error: true,
+  purchasing: true,
   refreshing: true,
   deposited: true,
   hoarding: true,
-  editing: false,
+  landscaping: false,
   noBumpkinFound: true,
   noTownCenter: true,
   swarming: true,
@@ -75,6 +78,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositing: true,
   upgradingGuestGame: false,
   introduction: false,
+  promoting: false,
 };
 
 // State change selectors
@@ -88,6 +92,7 @@ const isSyncing = (state: MachineState) => state.matches("syncing");
 const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
+const isPurchasing = (state: MachineState) => state.matches("purchasing");
 const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
@@ -107,6 +112,7 @@ const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
 const isUpgradingGuestGame = (state: MachineState) =>
   state.matches("upgradingGuestGame");
+const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -119,6 +125,7 @@ export const Game: React.FC = () => {
   const error = useSelector(gameService, isError);
   const synced = useSelector(gameService, isSynced);
   const syncing = useSelector(gameService, isSyncing);
+  const purchasing = useSelector(gameService, isPurchasing);
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
@@ -135,6 +142,7 @@ export const Game: React.FC = () => {
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
   const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
+  const inventory = useSelector(gameService, _inventory);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -241,6 +249,10 @@ export const Game: React.FC = () => {
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
             <Route
+              path="/dawn-breaker"
+              element={<DawnBreaker key="dawn-breaker" />}
+            />
+            <Route
               path="/headquarters"
               element={<HeadQuarters key="headquarters" />}
             />
@@ -262,8 +274,6 @@ export const Game: React.FC = () => {
             )}
             <Route path="/studios" element={<Studios key="hq" />} />
 
-            <Route path="/bunny-trove" element={<BunnyTrove key="bunny" />} />
-
             <Route path="*" element={<IslandNotFound />} />
           </Routes>
         </div>
@@ -284,6 +294,7 @@ export const Game: React.FC = () => {
           {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
           {synced && <Success />}
           {syncing && <Syncing />}
+          {purchasing && <Purchasing />}
           {hoarding && <Hoarding />}
           {swarming && <Swarming />}
           {noBumpkinFound && <NoBumpkin />}
@@ -295,6 +306,7 @@ export const Game: React.FC = () => {
       </Modal>
 
       {upgradingGuestGame && <WalletOnboarding />}
+      <Promoting />
       <Introduction />
 
       {GameContent()}

@@ -67,7 +67,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
   };
   return (
     <>
-      <MapPlacement width={6} height={6} x={-15 - offset} y={15 + offset}>
+      <MapPlacement width={6} height={6} x={-14 - offset} y={14 + offset}>
         <img
           src={island}
           className="absolute"
@@ -85,12 +85,14 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
           }}
         >
           <NPC
+            parts={{
+              pants: "Blue Suspenders",
+              body: "Beige Farmer Potion",
+              hair: "Sun Spots",
+              shirt: "Fruit Picker Shirt",
+              hat: "Fruit Bowl",
+            }}
             onClick={() => setShowModal(true)}
-            pants="Blue Suspenders"
-            body="Beige Farmer Potion"
-            hair="Sun Spots"
-            shirt="Fruit Picker Shirt"
-            hat="Fruit Bowl"
           />
         </div>
       </MapPlacement>

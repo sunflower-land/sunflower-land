@@ -34,6 +34,7 @@ import {
   getGuestModeComplete,
   setGuestKey,
 } from "../actions/createGuestAccount";
+import { analytics } from "lib/analytics";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -210,10 +211,12 @@ export const authMachine = createMachine<
     id: "authMachine",
     initial: ART_MODE ? "connected" : "idle",
     context: {
-      user: {
-        type: "GUEST",
-        guestKey: getGuestKey(),
-      },
+      user: ART_MODE
+        ? { type: "FULL" }
+        : {
+            type: "GUEST",
+            guestKey: getGuestKey(),
+          },
     },
     states: {
       idle: {
@@ -277,10 +280,16 @@ export const authMachine = createMachine<
         id: "connectingToMetamask",
         invoke: {
           src: "initMetamask",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignGuestUser",
-          },
+          onDone: [
+            {
+              target: "setupContracts",
+              cond: (context) => context.user.type === "GUEST",
+              actions: "assignGuestUser",
+            },
+            {
+              target: "setupContracts",
+            },
+          ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
@@ -291,10 +300,16 @@ export const authMachine = createMachine<
         id: "connectingToWalletConnect",
         invoke: {
           src: "initWalletConnect",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignGuestUser",
-          },
+          onDone: [
+            {
+              target: "setupContracts",
+              cond: (context) => context.user.type === "GUEST",
+              actions: "assignGuestUser",
+            },
+            {
+              target: "setupContracts",
+            },
+          ],
           onError: [
             {
               target: "idle",
@@ -311,10 +326,16 @@ export const authMachine = createMachine<
         id: "connectingToSequence",
         invoke: {
           src: "initSequence",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignGuestUser",
-          },
+          onDone: [
+            {
+              target: "setupContracts",
+              cond: (context) => context.user.type === "GUEST",
+              actions: "assignGuestUser",
+            },
+            {
+              target: "setupContracts",
+            },
+          ],
           onError: [
             {
               target: "idle",
@@ -343,6 +364,8 @@ export const authMachine = createMachine<
               });
 
               setGuestKey(guestKey);
+
+              analytics.logEvent("play_as_guest");
             }
           },
           onDone: {
@@ -385,6 +408,10 @@ export const authMachine = createMachine<
             },
             {
               target: "connectedToWallet",
+              actions: (context) =>
+                analytics.logEvent("wallet_connected", {
+                  wallet: context.user.web3?.wallet,
+                }),
             },
           ],
           onError: {
@@ -598,6 +625,12 @@ export const authMachine = createMachine<
                   }
                 }
               },
+              (context) =>
+                analytics.initialise({
+                  id: context.user.farmId as number,
+                  type: context.user.type,
+                }),
+              () => analytics.logEvent("login"),
             ],
             on: {
               RETURN: {

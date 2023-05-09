@@ -171,16 +171,45 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     Bonus Offer
                   </a>
                   <img src={SUNNYSIDE.icons.timer} className="h-4 ml-2" />
-                  <img
-                    src={ITEM_DETAILS[getSeasonalTicket()].image}
-                    className="h-4 ml-1"
-                  />
+                  {/* TEMP */}
+                  {Date.now() < new Date("2023-05-03T00:00:00").getTime() && (
+                    <img
+                      src={ITEM_DETAILS[getSeasonalTicket()].image}
+                      className="h-4 ml-1"
+                    />
+                  )}
                 </div>
                 <div className="flex items-center">
                   <p className="text-xxs">
                     Earn 10 Seasonal Tickets for each meal.
                   </p>
                 </div>
+
+                {/* TEMP */}
+                {Date.now() < new Date("2023-05-03T00:00:00").getTime() && (
+                  <>
+                    <div className="flex mt-2">
+                      <a
+                        href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-tickets"
+                        target="_blank"
+                        className="text-xxs underline hover:text-blue-500"
+                        rel="noreferrer"
+                      >
+                        Dawn Breaker
+                      </a>
+                      <img
+                        src={ITEM_DETAILS["Dawn Breaker Ticket"].image}
+                        className="h-4 ml-1"
+                      />
+                    </div>
+                    <div className="flex items-center">
+                      <p className="text-xxs">
+                        Dawn Breaker Tickets will become available on the next
+                        set of orders.
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
             {selected && (

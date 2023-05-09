@@ -1,9 +1,10 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
+import { AbiItem, fromWei } from "web3-utils";
 import MinterABI from "./abis/AccountMinter.json";
 import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
+import { analytics } from "lib/analytics";
 
 export async function getCreatedAt(
   web3: Web3,
@@ -83,6 +84,20 @@ export async function createNewAccount({
       })
       .on("transactionHash", async (transactionHash: any) => {
         console.log({ transactionHash });
+        // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
+        analytics.logEvent("purchase", {
+          currency: "MATIC",
+          // Unique ID to prevent duplicate events
+          transaction_id: `create-${account}`,
+          value: Number(fromWei(fee)),
+          items: [
+            {
+              item_id: "NFT_ACCOUNT",
+              item_name: "NFT Account",
+            },
+          ],
+        });
+
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
           // We try to fetch it after we have a tx hash returned

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { CONFIG } from "lib/config";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
@@ -17,18 +16,16 @@ import { SubSettings } from "./sub-settings/SubSettings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { CommunityGardenModal } from "features/community/components/CommunityGardenModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Loading } from "features/auth/components";
-import { sequence } from "0xsequence";
-import { OpenWalletIntent } from "0xsequence/dist/declarations/src/provider";
-import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
 import { Discord } from "./DiscordModal";
 import { AddSFL } from "../AddSFL";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { AddMATIC } from "../AddMATIC";
 
 enum MENU_LEVELS {
   ROOT = "root",
   COMMUNITY = "community",
+  ON_RAMP = "on-ramp",
 }
 
 interface Props {
@@ -38,7 +35,6 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(GameContext);
 
   const [showShareModal, setShowShareModal] = useState(false);
@@ -50,7 +46,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
-  const [loadingOnRamp, setLoadingOnRamp] = useState(false);
   const { openModal } = useContext(ModalContext);
 
   const isFullUser = gameService?.state?.value === "playingFullGame";
@@ -73,38 +68,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   };
 
   const handleAddMatic = async () => {
-    setLoadingOnRamp(true);
-
-    // Temporarily link to sequence when adding funds. Until Wyre is ready.
-    if (authService.state.context.user.web3?.wallet === "SEQUENCE") {
-      const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
-
-      const sequenceWallet = await sequence.initWallet(network);
-
-      const intent: OpenWalletIntent = {
-        type: "openWithOptions",
-        options: SEQUENCE_CONNECT_OPTIONS,
-      };
-
-      const path = "wallet/add-funds";
-      sequenceWallet.openWallet(path, intent);
-    } else {
-      window.open(
-        "https://docs.sunflower-land.com/getting-started/web3-wallets#usdmatic",
-        "_blank"
-      );
-    }
-
-    // await onramp({
-    //   token: authService.state.context.rawToken as string,
-    //   transactionId: randomID(),
-    // });
-
-    onClose();
-
-    // Wait for the closing animation to finish
-    await new Promise((res) => setTimeout(res, 150));
-    setLoadingOnRamp(false);
+    setMenuLevel(MENU_LEVELS.ON_RAMP);
   };
 
   const handleAddSFL = () => {
@@ -144,77 +108,76 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     <>
       <Modal show={show} centered onHide={onHide}>
         <Panel>
-          {loadingOnRamp && <Loading />}
-          {!loadingOnRamp && (
-            <ul className="list-none pt-1">
-              {/* Root menu */}
-              {menuLevel === MENU_LEVELS.ROOT && (
-                <>
-                  {CONFIG.NETWORK === "mumbai" && (
-                    <>
-                      <li className="p-1">
-                        <DEV_GenerateLandButton />
-                      </li>
-                    </>
-                  )}
-                  {isFullUser && (
+          <ul className="list-none">
+            {/* Root menu */}
+            {menuLevel === MENU_LEVELS.ROOT && (
+              <>
+                {CONFIG.NETWORK === "mumbai" && (
+                  <>
                     <li className="p-1">
-                      <Button onClick={storeOnChain}>
-                        <span>Store progress on chain</span>
+                      <DEV_GenerateLandButton />
+                    </li>
+                  </>
+                )}
+                {isFullUser && (
+                  <li className="p-1">
+                    <Button onClick={storeOnChain}>
+                      <span>Store progress on chain</span>
+                    </Button>
+                  </li>
+                )}
+                <li className="p-1">
+                  <Button onClick={handleHowToPlay}>
+                    <div className="flex items-center justify-center">
+                      <span>How to play</span>
+                      <img
+                        src={SUNNYSIDE.icons.expression_confused}
+                        className="w-3 ml-2"
+                        alt="question-mark"
+                      />
+                    </div>
+                  </Button>
+                </li>
+                {isFullUser && (
+                  <>
+                    <li className="p-1">
+                      <Button
+                        onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}
+                      >
+                        <span>Community</span>
                       </Button>
                     </li>
-                  )}
-                  <li className="p-1">
-                    <Button onClick={handleHowToPlay}>
-                      <div className="flex items-center justify-center">
-                        <span>How to play</span>
-                        <img
-                          src={SUNNYSIDE.icons.expression_confused}
-                          className="w-3 ml-2"
-                          alt="question-mark"
-                        />
-                      </div>
-                    </Button>
-                  </li>
-                  {isFullUser && (
-                    <>
-                      <li className="p-1">
-                        <Button
-                          onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}
-                        >
-                          <span>Community</span>
-                        </Button>
-                      </li>
 
-                      <li className="p-1">
-                        <Button onClick={handleDiscordClick}>
-                          <span>Discord</span>
-                        </Button>
-                      </li>
+                    <li className="p-1">
+                      <Button onClick={handleDiscordClick}>
+                        <span>Discord</span>
+                      </Button>
+                    </li>
 
-                      <li className="p-1">
-                        <Button onClick={handleAddMatic}>
-                          <span>Add Matic</span>
-                        </Button>
-                      </li>
+                    <li className="p-1">
+                      <Button onClick={handleAddMatic}>
+                        <span>Add Matic</span>
+                      </Button>
+                    </li>
 
-                      <li className="p-1">
-                        <Button onClick={handleAddSFL}>
-                          <span>Add SFL</span>
-                        </Button>
-                      </li>
-                    </>
-                  )}
-                  <li className="p-1">
-                    <Button onClick={handleSettingsClick}>
-                      <span>Settings</span>
-                    </Button>
-                  </li>
-                </>
-              )}
+                    <li className="p-1">
+                      <Button onClick={handleAddSFL}>
+                        <span>Add SFL</span>
+                      </Button>
+                    </li>
+                  </>
+                )}
+                <li className="p-1">
+                  <Button onClick={handleSettingsClick}>
+                    <span>Settings</span>
+                  </Button>
+                </li>
+              </>
+            )}
 
-              {/* Back button when not Root */}
-              {menuLevel !== MENU_LEVELS.ROOT && (
+            {/* Community menu */}
+            {menuLevel === MENU_LEVELS.COMMUNITY && (
+              <>
                 <li className="p-1">
                   <Button onClick={() => setMenuLevel(MENU_LEVELS.ROOT)}>
                     <img
@@ -224,25 +187,23 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     />
                   </Button>
                 </li>
-              )}
+                <li className="p-1">
+                  <Button onClick={handleCommunityGardenClick}>
+                    <span>Community Garden</span>
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={handleShareClick}>
+                    <span>Share</span>
+                  </Button>
+                </li>
+              </>
+            )}
 
-              {/* Community menu */}
-              {menuLevel === MENU_LEVELS.COMMUNITY && (
-                <>
-                  <li className="p-1">
-                    <Button onClick={handleCommunityGardenClick}>
-                      <span>Community Garden</span>
-                    </Button>
-                  </li>
-                  <li className="p-1">
-                    <Button onClick={handleShareClick}>
-                      <span>Share</span>
-                    </Button>
-                  </li>
-                </>
-              )}
-            </ul>
-          )}
+            {menuLevel === MENU_LEVELS.ON_RAMP && (
+              <AddMATIC onClose={() => setMenuLevel(MENU_LEVELS.ROOT)} />
+            )}
+          </ul>
         </Panel>
       </Modal>
       <Share isOpen={showShareModal} onClose={() => setShowShareModal(false)} />

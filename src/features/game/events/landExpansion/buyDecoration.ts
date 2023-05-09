@@ -1,8 +1,14 @@
 import Decimal from "decimal.js-light";
+import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { getKeys } from "features/game/types/craftables";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  getKeys,
+} from "features/game/types/craftables";
 import {
   HELIOS_DECORATIONS,
+  SEASONAL_DECORATIONS,
+  SeasonalDecorationName,
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
@@ -10,7 +16,12 @@ import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
   type: "decoration.bought";
-  item: ShopDecorationName;
+  name: ShopDecorationName | SeasonalDecorationName;
+  id?: string;
+  coordinates?: {
+    x: number;
+    y: number;
+  };
 };
 
 type Options = {
@@ -18,10 +29,14 @@ type Options = {
   action: buyDecorationAction;
 };
 
+const DECORATIONS = (state: GameState) => {
+  return { ...HELIOS_DECORATIONS(), ...SEASONAL_DECORATIONS(state) };
+};
 export function buyDecoration({ state, action }: Options) {
+  console.log({ action });
   const stateCopy = cloneDeep(state);
-  const { item } = action;
-  const desiredItem = HELIOS_DECORATIONS()[item];
+  const { name } = action;
+  const desiredItem = DECORATIONS(stateCopy)[name];
 
   if (!desiredItem) {
     throw new Error("This item is not a decoration");
@@ -37,6 +52,10 @@ export function buyDecoration({ state, action }: Options) {
 
   if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {
     throw new Error("Insufficient tokens");
+  }
+
+  if (desiredItem.limit && stateCopy.inventory[name]?.gte(desiredItem.limit)) {
+    throw new Error("Max limit reached");
   }
 
   const subtractedInventory = getKeys(desiredItem.ingredients)?.reduce(
@@ -57,7 +76,7 @@ export function buyDecoration({ state, action }: Options) {
     stateCopy.inventory
   );
 
-  const oldAmount = stateCopy.inventory[item] ?? new Decimal(0);
+  const oldAmount = stateCopy.inventory[name] ?? new Decimal(0);
 
   bumpkin.activity = trackActivity(
     "SFL Spent",
@@ -65,10 +84,37 @@ export function buyDecoration({ state, action }: Options) {
     totalExpenses ?? new Decimal(0)
   );
   bumpkin.activity = trackActivity(
-    `${item} Bought`,
+    `${name} Bought`,
     bumpkin?.activity,
     new Decimal(1)
   );
+
+  if (action.coordinates && action.id) {
+    const dimensions = COLLECTIBLES_DIMENSIONS[name];
+    const collides = detectCollision(stateCopy, {
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    });
+
+    if (collides) {
+      throw new Error("Decoration collides");
+    }
+
+    const previous = stateCopy.collectibles[name] ?? [];
+
+    if (previous.find((item) => item.id === action.id)) {
+      throw new Error("ID already exists");
+    }
+
+    stateCopy.collectibles[name] = previous.concat({
+      id: action.id,
+      coordinates: { x: action.coordinates.x, y: action.coordinates.y },
+      readyAt: Date.now(),
+      createdAt: Date.now(),
+    });
+  }
 
   return {
     ...stateCopy,
@@ -78,7 +124,7 @@ export function buyDecoration({ state, action }: Options) {
     inventory: {
       ...stateCopy.inventory,
       ...subtractedInventory,
-      [item]: oldAmount.add(1) as Decimal,
+      [name]: oldAmount.add(1) as Decimal,
     },
   };
 }

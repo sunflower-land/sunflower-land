@@ -3,7 +3,7 @@ import shuffle from "lodash.shuffle";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
@@ -14,11 +14,10 @@ import classNames from "classnames";
 import { Loading } from "./Loading";
 import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
-import { sequence } from "0xsequence";
-import { OpenWalletIntent } from "@0xsequence/provider";
-import { SEQUENCE_CONNECT_OPTIONS } from "../lib/sequence";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Modal } from "react-bootstrap";
+import { AddMATIC } from "features/island/hud/components/AddMATIC";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -99,6 +98,7 @@ export const CreateFarm: React.FC = () => {
   const [charity, setCharity] = useState<CharityAddress | null>(null);
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [screen, setScreen] = useState<"intro" | "create">("intro");
+  const [showAddFunds, setShowAddFunds] = useState(false);
 
   const isLoading = createFarmState.matches("loading");
   const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
@@ -127,35 +127,7 @@ export const CreateFarm: React.FC = () => {
     });
   };
 
-  const addFunds = async () => {
-    // Temporarily link to sequence when adding funds. Until Wyre is ready.
-    if (authState.context.user.web3?.wallet === "SEQUENCE") {
-      const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
-
-      const sequenceWallet = await sequence.initWallet(network);
-
-      const intent: OpenWalletIntent = {
-        type: "openWithOptions",
-        options: SEQUENCE_CONNECT_OPTIONS,
-      };
-
-      const path = "wallet/add-funds";
-      sequenceWallet.openWallet(path, intent);
-    } else {
-      window.open(
-        "https://docs.sunflower-land.com/getting-started/web3-wallets#usdmatic",
-        "_blank"
-      );
-    }
-
-    // await onramp(
-    //   {
-    //     token: authService.state.context.rawToken as string,
-    //     transactionId: randomID(),
-    //   },
-    //   () => setPaymentConfirmed(true)
-    // );
-  };
+  const addFunds = async () => setShowAddFunds(true);
 
   if (showCaptcha) {
     return (
@@ -275,6 +247,12 @@ export const CreateFarm: React.FC = () => {
           </ol>
         </>
       )}
+
+      <Modal show={showAddFunds} onHide={() => setShowAddFunds(false)} centered>
+        <Panel>
+          <AddMATIC onClose={() => setShowAddFunds(false)} />
+        </Panel>
+      </Modal>
     </div>
   );
 };

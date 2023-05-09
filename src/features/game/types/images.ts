@@ -1,5 +1,4 @@
 // CROPS
-
 import magicBean from "assets/crops/magic_bean.png";
 import shinyBean from "assets/crops/shiny_bean.png";
 import goldenBean from "assets/crops/golden_bean.png";
@@ -12,7 +11,7 @@ import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
 import farmCat from "assets/sfts/farm_cat.gif";
 import farmDog from "assets/sfts/farm_dog.gif";
-import gnome from "assets/sfts/gnome.png";
+import gnome from "assets/decorations/scarlet.png";
 import goldEgg from "assets/sfts/gold_egg.png";
 import potatoStatue from "assets/sfts/potato_statue.png";
 import scarecrow from "assets/sfts/scarecrow.png";
@@ -49,6 +48,9 @@ import immortalPear from "assets/sfts/immortal_pear.gif";
 import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
+import luminousLantern from "assets/sfts/luminous_lantern.webp";
+import auroraLantern from "assets/sfts/aurora_lantern.webp";
+import radianceLantern from "assets/sfts/radiance_lantern.webp";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -174,9 +176,10 @@ import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
-import dawnBreakerTicket from "assets/icons/solar_flare_ticket.png";
+import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
-
+import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
 import humanBanner from "assets/sfts/human_banner.png";
@@ -346,6 +349,25 @@ import dirt from "assets/sfts/dirt_path.png";
 import bush from "assets/decorations/bush.png";
 import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
+import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
+import genieLamp from "assets/sfts/genie_lamp.png";
+
+import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
+import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
+import crimsonCap from "assets/decorations/crimson_cap.png";
+import toadstoolSeat from "assets/decorations/toadstool_seat.png";
+import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
+import mahoganyCap from "assets/decorations/mahogony_cap.png";
+import clementine from "assets/decorations/clementine.png";
+import cobalt from "assets/decorations/cobalt.png";
+import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
+import eggplantGrill from "assets/decorations/eggplant_grill.png";
+import giantDawnMushroom from "assets/decorations/giant_dawn_mushroom.png";
+import shroomGlow from "assets/decorations/shroom_glow.png";
+import purpleTrail from "assets/sfts/purple_trail.png";
+import obie from "assets/sfts/obie.png";
+import maximus from "assets/sfts/maximus.png";
+import hoot from "assets/sfts/hoot.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -371,7 +393,7 @@ import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { HELIOS_DECORATIONS } from "./decorations";
+import { HELIOS_DECORATIONS, SEASONAL_DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -431,6 +453,10 @@ export const ITEM_DETAILS: Items = {
     ...crops.Parsnip,
     image: CROP_LIFECYCLE.Parsnip.crop,
   },
+  Eggplant: {
+    ...crops.Eggplant,
+    image: CROP_LIFECYCLE.Eggplant.crop,
+  },
   Radish: {
     ...crops.Radish,
     image: CROP_LIFECYCLE.Radish.crop,
@@ -484,6 +510,11 @@ export const ITEM_DETAILS: Items = {
     ...seeds["Parsnip Seed"],
     image: CROP_LIFECYCLE.Parsnip.seed,
     secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
+  },
+  "Eggplant Seed": {
+    ...seeds["Eggplant Seed"],
+    image: CROP_LIFECYCLE.Eggplant.seed,
+    secondaryImage: CROP_LIFECYCLE.Eggplant.crop,
   },
   "Radish Seed": {
     ...seeds["Radish Seed"],
@@ -1635,12 +1666,12 @@ export const ITEM_DETAILS: Items = {
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Boy"].description,
+    description: "Don't wake the baby!",
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: GOBLIN_BLACKSMITH_ITEMS["Cabbage Girl"].description,
+    description: "Shhh it's sleeping",
   },
 
   "Wood Nymph Wendy": {
@@ -1692,15 +1723,17 @@ export const ITEM_DETAILS: Items = {
   },
   "Lady Bug": {
     image: ladybug,
-    description: GOBLIN_BLACKSMITH_ITEMS["Lady Bug"].description,
+    description: GOBLIN_BLACKSMITH_ITEMS()["Lady Bug"].description,
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
-    description: GOBLIN_BLACKSMITH_ITEMS["Squirrel Monkey"].description,
+    description:
+      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
   },
   "Black Bearry": {
     image: blackBear,
-    description: GOBLIN_BLACKSMITH_ITEMS["Black Bearry"].description,
+    description:
+      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
   },
   "Devil Bear": {
     image: devilBear,
@@ -1912,6 +1945,11 @@ export const ITEM_DETAILS: Items = {
     image: ironIdol,
     description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
   },
+  "Genie Lamp": {
+    image: genieLamp,
+    description:
+      "A magical lamp that contains a genie who will grant you three wishes.",
+  },
 
   // Season tickets
   "Solar Flare Ticket": {
@@ -1931,15 +1969,21 @@ export const ITEM_DETAILS: Items = {
   // Solar Flare Season
   "Beach Ball": {
     image: beachBall,
-    description: GOBLIN_BLACKSMITH_ITEMS["Beach Ball"].description,
+    description: "Bouncy ball brings beachy vibes, blows boredom away.",
   },
   "Palm Tree": {
     image: palmTree,
-    description: GOBLIN_BLACKSMITH_ITEMS["Palm Tree"].description,
+    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
   },
   Karkinos: {
     image: karkinos,
     description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
+  },
+
+  // Dawn Breaker Season
+  "Mushroom House": {
+    image: mushroomHouse,
+    description: GOBLIN_BLACKSMITH_ITEMS()["Mushroom House"].description,
   },
 
   "Basic Land": {
@@ -1977,18 +2021,105 @@ export const ITEM_DETAILS: Items = {
   },
   "Dirt Path": {
     image: dirt,
-    description: "?",
+    description: "Keep your farmer boots clean with a well trodden path.",
   },
   Bush: {
     image: bush,
-    description: "?",
+    description: "What's lurking in the bushes?",
   },
   Fence: {
     image: fence,
-    description: "?",
+    description: "Add a touch of rustic charm to your farm.",
   },
   Shrub: {
     image: shrub,
+    description: "Enhance your in-game landscaping with a beautiful shrub",
+  },
+  "Solar Flare Banner": {
+    image: solarFlareBanner,
     description: "?",
+  },
+  "Dawn Breaker Banner": {
+    image: dawnBreakerBanner,
+    description: "?",
+  },
+  "Luminous Lantern": {
+    image: luminousLantern,
+    description: "A bright paper lantern that illuminates the way.",
+  },
+  "Radiance Lantern": {
+    image: radianceLantern,
+    description: "A radiant paper lantern that shines with a powerful light.",
+  },
+  "Aurora Lantern": {
+    image: auroraLantern,
+    description:
+      "A paper lantern that transforms any space into a magical wonderland.",
+  },
+
+  "Bonnie's Tombstone": {
+    image: bonniesTombstone,
+    description: HELIOS_DECORATIONS()["Bonnie's Tombstone"].description,
+  },
+  "Chestnut Fungi Stool": {
+    image: chestnutStool,
+    description: HELIOS_DECORATIONS()["Chestnut Fungi Stool"].description,
+  },
+  "Crimson Cap": {
+    image: crimsonCap,
+    description: HELIOS_DECORATIONS()["Crimson Cap"].description,
+  },
+  "Dawn Umbrella Seat": {
+    image: dawnUmbrellaSeat,
+    description: SEASONAL_DECORATIONS()["Dawn Umbrella Seat"].description,
+  },
+  "Eggplant Grill": {
+    image: eggplantGrill,
+    description: SEASONAL_DECORATIONS()["Eggplant Grill"].description,
+  },
+  "Giant Dawn Mushroom": {
+    image: giantDawnMushroom,
+    description: SEASONAL_DECORATIONS()["Giant Dawn Mushroom"].description,
+  },
+  "Grubnash's Tombstone": {
+    image: grubnashTombstone,
+    description: HELIOS_DECORATIONS()["Grubnash's Tombstone"].description,
+  },
+  "Mahogany Cap": {
+    image: mahoganyCap,
+    description: HELIOS_DECORATIONS()["Mahogany Cap"].description,
+  },
+  "Shroom Glow": {
+    image: shroomGlow,
+    description: SEASONAL_DECORATIONS()["Shroom Glow"].description,
+  },
+  "Toadstool Seat": {
+    image: toadstoolSeat,
+    description: HELIOS_DECORATIONS()["Toadstool Seat"].description,
+  },
+  Clementine: {
+    image: clementine,
+    description: SEASONAL_DECORATIONS()["Clementine"].description,
+  },
+  Cobalt: {
+    image: cobalt,
+    description: SEASONAL_DECORATIONS()["Cobalt"].description,
+  },
+  "Purple Trail": {
+    image: purpleTrail,
+    description:
+      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+  },
+  Maximus: {
+    image: maximus,
+    description: "Squash the competition with plump Maximus",
+  },
+  Obie: {
+    image: obie,
+    description: "A fierce eggplant solider",
+  },
+  Hoot: {
+    image: hoot,
+    description: "Hoot hoot! Have you solved my riddle yet?",
   },
 };

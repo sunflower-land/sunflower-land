@@ -30,6 +30,8 @@ import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { MachineState } from "features/game/lib/gameMachine";
+import { Rock } from "features/game/types/game";
+import { ZoomContext } from "components/ZoomProvider";
 
 const HITS = 3;
 const tool = "Iron Pickaxe";
@@ -37,11 +39,22 @@ const tool = "Iron Pickaxe";
 const selectInventoryToolCount = (state: MachineState) =>
   state.context.state.inventory[tool] ?? new Decimal(0);
 
+const compareResource = (prev: Rock, next: Rock) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareInventoryToolCount = (prev: Decimal, next: Decimal) => {
+  return (
+    prev.equals(next) ||
+    prev.greaterThanOrEqualTo(1) === next.greaterThanOrEqualTo(1)
+  );
+};
+
 interface Props {
   id: string;
 }
 
 export const Gold: React.FC<Props> = ({ id }) => {
+  const { scale } = useContext(ZoomContext);
   const { gameService, selectedItem } = useContext(Context);
 
   const [showPopover, setShowPopover] = useState(true);
@@ -59,9 +72,14 @@ export const Gold: React.FC<Props> = ({ id }) => {
 
   const resource = useSelector(
     gameService,
-    (state) => state.context.state.gold[id]
+    (state) => state.context.state.gold[id],
+    compareResource
   );
-  const inventoryToolCount = useSelector(gameService, selectInventoryToolCount);
+  const inventoryToolCount = useSelector(
+    gameService,
+    selectInventoryToolCount,
+    compareInventoryToolCount
+  );
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {
@@ -210,6 +228,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
               image={sparkSheet}
               widthFrame={112}
               heightFrame={48}
+              zoomScale={scale}
               fps={24}
               steps={6}
               direction={`forward`}
@@ -253,6 +272,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
         image={dropSheet}
         widthFrame={112}
         heightFrame={48}
+        zoomScale={scale}
         fps={18}
         steps={10}
         direction={`forward`}

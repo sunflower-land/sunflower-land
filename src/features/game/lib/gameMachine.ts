@@ -35,10 +35,10 @@ import { reset } from "features/farming/hud/actions/reset";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
-  editingMachine,
   GuestSaveEvent,
+  landscapingMachine,
   SaveEvent,
-} from "../expansion/placeable/editingMachine";
+} from "../expansion/placeable/landscapingMachine";
 import { BuildingName } from "../types/buildings";
 import { Context } from "../GameProvider";
 import { isSwarming } from "../events/detectBot";
@@ -52,13 +52,16 @@ import { getSessionId } from "lib/blockchain/Sessions";
 import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
-import { GoblinBlacksmithItemName } from "../types/collectibles";
+import {
+  GoblinBlacksmithItemName,
+  SeasonPassName,
+} from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
+  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import Decimal from "decimal.js-light";
 import { loadGuestSession } from "../actions/loadGuestSession";
 import { guestAutosave } from "../actions/guestAutosave";
@@ -69,6 +72,7 @@ import {
   setGuestModeComplete,
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
+import { purchaseItem } from "../actions/purchaseItem";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -115,14 +119,22 @@ type SyncEvent = {
   blockBucks: number;
 };
 
-type EditEvent = {
-  placeable: BuildingName | CollectibleName;
-  action: GameEventName<PlacementEvent>;
-  type: "EDIT";
-  requirements: {
+type PurchaseEvent = {
+  type: "PURCHASE_ITEM";
+  name: SeasonPassName;
+  amount: number;
+};
+
+type LandscapeEvent = {
+  placeable?: BuildingName | CollectibleName;
+  action?: GameEventName<PlacementEvent>;
+  type: "LANDSCAPE";
+  requirements?: {
     sfl: Decimal;
     ingredients: Inventory;
   };
+  multiple?: boolean;
+  maximum?: number;
 };
 
 type VisitEvent = {
@@ -148,6 +160,7 @@ export type BlockchainEvent =
       type: "SAVE";
     }
   | SyncEvent
+  | PurchaseEvent
   | {
       type: "REFRESH";
     }
@@ -176,7 +189,7 @@ export type BlockchainEvent =
   | WithdrawEvent
   | GameEvent
   | MintEvent
-  | EditEvent
+  | LandscapeEvent
   | VisitEvent
   | BuySFLEvent
   | DepositEvent
@@ -218,6 +231,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
             state: processEvent({
               state: context.state as GameState,
               action: event,
+              announcements: context.announcements,
             }) as GameState,
             actions: [
               ...context.actions,
@@ -271,6 +285,7 @@ export type BlockchainState = {
     | "autosaving"
     | "syncing"
     | "synced"
+    | "purchasing"
     | "buyingSFL"
     | "revealing"
     | "revealed"
@@ -279,7 +294,8 @@ export type BlockchainState = {
     | "swarming"
     | "hoarding"
     | "depositing"
-    | "editing"
+    | "landscaping"
+    | "promoting"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -371,7 +387,11 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   );
 
   const updatedState = recentActions.reduce((state, action) => {
-    return processEvent({ state, action });
+    return processEvent({
+      state,
+      action,
+      announcements: context.announcements,
+    });
   }, event.data.farm);
 
   return {
@@ -394,23 +414,7 @@ export function startGame(authContext: AuthContext) {
         state: EMPTY,
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
-        announcements: {
-          "referral-announcement": {
-            headline: "Referral Program",
-            content: [
-              {
-                text: "The Sunflower Supporters program has officially launched!",
-              },
-              {
-                text: "Earn $1 USD* for each friend that creates an account",
-                image:
-                  "https://sunflower-land.com/testnet-assets/announcements/referrals.gif",
-              },
-            ],
-            from: "grimbly",
-            link: "https://sunflower-land.com/#referrals",
-          },
-        },
+        announcements: {},
       },
       states: {
         loading: {
@@ -429,95 +433,99 @@ export function startGame(authContext: AuthContext) {
           ],
           invoke: {
             src: async (context) => {
-              if (authContext.user.type === "GUEST") {
-                const response = await loadGuestSession({
-                  transactionId: context.transactionId as string,
-                  guestKey: authContext.user.guestKey as string,
-                });
+              try {
+                if (authContext.user.type === "GUEST") {
+                  const response = await loadGuestSession({
+                    transactionId: context.transactionId as string,
+                    guestKey: authContext.user.guestKey as string,
+                  });
 
-                if (!response) throw new Error("NO_FARM");
+                  if (!response) throw new Error("NO_FARM");
 
-                const { game, deviceTrackerId } = response;
+                  const { game, deviceTrackerId } = response;
 
-                return {
-                  state: game,
-                  deviceTrackerId,
-                };
-              }
-
-              if (!wallet.myAccount) throw new Error("No account");
-
-              const user = authContext.user;
-
-              const farmAddress = user.farmAddress as string;
-              const farmId = user.farmId as number;
-
-              const { game: onChain, bumpkin } = await getGameOnChainState({
-                farmAddress,
-                account: wallet.myAccount,
-                id: farmId,
-              });
-
-              const onChainEvents = await unseenEvents({
-                farmAddress,
-                farmId,
-              });
-
-              // Get sessionId
-              const sessionId =
-                farmId && (await getSessionId(wallet.web3Provider, farmId));
-
-              // Load the farm session
-              if (sessionId) {
-                const fingerprint = "X";
-
-                const guestKey = getGuestKey() ?? undefined;
-
-                const response = await loadSession({
-                  farmId,
-                  bumpkinTokenUri: bumpkin?.tokenURI,
-                  sessionId,
-                  token: authContext.user.rawToken as string,
-                  wallet: authContext.user.web3?.wallet as string,
-                  transactionId: context.transactionId as string,
-                  guestKey,
-                });
-
-                if (!response) {
-                  throw new Error("NO_FARM");
+                  return {
+                    state: game,
+                    deviceTrackerId,
+                  };
                 }
 
-                removeGuestKey();
-                setGuestModeComplete();
+                if (!wallet.myAccount) throw new Error("No account");
 
-                const {
-                  game,
-                  whitelistedAt,
-                  itemsMintedAt,
-                  deviceTrackerId,
-                  status,
-                  announcements,
-                } = response;
+                const user = authContext.user;
 
-                return {
-                  state: {
-                    ...game,
-                    farmAddress,
-                    id: farmId,
-                  },
-                  sessionId,
-                  whitelistedAt,
-                  fingerprint,
-                  itemsMintedAt,
-                  onChain,
-                  notifications: onChainEvents,
-                  deviceTrackerId,
-                  status,
-                  announcements,
-                };
+                const farmAddress = user.farmAddress as string;
+                const farmId = user.farmId as number;
+
+                const { game: onChain, bumpkin } = await getGameOnChainState({
+                  farmAddress,
+                  account: wallet.myAccount,
+                  id: farmId,
+                });
+
+                const onChainEvents = await unseenEvents({
+                  farmAddress,
+                  farmId,
+                });
+
+                // Get sessionId
+                const sessionId =
+                  farmId && (await getSessionId(wallet.web3Provider, farmId));
+
+                // Load the farm session
+                if (sessionId) {
+                  const fingerprint = "X";
+
+                  const guestKey = getGuestKey() ?? undefined;
+
+                  const response = await loadSession({
+                    farmId,
+                    bumpkinTokenUri: bumpkin?.tokenURI,
+                    sessionId,
+                    token: authContext.user.rawToken as string,
+                    wallet: authContext.user.web3?.wallet as string,
+                    transactionId: context.transactionId as string,
+                    guestKey,
+                  });
+
+                  if (!response) {
+                    throw new Error("NO_FARM");
+                  }
+
+                  removeGuestKey();
+                  setGuestModeComplete();
+
+                  const {
+                    game,
+                    whitelistedAt,
+                    itemsMintedAt,
+                    deviceTrackerId,
+                    status,
+                    announcements,
+                  } = response;
+
+                  return {
+                    state: {
+                      ...game,
+                      farmAddress,
+                      id: farmId,
+                    },
+                    sessionId,
+                    whitelistedAt,
+                    fingerprint,
+                    itemsMintedAt,
+                    onChain,
+                    notifications: onChainEvents,
+                    deviceTrackerId,
+                    status,
+                    announcements,
+                  };
+                }
+
+                return { state: OFFLINE_FARM, onChain };
+              } catch (e) {
+                console.log({ e });
               }
-
-              return { state: OFFLINE_FARM, onChain };
             },
             onDone: {
               target: "notifying",
@@ -637,6 +645,8 @@ export function startGame(authContext: AuthContext) {
               target: "swarming",
               cond: () => isSwarming(),
             },
+            // TODO - introduction > tutorial_begin
+
             {
               target: "noBumpkinFound",
               cond: (context: Context, event: any) =>
@@ -647,16 +657,16 @@ export function startGame(authContext: AuthContext) {
             {
               target: "noTownCenter",
               cond: (context: Context) => {
-                console.log({
-                  test: context.state.buildings["Town Center"],
-                  val:
-                    (context.state.buildings["Town Center"] ?? []).length === 0,
-                });
-
                 return (
                   (context.state.buildings["Town Center"] ?? []).length === 0
                 );
               },
+            },
+            {
+              target: "promoting",
+              cond: (context) =>
+                !getSeasonPassRead() &&
+                (context.state.bumpkin?.experience ?? 0) > 0,
             },
             {
               target: "playing",
@@ -664,6 +674,13 @@ export function startGame(authContext: AuthContext) {
           ],
         },
         noBumpkinFound: {},
+        promoting: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
         noTownCenter: {
           on: {
             ACKNOWLEDGE: {
@@ -703,8 +720,8 @@ export function startGame(authContext: AuthContext) {
             REFRESH: {
               target: "loading",
             },
-            EDIT: {
-              target: "editing",
+            LANDSCAPE: {
+              target: "landscaping",
             },
             UPGRADE: {
               target: "upgradingGuestGame",
@@ -769,6 +786,9 @@ export function startGame(authContext: AuthContext) {
             SYNC: {
               target: "syncing",
             },
+            PURCHASE_ITEM: {
+              target: "purchasing",
+            },
             REVEAL: {
               target: "revealing",
             },
@@ -787,8 +807,8 @@ export function startGame(authContext: AuthContext) {
             REFRESH: {
               target: "loading",
             },
-            EDIT: {
-              target: "editing",
+            LANDSCAPE: {
+              target: "landscaping",
             },
             RANDOMISE: {
               target: "randomising",
@@ -879,6 +899,45 @@ export function startGame(authContext: AuthContext) {
                 captcha: (event as SyncEvent).captcha,
                 transactionId: context.transactionId as string,
                 blockBucks: (event as SyncEvent).blockBucks,
+              });
+
+              return {
+                sessionId: sessionId,
+              };
+            },
+            onDone: {
+              target: "synced",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
+        purchasing: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { sessionId } = await purchaseItem({
+                farmId: Number(authContext.user.farmId),
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+                item: (event as PurchaseEvent).name,
+                amount: (event as PurchaseEvent).amount,
               });
 
               return {
@@ -1057,19 +1116,20 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        editing: {
+
+        landscaping: {
           invoke: {
-            id: "editing",
-            src: editingMachine,
+            id: "landscaping",
+            src: landscapingMachine,
             data: {
-              placeable: (_: Context, event: EditEvent) => event.placeable,
-              action: (_: Context, event: EditEvent) => event.action,
-              requirements: (_: Context, event: EditEvent) =>
+              placeable: (_: Context, event: LandscapeEvent) => event.placeable,
+              action: (_: Context, event: LandscapeEvent) => event.action,
+              requirements: (_: Context, event: LandscapeEvent) =>
                 event.requirements,
               coordinates: { x: 0, y: 0 },
               collisionDetected: true,
-              hasMultiple: (c: Context, event: EditEvent) =>
-                getChestItems(c.state)[event.placeable]?.gt(1),
+              multiple: (_: Context, event: LandscapeEvent) => event.multiple,
+              maximum: (_: Context, event: LandscapeEvent) => event.maximum,
             },
             onDone: {
               target: "autosaving",
@@ -1099,7 +1159,7 @@ export function startGame(authContext: AuthContext) {
                         gameMachineContext: context,
                         guestKey: (authContext.user as any).guestKey,
                       } as GuestSaveEvent),
-                    { to: "editing" }
+                    { to: "landscaping" }
                   ),
                 },
                 {
@@ -1111,7 +1171,7 @@ export function startGame(authContext: AuthContext) {
                         rawToken: authContext.user.rawToken as string,
                         farmId: authContext.user.farmId as number,
                       } as SaveEvent),
-                    { to: "editing" }
+                    { to: "landscaping" }
                   ),
                 },
               ]),
