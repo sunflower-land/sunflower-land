@@ -39,18 +39,9 @@ export const ZoomContext = createContext<Context>({
 
 export const ZoomProvider: React.FC = ({ children }) => {
   const scale = useSpringValue(1, { config: config.stiff });
+  const { minScale, maxScale } = getScaleLimits();
 
-  window.addEventListener("resize", () => updateScale(0));
-
-  const updateScale = (delta: number) => {
-    const { minScale, maxScale } = getScaleLimits();
-
-    let newScale = scale.get() + delta;
-    if (newScale < minScale) newScale = minScale;
-    if (newScale > maxScale) newScale = maxScale;
-
-    scale.start(newScale);
-  };
+  window.addEventListener("resize", () => scale.start(1));
 
   useEffect(() => {
     const handler = (e: Event) => e.preventDefault();
@@ -65,10 +56,14 @@ export const ZoomProvider: React.FC = ({ children }) => {
   }, []);
 
   usePinch(
-    ({ movement: [s] }) => {
-      updateScale(s - 1);
+    ({ offset: [delta] }) => {
+      scale.start(delta);
     },
-    { target: document.body, pointer: { touch: true } }
+    {
+      target: document.body,
+      pointer: { touch: true },
+      scaleBounds: { min: minScale, max: maxScale },
+    }
   );
 
   return (
