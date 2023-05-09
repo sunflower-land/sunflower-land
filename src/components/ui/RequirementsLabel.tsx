@@ -135,11 +135,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
 
   const getText = () => {
     switch (props.type) {
-      case "sfl": {
-        return props.requirement.equals(0)
-          ? "Free"
-          : `${props.requirement.toNumber()}`;
-      }
+      case "sfl":
       case "sellForSfl": {
         return `${props.requirement.toNumber()}`;
       }

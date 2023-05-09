@@ -124,16 +124,6 @@ export const PlayerBumpkin: React.FC<Props> = ({
                   />
                 </div>
                 <div className="flex flex-1 items-center justify-center flex-col">
-                  {availableLantern.sfl && (
-                    <RequirementLabel
-                      type="sfl"
-                      balance={balance}
-                      requirement={SFLDiscount(
-                        gameService.state?.context.state,
-                        availableLantern.sfl.mul(multiplier)
-                      )}
-                    />
-                  )}
                   {availableLantern.ingredients &&
                     getKeys(availableLantern.ingredients).map((name) => (
                       <RequirementLabel
@@ -146,6 +136,16 @@ export const PlayerBumpkin: React.FC<Props> = ({
                         balance={inventory[name] ?? new Decimal(0)}
                       />
                     ))}
+                  {availableLantern.sfl?.gt(0) && (
+                    <RequirementLabel
+                      type="sfl"
+                      balance={balance}
+                      requirement={SFLDiscount(
+                        gameService.state?.context.state,
+                        availableLantern.sfl.mul(multiplier)
+                      )}
+                    />
+                  )}
                 </div>
               </OuterPanel>
             </div>
