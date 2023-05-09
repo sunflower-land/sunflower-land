@@ -38,10 +38,11 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
       <BuildingImageWrapper onClick={handleClick}>
         <img
           src={building}
-          className="absolute bottom-0"
+          className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 61}px`,
             height: `${PIXEL_SCALE * 49}px`,
+            left: `${PIXEL_SCALE * 1}px`,
           }}
         />
       </BuildingImageWrapper>

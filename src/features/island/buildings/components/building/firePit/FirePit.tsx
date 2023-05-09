@@ -86,7 +86,7 @@ export const FirePit: React.FC<Props> = ({
       <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={firePit}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -155,10 +155,10 @@ export const FirePit: React.FC<Props> = ({
         {messageId && (
           <img
             src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-pulsate"
+            className="absolute animate-float pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              bottom: `${PIXEL_SCALE * 32}px`,
+              width: `${PIXEL_SCALE * 9}px`,
+              bottom: `${PIXEL_SCALE * 35}px`,
               left: `${PIXEL_SCALE * 15}px`,
             }}
           />
