@@ -386,11 +386,16 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
     </div>
   ),
   "Genie Lamp": () => (
-    <img
-      src={ITEM_DETAILS["Genie Lamp"].image}
-      className={classNames("absolute", { "saturate-50": false })}
-      style={{ width: `${PIXEL_SCALE * 22}px`, bottom: `${PIXEL_SCALE * 4}px` }}
-    />
+    <div
+      className="absolute"
+      style={{ left: `${PIXEL_SCALE * 4}px`, width: `${PIXEL_SCALE * 22}px` }}
+    >
+      <img
+        src={ITEM_DETAILS["Genie Lamp"].image}
+        className="absolute w-full cursor-pointer hover:img-highlight"
+        alt="Genie Lamp"
+      />
+    </div>
   ),
 };
 

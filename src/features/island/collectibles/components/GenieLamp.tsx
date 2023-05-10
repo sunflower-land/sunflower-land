@@ -56,17 +56,19 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
   };
 
   return (
-    <>
+    <div
+      className="absolute"
+      style={{ left: `${PIXEL_SCALE * 4}px`, width: `${PIXEL_SCALE * 22}px` }}
+    >
       <img
         onClick={() => setIsConfirming(true)}
         src={genieLamp}
-        style={{
-          width: `${PIXEL_SCALE * 22}px`,
-          bottom: `${PIXEL_SCALE * 4}px`,
-        }}
-        className={classNames("absolute cursor-pointer hover:img-highlight", {
-          "saturate-50": hasBeenRubbed,
-        })}
+        className={classNames(
+          "absolute w-full cursor-pointer hover:img-highlight",
+          {
+            "saturate-50": hasBeenRubbed,
+          }
+        )}
         alt="Genie Lamp"
       />
       <Modal show={isConfirming} centered onHide={() => setIsConfirming(false)}>
@@ -99,6 +101,19 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
             >
               {wishesRemaining} wish{wishesRemaining > 1 && "es"} remaining!
             </span>
+            {!hasBeenRubbed && (
+              <span className="text-center text-xs mb-1">
+                {"You cannot withdraw the lamp once it has been rubbed. "}
+                <a
+                  className="underline"
+                  href="https://docs.sunflower-land.com/player-guides/islands/treasure-island#genie-lamp"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Read more
+                </a>
+              </span>
+            )}
           </div>
           <Button onClick={rub}>Make a wish</Button>
         </CloseButtonPanel>
@@ -127,6 +142,6 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
           </Panel>
         </Modal>
       )}
-    </>
+    </div>
   );
 };

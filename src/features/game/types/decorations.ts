@@ -286,7 +286,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 2,
   },
   "Genie Lamp": {
-    width: 1,
+    width: 2,
     height: 1,
   },
   "Genie Bear": {
