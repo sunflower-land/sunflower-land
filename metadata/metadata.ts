@@ -3391,7 +3391,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "The magical bunny that increases your carrot harvests",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/926.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Crop Plot": {
@@ -3506,8 +3506,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A radiant paper lantern that shines with a powerful light.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1250.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Aurora Lantern": {
@@ -3515,8 +3514,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A paper lantern that transforms any space into a magical wonderland.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1251.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Bonnie's Tombstone": {
@@ -3524,8 +3522,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1252.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Chestnut Fungi Stool": {
@@ -3533,8 +3530,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1253.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Crimson Cap": {
@@ -3542,8 +3538,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1254.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Dawn Umbrella Seat": {
@@ -3551,8 +3546,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1255.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Eggplant Grill": {
@@ -3560,8 +3554,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1256.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Giant Dawn Mushroom": {
@@ -3569,16 +3562,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1257.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Grubnash's Tombstone": {
     description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1258.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Mahogany Cap": {
@@ -3586,8 +3577,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1259.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
 
@@ -3596,16 +3586,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Illuminate your farm with the enchanting glow of Shroom Glow.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1263.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Toadstool Seat": {
     description: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1260.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   Clementine: {
@@ -3613,8 +3601,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "The Clementine Gnome is a cheerful companion for your farming adventures.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1261.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   Cobalt: {
@@ -3622,8 +3609,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1262.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Mushroom House": {
@@ -3656,5 +3642,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/459.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Hoot: {
+    description: "Hoot hoot! Have you solved my riddle yet?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/461.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Genie Bear": {
+    description: "Exactly what I wished for!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1264.png",
+    attributes: [],
   },
 };

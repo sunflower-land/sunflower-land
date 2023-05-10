@@ -22,10 +22,11 @@ export type SoldOutCollectibleName =
   | "Giant Carrot"
   | "Maneki Neko"
   | "Squirrel Monkey"
-  | "Black Bearry";
+  | "Black Bearry"
+  | "Hoot"
+  | "Lady Bug";
 
 export type GoblinBlacksmithItemName =
-  | "Lady Bug"
   | "Purple Trail"
   | "Obie"
   | "Mushroom House"
@@ -120,16 +121,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
   state?: GameState
 ) => Record<GoblinBlacksmithItemName, GoblinBlacksmithCraftable> = (state) => {
   return {
-    "Lady Bug": {
-      description:
-        "An incredible bug that feeds on aphids. Improves Apple quality.",
-      ingredients: {
-        Gold: new Decimal(25),
-        Apple: new Decimal(100),
-      },
-      supply: 2535,
-      boost: "+0.25 Apples",
-    },
     "Mushroom House": {
       description:
         "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
@@ -137,7 +128,8 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
         "Wild Mushroom": new Decimal(50),
         Gold: new Decimal(10),
       },
-      supply: 2000,
+      // 50 Team supply + giveaways
+      supply: 2000 + 50,
       sfl: SFLDiscount(state, new Decimal(50)),
       boost: "+0.2 Wild Mushroom",
       // only available when SEASONS["DAWN_BREAKER"] starts
@@ -151,7 +143,8 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
         "Dawn Breaker Ticket": new Decimal(3200),
       },
       sfl: SFLDiscount(state, marketRate(20000)),
-      supply: 350,
+      // 50 Team Supply + giveaways
+      supply: 350 + 50,
       boost: "+1 Eggplant",
       disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },
@@ -163,7 +156,8 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
         "Dawn Breaker Ticket": new Decimal(1200),
       },
       sfl: SFLDiscount(state, marketRate(2000)),
-      supply: 2500,
+      // 100 Team Supply + Giveaways
+      supply: 2500 + 100,
       boost: "25% faster eggplants",
       disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
     },

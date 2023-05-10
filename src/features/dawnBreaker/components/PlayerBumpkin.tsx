@@ -20,6 +20,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { setImageWidth } from "lib/images";
 
 interface Props {
   currentWeek: Week;
@@ -78,10 +79,13 @@ export const PlayerBumpkin: React.FC<Props> = ({
     return balance.lt(amount);
   });
 
-  const hasSflRequirement = balance.gte(
-    (availableLantern?.sfl ?? new Decimal(0)).mul(multiplier)
+  const lessFunds = balance.lt(
+    SFLDiscount(
+      gameService.state?.context.state,
+      (availableLantern?.sfl ?? new Decimal(0)).mul(multiplier)
+    )
   );
-  const disableCraft = hasMissingIngredients || !hasSflRequirement;
+  const disableCraft = hasMissingIngredients || lessFunds;
 
   return (
     <>
@@ -116,19 +120,10 @@ export const PlayerBumpkin: React.FC<Props> = ({
                   <img
                     src={ITEM_DETAILS[availableLantern.name].image}
                     alt={availableLantern.name}
-                    className="w-10"
+                    onLoad={(e) => setImageWidth(e.currentTarget)}
                   />
                 </div>
                 <div className="flex flex-1 items-center justify-center flex-col">
-                  {availableLantern.sfl && (
-                    <RequirementLabel
-                      type="sellForSfl"
-                      requirement={SFLDiscount(
-                        gameService.state.context.state,
-                        availableLantern.sfl.mul(multiplier)
-                      )}
-                    />
-                  )}
                   {availableLantern.ingredients &&
                     getKeys(availableLantern.ingredients).map((name) => (
                       <RequirementLabel
@@ -141,6 +136,16 @@ export const PlayerBumpkin: React.FC<Props> = ({
                         balance={inventory[name] ?? new Decimal(0)}
                       />
                     ))}
+                  {availableLantern.sfl?.gt(0) && (
+                    <RequirementLabel
+                      type="sfl"
+                      balance={balance}
+                      requirement={SFLDiscount(
+                        gameService.state?.context.state,
+                        availableLantern.sfl.mul(multiplier)
+                      )}
+                    />
+                  )}
                 </div>
               </OuterPanel>
             </div>

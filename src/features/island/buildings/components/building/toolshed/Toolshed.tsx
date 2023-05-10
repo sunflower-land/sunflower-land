@@ -21,15 +21,21 @@ export const Toolshed: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
 
   return (
     <BuildingImageWrapper onClick={handleClick} nonInteractible={!onRemove}>
-      <img
-        src={toolshed}
-        style={{
-          width: `${PIXEL_SCALE * 39}px`,
-          bottom: `${PIXEL_SCALE * 4}px`,
-          left: `${PIXEL_SCALE * 0}px`,
-        }}
+      <div
         className="absolute pointer-events-none"
-      />
+        style={{
+          width: `${PIXEL_SCALE * 36}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -2}px`,
+        }}
+      >
+        <img
+          src={toolshed}
+          style={{
+            width: `${PIXEL_SCALE * 36}px`,
+          }}
+        />
+      </div>
     </BuildingImageWrapper>
   );
 };

@@ -24,11 +24,13 @@ import {
 } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { ZoomContext } from "components/ZoomProvider";
+import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -85,6 +87,33 @@ export function getRemoveAction(
   return null;
 }
 
+const canRemoveItem = (
+  name: InventoryItemName,
+  id: string,
+  state: GameState
+): boolean => {
+  if (name === "Genie Lamp") {
+    const collectibleGroup = state.collectibles[name];
+    if (!collectibleGroup) return false;
+
+    const collectibleToRemove = collectibleGroup.find(
+      (collectible) => collectible.id === id
+    );
+    if (!collectibleToRemove) return false;
+
+    const rubbedCount = collectibleToRemove.rubbedCount ?? 0;
+    if (rubbedCount > 0) {
+      return false;
+    }
+  }
+
+  if (name === "Chicken Coop") {
+    if (areUnsupportedChickensBrewing(state)) return false;
+  }
+
+  return true;
+};
+
 export interface MovableProps {
   name: CollectibleName | BuildingName | "Chicken";
   id: string;
@@ -99,6 +128,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   coordinates,
   children,
 }) => {
+  const { scale } = useContext(ZoomContext);
+
   const nodeRef = useRef(null);
 
   const [isMobile] = useIsMobile();
@@ -116,6 +147,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
   const removeAction = !isMobile && getRemoveAction(name);
+  const canRemove =
+    !!removeAction && canRemoveItem(name, id, gameService.state.context.state);
 
   /**
    * Deselect if clicked outside of element
@@ -193,7 +226,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
       <Draggable
         key={`${coordinates?.x}-${coordinates?.y}-${counts}`}
         nodeRef={nodeRef}
-        grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
+        grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+        scale={scale.get()}
         allowAnyClick
         // Mobile must click first, before dragging
         disabled={isMobile && !isSelected}
@@ -278,7 +312,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
             <div
               className="absolute z-10 flex"
               style={{
-                right: `${PIXEL_SCALE * -(removeAction ? 34 : 12)}px`,
+                right: `${PIXEL_SCALE * -(canRemove ? 34 : 12)}px`,
                 top: `${PIXEL_SCALE * -12}px`,
               }}
             >
@@ -311,7 +345,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
                   />
                 )}
               </div>
-              {!!removeAction && (
+              {canRemove && (
                 <div
                   className="relative cursor-pointer"
                   style={{

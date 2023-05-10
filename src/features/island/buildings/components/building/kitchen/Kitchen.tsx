@@ -14,6 +14,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -57,6 +58,7 @@ export const Kitchen: React.FC<Props> = ({
     if (isBuilt) {
       // Add future on click actions here
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }
@@ -111,7 +113,7 @@ export const Kitchen: React.FC<Props> = ({
         )}
         <img
           src={shadow}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 6}px`,
@@ -121,7 +123,7 @@ export const Kitchen: React.FC<Props> = ({
         {crafting ? (
           <img
             src={doing}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               bottom: `${PIXEL_SCALE * 7}px`,
@@ -131,7 +133,7 @@ export const Kitchen: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 15}px`,
               bottom: `${PIXEL_SCALE * 8}px`,

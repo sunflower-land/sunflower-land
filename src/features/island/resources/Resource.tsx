@@ -5,7 +5,7 @@ import { ResourceName } from "features/game/types/resources";
 import { Gold } from "features/game/expansion/components/resources/Gold";
 import { Iron } from "features/game/expansion/components/resources/Iron";
 import { Stone } from "features/game/expansion/components/resources/Stone";
-import { Tree } from "features/game/expansion/components/resources/Tree";
+import { Tree } from "features/game/expansion/components/resources/tree/Tree";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Plot } from "../plots/Plot";
 import { FruitPatch } from "../fruit/FruitPatch";
