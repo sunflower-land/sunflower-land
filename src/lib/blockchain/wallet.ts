@@ -8,7 +8,7 @@ import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 import Decimal from "decimal.js-light";
 
-export type WalletType = "METAMASK" | "SEQUENCE" | string;
+export type WalletType = "METAMASK" | "SEQUENCE" | "PHANTOM" | string;
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
 const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
@@ -102,6 +102,8 @@ export class Wallet {
       await this.loadAccount();
 
       const chainId = await this.web3?.eth.getChainId();
+
+      console.log({ chainId });
 
       if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
         throw new Error(ERRORS.WRONG_CHAIN);
