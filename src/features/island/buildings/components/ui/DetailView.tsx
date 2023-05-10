@@ -67,13 +67,11 @@ export const DetailView: React.FC<Props> = ({
   );
 
   const landCount = inventory["Basic Land"] ?? new Decimal(0);
-  // Holds how many desired placed buildings (e.g. water wells)
+  // Holds how many buildings of type placed (e.g. water wells)
   const buildingsPlaced = new Decimal(
     state.buildings[buildingName]?.length || 0
   );
-  // Total number of this building in players inventory.
   const buildingsInInventory = inventory[buildingName] || new Decimal(0);
-  // true, if any of these buildings are unplaced
   const hasUnplacedBuildings = buildingsInInventory
     .minus(1)
     .greaterThanOrEqualTo(buildingsPlaced);
@@ -95,15 +93,6 @@ export const DetailView: React.FC<Props> = ({
 
   const buildingToConstruct = buildingBluePrints[buildingNumber];
 
-  /**
-   * @function showBuildButton This function will return true if the player has not completed all the buildings
-   *                            for the unlocked level. E.g. if the player has unlocked 2 levels of the building then
-   *                            he would need to construct 2 buildings on the farm to reach to the next level. If he
-   *                            has not constructed 2 buildings then we need to show him the build button, if yes then
-   *                            we need to show him the 'Level X required' label.
-   * @param unlockedLevel The level of the building which the player has already unlocked.
-   * @returns Boolean
-   */
   const showBuildButton = (): boolean => {
     return buildingsPlaced.lessThan(allowedBuildings) || hasUnplacedBuildings;
   };

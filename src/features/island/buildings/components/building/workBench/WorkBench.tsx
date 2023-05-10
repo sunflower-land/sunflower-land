@@ -92,7 +92,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             <Conversation conversationId={conversationId} />
           </Panel>
         ) : (
-          <WorkbenchModal isOpen={isOpen} onClose={handleClose} />
+          <WorkbenchModal onClose={handleClose} />
         )}
       </Modal>
     </>

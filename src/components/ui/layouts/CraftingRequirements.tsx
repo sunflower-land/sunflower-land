@@ -227,7 +227,7 @@ export const CraftingRequirements: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col h-full justify-between">
       <div className="flex flex-col justify-center px-1 py-0">
         {getStock()}
         {getItemDetail({ hideDescription })}
