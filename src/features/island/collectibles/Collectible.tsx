@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Modal from "react-bootstrap/Modal";
 
 import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
@@ -64,7 +63,6 @@ import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
-import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bean, getBeanStates } from "./components/Bean";
@@ -163,7 +161,6 @@ export interface CollectibleProps {
 }
 
 type Props = CollectibleProps & {
-  isRustyShovelSelected: boolean;
   showTimers: boolean;
 };
 
@@ -468,12 +465,9 @@ const CollectibleComponent: React.FC<Props> = ({
   readyAt,
   createdAt,
   coordinates,
-  isRustyShovelSelected,
   showTimers,
   grid,
 }) => {
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
-
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
   const inProgress = readyAt > Date.now();
@@ -482,28 +476,14 @@ const CollectibleComponent: React.FC<Props> = ({
 
   const isBeanAndFullyGrown =
     isBean(name) && getBeanStates(name, createdAt).isReady;
-  const canRemoveOnClick =
-    isRustyShovelSelected && !isBeanAndFullyGrown && !inProgress;
+  const canRemoveOnClick = !isBeanAndFullyGrown && !inProgress;
 
-  const handleRemove = () => {
-    setShowRemoveModal(true);
-  };
-
-  const handleClose = () => {
-    setShowRemoveModal(false);
-  };
-
-  /**
-   * If a player has the Rusty Shovel selected then the onClick action of the collectible will open the RemovePlaceableModal
-   * Otherwise the onClick with be the regular onClick located inside the individual collectible component
-   */
   return (
     <>
       <div
         className={classNames("h-full", {
           "cursor-pointer hover:img-highlight": canRemoveOnClick,
         })}
-        onClick={canRemoveOnClick ? handleRemove : undefined}
       >
         <div
           className={classNames("h-full", {
@@ -518,7 +498,6 @@ const CollectibleComponent: React.FC<Props> = ({
               createdAt={createdAt}
               readyAt={readyAt}
               coordinates={coordinates}
-              isRustyShovelSelected={false}
               showTimers={showTimers}
               grid={grid}
             />
@@ -535,16 +514,6 @@ const CollectibleComponent: React.FC<Props> = ({
           )}
         </div>
       </div>
-      <Modal show={showRemoveModal} centered onHide={handleClose}>
-        {showRemoveModal && (
-          <RemovePlaceableModal
-            type="collectible"
-            placeableId={id}
-            name={name}
-            onClose={handleClose}
-          />
-        )}
-      </Modal>
     </>
   );
 };
