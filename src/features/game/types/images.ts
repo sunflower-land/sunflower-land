@@ -1724,7 +1724,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Lady Bug": {
     image: ladybug,
-    description: GOBLIN_BLACKSMITH_ITEMS()["Lady Bug"].description,
+    description:
+      "An incredible bug that feeds on aphids. Improves Apple quality.",
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
