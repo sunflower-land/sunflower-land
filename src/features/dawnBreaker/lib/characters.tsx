@@ -4,13 +4,12 @@ import { NPCParts } from "features/island/bumpkin/components/NPC";
 
 import obieImg from "assets/npcs/obie.png";
 import maxiumusImg from "assets/npcs/maximus.png";
-import hootImg from "assets/npcs/hoot.png";
 import snailImg from "assets/npcs/snail.png";
 
 export type Week = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type SpeakingBumpkin = "marcus" | "bella" | "sofia";
-export type SpeakingNonBumpkin = "hoot" | "maximus" | "obie" | "snail";
+export type SpeakingNonBumpkin = "maximus" | "obie" | "snail";
 export type SpeakingCharacter = SpeakingBumpkin | SpeakingNonBumpkin;
 
 export function isSpeakingBumpkin(
@@ -22,7 +21,7 @@ export function isSpeakingBumpkin(
 export function isSpeakingNonBumpkin(
   value: SpeakingCharacter
 ): value is SpeakingNonBumpkin {
-  return ["hoot", "maximus", "obie", "wendy", "snail"].includes(value);
+  return ["maximus", "obie", "wendy", "snail"].includes(value);
 }
 
 const marcusParts: Partial<NPCParts> = {
@@ -50,6 +49,7 @@ const sofiaParts: Partial<NPCParts> = {
 
 type CharacterDetails = Coordinates & {
   flip?: boolean;
+  inDarkness?: boolean;
   dialogue?: JSX.Element;
 };
 
@@ -59,7 +59,6 @@ type DawnBreakerPositions = {
   marcus?: CharacterDetails;
   bella?: CharacterDetails;
   sofia?: CharacterDetails;
-  hoot?: CharacterDetails;
   maximus?: CharacterDetails;
   obie?: CharacterDetails;
   wendy?: CharacterDetails;
@@ -73,7 +72,6 @@ export const bumpkinParts: Record<SpeakingBumpkin, Partial<NPCParts>> = {
 };
 
 export const characterImages: Record<SpeakingNonBumpkin, string> = {
-  hoot: hootImg,
   maximus: maxiumusImg,
   obie: obieImg,
   snail: snailImg,
@@ -142,18 +140,6 @@ export const characters: Record<Week, DawnBreakerPositions> = {
         </>
       ),
     },
-    hoot: {
-      x: -7,
-      y: -9,
-      dialogue: (
-        <>
-          <p>
-            Hoot: Embrace the darkness, my friends. It holds the key to your
-            freedom. Dance with darkness until the fire lights.
-          </p>
-        </>
-      ),
-    },
     maximus: {
       x: -7,
       y: -12,
@@ -199,13 +185,53 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       x: 1,
       y: 1,
     },
-    hoot: {
-      x: -7,
-      y: -9,
+    marcus: {
+      x: 4,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: I should never have cast my line into the waters of that distant land.`}</p>
+          <p>{`I was lured by temptation and the promise of a great catch. But what I reeled in was something far more sinister.`}</p>
+          <p>{`This darkness continues to cast shadows on all I hold dear. How do I find the light again?`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 2,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: I can see the weight on Marcus' shoulders.`}</p>
+          <p>{`What could have happened while he was away? What has he done?`}</p>
+          <p>{`Whatever it was, it's caused this darkness to descend upon us.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: -3,
+      y: -12,
+      flip: true,
+      inDarkness: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: I have to keep going. Hopefully Hoot knows something. `}</p>
+          <p>
+            {`There has to be a way to bring back the light. I just hope I'm not too late...`}
+          </p>
+        </>
+      ),
     },
     maximus: {
       x: -7,
       y: -12,
+      flip: true,
+      dialogue: (
+        <>
+          <p>Humph... go away!</p>
+        </>
+      ),
     },
     wendy: {
       x: -11,
@@ -244,13 +270,43 @@ export const characters: Record<Week, DawnBreakerPositions> = {
         y: 3,
       },
     ],
+    marcus: {
+      x: 2,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: I should have never gone to the north. I brought this darkness upon us.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 4,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: Don't blame yourself, Marcus."`}</p>
+          <p>{`We'll get through this together.`}</p>
+          <p>{`Hopefully Sofia will return soon with some news.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: -4,
+      y: -11,
+      flip: true,
+      inDarkness: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: I'm scared, but I have to be brave.`}</p>
+          <p>{`Just keep going.`}</p>
+        </>
+      ),
+    },
     bumpkin: {
       x: 10,
       y: 3,
-    },
-    hoot: {
-      x: -7,
-      y: -9,
     },
     maximus: {
       x: -7,

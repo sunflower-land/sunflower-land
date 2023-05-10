@@ -301,4 +301,33 @@ describe("removeCollectible", () => {
 
     expect(gameState.collectibles["Rock Golem"]).toBeUndefined();
   });
+
+  it("it prevents a genie lamp from being removed if it is in use", () => {
+    expect(() =>
+      removeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Rusty Shovel": new Decimal(2),
+          },
+          collectibles: {
+            "Genie Lamp": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+                rubbedCount: 1,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "collectible.removed",
+          name: "Genie Lamp",
+          id: "123",
+        },
+      })
+    ).toThrow("Genie Lamp is in use");
+  });
 });

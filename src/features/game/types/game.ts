@@ -28,6 +28,7 @@ import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
 import { Week } from "features/dawnBreaker/lib/characters";
+import { Riddle } from "./riddles";
 
 export type Reward = {
   sfl?: Decimal;
@@ -352,10 +353,12 @@ export type PlacedItem = {
 export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
 
 type PlacedManeki = PlacedItem & { shakenAt?: number };
+export type PlacedLamp = PlacedItem & { rubbedCount?: number };
 
 // Support custom types for collectibles
 type CustomCollectibles = {
   "Maneki Neko": PlacedManeki[];
+  "Genie Lamp": PlacedLamp[];
 };
 
 // Mapping to determine which type should be used for a placed collectible
@@ -407,6 +410,8 @@ export type Bid = {
 
 export type HayseedHank = {
   choresCompleted: number;
+  dawnBreakerChoresCompleted?: number;
+  dawnBreakerChoresSkipped?: number;
   chore: Chore;
   progress?: {
     bumpkinId: number;
@@ -453,6 +458,8 @@ export type DawnBreaker = {
   currentWeek: Week;
   availableLantern?: LanternOffering;
   lanternsCraftedByWeek: LanternsCraftedByWeek;
+  riddle?: Riddle & { id: string };
+  answeredRiddleIds: string[];
 };
 
 export interface GameState {

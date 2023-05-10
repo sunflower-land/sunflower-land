@@ -68,7 +68,7 @@ export const ZoomProvider: React.FC = ({ children }) => {
     ({ movement: [s] }) => {
       updateScale(s - 1);
     },
-    { target: document.body }
+    { target: document.body, pointer: { touch: true } }
   );
 
   return (

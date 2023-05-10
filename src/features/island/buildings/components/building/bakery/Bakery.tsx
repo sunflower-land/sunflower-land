@@ -15,6 +15,7 @@ import { BakeryModal } from "./BakeryModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -58,6 +59,7 @@ export const Bakery: React.FC<Props> = ({
     if (isBuilt) {
       // Add future on click actions here
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }
@@ -74,7 +76,7 @@ export const Bakery: React.FC<Props> = ({
       <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={bakery}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -150,7 +152,7 @@ export const Bakery: React.FC<Props> = ({
             }}
             style={{
               opacity: 0,
-              bottom: `${PIXEL_SCALE * 4}px`,
+              bottom: `${PIXEL_SCALE * 5}px`,
             }}
           />
         )}

@@ -121,6 +121,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Obie: 458,
   Maximus: 459,
   "Genie Lamp": 460,
+  Hoot: 461,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -385,6 +386,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Clementine: 1261,
   Cobalt: 1262,
   "Shroom Glow": 1263,
+  "Genie Bear": 1264,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

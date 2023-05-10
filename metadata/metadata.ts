@@ -3506,8 +3506,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A radiant paper lantern that shines with a powerful light.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // TODO: Add image
-    image_url: "",
+    image_url: "../public/erc1155/images/1250.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Aurora Lantern": {
@@ -3515,7 +3514,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A paper lantern that transforms any space into a magical wonderland.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/1251.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Bonnie's Tombstone": {
@@ -3643,5 +3642,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/459.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Hoot: {
+    description: "Hoot hoot! Have you solved my riddle yet?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/461.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Genie Bear": {
+    description: "Exactly what I wished for!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1264.png",
+    attributes: [],
   },
 };

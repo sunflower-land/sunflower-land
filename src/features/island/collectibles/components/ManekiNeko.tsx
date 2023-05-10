@@ -128,7 +128,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
       {gameState.matches("revealed") && isRevealing && (
         <Modal show centered>
           <Panel>
-            <Revealed />
+            <Revealed onAcknowledged={() => setIsRevealing(false)} />
           </Panel>
         </Modal>
       )}
