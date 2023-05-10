@@ -23,10 +23,10 @@ export type SoldOutCollectibleName =
   | "Maneki Neko"
   | "Squirrel Monkey"
   | "Black Bearry"
-  | "Hoot";
+  | "Hoot"
+  | "Lady Bug";
 
 export type GoblinBlacksmithItemName =
-  | "Lady Bug"
   | "Purple Trail"
   | "Obie"
   | "Mushroom House"
