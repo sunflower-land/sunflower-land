@@ -476,7 +476,7 @@ export type Order = {
     items?: Partial<Record<InventoryItemName, number>>;
   };
   createdAt: number;
-  expiresAt: number;
+  readyAt: number;
 };
 
 export type Delivery = {
@@ -489,6 +489,8 @@ export type Delivery = {
     claimedAt?: number;
   };
 };
+
+// Players must action
 
 export interface GameState {
   id?: number;

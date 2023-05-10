@@ -409,7 +409,7 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "123",
         createdAt: Date.now(),
-        expiresAt: Date.now() + 5000,
+        readyAt: Date.now(),
         from: "betty",
         items: {
           Sunflower: 5,
@@ -424,7 +424,7 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "124",
         createdAt: Date.now(),
-        expiresAt: Date.now() + 500000000,
+        readyAt: Date.now(),
         from: "blacksmith",
         items: {
           Sunflower: 15,
@@ -436,7 +436,7 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "122",
         createdAt: Date.now(),
-        expiresAt: Date.now() + 5000,
+        readyAt: Date.now(),
         from: "grubnuk",
         items: {
           Potato: 5,
@@ -448,7 +448,7 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "125",
         createdAt: Date.now(),
-        expiresAt: Date.now() + 5000,
+        readyAt: Date.now(),
         from: "grimtooth",
         items: {
           Potato: 5,
@@ -456,6 +456,18 @@ export const OFFLINE_FARM: GameState = {
         reward: {
           sfl: 2.225,
         },
+      },
+      {
+        id: "126",
+        createdAt: Date.now(),
+        from: "grimtooth",
+        items: {
+          Potato: 5,
+        },
+        reward: {
+          sfl: 2.225,
+        },
+        readyAt: Date.now() + 5000,
       },
     ],
     fulfilledCount: 23,

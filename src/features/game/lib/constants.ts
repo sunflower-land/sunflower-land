@@ -249,6 +249,14 @@ export const TEST_FARM: GameState = {
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
   pumpkinPlaza: {},
+  delivery: {
+    fulfilledCount: 0,
+    orders: [],
+    reward: {
+      goal: 10,
+      total: 10,
+    },
+  },
   auctioneer: {},
   buildings: {
     "Fire Pit": [
@@ -402,7 +410,14 @@ export const EMPTY: GameState = {
   mailbox: {
     read: [],
   },
-
+  delivery: {
+    fulfilledCount: 0,
+    orders: [],
+    reward: {
+      goal: 10,
+      total: 10,
+    },
+  },
   buildings: {},
   collectibles: {},
   mysteryPrizes: {},

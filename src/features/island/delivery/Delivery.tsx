@@ -2,7 +2,7 @@ import { useActor } from "@xstate/react";
 import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { NPC } from "../bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -34,21 +34,29 @@ export const Delivery: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const [showHelp, setShowHelp] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const delivery = gameState.context.state.delivery;
+  const orders = delivery.orders.filter((order) => Date.now() >= order.readyAt);
 
   const [selectedId, setSelectedId] = useState<string>();
 
   let previewOrder = delivery.orders.find((order) => order.id === selectedId);
 
-  const orders = delivery.orders.filter(
-    (order) => order.expiresAt > Date.now()
-  );
-
   if (!previewOrder) {
     previewOrder = orders[0];
   }
+
+  useEffect(() => {
+    if (previewOrder) {
+      if (!previewOrder.startedAt) {
+        console.log("Start");
+        gameService.send("order.started", { id: previewOrder.id });
+      }
+    }
+  }, [previewOrder?.id]);
 
   const progress = Math.min(
     delivery.reward.goal,
@@ -56,7 +64,7 @@ export const Delivery: React.FC = () => {
   );
 
   const deliver = () => {
-    gameService.send("order.delivered", { id: previewOrder.id });
+    gameService.send("order.delivered", { id: previewOrder?.id });
     setSelectedId(undefined);
   };
 
@@ -67,6 +75,15 @@ export const Delivery: React.FC = () => {
 
       return count.gte(amount);
     });
+  };
+
+  const select = (id: string) => {
+    setSelectedId(id);
+
+    const order = orders.find((order) => order.id === id);
+    if (!order?.startedAt) {
+      gameService.send("order.started", { id });
+    }
   };
 
   const Content = () => {
@@ -80,6 +97,10 @@ export const Delivery: React.FC = () => {
 
     const canFulfill = hasRequirements(previewOrder);
 
+    const nextOrder = delivery.orders.find(
+      (order) => order.readyAt > Date.now()
+    );
+
     return (
       <div className="flex md:flex-row flex-col-reverse">
         <div
@@ -91,7 +112,7 @@ export const Delivery: React.FC = () => {
             {orders.map((order) => (
               <div className="w-1/2 sm:w-1/3 p-1">
                 <OuterPanel
-                  onClick={() => setSelectedId(order.id)}
+                  onClick={() => select(order.id)}
                   className="w-full cursor-pointer hover:bg-brown-200 py-2 relative"
                 >
                   {hasRequirements(order) && (
@@ -100,14 +121,6 @@ export const Delivery: React.FC = () => {
                       className="absolute top-0.5 right-0.5 w-5"
                     />
                   )}
-
-                  {!hasRequirements(order) &&
-                    order.expiresAt - Date.now() < 60 * 60 * 1000 && (
-                      <img
-                        src={SUNNYSIDE.icons.stopwatch}
-                        className="absolute top-0.5 right-0.5 w-5"
-                      />
-                    )}
 
                   <div className="flex">
                     <div className="relative bottom-4 h-14 w-12 mr-2 ml-0.5">
@@ -177,82 +190,23 @@ export const Delivery: React.FC = () => {
                 </OuterPanel>
               </div>
             ))}
-          </div>
-          {/* {delivery.orders.map((order) => (
-        <div className="relative">
-          <div
-            className="w-full mb-1 absolute"
-            style={{
-              zIndex: 0,
-              top: `${PIXEL_SCALE * -20}px`,
-              left: `${PIXEL_SCALE * -8}px`,
-              width: `${PIXEL_SCALE * 60}px`,
-            }}
-          >
-            <DynamicNFT bumpkinParts={NPC_WEARABLES[order.from]} />
-          </div>
-          <OuterPanel
-            key={order.id}
-            className="flex flex-col w-full mb-1 relative mt-12"
-          >
-            <div className="relative bottom-4 h-14 w-12 mx-2">
-              <NPC parts={NPC_WEARABLES[order.from]} />
-            </div>
-            <div className="flex-1 flex justify-between">
-              <div className="flex flex-col">
-                {getKeys(order.items).map((itemName) => (
-                  <div className="flex items-center  relative">
-                    <img
-                      src={ITEM_DETAILS[itemName].image}
-                      className="h-8 mr-1"
-                    />
-                    <p className="text-sm">{`x${order.items[itemName]}`}</p>
-                    <img src={SUNNYSIDE.icons.confirm} className="h-4" />
-                  </div>
-                ))}
-              </div>
-              <div>
-                <Label type="info" className="flex mb-2">
-                  <img
-                    src={SUNNYSIDE.icons.timer}
-                    className="w-3 left-0 -top-4 mr-1"
-                  />
-                  <span className="mt-[2px]">{`${secondsToString(
-                    (order.expiresAt - Date.now()) / 1000,
-                    {
-                      length: "medium",
-                    }
-                  )} left`}</span>
-                </Label>
-                <div className="flex flex-wrap">
-                  {order.reward.sfl && (
-                    <div className="flex items-center">
-                      <img src={sfl} className="h-5 mr-1" />
-                      <span className="text-xs">1</span>
-                    </div>
-                  )}
-                  {getKeys(order.reward.items ?? {}).map((name) => (
-                    <div className="flex items-center ml-3">
-                      <img
-                        src={ITEM_DETAILS[name].image}
-                        className="h-5 mr-1"
-                      />
-                      <span className="text-xs">
-                        {order.reward.items?.[name]}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </OuterPanel>
-        </div>
-      ))} */}
 
-          <p className="text-center mb-0.5 mt-1">Next order in</p>
-          <div className="flex justify-center items-center">
-            <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
-            <p className="text-xs">2h 58m</p>
+            {nextOrder && (
+              <div className="w-1/2 sm:w-1/3 p-1 h-full">
+                <OuterPanel className="w-full py-2 relative">
+                  <p className="text-center mb-0.5 mt-1 text-sm">Next order:</p>
+                  <div className="flex justify-center items-center">
+                    <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
+                    <p className="text-xs">
+                      {secondsToString(
+                        (nextOrder.readyAt - Date.now()) / 1000,
+                        { length: "short" }
+                      )}
+                    </p>
+                  </div>
+                </OuterPanel>
+              </div>
+            )}
           </div>
         </div>
         <OuterPanel
@@ -263,21 +217,6 @@ export const Delivery: React.FC = () => {
             }
           )}
         >
-          <Label
-            type="info"
-            className="flex mb-2 absolute right-1.5 top-1.5 z-10"
-          >
-            <img
-              src={SUNNYSIDE.icons.timer}
-              className="w-2 left-0 -top-4 mr-1"
-            />
-            <span
-              className="mt-[2px]"
-              style={{ fontSize: "12px" }}
-            >{`${secondsToString((previewOrder.expiresAt - Date.now()) / 1000, {
-              length: "medium",
-            })} left`}</span>
-          </Label>
           <div
             className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0  rounded-lg relative"
             style={{
