@@ -151,6 +151,7 @@ import { LuminousLantern } from "./components/LuminousLantern";
 import { AuroraLantern } from "./components/AuroraLantern";
 import { RadianceLantern } from "./components/RadianceLantern";
 import { Hoot } from "./components/Hoot";
+import { GenieBear } from "./components/GenieBear";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -342,6 +343,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Maximus: Maximus,
   "Genie Lamp": GenieLamp,
   Hoot: Hoot,
+  "Genie Bear": GenieBear,
 };
 
 // Need readonly versions for some troublesome components while in design mode
@@ -381,6 +383,18 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       style={{ width: `${PIXEL_SCALE * 19}px` }}
     >
       <img src={ITEM_DETAILS["Wicker Man"].image} className="w-full" />
+    </div>
+  ),
+  "Genie Lamp": () => (
+    <div
+      className="absolute"
+      style={{ left: `${PIXEL_SCALE * 4}px`, width: `${PIXEL_SCALE * 22}px` }}
+    >
+      <img
+        src={ITEM_DETAILS["Genie Lamp"].image}
+        className="absolute w-full cursor-pointer hover:img-highlight"
+        alt="Genie Lamp"
+      />
     </div>
   ),
 };
