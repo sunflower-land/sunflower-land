@@ -19,6 +19,7 @@ import { Blocked } from "./components/Blocked";
 import { PhantomWalletNotSupported } from "./components/PhantomWalletNotSupported";
 import { ClockIssue } from "features/game/components/ClockIssue";
 import { SFLExceeded } from "features/game/components/SFLExceeded";
+import { MultipleWallets } from "./components/MultipleWallets";
 
 interface Props {
   errorCode: ErrorCode;
@@ -41,8 +42,16 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     };
   }, []);
 
+  if (errorCode === ERRORS.NO_WEB3_PHANTOM) {
+    return <Web3Missing wallet="PHANTOM" />;
+  }
+
   if (errorCode === ERRORS.NO_WEB3) {
     return <Web3Missing />;
+  }
+
+  if (errorCode === ERRORS.WALLET_INITIALISATION_FAILED) {
+    return <MultipleWallets />;
   }
 
   if (errorCode === ERRORS.WRONG_CHAIN) {

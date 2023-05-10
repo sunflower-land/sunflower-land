@@ -31,21 +31,23 @@ export const WrongChain: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col text-center text-shadow items-center p-1">
-      <div className="flex m-2 items-center">
-        <img
-          src={SUNNYSIDE.icons.expression_alerted}
-          alt="Warning"
-          style={{
-            width: `${PIXEL_SCALE * 4}px`,
-          }}
-        />
-      </div>
-      <p className="text-center mb-3">{`You're not connected to Polygon`}</p>
+    <>
+      <div className="flex flex-col text-center text-shadow items-center p-1">
+        <div className="flex m-2 items-center">
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            alt="Warning"
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+            }}
+          />
+        </div>
+        <p className="text-center mb-3">{`You're not connected to Polygon`}</p>
 
-      <p className="text-center mb-4 text-xs">
-        Check out this guide to help you get connected.
-      </p>
+        <p className="text-center mb-4 text-xs">
+          Check out this guide to help you get connected.
+        </p>
+      </div>
       <Button
         onClick={goToPolygonSetupDocs}
         className="mb-2 py-2 text-sm relative"
@@ -54,16 +56,13 @@ export const WrongChain: React.FC = () => {
       </Button>
       {/* This doesn't work on metamask browser so we won't show if on mobile */}
       {(!isDefaultNetwork || !isMobile) && (
-        <Button
-          onClick={initialiseNetwork}
-          className="mb-2 py-2 text-sm relative"
-        >
+        <Button onClick={initialiseNetwork} className="py-2 text-sm relative">
           <div className="px-8">
             {metamaskIcon}
             Add or Switch Network
           </div>
         </Button>
       )}
-    </div>
+    </>
   );
 };
