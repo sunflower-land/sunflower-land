@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "../lib/Provider";
 
 export const Web3Missing: React.FC<{ wallet?: "PHANTOM" }> = ({ wallet }) => {
+  const { authService } = useContext(Context);
+
   const goToMetamaskSetupDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/guides/getting-setup#metamask-setup",
@@ -33,9 +36,17 @@ export const Web3Missing: React.FC<{ wallet?: "PHANTOM" }> = ({ wallet }) => {
           Check out this guide to help you get started.
         </p>
       </div>
-      <Button onClick={handleClick} className="overflow-hidden">
-        <span>Go to setup guide</span>
-      </Button>
+      <div className="flex space-x-1">
+        <Button
+          onClick={() => authService.send("REFRESH")}
+          className="overflow-hidden"
+        >
+          <span>Go back</span>
+        </Button>
+        <Button onClick={handleClick} className="overflow-hidden">
+          <span>Go to setup guide</span>
+        </Button>
+      </div>
     </>
   );
 };
