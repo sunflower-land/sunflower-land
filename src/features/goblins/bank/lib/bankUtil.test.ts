@@ -1233,7 +1233,7 @@ describe("canWithdraw", () => {
     expect(enabled).toBeTruthy();
   });
 
-  it("prevents users from withdrawing apples", () => {
+  it("allow users to withdraw fruits", () => {
     const enabled = canWithdraw({
       itemName: "Apple",
       gameState: {
@@ -1243,7 +1243,7 @@ describe("canWithdraw", () => {
       selectedAmont: new Decimal(0),
     });
 
-    expect(enabled).toBeFalsy();
+    expect(enabled).toBeTruthy();
   });
 
   it("prevents users from withdrawing easter eggs", () => {
