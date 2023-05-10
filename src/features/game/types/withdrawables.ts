@@ -710,3 +710,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...consumables,
   ...decorations,
 };
+
+// Explicit false check is important, as we also want to check if it's a bool.
+export const isNeverWithdrawable = (itemName: InventoryItemName) =>
+  WITHDRAWABLES[itemName] === false;
