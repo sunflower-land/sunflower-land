@@ -24,7 +24,7 @@ interface Props {
 
 export const SeasonalDecorations: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
-    useState<SeasonalDecorationName>("Clementine");
+    useState<SeasonalDecorationName>("Dawn Umbrella Seat");
 
   const { gameService } = useContext(Context);
   const [
@@ -33,7 +33,7 @@ export const SeasonalDecorations: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const selected = SEASONAL_DECORATIONS(state)[selectedName];
+  const selected = SEASONAL_DECORATIONS(state)[selectedName] as Decoration;
 
   const inventory = state.inventory;
 

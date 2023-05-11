@@ -1,30 +1,62 @@
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
-import { CROPS, CROP_SEEDS } from "./crops";
-import { FRUIT, FruitName } from "./fruits";
-import { COUPONS, FERTILISERS } from "./game";
+import { CROP_SEEDS, CropName, CropSeedName } from "./crops";
+import { FruitName, FruitSeedName } from "./fruits";
 import {
-  FOODS,
-  QUEST_ITEMS,
-  SHOVELS,
-  TOOLS,
-  WAR_BANNERS,
-  WAR_TENT_ITEMS,
+  Animal,
+  BarnItem,
+  Food,
+  Lantern,
+  LegacyItem,
+  MOMEventItem,
+  MarketItem,
+  MutantChicken,
+  QuestItem,
+  Shovel,
+  ToolName,
+  TravelingSalesmanItem,
 } from "./craftables";
-import { EASTER_EGGS, Inventory, InventoryItemName } from "./game";
-import { FLAGS, getKeys, MUTANT_CHICKENS } from "./craftables";
-import { COMMODITIES, RESOURCES } from "./resources";
+import {
+  Coupons,
+  EasterEgg,
+  FertiliserName,
+  Inventory,
+  InventoryItemName,
+  Points,
+  SpecialEvent,
+} from "./game";
+import { getKeys } from "./craftables";
 import { canChop } from "../events/landExpansion/chop";
 import { canMine } from "../events/landExpansion/stoneMine";
 import { AchievementName } from "./achievements";
-import { SEEDS } from "./seeds";
-import { BEANS } from "./beans";
-import { HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
-import { SKILL_TREE } from "./skills";
-import { BUILDINGS } from "./buildings";
-import { CONSUMABLES } from "./consumables";
-import { HELIOS_DECORATIONS } from "./decorations";
-import { TREASURE_TOOLS } from "./tools";
+import { BeanName, MutantCropName } from "./beans";
+import { WarTentItem } from "./craftables";
+import { TreasureToolName } from "./tools";
+import {
+  GoblinBlacksmithItemName,
+  GoblinPirateItemName,
+  HeliosBlacksmithItem,
+  SeasonPassName,
+  SoldOutCollectibleName,
+} from "./collectibles";
+import { CommodityName, ResourceName } from "./resources";
+import { Flag } from "./flags";
+import { SkillName } from "./skills";
+import { BuildingName } from "./buildings";
+import { ConsumableName } from "./consumables";
+import {
+  AchievementDecorationName,
+  EventDecorationName,
+  SeasonalDecorationName,
+  ShopDecorationName,
+} from "./decorations";
+import { AuctioneerItemName } from "./auctioneer";
+import {
+  BeachBountyTreasure,
+  BoostTreasure,
+  DecorationTreasure,
+} from "./treasure";
+import { WorkbenchToolName } from "./tools";
 
 type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
 
@@ -106,109 +138,441 @@ function hasCompletedAchievement(
   return Object.keys(game.bumpkin?.achievements ?? []).includes(achievement);
 }
 
-// Group withdraw conditions for common items
-const cropDefaults = buildDefaults(getKeys(CROPS()), true);
-// Fruits will be disabled untill all the fruit SFT's are sold out
-const seedDefaults = buildDefaults(getKeys(SEEDS()), false);
-const beanDefaults = buildDefaults(getKeys(BEANS()), false);
-const questItemDefaults = buildDefaults(getKeys(QUEST_ITEMS), false);
-const warTentItemsDefaults = buildDefaults(getKeys(WAR_TENT_ITEMS), false);
-const toolDefaults = buildDefaults(
-  getKeys({ ...TOOLS, ...TREASURE_TOOLS }),
-  false
-);
-const foodDefaults = buildDefaults(getKeys(FOODS()), false);
-const shovelDefaults = buildDefaults(getKeys(SHOVELS), false);
-const warBannerDefaults = buildDefaults(getKeys(WAR_BANNERS), false);
-const heliosBlacksmithDefaults = buildDefaults(
-  getKeys(HELIOS_BLACKSMITH_ITEMS),
-  false
-);
-const resourceDefaults = buildDefaults(getKeys(RESOURCES), false);
-const commodityDefaults = buildDefaults(getKeys(COMMODITIES), true);
-const fruitDefaults = buildDefaults(getKeys(FRUIT()), false);
-const mutantChickenDefaults = buildDefaults(
-  getKeys(MUTANT_CHICKENS),
-  (game) => !areAnyChickensFed(game)
-);
-const flagDefaults = buildDefaults(getKeys(FLAGS), true);
-const easterEggDefaults = buildDefaults([...EASTER_EGGS, "Egg Basket"], false);
-const skillDefaults = buildDefaults(getKeys(SKILL_TREE), false);
-const couponDefaults = buildDefaults(getKeys(COUPONS), false);
-const buildingDefaults = buildDefaults(getKeys(BUILDINGS()), false);
-const fertiliserDefaults = buildDefaults(getKeys(FERTILISERS), false);
-const consumableDefaults = buildDefaults(getKeys(CONSUMABLES), false);
-const decorationDefaults = buildDefaults(getKeys(HELIOS_DECORATIONS()), false);
+const cropSeeds: Record<CropSeedName, boolean> = {
+  "Beetroot Seed": false,
+  "Cabbage Seed": false,
+  "Carrot Seed": false,
+  "Cauliflower Seed": false,
+  "Kale Seed": false,
+  "Potato Seed": false,
+  "Pumpkin Seed": false,
+  "Sunflower Seed": false,
+  "Parsnip Seed": false,
+  "Eggplant Seed": false,
+  "Radish Seed": false,
+  "Wheat Seed": false,
+};
 
-const mutantCropDefaults = {
+const fruitSeed: Record<FruitSeedName, boolean> = {
+  "Apple Seed": false,
+  "Blueberry Seed": false,
+  "Orange Seed": false,
+};
+const crops: Record<CropName, boolean> = {
+  Beetroot: true,
+  Cabbage: true,
+  Carrot: true,
+  Cauliflower: true,
+  Kale: true,
+  Potato: true,
+  Pumpkin: true,
+  Sunflower: true,
+  Parsnip: true,
+  Eggplant: false,
+  Radish: true,
+  Wheat: true,
+};
+
+const fruits: Record<FruitName, boolean> = {
+  Apple: true,
+  Blueberry: true,
+  Orange: true,
+};
+
+const beans: Record<BeanName, boolean> = {
+  "Golden Bean": false,
+  "Magic Bean": false,
+  "Shiny Bean": false,
+};
+
+const questItems: Record<QuestItem, boolean> = {
+  "Ancient Goblin Sword": false,
+  "Ancient Human Warhammer": false,
+  "Goblin Key": false,
+  "Sunflower Key": false,
+};
+
+const warTentItems: Record<WarTentItem, WithdrawCondition> = {
+  "Beetroot Amulet": false,
+  "Carrot Amulet": false,
+  "Sunflower Amulet": false,
+  "Green Amulet": false,
+  "Skull Hat": false,
+  "Sunflower Shield": false,
+  "Undead Rooster": (game) => !areAnyChickensFed(game),
+  "War Skull": true,
+  "War Tombstone": true,
+  "Warrior Helmet": false,
+  "Warrior Pants": false,
+  "Warrior Shirt": false,
+};
+
+const tools: Record<ToolName | WorkbenchToolName | Shovel, boolean> = {
+  Axe: false,
+  Hammer: false,
+  Pickaxe: false,
+  "Power Shovel": false,
+  "Rusty Shovel": false,
+  "Iron Pickaxe": false,
+  "Stone Pickaxe": false,
+  Rod: false,
+  Shovel: false,
+};
+
+const treasureTools: Record<TreasureToolName, boolean> = {
+  "Sand Drill": false,
+  "Sand Shovel": false,
+};
+
+/* TODO - Split TOOLS into TOOLS and SHOVELS
+ * SHOVELS are a separate object in the frontend, but they are
+ * part of TOOLS in the backend.
+ */
+
+const warBanners = {
+  "Human War Banner": false,
+  "Goblin War Banner": false,
+};
+
+const heliosBlacksmith: Record<HeliosBlacksmithItem, boolean> = {
+  "Immortal Pear": false,
+  "Treasure Map": false,
+};
+
+const commodities: Record<CommodityName, boolean> = {
+  // Mushrooms
+  "Magic Mushroom": false,
+  "Wild Mushroom": false,
+
+  Chicken: false,
+  Wood: true,
+  Stone: true,
+  Iron: true,
+  Gold: true,
+  Diamond: false,
+
+  Honey: false,
+  Egg: true,
+};
+
+const resources: Record<ResourceName, boolean> = {
+  Tree: false,
+  "Stone Rock": false,
+  "Iron Rock": false,
+  "Gold Rock": false,
+  "Crop Plot": false,
+  "Fruit Patch": false,
+  Boulder: false,
+};
+
+const mutantChickens: Record<MutantChicken, WithdrawCondition> = {
+  "Ayam Cemani": (game) => !areAnyChickensFed(game),
+  "Fat Chicken": (game) => !areAnyChickensFed(game),
+  "Rich Chicken": (game) => !areAnyChickensFed(game),
+  "Speed Chicken": (game) => !areAnyChickensFed(game),
+};
+
+const flags: Record<Flag, boolean> = {
+  "Australian Flag": true,
+  "Belgian Flag": true,
+  "Brazilian Flag": true,
+  "Chinese Flag": true,
+  "Finnish Flag": true,
+  "French Flag": true,
+  "German Flag": true,
+  "Indonesian Flag": true,
+  "Indian Flag": true,
+  "Iranian Flag": true,
+  "Italian Flag": true,
+  "Japanese Flag": true,
+  "Moroccan Flag": true,
+  "Dutch Flag": true,
+  "Philippine Flag": true,
+  "Polish Flag": true,
+  "Portuguese Flag": true,
+  "Russian Flag": true,
+  "Saudi Arabian Flag": true,
+  "South Korean Flag": true,
+  "Spanish Flag": true,
+  "Sunflower Flag": true,
+  "Thai Flag": true,
+  "Turkish Flag": true,
+  "Ukrainian Flag": true,
+  "American Flag": true,
+  "Vietnamese Flag": true,
+  "Canadian Flag": true,
+  "Singaporean Flag": true,
+  "British Flag": true,
+  "Sierra Leone Flag": true,
+  "Romanian Flag": true,
+  "Rainbow Flag": true,
+  "Goblin Flag": true,
+  "Pirate Flag": true,
+  "Algerian Flag": true,
+  "Mexican Flag": true,
+  "Dominican Republic Flag": true,
+  "Argentinian Flag": true,
+  "Lithuanian Flag": true,
+  "Malaysian Flag": true,
+  "Colombian Flag": true,
+};
+
+const easterEggs: Record<EasterEgg, boolean> = {
+  "Blue Egg": false,
+  "Green Egg": false,
+  "Orange Egg": false,
+  "Pink Egg": false,
+  "Purple Egg": false,
+  "Red Egg": false,
+  "Yellow Egg": false,
+};
+
+const skills: Record<SkillName, boolean> = {
+  "Green Thumb": false,
+  "Barn Manager": false,
+  "Seed Specialist": false,
+  Wrangler: false,
+  Lumberjack: false,
+  Prospector: false,
+  Logger: false,
+  "Gold Rush": false,
+  Artist: false,
+  Coder: false,
+  "Liquidity Provider": false,
+  "Discord Mod": false,
+  Warrior: false,
+};
+
+const coupons: Record<Coupons, boolean> = {
+  "Trading Ticket": false,
+  "War Bond": false,
+  "Jack-o-lantern": false,
+  "Golden Crop": false,
+  "Beta Pass": false,
+  "Red Envelope": false,
+  "Love Letter": false,
+  "Block Buck": false,
+  "Solar Flare Ticket": false,
+  "Dawn Breaker Ticket": false,
+  "Sunflower Supporter": false,
+};
+
+const buildings: Record<BuildingName, boolean> = {
+  "Town Center": false,
+  "Fire Pit": false,
+  Market: false,
+  Workbench: false,
+  Kitchen: false,
+  Tent: false,
+  "Water Well": false,
+  Bakery: false,
+  "Hen House": false,
+  Deli: false,
+  "Smoothie Shack": false,
+  Toolshed: false,
+  Warehouse: false,
+};
+
+const fertilisers: Record<FertiliserName, boolean> = {
+  "Rapid Growth": false,
+};
+
+const food: Record<Food, boolean> = {
+  "Beetroot Cake": false,
+  "Cabbage Cake": false,
+  "Carrot Cake": false,
+  "Cauliflower Cake": false,
+  "Potato Cake": false,
+  "Pumpkin Cake": false,
+  "Sunflower Cake": false,
+  "Parsnip Cake": false,
+  "Radish Cake": false,
+  "Wheat Cake": false,
+  "Pumpkin Soup": false,
+  "Radish Pie": false,
+  "Roasted Cauliflower": false,
+  Sauerkraut: false,
+};
+
+const consumables: Record<ConsumableName, boolean> = {
+  "Mashed Potato": false,
+  "Pumpkin Soup": false,
+  "Bumpkin Broth": false,
+  "Boiled Eggs": false,
+  "Mushroom Soup": false,
+  "Roast Veggies": false,
+  "Bumpkin Salad": false,
+  "Cauliflower Burger": false,
+  "Mushroom Jacket Potatoes": false,
+  "Goblin's Treat": false,
+  "Club Sandwich": false,
+  "Kale Stew": false,
+  Pancakes: false,
+  "Kale & Mushroom Pie": false,
+  "Fermented Carrots": false,
+  Sauerkraut: false,
+  "Blueberry Jam": false,
+  "Apple Pie": false,
+  "Orange Cake": false,
+  "Honey Cake": false,
+  "Sunflower Crunch": false,
+  "Reindeer Carrot": false,
+  "Sunflower Cake": false,
+  "Potato Cake": false,
+  "Pumpkin Cake": false,
+  "Carrot Cake": false,
+  "Cabbage Cake": false,
+  "Beetroot Cake": false,
+  "Cauliflower Cake": false,
+  "Parsnip Cake": false,
+  "Radish Cake": false,
+  "Wheat Cake": false,
+  "Apple Juice": false,
+  "Orange Juice": false,
+  "Purple Smoothie": false,
+  "Power Smoothie": false,
+  "Bumpkin Detox": false,
+  "Bumpkin Roast": false,
+  "Goblin Brunch": false,
+  "Fruit Salad": false,
+  "Kale Omelette": false,
+  "Cabbers n Mash": false,
+  "Fancy Fries": false,
+  "Pirate Cake": false,
+};
+
+const decorations: Record<ShopDecorationName, WithdrawCondition> = {
+  "White Tulips": false,
+  "Potted Sunflower": false,
+  "Potted Potato": false,
+  "Potted Pumpkin": false,
+  Cactus: false,
+  "Basic Bear": false,
+  "Dirt Path": false,
+  Bush: false,
+  Shrub: false,
+  Fence: false,
+  "Bonnie's Tombstone": false,
+  "Grubnash's Tombstone": false,
+  "Crimson Cap": false,
+  "Toadstool Seat": false,
+  "Chestnut Fungi Stool": false,
+  "Mahogany Cap": false,
+};
+const seasonalDecorations: Record<SeasonalDecorationName, WithdrawCondition> = {
+  Clementine: false,
+  Cobalt: false,
+  "Dawn Umbrella Seat": false,
+  "Eggplant Grill": false,
+  "Giant Dawn Mushroom": false,
+  "Shroom Glow": false,
+};
+
+const mutantCrop: Record<MutantCropName, WithdrawCondition> = {
   "Stellar Sunflower": false,
   "Peaceful Potato": false,
   "Perky Pumpkin": false,
   "Colossal Crop": false,
 };
-const specialEventsDefaults = {
+
+const specialEvents: Record<SpecialEvent | MOMEventItem, WithdrawCondition> = {
   "Chef Apron": false,
   "Chef Hat": false,
+  "Engine Core": false,
+  Observatory: true,
 };
-const pointDefaults = {
+
+const points: Record<Points, WithdrawCondition> = {
   "Human War Point": false,
   "Goblin War Point": false,
 };
 
-export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
-  ...cropDefaults,
-  ...seedDefaults,
-  ...beanDefaults,
-  ...questItemDefaults,
-  ...warTentItemsDefaults,
-  ...toolDefaults,
-  ...foodDefaults,
-  ...shovelDefaults,
-  ...warBannerDefaults,
-  ...heliosBlacksmithDefaults,
-  ...fruitDefaults,
-  ...commodityDefaults,
-  ...resourceDefaults,
-  ...mutantChickenDefaults,
-  ...flagDefaults,
-  ...easterEggDefaults,
-  ...skillDefaults,
-  ...couponDefaults,
-  ...buildingDefaults,
-  ...fertiliserDefaults,
-  ...consumableDefaults,
-  ...decorationDefaults,
-  ...mutantCropDefaults,
-  ...specialEventsDefaults,
-  ...pointDefaults,
+const goblinBlacksmith: Record<GoblinBlacksmithItemName, WithdrawCondition> = {
+  "Mushroom House": false,
+  Obie: false,
+  "Purple Trail": false,
+  Maximus: false,
+};
 
-  // Explicit Rules
-  Eggplant: false,
-  "Wild Mushroom": false,
-  Chicken: false,
+const animals: Record<Animal, WithdrawCondition> = {
   Cow: false,
   Pig: false,
   Sheep: false,
-  "Basic Bear": false,
+  Chicken: false,
+};
+
+const barnItems: Record<BarnItem, WithdrawCondition> = {
+  "Chicken Coop": (game) => !areAnyChickensFed(game),
+  "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Farm Cat": true,
   "Farm Dog": true,
+  "Gold Egg": (game) => !areAnyChickensFed(game),
+  Rooster: (game) => !areAnyChickensFed(game),
+};
+
+const blacksmithItems: Record<LegacyItem, WithdrawCondition> = {
   "Sunflower Statue": true,
   "Potato Statue": true,
   "Christmas Tree": true,
   Gnome: true,
-  "Homeless Tent": true,
   "Sunflower Tombstone": true,
   "Sunflower Rock": true,
   "Goblin Crown": true,
   Fountain: true,
+  "Egg Basket": false,
+
+  "Woody the Beaver": (game) => !areAnyTreesChopped(game),
+  "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
+  "Foreman Beaver": (game) => !areAnyTreesChopped(game),
   "Nyon Statue": true,
+  "Homeless Tent": true,
   "Farmer Bath": true,
   "Mysterious Head": true,
-  "Golden Bonsai": true,
-  "Wicker Man": true,
-  "Engine Core": false,
-  Observatory: true,
+  "Rock Golem": (game) => !areAnyStonesMined(game),
+  "Tunnel Mole": (game) => !areAnyStonesMined(game),
+  "Rocky the Mole": (game) => !areAnyIronsMined(game),
+  Nugget: (game) => !areAnyGoldsMined(game),
+};
+
+const travelingSalesmanItems: Record<TravelingSalesmanItem, WithdrawCondition> =
+  {
+    "Christmas Bear": true,
+    "Golden Bonsai": true,
+    "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
+    "Wicker Man": true,
+  };
+
+const auctioneer: Record<AuctioneerItemName, WithdrawCondition> = {
+  "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
   "Christmas Snow Globe": true,
+  "Cyborg Bear": true,
+  "Wood Nymph Wendy": (game) => !areAnyTreesChopped(game),
+};
+
+const soldOut: Record<SoldOutCollectibleName, WithdrawCondition> = {
+  "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
+  "Black Bearry": (game) => !areFruitsGrowing(game, "Blueberry"),
+  "Lady Bug": (game) => !areFruitsGrowing(game, "Apple"),
+  "Cabbage Boy": (game) => !cropIsPlanted({ item: "Cabbage", game }),
+  "Cabbage Girl": (game) => !cropIsPlanted({ item: "Cabbage", game }),
+  "Maneki Neko": true,
+  "Heart Balloons": true,
+  Flamingo: true,
+  "Blossom Tree": true,
+  "Palm Tree": true,
+  "Beach Ball": true,
+  "Collectible Bear": true,
+  "Pablo The Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
+  "Easter Bush": true,
+  "Giant Carrot": true,
+
+  Hoot: false,
+};
+
+const achievementDecoration: Record<
+  AchievementDecorationName,
+  WithdrawCondition
+> = {
   "Chef Bear": true,
   "Construction Bear": true,
   "Angel Bear": true,
@@ -221,53 +585,52 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   "Rich Bear": true,
   "Rainbow Artist Bear": true,
   "Devil Bear": true,
-  "Christmas Bear": true,
-  "War Skull": true,
-  "War Tombstone": true,
-  "Maneki Neko": true,
-  "Lady Bug": true,
-  "Cyborg Bear": true,
-  "Heart Balloons": true,
-  Flamingo: true,
-  "Blossom Tree": true,
-  "Valentine Bear": true,
-  "Easter Bear": true,
+};
+
+const market: Record<MarketItem, WithdrawCondition> = {
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
 
-  "Easter Bush": true,
-  "Giant Carrot": true,
-
-  "Iron Idol": (game) => !areAnyIronsMined(game),
-  "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
-  "Black Bearry": (game) => !areFruitsGrowing(game, "Blueberry"),
-
-  // Conditional Rules
-  "Chicken Coop": (game) => !areAnyChickensFed(game),
-  Rooster: (game) => !areAnyChickensFed(game),
-  "Undead Rooster": (game) => !areAnyChickensFed(game),
-  "Gold Egg": (game) => !areAnyChickensFed(game),
-  "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
-  "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
-  "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
-  "Pablo The Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
   "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
   "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
-  "Lunar Calendar": (game) => !areAnyCropsPlanted(game),
   Nancy: (game) => !areAnyCropsPlanted(game),
   Scarecrow: (game) => !areAnyCropsPlanted(game),
   Kuebiko: (game) => !areAnyCropsPlanted(game) && !hasSeeds(game.inventory),
-  "Woody the Beaver": (game) => !areAnyTreesChopped(game),
-  "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
-  "Foreman Beaver": (game) => !areAnyTreesChopped(game),
-  "Wood Nymph Wendy": (game) => !areAnyTreesChopped(game),
-  "Tiki Totem": (game) => !areAnyTreesChopped(game),
-  "Rock Golem": (game) => !areAnyStonesMined(game),
-  "Tunnel Mole": (game) => !areAnyStonesMined(game),
-  "Rocky the Mole": (game) => !areAnyIronsMined(game),
-  Nugget: (game) => !areAnyGoldsMined(game),
-  "Heart of Davy Jones": (game) => !areAnyTreasureHolesDug(game),
+};
 
+const boostTreasure: Record<BoostTreasure, WithdrawCondition> = {
+  "Lunar Calendar": (game) => !areAnyCropsPlanted(game),
+  "Tiki Totem": (game) => !areAnyTreesChopped(game),
+  "Genie Lamp": false,
+  Foliant: false,
+};
+
+const goblinPirate: Record<GoblinPirateItemName, WithdrawCondition> = {
+  "Iron Idol": (game) => !areAnyIronsMined(game),
+  "Heart of Davy Jones": (game) => !areAnyTreasureHolesDug(game),
+  Karkinos: (game) => !cropIsPlanted({ item: "Cabbage", game }),
+};
+
+const treasureDecoration: Record<DecorationTreasure, WithdrawCondition> = {
+  "T-Rex Skull": true,
+  "Sunflower Coin": true,
+  "Pirate Bear": true,
+  "Whale Bear": true,
+
+  "Abandoned Bear": false,
+  "Dinosaur Bone": false,
+  Galleon: false,
+  "Golden Bear Head": false,
+  "Human Bear": false,
+  "Lifeguard Bear": false,
+  "Parasaur Skull": false,
+  "Skeleton King Staff": false,
+  "Snorkel Bear": false,
+  "Turtle Bear": false,
+  "Goblin Bear": false,
+};
+
+const beachBounty: Record<BeachBountyTreasure, WithdrawCondition> = {
   "Pirate Bounty": false,
   Pearl: false,
   Coral: false,
@@ -277,61 +640,75 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   Seaweed: false,
   "Sea Cucumber": false,
   Crab: false,
-  "Pirate Cake": false,
-
-  //Enable after beta testing
-  "Abandoned Bear": false,
-  "Turtle Bear": false,
-  "T-Rex Skull": true,
-  "Sunflower Coin": true,
-  Foliant: false,
-  "Skeleton King Staff": false,
-  "Lifeguard Bear": false,
-  "Snorkel Bear": false,
-  "Parasaur Skull": false,
-  "Golden Bear Head": false,
-  "Pirate Bear": true,
-  "Goblin Bear": false,
-  Galleon: false,
-  "Dinosaur Bone": false,
-  "Human Bear": false,
   "Wooden Compass": false,
-  "Whale Bear": true,
+};
 
-  // Solar Flare items
-  "Beach Ball": true,
-  "Palm Tree": true,
-  Karkinos: true,
-  "Cabbage Boy": true,
-  "Cabbage Girl": true,
-  "Collectible Bear": true,
+const eventDecoration: Record<EventDecorationName, WithdrawCondition> = {
+  "Valentine Bear": true,
+  "Easter Bear": true,
+  "Easter Bush": true,
+  "Giant Carrot": true,
+  "Genie Bear": false,
+};
 
-  // Dawn Season deocrations - turn on after season
-  Clementine: false,
-  Cobalt: false,
-  "Dawn Umbrella Seat": false,
-  "Eggplant Grill": false,
-  "Giant Dawn Mushroom": false,
-  "Shroom Glow": false,
-  // Dawn Breaker items
-  "Mushroom House": false,
-  "Genie Lamp": false,
-
-  "Basic Land": false,
-  "Solar Flare Banner": false,
-  "Dawn Breaker Banner": false,
-
-  Orange: true,
-  Blueberry: true,
-
-  // Dawn Breaker
+const lanterns: Record<Lantern, WithdrawCondition> = {
   "Luminous Lantern": false,
   "Radiance Lantern": false,
   "Aurora Lantern": false,
-  "Purple Trail": false,
-  Obie: false,
-  Maximus: false,
-  Hoot: false,
+};
+
+const purchasables: Record<SeasonPassName, WithdrawCondition> = {
+  "Dawn Breaker Banner": false,
+  "Solar Flare Banner": false,
+};
+
+export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
+  ...crops,
+  ...fruits,
+  ...cropSeeds,
+  ...fruitSeed,
+  ...beans,
+  ...questItems,
+  ...warTentItems,
+  ...tools,
+  ...treasureTools,
+  ...food,
+  ...warBanners,
+  ...heliosBlacksmith,
+  ...commodities,
+  ...mutantChickens,
+  ...flags,
+  ...easterEggs,
+  ...mutantCrop,
+  ...specialEvents,
+  ...points,
+  ...goblinBlacksmith,
+  ...auctioneer,
+  ...soldOut,
+  ...travelingSalesmanItems,
+  ...blacksmithItems,
+  ...barnItems,
+  ...animals,
+  ...achievementDecoration,
+  ...market,
+  ...boostTreasure,
+  ...goblinPirate,
+  ...treasureDecoration,
+  ...eventDecoration,
+  ...seasonalDecorations,
+  ...beachBounty,
+  ...resources,
+  ...purchasables,
+  "Basic Land": false,
+  ...lanterns,
+
+  // non-withdrawables
+  ...skills,
+  ...coupons,
+  ...buildings,
+  ...fertilisers,
+  ...consumables,
+  ...decorations,
 };
 
 // Explicit false check is important, as we also want to check if it's a bool.

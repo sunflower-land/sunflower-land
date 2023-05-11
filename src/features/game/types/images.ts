@@ -312,6 +312,7 @@ import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 import valentineBear from "src/assets/sfts/bears/love_bear.png";
 import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
+import genieBear from "src/assets/sfts/bears/genie_bear.png";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -1723,7 +1724,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Lady Bug": {
     image: ladybug,
-    description: GOBLIN_BLACKSMITH_ITEMS()["Lady Bug"].description,
+    description:
+      "An incredible bug that feeds on aphids. Improves Apple quality.",
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
@@ -2071,15 +2073,17 @@ export const ITEM_DETAILS: Items = {
   },
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
-    description: SEASONAL_DECORATIONS()["Dawn Umbrella Seat"].description,
+    description:
+      SEASONAL_DECORATIONS()["Dawn Umbrella Seat"]?.description ?? "",
   },
   "Eggplant Grill": {
     image: eggplantGrill,
-    description: SEASONAL_DECORATIONS()["Eggplant Grill"].description,
+    description: SEASONAL_DECORATIONS()["Eggplant Grill"]?.description ?? "",
   },
   "Giant Dawn Mushroom": {
     image: giantDawnMushroom,
-    description: SEASONAL_DECORATIONS()["Giant Dawn Mushroom"].description,
+    description:
+      SEASONAL_DECORATIONS()["Giant Dawn Mushroom"]?.description ?? "",
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
@@ -2091,7 +2095,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Shroom Glow": {
     image: shroomGlow,
-    description: SEASONAL_DECORATIONS()["Shroom Glow"].description,
+    description: SEASONAL_DECORATIONS()["Shroom Glow"]?.description ?? "",
   },
   "Toadstool Seat": {
     image: toadstoolSeat,
@@ -2099,11 +2103,11 @@ export const ITEM_DETAILS: Items = {
   },
   Clementine: {
     image: clementine,
-    description: SEASONAL_DECORATIONS()["Clementine"].description,
+    description: SEASONAL_DECORATIONS()["Clementine"]?.description ?? "",
   },
   Cobalt: {
     image: cobalt,
-    description: SEASONAL_DECORATIONS()["Cobalt"].description,
+    description: SEASONAL_DECORATIONS()["Cobalt"]?.description ?? "",
   },
   "Purple Trail": {
     image: purpleTrail,
@@ -2121,5 +2125,9 @@ export const ITEM_DETAILS: Items = {
   Hoot: {
     image: hoot,
     description: "Hoot hoot! Have you solved my riddle yet?",
+  },
+  "Genie Bear": {
+    image: genieBear,
+    description: "Exactly what I wished for!",
   },
 };
