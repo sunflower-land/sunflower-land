@@ -44,7 +44,6 @@ const getIslandElements = ({
   gold,
   fruitPatches,
   crops,
-  isRustyShovelSelected,
   showTimers,
   grid,
   mushrooms,
@@ -60,7 +59,6 @@ const getIslandElements = ({
   gold: GameState["gold"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
-  isRustyShovelSelected: boolean;
   showTimers: boolean;
   grid: GameGrid;
   mushrooms: GameState["mushrooms"]["mushrooms"];
@@ -91,7 +89,6 @@ const getIslandElements = ({
                 readyAt={building.readyAt}
                 createdAt={building.createdAt}
                 crafting={building.crafting}
-                isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
                 coordinates={{ x, y }}
               />
@@ -124,7 +121,6 @@ const getIslandElements = ({
                 id={id}
                 readyAt={readyAt}
                 createdAt={createdAt}
-                isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
                 coordinates={coordinates}
                 grid={grid}
@@ -438,7 +434,6 @@ export const Land: React.FC = () => {
             gold,
             fruitPatches,
             crops,
-            isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             showTimers: showTimers,
             grid,
             mushrooms: mushrooms?.mushrooms,
