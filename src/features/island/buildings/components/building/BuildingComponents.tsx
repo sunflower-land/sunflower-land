@@ -25,27 +25,21 @@ export interface BuildingProps {
   buildingId: string;
   craftingState?: BuildingProduct;
   isBuilt?: boolean;
-  onRemove?: () => void;
 }
 
 export const BUILDING_COMPONENTS: Record<
   BuildingName,
   React.FC<BuildingProps>
 > = {
-  "Fire Pit": ({
-    buildingId,
-    craftingState,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
+  "Fire Pit": ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <FirePit buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+      <FirePit buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
   Workbench: WorkBench,
-  Bakery: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
+  Bakery: ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Bakery buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+      <Bakery buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
   Market: Market,
@@ -55,33 +49,19 @@ export const BUILDING_COMPONENTS: Record<
   Warehouse: Warehouse,
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
-  Kitchen: ({
-    buildingId,
-    craftingState,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
+  Kitchen: ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Kitchen buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+      <Kitchen buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
-  Deli: ({ buildingId, craftingState, isBuilt, onRemove }: BuildingProps) => (
+  Deli: ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <Deli buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+      <Deli buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
-  "Smoothie Shack": ({
-    buildingId,
-    craftingState,
-    isBuilt,
-    onRemove,
-  }: BuildingProps) => (
+  "Smoothie Shack": ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
     <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
-      <SmoothieShack
-        buildingId={buildingId}
-        isBuilt={isBuilt}
-        onRemove={onRemove}
-      />
+      <SmoothieShack buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
 };

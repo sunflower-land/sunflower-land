@@ -49,7 +49,7 @@ export const ToastContext = createContext<{
  * The toast timeout in milliseconds.
  * Toasts will be hidden or removed after the timeout if there are no state updates.
  */
-const TOAST_TIMEOUT_MS = 2000;
+const TOAST_TIMEOUT_MS = 5000;
 
 /**
  * The toast provder for setting the toast list for the toast panel.
