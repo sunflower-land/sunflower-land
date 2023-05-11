@@ -8,7 +8,9 @@ export type BumpkinBackground =
   | "Christmas Background"
   | "Mountain View Background"
   | "China Town Background"
-  | "SFL Office Background";
+  | "SFL Office Background"
+  | "Dawn Breaker Background"
+  | "Mushroom Lights Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -16,7 +18,9 @@ export type BumpkinBody =
   | "Dark Brown Farmer Potion"
   | "Goblin Potion"
   | "Pirate Potion"
-  | "Light Brown Worried Farmer Potion";
+  | "Light Brown Worried Farmer Potion"
+  | "Sunburst Potion"
+  | "Infected Potion";
 
 export type BumpkinHair =
   | "Basic Hair"
@@ -54,7 +58,14 @@ export type BumpkinShirt =
   | "Hawaiian Shirt"
   | "Lifeguard Shirt"
   | "Sequence Shirt"
-  | "Polkastarter Shirt";
+  | "Polkastarter Shirt"
+  | "Mushroom Sweater"
+  | "Rash Vest"
+  | "Club Polo"
+  | "White Turtle Neck"
+  | "Summer Top"
+  | "Striped Red Shirt"
+  | "Striped Yellow Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -72,7 +83,11 @@ export type BumpkinTool =
   | "Ancient Goblin Sword"
   | "Pirate Scimitar"
   | "Bumpkin Puppet"
-  | "Goblin Puppet";
+  | "Goblin Puppet"
+  | "Mushroom Lamp"
+  | "Dawn Lamp"
+  | "Water Gun"
+  | "Grave Diggers Shovel";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -80,7 +95,8 @@ export type BumpkinShoe =
   | "Yellow Boots"
   | "Bumpkin Boots"
   | "Peg Leg"
-  | "Cupid Sandals";
+  | "Cupid Sandals"
+  | "Mushroom Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -102,7 +118,10 @@ export type BumpkinHat =
   | "Lifeguard Hat"
   | "Sleeping Otter"
   | "Sequence Hat"
-  | "St Patricks Hat";
+  | "St Patricks Hat"
+  | "Squid Hat"
+  | "Fox Hat"
+  | "Mushroom Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -115,10 +134,16 @@ export type BumpkinPant =
   | "Maiden Skirt"
   | "Peasant Skirt"
   | "Pirate Pants"
-  | "Lifeguard Pants";
+  | "Lifeguard Pants"
+  | "Beach Trunks"
+  | "Wavy Pants"
+  | "Mushroom Pants";
 
 export type BumpkinDress = "Cupid Dress" | "Beach Sarong" | "Tropical Sarong";
-export type BumpkinSecondaryTool = "Sunflower Shield" | "Crab Claw";
+export type BumpkinSecondaryTool =
+  | "Sunflower Shield"
+  | "Crab Claw"
+  | "Mushroom Shield";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -127,7 +152,8 @@ export type BumpkinOnesie =
   | "Bear Onesie"
   | "Tiger Onesie"
   | "Frog Onesie"
-  | "Bunny Onesie";
+  | "Bunny Onesie"
+  | "Eggplant Onesie";
 
 // Goes over clothes
 export type BumpkinSuit = "Reindeer Suit";
@@ -265,6 +291,30 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Bunny Onesie": 117,
   "Light Brown Worried Farmer Potion": 118,
   "Polkastarter Shirt": 119,
+  "Beach Trunks": 120,
+  "Club Polo": 121,
+  "Dawn Breaker Background": 122,
+  "Dawn Lamp": 123,
+  "Eggplant Onesie": 124,
+  "Fox Hat": 125,
+  "Grave Diggers Shovel": 126,
+  "Infected Potion": 127,
+  "Mushroom Hat": 128,
+  "Mushroom Lamp": 129,
+  "Mushroom Lights Background": 130,
+  "Mushroom Pants": 131,
+  "Mushroom Shield": 132,
+  "Mushroom Shoes": 133,
+  "Mushroom Sweater": 134,
+  "Rash Vest": 135,
+  "Squid Hat": 136,
+  "Striped Red Shirt": 137,
+  "Striped Yellow Shirt": 138,
+  "Summer Top": 139,
+  "Sunburst Potion": 140,
+  "Water Gun": 141,
+  "Wavy Pants": 142,
+  "White Turtle Neck": 143,
 };
 
 // The reverse of above

@@ -44,7 +44,6 @@ const getIslandElements = ({
   gold,
   fruitPatches,
   crops,
-  isRustyShovelSelected,
   showTimers,
   grid,
   mushrooms,
@@ -60,7 +59,6 @@ const getIslandElements = ({
   gold: GameState["gold"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
-  isRustyShovelSelected: boolean;
   showTimers: boolean;
   grid: GameGrid;
   mushrooms: GameState["mushrooms"]["mushrooms"];
@@ -91,7 +89,6 @@ const getIslandElements = ({
                 readyAt={building.readyAt}
                 createdAt={building.createdAt}
                 crafting={building.crafting}
-                isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
                 coordinates={{ x, y }}
               />
@@ -124,7 +121,6 @@ const getIslandElements = ({
                 id={id}
                 readyAt={readyAt}
                 createdAt={createdAt}
-                isRustyShovelSelected={isRustyShovelSelected}
                 showTimers={showTimers}
                 coordinates={coordinates}
                 grid={grid}
@@ -313,27 +309,30 @@ const getIslandElements = ({
     })
   );
 
-  mapPlacements.push(
-    ...getKeys(mushrooms).flatMap((id) => {
-      const { x, y } = mushrooms[id]!;
+  {
+    mushrooms &&
+      mapPlacements.push(
+        ...getKeys(mushrooms).flatMap((id) => {
+          const { x, y } = mushrooms[id]!;
 
-      return (
-        <MapPlacement
-          key={`mushroom-${id}`}
-          x={x}
-          y={y}
-          height={MUSHROOM_DIMENSIONS.height}
-          width={MUSHROOM_DIMENSIONS.width}
-        >
-          <Mushroom
-            key={`mushroom-${id}`}
-            id={id}
-            isFirstRender={isFirstRender}
-          />
-        </MapPlacement>
+          return (
+            <MapPlacement
+              key={`mushroom-${id}`}
+              x={x}
+              y={y}
+              height={MUSHROOM_DIMENSIONS.height}
+              width={MUSHROOM_DIMENSIONS.width}
+            >
+              <Mushroom
+                key={`mushroom-${id}`}
+                id={id}
+                isFirstRender={isFirstRender}
+              />
+            </MapPlacement>
+          );
+        })
       );
-    })
-  );
+  }
 
   return mapPlacements;
 };
@@ -362,7 +361,6 @@ export const Land: React.FC = () => {
     mushrooms,
   } = useSelector(gameService, selectGameState);
   const autosaving = useSelector(gameService, isAutosaving);
-  const editing = useSelector(gameService, isEditing);
   const visiting = useSelector(gameService, isVisiting);
 
   const grid = getGameGrid({ crops, collectibles });
@@ -436,10 +434,9 @@ export const Land: React.FC = () => {
             gold,
             fruitPatches,
             crops,
-            isRustyShovelSelected: shortcuts[0] === "Rusty Shovel",
             showTimers: showTimers,
             grid,
-            mushrooms: mushrooms.mushrooms,
+            mushrooms: mushrooms?.mushrooms,
             isFirstRender,
           }).sort((a, b) => b.props.y - a.props.y)}
         </div>
@@ -475,7 +472,7 @@ export const Land: React.FC = () => {
           <LandscapingHud isFarming />
         </>
       ) : (
-        <Hud isFarming />
+        <Hud isFarming={!visiting} />
       )}
     </>
   );

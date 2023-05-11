@@ -7,6 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HenHouseModal } from "./components/HenHouseModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
+import { barnAudio } from "lib/utils/sfx";
 
 export const ChickenHouse: React.FC<BuildingProps> = ({
   isBuilt,
@@ -22,6 +23,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
 
     if (isBuilt) {
       // Add future on click actions here
+      barnAudio.play();
       setIsOpen(true);
       return;
     }
@@ -36,10 +38,11 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
       <BuildingImageWrapper onClick={handleClick}>
         <img
           src={building}
-          className="absolute bottom-0"
+          className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 61}px`,
             height: `${PIXEL_SCALE * 49}px`,
+            left: `${PIXEL_SCALE * 1}px`,
           }}
         />
       </BuildingImageWrapper>

@@ -1,13 +1,10 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-
 import { Box } from "components/ui/Box";
-
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BUILDINGS, BuildingName } from "features/game/types/buildings";
-
 import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
@@ -15,7 +12,6 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
@@ -32,12 +28,30 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const inventory = state.inventory;
+  const { inventory } = state;
 
-  const selectedItem = BUILDINGS()[selectedName];
-  const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
+  const buildingBlueprints = BUILDINGS()[selectedName];
+  const buildingUnlockLevels = buildingBlueprints.map(
+    ({ unlocksAtLevel }) => unlocksAtLevel
+  );
+  const landCount = inventory["Basic Land"] ?? new Decimal(0);
+  const buildingsInInventory = inventory[selectedName] || new Decimal(0);
+  // Some buildings have multiple blueprints, so we need to check if the next blueprint is available else fallback to the first one
+  const nextBlueprintIndex = buildingBlueprints[buildingsInInventory.toNumber()]
+    ? buildingsInInventory.toNumber()
+    : 0;
+  const numOfBuildingAllowed = buildingUnlockLevels.filter((level) =>
+    landCount.gte(level)
+  ).length;
+  const nextLockedLevel = buildingUnlockLevels.find((level) =>
+    landCount.lt(level)
+  );
 
-  const ingredients = selectedItem[0].ingredients.reduce(
+  const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(
+    BUILDINGS()[selectedName].length
+  );
+
+  const ingredients = buildingBlueprints[0].ingredients.reduce(
     (acc, ingredient) => ({
       ...acc,
       [ingredient.item]: new Decimal(ingredient.amount),
@@ -45,14 +59,10 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     {}
   );
 
-  const sfl = selectedItem[0].sfl;
-  const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
-
-  const landscapingMachine = gameService.state.children
-    .landscaping as MachineInterpreter;
+  const { sfl } = buildingBlueprints[nextBlueprintIndex];
 
   const lessIngredients = () =>
-    selectedItem[0].ingredients.some((ingredient) =>
+    buildingBlueprints[nextBlueprintIndex].ingredients.some((ingredient) =>
       ingredient.amount?.greaterThan(inventory[ingredient.item] || 0)
     );
 
@@ -69,7 +79,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const landLocked = (level: number) => {
+  const landLocked = () => {
     return (
       <div className="flex flex-col w-full justify-center">
         <div className="flex items-center justify-center border-t border-white w-full pt-2">
@@ -78,33 +88,17 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
         </div>
         <div className="flex items-center justify-center ">
           <img src={ITEM_DETAILS["Basic Land"].image} className="h-4 mr-1" />
-          <Label type="danger">{`${landCount.toNumber()}/${level}`}</Label>
+          <Label type="danger">{`${landCount.toNumber()}/${nextLockedLevel}`}</Label>
         </div>
       </div>
     );
   };
 
   const action = () => {
-    const level = BUILDINGS()[selectedName][0].unlocksAtLevel;
-    const isLocked = landCount.lt(level);
-
-    console.log({ isLocked });
+    const hasMaxNumberOfBuildings =
+      buildingsInInventory.gte(numOfBuildingAllowed);
     // Hasn't unlocked the first
-    if (isLocked) {
-      return landLocked(landCount.toNumber());
-    }
-
-    const nextBuildingIndex = BUILDINGS()[selectedName].findIndex((blueprint) =>
-      landCount.lt(blueprint.unlocksAtLevel)
-    );
-    console.log({ nextLockedLevel: nextBuildingIndex });
-
-    // Built one, but needs to level up to build more
-    if (inventory[selectedName]?.lte(nextBuildingIndex)) {
-      return landLocked(
-        BUILDINGS()[selectedName][nextBuildingIndex].unlocksAtLevel
-      );
-    }
+    if (nextLockedLevel && hasMaxNumberOfBuildings) return landLocked();
 
     if (isAlreadyCrafted) {
       return <p className="text-xxs text-center mb-1">Already crafted!</p>;
@@ -130,8 +124,9 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
           }}
           requirements={{
             sfl,
-            // resources: selectedItem[0].ingredients,
-            resources: selectedItem[0].ingredients.reduce(
+            resources: buildingBlueprints[
+              nextBlueprintIndex
+            ].ingredients.reduce(
               (acc, ingredient) => ({
                 ...acc,
                 [ingredient.item]: new Decimal(ingredient.amount),
@@ -145,7 +140,14 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       content={
         <>
           {getKeys(BUILDINGS()).map((name: BuildingName) => {
-            const isLocked = landCount.lt(BUILDINGS()[name][0].unlocksAtLevel);
+            const blueprints = BUILDINGS()[name];
+            const inventoryCount = inventory[name] || new Decimal(0);
+            const nextIndex = blueprints[inventoryCount.toNumber()]
+              ? inventoryCount.toNumber()
+              : 0;
+            const isLocked = landCount.lt(
+              BUILDINGS()[name][nextIndex].unlocksAtLevel
+            );
 
             let secondaryIcon = undefined;
             if (isLocked) {

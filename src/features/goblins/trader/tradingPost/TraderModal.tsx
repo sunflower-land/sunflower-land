@@ -32,7 +32,7 @@ export const TraderModal: React.FC<TraderModalProps> = ({
 
   const child = goblinState.children.tradingPost as MachineInterpreter;
 
-  const [machine, send] = useActor(child);
+  const [machine] = useActor(child);
 
   const [isSelling, setIsSelling] = useState(initialTab === "selling");
 

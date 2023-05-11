@@ -49,6 +49,8 @@ import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
 import luminousLantern from "assets/sfts/luminous_lantern.webp";
+import auroraLantern from "assets/sfts/aurora_lantern.webp";
+import radianceLantern from "assets/sfts/radiance_lantern.webp";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -174,7 +176,7 @@ import blockBuck from "assets/icons/block_buck.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
-import dawnBreakerTicket from "assets/icons/dawn_breake_ticket.png";
+import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
@@ -310,6 +312,7 @@ import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 import valentineBear from "src/assets/sfts/bears/love_bear.png";
 import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
+import genieBear from "src/assets/sfts/bears/genie_bear.png";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -365,6 +368,7 @@ import shroomGlow from "assets/decorations/shroom_glow.png";
 import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
+import hoot from "assets/sfts/hoot.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -734,10 +738,6 @@ export const ITEM_DETAILS: Items = {
   Shovel: {
     ...SHOVELS["Shovel"],
     image: SUNNYSIDE.tools.shovel,
-  },
-  "Power Shovel": {
-    ...SHOVELS["Power Shovel"],
-    image: SUNNYSIDE.tools.power_shovel,
   },
   "Sand Shovel": {
     description: "Used for digging treasure",
@@ -1720,7 +1720,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Lady Bug": {
     image: ladybug,
-    description: GOBLIN_BLACKSMITH_ITEMS()["Lady Bug"].description,
+    description:
+      "An incredible bug that feeds on aphids. Improves Apple quality.",
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
@@ -2045,11 +2046,11 @@ export const ITEM_DETAILS: Items = {
     description: "A bright paper lantern that illuminates the way.",
   },
   "Radiance Lantern": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: radianceLantern,
     description: "A radiant paper lantern that shines with a powerful light.",
   },
   "Aurora Lantern": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: auroraLantern,
     description:
       "A paper lantern that transforms any space into a magical wonderland.",
   },
@@ -2068,15 +2069,17 @@ export const ITEM_DETAILS: Items = {
   },
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
-    description: SEASONAL_DECORATIONS()["Dawn Umbrella Seat"].description,
+    description:
+      SEASONAL_DECORATIONS()["Dawn Umbrella Seat"]?.description ?? "",
   },
   "Eggplant Grill": {
     image: eggplantGrill,
-    description: SEASONAL_DECORATIONS()["Eggplant Grill"].description,
+    description: SEASONAL_DECORATIONS()["Eggplant Grill"]?.description ?? "",
   },
   "Giant Dawn Mushroom": {
     image: giantDawnMushroom,
-    description: SEASONAL_DECORATIONS()["Giant Dawn Mushroom"].description,
+    description:
+      SEASONAL_DECORATIONS()["Giant Dawn Mushroom"]?.description ?? "",
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
@@ -2088,7 +2091,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Shroom Glow": {
     image: shroomGlow,
-    description: SEASONAL_DECORATIONS()["Shroom Glow"].description,
+    description: SEASONAL_DECORATIONS()["Shroom Glow"]?.description ?? "",
   },
   "Toadstool Seat": {
     image: toadstoolSeat,
@@ -2096,11 +2099,11 @@ export const ITEM_DETAILS: Items = {
   },
   Clementine: {
     image: clementine,
-    description: SEASONAL_DECORATIONS()["Clementine"].description,
+    description: SEASONAL_DECORATIONS()["Clementine"]?.description ?? "",
   },
   Cobalt: {
     image: cobalt,
-    description: SEASONAL_DECORATIONS()["Cobalt"].description,
+    description: SEASONAL_DECORATIONS()["Cobalt"]?.description ?? "",
   },
   "Purple Trail": {
     image: purpleTrail,
@@ -2114,5 +2117,13 @@ export const ITEM_DETAILS: Items = {
   Obie: {
     image: obie,
     description: "A fierce eggplant solider",
+  },
+  Hoot: {
+    image: hoot,
+    description: "Hoot hoot! Have you solved my riddle yet?",
+  },
+  "Genie Bear": {
+    image: genieBear,
+    description: "Exactly what I wished for!",
   },
 };

@@ -144,7 +144,6 @@ const stateSelector = (state: AuthMachineState) => ({
 
 export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
-  inventory,
   showVisitList,
   travelAllowed,
 }) => {
@@ -174,7 +173,7 @@ export const IslandList: React.FC<IslandListProps> = ({
     {
       name: "Dawn Breaker",
       image: dawnBreakerBanner,
-      levelRequired: 1 as BumpkinLevel,
+      levelRequired: 2 as BumpkinLevel,
       guestAccess: true,
       path: `/land/${farmId}/dawn-breaker`,
     },

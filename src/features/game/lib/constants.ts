@@ -118,7 +118,6 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
 
     Shovel: new Decimal(1),
     "Rusty Shovel": new Decimal(100),
-    "Power Shovel": new Decimal(5),
     "Sand Shovel": new Decimal(25),
     "Sand Drill": new Decimal(5),
     Chicken: new Decimal(5),
@@ -411,6 +410,8 @@ export const EMPTY: GameState = {
   auctioneer: {},
   hayseedHank: {
     choresCompleted: 0,
+    dawnBreakerChoresCompleted: 0,
+    dawnBreakerChoresSkipped: 0,
     chore: {
       activity: "Sunflower Harvested",
       requirement: 10,

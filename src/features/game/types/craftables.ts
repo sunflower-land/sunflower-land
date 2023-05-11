@@ -177,6 +177,11 @@ export type LimitedItemName =
   | MutantChicken
   | WarTentItem;
 
+export type Lantern =
+  | "Luminous Lantern"
+  | "Radiance Lantern"
+  | "Aurora Lantern";
+
 export type CollectibleName =
   | LegacyItem
   | BarnItem
@@ -195,7 +200,7 @@ export type CollectibleName =
   | SeasonPassName
   | BoostTreasure
   | WarBanner
-  | "Luminous Lantern"
+  | Lantern
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -209,7 +214,7 @@ export type ToolName =
   | "Hammer"
   | "Rod";
 
-export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel";
+export type Shovel = "Rusty Shovel" | "Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -584,22 +589,6 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
         amount: new Decimal(20),
       },
     ],
-  },
-  "Power Shovel": {
-    name: "Power Shovel",
-    description: "Used for landscaping",
-    tokenAmount: new Decimal(5),
-    ingredients: [
-      {
-        item: "Diamond",
-        amount: new Decimal(2),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(5),
-      },
-    ],
-    disabled: true,
   },
 };
 
@@ -1161,10 +1150,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Dawn Breaker SFTs
   "Mushroom House": { height: 3, width: 2 },
   "Luminous Lantern": { height: 2, width: 1 },
+  "Aurora Lantern": { height: 2, width: 1 },
+  "Radiance Lantern": { height: 2, width: 1 },
 
   "Purple Trail": { width: 1, height: 1 },
   Obie: { width: 1, height: 1 },
   Maximus: { width: 2, height: 2 },
+  Hoot: { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

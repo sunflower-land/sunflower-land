@@ -30,8 +30,6 @@ import {
   MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
-import { Modal } from "react-bootstrap";
-import { RemoveChickenModal } from "features/farming/animals/components/RemoveChickenModal";
 import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -184,7 +182,6 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
   const [showMutantModal, setShowMutantModal] = useState(false);
 
   const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
   const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const handleMouseEnter = () => {
@@ -203,11 +200,6 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
 
     if (eggLaid) {
       handleCollect();
-      return;
-    }
-
-    if (hasRustyShovelSelected) {
-      setShowRemoveModal(true);
       return;
     }
 
@@ -270,8 +262,7 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
     <>
       <div
         className={classNames("w-full h-full relative", {
-          "cursor-pointer hover:img-highlight":
-            interactible || hasRustyShovelSelected,
+          "cursor-pointer hover:img-highlight": interactible,
         })}
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
@@ -488,22 +479,6 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
           type={chicken.reward?.items?.[0].name as MutantChicken}
           onContinue={handleContinue}
         />
-      )}
-
-      {showRemoveModal && (
-        <Modal
-          show={showRemoveModal}
-          centered
-          onHide={() => setShowRemoveModal(false)}
-        >
-          {showRemoveModal && (
-            <RemoveChickenModal
-              id={id}
-              canRemove={hungry}
-              onClose={() => setShowRemoveModal(false)}
-            />
-          )}
-        </Modal>
       )}
     </>
   );

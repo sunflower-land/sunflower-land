@@ -3,7 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GoblinProvider";
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import {
+  Collectibles,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { shortAddress } from "lib/utils/shortAddress";
 import { KNOWN_IDS } from "features/game/types";
@@ -35,12 +39,12 @@ export function transferInventoryItem(
     React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
   >
 ) {
-  let amount = 1;
+  let amount = new Decimal(1);
 
   // Subtract 1 or remaining
   setFrom((prev) => {
-    const remaining = prev[itemName]!.toNumber();
-    if (remaining < 1) {
+    const remaining = prev[itemName] ?? new Decimal(0);
+    if (remaining.lessThan(1)) {
       amount = remaining;
     }
     return {
@@ -52,7 +56,7 @@ export function transferInventoryItem(
   // Add 1 or remaining
   setTo((prev) => ({
     ...prev,
-    [itemName]: (prev[itemName] || new Decimal(0)).add(amount),
+    [itemName]: (prev[itemName] ?? new Decimal(0)).add(amount),
   }));
 }
 
@@ -64,11 +68,13 @@ export const WithdrawItems: React.FC<Props> = ({
   const [goblinState] = useActor(goblinService);
 
   const [inventory, setInventory] = useState<Inventory>({});
+  const [collectibles, setCollectibles] = useState<Collectibles>({});
   const [selected, setSelected] = useState<Inventory>({});
 
   useEffect(() => {
     const bankItems = getBankItems(goblinState.context.state.inventory);
     setInventory(bankItems);
+    setCollectibles(goblinState.context.state.collectibles);
     setSelected({});
   }, []);
 
@@ -101,40 +107,27 @@ export const WithdrawItems: React.FC<Props> = ({
     };
   };
 
-  const withdrawableItems = getKeys(inventory)
-    .filter((item) => !isNeverWithdrawable(item) && inventory[item]?.gt(0))
+  // withdrawable items includes items a player has in their inventory or collectibles
+  // transformation has already applied to inventory so the list of collectibles keys is needed
+  const withdrawableItems = [
+    ...new Set([...getKeys(inventory), ...getKeys(collectibles)]),
+  ]
+    .filter((item) => {
+      const areItemsPlaced =
+        collectibles[item as CollectibleName]?.length ?? 0 > 0;
+      const hasUnselectedItemsInInventory = (
+        selected[item] ?? new Decimal(0)
+      ).lessThan(inventory[item] ?? new Decimal(0));
+      return (
+        !isNeverWithdrawable(item) &&
+        (areItemsPlaced || hasUnselectedItemsInInventory)
+      );
+    })
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const selectedItems = getKeys(selected)
     .filter((item) => selected[item]?.gt(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
-
-  const getTotalNumberOfItemType = (itemName: InventoryItemName) => {
-    const state = goblinState.context.state;
-    // Return the number of chickens minus the ones that are currently laying eggs
-    if (itemName === "Chicken" && inventory["Chicken"]) {
-      const totalChicksLayingEggs = Object.keys(state.chickens).length;
-      // Only hungry (unfed) chickens can be withdrawn
-      const totalHungryChicks = inventory["Chicken"].sub(totalChicksLayingEggs);
-
-      return new Decimal(totalHungryChicks);
-    }
-
-    const { collectibles } = state;
-
-    if (
-      itemName in collectibles &&
-      collectibles[itemName as CollectibleName]?.length
-    ) {
-      const numberInInventory = inventory[itemName as CollectibleName];
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const numberPlaced = collectibles[itemName as CollectibleName]!.length;
-
-      return numberInInventory?.minus(numberPlaced) || new Decimal(0);
-    }
-
-    return inventory[itemName] || new Decimal(0);
-  };
 
   return (
     <>
@@ -148,7 +141,7 @@ export const WithdrawItems: React.FC<Props> = ({
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline"
+              className="underline hover:text-blue-500"
             >
               {"in use"}
             </a>
@@ -157,7 +150,7 @@ export const WithdrawItems: React.FC<Props> = ({
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline"
+              className="underline hover:text-blue-500"
             >
               {"still being built"}
             </a>
@@ -171,22 +164,23 @@ export const WithdrawItems: React.FC<Props> = ({
             const gameState = goblinState.context.state;
 
             const withdrawable = canWithdraw({
-              item: itemName,
-              game: gameState,
+              itemName: itemName,
+              gameState: gameState,
+              selectedAmont: selected[itemName] ?? new Decimal(0),
             });
 
-            // This amount is used to block withdrawal of chickens who are in the process of laying eggs.
-            const totalCountOfItemType = getTotalNumberOfItemType(itemName);
-            // Once all the chickens that are available have been added the rest will be locked
-            const locked = !withdrawable || totalCountOfItemType.eq(0);
+            // The inventory amount that is not placed
+            const inventoryCount = inventory[itemName] ?? new Decimal(0);
+            const locked = !withdrawable || inventoryCount.lessThanOrEqualTo(0);
 
             return (
               <Box
-                count={totalCountOfItemType}
+                count={inventoryCount}
                 key={itemName}
                 onClick={() => onAdd(itemName)}
                 image={details.image}
                 locked={locked}
+                disabled={locked}
                 canBeLongPressed={allowLongpressWithdrawal}
               />
             );
@@ -234,7 +228,7 @@ export const WithdrawItems: React.FC<Props> = ({
         <span className="text-sm mb-4">
           Once withdrawn, you will be able to view your items on OpenSea.{" "}
           <a
-            className="underline"
+            className="underline hover:text-blue-500"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
             target="_blank"
             rel="noopener noreferrer"
