@@ -357,12 +357,7 @@ export const OFFLINE_FARM: GameState = {
 
   bumpkin: INITIAL_BUMPKIN,
 
-  chickens: {
-    "1": {
-      multiplier: 1,
-      coordinates: { x: 4, y: 4 },
-    },
-  },
+  chickens: {},
 
   airdrops: [],
 
@@ -375,6 +370,18 @@ export const OFFLINE_FARM: GameState = {
 
   stockExpiry: {},
   dailyRewards: {},
+
+  grubShop: {
+    closesAt: Date.now() + 500000,
+    opensAt: Date.now(),
+    orders: [
+      {
+        id: "1",
+        name: "Apple Juice",
+        sfl: new Decimal(1),
+      },
+    ],
+  },
 
   buildings: {
     "Town Center": [

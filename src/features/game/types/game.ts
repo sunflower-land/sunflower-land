@@ -520,7 +520,7 @@ export interface GameState {
   buildings: Buildings;
   collectibles: Collectibles;
   delivery: Delivery;
-  grubShop?: GrubShop;
+  grubShop: GrubShop;
   grubOrdersFulfilled?: {
     id: string;
     fulfilledAt: number;

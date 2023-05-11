@@ -96,3 +96,9 @@ export const DynamicNFT: React.FC<Props> = ({
     </div>
   );
 };
+
+export const BumpkinNFT: React.FC<BumpkinParts> = (parts) => {
+  return <DynamicNFT bumpkinParts={parts} />;
+};
+
+export const MemoizedBumpkin = React.memo(BumpkinNFT);
