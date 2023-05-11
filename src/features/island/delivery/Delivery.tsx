@@ -28,6 +28,7 @@ import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import classNames from "classnames";
 import { Order } from "features/game/types/game";
+import { getDeliverySlots } from "features/game/events/landExpansion/deliver";
 
 export const Delivery: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -101,6 +102,12 @@ export const Delivery: React.FC = () => {
       (order) => order.readyAt > Date.now()
     );
 
+    console.log({
+      slots: getDeliverySlots(gameState.context.state),
+      length: delivery.orders.length,
+      show: getDeliverySlots(gameState.context.state) - delivery.orders.length,
+    });
+
     return (
       <div className="flex md:flex-row flex-col-reverse">
         <div
@@ -114,6 +121,7 @@ export const Delivery: React.FC = () => {
                 <OuterPanel
                   onClick={() => select(order.id)}
                   className="w-full cursor-pointer hover:bg-brown-200 py-2 relative"
+                  style={{ height: "80px" }}
                 >
                   {hasRequirements(order) && (
                     <img
@@ -193,7 +201,10 @@ export const Delivery: React.FC = () => {
 
             {nextOrder && (
               <div className="w-1/2 sm:w-1/3 p-1 h-full">
-                <OuterPanel className="w-full py-2 relative">
+                <OuterPanel
+                  className="w-full py-2 relative"
+                  style={{ height: "80px" }}
+                >
                   <p className="text-center mb-0.5 mt-1 text-sm">Next order:</p>
                   <div className="flex justify-center items-center">
                     <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
@@ -207,6 +218,20 @@ export const Delivery: React.FC = () => {
                 </OuterPanel>
               </div>
             )}
+            {new Array(
+              getDeliverySlots(gameState.context.state) -
+                orders.length -
+                (nextOrder ? 1 : 0)
+            )
+              .fill(null)
+              .map((_) => (
+                <div className="w-1/2 sm:w-1/3 p-1 h-full">
+                  <OuterPanel
+                    className="w-full py-2 relative"
+                    style={{ height: "80px" }}
+                  ></OuterPanel>
+                </div>
+              ))}
           </div>
         </div>
         <OuterPanel

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import { GameState, Order } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type DeliverOrderAction = {
@@ -13,6 +13,43 @@ type Options = {
   state: Readonly<GameState>;
   action: DeliverOrderAction;
 };
+
+export function getDeliverySlots(game: GameState) {
+  if (game.inventory["Basic Land"]?.gte(5)) {
+    return 6;
+  }
+
+  return 3;
+}
+
+export function populateOrders(
+  game: GameState,
+  createdAt: number = Date.now()
+) {
+  let orders = game.delivery.orders;
+  const slots = getDeliverySlots(game);
+
+  while (orders.length < slots) {
+    const upcomingOrderTimes = game.delivery.orders.map(
+      (order) => order.readyAt
+    );
+    const baseTime = Math.max(...upcomingOrderTimes, createdAt);
+
+    // Orders are generated on backend - use this just to show the next readyAt
+    const fakeOrder: Order = {
+      createdAt: Date.now(),
+      readyAt: baseTime + (24 / getDeliverySlots(game)) * 60 * 60 * 1000,
+      from: "betty",
+      id: Date.now().toString(),
+      items: {},
+      reward: {},
+    };
+
+    orders.push(fakeOrder);
+  }
+
+  return orders;
+}
 
 const clone = (state: GameState): GameState => {
   return cloneDeep(state);
@@ -63,7 +100,9 @@ export function deliverOrder({ state, action }: Options): GameState {
 
   game.delivery.fulfilledCount += 1;
 
-  bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
+  // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
+
+  game.delivery.orders = populateOrders(game);
 
   return game;
 }
