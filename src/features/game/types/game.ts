@@ -38,16 +38,16 @@ export type Reward = {
   }[];
 };
 
-export type Fertiliser = "Rapid Growth";
+export type FertiliserName = "Rapid Growth";
 
-export const FERTILISERS: Record<Fertiliser, { description: string }> = {
+export const FERTILISERS: Record<FertiliserName, { description: string }> = {
   "Rapid Growth": {
     description: "Apply to a crop to grow twice as fast",
   },
 };
 
 export type Fertilisers = {
-  name: Fertiliser;
+  name: FertiliserName;
   fertilisedAt: number;
 }[];
 
@@ -169,9 +169,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
 };
 
-type Points = "Human War Point" | "Goblin War Point";
+export type Points = "Human War Point" | "Goblin War Point";
 
-type WarBanner = "Human War Banner" | "Goblin War Banner";
+export type WarBanner = "Human War Banner" | "Goblin War Banner";
 
 export type GoldenCropEventItem = "Golden Crop";
 
@@ -215,7 +215,7 @@ export type InventoryItemName =
   | WarItems
   | SpecialEvent
   | BuildingName
-  | Fertiliser
+  | FertiliserName
   | WarBanner
   | ConsumableName
   | DecorationName

@@ -23,10 +23,10 @@ export type SoldOutCollectibleName =
   | "Maneki Neko"
   | "Squirrel Monkey"
   | "Black Bearry"
-  | "Hoot";
+  | "Hoot"
+  | "Lady Bug";
 
 export type GoblinBlacksmithItemName =
-  | "Lady Bug"
   | "Purple Trail"
   | "Obie"
   | "Mushroom House"
@@ -121,16 +121,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
   state?: GameState
 ) => Record<GoblinBlacksmithItemName, GoblinBlacksmithCraftable> = (state) => {
   return {
-    "Lady Bug": {
-      description:
-        "An incredible bug that feeds on aphids. Improves Apple quality.",
-      ingredients: {
-        Gold: new Decimal(25),
-        Apple: new Decimal(100),
-      },
-      supply: 2535,
-      boost: "+0.25 Apples",
-    },
     "Mushroom House": {
       description:
         "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",

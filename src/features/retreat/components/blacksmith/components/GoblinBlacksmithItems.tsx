@@ -43,7 +43,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
   const [selectedName, setSelectedName] =
-    useState<GoblinBlacksmithItemName>("Lady Bug");
+    useState<GoblinBlacksmithItemName>("Mushroom House");
 
   useEffect(() => {
     const load = async () => {
