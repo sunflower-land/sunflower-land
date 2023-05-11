@@ -33,7 +33,6 @@ const DECORATIONS = (state: GameState) => {
   return { ...HELIOS_DECORATIONS(), ...SEASONAL_DECORATIONS(state) };
 };
 export function buyDecoration({ state, action }: Options) {
-  console.log({ action });
   const stateCopy = cloneDeep(state);
   const { name } = action;
   const desiredItem = DECORATIONS(stateCopy)[name];
