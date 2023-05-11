@@ -27,8 +27,6 @@ export async function loadGuestSession(
 ): Promise<Response | undefined> {
   if (!API_URL) return;
 
-  console.log({ request });
-
   const response = await window.fetch(`${API_URL}/guest-session`, {
     method: "POST",
     //mode: "no-cors",

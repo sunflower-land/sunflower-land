@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { CHORES } from "../types/chores";
 import { Bumpkin, GameState, Inventory } from "../types/game";
 import { getKeys } from "../types/craftables";
-import { marketRate } from "./halvening";
 
 const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
@@ -253,24 +252,45 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   dawnBreaker: {
-    currentWeek: 1,
+    currentWeek: 2,
     availableLantern: {
-      name: "Luminous Lantern",
-      startAt: "2023-04-01T00:00:00.000Z",
-      endAt: "2023-05-08T00:00:00.000Z",
-      sfl: marketRate(5),
+      name: "Radiance Lantern",
+      startAt: "2023-05-08T00:00:00.000Z",
+      endAt: "2023-05-15T00:00:00.000Z",
       ingredients: {
-        Sunflower: new Decimal(1000),
-        Wood: new Decimal(10),
+        Carrot: new Decimal(50),
+        Cauliflower: new Decimal(7),
+        Beetroot: new Decimal(10),
+        Cabbage: new Decimal(10),
+        Wood: new Decimal(3),
       },
     },
     lanternsCraftedByWeek: {
-      1: 5,
+      1: 4,
+      2: 3,
+    },
+    answeredRiddleIds: [],
+    riddle: {
+      hint: "Tester",
+      endAt: 0,
+      startAt: 0,
+      id: "test-id",
+      reward: {
+        items: {
+          "Dawn Breaker Ticket": 50,
+        },
+      },
     },
   },
   balance: new Decimal(1),
   inventory: {
+    Carrot: new Decimal(500),
+    Cauliflower: new Decimal(700),
+    Beetroot: new Decimal(1000),
+    Cabbage: new Decimal(1000),
+    Wood: new Decimal(300),
     "Luminous Lantern": new Decimal(5),
+    "Radiance Lantern": new Decimal(3),
     Market: new Decimal(1),
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
@@ -289,7 +309,6 @@ export const OFFLINE_FARM: GameState = {
     "White Tulips": new Decimal(10),
     Artist: new Decimal(1),
     Sunflower: new Decimal(1),
-    Wood: new Decimal(100),
     Stone: new Decimal(50),
     Axe: new Decimal(10),
     "Rusty Shovel": new Decimal(5),
@@ -331,6 +350,7 @@ export const OFFLINE_FARM: GameState = {
     "Purple Trail": new Decimal(1),
     Obie: new Decimal(1),
     Maximus: new Decimal(1),
+    Hoot: new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,
@@ -374,7 +394,16 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
-  collectibles: {},
+  collectibles: {
+    "Genie Lamp": [
+      {
+        coordinates: { x: 3, y: -6 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+  },
   mysteryPrizes: {},
   pumpkinPlaza: {},
   treasureIsland: {
@@ -2120,7 +2149,6 @@ export const OFFLINE_FARM: GameState = {
 //     "Carrot Seed": "120",
 //     "Radish Seed": "48",
 //     Shovel: "1",
-//     "Power Shovel": "5",
 //     "Shiny Bean": "5",
 //     "Beetroot Seed": "96",
 //     "Wheat Seed": "48",

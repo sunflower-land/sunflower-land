@@ -2,14 +2,14 @@ import Decimal from "decimal.js-light";
 import { screenTracker } from "lib/utils/screen";
 import cloneDeep from "lodash.clonedeep";
 import { CROPS } from "../../types/crops";
-import { Fertiliser, GameState, InventoryItemName } from "../../types/game";
+import { FertiliserName, GameState, InventoryItemName } from "../../types/game";
 import { isReadyToHarvest } from "./harvest";
 
 export type LandExpansionFertiliseCropAction = {
   type: "crop.fertilised";
   plotIndex: number;
   expansionIndex: number;
-  fertiliser: Fertiliser;
+  fertiliser: FertiliserName;
 };
 
 type Options = {
@@ -36,7 +36,7 @@ const VALID_FERTILISERS: InventoryItemName[] = ["Rapid Growth"];
 
 const isFertiliser = (
   fertiliser: InventoryItemName
-): fertiliser is Fertiliser => {
+): fertiliser is FertiliserName => {
   return VALID_FERTILISERS.includes(fertiliser);
 };
 

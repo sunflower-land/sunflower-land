@@ -33,7 +33,7 @@ const NonFertilePlotComponent = () => {
             <img
               src={well}
               alt="well"
-              width={PIXEL_SCALE * 28}
+              width={PIXEL_SCALE * 25}
               className="mx-auto mt-4 mb-2"
             />
           </div>

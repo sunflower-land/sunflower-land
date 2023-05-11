@@ -5,8 +5,6 @@ import { BuildingProduct } from "features/game/types/game";
 import { Bar } from "components/ui/ProgressBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { Modal } from "react-bootstrap";
-import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -21,7 +19,6 @@ interface Prop {
   readyAt: number;
   createdAt: number;
   crafting?: BuildingProduct;
-  isRustyShovelSelected: boolean;
   showTimers: boolean;
   coordinates: Coordinates;
 }
@@ -93,30 +90,15 @@ const BuildingComponent: React.FC<Prop> = ({
   readyAt,
   createdAt,
   crafting,
-  isRustyShovelSelected,
   showTimers,
   coordinates,
 }) => {
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
-
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const inProgress = readyAt > Date.now();
 
   useUiRefresher({ active: inProgress });
 
-  const handleRemove = () => {
-    setShowRemoveModal(true);
-  };
-
-  const handleClose = () => {
-    setShowRemoveModal(false);
-  };
-
-  /**
-   * If a player has the Rusty Shovel selected then the onClick action of the building will open the RemovePlaceableModal
-   * Otherwise the onClick with be the regular onClick located inside the individual buildings component
-   */
   return (
     <>
       {inProgress ? (
@@ -126,28 +108,12 @@ const BuildingComponent: React.FC<Prop> = ({
           id={id}
           readyAt={readyAt}
           createdAt={createdAt}
-          isRustyShovelSelected={false}
           showTimers={showTimers}
           coordinates={coordinates}
         />
       ) : (
-        <BuildingPlaced
-          buildingId={id}
-          craftingState={crafting}
-          onRemove={isRustyShovelSelected ? handleRemove : undefined}
-          isBuilt
-        />
+        <BuildingPlaced buildingId={id} craftingState={crafting} isBuilt />
       )}
-      <Modal show={showRemoveModal} centered onHide={handleClose}>
-        {showRemoveModal && (
-          <RemovePlaceableModal
-            type="building"
-            name={name}
-            placeableId={id}
-            onClose={handleClose}
-          />
-        )}
-      </Modal>
     </>
   );
 };
