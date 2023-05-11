@@ -471,7 +471,7 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
     fulfilledCount: 23,
-    reward: {
+    milestone: {
       goal: 12,
       total: 25,
     },

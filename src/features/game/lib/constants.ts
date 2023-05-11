@@ -252,7 +252,7 @@ export const TEST_FARM: GameState = {
   delivery: {
     fulfilledCount: 0,
     orders: [],
-    reward: {
+    milestone: {
       goal: 10,
       total: 10,
     },
@@ -413,7 +413,7 @@ export const EMPTY: GameState = {
   delivery: {
     fulfilledCount: 0,
     orders: [],
-    reward: {
+    milestone: {
       goal: 10,
       total: 10,
     },

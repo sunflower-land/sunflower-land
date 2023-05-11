@@ -2,18 +2,17 @@ import { useActor } from "@xstate/react";
 import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { NPC } from "../bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ProgressBar, ResizableBar } from "components/ui/ProgressBar";
+import { ResizableBar } from "components/ui/ProgressBar";
 import chest from "assets/icons/chest.png";
 import sfl from "assets/icons/token_2.png";
 import deliveryBoard from "assets/ui/delivery_board.png";
 import heartBg from "assets/ui/heart_bg.png";
-import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import Decimal from "decimal.js-light";
@@ -29,15 +28,18 @@ import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import classNames from "classnames";
 import { Order } from "features/game/types/game";
 import { getDeliverySlots } from "features/game/events/landExpansion/deliver";
+import { Revealing } from "features/game/components/Revealing";
+import { Revealed } from "features/game/components/Revealed";
+import { generateDeliveryMessage } from "./lib/delivery";
 
-export const Delivery: React.FC = () => {
+const DeliveryComponent: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showHelp, setShowHelp] = useState(false);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false);
 
   const delivery = gameState.context.state.delivery;
   const orders = delivery.orders.filter((order) => Date.now() >= order.readyAt);
@@ -50,18 +52,10 @@ export const Delivery: React.FC = () => {
     previewOrder = orders[0];
   }
 
-  useEffect(() => {
-    if (previewOrder) {
-      if (!previewOrder.startedAt) {
-        console.log("Start");
-        gameService.send("order.started", { id: previewOrder.id });
-      }
-    }
-  }, [previewOrder?.id]);
-
   const progress = Math.min(
-    delivery.reward.goal,
-    delivery.reward.goal - (delivery.reward.total - delivery.fulfilledCount)
+    delivery.milestone.goal,
+    delivery.milestone.goal -
+      (delivery.milestone.total - delivery.fulfilledCount)
   );
 
   const deliver = () => {
@@ -80,14 +74,27 @@ export const Delivery: React.FC = () => {
 
   const select = (id: string) => {
     setSelectedId(id);
+  };
 
-    const order = orders.find((order) => order.id === id);
-    if (!order?.startedAt) {
-      gameService.send("order.started", { id });
-    }
+  const reachMilestone = () => {
+    gameService.send("REVEAL", {
+      event: {
+        type: "delivery.milestoneReached",
+        createdAt: new Date(),
+      },
+    });
+    setIsRevealing(true);
   };
 
   const Content = () => {
+    if (gameState.matches("revealing") && isRevealing) {
+      return <Revealing icon={chest} />;
+    }
+
+    if (gameState.matches("revealed") && isRevealing) {
+      return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
+    }
+
     if (orders.length === 0) {
       return <p>No orders available</p>;
     }
@@ -96,7 +103,7 @@ export const Delivery: React.FC = () => {
       return <p>TODO</p>;
     }
 
-    const canFulfill = hasRequirements(previewOrder);
+    const canFulfill = hasRequirements(previewOrder as Order);
 
     const nextOrder = delivery.orders.find(
       (order) => order.readyAt > Date.now()
@@ -108,6 +115,11 @@ export const Delivery: React.FC = () => {
       show: getDeliverySlots(gameState.context.state) - delivery.orders.length,
     });
 
+    const slots = getDeliverySlots(gameState.context.state);
+    let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
+    emptySlots = Math.min(0, emptySlots);
+
+    console.log({ previewOrder });
     return (
       <div className="flex md:flex-row flex-col-reverse">
         <div
@@ -117,7 +129,7 @@ export const Delivery: React.FC = () => {
         >
           <div className="flex flex-row w-full flex-wrap">
             {orders.map((order) => (
-              <div className="w-1/2 sm:w-1/3 p-1">
+              <div className="w-1/2 sm:w-1/3 p-1" key={order.id}>
                 <OuterPanel
                   onClick={() => select(order.id)}
                   className="w-full cursor-pointer hover:bg-brown-200 py-2 relative"
@@ -142,7 +154,7 @@ export const Delivery: React.FC = () => {
                         </div>
                       )}
                       {getKeys(order.reward.items ?? {}).map((name) => (
-                        <div className="flex items-center mt-1">
+                        <div className="flex items-center mt-1" key={name}>
                           <img
                             src={ITEM_DETAILS[name].image}
                             className="h-5 mr-1"
@@ -218,83 +230,75 @@ export const Delivery: React.FC = () => {
                 </OuterPanel>
               </div>
             )}
-            {new Array(
-              getDeliverySlots(gameState.context.state) -
-                orders.length -
-                (nextOrder ? 1 : 0)
-            )
-              .fill(null)
-              .map((_) => (
-                <div className="w-1/2 sm:w-1/3 p-1 h-full">
-                  <OuterPanel
-                    className="w-full py-2 relative"
-                    style={{ height: "80px" }}
-                  ></OuterPanel>
-                </div>
-              ))}
-          </div>
-        </div>
-        <OuterPanel
-          className={classNames(
-            " md:flex md:flex-col items-center flex-1 relative",
-            {
-              hidden: !selectedId,
-            }
-          )}
-        >
-          <div
-            className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0  rounded-lg relative"
-            style={{
-              height: `${PIXEL_SCALE * 50}px`,
-              background:
-                "linear-gradient(0deg, rgba(4,159,224,1) 0%, rgba(31,109,213,1) 100%)",
-            }}
-          >
-            <p className="z-10 absolute bottom-1 right-1.5 capitalize text-xs">
-              {previewOrder.from}
-            </p>
-
-            <div
-              className="absolute -inset-2 bg-repeat"
-              style={{
-                height: `${PIXEL_SCALE * 50}px`,
-                backgroundImage: `url(${heartBg})`,
-                backgroundSize: `${32 * PIXEL_SCALE}px`,
-              }}
-            />
-            <div key={previewOrder.from} className="w-1/2 md:w-full md:-ml-8">
-              <DynamicNFT bumpkinParts={NPC_WEARABLES[previewOrder.from]} />
-            </div>
-          </div>
-          <div className="flex-1 p-1">
-            <p className="text-xs mb-2">
-              Oh, I've been craving some fresh vegetables from the farm, would
-              you mind delivering some to me?
-            </p>
-            {getKeys(previewOrder.items).map((itemName) => (
-              // <div className="flex items-center  relative">
-              //   <img
-              //     src={ITEM_DETAILS[itemName].image}
-              //     className="h-8 mr-1"
-              //   />
-              //   <p className="text-sm">{`x${previewOrder.items[itemName]}`}</p>
-              // </div>
-              <RequirementLabel
-                key={itemName}
-                type="item"
-                item={itemName}
-                balance={
-                  gameState.context.state.inventory[itemName] ?? new Decimal(0)
-                }
-                showLabel
-                requirement={new Decimal(previewOrder?.items[itemName] ?? 0)}
-              />
+            {new Array(emptySlots).fill(null).map((_, i) => (
+              <div className="w-1/2 sm:w-1/3 p-1 h-full" key={i}>
+                <OuterPanel
+                  className="w-full py-2 relative"
+                  style={{ height: "80px" }}
+                ></OuterPanel>
+              </div>
             ))}
           </div>
-          <Button disabled={!canFulfill} onClick={deliver}>
-            Deliver
-          </Button>
-        </OuterPanel>
+        </div>
+        {previewOrder && (
+          <OuterPanel
+            className={classNames(
+              " md:flex md:flex-col items-center flex-1 relative",
+              {
+                hidden: !selectedId,
+              }
+            )}
+          >
+            <div
+              className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0  rounded-lg relative"
+              style={{
+                height: `${PIXEL_SCALE * 50}px`,
+                background:
+                  "linear-gradient(0deg, rgba(4,159,224,1) 0%, rgba(31,109,213,1) 100%)",
+              }}
+            >
+              <p className="z-10 absolute bottom-1 right-1.5 capitalize text-xs">
+                {previewOrder.from}
+              </p>
+
+              <div
+                className="absolute -inset-2 bg-repeat"
+                style={{
+                  height: `${PIXEL_SCALE * 50}px`,
+                  backgroundImage: `url(${heartBg})`,
+                  backgroundSize: `${32 * PIXEL_SCALE}px`,
+                }}
+              />
+              <div key={previewOrder.from} className="w-1/2 md:w-full md:-ml-8">
+                <DynamicNFT bumpkinParts={NPC_WEARABLES[previewOrder.from]} />
+              </div>
+            </div>
+            <div className="flex-1 p-1">
+              <p className="text-xs mb-2" style={{ height: "60px" }}>
+                {generateDeliveryMessage({
+                  from: previewOrder?.from,
+                  id: previewOrder.id,
+                })}
+              </p>
+              {getKeys(previewOrder.items).map((itemName) => (
+                <RequirementLabel
+                  key={itemName}
+                  type="item"
+                  item={itemName}
+                  balance={
+                    gameState.context.state.inventory[itemName] ??
+                    new Decimal(0)
+                  }
+                  showLabel
+                  requirement={new Decimal(previewOrder?.items[itemName] ?? 0)}
+                />
+              ))}
+            </div>
+            <Button disabled={!canFulfill} onClick={deliver}>
+              Deliver
+            </Button>
+          </OuterPanel>
+        )}
       </div>
     );
   };
@@ -373,7 +377,7 @@ export const Delivery: React.FC = () => {
                 style={{ width: "fit-content" }}
               >
                 <ResizableBar
-                  percentage={(progress / delivery.reward.goal) * 100}
+                  percentage={(progress / delivery.milestone.goal) * 100}
                   type="progress"
                   outerDimensions={{
                     width: 80,
@@ -388,14 +392,21 @@ export const Delivery: React.FC = () => {
                     fontSize: "16px",
                   }}
                 >
-                  {`${progress}/${delivery.reward.goal}`}
+                  {`${progress}/${delivery.milestone.goal}`}
                 </span>
                 <img
                   src={chest}
                   className={classNames("absolute h-8 shadow-lg", {
                     "animate-pulsate cursor-pointer ":
-                      progress >= delivery.reward.goal,
+                      progress >= delivery.milestone.goal && !isRevealing,
                   })}
+                  onClick={() => {
+                    if (progress < delivery.milestone.goal) {
+                      return;
+                    }
+
+                    reachMilestone();
+                  }}
                   style={{
                     right: 0,
                     top: "-4px",
@@ -411,3 +422,5 @@ export const Delivery: React.FC = () => {
     </>
   );
 };
+
+export const Delivery = React.memo(DeliveryComponent);

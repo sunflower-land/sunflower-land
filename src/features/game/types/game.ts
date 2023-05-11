@@ -27,13 +27,9 @@ import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
-<<<<<<< HEAD
 import { Week } from "features/dawnBreaker/lib/characters";
 import { Riddle } from "./riddles";
-=======
-import { Week } from "features/dawnBreaker/lib/positions";
 import { NPCName } from "lib/npcs";
->>>>>>> 43fcbb43e (Add delivery UI)
 
 export type Reward = {
   sfl?: Decimal;
@@ -483,7 +479,7 @@ export type Delivery = {
   orders: Order[];
   fulfilledCount: number;
 
-  reward: {
+  milestone: {
     goal: number;
     total: number;
     claimedAt?: number;

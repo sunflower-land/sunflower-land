@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Order } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -26,7 +25,7 @@ export function populateOrders(
   game: GameState,
   createdAt: number = Date.now()
 ) {
-  let orders = game.delivery.orders;
+  const orders = game.delivery.orders;
   const slots = getDeliverySlots(game);
 
   while (orders.length < slots) {
@@ -66,7 +65,11 @@ export function deliverOrder({ state, action }: Options): GameState {
   const order = game.delivery.orders.find((order) => order.id === action.id);
 
   if (!order) {
-    throw new Error("No order available");
+    throw new Error("Order does not exist");
+  }
+
+  if (order.readyAt > Date.now()) {
+    throw new Error("Order has not started");
   }
 
   getKeys(order.items).forEach((name) => {
