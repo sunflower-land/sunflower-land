@@ -439,7 +439,7 @@ export const HELIOS_DECORATIONS: () => Record<
 
 export const SEASONAL_DECORATIONS: (
   state?: GameState
-) => Record<SeasonalDecorationName, Decoration> = (state) => ({
+) => Partial<Record<SeasonalDecorationName, Decoration>> = (state) => ({
   "Dawn Umbrella Seat": {
     name: "Dawn Umbrella Seat",
     sfl: SFLDiscount(state, marketRate(400)),
@@ -473,28 +473,33 @@ export const SEASONAL_DECORATIONS: (
     },
     limit: 5,
   },
-  Clementine: {
-    name: "Clementine",
-    sfl: SFLDiscount(state, marketRate(1600)),
-    description:
-      "The Clementine Gnome is a cheerful companion for your farming adventures.",
-    ingredients: {
-      Gold: new Decimal(5),
-      "Wild Mushroom": new Decimal(20),
-    },
-    limit: 1,
-  },
-  Cobalt: {
-    name: "Cobalt",
-    sfl: SFLDiscount(state, marketRate(800)),
-    ingredients: {
-      Gold: new Decimal(2),
-      "Wild Mushroom": new Decimal(10),
-    },
-    description:
-      "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
-    limit: 1,
-  },
+  ...(!state?.inventory || !!state?.inventory["Dawn Breaker Banner"]
+    ? {
+        Clementine: {
+          name: "Clementine",
+          sfl: SFLDiscount(state, marketRate(1600)),
+          description:
+            "The Clementine Gnome is a cheerful companion for your farming adventures.",
+          ingredients: {
+            Gold: new Decimal(5),
+            "Wild Mushroom": new Decimal(20),
+          },
+          limit: 1,
+        },
+        Cobalt: {
+          name: "Cobalt",
+          sfl: SFLDiscount(state, marketRate(800)),
+          ingredients: {
+            Gold: new Decimal(2),
+            "Wild Mushroom": new Decimal(10),
+          },
+          description:
+            "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
+          limit: 1,
+        },
+      }
+    : {}),
+
   "Shroom Glow": {
     name: "Shroom Glow",
     sfl: SFLDiscount(state, marketRate(800)),

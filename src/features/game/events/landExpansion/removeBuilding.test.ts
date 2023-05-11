@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { Chicken, GameState, CropPlot } from "features/game/types/game";
+import { Chicken, GameState } from "features/game/types/game";
 import {
   areUnsupportedChickensBrewing,
   getUnsupportedChickens,
@@ -15,41 +15,6 @@ const GAME_STATE: GameState = {
   inventory: {
     "Rusty Shovel": new Decimal(1),
   },
-};
-
-const makePlotsWithCrops = (plotCount: number) => {
-  const plots = {} as Record<number, CropPlot>;
-
-  [...Array(plotCount).keys()].forEach(
-    (key) =>
-      (plots[key] = {
-        createdAt: Date.now(),
-        crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      })
-  );
-
-  return plots;
-};
-
-const makePlotsWithoutCrops = (plotCount: number) => {
-  const plots = {} as Record<number, CropPlot>;
-
-  [...Array(plotCount).keys()].forEach(
-    (key) =>
-      (plots[key] = {
-        createdAt: Date.now(),
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      })
-  );
-
-  return plots;
 };
 
 export const makeChickens = (numberOfChickens: number) => {

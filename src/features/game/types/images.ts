@@ -739,10 +739,6 @@ export const ITEM_DETAILS: Items = {
     ...SHOVELS["Shovel"],
     image: SUNNYSIDE.tools.shovel,
   },
-  "Power Shovel": {
-    ...SHOVELS["Power Shovel"],
-    image: SUNNYSIDE.tools.power_shovel,
-  },
   "Sand Shovel": {
     description: "Used for digging treasure",
     image: SUNNYSIDE.tools.sand_shovel,
@@ -2073,15 +2069,17 @@ export const ITEM_DETAILS: Items = {
   },
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
-    description: SEASONAL_DECORATIONS()["Dawn Umbrella Seat"].description,
+    description:
+      SEASONAL_DECORATIONS()["Dawn Umbrella Seat"]?.description ?? "",
   },
   "Eggplant Grill": {
     image: eggplantGrill,
-    description: SEASONAL_DECORATIONS()["Eggplant Grill"].description,
+    description: SEASONAL_DECORATIONS()["Eggplant Grill"]?.description ?? "",
   },
   "Giant Dawn Mushroom": {
     image: giantDawnMushroom,
-    description: SEASONAL_DECORATIONS()["Giant Dawn Mushroom"].description,
+    description:
+      SEASONAL_DECORATIONS()["Giant Dawn Mushroom"]?.description ?? "",
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
@@ -2093,7 +2091,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Shroom Glow": {
     image: shroomGlow,
-    description: SEASONAL_DECORATIONS()["Shroom Glow"].description,
+    description: SEASONAL_DECORATIONS()["Shroom Glow"]?.description ?? "",
   },
   "Toadstool Seat": {
     image: toadstoolSeat,
@@ -2101,11 +2099,11 @@ export const ITEM_DETAILS: Items = {
   },
   Clementine: {
     image: clementine,
-    description: SEASONAL_DECORATIONS()["Clementine"].description,
+    description: SEASONAL_DECORATIONS()["Clementine"]?.description ?? "",
   },
   Cobalt: {
     image: cobalt,
-    description: SEASONAL_DECORATIONS()["Cobalt"].description,
+    description: SEASONAL_DECORATIONS()["Cobalt"]?.description ?? "",
   },
   "Purple Trail": {
     image: purpleTrail,
