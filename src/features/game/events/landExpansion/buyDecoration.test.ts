@@ -287,7 +287,7 @@ describe("buyDecoration", () => {
     ).toThrow("This item is not a decoration");
   });
 
-  it("allows player tries to place a limited decoration without a seasonal banner", () => {
+  it("places a limited decoration when the player has a seasonal banner", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
