@@ -45,7 +45,7 @@ const DISCORD_LENGTH_MS = 60 * 60 * 1000;
 export function getNextDiscordChatTime() {
   const startAt =
     discordChatDates
-      .find((date) => date.getTime() + DISCORD_LENGTH_MS > Date.now())
+      .find((date) => date.getTime() + DISCORD_LENGTH_MS * 2 > Date.now())
       ?.getTime() ?? 0;
   return {
     // Give a buffer to enter
@@ -59,7 +59,7 @@ const TWITCH_LENGTH_MS = 60 * 60 * 1000;
 export function getNextTwitchTime() {
   const startAt =
     twitchDates
-      .find((date) => date.getTime() + TWITCH_LENGTH_MS > Date.now())
+      .find((date) => date.getTime() + TWITCH_LENGTH_MS * 2 > Date.now())
       ?.getTime() ?? 0;
 
   return {

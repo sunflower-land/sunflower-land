@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CollectibleName } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import { GameState, PlacedLamp } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import {
   areUnsupportedChickensBrewing,
@@ -10,9 +10,9 @@ import {
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
-  NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
   NO_BUMPKIN = "You do not have a Bumpkin",
   CHICKEN_COOP_REMOVE_BREWING_CHICKEN = "Cannot remove Chicken Coop that causes chickens that are brewing egg to be removed",
+  GENIE_IN_USE = "Genie Lamp is in use",
 }
 
 export type RemoveCollectibleAction = {
@@ -72,6 +72,14 @@ export function removeCollectible({ state, action }: Options) {
     }
 
     stateCopy.chickens = removeUnsupportedChickens(stateCopy);
+  }
+
+  if (action.name === "Genie Lamp") {
+    const collectible: PlacedLamp = collectibleToRemove;
+    const rubbedCount = collectible.rubbedCount ?? 0;
+    if (rubbedCount > 0) {
+      throw new Error(REMOVE_COLLECTIBLE_ERRORS.GENIE_IN_USE);
+    }
   }
 
   bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);

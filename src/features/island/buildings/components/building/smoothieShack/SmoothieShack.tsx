@@ -74,7 +74,7 @@ export const SmoothieShack: React.FC<Props> = ({
       <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={smoothieShack}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -89,8 +89,8 @@ export const SmoothieShack: React.FC<Props> = ({
             src={smoothieChefMaking}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 16}px`,
-              right: `${PIXEL_SCALE * 16}px`,
+              width: `${PIXEL_SCALE * 15}px`,
+              right: `${PIXEL_SCALE * 15}px`,
               bottom: `${PIXEL_SCALE * 11}px`,
             }}
           />
@@ -99,7 +99,7 @@ export const SmoothieShack: React.FC<Props> = ({
             src={smoothieChef}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 15}px`,
+              width: `${PIXEL_SCALE * 14}px`,
               right: `${PIXEL_SCALE * 17}px`,
               bottom: `${PIXEL_SCALE * 11}px`,
             }}
@@ -108,7 +108,7 @@ export const SmoothieShack: React.FC<Props> = ({
 
         <img
           src={smoothieShackDesk}
-          className={classNames("absolute", {
+          className={classNames("absolute pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -143,7 +143,7 @@ export const SmoothieShack: React.FC<Props> = ({
             }}
             style={{
               opacity: 0,
-              bottom: `${PIXEL_SCALE * 4}px`,
+              bottom: `${PIXEL_SCALE * 5}px`,
             }}
           />
         )}

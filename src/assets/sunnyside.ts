@@ -35,6 +35,7 @@ export const SUNNYSIDE = {
     helios: `${CONFIG.PROTECTED_IMAGE_URL}/icons/helios_icon.png`,
     indicator: `${CONFIG.PROTECTED_IMAGE_URL}/icons/indicator.png`,
     plant: `${CONFIG.PROTECTED_IMAGE_URL}/icons/plant.png`,
+    player_small: `${CONFIG.PROTECTED_IMAGE_URL}/icons/player_small.png`,
     player: `${CONFIG.PROTECTED_IMAGE_URL}/icons/player.png`,
     sad: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sad.png`,
     seedling: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seedling.png`,

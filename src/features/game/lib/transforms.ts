@@ -6,6 +6,30 @@ import {
 import { getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 
+const makeDawnbreaker = (dawnBreaker: any) => {
+  if (!dawnBreaker) return undefined;
+
+  return {
+    ...dawnBreaker,
+    currentWeek: Number(dawnBreaker.currentWeek),
+    availableLantern: dawnBreaker.availableLantern
+      ? {
+          ...dawnBreaker.availableLantern,
+          sfl: new Decimal(dawnBreaker.availableLantern.sfl ?? 0),
+          ingredients: getKeys(dawnBreaker.availableLantern.ingredients).reduce(
+            (ingredients, name) => ({
+              ...ingredients,
+              [name]: new Decimal(
+                dawnBreaker.availableLantern.ingredients[name]
+              ),
+            }),
+            {}
+          ),
+        }
+      : undefined,
+  };
+};
+
 /**
  * Converts API response into a game state
  */
@@ -76,27 +100,7 @@ export function makeGame(farm: any): GameState {
       unread: [],
     },
     mushrooms: farm.mushrooms,
-    dawnBreaker: {
-      ...farm.dawnBreaker,
-      currentWeek: Number(farm.dawnBreaker.currentWeek),
-      availableLantern: farm.dawnBreaker.availableLantern
-        ? {
-            ...farm.dawnBreaker.availableLantern,
-            sfl: new Decimal(farm.dawnBreaker.availableLantern.sfl ?? 0),
-            ingredients: getKeys(
-              farm.dawnBreaker.availableLantern.ingredients
-            ).reduce(
-              (ingredients, name) => ({
-                ...ingredients,
-                [name]: new Decimal(
-                  farm.dawnBreaker.availableLantern.ingredients[name]
-                ),
-              }),
-              {}
-            ),
-          }
-        : undefined,
-    },
+    dawnBreaker: makeDawnbreaker(farm.dawnBreaker),
   };
 }
 

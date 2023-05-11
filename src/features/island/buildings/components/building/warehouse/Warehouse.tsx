@@ -21,15 +21,21 @@ export const Warehouse: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
 
   return (
     <BuildingImageWrapper onClick={handleClick} nonInteractible={!onRemove}>
-      <img
-        src={warehouse}
+      <div
+        className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 50}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -1}px`,
         }}
-        className="absolute pointer-events-none"
-      />
+      >
+        <img
+          src={warehouse}
+          style={{
+            width: `${PIXEL_SCALE * 50}px`,
+          }}
+        />
+      </div>
     </BuildingImageWrapper>
   );
 };

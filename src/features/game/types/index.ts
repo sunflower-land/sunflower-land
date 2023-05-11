@@ -57,7 +57,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Rod: 306,
   "Rusty Shovel": 307,
   Shovel: 308,
-  "Power Shovel": 309,
+  //  Power Shovel was remove, 309 is available
   "Sand Shovel": 310,
   "Sand Drill": 311,
 
@@ -386,6 +386,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Clementine: 1261,
   Cobalt: 1262,
   "Shroom Glow": 1263,
+  "Genie Bear": 1264,
 
   //Beach Bounty
   "Pirate Bounty": 1301,
