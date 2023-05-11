@@ -739,10 +739,6 @@ export const ITEM_DETAILS: Items = {
     ...SHOVELS["Shovel"],
     image: SUNNYSIDE.tools.shovel,
   },
-  "Power Shovel": {
-    ...SHOVELS["Power Shovel"],
-    image: SUNNYSIDE.tools.power_shovel,
-  },
   "Sand Shovel": {
     description: "Used for digging treasure",
     image: SUNNYSIDE.tools.sand_shovel,
