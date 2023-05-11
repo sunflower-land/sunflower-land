@@ -211,7 +211,6 @@ const tools: Record<ToolName | WorkbenchToolName | Shovel, boolean> = {
   Axe: false,
   Hammer: false,
   Pickaxe: false,
-  "Power Shovel": false,
   "Rusty Shovel": false,
   "Iron Pickaxe": false,
   "Stone Pickaxe": false,

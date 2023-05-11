@@ -26,7 +26,6 @@ export interface BuildingProps {
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
   isBuilt?: boolean;
-  onRemove?: () => void;
 }
 
 export const BUILDING_COMPONENTS: Record<
@@ -38,14 +37,13 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
-    onRemove,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <FirePit buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+      <FirePit buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
   Workbench: WorkBench,
@@ -54,14 +52,13 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
-    onRemove,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <Bakery buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+      <Bakery buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
   Market: Market,
@@ -76,14 +73,13 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
-    onRemove,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <Kitchen buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+      <Kitchen buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
   Deli: ({
@@ -91,14 +87,13 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
-    onRemove,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <Deli buildingId={buildingId} isBuilt={isBuilt} onRemove={onRemove} />
+      <Deli buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
   "Smoothie Shack": ({
@@ -106,18 +101,13 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
-    onRemove,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <SmoothieShack
-        buildingId={buildingId}
-        isBuilt={isBuilt}
-        onRemove={onRemove}
-      />
+      <SmoothieShack buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
 };

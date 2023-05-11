@@ -4,8 +4,6 @@ import { BuildingName } from "features/game/types/buildings";
 import { Bar } from "components/ui/ProgressBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { Modal } from "react-bootstrap";
-import { RemovePlaceableModal } from "features/game/expansion/placeable/RemovePlaceableModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
@@ -21,7 +19,6 @@ interface Prop {
   createdAt: number;
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
-  isRustyShovelSelected: boolean;
   showTimers: boolean;
   x: number;
   y: number;
@@ -96,31 +93,16 @@ const BuildingComponent: React.FC<Prop> = ({
   createdAt,
   craftingItemName,
   craftingReadyAt,
-  isRustyShovelSelected,
   showTimers,
   x,
   y,
 }) => {
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
-
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const inProgress = readyAt > Date.now();
 
   useUiRefresher({ active: inProgress });
 
-  const handleRemove = () => {
-    setShowRemoveModal(true);
-  };
-
-  const handleClose = () => {
-    setShowRemoveModal(false);
-  };
-
-  /**
-   * If a player has the Rusty Shovel selected then the onClick action of the building will open the RemovePlaceableModal
-   * Otherwise the onClick with be the regular onClick located inside the individual buildings component
-   */
   return (
     <>
       {inProgress ? (
@@ -130,7 +112,6 @@ const BuildingComponent: React.FC<Prop> = ({
           id={id}
           readyAt={readyAt}
           createdAt={createdAt}
-          isRustyShovelSelected={false}
           showTimers={showTimers}
           x={x}
           y={y}
@@ -140,20 +121,9 @@ const BuildingComponent: React.FC<Prop> = ({
           buildingId={id}
           craftingItemName={craftingItemName}
           craftingReadyAt={craftingReadyAt}
-          onRemove={isRustyShovelSelected ? handleRemove : undefined}
           isBuilt
         />
       )}
-      <Modal show={showRemoveModal} centered onHide={handleClose}>
-        {showRemoveModal && (
-          <RemovePlaceableModal
-            type="building"
-            name={name}
-            placeableId={id}
-            onClose={handleClose}
-          />
-        )}
-      </Modal>
     </>
   );
 };
