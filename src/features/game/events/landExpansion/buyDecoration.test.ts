@@ -246,8 +246,33 @@ describe("buyDecoration", () => {
           inventory: {
             Gold: new Decimal(150),
             "Basic Land": new Decimal(10),
+            Eggplant: new Decimal(30),
+            "Wild Mushroom": new Decimal(10),
+            "Giant Dawn Mushroom": new Decimal(5),
+          },
+          buildings: {},
+          collectibles: {},
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Giant Dawn Mushroom",
+          coordinates: { x: 0, y: 5 },
+          id: "123",
+        },
+      })
+    ).toThrow("Max limit reached");
+  });
+
+  it("throws an error if player tries to place a limited decoration without a seasonal banner", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(100),
+          inventory: {
+            Gold: new Decimal(150),
+            "Basic Land": new Decimal(10),
             "Wild Mushroom": new Decimal(50),
-            Clementine: new Decimal(1),
           },
           buildings: {},
           collectibles: {},
@@ -259,6 +284,34 @@ describe("buyDecoration", () => {
           id: "123",
         },
       })
-    ).toThrow("Max limit reached");
+    ).toThrow("This item is not a decoration");
+  });
+
+  it("allows player tries to place a limited decoration without a seasonal banner", () => {
+    const state = buyDecoration({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(100),
+        inventory: {
+          Gold: new Decimal(150),
+          "Basic Land": new Decimal(10),
+          "Wild Mushroom": new Decimal(50),
+          "Dawn Breaker Banner": new Decimal(1),
+        },
+        buildings: {},
+        collectibles: {},
+      },
+      action: {
+        type: "decoration.bought",
+        name: "Clementine",
+        coordinates: { x: 0, y: 5 },
+        id: "123",
+      },
+    });
+
+    expect(state.collectibles["Clementine"]?.[0]?.coordinates).toEqual({
+      x: 0,
+      y: 5,
+    });
   });
 });
