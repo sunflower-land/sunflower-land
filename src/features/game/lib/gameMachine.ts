@@ -433,99 +433,95 @@ export function startGame(authContext: AuthContext) {
           ],
           invoke: {
             src: async (context) => {
-              try {
-                if (authContext.user.type === "GUEST") {
-                  const response = await loadGuestSession({
-                    transactionId: context.transactionId as string,
-                    guestKey: authContext.user.guestKey as string,
-                  });
-
-                  if (!response) throw new Error("NO_FARM");
-
-                  const { game, deviceTrackerId } = response;
-
-                  return {
-                    state: game,
-                    deviceTrackerId,
-                  };
-                }
-
-                if (!wallet.myAccount) throw new Error("No account");
-
-                const user = authContext.user;
-
-                const farmAddress = user.farmAddress as string;
-                const farmId = user.farmId as number;
-
-                const { game: onChain, bumpkin } = await getGameOnChainState({
-                  farmAddress,
-                  account: wallet.myAccount,
-                  id: farmId,
+              if (authContext.user.type === "GUEST") {
+                const response = await loadGuestSession({
+                  transactionId: context.transactionId as string,
+                  guestKey: authContext.user.guestKey as string,
                 });
 
-                const onChainEvents = await unseenEvents({
-                  farmAddress,
-                  farmId,
-                });
+                if (!response) throw new Error("NO_FARM");
 
-                // Get sessionId
-                const sessionId =
-                  farmId && (await getSessionId(wallet.web3Provider, farmId));
+                const { game, deviceTrackerId } = response;
 
-                // Load the farm session
-                if (sessionId) {
-                  const fingerprint = "X";
-
-                  const guestKey = getGuestKey() ?? undefined;
-
-                  const response = await loadSession({
-                    farmId,
-                    bumpkinTokenUri: bumpkin?.tokenURI,
-                    sessionId,
-                    token: authContext.user.rawToken as string,
-                    wallet: authContext.user.web3?.wallet as string,
-                    transactionId: context.transactionId as string,
-                    guestKey,
-                  });
-
-                  if (!response) {
-                    throw new Error("NO_FARM");
-                  }
-
-                  removeGuestKey();
-                  setGuestModeComplete();
-
-                  const {
-                    game,
-                    whitelistedAt,
-                    itemsMintedAt,
-                    deviceTrackerId,
-                    status,
-                    announcements,
-                  } = response;
-
-                  return {
-                    state: {
-                      ...game,
-                      farmAddress,
-                      id: farmId,
-                    },
-                    sessionId,
-                    whitelistedAt,
-                    fingerprint,
-                    itemsMintedAt,
-                    onChain,
-                    notifications: onChainEvents,
-                    deviceTrackerId,
-                    status,
-                    announcements,
-                  };
-                }
-
-                return { state: OFFLINE_FARM, onChain };
-              } catch (e) {
-                console.log({ e });
+                return {
+                  state: game,
+                  deviceTrackerId,
+                };
               }
+
+              if (!wallet.myAccount) throw new Error("No account");
+
+              const user = authContext.user;
+
+              const farmAddress = user.farmAddress as string;
+              const farmId = user.farmId as number;
+
+              const { game: onChain, bumpkin } = await getGameOnChainState({
+                farmAddress,
+                account: wallet.myAccount,
+                id: farmId,
+              });
+
+              const onChainEvents = await unseenEvents({
+                farmAddress,
+                farmId,
+              });
+
+              // Get sessionId
+              const sessionId =
+                farmId && (await getSessionId(wallet.web3Provider, farmId));
+
+              // Load the farm session
+              if (sessionId) {
+                const fingerprint = "X";
+
+                const guestKey = getGuestKey() ?? undefined;
+
+                const response = await loadSession({
+                  farmId,
+                  bumpkinTokenUri: bumpkin?.tokenURI,
+                  sessionId,
+                  token: authContext.user.rawToken as string,
+                  wallet: authContext.user.web3?.wallet as string,
+                  transactionId: context.transactionId as string,
+                  guestKey,
+                });
+
+                if (!response) {
+                  throw new Error("NO_FARM");
+                }
+
+                removeGuestKey();
+                setGuestModeComplete();
+
+                const {
+                  game,
+                  whitelistedAt,
+                  itemsMintedAt,
+                  deviceTrackerId,
+                  status,
+                  announcements,
+                } = response;
+
+                return {
+                  state: {
+                    ...game,
+                    farmAddress,
+                    id: farmId,
+                  },
+                  sessionId,
+                  whitelistedAt,
+                  fingerprint,
+                  itemsMintedAt,
+                  onChain,
+                  notifications: onChainEvents,
+                  deviceTrackerId,
+                  status,
+                  announcements,
+                };
+              }
+
+              return { state: OFFLINE_FARM, onChain };
             },
             onDone: {
               target: "notifying",
