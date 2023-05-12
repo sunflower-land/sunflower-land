@@ -74,6 +74,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   landToVisitNotFound: true,
   revealing: false,
   revealed: false,
+  genieRevealed: false,
   buyingSFL: true,
   depositing: true,
   upgradingGuestGame: false,

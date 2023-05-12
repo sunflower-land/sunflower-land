@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 
@@ -32,15 +32,6 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
 
   const [isConfirming, setIsConfirming] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
-
-  // This useEffect is for the case where it is the last genie lamp wish.
-  // Genie Lamp will be deleted from the game state, so we need to make sure
-  // we do no get stuck in the revealing state.
-  useEffect(() => {
-    return () => {
-      gameService.send("CONTINUE");
-    };
-  }, []);
 
   const rub = () => {
     setIsConfirming(false);
@@ -120,14 +111,14 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
       </Modal>
 
       {gameState.matches("revealing") && isRevealing && (
-        <Modal show centered>
+        <Modal show centered backdrop="static">
           <Panel className="z-10">
             <Revealing icon={genieLamp} />
           </Panel>
         </Modal>
       )}
-      {gameState.matches("revealed") && isRevealing && (
-        <Modal show centered>
+      {gameState.matches("genieRevealed") && isRevealing && (
+        <Modal show centered backdrop="static">
           <img
             src={genieImg}
             className="absolute z-0"
@@ -138,7 +129,7 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
             }}
           />
           <Panel className="z-10">
-            <Revealed onAcknowledged={() => setIsRevealing(false)} />
+            <Revealed id={id} onAcknowledged={() => setIsRevealing(false)} />
           </Panel>
         </Modal>
       )}

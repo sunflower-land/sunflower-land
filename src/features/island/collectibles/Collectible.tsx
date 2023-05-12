@@ -65,7 +65,7 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bean, getBeanStates } from "./components/Bean";
+import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
 import { ChristmasBear } from "./components/ChristmasBear";
@@ -113,8 +113,6 @@ import { EasterBear } from "features/island/collectibles/components/EasterBear";
 import { EasterBush } from "features/island/collectibles/components/EasterBush";
 import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
 import { MushroomHouse } from "./components/MushroomHouse";
-import classNames from "classnames";
-import { isBean } from "features/game/types/beans";
 import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
 import { Fence } from "./components/Fence";
@@ -477,49 +475,33 @@ const CollectibleComponent: React.FC<Props> = ({
 
   useUiRefresher({ active: inProgress });
 
-  const isBeanAndFullyGrown =
-    isBean(name) && getBeanStates(name, createdAt).isReady;
-  const canRemoveOnClick = !isBeanAndFullyGrown && !inProgress;
-
   return (
-    <>
-      <div
-        className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": canRemoveOnClick,
-        })}
-      >
-        <div
-          className={classNames("h-full", {
-            "pointer-events-none": canRemoveOnClick,
-          })}
-        >
-          {inProgress ? (
-            <InProgressCollectible
-              key={id}
-              name={name}
-              id={id}
-              createdAt={createdAt}
-              readyAt={readyAt}
-              x={x}
-              y={y}
-              showTimers={showTimers}
-              grid={grid}
-            />
-          ) : (
-            <CollectiblePlaced
-              key={id}
-              name={name}
-              id={id}
-              createdAt={createdAt}
-              readyAt={readyAt}
-              x={x}
-              y={y}
-              grid={grid}
-            />
-          )}
-        </div>
-      </div>
-    </>
+    <div className="h-full">
+      {inProgress ? (
+        <InProgressCollectible
+          key={id}
+          name={name}
+          id={id}
+          createdAt={createdAt}
+          readyAt={readyAt}
+          x={x}
+          y={y}
+          showTimers={showTimers}
+          grid={grid}
+        />
+      ) : (
+        <CollectiblePlaced
+          key={id}
+          name={name}
+          id={id}
+          createdAt={createdAt}
+          readyAt={readyAt}
+          x={x}
+          y={y}
+          grid={grid}
+        />
+      )}
+    </div>
   );
 };
 
