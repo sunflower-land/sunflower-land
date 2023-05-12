@@ -21,7 +21,12 @@ import {
 } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
-import { GameState, Inventory, InventoryItemName } from "../types/game";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+  PlacedLamp,
+} from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -172,6 +177,7 @@ export type BlockchainEvent =
     }
   | {
       type: "CONTINUE";
+      id?: string;
     }
   | {
       type: "RESET";
@@ -289,6 +295,7 @@ export type BlockchainState = {
     | "buyingSFL"
     | "revealing"
     | "revealed"
+    | "genieRevealed"
     | "error"
     | "refreshing"
     | "swarming"
@@ -998,11 +1005,45 @@ export function startGame(authContext: AuthContext) {
               });
 
               return {
+                event,
                 farm,
                 changeset,
               };
             },
             onDone: [
+              {
+                target: "genieRevealed",
+                cond: (_, event) =>
+                  event.data.event.type === "genieLamp.rubbed",
+                actions: assign((context, event) => {
+                  const lamps = context.state.collectibles["Genie Lamp"]?.map(
+                    (lamp) => {
+                      if (lamp.id === event.data.event.id) {
+                        return {
+                          ...lamp,
+                          rubbedCount: (lamp.rubbedCount ?? 0) + 1,
+                        };
+                      }
+
+                      return lamp;
+                    }
+                  );
+
+                  return {
+                    // Remove events
+                    actions: [],
+                    // Update immediately with state from server except for collectibles
+                    state: {
+                      ...event.data.farm,
+                      collectibles: {
+                        ...event.data.farm.collectibles,
+                        "Genie Lamp": lamps,
+                      },
+                    },
+                    revealed: event.data.changeset,
+                  };
+                }),
+              },
               {
                 target: "revealed",
                 actions: assign((_, event) => ({
@@ -1024,6 +1065,33 @@ export function startGame(authContext: AuthContext) {
           on: {
             CONTINUE: {
               target: "playing",
+            },
+          },
+        },
+        genieRevealed: {
+          on: {
+            CONTINUE: {
+              target: "playing",
+              actions: assign((context, event) => {
+                const shouldRemoveLamp = (lamp: PlacedLamp) =>
+                  lamp.id === event.id && (lamp.rubbedCount ?? 0) >= 3;
+
+                // Delete the Lamp from the collectibles after it's been rubbed 3 times
+                const lamps = context.state.collectibles["Genie Lamp"];
+                const newLamps = lamps?.filter(
+                  (lamp) => !shouldRemoveLamp(lamp)
+                );
+
+                return {
+                  state: {
+                    ...context.state,
+                    collectibles: {
+                      ...context.state.collectibles,
+                      "Genie Lamp": newLamps,
+                    },
+                  },
+                };
+              }),
             },
           },
         },

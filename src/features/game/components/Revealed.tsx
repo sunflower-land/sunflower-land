@@ -10,14 +10,15 @@ import { ITEM_DETAILS } from "../types/images";
 import { InventoryItemName } from "../types/game";
 import { setImageWidth } from "lib/images";
 
-export const Revealed: React.FC<{ onAcknowledged?: () => void }> = ({
-  onAcknowledged,
-}) => {
+export const Revealed: React.FC<{
+  onAcknowledged?: () => void;
+  id?: string;
+}> = ({ onAcknowledged, id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const handleAcknowledge = () => {
-    gameService.send("CONTINUE");
+    gameService.send({ type: "CONTINUE", id });
     if (onAcknowledged) onAcknowledged();
   };
 
