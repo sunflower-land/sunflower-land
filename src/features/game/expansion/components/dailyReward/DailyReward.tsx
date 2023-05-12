@@ -16,6 +16,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Loading } from "features/auth/components";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Equipped } from "features/game/types/bumpkin";
+import { Label } from "components/ui/Label";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -68,6 +69,18 @@ export const DailyReward: React.FC = () => {
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
   };
+
+  const streaks = gameState.context.state.dailyRewards.streaks.count ?? 0;
+  const collectedAt =
+    gameState.context.state.dailyRewards.chest?.collectedAt ?? 0;
+
+  const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
+  const currentDate = new Date().toISOString().substring(0, 10);
+
+  const missedADay =
+    (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
+      (1000 * 60 * 60 * 24) >
+    1;
 
   const ModalContent = () => {
     if (isGuest) {
@@ -132,9 +145,19 @@ export const DailyReward: React.FC = () => {
           onClose={() => setShowModal(false)}
         >
           <div className="flex flex-col items-center p-2">
+            {streaks > 1 && !missedADay && (
+              <>
+                <Label type="info" className="px-0.5 text-xs">
+                  {streaks} day streak
+                </Label>
+                <p className="text-xxs">
+                  {5 - (streaks % 5)} more for your next streak bonus!
+                </p>
+              </>
+            )}
             <img
               src={SUNNYSIDE.decorations.treasure_chest}
-              className="mb-2"
+              className="mb-2 mt-2"
               style={{
                 width: `${PIXEL_SCALE * 24}px`,
               }}
