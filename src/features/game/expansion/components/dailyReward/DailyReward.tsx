@@ -82,6 +82,8 @@ export const DailyReward: React.FC = () => {
       (1000 * 60 * 60 * 24) >
     1;
 
+  const getNextBonus = 5 - (streaks % 5);
+
   const ModalContent = () => {
     if (isGuest) {
       return (
@@ -122,9 +124,12 @@ export const DailyReward: React.FC = () => {
       return (
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="flex flex-col items-center p-2 w-full">
+            <Label type="info" className="px-0.5 text-xs">
+              {streaks} day streak
+            </Label>
             <img
               src={SUNNYSIDE.decorations.treasure_chest_opened}
-              className="mb-2"
+              className="mb-2 mt-2"
               style={{
                 width: `${PIXEL_SCALE * 16}px`,
               }}
@@ -144,14 +149,15 @@ export const DailyReward: React.FC = () => {
           title="Daily Reward"
           onClose={() => setShowModal(false)}
         >
-          <div className="flex flex-col items-center p-2">
+          <div className="flex flex-col items-center px-2">
             {streaks > 1 && !missedADay && (
               <>
                 <Label type="info" className="px-0.5 text-xs">
                   {streaks} day streak
                 </Label>
-                <p className="text-xxs">
-                  {5 - (streaks % 5)} more for your next streak bonus!
+                <p className="text-xxs mt-2">
+                  {getNextBonus} more {getNextBonus > 1 ? "days" : "day"} for
+                  your next streak bonus!
                 </p>
               </>
             )}
