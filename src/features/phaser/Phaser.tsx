@@ -4,6 +4,7 @@ import { PhaserScene } from "./Scene";
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { NPCModals } from "./SceneModals";
+import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 
 export const TILE_WIDTH = 16;
 export const TILE_HEIGHT = 16;
@@ -43,6 +44,16 @@ export const Phaser: React.FC = () => {
       // zoom,
       autoRound: true,
       pixelArt: true,
+      plugins: {
+        global: [
+          {
+            key: "rexNinePatchPlugin",
+            plugin: NinePatchPlugin,
+            start: true,
+          },
+          // ...
+        ],
+      },
       // plugins: {
       //   scene: [
       //     {

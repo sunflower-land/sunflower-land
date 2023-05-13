@@ -9,24 +9,49 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
     //   size: 22,
     // });
 
+    const MAX_WIDTH = 50;
+    // const textR = scene.add.bitmapText(4, -20, "pixel", "Hello World", 3);
     const textR = scene.add
-      .text(50, 50, text, {
-        font: "8px Arial",
+      .text(4, -21.5, text, {
+        font: "6px Monospace",
         color: "#000000",
-        backgroundColor: "#ffffff",
+        wordWrap: { width: MAX_WIDTH },
       })
       .setResolution(10);
-    this.bubble = this.scene.add.container(50, 50, textR);
 
-    console.log({ bounds: this.bubble.getBounds() });
+    this.bubble = this.scene.add.container(0, 0);
 
-    const border = this.scene.make.sprite({
-      x: 9,
-      y: 9,
-      key: "tileset",
+    console.log({ bounds: textR.getBounds() });
+
+    const bounds = textR.getBounds();
+    // const border = this.scene.make.tileSprite({
+    //   x: 8,
+    //   y: 8,
+    //   width: 16,
+    //   height: 16,
+
+    //   key: "tileset",
+    //   frame: 4,
+    // });
+
+    const border = this.scene.add.rexNinePatch({
+      x: 14,
+      y: -17,
+      width: Math.min(bounds.width, MAX_WIDTH) + 6,
+      height: bounds.height + 4,
+      key: "speech_bubble",
+      columns: [5, 2, 2], // leftWidth: undefined, rightWidth: undefined,
+      rows: [2, 3, 4], // topHeight: undefined, bottomHeight: undefined,
+
+      // preserveRatio: true,
+      // maxFixedPartScale: 1,
+      // stretchMode: 0,
+      baseFrame: undefined,
+      getFrameNameCallback: undefined,
     });
 
     this.bubble.add(border);
+    this.bubble.add(textR);
     // let width = 27;
     // let height = 18;
 

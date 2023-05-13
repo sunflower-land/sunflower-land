@@ -32,13 +32,13 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
       return;
     }
 
-    if (text.length > MAX_CHARACTERS) {
-      return;
-    }
+    // if (text.length > MAX_CHARACTERS) {
+    //   return;
+    // }
 
-    if (isUrl || !isValidText) {
-      return;
-    }
+    // if (isUrl || !isValidText) {
+    //   return;
+    // }
 
     const filter = new Filter();
     const sanitized = filter.clean(text);

@@ -15,7 +15,9 @@ import { Room, Client } from "colyseus.js";
 import mapPng from "./assets/embedded.png";
 import mapJson from "./assets/world_plaza.json";
 import tilesheet from "./assets/idle-Sheet.png";
+import speechBubble from "./assets/speech_bubble.png";
 import walking from "./assets/walking.png";
+import fontPng from "./assets/pixel.png";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { subber } from "./Phaser";
 import { npcModalManager } from "./SceneModals";
@@ -74,6 +76,7 @@ export class PhaserScene extends Phaser.Scene {
 
     // load the PNG file
     this.load.image("tileset", mapPng);
+    this.load.image("speech_bubble", speechBubble);
 
     this.load.spritesheet("bumpkin", tilesheet, {
       frameWidth: 14,
@@ -83,6 +86,14 @@ export class PhaserScene extends Phaser.Scene {
       frameWidth: 13,
       frameHeight: 18,
     });
+
+    this.load.setCORS("https://localhost:3000");
+
+    this.load.bitmapFont(
+      "pixel",
+      fontPng,
+      "./src/features/phaser/assets/pixel.xml"
+    );
   }
 
   async create() {
@@ -94,6 +105,31 @@ export class PhaserScene extends Phaser.Scene {
       key: "main-map",
     });
     const tileset = map.addTilesetImage("Sunnyside V3", "tileset", 16, 16);
+
+    // const border = this.make.tileSprite({
+    //   x: 0,
+    //   y: 0,
+    //   width: 16,
+    //   height: 16,
+
+    //   key: "tileset",
+    //   frame: 4,
+    // });
+
+    // const border = this.add.nineslice(
+    //   50,
+    //   50, // Position
+    //   100,
+    //   100, // Width & Height
+    //   "speech_bubble", // a key to an already loaded image
+    //   3 // the width and height to offset for a corner slice
+    //   // 0 // (optional) pixels to offset when computing the safe usage area
+    // );
+    // const border = this.add.image(0, 0, "tileset");
+
+    // this.physics.add.staticGroup(border);
+
+    // this.add(border);
 
     const customColliders = this.add.group();
 
@@ -128,7 +164,7 @@ export class PhaserScene extends Phaser.Scene {
 
       if (TOP_LAYERS.includes(layerData.name)) {
         console.log("Got it");
-        layer?.setDepth(10);
+        layer?.setDepth(1);
       }
       // if (layerData.name === "Colliders") {
       //   // collisionLayer = layer as Phaser.Tilemaps.TilemapLayer;
@@ -315,7 +351,7 @@ export class PhaserScene extends Phaser.Scene {
     console.log(JSON.stringify(game.scale.gameSize));
 
     camera.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
-    camera.setZoom(3);
+    camera.setZoom(4);
 
     this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
 

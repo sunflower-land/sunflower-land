@@ -49,6 +49,8 @@
     "lodash.omit": "^4.5.0",
     "lodash.shuffle": "^4.2.0",
     "phaser": "^3.60.0",
+    "phaser3-nineslice": "^0.5.0",
+    "phaser3-rex-plugins": "^1.60.1",
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.1",
