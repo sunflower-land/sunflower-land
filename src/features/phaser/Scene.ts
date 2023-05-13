@@ -13,12 +13,14 @@ import Phaser from "phaser";
 import { Room, Client } from "colyseus.js";
 
 import mapPng from "./assets/embedded.png";
-import mapJson from "./assets/large.json";
+import mapJson from "./assets/world_plaza.json";
 import tilesheet from "./assets/idle-Sheet.png";
 import walking from "./assets/walking.png";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { subber } from "./Phaser";
 import { npcModalManager } from "./SceneModals";
+import { SpeechBubble } from "./SpeechBubble";
+
 export const BACKEND_URL =
   window.location.href.indexOf("localhost") === -1
     ? `${window.location.protocol.replace("http", "ws")}//${
@@ -36,7 +38,7 @@ export class PhaserScene extends Phaser.Scene {
     [sessionId: string]: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
   } = {};
   playerMessages: {
-    [sessionId: string]: Phaser.GameObjects.Text;
+    [sessionId: string]: SpeechBubble;
   } = {};
 
   /** @type {Phaser.Physics.Arcade.StaticGroup} */
@@ -91,14 +93,88 @@ export class PhaserScene extends Phaser.Scene {
     const map = this.make.tilemap({
       key: "main-map",
     });
-    const tileset = map.addTilesetImage("embedded", "tileset", 16, 16);
+    const tileset = map.addTilesetImage("Sunnyside V3", "tileset", 16, 16);
 
-    const belowLayer = map.createLayer("Grass", tileset, 0, 0);
-    const collisionLayer = map.createLayer("Collides", tileset, 0, 0);
-    const pathLayer = map.createLayer("Pathj", tileset, 0, 0);
-    const treeLayer = map.createLayer("Trees", tileset, 0, 0);
+    const customColliders = this.add.group();
 
-    collisionLayer.setCollisionByExclusion([-1]);
+    const objectLayer = map.getObjectLayer("Collision");
+    console.log({ objectLayer });
+    const coins = map.createFromObjects("Collision", { key: "coin" });
+    console.log(coins); // give an array of sprites
+
+    coins.forEach((coin) => {
+      console.log({ coin });
+      customColliders.add(coin);
+      coin.setInteractive(false);
+      this.physics.world.enable(coin);
+      coin.body.setImmovable(true);
+    });
+    console.log(coins); // each coin has now a body
+
+    // this.physics.add.collider(player, coins, null, null, this);
+
+    const TOP_LAYERS = [
+      "Decorations Layer 1",
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Layer 2",
+      "Building Layer 3",
+    ];
+    // let collisionLayer: Phaser.Tilemaps.TilemapLayer;
+    map.layers.forEach((layerData, idx) => {
+      // console.log({ name: layerData.name, idx });
+
+      const layer = map.createLayer(layerData.name, tileset, 0, 0);
+
+      if (TOP_LAYERS.includes(layerData.name)) {
+        console.log("Got it");
+        layer?.setDepth(10);
+      }
+      // if (layerData.name === "Colliders") {
+      //   // collisionLayer = layer as Phaser.Tilemaps.TilemapLayer;
+      //   console.log({ data: layer?.layer.data });
+      //   layer.layer.data.forEach((tileRows) => {
+      //     tileRows.forEach((tile) => {
+      //       const { index, tileset, x, y, properties } = tile;
+
+      //       if (Object.keys(properties).length === 0) {
+      //         return;
+      //       }
+
+      //       console.log({ properties, tile });
+      //       let tmp = this.physics.add.sprite(tile.x, tile.pixelY, "__DEFAULT");
+      //       tmp.setImmovable(true);
+      //       tmp.body.setSize(16, 16);
+      //       // .setOffset(properties.x, properties.y); //Size/Offset for tree collider
+      //       // this.physics.add.collider(this.currentPlayer, tmpSprite);
+
+      //       customColliders.add(tmp);
+      //       tile.width = 8;
+      //     });
+      //   });
+      // }
+    });
+
+    // map.layers.forEach((layerData, idx) => {
+    //   if (layerData.name !== "Plants") {
+    //     const layer = map.createLayer(layerData.name, tileset, 0, 0);
+
+    //     layer.layer.data.forEach((tileRows) => {
+    //       tileRows.forEach((tile) => {
+    //         const { index, tileset, properties } = tile;
+
+    //         console.log({ properties });
+    //       });
+    //     });
+    //   }
+    // });
+
+    // const belowLayer = map.createLayer("Grass", tileset, 0, 0);
+    // const collisionLayer = map.createLayer("Plants", tileset, 0, 0);
+    // const pathLayer = map.createLayer("Pathj", tileset, 0, 0);
+    // const treeLayer = map.createLayer("Trees", tileset, 0, 0);
+
+    // collisionLayer.setCollisionByExclusion([-1]);
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.debugFPS = this.add.text(4, 4, "", { color: "#ff0000" });
@@ -131,14 +207,17 @@ export class PhaserScene extends Phaser.Scene {
           previous.destroy();
           delete this.playerEntities[message.sessionId];
         }
-
-        this.playerMessages[message.sessionId] = this.add
-          .text(50, 50, message.text, {
-            font: "8px Arial",
-            color: "#000000",
-            backgroundColor: "#ffffff",
-          })
-          .setResolution(10);
+        this.playerMessages[message.sessionId] = new SpeechBubble(
+          this,
+          message.text
+        );
+        //  this.add
+        //   .text(50, 50, message.text, {
+        //     font: "8px Arial",
+        //     color: "#000000",
+        //     backgroundColor: "#ffffff",
+        //   })
+        //   .setResolution(10);
       }
 
       // sprite.addChild(text);
@@ -159,18 +238,23 @@ export class PhaserScene extends Phaser.Scene {
         this.currentPlayer = entity;
 
         this.localRef = this.add.rectangle(0, 0, entity.width, entity.height);
-        this.localRef.setStrokeStyle(1, 0x00ff00);
+        // this.localRef.setStrokeStyle(1, 0x00ff00);
 
         this.remoteRef = this.add.rectangle(0, 0, entity.width, entity.height);
-        this.remoteRef.setStrokeStyle(1, 0xff0000);
+        // this.remoteRef.setStrokeStyle(1, 0xff0000);
 
         player.onChange(() => {
           this.remoteRef.x = player.x;
           this.remoteRef.y = player.y;
         });
 
-        this.physics.add.collider(this.currentPlayer, collisionLayer);
+        this.currentPlayer.body.width = 10;
+        this.currentPlayer.body.height = 8;
+        this.currentPlayer.body.setOffset(3, 8);
+
+        // this.physics.add.collider(this.currentPlayer, collisionLayer);
         this.currentPlayer.setCollideWorldBounds(true);
+        this.physics.add.collider(this.currentPlayer, customColliders);
 
         camera.startFollow(this.currentPlayer, true, 0.05, 0.05);
       } else {
@@ -230,10 +314,10 @@ export class PhaserScene extends Phaser.Scene {
     const camera = this.cameras.main;
     console.log(JSON.stringify(game.scale.gameSize));
 
-    camera.setBounds(0, 0, 40 * SQUARE_WIDTH, 40 * SQUARE_WIDTH);
+    camera.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
     camera.setZoom(3);
 
-    this.physics.world.setBounds(0, 0, 40 * SQUARE_WIDTH, 40 * SQUARE_WIDTH);
+    this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
 
     // setInterval(() => {
     //   this.room.send(0, { text: "Yo!" });
@@ -260,65 +344,11 @@ export class PhaserScene extends Phaser.Scene {
     }
   }
 
-  updatePlayer() {
-    if (!this.currentPlayer.active) {
-      return;
-    }
-
-    const speed = 100;
-
-    if (this.cursorKeys.left.isDown) {
-      this.currentPlayer.setVelocityX(-speed);
-      this.currentPlayer.setScale(-1, 1);
-    } else if (this.cursorKeys.right.isDown) {
-      this.currentPlayer.setVelocityX(speed);
-      this.currentPlayer.setScale(1, 1);
-      // this.currentPlayer.play("right-walk", true);
-    } else {
-      this.currentPlayer.setVelocityX(0);
-    }
-
-    this.currentPlayer.setMaxVelocity(50);
-    if (this.cursorKeys.up.isDown) {
-      this.currentPlayer.setVelocityY(-speed);
-      // this.currentPlayer.play("up-walk", true);
-    } else if (this.cursorKeys.down.isDown) {
-      this.currentPlayer.setVelocityY(speed);
-      // this.currentPlayer.play("down-walk", true);
-    } else {
-      this.currentPlayer.setVelocityY(0);
-    }
-
-    if (
-      !this.cursorKeys.down.isDown &&
-      !this.cursorKeys.up.isDown &&
-      !this.cursorKeys.left.isDown &&
-      !this.cursorKeys.right.isDown
-    ) {
-      // const key = this.currentPlayer.anims.currentAnim.key;
-      // const parts = key.split("-");
-      // const direction = parts[0];
-      this.currentPlayer.play(`bumpkin-idle`, true);
-    } else {
-      this.currentPlayer.play("bumpkin-walking", true);
-    }
-
-    // const spaceJustPressed = Phaser.Input.Keyboard.JustUp(this.cursorKeys.space);
-    // if (spaceJustPressed && this.activeBox) {
-    //   this.openBox(this.activeBox);
-
-    //   this.activeBox.setFrame(10);
-    //   this.activeBox = undefined;
-    // }
-  }
-
   update(time: number, delta: number): void {
     // skip loop if not connected yet.
     // if (!this.currentPlayer) {
     //   return;
     // }
-
-    // this.updatePlayer();
 
     this.elapsedTime += delta;
     while (this.elapsedTime >= this.fixedTimeStep) {
@@ -335,7 +365,7 @@ export class PhaserScene extends Phaser.Scene {
     // const currentPlayerRemote = this.room.state.players.get(this.room.sessionId);
     // const ticksBehind = this.currentTick - currentPlayerRemote.tick;
     // console.log({ ticksBehind });
-    const speed = 100;
+    const speed = 70;
 
     const velocity = 1;
     this.inputPayload.left = this.cursorKeys.left.isDown;
@@ -347,9 +377,13 @@ export class PhaserScene extends Phaser.Scene {
     if (this.inputPayload.left) {
       this.currentPlayer.setVelocityX(-speed);
       this.currentPlayer.setScale(-1, 1);
+      this.currentPlayer.body.width = 10;
+      this.currentPlayer.body.height = 8;
+      this.currentPlayer.body.setOffset(14, 8);
     } else if (this.inputPayload.right) {
       this.currentPlayer.setVelocityX(speed);
       this.currentPlayer.setScale(1, 1);
+      this.currentPlayer.body.setOffset(3, 8);
     } else {
       this.currentPlayer.setVelocityX(0);
     }
@@ -386,8 +420,8 @@ export class PhaserScene extends Phaser.Scene {
 
     const message = this.playerMessages[this.room.sessionId];
     if (message) {
-      message.x = this.currentPlayer.x;
-      message.y = this.currentPlayer.y;
+      message.bubble.x = this.currentPlayer.x;
+      message.bubble.y = this.currentPlayer.y;
     }
 
     for (const sessionId in this.playerEntities) {
