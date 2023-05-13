@@ -213,6 +213,11 @@ export class PhaserScene extends Phaser.Scene {
     // collisionLayer.setCollisionByExclusion([-1]);
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
+    const keySPACE = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
+    this.input.keyboard?.removeCapture("SPACE");
+
     this.debugFPS = this.add.text(4, 4, "", { color: "#ff0000" });
 
     const betty = this.physics.add

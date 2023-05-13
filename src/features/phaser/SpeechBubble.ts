@@ -9,7 +9,7 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
     //   size: 22,
     // });
 
-    const MAX_WIDTH = 50;
+    const MAX_WIDTH = 70;
     // const textR = scene.add.bitmapText(4, -20, "pixel", "Hello World", 3);
     const textR = scene.add
       .text(4, -21.5, text, {
@@ -19,7 +19,7 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
       })
       .setResolution(10);
 
-    this.bubble = this.scene.add.container(0, 0);
+    this.bubble = this.scene.add.container(0, 0).setAlpha(0.7);
 
     console.log({ bounds: textR.getBounds() });
 
@@ -35,8 +35,8 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
     // });
 
     const border = this.scene.add.rexNinePatch({
-      x: 14,
-      y: -17,
+      x: 10,
+      y: -15,
       width: Math.min(bounds.width, MAX_WIDTH) + 6,
       height: bounds.height + 4,
       key: "speech_bubble",
