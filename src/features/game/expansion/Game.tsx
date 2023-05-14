@@ -113,7 +113,6 @@ const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
 const isUpgradingGuestGame = (state: MachineState) =>
   state.matches("upgradingGuestGame");
-const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -143,7 +142,6 @@ export const Game: React.FC = () => {
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
   const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
-  const inventory = useSelector(gameService, _inventory);
 
   useInterval(() => {
     gameService.send("SAVE");
