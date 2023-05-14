@@ -13,8 +13,7 @@ import classNames from "classnames";
 import { createPortal } from "react-dom";
 import { TimeRemaining } from "./TimeRemaining";
 
-export const WEEKLY_GOAL = 15000;
-export const PREVIOUS_MINT_COUNT = 0;
+export const WEEKLY_GOAL = 25000;
 
 interface Props {
   lanternName: LanternName;

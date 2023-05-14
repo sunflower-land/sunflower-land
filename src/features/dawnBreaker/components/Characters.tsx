@@ -186,7 +186,6 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
         show={showDialogue}
         onHide={handleDialogueClose}
         onExited={() => setSpeaking(null)}
-        onBackdropClick={() => setSpeaking(null)}
         centered
       >
         {speaking && (

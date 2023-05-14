@@ -16,8 +16,8 @@ import { Week, characters } from "./lib/characters";
 import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
-import background from "assets/land/dawn_breaker_2.webp";
-import nextBackground from "assets/land/dawn_breaker_3.webp";
+import background from "assets/land/dawn_breaker_3.webp";
+import nextBackground from "assets/land/dawn_breaker_4.webp";
 import { Characters } from "./components/Characters";
 import { Modal } from "react-bootstrap";
 import {
@@ -191,7 +191,7 @@ export const DawnBreaker: React.FC = () => {
                     src={ITEM_DETAILS[name].image}
                     alt={name}
                     style={{
-                      width: `${11 * PIXEL_SCALE}px`,
+                      width: `${11.1 * PIXEL_SCALE}px`,
                     }}
                   />
                 </div>

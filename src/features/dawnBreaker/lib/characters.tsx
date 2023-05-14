@@ -2,7 +2,7 @@ import React from "react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { NPCParts } from "features/island/bumpkin/components/NPC";
 
-import obieImg from "assets/npcs/obie.png";
+import obieGif from "assets/sfts/obie.gif";
 import maxiumusImg from "assets/npcs/maximus.png";
 import snailImg from "assets/npcs/snail.png";
 
@@ -73,7 +73,7 @@ export const bumpkinParts: Record<SpeakingBumpkin, Partial<NPCParts>> = {
 
 export const characterImages: Record<SpeakingNonBumpkin, string> = {
   maximus: maxiumusImg,
-  obie: obieImg,
+  obie: obieGif,
   snail: snailImg,
 };
 
@@ -250,24 +250,24 @@ export const characters: Record<Week, DawnBreakerPositions> = {
   3: {
     lanterns: [
       {
-        x: 10,
-        y: 5,
+        x: 9,
+        y: 4,
       },
       {
         x: 8,
-        y: 3,
+        y: 2,
       },
       {
-        x: 9,
-        y: 0,
-      },
-      {
-        x: 11,
-        y: 0,
+        x: 10,
+        y: 1,
       },
       {
         x: 12,
-        y: 3,
+        y: 2,
+      },
+      {
+        x: 11,
+        y: 4,
       },
     ],
     marcus: {
@@ -324,29 +324,80 @@ export const characters: Record<Week, DawnBreakerPositions> = {
   4: {
     lanterns: [
       {
-        x: -11,
-        y: -2,
+        x: 9,
+        y: 4,
       },
       {
-        x: -13,
-        y: -4,
+        x: 9,
+        y: 2,
       },
       {
-        x: -12,
-        y: -6,
+        x: 10,
+        y: 1,
       },
       {
-        x: -10,
-        y: -6,
+        x: 11,
+        y: 2,
       },
       {
-        x: -9,
-        y: -4,
+        x: 11,
+        y: 4,
       },
     ],
+    marcus: {
+      x: 4,
+      y: -12,
+      dialogue: (
+        <>
+          <p>{`Marcus: This little gnome seemed so insignificant.`}</p>
+          <p>{`I guess it wasn't. I should have just left it alone.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 2,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: Oh thank the gods, Sofia is back`}</p>
+          <p>{`"What did you find out?"`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: -1,
+      y: -14,
+      inDarkness: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: Hoot was no help with these dizzying riddles.`}</p>
+          <p>{`There was two creatures guarding the Bell Tower.`}</p>
+          <p>{`They frightened me at first but I sensed some sadness there too. Like maybe they had lost something too..`}</p>
+        </>
+      ),
+    },
     bumpkin: {
       x: -11,
       y: -4,
+    },
+    maximus: {
+      x: -7,
+      y: -11,
+      flip: true,
+    },
+    wendy: {
+      x: -11,
+      y: -4,
+    },
+    obie: {
+      x: -8,
+      y: -12,
+      dialogue: (
+        <>
+          <p>You took what is ours, we take what is yours.</p>
+        </>
+      ),
     },
   },
   5: {
