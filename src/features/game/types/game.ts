@@ -487,7 +487,7 @@ export type Delivery = {
 };
 
 export type DailyRewards = {
-  streaks: number;
+  streaks?: number;
   chest?: {
     collectedAt: number;
     code: number;

@@ -36,7 +36,7 @@ export const Revealed: React.FC<{
 
         {streakBonus && (
           <Label type="info" className="px-0.5 text-sm">
-            3x STREAK BONUS
+            3x streak bonus
           </Label>
         )}
         {items.length > 0 && (

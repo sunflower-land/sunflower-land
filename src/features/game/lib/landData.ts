@@ -370,7 +370,7 @@ export const OFFLINE_FARM: GameState = {
   },
 
   stockExpiry: {},
-  dailyRewards: { streaks: { count: 0, streakBonus: false } },
+  dailyRewards: { streaks: 0 },
 
   grubShop: {
     closesAt: Date.now() + 500000,

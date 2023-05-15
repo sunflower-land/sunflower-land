@@ -70,7 +70,7 @@ export const DailyReward: React.FC = () => {
     shoes: "Black Farmer Boots",
   };
 
-  const streaks = gameState.context.state.dailyRewards.streaks.count ?? 0;
+  const streaks = gameState.context.state.dailyRewards.streaks ?? 0;
   const collectedAt =
     gameState.context.state.dailyRewards.chest?.collectedAt ?? 0;
 
