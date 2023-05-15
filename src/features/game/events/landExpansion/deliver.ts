@@ -14,8 +14,16 @@ type Options = {
 };
 
 export function getDeliverySlots(game: GameState) {
-  if (game.inventory["Basic Land"]?.gte(5)) {
+  if (game.inventory["Basic Land"]?.gte(12)) {
     return 6;
+  }
+
+  if (game.inventory["Basic Land"]?.gte(8)) {
+    return 5;
+  }
+
+  if (game.inventory["Basic Land"]?.gte(5)) {
+    return 4;
   }
 
   return 3;

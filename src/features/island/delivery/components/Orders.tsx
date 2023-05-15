@@ -1,6 +1,6 @@
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -44,16 +44,15 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     previewOrder = orders[0];
   }
 
-  useEffect(() => {
-    console.log("Content render");
-  }, []);
-
   const deliver = () => {
     gameService.send("order.delivered", { id: previewOrder?.id });
     onSelect(undefined);
   };
 
-  const hasRequirements = (order: Order) => {
+  const hasRequirements = (order?: Order) => {
+    if (!order) {
+      return false;
+    }
     return getKeys(order.items).every((name) => {
       const count = gameState.context.state.inventory[name] || new Decimal(0);
       const amount = order.items[name] || new Decimal(0);
@@ -66,19 +65,23 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     onSelect(id);
   };
 
-  if (orders.length === 0) {
-    return <p>No orders available</p>;
+  const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
+
+  if (orders.length === 0 && !nextOrder) {
+    return (
+      <div className="flex items-center justify-center my-2">
+        <img src={SUNNYSIDE.icons.timer} className="h-6 mr-2" />
+        <span className="text-sm">More orders coming soon</span>
+      </div>
+    );
   }
 
   const canFulfill = hasRequirements(previewOrder as Order);
 
-  const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
-
   const slots = getDeliverySlots(gameState.context.state);
   let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
-  emptySlots = Math.min(0, emptySlots);
+  emptySlots = Math.max(0, emptySlots);
 
-  console.log({ previewOrder, selectedId });
   return (
     <div className="flex md:flex-row flex-col-reverse">
       <div

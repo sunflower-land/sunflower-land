@@ -21,8 +21,8 @@ const DeliveryComponent: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [showHelp, setShowHelp] = useState(true);
-  const [showModal, setShowModal] = useState(true);
+  const [showHelp, setShowHelp] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [isRevealing, setIsRevealing] = useState(false);
 
