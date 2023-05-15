@@ -486,7 +486,13 @@ export type Delivery = {
   };
 };
 
-// Players must action
+export type DailyRewards = {
+  streaks?: number;
+  chest?: {
+    collectedAt: number;
+    code: number;
+  };
+};
 
 export interface GameState {
   id?: number;
@@ -550,12 +556,7 @@ export interface GameState {
       createdAt: number;
     }[];
   };
-  dailyRewards: {
-    chest?: {
-      collectedAt: number;
-      code: number;
-    };
-  };
+  dailyRewards: DailyRewards;
   auctioneer: {
     bid?: Bid;
   };

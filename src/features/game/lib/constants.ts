@@ -381,7 +381,7 @@ export const TEST_FARM: GameState = {
     },
     seconds: 60,
   },
-  dailyRewards: {},
+  dailyRewards: { streaks: 0 },
 
   fruitPatches: {},
   gold: {},
@@ -421,7 +421,7 @@ export const EMPTY: GameState = {
   collectibles: {},
   mysteryPrizes: {},
   pumpkinPlaza: {},
-  dailyRewards: {},
+  dailyRewards: { streaks: 0 },
   auctioneer: {},
   hayseedHank: {
     choresCompleted: 0,

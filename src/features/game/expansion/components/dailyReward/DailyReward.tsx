@@ -16,6 +16,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Loading } from "features/auth/components";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Equipped } from "features/game/types/bumpkin";
+import { Label } from "components/ui/Label";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -69,6 +70,21 @@ export const DailyReward: React.FC = () => {
     shoes: "Black Farmer Boots",
   };
 
+  const streaks = gameState.context.state.dailyRewards.streaks ?? 0;
+  const collectedAt =
+    gameState.context.state.dailyRewards.chest?.collectedAt ?? 0;
+
+  const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
+  const currentDate = new Date().toISOString().substring(0, 10);
+
+  const missedADay =
+    (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
+      (1000 * 60 * 60 * 24) >
+    1;
+
+  const streakRemainder = streaks % 5;
+  const getNextBonus = streaks + (5 - streakRemainder);
+
   const ModalContent = () => {
     if (isGuest) {
       return (
@@ -109,9 +125,12 @@ export const DailyReward: React.FC = () => {
       return (
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="flex flex-col items-center p-2 w-full">
+            <Label type="info" className="px-0.5 text-xs">
+              {streaks} day streak
+            </Label>
             <img
               src={SUNNYSIDE.decorations.treasure_chest_opened}
-              className="mb-2"
+              className="mb-2 mt-2"
               style={{
                 width: `${PIXEL_SCALE * 16}px`,
               }}
@@ -131,10 +150,20 @@ export const DailyReward: React.FC = () => {
           title="Daily Reward"
           onClose={() => setShowModal(false)}
         >
-          <div className="flex flex-col items-center p-2">
+          <div className="flex flex-col items-center px-2">
+            {streaks > 1 && !missedADay && (
+              <>
+                <Label type="info" className="px-0.5 text-xs">
+                  {streaks} day streak
+                </Label>
+                <p className="text-xxs mt-2">
+                  Next bonus: {getNextBonus} Day Streak
+                </p>
+              </>
+            )}
             <img
               src={SUNNYSIDE.decorations.treasure_chest}
-              className="mb-2"
+              className="mb-2 mt-2"
               style={{
                 width: `${PIXEL_SCALE * 24}px`,
               }}
