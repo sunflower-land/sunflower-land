@@ -54,7 +54,7 @@ const DeliveryComponent: React.FC = () => {
     return (
       <Modal show centered>
         <Panel className="z-10">
-          <Revealing icon={chest} />;
+          <Revealing icon={chest} />
         </Panel>
       </Modal>
     );
@@ -64,7 +64,7 @@ const DeliveryComponent: React.FC = () => {
     return (
       <Modal show centered>
         <Panel className="z-10">
-          <Revealed onAcknowledged={() => setIsRevealing(false)} />;
+          <Revealed onAcknowledged={() => setIsRevealing(false)} />
         </Panel>
       </Modal>
     );
