@@ -17,11 +17,12 @@ import mapJson from "./assets/world_plaza.json";
 import tilesheet from "./assets/idle-Sheet.png";
 import speechBubble from "./assets/speech_bubble.png";
 import walking from "./assets/walking.png";
+import shadow from "assets/npcs/shadow.png";
 import fontPng from "./assets/pixel.png";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { subber } from "./Phaser";
 import { npcModalManager } from "./SceneModals";
-import { SpeechBubble } from "./SpeechBubble";
+import { Player } from "./Player";
 
 export const BACKEND_URL =
   window.location.href.indexOf("localhost") === -1
@@ -35,13 +36,13 @@ export const BACKEND_HTTP_URL = BACKEND_URL.replace("ws", "http");
 export class PhaserScene extends Phaser.Scene {
   room: Room;
 
-  currentPlayer: Phaser.Physics.Arcade.Sprite;
+  currentPlayer: Player;
   playerEntities: {
-    [sessionId: string]: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
+    [sessionId: string]: Player;
   } = {};
-  playerMessages: {
-    [sessionId: string]: SpeechBubble;
-  } = {};
+  // playerMessages: {
+  //   [sessionId: string]: SpeechBubble;
+  // } = {};
 
   /** @type {Phaser.Physics.Arcade.StaticGroup} */
   boxGroup;
@@ -70,13 +71,13 @@ export class PhaserScene extends Phaser.Scene {
   }
 
   preload() {
-    console.log("Preload");
     // load the JSON file
     this.load.tilemapTiledJSON("main-map", mapJson);
 
     // load the PNG file
     this.load.image("tileset", mapPng);
     this.load.image("speech_bubble", speechBubble);
+    this.load.image("shadow", shadow);
 
     this.load.spritesheet("bumpkin", tilesheet, {
       frameWidth: 14,
@@ -87,8 +88,6 @@ export class PhaserScene extends Phaser.Scene {
       frameHeight: 18,
     });
 
-    this.load.setCORS("https://localhost:3000");
-
     this.load.bitmapFont(
       "pixel",
       fontPng,
@@ -97,8 +96,6 @@ export class PhaserScene extends Phaser.Scene {
   }
 
   async create() {
-    console.log("Creat");
-
     // CSSString: 'url(assets/input/cursors/sword.cur), pointer'
 
     const map = this.make.tilemap({
@@ -134,20 +131,19 @@ export class PhaserScene extends Phaser.Scene {
     const customColliders = this.add.group();
 
     const objectLayer = map.getObjectLayer("Collision");
-    console.log({ objectLayer });
     const coins = map.createFromObjects("Collision", { key: "coin" });
     console.log(coins); // give an array of sprites
 
     coins.forEach((coin) => {
-      console.log({ coin });
       customColliders.add(coin);
       coin.setInteractive(false);
       this.physics.world.enable(coin);
       coin.body.setImmovable(true);
     });
-    console.log(coins); // each coin has now a body
 
     // this.physics.add.collider(player, coins, null, null, this);
+
+    this.physics.world.drawDebug = false;
 
     const TOP_LAYERS = [
       "Decorations Layer 1",
@@ -242,16 +238,20 @@ export class PhaserScene extends Phaser.Scene {
       console.log({ message: message, sId: message.sessionId });
 
       if (message.sessionId && String(message.sessionId).length > 4) {
-        const previous = this.playerMessages[message.sessionId];
+        // const previous = this.playerMessages[message.sessionId];
 
-        if (previous) {
-          previous.destroy();
-          delete this.playerEntities[message.sessionId];
-        }
-        this.playerMessages[message.sessionId] = new SpeechBubble(
-          this,
-          message.text
-        );
+        // if (previous) {
+        //   previous.destroy();
+        //   delete this.playerEntities[message.sessionId];
+        // }
+
+        this.playerEntities[message.sessionId].speak(message.text);
+        // TODO - put against a player
+        // this.currentPlayer.speech(message.text);
+        // this.playerMessages[message.sessionId] = new SpeechBubble(
+        //   this,
+        //   message.text
+        // );
         //  this.add
         //   .text(50, 50, message.text, {
         //     font: "8px Arial",
@@ -269,10 +269,10 @@ export class PhaserScene extends Phaser.Scene {
 
     this.room.state.players.onAdd((player, sessionId) => {
       console.log({ player, sessionId });
-      const entity = this.physics.add
-        .sprite(player.x, player.y, "bumpkin")
-        .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+
+      const entity = new Player(this, player.x, player.y);
       this.playerEntities[sessionId] = entity;
+      this.add.container();
 
       // is current player
       if (sessionId === this.room.sessionId) {
@@ -291,10 +291,11 @@ export class PhaserScene extends Phaser.Scene {
 
         this.currentPlayer.body.width = 10;
         this.currentPlayer.body.height = 8;
-        this.currentPlayer.body.setOffset(3, 8);
+        this.currentPlayer.body.setOffset(3, 10);
 
         // this.physics.add.collider(this.currentPlayer, collisionLayer);
-        this.currentPlayer.setCollideWorldBounds(true);
+        this.currentPlayer.body.setCollideWorldBounds(true);
+        console.log({ player: this.currentPlayer });
         this.physics.add.collider(this.currentPlayer, customColliders);
 
         camera.startFollow(this.currentPlayer, true, 0.05, 0.05);
@@ -416,27 +417,27 @@ export class PhaserScene extends Phaser.Scene {
     this.inputPayload.tick = this.currentTick;
 
     if (this.inputPayload.left) {
-      this.currentPlayer.setVelocityX(-speed);
-      this.currentPlayer.setScale(-1, 1);
+      this.currentPlayer.body.setVelocityX(-speed);
+      this.currentPlayer.sprite.setScale(-1, 1);
       this.currentPlayer.body.width = 10;
       this.currentPlayer.body.height = 8;
-      this.currentPlayer.body.setOffset(14, 8);
+      this.currentPlayer.body.setOffset(14, 10);
     } else if (this.inputPayload.right) {
-      this.currentPlayer.setVelocityX(speed);
-      this.currentPlayer.setScale(1, 1);
-      this.currentPlayer.body.setOffset(3, 8);
+      this.currentPlayer.body.setVelocityX(speed);
+      this.currentPlayer.sprite.setScale(1, 1);
+      this.currentPlayer.body.setOffset(3, 10);
     } else {
-      this.currentPlayer.setVelocityX(0);
+      this.currentPlayer.body.setVelocityX(0);
     }
 
     if (this.inputPayload.up) {
       // this.currentPlayer.y -= velocity;
-      this.currentPlayer.setVelocityY(-speed);
+      this.currentPlayer.body.setVelocityY(-speed);
     } else if (this.inputPayload.down) {
       // this.currentPlayer.y += velocity;
-      this.currentPlayer.setVelocityY(speed);
+      this.currentPlayer.body.setVelocityY(speed);
     } else {
-      this.currentPlayer.setVelocityY(0);
+      this.currentPlayer.body.setVelocityY(0);
     }
 
     if (
@@ -446,9 +447,9 @@ export class PhaserScene extends Phaser.Scene {
       this.inputPayload.right
     ) {
       console.log("Walk it!");
-      this.currentPlayer.play("bumpkin-walking", true);
+      this.currentPlayer.sprite.play("bumpkin-walking", true);
     } else {
-      this.currentPlayer.play(`bumpkin-idle`, true);
+      this.currentPlayer.sprite.play(`bumpkin-idle`, true);
     }
 
     this.localRef.x = this.currentPlayer.x;
@@ -459,11 +460,11 @@ export class PhaserScene extends Phaser.Scene {
       y: this.currentPlayer.y,
     });
 
-    const message = this.playerMessages[this.room.sessionId];
-    if (message) {
-      message.bubble.x = this.currentPlayer.x;
-      message.bubble.y = this.currentPlayer.y;
-    }
+    // const message = this.playerMessages[this.room.sessionId];
+    // if (message) {
+    //   message.bubble.x = this.currentPlayer.x;
+    //   message.bubble.y = this.currentPlayer.y;
+    // }
 
     for (const sessionId in this.playerEntities) {
       // interpolate all player entities
@@ -479,9 +480,9 @@ export class PhaserScene extends Phaser.Scene {
         serverX.toFixed(1) !== entity.x.toFixed(1) ||
         serverY.toFixed(1) !== entity.y.toFixed(1)
       ) {
-        entity.play("bumpkin-walking", true);
+        entity.sprite.play("bumpkin-walking", true);
       } else {
-        entity.play(`bumpkin-idle`, true);
+        entity.sprite.play(`bumpkin-idle`, true);
       }
 
       if (serverX > entity.x) {
@@ -493,11 +494,11 @@ export class PhaserScene extends Phaser.Scene {
       entity.x = Phaser.Math.Linear(entity.x, serverX, 0.2);
       entity.y = Phaser.Math.Linear(entity.y, serverY, 0.2);
 
-      const message = this.playerMessages[sessionId];
-      if (message) {
-        message.x = entity.x;
-        message.y = entity.y;
-      }
+      // const message = this.playerMessages[sessionId];
+      // if (message) {
+      //   message.x = entity.x;
+      //   message.y = entity.y;
+      // }
     }
   }
 }
