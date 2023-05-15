@@ -282,7 +282,7 @@ export const OFFLINE_FARM: GameState = {
       },
     },
   },
-  balance: new Decimal(1),
+  balance: new Decimal(10),
   inventory: {
     Carrot: new Decimal(500),
     Cauliflower: new Decimal(700),
@@ -295,7 +295,7 @@ export const OFFLINE_FARM: GameState = {
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(17),
+    "Basic Land": new Decimal(3),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
@@ -308,8 +308,9 @@ export const OFFLINE_FARM: GameState = {
     Shrub: new Decimal(50),
     "White Tulips": new Decimal(10),
     Artist: new Decimal(1),
-    Sunflower: new Decimal(1),
-    Stone: new Decimal(50),
+    Sunflower: new Decimal(100),
+    Potato: new Decimal(100),
+    Stone: new Decimal(1),
     Axe: new Decimal(10),
     "Rusty Shovel": new Decimal(5),
     "Maneki Neko": new Decimal(2),
@@ -357,12 +358,7 @@ export const OFFLINE_FARM: GameState = {
 
   bumpkin: INITIAL_BUMPKIN,
 
-  chickens: {
-    "1": {
-      multiplier: 1,
-      coordinates: { x: 4, y: 4 },
-    },
-  },
+  chickens: {},
 
   airdrops: [],
 
@@ -375,6 +371,18 @@ export const OFFLINE_FARM: GameState = {
 
   stockExpiry: {},
   dailyRewards: {},
+
+  grubShop: {
+    closesAt: Date.now() + 500000,
+    opensAt: Date.now(),
+    orders: [
+      {
+        id: "1",
+        name: "Apple Juice",
+        sfl: new Decimal(1),
+      },
+    ],
+  },
 
   buildings: {
     "Town Center": [
@@ -403,6 +411,78 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
+  },
+  delivery: {
+    orders: [
+      {
+        id: "123",
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "betty",
+        items: {
+          Sunflower: 5,
+        },
+        reward: {
+          sfl: 5,
+          items: {
+            "Dawn Breaker Ticket": 2,
+          },
+        },
+      },
+      {
+        id: "124",
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "blacksmith",
+        items: {
+          Sunflower: 15,
+        },
+        reward: {
+          sfl: 2.225,
+        },
+      },
+      {
+        id: "122",
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "grubnuk",
+        items: {
+          Potato: 5,
+        },
+        reward: {
+          sfl: 2.225,
+        },
+      },
+      {
+        id: "125",
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "grimtooth",
+        items: {
+          Potato: 5,
+        },
+        reward: {
+          sfl: 2.225,
+        },
+      },
+      {
+        id: "126",
+        createdAt: Date.now(),
+        from: "grimtooth",
+        items: {
+          Potato: 5,
+        },
+        reward: {
+          sfl: 2.225,
+        },
+        readyAt: Date.now() + 5000,
+      },
+    ],
+    fulfilledCount: 23,
+    milestone: {
+      goal: 12,
+      total: 25,
+    },
   },
   mysteryPrizes: {},
   pumpkinPlaza: {},

@@ -45,6 +45,7 @@ interface ItemProps {
   item: InventoryItemName;
   balance: Decimal;
   requirement: Decimal;
+  showLabel?: boolean;
 }
 
 /**
@@ -180,7 +181,13 @@ export const RequirementLabel: React.FC<Props> = (props) => {
 
   return (
     <div className={props.className ?? "flex justify-between"}>
-      <SquareIcon icon={getIcon()} width={7} />
+      <div className="flex items-center">
+        <SquareIcon icon={getIcon()} width={7} />
+        {(props as ItemProps).showLabel && (
+          <span className="text-xs ml-1">{(props as ItemProps).item}</span>
+        )}
+      </div>
+
       <Label
         className={classNames("whitespace-nowrap", { "ml-1": !requirementMet })}
         type={requirementMet ? "transparent" : "danger"}
