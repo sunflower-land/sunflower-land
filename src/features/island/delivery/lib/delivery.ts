@@ -12,6 +12,7 @@ const GOBLIN_MESSAGES = [
   "I'm getting a bit bored of eating the same thing, got anything different?",
   "I'm hungry for something new, got anything exotic?",
   "Hey there, got any snacks to spare? I promise I won't steal them...maybe.",
+  "I don't care what it is, just give me food!",
 ];
 
 const BLACKSMITH_MESSAGES = [
