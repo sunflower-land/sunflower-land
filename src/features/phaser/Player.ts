@@ -27,7 +27,6 @@ export class Player extends Phaser.GameObjects.Container {
     scene.physics.world.enableBody(this);
     this.body.setCollideWorldBounds(true);
 
-    // this.scene.physics.add.staticGroup(this);
     this.scene.add.existing(this);
     console.log("Player Doine");
   }
@@ -43,7 +42,6 @@ export class Player extends Phaser.GameObjects.Container {
     }
 
     this.speech = new SpeechBubble(this.scene, text);
-    console.log({ s: this.speech });
     this.add(this.speech);
   }
 }

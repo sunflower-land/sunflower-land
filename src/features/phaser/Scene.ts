@@ -103,47 +103,23 @@ export class PhaserScene extends Phaser.Scene {
     });
     const tileset = map.addTilesetImage("Sunnyside V3", "tileset", 16, 16);
 
-    // const border = this.make.tileSprite({
-    //   x: 0,
-    //   y: 0,
-    //   width: 16,
-    //   height: 16,
-
-    //   key: "tileset",
-    //   frame: 4,
-    // });
-
-    // const border = this.add.nineslice(
-    //   50,
-    //   50, // Position
-    //   100,
-    //   100, // Width & Height
-    //   "speech_bubble", // a key to an already loaded image
-    //   3 // the width and height to offset for a corner slice
-    //   // 0 // (optional) pixels to offset when computing the safe usage area
-    // );
-    // const border = this.add.image(0, 0, "tileset");
-
-    // this.physics.add.staticGroup(border);
-
-    // this.add(border);
-
     const customColliders = this.add.group();
 
     const objectLayer = map.getObjectLayer("Collision");
-    const coins = map.createFromObjects("Collision", { key: "coin" });
-    console.log(coins); // give an array of sprites
+    const collisionPolygons = map.createFromObjects("Collision", {
+      key: "coin",
+    });
 
-    coins.forEach((coin) => {
-      customColliders.add(coin);
-      coin.setInteractive(false);
-      this.physics.world.enable(coin);
-      coin.body.setImmovable(true);
+    collisionPolygons.forEach((polygon) => {
+      customColliders.add(polygon);
+      polygon.setInteractive(false);
+      this.physics.world.enable(polygon);
+      polygon.body.setImmovable(true);
     });
 
     // this.physics.add.collider(player, coins, null, null, this);
 
-    this.physics.world.drawDebug = false;
+    // this.physics.world.drawDebug = false;
 
     const TOP_LAYERS = [
       "Decorations Layer 1",
@@ -152,61 +128,15 @@ export class PhaserScene extends Phaser.Scene {
       "Building Layer 2",
       "Building Layer 3",
     ];
-    // let collisionLayer: Phaser.Tilemaps.TilemapLayer;
-    map.layers.forEach((layerData, idx) => {
-      // console.log({ name: layerData.name, idx });
 
+    map.layers.forEach((layerData, idx) => {
       const layer = map.createLayer(layerData.name, tileset, 0, 0);
 
       if (TOP_LAYERS.includes(layerData.name)) {
         console.log("Got it");
         layer?.setDepth(1);
       }
-      // if (layerData.name === "Colliders") {
-      //   // collisionLayer = layer as Phaser.Tilemaps.TilemapLayer;
-      //   console.log({ data: layer?.layer.data });
-      //   layer.layer.data.forEach((tileRows) => {
-      //     tileRows.forEach((tile) => {
-      //       const { index, tileset, x, y, properties } = tile;
-
-      //       if (Object.keys(properties).length === 0) {
-      //         return;
-      //       }
-
-      //       console.log({ properties, tile });
-      //       let tmp = this.physics.add.sprite(tile.x, tile.pixelY, "__DEFAULT");
-      //       tmp.setImmovable(true);
-      //       tmp.body.setSize(16, 16);
-      //       // .setOffset(properties.x, properties.y); //Size/Offset for tree collider
-      //       // this.physics.add.collider(this.currentPlayer, tmpSprite);
-
-      //       customColliders.add(tmp);
-      //       tile.width = 8;
-      //     });
-      //   });
-      // }
     });
-
-    // map.layers.forEach((layerData, idx) => {
-    //   if (layerData.name !== "Plants") {
-    //     const layer = map.createLayer(layerData.name, tileset, 0, 0);
-
-    //     layer.layer.data.forEach((tileRows) => {
-    //       tileRows.forEach((tile) => {
-    //         const { index, tileset, properties } = tile;
-
-    //         console.log({ properties });
-    //       });
-    //     });
-    //   }
-    // });
-
-    // const belowLayer = map.createLayer("Grass", tileset, 0, 0);
-    // const collisionLayer = map.createLayer("Plants", tileset, 0, 0);
-    // const pathLayer = map.createLayer("Pathj", tileset, 0, 0);
-    // const treeLayer = map.createLayer("Trees", tileset, 0, 0);
-
-    // collisionLayer.setCollisionByExclusion([-1]);
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     const keySPACE = this.input.keyboard.addKey(
@@ -238,33 +168,8 @@ export class PhaserScene extends Phaser.Scene {
       console.log({ message: message, sId: message.sessionId });
 
       if (message.sessionId && String(message.sessionId).length > 4) {
-        // const previous = this.playerMessages[message.sessionId];
-
-        // if (previous) {
-        //   previous.destroy();
-        //   delete this.playerEntities[message.sessionId];
-        // }
-
         this.playerEntities[message.sessionId].speak(message.text);
-        // TODO - put against a player
-        // this.currentPlayer.speech(message.text);
-        // this.playerMessages[message.sessionId] = new SpeechBubble(
-        //   this,
-        //   message.text
-        // );
-        //  this.add
-        //   .text(50, 50, message.text, {
-        //     font: "8px Arial",
-        //     color: "#000000",
-        //     backgroundColor: "#ffffff",
-        //   })
-        //   .setResolution(10);
       }
-
-      // sprite.addChild(text);
-
-      //       var text = game.add.text(0, 0, "Some text", {font: "16px Arial", fill: "#ffffff"});
-      // sprite.addChild(text);
     });
 
     this.room.state.players.onAdd((player, sessionId) => {
@@ -325,11 +230,6 @@ export class PhaserScene extends Phaser.Scene {
 
     console.log({ width, height });
 
-    // this.currentPlayer = this.physics.add
-    //   .sprite(200, 200, "bumpkin")
-    //   .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
-    console.log("Pre play");
-
     this.anims.create({
       key: "bumpkin-idle",
       frames: this.anims.generateFrameNumbers("bumpkin", {
@@ -339,6 +239,7 @@ export class PhaserScene extends Phaser.Scene {
       repeat: -1,
       frameRate: 10,
     });
+
     this.anims.create({
       key: "bumpkin-walking",
       frames: this.anims.generateFrameNumbers("walking", {
@@ -360,10 +261,6 @@ export class PhaserScene extends Phaser.Scene {
     camera.setZoom(4);
 
     this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
-
-    // setInterval(() => {
-    //   this.room.send(0, { text: "Yo!" });
-    // }, 1000);
   }
 
   async connect() {
@@ -420,8 +317,8 @@ export class PhaserScene extends Phaser.Scene {
       this.currentPlayer.body.setVelocityX(-speed);
       this.currentPlayer.sprite.setScale(-1, 1);
       this.currentPlayer.body.width = 10;
-      this.currentPlayer.body.height = 8;
-      this.currentPlayer.body.setOffset(14, 10);
+      this.currentPlayer.body.height = 10;
+      this.currentPlayer.body.setOffset(2, 10);
     } else if (this.inputPayload.right) {
       this.currentPlayer.body.setVelocityX(speed);
       this.currentPlayer.sprite.setScale(1, 1);
@@ -460,12 +357,6 @@ export class PhaserScene extends Phaser.Scene {
       y: this.currentPlayer.y,
     });
 
-    // const message = this.playerMessages[this.room.sessionId];
-    // if (message) {
-    //   message.bubble.x = this.currentPlayer.x;
-    //   message.bubble.y = this.currentPlayer.y;
-    // }
-
     for (const sessionId in this.playerEntities) {
       // interpolate all player entities
       // (except the current player)
@@ -493,12 +384,6 @@ export class PhaserScene extends Phaser.Scene {
 
       entity.x = Phaser.Math.Linear(entity.x, serverX, 0.2);
       entity.y = Phaser.Math.Linear(entity.y, serverY, 0.2);
-
-      // const message = this.playerMessages[sessionId];
-      // if (message) {
-      //   message.x = entity.x;
-      //   message.y = entity.y;
-      // }
     }
   }
 }
