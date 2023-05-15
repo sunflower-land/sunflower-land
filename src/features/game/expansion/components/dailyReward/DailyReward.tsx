@@ -82,7 +82,8 @@ export const DailyReward: React.FC = () => {
       (1000 * 60 * 60 * 24) >
     1;
 
-  const getNextBonus = 5 - (streaks % 5);
+  const streakRemainder = streaks % 5;
+  const getNextBonus = streaks + (5 - streakRemainder);
 
   const ModalContent = () => {
     if (isGuest) {
@@ -156,8 +157,7 @@ export const DailyReward: React.FC = () => {
                   {streaks} day streak
                 </Label>
                 <p className="text-xxs mt-2">
-                  {getNextBonus} more {getNextBonus > 1 ? "days" : "day"} for
-                  your next streak bonus!
+                  Next bonus: {getNextBonus} Day Streak
                 </p>
               </>
             )}
