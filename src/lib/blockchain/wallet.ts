@@ -106,7 +106,8 @@ export class Wallet {
       console.log({ chainId });
 
       if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
-        throw new Error(ERRORS.WRONG_CHAIN);
+        await this.initialiseNetwork();
+        console.log({ chainId });
       }
 
       await this.initialiseContracts();
