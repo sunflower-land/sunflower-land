@@ -1,6 +1,6 @@
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -22,7 +22,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
-import { generateDeliveryMessage } from "../lib/delivery";
+import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -37,6 +37,10 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   const delivery = gameState.context.state.delivery;
   const orders = delivery.orders.filter((order) => Date.now() >= order.readyAt);
+
+  useEffect(() => {
+    acknowledgeOrders(delivery);
+  }, [delivery.orders]);
 
   let previewOrder = delivery.orders.find((order) => order.id === selectedId);
 

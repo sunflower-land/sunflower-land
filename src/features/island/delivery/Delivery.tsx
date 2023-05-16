@@ -16,6 +16,7 @@ import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import { DeliveryHelp } from "./components/DeliveryHelp";
 import { hasFeatureAccess } from "lib/flags";
+import { hasNewOrders } from "./lib/delivery";
 
 const DeliveryComponent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -74,6 +75,7 @@ const DeliveryComponent: React.FC = () => {
     gameState.context.state.inventory,
     "DELIVERIES"
   );
+
   return (
     <>
       <div
@@ -96,6 +98,12 @@ const DeliveryComponent: React.FC = () => {
             setShowModal(true);
           }}
         />
+        {hasAccess && hasNewOrders(delivery) && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="w-2.5 absolute top-3 right-3 pointer-events-none"
+          />
+        )}
       </div>
       <Modal
         centered

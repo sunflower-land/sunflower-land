@@ -1,3 +1,4 @@
+import { Delivery } from "features/game/types/game";
 import { NPCName } from "lib/npcs";
 
 export type DeliveryMessage = { from: NPCName; id: string };
@@ -53,4 +54,24 @@ export function generateDeliveryMessage({ from, id }: DeliveryMessage) {
   }
 
   return GOBLIN_MESSAGES[index];
+}
+
+export function hasNewOrders(delivery: Delivery) {
+  const acknowledged = localStorage.getItem(`orders.read`);
+
+  const orders: string[] = acknowledged ? JSON.parse(acknowledged) : [];
+
+  const currentIds = delivery.orders
+    .filter((o) => o.readyAt <= Date.now())
+    .map((o) => o.id);
+
+  return currentIds.some((id) => !orders.includes(id));
+}
+
+export function acknowledgeOrders(delivery: Delivery) {
+  const ids = delivery.orders
+    .filter((o) => o.readyAt <= Date.now())
+    .map((o) => o.id);
+
+  localStorage.setItem(`orders.read`, JSON.stringify(ids));
 }
