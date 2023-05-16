@@ -103,10 +103,8 @@ export class Wallet {
 
       const chainId = await this.web3?.eth.getChainId();
 
-      console.log({ chainId });
-
       if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
-        throw new Error(ERRORS.WRONG_CHAIN);
+        await this.initialiseNetwork();
       }
 
       await this.initialiseContracts();
