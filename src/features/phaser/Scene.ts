@@ -18,8 +18,9 @@ import tilesheet from "./assets/idle-Sheet.png";
 import speechBubble from "./assets/speech_bubble.png";
 import walking from "./assets/walking.png";
 import shadow from "assets/npcs/shadow.png";
+import silhouette from "assets/npcs/silhouette.webp";
 import fontPng from "./assets/pixel.png";
-import { SQUARE_WIDTH } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
 import { subber } from "./Phaser";
 import { npcModalManager } from "./SceneModals";
 import { Player } from "./Player";
@@ -78,6 +79,10 @@ export class PhaserScene extends Phaser.Scene {
     this.load.image("tileset", mapPng);
     this.load.image("speech_bubble", speechBubble);
     this.load.image("shadow", shadow);
+    this.load.spritesheet("silhouette", silhouette, {
+      frameWidth: 14,
+      frameHeight: 18,
+    });
 
     this.load.spritesheet("bumpkin", tilesheet, {
       frameWidth: 14,
@@ -119,7 +124,7 @@ export class PhaserScene extends Phaser.Scene {
 
     // this.physics.add.collider(player, coins, null, null, this);
 
-    // this.physics.world.drawDebug = false;
+    this.physics.world.drawDebug = false;
 
     const TOP_LAYERS = [
       "Decorations Layer 1",
@@ -146,9 +151,14 @@ export class PhaserScene extends Phaser.Scene {
 
     this.debugFPS = this.add.text(4, 4, "", { color: "#ff0000" });
 
-    const betty = this.physics.add
-      .sprite(10, 10, "bumpkin")
-      .setSize(SQUARE_WIDTH, SQUARE_WIDTH)
+    const betty = new Player(this, 400, 400, {
+      ...INITIAL_BUMPKIN,
+      id: 44444,
+      equipped: {
+        ...INITIAL_BUMPKIN.equipped,
+        hair: "Rancher Hair",
+      },
+    })
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         console.log("Bumpkin clicked");
@@ -175,9 +185,8 @@ export class PhaserScene extends Phaser.Scene {
     this.room.state.players.onAdd((player, sessionId) => {
       console.log({ player, sessionId });
 
-      const entity = new Player(this, player.x, player.y);
+      const entity = new Player(this, player.x, player.y, INITIAL_BUMPKIN);
       this.playerEntities[sessionId] = entity;
-      this.add.container();
 
       // is current player
       if (sessionId === this.room.sessionId) {
@@ -230,25 +239,6 @@ export class PhaserScene extends Phaser.Scene {
 
     console.log({ width, height });
 
-    this.anims.create({
-      key: "bumpkin-idle",
-      frames: this.anims.generateFrameNumbers("bumpkin", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-
-    this.anims.create({
-      key: "bumpkin-walking",
-      frames: this.anims.generateFrameNumbers("walking", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
     console.log("play");
 
     this.boxGroup = this.physics.add.staticGroup();
@@ -344,9 +334,9 @@ export class PhaserScene extends Phaser.Scene {
       this.inputPayload.right
     ) {
       console.log("Walk it!");
-      this.currentPlayer.sprite.play("bumpkin-walking", true);
+      this.currentPlayer.walk();
     } else {
-      this.currentPlayer.sprite.play(`bumpkin-idle`, true);
+      this.currentPlayer.stop();
     }
 
     this.localRef.x = this.currentPlayer.x;
@@ -371,9 +361,9 @@ export class PhaserScene extends Phaser.Scene {
         serverX.toFixed(1) !== entity.x.toFixed(1) ||
         serverY.toFixed(1) !== entity.y.toFixed(1)
       ) {
-        entity.sprite.play("bumpkin-walking", true);
+        entity.walk();
       } else {
-        entity.sprite.play(`bumpkin-idle`, true);
+        entity.stop();
       }
 
       if (serverX > entity.x) {
