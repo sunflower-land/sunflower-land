@@ -68,6 +68,9 @@ export const Navigation: React.FC = () => {
     if (provider) {
       if (provider.on) {
         provider.on("chainChanged", () => {
+          // Phantom handles this internally
+          if (provider.isPhantom) return;
+
           authService.send("CHAIN_CHANGED");
         });
         provider.on("accountsChanged", function (accounts: string[]) {
