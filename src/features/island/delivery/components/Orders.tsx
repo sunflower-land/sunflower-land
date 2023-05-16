@@ -103,7 +103,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               >
                 {hasRequirements(order) && (
                   <img
-                    src={SUNNYSIDE.icons.confirm}
+                    src={SUNNYSIDE.icons.heart}
                     className="absolute top-0.5 right-0.5 w-5"
                   />
                 )}
