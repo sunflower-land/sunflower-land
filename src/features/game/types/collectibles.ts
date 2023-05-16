@@ -6,7 +6,10 @@ import { SFLDiscount } from "../lib/SFLDiscount";
 
 export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
 
-export type HeliosBlacksmithItem = "Immortal Pear" | "Treasure Map";
+export type HeliosBlacksmithItem =
+  | "Immortal Pear"
+  | "Treasure Map"
+  | "Basic Scarecrow";
 
 export type SoldOutCollectibleName =
   | "Palm Tree"
@@ -48,6 +51,14 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
   HeliosBlacksmithItem,
   CraftableCollectible
 > = {
+  "Basic Scarecrow": {
+    description: "Choosy defender of your farm's VIP (Very Important Plants)",
+    ingredients: {
+      Sunflower: new Decimal(5),
+    },
+    boost: "20% faster Sunflowers, Potatoes and Pumpkins",
+    sfl: new Decimal(0),
+  },
   "Immortal Pear": {
     description: "A long-lived pear that makes fruit trees last longer.",
     ingredients: {

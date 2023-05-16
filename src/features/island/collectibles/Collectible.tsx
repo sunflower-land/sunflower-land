@@ -148,6 +148,7 @@ import { AuroraLantern } from "./components/AuroraLantern";
 import { RadianceLantern } from "./components/RadianceLantern";
 import { Hoot } from "./components/Hoot";
 import { GenieBear } from "./components/GenieBear";
+import { BasicScarecrow } from "./components/BasicScarecrow";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -226,6 +227,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Nancy,
   Scarecrow,
   Kuebiko,
+  "Basic Scarecrow": BasicScarecrow,
+
   "Carrot Sword": CarrotSword,
 
   // Flags
