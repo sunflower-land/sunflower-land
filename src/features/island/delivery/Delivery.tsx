@@ -18,12 +18,66 @@ import { DeliveryHelp } from "./components/DeliveryHelp";
 import { hasFeatureAccess } from "lib/flags";
 import { hasNewOrders } from "./lib/delivery";
 
-const DeliveryComponent: React.FC = () => {
+const Board: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const delivery = gameState.context.state.delivery;
+
+  const hasAccess = hasFeatureAccess(
+    gameState.context.state.inventory,
+    "DELIVERIES"
+  );
+
+  return (
+    <>
+      <div
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 13}px`,
+          left: `${PIXEL_SCALE * 36}px`,
+          top: `${PIXEL_SCALE * 2}px`,
+        }}
+      >
+        <img
+          src={deliveryBoard}
+          className={classNames("w-full", {
+            "cursor-pointer hover:img-highlight": hasAccess,
+          })}
+          onClick={() => {
+            if (!hasAccess) {
+              return;
+            }
+            setShowModal(true);
+          }}
+        />
+        {hasAccess && hasNewOrders(delivery) && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="w-2.5 absolute top-3 right-3 pointer-events-none"
+          />
+        )}
+      </div>
+
+      <DeliveryModal isOpen={showModal} onClose={() => setShowModal(false)} />
+    </>
+  );
+};
+
+export const DeliveryBoard = React.memo(Board);
+
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showHelp, setShowHelp] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   const [isRevealing, setIsRevealing] = useState(false);
 
@@ -71,48 +125,16 @@ const DeliveryComponent: React.FC = () => {
     );
   }
 
-  const hasAccess = hasFeatureAccess(
-    gameState.context.state.inventory,
-    "DELIVERIES"
-  );
-
   return (
     <>
-      <div
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 13}px`,
-          left: `${PIXEL_SCALE * 36}px`,
-          top: `${PIXEL_SCALE * 2}px`,
-        }}
-      >
-        <img
-          src={deliveryBoard}
-          className={classNames("w-full", {
-            "cursor-pointer hover:img-highlight": hasAccess,
-          })}
-          onClick={() => {
-            if (!hasAccess) {
-              return;
-            }
-            setShowModal(true);
-          }}
-        />
-        {hasAccess && hasNewOrders(delivery) && (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className="w-2.5 absolute top-3 right-3 pointer-events-none"
-          />
-        )}
-      </div>
       <Modal
         centered
-        show={showModal}
-        onHide={() => setShowModal(false)}
+        show={isOpen}
+        onHide={onClose}
         dialogClassName="md:max-w-3xl"
       >
         <CloseButtonPanel
-          onClose={() => setShowModal(false)}
+          onClose={onClose}
           title={
             <>
               {!showHelp && (
@@ -206,5 +228,3 @@ const DeliveryComponent: React.FC = () => {
     </>
   );
 };
-
-export const Delivery = React.memo(DeliveryComponent);
