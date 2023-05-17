@@ -8,6 +8,9 @@ import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { analytics } from "lib/analytics";
+import { buyBlockBucks } from "features/game/actions/buyBlockBucks";
+import * as Auth from "features/auth/lib/Provider";
+import { randomID } from "lib/utils/random";
 
 interface Props {
   onClose: () => void;
@@ -36,19 +39,32 @@ const PRICES: {
 ];
 
 export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
+  const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const count =
     gameState.context.state.inventory["Block Buck"] ?? new Decimal(0);
 
-  const onBuy = (amount: number) => {
-    console.log({ amount });
-    gameService.send("PURCHASE_ITEM", {
-      name: "Block Buck",
-      amount,
-    });
-    onClose();
+  const onBuy = async (amount: number) => {
+    // gameService.send("PURCHASE_ITEM", {
+    //   name: "Block Buck",
+    //   amount,
+    // });
+    try {
+      const response = await buyBlockBucks({
+        farmId: authService.state.context.user.farmId as number,
+        token: authService.state.context.user.rawToken as string,
+        type: "MATIC",
+        amount,
+        transactionId: randomID(),
+      });
+
+      console.log("Buy block bucks from modal", response);
+    } catch (error) {
+      console.error("Error buying block bucks", error);
+    }
+    // onClose();
   };
 
   useEffect(() => {
