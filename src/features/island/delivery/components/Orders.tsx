@@ -178,7 +178,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           ))}
 
           {nextOrder && (
-            <div className="w-1/2 sm:w-1/3 p-1 h-full">
+            <div className="w-1/2 sm:w-1/3 p-1">
               <OuterPanel
                 className="w-full py-2 relative"
                 style={{ height: "80px" }}
@@ -196,7 +196,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             </div>
           )}
           {new Array(emptySlots).fill(null).map((_, i) => (
-            <div className="w-1/2 sm:w-1/3 p-1 h-full" key={i}>
+            <div className="w-1/2 sm:w-1/3 p-1" key={i}>
               <OuterPanel
                 className="w-full py-2 relative"
                 style={{ height: "80px" }}
