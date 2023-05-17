@@ -14,9 +14,9 @@ import { Room, Client } from "colyseus.js";
 
 import mapPng from "./assets/embedded.png";
 import mapJson from "./assets/world_plaza.json";
-import tilesheet from "./assets/idle-Sheet.png";
 import speechBubble from "./assets/speech_bubble.png";
-import walking from "./assets/walking.png";
+// import tilesheet from "./assets/idle-Sheet.png";
+// import walking from "./assets/walking.png";
 import shadow from "assets/npcs/shadow.png";
 import silhouette from "assets/npcs/silhouette.webp";
 import fontPng from "./assets/pixel.png";
@@ -84,14 +84,14 @@ export class PhaserScene extends Phaser.Scene {
       frameHeight: 18,
     });
 
-    this.load.spritesheet("bumpkin", tilesheet, {
-      frameWidth: 14,
-      frameHeight: 18,
-    });
-    this.load.spritesheet("walking", walking, {
-      frameWidth: 13,
-      frameHeight: 18,
-    });
+    // this.load.spritesheet("bumpkin", tilesheet, {
+    //   frameWidth: 14,
+    //   frameHeight: 18,
+    // });
+    // this.load.spritesheet("walking", walking, {
+    //   frameWidth: 13,
+    //   frameHeight: 18,
+    // });
 
     this.load.bitmapFont(
       "pixel",

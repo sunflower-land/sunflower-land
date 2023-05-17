@@ -88,12 +88,17 @@ export const Phaser: React.FC = () => {
         },
       },
       scene: [PhaserScene],
+      loader: {
+        crossOrigin: "anonymous",
+      },
     };
 
     const game = new Game({
       ...config,
       parent: "game-content",
     });
+
+    // game.config.loaderCrossOrigin = 'anonymous'
   }, []);
 
   return (
@@ -102,6 +107,7 @@ export const Phaser: React.FC = () => {
         id="game-content"
         className="flex w-full justify-center items-center h-full"
       />
+      <img id="imageTest" />
       <ChatUI
         game={OFFLINE_FARM}
         onMessage={(m) => subber.broadcast(m.text ?? "?")}
