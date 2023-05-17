@@ -22,8 +22,8 @@ import silhouette from "assets/npcs/silhouette.webp";
 import fontPng from "./assets/pixel.png";
 import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
 import { subber } from "./Phaser";
-import { npcModalManager } from "./SceneModals";
-import { Player } from "./Player";
+import { npcModalManager } from "./NPCModals";
+import { BumpkinContainer } from "./BumpkinContainer";
 
 export const BACKEND_URL =
   window.location.href.indexOf("localhost") === -1
@@ -37,9 +37,9 @@ export const BACKEND_HTTP_URL = BACKEND_URL.replace("ws", "http");
 export class PhaserScene extends Phaser.Scene {
   room: Room;
 
-  currentPlayer: Player;
+  currentPlayer: BumpkinContainer;
   playerEntities: {
-    [sessionId: string]: Player;
+    [sessionId: string]: BumpkinContainer;
   } = {};
   // playerMessages: {
   //   [sessionId: string]: SpeechBubble;
@@ -117,7 +117,6 @@ export class PhaserScene extends Phaser.Scene {
 
     collisionPolygons.forEach((polygon) => {
       customColliders.add(polygon);
-      polygon.setInteractive(false);
       this.physics.world.enable(polygon);
       polygon.body.setImmovable(true);
     });
@@ -151,22 +150,6 @@ export class PhaserScene extends Phaser.Scene {
 
     this.debugFPS = this.add.text(4, 4, "", { color: "#ff0000" });
 
-    const betty = new Player(this, 400, 400, {
-      ...INITIAL_BUMPKIN,
-      id: 44444,
-      equipped: {
-        ...INITIAL_BUMPKIN.equipped,
-        hair: "Rancher Hair",
-      },
-    })
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        console.log("Bumpkin clicked");
-        npcModalManager.open("betty");
-      });
-
-    this.physics.world.enable(betty);
-
     // connect with the room
     await this.connect();
 
@@ -185,7 +168,12 @@ export class PhaserScene extends Phaser.Scene {
     this.room.state.players.onAdd((player, sessionId) => {
       console.log({ player, sessionId });
 
-      const entity = new Player(this, player.x, player.y, INITIAL_BUMPKIN);
+      const entity = new BumpkinContainer(
+        this,
+        player.x,
+        player.y,
+        INITIAL_BUMPKIN
+      );
       this.playerEntities[sessionId] = entity;
 
       // is current player
@@ -251,6 +239,27 @@ export class PhaserScene extends Phaser.Scene {
     camera.setZoom(4);
 
     this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
+
+    this.initialiseNPCs();
+  }
+
+  private initialiseNPCs() {
+    // Betty
+    const betty = new BumpkinContainer(
+      this,
+      400,
+      400,
+      {
+        ...INITIAL_BUMPKIN,
+        id: 44444,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hair: "Rancher Hair",
+        },
+      },
+      () => npcModalManager.open("betty")
+    );
+    this.physics.world.enable(betty);
   }
 
   async connect() {
@@ -294,7 +303,7 @@ export class PhaserScene extends Phaser.Scene {
     // const currentPlayerRemote = this.room.state.players.get(this.room.sessionId);
     // const ticksBehind = this.currentTick - currentPlayerRemote.tick;
     // console.log({ ticksBehind });
-    const speed = 70;
+    const speed = 50;
 
     const velocity = 1;
     this.inputPayload.left = this.cursorKeys.left.isDown;
@@ -317,26 +326,18 @@ export class PhaserScene extends Phaser.Scene {
       this.currentPlayer.body.setVelocityX(0);
     }
 
+    const isMovingHorizontally =
+      this.inputPayload.left || this.inputPayload.right;
+
+    const baseSpeed = isMovingHorizontally ? 0.7 : 1;
     if (this.inputPayload.up) {
       // this.currentPlayer.y -= velocity;
-      this.currentPlayer.body.setVelocityY(-speed);
+      this.currentPlayer.body.setVelocityY(-speed * baseSpeed);
     } else if (this.inputPayload.down) {
       // this.currentPlayer.y += velocity;
-      this.currentPlayer.body.setVelocityY(speed);
+      this.currentPlayer.body.setVelocityY(speed * baseSpeed);
     } else {
       this.currentPlayer.body.setVelocityY(0);
-    }
-
-    if (
-      this.inputPayload.down ||
-      this.inputPayload.up ||
-      this.inputPayload.left ||
-      this.inputPayload.right
-    ) {
-      console.log("Walk it!");
-      this.currentPlayer.walk();
-    } else {
-      this.currentPlayer.stop();
     }
 
     this.localRef.x = this.currentPlayer.x;
@@ -356,15 +357,6 @@ export class PhaserScene extends Phaser.Scene {
 
       const entity = this.playerEntities[sessionId];
       const { serverX, serverY } = entity.data.values;
-
-      if (
-        serverX.toFixed(1) !== entity.x.toFixed(1) ||
-        serverY.toFixed(1) !== entity.y.toFixed(1)
-      ) {
-        entity.walk();
-      } else {
-        entity.stop();
-      }
 
       if (serverX > entity.x) {
         entity.setScale(1, 1);

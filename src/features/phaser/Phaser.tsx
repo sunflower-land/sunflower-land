@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Game, AUTO } from "phaser";
-import { PhaserScene } from "./Scene";
+import { PhaserScene } from "./PlazaScene";
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
 import { OFFLINE_FARM } from "features/game/lib/landData";
-import { NPCModals } from "./SceneModals";
+import { NPCModals } from "./NPCModals";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 
 export const TILE_WIDTH = 16;
