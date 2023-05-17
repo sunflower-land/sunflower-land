@@ -212,7 +212,7 @@ export class PhaserScene extends Phaser.Scene {
         console.log({ player: this.currentPlayer });
         this.physics.add.collider(this.currentPlayer, customColliders);
 
-        camera.startFollow(this.currentPlayer, true, 0.05, 0.05);
+        camera.startFollow(this.currentPlayer, true, 0.08, 0.08);
       } else {
         // listening for server updates
         player.onChange(() => {
