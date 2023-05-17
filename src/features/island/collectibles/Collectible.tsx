@@ -344,6 +344,20 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Genie Bear": GenieBear,
 };
 
+const BasicScarecrowAOE: React.FC = () => {
+  return (
+    <div
+      className="absolute bottom-0 bg-blue-300 bg-opacity-50"
+      style={{
+        width: `${PIXEL_SCALE * 16 * 3}px`,
+        height: `${PIXEL_SCALE * 16 * 3}px`,
+        left: `${PIXEL_SCALE * -12.8}px`,
+        top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+      }}
+    ></div>
+  );
+};
+
 // Need readonly versions for some troublesome components while in design mode
 export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
   ...COLLECTIBLE_COMPONENTS,
@@ -360,6 +374,16 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 16}px` }}
     />
+  ),
+
+  "Basic Scarecrow": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
+    >
+      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full" />
+      <BasicScarecrowAOE />
+    </div>
   ),
   "Nyon Statue": () => (
     <img
