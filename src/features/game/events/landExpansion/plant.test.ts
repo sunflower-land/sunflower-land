@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
-import { getCropTime, isPlotFertile, plant } from "./plant";
+import { getCropTime, isPlotFertile, isWithinAOE, plant } from "./plant";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -965,5 +965,468 @@ describe("isPlotFertile", () => {
     });
 
     expect(isFertile).toBeTruthy();
+  });
+});
+
+describe("isWithinAOE", () => {
+  const dateNow = Date.now();
+  const plot1 = GAME_STATE.crops[firstCropId];
+  plot1.x = -1;
+  plot1.y = -2;
+
+  const plot2 = GAME_STATE.crops[firstCropId];
+  plot2.x = -1;
+  plot2.y = -3;
+
+  const plot3 = GAME_STATE.crops[firstCropId];
+  plot3.x = -1;
+  plot3.y = -4;
+
+  const plot4 = GAME_STATE.crops[firstCropId];
+  plot4.x = 0;
+  plot4.y = -2;
+
+  const plot5 = GAME_STATE.crops[firstCropId];
+  plot5.x = 0;
+  plot5.y = -3;
+
+  const plot6 = GAME_STATE.crops[firstCropId];
+  plot6.x = 0;
+  plot6.y = -4;
+
+  const plot7 = GAME_STATE.crops[firstCropId];
+  plot7.x = 1;
+  plot7.y = -2;
+
+  const plot8 = GAME_STATE.crops[firstCropId];
+  plot8.x = 1;
+  plot8.y = -3;
+
+  const plot9 = GAME_STATE.crops[firstCropId];
+  plot9.x = 1;
+  plot9.y = -4;
+
+  it("returns true if the crop is within the AOE", () => {
+    const cropPlot1 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot1
+    );
+    const cropPlot2 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot2
+    );
+
+    const cropPlot3 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot3
+    );
+
+    const cropPlot4 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot4
+    );
+
+    const cropPlot5 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot5
+    );
+    const cropPlot6 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot6
+    );
+    const cropPlot7 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot7
+    );
+    const cropPlot8 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot8
+    );
+    const cropPlot9 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plot9
+    );
+
+    expect(cropPlot1).toBe(true);
+    expect(cropPlot2).toBe(true);
+    expect(cropPlot3).toBe(true);
+    expect(cropPlot4).toBe(true);
+    expect(cropPlot5).toBe(true);
+    expect(cropPlot6).toBe(true);
+    expect(cropPlot7).toBe(true);
+    expect(cropPlot8).toBe(true);
+    expect(cropPlot9).toBe(true);
+  });
+
+  it("returns false if the crop is outside the AOE", () => {
+    const plotOutsideAOE2 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE2.x = -1;
+    plotOutsideAOE2.y = 0;
+
+    const plotOutsideAOE1 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE1.x = -1;
+    plotOutsideAOE1.y = -1;
+
+    const plotOutsideAOE3 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE3.x = 1;
+    plotOutsideAOE3.y = 0;
+
+    const plotOutsideAOE4 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE4.x = 1;
+    plotOutsideAOE4.y = -1;
+
+    const plotOutsideAOE5 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE5.x = -2;
+    plotOutsideAOE5.y = 0;
+
+    const plotOutsideAOE6 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE6.x = -2;
+    plotOutsideAOE6.y = -1;
+
+    const plotOutsideAOE7 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE7.x = -2;
+    plotOutsideAOE7.y = -2;
+
+    const plotOutsideAOE8 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE8.x = -2;
+    plotOutsideAOE8.y = -3;
+
+    const plotOutsideAOE9 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE9.x = -2;
+    plotOutsideAOE9.y = -4;
+
+    const plotOutsideAOE10 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE10.x = 2;
+    plotOutsideAOE10.y = 0;
+
+    const plotOutsideAOE11 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE11.x = 2;
+    plotOutsideAOE11.y = -1;
+
+    const plotOutsideAOE12 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE12.x = 2;
+    plotOutsideAOE12.y = -2;
+
+    const plotOutsideAOE13 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE13.x = 2;
+    plotOutsideAOE13.y = -3;
+
+    const plotOutsideAOE14 = GAME_STATE.crops[firstCropId];
+    plotOutsideAOE14.x = 2;
+    plotOutsideAOE14.y = -4;
+
+    const cropPlot1 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE1
+    );
+    const cropPlot2 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE2
+    );
+
+    const cropPlot3 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE3
+    );
+
+    const cropPlot4 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE4
+    );
+
+    const cropPlot5 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE5
+    );
+
+    const cropPlot6 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE6
+    );
+
+    const cropPlot7 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE7
+    );
+
+    const cropPlot8 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE8
+    );
+
+    const cropPlot9 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE9
+    );
+
+    const cropPlot10 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE10
+    );
+
+    const cropPlot11 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE11
+    );
+
+    const cropPlot12 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE12
+    );
+
+    const cropPlot13 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE13
+    );
+
+    const cropPlot14 = isWithinAOE(
+      "Basic Scarecrow",
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 0, y: 0 },
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      plotOutsideAOE14
+    );
+
+    expect(cropPlot1).toBe(false);
+    expect(cropPlot2).toBe(false);
+    expect(cropPlot3).toBe(false);
+    expect(cropPlot4).toBe(false);
+    expect(cropPlot5).toBe(false);
+    expect(cropPlot6).toBe(false);
+    expect(cropPlot7).toBe(false);
+    expect(cropPlot8).toBe(false);
+    expect(cropPlot9).toBe(false);
+    expect(cropPlot10).toBe(false);
+    expect(cropPlot11).toBe(false);
+    expect(cropPlot12).toBe(false);
+    expect(cropPlot13).toBe(false);
+    expect(cropPlot14).toBe(false);
   });
 });
