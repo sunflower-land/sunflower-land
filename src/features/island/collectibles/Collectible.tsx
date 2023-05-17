@@ -149,6 +149,7 @@ import { RadianceLantern } from "./components/RadianceLantern";
 import { Hoot } from "./components/Hoot";
 import { GenieBear } from "./components/GenieBear";
 import { BasicScarecrow } from "./components/BasicScarecrow";
+import lightning from "assets/icons/lightning.png";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -347,14 +348,24 @@ export const COLLECTIBLE_COMPONENTS: Record<
 const BasicScarecrowAOE: React.FC = () => {
   return (
     <div
-      className="absolute bottom-0 bg-blue-300 bg-opacity-50"
+      className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
       style={{
         width: `${PIXEL_SCALE * 16 * 3}px`,
         height: `${PIXEL_SCALE * 16 * 3}px`,
         left: `${PIXEL_SCALE * -12.8}px`,
         top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
       }}
-    ></div>
+    >
+      <img
+        src={lightning}
+        className="absolute bottom-0 opacity-50 animate-pulsate"
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * 19}px`,
+          top: `${PIXEL_SCALE * 17}px`,
+        }}
+      />
+    </div>
   );
 };
 
