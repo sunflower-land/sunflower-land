@@ -19,11 +19,12 @@ import speechBubble from "./assets/speech_bubble.png";
 // import walking from "./assets/walking.png";
 import shadow from "assets/npcs/shadow.png";
 import silhouette from "assets/npcs/silhouette.webp";
-import fontPng from "./assets/pixel.png";
+import fontPng from "./assets/white.png";
 import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
 import { subber } from "./Phaser";
 import { npcModalManager } from "./NPCModals";
 import { BumpkinContainer } from "./BumpkinContainer";
+import { interactableModalManager } from "./InteractableModals";
 
 export const BACKEND_URL =
   window.location.href.indexOf("localhost") === -1
@@ -38,6 +39,7 @@ export class PhaserScene extends Phaser.Scene {
   room: Room;
 
   currentPlayer: BumpkinContainer;
+  betty: BumpkinContainer;
   playerEntities: {
     [sessionId: string]: BumpkinContainer;
   } = {};
@@ -92,17 +94,15 @@ export class PhaserScene extends Phaser.Scene {
     //   frameWidth: 13,
     //   frameHeight: 18,
     // });
-
-    this.load.bitmapFont(
-      "pixel",
-      fontPng,
-      "./src/features/phaser/assets/pixel.xml"
-    );
   }
 
   async create() {
     // CSSString: 'url(assets/input/cursors/sword.cur), pointer'
-
+    this.load.bitmapFont(
+      "bitmapFont",
+      fontPng,
+      "./src/features/phaser/assets/white.fnt"
+    );
     const map = this.make.tilemap({
       key: "main-map",
     });
@@ -110,10 +110,13 @@ export class PhaserScene extends Phaser.Scene {
 
     const customColliders = this.add.group();
 
-    const objectLayer = map.getObjectLayer("Collision");
+    console.log({ ob: map.getObjectLayer("Interactables")?.objects });
+
     const collisionPolygons = map.createFromObjects("Collision", {
-      key: "coin",
+      scene: this,
     });
+
+    console.log(collisionPolygons);
 
     collisionPolygons.forEach((polygon) => {
       customColliders.add(polygon);
@@ -121,9 +124,47 @@ export class PhaserScene extends Phaser.Scene {
       polygon.body.setImmovable(true);
     });
 
-    // this.physics.add.collider(player, coins, null, null, this);
+    const interactablesPolygons = map.createFromObjects("Interactable", {});
 
-    this.physics.world.drawDebug = false;
+    interactablesPolygons.forEach((polygon) => {
+      polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        console.log(polygon.x);
+        console.log(polygon.y);
+        const distance = Phaser.Math.Distance.BetweenPoints(
+          polygon as unknown as Phaser.Math.Vector2,
+          this.currentPlayer
+        );
+        console.log({ distance });
+        if (distance > 30) {
+          console.log({ Distance: distance, polygon });
+          // const textR = this.add
+          //   .text(, "Too far away", {
+          //     font: "6px Monospace",
+          //     color: "#000000",
+          //   })
+          //   .setResolution(10);
+          const text = this.add.bitmapText(
+            polygon.x - 20,
+            polygon.y,
+            "bitmapFont",
+            "Move closer!",
+            8
+          );
+
+          setTimeout(() => {
+            text.destroy();
+          }, 1000);
+
+          return;
+        }
+
+        const id = polygon.data.list.id;
+        console.log("Interactive clicked", id);
+        interactableModalManager.open(id);
+      });
+    });
+
+    this.physics.world.drawDebug = true;
 
     const TOP_LAYERS = [
       "Decorations Layer 1",
@@ -135,6 +176,16 @@ export class PhaserScene extends Phaser.Scene {
 
     map.layers.forEach((layerData, idx) => {
       const layer = map.createLayer(layerData.name, tileset, 0, 0);
+
+      console.log({ name: layerData.name });
+      if (layerData.name === "Interactables") {
+        layer.layer.data.forEach((tileRows) => {
+          tileRows.forEach((tile) => {
+            const { index, tileset, properties } = tile;
+            console.log({ properties });
+          });
+        });
+      }
 
       if (TOP_LAYERS.includes(layerData.name)) {
         console.log("Got it");
@@ -197,8 +248,9 @@ export class PhaserScene extends Phaser.Scene {
 
         // this.physics.add.collider(this.currentPlayer, collisionLayer);
         this.currentPlayer.body.setCollideWorldBounds(true);
-        console.log({ player: this.currentPlayer });
+        console.log({ player: this.currentPlayer, betty: this.betty });
         this.physics.add.collider(this.currentPlayer, customColliders);
+        this.physics.add.collider(this.currentPlayer, this.betty);
 
         camera.startFollow(this.currentPlayer, true, 0.08, 0.08);
       } else {
@@ -245,7 +297,7 @@ export class PhaserScene extends Phaser.Scene {
 
   private initialiseNPCs() {
     // Betty
-    const betty = new BumpkinContainer(
+    this.betty = new BumpkinContainer(
       this,
       400,
       400,
@@ -259,7 +311,23 @@ export class PhaserScene extends Phaser.Scene {
       },
       () => npcModalManager.open("betty")
     );
-    this.physics.world.enable(betty);
+    this.betty.body.width = 16;
+    this.betty.body.height = 20;
+    this.betty.body.setOffset(0, 0);
+    this.physics.world.enable(this.betty);
+    this.betty.body.setImmovable(true);
+
+    this.betty.body.setCollideWorldBounds(true);
+    console.log({ player: this.currentPlayer });
+    // this.physics.add.collider(this.currentPlayer, this.betty);
+
+    // this.physics.collide(this.currentPlayer, this.betty);
+    // this.physics.add.collider(this.currentPlayer, betty.body);
+
+    return;
+
+    // betty.body.setCollideWorldBounds(true);
+    console.log({ player: this.currentPlayer });
   }
 
   async connect() {

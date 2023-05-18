@@ -2471,10 +2471,60 @@
       "visible": true,
       "x": 0,
       "y": 0
+    },
+    {
+      "color": "#00ff00",
+      "draworder": "topdown",
+      "id": 56,
+      "name": "Interactable",
+      "objects": [
+        {
+          "height": 9.83264302791531,
+          "id": 120,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "welcome_sign"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 15.6918207226319,
+          "x": 464.289322153753,
+          "y": 465.232178334512
+        },
+        {
+          "height": 19.5210608686872,
+          "id": 122,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "plaza_statue"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 28.9450212880535,
+          "x": 417.683388586911,
+          "y": 310.149268801642
+        }
+      ],
+      "opacity": 1,
+      "tintcolor": "#00ff00",
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
     }
   ],
-  "nextlayerid": 56,
-  "nextobjectid": 120,
+  "nextlayerid": 57,
+  "nextobjectid": 123,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",

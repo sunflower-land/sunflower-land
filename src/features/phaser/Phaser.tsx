@@ -5,6 +5,7 @@ import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { NPCModals } from "./NPCModals";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
+import { InteractableModals } from "./InteractableModals";
 
 export const TILE_WIDTH = 16;
 export const TILE_HEIGHT = 16;
@@ -113,6 +114,7 @@ export const Phaser: React.FC = () => {
         onMessage={(m) => subber.broadcast(m.text ?? "?")}
       />
       <NPCModals />
+      <InteractableModals />
     </>
   );
 };
