@@ -33,7 +33,6 @@ import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX } from "../lib/constants";
-import { Beans } from "./Beans";
 
 const getIslandElements = ({
   buildings,
@@ -422,10 +421,6 @@ export const Land: React.FC = () => {
             linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
             }}
           />
-
-          <MapPlacement x={2} y={0}>
-            <Beans />
-          </MapPlacement>
 
           {/* Sort island elements by y axis */}
           {getIslandElements({
