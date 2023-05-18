@@ -27,6 +27,9 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
 
   // Dawn Breaker items
   "Mushroom House": 60 * 60 * 1,
+
+  // AOE items
+  "Basic Scarecrow": 60,
 };
 
 export type PlaceCollectibleAction = {
@@ -85,6 +88,11 @@ export function placeCollectible({
   };
 
   bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);
+
+  if (collectible === "Basic Scarecrow") {
+    // 10 minutes cooldown
+    newCollectiblePlacement.readyAt = createdAt + 10 * 60 * 1000;
+  }
 
   return {
     ...stateCopy,

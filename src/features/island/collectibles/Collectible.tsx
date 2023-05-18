@@ -148,6 +148,8 @@ import { AuroraLantern } from "./components/AuroraLantern";
 import { RadianceLantern } from "./components/RadianceLantern";
 import { Hoot } from "./components/Hoot";
 import { GenieBear } from "./components/GenieBear";
+import { BasicScarecrow } from "./components/BasicScarecrow";
+import lightning from "assets/icons/lightning.png";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -226,6 +228,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Nancy,
   Scarecrow,
   Kuebiko,
+  "Basic Scarecrow": BasicScarecrow,
+
   "Carrot Sword": CarrotSword,
 
   // Flags
@@ -357,6 +361,34 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 16}px` }}
     />
+  ),
+
+  "Basic Scarecrow": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
+    >
+      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full" />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
   ),
   "Nyon Statue": () => (
     <img

@@ -6,7 +6,10 @@ import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "features/game/types/craftables";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BUILDINGS_DIMENSIONS,
+  Dimensions,
+} from "features/game/types/buildings";
 import {
   MUSHROOM_DIMENSIONS,
   RESOURCE_DIMENSIONS,
@@ -318,4 +321,42 @@ export function detectCollision(state: GameState, position: Position) {
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position)
   );
+}
+
+/**
+ * Detects whether an item is within the area of effect of a placeable with AOE.
+ * @param AOEItem Item which has an area of effect
+ * @param item Item to check if it is within the area of effect
+ * @returns boolean
+ *
+ **/
+export function isWithinAOE(AOEItem: Position, item: Position): boolean {
+  const AOEItemCoordinates: Coordinates = { x: AOEItem.x, y: AOEItem.y };
+
+  const AOEItemDimensions: Dimensions = {
+    height: AOEItem.height,
+    width: AOEItem.width,
+  };
+
+  if (AOEItemCoordinates) {
+    const topLeft = {
+      x: AOEItemCoordinates.x - 1,
+      y: AOEItemCoordinates.y - AOEItem.height,
+    };
+
+    const bottomRight = {
+      x: AOEItemCoordinates.x + 1,
+      y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+    };
+
+    if (
+      item.x >= topLeft.x &&
+      item.x <= bottomRight.x &&
+      item.y <= topLeft.y &&
+      item.y >= bottomRight.y
+    ) {
+      return true;
+    }
+  }
+  return false;
 }

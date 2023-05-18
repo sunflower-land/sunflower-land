@@ -1077,6 +1077,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Mysterious Parsnip": { width: 1, height: 1 },
   "Carrot Sword": { width: 1, height: 1 },
 
+  "Basic Scarecrow": { width: 1, height: 2 },
+
   // Barn Items
   "Farm Cat": { width: 1, height: 1 },
   "Farm Dog": { width: 1, height: 1 },
