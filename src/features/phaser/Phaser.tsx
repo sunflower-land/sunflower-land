@@ -6,8 +6,9 @@ import { OFFLINE_FARM } from "features/game/lib/landData";
 import { NPCModals } from "./NPCModals";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import { InteractableModals } from "./InteractableModals";
-import { useActor, useInterpret } from "@xstate/react";
+import { useInterpret } from "@xstate/react";
 import { MachineInterpreter, roomMachine } from "./roomMachine";
+import { AuctionScene } from "./AuctionHouseScene";
 
 export const TILE_WIDTH = 16;
 export const TILE_HEIGHT = 16;
@@ -37,9 +38,9 @@ export const Phaser: React.FC = () => {
     context: {},
   }) as unknown as MachineInterpreter;
 
-  const [chatState] = useActor(roomService);
+  // const [chatState] = useActor(roomService);
 
-  console.log({ chatState: chatState.value });
+  // console.log({ chatState: chatState.value });
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -98,7 +99,7 @@ export const Phaser: React.FC = () => {
           gravity: { y: 0 },
         },
       },
-      scene: [PhaserScene],
+      scene: [AuctionScene, PhaserScene],
       loader: {
         crossOrigin: "anonymous",
       },
@@ -114,7 +115,7 @@ export const Phaser: React.FC = () => {
     // game.config.loaderCrossOrigin = 'anonymous'
   }, []);
 
-  console.log({ messages: chatState.context.messages });
+  // console.log({ messages: chatState.context.messages });
 
   return (
     <>

@@ -23,7 +23,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     scene.physics.add.existing(this);
 
-    this.loadSprites();
+    this.loadSprites(scene);
 
     const shadow = this.scene.add
       .sprite(0.5, 8, "shadow")
@@ -43,7 +43,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  private async loadSprites() {
+  private async loadSprites(scene: Phaser.Scene) {
     const sheet = await buildNPCSheet({
       parts: this.bumpkin.equipped,
     });
@@ -56,15 +56,15 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
 
     loader.on(Phaser.Loader.Events.COMPLETE, () => {
-      this.sprite = this.scene.add
+      this.sprite = scene.add
         .sprite(0, 0, spriteSheetKey)
         .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
       this.add(this.sprite);
 
-      this.scene.anims.create({
+      scene.anims.create({
         key: `${this.bumpkin.id}-bumpkin-idle`,
-        frames: this.scene.anims.generateFrameNumbers(spriteSheetKey, {
+        frames: scene.anims.generateFrameNumbers(spriteSheetKey, {
           start: 0,
           end: 8,
         }),
@@ -74,7 +74,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite.play(`${this.bumpkin.id}-bumpkin-idle`, true);
     });
 
-    this.scene.load.start();
+    scene.load.start();
   }
 
   public speak(text: string) {

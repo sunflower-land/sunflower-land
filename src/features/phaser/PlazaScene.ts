@@ -1,32 +1,18 @@
-/**
- * ---------------------------
- * Phaser + Colyseus - Part 4.
- * ---------------------------
- * - Connecting with the room
- * - Sending inputs at the user's framerate
- * - Update other player's positions WITH interpolation (for other players)
- * - Client-predicted input for local (current) player
- * - Fixed tickrate on both client and server
- */
-
-// import tilesheet from "./assets/idle-Sheet.png";
-// import walking from "./assets/walking.png";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { npcModalManager } from "./NPCModals";
 import { BumpkinContainer } from "./BumpkinContainer";
 import { BaseScene } from "./BaseScene";
 
-export const BACKEND_URL =
-  window.location.href.indexOf("localhost") === -1
-    ? `${window.location.protocol.replace("http", "ws")}//${
-        window.location.hostname
-      }${window.location.port && `:${window.location.port}`}`
-    : "ws://localhost:2567";
-
-export const BACKEND_HTTP_URL = BACKEND_URL.replace("ws", "http");
-
 export class PhaserScene extends BaseScene {
+  constructor() {
+    super("plaza");
+  }
+
   async create() {
+    this.map = this.make.tilemap({
+      key: "main-map",
+    });
+
     super.create();
 
     this.betty = new BumpkinContainer(
@@ -50,5 +36,9 @@ export class PhaserScene extends BaseScene {
     this.betty.body.setImmovable(true);
 
     this.betty.body.setCollideWorldBounds(true);
+
+    await new Promise((r) => setTimeout(r, 3000));
+
+    this.scene.launch("auction_house", {});
   }
 }

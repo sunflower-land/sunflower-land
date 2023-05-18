@@ -25,7 +25,7 @@ export interface ChatContext {
 }
 
 export type RoomState = {
-  value: "initialising" | "ready" | "error";
+  value: "idle" | "initialising" | "ready" | "error";
   context: ChatContext;
 };
 
@@ -66,6 +66,7 @@ type PlayerMoved = {
 };
 
 export type RoomEvent =
+  | { type: "CONNECT" }
   | SendChatMessageEvent
   | ChatMessageReceived
   | PlayerQuit
@@ -86,13 +87,20 @@ export type MachineInterpreter = Interpreter<
  * Machine which handles room events
  */
 export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
-  initial: "initialising",
+  initial: "idle",
   context: {
     name: "part4_room",
     messages: [],
     players: {},
   },
   states: {
+    idle: {
+      on: {
+        CONNECT: {
+          target: "initialising",
+        },
+      },
+    },
     initialising: {
       invoke: {
         id: "initialising",
@@ -104,8 +112,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           const client = new Client(BACKEND_URL);
 
           const room = await client.joinOrCreate(context.name, {});
-
-          room.send(0, { text: "AAAA" });
 
           room.state.messages.onAdd((message: any) => {
             console.log({ message: message, sId: message.sessionId });
@@ -166,13 +172,11 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       on: {
         SEND_CHAT_MESSAGE: {
           actions: (context, event) => {
-            console.log("YOYOYO", event.text);
-            context.room.send(0, { text: "AAAA" });
+            context.room.send(0, { text: event.text });
           },
         },
         SEND_POSITION: {
           actions: (context, event) => {
-            console.log("SEND_POSITION", event);
             context.room.send(0, {
               x: event.x,
               y: event.y,
