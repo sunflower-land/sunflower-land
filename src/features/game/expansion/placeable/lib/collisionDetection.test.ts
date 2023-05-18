@@ -227,61 +227,20 @@ describe("isWithinAOE", () => {
   });
 
   it("returns false if the crop is outside the AOE", () => {
-    const plotOutsideAOE2 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE2.x = -1;
-    plotOutsideAOE2.y = 0;
-
-    const plotOutsideAOE1 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE1.x = -1;
-    plotOutsideAOE1.y = -1;
-
-    const plotOutsideAOE3 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE3.x = 1;
-    plotOutsideAOE3.y = 0;
-
-    const plotOutsideAOE4 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE4.x = 1;
-    plotOutsideAOE4.y = -1;
-
-    const plotOutsideAOE5 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE5.x = -2;
-    plotOutsideAOE5.y = 0;
-
-    const plotOutsideAOE6 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE6.x = -2;
-    plotOutsideAOE6.y = -1;
-
-    const plotOutsideAOE7 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE7.x = -2;
-    plotOutsideAOE7.y = -2;
-
-    const plotOutsideAOE8 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE8.x = -2;
-    plotOutsideAOE8.y = -3;
-
-    const plotOutsideAOE9 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE9.x = -2;
-    plotOutsideAOE9.y = -4;
-
-    const plotOutsideAOE10 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE10.x = 2;
-    plotOutsideAOE10.y = 0;
-
-    const plotOutsideAOE11 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE11.x = 2;
-    plotOutsideAOE11.y = -1;
-
-    const plotOutsideAOE12 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE12.x = 2;
-    plotOutsideAOE12.y = -2;
-
-    const plotOutsideAOE13 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE13.x = 2;
-    plotOutsideAOE13.y = -3;
-
-    const plotOutsideAOE14 = GAME_STATE.crops[firstCropId];
-    plotOutsideAOE14.x = 2;
-    plotOutsideAOE14.y = -4;
+    const plotOutsideAOE1: Position = { x: -1, y: 0, ...plotDimensions };
+    const plotOutsideAOE2: Position = { x: -1, y: -1, ...plotDimensions };
+    const plotOutsideAOE3: Position = { x: 1, y: 0, ...plotDimensions };
+    const plotOutsideAOE4: Position = { x: 1, y: -1, ...plotDimensions };
+    const plotOutsideAOE5: Position = { x: -2, y: 0, ...plotDimensions };
+    const plotOutsideAOE6: Position = { x: -2, y: -1, ...plotDimensions };
+    const plotOutsideAOE7: Position = { x: -2, y: -2, ...plotDimensions };
+    const plotOutsideAOE8: Position = { x: -2, y: -3, ...plotDimensions };
+    const plotOutsideAOE9: Position = { x: -2, y: -4, ...plotDimensions };
+    const plotOutsideAOE10: Position = { x: 2, y: 0, ...plotDimensions };
+    const plotOutsideAOE11: Position = { x: 2, y: -1, ...plotDimensions };
+    const plotOutsideAOE12: Position = { x: 2, y: -2, ...plotDimensions };
+    const plotOutsideAOE13: Position = { x: 2, y: -3, ...plotDimensions };
+    const plotOutsideAOE14: Position = { x: 2, y: -4, ...plotDimensions };
 
     const cropPlot1 = isWithinAOE(
       { x: 0, y: 0, height: 2, width: 1 },
