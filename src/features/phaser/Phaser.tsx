@@ -6,6 +6,8 @@ import { OFFLINE_FARM } from "features/game/lib/landData";
 import { NPCModals } from "./NPCModals";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import { InteractableModals } from "./InteractableModals";
+import { useActor, useInterpret } from "@xstate/react";
+import { MachineInterpreter, roomMachine } from "./roomMachine";
 
 export const TILE_WIDTH = 16;
 export const TILE_HEIGHT = 16;
@@ -31,6 +33,14 @@ class Subber {
 export const subber = new Subber();
 
 export const Phaser: React.FC = () => {
+  const roomService = useInterpret(roomMachine, {
+    context: {},
+  }) as unknown as MachineInterpreter;
+
+  const [chatState] = useActor(roomService);
+
+  console.log({ chatState: chatState.value });
+
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
       type: AUTO,
@@ -99,8 +109,12 @@ export const Phaser: React.FC = () => {
       parent: "game-content",
     });
 
+    game.roomService = roomService;
+
     // game.config.loaderCrossOrigin = 'anonymous'
   }, []);
+
+  console.log({ messages: chatState.context.messages });
 
   return (
     <>
@@ -111,7 +125,9 @@ export const Phaser: React.FC = () => {
       <img id="imageTest" />
       <ChatUI
         game={OFFLINE_FARM}
-        onMessage={(m) => subber.broadcast(m.text ?? "?")}
+        onMessage={(m) =>
+          roomService.send("SEND_CHAT_MESSAGE", { text: m.text ?? "?" })
+        }
       />
       <NPCModals />
       <InteractableModals />
