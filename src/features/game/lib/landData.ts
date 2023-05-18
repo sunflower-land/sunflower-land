@@ -421,6 +421,7 @@ export const OFFLINE_FARM: GameState = {
         from: "betty",
         items: {
           Sunflower: 5,
+          Pumpkin: 5,
         },
         reward: {
           sfl: 5,
@@ -435,7 +436,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: Date.now(),
         from: "blacksmith",
         items: {
-          Sunflower: 15,
+          "Sunflower Cake": 15,
         },
         reward: {
           sfl: 2.225,

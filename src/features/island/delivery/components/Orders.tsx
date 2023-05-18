@@ -112,24 +112,35 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   <div className="relative bottom-4 h-14 w-12 mr-2 ml-0.5">
                     <NPC parts={NPC_WEARABLES[order.from]} />
                   </div>
-                  <div className="flex flex-col justify-center items-center">
-                    {order.reward.sfl && (
-                      <div className="flex items-center">
-                        <img src={sfl} className="h-6 mr-1" />
-                        <span className="text-xs">{order.reward.sfl}</span>
-                      </div>
-                    )}
-                    {getKeys(order.reward.items ?? {}).map((name) => (
-                      <div className="flex items-center mt-1" key={name}>
+                  <div className="flex-1">
+                    <div className="flex justify-start ml-2 h-8 items-center">
+                      {getKeys(order.items).map((name) => (
                         <img
+                          key={name}
                           src={ITEM_DETAILS[name].image}
-                          className="h-5 mr-1"
+                          className="w-6 img-highlight -ml-2"
                         />
-                        <span className="text-xs">
-                          {order.reward.items?.[name]}
-                        </span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                    <div className="flex items-center">
+                      {order.reward.sfl && (
+                        <div className="flex items-center mt-1">
+                          <img src={sfl} className="h-5 mr-1" />
+                          <span className="text-xs">{order.reward.sfl}</span>
+                        </div>
+                      )}
+                      {/* {getKeys(order.reward.items ?? {}).map((name) => (
+                        <div className="flex items-center mt-1" key={name}>
+                          <img
+                            src={ITEM_DETAILS[name].image}
+                            className="h-5 mr-1"
+                          />
+                          <span className="text-xs">
+                            {order.reward.items?.[name]}
+                          </span>
+                        </div>
+                      ))} */}
+                    </div>
                   </div>
                 </div>
 
