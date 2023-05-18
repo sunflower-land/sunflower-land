@@ -2,7 +2,12 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState, Position } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { detectCollision, isOverlapping } from "./collisionDetection";
+import {
+  detectCollision,
+  isOverlapping,
+  isWithinAOE,
+} from "./collisionDetection";
+import { Dimensions } from "features/game/types/buildings";
 
 describe("isOverlapping", () => {
   it("returns false if there is no overlap between two positions", () => {
@@ -155,5 +160,170 @@ describe("detectCollisions", () => {
     });
 
     expect(hasCollision).toBe(true);
+  });
+});
+
+describe("isWithinAOE", () => {
+  const GAME_STATE: GameState = {
+    ...TEST_FARM,
+    balance: new Decimal(0),
+    inventory: {},
+    crops: {
+      0: {
+        createdAt: Date.now(),
+        height: 1,
+        width: 1,
+        x: 0,
+        y: 0,
+        crop: {
+          name: "Sunflower",
+          plantedAt: 0,
+        },
+      },
+    },
+  };
+
+  const firstCropId = Object.keys(GAME_STATE.crops)[0];
+
+  const dateNow = Date.now();
+  const plotDimensions: Dimensions = {
+    height: GAME_STATE.crops[firstCropId].height,
+    width: GAME_STATE.crops[firstCropId].width,
+  };
+
+  const plot1: Position = { x: -1, y: -2, ...plotDimensions };
+  const plot2: Position = { x: -1, y: -3, ...plotDimensions };
+  const plot3: Position = { x: -1, y: -4, ...plotDimensions };
+  const plot4: Position = { x: 0, y: -2, ...plotDimensions };
+  const plot5: Position = { x: 0, y: -3, ...plotDimensions };
+  const plot6: Position = { x: 0, y: -4, ...plotDimensions };
+  const plot7: Position = { x: 1, y: -2, ...plotDimensions };
+  const plot8: Position = { x: 1, y: -3, ...plotDimensions };
+  const plot9: Position = { x: 1, y: -4, ...plotDimensions };
+
+  it("returns true if the crop is within the AOE", () => {
+    const cropPlot1 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot1);
+    const cropPlot2 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot2);
+
+    const cropPlot3 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot3);
+
+    const cropPlot4 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot4);
+
+    const cropPlot5 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot5);
+    const cropPlot6 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot6);
+    const cropPlot7 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot7);
+    const cropPlot8 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot8);
+    const cropPlot9 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot9);
+
+    expect(cropPlot1).toBe(true);
+    expect(cropPlot2).toBe(true);
+    expect(cropPlot3).toBe(true);
+    expect(cropPlot4).toBe(true);
+    expect(cropPlot5).toBe(true);
+    expect(cropPlot6).toBe(true);
+    expect(cropPlot7).toBe(true);
+    expect(cropPlot8).toBe(true);
+    expect(cropPlot9).toBe(true);
+  });
+
+  it("returns false if the crop is outside the AOE", () => {
+    const plotOutsideAOE1: Position = { x: -1, y: 0, ...plotDimensions };
+    const plotOutsideAOE2: Position = { x: -1, y: -1, ...plotDimensions };
+    const plotOutsideAOE3: Position = { x: 1, y: 0, ...plotDimensions };
+    const plotOutsideAOE4: Position = { x: 1, y: -1, ...plotDimensions };
+    const plotOutsideAOE5: Position = { x: -2, y: 0, ...plotDimensions };
+    const plotOutsideAOE6: Position = { x: -2, y: -1, ...plotDimensions };
+    const plotOutsideAOE7: Position = { x: -2, y: -2, ...plotDimensions };
+    const plotOutsideAOE8: Position = { x: -2, y: -3, ...plotDimensions };
+    const plotOutsideAOE9: Position = { x: -2, y: -4, ...plotDimensions };
+    const plotOutsideAOE10: Position = { x: 2, y: 0, ...plotDimensions };
+    const plotOutsideAOE11: Position = { x: 2, y: -1, ...plotDimensions };
+    const plotOutsideAOE12: Position = { x: 2, y: -2, ...plotDimensions };
+    const plotOutsideAOE13: Position = { x: 2, y: -3, ...plotDimensions };
+    const plotOutsideAOE14: Position = { x: 2, y: -4, ...plotDimensions };
+
+    const cropPlot1 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE1
+    );
+    const cropPlot2 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE2
+    );
+
+    const cropPlot3 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE3
+    );
+
+    const cropPlot4 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE4
+    );
+
+    const cropPlot5 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE5
+    );
+
+    const cropPlot6 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE6
+    );
+
+    const cropPlot7 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE7
+    );
+
+    const cropPlot8 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE8
+    );
+
+    const cropPlot9 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE9
+    );
+
+    const cropPlot10 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE10
+    );
+
+    const cropPlot11 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE11
+    );
+
+    const cropPlot12 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE12
+    );
+
+    const cropPlot13 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE13
+    );
+
+    const cropPlot14 = isWithinAOE(
+      { x: 0, y: 0, height: 2, width: 1 },
+      plotOutsideAOE14
+    );
+
+    expect(cropPlot1).toBe(false);
+    expect(cropPlot2).toBe(false);
+    expect(cropPlot3).toBe(false);
+    expect(cropPlot4).toBe(false);
+    expect(cropPlot5).toBe(false);
+    expect(cropPlot6).toBe(false);
+    expect(cropPlot7).toBe(false);
+    expect(cropPlot8).toBe(false);
+    expect(cropPlot9).toBe(false);
+    expect(cropPlot10).toBe(false);
+    expect(cropPlot11).toBe(false);
+    expect(cropPlot12).toBe(false);
+    expect(cropPlot13).toBe(false);
+    expect(cropPlot14).toBe(false);
   });
 });

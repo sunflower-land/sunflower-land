@@ -29,6 +29,7 @@ import carrotSword from "assets/sfts/carrot_sword.png";
 import goldenBonsai from "assets/sfts/golden_bonsai.png";
 import nancy from "assets/sfts/nancy.png";
 import kuebiko from "assets/sfts/kuebiko.gif";
+import basicScarecrow from "assets/sfts/scarecrows/basic_scarecrow.png";
 import nyonStatue from "assets/sfts/nyon_statue.png";
 import homelessTent from "assets/sfts/homeless_tent.png";
 import farmerBath from "assets/sfts/farmer_bath.png";
@@ -774,6 +775,10 @@ export const ITEM_DETAILS: Items = {
   Kuebiko: {
     ...MARKET_ITEMS["Kuebiko"],
     image: kuebiko,
+  },
+  "Basic Scarecrow": {
+    description: HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].description,
+    image: basicScarecrow,
   },
   "Christmas Tree": {
     ...BLACKSMITH_ITEMS["Christmas Tree"],

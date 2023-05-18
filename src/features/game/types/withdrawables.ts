@@ -236,6 +236,7 @@ const warBanners = {
 const heliosBlacksmith: Record<HeliosBlacksmithItem, boolean> = {
   "Immortal Pear": false,
   "Treasure Map": false,
+  "Basic Scarecrow": false,
 };
 
 const commodities: Record<CommodityName, boolean> = {

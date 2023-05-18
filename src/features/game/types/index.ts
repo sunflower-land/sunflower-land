@@ -122,6 +122,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Maximus: 459,
   "Genie Lamp": 460,
   Hoot: 461,
+  "Basic Scarecrow": 462,
+  // Scarecrow 2: 463
+  // Scarecrow 3: 464
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
