@@ -59,6 +59,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   synced: true,
   error: true,
   purchasing: true,
+  buyingBlockBucks: true,
   refreshing: true,
   deposited: true,
   hoarding: true,
@@ -93,7 +94,8 @@ const isSyncing = (state: MachineState) => state.matches("syncing");
 const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
-const isPurchasing = (state: MachineState) => state.matches("purchasing");
+const isPurchasing = (state: MachineState) =>
+  state.matches("purchasing") || state.matches("buyingBlockBucks");
 const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");

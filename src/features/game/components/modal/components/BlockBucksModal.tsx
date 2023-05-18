@@ -5,9 +5,9 @@ import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { analytics } from "lib/analytics";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -39,15 +39,21 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const count =
-    gameState.context.state.inventory["Block Buck"] ?? new Decimal(0);
+  const onBuy = async (amount: number) => {
+    if (
+      hasFeatureAccess(gameState.context.state.inventory, "DIRECT_CHECKOUT")
+    ) {
+      gameService.send("BUY_BLOCK_BUCKS", {
+        currency: "MATIC",
+        amount,
+      });
+    } else {
+      gameService.send("PURCHASE_ITEM", {
+        name: "Block Buck",
+        amount,
+      });
+    }
 
-  const onBuy = (amount: number) => {
-    console.log({ amount });
-    gameService.send("PURCHASE_ITEM", {
-      name: "Block Buck",
-      amount,
-    });
     onClose();
   };
 

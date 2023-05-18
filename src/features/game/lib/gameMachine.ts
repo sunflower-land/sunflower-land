@@ -78,6 +78,7 @@ import {
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
+import { Currency, buyBlockBucks } from "../actions/buyBlockBucks";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -127,6 +128,12 @@ type SyncEvent = {
 type PurchaseEvent = {
   type: "PURCHASE_ITEM";
   name: SeasonPassName;
+  amount: number;
+};
+
+type BuyBlockBucksEvent = {
+  type: "BUY_BLOCK_BUCKS";
+  currency: Currency;
   amount: number;
 };
 
@@ -198,6 +205,7 @@ export type BlockchainEvent =
   | LandscapeEvent
   | VisitEvent
   | BuySFLEvent
+  | BuyBlockBucksEvent
   | DepositEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -307,6 +315,7 @@ export type BlockchainState = {
     | "noTownCenter"
     | "coolingDown"
     | "upgradingGuestGame"
+    | "buyingBlockBucks"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -789,6 +798,9 @@ export function startGame(authContext: AuthContext) {
             SYNC: {
               target: "syncing",
             },
+            BUY_BLOCK_BUCKS: {
+              target: "buyingBlockBucks",
+            },
             PURCHASE_ITEM: {
               target: "purchasing",
             },
@@ -929,6 +941,39 @@ export function startGame(authContext: AuthContext) {
                 actions: "assignErrorMessage",
               },
             ],
+          },
+        },
+        buyingBlockBucks: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const response = await buyBlockBucks({
+                farmId: Number(authContext.user.farmId),
+                type: (event as BuyBlockBucksEvent).currency,
+                amount: (event as BuyBlockBucksEvent).amount,
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+              });
+
+              return {
+                ...response,
+                amount: (event as BuyBlockBucksEvent).amount,
+              };
+            },
+            onDone: {
+              target: "playing",
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  inventory: {
+                    ...context.state.inventory,
+                    "Block Buck": (
+                      context.state.inventory["Block Buck"] ?? new Decimal(0)
+                    ).add(event.data.amount),
+                  },
+                },
+              })),
+            },
           },
         },
         purchasing: {
@@ -1180,7 +1225,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
         landscaping: {
           invoke: {
             id: "landscaping",
