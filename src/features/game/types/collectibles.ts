@@ -54,7 +54,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
   "Basic Scarecrow": {
     description: "Choosy defender of your farm's VIP (Very Important Plants)",
     ingredients: {
-      Sunflower: new Decimal(5),
+      Wood: new Decimal(3),
     },
     boost: "20% faster Sunflowers, Potatoes and Pumpkins",
     sfl: new Decimal(0),

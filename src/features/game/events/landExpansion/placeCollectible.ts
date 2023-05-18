@@ -27,6 +27,9 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
 
   // Dawn Breaker items
   "Mushroom House": 60 * 60 * 1,
+
+  // AOE items
+  "Basic Scarecrow": 60,
 };
 
 export type PlaceCollectibleAction = {

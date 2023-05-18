@@ -49,5 +49,12 @@ export function moveCollectible({
 
   collectibleGroup[collectibleToMoveIndex].coordinates = action.coordinates;
 
+  if (action.name === "Basic Scarecrow") {
+    const tenMinutesInMilliseconds = 10 * 60 * 1000;
+
+    collectibleGroup[collectibleToMoveIndex].readyAt =
+      createdAt + tenMinutesInMilliseconds;
+  }
+
   return stateCopy;
 }

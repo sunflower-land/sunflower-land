@@ -10,6 +10,7 @@ import {
   Inventory,
   InventoryItemName,
   PlacedItem,
+  Position,
 } from "../../types/game";
 import {
   COLLECTIBLES_DIMENSIONS,
@@ -19,6 +20,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
+import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -132,57 +134,41 @@ export const getCropTime = (
     seconds = seconds * 0.75;
   }
 
-  // If within Basic Scarecrow AOE: 20% reduction
   const isBasicCrop =
     crop === "Sunflower" || crop === "Potato" || crop === "Pumpkin";
 
-  if (
-    isBasicCrop &&
-    isCollectibleBuilt("Basic Scarecrow", collectibles) &&
-    isWithinAOE("Basic Scarecrow", collectibles, plot)
-  ) {
-    seconds = seconds * 0.8;
+  // If within Basic Scarecrow AOE: 20% reduction
+  if (collectibles["Basic Scarecrow"]?.[0] && isBasicCrop) {
+    if (!plot) return seconds;
+
+    const basicScarecrowCoordinates =
+      collectibles["Basic Scarecrow"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
+
+    const scarecrowPosition: Position = {
+      x: basicScarecrowCoordinates.x,
+      y: basicScarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isCollectibleBuilt("Basic Scarecrow", collectibles) &&
+      isWithinAOE(scarecrowPosition, plotPosition)
+    ) {
+      seconds = seconds * 0.8;
+    }
   }
 
   return seconds;
 };
-
-export function isWithinAOE(
-  item: "Basic Scarecrow",
-  collectibles: Collectibles,
-  plot?: CropPlot
-): boolean {
-  if (!plot) return false;
-  if (item === "Basic Scarecrow") {
-    const scarecrowCoordinates =
-      collectibles["Basic Scarecrow"]?.[0].coordinates;
-
-    // {height: 2 width: 1}
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
-
-    if (scarecrowCoordinates) {
-      const topLeft = {
-        x: scarecrowCoordinates.x - 1,
-        y: scarecrowCoordinates.y - scarecrowDimensions.height,
-      };
-
-      const bottomRight = {
-        x: scarecrowCoordinates.x + 1,
-        y: scarecrowCoordinates.y - scarecrowDimensions.height - 2,
-      };
-
-      if (
-        plot.x >= topLeft.x &&
-        plot.x <= bottomRight.x &&
-        plot.y <= topLeft.y &&
-        plot.y >= bottomRight.y
-      ) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
 
 type GetPlantedAtArgs = {
   crop: CropName;
