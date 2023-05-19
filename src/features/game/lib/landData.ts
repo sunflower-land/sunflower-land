@@ -401,6 +401,14 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
+    Tent: [
+      {
+        coordinates: { x: 3, y: 0 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
   },
   collectibles: {
     "Genie Lamp": [

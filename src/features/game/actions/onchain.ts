@@ -64,9 +64,10 @@ export async function getGameOnChainState({
 }: GetStateArgs): Promise<{
   game: GameState;
   bumpkin?: OnChainBumpkin;
+  bumpkins: OnChainBumpkin[];
 }> {
   if (!CONFIG.API_URL) {
-    return { game: EMPTY };
+    return { game: EMPTY, bumpkins: [] };
   }
 
   const balance = await sflBalanceOf(wallet.web3Provider, farmAddress);
@@ -83,6 +84,7 @@ export async function getGameOnChainState({
       inventory,
     },
     bumpkin: bumpkins[0],
+    bumpkins: bumpkins,
   };
 }
 
