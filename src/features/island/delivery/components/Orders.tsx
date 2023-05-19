@@ -22,7 +22,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
-import { generateDeliveryMessage } from "../lib/delivery";
+import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -38,22 +38,25 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const delivery = gameState.context.state.delivery;
   const orders = delivery.orders.filter((order) => Date.now() >= order.readyAt);
 
+  useEffect(() => {
+    acknowledgeOrders(delivery);
+  }, [delivery.orders]);
+
   let previewOrder = delivery.orders.find((order) => order.id === selectedId);
 
   if (!previewOrder) {
     previewOrder = orders[0];
   }
 
-  useEffect(() => {
-    console.log("Content render");
-  }, []);
-
   const deliver = () => {
     gameService.send("order.delivered", { id: previewOrder?.id });
     onSelect(undefined);
   };
 
-  const hasRequirements = (order: Order) => {
+  const hasRequirements = (order?: Order) => {
+    if (!order) {
+      return false;
+    }
     return getKeys(order.items).every((name) => {
       const count = gameState.context.state.inventory[name] || new Decimal(0);
       const amount = order.items[name] || new Decimal(0);
@@ -66,19 +69,23 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     onSelect(id);
   };
 
-  // if (orders.length === 0) {
-  //   return <p>No orders available</p>;
-  // }
-
-  const canFulfill = !!previewOrder && hasRequirements(previewOrder);
-
   const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
+
+  if (orders.length === 0 && !nextOrder) {
+    return (
+      <div className="flex items-center justify-center my-2">
+        <img src={SUNNYSIDE.icons.timer} className="h-6 mr-2" />
+        <span className="text-sm">More orders coming soon</span>
+      </div>
+    );
+  }
+
+  const canFulfill = hasRequirements(previewOrder as Order);
 
   const slots = getDeliverySlots(gameState.context.state);
   let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
-  emptySlots = Math.min(0, Math.max(0, emptySlots));
+  emptySlots = Math.max(0, emptySlots);
 
-  console.log({ previewOrder, selectedId });
   return (
     <div className="flex md:flex-row flex-col-reverse">
       <div
@@ -96,7 +103,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               >
                 {hasRequirements(order) && (
                   <img
-                    src={SUNNYSIDE.icons.confirm}
+                    src={SUNNYSIDE.icons.heart}
                     className="absolute top-0.5 right-0.5 w-5"
                   />
                 )}
@@ -182,7 +189,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           ))}
 
           {nextOrder && (
-            <div className="w-1/2 sm:w-1/3 p-1 h-full">
+            <div className="w-1/2 sm:w-1/3 p-1">
               <OuterPanel
                 className="w-full py-2 relative"
                 style={{ height: "80px" }}
@@ -200,7 +207,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             </div>
           )}
           {new Array(emptySlots).fill(null).map((_, i) => (
-            <div className="w-1/2 sm:w-1/3 p-1 h-full" key={i}>
+            <div className="w-1/2 sm:w-1/3 p-1" key={i}>
               <OuterPanel
                 className="w-full py-2 relative"
                 style={{ height: "80px" }}
