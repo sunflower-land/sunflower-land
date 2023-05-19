@@ -37,8 +37,11 @@ export class PhaserScene extends BaseScene {
 
     this.betty.body.setCollideWorldBounds(true);
 
-    await new Promise((r) => setTimeout(r, 3000));
+    // await new Promise((r) => setTimeout(r, 3000));
 
-    this.scene.launch("auction_house", {});
+    // this.roomService.send("CHANGE_ROOM", {
+    //   roomId: "auction_house",
+    // });
+    // this.game.scene.switch("plaza", "auction_house");
   }
 }

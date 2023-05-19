@@ -7,8 +7,11 @@ import { NPCModals } from "./NPCModals";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import { InteractableModals } from "./InteractableModals";
 import { useInterpret } from "@xstate/react";
-import { MachineInterpreter, roomMachine } from "./roomMachine";
+import { MachineInterpreter, MachineState, roomMachine } from "./roomMachine";
 import { AuctionScene } from "./AuctionHouseScene";
+import { useSelector } from "@xstate/react";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
 
 export const TILE_WIDTH = 16;
 export const TILE_HEIGHT = 16;
@@ -33,6 +36,8 @@ class Subber {
 
 export const subber = new Subber();
 
+const _roomState = (state: MachineState) => state.value;
+
 export const Phaser: React.FC = () => {
   const roomService = useInterpret(roomMachine, {
     context: {},
@@ -41,6 +46,7 @@ export const Phaser: React.FC = () => {
   // const [chatState] = useActor(roomService);
 
   // console.log({ chatState: chatState.value });
+  const roomState = useSelector(roomService, _roomState);
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -99,7 +105,7 @@ export const Phaser: React.FC = () => {
           gravity: { y: 0 },
         },
       },
-      scene: [AuctionScene, PhaserScene],
+      scene: [PhaserScene, AuctionScene],
       loader: {
         crossOrigin: "anonymous",
       },
@@ -117,6 +123,7 @@ export const Phaser: React.FC = () => {
 
   // console.log({ messages: chatState.context.messages });
 
+  console.log({ roomState });
   return (
     <>
       <div
@@ -132,6 +139,9 @@ export const Phaser: React.FC = () => {
       />
       <NPCModals />
       <InteractableModals />
+      <Modal show={roomState === "initialising"} centered>
+        <Panel>Loading</Panel>
+      </Modal>
     </>
   );
 };

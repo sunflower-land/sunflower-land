@@ -58,7 +58,7 @@ export class BaseScene extends Phaser.Scene {
   currentTick = 0;
 
   // We manually inject room service onto the initialised Phaser Game
-  private get roomService() {
+  public get roomService() {
     return (this.game as any).roomService as MachineInterpreter;
   }
   preload() {
@@ -192,7 +192,20 @@ export class BaseScene extends Phaser.Scene {
           this.currentPlayer.body.height = 8;
           this.currentPlayer.body.setOffset(3, 10);
           this.currentPlayer.body.setCollideWorldBounds(true);
-          this.physics.add.collider(this.currentPlayer, customColliders);
+          this.physics.add.collider(
+            this.currentPlayer,
+            customColliders,
+            (obj1, obj2) => {
+              console.log("Collided", obj2);
+              if (obj2.data?.list?.id === "auction_entry") {
+                this.roomService.send("CHANGE_ROOM", {
+                  roomId: "auction_house",
+                });
+
+                this.game.scene.switch(this.scene.key, "auction_house");
+              }
+            }
+          );
           // this.physics.add.collider(this.currentPlayer, this.betty);
           camera.startFollow(this.currentPlayer, true, 0.08, 0.08);
         }
@@ -269,6 +282,10 @@ export class BaseScene extends Phaser.Scene {
 
     this.currentTick++;
 
+    if (!this.currentPlayer?.body) {
+      return;
+    }
+
     const speed = 50;
 
     this.inputPayload.left = this.cursorKeys?.left.isDown ?? false;
@@ -330,6 +347,9 @@ export class BaseScene extends Phaser.Scene {
 
       const position = this.roomService.state.context.players[sessionId];
 
+      if (!position) {
+        return;
+      }
       if (position.x > entity.x) {
         entity.setScale(1, 1);
       } else if (position.x < entity.x) {

@@ -9,7 +9,7 @@ export class AuctionScene extends BaseScene {
   }
 
   async create() {
-    console.log("YEET");
+    console.log("Create auction");
     this.map = this.make.tilemap({
       key: "auction-map",
     });
@@ -22,7 +22,7 @@ export class AuctionScene extends BaseScene {
       400,
       {
         ...INITIAL_BUMPKIN,
-        id: 44444,
+        id: 234,
         equipped: {
           ...INITIAL_BUMPKIN.equipped,
           hair: "Buzz Cut",

@@ -11,9 +11,10 @@ export const BACKEND_URL =
 
 type RoomSchema = any;
 
+type RoomId = "plaza" | "auction_house";
 export interface ChatContext {
   room?: Room<RoomSchema>;
-  name: string;
+  roomId: RoomId;
   messages: { sessionId: string; text: string }[];
   players: Record<
     string,
@@ -29,6 +30,10 @@ export type RoomState = {
   context: ChatContext;
 };
 
+type ChangeRoomEvent = {
+  type: "CHANGE_ROOM";
+  roomId: RoomId;
+};
 type SendChatMessageEvent = {
   type: "SEND_CHAT_MESSAGE";
   text: string;
@@ -67,6 +72,7 @@ type PlayerMoved = {
 
 export type RoomEvent =
   | { type: "CONNECT" }
+  | ChangeRoomEvent
   | SendChatMessageEvent
   | ChatMessageReceived
   | PlayerQuit
@@ -89,7 +95,7 @@ export type MachineInterpreter = Interpreter<
 export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
   initial: "idle",
   context: {
-    name: "part4_room",
+    roomId: "plaza",
     messages: [],
     players: {},
   },
@@ -106,12 +112,19 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         id: "initialising",
         src: (context) => async (cb) => {
           if (!BACKEND_URL) {
-            return { bumpkins: [] };
+            return { room: undefined };
+          }
+
+          // await new Promise((r) => setTimeout(r, 2000));
+
+          if (context.room) {
+            await context.room.leave();
           }
 
           const client = new Client(BACKEND_URL);
 
-          const room = await client.joinOrCreate(context.name, {});
+          console.log("Connect: ", context.roomId);
+          const room = await client.joinOrCreate(context.roomId, {});
 
           room.state.messages.onAdd((message: any) => {
             console.log({ message: message, sId: message.sessionId });
@@ -170,14 +183,22 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     },
     ready: {
       on: {
+        CHANGE_ROOM: {
+          target: "initialising",
+          actions: assign({
+            roomId: (_, event) => event.roomId,
+            messages: (_) => [],
+            players: (_) => ({}),
+          }),
+        },
         SEND_CHAT_MESSAGE: {
           actions: (context, event) => {
-            context.room.send(0, { text: event.text });
+            context.room?.send(0, { text: event.text });
           },
         },
         SEND_POSITION: {
           actions: (context, event) => {
-            context.room.send(0, {
+            context.room?.send(0, {
               x: event.x,
               y: event.y,
             });

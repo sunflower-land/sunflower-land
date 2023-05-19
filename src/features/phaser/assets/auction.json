@@ -189,9 +189,20 @@
       "visible": true,
       "x": 0,
       "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 5,
+      "name": "Interactable",
+      "objects": [],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
     }
   ],
-  "nextlayerid": 5,
+  "nextlayerid": 6,
   "nextobjectid": 2,
   "orientation": "orthogonal",
   "renderorder": "right-down",
