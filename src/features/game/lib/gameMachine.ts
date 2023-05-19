@@ -446,19 +446,6 @@ export function startGame(authContext: AuthContext) {
               cond: () => ART_MODE,
               actions: assign({
                 state: (_context) => OFFLINE_FARM,
-                bumpkins: (_context) => [
-                  {
-                    tokenId: "5",
-                    tokenURI:
-                      "https://api.sunflower-land.com/bumpkins/metadata/5_v1_57_90_67_33_36_65_58_25_30_31_16",
-                    owner: "0x0",
-                    createdAt: "0",
-                    createdBy: "0x0",
-                    nonce: "",
-                    metadata: "",
-                    wardrobe: "0x0",
-                  },
-                ],
               }),
             },
           ],
