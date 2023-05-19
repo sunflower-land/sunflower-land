@@ -145,6 +145,8 @@ export const Placeable: React.FC = () => {
     return null;
   }
 
+  const Collectible = PLACEABLES[placeable];
+
   return (
     <>
       <div
@@ -225,10 +227,7 @@ export const Placeable: React.FC = () => {
                 height: `${dimensions.height * GRID_WIDTH_PX}px`,
               }}
             >
-              {PLACEABLES[placeable]({
-                coordinates,
-                grid,
-              })}
+              <Collectible grid={grid} coordinates={coordinates} />
             </div>
           </div>
         </Draggable>
