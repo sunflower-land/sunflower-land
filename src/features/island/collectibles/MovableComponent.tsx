@@ -111,6 +111,19 @@ const canRemoveItem = (
     if (areUnsupportedChickensBrewing(state)) return false;
   }
 
+  if (name === "Basic Scarecrow") {
+    // if any crop plot is planted with Sunflower or Potato or Pumpkin and within AOE of scarecrow, return false
+    const cropPlots = Object.values(state.crops)
+      .flat()
+      .some(
+        (crop) =>
+          crop.crop?.name === "Sunflower" ||
+          crop.crop?.name === "Potato" ||
+          crop.crop?.name === "Pumpkin"
+      );
+
+    return !cropPlots;
+  }
   return true;
 };
 
