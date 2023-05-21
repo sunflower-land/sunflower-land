@@ -457,7 +457,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       dialogue: (
         <>
           <p>{`Sofia: Oh my... I think I can see the Bell Tower.`}</p>
-          <p>{`Could the light be returning.`}</p>
+          <p>{`Could the light be returning? If only I can reach it so I can ring it and warn all of Sunflower Land`}</p>
         </>
       ),
     },
@@ -467,7 +467,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       flip: true,
       dialogue: (
         <>
-          <p>{`The moonseekers are upon us.`}</p>
+          <p>{`Our moon brethren sent us here to take back what is ours.`}</p>
         </>
       ),
     },
