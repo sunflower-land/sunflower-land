@@ -82,13 +82,6 @@ export function removeCollectible({ state, action }: Options) {
     }
   }
 
-  if (action.name === "Basic Scarecrow") {
-    const collectible: PlacedLamp = collectibleToRemove;
-    const rubbedCount = collectible.rubbedCount ?? 0;
-    if (rubbedCount > 0) {
-      throw new Error(REMOVE_COLLECTIBLE_ERRORS.GENIE_IN_USE);
-    }
-  }
   bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
 
   return stateCopy;
