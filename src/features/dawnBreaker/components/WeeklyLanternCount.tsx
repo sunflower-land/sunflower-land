@@ -135,12 +135,12 @@ export const WeeklyLanternCount: React.FC<Props> = ({
               our chances of success.`}
             </p>
             <p>
-              {`Crafting lanterns gives your the chance to win weekly prizes worth up to 2500 SFL or one of 10 Hoot SFT's (Total Supply 100). But if we come together
+              {`Crafting lanterns gives your the chance to win weekly prizes worth up to 5000 SFL or one of 10 Hoot SFT's (Total Supply 100). But if we come together
             and collectively reach our weekly craft goal, we'll double the prize pool
             to 10,000 SFL.`}
             </p>
             <p>
-              {`The top 10 crafters will be guaranteed either a Hoot SFT (1-5) or 500 SFL (6-10). The remaining prizes will be raffled off to all participants. Each lantern crafted gives you one entry into the raffle.`}
+              {`The top 10 crafters will be guaranteed either a Hoot SFT (1-5) or 500 (6-10). The remaining prizes will be raffled off to all participants. Each lantern crafted gives you one entry into the raffle.`}
             </p>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>
