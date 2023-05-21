@@ -140,7 +140,7 @@ export const WeeklyLanternCount: React.FC<Props> = ({
             to 10,000 SFL.`}
             </p>
             <p>
-              {`The top 10 crafters will be guaranteed either a Hoot SFT (1-5) or 5000 SFL (6-10). The remaining prizes will be raffled off to all participants. Each lantern crafted gives you one entry into the raffle.`}
+              {`The top 10 crafters will be guaranteed either a Hoot SFT (1-5) or 500 SFL (6-10). The remaining prizes will be raffled off to all participants. Each lantern crafted gives you one entry into the raffle.`}
             </p>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>
