@@ -35,6 +35,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
 
 export const LAND_WIDTH = 6;
+import { Beans } from "./components/BeansTest";
 
 const getIslandElements = ({
   buildings,
@@ -492,6 +493,10 @@ export const Land: React.FC = () => {
       ) : (
         <Hud isFarming={!visiting} />
       )}
+
+      <MapPlacement x={1} y={2}>
+        <Beans />
+      </MapPlacement>
     </>
   );
 };
