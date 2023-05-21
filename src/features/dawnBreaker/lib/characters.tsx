@@ -324,24 +324,24 @@ export const characters: Record<Week, DawnBreakerPositions> = {
   4: {
     lanterns: [
       {
-        x: 9,
-        y: 4,
+        x: -12,
+        y: -3,
       },
       {
-        x: 9,
-        y: 2,
+        x: -10,
+        y: -3,
       },
       {
-        x: 10,
-        y: 1,
+        x: -13,
+        y: -5,
       },
       {
-        x: 11,
-        y: 2,
+        x: -9,
+        y: -5,
       },
       {
-        x: 11,
-        y: 4,
+        x: -11,
+        y: -7,
       },
     ],
     marcus: {
@@ -366,9 +366,8 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       ),
     },
     sofia: {
-      x: -1,
-      y: -14,
-      inDarkness: true,
+      x: 1,
+      y: -13,
       dialogue: (
         <>
           <p>{`Sofia: Hoot was no help with these dizzying riddles.`}</p>
@@ -387,8 +386,9 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       flip: true,
     },
     wendy: {
-      x: -11,
-      y: -4,
+      x: -5,
+      y: -5,
+      flip: true,
     },
     obie: {
       x: -8,
@@ -426,6 +426,59 @@ export const characters: Record<Week, DawnBreakerPositions> = {
     bumpkin: {
       x: 9,
       y: -5,
+    },
+    marcus: {
+      x: 4,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: I should have heeded the whispers of caution.`}</p>
+          <p>{`Greed clouded my judgment, and I succumbed to the allure of profit. But at what cost?`}</p>
+          <p>{`The gnomes, bearers of magic and joy, were not mine to claim. The path I chose led me astray.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 2,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: These eggplants, they seem to have taken over, crowding the beauty that once flourished here.`}</p>
+          <p>{`Something has rocked the delicate balance within nature. Something is seeking revenge.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: 1,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: Oh my... I think I can see the Bell Tower.`}</p>
+          <p>{`Could the light be returning.`}</p>
+        </>
+      ),
+    },
+    maximus: {
+      x: -7,
+      y: -11,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`The moonseekers are upon us.`}</p>
+        </>
+      ),
+    },
+    wendy: {
+      x: -5,
+      y: -5,
+      flip: true,
+    },
+    obie: {
+      x: -8,
+      y: -12,
     },
   },
   6: {
