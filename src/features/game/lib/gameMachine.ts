@@ -64,7 +64,6 @@ import {
 import {
   getGameRulesLastRead,
   getIntroductionRead,
-  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -674,12 +673,12 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-            {
-              target: "promoting",
-              cond: (context) =>
-                !getSeasonPassRead() &&
-                (context.state.bumpkin?.experience ?? 0) > 0,
-            },
+            // {
+            //   target: "promoting",
+            //   cond: (context) =>
+            //     !getSeasonPassRead() &&
+            //     (context.state.bumpkin?.experience ?? 0) > 0,
+            // },
             {
               target: "playing",
             },

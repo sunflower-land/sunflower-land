@@ -102,14 +102,14 @@ export const PromotingModal: React.FC<Props> = ({
       return (
         <>
           <div className="p-2">
-            <p className="mb-2 text-sm">
+            {/* <p className="mb-2 text-sm">
               {`Step right up and take a gander at Grubnuk's fabulous selection of items!`}
-            </p>
+            </p> */}
             <p className="mb-2 text-sm">
-              {`I have got an exclusive deal for you!`}
+              {`You will need to wait until next season for my exclusive deals.`}
             </p>
           </div>
-          <Button onClick={() => setPage(1)}>Continue</Button>
+          {/* <Button onClick={() => setPage(1)}>Continue</Button> */}
         </>
       );
     }
