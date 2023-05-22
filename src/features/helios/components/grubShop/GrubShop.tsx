@@ -49,44 +49,7 @@ export const GrubShop: React.FC = () => {
       <Modal centered show={showModal} onHide={closeModal}>
         <GrubShopModal onClose={closeModal} />
       </Modal>
-      <img
-        src={shadow}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          left: `${PIXEL_SCALE * 52}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-        }}
-      />
-      <img
-        src={SUNNYSIDE.npcs.goblin}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 18}px`,
-          left: `${PIXEL_SCALE * 51}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          transform: "scaleX(-1)",
-        }}
-      />
 
-      <img
-        src={shadow}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 15}px`,
-          left: `${PIXEL_SCALE * 5.5}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-        }}
-      />
-      <img
-        src={SUNNYSIDE.npcs.goblin}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 18}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-          bottom: `${PIXEL_SCALE * 4}px`,
-        }}
-      />
       {/* <DeliveryModal isOpen={showModal} onClose={closeModal} />
       <div
         className="flex absolute z-10"
@@ -114,6 +77,44 @@ export const GrubShop: React.FC = () => {
           className="relative w-full h-full cursor-pointer hover:img-highlight"
           onClick={openModal}
         >
+          <img
+            src={shadow}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              left: `${PIXEL_SCALE * 52}px`,
+              bottom: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
+          <img
+            src={SUNNYSIDE.npcs.goblin}
+            className="absolute z-10"
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              left: `${PIXEL_SCALE * 51}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
+              transform: "scaleX(-1)",
+            }}
+          />
+
+          <img
+            src={shadow}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              left: `${PIXEL_SCALE * 5.5}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+          <img
+            src={SUNNYSIDE.npcs.goblin}
+            className="absolute z-10"
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              left: `${PIXEL_SCALE * 4}px`,
+              bottom: `${PIXEL_SCALE * 4}px`,
+            }}
+          />
           <img
             src={stall}
             style={{
