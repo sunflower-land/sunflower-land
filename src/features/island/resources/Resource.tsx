@@ -167,7 +167,7 @@ const ResourceComponent: React.FC<ResourceProps> = (props) => {
   };
 
   if (landscaping) {
-    if (isAOELocked(plot, collectibles, Date.now()) && isPlot) {
+    if (isPlot && isAOELocked(plot, collectibles, Date.now())) {
       return (
         <div
           className="relative w-full h-full"
