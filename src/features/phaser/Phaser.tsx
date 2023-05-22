@@ -105,7 +105,7 @@ export const Phaser: React.FC = () => {
           gravity: { y: 0 },
         },
       },
-      scene: [PhaserScene, AuctionScene],
+      scene: [AuctionScene, PhaserScene],
       loader: {
         crossOrigin: "anonymous",
       },

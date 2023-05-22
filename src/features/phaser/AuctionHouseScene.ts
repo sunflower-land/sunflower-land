@@ -1,4 +1,4 @@
-import { INITIAL_BUMPKIN } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
 import { npcModalManager } from "./NPCModals";
 import { BumpkinContainer } from "./BumpkinContainer";
 import { BaseScene } from "./BaseScene";
@@ -13,8 +13,10 @@ export class AuctionScene extends BaseScene {
     this.map = this.make.tilemap({
       key: "auction-map",
     });
+    console.log("Created auction");
 
     super.create();
+    console.log("super auction");
 
     this.betty = new BumpkinContainer(
       this,
@@ -38,5 +40,12 @@ export class AuctionScene extends BaseScene {
     this.betty.body.setImmovable(true);
 
     this.betty.body.setCollideWorldBounds(true);
+
+    const camera = this.cameras.main;
+
+    camera.setBounds(0, 0, 21 * SQUARE_WIDTH, 20 * SQUARE_WIDTH);
+    camera.setZoom(4);
+
+    this.physics.world.setBounds(0, 0, 21 * SQUARE_WIDTH, 20 * SQUARE_WIDTH);
   }
 }

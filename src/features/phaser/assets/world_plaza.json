@@ -2658,6 +2658,19 @@
         }
       ],
       "tilewidth": 16
+    },
+    {
+      "columns": 64,
+      "firstgid": 4097,
+      "image": "../../../../../sprites/land_expansion/sunnyside_v3.png",
+      "imageheight": 1024,
+      "imagewidth": 1024,
+      "margin": 0,
+      "name": "Sunnyside V3",
+      "spacing": 0,
+      "tilecount": 4096,
+      "tileheight": 16,
+      "tilewidth": 16
     }
   ],
   "tilewidth": 16,

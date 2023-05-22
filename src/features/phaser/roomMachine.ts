@@ -95,7 +95,7 @@ export type MachineInterpreter = Interpreter<
 export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
   initial: "idle",
   context: {
-    roomId: "plaza",
+    roomId: "auction_house",
     messages: [],
     players: {},
   },

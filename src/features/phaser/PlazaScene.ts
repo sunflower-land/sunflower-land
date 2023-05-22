@@ -1,4 +1,4 @@
-import { INITIAL_BUMPKIN } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
 import { npcModalManager } from "./NPCModals";
 import { BumpkinContainer } from "./BumpkinContainer";
 import { BaseScene } from "./BaseScene";
@@ -36,6 +36,13 @@ export class PhaserScene extends BaseScene {
     this.betty.body.setImmovable(true);
 
     this.betty.body.setCollideWorldBounds(true);
+
+    const camera = this.cameras.main;
+
+    camera.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
+    camera.setZoom(4);
+
+    this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
 
     // await new Promise((r) => setTimeout(r, 3000));
 

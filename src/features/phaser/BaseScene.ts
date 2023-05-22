@@ -10,7 +10,7 @@
  */
 
 import Phaser, { Physics } from "phaser";
-import { Room, Client } from "colyseus.js";
+import { Room } from "colyseus.js";
 
 import mapPng from "./assets/embedded.png";
 import mapJson from "./assets/world_plaza.json";
@@ -19,7 +19,7 @@ import speechBubble from "./assets/speech_bubble.png";
 import shadow from "assets/npcs/shadow.png";
 import silhouette from "assets/npcs/silhouette.webp";
 import fontPng from "./assets/newer.png";
-import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "./BumpkinContainer";
 import { interactableModalManager } from "./InteractableModals";
 import { MachineInterpreter, RoomEvent } from "./roomMachine";
@@ -88,6 +88,7 @@ export class BaseScene extends Phaser.Scene {
       16
     ) as Phaser.Tilemaps.Tileset;
 
+    console.log("Sheed");
     // Set up colliders
     const customColliders = this.add.group();
     const collisionPolygons = this.map.createFromObjects("Collision", {
@@ -98,6 +99,7 @@ export class BaseScene extends Phaser.Scene {
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);
     });
+    console.log("Sheed2");
 
     const interactablesPolygons = this.map.createFromObjects(
       "Interactable",
@@ -134,6 +136,7 @@ export class BaseScene extends Phaser.Scene {
 
     this.physics.world.drawDebug = true;
 
+    console.log("Top layers");
     const TOP_LAYERS = [
       "Decorations Layer 1",
       "Decorations Layer 2",
@@ -155,18 +158,6 @@ export class BaseScene extends Phaser.Scene {
 
     const camera = this.cameras.main;
 
-    // Render existing players
-    // getKeys(this.roomService.state.context.players).forEach((sessionId) => {
-    //   const player = this.roomService.state.context.players[sessionId];
-    //   const entity = new BumpkinContainer(
-    //     this,
-    //     player.x,
-    //     player.y,
-    //     INITIAL_BUMPKIN
-    //   );
-    //   this.playerEntities[sessionId] = entity;
-    // });
-
     this.roomService.onEvent((event: RoomEvent) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
         if (event.sessionId && String(event.sessionId).length > 4) {
@@ -175,7 +166,7 @@ export class BaseScene extends Phaser.Scene {
       }
 
       if (event.type === "PLAYER_JOINED") {
-        console.log("Player JOINED", event.sessionId);
+        console.log("Player JOINED", event.sessionId, event);
         const entity = new BumpkinContainer(
           this,
           event.x,
@@ -204,6 +195,14 @@ export class BaseScene extends Phaser.Scene {
 
                 this.game.scene.switch(this.scene.key, "auction_house");
               }
+
+              if (obj2.data?.list?.id === "auction_exit") {
+                this.roomService.send("CHANGE_ROOM", {
+                  roomId: "plaza",
+                });
+
+                this.game.scene.switch(this.scene.key, "plaza");
+              }
             }
           );
           // this.physics.add.collider(this.currentPlayer, this.betty);
@@ -228,11 +227,6 @@ export class BaseScene extends Phaser.Scene {
     );
     this.input.keyboard?.removeCapture("SPACE");
 
-    camera.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
-    camera.setZoom(4);
-
-    this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
-
     this.initialiseNPCs();
   }
 
@@ -247,26 +241,6 @@ export class BaseScene extends Phaser.Scene {
     return;
 
     // betty.body.setCollideWorldBounds(true);
-  }
-
-  async connect() {
-    // add connection status text
-    const connectionStatusText = this.add
-      .text(0, 0, "Trying to connect with the server...")
-      .setStyle({ color: "#ff0000" })
-      .setPadding(4);
-
-    const client = new Client(BACKEND_URL);
-
-    try {
-      this.room = await client.joinOrCreate("part4_room", {});
-
-      // connection successful!
-      connectionStatusText.destroy();
-    } catch (e) {
-      // couldn't connect
-      connectionStatusText.text = "Could not connect with the server.";
-    }
   }
 
   update(time: number, delta: number): void {
