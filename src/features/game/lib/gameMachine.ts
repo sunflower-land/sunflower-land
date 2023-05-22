@@ -54,7 +54,7 @@ import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 
 import { getSessionId } from "lib/blockchain/Sessions";
-import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
+import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
 import {
@@ -102,6 +102,7 @@ export interface Context {
     inventory: Record<InventoryItemName, string>;
   };
   announcements: Announcements;
+  bumpkins: OnChainBumpkin[];
 }
 
 type MintEvent = {
@@ -430,6 +431,7 @@ export function startGame(authContext: AuthContext) {
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
         announcements: {},
+        bumpkins: [],
       },
       states: {
         loading: {
@@ -471,7 +473,11 @@ export function startGame(authContext: AuthContext) {
               const farmAddress = user.farmAddress as string;
               const farmId = user.farmId as number;
 
-              const { game: onChain, bumpkin } = await getGameOnChainState({
+              const {
+                game: onChain,
+                bumpkin,
+                bumpkins,
+              } = await getGameOnChainState({
                 farmAddress,
                 account: wallet.myAccount,
                 id: farmId,
@@ -533,6 +539,7 @@ export function startGame(authContext: AuthContext) {
                   deviceTrackerId,
                   status,
                   announcements,
+                  bumpkins,
                 };
               }
 
@@ -1338,6 +1345,7 @@ export function startGame(authContext: AuthContext) {
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           status: (_, event) => event.data.status,
           announcements: (_, event) => event.data.announcements,
+          bumpkins: (_, event) => event.data.bumpkins,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
