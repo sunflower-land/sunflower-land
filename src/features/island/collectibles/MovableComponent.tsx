@@ -31,7 +31,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { ZoomContext } from "components/ZoomProvider";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
-import { isAOELocked } from "features/game/events/landExpansion/moveCrop";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -110,14 +109,6 @@ const canRemoveItem = (
 
   if (name === "Chicken Coop") {
     if (areUnsupportedChickensBrewing(state)) return false;
-  }
-
-  if (name === "Basic Scarecrow") {
-    const cropPlots = Object.values(state.crops)
-      .flat()
-      .some((crop) => isAOELocked(crop, state.collectibles, Date.now()));
-
-    return !cropPlots;
   }
   return true;
 };
