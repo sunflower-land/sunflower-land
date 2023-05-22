@@ -31,6 +31,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { ZoomContext } from "components/ZoomProvider";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
+import { isAOELocked } from "features/game/events/landExpansion/moveCrop";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -112,15 +113,9 @@ const canRemoveItem = (
   }
 
   if (name === "Basic Scarecrow") {
-    // if any crop plot is planted with Sunflower or Potato or Pumpkin and within AOE of scarecrow, return false
     const cropPlots = Object.values(state.crops)
       .flat()
-      .some(
-        (crop) =>
-          crop.crop?.name === "Sunflower" ||
-          crop.crop?.name === "Potato" ||
-          crop.crop?.name === "Pumpkin"
-      );
+      .some((crop) => isAOELocked(crop, state.collectibles, Date.now()));
 
     return !cropPlots;
   }
