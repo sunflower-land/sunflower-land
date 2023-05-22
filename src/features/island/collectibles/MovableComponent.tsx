@@ -110,7 +110,6 @@ const canRemoveItem = (
   if (name === "Chicken Coop") {
     if (areUnsupportedChickensBrewing(state)) return false;
   }
-
   return true;
 };
 
