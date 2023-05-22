@@ -277,7 +277,7 @@ export const Beans = () => {
                               backgroundSize: `${PIXEL_SCALE * 16}px`,
                             }}
                           >
-                            {Array.from(Array(8)).map((_, rowIndex) => (
+                            {Array.from(Array(5)).map((_, rowIndex) => (
                               <div className="flex items-center" key={rowIndex}>
                                 {Array.from(Array(4)).map((_, columnIndex) => {
                                   const guess =
@@ -291,22 +291,6 @@ export const Beans = () => {
                                     />
                                   );
                                 })}
-                                <div className="w-4 h-4 gap-0.5 flex flex-wrap">
-                                  {game.turns[rowIndex] &&
-                                    game.turns[rowIndex].feedback.map(
-                                      (feedback, index) => {
-                                        return (
-                                          <div
-                                            key={`${feedback}-${index}-${rowIndex}`}
-                                            className="w-1.5 h-1.5 rounded"
-                                            style={{
-                                              backgroundColor: `${feedback}`,
-                                            }}
-                                          />
-                                        );
-                                      }
-                                    )}
-                                </div>
                               </div>
                             ))}
                           </div>
