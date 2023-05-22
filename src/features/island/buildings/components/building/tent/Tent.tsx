@@ -9,9 +9,22 @@ import { Modal } from "react-bootstrap";
 import { TentModal } from "./TentModal";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import classNames from "classnames";
+import { BuildingName } from "features/game/types/buildings";
+import { MachineState } from "features/game/lib/gameMachine";
+import { PlacedItem } from "features/game/types/game";
+
+const selectBuildings = (state: MachineState) => state.context.state.buildings;
+const selectBumpkins = (state: MachineState) => state.context.bumpkins;
+
+const compareBuildings = (
+  prev: Partial<Record<BuildingName, PlacedItem[]>>,
+  next: Partial<Record<BuildingName, PlacedItem[]>>
+) => {
+  return prev.Tent?.length === next.Tent?.length;
+};
 
 export const Tent: React.FC<BuildingProps> = ({
   buildingId,
@@ -19,11 +32,9 @@ export const Tent: React.FC<BuildingProps> = ({
   onRemove,
 }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state, bumpkins },
-    },
-  ] = useActor(gameService);
+
+  const buildings = useSelector(gameService, selectBuildings, compareBuildings);
+  const bumpkins = useSelector(gameService, selectBumpkins);
 
   const [showModal, setShowModal] = useState(false);
 
