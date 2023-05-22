@@ -38,7 +38,7 @@ export const Tent: React.FC<BuildingProps> = ({
 
   const [showModal, setShowModal] = useState(false);
 
-  const buildingIndex = state.buildings["Tent"]?.findIndex(
+  const buildingIndex = buildings["Tent"]?.findIndex(
     (building) => building.id === buildingId
   );
   const placedIndex =
