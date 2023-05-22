@@ -84,7 +84,7 @@ export async function getGameOnChainState({
       inventory,
     },
     bumpkin: bumpkins[0],
-    bumpkins: bumpkins,
+    bumpkins,
   };
 }
 

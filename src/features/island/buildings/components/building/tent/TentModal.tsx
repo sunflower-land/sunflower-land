@@ -3,11 +3,14 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { BumpkinParts, interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { BumpkinBox } from "./BumpkinBox";
 import { getBumpkinUrl } from "./lib/getBumpkinUrl";
 import { CONFIG } from "lib/config";
+import { BuildingName } from "features/game/types/buildings";
+import { PlacedItem } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   defaultSelectedIndex?: number;
@@ -21,16 +24,24 @@ const baseUrl =
     ? `https://bumpkins.io/#/bumpkins`
     : `https://testnet.bumpkins.io/#/bumpkins`;
 
+const selectBuildings = (state: MachineState) => state.context.state.buildings;
+const selectBumpkins = (state: MachineState) => state.context.bumpkins;
+
+const compareBuildings = (
+  prev: Partial<Record<BuildingName, PlacedItem[]>>,
+  next: Partial<Record<BuildingName, PlacedItem[]>>
+) => {
+  return prev.Tent?.length === next.Tent?.length;
+};
+
 export const TentModal: React.FC<Props> = ({
   defaultSelectedIndex,
   onClose,
 }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state, bumpkins },
-    },
-  ] = useActor(gameService);
+
+  const buildings = useSelector(gameService, selectBuildings, compareBuildings);
+  const bumpkins = useSelector(gameService, selectBumpkins);
 
   const [selectedBumpkin, setSelectedBumpkin] = useState<{
     equipped: BumpkinParts;
@@ -39,7 +50,7 @@ export const TentModal: React.FC<Props> = ({
 
   if (!bumpkins) return null;
 
-  const placedTents = (state.buildings.Tent || []).length;
+  const placedTents = (buildings.Tent || []).length;
   const allowedBumpkins = placedTents + DEFAULT_BUMPKIN_ALLOWANCE;
 
   const farmingBumpkins = bumpkins.slice(0, allowedBumpkins);
@@ -49,7 +60,7 @@ export const TentModal: React.FC<Props> = ({
     <div className="flex flex-col space-y-4">
       <div>
         <p className="text-sm mb-1">Showing on Farm</p>
-        <div className="flex">
+        <div className="flex flex-wrap">
           {farmingBumpkins
             .map((bumpkin) => interpretTokenUri(bumpkin.tokenURI))
             .map(({ tokenId, equipped }) => (
@@ -67,7 +78,7 @@ export const TentModal: React.FC<Props> = ({
       {nonFarmingBumpkins.length > 0 && (
         <div>
           <p className="text-sm mb-1">In Wallet</p>
-          <div className="flex">
+          <div className="flex flex-wrap">
             {nonFarmingBumpkins
               .map((bumpkin) => interpretTokenUri(bumpkin.tokenURI))
               .map(({ tokenId, equipped }) => (
@@ -116,11 +127,7 @@ export const TentModal: React.FC<Props> = ({
       currentTab={0}
       onClose={onClose}
     >
-      <SplitScreenView
-        content={MainContent()}
-        panel={PanelContent()}
-        contentScrollable={false}
-      ></SplitScreenView>
+      <SplitScreenView content={MainContent()} panel={PanelContent()} />
     </CloseButtonPanel>
   );
 };
