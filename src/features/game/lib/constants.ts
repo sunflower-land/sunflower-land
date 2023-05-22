@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 import {
   Bumpkin,
-  ChickenPosition,
   GameState,
   Inventory,
   ExpansionConstruction,
@@ -23,24 +22,6 @@ export const HEN_HOUSE_CAPACITY = 10;
 export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
-
-export const CHICKEN_POSITIONS: ChickenPosition[] = [
-  { top: GRID_WIDTH_PX * 1.2, right: GRID_WIDTH_PX * 1.9 },
-  { top: GRID_WIDTH_PX * 1.4, right: GRID_WIDTH_PX * 3.3 },
-  { top: GRID_WIDTH_PX * 1.7, right: GRID_WIDTH_PX * 0.88 },
-  { top: GRID_WIDTH_PX * 2.47, right: GRID_WIDTH_PX * 3 },
-  { top: GRID_WIDTH_PX * 2.66, right: GRID_WIDTH_PX * 1.9 },
-  { top: GRID_WIDTH_PX * 1.6, right: GRID_WIDTH_PX * 4.6 },
-  { top: GRID_WIDTH_PX * 1.72, right: GRID_WIDTH_PX * 5.7 },
-  { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.7 },
-  { top: GRID_WIDTH_PX * 1.8, right: GRID_WIDTH_PX * 7.7 },
-  { top: GRID_WIDTH_PX * 1.44, right: GRID_WIDTH_PX * 8.7 },
-  { top: GRID_WIDTH_PX * 1.95, right: GRID_WIDTH_PX * 9.8 },
-  { top: GRID_WIDTH_PX * 1.17, right: GRID_WIDTH_PX * 10.6 },
-  { top: GRID_WIDTH_PX * 1.78, right: GRID_WIDTH_PX * 11.5 },
-  { top: GRID_WIDTH_PX * 1.85, right: GRID_WIDTH_PX * 12.8 },
-  { top: GRID_WIDTH_PX * 1.59, right: GRID_WIDTH_PX * 14.12 },
-];
 
 function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
