@@ -12,13 +12,13 @@
 import Phaser, { Physics } from "phaser";
 import { Room } from "colyseus.js";
 
-import mapPng from "./assets/embedded.png";
-import mapJson from "./assets/world_plaza.json";
-import auctionJson from "./assets/auction.json";
+import mapJson from "assets/map/plaza.json";
+import auctionJson from "assets/map/auction.json";
+
 import speechBubble from "./assets/speech_bubble.png";
 import shadow from "assets/npcs/shadow.png";
 import silhouette from "assets/npcs/silhouette.webp";
-import fontPng from "./assets/newer.png";
+import fontPng from "./assets/bitmapTest.png";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "./BumpkinContainer";
 import { interactableModalManager } from "./InteractableModals";
@@ -64,7 +64,11 @@ export class BaseScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
-    this.load.image("tileset", mapPng);
+    // TODO change
+    this.load.image(
+      "tileset",
+      "http://sunflower-land.com/testnet-assets/world/map.png"
+    );
     this.load.image("speech_bubble", speechBubble);
     this.load.image("shadow", shadow);
     this.load.spritesheet("silhouette", silhouette, {
@@ -74,7 +78,7 @@ export class BaseScene extends Phaser.Scene {
     this.load.bitmapFont(
       "bitmapFont",
       fontPng,
-      "./src/features/phaser/assets/newer.fnt"
+      "./src/features/phaser/assets/bitmapTest.fnt"
     );
   }
 

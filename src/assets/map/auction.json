@@ -331,7 +331,7 @@
     {
       "columns": 64,
       "firstgid": 1,
-      "image": "embedded.png",
+      "image": "tilesheet.png",
       "imageheight": 1024,
       "imagewidth": 1024,
       "margin": 0,
@@ -431,7 +431,7 @@
     {
       "columns": 64,
       "firstgid": 4097,
-      "image": "../../../../../sprites/land_expansion/sunnyside_v3.png",
+      "image": "tilesheet.png",
       "imageheight": 1024,
       "imagewidth": 1024,
       "margin": 0,
