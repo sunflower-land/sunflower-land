@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import { Game, AUTO } from "phaser";
-import { Modal } from "react-bootstrap";
 import { useSelector } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
-
-import { Panel } from "components/ui/Panel";
 
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
 import { OFFLINE_FARM } from "features/game/lib/landData";
@@ -34,7 +31,7 @@ export const Phaser: React.FC = () => {
         forceSetTimeOut: true,
         smoothStep: true,
       },
-      backgroundColor: "#099fe0",
+      backgroundColor: "#000000",
       parent: "phaser-example",
 
       autoRound: true,
@@ -86,9 +83,9 @@ export const Phaser: React.FC = () => {
       />
       <NPCModals />
       <InteractableModals />
-      <Modal show={roomState === "initialising"} centered>
+      {/* <Modal show={roomState === "initialising"} centered>
         <Panel>Loading</Panel>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

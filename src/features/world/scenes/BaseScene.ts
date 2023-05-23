@@ -66,6 +66,8 @@ export class BaseScene extends Phaser.Scene {
   }
 
   async create() {
+    const camera = this.cameras.main;
+    camera.fadeIn();
     const tileset = this.map.addTilesetImage(
       "Sunnyside V3",
       "tileset",
@@ -139,8 +141,6 @@ export class BaseScene extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     this.input.keyboard?.removeCapture("SPACE");
 
-    const camera = this.cameras.main;
-
     // Respond to Websocket events
     this.roomService.onEvent((event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
@@ -172,15 +172,24 @@ export class BaseScene extends Phaser.Scene {
             this.currentPlayer,
             customColliders,
             // Read custom Tiled Properties
-            (obj1, obj2) => {
+            async (obj1, obj2) => {
               // Change scenes
               const warpTo = (obj2 as any).data?.list?.warp;
               if (warpTo) {
-                this.roomService.send("CHANGE_ROOM", {
-                  roomId: warpTo,
-                });
+                camera.fadeOut(1000);
 
-                this.game.scene.switch(this.scene.key, warpTo);
+                camera.on(
+                  "camerafadeoutcomplete",
+                  () => {
+                    console.log("Fade complete");
+                    this.roomService.send("CHANGE_ROOM", {
+                      roomId: warpTo,
+                    });
+
+                    this.game.scene.switch(this.scene.key, warpTo);
+                  },
+                  this
+                );
               }
             }
           );
