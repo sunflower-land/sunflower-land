@@ -1,6 +1,6 @@
 import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
-import { npcModalManager } from "./NPCModals";
-import { BumpkinContainer } from "./BumpkinContainer";
+import { npcModalManager } from "../ui/NPCModals";
+import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { BaseScene } from "./BaseScene";
 
 export class PhaserScene extends BaseScene {

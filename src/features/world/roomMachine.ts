@@ -45,25 +45,25 @@ type SendPositionEvent = {
   y: number;
 };
 
-type ChatMessageReceived = {
+export type ChatMessageReceived = {
   type: "CHAT_MESSAGE_RECEIVED";
   text: string;
   sessionId: string;
 };
 
-type PlayerQuit = {
+export type PlayerQuit = {
   type: "PLAYER_QUIT";
   sessionId: string;
 };
 
-type PlayerJoined = {
+export type PlayerJoined = {
   type: "PLAYER_JOINED";
   sessionId: string;
   x: number;
   y: number;
 };
 
-type PlayerMoved = {
+export type PlayerMoved = {
   type: "PLAYER_MOVED";
   sessionId: string;
   x: number;

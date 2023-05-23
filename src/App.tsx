@@ -1,12 +1,9 @@
 import React from "react";
 
-import * as Auth from "features/auth/lib/Provider";
 import { initialise } from "lib/utils/init";
-import { Navigation } from "./Navigation";
 
 import "./styles.css";
-import ErrorBoundary from "features/auth/components/ErrorBoundary";
-import { Phaser } from "features/phaser/Phaser";
+import { Phaser } from "features/world/Phaser";
 
 // Initialise Global Settings
 initialise();

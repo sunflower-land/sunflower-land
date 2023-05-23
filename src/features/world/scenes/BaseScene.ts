@@ -1,40 +1,26 @@
-/**
- * ---------------------------
- * Phaser + Colyseus - Part 4.
- * ---------------------------
- * - Connecting with the room
- * - Sending inputs at the user's framerate
- * - Update other player's positions WITH interpolation (for other players)
- * - Client-predicted input for local (current) player
- * - Fixed tickrate on both client and server
- */
-
 import Phaser, { Physics } from "phaser";
 import { Room } from "colyseus.js";
 
 import mapJson from "assets/map/plaza.json";
 import auctionJson from "assets/map/auction.json";
 
-import speechBubble from "./assets/speech_bubble.png";
+import speechBubble from "../assets/speech_bubble.png";
 import shadow from "assets/npcs/shadow.png";
 import silhouette from "assets/npcs/silhouette.webp";
-import fontPng from "./assets/bitmapTest.png";
+import fontPng from "../assets/bitmapTest.png";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
-import { BumpkinContainer } from "./BumpkinContainer";
-import { interactableModalManager } from "./InteractableModals";
-import { MachineInterpreter, RoomEvent } from "./roomMachine";
-
-export const BACKEND_URL =
-  window.location.href.indexOf("localhost") === -1
-    ? `${window.location.protocol.replace("http", "ws")}//${
-        window.location.hostname
-      }${window.location.port && `:${window.location.port}`}`
-    : "ws://localhost:2567";
-
-export const BACKEND_HTTP_URL = BACKEND_URL.replace("ws", "http");
+import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { interactableModalManager } from "../ui/InteractableModals";
+import {
+  ChatMessageReceived,
+  MachineInterpreter,
+  PlayerJoined,
+  PlayerQuit,
+} from "../roomMachine";
+import { CONFIG } from "lib/config";
 
 export class BaseScene extends Phaser.Scene {
-  public map: Phaser.Tilemaps.Tilemap;
+  public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
   room: Room | undefined;
 
   currentPlayer: BumpkinContainer | undefined;
@@ -52,6 +38,7 @@ export class BaseScene extends Phaser.Scene {
     tick: undefined,
   };
 
+  // Advanced server timing - not used
   elapsedTime = 0;
   fixedTimeStep = 1000 / 60;
 
@@ -64,11 +51,7 @@ export class BaseScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
-    // TODO change
-    this.load.image(
-      "tileset",
-      "http://sunflower-land.com/testnet-assets/world/map.png"
-    );
+    this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
     this.load.image("speech_bubble", speechBubble);
     this.load.image("shadow", shadow);
     this.load.spritesheet("silhouette", silhouette, {
@@ -83,8 +66,6 @@ export class BaseScene extends Phaser.Scene {
   }
 
   async create() {
-    console.log({ game: this.game });
-
     const tileset = this.map.addTilesetImage(
       "Sunnyside V3",
       "tileset",
@@ -92,8 +73,7 @@ export class BaseScene extends Phaser.Scene {
       16
     ) as Phaser.Tilemaps.Tileset;
 
-    console.log("Sheed");
-    // Set up colliders
+    // Set up collider layers
     const customColliders = this.add.group();
     const collisionPolygons = this.map.createFromObjects("Collision", {
       scene: this,
@@ -103,13 +83,12 @@ export class BaseScene extends Phaser.Scene {
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);
     });
-    console.log("Sheed2");
 
+    // Setup interactable layers
     const interactablesPolygons = this.map.createFromObjects(
       "Interactable",
       {}
     );
-
     interactablesPolygons.forEach((polygon) => {
       polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
         const position = polygon as unknown as Phaser.Math.Vector2;
@@ -138,9 +117,10 @@ export class BaseScene extends Phaser.Scene {
       });
     });
 
+    // Debugging purposes - display colliders in pink
     this.physics.world.drawDebug = true;
 
-    console.log("Top layers");
+    // Set up the Z layers to draw in correct order
     const TOP_LAYERS = [
       "Decorations Layer 1",
       "Decorations Layer 2",
@@ -148,103 +128,78 @@ export class BaseScene extends Phaser.Scene {
       "Building Layer 2",
       "Building Layer 3",
     ];
-
     this.map.layers.forEach((layerData, idx) => {
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
-
       if (TOP_LAYERS.includes(layerData.name)) {
-        console.log("Got it");
         layer?.setDepth(1);
       }
     });
 
+    // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
+    this.input.keyboard?.removeCapture("SPACE");
 
     const camera = this.cameras.main;
 
-    this.roomService.onEvent((event: RoomEvent) => {
+    // Respond to Websocket events
+    this.roomService.onEvent((event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
-        if (event.sessionId && String(event.sessionId).length > 4) {
-          this.playerEntities[event.sessionId].speak(event.text);
+        const { sessionId, text } = event as ChatMessageReceived;
+        if (sessionId && String(sessionId).length > 4) {
+          this.playerEntities[sessionId].speak(text);
         }
       }
 
       if (event.type === "PLAYER_JOINED") {
-        console.log("Player JOINED", event.sessionId, event);
-        const entity = new BumpkinContainer(
-          this,
-          event.x,
-          event.y,
-          INITIAL_BUMPKIN
-        );
+        const { sessionId, x, y } = event as PlayerJoined;
+        const entity = new BumpkinContainer(this, x, y, INITIAL_BUMPKIN);
 
-        if (
-          event.sessionId === this.roomService.state.context.room?.sessionId
-        ) {
+        // Is current player
+        if (sessionId === this.roomService.state.context.room?.sessionId) {
           this.currentPlayer = entity;
 
-          this.currentPlayer.body.width = 10;
-          this.currentPlayer.body.height = 8;
-          this.currentPlayer.body.setOffset(3, 10);
-          this.currentPlayer.body.setCollideWorldBounds(true);
+          // (this.currentPlayer.body as Phaser.Physics.Arcade.Body).width = 10;
+          (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
+            .setOffset(3, 10)
+            .setSize(10, 8)
+            .setCollideWorldBounds(true);
+
+          // Follow player with camera
+          camera.startFollow(this.currentPlayer, true, 0.08, 0.08);
+
+          // Callback to fire on collisions
           this.physics.add.collider(
             this.currentPlayer,
             customColliders,
+            // Read custom Tiled Properties
             (obj1, obj2) => {
-              console.log("Collided", obj2);
-              if (obj2.data?.list?.id === "auction_entry") {
+              // Change scenes
+              const warpTo = (obj2 as any).data?.list?.warp;
+              if (warpTo) {
                 this.roomService.send("CHANGE_ROOM", {
-                  roomId: "auction_house",
+                  roomId: warpTo,
                 });
 
-                this.game.scene.switch(this.scene.key, "auction_house");
-              }
-
-              if (obj2.data?.list?.id === "auction_exit") {
-                this.roomService.send("CHANGE_ROOM", {
-                  roomId: "plaza",
-                });
-
-                this.game.scene.switch(this.scene.key, "plaza");
+                this.game.scene.switch(this.scene.key, warpTo);
               }
             }
           );
-          // this.physics.add.collider(this.currentPlayer, this.betty);
-          camera.startFollow(this.currentPlayer, true, 0.08, 0.08);
         }
-        this.playerEntities[event.sessionId] = entity;
+        this.playerEntities[sessionId] = entity;
       }
 
       if (event.type === "PLAYER_QUIT") {
-        const entity = this.playerEntities[event.sessionId];
+        const { sessionId } = event as PlayerQuit;
+        const entity = this.playerEntities[sessionId];
         if (entity) {
           entity.destroy();
-          delete this.playerEntities[event.sessionId];
+          delete this.playerEntities[sessionId];
         }
       }
     });
 
+    // Connect to Room
     this.roomService.send("CONNECT");
-
-    const keySPACE = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE
-    );
-    this.input.keyboard?.removeCapture("SPACE");
-
-    this.initialiseNPCs();
-  }
-
-  private initialiseNPCs() {
-    // Betty
-
-    // this.physics.add.collider(this.currentPlayer, this.betty);
-
-    // this.physics.collide(this.currentPlayer, this.betty);
-    // this.physics.add.collider(this.currentPlayer, betty.body);
-
-    return;
-
-    // betty.body.setCollideWorldBounds(true);
   }
 
   update(time: number, delta: number): void {
@@ -255,11 +210,7 @@ export class BaseScene extends Phaser.Scene {
     }
   }
 
-  fixedTick(time: number, delta: number) {
-    // Still initialising
-
-    this.currentTick++;
-
+  moveCurrentPlayer() {
     if (!this.currentPlayer?.body) {
       return;
     }
@@ -270,40 +221,43 @@ export class BaseScene extends Phaser.Scene {
     this.inputPayload.right = this.cursorKeys?.right.isDown ?? false;
     this.inputPayload.up = this.cursorKeys?.up.isDown ?? false;
     this.inputPayload.down = this.cursorKeys?.down.isDown ?? false;
-    // this.inputPayload.tick = this.currentTick;
 
-    // if (!this.currentPlayer?.body || !this.currentPlayer.sprite) {
-    //   return;
-    // }
+    // Horizontal movements
     if (this.inputPayload.left) {
-      this.currentPlayer.body.setVelocityX(-speed);
-      this.currentPlayer.sprite.setScale(-1, 1);
-      this.currentPlayer.body.width = 10;
-      this.currentPlayer.body.height = 10;
-      this.currentPlayer.body.setOffset(2, 10);
+      // Flip sprite
+      this.currentPlayer.sprite?.setScale(-1, 1);
+
+      // Move character
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
+        .setVelocityX(-speed)
+        .setSize(10, 10)
+        .setOffset(2, 10);
     } else if (this.inputPayload.right) {
-      this.currentPlayer.body.setVelocityX(speed);
-      this.currentPlayer.sprite.setScale(1, 1);
-      this.currentPlayer.body.setOffset(3, 10);
+      this.currentPlayer.sprite?.setScale(1, 1);
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
+        .setVelocityX(speed)
+        .setOffset(3, 10);
     } else {
-      this.currentPlayer.body.setVelocityX(0);
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
     }
 
     const isMovingHorizontally =
       this.inputPayload.left || this.inputPayload.right;
 
+    // Vertical movements - bonus calculation to ensure correct diagonal speed
     const baseSpeed = isMovingHorizontally ? 0.7 : 1;
     if (this.inputPayload.up) {
-      // this.currentPlayer.y -= velocity;
-      this.currentPlayer.body.setVelocityY(-speed * baseSpeed);
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(
+        -speed * baseSpeed
+      );
     } else if (this.inputPayload.down) {
-      // this.currentPlayer.y += velocity;
-      this.currentPlayer.body.setVelocityY(speed * baseSpeed);
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(
+        speed * baseSpeed
+      );
     } else {
-      this.currentPlayer.body.setVelocityY(0);
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
     }
 
-    // TODO - check if we need to send position?
     if (
       this.inputPayload.left ||
       this.inputPayload.right ||
@@ -315,7 +269,9 @@ export class BaseScene extends Phaser.Scene {
         y: this.currentPlayer.y,
       });
     }
+  }
 
+  moveOtherPlayers() {
     for (const sessionId in this.playerEntities) {
       if (sessionId === this.roomService.state.context.room?.sessionId) {
         continue;
@@ -337,5 +293,12 @@ export class BaseScene extends Phaser.Scene {
       entity.x = Phaser.Math.Linear(entity.x, position.x, 0.2);
       entity.y = Phaser.Math.Linear(entity.y, position.y, 0.2);
     }
+  }
+
+  fixedTick(time: number, delta: number) {
+    this.currentTick++;
+
+    this.moveCurrentPlayer();
+    this.moveOtherPlayers();
   }
 }
