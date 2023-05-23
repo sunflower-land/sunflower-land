@@ -1,7 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import mapMovement from "../lib/mapMovement";
 import { useLocation, useParams } from "react-router-dom";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
