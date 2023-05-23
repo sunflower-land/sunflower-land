@@ -14,6 +14,7 @@ export const SUNNYSIDE = {
     soil2: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil2.png`,
   },
   icons: {
+    angry: `${CONFIG.PROTECTED_IMAGE_URL}/icons/angry.png`,
     arrow_down: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_down.png`,
     arrow_left: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_left.png`,
     arrow_right: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_right.png`,
@@ -48,7 +49,6 @@ export const SUNNYSIDE = {
     water: `${CONFIG.PROTECTED_IMAGE_URL}/icons/water.png`,
     happy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/happy.png`,
     neutral: `${CONFIG.PROTECTED_IMAGE_URL}/icons/neutral.png`,
-    unhappy: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sad.png`,
     stressed: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_stress.png`,
     death: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_attack.png`,
     plus: `${CONFIG.PROTECTED_IMAGE_URL}/icons/plus.png`,

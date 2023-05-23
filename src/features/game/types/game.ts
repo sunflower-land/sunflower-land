@@ -135,7 +135,6 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
-
   "War Bond": {
     description: "A mark of a true warrior",
   },
