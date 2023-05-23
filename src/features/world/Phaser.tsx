@@ -16,6 +16,7 @@ import { AuctionScene } from "./scenes/AuctionHouseScene";
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
 import { MachineInterpreter, MachineState, roomMachine } from "./roomMachine";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -75,7 +76,13 @@ export const Phaser: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      style={{
+        width: `${270 * PIXEL_SCALE}px`,
+        height: `${216 * PIXEL_SCALE}px`,
+      }}
+    >
       <div
         id="game-content"
         className="flex w-full justify-center items-center h-full"
@@ -92,6 +99,6 @@ export const Phaser: React.FC = () => {
       <Modal show={roomState === "initialising"} centered>
         <Panel>Loading</Panel>
       </Modal>
-    </>
+    </div>
   );
 };
