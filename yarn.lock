@@ -6759,13 +6759,6 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.9.tgz"
   integrity sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==
 
-grid-engine@^2.27.1:
-  version "2.27.1"
-  resolved "https://registry.yarnpkg.com/grid-engine/-/grid-engine-2.27.1.tgz#1b0a1f8d8e5b4a37380d672c99a652ed153321cc"
-  integrity sha512-6bNAhz9ZRx4IveaONCcNdcGkds0OvTGh2Nq1uKRSjJchhdULHxT1ce86KonSc/qkoubzUiLbdZ9nrswtcSF2Zg==
-  dependencies:
-    rxjs "^7.8.0"
-
 har-schema@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/har-schema/-/har-schema-2.0.0.tgz"
@@ -10471,13 +10464,6 @@ rxjs@^7.5.5:
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.5.tgz#2ebad89af0f560f460ad5cc4213219e1f7dd4e9f"
   integrity sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==
-  dependencies:
-    tslib "^2.1.0"
-
-rxjs@^7.8.0:
-  version "7.8.1"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
-  integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
   dependencies:
     tslib "^2.1.0"
 

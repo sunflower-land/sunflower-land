@@ -124,7 +124,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
 
           const client = new Client(BACKEND_URL);
 
-          console.log("Connect: ", context.roomId);
           const room = await client.joinOrCreate<PlazaRoomState>(
             context.roomId,
             {}
