@@ -4,10 +4,12 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 class NpcModalManager {
-  private listener: (npc: NPCName, isOpen: boolean) => void;
+  private listener?: (npc: NPCName, isOpen: boolean) => void;
 
   public open(npc: NPCName) {
-    this.listener(npc, true);
+    if (this.listener) {
+      this.listener(npc, true);
+    }
   }
 
   public listen(cb: (npc: NPCName, isOpen: boolean) => void) {

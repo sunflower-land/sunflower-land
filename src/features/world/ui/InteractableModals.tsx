@@ -5,10 +5,12 @@ import { Modal } from "react-bootstrap";
 type InteractableName = "welcome_sign" | "plaza_statue";
 
 class InteractableModalManager {
-  private listener: (name: InteractableName, isOpen: boolean) => void;
+  private listener?: (name: InteractableName, isOpen: boolean) => void;
 
   public open(name: InteractableName) {
-    this.listener(name, true);
+    if (this.listener) {
+      this.listener(name, true);
+    }
   }
 
   public listen(cb: (name: InteractableName, isOpen: boolean) => void) {

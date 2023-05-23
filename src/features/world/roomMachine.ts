@@ -1,6 +1,7 @@
 import { Room, Client } from "colyseus.js";
 
 import { assign, createMachine, Interpreter, State } from "xstate";
+import { PlazaRoomState } from "./types/Room";
 
 export const BACKEND_URL =
   window.location.href.indexOf("localhost") === -1
@@ -124,7 +125,10 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           const client = new Client(BACKEND_URL);
 
           console.log("Connect: ", context.roomId);
-          const room = await client.joinOrCreate(context.roomId, {});
+          const room = await client.joinOrCreate<PlazaRoomState>(
+            context.roomId,
+            {}
+          );
 
           room.state.messages.onAdd((message: any) => {
             console.log({ message: message, sId: message.sessionId });

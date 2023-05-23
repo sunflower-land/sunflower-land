@@ -29,13 +29,13 @@ export class PhaserScene extends BaseScene {
       },
       () => npcModalManager.open("betty")
     );
-    this.betty.body.width = 16;
-    this.betty.body.height = 20;
-    this.betty.body.setOffset(0, 0);
-    this.physics.world.enable(this.betty);
-    this.betty.body.setImmovable(true);
+    (this.betty.body as Phaser.Physics.Arcade.Body)
+      .setSize(16, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
 
-    this.betty.body.setCollideWorldBounds(true);
+    this.physics.world.enable(this.betty);
 
     const camera = this.cameras.main;
 
