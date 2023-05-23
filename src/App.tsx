@@ -3,7 +3,9 @@ import React from "react";
 import { initialise } from "lib/utils/init";
 
 import "./styles.css";
-import { Phaser } from "features/world/Phaser";
+import * as Auth from "features/auth/lib/Provider";
+import ErrorBoundary from "features/auth/components/ErrorBoundary";
+import { Navigation } from "./Navigation";
 
 // Initialise Global Settings
 initialise();
@@ -13,11 +15,10 @@ initialise();
  */
 export const App: React.FC = () => {
   return (
-    // <Auth.Provider>
-    //   <ErrorBoundary>
-    //     <Navigation />
-    //   </ErrorBoundary>
-    // </Auth.Provider>
-    <Phaser />
+    <Auth.Provider>
+      <ErrorBoundary>
+        <Navigation />
+      </ErrorBoundary>
+    </Auth.Provider>
   );
 };
