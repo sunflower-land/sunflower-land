@@ -3,14 +3,6 @@ import { Room, Client } from "colyseus.js";
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { PlazaRoomState } from "./types/Room";
 
-export const BACKEND_URL =
-  window.location.href.indexOf("localhost") === -1
-    ? `${window.location.protocol.replace("http", "ws")}//${
-        window.location.hostname
-      }${window.location.port && `:${window.location.port}`}`
-    : "ws://localhost:2567";
-// export const BACKEND_URL =
-//   "ws://craig-Servi-1G2TUBXLYVZ7O-1423893005.us-east-1.elb.amazonaws.com";
 import { CONFIG } from "lib/config";
 import { Bumpkin } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
