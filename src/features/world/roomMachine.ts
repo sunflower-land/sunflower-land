@@ -11,11 +11,14 @@ export const BACKEND_URL =
     : "ws://localhost:2567";
 // export const BACKEND_URL =
 //   "ws://craig-Servi-1G2TUBXLYVZ7O-1423893005.us-east-1.elb.amazonaws.com";
+import { CONFIG } from "lib/config";
 
 type RoomSchema = any;
 
 type RoomId = "plaza" | "auction_house";
 export interface ChatContext {
+  jwt: string;
+  farmId: number;
   room?: Room<RoomSchema>;
   roomId: RoomId;
   messages: { sessionId: string; text: string }[];
@@ -98,6 +101,8 @@ export type MachineInterpreter = Interpreter<
 export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
   initial: "idle",
   context: {
+    jwt: "",
+    farmId: 0,
     roomId: "plaza",
     messages: [],
     players: {},
@@ -114,7 +119,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       invoke: {
         id: "initialising",
         src: (context) => async (cb) => {
-          if (!BACKEND_URL) {
+          console.log({ Room: CONFIG.ROOM_URL });
+          if (!CONFIG.ROOM_URL) {
             return { room: undefined };
           }
 
@@ -127,7 +133,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             await context.room.leave();
           }
 
-          const client = new Client(BACKEND_URL);
+          const client = new Client(CONFIG.ROOM_URL);
 
           const room = await client.joinOrCreate<PlazaRoomState>(
             context.roomId,
