@@ -2,6 +2,7 @@ import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "./SpeechBubble";
 import { Bumpkin } from "features/game/types/game";
 import { buildNPCSheet } from "features/bumpkins/actions/buildNPCSheet";
+import debounce from "lodash.debounce";
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -48,7 +49,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       parts: this.bumpkin.equipped,
     });
 
-    const spriteSheetKey = `${this.bumpkin.id}-bumpkin-idle-sheet`;
+    let r = (Math.random() + 1).toString(36).substring(7);
+    const spriteSheetKey = `${r}-bumpkin-idle-sheet`;
 
     const loader = this.scene.load.spritesheet(spriteSheetKey, sheet, {
       frameWidth: 20,
@@ -62,8 +64,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
       this.add(this.sprite);
 
+      const animationKey = `${r}-bumpkin-idle`;
       scene.anims.create({
-        key: `${this.bumpkin.id}-bumpkin-idle`,
+        key: animationKey,
         frames: scene.anims.generateFrameNumbers(spriteSheetKey, {
           start: 0,
           end: 8,
@@ -71,7 +74,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         repeat: -1,
         frameRate: 10,
       });
-      this.sprite.play(`${this.bumpkin.id}-bumpkin-idle`, true);
+      this.sprite.play(animationKey, true);
     });
 
     scene.load.start();
@@ -84,5 +87,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.speech = new SpeechBubble(this.scene, text);
     this.add(this.speech);
+
+    setTimeout(() => {
+      this.speech?.destroy();
+    }, 2000);
   }
 }

@@ -56,7 +56,7 @@ export const Phaser: React.FC = () => {
           gravity: { y: 0 },
         },
       },
-      scene: [AuctionScene, PhaserScene],
+      scene: [PhaserScene, AuctionScene],
       loader: {
         crossOrigin: "anonymous",
       },
@@ -70,6 +70,8 @@ export const Phaser: React.FC = () => {
     // Manually inject onto scenes so we have access to it
     (game as any).roomService = roomService;
   }, []);
+
+  console.log({ roomState });
 
   return (
     <div>

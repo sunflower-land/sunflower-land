@@ -1,35 +1,31 @@
 export class SpeechBubble extends Phaser.GameObjects.Container {
-  public bubble;
   constructor(scene: Phaser.Scene, text: string) {
     super(scene, 0, 0);
-    console.log("SPEECH BUBBLE");
     this.scene = scene;
 
     // const bitmapText = this.scene.make.bitmapText({
     //   font: "8bitoperator",
     //   size: 22,
     // });
-
-    const MAX_WIDTH = 70;
     // const textR = scene.add.bitmapText(4, -20, "pixel", "Hello World", 3);
+
+    const MAX_WIDTH = 40;
     const textR = scene.add
-      .text(4, -21.5, text, {
-        font: "6px Monospace",
+      .text(0, -25, text, {
+        font: "5px Monospace",
+        lineSpacing: -2,
         color: "#000000",
         wordWrap: { width: MAX_WIDTH },
       })
-      .setResolution(10);
-
-    this.bubble = this.scene.add.container(0, 0).setAlpha(0.7);
-
-    console.log({ bounds: textR.getBounds() });
+      .setResolution(100);
 
     const bounds = textR.getBounds();
 
+    const width = Math.min(bounds.width, MAX_WIDTH) + 6;
     const border = (this.scene.add as any).rexNinePatch({
-      x: 10,
-      y: -15,
-      width: Math.min(bounds.width, MAX_WIDTH) + 6,
+      x: bounds.centerX,
+      y: bounds.centerY + 1,
+      width,
       height: bounds.height + 4,
       key: "speech_bubble",
       columns: [5, 2, 2],
@@ -41,6 +37,6 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
     this.add(border);
     this.add(textR);
 
-    console.log("Doine");
+    this.setAlpha(0.8);
   }
 }

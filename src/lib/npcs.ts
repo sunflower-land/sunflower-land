@@ -3,6 +3,8 @@ import { Equipped } from "features/game/types/bumpkin";
 export type NPCName =
   | "betty"
   | "bruce"
+  | "billy"
+  | "bobby"
   | "hank"
   | "blacksmith"
   | "grimbly"
@@ -10,7 +12,11 @@ export type NPCName =
   | "grubnuk"
   | "marcus"
   | "bella"
-  | "sofia";
+  | "sofia"
+  | "boujee"
+  | "adam"
+  | "alice"
+  | "dulce";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   betty: {
@@ -104,5 +110,60 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
+  },
+  boujee: {
+    body: "Dark Brown Farmer Potion",
+    hair: "Rancher Hair",
+    shirt: "White Turtle Neck",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+    necklace: "Artist Scarf",
+  },
+  adam: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+  },
+  billy: {
+    body: "Beige Farmer Potion",
+    background: "Cemetery Background",
+    hair: "Buzz Cut",
+    shirt: "Striped Red Shirt",
+    pants: "Farmer Overalls",
+    shoes: "Yellow Boots",
+    tool: "Goblin Puppet",
+  },
+  bobby: {
+    body: "Light Brown Farmer Potion",
+    background: "Cemetery Background",
+    hair: "Fire Hair",
+    shirt: "Striped Yellow Shirt",
+    pants: "Farmer Overalls",
+    shoes: "Yellow Boots",
+    tool: "Bumpkin Puppet",
+  },
+  alice: {
+    body: "Dark Brown Farmer Potion",
+    background: "Dawn Breaker Background",
+    hair: "Parlour Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Mushroom Lamp",
+  },
+  dulce: {
+    body: "Infected Potion",
+    background: "Cemetery Background",
+    hair: "Sun Spots",
+    shirt: "Blue Farmer Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Grave Diggers Shovel",
   },
 };
