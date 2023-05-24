@@ -1,7 +1,15 @@
 import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
 import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
-import { BaseScene } from "./BaseScene";
+import { BaseScene, NPCBumpkin } from "./BaseScene";
+
+const BUMPKINS: NPCBumpkin[] = [
+  {
+    x: 167,
+    y: 126,
+    npc: "alice",
+  },
+];
 
 export class AuctionScene extends BaseScene {
   constructor() {
@@ -16,31 +24,8 @@ export class AuctionScene extends BaseScene {
     console.log("Created auction");
 
     super.create();
-    console.log("super auction");
 
-    this.betty = new BumpkinContainer(
-      this,
-      400,
-      400,
-      {
-        ...INITIAL_BUMPKIN,
-        id: 234,
-        equipped: {
-          ...INITIAL_BUMPKIN.equipped,
-          hair: "Buzz Cut",
-          shirt: "Blue Farmer Shirt",
-        },
-      },
-      () => npcModalManager.open("betty")
-    );
-
-    (this.betty.body as Phaser.Physics.Arcade.Body)
-      .setSize(16, 20)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
-
-    this.physics.world.enable(this.betty);
+    this.initialiseNPCs(BUMPKINS);
 
     const camera = this.cameras.main;
 

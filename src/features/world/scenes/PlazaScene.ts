@@ -1,8 +1,51 @@
 import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
 import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
-import { BaseScene } from "./BaseScene";
+import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 
+const BUMPKINS: NPCBumpkin[] = [
+  {
+    x: 400,
+    y: 400,
+    npc: "adam",
+  },
+  {
+    x: 350,
+    y: 250,
+    npc: "boujee",
+  },
+  {
+    x: 665,
+    y: 110,
+    npc: "billy",
+  },
+  {
+    x: 195,
+    y: 160,
+    npc: "bobby",
+  },
+  {
+    x: 380,
+    y: 130,
+    npc: "blacksmith",
+  },
+  {
+    x: 760,
+    y: 390,
+    npc: "grimbly",
+  },
+  {
+    x: 810,
+    y: 380,
+    npc: "grimtooth",
+  },
+  {
+    x: 610,
+    y: 380,
+    npc: "dulce",
+  },
+];
 export class PhaserScene extends BaseScene {
   constructor() {
     super("plaza");
@@ -15,27 +58,7 @@ export class PhaserScene extends BaseScene {
 
     super.create();
 
-    this.betty = new BumpkinContainer(
-      this,
-      400,
-      400,
-      {
-        ...INITIAL_BUMPKIN,
-        id: 44444,
-        equipped: {
-          ...INITIAL_BUMPKIN.equipped,
-          hair: "Rancher Hair",
-        },
-      },
-      () => npcModalManager.open("betty")
-    );
-    (this.betty.body as Phaser.Physics.Arcade.Body)
-      .setSize(16, 20)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
-
-    this.physics.world.enable(this.betty);
+    this.initialiseNPCs(BUMPKINS);
 
     const camera = this.cameras.main;
 
@@ -43,12 +66,5 @@ export class PhaserScene extends BaseScene {
     camera.setZoom(4);
 
     this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
-
-    // await new Promise((r) => setTimeout(r, 3000));
-
-    // this.roomService.send("CHANGE_ROOM", {
-    //   roomId: "auction_house",
-    // });
-    // this.game.scene.switch("plaza", "auction_house");
   }
 }

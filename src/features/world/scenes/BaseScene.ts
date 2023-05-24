@@ -18,16 +18,28 @@ import {
   PlayerQuit,
 } from "../roomMachine";
 import { CONFIG } from "lib/config";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { npcModalManager } from "../ui/NPCModals";
+
+export type NPCBumpkin = {
+  x: number;
+  y: number;
+  npc: NPCName;
+};
 
 export class BaseScene extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
   room: Room | undefined;
+
+  readonly: boolean = false;
 
   currentPlayer: BumpkinContainer | undefined;
   betty: BumpkinContainer | undefined;
   playerEntities: {
     [sessionId: string]: BumpkinContainer;
   } = {};
+
+  customColliders?: Phaser.GameObjects.Group;
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
   inputPayload = {
@@ -76,12 +88,12 @@ export class BaseScene extends Phaser.Scene {
     ) as Phaser.Tilemaps.Tileset;
 
     // Set up collider layers
-    const customColliders = this.add.group();
+    this.customColliders = this.add.group();
     const collisionPolygons = this.map.createFromObjects("Collision", {
       scene: this,
     });
     collisionPolygons.forEach((polygon) => {
-      customColliders.add(polygon);
+      this.customColliders?.add(polygon);
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);
     });
@@ -152,49 +164,13 @@ export class BaseScene extends Phaser.Scene {
 
       if (event.type === "PLAYER_JOINED") {
         const { sessionId, x, y } = event as PlayerJoined;
-        const entity = new BumpkinContainer(this, x, y, INITIAL_BUMPKIN);
-
-        // Is current player
-        if (sessionId === this.roomService.state.context.room?.sessionId) {
-          this.currentPlayer = entity;
-
-          // (this.currentPlayer.body as Phaser.Physics.Arcade.Body).width = 10;
-          (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
-            .setOffset(3, 10)
-            .setSize(10, 8)
-            .setCollideWorldBounds(true);
-
-          // Follow player with camera
-          camera.startFollow(this.currentPlayer, true, 0.08, 0.08);
-
-          // Callback to fire on collisions
-          this.physics.add.collider(
-            this.currentPlayer,
-            customColliders,
-            // Read custom Tiled Properties
-            async (obj1, obj2) => {
-              // Change scenes
-              const warpTo = (obj2 as any).data?.list?.warp;
-              if (warpTo) {
-                camera.fadeOut(1000);
-
-                camera.on(
-                  "camerafadeoutcomplete",
-                  () => {
-                    console.log("Fade complete");
-                    this.roomService.send("CHANGE_ROOM", {
-                      roomId: warpTo,
-                    });
-
-                    this.game.scene.switch(this.scene.key, warpTo);
-                  },
-                  this
-                );
-              }
-            }
-          );
-        }
-        this.playerEntities[sessionId] = entity;
+        const player = this.createPlayer({
+          x,
+          y,
+          isCurrentPlayer:
+            sessionId === this.roomService.state.context.room?.sessionId,
+        });
+        this.playerEntities[sessionId] = player;
       }
 
       if (event.type === "PLAYER_QUIT") {
@@ -207,8 +183,84 @@ export class BaseScene extends Phaser.Scene {
       }
     });
 
+    this.roomService.onTransition((state) => {
+      if (state.value === "error" && !this.readonly) {
+        console.log("We have an error");
+        // Render the player for readonly
+        this.createPlayer({
+          x: 300,
+          y: 300,
+          isCurrentPlayer: true,
+        });
+
+        this.readonly = true;
+      }
+    });
+    // If we cannot connect to server = render the player the anyway
+
+    // this.createPlayer({
+    //   x: 300,
+    //   y: 300,
+    //   isCurrentPlayer: true,
+    // });
+
     // Connect to Room
     this.roomService.send("CONNECT");
+  }
+
+  createPlayer({
+    x,
+    y,
+    isCurrentPlayer,
+  }: {
+    isCurrentPlayer: boolean;
+    x: number;
+    y: number;
+  }): BumpkinContainer {
+    const entity = new BumpkinContainer(this, x, y, INITIAL_BUMPKIN);
+
+    // Is current player
+    if (isCurrentPlayer) {
+      this.currentPlayer = entity;
+
+      // (this.currentPlayer.body as Phaser.Physics.Arcade.Body).width = 10;
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
+        .setOffset(3, 10)
+        .setSize(10, 8)
+        .setCollideWorldBounds(true);
+
+      // Follow player with camera
+      this.cameras.main.startFollow(this.currentPlayer, true, 0.08, 0.08);
+
+      // Callback to fire on collisions
+      this.physics.add.collider(
+        this.currentPlayer,
+        this.customColliders as Phaser.GameObjects.Group,
+        // Read custom Tiled Properties
+        async (obj1, obj2) => {
+          // Change scenes
+          const warpTo = (obj2 as any).data?.list?.warp;
+          if (warpTo) {
+            this.cameras.main.fadeOut(1000);
+
+            this.cameras.main.on(
+              "camerafadeoutcomplete",
+              () => {
+                console.log("Fade complete");
+                this.roomService.send("CHANGE_ROOM", {
+                  roomId: warpTo,
+                });
+
+                this.game.scene.switch(this.scene.key, warpTo);
+              },
+              this
+            );
+          }
+        }
+      );
+    }
+
+    return entity;
   }
 
   update(time: number, delta: number): void {
@@ -224,7 +276,7 @@ export class BaseScene extends Phaser.Scene {
       return;
     }
 
-    const speed = 50;
+    const speed = 500;
 
     this.inputPayload.left = this.cursorKeys?.left.isDown ?? false;
     this.inputPayload.right = this.cursorKeys?.right.isDown ?? false;
@@ -278,6 +330,40 @@ export class BaseScene extends Phaser.Scene {
         y: this.currentPlayer.y,
       });
     }
+  }
+
+  initialiseNPCs(npcs: NPCBumpkin[]) {
+    npcs.forEach((bumpkin, index) => {
+      const container = new BumpkinContainer(
+        this,
+        bumpkin.x,
+        bumpkin.y,
+        {
+          ...INITIAL_BUMPKIN,
+          equipped: NPC_WEARABLES[bumpkin.npc],
+        },
+        () => {
+          const distance = Phaser.Math.Distance.BetweenPoints(
+            container,
+            this.currentPlayer as BumpkinContainer
+          );
+
+          if (distance > 50) {
+            container.speak("You are too far away");
+            return;
+          }
+          npcModalManager.open(bumpkin.npc);
+        }
+      );
+      (container.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+
+      this.physics.world.enable(container);
+      this.customColliders?.add(container);
+    });
   }
 
   moveOtherPlayers() {

@@ -173,6 +173,11 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         },
         onDone: [
           {
+            target: "error",
+            cond: (_, event) => !event.data.room,
+            // Fire off an event, and let the game render player anyway
+          },
+          {
             target: "ready",
             actions: assign({
               room: (_, event) => event.data.room,
