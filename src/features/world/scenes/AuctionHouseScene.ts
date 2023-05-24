@@ -1,6 +1,4 @@
-import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
-import { npcModalManager } from "../ui/NPCModals";
-import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [

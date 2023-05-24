@@ -1,8 +1,7 @@
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "./SpeechBubble";
 import { Bumpkin } from "features/game/types/game";
-import { buildNPCSheet } from "features/bumpkins/actions/buildNPCSheet";
-import debounce from "lodash.debounce";
+import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -45,14 +44,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   private async loadSprites(scene: Phaser.Scene) {
-    const sheet = await buildNPCSheet({
+    const { sheets } = await buildNPCSheets({
       parts: this.bumpkin.equipped,
     });
 
-    let r = (Math.random() + 1).toString(36).substring(7);
+    const r = (Math.random() + 1).toString(36).substring(7);
     const spriteSheetKey = `${r}-bumpkin-idle-sheet`;
 
-    const loader = this.scene.load.spritesheet(spriteSheetKey, sheet, {
+    const loader = this.scene.load.spritesheet(spriteSheetKey, sheets.idle, {
       frameWidth: 20,
       frameHeight: 19,
     });
