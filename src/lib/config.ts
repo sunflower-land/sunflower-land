@@ -6,6 +6,7 @@ const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 
 const API_URL = import.meta.env.VITE_API_URL;
 const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
+const ROOM_URL = import.meta.env.VITE_ROOM_URL;
 
 const WISHING_WELL_CONTRACT = import.meta.env.VITE_WISHING_WELL_CONTRACT;
 const ACCOUNT_MINTER_CONTRACT = import.meta.env.VITE_ACCOUNT_MINTER_CONTRACT;
@@ -98,5 +99,6 @@ export const CONFIG = {
   CHICKEN_FIGHT_DONATION,
   PROTECTED_IMAGE_URL,
   WEBSOCKET_URL,
+  ROOM_URL,
   POKO_API_KEY,
 };

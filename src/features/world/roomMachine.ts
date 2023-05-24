@@ -2,18 +2,14 @@ import { Room, Client } from "colyseus.js";
 
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { PlazaRoomState } from "./types/Room";
-
-export const BACKEND_URL =
-  window.location.href.indexOf("localhost") === -1
-    ? `${window.location.protocol.replace("http", "ws")}//${
-        window.location.hostname
-      }${window.location.port && `:${window.location.port}`}`
-    : "ws://localhost:2567";
+import { CONFIG } from "lib/config";
 
 type RoomSchema = any;
 
 type RoomId = "plaza" | "auction_house";
 export interface ChatContext {
+  jwt: string;
+  farmId: number;
   room?: Room<RoomSchema>;
   roomId: RoomId;
   messages: { sessionId: string; text: string }[];
@@ -96,7 +92,9 @@ export type MachineInterpreter = Interpreter<
 export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
   initial: "idle",
   context: {
-    roomId: "auction_house",
+    jwt: "",
+    farmId: 0,
+    roomId: "plaza",
     messages: [],
     players: {},
   },
@@ -112,21 +110,23 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       invoke: {
         id: "initialising",
         src: (context) => async (cb) => {
-          if (!BACKEND_URL) {
+          console.log({ Room: CONFIG.ROOM_URL });
+          if (!CONFIG.ROOM_URL) {
             return { room: undefined };
           }
-
-          // await new Promise((r) => setTimeout(r, 2000));
 
           if (context.room) {
             await context.room.leave();
           }
 
-          const client = new Client(BACKEND_URL);
+          const client = new Client(CONFIG.ROOM_URL);
 
           const room = await client.joinOrCreate<PlazaRoomState>(
             context.roomId,
-            {}
+            {
+              // jwt: context.jwt,
+              // farmId: context.farmId,
+            }
           );
 
           room.state.messages.onAdd((message: any) => {

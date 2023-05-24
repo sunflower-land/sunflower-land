@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Game, AUTO } from "phaser";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 
+import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
 import { OFFLINE_FARM } from "features/game/lib/landData";
 
@@ -13,12 +14,22 @@ import { AuctionScene } from "./scenes/AuctionHouseScene";
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
 import { MachineInterpreter, MachineState, roomMachine } from "./roomMachine";
+import { Context } from "features/game/GameProvider";
 
 const _roomState = (state: MachineState) => state.value;
 
 export const Phaser: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState, send] = useActor(authService);
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const roomService = useInterpret(roomMachine, {
-    context: {},
+    context: {
+      jwt: authState.context.user.rawToken,
+      farmId: authState.context.user.farmId,
+    },
   }) as unknown as MachineInterpreter;
 
   const roomState = useSelector(roomService, _roomState);
