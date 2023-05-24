@@ -66,9 +66,9 @@ export const NPCModals: React.FC = () => {
             <div className="p-2">
               <p className="mb-2">Howdy Stranger!</p>
               <p className="mb-2">
-                Whaaaaat....you've been to Sunflower Land?!?
+                {`Whaaaaat....you've been to Sunflower Land?!?`}
               </p>
-              <p className="mb-2">You don't look that old..</p>
+              <p className="mb-2">{`Huh, you don't look that old...`}</p>
             </div>
           </CloseButtonPanel>
         )}
