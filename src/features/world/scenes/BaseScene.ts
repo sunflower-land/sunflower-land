@@ -31,7 +31,7 @@ export class BaseScene extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
   room: Room | undefined;
 
-  readonly: boolean = false;
+  readonly = false;
 
   currentPlayer: BumpkinContainer | undefined;
   betty: BumpkinContainer | undefined;
