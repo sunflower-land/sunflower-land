@@ -276,7 +276,7 @@ export class BaseScene extends Phaser.Scene {
       return;
     }
 
-    const speed = 500;
+    const speed = 50;
 
     this.inputPayload.left = this.cursorKeys?.left.isDown ?? false;
     this.inputPayload.right = this.cursorKeys?.right.isDown ?? false;
@@ -329,6 +329,10 @@ export class BaseScene extends Phaser.Scene {
         x: this.currentPlayer.x,
         y: this.currentPlayer.y,
       });
+
+      this.currentPlayer.walk();
+    } else {
+      this.currentPlayer.idle();
     }
   }
 
@@ -385,8 +389,16 @@ export class BaseScene extends Phaser.Scene {
         entity.setScale(-1, 1);
       }
 
-      entity.x = Phaser.Math.Linear(entity.x, position.x, 0.2);
-      entity.y = Phaser.Math.Linear(entity.y, position.y, 0.2);
+      const distance = Phaser.Math.Distance.BetweenPoints(position, entity);
+
+      if (distance < 0.1) {
+        entity.idle();
+      } else {
+        entity.walk();
+      }
+
+      entity.x = Phaser.Math.Linear(entity.x, position.x, 0.6);
+      entity.y = Phaser.Math.Linear(entity.y, position.y, 0.6);
     }
   }
 

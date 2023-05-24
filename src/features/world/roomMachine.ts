@@ -9,6 +9,8 @@ export const BACKEND_URL =
         window.location.hostname
       }${window.location.port && `:${window.location.port}`}`
     : "ws://localhost:2567";
+// export const BACKEND_URL =
+//   "ws://craig-Servi-1G2TUBXLYVZ7O-1423893005.us-east-1.elb.amazonaws.com";
 
 type RoomSchema = any;
 
@@ -96,7 +98,7 @@ export type MachineInterpreter = Interpreter<
 export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
   initial: "idle",
   context: {
-    roomId: "auction_house",
+    roomId: "plaza",
     messages: [],
     players: {},
   },
@@ -117,6 +119,9 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           }
 
           // await new Promise((r) => setTimeout(r, 2000));
+          console.log("room", context.room);
+
+          const currentRoom = context.room?.name;
 
           if (context.room) {
             await context.room.leave();
@@ -126,7 +131,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
 
           const room = await client.joinOrCreate<PlazaRoomState>(
             context.roomId,
-            {}
+            { previousRoom: currentRoom }
           );
 
           room.state.messages.onAdd((message: any) => {

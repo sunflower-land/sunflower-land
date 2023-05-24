@@ -10,6 +10,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   private bumpkin: Bumpkin;
 
+  // Animation Keys
+  private idleAnimationKey: string | undefined;
+  private walkingAnimationKey: string | undefined;
+
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -49,34 +53,63 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
 
     const r = (Math.random() + 1).toString(36).substring(7);
-    const spriteSheetKey = `${r}-bumpkin-idle-sheet`;
+    const idleSpriteSheetKey = `${r}-bumpkin-idle-sheet`;
+    const walkingSpriteSheetKey = `${r}-bumpkin-walking-sheet`;
 
-    const loader = this.scene.load.spritesheet(spriteSheetKey, sheets.idle, {
-      frameWidth: 20,
-      frameHeight: 19,
-    });
+    const idleLoader = this.scene.load.spritesheet(
+      idleSpriteSheetKey,
+      sheets.idle,
+      {
+        frameWidth: 20,
+        frameHeight: 19,
+      }
+    );
 
-    loader.on(Phaser.Loader.Events.COMPLETE, () => {
+    const walkingLoader = this.scene.load.spritesheet(
+      walkingSpriteSheetKey,
+      sheets.walking,
+      {
+        frameWidth: 20,
+        frameHeight: 19,
+      }
+    );
+
+    idleLoader.on(Phaser.Loader.Events.COMPLETE, () => {
       this.sprite = scene.add
-        .sprite(0, 0, spriteSheetKey)
+        .sprite(0, 0, idleSpriteSheetKey)
         .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
       this.add(this.sprite);
 
-      const animationKey = `${r}-bumpkin-idle`;
+      this.idleAnimationKey = `${r}-bumpkin-idle`;
       scene.anims.create({
-        key: animationKey,
-        frames: scene.anims.generateFrameNumbers(spriteSheetKey, {
+        key: this.idleAnimationKey,
+        frames: scene.anims.generateFrameNumbers(idleSpriteSheetKey, {
           start: 0,
           end: 8,
         }),
         repeat: -1,
         frameRate: 10,
       });
-      this.sprite.play(animationKey, true);
+
+      this.sprite.play(this.idleAnimationKey, true);
+    });
+
+    walkingLoader.on(Phaser.Loader.Events.COMPLETE, () => {
+      this.walkingAnimationKey = `${r}-bumpkin-walking`;
+      scene.anims.create({
+        key: this.walkingAnimationKey,
+        frames: scene.anims.generateFrameNumbers(walkingSpriteSheetKey, {
+          start: 0,
+          end: 8,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
     });
 
     scene.load.start();
+    console.log("sprite after start", this.sprite);
   }
 
   public speak(text: string) {
@@ -90,5 +123,18 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     setTimeout(() => {
       this.speech?.destroy();
     }, 2000);
+  }
+
+  public walk() {
+    console.log("walking");
+    if (this.sprite) {
+      this.sprite.anims.play(this.walkingAnimationKey as string, true);
+    }
+  }
+
+  public idle() {
+    if (this.sprite) {
+      this.sprite.anims.play(this.idleAnimationKey as string, true);
+    }
   }
 }
