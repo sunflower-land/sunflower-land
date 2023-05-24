@@ -20,6 +20,7 @@ import {
 import { CONFIG } from "lib/config";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type NPCBumpkin = {
   x: number;
@@ -163,10 +164,11 @@ export class BaseScene extends Phaser.Scene {
       }
 
       if (event.type === "PLAYER_JOINED") {
-        const { sessionId, x, y } = event as PlayerJoined;
+        const { sessionId, x, y, clothing } = event as PlayerJoined;
         const player = this.createPlayer({
           x,
           y,
+          clothing,
           isCurrentPlayer:
             sessionId === this.roomService.state.context.room?.sessionId,
         });
@@ -191,6 +193,7 @@ export class BaseScene extends Phaser.Scene {
           x: 300,
           y: 300,
           isCurrentPlayer: true,
+          clothing: INITIAL_BUMPKIN.equipped,
         });
 
         this.readonly = true;
@@ -212,12 +215,14 @@ export class BaseScene extends Phaser.Scene {
     x,
     y,
     isCurrentPlayer,
+    clothing,
   }: {
     isCurrentPlayer: boolean;
     x: number;
     y: number;
+    clothing: BumpkinParts;
   }): BumpkinContainer {
-    const entity = new BumpkinContainer(this, x, y, INITIAL_BUMPKIN);
+    const entity = new BumpkinContainer(this, x, y, clothing);
 
     // Is current player
     if (isCurrentPlayer) {
@@ -342,10 +347,7 @@ export class BaseScene extends Phaser.Scene {
         this,
         bumpkin.x,
         bumpkin.y,
-        {
-          ...INITIAL_BUMPKIN,
-          equipped: NPC_WEARABLES[bumpkin.npc],
-        },
+        NPC_WEARABLES[bumpkin.npc],
         () => {
           const distance = Phaser.Math.Distance.BetweenPoints(
             container,

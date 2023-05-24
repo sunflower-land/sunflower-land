@@ -29,6 +29,7 @@ export const Phaser: React.FC = () => {
     context: {
       jwt: authState.context.user.rawToken,
       farmId: authState.context.user.farmId,
+      bumpkin: gameState.context.state.bumpkin,
     },
   }) as unknown as MachineInterpreter;
 

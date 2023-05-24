@@ -1,14 +1,14 @@
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "./SpeechBubble";
-import { Bumpkin } from "features/game/types/game";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
 
   public speech: SpeechBubble | undefined;
 
-  private bumpkin: Bumpkin;
+  private clothing: BumpkinParts;
 
   // Animation Keys
   private idleAnimationKey: string | undefined;
@@ -18,12 +18,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     scene: Phaser.Scene,
     x: number,
     y: number,
-    bumpkin: Bumpkin,
+    clothing: BumpkinParts,
     onClick?: () => void
   ) {
     super(scene, x, y);
     this.scene = scene;
-    this.bumpkin = bumpkin;
+    this.clothing = clothing;
 
     scene.physics.add.existing(this);
 
@@ -49,7 +49,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   private async loadSprites(scene: Phaser.Scene) {
     const { sheets } = await buildNPCSheets({
-      parts: this.bumpkin.equipped,
+      parts: this.clothing,
     });
 
     const r = (Math.random() + 1).toString(36).substring(7);

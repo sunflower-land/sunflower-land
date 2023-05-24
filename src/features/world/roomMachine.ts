@@ -12,6 +12,9 @@ export const BACKEND_URL =
 // export const BACKEND_URL =
 //   "ws://craig-Servi-1G2TUBXLYVZ7O-1423893005.us-east-1.elb.amazonaws.com";
 import { CONFIG } from "lib/config";
+import { Bumpkin } from "features/game/types/game";
+import { INITIAL_BUMPKIN } from "features/game/lib/constants";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 type RoomSchema = any;
 
@@ -19,6 +22,7 @@ type RoomId = "plaza" | "auction_house";
 export interface ChatContext {
   jwt: string;
   farmId: number;
+  bumpkin: Bumpkin;
   room?: Room<RoomSchema>;
   roomId: RoomId;
   messages: { sessionId: string; text: string }[];
@@ -67,6 +71,7 @@ export type PlayerJoined = {
   sessionId: string;
   x: number;
   y: number;
+  clothing: BumpkinParts;
 };
 
 export type PlayerMoved = {
@@ -106,6 +111,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     roomId: "plaza",
     messages: [],
     players: {},
+    // TEMP FIELD - server will set this
+    bumpkin: INITIAL_BUMPKIN,
   },
   states: {
     idle: {
@@ -137,7 +144,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
 
           const room = await client.joinOrCreate<PlazaRoomState>(
             context.roomId,
-            { previousRoom: currentRoom }
+            { previousRoom: currentRoom, bumpkin: context.bumpkin }
           );
 
           room.state.messages.onAdd((message: any) => {
@@ -159,6 +166,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               sessionId: sessionId,
               x: player.x,
               y: player.y,
+              clothing: player.clothing,
             });
 
             player.onChange(() => {
@@ -257,6 +265,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
                 [event.sessionId]: {
                   x: event.x,
                   y: event.y,
+                  clothing: event.clothing,
                 },
               };
             },
