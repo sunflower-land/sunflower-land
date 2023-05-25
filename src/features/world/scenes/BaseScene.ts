@@ -3,6 +3,7 @@ import { Room } from "colyseus.js";
 
 import mapJson from "assets/map/plaza.json";
 import auctionJson from "assets/map/auction.json";
+import clothesShopJson from "assets/map/clothe_shop.json";
 
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
@@ -61,6 +62,7 @@ export class BaseScene extends Phaser.Scene {
     console.log("preload");
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
+    this.load.tilemapTiledJSON("clothes-shop", clothesShopJson);
 
     // Phaser assets must be served from an URL
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);

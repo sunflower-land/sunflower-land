@@ -2514,6 +2514,24 @@
           "width": 12.0491769799453,
           "x": -0.0680744462143801,
           "y": 288.907949733829
+        },
+        {
+          "height": 14.3625934233507,
+          "id": 130,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "clothes_shop"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 18.1748867394253,
+          "x": 254.803046288333,
+          "y": 275.105724646033
         }
       ],
       "opacity": 1,
@@ -2575,7 +2593,7 @@
     }
   ],
   "nextlayerid": 57,
-  "nextobjectid": 130,
+  "nextobjectid": 131,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
