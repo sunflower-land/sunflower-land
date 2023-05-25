@@ -4,9 +4,6 @@ import { Room } from "colyseus.js";
 import mapJson from "assets/map/plaza.json";
 import auctionJson from "assets/map/auction.json";
 
-import speechBubble from "../assets/speech_bubble.png";
-import shadow from "assets/npcs/shadow.png";
-import silhouette from "assets/npcs/silhouette.webp";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
@@ -64,10 +61,12 @@ export class BaseScene extends Phaser.Scene {
     console.log("preload");
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
+
+    // Phaser assets must be served from an URL
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
-    this.load.image("speech_bubble", speechBubble);
-    this.load.image("shadow", shadow);
-    this.load.spritesheet("silhouette", silhouette, {
+    this.load.image("speech_bubble", "world/speech_bubble.png");
+    this.load.image("shadow", "world/shadow.png");
+    this.load.spritesheet("silhouette", "world/silhouette.webp", {
       frameWidth: 14,
       frameHeight: 18,
     });

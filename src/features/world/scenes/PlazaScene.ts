@@ -55,7 +55,7 @@ export class PhaserScene extends BaseScene {
 
     super.create();
 
-    // this.initialiseNPCs(BUMPKINS);
+    this.initialiseNPCs(BUMPKINS);
 
     const camera = this.cameras.main;
 
