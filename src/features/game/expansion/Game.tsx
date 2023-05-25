@@ -47,7 +47,6 @@ import { NoTownCenter } from "../components/NoTownCenter";
 import { Promoting } from "./components/Promoting";
 import { Purchasing } from "../components/Purchasing";
 import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
-import { Phaser } from "features/world/Phaser";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -249,7 +248,6 @@ export const Game: React.FC = () => {
             <Route path="/helios" element={<Helios key="helios" />} />
             <Route path="/snow" element={<SnowKingdom key="snow" />} />
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
-            <Route path="/phaser" element={<Phaser key="phaser" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
             <Route
               path="/dawn-breaker"

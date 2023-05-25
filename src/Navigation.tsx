@@ -23,6 +23,7 @@ import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
+import { World } from "features/world/World";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -119,7 +120,7 @@ export const Navigation: React.FC = () => {
                   }
                 />
               )}
-
+              <Route path="/world" element={<World key="world" />} />
               <Route path="/visit/*" element={<LandExpansion key="visit" />} />
               <Route
                 path="/land/:id?/*"

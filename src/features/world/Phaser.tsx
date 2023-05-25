@@ -18,9 +18,9 @@ import { Context } from "features/game/GameProvider";
 
 const _roomState = (state: MachineState) => state.value;
 
-export const Phaser: React.FC = () => {
+export const PhaserComponent: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
+  const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -57,7 +57,6 @@ export const Phaser: React.FC = () => {
           },
         ],
       },
-
       width: window.innerWidth,
       height: window.innerHeight,
 
@@ -82,8 +81,6 @@ export const Phaser: React.FC = () => {
     // Manually inject onto scenes so we have access to it
     (game as any).roomService = roomService;
   }, []);
-
-  console.log({ roomState });
 
   return (
     <div>
