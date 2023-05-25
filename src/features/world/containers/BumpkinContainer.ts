@@ -75,9 +75,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     );
 
     idleLoader.on(Phaser.Loader.Events.COMPLETE, () => {
-      this.sprite = scene.add
-        .sprite(0, 0, idleSpriteSheetKey)
-        .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+      if (this.sprite) {
+        return;
+      }
+
+      this.sprite = scene.add.sprite(0, 0, idleSpriteSheetKey).setOrigin(0.5);
 
       this.add(this.sprite);
 
@@ -101,7 +103,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         key: this.walkingAnimationKey,
         frames: scene.anims.generateFrameNumbers(walkingSpriteSheetKey, {
           start: 0,
-          end: 8,
+          end: 7,
         }),
         repeat: -1,
         frameRate: 10,
