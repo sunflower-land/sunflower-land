@@ -42,6 +42,11 @@ const BUMPKINS: NPCBumpkin[] = [
     y: 380,
     npc: "dulce",
   },
+  {
+    x: 120,
+    y: 170,
+    npc: "gabi",
+  },
 ];
 export class PhaserScene extends BaseScene {
   constructor() {

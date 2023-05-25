@@ -134,6 +134,20 @@ export const NPCModals: React.FC = () => {
             </div>
           </CloseButtonPanel>
         )}
+        {npc === "gabi" && (
+          <CloseButtonPanel
+            onClose={() => setNpc(undefined)}
+            bumpkinParts={NPC_WEARABLES.gabi}
+          >
+            <div className="p-2">
+              <p className="mb-2">Oi Bumpkin!</p>
+              <p className="mb-2">
+                You look creative, have you ever thought about contributing art
+                to the game?
+              </p>
+            </div>
+          </CloseButtonPanel>
+        )}
       </Modal>
     </>
   );

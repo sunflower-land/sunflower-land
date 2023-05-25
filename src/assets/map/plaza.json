@@ -2582,6 +2582,24 @@
           "width": 28.9450212880535,
           "x": 417.683388586911,
           "y": 310.149268801642
+        },
+        {
+          "height": 11.0574063680608,
+          "id": 131,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "fan_art"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 10.9736381379998,
+          "x": 131.013511815509,
+          "y": 147.013243757173
         }
       ],
       "opacity": 1,
@@ -2593,7 +2611,7 @@
     }
   ],
   "nextlayerid": 57,
-  "nextobjectid": 131,
+  "nextobjectid": 132,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",

@@ -16,7 +16,8 @@ export type NPCName =
   | "boujee"
   | "adam"
   | "alice"
-  | "dulce";
+  | "dulce"
+  | "gabi";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   betty: {
@@ -165,5 +166,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Pants",
     shoes: "Black Farmer Boots",
     tool: "Grave Diggers Shovel",
+  },
+  gabi: {
+    body: "Beige Farmer Potion",
+    background: "Cemetery Background",
+    hair: "Parlour Hair",
+    shirt: "Bumpkin Art Competition Merch",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Hammer",
   },
 };
