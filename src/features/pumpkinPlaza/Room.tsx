@@ -256,6 +256,7 @@ export const Room: React.FC<Props> = ({
             });
           }}
           game={gameState.context.state}
+          messages={[]}
         />
       )}
 
