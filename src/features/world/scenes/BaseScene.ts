@@ -321,17 +321,17 @@ export class BaseScene extends Phaser.Scene {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
     }
 
+    this.roomService.send("SEND_POSITION", {
+      x: this.currentPlayer.x,
+      y: this.currentPlayer.y,
+    });
+
     if (
       this.inputPayload.left ||
       this.inputPayload.right ||
       this.inputPayload.up ||
       this.inputPayload.down
     ) {
-      this.roomService.send("SEND_POSITION", {
-        x: this.currentPlayer.x,
-        y: this.currentPlayer.y,
-      });
-
       this.currentPlayer.walk();
     } else {
       this.currentPlayer.idle();
@@ -390,14 +390,14 @@ export class BaseScene extends Phaser.Scene {
 
       const distance = Phaser.Math.Distance.BetweenPoints(position, entity);
 
-      if (distance < 0.1) {
+      if (distance < 2) {
         entity.idle();
       } else {
         entity.walk();
       }
 
-      entity.x = Phaser.Math.Linear(entity.x, position.x, 0.6);
-      entity.y = Phaser.Math.Linear(entity.y, position.y, 0.6);
+      entity.x = Phaser.Math.Linear(entity.x, position.x, 0.05);
+      entity.y = Phaser.Math.Linear(entity.y, position.y, 0.05);
     }
   }
 
