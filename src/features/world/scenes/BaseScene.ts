@@ -155,7 +155,11 @@ export class BaseScene extends Phaser.Scene {
     this.roomService.onEvent((event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
         const { sessionId, text } = event as ChatMessageReceived;
-        if (sessionId && String(sessionId).length > 4) {
+        if (
+          sessionId &&
+          String(sessionId).length > 4 &&
+          this.playerEntities[sessionId]
+        ) {
           this.playerEntities[sessionId].speak(text);
         }
       }
