@@ -109,17 +109,17 @@ export class BaseScene extends Phaser.Scene {
           this.currentPlayer as BumpkinContainer
         );
         if (distance > 30) {
-          const text = this.add.bitmapText(
-            position.x - 20,
-            position.y,
-            "bitmapFont",
-            "Move closer!",
-            6
-          );
+          // const text = this.add.bitmapText(
+          //   position.x - 20,
+          //   position.y,
+          //   "bitmapFont",
+          //   "Move closer!",
+          //   6
+          // );
 
-          setTimeout(() => {
-            text.destroy();
-          }, 1000);
+          // setTimeout(() => {
+          //   text.destroy();
+          // }, 1000);
 
           return;
         }
