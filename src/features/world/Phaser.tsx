@@ -27,6 +27,7 @@ export const PhaserComponent: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  console.log({ b: gameState.context.state.bumpkin });
   const roomService = useInterpret(roomMachine, {
     context: {
       jwt: authState.context.user.rawToken,
