@@ -61,6 +61,7 @@ export class BaseScene extends Phaser.Scene {
     return (this.game as any).roomService as MachineInterpreter;
   }
   preload() {
+    console.log("preload");
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
@@ -73,6 +74,8 @@ export class BaseScene extends Phaser.Scene {
   }
 
   async create() {
+    console.log("create");
+
     const camera = this.cameras.main;
     camera.fadeIn();
     const tileset = this.map.addTilesetImage(
@@ -148,6 +151,7 @@ export class BaseScene extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     this.input.keyboard?.removeCapture("SPACE");
 
+    console.log("initialiser room...");
     // Respond to Websocket events
     this.roomService.onEvent((event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
