@@ -37,6 +37,10 @@ export const PhaserComponent: React.FC = () => {
   }) as unknown as MachineInterpreter;
 
   const roomState = useSelector(roomService, _roomState);
+  const messages = useSelector(
+    roomService,
+    (state: MachineState) => state.context.messages
+  );
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -94,6 +98,7 @@ export const PhaserComponent: React.FC = () => {
         onMessage={(m) =>
           roomService.send("SEND_CHAT_MESSAGE", { text: m.text ?? "?" })
         }
+        messages={messages}
       />
       <NPCModals />
       <InteractableModals />

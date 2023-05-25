@@ -2,8 +2,10 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Filter from "bad-words";
+import classNames from "classnames";
 
 interface Props {
+  messages: { sessionId: string; text: string }[];
   onMessage: (text: string) => void;
 }
 
@@ -17,7 +19,7 @@ const URL_REGEX = new RegExp(
 
 const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 
-export const ChatText: React.FC<Props> = ({ onMessage }) => {
+export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
   const ref = useRef<HTMLTextAreaElement>();
   const [text, setText] = useState("");
 
@@ -69,12 +71,34 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
     };
   });
 
+  const hasMessages = messages.length > 0;
+
   return (
     <form onSubmit={send}>
       <div
-        className="w-full relative mt-2"
+        className={classNames(
+          " bg-black bg-opacity-10 relative rounded-md w-64",
+          { "mt-2": hasMessages }
+        )}
+        style={{ lineHeight: "10px" }}
         onClick={() => console.log("text div clicked")}
       >
+        <div
+          className={classNames(
+            "max-h-48 overflow-y-scroll flex flex-col-reverse break-words",
+            { "mb-2": hasMessages }
+          )}
+        >
+          {messages.slice(0, 1000).map((message, i) => (
+            <p
+              key={i}
+              className="text-xxs pt-0.5 -indent-6 pl-6"
+              style={{ fontFamily: "monospace", textShadow: "none" }}
+            >
+              {message.sessionId}: {message.text}
+            </p>
+          ))}
+        </div>
         <textarea
           maxLength={MAX_CHARACTERS * 2}
           data-prevent-drag-scroll
@@ -87,27 +111,30 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
           onInput={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setText(e.target.value)
           }
-          style={{
-            border: "1px solid #ead4aa",
-            fontFamily: "monospace",
-            minHeight: "40px",
-            maxHeight: "160px",
-          }}
+          // style={
+          //   {
+          //     // border: "1px solid #ead4aa",
+          //     // fontFamily: "monospace",
+          //     // minHeight: "40px",
+          //     // maxHeight: "160px",
+          //   }
+          // }
           placeholder="Type here..."
-          className="text-sm placeholder-white w-full rounded-md bg-brown-200 pr-10 pl-2 py-2"
+          className="text-xxs placeholder-white w-full bg-black bg-opacity-10 pt-1 pr-20 rounded-md"
+          style={{ lineHeight: "10px", fontFamily: "monospace" }}
         />
 
-        {text.length > MAX_CHARACTERS && (
+        {/* {text.length > MAX_CHARACTERS && (
           <Label className="mt-3 mb-1 float-right" type="danger">
             {`Max ${MAX_CHARACTERS} characters`}
           </Label>
-        )}
+        )} */}
 
-        {isUrl && (
+        {/* {isUrl && (
           <Label className="mt-3 mb-1 float-right" type="danger">
             {`No URLs allowed`}
           </Label>
-        )}
+        )} */}
 
         {!isValidText && (
           <Label className="mt-3 mb-1 float-right" type="danger">
@@ -115,13 +142,13 @@ export const ChatText: React.FC<Props> = ({ onMessage }) => {
           </Label>
         )}
         <div
-          className="absolute right-1 top-1 cursor-pointer w-8"
+          className="absolute right-1 bottom-1 cursor-pointer w-8 flex justify-end"
           onClick={send}
         >
-          <img src={SUNNYSIDE.icons.disc} className="w-8" />
+          <img src={SUNNYSIDE.icons.disc} className="w-4" />
           <img
             src={SUNNYSIDE.icons.expression_chat}
-            className="w-4 absolute left-2 top-2"
+            className="w-2 absolute right-1 top-1"
           />
         </div>
       </div>
