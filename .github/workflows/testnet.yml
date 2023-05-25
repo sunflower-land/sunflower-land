@@ -32,6 +32,7 @@ jobs:
 
           VITE_API_URL: ${{ secrets.API_URL }}
           VITE_WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
+          VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mumbai
           VITE_ACCOUNT_MINTER_CONTRACT: "0x4357ef826Bb80dD0CAed2821eEa926eacf7923CC"
