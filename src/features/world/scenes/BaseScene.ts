@@ -7,7 +7,6 @@ import auctionJson from "assets/map/auction.json";
 import speechBubble from "../assets/speech_bubble.png";
 import shadow from "assets/npcs/shadow.png";
 import silhouette from "assets/npcs/silhouette.webp";
-import fontPng from "../assets/bitmapTest.png";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
@@ -71,11 +70,6 @@ export class BaseScene extends Phaser.Scene {
       frameWidth: 14,
       frameHeight: 18,
     });
-    this.load.bitmapFont(
-      "bitmapFont",
-      fontPng,
-      "./src/features/phaser/assets/bitmapTest.fnt"
-    );
   }
 
   async create() {
