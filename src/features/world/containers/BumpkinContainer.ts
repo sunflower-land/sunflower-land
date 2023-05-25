@@ -109,7 +109,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
 
     scene.load.start();
-    console.log("sprite after start", this.sprite);
   }
 
   public speak(text: string) {
