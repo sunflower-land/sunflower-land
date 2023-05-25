@@ -15,6 +15,8 @@ import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
 import { MachineInterpreter, MachineState, roomMachine } from "./roomMachine";
 import { Context } from "features/game/GameProvider";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -94,9 +96,11 @@ export const PhaserComponent: React.FC = () => {
       />
       <NPCModals />
       <InteractableModals />
-      {/* <Modal show={roomState === "initialising"} centered>
-        <Panel>Loading</Panel>
-      </Modal> */}
+      <Modal show={roomState === "initialising"} centered>
+        <Panel>
+          <p className="loading">Loading</p>
+        </Panel>
+      </Modal>
     </div>
   );
 };
