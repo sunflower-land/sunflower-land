@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
-import logo from "assets/brand/logo_with_sunflower.webp";
+import logo from "assets/brand/logo_v2.png";
+import sparkle from "assets/fx/sparkle2.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -54,14 +55,18 @@ export const Auth: React.FC = () => {
       backdrop={false}
     >
       <div className="relative flex items-center justify-center mb-6 -mt-44 w-full max-w-xl">
-        <img
-          id="logo"
-          src={logo}
-          className="w-[90%]"
-          style={{
-            width: `${PIXEL_SCALE * 126}px`,
-          }}
-        />
+        <div className="w-[90%] relative">
+          <img
+            src={sparkle}
+            className="absolute animate-pulse"
+            style={{
+              width: `${PIXEL_SCALE * 8}px`,
+              top: `${PIXEL_SCALE * 0}px`,
+              right: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
+          <img id="logo" src={logo} className="w-full" />
+        </div>
       </div>
       <Panel className="pb-1">
         {loading && <Loading />}

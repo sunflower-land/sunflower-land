@@ -354,7 +354,26 @@
       "draworder": "topdown",
       "id": 5,
       "name": "Interactable",
-      "objects": [],
+      "objects": [
+        {
+          "height": 33.719207061704,
+          "id": 6,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "auction_item"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 37.5851034127274,
+          "x": 149.481325572904,
+          "y": 149.696097592406
+        }
+      ],
       "opacity": 1,
       "type": "objectgroup",
       "visible": true,
@@ -363,7 +382,7 @@
     }
   ],
   "nextlayerid": 14,
-  "nextobjectid": 6,
+  "nextobjectid": 7,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
