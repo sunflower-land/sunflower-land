@@ -272,11 +272,13 @@ export class BaseScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    this.elapsedTime += delta;
-    while (this.elapsedTime >= this.fixedTimeStep) {
-      this.elapsedTime -= this.fixedTimeStep;
-      this.fixedTick(time, this.fixedTimeStep);
-    }
+    // this.elapsedTime += delta;
+    // while (this.elapsedTime >= this.fixedTimeStep) {
+    //   this.elapsedTime -= this.fixedTimeStep;
+    //   this.fixedTick(time, this.fixedTimeStep);
+    // }
+
+    this.fixedTick(time, this.fixedTimeStep);
   }
 
   moveCurrentPlayer() {
