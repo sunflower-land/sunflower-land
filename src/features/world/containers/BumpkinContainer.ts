@@ -2,6 +2,7 @@ import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "./SpeechBubble";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { Label } from "./Label";
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -19,7 +20,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     x: number,
     y: number,
     clothing: BumpkinParts,
-    onClick?: () => void
+    onClick?: () => void,
+    name?: string
   ) {
     super(scene, x, y);
     this.scene = scene;
@@ -36,6 +38,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.add(shadow);
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+
+    if (name) {
+      const label = new Label(this.scene, name.toUpperCase());
+      this.add(label);
+      label.setPosition(label.width / 2, -16);
+    }
 
     this.scene.add.existing(this);
 

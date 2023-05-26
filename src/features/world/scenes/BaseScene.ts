@@ -18,6 +18,7 @@ import { CONFIG } from "lib/config";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export type NPCBumpkin = {
   x: number;
@@ -67,11 +68,21 @@ export class BaseScene extends Phaser.Scene {
     // Phaser assets must be served from an URL
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
     this.load.image("speech_bubble", "world/speech_bubble.png");
+    this.load.image("label", "world/label.png");
+    this.load.image("hammer", SUNNYSIDE.icons.hammer);
+    this.load.image("disc", SUNNYSIDE.icons.disc);
     this.load.image("shadow", "world/shadow.png");
     this.load.spritesheet("silhouette", "world/silhouette.webp", {
       frameWidth: 14,
       frameHeight: 18,
     });
+    console.log("Prep");
+    this.load.bitmapFont(
+      "Small 5x3",
+      "world/small_3x5.png",
+      "world/small_3x5.xml"
+    );
+    console.log("done");
   }
 
   async create() {
@@ -364,7 +375,8 @@ export class BaseScene extends Phaser.Scene {
             return;
           }
           npcModalManager.open(bumpkin.npc);
-        }
+        },
+        bumpkin.npc
       );
       (container.body as Phaser.Physics.Arcade.Body)
         .setSize(16, 20)

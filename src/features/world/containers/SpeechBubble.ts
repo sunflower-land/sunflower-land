@@ -3,12 +3,6 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
     super(scene, 0, 0);
     this.scene = scene;
 
-    // const bitmapText = this.scene.make.bitmapText({
-    //   font: "8bitoperator",
-    //   size: 22,
-    // });
-    // const textR = scene.add.bitmapText(4, -20, "pixel", "Hello World", 3);
-
     const MAX_WIDTH = 40;
     const textR = scene.add
       .text(0, -25, text, {
