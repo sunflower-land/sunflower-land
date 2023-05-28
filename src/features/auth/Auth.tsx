@@ -54,7 +54,7 @@ export const Auth: React.FC = () => {
       }
       backdrop={false}
     >
-      <div className="relative flex items-center justify-center mb-6 -mt-44 w-full max-w-xl">
+      <div className="relative flex items-center justify-center mb-4 -mt-44 w-full max-w-xl">
         <div className="w-[90%] relative">
           <img
             src={sparkle}

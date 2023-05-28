@@ -13,7 +13,7 @@ import classNames from "classnames";
 import { createPortal } from "react-dom";
 import { TimeRemaining } from "./TimeRemaining";
 
-export const WEEKLY_GOAL = 20000;
+export const WEEKLY_GOAL = 15000;
 
 interface Props {
   lanternName: LanternName;
