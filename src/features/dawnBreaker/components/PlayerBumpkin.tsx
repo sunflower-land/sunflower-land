@@ -21,6 +21,7 @@ import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { setImageWidth } from "lib/images";
+import { getRequirementMultiplier } from "features/game/events/landExpansion/craftLantern";
 
 interface Props {
   currentWeek: Week;
@@ -59,19 +60,13 @@ export const PlayerBumpkin: React.FC<Props> = ({
     handleClose();
   };
 
-  // Requirements are multiplied by the number of lanterns crafted + 1 (for the current week)
-  // eg. 1st lantern requires 1x, 2nd lantern requires 2x, 3rd lantern requires 3x, etc.
-  let multiplier = 1;
   const lanternsCraftedThisWeek = lanternsCraftedByWeek[currentWeek];
-
-  if (lanternsCraftedThisWeek) {
-    multiplier = lanternsCraftedThisWeek + 1;
-  }
 
   const hasMissingIngredients = getKeys(
     availableLantern?.ingredients ?? {}
   ).some((name) => {
     const balance = inventory[name] ?? new Decimal(0);
+    const multiplier = getRequirementMultiplier(name, lanternsCraftedThisWeek);
     const amount = (availableLantern?.ingredients[name] ?? new Decimal(0)).mul(
       multiplier
     );
@@ -82,7 +77,9 @@ export const PlayerBumpkin: React.FC<Props> = ({
   const lessFunds = balance.lt(
     SFLDiscount(
       gameService.state?.context.state,
-      (availableLantern?.sfl ?? new Decimal(0)).mul(multiplier)
+      (availableLantern?.sfl ?? new Decimal(0)).mul(
+        getRequirementMultiplier("sfl", lanternsCraftedThisWeek)
+      )
     )
   );
   const disableCraft = hasMissingIngredients || lessFunds;
@@ -125,24 +122,36 @@ export const PlayerBumpkin: React.FC<Props> = ({
                 </div>
                 <div className="flex flex-1 items-center justify-center flex-col">
                   {availableLantern.ingredients &&
-                    getKeys(availableLantern.ingredients).map((name) => (
-                      <RequirementLabel
-                        key={name}
-                        type="item"
-                        item={name}
-                        requirement={(
-                          availableLantern.ingredients[name] ?? new Decimal(0)
-                        ).mul(multiplier)}
-                        balance={inventory[name] ?? new Decimal(0)}
-                      />
-                    ))}
+                    getKeys(availableLantern.ingredients).map((name) => {
+                      const multiplier = getRequirementMultiplier(
+                        name,
+                        lanternsCraftedThisWeek
+                      );
+
+                      return (
+                        <RequirementLabel
+                          key={name}
+                          type="item"
+                          item={name}
+                          requirement={(
+                            availableLantern.ingredients[name] ?? new Decimal(0)
+                          ).mul(multiplier)}
+                          balance={inventory[name] ?? new Decimal(0)}
+                        />
+                      );
+                    })}
                   {availableLantern.sfl?.gt(0) && (
                     <RequirementLabel
                       type="sfl"
                       balance={balance}
                       requirement={SFLDiscount(
                         gameService.state?.context.state,
-                        availableLantern.sfl.mul(multiplier)
+                        availableLantern.sfl.mul(
+                          getRequirementMultiplier(
+                            "sfl",
+                            lanternsCraftedThisWeek
+                          )
+                        )
                       )}
                     />
                   )}

@@ -5,11 +5,12 @@ import { NPCParts } from "features/island/bumpkin/components/NPC";
 import obieGif from "assets/sfts/obie.gif";
 import maxiumusImg from "assets/npcs/maximus.png";
 import snailImg from "assets/npcs/snail.png";
+import wendyImg from "assets/sfts/wood_nymph_wendy.gif";
 
 export type Week = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type SpeakingBumpkin = "marcus" | "bella" | "sofia";
-export type SpeakingNonBumpkin = "maximus" | "obie" | "snail";
+export type SpeakingNonBumpkin = "maximus" | "obie" | "snail" | "wendy";
 export type SpeakingCharacter = SpeakingBumpkin | SpeakingNonBumpkin;
 
 export function isSpeakingBumpkin(
@@ -75,6 +76,7 @@ export const characterImages: Record<SpeakingNonBumpkin, string> = {
   maximus: maxiumusImg,
   obie: obieGif,
   snail: snailImg,
+  wendy: wendyImg,
 };
 
 export const characters: Record<Week, DawnBreakerPositions> = {
@@ -420,7 +422,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       },
       {
         x: 11,
-        y: -6,
+        y: -5,
       },
     ],
     bumpkin: {
@@ -507,6 +509,65 @@ export const characters: Record<Week, DawnBreakerPositions> = {
     bumpkin: {
       x: 0,
       y: -2,
+    },
+    marcus: {
+      x: 4,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: They may have unleashed the night upon us, but they underestimate the power of our indomitable spirit.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 2,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: These eggplants may have overrun our fields, but I feel the tides are turning.`}</p>
+          <p>{`Could the moon seekers be behind this chaos? I will plant more of my crops and mix stronger potions. The glimmer of light brings me hope.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: 1,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: The night has cast its veil upon us, but we are piercing it with the brilliance of our unity!`}</p>
+          <p>{`Our light is growing stronger every week.`}</p>
+        </>
+      ),
+    },
+    maximus: {
+      x: -6,
+      y: -11,
+      dialogue: (
+        <>
+          <p>{`No! Obie where is that light coming from?`}</p>
+        </>
+      ),
+    },
+    wendy: {
+      x: 2,
+      y: -8,
+      dialogue: (
+        <>
+          <p>
+            {`The light... an intruder, seeking to banish the beauty of the night.`}
+          </p>
+          <p>
+            {`I will give all my power and combine with the moon seekers to hold down the veil!`}
+          </p>
+        </>
+      ),
+    },
+    obie: {
+      x: -8,
+      y: -12,
     },
   },
   7: {
