@@ -15,7 +15,6 @@ import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import { DeliveryHelp } from "./components/DeliveryHelp";
-import { hasFeatureAccess } from "lib/flags";
 import { hasNewOrders } from "./lib/delivery";
 
 const Board: React.FC = () => {
@@ -25,11 +24,6 @@ const Board: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const delivery = gameState.context.state.delivery;
-
-  const hasAccess = hasFeatureAccess(
-    gameState.context.state.inventory,
-    "DELIVERIES"
-  );
 
   return (
     <>
@@ -43,17 +37,12 @@ const Board: React.FC = () => {
       >
         <img
           src={deliveryBoard}
-          className={classNames("w-full", {
-            "cursor-pointer hover:img-highlight": hasAccess,
-          })}
+          className={classNames("w-full cursor-pointer hover:img-highlight")}
           onClick={() => {
-            if (!hasAccess) {
-              return;
-            }
             setShowModal(true);
           }}
         />
-        {hasAccess && hasNewOrders(delivery) && (
+        {hasNewOrders(delivery) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className="w-2.5 absolute top-3 right-3 pointer-events-none"

@@ -46,7 +46,7 @@ export const GrubShop: React.FC = () => {
     )?.name;
   }
 
-  const showDeliveries = Date.now() > new Date("2023-06-07").getTime();
+  const showDeliveries = Date.now() > new Date("2023-05-31").getTime();
 
   return (
     <>

@@ -460,6 +460,9 @@ export const OFFLINE_FARM: GameState = {
         },
         reward: {
           sfl: 2.225,
+          items: {
+            "Dawn Breaker Ticket": 1,
+          },
         },
       },
       {

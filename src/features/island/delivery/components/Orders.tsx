@@ -26,6 +26,7 @@ import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 interface Props {
   selectedId?: string;
@@ -214,6 +215,33 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               ></OuterPanel>
             </div>
           ))}
+        </div>
+        <div className="px-1 mb-1 flex-1 flex items-end">
+          <div>
+            <div className="flex">
+              <a
+                href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-tickets"
+                target="_blank"
+                className="text-xxs underline hover:text-blue-500"
+                rel="noreferrer"
+              >
+                Bonus Offer
+              </a>
+              <img src={SUNNYSIDE.icons.timer} className="h-4 ml-2" />
+              {/* TEMP */}
+              {Date.now() < new Date("2023-05-03T00:00:00").getTime() && (
+                <img
+                  src={ITEM_DETAILS[getSeasonalTicket()].image}
+                  className="h-4 ml-1"
+                />
+              )}
+            </div>
+            <div className="flex items-center">
+              <p className="text-xxs">
+                Earn 5 Seasonal Tickets for each order.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       {previewOrder && (
