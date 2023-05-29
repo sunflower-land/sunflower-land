@@ -39,48 +39,46 @@ export const Revealed: React.FC<{
             3x streak bonus
           </Label>
         )}
-        {items.length > 0 && (
-          <>
-            <div className="flex flex-col items-center mt-2">
-              {/* Images */}
-              <div className="flex flex-wrap justify-center items-center mb-2 space-x-2 mt-1">
-                {sfl > 0 && (
-                  <img
-                    src={token}
-                    className="mb-2"
-                    onLoad={(e) => setImageWidth(e.currentTarget)}
-                  />
-                )}
+        <>
+          <div className="flex flex-col items-center mt-2">
+            {/* Images */}
+            <div className="flex flex-wrap justify-center items-center mb-2 space-x-2 mt-1">
+              {sfl > 0 && (
+                <img
+                  src={token}
+                  className="mb-2"
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
+                />
+              )}
 
-                {items.map((name, index) => (
-                  <img
-                    key={`${name}-${index}`}
-                    src={ITEM_DETAILS[name as InventoryItemName].image}
-                    className="mb-2"
-                    onLoad={(e) => setImageWidth(e.currentTarget)}
-                    style={{
-                      opacity: 0,
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Text*/}
-              <div>
-                <p className="text-center text-sm mb-2">You found</p>
-                {sfl > 0 && (
-                  <p className="text-center text-sm mb-2">{`${sfl} SFL`}</p>
-                )}
-                {items.map((name, index) => (
-                  <p
-                    key={`${name}-${index}`}
-                    className="text-center text-sm mb-2"
-                  >{`${gameState.context.revealed?.inventory[name]} x ${name}`}</p>
-                ))}
-              </div>
+              {items.map((name, index) => (
+                <img
+                  key={`${name}-${index}`}
+                  src={ITEM_DETAILS[name as InventoryItemName].image}
+                  className="mb-2"
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
+                  style={{
+                    opacity: 0,
+                  }}
+                />
+              ))}
             </div>
-          </>
-        )}
+
+            {/* Text*/}
+            <div>
+              <p className="text-center text-sm mb-2">You found</p>
+              {sfl > 0 && (
+                <p className="text-center text-sm mb-2">{`${sfl} SFL`}</p>
+              )}
+              {items.map((name, index) => (
+                <p
+                  key={`${name}-${index}`}
+                  className="text-center text-sm mb-2"
+                >{`${gameState.context.revealed?.inventory[name]} x ${name}`}</p>
+              ))}
+            </div>
+          </div>
+        </>
       </div>
       <Button onClick={handleAcknowledge}>Continue</Button>
     </>
