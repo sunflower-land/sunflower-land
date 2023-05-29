@@ -4,7 +4,7 @@ import levelIcon from "assets/icons/level_up.png";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -81,7 +81,7 @@ export const BumpkinModal: React.FC<Props> = ({
 }) => {
   const [view, setView] = useState<ViewState>(initialView);
 
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState(0);
 
   const getVisitBumpkinUrl = () => {
     if (readonly) {

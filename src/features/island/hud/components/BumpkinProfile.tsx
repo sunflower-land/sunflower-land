@@ -190,7 +190,7 @@ export const BumpkinProfile: React.FC<{
 }> = ({ isFullUser }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);

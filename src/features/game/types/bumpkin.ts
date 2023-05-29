@@ -1,5 +1,3 @@
-import { GameState, Wardrobe } from "./game";
-
 export type BumpkinBackground =
   | "Farm Background"
   | "Seashore Background"
@@ -369,14 +367,6 @@ export type BumpkinPart = keyof Equipped;
 export type WalletItems = Record<BumpkinItem, number>;
 
 export const UNLIMITED_SUPPLY = 1000000;
-
-/**
- * Return the available (unequipped) wardrobe items
- * TODO - filter out used items
- */
-export function availableWardrobe(game: GameState): Wardrobe {
-  return game.wardrobe ?? {};
-}
 
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Beige Farmer Potion": "body",
