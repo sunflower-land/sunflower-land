@@ -54,6 +54,11 @@ interface PokoConfig {
   receiverId: string;
 }
 
+interface Price {
+  amount: number;
+  usd: number;
+}
+
 const PokoIFrame: React.FC<PokoConfig> = ({
   url,
   network,
@@ -65,6 +70,8 @@ const PokoIFrame: React.FC<PokoConfig> = ({
   extra,
   receiverId,
 }) => (
+  // It is possible to theme this with &backgroundColorHex=c18669&textColorHex=ffffff&primaryColorHex=e7a873
+  // I wasn't able to get it looking nice though
   <iframe
     src={`${url}?itemName=${itemName}&itemImageURL=${itemImageURL}&network=${network}&apiKey=${apiKey}&listingId=${listingId}&type=nft&marketplaceCode=${marketplaceCode}&receiverId=${receiverId}&extra=${extra}`}
     height="650px"
@@ -81,16 +88,10 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  console.log(gameService.state.value, gameState.context.state.id);
   const [showPoko, setShowPoko] = useState<PokoConfig | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
 
-  const [price, setPrice] = useState<
-    | {
-        amount: number;
-        usd: number;
-      }
-    | undefined
-  >(undefined);
+  const [price, setPrice] = useState<Price | undefined>(undefined);
 
   const onMaticBuy = async (amount: number) => {
     if (
@@ -111,35 +112,40 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   };
 
   const onCreditCardBuy = async () => {
-    const transaction = await buyBlockBucks({
-      amount: price?.amount ?? 0,
-      farmId: gameState.context.state.id as number,
-      transactionId: randomID(),
-      type: "USDC",
-      token: authState.context.user.rawToken as string,
-    });
+    setLoading(true);
+    try {
+      const transaction = await buyBlockBucks({
+        amount: price?.amount ?? 0,
+        farmId: gameState.context.state.id as number,
+        transactionId: randomID(),
+        type: "USDC",
+        token: authState.context.user.rawToken as string,
+      });
 
-    const { type, ...details } = transaction;
+      const { type, ...details } = transaction;
 
-    setShowPoko({
-      url:
-        CONFIG.NETWORK === "mumbai"
-          ? "https://dev.checkout.pokoapp.xyz/checkout"
-          : "https://checkout.pokoapp.xyz/checkout",
-      network:
-        CONFIG.NETWORK === "mumbai"
-          ? "polygonMumbaiRealUSDC"
-          : "polygonRealUSDC",
-      marketplaceCode: "sunflowerland",
-      listingId: gameState.context.state.id as number,
-      itemName: encodeURIComponent("Block Buck"),
-      itemImageURL: encodeURIComponent(
-        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKBAMAAAB293L0AAAAFVBMVEUAAAA+iUgYFCRzPjljx03+rjT3diJ3m6DqAAAAAXRSTlMAQObYZgAAADlJREFUCNdjYFACAQYGJhcQUGBQERQ2NhR0YlAUNAtNFhRiYBI0NQ4WVIDTKlBxRZA6sDwIKMDMAQCdDwmUp+H7pAAAAABJRU5ErkJggg=="
-      ),
-      apiKey: "85b7b9b5-b0d5-476c-999a-ba7007b85cd2",
-      extra: encodeURIComponent(JSON.stringify(details)),
-      receiverId: wallet.myAccount?.toLowerCase() as string,
-    });
+      setShowPoko({
+        url:
+          CONFIG.NETWORK === "mumbai"
+            ? "https://dev.checkout.pokoapp.xyz/checkout"
+            : "https://checkout.pokoapp.xyz/checkout",
+        network:
+          CONFIG.NETWORK === "mumbai"
+            ? "polygonMumbaiRealUSDC"
+            : "polygonRealUSDC",
+        marketplaceCode: "sunflowerland",
+        listingId: gameState.context.state.id as number,
+        itemName: encodeURIComponent("Block Bucks"),
+        itemImageURL: encodeURIComponent(
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAAXNSR0IArs4c6QAAABhQTFRFAAAAPolIGBQkcz45Y8dN/q40JlxC93Yi51WP2wAAAAh0Uk5TAP/////////VylQyAAAAm0lEQVRYhe3X0QqAIAyFYVem7//GDQ0ZEjWLYK7zX3UR38WhkkJACCGEjpaRHIB8TywRUVR0axoHq0allBIpujanADVIlxtQbriKnIGnMzKSc95KfNGZmlfPONjMtiELTNUB68WQNhEoN/QNtk+i3PDlc2gZlEdAN+Pjr419sN2mPPU8gfqmBqWp3FB/ppgFg/m/gC9AhBBCP2kHvTwQvZ+Xte4AAAAASUVORK5CYII="
+        ),
+        apiKey: "85b7b9b5-b0d5-476c-999a-ba7007b85cd2",
+        extra: encodeURIComponent(JSON.stringify(details)),
+        receiverId: wallet.myAccount?.toLowerCase() as string,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -150,7 +156,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   }, []);
 
   const Content = () => {
-    if (gameState.matches("autosaving")) {
+    if (gameState.matches("autosaving") || loading) {
       return (
         <div className="flex justify-center">
           <p className="loading text-center">Loading</p>
@@ -176,7 +182,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
           <div className="flex flex-grow items-stretch justify-around mx-3 space-x-5">
             <OuterPanel className="w-full flex flex-col items-center relative">
               <div className="flex w-full items-center justify-center py-4 px-2">
-                <p className="mr-2 mb-1 text-xs">Credit / Debit Card</p>
+                <p className="mr-2 mb-1 text-xs">Cash / Card</p>
                 <img
                   src={creditCard}
                   style={{
@@ -184,7 +190,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
                   }}
                 />
               </div>
-              <Button onClick={() => onCreditCardBuy()}>Pay with Card</Button>
+              <Button onClick={() => onCreditCardBuy()}>Pay with Cash</Button>
             </OuterPanel>
             <OuterPanel className="w-full flex flex-col items-center relative">
               <div className="flex w-full h-full items-center justify-center py-4 px-2">
@@ -213,6 +219,13 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
       );
     }
 
+    const onBuy = (price: Price) => {
+      // Go directly to MATIC purchase if they do not have direct checkout access
+      hasFeatureAccess(gameState.context.state.inventory, "DIRECT_CHECKOUT")
+        ? setPrice(price)
+        : onMaticBuy(price.amount);
+    };
+
     return (
       <>
         <div className="flex flex-wrap">
@@ -229,7 +242,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
                   />
                 </div>
                 <Button
-                  onClick={() => setPrice(price)}
+                  onClick={() => onBuy(price)}
                 >{`$${price.usd} USD`}</Button>
               </OuterPanel>
             </div>
