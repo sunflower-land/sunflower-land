@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { deliverOrder } from "./deliver";
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 
 describe("deliver", () => {
   it("requires the order exists", () => {
@@ -106,6 +106,86 @@ describe("deliver", () => {
 
     expect(state.balance).toEqual(new Decimal(0.1));
   });
+
+  it("rewards apron boost", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            coat: "Chef Apron",
+          },
+        },
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { sfl: 1 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(1.2));
+  });
+
+  it("rewards michellin star boost", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Michelin Stars": 1,
+          },
+        },
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { sfl: 1 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(1.05));
+  });
+
   it("rewards items", () => {
     const state = deliverOrder({
       state: {
@@ -125,7 +205,7 @@ describe("deliver", () => {
               items: {
                 Sunflower: 50,
               },
-              reward: { sfl: 0, items: { "Dawn Breaker Ticket": 1 } },
+              reward: { sfl: 0, items: { Carrot: 1 } },
             },
           ],
         },
@@ -136,7 +216,8 @@ describe("deliver", () => {
       },
     });
 
-    expect(state.inventory["Dawn Breaker Ticket"]).toEqual(new Decimal(1));
+    expect(state.inventory["Dawn Breaker Ticket"]).toEqual(new Decimal(5));
+    expect(state.inventory["Carrot"]).toEqual(new Decimal(1));
   });
 
   it("delivers the order", () => {

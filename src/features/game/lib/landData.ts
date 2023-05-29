@@ -240,8 +240,11 @@ const INITIAL_BUMPKIN: Bumpkin = {
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
+    coat: "Chef Apron",
   },
-  skills: {},
+  skills: {
+    "Michelin Stars": 1,
+  },
   achievements: {
     "Busy Bumpkin": 1,
   },
@@ -284,6 +287,7 @@ export const OFFLINE_FARM: GameState = {
   },
   balance: new Decimal(10),
   inventory: {
+    "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(500),
     Cauliflower: new Decimal(700),
     Beetroot: new Decimal(1000),

@@ -13,10 +13,13 @@ import heartBg from "assets/ui/heart_bg.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
-import { getDeliverySlots } from "features/game/events/landExpansion/deliver";
+import {
+  getDeliverySlots,
+  getOrderSellPrice,
+} from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { Order } from "features/game/types/game";
+import { Bumpkin, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
@@ -127,7 +130,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       {order.reward.sfl && (
                         <div className="flex items-center mt-1">
                           <img src={sfl} className="h-5 mr-1" />
-                          <span className="text-xs">{order.reward.sfl}</span>
+                          <span className="text-xs">
+                            {getOrderSellPrice(
+                              gameState.context.state.bumpkin as Bumpkin,
+                              order
+                            ).toFixed(2)}
+                          </span>
                         </div>
                       )}
                       {/* {getKeys(order.reward.items ?? {}).map((name) => (

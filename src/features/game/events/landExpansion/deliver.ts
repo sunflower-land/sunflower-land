@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
-import { GameState, Order } from "features/game/types/game";
+import { trackActivity } from "features/game/types/bumpkinActivity";
+import { CAKES, getKeys } from "features/game/types/craftables";
+import { Bumpkin, GameState, Order } from "features/game/types/game";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import cloneDeep from "lodash.clonedeep";
 
 export type DeliverOrderAction = {
@@ -62,6 +64,26 @@ const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
+export function getOrderSellPrice(bumpkin: Bumpkin, order: Order) {
+  const { skills } = bumpkin;
+
+  let mul = 1;
+
+  if (skills["Michelin Stars"]) {
+    mul += 0.05;
+  }
+
+  const items = getKeys(order.items);
+  if (
+    items.some((name) => name in CAKES()) &&
+    bumpkin.equipped.coat == "Chef Apron"
+  ) {
+    mul += 0.2;
+  }
+
+  return new Decimal(order.reward.sfl ?? 0).mul(mul);
+}
+
 export function deliverOrder({ state, action }: Options): GameState {
   const game = clone(state);
   const bumpkin = game.bumpkin;
@@ -92,16 +114,23 @@ export function deliverOrder({ state, action }: Options): GameState {
   });
 
   if (order.reward.sfl) {
-    game.balance = game.balance.add(order.reward.sfl);
+    const sfl = getOrderSellPrice(bumpkin, order);
+    game.balance = game.balance.add(sfl);
+
+    bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
   }
 
-  if (order.reward.items) {
-    getKeys(order.reward.items).forEach((name) => {
+  // Always give a seasonal ticket
+  const items = {
+    ...(order.reward.items ?? {}),
+    [getSeasonalTicket()]: 5,
+  };
+
+  if (items) {
+    getKeys(items).forEach((name) => {
       const previousAmount = game.inventory[name] || new Decimal(0);
 
-      game.inventory[name] = previousAmount.add(
-        order.reward.items?.[name] || 0
-      );
+      game.inventory[name] = previousAmount.add(items[name] || 0);
     });
   }
 
