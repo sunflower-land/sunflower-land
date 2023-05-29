@@ -53,7 +53,6 @@ import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 
-import { getSessionId } from "lib/blockchain/Sessions";
 import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
@@ -65,7 +64,7 @@ import {
   getGameRulesLastRead,
   getIntroductionRead,
 } from "features/announcements/announcementsStorage";
-import { depositToFarm } from "lib/blockchain/Deposit";
+import { depositBumpkin, depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { loadGuestSession } from "../actions/loadGuestSession";
 import { guestAutosave } from "../actions/guestAutosave";
@@ -78,6 +77,7 @@ import {
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
 import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
+import { getSessionId } from "lib/blockchain/Session";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -170,6 +170,9 @@ type DepositEvent = {
   sfl: string;
   itemIds: number[];
   itemAmounts: string[];
+  wearableIds: number[];
+  wearableAmounts: number[];
+  bumpkinId?: number;
 };
 
 export type BlockchainEvent =
@@ -697,7 +700,16 @@ export function startGame(authContext: AuthContext) {
             },
           ],
         },
-        noBumpkinFound: {},
+        noBumpkinFound: {
+          on: {
+            DEPOSIT: {
+              target: "depositing",
+            },
+            REFRESH: {
+              target: "refreshing",
+            },
+          },
+        },
         promoting: {
           on: {
             ACKNOWLEDGE: {
@@ -1166,14 +1178,34 @@ export function startGame(authContext: AuthContext) {
             src: async (context, event) => {
               if (!wallet.myAccount) throw new Error("No account");
 
-              await depositToFarm({
-                web3: wallet.web3Provider,
-                account: wallet.myAccount,
-                farmId: context.state.id as number,
-                sfl: (event as DepositEvent).sfl,
-                itemIds: (event as DepositEvent).itemIds,
-                itemAmounts: (event as DepositEvent).itemAmounts,
-              });
+              const {
+                sfl,
+                itemAmounts,
+                itemIds,
+                wearableIds,
+                wearableAmounts,
+                bumpkinId,
+              } = event as DepositEvent;
+
+              if (bumpkinId) {
+                await depositBumpkin({
+                  web3: wallet.web3Provider,
+                  account: wallet.myAccount,
+                  bumpkinId,
+                  farmId: context.state.id as number,
+                  wearableAmounts,
+                  wearableIds,
+                });
+              } else {
+                await depositToFarm({
+                  web3: wallet.web3Provider,
+                  account: wallet.myAccount,
+                  farmId: context.state.id as number,
+                  sfl: sfl,
+                  itemIds: itemIds,
+                  itemAmounts: itemAmounts,
+                });
+              }
             },
             onDone: {
               target: "refreshing",

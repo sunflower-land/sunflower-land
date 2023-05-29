@@ -5,7 +5,6 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { mint } from "../actions/mint";
 
-import { withdraw } from "../actions/withdraw";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { EMPTY } from "./constants";
@@ -20,10 +19,11 @@ import { getAvailableGameState } from "./transforms";
 import { getBumpkinLevel } from "./level";
 import { randomID } from "lib/utils/random";
 import { OFFLINE_FARM } from "./landData";
-import { getSessionId } from "lib/blockchain/Sessions";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import { reset } from "features/farming/hud/actions/reset";
+import { getSessionId } from "lib/blockchain/Session";
+import { withdrawSFL } from "../actions/withdraw";
 
 const API_URL = CONFIG.API_URL;
 
@@ -379,7 +379,22 @@ export function startGoblinVillage(authContext: AuthContext) {
             src: async (context, event) => {
               const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
 
-              const { sessionId } = await withdraw({
+              if (sfl) {
+                const { sessionId } = await withdrawSFL({
+                  farmId: Number(user.farmId),
+                  sessionId: context.sessionId as string,
+                  token: user.rawToken as string,
+                  sfl,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              const { sessionId } = await withdrawItems({
                 farmId: Number(user.farmId),
                 sessionId: context.sessionId as string,
                 token: user.rawToken as string,

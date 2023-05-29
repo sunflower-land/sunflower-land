@@ -286,6 +286,14 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   balance: new Decimal(10),
+  wardrobe: {
+    "Red Farmer Shirt": 3,
+    "Ancient Goblin Sword": 2,
+    "Ancient War Hammer": 2,
+    "Artist Scarf": 1,
+    "Basic Hair": 1,
+    "Blue Farmer Shirt": 2,
+  },
   inventory: {
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(500),

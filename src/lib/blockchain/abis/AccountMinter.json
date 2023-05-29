@@ -15,7 +15,8 @@
         "internalType": "contract SunflowerLandInventory",
         "name": "_inventory",
         "type": "address"
-      }
+      },
+      { "internalType": "address", "name": "_signer", "type": "address" }
     ],
     "stateMutability": "payable",
     "type": "constructor"

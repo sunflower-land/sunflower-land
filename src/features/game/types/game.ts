@@ -7,7 +7,7 @@ import { CommodityName, MushroomName, ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
-import { Equipped as BumpkinParts } from "./bumpkin";
+import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
@@ -233,6 +233,8 @@ export type InventoryItemName =
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
+
+export type Wardrobe = Partial<Record<BumpkinItem, number>>;
 
 export type Fields = Record<number, FieldItem>;
 
@@ -506,6 +508,7 @@ export interface GameState {
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;
+  wardrobe: Wardrobe;
   stock: Inventory;
   stockExpiry: StockExpiry;
 
