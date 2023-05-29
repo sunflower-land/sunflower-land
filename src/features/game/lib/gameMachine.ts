@@ -77,7 +77,7 @@ import {
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
-import { Currency, buyBlockBucks } from "../actions/buyBlockBucks";
+import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -953,7 +953,7 @@ export function startGame(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              const response = await buyBlockBucks({
+              const response = await buyBlockBucksMATIC({
                 farmId: Number(authContext.user.farmId),
                 type: (event as BuyBlockBucksEvent).currency,
                 amount: (event as BuyBlockBucksEvent).amount,

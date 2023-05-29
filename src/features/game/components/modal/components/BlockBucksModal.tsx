@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useEffect, useState } from "react";
-import ticket from "assets/icons/block_buck_detailed.png";
+import ticket from "assets/icons/block_buck_detailed.png?inline";
 import creditCard from "assets/icons/credit_card.png";
 import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
@@ -12,6 +12,9 @@ import { analytics } from "lib/analytics";
 import { hasFeatureAccess } from "lib/flags";
 import { CONFIG } from "lib/config";
 import { wallet } from "lib/blockchain/wallet";
+import { buyBlockBucks } from "features/game/actions/buyBlockBucks";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { randomID } from "lib/utils/random";
 
 interface Props {
   onClose: () => void;
@@ -39,19 +42,48 @@ const PRICES: {
   },
 ];
 
-const pokoUrl =
-  CONFIG.NETWORK === "mumbai"
-    ? "https://dev.checkout.pokoapp.xyz/checkout"
-    : "https://checkout.pokoapp.xyz/checkout";
+interface PokoConfig {
+  url: string;
+  network: string;
+  marketplaceCode: string;
+  itemName: string;
+  itemImageURL: string;
+  listingId: number;
+  apiKey: string;
+  extra: string;
+  receiverId: string;
+}
 
-const pokoNetwork =
-  CONFIG.NETWORK === "mumbai" ? "polygonMumbaiRealUSDC" : "polygonRealUSDC";
+const PokoIFrame: React.FC<PokoConfig> = ({
+  url,
+  network,
+  marketplaceCode,
+  itemImageURL,
+  itemName,
+  listingId,
+  apiKey,
+  extra,
+  receiverId,
+}) => (
+  <iframe
+    src={`${url}?itemName=${itemName}&itemImageURL=${itemImageURL}&network=${network}&apiKey=${apiKey}&listingId=${listingId}&type=nft&marketplaceCode=${marketplaceCode}&receiverId=${receiverId}&extra=${extra}`}
+    height="650px"
+    className="w-full"
+    title="Poko widget"
+    allow="accelerometer; autoplay; camera; gyroscope; payment"
+  />
+);
 
 export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [showPoko, setShowPoko] = useState(false);
+  console.log(gameService.state.value, gameState.context.state.id);
+  const [showPoko, setShowPoko] = useState<PokoConfig | undefined>(undefined);
+
   const [price, setPrice] = useState<
     | {
         amount: number;
@@ -78,8 +110,36 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const onCreditCardBuy = () => {
-    setShowPoko(true);
+  const onCreditCardBuy = async () => {
+    const transaction = await buyBlockBucks({
+      amount: price?.amount ?? 0,
+      farmId: gameState.context.state.id as number,
+      transactionId: randomID(),
+      type: "USDC",
+      token: authState.context.user.rawToken as string,
+    });
+
+    const { type, ...details } = transaction;
+
+    setShowPoko({
+      url:
+        CONFIG.NETWORK === "mumbai"
+          ? "https://dev.checkout.pokoapp.xyz/checkout"
+          : "https://checkout.pokoapp.xyz/checkout",
+      network:
+        CONFIG.NETWORK === "mumbai"
+          ? "polygonMumbaiRealUSDC"
+          : "polygonRealUSDC",
+      marketplaceCode: "sunflowerland",
+      listingId: gameState.context.state.id as number,
+      itemName: encodeURIComponent("Block Buck"),
+      itemImageURL: encodeURIComponent(
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKBAMAAAB293L0AAAAFVBMVEUAAAA+iUgYFCRzPjljx03+rjT3diJ3m6DqAAAAAXRSTlMAQObYZgAAADlJREFUCNdjYFACAQYGJhcQUGBQERQ2NhR0YlAUNAtNFhRiYBI0NQ4WVIDTKlBxRZA6sDwIKMDMAQCdDwmUp+H7pAAAAABJRU5ErkJggg=="
+      ),
+      apiKey: "85b7b9b5-b0d5-476c-999a-ba7007b85cd2",
+      extra: encodeURIComponent(JSON.stringify(details)),
+      receiverId: wallet.myAccount?.toLowerCase() as string,
+    });
   };
 
   useEffect(() => {
@@ -95,18 +155,6 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
         <div className="flex justify-center">
           <p className="loading text-center">Loading</p>
         </div>
-      );
-    }
-
-    if (showPoko) {
-      return (
-        <iframe
-          src={`${pokoUrl}?itemName=Block%20Bucks&itemImageURL=${ticket}&network=${pokoNetwork}&apiKey=${CONFIG.POKO_API_KEY}&listingId=${gameState.context.state.id}&type=nft&merchantCode=sunflowerland&receiverId=${wallet.myAccount}&extra=%7B%22farmId%22:${gameState.context.state.id},%22deadline%22:1686969119,%22amount%22:1,%22fee%22:%2210000%22,%22signature%22:%220x368f57ec8e063c4a9aeebe313a9462c24e284d8fcdc6bf1e72d60858df10ab060b8529d71c7e5752edad360911df4c537938aff4cbf104fa349504a055688b411b%22%7D`}
-          height="650px"
-          className="w-full"
-          title="Poko widget"
-          allow="accelerometer; autoplay; camera; gyroscope; payment"
-        />
       );
     }
 
@@ -217,7 +265,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
         tool: "Farmer Pitchfork",
       }}
     >
-      <Content />
+      {showPoko ? <PokoIFrame {...showPoko} /> : <Content />}
     </CloseButtonPanel>
   );
 };
