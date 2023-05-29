@@ -438,6 +438,11 @@ img {
   transform-origin: 50% 50%;
 }
 
+.shake {
+  animation: ready-shake 1s ease infinite;
+  transform-origin: 50% 50%;
+}
+
 @keyframes ready-shake {
   0% {
     transform: translate(0, 0);

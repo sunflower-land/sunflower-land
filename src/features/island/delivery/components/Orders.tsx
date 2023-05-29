@@ -199,7 +199,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
                   <p className="text-xs">
                     {secondsToString((nextOrder.readyAt - Date.now()) / 1000, {
-                      length: "short",
+                      length: "medium",
                     })}
                   </p>
                 </div>

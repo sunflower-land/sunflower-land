@@ -196,7 +196,7 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <img
                   src={chest}
                   className={classNames("absolute h-8 shadow-lg", {
-                    "animate-pulsate cursor-pointer ":
+                    "ready cursor-pointer img-highlight-heavy":
                       progress >= delivery.milestone.goal && !isRevealing,
                   })}
                   onClick={() => {
