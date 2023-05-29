@@ -132,7 +132,11 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
                 marginLeft: `${DIMENSIONS.bumpkin.marginLeft}px`,
               }}
             >
-              <DynamicNFT bumpkinParts={bumpkin.equipped} showTools={false} />
+              <DynamicNFT
+                key={JSON.stringify(bumpkin.equipped)}
+                bumpkinParts={bumpkin.equipped}
+                showTools={false}
+              />
             </div>
           )}
         </div>

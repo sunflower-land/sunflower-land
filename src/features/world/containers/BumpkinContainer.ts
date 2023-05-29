@@ -64,14 +64,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     const idleSpriteSheetKey = `${r}-bumpkin-idle-sheet`;
     const walkingSpriteSheetKey = `${r}-bumpkin-walking-sheet`;
 
-    const idleLoader = this.scene.load.spritesheet(
-      idleSpriteSheetKey,
-      sheets.idle,
-      {
-        frameWidth: 20,
-        frameHeight: 19,
-      }
-    );
+    const idleLoader = this.scene.load.spritesheet(idleSpriteSheetKey, "X", {
+      frameWidth: 20,
+      frameHeight: 19,
+    });
 
     const walkingLoader = this.scene.load.spritesheet(
       walkingSpriteSheetKey,
