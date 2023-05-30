@@ -11,10 +11,10 @@ interface Props {
 export const SpeechBubble: React.FC<Props> = ({ text }) => {
   return (
     <div
-      className="relative flex items-center justify-start max-w-[100px]"
+      className="relative flex items-center"
       style={{ ...pixelSpeechBubbleBorderStyle }}
     >
-      <span className="text-xxs font-speech text-shadow-none text-black">
+      <span className="text-[12px] leading-4 font-speech text-shadow-none text-black">
         {text}
       </span>
       <img

@@ -14,10 +14,8 @@ import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import { InnerPanel } from "components/ui/Panel";
-import { getKeys } from "features/game/types/craftables";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import { ResizableBar } from "components/ui/ProgressBar";
 import {
@@ -31,36 +29,39 @@ import { SpeechBubble } from "./potions/SpeechBubble";
 import {
   calculateScore,
   generatePotionCombination,
+  getFeedbackText,
 } from "./potions/lib/helpers";
 import { BASIC_POTIONS, SPECIAL_POTIONS } from "./potions/lib/potions";
 import { IntroPage } from "./potions/Intro";
 import { Box } from "./potions/Box";
-
-// - You can see how many attempts you have
-// - You can see previous attempts and the success
-// - You can see the happiness of the plant
-// - You can see what each potion does + add it
-// - You can confirm your select of potions before mixing
-// - The Potion Master guides a player
+import { ITEM_DETAILS } from "features/game/types/images";
+import { getKeys } from "features/game/types/craftables";
 
 const INNER_CANVAS_WIDTH = 14;
 
 export const Beans = () => {
   const expandButtonRef = useRef<HTMLDivElement>(null);
   const expandedDivRef = useRef<HTMLDivElement>(null);
-  const [selectedPotion, setSelectedPotion] = useState<Potion | null>(null);
+  const [selectedPotion, setSelectedPotion] = useState<Potion>(
+    BASIC_POTIONS[0]
+  );
   const [game, setGame] = useState<{ turns: Turn[] }>({ turns: [] });
   const [currentGuess, setCurrentGuess] = useState<(PotionName | undefined)[]>(
     []
   );
   const [guessSpot, setGuessSpot] = useState<number>(0);
-  const [page, setPage] = useState<"intro" | "game" | "complete">("intro");
+  const [page, setPage] = useState<"intro" | "game" | "complete">("game");
   const [combination, setCombination] = useState<Combination>(() =>
     generatePotionCombination()
   );
   const [showSpecialPotionModal, setShowSpecialPotionModal] = useState(false);
   const [selectedSpecialPotion, setSelectedSpecialPotion] =
     useState<Potion | null>(null);
+
+  const [score, setScore] = useState<number>(0);
+  const [feedbackText, setFeedbackText] = useState<string>(
+    "Welcome, apprentice! Select your potions and unveil the secrets of the plants!"
+  );
 
   useEffect(() => {
     // Have the bottle image spin once on load and then call handleExpand
@@ -70,8 +71,15 @@ export const Beans = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Combination changed", combination);
-  }, [combination]);
+    if (game.turns.length === 0) return;
+
+    const score = calculateScore(game.turns[game.turns.length - 1].feedback);
+
+    console.log({ score });
+
+    setScore(score);
+    setFeedbackText(getFeedbackText(score));
+  }, [game.turns]);
 
   const handleExpand = () => {
     if (!expandButtonRef.current || !expandedDivRef.current) return;
@@ -197,7 +205,7 @@ export const Beans = () => {
             >
               <div id="cover" />
               {/* Potion Room */}
-              <div className="p-1 flex flex-col relative h-full">
+              <div className="p-1 flex flex-col relative h-full overflow-auto scrollable">
                 {/* Header */}
                 <div className="flex mb-3 w-full justify-center">
                   <div
@@ -270,17 +278,40 @@ export const Beans = () => {
                                       )}
                                     </div>
                                   ))}
+                                  <div className="flex flex-col items-center border-t-2 border-coolGray-500">
+                                    <div className="flex my-2">
+                                      {new Array(4)
+                                        .fill(null)
+                                        .map((_, index) => (
+                                          <div
+                                            className="relative"
+                                            key={`select-${index}`}
+                                            onClick={() => setGuessSpot(index)}
+                                          >
+                                            <Box guess={currentGuess[index]} />
+                                            {index === guessSpot && (
+                                              <SelectBox />
+                                            )}
+                                          </div>
+                                        ))}
+                                    </div>
+                                    <Button
+                                      disabled={currentGuess.length < 4}
+                                      onClick={handleConfirmGuess}
+                                    >
+                                      Mix potion
+                                    </Button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            {/* Turn */}
                           </div>
                         </div>
                         {/* Right Side */}
                         <div className="flex flex-col items-center w-full h-full">
                           <div className="flex flex-col justify-between">
                             {/* Plant */}
-                            <div className="flex items-center mb-4 flex-col">
+                            <div className="flex items-center mb-2 flex-col">
                               <img
                                 src={plant}
                                 alt="Plant"
@@ -289,9 +320,7 @@ export const Beans = () => {
                               />
                               {/* <Prog */}
                               <ResizableBar
-                                percentage={calculateScore(
-                                  game.turns?.[game.turns.length - 1]?.feedback
-                                )}
+                                percentage={score}
                                 type="health"
                                 outerDimensions={{
                                   width: 28,
@@ -299,10 +328,10 @@ export const Beans = () => {
                                 }}
                               />
                             </div>
-                            <div>
-                              <SpeechBubble text="Good choice!" />
+                            <div className="ml-1">
+                              <SpeechBubble text={feedbackText} />
                               <div
-                                className="relative mt-2"
+                                className="relative mt-2 max-w-[190px]"
                                 style={{ transform: "scale(-1, 1)" }}
                               >
                                 <DynamicNFT
@@ -321,101 +350,73 @@ export const Beans = () => {
                           </div>
                         </div>
                       </div>
-
-                      {/* Turn Section */}
-                      <div className="flex w-full items-end mt-2 min-h-[140px]">
-                        <div className="flex flex-col items-center w-3/5">
-                          <div className="flex my-2">
-                            {new Array(4).fill(null).map((_, index) => (
-                              <div
-                                className="relative"
-                                key={`select-${index}`}
-                                onClick={() => setGuessSpot(index)}
-                              >
-                                <Box guess={currentGuess[index]} />
-                                {index === guessSpot && (
-                                  <>
-                                    <img
-                                      className="absolute pointer-events-none"
-                                      src={selectBoxBL}
-                                      style={{
-                                        top: `${
-                                          PIXEL_SCALE * INNER_CANVAS_WIDTH - 4
-                                        }px`,
-                                        left: `${PIXEL_SCALE * 0}px`,
-                                        width: `${PIXEL_SCALE * 4}px`,
-                                      }}
-                                    />
-                                    <img
-                                      className="absolute pointer-events-none"
-                                      src={selectBoxBR}
-                                      style={{
-                                        top: `${
-                                          PIXEL_SCALE * INNER_CANVAS_WIDTH - 4
-                                        }px`,
-                                        left: `${
-                                          PIXEL_SCALE * INNER_CANVAS_WIDTH - 4
-                                        }px`,
-                                        width: `${PIXEL_SCALE * 4}px`,
-                                      }}
-                                    />
-                                    <img
-                                      className="absolute pointer-events-none"
-                                      src={selectBoxTL}
-                                      style={{
-                                        top: `${PIXEL_SCALE * 1}px`,
-                                        left: `${PIXEL_SCALE * 0}px`,
-                                        width: `${PIXEL_SCALE * 4}px`,
-                                      }}
-                                    />
-                                    <img
-                                      className="absolute pointer-events-none"
-                                      src={selectBoxTR}
-                                      style={{
-                                        top: `${PIXEL_SCALE * 1}px`,
-                                        left: `${
-                                          PIXEL_SCALE * INNER_CANVAS_WIDTH - 4
-                                        }px`,
-                                        width: `${PIXEL_SCALE * 4}px`,
-                                      }}
-                                    />
-                                  </>
+                      {/* Bottom Section */}
+                      <div className="flex flex-col grow">
+                        {/* Potions */}
+                        <div className="flex flex-col justify-end grow">
+                          <h2 className="mb-1">Potions</h2>
+                          <InnerPanel>
+                            <div className="p-1 flex flex-col space-y-1">
+                              <div className="flex space-x-1 mb-1">
+                                {[...BASIC_POTIONS, ...SPECIAL_POTIONS].map(
+                                  (potion) => {
+                                    return (
+                                      <img
+                                        onClick={() =>
+                                          setSelectedPotion(potion)
+                                        }
+                                        key={potion.name}
+                                        src={potion.image}
+                                        style={{
+                                          width: `${PIXEL_SCALE * 10}px`,
+                                        }}
+                                        className={classNames(
+                                          "cursor-pointer",
+                                          {
+                                            "img-highlight":
+                                              potion.name ===
+                                              selectedPotion?.name,
+                                          }
+                                        )}
+                                        alt={`${potion.name} Potion`}
+                                      />
+                                    );
+                                  }
                                 )}
                               </div>
-                            ))}
-                          </div>
-                          <Button
-                            disabled={currentGuess.length < 4}
-                            onClick={handleConfirmGuess}
-                          >
-                            Mix
-                          </Button>
-                        </div>
-                        {selectedPotion && (
-                          <div className="flex flex-col items-center justify-end grow h-full ml-1 mt-2 p-2 pb-0 justify-self-end">
-                            <span className="text-xxs text-center mb-2 w-min whitespace-nowrap">
-                              {selectedPotion.name}
-                            </span>
-                            {/* Ingredients */}
-                            <div className="space-y-1 mb-2">
-                              {getKeys(selectedPotion.ingredients).map(
-                                (item, index) => {
-                                  return (
-                                    <div
-                                      key={`${item}-${index}`}
-                                      className="flex space-x-1"
-                                    >
-                                      <img
-                                        src={ITEM_DETAILS[item].image}
-                                        className="w-3 "
-                                      />
-                                      <span className="ml-1 text-xxs">{`${selectedPotion.ingredients[item]}/100`}</span>
-                                    </div>
-                                  );
-                                }
+                              {selectedPotion && (
+                                <>
+                                  <span className="text-[18px]">
+                                    {selectedPotion.name}
+                                  </span>
+
+                                  <span className="text-xxs sm:mt-1 whitespace-pre-line sm:text-center">
+                                    {selectedPotion.description}
+                                  </span>
+
+                                  <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
+                                    {getKeys(selectedPotion.ingredients).map(
+                                      (item, index) => {
+                                        return (
+                                          <div
+                                            key={`${item}-${index}`}
+                                            className="flex space-x-1"
+                                          >
+                                            <img
+                                              src={ITEM_DETAILS[item].image}
+                                              className="w-3 "
+                                            />
+                                            <span className="ml-1 text-xxs">{`${selectedPotion.ingredients[item]}/100`}</span>
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
+                                </>
                               )}
                             </div>
                             <Button
+                              className="h-9"
                               onClick={() =>
                                 handleGuessChange(
                                   guessSpot,
@@ -423,57 +424,10 @@ export const Beans = () => {
                                 )
                               }
                             >
-                              Buy
+                              Add to mix
                             </Button>
-                          </div>
-                        )}
-                      </div>
-                      {/* Bottom Section */}
-                      <div className="flex flex-col justify-end grow">
-                        <h2 className="mb-1">Basic Potions</h2>
-                        <InnerPanel className="flex p-2 space-x-2">
-                          {BASIC_POTIONS.map((potion) => {
-                            return (
-                              <img
-                                onClick={() => setSelectedPotion(potion)}
-                                key={potion.name}
-                                src={potion.image}
-                                style={{
-                                  width: `${PIXEL_SCALE * 10}px`,
-                                }}
-                                className={classNames("cursor-pointer", {
-                                  "img-highlight":
-                                    potion.name === selectedPotion?.name,
-                                })}
-                                alt={`${potion.name} Potion`}
-                              />
-                            );
-                          })}
-                        </InnerPanel>
-                      </div>
-                      <div className="flex flex-col justify-end grow">
-                        <h2 className="mb-1">Special Potions</h2>
-                        <InnerPanel className="flex p-2 space-x-2">
-                          {SPECIAL_POTIONS.map((potion) => {
-                            return (
-                              <img
-                                onClick={() =>
-                                  handleSpecialPotionModalOpen(potion)
-                                }
-                                key={potion.name}
-                                src={potion.image}
-                                style={{
-                                  width: `${PIXEL_SCALE * 10}px`,
-                                }}
-                                className={classNames("cursor-pointer", {
-                                  "img-highlight":
-                                    potion.name === selectedPotion?.name,
-                                })}
-                                alt={`${potion.name} Potion`}
-                              />
-                            );
-                          })}
-                        </InnerPanel>
+                          </InnerPanel>
+                        </div>
                       </div>
                     </>
                   )}
@@ -489,6 +443,49 @@ export const Beans = () => {
         </>,
         document.body
       )}
+    </>
+  );
+};
+
+const SelectBox = () => {
+  return (
+    <>
+      <img
+        className="absolute pointer-events-none"
+        src={selectBoxBL}
+        style={{
+          top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
+          left: 0,
+          width: `${PIXEL_SCALE * 6}px`,
+        }}
+      />
+      <img
+        className="absolute pointer-events-none"
+        src={selectBoxBR}
+        style={{
+          top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
+          left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
+          width: `${PIXEL_SCALE * 6}px`,
+        }}
+      />
+      <img
+        className="absolute pointer-events-none"
+        src={selectBoxTL}
+        style={{
+          top: 0,
+          left: 0,
+          width: `${PIXEL_SCALE * 6}px`,
+        }}
+      />
+      <img
+        className="absolute pointer-events-none"
+        src={selectBoxTR}
+        style={{
+          top: 0,
+          left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
+          width: `${PIXEL_SCALE * 6}px`,
+        }}
+      />
     </>
   );
 };

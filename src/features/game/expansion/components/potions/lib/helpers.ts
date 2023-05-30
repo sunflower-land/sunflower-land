@@ -7,16 +7,21 @@ export function calculateScore(feedback?: GuessFeedback[]): number {
 
   const scoreMap: Record<GuessFeedback, number> = {
     correct: 25,
-    almost: 5,
+    almost: 15,
     incorrect: -10,
     bombed: 0,
   };
 
   let score = 0;
 
-  for (const feedbackType of feedback) {
-    score += scoreMap[feedbackType];
-  }
+  const correctCount = feedback.filter((type) => type === "correct").length;
+  score = correctCount * scoreMap.correct;
+
+  const almostCount = feedback.filter((type) => type === "almost").length;
+  score += almostCount * scoreMap.almost;
+
+  const incorrectCount = feedback.filter((type) => type === "incorrect").length;
+  score += incorrectCount * scoreMap.incorrect;
 
   // Ensure the score is within the range of 0 to 100
   score = Math.max(0, Math.min(100, score));
@@ -42,21 +47,17 @@ export const generatePotionCombination = (): Combination => {
   };
 };
 
-export function getFeedbackText(turns: number, score: number): string {
-  if (turns === 0) {
-    return "Welcome, apprentice! Select your potions and unveil the secrets of the plants!";
-  }
-
+export function getFeedbackText(score: number): string {
   if (score >= 90) {
     const feedbackOptions = [
-      "Incredible! You've mastered the art of potion-making!",
-      "Magnificent! Your skills have brought the plant to life!",
+      "Incredible! You're mastering the art of potion-making!",
+      "Magnificent! Your skills are bringing the plant to life!",
       "Astounding! The plant is in awe of your expertise!",
     ];
     return feedbackOptions[Math.floor(Math.random() * feedbackOptions.length)];
   }
 
-  if (score >= 70) {
+  if (score >= 50) {
     const feedbackOptions = [
       "Great job! Your potion is a hit with the plant!",
       "Well done! The plant thrives on your skillful concoction!",
@@ -65,7 +66,7 @@ export function getFeedbackText(turns: number, score: number): string {
     return feedbackOptions[Math.floor(Math.random() * feedbackOptions.length)];
   }
 
-  if (score >= 50) {
+  if (score >= 25) {
     const feedbackOptions = [
       "Good work! The plant is pleased with your efforts!",
       "Nice effort! Your potion brings joy to the plant!",
@@ -74,7 +75,7 @@ export function getFeedbackText(turns: number, score: number): string {
     return feedbackOptions[Math.floor(Math.random() * feedbackOptions.length)];
   }
 
-  if (score >= 30) {
+  if (score > 0) {
     const feedbackOptions = [
       "Keep trying! The plant recognizes your determination!",
       "You're getting there! The plant sees your progress!",
@@ -84,9 +85,9 @@ export function getFeedbackText(turns: number, score: number): string {
   }
 
   const feedbackOptions = [
-    "Oh no! Your potion didn't have the desired effect on the plant.",
-    "Oops! The plant seems unimpressed with your potion.",
-    "Uh-oh! Your potion didn't quite hit the mark with the plant.",
+    "Oh no! The plant despises your potion!",
+    "Oops! The plant recoils from your potion!",
+    "Uh-oh! Your potion is a total flop with the plant!",
   ];
   return feedbackOptions[Math.floor(Math.random() * feedbackOptions.length)];
 }

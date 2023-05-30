@@ -20,6 +20,7 @@ export const BASIC_POTIONS: Potion[] = [
       Iron: 10,
     },
     image: orangeBottle,
+    description: "Ignite your plants with vibrant blooms!",
   },
   {
     name: "Happy Hooch",
@@ -29,6 +30,7 @@ export const BASIC_POTIONS: Potion[] = [
       Wood: 10,
     },
     image: blueBottle,
+    description: "Cheers! A potion to bring joy and laughter to your plants.",
   },
   {
     name: "Earth Essence",
@@ -38,6 +40,7 @@ export const BASIC_POTIONS: Potion[] = [
       Iron: 10,
     },
     image: pinkBottle,
+    description: "Harness the power of the earth to nurture your plants.",
   },
   {
     name: "Flower Power",
@@ -46,6 +49,7 @@ export const BASIC_POTIONS: Potion[] = [
       Iron: 10,
     },
     image: aquaBottle,
+    description: "Unleash a burst of floral energy upon your plants.",
   },
   {
     name: "Organic Oasis",
@@ -55,6 +59,7 @@ export const BASIC_POTIONS: Potion[] = [
       Stone: 10,
     },
     image: greenBottle,
+    description: "Create a lush, organic paradise for your plants.",
   },
   {
     name: "Dream Drip",
@@ -64,6 +69,7 @@ export const BASIC_POTIONS: Potion[] = [
       Stone: 10,
     },
     image: mustardBottle,
+    description: "Drizzle your plants with magical dreams and fantasies.",
   },
   {
     name: "Ember Elixir",
@@ -73,6 +79,7 @@ export const BASIC_POTIONS: Potion[] = [
       Stone: 10,
     },
     image: redBottle,
+    description: "Infuse your plants with the fiery essence of determination.",
   },
   {
     name: "Whisper Brew",
@@ -82,6 +89,7 @@ export const BASIC_POTIONS: Potion[] = [
       Stone: 10,
     },
     image: purpleBottle,
+    description: "Craft a potion that enhances your plant's mystical aura.",
   },
 ];
 
@@ -94,14 +102,15 @@ export const SPECIAL_POTIONS: Potion[] = [
       Stone: 10,
     },
     image: blackBottle,
+    description:
+      "Risk it all! 50/50 chance of booming or destroying the plant.",
   },
   {
     name: "Golden Syrup",
     ingredients: {
-      Egg: 10,
-      Kale: 10,
-      Stone: 10,
+      Gold: 5,
     },
     image: whiteBottle,
+    description: "Guaranteed to bloom the plant, but at a cost.",
   },
 ];

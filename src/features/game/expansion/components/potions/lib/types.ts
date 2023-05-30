@@ -6,7 +6,7 @@ export type GuessFeedback = "correct" | "almost" | "incorrect" | "bombed";
 export type Potion = {
   name: PotionName;
   ingredients: Partial<Record<InventoryItemName, number>>;
-
+  description: string;
   image: string;
 };
 
