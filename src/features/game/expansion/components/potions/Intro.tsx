@@ -18,10 +18,10 @@ export const IntroPage: React.FC<IntroProps> = ({ onComplete }) => {
             <DynamicNFT
               bumpkinParts={{
                 body: "Beige Farmer Potion",
-                hair: "Rancher Hair",
+                hair: "Blacksmith Hair",
                 pants: "Farmer Overalls",
-                shirt: "Red Farmer Shirt",
-                tool: "Farmer Pitchfork",
+                shirt: "Yellow Farmer Shirt",
+                tool: "Hammer",
                 background: "Farm Background",
                 shoes: "Black Farmer Boots",
               }}

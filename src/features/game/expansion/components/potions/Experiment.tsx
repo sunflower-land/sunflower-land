@@ -195,10 +195,15 @@ export const Experiment: React.FC<Props> = ({
   };
 
   const getAddButtonText = () => {
-    if (selectedPotion.name === "Miracle Mix") return "Risk it all!";
+    if (showConfirmButton) return "Yes, let's do it!";
 
-    if (selectedPotion.name === "Golden Syrup")
+    if (selectedPotion.name === "Miracle Mix") {
+      return "Risk it all!";
+    }
+
+    if (selectedPotion.name === "Golden Syrup") {
       return "Let's see that plant thrive!";
+    }
 
     return "Add to mix";
   };
@@ -288,7 +293,7 @@ export const Experiment: React.FC<Props> = ({
         </div>
         {/* Right Side */}
         <div className="flex flex-col items-center w-full h-full">
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col items-center justify-between">
             {/* Plant */}
             <div className="flex items-center mb-2 flex-col">
               <img
@@ -307,19 +312,19 @@ export const Experiment: React.FC<Props> = ({
                 }}
               />
             </div>
-            <div className="ml-1">
+            <div className="ml-3 flex flex-col items-center sm:max-w-[70%]">
               <SpeechBubble text={feedbackText} />
               <div
-                className="relative mt-2 max-w-[190px]"
+                className="relative w-full mt-2 max-w-[190px]"
                 style={{ transform: "scale(-1, 1)" }}
               >
                 <DynamicNFT
                   bumpkinParts={{
                     body: "Beige Farmer Potion",
-                    hair: "Rancher Hair",
+                    hair: "Blacksmith Hair",
                     pants: "Farmer Overalls",
-                    shirt: "Red Farmer Shirt",
-                    tool: "Farmer Pitchfork",
+                    shirt: "Yellow Farmer Shirt",
+                    tool: "Hammer",
                     background: "Farm Background",
                     shoes: "Black Farmer Boots",
                   }}
@@ -330,13 +335,13 @@ export const Experiment: React.FC<Props> = ({
         </div>
       </div>
       {/* Bottom Section */}
-      <div className="flex flex-col grow mb-1">
+      <div className="flex flex-col grow space-y-1">
         {/* Potions */}
         <div className="flex flex-col justify-end grow">
           <h2 className="mb-1">Potions</h2>
           <InnerPanel>
             <div className="p-1 flex flex-col space-y-1">
-              <div className="flex space-x-1 mb-1">
+              <div className="flex space-x-1">
                 {[...BASIC_POTIONS, ...SPECIAL_POTIONS].map((potion) => {
                   return (
                     <img
@@ -358,11 +363,11 @@ export const Experiment: React.FC<Props> = ({
                 <>
                   <span className="text-[18px]">{selectedPotion.name}</span>
 
-                  <span className="text-xxs sm:mt-1 whitespace-pre-line sm:text-center">
+                  <span className="text-xxs sm:mt-1 whitespace-pre-line">
                     {selectedPotion.description}
                   </span>
 
-                  <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
+                  <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap">
                     {getKeys(selectedPotion.ingredients).map((item, index) => {
                       return (
                         <div

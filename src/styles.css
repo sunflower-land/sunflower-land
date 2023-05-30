@@ -586,7 +586,7 @@ img {
 }
 
 #expanding-container {
-  display: none;
+  /* display: none; */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -598,7 +598,7 @@ img {
   box-sizing: border-box;
   z-index: 9999;
   transition: transform 0.5s;
-  max-width: 448px;
+  /* max-width: 448px; */
   margin: 0 auto;
 }
 
