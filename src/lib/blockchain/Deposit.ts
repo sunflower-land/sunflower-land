@@ -14,6 +14,8 @@ export interface DepositArgs {
   sfl: string;
   itemIds: number[];
   itemAmounts: string[];
+  wearableIds: number[];
+  wearableAmounts: number[];
 }
 
 export async function depositToFarm({
@@ -23,6 +25,8 @@ export async function depositToFarm({
   sfl,
   itemIds,
   itemAmounts,
+  wearableAmounts,
+  wearableIds,
 }: DepositArgs) {
   const gasPrice = await estimateGasPrice(web3);
 
@@ -34,7 +38,14 @@ export async function depositToFarm({
       ) as unknown as IDeposit
     ).methods
       // TODO - support wearables
-      .depositToFarm(farmId, sfl, itemIds, itemAmounts, [], [])
+      .depositToFarm(
+        farmId,
+        sfl,
+        itemIds,
+        itemAmounts,
+        wearableIds,
+        wearableAmounts
+      )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         console.log({ error });
@@ -66,23 +77,28 @@ export async function depositToFarm({
 export interface DepositBumpkinArgs {
   web3: Web3;
   account: string;
+  signature: string;
+  deadline: number;
+  tokenUri: string;
   farmId: number;
   bumpkinId: number;
-  wearableIds: number[];
-  wearableAmounts: number[];
+  ids: number[];
+  amounts: number[];
 }
 
-export async function depositBumpkin({
+export async function depositBumpkinTransaction({
   web3,
   account,
   farmId,
   bumpkinId,
-  wearableIds,
-  wearableAmounts,
+  ids,
+  amounts,
+  deadline,
+  signature,
+  tokenUri,
 }: DepositBumpkinArgs) {
   const gasPrice = await estimateGasPrice(web3);
 
-  console.log({ bumpkinId, wearableAmounts, wearableIds });
   await new Promise((resolve, reject) => {
     (
       new web3.eth.Contract(
@@ -90,7 +106,15 @@ export async function depositBumpkin({
         address as string
       ) as unknown as IDeposit
     ).methods
-      .depositBumpkin(farmId, bumpkinId, wearableIds, wearableAmounts)
+      .depositBumpkin(
+        signature,
+        deadline,
+        farmId,
+        bumpkinId,
+        ids,
+        amounts,
+        tokenUri
+      )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         console.log({ error });

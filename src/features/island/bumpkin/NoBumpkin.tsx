@@ -62,7 +62,7 @@ export const NoBumpkin: React.FC = () => {
     const wearableAmounts = new Array(wearableIds.length).fill(1);
 
     gameService.send("DEPOSIT", {
-      bumpkinId: Number(bumpkin.tokenId),
+      bumpkinTokenUri: bumpkin.tokenURI,
       wearableIds,
       wearableAmounts,
       sfl: 0,

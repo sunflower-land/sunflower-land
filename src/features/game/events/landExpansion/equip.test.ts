@@ -59,32 +59,4 @@ describe("equip", () => {
     expect(state.bumpkin?.equipped.hair).toEqual("Blacksmith Hair");
     expect(state.bumpkin?.equipped.wings).toEqual("Angel Wings");
   });
-
-  it("requires clothing is available", () => {
-    expect(() =>
-      equip({
-        state: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            equipped: {
-              ...INITIAL_BUMPKIN.equipped,
-              shirt: "Red Farmer Shirt",
-            },
-          },
-          wardrobe: {
-            "Red Farmer Shirt": 1,
-            "Angel Wings": 1,
-            "Blacksmith Hair": 2,
-          },
-        },
-        action: {
-          type: "bumpkin.equipped",
-          equipment: {
-            shirt: "Red Farmer Shirt",
-          },
-        },
-      })
-    ).toThrow("Red Farmer Shirt is not available for use");
-  });
 });

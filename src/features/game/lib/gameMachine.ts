@@ -64,7 +64,7 @@ import {
   getGameRulesLastRead,
   getIntroductionRead,
 } from "features/announcements/announcementsStorage";
-import { depositBumpkin, depositToFarm } from "lib/blockchain/Deposit";
+import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { loadGuestSession } from "../actions/loadGuestSession";
 import { guestAutosave } from "../actions/guestAutosave";
@@ -78,6 +78,7 @@ import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
 import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
 import { getSessionId } from "lib/blockchain/Session";
+import { depositBumpkin } from "../actions/deposit";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -172,7 +173,7 @@ type DepositEvent = {
   itemAmounts: string[];
   wearableIds: number[];
   wearableAmounts: number[];
-  bumpkinId?: number;
+  bumpkinTokenUri?: string;
 };
 
 export type BlockchainEvent =
@@ -1184,17 +1185,15 @@ export function startGame(authContext: AuthContext) {
                 itemIds,
                 wearableIds,
                 wearableAmounts,
-                bumpkinId,
+                bumpkinTokenUri,
               } = event as DepositEvent;
 
-              if (bumpkinId) {
+              if (bumpkinTokenUri) {
                 await depositBumpkin({
-                  web3: wallet.web3Provider,
-                  account: wallet.myAccount,
-                  bumpkinId,
+                  tokenUri: bumpkinTokenUri,
                   farmId: context.state.id as number,
-                  wearableAmounts,
-                  wearableIds,
+                  token: authContext.user.rawToken as string,
+                  transactionId: context.transactionId as string,
                 });
               } else {
                 await depositToFarm({
@@ -1204,6 +1203,8 @@ export function startGame(authContext: AuthContext) {
                   sfl: sfl,
                   itemIds: itemIds,
                   itemAmounts: itemAmounts,
+                  wearableAmounts,
+                  wearableIds,
                 });
               }
             },

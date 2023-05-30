@@ -39,10 +39,13 @@ export interface Deposit extends BaseContract {
     addGameRole(_game: string): NonPayableTransactionObject<void>;
 
     depositBumpkin(
+      signature: string | number[],
+      deadline: number | string | BN,
       farmId: number | string | BN,
       bumpkinId: number | string | BN,
       wearableIds: (number | string | BN)[],
-      wearableAmounts: (number | string | BN)[]
+      wearableAmounts: (number | string | BN)[],
+      tokenUri: string
     ): NonPayableTransactionObject<void>;
 
     depositToFarm(
@@ -55,6 +58,8 @@ export interface Deposit extends BaseContract {
     ): NonPayableTransactionObject<void>;
 
     destroy(): NonPayableTransactionObject<void>;
+
+    executed(arg0: string | number[]): NonPayableTransactionObject<boolean>;
 
     gameAddGameRole(_game: string): NonPayableTransactionObject<void>;
 
@@ -76,6 +81,8 @@ export interface Deposit extends BaseContract {
     renounceOwnership(): NonPayableTransactionObject<void>;
 
     transferOwnership(newOwner: string): NonPayableTransactionObject<void>;
+
+    transferSigner(_signer: string): NonPayableTransactionObject<void>;
   };
   events: {
     OwnershipTransferred(cb?: Callback<OwnershipTransferred>): EventEmitter;
