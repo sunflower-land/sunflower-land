@@ -104,6 +104,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     rooms: {
       plaza: undefined,
       auction_house: undefined,
+      clothes_shop: undefined,
     },
     // TEMP FIELD - server will set this
     bumpkin: INITIAL_BUMPKIN,
