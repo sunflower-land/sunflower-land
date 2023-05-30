@@ -119,7 +119,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
   },
   "Tin Turtle": {
     description:
-      "The Tin Turtle gives +0.3 to to Stones you mine within its Area of Effect.",
+      "The Tin Turtle gives +0.3 to Stones you mine within its Area of Effect.",
     ingredients: {
       "Iron Compass": new Decimal(5),
       Seaweed: new Decimal(25),

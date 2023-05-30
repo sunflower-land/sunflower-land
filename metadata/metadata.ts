@@ -3680,7 +3680,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Tin Turtle": {
     description:
-      "The Tin Turtle gives +0.3 to to Stones you mine within its Area of Effect.",
+      "The Tin Turtle gives +0.3 to Stones you mine within its Area of Effect.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/464.png",
