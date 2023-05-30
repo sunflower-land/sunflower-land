@@ -820,7 +820,9 @@ export const authMachine = createMachine<
       initSequence: async () => {
         const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
-        const sequenceWallet = await sequence.initWallet(network);
+        const sequenceWallet = await sequence.initWallet(network, {
+          walletAppURL: "https://next.sequence.app",
+        });
         await sequenceWallet.connect(SEQUENCE_CONNECT_OPTIONS);
 
         if (!sequenceWallet.isConnected()) {
