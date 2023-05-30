@@ -50,7 +50,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
 
   const [jiggerState, setJiggerState] =
     useState<{ url: string; status: JiggerStatus }>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [selected, setSelected] = useState<Inventory>({});
 
   const inventory: Inventory = useMemo(() => {
@@ -65,7 +65,6 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
 
   useEffect(() => {
     const load = async () => {
-      setIsLoading(true);
       const check = await loadBanDetails(
         authState.context.user.farmId?.toString() as string,
         authState.context.user.rawToken as string,
@@ -193,15 +192,6 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
                 className="flex items-center justify-between gap-2 mt-2"
                 key={itemName}
               >
-                {/* <Box
-                        hideCount
-                        disabled
-                        count={selected[itemName]}
-                        key={itemName}
-                        onClick={() => onSubtract(itemName)}
-                        image={ITEM_DETAILS[itemName].image}
-                        canBeLongPressed
-                      /> */}
                 <div className="flex items-center gap-2">
                   <div
                     className="bg-brown-600"
@@ -222,7 +212,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
                     value={parseFloat(selected[itemName]?.toString() || "0")}
                     onChange={(e) => handleAmountChange(e, itemName)}
                     className={classNames(
-                      "p-1 bg-brown-200 text-shadow shadow-inner shadow-black",
+                      "px-2 py-1 bg-brown-200 text-shadow shadow-inner shadow-black",
                       isMobile ? "w-[80px]" : "w-[140px]",
                       {
                         "text-error":
