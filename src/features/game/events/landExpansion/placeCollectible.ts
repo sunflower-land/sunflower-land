@@ -31,7 +31,7 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
   // AOE items
   "Basic Scarecrow": 60 * 10,
   "Emerald Turtle": 60 * 60 * 25,
-  "Tin Turtle": 60 * 60 * 9,
+  "Tin Turtle": 60 * 60 * 5,
 };
 
 export type PlaceCollectibleAction = {
