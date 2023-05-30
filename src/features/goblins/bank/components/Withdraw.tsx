@@ -12,6 +12,7 @@ import { WithdrawItems } from "./WithdrawItems";
 import { Context } from "features/game/GoblinProvider";
 import { loadBanDetails } from "features/game/actions/bans";
 import { Jigger, JiggerStatus } from "features/game/components/Jigger";
+import { WithdrawWearables } from "./WithdrawWearables";
 
 interface Props {
   onClose: () => void;
@@ -20,7 +21,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
   const [authState] = useActor(authService);
-  const [page, setPage] = useState<"tokens" | "items">();
+  const [page, setPage] = useState<"tokens" | "items" | "wearables">();
 
   const [jiggerState, setJiggerState] =
     useState<{ url: string; status: JiggerStatus }>();
@@ -50,6 +51,8 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     ids: [] as number[],
     amounts: [] as string[],
     sfl: "0",
+    wearableIds: [] as number[],
+    wearableAmounts: [] as number[],
   });
 
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -59,6 +62,8 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       ids: [],
       amounts: [],
       sfl,
+      wearableAmounts: [],
+      wearableIds: [],
     };
     setShowCaptcha(true);
   };
@@ -68,6 +73,22 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       ids,
       amounts,
       sfl: "0",
+      wearableAmounts: [],
+      wearableIds: [],
+    };
+    setShowCaptcha(true);
+  };
+
+  const onWithdrawWearables = async (
+    wearableIds: number[],
+    wearableAmounts: number[]
+  ) => {
+    withdrawAmount.current = {
+      ids: [],
+      amounts: [],
+      sfl: "0",
+      wearableAmounts,
+      wearableIds,
     };
     setShowCaptcha(true);
   };
@@ -131,14 +152,20 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
       <div className="flex">
         <Button className="mr-1" onClick={() => setPage("tokens")}>
-          SFL Tokens
+          SFL
         </Button>
         <Button className="ml-1" onClick={() => setPage("items")}>
-          SFL Items
+          Collectibles
+        </Button>
+        <Button className="ml-1" onClick={() => setPage("wearables")}>
+          Wearables
         </Button>
       </div>
       {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
       {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
+      {page === "wearables" && (
+        <WithdrawWearables onWithdraw={onWithdrawWearables} />
+      )}
     </div>
   );
 };

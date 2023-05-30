@@ -23,7 +23,11 @@ import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import { reset } from "features/farming/hud/actions/reset";
 import { getSessionId } from "lib/blockchain/Session";
-import { withdrawSFL } from "../actions/withdraw";
+import {
+  withdrawItems,
+  withdrawSFL,
+  withdrawWearables,
+} from "../actions/withdraw";
 
 const API_URL = CONFIG.API_URL;
 
@@ -55,6 +59,9 @@ type WithdrawEvent = {
   sfl: number;
   ids: number[];
   amounts: string[];
+  bumpkinId?: number;
+  wearableIds: number[];
+  wearableAmounts: number[];
   captcha: string;
 };
 
@@ -379,9 +386,18 @@ export function startGoblinVillage(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
+              const {
+                amounts,
+                ids,
+                sfl,
+                captcha,
+                type,
+                wearableAmounts,
+                wearableIds,
+                bumpkinId,
+              } = event as WithdrawEvent;
 
-              if (sfl) {
+              if (Number(sfl) > 0) {
                 const { sessionId } = await withdrawSFL({
                   farmId: Number(user.farmId),
                   sessionId: context.sessionId as string,
@@ -396,20 +412,37 @@ export function startGoblinVillage(authContext: AuthContext) {
                 };
               }
 
-              const { sessionId } = await withdrawItems({
-                farmId: Number(user.farmId),
-                sessionId: context.sessionId as string,
-                token: user.rawToken as string,
-                amounts,
-                ids,
-                sfl,
-                captcha,
-                transactionId: context.transactionId as string,
-              });
+              if (ids.length > 0) {
+                const { sessionId } = await withdrawItems({
+                  farmId: Number(user.farmId),
+                  sessionId: context.sessionId as string,
+                  token: user.rawToken as string,
+                  amounts,
+                  ids,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
 
-              return {
-                sessionId,
-              };
+                return {
+                  sessionId,
+                };
+              }
+
+              if (wearableIds.length > 0) {
+                const { sessionId } = await withdrawWearables({
+                  farmId: Number(user.farmId),
+                  sessionId: context.sessionId as string,
+                  token: user.rawToken as string,
+                  amounts: wearableAmounts,
+                  ids: wearableIds,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
             },
             onDone: {
               target: "withdrawn",
