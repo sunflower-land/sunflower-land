@@ -1,4 +1,5 @@
 import { SQUARE_WIDTH } from "features/game/lib/constants";
+import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [
@@ -10,6 +11,8 @@ const BUMPKINS: NPCBumpkin[] = [
 ];
 
 export class ClothesShopScene extends BaseScene {
+  roomId: RoomId = "clothes_shop";
+
   constructor() {
     super("clothes_shop");
   }
