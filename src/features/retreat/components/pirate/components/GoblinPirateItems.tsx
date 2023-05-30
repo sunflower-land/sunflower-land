@@ -61,10 +61,16 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
 
   const selectedItem = GOBLIN_PIRATE_ITEMS[selectedName];
 
-  const lessIngredients = () =>
-    getKeys(selectedItem.ingredients).some((name) =>
+  const hasEnoughIngredients = () => {
+    const missingResources = getKeys(selectedItem.ingredients).some((name) =>
       selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
+
+    const balance = goblinService.machine.context.state.balance || 0;
+    const missingSFL = selectedItem.sfl?.lessThan(balance);
+
+    return !missingResources && !missingSFL;
+  };
 
   const craft = async () => {
     goblinService.send("MINT", { item: selectedName, captcha: "" });
@@ -99,7 +105,9 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
 
     return (
       <Button
-        disabled={lessIngredients() || selectedItem.ingredients === undefined}
+        disabled={
+          !hasEnoughIngredients() || selectedItem.ingredients === undefined
+        }
         onClick={craft}
       >
         Craft
@@ -120,6 +128,7 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
           boost={selectedItem.boost}
           requirements={{
             resources: selectedItem.ingredients,
+            sfl: selectedItem.sfl,
           }}
           actionView={Action()}
         />

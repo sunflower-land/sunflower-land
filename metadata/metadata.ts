@@ -3657,9 +3657,33 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_percentage",
-        trait_type: "Basic Crop Growth Speed",
+        trait_type: "Crop Growth Speed",
         value: 20,
       },
     ],
+  },
+  "Iron Compass": {
+    description:
+      "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/927.png",
+    attributes: [],
+  },
+  "Emerald Turtle": {
+    description:
+      "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/463.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Tin Turtle": {
+    description:
+      "The Tin Turtle gives +0.3 to to Stones you mine within its Area of Effect.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/464.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
 };

@@ -38,7 +38,9 @@ export type GoblinBlacksmithItemName =
 export type GoblinPirateItemName =
   | "Iron Idol"
   | "Heart of Davy Jones"
-  | "Karkinos";
+  | "Karkinos"
+  | "Emerald Turtle"
+  | "Tin Turtle";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
@@ -103,6 +105,28 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
     supply: 200,
     boost: "+1 Iron",
+  },
+  "Emerald Turtle": {
+    description:
+      "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
+    ingredients: {
+      "Iron Compass": new Decimal(10),
+      Seaweed: new Decimal(50),
+      "Block Buck": new Decimal(1),
+    },
+    sfl: new Decimal(100),
+    supply: 100,
+  },
+  "Tin Turtle": {
+    description:
+      "The Tin Turtle gives +0.3 to to Stones you mine within its Area of Effect.",
+    ingredients: {
+      "Iron Compass": new Decimal(5),
+      Seaweed: new Decimal(25),
+      "Block Buck": new Decimal(1),
+    },
+    sfl: new Decimal(40),
+    supply: 500,
   },
   "Heart of Davy Jones": {
     description:

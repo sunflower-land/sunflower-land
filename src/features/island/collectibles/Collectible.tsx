@@ -150,6 +150,8 @@ import { Hoot } from "./components/Hoot";
 import { GenieBear } from "./components/GenieBear";
 import { BasicScarecrow } from "./components/BasicScarecrow";
 import lightning from "assets/icons/lightning.png";
+import { EmeraldTurtle } from "./components/EmeraldTurtle";
+import { TinTurtle } from "./components/TinTurtle";
 
 export interface CollectibleProps {
   name: CollectibleName;
@@ -312,6 +314,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
   "Iron Idol": IronIdol,
+  "Emerald Turtle": EmeraldTurtle,
+  "Tin Turtle": TinTurtle,
 
   // Solar Flare Items
   "Beach Ball": BeachBall,
@@ -376,6 +380,82 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
           height: `${PIXEL_SCALE * 16 * 3}px`,
           left: `${PIXEL_SCALE * -12.8}px`,
           top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Emerald Turtle": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 22}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Emerald Turtle"].image}
+        className="w-full"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Tin Turtle": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 22}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Tin Turtle"].image}
+        className="w-full"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
         }}
       >
         <img

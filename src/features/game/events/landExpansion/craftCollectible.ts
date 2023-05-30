@@ -20,6 +20,8 @@ export const COLLECTIBLE_CRAFT_SECONDS: Partial<
 > = {
   // AOE items
   "Basic Scarecrow": 60,
+  "Emerald Turtle": 60,
+  "Tin Turtle": 60,
 };
 
 export type CraftCollectibleAction = {
