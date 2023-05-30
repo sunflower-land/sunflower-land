@@ -32,10 +32,10 @@ import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
+import { PotionHouse } from "./components/potions/PotionHouse";
 import ocean from "assets/decorations/ocean.webp";
 
 export const LAND_WIDTH = 6;
-import { Beans } from "./components/BeansTest";
 
 const getIslandElements = ({
   buildings,
@@ -495,7 +495,7 @@ export const Land: React.FC = () => {
       )}
 
       <MapPlacement x={1} y={2}>
-        <Beans />
+        <PotionHouse />
       </MapPlacement>
     </>
   );

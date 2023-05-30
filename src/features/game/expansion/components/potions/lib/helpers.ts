@@ -85,9 +85,9 @@ export function getFeedbackText(score: number): string {
   }
 
   const feedbackOptions = [
-    "Oh no! The plant despises your potion!",
-    "Oops! The plant recoils from your potion!",
-    "Uh-oh! Your potion is a total flop with the plant!",
+    "Oh no! The plant despises your potion! Try again.",
+    "Oops! The plant recoils from your potion! Try again.",
+    "Uh-oh! Your potion is a total flop with the plant! Try again.",
   ];
   return feedbackOptions[Math.floor(Math.random() * feedbackOptions.length)];
 }
