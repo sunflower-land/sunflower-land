@@ -323,6 +323,8 @@ export function detectCollision(state: GameState, position: Position) {
   );
 }
 
+type AOEItemName = "Basic Scarecrow" | "Emerald Turtle" | "Tin Turtle";
+
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.
  * @param AOEItem Item which has an area of effect
@@ -330,7 +332,11 @@ export function detectCollision(state: GameState, position: Position) {
  * @returns boolean
  *
  **/
-export function isWithinAOE(AOEItem: Position, item: Position): boolean {
+export function isWithinAOE(
+  AOEItemName: AOEItemName,
+  AOEItem: Position,
+  effectItem: Position
+): boolean {
   const AOEItemCoordinates: Coordinates = { x: AOEItem.x, y: AOEItem.y };
 
   const AOEItemDimensions: Dimensions = {
@@ -339,23 +345,35 @@ export function isWithinAOE(AOEItem: Position, item: Position): boolean {
   };
 
   if (AOEItemCoordinates) {
-    const topLeft = {
-      x: AOEItemCoordinates.x - 1,
-      y: AOEItemCoordinates.y - AOEItem.height,
-    };
+    if (AOEItemName === "Basic Scarecrow") {
+      const topLeft = {
+        x: AOEItemCoordinates.x - 1,
+        y: AOEItemCoordinates.y - AOEItem.height,
+      };
 
-    const bottomRight = {
-      x: AOEItemCoordinates.x + 1,
-      y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
-    };
+      const bottomRight = {
+        x: AOEItemCoordinates.x + 1,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+      };
 
-    if (
-      item.x >= topLeft.x &&
-      item.x <= bottomRight.x &&
-      item.y <= topLeft.y &&
-      item.y >= bottomRight.y
-    ) {
-      return true;
+      if (
+        effectItem.x >= topLeft.x &&
+        effectItem.x <= bottomRight.x &&
+        effectItem.y <= topLeft.y &&
+        effectItem.y >= bottomRight.y
+      ) {
+        return true;
+      }
+    }
+
+    // AoE surrounding the turtle
+    if (AOEItemName === "Emerald Turtle" || AOEItemName === "Tin Turtle") {
+      const dx = Math.abs(AOEItemCoordinates.x - effectItem.x);
+      const dy = Math.abs(AOEItemCoordinates.y - effectItem.y);
+
+      if (dx <= 1 && dy <= 1 && (dx != 0 || dy != 0)) {
+        return true;
+      }
     }
   }
   return false;
