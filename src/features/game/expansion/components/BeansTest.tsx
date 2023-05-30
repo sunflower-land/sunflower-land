@@ -31,13 +31,10 @@ import { SpeechBubble } from "./potions/SpeechBubble";
 import {
   calculateScore,
   generatePotionCombination,
-  getFeedbackText,
 } from "./potions/lib/helpers";
 import { BASIC_POTIONS, SPECIAL_POTIONS } from "./potions/lib/potions";
 import { IntroPage } from "./potions/Intro";
 import { Box } from "./potions/Box";
-import { Modal } from "react-bootstrap";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 // - You can see how many attempts you have
 // - You can see previous attempts and the success
@@ -64,7 +61,6 @@ export const Beans = () => {
   const [showSpecialPotionModal, setShowSpecialPotionModal] = useState(false);
   const [selectedSpecialPotion, setSelectedSpecialPotion] =
     useState<Potion | null>(null);
-  const [score, setScore] = useState<number>(0);
 
   useEffect(() => {
     // Have the bottle image spin once on load and then call handleExpand
@@ -74,10 +70,8 @@ export const Beans = () => {
   }, []);
 
   useEffect(() => {
-    if (game.turns.length === 0) return;
-
-    setScore(calculateScore(game.turns[game.turns.length - 1].feedback));
-  }, [game.turns]);
+    console.log("Combination changed", combination);
+  }, [combination]);
 
   const handleExpand = () => {
     if (!expandButtonRef.current || !expandedDivRef.current) return;
@@ -276,160 +270,127 @@ export const Beans = () => {
                                       )}
                                     </div>
                                   ))}
-                                  <div className="flex w-full items-end mt-2 min-h-[140px]">
-                                    <div className="flex flex-col items-center w-3/5">
-                                      <div className="flex my-2">
-                                        {new Array(4)
-                                          .fill(null)
-                                          .map((_, index) => (
-                                            <div
-                                              className="relative"
-                                              key={`select-${index}`}
-                                              onClick={() =>
-                                                setGuessSpot(index)
-                                              }
-                                            >
-                                              <Box
-                                                guess={currentGuess[index]}
-                                              />
-                                              {index === guessSpot && (
-                                                <>
-                                                  <img
-                                                    className="absolute pointer-events-none"
-                                                    src={selectBoxBL}
-                                                    style={{
-                                                      top: `${
-                                                        PIXEL_SCALE *
-                                                          INNER_CANVAS_WIDTH -
-                                                        4
-                                                      }px`,
-                                                      left: `${
-                                                        PIXEL_SCALE * 0
-                                                      }px`,
-                                                      width: `${
-                                                        PIXEL_SCALE * 4
-                                                      }px`,
-                                                    }}
-                                                  />
-                                                  <img
-                                                    className="absolute pointer-events-none"
-                                                    src={selectBoxBR}
-                                                    style={{
-                                                      top: `${
-                                                        PIXEL_SCALE *
-                                                          INNER_CANVAS_WIDTH -
-                                                        4
-                                                      }px`,
-                                                      left: `${
-                                                        PIXEL_SCALE *
-                                                          INNER_CANVAS_WIDTH -
-                                                        4
-                                                      }px`,
-                                                      width: `${
-                                                        PIXEL_SCALE * 4
-                                                      }px`,
-                                                    }}
-                                                  />
-                                                  <img
-                                                    className="absolute pointer-events-none"
-                                                    src={selectBoxTL}
-                                                    style={{
-                                                      top: `${
-                                                        PIXEL_SCALE * 1
-                                                      }px`,
-                                                      left: `${
-                                                        PIXEL_SCALE * 0
-                                                      }px`,
-                                                      width: `${
-                                                        PIXEL_SCALE * 4
-                                                      }px`,
-                                                    }}
-                                                  />
-                                                  <img
-                                                    className="absolute pointer-events-none"
-                                                    src={selectBoxTR}
-                                                    style={{
-                                                      top: `${
-                                                        PIXEL_SCALE * 1
-                                                      }px`,
-                                                      left: `${
-                                                        PIXEL_SCALE *
-                                                          INNER_CANVAS_WIDTH -
-                                                        4
-                                                      }px`,
-                                                      width: `${
-                                                        PIXEL_SCALE * 4
-                                                      }px`,
-                                                    }}
-                                                  />
-                                                </>
-                                              )}
-                                            </div>
-                                          ))}
-                                      </div>
-                                      <Button
-                                        disabled={currentGuess.length < 4}
-                                        onClick={handleConfirmGuess}
-                                      >
-                                        Mix
-                                      </Button>
-                                    </div>
-                                  </div>
                                 </div>
                               </div>
-                              {/* Turn */}
                             </div>
+                            {/* Turn */}
                           </div>
-                          {/* Right Side */}
-                          <div className="flex flex-col items-center w-full h-full">
-                            <div className="flex flex-col justify-between">
-                              {/* Plant */}
-                              <div className="flex items-center mb-2 flex-col">
-                                <img
-                                  src={plant}
-                                  alt="Plant"
-                                  className="mb-2"
-                                  style={{ width: `${PIXEL_SCALE * 28}px` }}
-                                />
-                                {/* <Prog */}
-                                <ResizableBar
-                                  percentage={score}
-                                  type="health"
-                                  outerDimensions={{
-                                    width: 28,
-                                    height: 7,
+                        </div>
+                        {/* Right Side */}
+                        <div className="flex flex-col items-center w-full h-full">
+                          <div className="flex flex-col justify-between">
+                            {/* Plant */}
+                            <div className="flex items-center mb-4 flex-col">
+                              <img
+                                src={plant}
+                                alt="Plant"
+                                className="mb-2"
+                                style={{ width: `${PIXEL_SCALE * 28}px` }}
+                              />
+                              {/* <Prog */}
+                              <ResizableBar
+                                percentage={calculateScore(
+                                  game.turns?.[game.turns.length - 1]?.feedback
+                                )}
+                                type="health"
+                                outerDimensions={{
+                                  width: 28,
+                                  height: 7,
+                                }}
+                              />
+                            </div>
+                            <div>
+                              <SpeechBubble text="Good choice!" />
+                              <div
+                                className="relative mt-2"
+                                style={{ transform: "scale(-1, 1)" }}
+                              >
+                                <DynamicNFT
+                                  bumpkinParts={{
+                                    body: "Beige Farmer Potion",
+                                    hair: "Rancher Hair",
+                                    pants: "Farmer Overalls",
+                                    shirt: "Red Farmer Shirt",
+                                    tool: "Farmer Pitchfork",
+                                    background: "Farm Background",
+                                    shoes: "Black Farmer Boots",
                                   }}
                                 />
-                              </div>
-                              <div>
-                                <SpeechBubble
-                                  getText={() =>
-                                    getFeedbackText(game.turns.length, score)
-                                  }
-                                />
-                                <div
-                                  className="relative mt-2"
-                                  style={{ transform: "scale(-1, 1)" }}
-                                >
-                                  <DynamicNFT
-                                    bumpkinParts={{
-                                      body: "Beige Farmer Potion",
-                                      hair: "Rancher Hair",
-                                      pants: "Farmer Overalls",
-                                      shirt: "Red Farmer Shirt",
-                                      tool: "Farmer Pitchfork",
-                                      background: "Farm Background",
-                                      shoes: "Black Farmer Boots",
-                                    }}
-                                  />
-                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
+                      </div>
 
-                        {/* Turn Section */}
-
+                      {/* Turn Section */}
+                      <div className="flex w-full items-end mt-2 min-h-[140px]">
+                        <div className="flex flex-col items-center w-3/5">
+                          <div className="flex my-2">
+                            {new Array(4).fill(null).map((_, index) => (
+                              <div
+                                className="relative"
+                                key={`select-${index}`}
+                                onClick={() => setGuessSpot(index)}
+                              >
+                                <Box guess={currentGuess[index]} />
+                                {index === guessSpot && (
+                                  <>
+                                    <img
+                                      className="absolute pointer-events-none"
+                                      src={selectBoxBL}
+                                      style={{
+                                        top: `${
+                                          PIXEL_SCALE * INNER_CANVAS_WIDTH - 4
+                                        }px`,
+                                        left: `${PIXEL_SCALE * 0}px`,
+                                        width: `${PIXEL_SCALE * 4}px`,
+                                      }}
+                                    />
+                                    <img
+                                      className="absolute pointer-events-none"
+                                      src={selectBoxBR}
+                                      style={{
+                                        top: `${
+                                          PIXEL_SCALE * INNER_CANVAS_WIDTH - 4
+                                        }px`,
+                                        left: `${
+                                          PIXEL_SCALE * INNER_CANVAS_WIDTH - 4
+                                        }px`,
+                                        width: `${PIXEL_SCALE * 4}px`,
+                                      }}
+                                    />
+                                    <img
+                                      className="absolute pointer-events-none"
+                                      src={selectBoxTL}
+                                      style={{
+                                        top: `${PIXEL_SCALE * 1}px`,
+                                        left: `${PIXEL_SCALE * 0}px`,
+                                        width: `${PIXEL_SCALE * 4}px`,
+                                      }}
+                                    />
+                                    <img
+                                      className="absolute pointer-events-none"
+                                      src={selectBoxTR}
+                                      style={{
+                                        top: `${PIXEL_SCALE * 1}px`,
+                                        left: `${
+                                          PIXEL_SCALE * INNER_CANVAS_WIDTH - 4
+                                        }px`,
+                                        width: `${PIXEL_SCALE * 4}px`,
+                                      }}
+                                    />
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                          <Button
+                            disabled={currentGuess.length < 4}
+                            onClick={handleConfirmGuess}
+                          >
+                            Mix
+                          </Button>
+                        </div>
                         {selectedPotion && (
                           <div className="flex flex-col items-center justify-end grow h-full ml-1 mt-2 p-2 pb-0 justify-self-end">
                             <span className="text-xxs text-center mb-2 w-min whitespace-nowrap">
@@ -526,42 +487,6 @@ export const Beans = () => {
             </div>
           </div>
         </>,
-        document.body
-      )}
-      {createPortal(
-        <Modal
-          show={showSpecialPotionModal}
-          centered
-          onHide={handleSpecialPotionModalClose}
-          bumpkinParts={{
-            body: "Beige Farmer Potion",
-            hair: "Rancher Hair",
-            pants: "Farmer Overalls",
-            shirt: "Red Farmer Shirt",
-            tool: "Farmer Pitchfork",
-            background: "Farm Background",
-            shoes: "Black Farmer Boots",
-          }}
-        >
-          <CloseButtonPanel
-            onClose={handleSpecialPotionModalClose}
-            title={selectedSpecialPotion?.name}
-          >
-            <div className="flex flex-col">
-              {selectedSpecialPotion === "Miracle Mixture" && (
-                <>
-                  <p>
-                    {`Oh, the Miracle Mixture! A concoction of uncertainty. It
-                            holds the power to either bring a bountiful bloom or
-                            unleash devastation upon the delicate flora.`}
-                  </p>
-                  <p>{`With a 50/50 chance, it's a gamble only the bold dare to take. Are you ready to roll the dice?`}</p>
-                </>
-              )}
-              {selectedSpecialPotion === "Golden Syrup" && <></>}
-            </div>
-          </CloseButtonPanel>
-        </Modal>,
         document.body
       )}
     </>

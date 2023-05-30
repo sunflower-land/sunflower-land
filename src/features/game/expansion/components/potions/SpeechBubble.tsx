@@ -5,17 +5,17 @@ import { pixelSpeechBubbleBorderStyle } from "features/game/lib/style";
 import speechBubbleBottom from "assets/ui/speech_bubble_bottom.webp";
 
 interface Props {
-  getText: () => string;
+  text: string;
 }
 
-export const SpeechBubble: React.FC<Props> = ({ getText }) => {
+export const SpeechBubble: React.FC<Props> = ({ text }) => {
   return (
     <div
-      className="relative flex items-center justify-start max-w-[120px]"
+      className="relative flex items-center justify-start max-w-[100px]"
       style={{ ...pixelSpeechBubbleBorderStyle }}
     >
       <span className="text-xxs font-speech text-shadow-none text-black">
-        {getText()}
+        {text}
       </span>
       <img
         src={speechBubbleBottom}
