@@ -23,9 +23,7 @@ export const Box: React.FC<Props> = ({ guess, feedback }) => {
             position: "absolute",
             width: `${PIXEL_SCALE * 7}px`,
           }}
-          className={classNames("-top-[2px] left-7", {
-            "bombed-potion-guess": feedback === "bombed",
-          })}
+          className="-top-[2px] left-7"
         />
       )}
       <div

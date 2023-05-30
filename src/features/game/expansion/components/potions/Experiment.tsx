@@ -98,7 +98,7 @@ export const Experiment: React.FC<Props> = ({
     generatePotionCombination()
   );
   const [feedbackText, setFeedbackText] = useState<string>(
-    "Welcome, apprentice! Select your potions and unveil the secrets of the plants!"
+    "Select your potions and unveil the secrets of the plants!"
   );
   const [showConfirmButton, setConfirmButton] = useState<boolean>(false);
 
@@ -110,9 +110,40 @@ export const Experiment: React.FC<Props> = ({
     onScoreChange(score);
     setFeedbackText(getFeedbackText(score));
     if (game.turns.length === 5 || score === 100) {
+      console.log("Game Over: ", score);
       onComplete();
     }
   }, [game.turns.length]);
+
+  useEffect(() => {
+    if (selectedPotion.name === "Miracle Mix") {
+      setConfirmButton(true);
+      setFeedbackText("Are you sure you want to risk it all?");
+      return;
+    }
+
+    if (selectedPotion.name === "Golden Syrup") {
+      setConfirmButton(true);
+      setFeedbackText(
+        "This will end the experiment. You plant will thrive! Are you sure?"
+      );
+      return;
+    }
+
+    setConfirmButton(false);
+    setFeedbackText(
+      "Select your potions and unveil the secrets of the plants!"
+    );
+  }, [selectedPotion]);
+
+  useEffect(() => {
+    const combination = generatePotionCombination();
+
+    console.log("Solution Code: ", combination.code);
+    console.log("Bomb Potion: ", combination.bomb);
+
+    setCombination(generatePotionCombination());
+  }, []);
 
   const handleGuessChange = (index: number, value: PotionName) => {
     setCurrentGuess((prevGuess) => {
@@ -129,24 +160,16 @@ export const Experiment: React.FC<Props> = ({
   const handleConfirmGuess = () => {
     // Add the current guess to the game state
     const feedback = getTurnFeedback();
-    console.log({ combination });
 
-    console.log("guess", currentGuess);
+    console.log("Your Guess: ", currentGuess);
 
-    console.log("score", calculateScore(feedback));
+    console.log("Your Score: ", calculateScore(feedback));
 
     const newTurn: Turn = {
       guess: currentGuess as PotionName[],
       feedback,
     };
     setGame((prevGame) => ({ turns: [...prevGame.turns, newTurn] }));
-
-    if (feedback.includes("bombed")) {
-      console.log("bombed");
-      setCombination(generatePotionCombination());
-    }
-
-    console.log("feedback", feedback);
 
     // Clear the current guess
     setCurrentGuess([]);
@@ -156,15 +179,9 @@ export const Experiment: React.FC<Props> = ({
   const getTurnFeedback = () => {
     const { code, bomb } = combination;
 
-    console.log("turn feedback");
-    console.log("code", code);
-    console.log("bomb", bomb);
-
-    if (currentGuess.includes(bomb)) {
-      return ["bombed", "bombed", "bombed", "bombed"] as GuessFeedback[];
-    }
-
     return currentGuess.map((guess, index) => {
+      if (guess === bomb) return "bombed";
+
       if (guess === code[index]) {
         return "correct";
       }
@@ -187,20 +204,6 @@ export const Experiment: React.FC<Props> = ({
   };
 
   const handleAddToMix = () => {
-    if (selectedPotion.name === "Miracle Mix") {
-      setConfirmButton(true);
-      setFeedbackText("Are you sure you want to risk it all?");
-      return;
-    }
-
-    if (selectedPotion.name === "Golden Syrup") {
-      setConfirmButton(true);
-      setFeedbackText(
-        "This will end the experiment. You plant will thrive! Are you sure?"
-      );
-      return;
-    }
-
     handleGuessChange(guessSpot, selectedPotion.name);
   };
 
@@ -212,6 +215,7 @@ export const Experiment: React.FC<Props> = ({
       // else set score to 0
       onScoreChange(success ? 100 : 0);
       setConfirmButton(false);
+      console.log("Game Over: ", success ? 100 : 0);
       onComplete();
     }
   };

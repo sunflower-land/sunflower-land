@@ -14,6 +14,8 @@ export function calculateScore(feedback?: GuessFeedback[]): number {
 
   let score = 0;
 
+  if (feedback.some((type) => type === "bombed")) return scoreMap.bombed;
+
   const correctCount = feedback.filter((type) => type === "correct").length;
   score = correctCount * scoreMap.correct;
 
@@ -85,9 +87,9 @@ export function getFeedbackText(score: number): string {
   }
 
   const feedbackOptions = [
-    "Oh no! The plant despises your potion! Try again.",
-    "Oops! The plant recoils from your potion! Try again.",
-    "Uh-oh! Your potion is a total flop with the plant! Try again.",
+    "Oh no! The plant despises something in your potion! Try again.",
+    "Oops! The plant recoils from something in your potion! Try again.",
+    "Uh-oh! Something in your potion is a total flop with the plant! Try again.",
   ];
   return feedbackOptions[Math.floor(Math.random() * feedbackOptions.length)];
 }
