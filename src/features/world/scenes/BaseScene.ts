@@ -422,7 +422,7 @@ export abstract class BaseScene extends Phaser.Scene {
     const room = this.roomService.state.context.rooms[this.roomId];
     if (!room) return;
 
-    // Destroy any orphaned players
+    // Destroy any dereferenced players
     Object.keys(this.playerEntities).forEach((sessionId) => {
       if (!room.state.players.get(sessionId)) {
         this.destroyPlayer(sessionId);
