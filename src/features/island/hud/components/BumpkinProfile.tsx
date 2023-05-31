@@ -25,8 +25,6 @@ import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpringValue } from "@react-spring/web";
-import { Button } from "components/ui/Button";
-import { withdrawBumpkin } from "features/game/actions/withdraw";
 
 const DIMENSIONS = {
   original: 80,
@@ -190,7 +188,7 @@ export const BumpkinProfile: React.FC<{
 }> = ({ isFullUser }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   const { authService } = useContext(AuthProvider.Context);
   const [authState, send] = useActor(authService);
@@ -250,18 +248,6 @@ export const BumpkinProfile: React.FC<{
           inventory={gameState.context.state.inventory}
           isFullUser={isFullUser}
         />
-        <Button
-          onClick={() =>
-            withdrawBumpkin({
-              farmId: authState.context.user.farmId as number,
-              bumpkinId: gameState.context.state.bumpkin?.id as number,
-              token: authState.context.user.rawToken as string,
-              transactionId: "XXX",
-            })
-          }
-        >
-          Withraw
-        </Button>
       </Modal>
 
       {/* Bumpkin profile */}

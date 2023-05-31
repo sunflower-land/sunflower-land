@@ -10,7 +10,7 @@ import React, { useContext, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { Box } from "components/ui/Box";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
@@ -21,6 +21,7 @@ import {
   availableWardrobe,
   equip,
 } from "features/game/events/landExpansion/equip";
+import { Label } from "components/ui/Label";
 
 export const BumpkinEquip: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -80,23 +81,63 @@ export const BumpkinEquip: React.FC = () => {
     JSON.stringify(gameState.context.state.bumpkin?.equipped);
 
   const equippedItems = Object.values(equipped);
+
+  const isMissingHair = !equipped.hair;
+  const isMissingBody = !equipped.body;
+  const isMissingShoes = !equipped.shoes;
+  const isMissingShirt = !equipped.shirt && !equipped.dress;
+  const isMissingPants = !equipped.pants && !equipped.dress;
+
+  const warn =
+    isMissingHair ||
+    isMissingBody ||
+    isMissingShoes ||
+    isMissingShirt ||
+    isMissingPants;
+
+  const warning = () => {
+    if (isMissingHair) {
+      return "Hair is required";
+    }
+
+    if (isMissingBody) {
+      return "Body is required";
+    }
+
+    if (isMissingShoes) {
+      return "Shoes are required";
+    }
+
+    if (isMissingShirt) {
+      return "Shirt is required";
+    }
+
+    if (isMissingPants) {
+      return "Pants are required";
+    }
+    return "";
+  };
   return (
     <div className="p-2">
-      <div className="flex flex-col items-center justify-center">
-        <div className="w-1/3">
+      <div className="flex justify-center">
+        <div className="w-1/3  mr-1">
           <div className="w-full  relative rounded-xl overflow-hidden mr-2 mb-1">
             <DynamicNFT
               showBackground
               bumpkinParts={equipped}
               key={JSON.stringify(equipped)}
             />
-            <div className="absolute w-8 h-8 bottom-10 right-4">
+            <div className="absolute  w-8 h-8 bottom-10 right-4">
               <NPC parts={equipped} key={JSON.stringify(equipped)} />
             </div>
           </div>
-          <Button disabled={!isDirty} onClick={finish} className="text-sm">
+          <Button
+            disabled={!isDirty || warn}
+            onClick={finish}
+            className="text-sm h-7"
+          >
             <div className="flex">
-              Equip
+              Save
               {finished && !isDirty && (
                 <img
                   src={SUNNYSIDE.icons.confirm}
@@ -105,18 +146,12 @@ export const BumpkinEquip: React.FC = () => {
               )}
             </div>
           </Button>
+          {warn && <Label type="warning">{warning()}</Label>}
         </div>
-        <div className="flex-1 flex flex-wrap justify-center pr-1 pt-2.5 overflow-y-auto scrollable max-h-60">
+        <div className="flex-1 flex flex-wrap justify-center pr-1 overflow-y-auto scrollable max-h-60">
           {getKeys(wardrobe).map((name) => (
-            <Box
-              key={name}
-              image={getImageUrl(ITEM_IDS[name])}
-              secondaryImage={
-                equippedItems.includes(name)
-                  ? SUNNYSIDE.icons.confirm
-                  : undefined
-              }
-              count={new Decimal(wardrobe[name] ?? 0)}
+            <OuterPanel
+              className="w-full flex mb-1 p-1 cursor-pointer hover:bg-brown-200"
               onClick={() => {
                 // Already equipped
                 if (equippedItems.includes(name)) {
@@ -125,7 +160,21 @@ export const BumpkinEquip: React.FC = () => {
                   equipPart(name);
                 }
               }}
-            />
+            >
+              <div className="flex-1 flex flex-col">
+                <p className="text-xs flex-1">{name}</p>
+                {equippedItems.includes(name) && (
+                  <div className="flex items-center">
+                    <span className="text-xxs mr-2">Equipped</span>
+                    <img src={SUNNYSIDE.icons.confirm} className="h-3" />
+                  </div>
+                )}
+              </div>
+              <img
+                src={getImageUrl(ITEM_IDS[name])}
+                className="h-10 rounded-md"
+              />
+            </OuterPanel>
           ))}
         </div>
       </div>
