@@ -9,18 +9,12 @@ import {
 import React, { useContext, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
 import { NPC } from "features/island/bumpkin/components/NPC";
-import { Box } from "components/ui/Box";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/types/craftables";
-import Decimal from "decimal.js-light";
-import {
-  availableWardrobe,
-  equip,
-} from "features/game/events/landExpansion/equip";
+
 import { Label } from "components/ui/Label";
 
 export const BumpkinEquip: React.FC = () => {
@@ -151,6 +145,7 @@ export const BumpkinEquip: React.FC = () => {
         <div className="flex-1 flex flex-wrap justify-center pr-1 overflow-y-auto scrollable max-h-60">
           {getKeys(wardrobe).map((name) => (
             <OuterPanel
+              key={name}
               className="w-full flex mb-1 p-1 cursor-pointer hover:bg-brown-200"
               onClick={() => {
                 // Already equipped
