@@ -81,7 +81,7 @@ export const BumpkinModal: React.FC<Props> = ({
 }) => {
   const [view, setView] = useState<ViewState>(initialView);
 
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState(0);
 
   const getVisitBumpkinUrl = () => {
     if (readonly) {
