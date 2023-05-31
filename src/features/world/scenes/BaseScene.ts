@@ -62,7 +62,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
         if (!room) return;
 
-        console.log("Player joined", sessionId, x, y, clothing);
         const player = this.createPlayer({
           x,
           y,
@@ -77,11 +76,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
         if (roomId !== this.roomId) return;
 
-        const entity = this.playerEntities[sessionId];
-        if (entity) {
-          entity.destroy();
-          delete this.playerEntities[sessionId];
-        }
+        this.destroyPlayer(sessionId);
       }
     };
 
@@ -279,6 +274,9 @@ export abstract class BaseScene extends Phaser.Scene {
           const warpTo = (obj2 as any).data?.list?.warp;
           if (warpTo) {
             this.cameras.main.fadeOut(1000);
+            (
+              this.currentPlayer?.body as Physics.Arcade.Body | undefined
+            )?.destroy();
 
             this.cameras.main.on(
               "camerafadeoutcomplete",
@@ -293,6 +291,14 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     return entity;
+  }
+
+  destroyPlayer(sessionId: string) {
+    const entity = this.playerEntities[sessionId];
+    if (entity) {
+      entity.destroy();
+      delete this.playerEntities[sessionId];
+    }
   }
 
   update(time: number, delta: number): void {
@@ -353,10 +359,20 @@ export abstract class BaseScene extends Phaser.Scene {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
     }
 
-    this.roomService.send("SEND_POSITION", {
-      x: this.currentPlayer.x,
-      y: this.currentPlayer.y,
-    });
+    const room = this.roomService.state.context.rooms[this.roomId];
+    const player = room?.state.players.get(room.sessionId);
+
+    // Only send position if the server has different coordinates
+    // to the client
+    if (
+      player?.x !== this.currentPlayer.x ||
+      player?.y !== this.currentPlayer.y
+    ) {
+      this.roomService.send("SEND_POSITION", {
+        x: this.currentPlayer.x,
+        y: this.currentPlayer.y,
+      });
+    }
 
     if (
       this.inputPayload.left ||
@@ -403,28 +419,32 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   moveOtherPlayers() {
-    for (const sessionId in this.playerEntities) {
-      const room = this.roomService.state.context.rooms[this.roomId];
+    const room = this.roomService.state.context.rooms[this.roomId];
+    if (!room) return;
 
-      if (!room) continue;
+    // Destroy any dereferenced players
+    Object.keys(this.playerEntities).forEach((sessionId) => {
+      if (!room.state.players.get(sessionId)) {
+        this.destroyPlayer(sessionId);
+      }
+    });
 
-      if (sessionId === room.sessionId) continue;
+    // Render current players
+    room?.state.players.forEach((player, sessionId) => {
+      if (sessionId === room.sessionId) return;
 
-      console.log(sessionId);
       const entity = this.playerEntities[sessionId];
 
-      const position = room.state.players.get(sessionId);
+      // Skip if the player hasn't been set up yet
+      if (!entity.active) return;
 
-      if (!position) {
-        return;
-      }
-      if (position.x > entity.x) {
+      if (player.x > entity.x) {
         entity.setScale(1, 1);
-      } else if (position.x < entity.x) {
+      } else if (player.x < entity.x) {
         entity.setScale(-1, 1);
       }
 
-      const distance = Phaser.Math.Distance.BetweenPoints(position, entity);
+      const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
 
       if (distance < 2) {
         entity.idle();
@@ -432,9 +452,9 @@ export abstract class BaseScene extends Phaser.Scene {
         entity.walk();
       }
 
-      entity.x = Phaser.Math.Linear(entity.x, position.x, 0.05);
-      entity.y = Phaser.Math.Linear(entity.y, position.y, 0.05);
-    }
+      entity.x = Phaser.Math.Linear(entity.x, player.x, 0.05);
+      entity.y = Phaser.Math.Linear(entity.y, player.y, 0.05);
+    });
   }
 
   fixedTick(time: number, delta: number) {
