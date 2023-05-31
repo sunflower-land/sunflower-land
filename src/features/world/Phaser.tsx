@@ -28,7 +28,6 @@ export const PhaserComponent: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  console.log({ b: gameState.context.state.bumpkin });
   const roomService = useInterpret(roomMachine, {
     context: {
       jwt: authState.context.user.rawToken,
@@ -38,9 +37,11 @@ export const PhaserComponent: React.FC = () => {
   }) as unknown as MachineInterpreter;
 
   const roomState = useSelector(roomService, _roomState);
-  const messages = useSelector(
-    roomService,
-    (state: MachineState) => state.context.messages
+  const messages = useSelector(roomService, (state: MachineState) =>
+    state.context.rooms[state.context.roomId]?.state.messages.map((m) => ({
+      sessionId: m.sessionId ?? "",
+      text: m.text,
+    }))
   );
 
   useEffect(() => {
@@ -86,8 +87,7 @@ export const PhaserComponent: React.FC = () => {
       parent: "game-content",
     });
 
-    // Manually inject onto scenes so we have access to it
-    (game as any).roomService = roomService;
+    game.registry.set("roomService", roomService);
   }, []);
 
   return (
@@ -99,7 +99,7 @@ export const PhaserComponent: React.FC = () => {
         onMessage={(m) =>
           roomService.send("SEND_CHAT_MESSAGE", { text: m.text ?? "?" })
         }
-        messages={messages}
+        messages={messages ?? []}
       />
       <NPCModals />
       <InteractableModals />

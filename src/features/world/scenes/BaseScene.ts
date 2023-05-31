@@ -9,16 +9,20 @@ import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import {
+  ChatContext,
   ChatMessageReceived,
   MachineInterpreter,
   PlayerJoined,
   PlayerQuit,
+  RoomEvent,
+  RoomId,
 } from "../roomMachine";
 import { CONFIG } from "lib/config";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { EventObject, State } from "xstate";
 
 export type NPCBumpkin = {
   x: number;
@@ -26,7 +30,77 @@ export type NPCBumpkin = {
   npc: NPCName;
 };
 
-export class BaseScene extends Phaser.Scene {
+export abstract class BaseScene extends Phaser.Scene {
+  abstract roomId: RoomId;
+  eventListener: (event: EventObject) => void;
+  transitionListener: (
+    state: State<ChatContext, RoomEvent, any, any, any>,
+    event: RoomEvent
+  ) => void;
+
+  constructor(key: string) {
+    super(key);
+
+    this.eventListener = (event) => {
+      if (event.type === "CHAT_MESSAGE_RECEIVED") {
+        const { sessionId, text } = event as ChatMessageReceived;
+        if (
+          sessionId &&
+          String(sessionId).length > 4 &&
+          this.playerEntities[sessionId]
+        ) {
+          this.playerEntities[sessionId].speak(text);
+        }
+      }
+
+      if (event.type === "PLAYER_JOINED") {
+        const { sessionId, x, y, clothing, roomId } = event as PlayerJoined;
+
+        if (roomId !== this.roomId) return;
+
+        const room = this.roomService.state.context.rooms[roomId];
+
+        if (!room) return;
+
+        console.log("Player joined", sessionId, x, y, clothing);
+        const player = this.createPlayer({
+          x,
+          y,
+          clothing,
+          isCurrentPlayer: sessionId === room.sessionId,
+        });
+        this.playerEntities[sessionId] = player;
+      }
+
+      if (event.type === "PLAYER_QUIT") {
+        const { sessionId, roomId } = event as PlayerQuit;
+
+        if (roomId !== this.roomId) return;
+
+        const entity = this.playerEntities[sessionId];
+        if (entity) {
+          entity.destroy();
+          delete this.playerEntities[sessionId];
+        }
+      }
+    };
+
+    this.transitionListener = (state) => {
+      if (state.value === "error" && !this.readonly) {
+        console.log("We have an error");
+        // Render the player for readonly
+        this.createPlayer({
+          x: 300,
+          y: 300,
+          isCurrentPlayer: true,
+          clothing: INITIAL_BUMPKIN.equipped,
+        });
+
+        this.readonly = true;
+      }
+    };
+  }
+
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
   room: Room | undefined;
 
@@ -55,12 +129,11 @@ export class BaseScene extends Phaser.Scene {
 
   currentTick = 0;
 
-  // We manually inject room service onto the initialised Phaser Game
   public get roomService() {
-    return (this.game as any).roomService as MachineInterpreter;
+    return this.registry.get("roomService") as MachineInterpreter;
   }
+
   preload() {
-    console.log("preload");
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
     this.load.tilemapTiledJSON("clothes-shop", clothesShopJson);
@@ -76,18 +149,14 @@ export class BaseScene extends Phaser.Scene {
       frameWidth: 14,
       frameHeight: 18,
     });
-    console.log("Prep");
     this.load.bitmapFont(
       "Small 5x3",
       "world/small_3x5.png",
       "world/small_3x5.xml"
     );
-    console.log("done");
   }
 
   async create() {
-    console.log("create");
-
     const camera = this.cameras.main;
     camera.fadeIn();
     const tileset = this.map.addTilesetImage(
@@ -163,66 +232,15 @@ export class BaseScene extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     this.input.keyboard?.removeCapture("SPACE");
 
-    console.log("initialiser room...");
-    // Respond to Websocket events
-    this.roomService.onEvent((event) => {
-      if (event.type === "CHAT_MESSAGE_RECEIVED") {
-        const { sessionId, text } = event as ChatMessageReceived;
-        if (
-          sessionId &&
-          String(sessionId).length > 4 &&
-          this.playerEntities[sessionId]
-        ) {
-          this.playerEntities[sessionId].speak(text);
-        }
-      }
-
-      if (event.type === "PLAYER_JOINED") {
-        const { sessionId, x, y, clothing } = event as PlayerJoined;
-        const player = this.createPlayer({
-          x,
-          y,
-          clothing,
-          isCurrentPlayer:
-            sessionId === this.roomService.state.context.room?.sessionId,
-        });
-        this.playerEntities[sessionId] = player;
-      }
-
-      if (event.type === "PLAYER_QUIT") {
-        const { sessionId } = event as PlayerQuit;
-        const entity = this.playerEntities[sessionId];
-        if (entity) {
-          entity.destroy();
-          delete this.playerEntities[sessionId];
-        }
-      }
-    });
-
-    this.roomService.onTransition((state) => {
-      if (state.value === "error" && !this.readonly) {
-        console.log("We have an error");
-        // Render the player for readonly
-        this.createPlayer({
-          x: 300,
-          y: 300,
-          isCurrentPlayer: true,
-          clothing: INITIAL_BUMPKIN.equipped,
-        });
-
-        this.readonly = true;
-      }
-    });
-    // If we cannot connect to server = render the player the anyway
-
-    // this.createPlayer({
-    //   x: 300,
-    //   y: 300,
-    //   isCurrentPlayer: true,
-    // });
+    this.roomService.off(this.eventListener);
+    this.roomService.off(this.transitionListener);
+    this.roomService.onEvent(this.eventListener);
+    this.roomService.onTransition(this.transitionListener);
 
     // Connect to Room
-    this.roomService.send("CONNECT");
+    this.roomService.send("CHANGE_ROOM", {
+      roomId: this.roomId,
+    });
   }
 
   createPlayer({
@@ -265,12 +283,7 @@ export class BaseScene extends Phaser.Scene {
             this.cameras.main.on(
               "camerafadeoutcomplete",
               () => {
-                console.log("Fade complete");
-                this.roomService.send("CHANGE_ROOM", {
-                  roomId: warpTo,
-                });
-
-                this.game.scene.switch(this.scene.key, warpTo);
+                this.scene.start(warpTo);
               },
               this
             );
@@ -391,13 +404,16 @@ export class BaseScene extends Phaser.Scene {
 
   moveOtherPlayers() {
     for (const sessionId in this.playerEntities) {
-      if (sessionId === this.roomService.state.context.room?.sessionId) {
-        continue;
-      }
+      const room = this.roomService.state.context.rooms[this.roomId];
 
+      if (!room) continue;
+
+      if (sessionId === room.sessionId) continue;
+
+      console.log(sessionId);
       const entity = this.playerEntities[sessionId];
 
-      const position = this.roomService.state.context.players[sessionId];
+      const position = room.state.players.get(sessionId);
 
       if (!position) {
         return;
