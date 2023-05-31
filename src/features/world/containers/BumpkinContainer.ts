@@ -61,6 +61,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
 
     const r = (Math.random() + 1).toString(36).substring(7);
+    console.log(r);
     const idleSpriteSheetKey = `${r}-bumpkin-idle-sheet`;
     const walkingSpriteSheetKey = `${r}-bumpkin-walking-sheet`;
 
