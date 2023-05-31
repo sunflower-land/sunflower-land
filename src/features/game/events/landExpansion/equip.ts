@@ -4,7 +4,7 @@ import { GameState, Wardrobe } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type EquipBumpkinAction = {
-  type: "action.equipment";
+  type: "bumpkin.equipped";
   equipment: Equipped;
 };
 
