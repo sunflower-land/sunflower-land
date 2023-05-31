@@ -52,9 +52,7 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
   return await response.json();
 }
 
-export async function buyBlockBucksMATIC(
-  request: Extract<Request, { type: "MATIC" }>
-) {
+export async function buyBlockBucksMATIC(request: Request) {
   const transaction = await buyBlockBucks(request);
 
   await _buyBlockBucksMATIC({

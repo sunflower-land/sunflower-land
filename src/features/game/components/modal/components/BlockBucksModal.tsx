@@ -17,6 +17,8 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 
 interface Props {
+  closeable: boolean;
+  setCloseable: (closeable: boolean) => void;
   onClose: () => void;
 }
 
@@ -59,7 +61,10 @@ interface Price {
   usd: number;
 }
 
-const PokoIFrame: React.FC<PokoConfig & { onSuccess: () => void }> = ({
+const PokoIFrame: React.FC<
+  PokoConfig & { onProcessing: () => void; onSuccess: () => void }
+> = ({
+  onProcessing,
   onSuccess,
   url,
   network,
@@ -83,10 +88,12 @@ const PokoIFrame: React.FC<PokoConfig & { onSuccess: () => void }> = ({
       const data = JSON.parse(event.data as unknown as string);
 
       if (data.eventName !== "onPokoDirectCheckoutStatusChange") return;
-      if (data.data?.status !== "succeeded") return;
-
-      console.log("UPDATING BLOCK BUCKS", event);
-      onSuccess();
+      if (data.data?.status === "succeeded") {
+        onSuccess();
+      }
+      if (data.data?.status === "payment_received") {
+        onProcessing();
+      }
     };
 
     window.addEventListener("message", handler);
@@ -98,14 +105,17 @@ const PokoIFrame: React.FC<PokoConfig & { onSuccess: () => void }> = ({
   return (
     <iframe
       src={`${url}?itemName=${itemName}&itemImageURL=${itemImageURL}&network=${network}&apiKey=${apiKey}&listingId=${listingId}&type=nft&marketplaceCode=${marketplaceCode}&receiverId=${receiverId}&extra=${extra}`}
-      height="650px"
-      className="w-full"
+      className="w-full h-[85vh] sm:h-[65vh]"
       title="Poko widget"
       allow="accelerometer; autoplay; camera; gyroscope; payment"
     />
   );
 };
-export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
+export const BlockBucksModal: React.FC<Props> = ({
+  closeable,
+  onClose,
+  setCloseable,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -138,8 +148,10 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   const onCreditCardBuy = async () => {
     setLoading(true);
     try {
+      const amount = price?.amount ?? 0;
+
       const transaction = await buyBlockBucks({
-        amount: price?.amount ?? 0,
+        amount,
         farmId: gameState.context.state.id as number,
         transactionId: randomID(),
         type: "USDC",
@@ -157,7 +169,9 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
           CONFIG.NETWORK === "mumbai" ? "polygonMumbaiRealUSDC" : "polygon",
         marketplaceCode: "sunflowerland",
         listingId: gameState.context.state.id as number,
-        itemName: encodeURIComponent("Block Bucks"),
+        itemName: encodeURIComponent(
+          `${amount} Block Buck${amount > 1 ? "s" : ""}`
+        ),
         itemImageURL: encodeURIComponent(
           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAAXNSR0IArs4c6QAAABhQTFRFAAAAPolIGBQkcz45Y8dN/q40JlxC93Yi51WP2wAAAAh0Uk5TAP/////////VylQyAAAAm0lEQVRYhe3X0QqAIAyFYVem7//GDQ0ZEjWLYK7zX3UR38WhkkJACCGEjpaRHIB8TywRUVR0axoHq0allBIpujanADVIlxtQbriKnIGnMzKSc95KfNGZmlfPONjMtiELTNUB68WQNhEoN/QNtk+i3PDlc2gZlEdAN+Pjr419sN2mPPU8gfqmBqWp3FB/ppgFg/m/gC9AhBBCP2kHvTwQvZ+Xte4AAAAASUVORK5CYII="
         ),
@@ -171,7 +185,12 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   };
 
   const onCreditCardSuccess = () => {
+    setCloseable(true);
     gameService.send("UPDATE_BLOCK_BUCKS", { amount: price?.amount });
+  };
+
+  const onCreditCardProcessing = () => {
+    setCloseable(false);
   };
 
   useEffect(() => {
@@ -205,7 +224,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
             </div>
             <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
           </div>
-          <div className="flex flex-grow items-stretch justify-around mx-3 space-x-5">
+          <div className="flex flex-col flex-grow items-stretch justify-around mx-3 space-y-2 sm:space-y-0 sm:space-x-5 sm:flex-row">
             <OuterPanel className="w-full flex flex-col items-center relative">
               <div className="flex w-full items-center justify-center py-4 px-2">
                 <p className="mr-2 mb-1 text-xs">Cash / Card</p>
@@ -236,10 +255,10 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
           </div>
 
           <p className="text-xs text-center pt-2">
-            Game progress will be stored on Blockchain.
+            Block bucks will be stored on your farm.
           </p>
           <p className="text-xxs italic text-center py-2">
-            *Prices exclude Blockchain transaction fees.
+            *Prices exclude transaction fees.
           </p>
         </>
       );
@@ -277,11 +296,11 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
 
         <div className="flex flex-col">
           <p className="text-xxs italic text-center pt-2">
-            *Prices exclude Blockchain transaction fees.
+            *Prices exclude transaction fees.
           </p>
           <a
             href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
-            className="mx-auto text-xxs underline text-center pb-2"
+            className="mx-auto text-xxs underline text-center pb-2 pt-2"
             target="_blank"
             rel="noreferrer"
           >
@@ -294,7 +313,7 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
 
   return (
     <CloseButtonPanel
-      onClose={onClose}
+      onClose={closeable ? onClose : undefined}
       title="Buy Block Bucks"
       bumpkinParts={{
         body: "Light Brown Farmer Potion",
@@ -305,7 +324,11 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
       }}
     >
       {showPoko ? (
-        <PokoIFrame {...showPoko} onSuccess={onCreditCardSuccess} />
+        <PokoIFrame
+          {...showPoko}
+          onSuccess={onCreditCardSuccess}
+          onProcessing={onCreditCardProcessing}
+        />
       ) : (
         <Content />
       )}
