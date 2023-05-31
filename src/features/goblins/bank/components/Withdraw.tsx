@@ -13,6 +13,10 @@ import { Context } from "features/game/GoblinProvider";
 import { loadBanDetails } from "features/game/actions/bans";
 import { Jigger, JiggerStatus } from "features/game/components/Jigger";
 import { WithdrawWearables } from "./WithdrawWearables";
+import { WithdrawBumpkin } from "./WithdrawBumpkin";
+import { SUNNYSIDE } from "assets/sunnyside";
+import chest from "assets/icons/chest.png";
+import token from "assets/icons/token_2.png";
 
 interface Props {
   onClose: () => void;
@@ -20,8 +24,11 @@ interface Props {
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
   const [authState] = useActor(authService);
-  const [page, setPage] = useState<"tokens" | "items" | "wearables">();
+  const [page, setPage] = useState<
+    "tokens" | "items" | "wearables" | "bumpkin"
+  >();
 
   const [jiggerState, setJiggerState] =
     useState<{ url: string; status: JiggerStatus }>();
@@ -53,6 +60,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     sfl: "0",
     wearableIds: [] as number[],
     wearableAmounts: [] as number[],
+    bumpkinId: undefined as number | undefined,
   });
 
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -64,6 +72,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       sfl,
       wearableAmounts: [],
       wearableIds: [],
+      bumpkinId: undefined,
     };
     setShowCaptcha(true);
   };
@@ -75,6 +84,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       sfl: "0",
       wearableAmounts: [],
       wearableIds: [],
+      bumpkinId: undefined,
     };
     setShowCaptcha(true);
   };
@@ -89,6 +99,19 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       sfl: "0",
       wearableAmounts,
       wearableIds,
+      bumpkinId: undefined,
+    };
+    setShowCaptcha(true);
+  };
+
+  const onWithdrawBumpkin = async () => {
+    withdrawAmount.current = {
+      ids: [],
+      amounts: [],
+      sfl: "0",
+      wearableAmounts: [],
+      wearableIds: [],
+      bumpkinId: goblinState.context.state.bumpkin?.id,
     };
     setShowCaptcha(true);
   };
@@ -150,15 +173,32 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         You can only withdraw items that you have synced to the blockchain.
       </span>
 
-      <div className="flex">
+      <div className="flex mb-1">
         <Button className="mr-1" onClick={() => setPage("tokens")}>
-          SFL
+          <div className="flex">
+            <img src={token} className="h-4 mr-1" />
+            SFL
+          </div>
         </Button>
         <Button className="ml-1" onClick={() => setPage("items")}>
-          Collectibles
+          <div className="flex">
+            <img src={chest} className="h-4 mr-1" />
+            Collectibles
+          </div>
         </Button>
-        <Button className="ml-1" onClick={() => setPage("wearables")}>
-          Wearables
+      </div>
+      <div className="flex">
+        <Button onClick={() => setPage("wearables")}>
+          <div className="flex">
+            <img src={SUNNYSIDE.icons.heart} className="h-4 mr-1" />
+            Wearables
+          </div>
+        </Button>
+        <Button className="ml-1" onClick={() => setPage("bumpkin")}>
+          <div className="flex">
+            <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
+            Bumpkin
+          </div>
         </Button>
       </div>
       {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
@@ -166,6 +206,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       {page === "wearables" && (
         <WithdrawWearables onWithdraw={onWithdrawWearables} />
       )}
+      {page === "bumpkin" && <WithdrawBumpkin onWithdraw={onWithdrawBumpkin} />}
     </div>
   );
 };

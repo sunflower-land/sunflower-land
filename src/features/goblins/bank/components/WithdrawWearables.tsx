@@ -15,6 +15,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { availableWardrobe } from "features/game/events/landExpansion/equip";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -28,7 +29,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   const [selected, setSelected] = useState<Wardrobe>({});
 
   useEffect(() => {
-    setWardrobe(goblinState.context.state.wardrobe);
+    setWardrobe(availableWardrobe(goblinState.context.state));
     setSelected({});
   }, []);
 
@@ -103,21 +104,23 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         </div>
         <h2 className="mb-3">Select items to withdraw</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {withdrawableItems.map((itemName) => {
-            const gameState = goblinState.context.state;
+          {withdrawableItems
+            .filter((name) => !!wardrobe[name])
+            .map((itemName) => {
+              const gameState = goblinState.context.state;
 
-            // The wardrobe amount that is not placed
-            const wardrobeCount = wardrobe[itemName];
+              // The wardrobe amount that is not placed
+              const wardrobeCount = wardrobe[itemName];
 
-            return (
-              <Box
-                count={new Decimal(wardrobeCount ?? 0)}
-                key={itemName}
-                onClick={() => onAdd(itemName)}
-                image={getImageUrl(ITEM_IDS[itemName])}
-              />
-            );
-          })}
+              return (
+                <Box
+                  count={new Decimal(wardrobeCount ?? 0)}
+                  key={itemName}
+                  onClick={() => onAdd(itemName)}
+                  image={getImageUrl(ITEM_IDS[itemName])}
+                />
+              );
+            })}
           {/* Pad with empty boxes */}
           {withdrawableItems.length < 4 &&
             new Array(4 - withdrawableItems.length)

@@ -24,6 +24,7 @@ import { depositToFarm } from "lib/blockchain/Deposit";
 import { reset } from "features/farming/hud/actions/reset";
 import { getSessionId } from "lib/blockchain/Session";
 import {
+  withdrawBumpkin,
   withdrawItems,
   withdrawSFL,
   withdrawWearables,
@@ -437,6 +438,19 @@ export function startGoblinVillage(authContext: AuthContext) {
                   ids: wearableIds,
                   captcha,
                   transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              if (bumpkinId) {
+                const { sessionId } = await withdrawBumpkin({
+                  farmId: Number(user.farmId),
+                  token: user.rawToken as string,
+                  transactionId: context.transactionId as string,
+                  bumpkinId: bumpkinId,
                 });
 
                 return {
