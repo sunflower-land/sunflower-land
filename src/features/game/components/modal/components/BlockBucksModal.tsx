@@ -59,7 +59,8 @@ interface Price {
   usd: number;
 }
 
-const PokoIFrame: React.FC<PokoConfig> = ({
+const PokoIFrame: React.FC<PokoConfig & { onSuccess: () => void }> = ({
+  onSuccess,
   url,
   network,
   marketplaceCode,
@@ -69,18 +70,41 @@ const PokoIFrame: React.FC<PokoConfig> = ({
   apiKey,
   extra,
   receiverId,
-}) => (
+}) => {
+  useEffect(() => {
+    const handler = (
+      event: MessageEvent<{ type: string; message: string }>
+    ) => {
+      console.log({ event });
+      const origin = new URL(url).origin;
+
+      if (event.origin !== origin) return;
+
+      const data = JSON.parse(event.data as unknown as string);
+
+      if (data.eventName !== "onPokoDirectCheckoutStatusChange") return;
+      if (data.data?.status !== "succeeded") return;
+
+      console.log("UPDATING BLOCK BUCKS", event);
+      onSuccess();
+    };
+
+    window.addEventListener("message", handler);
+
+    return () => window.removeEventListener("message", handler);
+  }, []);
   // It is possible to theme this with &backgroundColorHex=c18669&textColorHex=ffffff&primaryColorHex=e7a873
   // I wasn't able to get it looking nice though
-  <iframe
-    src={`${url}?itemName=${itemName}&itemImageURL=${itemImageURL}&network=${network}&apiKey=${apiKey}&listingId=${listingId}&type=nft&marketplaceCode=${marketplaceCode}&receiverId=${receiverId}&extra=${extra}`}
-    height="650px"
-    className="w-full"
-    title="Poko widget"
-    allow="accelerometer; autoplay; camera; gyroscope; payment"
-  />
-);
-
+  return (
+    <iframe
+      src={`${url}?itemName=${itemName}&itemImageURL=${itemImageURL}&network=${network}&apiKey=${apiKey}&listingId=${listingId}&type=nft&marketplaceCode=${marketplaceCode}&receiverId=${receiverId}&extra=${extra}`}
+      height="650px"
+      className="w-full"
+      title="Poko widget"
+      allow="accelerometer; autoplay; camera; gyroscope; payment"
+    />
+  );
+};
 export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -130,22 +154,24 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
             ? "https://dev.checkout.pokoapp.xyz/checkout"
             : "https://checkout.pokoapp.xyz/checkout",
         network:
-          CONFIG.NETWORK === "mumbai"
-            ? "polygonMumbaiRealUSDC"
-            : "polygonRealUSDC",
+          CONFIG.NETWORK === "mumbai" ? "polygonMumbaiRealUSDC" : "polygon",
         marketplaceCode: "sunflowerland",
         listingId: gameState.context.state.id as number,
         itemName: encodeURIComponent("Block Bucks"),
         itemImageURL: encodeURIComponent(
           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAAXNSR0IArs4c6QAAABhQTFRFAAAAPolIGBQkcz45Y8dN/q40JlxC93Yi51WP2wAAAAh0Uk5TAP/////////VylQyAAAAm0lEQVRYhe3X0QqAIAyFYVem7//GDQ0ZEjWLYK7zX3UR38WhkkJACCGEjpaRHIB8TywRUVR0axoHq0allBIpujanADVIlxtQbriKnIGnMzKSc95KfNGZmlfPONjMtiELTNUB68WQNhEoN/QNtk+i3PDlc2gZlEdAN+Pjr419sN2mPPU8gfqmBqWp3FB/ppgFg/m/gC9AhBBCP2kHvTwQvZ+Xte4AAAAASUVORK5CYII="
         ),
-        apiKey: "85b7b9b5-b0d5-476c-999a-ba7007b85cd2",
+        apiKey: CONFIG.POKO_DIRECT_CHECKOUT_API_KEY,
         extra: encodeURIComponent(JSON.stringify(details)),
         receiverId: wallet.myAccount?.toLowerCase() as string,
       });
     } finally {
       setLoading(false);
     }
+  };
+
+  const onCreditCardSuccess = () => {
+    gameService.send("UPDATE_BLOCK_BUCKS", { amount: price?.amount });
   };
 
   useEffect(() => {
@@ -278,7 +304,11 @@ export const BlockBucksModal: React.FC<Props> = ({ onClose }) => {
         tool: "Farmer Pitchfork",
       }}
     >
-      {showPoko ? <PokoIFrame {...showPoko} /> : <Content />}
+      {showPoko ? (
+        <PokoIFrame {...showPoko} onSuccess={onCreditCardSuccess} />
+      ) : (
+        <Content />
+      )}
     </CloseButtonPanel>
   );
 };

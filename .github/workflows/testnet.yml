@@ -71,6 +71,7 @@ jobs:
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
           VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
+          VITE_POKO_DIRECT_CHECKOUT_API_KEY: ${{ secrets.POKO_DIRECT_CHECKOUT_API_KEY }}
           VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
 
       - name: Configure AWS Credentials

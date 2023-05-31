@@ -137,6 +137,11 @@ type BuyBlockBucksEvent = {
   amount: number;
 };
 
+type UpdateBlockBucksEvent = {
+  type: "UPDATE_BLOCK_BUCKS";
+  amount: number;
+};
+
 type LandscapeEvent = {
   placeable?: BuildingName | CollectibleName;
   action?: GameEventName<PlacementEvent>;
@@ -206,6 +211,7 @@ export type BlockchainEvent =
   | VisitEvent
   | BuySFLEvent
   | BuyBlockBucksEvent
+  | UpdateBlockBucksEvent
   | DepositEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -836,6 +842,19 @@ export function startGame(authContext: AuthContext) {
             },
             BUY_SFL: {
               target: "buyingSFL",
+            },
+            UPDATE_BLOCK_BUCKS: {
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  inventory: {
+                    ...context.state.inventory,
+                    "Block Buck": (
+                      context.state.inventory["Block Buck"] ?? new Decimal(0)
+                    ).add(event.amount),
+                  },
+                },
+              })),
             },
           },
         },
