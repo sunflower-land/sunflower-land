@@ -137,7 +137,6 @@ export async function withdrawWearables({
         "X-Transaction-ID": transactionId,
       },
       body: JSON.stringify({
-        sessionId: sessionId,
         ids,
         amounts,
       }),

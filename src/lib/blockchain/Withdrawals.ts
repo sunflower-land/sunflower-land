@@ -187,6 +187,15 @@ export async function withdrawWearablesTransaction({
   const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
+  console.log({
+    signature,
+    sessionId,
+    nextSessionId,
+    deadline,
+    farmId,
+    ids,
+    amounts,
+  });
   await new Promise((resolve, reject) => {
     (
       new web3.eth.Contract(
