@@ -110,8 +110,6 @@ export abstract class BaseScene extends Phaser.Scene {
   customColliders?: Phaser.GameObjects.Group;
 
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
-  wasd: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
-
   inputPayload = {
     left: false,
     right: false,
@@ -226,18 +224,7 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     // Initialise Keyboard
-    if (this.input.keyboard) {
-      this.cursorKeys = this.input.keyboard.createCursorKeys();
-      this.wasd = this.input.keyboard.addKeys({
-        up: Phaser.Input.Keyboard.KeyCodes.W,
-        down: Phaser.Input.Keyboard.KeyCodes.S,
-        left: Phaser.Input.Keyboard.KeyCodes.A,
-        right: Phaser.Input.Keyboard.KeyCodes.D,
-        space: Phaser.Input.Keyboard.KeyCodes.SPACE,
-        shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
-      }) as Phaser.Types.Input.Keyboard.CursorKeys;
-    }
-
+    this.cursorKeys = this.input.keyboard?.createCursorKeys();
     this.input.keyboard?.removeCapture("SPACE");
 
     this.roomService.off(this.eventListener);
@@ -331,14 +318,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const speed = 50;
 
-    this.inputPayload.left =
-      (this.cursorKeys?.left.isDown || this.wasd?.left.isDown) ?? false;
-    this.inputPayload.right =
-      (this.cursorKeys?.right.isDown || this.wasd?.right.isDown) ?? false;
-    this.inputPayload.up =
-      (this.cursorKeys?.up.isDown || this.wasd?.up.isDown) ?? false;
-    this.inputPayload.down =
-      (this.cursorKeys?.down.isDown || this.wasd?.down.isDown) ?? false;
+    this.inputPayload.left = this.cursorKeys?.left.isDown ?? false;
+    this.inputPayload.right = this.cursorKeys?.right.isDown ?? false;
+    this.inputPayload.up = this.cursorKeys?.up.isDown ?? false;
+    this.inputPayload.down = this.cursorKeys?.down.isDown ?? false;
 
     // Horizontal movements
     if (this.inputPayload.left) {

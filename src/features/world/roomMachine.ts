@@ -231,7 +231,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         SEND_POSITION: {
           actions: (context, event) => {
             const room = context.rooms[context.roomId];
-
             if (!room) return {};
 
             room.send(0, {
