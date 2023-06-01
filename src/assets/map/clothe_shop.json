@@ -158,10 +158,51 @@
       "width": 20,
       "x": 0,
       "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 7,
+      "name": "Collision",
+      "objects": [
+        {
+          "height": 46.9569561235534,
+          "id": 1,
+          "name": "",
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 75.5973690783449,
+          "x": 106.235950378819,
+          "y": 142.369494629923
+        },
+        {
+          "height": 15.8188327366581,
+          "id": 2,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "plaza"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 31.97069353093,
+          "x": 127.88277412372,
+          "y": 224.127882774124
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
     }
   ],
-  "nextlayerid": 6,
-  "nextobjectid": 1,
+  "nextlayerid": 8,
+  "nextobjectid": 3,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",

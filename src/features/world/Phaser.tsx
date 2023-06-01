@@ -18,6 +18,7 @@ import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { ClothesShopScene } from "./scenes/ClothesShopScene";
+import { DecorationShopScene } from "./scenes/DecorationShop";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -76,7 +77,7 @@ export const PhaserComponent: React.FC = () => {
           gravity: { y: 0 },
         },
       },
-      scene: [PhaserScene, ClothesShopScene, AuctionScene],
+      scene: [PhaserScene, DecorationShopScene, ClothesShopScene, AuctionScene],
       loader: {
         crossOrigin: "anonymous",
       },

@@ -2,6 +2,7 @@ import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -73,6 +74,10 @@ const BUMPKINS: NPCBumpkin[] = [
 export class PhaserScene extends BaseScene {
   roomId: RoomId = "plaza";
 
+  spawn: Coordinates = {
+    x: 600,
+    y: 300,
+  };
   constructor() {
     super("plaza");
   }

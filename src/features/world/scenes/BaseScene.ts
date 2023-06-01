@@ -4,6 +4,7 @@ import { Room } from "colyseus.js";
 import mapJson from "assets/map/plaza.json";
 import auctionJson from "assets/map/auction.json";
 import clothesShopJson from "assets/map/clothe_shop.json";
+import decorationShopJSON from "assets/map/decorations.json";
 
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
@@ -23,6 +24,7 @@ import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { EventObject, State } from "xstate";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type NPCBumpkin = {
   x: number;
@@ -32,6 +34,7 @@ export type NPCBumpkin = {
 
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
+  abstract spawn: Coordinates;
   eventListener: (event: EventObject) => void;
   transitionListener: (
     state: State<ChatContext, RoomEvent, any, any, any>,
@@ -85,8 +88,8 @@ export abstract class BaseScene extends Phaser.Scene {
         console.log("We have an error");
         // Render the player for readonly
         this.createPlayer({
-          x: 600,
-          y: 300,
+          x: this.spawn.x ?? 0,
+          y: this.spawn.y ?? 0,
           isCurrentPlayer: true,
           clothing: INITIAL_BUMPKIN.equipped,
         });
@@ -132,6 +135,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
     this.load.tilemapTiledJSON("clothes-shop", clothesShopJson);
+    this.load.tilemapTiledJSON("decorations-shop", decorationShopJSON);
 
     // Phaser assets must be served from an URL
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);

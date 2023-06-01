@@ -5,29 +5,28 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
-    x: 144,
-    y: 162,
-    npc: "stella",
+    x: 102,
+    y: 150,
+    npc: "frankie",
   },
 ];
 
-export class ClothesShopScene extends BaseScene {
-  roomId: RoomId = "clothes_shop";
+export class DecorationShopScene extends BaseScene {
+  roomId: RoomId = "decorations_shop";
 
   spawn: Coordinates = {
-    x: 144,
-    y: 212,
+    x: 55,
+    y: 157,
   };
   constructor() {
-    super("clothes_shop");
+    super("decorations_shop");
   }
 
   async create() {
-    console.log("Create clothes shop");
+    console.log("Create decoration shop");
     this.map = this.make.tilemap({
-      key: "clothes-shop",
+      key: "decorations-shop",
     });
-    console.log("Created auction");
 
     super.create();
 
