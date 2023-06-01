@@ -1099,7 +1099,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Victoria Sisters": { width: 2, height: 2 },
   "Basic Bear": { width: 1, height: 1 },
   "Peeled Potato": { width: 1, height: 1 },
-  "Wood Nymph Wendy": { width: 1, height: 2 },
+  "Wood Nymph Wendy": { width: 1, height: 1 },
   "Cabbage Boy": { width: 1, height: 1 },
   "Cabbage Girl": { width: 1, height: 1 },
 
@@ -1125,8 +1125,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   //Easter Event Items
   "Easter Bunny": { width: 2, height: 1 },
-  "Pablo The Bunny": { width: 1, height: 2 },
-  "Easter Bear": { width: 1, height: 2 },
+  "Pablo The Bunny": { width: 1, height: 1 },
+  "Easter Bear": { width: 1, height: 1 },
   "Giant Carrot": { width: 2, height: 2 },
   "Easter Bush": { width: 2, height: 2 },
 

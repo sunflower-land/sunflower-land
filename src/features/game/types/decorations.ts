@@ -90,11 +90,11 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Construction Bear": {
-    height: 2,
+    height: 1,
     width: 1,
   },
   "Angel Bear": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Badass Bear": {
@@ -110,7 +110,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Classy Bear": {
-    height: 2,
+    height: 1,
     width: 1,
   },
   "Farmer Bear": {
@@ -194,7 +194,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
   },
   "Human Bear": {
-    height: 2,
+    height: 1,
     width: 1,
   },
   "Tiki Totem": {
