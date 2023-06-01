@@ -6,7 +6,7 @@ const BUMPKINS: NPCBumpkin[] = [
   {
     x: 144,
     y: 168,
-    npc: "boujee",
+    npc: "stella",
   },
 ];
 

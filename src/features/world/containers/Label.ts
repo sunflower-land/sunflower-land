@@ -1,5 +1,9 @@
 export class Label extends Phaser.GameObjects.Container {
-  constructor(scene: Phaser.Scene, text: string, icon?: string) {
+  constructor(
+    scene: Phaser.Scene,
+    text: string,
+    type: "brown" | "grey" = "grey"
+  ) {
     super(scene, 0, 0);
     this.scene = scene;
 
@@ -12,7 +16,7 @@ export class Label extends Phaser.GameObjects.Container {
       y: bounds.centerY + 1.9,
       width: bounds.width + 6,
       height: 10,
-      key: "label",
+      key: type === "brown" ? "brown_label" : "label",
       columns: [3, 3, 3],
       rows: [3, 3, 3],
       baseFrame: undefined,
@@ -21,6 +25,8 @@ export class Label extends Phaser.GameObjects.Container {
 
     this.add(label);
     this.add(name);
+
+    this.setDepth(1);
 
     // if (icon) {
     // const sprite = scene.add.sprite(0, 0, "hammer");

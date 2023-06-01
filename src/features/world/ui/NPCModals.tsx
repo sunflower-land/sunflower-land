@@ -48,20 +48,20 @@ export const NPCModals: React.FC = () => {
             </div>
           </CloseButtonPanel>
         )}
-        {npc === "boujee" && (
+        {npc === "stella" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.boujee}
+            bumpkinParts={NPC_WEARABLES.stella}
           >
             <div className="p-2">
               <p className="mb-2">I am opening </p>
             </div>
           </CloseButtonPanel>
         )}
-        {npc === "billy" && (
+        {npc === "timmy" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.billy}
+            bumpkinParts={NPC_WEARABLES.timmy}
           >
             <div className="p-2">
               <p className="mb-2">Howdy Stranger!</p>
@@ -72,29 +72,29 @@ export const NPCModals: React.FC = () => {
             </div>
           </CloseButtonPanel>
         )}
-        {npc === "bobby" && (
+        {npc === "lily" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.bobby}
+            bumpkinParts={NPC_WEARABLES.lily}
           >
             <div className="p-2">
               <p className="mb-2">Mum told me not to talk to the Goblins...</p>
             </div>
           </CloseButtonPanel>
         )}
-        {npc === "blacksmith" && (
+        {npc === "igor" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.blacksmith}
+            bumpkinParts={NPC_WEARABLES.igor}
             tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Craft" }]}
           >
             <HeliosBlacksmithItems />
           </CloseButtonPanel>
         )}
-        {npc === "alice" && (
+        {npc === "hammerin' harry" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.alice}
+            bumpkinParts={NPC_WEARABLES.lily}
           >
             <div className="p-2">
               <p className="mb-2">
@@ -106,7 +106,7 @@ export const NPCModals: React.FC = () => {
         {npc === "grimbly" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.alice}
+            bumpkinParts={NPC_WEARABLES.grimbly}
           >
             <div className="p-2">
               <p className="mb-2">Aaccckkkk!</p>
@@ -116,17 +116,17 @@ export const NPCModals: React.FC = () => {
         {npc === "grimtooth" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.alice}
+            bumpkinParts={NPC_WEARABLES.grimtooth}
           >
             <div className="p-2">
               <p className="mb-2">Aaaa</p>
             </div>
           </CloseButtonPanel>
         )}
-        {npc === "dulce" && (
+        {npc === "craig" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.dulce}
+            bumpkinParts={NPC_WEARABLES.craig}
           >
             <div className="p-2">
               <p className="mb-2">Why are you looking at me strange?</p>

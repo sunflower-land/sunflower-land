@@ -85,7 +85,7 @@ export abstract class BaseScene extends Phaser.Scene {
         console.log("We have an error");
         // Render the player for readonly
         this.createPlayer({
-          x: 300,
+          x: 600,
           y: 300,
           isCurrentPlayer: true,
           clothing: INITIAL_BUMPKIN.equipped,
@@ -137,6 +137,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
     this.load.image("speech_bubble", "world/speech_bubble.png");
     this.load.image("label", "world/label.png");
+    this.load.image("brown_label", "world/brown_label.png");
     this.load.image("hammer", SUNNYSIDE.icons.hammer);
     this.load.image("disc", SUNNYSIDE.icons.disc);
     this.load.image("shadow", "world/shadow.png");

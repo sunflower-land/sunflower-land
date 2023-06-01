@@ -3,8 +3,6 @@ import { Equipped } from "features/game/types/bumpkin";
 export type NPCName =
   | "betty"
   | "bruce"
-  | "billy"
-  | "bobby"
   | "hank"
   | "blacksmith"
   | "grimbly"
@@ -13,11 +11,25 @@ export type NPCName =
   | "marcus"
   | "bella"
   | "sofia"
-  | "boujee"
   | "adam"
-  | "alice"
-  | "dulce"
-  | "gabi";
+  | "buttons"
+  | "timmy"
+  | "lily"
+  | "misty marvel"
+  | "igor"
+  | "hammerin' harry"
+  | "frankie"
+  | "stella"
+  | "gabi"
+  | "tywin"
+  | "pete"
+  | "gordy" // TO ADD
+  | "bert"
+  | "craig"
+  | "raven" // TO ADD
+  | "birdie"
+  | "old salty";
+// Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   betty: {
@@ -112,27 +124,20 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Black Farmer Boots",
   },
-  boujee: {
-    body: "Dark Brown Farmer Potion",
-    hair: "Rancher Hair",
-    shirt: "White Turtle Neck",
-    pants: "Farmer Pants",
-    shoes: "Black Farmer Boots",
-    tool: "Farmer Pitchfork",
-    background: "Farm Background",
-    necklace: "Artist Scarf",
-  },
+  // Welcomes to plaza - friendly + wholesome
   adam: {
     body: "Beige Farmer Potion",
     hair: "Basic Hair",
     shirt: "Red Farmer Shirt",
-    pants: "Farmer Pants",
+    pants: "Blue Suspenders",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
   },
-  billy: {
+  // Young curious boy resident - scared of goblins
+  timmy: {
     body: "Beige Farmer Potion",
+    onesie: "Bear Onesie",
     background: "Cemetery Background",
     hair: "Buzz Cut",
     shirt: "Striped Red Shirt",
@@ -140,16 +145,18 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Yellow Boots",
     tool: "Goblin Puppet",
   },
-  bobby: {
+  // Curious young girl - loves goblins
+  lily: {
     body: "Light Brown Farmer Potion",
     background: "Cemetery Background",
-    hair: "Fire Hair",
+    hair: "Brown Long Hair",
     shirt: "Striped Yellow Shirt",
     pants: "Farmer Overalls",
     shoes: "Yellow Boots",
     tool: "Bumpkin Puppet",
   },
-  alice: {
+  // Auctioneer who collects rare items and sells them off
+  "hammerin' harry": {
     body: "Dark Brown Farmer Potion",
     background: "Dawn Breaker Background",
     hair: "Parlour Hair",
@@ -158,7 +165,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Black Farmer Boots",
     tool: "Mushroom Lamp",
   },
-  dulce: {
+  // Grave Digger
+  craig: {
     body: "Infected Potion",
     background: "Cemetery Background",
     hair: "Sun Spots",
@@ -175,5 +183,127 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Pants",
     shoes: "Black Farmer Boots",
     tool: "Hammer",
+  },
+  // Mysterious NPC that occasionally appears and sells rare items
+  "misty marvel": {
+    body: "Beige Farmer Potion",
+    background: "Cemetery Background",
+    hair: "Red Long Hair",
+    shirt: "Fire Shirt",
+    pants: "Maiden Skirt",
+    shoes: "Black Farmer Boots",
+    tool: "Dawn Lamp",
+  },
+  // Local farmer in Plaza
+  pete: {
+    body: "Light Brown Farmer Potion",
+    background: "Farm Background",
+    hair: "Sun Spots",
+    shirt: "Yellow Farmer Shirt",
+    pants: "Lumberjack Overalls",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  // Crazy buggy eyed bert
+  bert: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Buzz Cut",
+    shirt: "Mushroom Sweater",
+    pants: "Mushroom Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  // Announces news
+  birdie: {
+    body: "Light Brown Farmer Potion",
+    background: "Farm Background",
+    hair: "Rancher Hair",
+    shirt: "Blue Farmer Shirt",
+    pants: "Lumberjack Overalls",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  // Old loving grandma of the game
+  buttons: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Brown Long Hair",
+    shirt: "Fruit Picker Shirt",
+    coat: "Chef Apron",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  // Decorations shop
+  frankie: {
+    body: "Dark Brown Farmer Potion",
+    background: "Farm Background",
+    hair: "Luscious Hair",
+    shirt: "Pineapple Shirt",
+    pants: "Farmer Pants",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+  },
+  // Chunky Bumpin
+  gordy: {
+    body: "Dark Brown Farmer Potion",
+    background: "Farm Background",
+    hair: "Explorer Hair",
+    shirt: "SFL T-Shirt",
+    pants: "Farmer Overalls",
+    shoes: "Black Farmer Boots",
+    tool: "Parsnip",
+  },
+  // Blacksmith
+  igor: {
+    body: "Light Brown Farmer Potion",
+    hair: "Blacksmith Hair",
+    pants: "Lumberjack Overalls",
+    shirt: "Blue Farmer Shirt",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  // Goth - TODO
+  raven: {
+    body: "Light Brown Farmer Potion",
+    hair: "Blacksmith Hair",
+    pants: "Lumberjack Overalls",
+    shirt: "Blue Farmer Shirt",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  // Clothes shop stylist
+  stella: {
+    body: "Beige Farmer Potion",
+    hair: "Blondie",
+    pants: "Maiden Skirt",
+    shirt: "Maiden Top",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  // Sunflorian Prince
+  tywin: {
+    body: "Beige Farmer Potion",
+    hair: "Buzz Cut",
+    pants: "Fancy Pants",
+    shirt: "Fancy Top",
+    tool: "Sword",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  "old salty": {
+    body: "Beige Farmer Potion",
+    hair: "Buzz Cut",
+    pants: "Pirate Pants",
+    hat: "Pirate Hat",
+    shirt: "Striped Blue Shirt",
+    coat: "Pirate General Coat",
+    tool: "Pirate Scimitar",
+    background: "Farm Background",
+    shoes: "Brown Boots",
   },
 };

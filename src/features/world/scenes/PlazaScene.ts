@@ -1,6 +1,7 @@
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { Label } from "../containers/Label";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -9,24 +10,19 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "adam",
   },
   {
-    x: 350,
-    y: 250,
-    npc: "boujee",
-  },
-  {
     x: 665,
     y: 110,
-    npc: "billy",
+    npc: "timmy",
   },
   {
-    x: 195,
-    y: 160,
-    npc: "bobby",
+    x: 313,
+    y: 71,
+    npc: "lily",
   },
   {
     x: 380,
     y: 130,
-    npc: "blacksmith",
+    npc: "igor",
   },
   {
     x: 760,
@@ -39,14 +35,39 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "grimtooth",
   },
   {
-    x: 610,
-    y: 380,
-    npc: "dulce",
+    x: 631,
+    y: 422,
+    npc: "craig",
   },
   {
     x: 120,
     y: 170,
     npc: "gabi",
+  },
+  {
+    x: 480,
+    y: 140,
+    npc: "tywin",
+  },
+  {
+    x: 210,
+    y: 400,
+    npc: "pete",
+  },
+  {
+    x: 795,
+    y: 118,
+    npc: "bert",
+  },
+  {
+    x: 513,
+    y: 288,
+    npc: "birdie",
+  },
+  {
+    x: 33,
+    y: 321,
+    npc: "old salty",
   },
 ];
 export class PhaserScene extends BaseScene {
@@ -71,5 +92,17 @@ export class PhaserScene extends BaseScene {
     camera.setZoom(4);
 
     this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
+
+    const auctionLabel = new Label(this, "AUCTIONS", "brown");
+    auctionLabel.setPosition(591, 260);
+    this.add.existing(auctionLabel);
+
+    const clotheShopLabel = new Label(this, "STYLIST", "brown");
+    clotheShopLabel.setPosition(256, 264);
+    this.add.existing(clotheShopLabel);
+
+    const decorationShopLabel = new Label(this, "DECORATIONS", "brown");
+    decorationShopLabel.setPosition(797, 252);
+    this.add.existing(decorationShopLabel);
   }
 }
