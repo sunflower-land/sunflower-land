@@ -10,6 +10,7 @@ import { getNextSessionId, getSessionId } from "./Session";
 
 const address = CONFIG.GAME_CONTRACT;
 
+console.log({ address });
 type ProgressData = {
   mintIds: number[];
   mintAmounts: string[];

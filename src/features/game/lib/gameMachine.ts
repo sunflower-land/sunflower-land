@@ -483,11 +483,7 @@ export function startGame(authContext: AuthContext) {
               const farmAddress = user.farmAddress as string;
               const farmId = user.farmId as number;
 
-              const {
-                game: onChain,
-                bumpkin,
-                bumpkins,
-              } = await getGameOnChainState({
+              const { game: onChain, bumpkins } = await getGameOnChainState({
                 farmAddress,
                 account: wallet.myAccount,
                 id: farmId,
@@ -510,7 +506,6 @@ export function startGame(authContext: AuthContext) {
 
                 const response = await loadSession({
                   farmId,
-                  bumpkinTokenUri: bumpkin?.tokenURI,
                   sessionId,
                   token: authContext.user.rawToken as string,
                   wallet: authContext.user.web3?.wallet as string,

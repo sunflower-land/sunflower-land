@@ -25,7 +25,6 @@ export const loadUpdatedSession = async (
     farmId,
     sessionId,
     token,
-    bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
     transactionId,
     wallet: walletName,
   });

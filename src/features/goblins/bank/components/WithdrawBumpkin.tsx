@@ -15,7 +15,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
   const [goblinState] = useActor(goblinService);
 
   return (
-    <div className="p-2">
+    <div>
       <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
         <span className="text-xs">
           {" To play the game, you always need a Bumpkin on your farm."}

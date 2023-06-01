@@ -193,7 +193,6 @@ export function startGoblinVillage(authContext: AuthContext) {
                 farmId,
                 sessionId,
                 token: user.rawToken as string,
-                bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
                 transactionId: context.transactionId as string,
                 wallet: user.web3?.wallet as string,
               });

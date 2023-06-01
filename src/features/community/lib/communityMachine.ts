@@ -76,7 +76,6 @@ export function startCommunityMachine(authContext: AuthContext) {
                 sessionId,
                 token: authContext.user.rawToken as string,
                 wallet: authContext.user.web3?.wallet as string,
-                bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
                 transactionId: context.transactionId as string,
               });
 

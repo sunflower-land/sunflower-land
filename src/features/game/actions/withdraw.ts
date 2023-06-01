@@ -121,7 +121,6 @@ type WearableOptions = {
 
 export async function withdrawWearables({
   farmId,
-  sessionId,
   ids,
   amounts,
   token,

@@ -8,7 +8,6 @@ import { Announcements } from "../types/conversations";
 
 type Request = {
   sessionId: string;
-  bumpkinTokenUri?: string;
   farmId: number;
   token: string;
   transactionId: string;
@@ -45,7 +44,6 @@ export async function loadSession(
     },
     body: JSON.stringify({
       sessionId: request.sessionId,
-      bumpkinTokenUri: request.bumpkinTokenUri,
       clientVersion: CONFIG.CLIENT_VERSION as string,
       wallet: request.wallet,
       guestKey: request.guestKey,
