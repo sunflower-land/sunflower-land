@@ -5,17 +5,15 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import chest from "assets/icons/chest.png";
 import { Button } from "components/ui/Button";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
 import { wallet } from "lib/blockchain/wallet";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { FullUser } from "features/auth/lib/authMachine";
-import { getKeys } from "features/game/types/craftables";
 import { OuterPanel } from "components/ui/Panel";
-import { NPC } from "./components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
 const selectBumpkins = (state: MachineState) => state.context.bumpkins;
 
@@ -143,13 +141,14 @@ export const NoBumpkin: React.FC = () => {
             const parts = interpretTokenUri(bumpkin.tokenURI).equipped;
             return (
               <OuterPanel
+                key={bumpkin.tokenId}
                 onClick={() => setSelectedBumpkinId(Number(bumpkin.tokenId))}
                 className="flex flex-col relative cursor-pointer hover:bg-brown-200 h-20 w-20 items-center justify-center mr-2"
               >
                 {selectedBumpkinId === Number(bumpkin.tokenId) && (
                   <img
                     src={SUNNYSIDE.icons.confirm}
-                    className="absolute"
+                    className="absolute z-10"
                     style={{
                       width: `${PIXEL_SCALE * 8}px`,
                       top: `${PIXEL_SCALE * 0}px`,
@@ -158,8 +157,8 @@ export const NoBumpkin: React.FC = () => {
                   />
                 )}
 
-                <div className="h-16 w-16 ml-3.5 -mt-4">
-                  <NPC parts={parts} />
+                <div className="h-14 rounded-md overflow-hidden">
+                  <DynamicNFT showBackground bumpkinParts={parts} />
                 </div>
                 <p className="text-xxs">{`ID: ${bumpkin.tokenId}`}</p>
               </OuterPanel>

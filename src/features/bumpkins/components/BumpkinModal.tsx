@@ -131,29 +131,20 @@ export const BumpkinModal: React.FC<Props> = ({
     <CloseButtonPanel
       currentTab={tab}
       setCurrentTab={setTab}
+      onClose={onClose}
       tabs={[
         {
           icon: SUNNYSIDE.icons.player,
           name: "Info",
         },
         {
-          icon: SUNNYSIDE.resource.starfish,
+          icon: SUNNYSIDE.icons.wardrobe,
           name: "Equip",
         },
       ]}
     >
       {tab === 0 && (
         <div className="flex flex-wrap">
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={onClose}
-            style={{
-              top: `${PIXEL_SCALE * 6}px`,
-              right: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
           <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
             <div className="w-full rounded-md overflow-hidden mb-1">
               <DynamicNFT

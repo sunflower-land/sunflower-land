@@ -190,7 +190,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       <div className="flex">
         <Button onClick={() => setPage("wearables")}>
           <div className="flex">
-            <img src={SUNNYSIDE.icons.heart} className="h-4 mr-1" />
+            <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
             Wearables
           </div>
         </Button>
