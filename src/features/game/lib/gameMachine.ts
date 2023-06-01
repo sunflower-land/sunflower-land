@@ -77,7 +77,7 @@ import {
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
-import { Currency, buyBlockBucks } from "../actions/buyBlockBucks";
+import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -134,6 +134,11 @@ type PurchaseEvent = {
 type BuyBlockBucksEvent = {
   type: "BUY_BLOCK_BUCKS";
   currency: Currency;
+  amount: number;
+};
+
+type UpdateBlockBucksEvent = {
+  type: "UPDATE_BLOCK_BUCKS";
   amount: number;
 };
 
@@ -206,6 +211,7 @@ export type BlockchainEvent =
   | VisitEvent
   | BuySFLEvent
   | BuyBlockBucksEvent
+  | UpdateBlockBucksEvent
   | DepositEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -837,6 +843,19 @@ export function startGame(authContext: AuthContext) {
             BUY_SFL: {
               target: "buyingSFL",
             },
+            UPDATE_BLOCK_BUCKS: {
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  inventory: {
+                    ...context.state.inventory,
+                    "Block Buck": (
+                      context.state.inventory["Block Buck"] ?? new Decimal(0)
+                    ).add(event.amount),
+                  },
+                },
+              })),
+            },
           },
         },
         buyingSFL: {
@@ -953,7 +972,7 @@ export function startGame(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              const response = await buyBlockBucks({
+              const response = await buyBlockBucksMATIC({
                 farmId: Number(authContext.user.farmId),
                 type: (event as BuyBlockBucksEvent).currency,
                 amount: (event as BuyBlockBucksEvent).amount,

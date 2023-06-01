@@ -1,4 +1,4 @@
-import { buyBlockBucksMATIC } from "lib/blockchain/BuyBlockBucks";
+import { buyBlockBucksMATIC as _buyBlockBucksMATIC } from "lib/blockchain/BuyBlockBucks";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -13,9 +13,18 @@ type Request = {
   transactionId: string;
 };
 
+type Response = {
+  signature: string;
+  type: Currency;
+  farmId: number;
+  deadline: number;
+  amount: number;
+  fee: number;
+};
+
 const API_URL = CONFIG.API_URL;
 
-export async function buyBlockBucks(request: Request) {
+export async function buyBlockBucks(request: Request): Promise<Response> {
   const response = await window.fetch(
     `${API_URL}/buy-block-bucks/${request.farmId}`,
     {
@@ -40,12 +49,16 @@ export async function buyBlockBucks(request: Request) {
     throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 
-  const transaction = await response.json();
+  return await response.json();
+}
 
-  await buyBlockBucksMATIC({
+export async function buyBlockBucksMATIC(request: Request) {
+  const transaction = await buyBlockBucks(request);
+
+  await _buyBlockBucksMATIC({
     ...transaction,
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: wallet.myAccount as string,
   });
 
   return { success: true, verified: true };
