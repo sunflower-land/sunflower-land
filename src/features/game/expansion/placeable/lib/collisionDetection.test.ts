@@ -202,18 +202,54 @@ describe("isWithinAOE", () => {
   const plot9: Position = { x: 1, y: -4, ...plotDimensions };
 
   it("returns true if the crop is within the AOE", () => {
-    const cropPlot1 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot1);
-    const cropPlot2 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot2);
+    const cropPlot1 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot1
+    );
+    const cropPlot2 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot2
+    );
 
-    const cropPlot3 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot3);
+    const cropPlot3 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot3
+    );
 
-    const cropPlot4 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot4);
+    const cropPlot4 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot4
+    );
 
-    const cropPlot5 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot5);
-    const cropPlot6 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot6);
-    const cropPlot7 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot7);
-    const cropPlot8 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot8);
-    const cropPlot9 = isWithinAOE({ x: 0, y: 0, height: 2, width: 1 }, plot9);
+    const cropPlot5 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot5
+    );
+    const cropPlot6 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot6
+    );
+    const cropPlot7 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot7
+    );
+    const cropPlot8 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot8
+    );
+    const cropPlot9 = isWithinAOE(
+      "Basic Scarecrow",
+      { x: 0, y: 0, height: 2, width: 1 },
+      plot9
+    );
 
     expect(cropPlot1).toBe(true);
     expect(cropPlot2).toBe(true);
@@ -243,70 +279,84 @@ describe("isWithinAOE", () => {
     const plotOutsideAOE14: Position = { x: 2, y: -4, ...plotDimensions };
 
     const cropPlot1 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE1
     );
     const cropPlot2 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE2
     );
 
     const cropPlot3 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE3
     );
 
     const cropPlot4 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE4
     );
 
     const cropPlot5 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE5
     );
 
     const cropPlot6 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE6
     );
 
     const cropPlot7 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE7
     );
 
     const cropPlot8 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE8
     );
 
     const cropPlot9 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE9
     );
 
     const cropPlot10 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE10
     );
 
     const cropPlot11 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE11
     );
 
     const cropPlot12 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE12
     );
 
     const cropPlot13 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE13
     );
 
     const cropPlot14 = isWithinAOE(
+      "Basic Scarecrow",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE14
     );
@@ -325,5 +375,73 @@ describe("isWithinAOE", () => {
     expect(cropPlot12).toBe(false);
     expect(cropPlot13).toBe(false);
     expect(cropPlot14).toBe(false);
+  });
+  it("returns true if the rock is within the Emerald Turtle AOE", () => {
+    const rockDimensions: Dimensions = {
+      height: GAME_STATE.gold[0].height,
+      width: GAME_STATE.gold[0].width,
+    };
+
+    const rockPosition1: Position = { x: 1, y: 0, ...rockDimensions };
+    const rockPosition2: Position = { x: 1, y: -1, ...rockDimensions };
+    const rockPosition3: Position = { x: 0, y: -1, ...rockDimensions };
+
+    const rockPosition4: Position = { x: -1, y: -1, ...rockDimensions };
+    const rockPosition5: Position = { x: -1, y: 0, ...rockDimensions };
+    const rockPosition6: Position = { x: -1, y: 1, ...rockDimensions };
+    const rockPosition7: Position = { x: 0, y: 1, ...rockDimensions };
+    const rockPosition8: Position = { x: 1, y: 1, ...rockDimensions };
+
+    const rock1 = isWithinAOE(
+      "Emerald Turtle",
+      { x: 0, y: 0, height: 1, width: 1 },
+      rockPosition1
+    );
+    const rock2 = isWithinAOE(
+      "Emerald Turtle",
+      { x: 0, y: 0, height: 1, width: 1 },
+      rockPosition2
+    );
+
+    const rock3 = isWithinAOE(
+      "Emerald Turtle",
+      { x: 0, y: 0, height: 1, width: 1 },
+      rockPosition3
+    );
+
+    const rock4 = isWithinAOE(
+      "Emerald Turtle",
+      { x: 0, y: 0, height: 1, width: 1 },
+      rockPosition4
+    );
+
+    const rock5 = isWithinAOE(
+      "Emerald Turtle",
+      { x: 0, y: 0, height: 1, width: 1 },
+      rockPosition5
+    );
+    const rock6 = isWithinAOE(
+      "Emerald Turtle",
+      { x: 0, y: 0, height: 1, width: 1 },
+      rockPosition6
+    );
+    const rock7 = isWithinAOE(
+      "Emerald Turtle",
+      { x: 0, y: 0, height: 1, width: 1 },
+      rockPosition7
+    );
+    const rock8 = isWithinAOE(
+      "Emerald Turtle",
+      { x: 0, y: 0, height: 1, width: 1 },
+      rockPosition8
+    );
+    expect(rock1).toBe(true);
+    expect(rock2).toBe(true);
+    expect(rock3).toBe(true);
+    expect(rock4).toBe(true);
+    expect(rock5).toBe(true);
+    expect(rock6).toBe(true);
+    expect(rock7).toBe(true);
+    expect(rock8).toBe(true);
   });
 });

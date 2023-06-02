@@ -1,4 +1,9 @@
-import { GameState, PlacedItem, Position } from "features/game/types/game";
+import {
+  Collectibles,
+  GameState,
+  PlacedItem,
+  Position,
+} from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
 import { Coordinates } from "../../components/MapPlacement";
 import {
@@ -323,7 +328,7 @@ export function detectCollision(state: GameState, position: Position) {
   );
 }
 
-type AOEItemName = "Basic Scarecrow" | "Emerald Turtle" | "Tin Turtle";
+export type AOEItemName = "Basic Scarecrow" | "Emerald Turtle" | "Tin Turtle";
 
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.
@@ -377,4 +382,31 @@ export function isWithinAOE(
     }
   }
   return false;
+}
+
+export function isAOEImpacted(
+  collectibles: Collectibles,
+  resourcePosition: Position,
+  collectibleNames: AOEItemName[]
+) {
+  return collectibleNames.some((name) => {
+    if (collectibles[name]?.[0]) {
+      const coordinates = collectibles[name]?.[0].coordinates;
+
+      if (!coordinates) return false;
+
+      const dimensions = COLLECTIBLES_DIMENSIONS[name];
+
+      const itemPosition: Position = {
+        x: coordinates.x,
+        y: coordinates.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      };
+
+      if (isWithinAOE(name, itemPosition, resourcePosition)) {
+        return true;
+      }
+    }
+  });
 }

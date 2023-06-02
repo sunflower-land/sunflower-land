@@ -1,14 +1,8 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { canMine } from "features/game/expansion/lib/utils";
-import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
+import { isAOEImpacted } from "features/game/expansion/placeable/lib/collisionDetection";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import {
-  Collectibles,
-  GameState,
-  Position,
-  Rock,
-} from "features/game/types/game";
+import { Collectibles, GameState, Rock } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_GOLD_ERRORS {
@@ -29,7 +23,7 @@ type Options = {
   createdAt?: number;
 };
 
-function isAOELocked(
+function isLocked(
   rock: Rock,
   collectibles: Collectibles,
   createdAt: number
@@ -40,30 +34,7 @@ function isAOELocked(
 
   if (canMine(rock, GOLD_RECOVERY_TIME, createdAt)) return false;
 
-  if (collectibles["Emerald Turtle"]?.[0]) {
-    const turtleCoordinates = collectibles["Emerald Turtle"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Emerald Turtle"];
-
-    const turtlePosition: Position = {
-      x: turtleCoordinates.x,
-      y: turtleCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
-    };
-
-    const plotPosition: Position = {
-      x: rock?.x,
-      y: rock?.y,
-      height: rock.height,
-      width: rock.width,
-    };
-
-    if (isWithinAOE("Emerald Turtle", turtlePosition, plotPosition)) {
-      return true;
-    }
-  }
-
-  return false;
+  return isAOEImpacted(collectibles, rock, ["Emerald Turtle"]);
 }
 
 export function moveGold({
@@ -82,7 +53,7 @@ export function moveGold({
     throw new Error(MOVE_GOLD_ERRORS.GOLD_NOT_PLACED);
   }
 
-  if (isAOELocked(gold[action.id], stateCopy.collectibles, createdAt)) {
+  if (isLocked(gold[action.id], stateCopy.collectibles, createdAt)) {
     throw new Error(MOVE_GOLD_ERRORS.AOE_LOCKED);
   }
 
