@@ -28,7 +28,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     const load = async () => {
-      setIsLoading(true);
       const check = await loadBanDetails(
         authState.context.user.farmId?.toString() as string,
         authState.context.user.rawToken as string,

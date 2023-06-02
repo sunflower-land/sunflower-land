@@ -13,6 +13,7 @@ import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { DeliveryBoard } from "features/island/delivery/Delivery";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
@@ -66,6 +67,19 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       </BuildingImageWrapper>
 
       <HayseedHank />
+
+      <DeliveryBoard />
+
+      <img
+        src={SUNNYSIDE.icons.heart}
+        className="absolute animate-pulsate transition-opacity"
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          top: `${PIXEL_SCALE * -6}px`,
+          left: `${PIXEL_SCALE * 4}px`,
+          opacity: showHeart ? 100 : 0,
+        }}
+      />
 
       <div
         className="absolute"

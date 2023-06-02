@@ -171,6 +171,44 @@ describe("craftLantern", () => {
     expect(state.inventory.Wood).toEqual(new Decimal(30));
   });
 
+  it("doesn't increase the required amount when the item is a Block Buck", () => {
+    const state = craftLantern({
+      state: {
+        ...TEST_FARM,
+        dawnBreaker: {
+          currentWeek,
+          availableLantern: {
+            ...availableLantern,
+            sfl: undefined,
+            ingredients: {
+              Wood: new Decimal(10),
+              "Block Buck": new Decimal(1),
+            },
+          },
+          lanternsCraftedByWeek: {
+            [currentWeek]: 1,
+          } as LanternsCraftedByWeek,
+          answeredRiddleIds: [],
+        },
+        balance: new Decimal(200),
+        inventory: {
+          Wood: new Decimal(50),
+          "Radiance Lantern": new Decimal(4),
+          "Block Buck": new Decimal(10),
+        },
+      },
+      action: {
+        type: "lantern.crafted",
+        name: "Radiance Lantern",
+      },
+    });
+
+    expect(state.inventory["Radiance Lantern"]).toEqual(new Decimal(5));
+    expect(state.balance).toEqual(new Decimal(200));
+    expect(state.inventory.Wood).toEqual(new Decimal(30));
+    expect(state.inventory["Block Buck"]).toEqual(new Decimal(9));
+  });
+
   it("requires 3x the requirements for the third lantern crafted during a week", () => {
     // Requirements x3
     // sfl: new Decimal(150),

@@ -29,6 +29,7 @@ import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
 import { Week } from "features/dawnBreaker/lib/characters";
 import { Riddle } from "./riddles";
+import { NPCName } from "lib/npcs";
 
 export type Reward = {
   sfl?: Decimal;
@@ -462,6 +463,37 @@ export type DawnBreaker = {
   answeredRiddleIds: string[];
 };
 
+export type Order = {
+  id: string;
+  from: NPCName;
+  items: Partial<Record<InventoryItemName, number>>;
+  reward: {
+    sfl?: number;
+    items?: Partial<Record<InventoryItemName, number>>;
+  };
+  createdAt: number;
+  readyAt: number;
+};
+
+export type Delivery = {
+  orders: Order[];
+  fulfilledCount: number;
+
+  milestone: {
+    goal: number;
+    total: number;
+    claimedAt?: number;
+  };
+};
+
+export type DailyRewards = {
+  streaks?: number;
+  chest?: {
+    collectedAt: number;
+    code: number;
+  };
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -493,6 +525,7 @@ export interface GameState {
   bumpkin?: Bumpkin;
   buildings: Buildings;
   collectibles: Collectibles;
+  delivery: Delivery;
   grubShop?: GrubShop;
   grubOrdersFulfilled?: {
     id: string;
@@ -523,12 +556,7 @@ export interface GameState {
       createdAt: number;
     }[];
   };
-  dailyRewards: {
-    chest?: {
-      collectedAt: number;
-      code: number;
-    };
-  };
+  dailyRewards: DailyRewards;
   auctioneer: {
     bid?: Bid;
   };

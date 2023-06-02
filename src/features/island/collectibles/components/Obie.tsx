@@ -1,13 +1,13 @@
 import React from "react";
 
-import image from "assets/sfts/obie.png";
+import gif from "assets/sfts/obie.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Obie: React.FC = () => {
   return (
     <>
       <img
-        src={image}
+        src={gif}
         style={{
           width: `${PIXEL_SCALE * 15}px`,
           bottom: `${PIXEL_SCALE * 2}px`,

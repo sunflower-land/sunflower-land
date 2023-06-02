@@ -154,6 +154,7 @@ import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
 import { craftLantern, CraftLanternAction } from "./landExpansion/craftLantern";
 import { Announcements } from "../types/conversations";
 import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
+import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 
 export type PlayingEvent =
   | TradeAction
@@ -201,7 +202,8 @@ export type PlayingEvent =
   | RemoveBuildingAction
   | RemoveCollectibleAction
   | RemoveChickenAction
-  | CraftLanternAction;
+  | CraftLanternAction
+  | DeliverOrderAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -299,6 +301,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
   "lantern.crafted": craftLantern,
+  "order.delivered": deliverOrder,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

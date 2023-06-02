@@ -9,7 +9,7 @@ import {
   BumpkinTool,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { buildNPCSheet } from "features/bumpkins/actions/buildNPCSheet";
+import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import shadow from "assets/npcs/shadow.png";
@@ -49,11 +49,11 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   // make sure all body parts are synchronized
   useEffect(() => {
     const load = async () => {
-      const sheet = await buildNPCSheet({
+      const { sheets } = await buildNPCSheets({
         parts,
       });
 
-      setSheetSrc(sheet);
+      setSheetSrc(sheets.idle);
     };
 
     load();
@@ -130,11 +130,11 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
 
   useEffect(() => {
     const load = async () => {
-      const sheet = await buildNPCSheet({
+      const { sheets } = await buildNPCSheets({
         parts,
       });
 
-      setSheetSrc(sheet);
+      setSheetSrc(sheets.idle);
     };
 
     load();

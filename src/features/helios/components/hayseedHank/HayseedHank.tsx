@@ -108,7 +108,7 @@ export const HayseedHank: React.FC = () => {
   return (
     <>
       <div
-        className="absolute"
+        className="absolute z-10"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           right: `${PIXEL_SCALE * 4}px`,
@@ -139,7 +139,7 @@ export const HayseedHank: React.FC = () => {
         {isTaskComplete(gameState.context.state) && (
           <img
             src={SUNNYSIDE.icons.confirm}
-            className="absolute img-highlight-heavy pointer-events-none"
+            className="absolute img-highlight-heavy pointer-events-none z-10"
             style={{
               width: `${PIXEL_SCALE * 12}px`,
               bottom: `${PIXEL_SCALE * -5}px`,

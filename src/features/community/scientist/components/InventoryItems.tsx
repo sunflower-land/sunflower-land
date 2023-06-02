@@ -56,11 +56,11 @@ export const InventoryItems: React.FC = () => {
   // links
   const tadpoleLink =
     CONFIG.NETWORK == "mainnet"
-      ? "https://opensea.io/collection/project-dignity-x-sfl-tadpole-collection"
+      ? "https://opensea.io/collection/project-dignity-tadpole-collection"
       : "https://testnets.opensea.io/collection/project-dignity-tadpoles-v1";
   const frogLink =
     CONFIG.NETWORK == "mainnet"
-      ? "https://opensea.io/collection/sunflower-land-frogs-collection"
+      ? "https://opensea.io/collection/project-dignity-frogs-collection"
       : "https://testnets.opensea.io/collection/sunflower-land-frogs-collection-testnet";
   const projectDignity = "https://www.projectdignity.work";
   console.log("tadpole", tadpoleData);

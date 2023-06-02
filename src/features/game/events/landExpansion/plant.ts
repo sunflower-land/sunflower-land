@@ -10,12 +10,17 @@ import {
   Inventory,
   InventoryItemName,
   PlacedItem,
+  Position,
 } from "../../types/game";
-import { getKeys } from "features/game/types/craftables";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  getKeys,
+} from "features/game/types/craftables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
+import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -75,7 +80,8 @@ export const getCropTime = (
   crop: CropName,
   inventory: Inventory,
   collectibles: Collectibles,
-  bumpkin: Bumpkin
+  bumpkin: Bumpkin,
+  plot?: CropPlot
 ) => {
   const { skills, equipped } = bumpkin;
   const { necklace } = equipped;
@@ -128,6 +134,39 @@ export const getCropTime = (
     seconds = seconds * 0.75;
   }
 
+  const isBasicCrop =
+    crop === "Sunflower" || crop === "Potato" || crop === "Pumpkin";
+
+  // If within Basic Scarecrow AOE: 20% reduction
+  if (collectibles["Basic Scarecrow"]?.[0] && isBasicCrop) {
+    if (!plot) return seconds;
+
+    const basicScarecrowCoordinates =
+      collectibles["Basic Scarecrow"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
+
+    const scarecrowPosition: Position = {
+      x: basicScarecrowCoordinates.x,
+      y: basicScarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isCollectibleBuilt("Basic Scarecrow", collectibles) &&
+      isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)
+    ) {
+      seconds = seconds * 0.8;
+    }
+  }
+
   return seconds;
 };
 
@@ -137,6 +176,7 @@ type GetPlantedAtArgs = {
   collectibles: Collectibles;
   bumpkin: Bumpkin;
   createdAt: number;
+  plot: CropPlot;
 };
 
 /**
@@ -148,11 +188,12 @@ export function getPlantedAt({
   collectibles,
   bumpkin,
   createdAt,
+  plot,
 }: GetPlantedAtArgs): number {
   if (!crop) return 0;
 
   const cropTime = CROPS()[crop].harvestSeconds;
-  const boostedTime = getCropTime(crop, inventory, collectibles, bumpkin);
+  const boostedTime = getCropTime(crop, inventory, collectibles, bumpkin, plot);
 
   const offset = cropTime - boostedTime;
 
@@ -284,6 +325,7 @@ export function plant({
         collectibles,
         bumpkin,
         createdAt,
+        plot,
       }),
       name: cropName,
       amount: getCropYieldAmount({

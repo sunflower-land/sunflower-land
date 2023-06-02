@@ -24,6 +24,7 @@ export const DynamicNFT: React.FC<Props> = ({
   const parts = cloneDeep(bumpkinParts);
 
   useEffect(() => {
+    console.log("LOAD?");
     let isSubscribed = true;
     const load = async () => {
       const image = await buildImage({
@@ -95,3 +96,9 @@ export const DynamicNFT: React.FC<Props> = ({
     </div>
   );
 };
+
+export const BumpkinNFT: React.FC<BumpkinParts> = (parts) => {
+  return <DynamicNFT bumpkinParts={parts} />;
+};
+
+export const MemoizedBumpkin = React.memo(BumpkinNFT);

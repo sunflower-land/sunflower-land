@@ -32,6 +32,7 @@ jobs:
 
           VITE_API_URL: ${{ secrets.API_URL }}
           VITE_WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
+          VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mumbai
           VITE_ACCOUNT_MINTER_CONTRACT: "0x4357ef826Bb80dD0CAed2821eEa926eacf7923CC"
@@ -45,6 +46,7 @@ jobs:
           VITE_TREASURY_ADDRESS: "0x1DB57407EE80709D4d862fe81399FBB35B8B9586"
           VITE_BUMPKIN_DETAILS_CONTRACT: "0xAeB15F2aE9f248bf6a3606fadA02EF79f35c8bEF"
           VITE_BUMPKIN_ITEMS_CONTRACT: "0xa163b82370DeBb82C12B735b995a332D50a02252"
+          VITE_BUY_BLOCK_BUCKS_CONTRACT: "0xd54c8df11de29cdf279f386e2bf4986f21e0bdb7"
           VITE_BUMPKIN_CONTRACT: "0x48f53e506882a502b07668f6990f0e15422a539b"
           VITE_DISCORD_REDIRECT: "https://sunflower-land.com/testnet/"
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
@@ -69,6 +71,7 @@ jobs:
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
           VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
+          VITE_POKO_DIRECT_CHECKOUT_API_KEY: ${{ secrets.POKO_DIRECT_CHECKOUT_API_KEY }}
           VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
 
       - name: Configure AWS Credentials
@@ -83,6 +86,16 @@ jobs:
 
       - name: Deploy static site to S3 bucket
         run: aws s3 sync ./dist/ s3://www.sunflower-land.com/testnet --delete
+
+      - name: Invalidate CloudFront
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ secrets.CF_DISTRIBUTION }}
+          PATHS: "/testnet/*"
+          AWS_REGION: "us-east-1"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
