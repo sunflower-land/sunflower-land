@@ -104,6 +104,7 @@ export interface Context {
   };
   announcements: Announcements;
   bumpkins: OnChainBumpkin[];
+  transaction?: { type: "withdraw_bumpkin"; expiresAt: number };
 }
 
 type MintEvent = {
@@ -318,6 +319,7 @@ export type BlockchainState = {
     | "refreshing"
     | "swarming"
     | "hoarding"
+    | "transacting"
     | "depositing"
     | "landscaping"
     | "promoting"
@@ -527,6 +529,7 @@ export function startGame(authContext: AuthContext) {
                   deviceTrackerId,
                   status,
                   announcements,
+                  transaction,
                 } = response;
 
                 return {
@@ -545,6 +548,7 @@ export function startGame(authContext: AuthContext) {
                   status,
                   announcements,
                   bumpkins,
+                  transaction,
                 };
               }
 
@@ -643,6 +647,12 @@ export function startGame(authContext: AuthContext) {
               target: "deposited",
               cond: (context: Context) =>
                 !!context.notifications && context.notifications?.length > 0,
+            },
+            {
+              target: "transacting",
+              cond: (context: Context) =>
+                !!context.transaction &&
+                context.transaction.expiresAt > Date.now(),
             },
 
             {
@@ -1345,6 +1355,7 @@ export function startGame(authContext: AuthContext) {
           },
         },
         coolingDown: {},
+        transacting: {},
         randomising: {
           invoke: {
             src: async () => {
@@ -1393,6 +1404,7 @@ export function startGame(authContext: AuthContext) {
           status: (_, event) => event.data.status,
           announcements: (_, event) => event.data.announcements,
           bumpkins: (_, event) => event.data.bumpkins,
+          transaction: (_, event) => event.data.transaction,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

@@ -24,6 +24,10 @@ type Response = {
   deviceTrackerId: string;
   status?: "COOL_DOWN";
   announcements: Announcements;
+  transaction?: {
+    type: "withdraw_bumpkin";
+    expiresAt: number;
+  };
 };
 
 const API_URL = CONFIG.API_URL;
@@ -74,6 +78,7 @@ export async function loadSession(
     deviceTrackerId,
     status,
     announcements,
+    transaction,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -83,6 +88,7 @@ export async function loadSession(
     deviceTrackerId: string;
     status?: "COOL_DOWN";
     announcements: Announcements;
+    transaction: { type: "withdraw_bumpkin"; expiresAt: number };
   }>(response);
 
   saveSession(request.farmId);
@@ -95,6 +101,7 @@ export async function loadSession(
     deviceTrackerId,
     status,
     announcements,
+    transaction,
   };
 }
 
