@@ -181,6 +181,18 @@ describe("isWithinAOE", () => {
         },
       },
     },
+    gold: {
+      0: {
+        height: 1,
+        width: 1,
+        x: 0,
+        y: 0,
+        stone: {
+          amount: 1,
+          minedAt: 0,
+        },
+      },
+    },
   };
 
   const firstCropId = Object.keys(GAME_STATE.crops)[0];
@@ -376,6 +388,7 @@ describe("isWithinAOE", () => {
     expect(cropPlot13).toBe(false);
     expect(cropPlot14).toBe(false);
   });
+
   it("returns true if the rock is within the Emerald Turtle AOE", () => {
     const rockDimensions: Dimensions = {
       height: GAME_STATE.gold[0].height,
