@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { useActor } from "@xstate/react";
@@ -48,6 +49,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const [authState] = useActor(authService);
 
   const [isMobile] = useIsMobile();
+  const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
 
   const [jiggerState, setJiggerState] =
     useState<{ url: string; status: JiggerStatus }>();
@@ -124,9 +126,10 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
     }
 
     setSelected((prev) => ({
-      ...prev,
       [itemName]: prev[itemName] || amount,
+      ...prev,
     }));
+    deliveryItemsStartRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const onRemove = (itemName: InventoryItemName) => {
@@ -191,6 +194,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
           className="flex flex-col gap-2 min-h-[48px] scrollable overflow-y-auto"
           style={{ maxHeight: 158 }}
         >
+          <div ref={deliveryItemsStartRef} className="-mt-2"></div>
           {getKeys(selected).map((itemName) => (
             <div
               className="flex items-center justify-between gap-2"
@@ -251,19 +255,17 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
         </div>
 
         <div className="w-full my-3 border-t-2 border-white" />
-        <div className="flex items-center my-2">
+        <div className="flex items-center mb-2 text-xs">
           <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
-            <p className="text-sm">Deliver to your wallet</p>
-            <p className="text-sm">
-              {shortAddress(wallet.myAccount || "XXXX")}
-            </p>
+            <p>Deliver to your wallet</p>
+            <p>{shortAddress(wallet.myAccount || "XXXX")}</p>
           </div>
         </div>
 
-        <span className="text-sm mb-4">
+        <p className="text-xs">
           Once delivered, you will be able to view your items on OpenSea.
-        </span>
+        </p>
       </div>
       <Button onClick={withdraw} disabled={hasWrongInputs()}>
         Deliver
