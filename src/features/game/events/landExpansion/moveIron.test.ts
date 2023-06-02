@@ -123,7 +123,7 @@ describe("moveIron", () => {
     });
   });
 
-  it("does not move iron if mined and within Turtle AeO", () => {
+  it("does not move iron if mined and within Turtle AoE", () => {
     const dateNow = Date.now();
     expect(() =>
       moveIron({
