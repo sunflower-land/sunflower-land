@@ -67,7 +67,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
   };
   return (
     <>
-      <MapPlacement width={6} height={6} x={-14 - offset} y={14 + offset}>
+      <MapPlacement width={6} height={6} x={-8 - offset} y={9 + offset}>
         <img
           src={island}
           className="absolute"

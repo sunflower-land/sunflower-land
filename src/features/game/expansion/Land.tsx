@@ -25,7 +25,6 @@ import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { MachineState } from "../lib/gameMachine";
 import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
@@ -394,8 +393,6 @@ export const Land: React.FC = () => {
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
-  const shortcuts = getShortcuts();
-
   const gameGrid = getGameGrid({
     crops,
     collectibles,
@@ -423,7 +420,7 @@ export const Land: React.FC = () => {
             <LandBase expandedCount={expansionCount} />
             <DirtRenderer grid={gameGrid} />
 
-            {!landscaping && <Water level={expansionCount} />}
+            {!landscaping && <Water expansionCount={expansionCount} />}
             {!landscaping && <UpcomingExpansion />}
 
             <div

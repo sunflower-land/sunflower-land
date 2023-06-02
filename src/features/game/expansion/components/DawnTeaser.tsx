@@ -29,7 +29,7 @@ export const DawnTeaser: React.FC<Props> = ({ offset }) => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
-      <MapPlacement x={0} y={-11 - offset} width={6}>
+      <MapPlacement x={0} y={-6 - offset} width={6}>
         <img
           src={island}
           style={{

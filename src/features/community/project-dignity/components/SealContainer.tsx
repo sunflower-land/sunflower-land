@@ -42,34 +42,34 @@ export const SealContainer: React.FC<Props> = ({ seals, isGarden, offset }) => {
   // main farm coordinates
   const mainIslandCoordinates = [
     [
-      { x: 6 + offset, y: 10 + offset },
-      { x: 16 + offset, y: 12 + offset },
-      { x: 10 + offset, y: 17 + offset },
+      { x: 5 + offset, y: 6 + offset },
+      { x: 14 + offset, y: 8 + offset },
+      { x: 9 + offset, y: 12 + offset },
     ], // 1-3, top right
     [
-      { x: -9 - offset, y: 9 + offset },
-      { x: -17 - offset, y: 12 + offset },
-      { x: -12 - offset, y: 17 + offset },
+      { x: -3 - offset, y: 4 + offset },
+      { x: -11 - offset, y: 7 + offset },
+      { x: -5 - offset, y: 12 + offset },
     ], // 4-6, top left
     [
-      { x: -13 - offset, y: -11 - offset },
-      { x: -5 - offset, y: -7 - offset },
-      { x: -10 - offset, y: -3 - offset },
+      { x: -10 - offset, y: -7 - offset },
+      { x: -2 - offset, y: -3 - offset },
+      { x: -7 - offset, y: 1 - offset },
     ], // 7-9, bottom left
     [
-      { x: 3, y: -17 - offset },
-      { x: -3, y: -12 - offset },
-      { x: 7, y: -10 - offset },
+      { x: 3, y: -12 - offset },
+      { x: -3, y: -8 - offset },
+      { x: 6, y: -6 - offset },
     ], // 10-12, bottom
     [
-      { x: 9 + offset, y: -9 - offset },
-      { x: 15 + offset, y: -8 - offset },
-      { x: 13 + offset, y: -3 - offset },
+      { x: 4 + offset, y: 0 - offset },
+      { x: 11 + offset, y: -1 - offset },
+      { x: 9 + offset, y: -6 - offset },
     ], // 13-15, bottom right
     [
-      { x: 20 + offset, y: -2 },
-      { x: 12 + offset, y: -1 },
-      { x: 19 + offset, y: 6 },
+      { x: 15 + offset, y: -2 },
+      { x: 8 + offset, y: -1 },
+      { x: 14 + offset, y: 6 },
     ], // 16-18, right
   ];
   const shuffledCoords = shuffleCoords(mainIslandCoordinates);

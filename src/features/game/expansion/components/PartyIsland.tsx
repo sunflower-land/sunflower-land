@@ -295,7 +295,7 @@ export const PartyIsland: React.FC<Props> = ({ offset }) => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      <MapPlacement x={15 + offset} y={3} width={6}>
+      <MapPlacement x={10 + offset} y={3} width={6}>
         <img
           src={partyIsland}
           style={{
