@@ -14,7 +14,6 @@ import { createPortal } from "react-dom";
 import { TimeRemaining } from "./TimeRemaining";
 
 export const WEEKLY_GOAL = 15000;
-export const PREVIOUS_MINT_COUNT = 0;
 
 interface Props {
   lanternName: LanternName;
@@ -131,15 +130,17 @@ export const WeeklyLanternCount: React.FC<Props> = ({
           <TimeRemaining endAt={endAt} />
           <div className="text-sm p-2 mb-2 space-y-2">
             <p>
-              {`Each week, we'll be raffling off prizes to those who help us bring
+              {`Each week, we'll be giving away prizes to those who help us bring
               light back to the island. The more lanterns we craft as a community, the brighter
               our chances of success.`}
             </p>
             <p>
-              {`For every lantern you mint, you'll receive a raffle ticket for a
-            chance to a win weekly prizes worth up to 5000 SFL or one of 10 Hoot SFT's (Total Supply 100). But if we come together
-            and collectively reach our weekly goal, we'll double the prize pool
+              {`Crafting lanterns gives your the chance to win weekly prizes worth up to 5000 SFL or one of 10 Hoot SFT's (Total Supply 100). But if we come together
+            and collectively reach our weekly craft goal, we'll double the prize pool
             to 10,000 SFL.`}
+            </p>
+            <p>
+              {`The top 10 crafters will be guaranteed either a Hoot SFT (1-5) or 500 (6-10). The remaining prizes will be raffled off to all participants. Each lantern crafted gives you one entry into the raffle.`}
             </p>
           </div>
           <Button onClick={() => setShowModal(false)}>Got it</Button>

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useInterpret, useSelector } from "@xstate/react";
-import isEmpty from "lodash.isempty";
 import { Context } from "features/game/GameProvider";
 import {
   CraftingContext,
@@ -25,26 +24,29 @@ export interface CraftingMachineChildProps extends BuildingProps {
   handleShowCraftingTimer: () => void;
 }
 
+type WithCraftingMachineProps = BuildingProps & {
+  children: React.ReactElement<CraftingMachineChildProps>;
+};
+
 /**
  * Wrapper component for buildings that have the ability to craft items. This wrapper will
  * inject the craftingMachine into the building which will handle the crafting process for that building.
  */
 export const WithCraftingMachine = ({
-  craftingState,
+  craftingItemName,
+  craftingReadyAt,
   buildingId,
   children,
-}: BuildingProps & {
-  children: React.ReactElement<CraftingMachineChildProps>;
-}) => {
+}: WithCraftingMachineProps) => {
   const { gameService } = useContext(Context);
-  const craftingInProgress = craftingState && !isEmpty(craftingState);
   const craftingMachineContext: CraftingContext = {
     gameService,
     buildingId,
-    ...(craftingInProgress && {
-      name: craftingState.name,
-      readyAt: craftingState.readyAt,
-    }),
+    ...(!!craftingItemName &&
+      !!craftingReadyAt && {
+        name: craftingItemName,
+        readyAt: craftingReadyAt,
+      }),
   };
 
   const craftingService = useInterpret(craftingMachine, {

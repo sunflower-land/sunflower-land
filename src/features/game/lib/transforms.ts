@@ -101,6 +101,7 @@ export function makeGame(farm: any): GameState {
     },
     mushrooms: farm.mushrooms,
     dawnBreaker: makeDawnbreaker(farm.dawnBreaker),
+    delivery: farm.delivery,
   };
 }
 

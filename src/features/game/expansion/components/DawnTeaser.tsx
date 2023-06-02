@@ -2,7 +2,6 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
 import island from "assets/land/dawn_teaser.png";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -49,7 +48,7 @@ export const DawnTeaser: React.FC<Props> = ({ offset }) => {
             parts={NPC_WEARABLES.grubnuk}
             onClick={() => setShowModal(true)}
           />
-          <img
+          {/* <img
             src={SUNNYSIDE.icons.expression_chat}
             className="relative z-50"
             style={{
@@ -57,7 +56,7 @@ export const DawnTeaser: React.FC<Props> = ({ offset }) => {
               top: `${PIXEL_SCALE * -2}px`,
               left: `${PIXEL_SCALE * 5}px`,
             }}
-          />
+          /> */}
         </div>
       </MapPlacement>
     </>

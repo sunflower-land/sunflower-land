@@ -1,4 +1,9 @@
-import { GameState, PlacedItem, Position } from "features/game/types/game";
+import {
+  Collectibles,
+  GameState,
+  PlacedItem,
+  Position,
+} from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
 import { Coordinates } from "../../components/MapPlacement";
 import {
@@ -6,7 +11,10 @@ import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "features/game/types/craftables";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BUILDINGS_DIMENSIONS,
+  Dimensions,
+} from "features/game/types/buildings";
 import {
   MUSHROOM_DIMENSIONS,
   RESOURCE_DIMENSIONS,
@@ -318,4 +326,87 @@ export function detectCollision(state: GameState, position: Position) {
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position)
   );
+}
+
+export type AOEItemName = "Basic Scarecrow" | "Emerald Turtle" | "Tin Turtle";
+
+/**
+ * Detects whether an item is within the area of effect of a placeable with AOE.
+ * @param AOEItem Item which has an area of effect
+ * @param item Item to check if it is within the area of effect
+ * @returns boolean
+ *
+ **/
+export function isWithinAOE(
+  AOEItemName: AOEItemName,
+  AOEItem: Position,
+  effectItem: Position
+): boolean {
+  const AOEItemCoordinates: Coordinates = { x: AOEItem.x, y: AOEItem.y };
+
+  const AOEItemDimensions: Dimensions = {
+    height: AOEItem.height,
+    width: AOEItem.width,
+  };
+
+  if (AOEItemCoordinates) {
+    if (AOEItemName === "Basic Scarecrow") {
+      const topLeft = {
+        x: AOEItemCoordinates.x - 1,
+        y: AOEItemCoordinates.y - AOEItem.height,
+      };
+
+      const bottomRight = {
+        x: AOEItemCoordinates.x + 1,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+      };
+
+      if (
+        effectItem.x >= topLeft.x &&
+        effectItem.x <= bottomRight.x &&
+        effectItem.y <= topLeft.y &&
+        effectItem.y >= bottomRight.y
+      ) {
+        return true;
+      }
+    }
+
+    // AoE surrounding the turtle
+    if (AOEItemName === "Emerald Turtle" || AOEItemName === "Tin Turtle") {
+      const dx = Math.abs(AOEItemCoordinates.x - effectItem.x);
+      const dy = Math.abs(AOEItemCoordinates.y - effectItem.y);
+
+      if (dx <= 1 && dy <= 1 && (dx != 0 || dy != 0)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+export function isAOEImpacted(
+  collectibles: Collectibles,
+  resourcePosition: Position,
+  collectibleNames: AOEItemName[]
+) {
+  return collectibleNames.some((name) => {
+    if (collectibles[name]?.[0]) {
+      const coordinates = collectibles[name]?.[0].coordinates;
+
+      if (!coordinates) return false;
+
+      const dimensions = COLLECTIBLES_DIMENSIONS[name];
+
+      const itemPosition: Position = {
+        x: coordinates.x,
+        y: coordinates.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      };
+
+      if (isWithinAOE(name, itemPosition, resourcePosition)) {
+        return true;
+      }
+    }
+  });
 }

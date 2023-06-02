@@ -21,7 +21,12 @@ import {
 } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
-import { GameState, Inventory, InventoryItemName } from "../types/game";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+  PlacedLamp,
+} from "../types/game";
 import { loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -49,7 +54,7 @@ import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 
 import { getSessionId } from "lib/blockchain/Sessions";
-import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
+import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
 import {
@@ -59,7 +64,6 @@ import {
 import {
   getGameRulesLastRead,
   getIntroductionRead,
-  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -73,6 +77,7 @@ import {
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
+import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -97,6 +102,7 @@ export interface Context {
     inventory: Record<InventoryItemName, string>;
   };
   announcements: Announcements;
+  bumpkins: OnChainBumpkin[];
 }
 
 type MintEvent = {
@@ -122,6 +128,17 @@ type SyncEvent = {
 type PurchaseEvent = {
   type: "PURCHASE_ITEM";
   name: SeasonPassName;
+  amount: number;
+};
+
+type BuyBlockBucksEvent = {
+  type: "BUY_BLOCK_BUCKS";
+  currency: Currency;
+  amount: number;
+};
+
+type UpdateBlockBucksEvent = {
+  type: "UPDATE_BLOCK_BUCKS";
   amount: number;
 };
 
@@ -172,6 +189,7 @@ export type BlockchainEvent =
     }
   | {
       type: "CONTINUE";
+      id?: string;
     }
   | {
       type: "RESET";
@@ -192,6 +210,8 @@ export type BlockchainEvent =
   | LandscapeEvent
   | VisitEvent
   | BuySFLEvent
+  | BuyBlockBucksEvent
+  | UpdateBlockBucksEvent
   | DepositEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -289,6 +309,7 @@ export type BlockchainState = {
     | "buyingSFL"
     | "revealing"
     | "revealed"
+    | "genieRevealed"
     | "error"
     | "refreshing"
     | "swarming"
@@ -300,6 +321,7 @@ export type BlockchainState = {
     | "noTownCenter"
     | "coolingDown"
     | "upgradingGuestGame"
+    | "buyingBlockBucks"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -415,6 +437,7 @@ export function startGame(authContext: AuthContext) {
         onChain: EMPTY,
         sessionId: INITIAL_SESSION,
         announcements: {},
+        bumpkins: [],
       },
       states: {
         loading: {
@@ -433,99 +456,100 @@ export function startGame(authContext: AuthContext) {
           ],
           invoke: {
             src: async (context) => {
-              try {
-                if (authContext.user.type === "GUEST") {
-                  const response = await loadGuestSession({
-                    transactionId: context.transactionId as string,
-                    guestKey: authContext.user.guestKey as string,
-                  });
-
-                  if (!response) throw new Error("NO_FARM");
-
-                  const { game, deviceTrackerId } = response;
-
-                  return {
-                    state: game,
-                    deviceTrackerId,
-                  };
-                }
-
-                if (!wallet.myAccount) throw new Error("No account");
-
-                const user = authContext.user;
-
-                const farmAddress = user.farmAddress as string;
-                const farmId = user.farmId as number;
-
-                const { game: onChain, bumpkin } = await getGameOnChainState({
-                  farmAddress,
-                  account: wallet.myAccount,
-                  id: farmId,
+              if (authContext.user.type === "GUEST") {
+                const response = await loadGuestSession({
+                  transactionId: context.transactionId as string,
+                  guestKey: authContext.user.guestKey as string,
                 });
 
-                const onChainEvents = await unseenEvents({
-                  farmAddress,
-                  farmId,
-                });
+                if (!response) throw new Error("NO_FARM");
 
-                // Get sessionId
-                const sessionId =
-                  farmId && (await getSessionId(wallet.web3Provider, farmId));
+                const { game, deviceTrackerId } = response;
 
-                // Load the farm session
-                if (sessionId) {
-                  const fingerprint = "X";
-
-                  const guestKey = getGuestKey() ?? undefined;
-
-                  const response = await loadSession({
-                    farmId,
-                    bumpkinTokenUri: bumpkin?.tokenURI,
-                    sessionId,
-                    token: authContext.user.rawToken as string,
-                    wallet: authContext.user.web3?.wallet as string,
-                    transactionId: context.transactionId as string,
-                    guestKey,
-                  });
-
-                  if (!response) {
-                    throw new Error("NO_FARM");
-                  }
-
-                  removeGuestKey();
-                  setGuestModeComplete();
-
-                  const {
-                    game,
-                    whitelistedAt,
-                    itemsMintedAt,
-                    deviceTrackerId,
-                    status,
-                    announcements,
-                  } = response;
-
-                  return {
-                    state: {
-                      ...game,
-                      farmAddress,
-                      id: farmId,
-                    },
-                    sessionId,
-                    whitelistedAt,
-                    fingerprint,
-                    itemsMintedAt,
-                    onChain,
-                    notifications: onChainEvents,
-                    deviceTrackerId,
-                    status,
-                    announcements,
-                  };
-                }
-
-                return { state: OFFLINE_FARM, onChain };
-              } catch (e) {
-                console.log({ e });
+                return {
+                  state: game,
+                  deviceTrackerId,
+                };
               }
+
+              if (!wallet.myAccount) throw new Error("No account");
+
+              const user = authContext.user;
+
+              const farmAddress = user.farmAddress as string;
+              const farmId = user.farmId as number;
+
+              const {
+                game: onChain,
+                bumpkin,
+                bumpkins,
+              } = await getGameOnChainState({
+                farmAddress,
+                account: wallet.myAccount,
+                id: farmId,
+              });
+
+              const onChainEvents = await unseenEvents({
+                farmAddress,
+                farmId,
+              });
+
+              // Get sessionId
+              const sessionId =
+                farmId && (await getSessionId(wallet.web3Provider, farmId));
+
+              // Load the farm session
+              if (sessionId) {
+                const fingerprint = "X";
+
+                const guestKey = getGuestKey() ?? undefined;
+
+                const response = await loadSession({
+                  farmId,
+                  bumpkinTokenUri: bumpkin?.tokenURI,
+                  sessionId,
+                  token: authContext.user.rawToken as string,
+                  wallet: authContext.user.web3?.wallet as string,
+                  transactionId: context.transactionId as string,
+                  guestKey,
+                });
+
+                if (!response) {
+                  throw new Error("NO_FARM");
+                }
+
+                removeGuestKey();
+                setGuestModeComplete();
+
+                const {
+                  game,
+                  whitelistedAt,
+                  itemsMintedAt,
+                  deviceTrackerId,
+                  status,
+                  announcements,
+                } = response;
+
+                return {
+                  state: {
+                    ...game,
+                    farmAddress,
+                    id: farmId,
+                  },
+                  sessionId,
+                  whitelistedAt,
+                  fingerprint,
+                  itemsMintedAt,
+                  onChain,
+                  notifications: onChainEvents,
+                  deviceTrackerId,
+                  status,
+                  announcements,
+                  bumpkins,
+                };
+              }
+
+              return { state: OFFLINE_FARM, onChain };
             },
             onDone: {
               target: "notifying",
@@ -662,12 +686,12 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-            {
-              target: "promoting",
-              cond: (context) =>
-                !getSeasonPassRead() &&
-                (context.state.bumpkin?.experience ?? 0) > 0,
-            },
+            // {
+            //   target: "promoting",
+            //   cond: (context) =>
+            //     !getSeasonPassRead() &&
+            //     (context.state.bumpkin?.experience ?? 0) > 0,
+            // },
             {
               target: "playing",
             },
@@ -786,6 +810,9 @@ export function startGame(authContext: AuthContext) {
             SYNC: {
               target: "syncing",
             },
+            BUY_BLOCK_BUCKS: {
+              target: "buyingBlockBucks",
+            },
             PURCHASE_ITEM: {
               target: "purchasing",
             },
@@ -815,6 +842,19 @@ export function startGame(authContext: AuthContext) {
             },
             BUY_SFL: {
               target: "buyingSFL",
+            },
+            UPDATE_BLOCK_BUCKS: {
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  inventory: {
+                    ...context.state.inventory,
+                    "Block Buck": (
+                      context.state.inventory["Block Buck"] ?? new Decimal(0)
+                    ).add(event.amount),
+                  },
+                },
+              })),
             },
           },
         },
@@ -928,6 +968,39 @@ export function startGame(authContext: AuthContext) {
             ],
           },
         },
+        buyingBlockBucks: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const response = await buyBlockBucksMATIC({
+                farmId: Number(authContext.user.farmId),
+                type: (event as BuyBlockBucksEvent).currency,
+                amount: (event as BuyBlockBucksEvent).amount,
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+              });
+
+              return {
+                ...response,
+                amount: (event as BuyBlockBucksEvent).amount,
+              };
+            },
+            onDone: {
+              target: "playing",
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  inventory: {
+                    ...context.state.inventory,
+                    "Block Buck": (
+                      context.state.inventory["Block Buck"] ?? new Decimal(0)
+                    ).add(event.data.amount),
+                  },
+                },
+              })),
+            },
+          },
+        },
         purchasing: {
           entry: "setTransactionId",
           invoke: {
@@ -998,11 +1071,45 @@ export function startGame(authContext: AuthContext) {
               });
 
               return {
+                event,
                 farm,
                 changeset,
               };
             },
             onDone: [
+              {
+                target: "genieRevealed",
+                cond: (_, event) =>
+                  event.data.event.type === "genieLamp.rubbed",
+                actions: assign((context, event) => {
+                  const lamps = context.state.collectibles["Genie Lamp"]?.map(
+                    (lamp) => {
+                      if (lamp.id === event.data.event.id) {
+                        return {
+                          ...lamp,
+                          rubbedCount: (lamp.rubbedCount ?? 0) + 1,
+                        };
+                      }
+
+                      return lamp;
+                    }
+                  );
+
+                  return {
+                    // Remove events
+                    actions: [],
+                    // Update immediately with state from server except for collectibles
+                    state: {
+                      ...event.data.farm,
+                      collectibles: {
+                        ...event.data.farm.collectibles,
+                        "Genie Lamp": lamps,
+                      },
+                    },
+                    revealed: event.data.changeset,
+                  };
+                }),
+              },
               {
                 target: "revealed",
                 actions: assign((_, event) => ({
@@ -1024,6 +1131,33 @@ export function startGame(authContext: AuthContext) {
           on: {
             CONTINUE: {
               target: "playing",
+            },
+          },
+        },
+        genieRevealed: {
+          on: {
+            CONTINUE: {
+              target: "playing",
+              actions: assign((context, event) => {
+                const shouldRemoveLamp = (lamp: PlacedLamp) =>
+                  lamp.id === event.id && (lamp.rubbedCount ?? 0) >= 3;
+
+                // Delete the Lamp from the collectibles after it's been rubbed 3 times
+                const lamps = context.state.collectibles["Genie Lamp"];
+                const newLamps = lamps?.filter(
+                  (lamp) => !shouldRemoveLamp(lamp)
+                );
+
+                return {
+                  state: {
+                    ...context.state,
+                    collectibles: {
+                      ...context.state.collectibles,
+                      "Genie Lamp": newLamps,
+                    },
+                  },
+                };
+              }),
             },
           },
         },
@@ -1116,7 +1250,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
         landscaping: {
           invoke: {
             id: "landscaping",
@@ -1231,6 +1364,7 @@ export function startGame(authContext: AuthContext) {
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           status: (_, event) => event.data.status,
           announcements: (_, event) => event.data.announcements,
+          bumpkins: (_, event) => event.data.bumpkins,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

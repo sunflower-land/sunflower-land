@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "../lib/Provider";
 
-export const Web3Missing: React.FC = () => {
+export const Web3Missing: React.FC<{ wallet?: "PHANTOM" }> = ({ wallet }) => {
+  const { authService } = useContext(Context);
+
   const goToMetamaskSetupDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/guides/getting-setup#metamask-setup",
@@ -10,23 +13,40 @@ export const Web3Missing: React.FC = () => {
     );
   };
 
-  return (
-    <div className="flex flex-col text-center items-center p-1">
-      <div className="flex mb-3 items-center">
-        <img
-          src={SUNNYSIDE.icons.expression_alerted}
-          alt="Warning"
-          className="w-3 mr-3"
-        />
-      </div>
-      <p className="text-center mb-3">Web3 Not Found</p>
+  const goToPhantomSetupDocs = () => {
+    window.open("https://phantom.app/", "_blank");
+  };
 
-      <p className="text-center mb-4 text-xs">
-        Check out this guide to help you get started.
-      </p>
-      <Button onClick={goToMetamaskSetupDocs} className="overflow-hidden mb-2">
-        <span>Go to setup guide</span>
-      </Button>
-    </div>
+  const handleClick =
+    wallet === "PHANTOM" ? goToPhantomSetupDocs : goToMetamaskSetupDocs;
+
+  return (
+    <>
+      <div className="flex flex-col text-center items-center p-1">
+        <div className="flex mb-3 items-center">
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            alt="Warning"
+            className="w-3 mr-3"
+          />
+        </div>
+        <p className="text-center mb-3">Web3 Not Found</p>
+
+        <p className="text-center mb-3 text-xs">
+          Check out this guide to help you get started.
+        </p>
+      </div>
+      <div className="flex space-x-1">
+        <Button
+          onClick={() => authService.send("REFRESH")}
+          className="overflow-hidden"
+        >
+          <span>Go back</span>
+        </Button>
+        <Button onClick={handleClick} className="overflow-hidden">
+          <span>Go to setup guide</span>
+        </Button>
+      </div>
+    </>
   );
 };

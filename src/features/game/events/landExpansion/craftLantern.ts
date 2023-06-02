@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, LanternName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  LanternName,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type CraftLanternAction = {
@@ -12,6 +16,15 @@ export type CraftLanternAction = {
 type Options = {
   state: Readonly<GameState>;
   action: CraftLanternAction;
+};
+
+export const getRequirementMultiplier = (
+  requirementName: InventoryItemName | "sfl",
+  craftedCount?: number
+) => {
+  if (requirementName === "Block Buck" || !craftedCount) return 1;
+
+  return craftedCount + 1;
 };
 
 export const craftLantern = ({ state, action }: Options): GameState => {
@@ -32,15 +45,12 @@ export const craftLantern = ({ state, action }: Options): GameState => {
 
   // Requirements are multiplied by the number of lanterns crafted + 1 (for the current week)
   // eg. 1st lantern requires 1x, 2nd lantern requires 2x, 3rd lantern requires 3x, etc.
-  let multiplier = 1;
   const currentCraftCount = lanternsCraftedByWeek[currentWeek];
 
-  if (currentCraftCount) {
-    multiplier = currentCraftCount + 1;
-  }
-
   if (requiredSFL) {
-    let cost = requiredSFL.mul(multiplier);
+    let cost = requiredSFL.mul(
+      getRequirementMultiplier("sfl", currentCraftCount)
+    );
 
     // Season Pass holders get a 25% discount on SFL
     if (copy.inventory["Dawn Breaker Banner"]) {
@@ -56,6 +66,7 @@ export const craftLantern = ({ state, action }: Options): GameState => {
 
   const subtractedInventory = getKeys(ingredients).reduce((inventory, name) => {
     const count = inventory[name] ?? new Decimal(0);
+    const multiplier = getRequirementMultiplier(name, currentCraftCount);
     const amount = (ingredients[name] ?? new Decimal(0)).mul(multiplier);
 
     if (count.lt(amount)) {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
@@ -12,10 +12,17 @@ import { FruitPatch } from "../fruit/FruitPatch";
 import { Boulder } from "../boulder/Boulder";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
+import { isLocked as isPlotLocked } from "features/game/events/landExpansion/moveCrop";
+import { isLocked as isStoneLocked } from "features/game/events/landExpansion/moveStone";
+import { isLocked as isIronLocked } from "features/game/events/landExpansion/moveIron";
+import { isLocked as isGoldLocked } from "features/game/events/landExpansion/moveGold";
+
+import { InnerPanel } from "components/ui/Panel";
+import classNames from "classnames";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -140,14 +147,92 @@ const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 const ResourceComponent: React.FC<ResourceProps> = (props) => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const [showPopover, setShowPopover] = useState(false);
 
   const landscaping = useSelector(gameService, isLandscaping);
 
   const Component = RESOURCE_COMPONENTS[props.name];
 
+  const collectibles = gameState.context.state.collectibles;
+
+  const isResourceLocked = (): boolean => {
+    const isPlot = props.name === "Crop Plot";
+    const isStone = props.name === "Stone Rock";
+    const isIron = props.name === "Iron Rock";
+    const isGold = props.name === "Gold Rock";
+
+    if (isPlot) {
+      const plot = gameState.context.state.crops[props.id];
+      return isPlotLocked(plot, collectibles, Date.now());
+    }
+    if (isStone) {
+      const stone = gameState.context.state.stones[props.id];
+      return isStoneLocked(stone, collectibles, Date.now());
+    }
+    if (isIron) {
+      const iron = gameState.context.state.iron[props.id];
+      return isIronLocked(iron, collectibles, Date.now());
+    }
+    if (isGold) {
+      const gold = gameState.context.state.gold[props.id];
+      return isGoldLocked(gold, collectibles, Date.now());
+    }
+    return false;
+  };
+
+  const handleMouseEnter = () => {
+    // set state to show details
+    setShowPopover(true);
+  };
+
+  const handleMouseLeave = () => {
+    // set state to hide details
+    setShowPopover(false);
+  };
+
   if (landscaping) {
+    if (isResourceLocked()) {
+      return (
+        <div
+          className="relative w-full h-full"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <InnerPanel
+            className={classNames(
+              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50 pointer-events-none",
+              {
+                "opacity-100": showPopover,
+                "opacity-0": !showPopover,
+              }
+            )}
+            style={{
+              top: `${PIXEL_SCALE * -10}px`,
+              left: `${PIXEL_SCALE * 16}px`,
+            }}
+          >
+            <div className="flex flex-col text-xxs text-white text-shadow mx-2">
+              <div className="flex flex-1 items-center justify-center">
+                <img src={SUNNYSIDE.icons.cancel} className="w-4 mr-1" />
+                <span>AoE Locked</span>
+              </div>
+            </div>
+          </InnerPanel>
+          <div className="relative">
+            <Component {...props} />
+          </div>
+        </div>
+      );
+    }
+
     return (
-      <MoveableComponent {...(props as any)}>
+      <MoveableComponent
+        x={props.coordinates?.x}
+        y={props.coordinates?.y}
+        {...(props as any)}
+      >
         <Component {...props} />
       </MoveableComponent>
     );

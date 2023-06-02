@@ -91,9 +91,11 @@ const getIslandElements = ({
                 id={building.id}
                 readyAt={building.readyAt}
                 createdAt={building.createdAt}
-                crafting={building.crafting}
+                craftingItemName={building.crafting?.name}
+                craftingReadyAt={building.crafting?.readyAt}
                 showTimers={showTimers}
-                coordinates={{ x, y }}
+                x={x}
+                y={y}
               />
             </MapPlacement>
           );
@@ -125,7 +127,8 @@ const getIslandElements = ({
                 readyAt={readyAt}
                 createdAt={createdAt}
                 showTimers={showTimers}
-                coordinates={coordinates}
+                x={coordinates.x}
+                y={coordinates.x}
                 grid={grid}
               />
             </MapPlacement>
@@ -342,7 +345,7 @@ const getIslandElements = ({
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isAutosaving = (state: MachineState) => state.matches("autosaving");
-const isEditing = (state: MachineState) => state.matches("editing");
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 
 export const Land: React.FC = () => {
@@ -364,14 +367,8 @@ export const Land: React.FC = () => {
     mushrooms,
   } = useSelector(gameService, selectGameState);
   const autosaving = useSelector(gameService, isAutosaving);
+  const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
-
-  const grid = getGameGrid({ crops, collectibles });
-  const gameState = useSelector(gameService, (state) => ({
-    isAutosaving: state.matches("autosaving"),
-    isLandscaping: state.matches("landscaping"),
-    isVisiting: state.matches("visiting"),
-  }));
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -426,15 +423,15 @@ export const Land: React.FC = () => {
             <LandBase expandedCount={expansionCount} />
             <DirtRenderer grid={gameGrid} />
 
-            {!gameState.isLandscaping && <Water level={expansionCount} />}
-            {!gameState.isLandscaping && <UpcomingExpansion />}
+            {!landscaping && <Water level={expansionCount} />}
+            {!landscaping && <UpcomingExpansion />}
 
             <div
               className={classNames(
                 `w-full h-full top-0 absolute transition-opacity pointer-events-none`,
                 {
-                  "opacity-0": !gameState.isLandscaping,
-                  "opacity-100": gameState.isLandscaping,
+                  "opacity-0": !landscaping,
+                  "opacity-100": landscaping,
                 }
               )}
               style={{
@@ -458,16 +455,16 @@ export const Land: React.FC = () => {
               fruitPatches,
               crops,
               showTimers: showTimers,
-              grid,
+              grid: gameGrid,
               mushrooms: mushrooms?.mushrooms,
               isFirstRender,
             }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 
-          {gameState.isLandscaping && <Placeable />}
+          {landscaping && <Placeable />}
         </div>
 
-        {!gameState.isLandscaping && (
+        {!landscaping && (
           <IslandTravel
             bumpkin={bumpkin}
             isVisiting={visiting}
@@ -484,14 +481,14 @@ export const Land: React.FC = () => {
           className={classNames(
             "absolute w-full h-full bg-black -z-10  transition-opacity pointer-events-none",
             {
-              "opacity-0": !gameState.isLandscaping,
-              "opacity-50": gameState.isLandscaping,
+              "opacity-0": !landscaping,
+              "opacity-50": landscaping,
             }
           )}
         />
       </div>
 
-      {gameState.isLandscaping ? (
+      {landscaping ? (
         <>
           <LandscapingHud isFarming />
         </>

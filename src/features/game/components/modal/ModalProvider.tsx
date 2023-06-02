@@ -13,6 +13,7 @@ export const ModalContext = createContext<{
 
 export const ModalProvider: FC = ({ children }) => {
   const [opened, setOpened] = useState<GlobalModal>();
+  const [closeable, setCloseable] = useState(true);
 
   const openModal = (type: GlobalModal) => {
     console.log({ override: type });
@@ -20,6 +21,7 @@ export const ModalProvider: FC = ({ children }) => {
   };
 
   const handleClose = () => {
+    if (!closeable) return;
     setOpened(undefined);
   };
 
@@ -27,7 +29,11 @@ export const ModalProvider: FC = ({ children }) => {
     <ModalContext.Provider value={{ openModal }}>
       {children}
       <Modal centered show={opened === "BUY_BLOCK_BUCKS"} onHide={handleClose}>
-        <BlockBucksModal onClose={handleClose} />
+        <BlockBucksModal
+          onClose={handleClose}
+          closeable={closeable}
+          setCloseable={setCloseable}
+        />
       </Modal>
 
       <Modal centered show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>

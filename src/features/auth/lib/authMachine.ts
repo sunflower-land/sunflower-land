@@ -150,6 +150,7 @@ export type BlockchainEvent =
   | { type: "CONFIRM" }
   | { type: "SKIP" }
   | { type: "CONNECT_TO_METAMASK" }
+  | { type: "CONNECT_TO_PHANTOM" }
   | { type: "CONNECT_TO_WALLET_CONNECT" }
   | { type: "CONNECT_TO_SEQUENCE" }
   | { type: "CONNECT_AS_GUEST" }
@@ -167,6 +168,7 @@ export type BlockchainState = {
     | "initialising"
     | "visiting"
     | "connectingToMetamask"
+    | "connectingToPhantom"
     | "connectingToWalletConnect"
     | "connectingToSequence"
     | "connectingAsGuest"
@@ -247,6 +249,9 @@ export const authMachine = createMachine<
           CONNECT_TO_METAMASK: {
             target: "connectingToMetamask",
           },
+          CONNECT_TO_PHANTOM: {
+            target: "connectingToPhantom",
+          },
           CONNECT_TO_WALLET_CONNECT: {
             target: "connectingToWalletConnect",
           },
@@ -266,6 +271,10 @@ export const authMachine = createMachine<
             cond: (context) => context.user.web3?.wallet === "METAMASK",
           },
           {
+            target: "connectingToPhantom",
+            cond: (context) => context.user.web3?.wallet === "PHANTOM",
+          },
+          {
             target: "connectingToSequence",
             cond: (context) => context.user.web3?.wallet === "SEQUENCE",
           },
@@ -275,6 +284,26 @@ export const authMachine = createMachine<
           },
           { target: "idle" },
         ],
+      },
+      connectingToPhantom: {
+        id: "connectingToPhantom",
+        invoke: {
+          src: "initPhantom",
+          onDone: [
+            {
+              target: "setupContracts",
+              cond: (context) => context.user.type === "GUEST",
+              actions: "assignGuestUser",
+            },
+            {
+              target: "setupContracts",
+            },
+          ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
       },
       connectingToMetamask: {
         id: "connectingToMetamask",
@@ -404,7 +433,9 @@ export const authMachine = createMachine<
             },
             {
               target: "signing",
-              cond: (context) => context.user.web3?.wallet === "METAMASK",
+              cond: (context) =>
+                context.user.web3?.wallet === "METAMASK" ||
+                context.user.web3?.wallet === "PHANTOM",
             },
             {
               target: "connectedToWallet",
@@ -741,14 +772,32 @@ export const authMachine = createMachine<
         if (_window.ethereum) {
           const provider = _window.ethereum;
 
-          if (provider.isPhantom) {
-            throw new Error(ERRORS.PHANTOM_WALLET_NOT_SUPPORTED);
-          }
           await provider.request({
             method: "eth_requestAccounts",
           });
 
           return { web3: { wallet: "METAMASK", provider } };
+        } else {
+          throw new Error(ERRORS.NO_WEB3);
+        }
+      },
+      initPhantom: async () => {
+        const _window = window as any;
+
+        if (_window.phantom) {
+          // _window.phantom doesn't seem to handle polygon atm
+          // therefore we will continue to use the provider it attaches to window.ethereum
+          const provider = _window.ethereum;
+
+          try {
+            await provider.request({
+              method: "eth_requestAccounts",
+            });
+          } catch (e) {
+            throw new Error(ERRORS.WALLET_INITIALISATION_FAILED);
+          }
+
+          return { web3: { wallet: "PHANTOM", provider } };
         } else {
           throw new Error(ERRORS.NO_WEB3);
         }

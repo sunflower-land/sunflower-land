@@ -1,31 +1,33 @@
 import React, { useContext, useState } from "react";
 
 import { BuildingName } from "features/game/types/buildings";
-import { BuildingProduct } from "features/game/types/game";
 import { Bar } from "components/ui/ProgressBar";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "features/island/collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
+import { CookableName } from "features/game/types/consumables";
 
 interface Prop {
   name: BuildingName;
   id: string;
   readyAt: number;
   createdAt: number;
-  crafting?: BuildingProduct;
+  craftingItemName?: CookableName;
+  craftingReadyAt?: number;
   showTimers: boolean;
-  coordinates: Coordinates;
+  x: number;
+  y: number;
 }
 
 export interface BuildingProps {
   buildingId: string;
-  craftingState?: BuildingProduct;
+  craftingItemName?: CookableName;
+  craftingReadyAt?: number;
   isBuilt?: boolean;
   onRemove?: () => void;
 }
@@ -89,9 +91,11 @@ const BuildingComponent: React.FC<Prop> = ({
   id,
   readyAt,
   createdAt,
-  crafting,
+  craftingItemName,
+  craftingReadyAt,
   showTimers,
-  coordinates,
+  x,
+  y,
 }) => {
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
@@ -109,10 +113,16 @@ const BuildingComponent: React.FC<Prop> = ({
           readyAt={readyAt}
           createdAt={createdAt}
           showTimers={showTimers}
-          coordinates={coordinates}
+          x={x}
+          y={y}
         />
       ) : (
-        <BuildingPlaced buildingId={id} craftingState={crafting} isBuilt />
+        <BuildingPlaced
+          buildingId={id}
+          craftingItemName={craftingItemName}
+          craftingReadyAt={craftingReadyAt}
+          isBuilt
+        />
       )}
     </>
   );
@@ -120,7 +130,7 @@ const BuildingComponent: React.FC<Prop> = ({
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-export const Building: React.FC<Prop> = (props) => {
+const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
 
   const landscaping = useSelector(gameService, isLandscaping);
@@ -134,10 +144,11 @@ export const Building: React.FC<Prop> = (props) => {
       <MoveableComponent
         id={props.id}
         name={props.name}
-        coordinates={props.coordinates}
+        x={props.x}
+        y={props.y}
       >
         {inProgress ? (
-          <InProgressBuilding {...props} />
+          <BuildingComponent {...props} />
         ) : (
           <BuildingPlaced buildingId={props.id} {...props} />
         )}
@@ -147,3 +158,5 @@ export const Building: React.FC<Prop> = (props) => {
 
   return <BuildingComponent {...props} />;
 };
+
+export const Building = React.memo(MoveableBuilding);

@@ -1,6 +1,15 @@
+import React, {
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useActor } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
+import { toWei } from "web3-utils";
+import classNames from "classnames";
 
 import { Context } from "features/game/GoblinProvider";
 import { Inventory, InventoryItemName } from "features/game/types/game";
@@ -8,58 +17,30 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 import * as AuthProvider from "features/auth/lib/Provider";
-
-import { Button } from "components/ui/Button";
-import { Box } from "components/ui/Box";
-
-import goblinHead from "assets/npcs/goblin_head.png";
-
-import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
-
-import { getKeys } from "features/game/types/craftables";
 import { getDeliverableItems } from "../lib/storageItems";
 import { shortAddress } from "lib/utils/shortAddress";
 import { loadBanDetails } from "features/game/actions/bans";
 import { Jigger, JiggerStatus } from "features/game/components/Jigger";
+import { Button } from "components/ui/Button";
+import { Box } from "components/ui/Box";
+
 import { SUNNYSIDE } from "assets/sunnyside";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { pixelDarkBorderStyle } from "features/game/lib/style";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { getKeys } from "features/game/types/craftables";
 
 interface Props {
   onWithdraw: () => void;
   allowLongpressWithdrawal?: boolean;
 }
 
-function transferItem(
-  itemName: InventoryItemName,
-  setFrom: React.Dispatch<
-    React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
-  >,
-  setTo: React.Dispatch<
-    React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
-  >
-) {
-  let amount = 1;
-
-  // Subtract 1 or remaining
-  setFrom((prev) => {
-    const remaining = prev[itemName]!.toNumber();
-    if (remaining < 1) {
-      amount = remaining;
-    }
-    return {
-      ...prev,
-      [itemName]: prev[itemName]?.minus(amount),
-    };
-  });
-
-  // Add 1 or remaining
-  setTo((prev) => ({
-    ...prev,
-    [itemName]: (prev[itemName] || new Decimal(0)).add(amount),
-  }));
-}
-
 const DELIVERY_FEE = 30;
+const INNER_CANVAS_WIDTH = 14;
+const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
+const INPUT_MAX_CHAR = 10;
 
 export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const { goblinService } = useContext(Context);
@@ -67,16 +48,26 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const [inventory, setInventory] = useState<Inventory>({});
-  const [selected, setSelected] = useState<Inventory>({});
+  const [isMobile] = useIsMobile();
+  const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
 
   const [jiggerState, setJiggerState] =
     useState<{ url: string; status: JiggerStatus }>();
   const [isLoading, setIsLoading] = useState(true);
+  const [selected, setSelected] = useState<Inventory>({});
+
+  const inventory: Inventory = useMemo(() => {
+    const deliverables = getDeliverableItems(
+      goblinState.context.state.inventory
+    );
+
+    return Object.fromEntries(
+      Object.entries(deliverables).filter(([_, v]) => v?.gt(0))
+    );
+  }, [goblinState.context.state.inventory]);
 
   useEffect(() => {
     const load = async () => {
-      setIsLoading(true);
       const check = await loadBanDetails(
         authState.context.user.farmId?.toString() as string,
         authState.context.user.rawToken as string,
@@ -95,18 +86,24 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
     load();
   }, []);
 
-  useEffect(() => {
-    // Only grab the deliverable items
-    const resourceInventory = getDeliverableItems(
-      goblinState.context.state.inventory
+  const hasWrongInputs = (): boolean => {
+    const entries = Object.entries(selected) as [InventoryItemName, Decimal][];
+    const wrongInputs = entries.filter(
+      ([itemName, amount]) =>
+        amount?.lte(0) || amount?.gt(inventory[itemName] || new Decimal(0))
     );
-    setInventory(resourceInventory);
-    setSelected({});
-  }, []);
+
+    return !entries.length || !!wrongInputs.length;
+  };
 
   const withdraw = () => {
-    const ids = getKeys(selected).map((item) => KNOWN_IDS[item]);
-    const amounts = getKeys(selected).map((item) =>
+    const itemsForWithdraw = Object.entries(selected) as [
+      InventoryItemName,
+      Decimal
+    ][];
+
+    const ids = itemsForWithdraw.map(([item]) => KNOWN_IDS[item]);
+    const amounts = itemsForWithdraw.map(([item]) =>
       toWei(selected[item]?.toString() as string, getItemUnit(item))
     );
 
@@ -121,61 +118,46 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const onAdd = (itemName: InventoryItemName) => {
-    // Transfer from inventory to selected
-    let amount = 1;
+    let amount = new Decimal(1);
+    const total = inventory[itemName] || new Decimal(0);
 
-    // Subtract 1 or remaining
-    setInventory((prev) => {
-      const remaining = prev[itemName]!.toNumber();
-      if (remaining < 1) {
-        amount = remaining;
-      }
-      return {
-        ...prev,
-        [itemName]: prev[itemName]?.minus(amount),
-      };
-    });
+    if (total.lt(amount)) {
+      amount = total;
+    }
 
-    // Add 1 or remaining
     setSelected((prev) => ({
+      [itemName]: prev[itemName] || amount,
       ...prev,
-      [itemName]: (prev[itemName] || new Decimal(0)).add(amount),
     }));
-  };
-
-  const onSubtract = (itemName: InventoryItemName) => {
-    // Transfer from inventory to selected
-    let amount = 1;
-
-    // Add 1 or remaining
-    setInventory((prev) => ({
-      ...prev,
-      [itemName]: (prev[itemName] || new Decimal(0)).add(amount),
-    }));
-
-    // Subtract 1 or remaining
-    setSelected((prev) => {
-      const remaining = prev[itemName]!.toNumber();
-      if (remaining < 1) {
-        amount = remaining;
-      }
-      return {
-        ...prev,
-        [itemName]: prev[itemName]?.minus(amount),
-      };
-    });
+    deliveryItemsStartRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const onRemove = (itemName: InventoryItemName) => {
-    setInventory((prev) => ({
-      ...prev,
-      [itemName]: goblinState.context.state.inventory[itemName],
-    }));
+    setSelected((prev) => {
+      const copy = { ...prev };
 
-    setSelected((prev) => ({
-      ...prev,
-      [itemName]: new Decimal(0),
-    }));
+      delete copy[itemName];
+
+      return copy;
+    });
+  };
+
+  const handleAmountChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    itemName: InventoryItemName
+  ) => {
+    if (/^0+(?!\.)/.test(e.target.value) && e.target.value.length > 1) {
+      e.target.value = e.target.value.replace(/^0/, "");
+    }
+
+    if (VALID_NUMBER.test(e.target.value)) {
+      const input = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
+
+      setSelected((prev) => ({
+        ...prev,
+        [itemName]: new Decimal(input),
+      }));
+    }
   };
 
   if (isLoading) {
@@ -192,104 +174,102 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
     );
   }
 
-  const inventoryItems = getKeys(inventory).filter((item) =>
-    inventory[item]?.gt(0)
-  );
-
-  const selectedItems = getKeys(selected).filter((item) =>
-    selected[item]?.gt(0)
-  );
-
   return (
-    <div className="p-2">
-      <div className="mt-3">
-        <h2 className="mb-1 text-sm">Select items to deliver:</h2>
+    <>
+      <div className="p-2 mb-2">
+        <h2 className="mb-1 text-sm">Inventory:</h2>
         <div className="flex flex-wrap h-fit -ml-1.5 mb-2">
-          {inventoryItems.map((itemName) => {
-            const details = ITEM_DETAILS[itemName];
+          {getKeys(inventory).map((itemName) => (
+            <Box
+              key={itemName}
+              count={inventory[itemName]}
+              onClick={() => onAdd(itemName)}
+              image={ITEM_DETAILS[itemName].image}
+            />
+          ))}
+        </div>
 
-            const totalCountOfItemType = inventory[itemName] || new Decimal(0);
-
-            return (
-              <Box
-                count={totalCountOfItemType}
-                key={itemName}
-                onClick={() => onAdd(itemName)}
-                image={details.image}
-                canBeLongPressed
+        <h2 className="mb-1 text-sm">Items to deliver:</h2>
+        <div
+          className="flex flex-col gap-2 min-h-[48px] scrollable overflow-y-auto"
+          style={{ maxHeight: 158 }}
+        >
+          <div ref={deliveryItemsStartRef} className="-mt-2"></div>
+          {getKeys(selected).map((itemName) => (
+            <div
+              className="flex items-center justify-between gap-2"
+              key={itemName}
+            >
+              <div className="flex items-center gap-2">
+                <div
+                  className="bg-brown-600"
+                  style={{
+                    width: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
+                    height: `${PIXEL_SCALE * (INNER_CANVAS_WIDTH + 4)}px`,
+                    ...pixelDarkBorderStyle,
+                  }}
+                >
+                  <SquareIcon
+                    icon={ITEM_DETAILS[itemName as InventoryItemName].image}
+                    width={INNER_CANVAS_WIDTH}
+                  />
+                </div>
+                <input
+                  type="number"
+                  name={itemName + "amount"}
+                  value={parseFloat(selected[itemName]?.toString() || "0")}
+                  onChange={(e) => handleAmountChange(e, itemName)}
+                  className={classNames(
+                    "px-2 py-1 bg-brown-200 text-shadow shadow-inner shadow-black",
+                    isMobile ? "w-[80px]" : "w-[140px]",
+                    {
+                      "text-error":
+                        selected[itemName]?.gt(
+                          inventory[itemName] || new Decimal(0)
+                        ) || selected[itemName]?.lte(new Decimal(0)),
+                    }
+                  )}
+                />
+                <div className="flex flex-col">
+                  <span
+                    className={isMobile ? "text-xxs" : "text-xs"}
+                  >{`${parseFloat(
+                    selected[itemName]
+                      ?.mul(1 - DELIVERY_FEE / 100)
+                      .toFixed(4, Decimal.ROUND_DOWN) as string
+                  )} ${itemName}`}</span>
+                  <span className="text-xxs">{`${parseFloat(
+                    selected[itemName]
+                      ?.mul(DELIVERY_FEE / 100)
+                      .toFixed(4, Decimal.ROUND_DOWN) as string
+                  )} Goblin fee`}</span>
+                </div>
+              </div>
+              <img
+                src={SUNNYSIDE.icons.cancel}
+                className="h-4 mr-2 cursor-pointer"
+                onClick={() => onRemove(itemName)}
               />
-            );
-          })}
+            </div>
+          ))}
         </div>
 
-        <div className="mt-2 min-h-[64px]">
-          <h2 className="text-sm">You will receive:</h2>
-          <div className="mt-2 -ml-1.5">
-            {selectedItems
-              .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
-              .map((itemName) => {
-                return (
-                  <div className="flex items-center pl-1" key={itemName}>
-                    <div className="w-80 flex items-center">
-                      <Box
-                        hideCount
-                        count={selected[itemName]}
-                        key={itemName}
-                        onClick={() => onSubtract(itemName)}
-                        image={ITEM_DETAILS[itemName].image}
-                        canBeLongPressed
-                      />
-                      <div className="flex flex-col">
-                        <span className="text-sm">{`${parseFloat(
-                          selected[itemName]
-                            ?.mul(1 - DELIVERY_FEE / 100)
-                            .toFixed(4, Decimal.ROUND_DOWN) as string
-                        )} ${itemName}`}</span>
-                        <div className="flex">
-                          <span className="text-xxs">{`${parseFloat(
-                            selected[itemName]
-                              ?.mul(DELIVERY_FEE / 100)
-                              .toFixed(4, Decimal.ROUND_DOWN) as string
-                          )} Goblin fee`}</span>
-                          <img src={goblinHead} className="w-6 ml-2" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <img
-                      src={SUNNYSIDE.icons.cancel}
-                      className="h-4 cursor-pointer"
-                      onClick={() => onRemove(itemName)}
-                    />
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-
-        <div className="border-white border-t-2 w-full my-3" />
-        <div className="flex items-center mt-2 mb-2  border-white">
+        <div className="w-full my-3 border-t-2 border-white" />
+        <div className="flex items-center mb-2 text-xs">
           <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
-            <p className="text-sm">Deliver to your wallet</p>
-            <p className="text-sm">
-              {shortAddress(wallet.myAccount || "XXXX")}
-            </p>
+            <p>Deliver to your wallet</p>
+            <p>{shortAddress(wallet.myAccount || "XXXX")}</p>
           </div>
         </div>
 
-        <span className="text-sm mb-4">
+        <p className="text-xs">
           Once delivered, you will be able to view your items on OpenSea.
-        </span>
+        </p>
       </div>
-
-      <Button
-        className="mt-3 mb-1"
-        onClick={withdraw}
-        disabled={selectedItems.length <= 0}
-      >
+      <Button onClick={withdraw} disabled={hasWrongInputs()}>
         Deliver
       </Button>
-    </div>
+    </>
   );
 };

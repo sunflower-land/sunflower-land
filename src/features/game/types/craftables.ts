@@ -1077,6 +1077,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Mysterious Parsnip": { width: 1, height: 1 },
   "Carrot Sword": { width: 1, height: 1 },
 
+  "Basic Scarecrow": { width: 1, height: 2 },
+
   // Barn Items
   "Farm Cat": { width: 1, height: 1 },
   "Farm Dog": { width: 1, height: 1 },
@@ -1097,7 +1099,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Victoria Sisters": { width: 2, height: 2 },
   "Basic Bear": { width: 1, height: 1 },
   "Peeled Potato": { width: 1, height: 1 },
-  "Wood Nymph Wendy": { width: 1, height: 2 },
+  "Wood Nymph Wendy": { width: 1, height: 1 },
   "Cabbage Boy": { width: 1, height: 1 },
   "Cabbage Girl": { width: 1, height: 1 },
 
@@ -1116,6 +1118,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
   "Iron Idol": { height: 2, width: 2 },
+  "Emerald Turtle": { height: 1, width: 1 },
+  "Tin Turtle": { height: 1, width: 1 },
 
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
@@ -1123,8 +1127,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   //Easter Event Items
   "Easter Bunny": { width: 2, height: 1 },
-  "Pablo The Bunny": { width: 1, height: 2 },
-  "Easter Bear": { width: 1, height: 2 },
+  "Pablo The Bunny": { width: 1, height: 1 },
+  "Easter Bear": { width: 1, height: 1 },
   "Giant Carrot": { width: 2, height: 2 },
   "Easter Bush": { width: 2, height: 2 },
 

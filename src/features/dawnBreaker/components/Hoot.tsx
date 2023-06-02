@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import hootImg from "assets/npcs/hoot.png";
+import hootGif from "assets/npcs/hoot_hooting.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Riddle } from "features/game/types/riddles";
 import { Modal } from "react-bootstrap";
@@ -141,13 +142,14 @@ export const HootRiddle = () => {
         </Panel>
       </Modal>
       <img
-        className="brightness-[0.6]  absolute z-10 cursor-pointer hover:img-highlight"
-        src={hootImg}
+        className="brightness-[0.6] absolute z-10 cursor-pointer hover:img-highlight"
+        src={hootGif}
         onClick={open}
         style={{
-          left: `${GRID_WIDTH_PX * 12}px`,
+          left: `${GRID_WIDTH_PX * 13}px`,
           bottom: `${GRID_WIDTH_PX * 10}px`,
           width: `${PIXEL_SCALE * 16}px`,
+          transform: `scaleX(-1)`,
         }}
       />
     </>
