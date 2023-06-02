@@ -232,7 +232,10 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("opening") && gameState.matches("revealed")) {
       return (
         <Panel>
-          <Revealed onAcknowledged={() => chestService.send("ACKNOWLEDGE")} />
+          <Revealed
+            onAcknowledged={() => chestService.send("ACKNOWLEDGE")}
+            streaks={true}
+          />
         </Panel>
       );
     }
