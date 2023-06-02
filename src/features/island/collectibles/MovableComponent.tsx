@@ -116,7 +116,8 @@ const canRemoveItem = (
 export interface MovableProps {
   name: CollectibleName | BuildingName | "Chicken";
   id: string;
-  coordinates: Coordinates;
+  x: number;
+  y: number;
 }
 
 const getMovingItem = (state: MachineState) => state.context.moving;
@@ -124,7 +125,8 @@ const getMovingItem = (state: MachineState) => state.context.moving;
 export const MoveableComponent: React.FC<MovableProps> = ({
   name,
   id,
-  coordinates,
+  x: coordinatesX,
+  y: coordinatesY,
   children,
 }) => {
   const { scale } = useContext(ZoomContext);
@@ -221,176 +223,174 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const origin = useRef<Coordinates>({ x: 0, y: 0 });
 
   return (
-    <>
-      <Draggable
-        key={`${coordinates?.x}-${coordinates?.y}-${counts}`}
-        nodeRef={nodeRef}
-        grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
-        scale={scale.get()}
-        allowAnyClick
+    <Draggable
+      key={`${coordinatesX}-${coordinatesY}-${counts}`}
+      nodeRef={nodeRef}
+      grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+      scale={scale.get()}
+      allowAnyClick
+      // Mobile must click first, before dragging
+      disabled={isMobile && !isSelected}
+      onMouseDown={() => {
         // Mobile must click first, before dragging
-        disabled={isMobile && !isSelected}
-        onMouseDown={() => {
-          // Mobile must click first, before dragging
 
-          if (isMobile && !isActive.current) {
-            isActive.current = true;
-
-            return;
-          }
-
-          landscapingMachine.send("MOVE", {
-            name,
-            id,
-          });
-
+        if (isMobile && !isActive.current) {
           isActive.current = true;
-        }}
-        onStart={(_, data) => {
-          const x = Math.round(data.x);
-          const y = Math.round(-data.y);
-          origin.current = { x, y };
-        }}
-        onDrag={(_, data) => {
-          const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
-          const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
 
-          const x = coordinates.x + xDiff;
-          const y = coordinates.y + yDiff;
-          detect({ x, y });
-          setIsDragging(true);
-        }}
-        onStop={(_, data) => {
-          setIsDragging(false);
+          return;
+        }
 
-          const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
-          const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
+        landscapingMachine.send("MOVE", {
+          name,
+          id,
+        });
 
-          const x = coordinates.x + xDiff;
-          const y = coordinates.y + yDiff;
+        isActive.current = true;
+      }}
+      onStart={(_, data) => {
+        const x = Math.round(data.x);
+        const y = Math.round(-data.y);
+        origin.current = { x, y };
+      }}
+      onDrag={(_, data) => {
+        const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
+        const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
 
-          const hasMoved = x !== coordinates.x || y !== coordinates.y;
-          if (!hasMoved) {
-            return;
-          }
+        const x = coordinatesX + xDiff;
+        const y = coordinatesY + yDiff;
+        detect({ x, y });
+        setIsDragging(true);
+      }}
+      onStop={(_, data) => {
+        setIsDragging(false);
 
-          const game = removePlaceable({
-            state: gameService.state.context.state,
+        const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
+        const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
+
+        const x = coordinatesX + xDiff;
+        const y = coordinatesY + yDiff;
+
+        const hasMoved = x !== coordinatesX || y !== coordinatesY;
+        if (!hasMoved) {
+          return;
+        }
+
+        const game = removePlaceable({
+          state: gameService.state.context.state,
+          id,
+          name,
+        });
+        const collisionDetected = detectCollision(game, {
+          x,
+          y,
+          width: dimensions.width,
+          height: dimensions.height,
+        });
+
+        if (!collisionDetected) {
+          gameService.send(getMoveAction(name), {
+            // Don't send name for resource events
+            ...(name in RESOURCE_MOVE_EVENTS ? {} : { name }),
+            coordinates: {
+              x: coordinatesX + xDiff,
+              y: coordinatesY + yDiff,
+            },
             id,
-            name,
           });
-          const collisionDetected = detectCollision(game, {
-            x,
-            y,
-            width: dimensions.width,
-            height: dimensions.height,
-          });
-
-          if (!collisionDetected) {
-            gameService.send(getMoveAction(name), {
-              // Don't send name for resource events
-              ...(name in RESOURCE_MOVE_EVENTS ? {} : { name }),
-              coordinates: {
-                x: coordinates.x + xDiff,
-                y: coordinates.y + yDiff,
-              },
-              id,
-            });
-          }
-        }}
+        }
+      }}
+    >
+      <div
+        ref={nodeRef}
+        data-prevent-drag-scroll
+        className={classNames("h-full relative", {
+          "cursor-grabbing": isDragging,
+          "cursor-pointer": !isDragging,
+        })}
       >
-        <div
-          ref={nodeRef}
-          data-prevent-drag-scroll
-          className={classNames("h-full relative", {
-            "cursor-grabbing": isDragging,
-            "cursor-pointer": !isDragging,
-          })}
-        >
-          {isSelected && (
+        {isSelected && (
+          <div
+            className="absolute z-10 flex"
+            style={{
+              right: `${PIXEL_SCALE * -(canRemove ? 34 : 12)}px`,
+              top: `${PIXEL_SCALE * -12}px`,
+            }}
+          >
             <div
-              className="absolute z-10 flex"
+              className="relative mr-2"
               style={{
-                right: `${PIXEL_SCALE * -(canRemove ? 34 : 12)}px`,
-                top: `${PIXEL_SCALE * -12}px`,
+                width: `${PIXEL_SCALE * 18}px`,
               }}
             >
+              <img className="w-full" src={SUNNYSIDE.icons.disc} />
+              {isDragging ? (
+                <img
+                  className="absolute"
+                  src={SUNNYSIDE.icons.dragging}
+                  style={{
+                    width: `${PIXEL_SCALE * 12}px`,
+                    right: `${PIXEL_SCALE * 4}px`,
+                    top: `${PIXEL_SCALE * 4}px`,
+                  }}
+                />
+              ) : (
+                <img
+                  className="absolute"
+                  src={SUNNYSIDE.icons.drag}
+                  style={{
+                    width: `${PIXEL_SCALE * 14}px`,
+                    right: `${PIXEL_SCALE * 2}px`,
+                    top: `${PIXEL_SCALE * 2}px`,
+                  }}
+                />
+              )}
+            </div>
+            {canRemove && (
               <div
-                className="relative mr-2"
+                className="relative cursor-pointer"
                 style={{
                   width: `${PIXEL_SCALE * 18}px`,
                 }}
+                onClick={(e) => {
+                  remove();
+                  e.preventDefault();
+                }}
               >
                 <img className="w-full" src={SUNNYSIDE.icons.disc} />
-                {isDragging ? (
+                {isSelected && showRemoveConfirmation ? (
                   <img
                     className="absolute"
-                    src={SUNNYSIDE.icons.dragging}
+                    src={SUNNYSIDE.icons.confirm}
                     style={{
                       width: `${PIXEL_SCALE * 12}px`,
-                      right: `${PIXEL_SCALE * 4}px`,
-                      top: `${PIXEL_SCALE * 4}px`,
+                      right: `${PIXEL_SCALE * 3}px`,
+                      top: `${PIXEL_SCALE * 3}px`,
                     }}
                   />
                 ) : (
                   <img
                     className="absolute"
-                    src={SUNNYSIDE.icons.drag}
+                    src={ITEM_DETAILS["Rusty Shovel"].image}
                     style={{
-                      width: `${PIXEL_SCALE * 14}px`,
-                      right: `${PIXEL_SCALE * 2}px`,
-                      top: `${PIXEL_SCALE * 2}px`,
+                      width: `${PIXEL_SCALE * 12}px`,
+                      right: `${PIXEL_SCALE * 3}px`,
+                      top: `${PIXEL_SCALE * 3}px`,
                     }}
                   />
                 )}
               </div>
-              {canRemove && (
-                <div
-                  className="relative cursor-pointer"
-                  style={{
-                    width: `${PIXEL_SCALE * 18}px`,
-                  }}
-                  onClick={(e) => {
-                    remove();
-                    e.preventDefault();
-                  }}
-                >
-                  <img className="w-full" src={SUNNYSIDE.icons.disc} />
-                  {isSelected && showRemoveConfirmation ? (
-                    <img
-                      className="absolute"
-                      src={SUNNYSIDE.icons.confirm}
-                      style={{
-                        width: `${PIXEL_SCALE * 12}px`,
-                        right: `${PIXEL_SCALE * 3}px`,
-                        top: `${PIXEL_SCALE * 3}px`,
-                      }}
-                    />
-                  ) : (
-                    <img
-                      className="absolute"
-                      src={ITEM_DETAILS["Rusty Shovel"].image}
-                      style={{
-                        width: `${PIXEL_SCALE * 12}px`,
-                        right: `${PIXEL_SCALE * 3}px`,
-                        top: `${PIXEL_SCALE * 3}px`,
-                      }}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-          <div
-            className={classNames("h-full pointer-events-none", {
-              "bg-red-500 bg-opacity-75": isColliding,
-              "bg-green-300 bg-opacity-50": !isColliding && isSelected,
-            })}
-          >
-            {children}
+            )}
           </div>
+        )}
+        <div
+          className={classNames("h-full pointer-events-none", {
+            "bg-red-500 bg-opacity-75": isColliding,
+            "bg-green-300 bg-opacity-50": !isColliding && isSelected,
+          })}
+        >
+          {children}
         </div>
-      </Draggable>
-    </>
+      </div>
+    </Draggable>
   );
 };

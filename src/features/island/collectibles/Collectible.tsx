@@ -121,7 +121,6 @@ import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "./MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { DawnBreakerBanner } from "./components/DawnBreakerBanner";
 import { SolarFlareBanner } from "./components/SolarFlareBanner";
 import { HumanBanner } from "./components/HumanBanner";
@@ -153,14 +152,15 @@ import lightning from "assets/icons/lightning.png";
 import { EmeraldTurtle } from "./components/EmeraldTurtle";
 import { TinTurtle } from "./components/TinTurtle";
 
-export interface CollectibleProps {
+export type CollectibleProps = {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
-  coordinates: Coordinates;
+  x: number;
+  y: number;
   grid: GameGrid;
-}
+};
 
 type Props = CollectibleProps & {
   showTimers: boolean;
@@ -512,7 +512,8 @@ const InProgressCollectible: React.FC<Props> = ({
   readyAt,
   createdAt,
   showTimers,
-  coordinates,
+  x,
+  y,
   grid,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -535,7 +536,8 @@ const InProgressCollectible: React.FC<Props> = ({
             id={id}
             name={name}
             readyAt={readyAt}
-            coordinates={coordinates}
+            x={x}
+            y={y}
             grid={grid}
           />
         </div>
@@ -574,7 +576,8 @@ const CollectibleComponent: React.FC<Props> = ({
   id,
   readyAt,
   createdAt,
-  coordinates,
+  x,
+  y,
   showTimers,
   grid,
 }) => {
@@ -593,7 +596,8 @@ const CollectibleComponent: React.FC<Props> = ({
           id={id}
           createdAt={createdAt}
           readyAt={readyAt}
-          coordinates={coordinates}
+          x={x}
+          y={y}
           showTimers={showTimers}
           grid={grid}
         />
@@ -604,7 +608,8 @@ const CollectibleComponent: React.FC<Props> = ({
           id={id}
           createdAt={createdAt}
           readyAt={readyAt}
-          coordinates={coordinates}
+          x={x}
+          y={y}
           grid={grid}
         />
       )}
@@ -613,6 +618,8 @@ const CollectibleComponent: React.FC<Props> = ({
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
+const MemorizedCollectibleComponent = React.memo(CollectibleComponent);
 
 export const Collectible: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
@@ -629,5 +636,5 @@ export const Collectible: React.FC<Props> = (props) => {
     );
   }
 
-  return <CollectibleComponent {...props} />;
+  return <MemorizedCollectibleComponent {...props} />;
 };
