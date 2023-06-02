@@ -1,5 +1,5 @@
 import shuffle from "lodash.shuffle";
-import { BASIC_POTIONS } from "./potions";
+import { POTIONS } from "./potions";
 import { Combination, GuessFeedback } from "./types";
 
 export function calculateScore(feedback?: GuessFeedback[]): number {
@@ -33,11 +33,8 @@ export function calculateScore(feedback?: GuessFeedback[]): number {
 
 // TEMP FUNCTION
 export const generatePotionCombination = (): Combination => {
-  const bomb =
-    BASIC_POTIONS[Math.floor(Math.random() * BASIC_POTIONS.length)].name;
-  const filteredPotions = BASIC_POTIONS.filter(
-    (potion) => potion.name !== bomb
-  );
+  const bomb = POTIONS[Math.floor(Math.random() * POTIONS.length)].name;
+  const filteredPotions = POTIONS.filter((potion) => potion.name !== bomb);
 
   const code = shuffle(filteredPotions)
     .slice(0, 4)

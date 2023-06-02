@@ -109,6 +109,7 @@ export const ResultPage: React.FC<ResultProps> = ({ score }) => {
   return (
     <>
       <div className="flex flex-col h-full">
+        <div>{score}/100</div>
         <div>{text}</div>
         <div className="flex justify-evenly grow items-center">
           <div>{prize?.name}</div>

@@ -9,7 +9,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
 
 export const PotionHouse: React.FC = () => {
-  const [page, setPage] = useState<"intro" | "game" | "result">("intro");
+  const [page, setPage] = useState<"intro" | "game" | "result">("game");
   const [score, setScore] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
@@ -21,16 +21,9 @@ export const PotionHouse: React.FC = () => {
 
   return (
     <>
-      <Modal
-        size="lg"
-        show={showModal}
-        centered
-        onHide={() => setShowModal(false)}
-      >
+      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
         <div
-          // id="expanding-container"
           className="bg-brown-600 text-white relative"
-          // ref={expandedDivRef}
           style={{
             ...pixelRoomBorderStyle,
             padding: `${PIXEL_SCALE * 1}px`,

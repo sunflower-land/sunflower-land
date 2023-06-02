@@ -6,12 +6,13 @@ import speechBubbleBottom from "assets/ui/speech_bubble_bottom.webp";
 
 interface Props {
   text: string;
+  className?: string;
 }
 
-export const SpeechBubble: React.FC<Props> = ({ text }) => {
+export const SpeechBubble: React.FC<Props> = ({ text, className }) => {
   return (
     <div
-      className="relative flex items-center"
+      className={`relative flex items-center ${className}`}
       style={{ ...pixelSpeechBubbleBorderStyle }}
     >
       <span className="text-[12px] leading-4 font-speech text-shadow-none text-black">

@@ -1,18 +1,22 @@
-import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { pixelDarkBorderStyle } from "features/game/lib/style";
+import {
+  pixelDarkBorderStyle,
+  pixelLightBorderStyle,
+} from "features/game/lib/style";
 import React from "react";
-import { BASIC_POTIONS } from "./lib/potions";
+import { POTIONS } from "./lib/potions";
 import { PotionName, GuessFeedback, FeedbackIcons } from "./lib/types";
+import classNames from "classnames";
 
 const INNER_CANVAS_WIDTH = 14;
 
 interface Props {
-  guess?: PotionName;
+  potionName: PotionName | null;
   feedback?: GuessFeedback;
+  onClick?: () => void;
 }
 
-export const Box: React.FC<Props> = ({ guess, feedback }) => {
+export const Box: React.FC<Props> = ({ potionName, feedback, onClick }) => {
   return (
     <div className="relative">
       {feedback && (
@@ -27,19 +31,21 @@ export const Box: React.FC<Props> = ({ guess, feedback }) => {
         />
       )}
       <div
-        className="bg-brown-600 cursor-pointer m-1"
+        className={classNames("bg-brown-600 cursor-pointer m-1", {
+          "bg-brown-600": !onClick,
+          "bg-brown-200": !!onClick,
+        })}
         style={{
           width: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
           height: `${PIXEL_SCALE * INNER_CANVAS_WIDTH}px`,
-          ...pixelDarkBorderStyle,
+          ...(onClick ? pixelLightBorderStyle : pixelDarkBorderStyle),
         }}
+        onClick={onClick}
       >
-        {guess && (
+        {potionName && (
           <img
-            src={BASIC_POTIONS.find((potion) => potion.name === guess)?.image}
-            className={classNames("object-contain w-full h-full", {
-              poof: feedback === "bombed",
-            })}
+            src={POTIONS.find((potion) => potion.name === potionName)?.image}
+            className="object-contain w-full h-full"
           />
         )}
       </div>

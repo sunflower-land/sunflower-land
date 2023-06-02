@@ -36,7 +36,7 @@ export const pixelRoomBorderStyle: React.CSSProperties = {
   borderImageSlice: "20%",
   imageRendering: "pixelated",
   borderImageRepeat: "stretch",
-  borderRadius: `${PIXEL_SCALE * 5}px`,
+  borderRadius: `${PIXEL_SCALE * 8}px`,
 };
 
 export const pixelTableBorderStyle: React.CSSProperties = {

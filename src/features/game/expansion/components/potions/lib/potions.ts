@@ -6,12 +6,9 @@ import pinkBottle from "assets/decorations/pink_bottle.webp";
 import aquaBottle from "assets/decorations/aqua_bottle.webp";
 import greenBottle from "assets/decorations/green_bottle.webp";
 import mustardBottle from "assets/decorations/mustard_bottle.webp";
-import purpleBottle from "assets/decorations/purple_bottle.webp";
-import redBottle from "assets/decorations/red_bottle.webp";
 import whiteBottle from "assets/decorations/white_bottle.webp";
-import blackBottle from "assets/decorations/black_bottle.webp";
 
-export const BASIC_POTIONS: Potion[] = [
+export const POTIONS: Potion[] = [
   {
     name: "Bloom Boost",
     ingredients: {
@@ -30,7 +27,7 @@ export const BASIC_POTIONS: Potion[] = [
       Wood: 10,
     },
     image: blueBottle,
-    description: "Cheers! A potion to bring joy and laughter to your plants.",
+    description: "A potion to bring joy and laughter to your plants.",
   },
   {
     name: "Earth Essence",
@@ -71,40 +68,17 @@ export const BASIC_POTIONS: Potion[] = [
     image: mustardBottle,
     description: "Drizzle your plants with magical dreams and fantasies.",
   },
-  {
-    name: "Ember Elixir",
-    ingredients: {
-      Egg: 10,
-      Kale: 10,
-      Stone: 10,
-    },
-    image: redBottle,
-    description: "Infuse your plants with the fiery essence of determination.",
-  },
-  {
-    name: "Whisper Brew",
-    ingredients: {
-      Egg: 10,
-      Kale: 10,
-      Stone: 10,
-    },
-    image: purpleBottle,
-    description: "Craft a potion that enhances your plant's mystical aura.",
-  },
-];
-
-export const SPECIAL_POTIONS: Potion[] = [
-  {
-    name: "Miracle Mix",
-    ingredients: {
-      Egg: 10,
-      Kale: 10,
-      Stone: 10,
-    },
-    image: blackBottle,
-    description:
-      "Risk it all! 50/50 chance of booming or destroying the plant.",
-  },
+  // {
+  //   name: "Miracle Mix",
+  //   ingredients: {
+  //     Egg: 10,
+  //     Kale: 10,
+  //     Stone: 10,
+  //   },
+  //   image: blackBottle,
+  //   description:
+  //     "Risk it all! 50/50 chance of booming or destroying the plant.",
+  // },
   {
     name: "Golden Syrup",
     ingredients: {

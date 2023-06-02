@@ -28,8 +28,8 @@ export type Combination = {
 };
 
 export type Turn = {
-  guess: PotionName[];
-  feedback: GuessFeedback[];
+  guess: (PotionName | null)[];
+  feedback?: GuessFeedback[];
 };
 
 export const FeedbackIcons: Record<GuessFeedback, string> = {
