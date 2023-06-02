@@ -22,7 +22,7 @@ type Options = {
   createdAt?: number;
 };
 
-function isAOELocked(
+export function isLocked(
   rock: Rock,
   collectibles: Collectibles,
   createdAt: number
@@ -52,7 +52,7 @@ export function moveStone({
     throw new Error(MOVE_STONE_ERRORS.STONE_NOT_PLACED);
   }
 
-  if (isAOELocked(stones[action.id], stateCopy.collectibles, createdAt)) {
+  if (isLocked(stones[action.id], stateCopy.collectibles, createdAt)) {
     throw new Error(MOVE_STONE_ERRORS.AOE_LOCKED);
   }
 

@@ -23,7 +23,7 @@ type Options = {
   createdAt?: number;
 };
 
-function isLocked(
+export function isLocked(
   rock: Rock,
   collectibles: Collectibles,
   createdAt: number

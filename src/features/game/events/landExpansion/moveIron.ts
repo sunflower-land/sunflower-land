@@ -24,7 +24,7 @@ type Options = {
   createdAt?: number;
 };
 
-function isAOELocked(
+export function isLocked(
   rock: Rock,
   collectibles: Collectibles,
   createdAt: number
@@ -54,7 +54,7 @@ export function moveIron({
     throw new Error(MOVE_IRON_ERRORS.IRON_NOT_PLACED);
   }
 
-  if (isAOELocked(iron[action.id], stateCopy.collectibles, createdAt)) {
+  if (isLocked(iron[action.id], stateCopy.collectibles, createdAt)) {
     throw new Error(MOVE_IRON_ERRORS.AOE_LOCKED);
   }
 
