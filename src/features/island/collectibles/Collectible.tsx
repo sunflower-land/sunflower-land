@@ -437,7 +437,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{
         width: `${PIXEL_SCALE * 22}px`,
-        top: `${PIXEL_SCALE * -5}px`,
+        top: `${PIXEL_SCALE * -4}px`,
         left: `${PIXEL_SCALE * -3}px`,
       }}
     >
