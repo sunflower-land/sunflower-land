@@ -17,25 +17,15 @@ describe("getDeliverableItems", () => {
 
   it("includes fruits", () => {
     const filtered = getDeliverableItems({
-      Orange: new Decimal(2),
-      Blueberry: new Decimal(3),
-      Kuebiko: new Decimal(1),
-    });
-
-    expect(filtered).toEqual({
-      Orange: new Decimal(2),
-      Blueberry: new Decimal(3),
-    });
-  });
-
-  it("filter out apples", () => {
-    const filtered = getDeliverableItems({
       Apple: new Decimal(5),
+      Orange: new Decimal(2),
       Blueberry: new Decimal(3),
       Kuebiko: new Decimal(1),
     });
 
     expect(filtered).toEqual({
+      Apple: new Decimal(5),
+      Orange: new Decimal(2),
       Blueberry: new Decimal(3),
     });
   });
