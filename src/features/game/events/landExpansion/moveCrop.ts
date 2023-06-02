@@ -29,7 +29,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function isAOELocked(
+export function isLocked(
   plot: CropPlot,
   collectibles: Collectibles,
   createdAt: number
@@ -67,7 +67,10 @@ export function isAOELocked(
       width: plot.width,
     };
 
-    if (isBasicCrop && isWithinAOE(scarecrowPosition, plotPosition)) {
+    if (
+      isBasicCrop &&
+      isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)
+    ) {
       return true;
     }
   }
@@ -93,7 +96,7 @@ export function moveCrop({
     throw new Error(MOVE_CROP_ERRORS.CROP_NOT_PLACED);
   }
 
-  if (isAOELocked(plot, collectibles, createdAt)) {
+  if (isLocked(plot, collectibles, createdAt)) {
     throw new Error(MOVE_CROP_ERRORS.AOE_LOCKED);
   }
 

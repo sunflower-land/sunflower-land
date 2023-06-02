@@ -161,7 +161,7 @@ export const getCropTime = (
 
     if (
       isCollectibleBuilt("Basic Scarecrow", collectibles) &&
-      isWithinAOE(scarecrowPosition, plotPosition)
+      isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)
     ) {
       seconds = seconds * 0.8;
     }

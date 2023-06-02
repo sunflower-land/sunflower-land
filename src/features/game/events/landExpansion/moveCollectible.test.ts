@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { MOVE_COLLECTIBLE_ERRORS, moveCollectible } from "./moveCollectible";
+import { COLLECTIBLE_PLACE_SECONDS } from "./placeCollectible";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -244,6 +245,128 @@ describe("moveCollectible", () => {
         coordinates: { x: 2, y: 2 },
         createdAt: 0,
         readyAt: 0,
+      },
+      {
+        id: "456",
+        coordinates: { x: 4, y: 4 },
+        createdAt: 0,
+        readyAt: 0,
+      },
+      {
+        id: "789",
+        coordinates: {
+          x: 8,
+          y: 8,
+        },
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ]);
+  });
+
+  it("updates readyAt when moving Emerald Turtle", () => {
+    const gameState = moveCollectible({
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          "Emerald Turtle": [
+            {
+              id: "123",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+            {
+              id: "456",
+              coordinates: { x: 4, y: 4 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+            {
+              id: "789",
+              coordinates: { x: 8, y: 8 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "collectible.moved",
+        name: "Emerald Turtle",
+        id: "123",
+        coordinates: { x: 2, y: 2 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(gameState.collectibles["Emerald Turtle"]).toEqual([
+      {
+        id: "123",
+        coordinates: { x: 2, y: 2 },
+        createdAt: 0,
+        readyAt: dateNow + COLLECTIBLE_PLACE_SECONDS["Emerald Turtle"]! * 1000,
+      },
+      {
+        id: "456",
+        coordinates: { x: 4, y: 4 },
+        createdAt: 0,
+        readyAt: 0,
+      },
+      {
+        id: "789",
+        coordinates: {
+          x: 8,
+          y: 8,
+        },
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ]);
+  });
+
+  it("updates readyAt when moving Tin Turtle", () => {
+    const gameState = moveCollectible({
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          "Tin Turtle": [
+            {
+              id: "123",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+            {
+              id: "456",
+              coordinates: { x: 4, y: 4 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+            {
+              id: "789",
+              coordinates: { x: 8, y: 8 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "collectible.moved",
+        name: "Tin Turtle",
+        id: "123",
+        coordinates: { x: 2, y: 2 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(gameState.collectibles["Tin Turtle"]).toEqual([
+      {
+        id: "123",
+        coordinates: { x: 2, y: 2 },
+        createdAt: 0,
+        readyAt: dateNow + COLLECTIBLE_PLACE_SECONDS["Tin Turtle"]! * 1000,
       },
       {
         id: "456",

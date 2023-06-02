@@ -123,8 +123,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Genie Lamp": 460,
   Hoot: 461,
   "Basic Scarecrow": 462,
-  // Scarecrow 2: 463
-  // Scarecrow 3: 464
+  "Emerald Turtle": 463,
+  "Tin Turtle": 464,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -293,6 +293,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Golden Crop": 924,
   "Wooden Compass": 925,
   "Pablo The Bunny": 926,
+  "Iron Compass": 927,
+  "Old Bottle": 928,
 
   // Buildings
   Market: 1001,

@@ -16,7 +16,11 @@ import { useActor, useSelector } from "@xstate/react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
-import { isAOELocked } from "features/game/events/landExpansion/moveCrop";
+import { isLocked as isPlotLocked } from "features/game/events/landExpansion/moveCrop";
+import { isLocked as isStoneLocked } from "features/game/events/landExpansion/moveStone";
+import { isLocked as isIronLocked } from "features/game/events/landExpansion/moveIron";
+import { isLocked as isGoldLocked } from "features/game/events/landExpansion/moveGold";
+
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
@@ -151,10 +155,32 @@ const ResourceComponent: React.FC<ResourceProps> = (props) => {
 
   const Component = RESOURCE_COMPONENTS[props.name];
 
-  const isPlot = props.name === "Crop Plot";
-
-  const plot = gameState.context.state.crops[props.id];
   const collectibles = gameState.context.state.collectibles;
+
+  const isResourceLocked = (): boolean => {
+    const isPlot = props.name === "Crop Plot";
+    const isStone = props.name === "Stone Rock";
+    const isIron = props.name === "Iron Rock";
+    const isGold = props.name === "Gold Rock";
+
+    if (isPlot) {
+      const plot = gameState.context.state.crops[props.id];
+      return isPlotLocked(plot, collectibles, Date.now());
+    }
+    if (isStone) {
+      const stone = gameState.context.state.stones[props.id];
+      return isStoneLocked(stone, collectibles, Date.now());
+    }
+    if (isIron) {
+      const iron = gameState.context.state.iron[props.id];
+      return isIronLocked(iron, collectibles, Date.now());
+    }
+    if (isGold) {
+      const gold = gameState.context.state.gold[props.id];
+      return isGoldLocked(gold, collectibles, Date.now());
+    }
+    return false;
+  };
 
   const handleMouseEnter = () => {
     // set state to show details
@@ -167,7 +193,7 @@ const ResourceComponent: React.FC<ResourceProps> = (props) => {
   };
 
   if (landscaping) {
-    if (isPlot && isAOELocked(plot, collectibles, Date.now())) {
+    if (isResourceLocked()) {
       return (
         <div
           className="relative w-full h-full"
