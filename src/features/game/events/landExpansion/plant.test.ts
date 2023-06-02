@@ -23,6 +23,8 @@ const GAME_STATE: GameState = {
   },
 };
 
+const firstCropId = Object.keys(GAME_STATE.crops)[0];
+
 describe("plant", () => {
   const dateNow = Date.now();
 
@@ -598,12 +600,16 @@ describe("plant", () => {
 });
 
 describe("getCropTime", () => {
+  const dateNow = Date.now();
+  const plot = GAME_STATE.crops[firstCropId];
+
   it("applies a 5% speed boost with Cultivator skill", () => {
     const time = getCropTime(
       "Carrot",
       {},
       {},
-      { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } }
+      { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
+      plot
     );
 
     expect(time).toEqual(57 * 60);
@@ -617,7 +623,8 @@ describe("getCropTime", () => {
       {
         ...INITIAL_BUMPKIN,
         equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
-      }
+      },
+      plot
     );
 
     expect(time).toEqual(60 * 60 * 0.8);
@@ -633,12 +640,13 @@ describe("getCropTime", () => {
           {
             id: "123",
             coordinates: { x: -1, y: -1 },
-            createdAt: Date.now() - 100,
-            readyAt: Date.now() - 100,
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
           },
         ],
       },
-      { ...INITIAL_BUMPKIN }
+      { ...INITIAL_BUMPKIN },
+      plot
     );
 
     expect(time).toEqual(carrotHarvestSeconds * 0.9);
@@ -654,12 +662,13 @@ describe("getCropTime", () => {
           {
             id: "123",
             coordinates: { x: -1, y: -1 },
-            createdAt: Date.now() - 100,
-            readyAt: Date.now() - 100,
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
           },
         ],
       },
-      { ...INITIAL_BUMPKIN }
+      { ...INITIAL_BUMPKIN },
+      plot
     );
 
     expect(time).toEqual(cabbageHarvestSeconds * 0.5);
@@ -675,15 +684,153 @@ describe("getCropTime", () => {
           {
             id: "123",
             coordinates: { x: -1, y: -1 },
-            createdAt: Date.now() - 100,
-            readyAt: Date.now() - 100,
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
           },
         ],
       },
-      { ...INITIAL_BUMPKIN }
+      { ...INITIAL_BUMPKIN },
+      plot
     );
 
     expect(time).toEqual(eggplantHarvestSeconds * 0.75);
+  });
+
+  it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Sunflower", () => {
+    const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
+
+    const time = getCropTime(
+      "Sunflower",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -2 }
+    );
+
+    expect(time).toEqual(sunflowerHarvestSeconds * 0.8);
+  });
+
+  it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Potato", () => {
+    const potatoHarvestSeconds = CROPS()["Potato"].harvestSeconds;
+
+    const time = getCropTime(
+      "Potato",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -2 }
+    );
+
+    expect(time).toEqual(potatoHarvestSeconds * 0.8);
+  });
+  it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Pumpkin", () => {
+    const pumpkinHarvestSeconds = CROPS()["Pumpkin"].harvestSeconds;
+
+    const time = getCropTime(
+      "Pumpkin",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -2 }
+    );
+
+    expect(time).toEqual(pumpkinHarvestSeconds * 0.8);
+  });
+
+  it("does not apply boost with Basic Scarecrow if not basic crop", () => {
+    const beetrootHarvestSeconds = CROPS()["Beetroot"].harvestSeconds;
+
+    const time = getCropTime(
+      "Beetroot",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -2 }
+    );
+
+    expect(time).toEqual(beetrootHarvestSeconds);
+  });
+
+  it("does not apply boost with Basic Scarecrow placed, if plot is outside AOE", () => {
+    const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
+
+    const time = getCropTime(
+      "Sunflower",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 2, y: -2 }
+    );
+
+    expect(time).toEqual(sunflowerHarvestSeconds);
+  });
+
+  it("does not apply boost with Basic Scarecrow placed, if it was moved within 10min", () => {
+    const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
+
+    const time = getCropTime(
+      "Sunflower",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow,
+            readyAt: dateNow + 600000,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -3 }
+    );
+
+    expect(time).toEqual(sunflowerHarvestSeconds);
   });
 });
 

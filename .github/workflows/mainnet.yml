@@ -33,6 +33,7 @@ jobs:
           VITE_API_URL: ${{ secrets.API_URL }}
           VITE_WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
+          VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
           VITE_NETWORK: mainnet
           VITE_ACCOUNT_MINTER_CONTRACT: "0xc346421541CBbFD080D26E571118b63eC2e292c3"
           VITE_FARM_CONTRACT: "0x2B4A66557A79263275826AD31a4cDDc2789334bD"
@@ -66,6 +67,7 @@ jobs:
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
           VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
+          VITE_POKO_DIRECT_CHECKOUT_API_KEY: ${{ secrets.POKO_DIRECT_CHECKOUT_API_KEY }}
           VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/game-assets"
 
           VITE_BUMPKIN_DETAILS_CONTRACT: "0x687BcED586A8AECEdA5bd6b142577DE1d83a2a9c"
@@ -84,3 +86,12 @@ jobs:
 
       - name: Deploy static site to S3 bucket
         run: aws s3 sync ./dist/ s3://www.sunflower-land.com/play --delete
+
+      - name: Invalidate CloudFront
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ secrets.CF_DISTRIBUTION }}
+          PATHS: "/play/*"
+          AWS_REGION: "us-east-1"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

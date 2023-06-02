@@ -65,7 +65,7 @@ import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bean, getBeanStates } from "./components/Bean";
+import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
 import { ChristmasBear } from "./components/ChristmasBear";
@@ -113,8 +113,6 @@ import { EasterBear } from "features/island/collectibles/components/EasterBear";
 import { EasterBush } from "features/island/collectibles/components/EasterBush";
 import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
 import { MushroomHouse } from "./components/MushroomHouse";
-import classNames from "classnames";
-import { isBean } from "features/game/types/beans";
 import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
 import { Fence } from "./components/Fence";
@@ -123,7 +121,6 @@ import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "./MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { DawnBreakerBanner } from "./components/DawnBreakerBanner";
 import { SolarFlareBanner } from "./components/SolarFlareBanner";
 import { HumanBanner } from "./components/HumanBanner";
@@ -150,15 +147,20 @@ import { AuroraLantern } from "./components/AuroraLantern";
 import { RadianceLantern } from "./components/RadianceLantern";
 import { Hoot } from "./components/Hoot";
 import { GenieBear } from "./components/GenieBear";
+import { BasicScarecrow } from "./components/BasicScarecrow";
+import lightning from "assets/icons/lightning.png";
+import { EmeraldTurtle } from "./components/EmeraldTurtle";
+import { TinTurtle } from "./components/TinTurtle";
 
-export interface CollectibleProps {
+export type CollectibleProps = {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
-  coordinates: Coordinates;
+  x: number;
+  y: number;
   grid: GameGrid;
-}
+};
 
 type Props = CollectibleProps & {
   showTimers: boolean;
@@ -228,6 +230,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Nancy,
   Scarecrow,
   Kuebiko,
+  "Basic Scarecrow": BasicScarecrow,
+
   "Carrot Sword": CarrotSword,
 
   // Flags
@@ -310,6 +314,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
   "Iron Idol": IronIdol,
+  "Emerald Turtle": EmeraldTurtle,
+  "Tin Turtle": TinTurtle,
 
   // Solar Flare Items
   "Beach Ball": BeachBall,
@@ -360,6 +366,110 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       style={{ width: `${PIXEL_SCALE * 16}px` }}
     />
   ),
+
+  "Basic Scarecrow": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
+    >
+      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full" />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Emerald Turtle": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 22}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Emerald Turtle"].image}
+        className="w-full"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Tin Turtle": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 22}px`,
+        top: `${PIXEL_SCALE * -4}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Tin Turtle"].image}
+        className="w-full"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
   "Nyon Statue": () => (
     <img
       src={ITEM_DETAILS["Nyon Statue"].image}
@@ -402,7 +512,8 @@ const InProgressCollectible: React.FC<Props> = ({
   readyAt,
   createdAt,
   showTimers,
-  coordinates,
+  x,
+  y,
   grid,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
@@ -425,7 +536,8 @@ const InProgressCollectible: React.FC<Props> = ({
             id={id}
             name={name}
             readyAt={readyAt}
-            coordinates={coordinates}
+            x={x}
+            y={y}
             grid={grid}
           />
         </div>
@@ -464,7 +576,8 @@ const CollectibleComponent: React.FC<Props> = ({
   id,
   readyAt,
   createdAt,
-  coordinates,
+  x,
+  y,
   showTimers,
   grid,
 }) => {
@@ -474,51 +587,39 @@ const CollectibleComponent: React.FC<Props> = ({
 
   useUiRefresher({ active: inProgress });
 
-  const isBeanAndFullyGrown =
-    isBean(name) && getBeanStates(name, createdAt).isReady;
-  const canRemoveOnClick = !isBeanAndFullyGrown && !inProgress;
-
   return (
-    <>
-      <div
-        className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": canRemoveOnClick,
-        })}
-      >
-        <div
-          className={classNames("h-full", {
-            "pointer-events-none": canRemoveOnClick,
-          })}
-        >
-          {inProgress ? (
-            <InProgressCollectible
-              key={id}
-              name={name}
-              id={id}
-              createdAt={createdAt}
-              readyAt={readyAt}
-              coordinates={coordinates}
-              showTimers={showTimers}
-              grid={grid}
-            />
-          ) : (
-            <CollectiblePlaced
-              key={id}
-              name={name}
-              id={id}
-              createdAt={createdAt}
-              readyAt={readyAt}
-              coordinates={coordinates}
-              grid={grid}
-            />
-          )}
-        </div>
-      </div>
-    </>
+    <div className="h-full">
+      {inProgress ? (
+        <InProgressCollectible
+          key={id}
+          name={name}
+          id={id}
+          createdAt={createdAt}
+          readyAt={readyAt}
+          x={x}
+          y={y}
+          showTimers={showTimers}
+          grid={grid}
+        />
+      ) : (
+        <CollectiblePlaced
+          key={id}
+          name={name}
+          id={id}
+          createdAt={createdAt}
+          readyAt={readyAt}
+          x={x}
+          y={y}
+          grid={grid}
+        />
+      )}
+    </div>
   );
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
+const MemorizedCollectibleComponent = React.memo(CollectibleComponent);
 
 export const Collectible: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
@@ -535,5 +636,5 @@ export const Collectible: React.FC<Props> = (props) => {
     );
   }
 
-  return <CollectibleComponent {...props} />;
+  return <MemorizedCollectibleComponent {...props} />;
 };

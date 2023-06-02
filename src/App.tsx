@@ -1,11 +1,11 @@
 import React from "react";
 
-import * as Auth from "features/auth/lib/Provider";
 import { initialise } from "lib/utils/init";
-import { Navigation } from "./Navigation";
 
 import "./styles.css";
+import * as Auth from "features/auth/lib/Provider";
 import ErrorBoundary from "features/auth/components/ErrorBoundary";
+import { Navigation } from "./Navigation";
 
 // Initialise Global Settings
 initialise();

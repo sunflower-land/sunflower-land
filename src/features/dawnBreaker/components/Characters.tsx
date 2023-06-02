@@ -175,10 +175,18 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
               width: `${PIXEL_SCALE * 15}px`,
               bottom: `${PIXEL_SCALE * 1}px`,
               left: `${PIXEL_SCALE * 0}px`,
+              transform: wendy.flip ? "scaleX(-1)" : "scaleX(1)",
             }}
             // Remove brightness-50  if npc is in a bright part of the map
-            className="brightness-50 absolute"
+            className={classNames("brightness-50 absolute", {
+              "cursor-pointer hover:img-highlight": hasDialogue("wendy"),
+            })}
             alt="Wood Nymph Wendy"
+            onClick={
+              hasDialogue("wendy")
+                ? () => handleDialogueOpen("wendy")
+                : undefined
+            }
           />
         </MapPlacement>
       )}
@@ -186,7 +194,6 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
         show={showDialogue}
         onHide={handleDialogueClose}
         onExited={() => setSpeaking(null)}
-        onBackdropClick={() => setSpeaking(null)}
         centered
       >
         {speaking && (

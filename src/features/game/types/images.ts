@@ -29,6 +29,7 @@ import carrotSword from "assets/sfts/carrot_sword.png";
 import goldenBonsai from "assets/sfts/golden_bonsai.png";
 import nancy from "assets/sfts/nancy.png";
 import kuebiko from "assets/sfts/kuebiko.gif";
+import basicScarecrow from "assets/sfts/scarecrows/basic_scarecrow.png";
 import nyonStatue from "assets/sfts/nyon_statue.png";
 import homelessTent from "assets/sfts/homeless_tent.png";
 import farmerBath from "assets/sfts/farmer_bath.png";
@@ -313,6 +314,8 @@ import valentineBear from "src/assets/sfts/bears/love_bear.png";
 import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
+import emeraldTurtle from "src/assets/sfts/emerald_turtle.webp";
+import tinTurtle from "src/assets/sfts/tin_turtle.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -334,6 +337,7 @@ import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
 import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
+import ironCompass from "assets/sfts/treasure/iron_compass.webp";
 import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
 import heartBalloons from "assets/events/valentine/sfts/heart_balloons.png";
 import flamingo from "assets/events/valentine/sfts/flamingo.webp";
@@ -352,6 +356,7 @@ import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
 import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
+import oldBottle from "assets/sfts/treasure/old_bottle.png";
 
 import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
 import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
@@ -774,6 +779,10 @@ export const ITEM_DETAILS: Items = {
   Kuebiko: {
     ...MARKET_ITEMS["Kuebiko"],
     image: kuebiko,
+  },
+  "Basic Scarecrow": {
+    description: HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].description,
+    image: basicScarecrow,
   },
   "Christmas Tree": {
     ...BLACKSMITH_ITEMS["Christmas Tree"],
@@ -1872,6 +1881,15 @@ export const ITEM_DETAILS: Items = {
       "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
     image: woodenCompass,
   },
+  "Iron Compass": {
+    description:
+      "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
+    image: ironCompass,
+  },
+  "Old Bottle": {
+    description: "Antique pirate bottle, echoing tales of high seas adventure.",
+    image: oldBottle,
+  },
   "Tiki Totem": {
     description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
     image: tikiTotem,
@@ -1947,6 +1965,14 @@ export const ITEM_DETAILS: Items = {
     image: genieLamp,
     description:
       "A magical lamp that contains a genie who will grant you three wishes.",
+  },
+  "Emerald Turtle": {
+    image: emeraldTurtle,
+    description: GOBLIN_PIRATE_ITEMS["Emerald Turtle"].description,
+  },
+  "Tin Turtle": {
+    image: tinTurtle,
+    description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
   },
 
   // Season tickets

@@ -236,6 +236,7 @@ const warBanners = {
 const heliosBlacksmith: Record<HeliosBlacksmithItem, boolean> = {
   "Immortal Pear": false,
   "Treasure Map": false,
+  "Basic Scarecrow": false,
 };
 
 const commodities: Record<CommodityName, boolean> = {
@@ -608,6 +609,8 @@ const goblinPirate: Record<GoblinPirateItemName, WithdrawCondition> = {
   "Iron Idol": (game) => !areAnyIronsMined(game),
   "Heart of Davy Jones": (game) => !areAnyTreasureHolesDug(game),
   Karkinos: (game) => !cropIsPlanted({ item: "Cabbage", game }),
+  "Emerald Turtle": false,
+  "Tin Turtle": false,
 };
 
 const treasureDecoration: Record<DecorationTreasure, WithdrawCondition> = {
@@ -640,6 +643,8 @@ const beachBounty: Record<BeachBountyTreasure, WithdrawCondition> = {
   "Sea Cucumber": false,
   Crab: false,
   "Wooden Compass": false,
+  "Iron Compass": false,
+  "Old Bottle": false,
 };
 
 const eventDecoration: Record<EventDecorationName, WithdrawCondition> = {

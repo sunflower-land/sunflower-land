@@ -27,6 +27,11 @@ export const COLLECTIBLE_PLACE_SECONDS: Partial<
 
   // Dawn Breaker items
   "Mushroom House": 60 * 60 * 1,
+
+  // AOE items
+  "Basic Scarecrow": 60 * 10,
+  "Emerald Turtle": 60 * 60 * 24 + 100,
+  "Tin Turtle": 60 * 60 * 4 + 100,
 };
 
 export type PlaceCollectibleAction = {

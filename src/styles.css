@@ -228,6 +228,9 @@ img {
 
 /* Custom scrollbar for item modal */
 
+.lg-modal {
+  max-width: 80%;
+}
 .scrollable::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
@@ -432,6 +435,11 @@ img {
 
 .ready {
   animation: ready-shake 4s ease infinite;
+  transform-origin: 50% 50%;
+}
+
+.shake {
+  animation: ready-shake 1s ease infinite;
   transform-origin: 50% 50%;
 }
 

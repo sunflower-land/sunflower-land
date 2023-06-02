@@ -1,7 +1,6 @@
 import React from "react";
 
 import { BuildingName } from "features/game/types/buildings";
-import { BuildingProduct } from "features/game/types/game";
 import { FirePit } from "./firePit/FirePit";
 import { WithCraftingMachine } from "./WithCraftingMachine";
 import { Market } from "./market/Market";
@@ -20,10 +19,12 @@ import { Toolshed } from "./toolshed/Toolshed";
 import { TownCenter } from "./townCenter/TownCenter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CookableName } from "features/game/types/consumables";
 
 export interface BuildingProps {
   buildingId: string;
-  craftingState?: BuildingProduct;
+  craftingItemName?: CookableName;
+  craftingReadyAt?: number;
   isBuilt?: boolean;
 }
 
@@ -31,14 +32,32 @@ export const BUILDING_COMPONENTS: Record<
   BuildingName,
   React.FC<BuildingProps>
 > = {
-  "Fire Pit": ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  "Fire Pit": ({
+    buildingId,
+    craftingItemName,
+    craftingReadyAt,
+    isBuilt,
+  }: BuildingProps) => (
+    <WithCraftingMachine
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <FirePit buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
   Workbench: WorkBench,
-  Bakery: ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  Bakery: ({
+    buildingId,
+    craftingItemName,
+    craftingReadyAt,
+    isBuilt,
+  }: BuildingProps) => (
+    <WithCraftingMachine
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <Bakery buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
@@ -49,18 +68,45 @@ export const BUILDING_COMPONENTS: Record<
   Warehouse: Warehouse,
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
-  Kitchen: ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  Kitchen: ({
+    buildingId,
+    craftingItemName,
+    craftingReadyAt,
+    isBuilt,
+  }: BuildingProps) => (
+    <WithCraftingMachine
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <Kitchen buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
-  Deli: ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  Deli: ({
+    buildingId,
+    craftingItemName,
+    craftingReadyAt,
+    isBuilt,
+  }: BuildingProps) => (
+    <WithCraftingMachine
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <Deli buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
-  "Smoothie Shack": ({ buildingId, craftingState, isBuilt }: BuildingProps) => (
-    <WithCraftingMachine buildingId={buildingId} craftingState={craftingState}>
+  "Smoothie Shack": ({
+    buildingId,
+    craftingItemName,
+    craftingReadyAt,
+    isBuilt,
+  }: BuildingProps) => (
+    <WithCraftingMachine
+      buildingId={buildingId}
+      craftingItemName={craftingItemName}
+      craftingReadyAt={craftingReadyAt}
+    >
       <SmoothieShack buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),

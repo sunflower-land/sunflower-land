@@ -2,14 +2,15 @@ import React from "react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { NPCParts } from "features/island/bumpkin/components/NPC";
 
-import obieImg from "assets/npcs/obie.png";
+import obieGif from "assets/sfts/obie.gif";
 import maxiumusImg from "assets/npcs/maximus.png";
 import snailImg from "assets/npcs/snail.png";
+import wendyImg from "assets/sfts/wood_nymph_wendy.gif";
 
 export type Week = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type SpeakingBumpkin = "marcus" | "bella" | "sofia";
-export type SpeakingNonBumpkin = "maximus" | "obie" | "snail";
+export type SpeakingNonBumpkin = "maximus" | "obie" | "snail" | "wendy";
 export type SpeakingCharacter = SpeakingBumpkin | SpeakingNonBumpkin;
 
 export function isSpeakingBumpkin(
@@ -73,8 +74,9 @@ export const bumpkinParts: Record<SpeakingBumpkin, Partial<NPCParts>> = {
 
 export const characterImages: Record<SpeakingNonBumpkin, string> = {
   maximus: maxiumusImg,
-  obie: obieImg,
+  obie: obieGif,
   snail: snailImg,
+  wendy: wendyImg,
 };
 
 export const characters: Record<Week, DawnBreakerPositions> = {
@@ -250,24 +252,24 @@ export const characters: Record<Week, DawnBreakerPositions> = {
   3: {
     lanterns: [
       {
-        x: 10,
-        y: 5,
+        x: 9,
+        y: 4,
       },
       {
         x: 8,
-        y: 3,
+        y: 2,
       },
       {
-        x: 9,
-        y: 0,
-      },
-      {
-        x: 11,
-        y: 0,
+        x: 10,
+        y: 1,
       },
       {
         x: 12,
-        y: 3,
+        y: 2,
+      },
+      {
+        x: 11,
+        y: 4,
       },
     ],
     marcus: {
@@ -324,29 +326,80 @@ export const characters: Record<Week, DawnBreakerPositions> = {
   4: {
     lanterns: [
       {
-        x: -11,
-        y: -2,
-      },
-      {
-        x: -13,
-        y: -4,
-      },
-      {
         x: -12,
-        y: -6,
+        y: -3,
       },
       {
         x: -10,
-        y: -6,
+        y: -3,
+      },
+      {
+        x: -13,
+        y: -5,
       },
       {
         x: -9,
-        y: -4,
+        y: -5,
+      },
+      {
+        x: -11,
+        y: -7,
       },
     ],
+    marcus: {
+      x: 4,
+      y: -12,
+      dialogue: (
+        <>
+          <p>{`Marcus: This little gnome seemed so insignificant.`}</p>
+          <p>{`I guess it wasn't. I should have just left it alone.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 2,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: Oh thank the gods, Sofia is back`}</p>
+          <p>{`"What did you find out?"`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: 1,
+      y: -13,
+      dialogue: (
+        <>
+          <p>{`Sofia: Hoot was no help with these dizzying riddles.`}</p>
+          <p>{`There was two creatures guarding the Bell Tower.`}</p>
+          <p>{`They frightened me at first but I sensed some sadness there too. Like maybe they had lost something too..`}</p>
+        </>
+      ),
+    },
     bumpkin: {
       x: -11,
       y: -4,
+    },
+    maximus: {
+      x: -7,
+      y: -11,
+      flip: true,
+    },
+    wendy: {
+      x: -5,
+      y: -5,
+      flip: true,
+    },
+    obie: {
+      x: -8,
+      y: -12,
+      dialogue: (
+        <>
+          <p>You took what is ours, we take what is yours.</p>
+        </>
+      ),
     },
   },
   5: {
@@ -369,12 +422,65 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       },
       {
         x: 11,
-        y: -6,
+        y: -5,
       },
     ],
     bumpkin: {
       x: 9,
       y: -5,
+    },
+    marcus: {
+      x: 4,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: I should have heeded the whispers of caution.`}</p>
+          <p>{`Greed clouded my judgment, and I succumbed to the allure of profit. But at what cost?`}</p>
+          <p>{`The gnomes, bearers of magic and joy, were not mine to claim. The path I chose led me astray.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 2,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: These eggplants, they seem to have taken over, crowding the beauty that once flourished here.`}</p>
+          <p>{`Something has rocked the delicate balance within nature. Something is seeking revenge.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: 1,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: Oh my... I think I can see the Bell Tower.`}</p>
+          <p>{`Could the light be returning? If only I can reach it so I can ring it and warn all of Sunflower Land`}</p>
+        </>
+      ),
+    },
+    maximus: {
+      x: -7,
+      y: -11,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Our moon brethren sent us here to take back what is ours.`}</p>
+        </>
+      ),
+    },
+    wendy: {
+      x: -5,
+      y: -5,
+      flip: true,
+    },
+    obie: {
+      x: -8,
+      y: -12,
     },
   },
   6: {
@@ -403,6 +509,65 @@ export const characters: Record<Week, DawnBreakerPositions> = {
     bumpkin: {
       x: 0,
       y: -2,
+    },
+    marcus: {
+      x: 4,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: They may have unleashed the night upon us, but they underestimate the power of our indomitable spirit.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 2,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: These eggplants may have overrun our fields, but I feel the tides are turning.`}</p>
+          <p>{`Could the moon seekers be behind this chaos? I will plant more of my crops and mix stronger potions. The glimmer of light brings me hope.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: 1,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Sofia: The night has cast its veil upon us, but we are piercing it with the brilliance of our unity!`}</p>
+          <p>{`Our light is growing stronger every week.`}</p>
+        </>
+      ),
+    },
+    maximus: {
+      x: -6,
+      y: -11,
+      dialogue: (
+        <>
+          <p>{`No! Obie where is that light coming from?`}</p>
+        </>
+      ),
+    },
+    wendy: {
+      x: 2,
+      y: -8,
+      dialogue: (
+        <>
+          <p>
+            {`The light... an intruder, seeking to banish the beauty of the night.`}
+          </p>
+          <p>
+            {`I will give all my power and combine with the moon seekers to hold down the veil!`}
+          </p>
+        </>
+      ),
+    },
+    obie: {
+      x: -8,
+      y: -12,
     },
   },
   7: {
