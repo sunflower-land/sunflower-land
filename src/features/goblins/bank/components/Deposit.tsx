@@ -28,10 +28,7 @@ import { CopyAddress } from "components/ui/CopyAddress";
 import { getItemUnit } from "features/game/lib/conversion";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
-import {
-  loadWardrobe,
-  loadWearablesBalanceBatch,
-} from "lib/blockchain/BumpkinItems";
+import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 
 type Status = "loading" | "loaded" | "error";
 
