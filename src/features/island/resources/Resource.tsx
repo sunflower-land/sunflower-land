@@ -16,7 +16,7 @@ import { useActor, useSelector } from "@xstate/react";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
-import { isAOELocked } from "features/game/events/landExpansion/moveCrop";
+import { isLocked } from "features/game/events/landExpansion/moveCrop";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
@@ -167,7 +167,7 @@ const ResourceComponent: React.FC<ResourceProps> = (props) => {
   };
 
   if (landscaping) {
-    if (isPlot && isAOELocked(plot, collectibles, Date.now())) {
+    if (isPlot && isLocked(plot, collectibles, Date.now())) {
       return (
         <div
           className="relative w-full h-full"

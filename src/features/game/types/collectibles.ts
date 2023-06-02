@@ -110,7 +110,8 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     description:
       "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
     ingredients: {
-      "Iron Compass": new Decimal(10),
+      "Iron Compass": new Decimal(30),
+      "Old Bottle": new Decimal(80),
       Seaweed: new Decimal(50),
       "Block Buck": new Decimal(1),
     },
@@ -119,14 +120,15 @@ export const GOBLIN_PIRATE_ITEMS: Record<
   },
   "Tin Turtle": {
     description:
-      "The Tin Turtle gives +0.3 to Stones you mine within its Area of Effect.",
+      "The Tin Turtle gives +0.1 to Stones you mine within its Area of Effect.",
     ingredients: {
-      "Iron Compass": new Decimal(5),
+      "Iron Compass": new Decimal(15),
+      "Old Bottle": new Decimal(50),
       Seaweed: new Decimal(25),
       "Block Buck": new Decimal(1),
     },
     sfl: new Decimal(40),
-    supply: 500,
+    supply: 3000,
   },
   "Heart of Davy Jones": {
     description:

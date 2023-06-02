@@ -356,6 +356,7 @@ import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
 import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
+import oldBottle from "assets/sfts/treasure/old_bottle.png";
 
 import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
 import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
@@ -1884,6 +1885,10 @@ export const ITEM_DETAILS: Items = {
     description:
       "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
     image: ironCompass,
+  },
+  "Old Bottle": {
+    description: "Antique pirate bottle, echoing tales of high seas adventure.",
+    image: oldBottle,
   },
   "Tiki Totem": {
     description: "The Tiki Totem adds 0.1 wood to every tree you chop.",

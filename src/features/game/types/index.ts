@@ -294,6 +294,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Wooden Compass": 925,
   "Pablo The Bunny": 926,
   "Iron Compass": 927,
+  "Old Bottle": 928,
 
   // Buildings
   Market: 1001,

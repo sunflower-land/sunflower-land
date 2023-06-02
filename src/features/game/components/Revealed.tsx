@@ -14,7 +14,8 @@ import { Label } from "components/ui/Label";
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
   id?: string;
-}> = ({ onAcknowledged, id }) => {
+  streaks?: boolean;
+}> = ({ onAcknowledged, id, streaks = false }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -26,15 +27,15 @@ export const Revealed: React.FC<{
   const items = getKeys(gameState.context.revealed?.inventory ?? {});
   const sfl = Number(gameState.context.revealed?.balance ?? 0);
 
-  const streaks = gameState.context.state.dailyRewards.streaks ?? 1;
-  const streakBonus = streaks % 5 == 0;
+  const currentStreaks = gameState.context.state.dailyRewards.streaks ?? 1;
+  const streakBonus = currentStreaks % 5 == 0;
 
   return (
     <>
       <div className="flex flex-col items-center p-2">
         <p className="text-center text-base mb-3">Congratulations!</p>
 
-        {streakBonus && (
+        {streaks && streakBonus && (
           <Label type="info" className="px-0.5 text-sm">
             3x streak bonus
           </Label>

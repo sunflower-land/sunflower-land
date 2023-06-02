@@ -644,6 +644,7 @@ const beachBounty: Record<BeachBountyTreasure, WithdrawCondition> = {
   Crab: false,
   "Wooden Compass": false,
   "Iron Compass": false,
+  "Old Bottle": false,
 };
 
 const eventDecoration: Record<EventDecorationName, WithdrawCondition> = {

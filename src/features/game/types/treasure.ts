@@ -17,7 +17,8 @@ export type BeachBountyTreasure =
   | "Sea Cucumber"
   | "Crab"
   | "Wooden Compass"
-  | "Iron Compass";
+  | "Iron Compass"
+  | "Old Bottle";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -127,9 +128,15 @@ export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
     type: "good",
   },
   "Iron Compass": {
-    sellPrice: marketRate(196.87),
-    description: "?",
+    sellPrice: marketRate(187.5),
+    description:
+      "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
     type: "good",
+  },
+  "Old Bottle": {
+    sellPrice: marketRate(22.5),
+    description: "Antique pirate bottle, echoing tales of high seas adventure.",
+    type: "average",
   },
 };
 
