@@ -22,13 +22,14 @@ export type NPCName =
   | "stella"
   | "gabi"
   | "tywin"
-  | "pete"
+  | "pumpkin'pete"
   | "gordy" // TO ADD
   | "bert"
   | "craig"
   | "raven" // TO ADD
   | "birdie"
-  | "old salty";
+  | "old salty"
+  | "cornwell";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -195,7 +196,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
   },
   // Local farmer in Plaza
-  pete: {
+  "pumpkin'pete": {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Sun Spots",
@@ -303,6 +304,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shirt: "Striped Blue Shirt",
     coat: "Pirate General Coat",
     tool: "Pirate Scimitar",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  cornwell: {
+    body: "Beige Farmer Potion",
+    hair: "Sun Spots",
+    pants: "Blue Suspenders",
+    shirt: "Yellow Farmer Shirt",
+    tool: "Farmer Pitchfork",
     background: "Farm Background",
     shoes: "Brown Boots",
   },

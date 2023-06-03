@@ -5,6 +5,8 @@ import mapJson from "assets/map/plaza.json";
 import auctionJson from "assets/map/auction.json";
 import clothesShopJson from "assets/map/clothe_shop.json";
 import decorationShopJSON from "assets/map/decorations.json";
+import windmillFloorJSON from "assets/map/windmill_floor.json";
+import igorHomeJSON from "assets/map/blacksmith_home.json";
 
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
@@ -136,6 +138,8 @@ export abstract class BaseScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("auction-map", auctionJson);
     this.load.tilemapTiledJSON("clothes-shop", clothesShopJson);
     this.load.tilemapTiledJSON("decorations-shop", decorationShopJSON);
+    this.load.tilemapTiledJSON("windmill-floor", windmillFloorJSON);
+    this.load.tilemapTiledJSON("igor-home", igorHomeJSON);
 
     // Phaser assets must be served from an URL
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
@@ -218,8 +222,10 @@ export abstract class BaseScene extends Phaser.Scene {
       "Decorations Layer 1",
       "Decorations Layer 2",
       "Decorations Layer 3",
+      "Decorations Layer 4",
       "Building Layer 2",
       "Building Layer 3",
+      "Building Layer 4",
     ];
     this.map.layers.forEach((layerData, idx) => {
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
