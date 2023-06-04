@@ -20,6 +20,7 @@ const ADVANCED_DECORATIONS: DecorationName[] = [
   "Dirt Path",
   "Bush",
   "Shrub",
+  "Pine Tree",
 ];
 export const DecorationItems: React.FC = () => {
   const [selected, setSelected] = useState<Decoration>(

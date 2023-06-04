@@ -458,6 +458,7 @@ const decorations: Record<ShopDecorationName, WithdrawCondition> = {
   "Toadstool Seat": false,
   "Chestnut Fungi Stool": false,
   "Mahogany Cap": false,
+  "Pine Tree": false,
 };
 const seasonalDecorations: Record<SeasonalDecorationName, WithdrawCondition> = {
   Clementine: false,

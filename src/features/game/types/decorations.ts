@@ -35,7 +35,8 @@ export type ShopDecorationName =
   | "Crimson Cap"
   | "Toadstool Seat"
   | "Chestnut Fungi Stool"
-  | "Mahogany Cap";
+  | "Mahogany Cap"
+  | "Pine Tree";
 
 export type SeasonalDecorationName =
   | "Clementine"
@@ -237,6 +238,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
+  "Pine Tree": {
+    width: 1,
+    height: 2,
+  },
   "Bonnie's Tombstone": {
     width: 1,
     height: 1,
@@ -378,7 +383,15 @@ export const HELIOS_DECORATIONS: () => Record<
     ingredients: {
       Wood: new Decimal(3),
     },
-    description: "Enhance your in-game landscaping with a beautiful shrub",
+    description: "Enhance your in-game landscaping with a beautiful shrub.",
+  },
+  "Pine Tree": {
+    name: "Pine Tree",
+    sfl: marketRate(100),
+    ingredients: {
+      Wood: new Decimal(5),
+    },
+    description: "Standing tall and mighty, a needle-clad dream.",
   },
   "Bonnie's Tombstone": {
     name: "Bonnie's Tombstone",

@@ -3470,6 +3470,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1248.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Pine Tree": {
+    description: "Standing tall and mighty, a needle-clad dream.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1265.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
   "Dawn Breaker Banner": {
     description:
       "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season",

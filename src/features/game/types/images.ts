@@ -316,6 +316,7 @@ import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
 import emeraldTurtle from "src/assets/sfts/emerald_turtle.webp";
 import tinTurtle from "src/assets/sfts/tin_turtle.webp";
+import pineTree from "src/assets/decorations/pine_tree.png";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -2058,6 +2059,10 @@ export const ITEM_DETAILS: Items = {
   Shrub: {
     image: shrub,
     description: "Enhance your in-game landscaping with a beautiful shrub",
+  },
+  "Pine Tree": {
+    image: pineTree,
+    description: "Standing tall and mighty, a needle-clad dream.",
   },
   "Solar Flare Banner": {
     image: solarFlareBanner,

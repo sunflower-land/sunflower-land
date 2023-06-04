@@ -115,6 +115,7 @@ import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot
 import { MushroomHouse } from "./components/MushroomHouse";
 import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
+import { PineTree } from "./components/PineTree";
 import { Fence } from "./components/Fence";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { useSelector } from "@xstate/react";
@@ -199,6 +200,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Fence: Fence,
   Bush: Bush,
   Shrub: Shrub,
+  "Pine Tree": PineTree,
 
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
