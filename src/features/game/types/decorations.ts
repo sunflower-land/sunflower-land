@@ -36,7 +36,8 @@ export type ShopDecorationName =
   | "Toadstool Seat"
   | "Chestnut Fungi Stool"
   | "Mahogany Cap"
-  | "Pine Tree";
+  | "Pine Tree"
+  | "Stone Fence";
 
 export type SeasonalDecorationName =
   | "Clementine"
@@ -234,6 +235,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
+  "Stone Fence": {
+    width: 1,
+    height: 1,
+  },
   Shrub: {
     width: 1,
     height: 1,
@@ -376,6 +381,14 @@ export const HELIOS_DECORATIONS: () => Record<
       Wood: new Decimal(5),
     },
     description: "Add a touch of rustic charm to your farm.",
+  },
+  "Stone Fence": {
+    name: "Stone Fence",
+    sfl: marketRate(20),
+    ingredients: {
+      Stone: new Decimal(5),
+    },
+    description: "Embrace the timeless elegance of a stone fence.",
   },
   Shrub: {
     name: "Shrub",

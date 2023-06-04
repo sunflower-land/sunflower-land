@@ -152,6 +152,7 @@ import { BasicScarecrow } from "./components/BasicScarecrow";
 import lightning from "assets/icons/lightning.png";
 import { EmeraldTurtle } from "./components/EmeraldTurtle";
 import { TinTurtle } from "./components/TinTurtle";
+import { StoneFence } from "./components/StoneFence";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -201,7 +202,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Bush: Bush,
   Shrub: Shrub,
   "Pine Tree": PineTree,
-
+  "Stone Fence": StoneFence,
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
   "Golden Bonsai": GoldenBonsai,

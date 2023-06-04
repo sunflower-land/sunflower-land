@@ -355,6 +355,7 @@ import dirt from "assets/sfts/dirt_path.png";
 import bush from "assets/decorations/bush.png";
 import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
+import stoneFence from "assets/decorations/stone_fence.png";
 import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
 import oldBottle from "assets/sfts/treasure/old_bottle.png";
@@ -2055,6 +2056,10 @@ export const ITEM_DETAILS: Items = {
   Fence: {
     image: fence,
     description: "Add a touch of rustic charm to your farm.",
+  },
+  "Stone Fence": {
+    image: stoneFence,
+    description: "Embrace the timeless elegance of a stone fence.",
   },
   Shrub: {
     image: shrub,
