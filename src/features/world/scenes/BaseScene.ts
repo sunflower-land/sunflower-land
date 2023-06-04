@@ -7,6 +7,9 @@ import clothesShopJson from "assets/map/clothe_shop.json";
 import decorationShopJSON from "assets/map/decorations.json";
 import windmillFloorJSON from "assets/map/windmill_floor.json";
 import igorHomeJSON from "assets/map/blacksmith_home.json";
+import bertHomeJSON from "assets/map/bert_home.json";
+import timmyHomeJSON from "assets/map/timmy_home.json";
+import bettyHomeJSON from "assets/map/betty_home.json";
 
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
@@ -140,6 +143,9 @@ export abstract class BaseScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("decorations-shop", decorationShopJSON);
     this.load.tilemapTiledJSON("windmill-floor", windmillFloorJSON);
     this.load.tilemapTiledJSON("igor-home", igorHomeJSON);
+    this.load.tilemapTiledJSON("bert-home", bertHomeJSON);
+    this.load.tilemapTiledJSON("timmy-home", timmyHomeJSON);
+    this.load.tilemapTiledJSON("betty-home", bettyHomeJSON);
 
     // Phaser assets must be served from an URL
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);

@@ -2676,6 +2676,61 @@
           "width": 17.4022698612862,
           "x": 239.092055485498,
           "y": 147.540983606557
+        },
+        {
+          "height": 12.168607300011,
+          "id": 136,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "bert_home"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16.2055860251331,
+          "x": 751.800780867028,
+          "y": 100.578441380185
+        },
+
+        {
+          "height": 11.9818878439568,
+          "id": 137,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "timmy_home"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 15.8829676071056,
+          "x": 656.078021595263,
+          "y": 85.2664576802508
+        },
+        {
+          "height": 12.8178335074887,
+          "id": 138,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "betty_home"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 15.7436433298502,
+          "x": 575.966562173459,
+          "y": 100.592128178335
         }
       ],
       "opacity": 1,
@@ -2755,7 +2810,7 @@
     }
   ],
   "nextlayerid": 58,
-  "nextobjectid": 136,
+  "nextobjectid": 139,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
