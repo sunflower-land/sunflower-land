@@ -14,7 +14,7 @@ import {
   isDecorationTreasure,
   TreasureName,
   SEASONAL_REWARDS,
-  TreasureDetail,
+  Treasure,
   REWARDS,
 } from "features/game/types/treasure";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -29,7 +29,7 @@ enum RarityOrder {
 }
 
 const TREASURE_TROVE_ITEMS = (
-  getEntries(REWARDS()) as [TreasureName, TreasureDetail][]
+  getEntries(REWARDS()) as [TreasureName, Treasure][]
 )
   // Sort by name first
   .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
@@ -93,7 +93,7 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   useUiRefresher();
 
   const SEASONAL_ITEMS = (
-    getEntries(SEASONAL_REWARDS().rewards) as [TreasureName, TreasureDetail][]
+    getEntries(SEASONAL_REWARDS().rewards) as [TreasureName, Treasure][]
   )
     .filter(([name]) => {
       const item = SEASONAL_REWARDS().rewards[name];
