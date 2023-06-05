@@ -3,10 +3,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import tableTop from "assets/ui/table_top.webp";
 import plant from "assets/decorations/planter_box.webp";
-import selectBoxBL from "assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "assets/ui/select/selectbox_br.png";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import { InnerPanel } from "components/ui/Panel";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Button } from "components/ui/Button";
@@ -28,51 +24,7 @@ import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
-
-const INNER_CANVAS_WIDTH = 14;
-
-const SelectBox = () => {
-  return (
-    <>
-      <img
-        className="absolute pointer-events-none"
-        src={selectBoxBL}
-        style={{
-          top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
-          left: 0,
-          width: `${PIXEL_SCALE * 6}px`,
-        }}
-      />
-      <img
-        className="absolute pointer-events-none"
-        src={selectBoxBR}
-        style={{
-          top: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
-          left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
-          width: `${PIXEL_SCALE * 6}px`,
-        }}
-      />
-      <img
-        className="absolute pointer-events-none"
-        src={selectBoxTL}
-        style={{
-          top: 0,
-          left: 0,
-          width: `${PIXEL_SCALE * 6}px`,
-        }}
-      />
-      <img
-        className="absolute pointer-events-none"
-        src={selectBoxTR}
-        style={{
-          top: 0,
-          left: `${PIXEL_SCALE * INNER_CANVAS_WIDTH - 8}px`,
-          width: `${PIXEL_SCALE * 6}px`,
-        }}
-      />
-    </>
-  );
-};
+import shadow from "assets/npcs/shadow.png";
 
 interface Props {
   score: number;
@@ -111,7 +63,6 @@ export const Experiment: React.FC<Props> = ({
   const [feedbackText, setFeedbackText] = useState<string>(
     "Select your potions and unveil the secrets of the plants!"
   );
-  const [showConfirmButton, setConfirmButton] = useState<boolean>(false);
 
   useEffect(() => {
     if (score === 100 || guessRow < 0) {
@@ -121,36 +72,27 @@ export const Experiment: React.FC<Props> = ({
   }, [guessRow, score]);
 
   useEffect(() => {
-    if (selectedPotion.name === "Miracle Mix") {
-      setConfirmButton(true);
-      setFeedbackText("Are you sure you want to risk it all?");
-      return;
-    }
-
     if (selectedPotion.name === "Golden Syrup") {
-      setConfirmButton(true);
-      setFeedbackText(
-        "This will end the experiment. You plant will thrive! Are you sure?"
-      );
+      setFeedbackText("Oooh your is plant will be sure to thrive!");
       return;
     }
-
-    setConfirmButton(false);
     setFeedbackText(
       "Select your potions and unveil the secrets of the plants!"
     );
   }, [selectedPotion]);
 
   const handleGuessChange = (index: number, value: PotionName) => {
-    setCurrentGuess((prevGuess) => {
-      const newGuess = [...prevGuess];
-      newGuess[index] = value;
+    const newGuess = [...currentGuess];
+    newGuess[index] = value;
 
-      return newGuess;
-    });
+    setCurrentGuess(newGuess);
 
-    if (guessSpot < 3) {
-      setGuessSpot((prevGuessSpot) => prevGuessSpot + 1);
+    if (guessSpot <= 3) {
+      const firstEmptySpot = newGuess.indexOf(null);
+
+      console.log({ firstEmptySpot });
+
+      setGuessSpot(firstEmptySpot);
     }
   };
 
@@ -203,36 +145,20 @@ export const Experiment: React.FC<Props> = ({
     }) as GuessFeedback[];
   };
 
-  const getAddButtonText = () => {
-    if (showConfirmButton) return "Yes, let's do it!";
-
-    if (selectedPotion.name === "Miracle Mix") {
-      return "Risk it all!";
-    }
-
-    if (selectedPotion.name === "Golden Syrup") {
-      return "Let's see that plant thrive!";
-    }
-
-    return "Add to mix";
-  };
-
   const handleSelectPotion = (potion: Potion) => {
     setSelectedPotion(potion);
     handleGuessChange(guessSpot, potion.name);
   };
 
-  const handleConfirm = () => {
-    if (selectedPotion.name === "Miracle Mix") {
-      // 50/50 chance of success
-      const success = Math.random() > 0.5;
-      // if success, set score to 100
-      // else set score to 0
-      onScoreChange(success ? 100 : 0);
-      setConfirmButton(false);
-      console.log("Game Over: ", success ? 100 : 0);
-      onComplete();
-    }
+  const handleRemovePotion = (index: number) => {
+    setCurrentGuess((prevGuess) => {
+      const newGuess = [...prevGuess];
+      newGuess[index] = null;
+
+      return newGuess;
+    });
+
+    setGuessSpot(index);
   };
 
   return (
@@ -284,10 +210,16 @@ export const Experiment: React.FC<Props> = ({
                             <div
                               className="relative"
                               key={`select-${columnIndex}`}
-                              onClick={() => setGuessSpot(columnIndex)}
+                              onClick={
+                                currentGuess[columnIndex]
+                                  ? () => handleRemovePotion(columnIndex)
+                                  : () => setGuessSpot(columnIndex)
+                              }
                             >
-                              <Box potionName={currentGuess[columnIndex]} />
-                              {columnIndex === guessSpot && <SelectBox />}
+                              <Box
+                                potionName={currentGuess[columnIndex]}
+                                selected={guessSpot === columnIndex}
+                              />
                             </div>
                           );
                         }
@@ -380,14 +312,22 @@ export const Experiment: React.FC<Props> = ({
               {getAddButtonText()}
             </Button> */}
           </InnerPanel>
-          <div className="flex flex-wrap mt-2">
+          <div className="flex flex-wrap gap-2 mt-2">
             {POTIONS.map((potion) => (
-              <Box
+              // <Box
+              //   key={potion.name}
+              //   potionName={potion.name}
+              //   // isSelected={selectedPotion.name === potion.name}
+              //   onClick={() => handleSelectPotion(potion)}
+              // />
+              <div
                 key={potion.name}
-                potionName={potion.name}
-                // isSelected={selectedPotion.name === potion.name}
+                className="relative"
                 onClick={() => handleSelectPotion(potion)}
-              />
+              >
+                <img src={shadow} alt="" className="absolute -bottom-1 w-8" />
+                <img src={potion.image} alt="" className="w-8 relative" />
+              </div>
             ))}
           </div>
         </div>
