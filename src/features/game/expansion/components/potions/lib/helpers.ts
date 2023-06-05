@@ -33,8 +33,13 @@ export function calculateScore(feedback?: GuessFeedback[]): number {
 
 // TEMP FUNCTION
 export const generatePotionCombination = (): Combination => {
-  const bomb = POTIONS[Math.floor(Math.random() * POTIONS.length)].name;
-  const filteredPotions = POTIONS.filter((potion) => potion.name !== bomb);
+  const VALID_POTIONS = POTIONS.filter(({ name }) => name !== "Golden Syrup");
+
+  const bomb =
+    VALID_POTIONS[Math.floor(Math.random() * VALID_POTIONS.length)].name;
+  const filteredPotions = VALID_POTIONS.filter(
+    (potion) => potion.name !== bomb
+  );
 
   const code = shuffle(filteredPotions)
     .slice(0, 4)

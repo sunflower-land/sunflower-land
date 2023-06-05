@@ -47,7 +47,7 @@ export const Experiment: React.FC<Props> = ({
   onScoreChange,
   onComplete,
 }) => {
-  const [selectedPotion, setSelectedPotion] = useState<Potion>(POTIONS[0]);
+  const [selectedPotion, setSelectedPotion] = useState<Potion | null>(null);
   const [guesses, setGuesses] = useState<Turn[]>(initialiseGuessGrid(3));
   const [currentGuess, setCurrentGuess] = useState<(PotionName | null)[]>([
     null,
@@ -72,13 +72,13 @@ export const Experiment: React.FC<Props> = ({
   }, [guessRow, score]);
 
   useEffect(() => {
-    if (selectedPotion.name === "Golden Syrup") {
-      setFeedbackText("Oooh your is plant will be sure to thrive!");
-      return;
-    }
-    setFeedbackText(
-      "Select your potions and unveil the secrets of the plants!"
-    );
+    if (!selectedPotion) return;
+
+    const potion = POTIONS.find(
+      (potion) => potion.name === selectedPotion.name
+    ) as Potion;
+
+    setFeedbackText(potion.description);
   }, [selectedPotion]);
 
   const handleGuessChange = (index: number, value: PotionName) => {
@@ -125,21 +125,20 @@ export const Experiment: React.FC<Props> = ({
     // Clear the current guess
     setCurrentGuess([]);
     setGuessSpot(0);
+    setSelectedPotion(null);
   };
 
   const getTurnFeedback = () => {
     const { code, bomb } = combination;
 
     return currentGuess.map((guess, index) => {
+      if (guess === "Golden Syrup") return "correct";
+
       if (guess === bomb) return "bombed";
 
-      if (guess === code[index]) {
-        return "correct";
-      }
+      if (guess === code[index]) return "correct";
 
-      if (code.includes(guess as PotionName)) {
-        return "almost";
-      }
+      if (code.includes(guess as PotionName)) return "almost";
 
       return "incorrect";
     }) as GuessFeedback[];
@@ -159,6 +158,7 @@ export const Experiment: React.FC<Props> = ({
     });
 
     setGuessSpot(index);
+    setSelectedPotion(null);
   };
 
   return (
