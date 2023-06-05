@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useActor } from "@xstate/react";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
 import whiteBg from "assets/ui/profile/bg.png";
@@ -129,7 +130,11 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
                 marginLeft: `${DIMENSIONS.bumpkin.marginLeft}px`,
               }}
             >
-              <DynamicNFT bumpkinParts={bumpkin.equipped} showTools={false} />
+              <DynamicNFT
+                key={JSON.stringify(bumpkin.equipped)}
+                bumpkinParts={bumpkin.equipped}
+                showTools={false}
+              />
             </div>
           )}
         </div>
@@ -184,6 +189,9 @@ export const BumpkinProfile: React.FC<{
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState, send] = useActor(authService);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);

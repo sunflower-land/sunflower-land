@@ -47,6 +47,7 @@ import { NoTownCenter } from "../components/NoTownCenter";
 import { Promoting } from "./components/Promoting";
 import { Purchasing } from "../components/Purchasing";
 import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
+import { Transacting } from "../components/Transacting";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -81,6 +82,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   upgradingGuestGame: false,
   introduction: false,
   promoting: false,
+  transacting: true,
 };
 
 // State change selectors
@@ -115,7 +117,7 @@ const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
 const isUpgradingGuestGame = (state: MachineState) =>
   state.matches("upgradingGuestGame");
-
+const isTransacting = (state: MachineState) => state.matches("transacting");
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
@@ -144,6 +146,7 @@ export const Game: React.FC = () => {
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
   const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
+  const transacting = useSelector(gameService, isTransacting);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -302,6 +305,7 @@ export const Game: React.FC = () => {
           {noTownCenter && <NoTownCenter />}
           {coolingDown && <Cooldown />}
           {gameRules && <Rules />}
+          {transacting && <Transacting />}
           {depositing && <Loading text="Depositing" />}
         </Panel>
       </Modal>

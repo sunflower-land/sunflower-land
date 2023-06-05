@@ -6,7 +6,7 @@ import { ERRORS } from "lib/errors";
 
 import { Draft } from "../../../selling/lib/sellingMachine";
 import { getItemUnit } from "features/game/lib/conversion";
-import { listTrade } from "lib/blockchain/Sessions";
+import { listTrade } from "lib/blockchain/Game";
 
 const API_URL = CONFIG.API_URL;
 

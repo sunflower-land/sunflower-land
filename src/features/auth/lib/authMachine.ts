@@ -82,7 +82,7 @@ interface GuestUser extends Authentication {
   guestKey: string | null;
 }
 
-interface FullUser extends Authentication {
+export interface FullUser extends Authentication {
   type: "FULL";
   farmAddress?: string;
 }

@@ -258,7 +258,6 @@ export const wishingWellMachine = createMachine<
               farmId: context.farmId as number,
               sessionId: context.sessionId as string,
               token: context.token as string,
-              bumpkinTokenUri: context.bumpkinTokenUri as string,
               transactionId: context.transactionId as string,
               wallet: context.wallet as string,
             });
