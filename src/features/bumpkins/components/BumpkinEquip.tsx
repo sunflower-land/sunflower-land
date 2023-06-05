@@ -76,6 +76,7 @@ export const BumpkinEquip: React.FC = () => {
 
   const equippedItems = Object.values(equipped);
 
+  const isMissingBackground = !equipped.background;
   const isMissingHair = !equipped.hair;
   const isMissingBody = !equipped.body;
   const isMissingShoes = !equipped.shoes;
@@ -87,6 +88,7 @@ export const BumpkinEquip: React.FC = () => {
     isMissingBody ||
     isMissingShoes ||
     isMissingShirt ||
+    isMissingBackground ||
     isMissingPants;
 
   const warning = () => {
@@ -109,6 +111,10 @@ export const BumpkinEquip: React.FC = () => {
     if (isMissingPants) {
       return "Pants are required";
     }
+
+    if (isMissingBackground) {
+      return "Background is required";
+    }
     return "";
   };
   return (
@@ -125,11 +131,7 @@ export const BumpkinEquip: React.FC = () => {
               <NPC parts={equipped} key={JSON.stringify(equipped)} />
             </div>
           </div>
-          <Button
-            disabled={!isDirty || warn}
-            onClick={finish}
-            className="text-sm h-7"
-          >
+          <Button disabled={!isDirty || warn} onClick={finish}>
             <div className="flex">
               Save
               {finished && !isDirty && (

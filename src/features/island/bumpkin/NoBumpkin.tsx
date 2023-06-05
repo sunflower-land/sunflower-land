@@ -143,7 +143,7 @@ export const NoBumpkin: React.FC = () => {
               <OuterPanel
                 key={bumpkin.tokenId}
                 onClick={() => setSelectedBumpkinId(Number(bumpkin.tokenId))}
-                className="flex flex-col relative cursor-pointer hover:bg-brown-200 h-20 w-20 items-center justify-center mr-2"
+                className="flex flex-col relative cursor-pointer hover:bg-brown-200 h-20 w-20 items-center justify-center mr-2 mb-2"
               >
                 {selectedBumpkinId === Number(bumpkin.tokenId) && (
                   <img
