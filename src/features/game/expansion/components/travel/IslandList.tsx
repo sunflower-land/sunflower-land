@@ -179,7 +179,7 @@ export const IslandList: React.FC<IslandListProps> = ({
     },
     {
       name: "Goblin Retreat",
-      levelRequired: 5 as BumpkinLevel,
+      levelRequired: 1 as BumpkinLevel,
       guestAccess: false,
       image: goblin,
       path: `/retreat/${farmId}`,
