@@ -1,5 +1,6 @@
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import React, { useLayoutEffect, useState } from "react";
+import { MachineInterpreter } from "./lib/potionHouseMachine";
 
 // MOCK REWARD FUNCTION
 interface Reward {
@@ -93,10 +94,11 @@ function generateText(prize: string, tier: string): string {
 }
 
 interface ResultProps {
-  score: number;
+  score?: number;
+  machine: MachineInterpreter;
 }
 
-export const ResultPage: React.FC<ResultProps> = ({ score }) => {
+export const ResultPage: React.FC<ResultProps> = ({ score = 10 }) => {
   const [prize, setPrize] = useState<Reward | null>(null);
   const [text, setText] = useState<string>("");
 

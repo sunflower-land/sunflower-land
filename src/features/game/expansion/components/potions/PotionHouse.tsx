@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+
+import * as AuthProvider from "features/auth/lib/Provider";
+import { Context } from "features/game/GameProvider";
 
 import { IntroPage } from "./Intro";
 import { ResultPage } from "./Result";
@@ -7,11 +10,52 @@ import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
+import { useInterpret, useSelector } from "@xstate/react";
+import {
+  MachineInterpreter,
+  MachineState as PotionHouseState,
+  potionHouseMachine,
+} from "./lib/potionHouseMachine";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+
+const _farmId = (state: AuthMachineState) => state.context.user.farmId;
+const _jwt = (state: AuthMachineState) => state.context.user.rawToken;
+
+const _sessionId = (state: GameMachineState) => state.context.sessionId;
+const _fingerprint = (state: GameMachineState) => state.context.fingerprint;
+const _deviceTrackerId = (state: GameMachineState) =>
+  state.context.deviceTrackerId;
+
+const _isIntro = (state: PotionHouseState) => state.matches("intro");
+const _isPlaying = (state: PotionHouseState) => state.matches("playing");
+const _isGameOver = (state: PotionHouseState) => state.matches("gameOVer");
 
 export const PotionHouse: React.FC = () => {
-  const [page, setPage] = useState<"intro" | "game" | "result">("game");
-  const [score, setScore] = useState(0);
+  const { authService } = useContext(AuthProvider.Context);
+  const { gameService } = useContext(Context);
+
+  const farmId = useSelector(authService, _farmId);
+  const jwt = useSelector(authService, _jwt);
+  const sessionId = useSelector(gameService, _sessionId);
+  const fingerprint = useSelector(gameService, _fingerprint);
+  const deviceTrackerId = useSelector(gameService, _deviceTrackerId);
+
   const [showModal, setShowModal] = useState(false);
+
+  const potionHouseService = useInterpret(potionHouseMachine, {
+    context: {
+      farmId,
+      jwt,
+      sessionId,
+      fingerprint,
+      deviceTrackerId,
+    },
+  }) as unknown as MachineInterpreter;
+
+  const isIntro = useSelector(potionHouseService, _isIntro);
+  const isPlaying = useSelector(potionHouseService, _isPlaying);
+  const isGameOver = useSelector(potionHouseService, _isGameOver);
 
   useEffect(() => {
     setTimeout(() => {
@@ -50,21 +94,12 @@ export const PotionHouse: React.FC = () => {
               />
             </div>
             <div className="flex flex-col grow mb-1">
-              {page === "intro" && (
-                <IntroPage onComplete={() => setPage("game")} />
-              )}
-              {page === "game" && (
-                <Experiment
-                  score={score}
-                  onScoreChange={setScore}
-                  onComplete={() => setPage("result")}
-                />
-              )}
-              {page === "result" && <ResultPage score={score} />}
+              {isIntro && <IntroPage machine={potionHouseService} />}
+              {isPlaying && <Experiment machine={potionHouseService} />}
+              {isGameOver && <ResultPage machine={potionHouseService} />}
             </div>
           </div>
         </div>
-        {/* <ExpandingRoom roomName="Potion Room"> */}
       </Modal>
     </>
   );

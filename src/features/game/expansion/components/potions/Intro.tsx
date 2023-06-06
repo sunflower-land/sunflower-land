@@ -4,12 +4,16 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { FeedbackIcons } from "./lib/types";
 import { Button } from "components/ui/Button";
+import { MachineInterpreter } from "./lib/potionHouseMachine";
+import { useActor } from "@xstate/react";
 
 interface IntroProps {
-  onComplete: () => void;
+  machine: MachineInterpreter;
 }
 
-export const IntroPage: React.FC<IntroProps> = ({ onComplete }) => {
+export const IntroPage: React.FC<IntroProps> = ({ machine }) => {
+  const [_, send] = useActor(machine);
+
   return (
     <>
       <div className="p-2 pt-0 flex flex-col h-full">
@@ -82,7 +86,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onComplete }) => {
           </div>
         </InnerPanel>
       </div>
-      <Button onClick={onComplete}>Cool</Button>
+      <Button onClick={() => send("ACKNOWLEDGE_INTRO")}>{`Let's play`}</Button>
     </>
   );
 };

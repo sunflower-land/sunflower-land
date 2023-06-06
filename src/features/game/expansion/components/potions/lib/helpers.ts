@@ -1,6 +1,6 @@
 import shuffle from "lodash.shuffle";
 import { POTIONS } from "./potions";
-import { Combination, GuessFeedback } from "./types";
+import { Combination, GuessFeedback, Turn } from "./types";
 
 export function calculateScore(feedback?: GuessFeedback[]): number {
   if (!feedback) return 0;
@@ -95,3 +95,13 @@ export function getFeedbackText(score: number): string {
   ];
   return feedbackOptions[Math.floor(Math.random() * feedbackOptions.length)];
 }
+
+export const initialiseGuessGrid = (rows: number) => {
+  const guessGrid: Turn[] = [];
+
+  for (let i = 0; i < rows; i++) {
+    guessGrid.push({ guess: [null, null, null, null] });
+  }
+
+  return guessGrid;
+};

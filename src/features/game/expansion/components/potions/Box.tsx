@@ -3,7 +3,6 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import React from "react";
 import { POTIONS } from "./lib/potions";
 import { PotionName, GuessFeedback, FeedbackIcons } from "./lib/types";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 import selectBoxBL from "assets/ui/select/selectbox_bl.png";
 import selectBoxBR from "assets/ui/select/selectbox_br.png";
@@ -28,21 +27,17 @@ export const Box: React.FC<Props> = ({
   return (
     <>
       <div className="relative">
-        <img
-          src={
-            feedback
-              ? FeedbackIcons[feedback]
-              : potionName
-              ? SUNNYSIDE.icons.cancel
-              : ""
-          }
-          alt={feedback}
-          style={{
-            position: "absolute",
-            width: `${PIXEL_SCALE * 7}px`,
-          }}
-          className="-top-[2px] left-7"
-        />
+        {feedback && (
+          <img
+            src={FeedbackIcons[feedback]}
+            alt={feedback}
+            style={{
+              position: "absolute",
+              width: `${PIXEL_SCALE * 7}px`,
+            }}
+            className="-top-[2px] left-7"
+          />
+        )}
         <div
           className="bg-brown-600 cursor-pointer m-1"
           style={{
@@ -60,7 +55,7 @@ export const Box: React.FC<Props> = ({
           )}
         </div>
       </div>
-      {selected && !potionName && <SelectBox />}
+      {selected && <SelectBox />}
     </>
   );
 };
