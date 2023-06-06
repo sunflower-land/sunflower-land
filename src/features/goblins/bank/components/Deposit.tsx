@@ -292,7 +292,10 @@ export const Deposit: React.FC<Props> = ({
                 {hasItemsInWardrobe && (
                   <>
                     <p className="text-sm">Wearables</p>
-                    <div className="flex flex-wrap h-fit -ml-1.5">
+                    <div
+                      className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
+                      style={{ maxHeight: "200px" }}
+                    >
                       {depositableWearables.map((item) => {
                         return (
                           <Box
