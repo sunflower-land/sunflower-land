@@ -18,6 +18,8 @@ import {
 } from "./lib/potionHouseMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { Rules } from "./Rules";
+import { send } from "xstate/lib/actions";
 
 const _farmId = (state: AuthMachineState) => state.context.user.farmId;
 const _jwt = (state: AuthMachineState) => state.context.user.rawToken;
@@ -29,6 +31,7 @@ const _deviceTrackerId = (state: GameMachineState) =>
 
 const _isIntro = (state: PotionHouseState) => state.matches("intro");
 const _isPlaying = (state: PotionHouseState) => state.matches("playing");
+const _isRules = (state: PotionHouseState) => state.matches("rules");
 const _isGameOver = (state: PotionHouseState) => state.matches("gameOVer");
 
 export const PotionHouse: React.FC = () => {
@@ -55,6 +58,7 @@ export const PotionHouse: React.FC = () => {
 
   const isIntro = useSelector(potionHouseService, _isIntro);
   const isPlaying = useSelector(potionHouseService, _isPlaying);
+  const isRules = useSelector(potionHouseService, _isRules);
   const isGameOver = useSelector(potionHouseService, _isGameOver);
 
   useEffect(() => {
@@ -62,6 +66,12 @@ export const PotionHouse: React.FC = () => {
       setShowModal(true);
     }, 1000);
   }, []);
+
+  const handleShowRules = () => {
+    if (!isPlaying) return;
+
+    potionHouseService.send({ type: "SHOW_RULES" });
+  };
 
   return (
     <>
@@ -78,12 +88,21 @@ export const PotionHouse: React.FC = () => {
             {/* Header */}
             <div className="flex mb-3 w-full justify-center">
               <div
+                onClick={handleShowRules}
                 style={{
-                  width: `${PIXEL_SCALE * 11}px`,
                   height: `${PIXEL_SCALE * 11}px`,
                 }}
-              />
-              <h1 className="grow text-center text-lg">Potion Room</h1>
+              >
+                {isPlaying && (
+                  <img
+                    src={SUNNYSIDE.icons.expression_confused}
+                    className="cursor-pointer h-full"
+                  />
+                )}
+              </div>
+              <h1 className="grow text-center text-lg">
+                {isRules ? "How to play" : "Potion Room"}
+              </h1>
               <img
                 src={SUNNYSIDE.icons.close}
                 className="cursor-pointer"
@@ -96,6 +115,7 @@ export const PotionHouse: React.FC = () => {
             <div className="flex flex-col grow mb-1">
               {isIntro && <IntroPage machine={potionHouseService} />}
               {isPlaying && <Experiment machine={potionHouseService} />}
+              {isRules && <Rules onDone={() => send("CLOSE_RULES")} />}
               {isGameOver && <ResultPage machine={potionHouseService} />}
             </div>
           </div>

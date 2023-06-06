@@ -30,6 +30,7 @@ interface PotionHouseContext {
 
 type PotionHouseEvent =
   | { type: "ACKNOWLEDGE_INTRO" }
+  | { type: "SHOW_RULES" }
   | { type: "CLOSE_RULES" }
   | { type: "SELECT_POTION"; potion: Potion }
   | { type: "CONFIRM_GUESS" }
@@ -107,6 +108,9 @@ export const potionHouseMachine = createMachine<
         },
       })),
       on: {
+        SHOW_RULES: {
+          target: "rules",
+        },
         SELECT_POTION: {
           actions: assign({
             game: (context, event) => {
