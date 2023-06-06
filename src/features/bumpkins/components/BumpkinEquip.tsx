@@ -1,8 +1,10 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import {
+  BUMPKIN_ITEM_BUFF,
   BUMPKIN_ITEM_PART,
   BumpkinItem,
+  BumpkinPart,
   Equipped,
   ITEM_IDS,
 } from "features/game/types/bumpkin";
@@ -16,7 +18,18 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/types/craftables";
 
 import { Label } from "components/ui/Label";
+import classNames from "classnames";
 
+const REQUIRED: BumpkinPart[] = [
+  "background",
+  "body",
+  "dress",
+  "shirt",
+  "pants",
+  "hair",
+  "shoes",
+  "tool",
+];
 export const BumpkinEquip: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -53,6 +66,9 @@ export const BumpkinEquip: React.FC = () => {
   };
 
   const unequipPart = (name: BumpkinItem) => {
+    if (REQUIRED.includes(BUMPKIN_ITEM_PART[name])) {
+      return;
+    }
     const part = BUMPKIN_ITEM_PART[name];
     const outfit = { ...equipped };
 
@@ -148,7 +164,11 @@ export const BumpkinEquip: React.FC = () => {
           {getKeys(wardrobe).map((name) => (
             <OuterPanel
               key={name}
-              className="w-full flex mb-1 p-1 cursor-pointer hover:bg-brown-200"
+              className={classNames("w-full flex mb-1 p-1 relative", {
+                "cursor-pointer hover:bg-brown-200":
+                  !equippedItems.includes(name) ||
+                  !REQUIRED.includes(BUMPKIN_ITEM_PART[name]),
+              })}
               onClick={() => {
                 // Already equipped
                 if (equippedItems.includes(name)) {
@@ -158,12 +178,19 @@ export const BumpkinEquip: React.FC = () => {
                 }
               }}
             >
+              {equippedItems.includes(name) && (
+                <img
+                  className="absolute h-4 right-0 top-0"
+                  src={SUNNYSIDE.icons.confirm}
+                />
+              )}
               <div className="flex-1 flex flex-col">
                 <p className="text-xs flex-1">{name}</p>
-                {equippedItems.includes(name) && (
-                  <div className="flex items-center">
-                    <span className="text-xxs mr-2">Equipped</span>
-                    <img src={SUNNYSIDE.icons.confirm} className="h-3" />
+                {BUMPKIN_ITEM_BUFF[name] && (
+                  <div className="mt-1">
+                    <Label type="info">
+                      <p className="text-xxs">{BUMPKIN_ITEM_BUFF[name]}</p>
+                    </Label>
                   </div>
                 )}
               </div>

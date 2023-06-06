@@ -287,6 +287,9 @@ export const OFFLINE_FARM: GameState = {
   },
   balance: new Decimal(10),
   wardrobe: {
+    "Eggplant Onesie": 1,
+    "Golden Spatula": 1,
+    "Fruit Picker Apron": 1,
     "Red Farmer Shirt": 3,
     "Ancient Goblin Sword": 2,
     "Ancient War Hammer": 2,
@@ -314,7 +317,6 @@ export const OFFLINE_FARM: GameState = {
     "China Town Background": 83,
     "Lion Dance Mask": 84,
     "Fruit Picker Shirt": 85,
-    "Fruit Picker Apron": 86,
     "Cupid Dress": 1,
     "Fruit Bowl": 87,
     "Striped Blue Shirt": 88,

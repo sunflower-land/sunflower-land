@@ -508,3 +508,12 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Wavy Pants": "pants",
   "White Turtle Neck": "shirt",
 };
+
+export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
+  "Chef Apron": "+20% cake profit",
+  "Fruit Picker Apron": "+0.1 Apple, Orange & Blueberries",
+  "Angel Wings": "Instant Crops",
+  "Devil Wings": "Instant Crops",
+  "Eggplant Onesie": "+0.1 Eggplant",
+  "Golden Spatula": "+10% EXP",
+};
