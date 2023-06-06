@@ -149,7 +149,7 @@ export type MachineInterpreter = Interpreter<
   GoblinMachineState
 >;
 
-export const RETREAT_LEVEL_REQUIREMENT = 5;
+export const RETREAT_LEVEL_REQUIREMENT = 1;
 
 export function startGoblinVillage(authContext: AuthContext) {
   // You can not enter the goblin village if you do not have a farm on chain
