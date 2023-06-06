@@ -221,7 +221,9 @@ export const Deposit: React.FC<Props> = ({
   const hasItemsInInventory = depositableItems.length > 0;
   const hasItemsInWardrobe = depositableWearables.length > 0;
   const emptyWallet =
-    getKeys(inventoryBalance).length === 0 && sflBalance.eq(0);
+    getKeys(wardrobeBalance).length === 0 &&
+    getKeys(inventoryBalance).length === 0 &&
+    sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
   return (
