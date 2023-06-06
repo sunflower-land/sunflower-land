@@ -34,7 +34,6 @@ export async function withdrawSFL({
       "X-Transaction-ID": transactionId,
     },
     body: JSON.stringify({
-      sessionId: sessionId,
       sfl: sfl,
     }),
   });
@@ -84,7 +83,6 @@ export async function withdrawItems({
       "X-Transaction-ID": transactionId,
     },
     body: JSON.stringify({
-      sessionId: sessionId,
       ids,
       amounts,
     }),
