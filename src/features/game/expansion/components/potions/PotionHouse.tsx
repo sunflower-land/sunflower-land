@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
@@ -34,7 +34,10 @@ const _isPlaying = (state: PotionHouseState) => state.matches("playing");
 const _isRules = (state: PotionHouseState) => state.matches("rules");
 const _isGameOver = (state: PotionHouseState) => state.matches("gameOVer");
 
-export const PotionHouse: React.FC = () => {
+export const PotionHouse: React.FC<{
+  showModal: boolean;
+  onClose: () => void;
+}> = ({ showModal, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
@@ -43,8 +46,6 @@ export const PotionHouse: React.FC = () => {
   const sessionId = useSelector(gameService, _sessionId);
   const fingerprint = useSelector(gameService, _fingerprint);
   const deviceTrackerId = useSelector(gameService, _deviceTrackerId);
-
-  const [showModal, setShowModal] = useState(false);
 
   const potionHouseService = useInterpret(potionHouseMachine, {
     context: {
@@ -61,12 +62,6 @@ export const PotionHouse: React.FC = () => {
   const isRules = useSelector(potionHouseService, _isRules);
   const isGameOver = useSelector(potionHouseService, _isGameOver);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowModal(true);
-    }, 1000);
-  }, []);
-
   const handleShowRules = () => {
     if (!isPlaying) return;
 
@@ -75,7 +70,7 @@ export const PotionHouse: React.FC = () => {
 
   return (
     <>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} centered onHide={onClose}>
         <div
           className="bg-brown-600 text-white relative"
           style={{
@@ -107,7 +102,7 @@ export const PotionHouse: React.FC = () => {
               <img
                 src={SUNNYSIDE.icons.close}
                 className="cursor-pointer"
-                onClick={() => setShowModal(false)}
+                onClick={onClose}
                 style={{
                   width: `${PIXEL_SCALE * 11}px`,
                 }}

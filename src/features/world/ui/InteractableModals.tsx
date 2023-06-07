@@ -1,12 +1,9 @@
 import { useActor } from "@xstate/react";
-import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { Donations } from "./donations/Donations";
+import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 
 type InteractableName =
   | "welcome_sign"
@@ -14,7 +11,8 @@ type InteractableName =
   | "fan_art"
   | "auction_item"
   | "boat_modal"
-  | "homeless_man";
+  | "homeless_man"
+  | "potion_table";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -72,7 +70,17 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           deviceTrackerId={gameState.context.deviceTrackerId as string}
         />
       )}
-      <Modal
+      {interactable === "potion_table" && (
+        <PotionHouse
+          showModal={interactable === "potion_table"}
+          onClose={() => setInteractable(undefined)}
+        />
+      )}
+    </>
+  );
+
+  {
+    /* <Modal
         centered
         show={interactable === "boat_modal"}
         onHide={() => setInteractable(undefined)}
@@ -115,7 +123,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             </div>
           )}
         </CloseButtonPanel>
-      </Modal> */}
-    </>
-  );
+      </Modal> */
+  }
 };
