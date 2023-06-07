@@ -411,6 +411,7 @@ export type Bid = {
   wearable?: BumpkinItem;
   biddedAt: number;
   tickets: number;
+  type: "collectible" | "wearable";
 };
 
 export type HayseedHank = {

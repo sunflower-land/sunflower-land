@@ -9,11 +9,13 @@ import { mintAuctionItem } from "features/game/actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
 
 export type AuctionBase = {
+  auctionId: string;
   startAt: number;
   endAt: number;
   supply: number;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
+  type: "collectible" | "wearable";
 };
 
 export type AuctioneerItemName = BumpkinItem | InventoryItemName;
@@ -80,6 +82,7 @@ export type BlockchainEvent =
 
 export type AuctioneerMachineState = {
   value:
+    | "loading"
     | "initialising"
     | "playing"
     | "draftingBid"
@@ -91,6 +94,7 @@ export type AuctioneerMachineState = {
     | "refunded"
     | "pending"
     | "winner"
+    // TODO - minting in parent machines
     | "minting"
     | "minted";
   context: Context;
@@ -110,8 +114,34 @@ export const auctioneerMachine = createMachine<
 >(
   {
     id: "auctioneerMachine",
-    initial: "initialising",
+    initial: "loading",
     states: {
+      loading: {
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context, event) => {
+            const { item, tickets } = event as BidEvent;
+
+            console.log({ event });
+            const auctions: any[] = [];
+
+            return {
+              auctions,
+            };
+          },
+          onDone: {
+            target: "initialising",
+            actions: [
+              assign({
+                auctions: (_, event) => event.data.auctions,
+              }),
+            ],
+          },
+          onError: {
+            target: "error",
+          },
+        },
+      },
       initialising: {
         always: [
           {
@@ -257,9 +287,7 @@ export const auctioneerMachine = createMachine<
             })),
           },
           onError: {
-            actions: escalate((_, event) => ({
-              message: event.data.message,
-            })),
+            target: "error",
           },
         },
       },
@@ -312,9 +340,7 @@ export const auctioneerMachine = createMachine<
             target: "refunded",
           },
           onError: {
-            actions: escalate((_, event) => ({
-              message: event.data.message,
-            })),
+            target: "error",
           },
         },
       },
@@ -328,6 +354,7 @@ export const auctioneerMachine = createMachine<
       finish: {
         type: "final",
       },
+      error: {},
     },
   },
   {
