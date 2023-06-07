@@ -90,7 +90,6 @@ export const PhaserComponent: React.FC = () => {
         },
       },
       scene: [
-        WoodlandsScene,
         PhaserScene,
         BettyHomeScene,
         TimmyHomeScene,
@@ -100,6 +99,7 @@ export const PhaserComponent: React.FC = () => {
         DecorationShopScene,
         ClothesShopScene,
         AuctionScene,
+        WoodlandsScene,
       ],
       loader: {
         crossOrigin: "anonymous",
