@@ -11,6 +11,8 @@ import bertHomeJSON from "assets/map/bert_home.json";
 import timmyHomeJSON from "assets/map/timmy_home.json";
 import bettyHomeJSON from "assets/map/betty_home.json";
 
+import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
+
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
@@ -30,6 +32,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { EventObject, State } from "xstate";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { isTouchDevice } from "../lib/device";
 
 export type NPCBumpkin = {
   x: number;
@@ -45,6 +48,8 @@ export abstract class BaseScene extends Phaser.Scene {
     state: State<ChatContext, RoomEvent, any, any, any>,
     event: RoomEvent
   ) => void;
+
+  private joystick?: VirtualJoystick;
 
   constructor(key: string) {
     super(key);
@@ -117,7 +122,15 @@ export abstract class BaseScene extends Phaser.Scene {
 
   customColliders?: Phaser.GameObjects.Group;
 
-  cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
+  cursorKeys:
+    | {
+        up: Phaser.Input.Keyboard.Key;
+        down: Phaser.Input.Keyboard.Key;
+        left: Phaser.Input.Keyboard.Key;
+        right: Phaser.Input.Keyboard.Key;
+      }
+    | undefined;
+
   inputPayload = {
     left: false,
     right: false,
@@ -240,9 +253,28 @@ export abstract class BaseScene extends Phaser.Scene {
       }
     });
 
-    // Initialise Keyboard
-    this.cursorKeys = this.input.keyboard?.createCursorKeys();
-    this.input.keyboard?.removeCapture("SPACE");
+    if (isTouchDevice()) {
+      // Initialise joystick
+      const { x, y, centerX, centerY, width, height } = this.cameras.main;
+      const zoom = 4;
+      console.log({ x, y, centerX, centerY, width, height, zoom });
+      this.joystick = new VirtualJoystick(this, {
+        x: centerX + 25 - width / zoom / 2,
+        y: centerY - 25 + height / zoom / 2,
+        radius: 40,
+        base: this.add.circle(0, 0, 20, 0x000000, 0.2),
+        thumb: this.add.circle(0, 0, 10, 0xffffff, 0.2),
+        dir: "8dir",
+        fixed: true,
+        forceMin: 10,
+      });
+
+      this.cursorKeys = this.joystick?.createCursorKeys();
+    } else {
+      // Initialise Keyboard
+      this.cursorKeys = this.input.keyboard?.createCursorKeys();
+      this.input.keyboard?.removeCapture("SPACE");
+    }
 
     this.roomService.off(this.eventListener);
     this.roomService.off(this.transitionListener);
