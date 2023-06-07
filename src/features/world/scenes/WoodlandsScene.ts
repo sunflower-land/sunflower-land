@@ -9,8 +9,8 @@ export class WoodlandsScene extends BaseScene {
   roomId: RoomId = "woodlands";
 
   spawn: Coordinates = {
-    x: 75,
-    y: 75,
+    x: 10,
+    y: 290,
   };
   constructor() {
     super("woodlands");

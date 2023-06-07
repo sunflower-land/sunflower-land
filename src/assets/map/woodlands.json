@@ -1311,7 +1311,26 @@
       "draworder": "topdown",
       "id": 50,
       "name": "Collision",
-      "objects": [],
+      "objects": [
+        {
+          "height": 33.49490329957,
+          "id": 139,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "plaza"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 2.09343145622313,
+          "x": -0.805165944701203,
+          "y": 271.501956553246
+        }
+      ],
       "opacity": 1,
       "tintcolor": "#ff0000",
       "type": "objectgroup",
@@ -1334,7 +1353,7 @@
     }
   ],
   "nextlayerid": 64,
-  "nextobjectid": 139,
+  "nextobjectid": 140,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",

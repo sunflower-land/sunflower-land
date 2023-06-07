@@ -25,6 +25,7 @@ import { IgorHomeScene } from "./scenes/IgorHomeScene";
 import { BertScene } from "./scenes/BertRoomScene";
 import { TimmyHomeScene } from "./scenes/TimmyHomeScene";
 import { BettyHomeScene } from "./scenes/BettyHomeScene";
+import { WoodlandsScene } from "./scenes/WoodlandsScene";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -89,6 +90,7 @@ export const PhaserComponent: React.FC = () => {
         },
       },
       scene: [
+        WoodlandsScene,
         PhaserScene,
         BettyHomeScene,
         TimmyHomeScene,

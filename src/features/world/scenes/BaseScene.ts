@@ -10,6 +10,7 @@ import igorHomeJSON from "assets/map/blacksmith_home.json";
 import bertHomeJSON from "assets/map/bert_home.json";
 import timmyHomeJSON from "assets/map/timmy_home.json";
 import bettyHomeJSON from "assets/map/betty_home.json";
+import woodlandsJSON from "assets/map/woodlands.json";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
@@ -159,6 +160,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("bert-home", bertHomeJSON);
     this.load.tilemapTiledJSON("timmy-home", timmyHomeJSON);
     this.load.tilemapTiledJSON("betty-home", bettyHomeJSON);
+    this.load.tilemapTiledJSON("woodlands", woodlandsJSON);
 
     // Phaser assets must be served from an URL
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
