@@ -2,7 +2,6 @@ import { useSelector } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
 import { Button } from "components/ui/Button";
-import { Panel } from "components/ui/Panel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 import { Context } from "features/game/GameProvider";
 import React, { useContext, useState } from "react";
@@ -15,6 +14,7 @@ import { Label } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 const isPromoting = (state: MachineState) => state.matches("promoting");
 
@@ -216,10 +216,10 @@ export const PromotingModal: React.FC<Props> = ({
     );
   };
   return (
-    <Modal centered show={isOpen}>
-      <Panel bumpkinParts={NPC_WEARABLES.grubnuk}>
+    <Modal centered show={isOpen} onHide={onClose}>
+      <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
         <Content />
-      </Panel>
+      </CloseButtonPanel>
     </Modal>
   );
 };
