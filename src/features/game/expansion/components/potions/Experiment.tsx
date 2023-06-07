@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import tableTop from "assets/ui/table_top.webp";
@@ -10,19 +10,28 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SpeechBubble } from "./SpeechBubble";
 import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
 import { Game, MachineInterpreter } from "./lib/potionHouseMachine";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import Decimal from "decimal.js-light";
 
 interface Props {
   machine: MachineInterpreter;
 }
 
+const _inventory = (state: GameMachineState) => state.context.state.inventory;
+
 export const Experiment: React.FC<Props> = ({ machine }) => {
+  const { gameService } = useContext(Context);
   const [state, send] = useActor(machine);
+
+  const inventory = useSelector(gameService, _inventory);
+
   const {
     selectedPotion,
     guesses,
@@ -170,16 +179,16 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
                   <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap">
                     {getKeys(selectedPotion.ingredients).map((item, index) => {
                       return (
-                        <div
-                          key={`${item}-${index}`}
-                          className="flex space-x-1"
-                        >
-                          <img
-                            src={ITEM_DETAILS[item].image}
-                            className="w-3 "
-                          />
-                          <span className="ml-1 text-xxs">{`${selectedPotion.ingredients[item]}/100`}</span>
-                        </div>
+                        <RequirementLabel
+                          key={index}
+                          type="item"
+                          item={item}
+                          balance={inventory[item] ?? new Decimal(0)}
+                          requirement={
+                            (selectedPotion.ingredients ?? {})[item] ??
+                            new Decimal(0)
+                          }
+                        />
                       );
                     })}
                   </div>

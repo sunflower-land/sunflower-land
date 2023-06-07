@@ -7,14 +7,14 @@ import aquaBottle from "assets/decorations/aqua_bottle.webp";
 import greenBottle from "assets/decorations/green_bottle.webp";
 import mustardBottle from "assets/decorations/mustard_bottle.webp";
 import whiteBottle from "assets/decorations/white_bottle.webp";
+import Decimal from "decimal.js-light";
 
 export const POTIONS: Potion[] = [
   {
     name: "Bloom Boost",
     ingredients: {
-      Pumpkin: 10,
-      Cabbage: 10,
-      Iron: 10,
+      Pumpkin: new Decimal(10),
+      Cabbage: new Decimal(10),
     },
     image: orangeBottle,
     description: "Ignite your plants with vibrant blooms!",
@@ -22,9 +22,8 @@ export const POTIONS: Potion[] = [
   {
     name: "Happy Hooch",
     ingredients: {
-      Parsnip: 10,
-      Radish: 10,
-      Wood: 10,
+      Parsnip: new Decimal(10),
+      Radish: new Decimal(10),
     },
     image: blueBottle,
     description: "A potion to bring joy and laughter to your plants.",
@@ -32,9 +31,8 @@ export const POTIONS: Potion[] = [
   {
     name: "Earth Essence",
     ingredients: {
-      Potato: 10,
-      Stone: 10,
-      Iron: 10,
+      Potato: new Decimal(10),
+      Stone: new Decimal(10),
     },
     image: pinkBottle,
     description: "Harness the power of the earth to nurture your plants.",
@@ -42,8 +40,8 @@ export const POTIONS: Potion[] = [
   {
     name: "Flower Power",
     ingredients: {
-      Sunflower: 10,
-      Iron: 10,
+      Sunflower: new Decimal(10),
+      Iron: new Decimal(10),
     },
     image: aquaBottle,
     description: "Unleash a burst of floral energy upon your plants.",
@@ -51,9 +49,9 @@ export const POTIONS: Potion[] = [
   {
     name: "Organic Oasis",
     ingredients: {
-      Egg: 10,
-      Kale: 10,
-      Stone: 10,
+      Egg: new Decimal(10),
+      Kale: new Decimal(10),
+      Stone: new Decimal(10),
     },
     image: greenBottle,
     description: "Create a lush, organic paradise for your plants.",
@@ -61,9 +59,9 @@ export const POTIONS: Potion[] = [
   {
     name: "Dream Drip",
     ingredients: {
-      Egg: 10,
-      Kale: 10,
-      Stone: 10,
+      Egg: new Decimal(10),
+      Kale: new Decimal(10),
+      Stone: new Decimal(10),
     },
     image: mustardBottle,
     description: "Drizzle your plants with magical dreams and fantasies.",
@@ -71,9 +69,9 @@ export const POTIONS: Potion[] = [
   // {
   //   name: "Miracle Mix",
   //   ingredients: {
-  //     Egg: 10,
-  //     Kale: 10,
-  //     Stone: 10,
+  //     Egg: new Decimal(10),
+  //     Kale: new Decimal(10),
+  //     Stone: new Decimal(10),
   //   },
   //   image: blackBottle,
   //   description:
@@ -82,7 +80,7 @@ export const POTIONS: Potion[] = [
   {
     name: "Golden Syrup",
     ingredients: {
-      Gold: 5,
+      Gold: new Decimal(5),
     },
     image: whiteBottle,
     description: "Guaranteed to bloom the plant, but at a cost.",

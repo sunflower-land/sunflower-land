@@ -19,7 +19,7 @@ import {
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { Rules } from "./Rules";
-import { send } from "xstate/lib/actions";
+import classNames from "classnames";
 
 const _farmId = (state: AuthMachineState) => state.context.user.farmId;
 const _jwt = (state: AuthMachineState) => state.context.user.rawToken;
@@ -91,6 +91,7 @@ export const PotionHouse: React.FC = () => {
                 onClick={handleShowRules}
                 style={{
                   height: `${PIXEL_SCALE * 11}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
                 }}
               >
                 {isPlaying && (
@@ -114,8 +115,23 @@ export const PotionHouse: React.FC = () => {
             </div>
             <div className="flex flex-col grow mb-1">
               {isIntro && <IntroPage machine={potionHouseService} />}
-              {isPlaying && <Experiment machine={potionHouseService} />}
-              {isRules && <Rules onDone={() => send("CLOSE_RULES")} />}
+              {(isPlaying || isRules) && (
+                <div
+                  className={classNames({
+                    hidden: isRules,
+                    block: !isRules,
+                  })}
+                >
+                  <Experiment machine={potionHouseService} />
+                </div>
+              )}
+              {isRules && (
+                <Rules
+                  onDone={() =>
+                    potionHouseService.send({ type: "CLOSE_RULES" })
+                  }
+                />
+              )}
               {isGameOver && <ResultPage machine={potionHouseService} />}
             </div>
           </div>

@@ -7,6 +7,10 @@ import {
   initialiseGuessGrid,
 } from "./helpers";
 import { POTIONS } from "./potions";
+import {
+  acknowledgePotionHouseIntro,
+  getPotionHouseIntroRead,
+} from "./introStorage";
 
 export type Game = {
   selectedPotion: Potion;
@@ -78,12 +82,13 @@ export const potionHouseMachine = createMachine<
   PotionHouseState
 >({
   id: "potionHouse",
-  initial: "intro",
+  initial: getPotionHouseIntroRead() ? "playing" : "intro",
   states: {
     intro: {
       on: {
         ACKNOWLEDGE_INTRO: {
           target: "playing",
+          actions: () => acknowledgePotionHouseIntro(),
         },
       },
     },
