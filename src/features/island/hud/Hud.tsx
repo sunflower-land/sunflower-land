@@ -100,9 +100,9 @@ const HudComponent: React.FC<{
                   src={SUNNYSIDE.icons.drag}
                   className={"absolute"}
                   style={{
-                    top: `${PIXEL_SCALE * 5}px`,
-                    left: `${PIXEL_SCALE * 5}px`,
-                    width: `${PIXEL_SCALE * 12}px`,
+                    top: `${PIXEL_SCALE * 4}px`,
+                    left: `${PIXEL_SCALE * 4}px`,
+                    width: `${PIXEL_SCALE * 14}px`,
                   }}
                 />
               </div>
