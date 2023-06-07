@@ -121,10 +121,10 @@ export const BlockBucksModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [showPoko, setShowPoko] = useState<PokoConfig | undefined>(undefined);
+  const [showPoko, setShowPoko] = useState<PokoConfig>();
   const [loading, setLoading] = useState(false);
 
-  const [price, setPrice] = useState<Price | undefined>(undefined);
+  const [price, setPrice] = useState<Price>();
 
   const onMaticBuy = async (amount: number) => {
     gameService.send("BUY_BLOCK_BUCKS", {
@@ -295,6 +295,7 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   return (
     <CloseButtonPanel
+      onBack={closeable && price ? () => setPrice(undefined) : undefined}
       onClose={closeable ? onClose : undefined}
       title="Buy Block Bucks"
       bumpkinParts={{
