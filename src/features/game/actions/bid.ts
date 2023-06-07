@@ -1,14 +1,13 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { makeGame } from "../lib/transforms";
-import { AuctioneerItemName } from "../types/auctioneer";
 
 type Request = {
   farmId: number;
-  item: AuctioneerItemName;
+  auctionId: string;
   token: string;
   transactionId: string;
-  auctionTickets: number;
+  tickets: number;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -23,8 +22,8 @@ export async function bid(request: Request) {
       "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
-      item: request.item,
-      auctionTickets: request.auctionTickets,
+      auctionId: request.auctionId,
+      tickets: request.tickets,
     }),
   });
 
@@ -38,7 +37,7 @@ export async function bid(request: Request) {
 
   const data = await response.json();
 
-  const game = makeGame(data.game);
+  const game = makeGame(data.farm);
 
   return { verified: true, game };
 }

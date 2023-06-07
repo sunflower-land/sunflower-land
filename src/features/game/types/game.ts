@@ -404,11 +404,13 @@ export type TreasureHole = {
 };
 
 export type Bid = {
+  auctionId: string;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
-  item: AuctioneerItemName;
-  bidAt: number;
-  auctionTickets: number;
+  collectible?: InventoryItemName;
+  wearable?: BumpkinItem;
+  biddedAt: number;
+  tickets: number;
 };
 
 export type HayseedHank = {

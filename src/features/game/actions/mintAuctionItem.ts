@@ -2,12 +2,11 @@ import { mintCollectible } from "lib/blockchain/Game";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { AuctioneerItemName } from "../types/auctioneer";
 
 type Request = {
   farmId: number;
   sessionId: string;
-  item: AuctioneerItemName;
+  auctionId: string;
   token: string;
   transactionId: string;
 };
@@ -25,7 +24,7 @@ export async function mintAuctionItem(request: Request) {
         "X-Transaction-ID": request.transactionId,
       },
       body: JSON.stringify({
-        item: request.item,
+        auctionId: request.auctionId,
       }),
     }
   );
