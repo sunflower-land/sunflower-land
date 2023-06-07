@@ -253,11 +253,6 @@ export const BlockBucksModal: React.FC<Props> = ({
       );
     }
 
-    const onBuy = (price: Price) => {
-      // Go directly to MATIC purchase if they do not have direct checkout access
-      setPrice(price);
-    };
-
     return (
       <>
         <div className="flex flex-wrap">
@@ -274,7 +269,7 @@ export const BlockBucksModal: React.FC<Props> = ({
                   />
                 </div>
                 <Button
-                  onClick={() => onBuy(price)}
+                  onClick={() => setPrice(price)}
                 >{`$${price.usd} USD`}</Button>
               </OuterPanel>
             </div>
