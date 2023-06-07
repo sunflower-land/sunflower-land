@@ -10,7 +10,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SpeechBubble } from "./SpeechBubble";
 import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
-import { getKeys } from "features/game/types/craftables";
+import { getEntries, getKeys } from "features/game/types/craftables";
 import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
 import { Game, MachineInterpreter } from "./lib/potionHouseMachine";
@@ -19,18 +19,27 @@ import { Context } from "features/game/GameProvider";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
+import { InventoryItemName } from "features/game/types/game";
 
 interface Props {
   machine: MachineInterpreter;
 }
 
 const _inventory = (state: GameMachineState) => state.context.state.inventory;
+const _isPlaying = (state: GameMachineState) =>
+  state.matches("playing") || state.matches("rules");
+const _isGameOver = (state: GameMachineState) =>
+  !state.matches("playing") && !state.matches("rules");
 
 export const Experiment: React.FC<Props> = ({ machine }) => {
   const { gameService } = useContext(Context);
   const [state, send] = useActor(machine);
 
   const inventory = useSelector(gameService, _inventory);
+  const isPlaying = useSelector(machine, _isPlaying);
+  const isGameOver = useSelector(machine, _isGameOver);
+
+  console.log({ isGameOver });
 
   const {
     selectedPotion,
@@ -50,112 +59,131 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
     send("ADD_POTION");
   };
 
+  const hasRequirementsForPotion = () => {
+    const { ingredients } = selectedPotion;
+    const entries = getEntries(ingredients) as [InventoryItemName, Decimal][];
+
+    return entries.every(([ingredient, amount]) => {
+      const inventoryAmount = inventory[ingredient] ?? new Decimal(0);
+
+      return inventoryAmount?.gte(amount) ?? false;
+    });
+  };
+
+  console.log({ isPlaying });
+
   return (
     <>
-      <div className="flex w-full">
-        {/* Left Side */}
-        <div className="flex w-3/5">
-          <div className="flex flex-col items-center">
-            {/* Table */}
-            <div className="w-full flex relative mb-3">
-              <div
-                className="w-full"
-                style={{
-                  ...pixelTableBorderStyle,
-                }}
-              >
-                {/* Grid */}
+      <div
+        className={classNames("transition-all ease-in duration-300", {
+          "translate-y-28": !isPlaying,
+        })}
+      >
+        <div className="flex w-full">
+          {/* Left Side */}
+          <div className="flex w-3/5">
+            <div className="flex flex-col items-center">
+              {/* Table */}
+              <div className="w-full flex relative mb-3">
                 <div
-                  className="h-full w-full p-1"
+                  className="w-full"
                   style={{
-                    backgroundImage: `url(${tableTop})`,
-                    backgroundRepeat: "repeat",
-                    backgroundSize: `${PIXEL_SCALE * 16}px`,
+                    ...pixelTableBorderStyle,
                   }}
                 >
-                  {/* Plant */}
-                  <div className="flex items-center mb-2 flex-col">
-                    <img
-                      src={plant}
-                      alt="Plant"
-                      className="mb-1"
-                      style={{ width: `${PIXEL_SCALE * 28}px` }}
-                    />
-                    {/* <Prog */}
-                    <ResizableBar
-                      percentage={80}
-                      type="health"
-                      outerDimensions={{
-                        width: 28,
-                        height: 7,
-                      }}
-                    />
-                  </div>
-                  {guesses.map(({ guess, feedback }, rowIndex) => (
-                    <div className="flex items-center mb-2" key={rowIndex}>
-                      {guess.map((potionName, columnIndex) => {
-                        if (rowIndex === guessRow) {
-                          return (
-                            <div
-                              className="relative"
-                              key={`select-${columnIndex}`}
-                              onClick={() =>
-                                send({
-                                  type: "SET_GUESS_SPOT",
-                                  index: columnIndex,
-                                })
-                              }
-                            >
-                              <Box
-                                potionName={currentGuess[columnIndex]}
-                                selected={guessSpot === columnIndex}
-                              />
-                            </div>
-                          );
-                        }
-
-                        return (
-                          <Box
-                            key={`${rowIndex}-${columnIndex}`}
-                            potionName={potionName}
-                            feedback={feedback?.[columnIndex]}
-                          />
-                        );
-                      })}
-                    </div>
-                  ))}
-                  <Button
-                    className="mt-2"
-                    disabled={currentGuess.some((potion) => potion === null)}
-                    onClick={() => send("CONFIRM_GUESS")}
+                  {/* Grid */}
+                  <div
+                    className="h-full w-full p-1"
+                    style={{
+                      backgroundImage: `url(${tableTop})`,
+                      backgroundRepeat: "repeat",
+                      backgroundSize: `${PIXEL_SCALE * 16}px`,
+                    }}
                   >
-                    Mix potion
-                  </Button>
+                    {/* Plant */}
+                    <div className="flex items-center mb-2 flex-col">
+                      <img
+                        src={plant}
+                        alt="Plant"
+                        className="mb-1"
+                        style={{ width: `${PIXEL_SCALE * 28}px` }}
+                      />
+                      {/* <Prog */}
+                      <ResizableBar
+                        percentage={80}
+                        type="health"
+                        outerDimensions={{
+                          width: 28,
+                          height: 7,
+                        }}
+                      />
+                    </div>
+                    {guesses.map(({ guess, feedback }, rowIndex) => (
+                      <div className="flex items-center mb-2" key={rowIndex}>
+                        {guess.map((potionName, columnIndex) => {
+                          if (rowIndex === guessRow) {
+                            return (
+                              <div
+                                className="relative"
+                                key={`select-${columnIndex}`}
+                                onClick={() =>
+                                  send({
+                                    type: "SET_GUESS_SPOT",
+                                    index: columnIndex,
+                                  })
+                                }
+                              >
+                                <Box
+                                  potionName={currentGuess[columnIndex]}
+                                  selected={guessSpot === columnIndex}
+                                />
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <Box
+                              key={`${rowIndex}-${columnIndex}`}
+                              potionName={potionName}
+                              feedback={feedback?.[columnIndex]}
+                            />
+                          );
+                        })}
+                      </div>
+                    ))}
+                    <Button
+                      className="mt-2"
+                      disabled={currentGuess.some((potion) => potion === null)}
+                      onClick={() => send("CONFIRM_GUESS")}
+                    >
+                      Mix potion
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* Right Side */}
-        <div className="flex flex-col items-center w-full grow justify-center">
-          <div className="flex flex-col items-center justify-between">
-            <div className="ml-3 flex flex-col items-center sm:max-w-[70%]">
-              <SpeechBubble text={feedbackText} className="w-4/5" />
-              <div
-                className="relative w-full mb-2 max-w-[190px]"
-                style={{ transform: "scale(-1, 1)" }}
-              >
-                <DynamicNFT
-                  bumpkinParts={{
-                    body: "Beige Farmer Potion",
-                    hair: "Blacksmith Hair",
-                    pants: "Farmer Overalls",
-                    shirt: "Yellow Farmer Shirt",
-                    tool: "Hammer",
-                    background: "Farm Background",
-                    shoes: "Black Farmer Boots",
-                  }}
-                />
+          {/* Right Side */}
+          <div className="flex flex-col items-center w-full grow justify-center">
+            <div className="flex flex-col items-center justify-between">
+              <div className="ml-3 flex flex-col items-center sm:max-w-[70%]">
+                <SpeechBubble text={feedbackText} className="w-4/5" />
+                <div
+                  className="relative w-full mb-2 max-w-[190px]"
+                  style={{ transform: "scale(-1, 1)" }}
+                >
+                  <DynamicNFT
+                    bumpkinParts={{
+                      body: "Beige Farmer Potion",
+                      hair: "Blacksmith Hair",
+                      pants: "Farmer Overalls",
+                      shirt: "Yellow Farmer Shirt",
+                      tool: "Hammer",
+                      background: "Farm Background",
+                      shoes: "Black Farmer Boots",
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -164,7 +192,14 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
       {/* Bottom Section */}
       <div className="flex flex-col grow space-y-1">
         {/* Potions */}
-        <div className="flex flex-col justify-end grow">
+        <div
+          className={classNames(
+            "flex flex-col justify-end grow transition-all scale-y-1 origin-bottom ease-in duration-300",
+            {
+              "scale-y-0": !isPlaying,
+            }
+          )}
+        >
           <h2 className="mb-1">Potions</h2>
           <InnerPanel>
             <div className="p-1 flex flex-col space-y-1">
@@ -195,7 +230,11 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
                 </>
               )}
             </div>
-            <Button className="h-9" onClick={onPotionButtonClick}>
+            <Button
+              className="h-9"
+              disabled={!hasRequirementsForPotion() || guessSpot < 0}
+              onClick={onPotionButtonClick}
+            >
               {currentGuess[guessSpot] ? "Remove from mix" : "Add to mix"}
             </Button>
           </InnerPanel>
@@ -203,7 +242,7 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
             {POTIONS.map((potion) => (
               <div
                 key={potion.name}
-                className={classNames("relative", {
+                className={classNames("relative cursor-pointer", {
                   "img-highlight": potion.name === selectedPotion?.name,
                 })}
                 onClick={() => send({ type: "SELECT_POTION", potion })}

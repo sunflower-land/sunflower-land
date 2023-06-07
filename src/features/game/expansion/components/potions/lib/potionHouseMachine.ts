@@ -20,6 +20,7 @@ export type Game = {
   guessSpot: number;
   combination: Combination;
   feedbackText: string;
+  score: number;
 };
 
 interface PotionHouseContext {
@@ -40,10 +41,20 @@ type PotionHouseEvent =
   | { type: "CONFIRM_GUESS" }
   | { type: "REMOVE_POTION"; index: number }
   | { type: "ADD_POTION" }
-  | { type: "SET_GUESS_SPOT"; index: number };
+  | { type: "SET_GUESS_SPOT"; index: number }
+  | { type: "REVEAL_PRIZE" }
+  | { type: "FINISH_GAME" };
 
 export type PotionHouseState = {
-  value: "intro" | "playing" | "rules" | "gameOver";
+  value:
+    | "intro"
+    | "playing"
+    | "rules"
+    | "revealing"
+    | "gameOver"
+    | "revealingPrize"
+    | "prizeRevealed"
+    | "finished";
   context: PotionHouseContext;
 };
 
@@ -83,6 +94,7 @@ export const potionHouseMachine = createMachine<
 >({
   id: "potionHouse",
   initial: getPotionHouseIntroRead() ? "playing" : "intro",
+  preserveActionOrder: true,
   states: {
     intro: {
       on: {
@@ -93,6 +105,7 @@ export const potionHouseMachine = createMachine<
       },
     },
     rules: {
+      id: "rules",
       on: {
         CLOSE_RULES: {
           target: "playing",
@@ -100,6 +113,19 @@ export const potionHouseMachine = createMachine<
       },
     },
     playing: {
+      id: "playing",
+      always: {
+        target: "gameOver",
+        cond: (context) => {
+          if (!context.game) return false;
+
+          if (context.game.score === 100) return true;
+
+          return context.game.guesses.every(
+            (turn) => !turn.guess.includes(null)
+          );
+        },
+      },
       entry: assign(() => ({
         game: {
           selectedPotion: POTIONS[0],
@@ -107,6 +133,7 @@ export const potionHouseMachine = createMachine<
           currentGuess: [null, null, null, null],
           guessRow: 2,
           guessSpot: 0,
+          score: 0,
           combination: generatePotionCombination(),
           feedbackText:
             "Select your potions and unveil the secrets of the plants!",
@@ -166,6 +193,7 @@ export const potionHouseMachine = createMachine<
                 selectedPotion: POTIONS[0],
                 guessRow,
                 feedbackText,
+                score,
               } as Game,
             };
           }),
@@ -212,6 +240,32 @@ export const potionHouseMachine = createMachine<
         },
       },
     },
-    gameOver: {},
+    gameOver: {
+      id: "gameOver",
+      on: {
+        REVEAL_PRIZE: {
+          target: "prizeRevealed",
+        },
+      },
+    },
+    revealingPrize: {
+      after: {
+        1000: {
+          target: "prizeRevealed",
+        },
+      },
+    },
+    prizeRevealed: {
+      id: "prizeRevealed",
+      on: {
+        FINISH_GAME: {
+          target: "#finished",
+        },
+      },
+    },
+    finished: {
+      id: "finished",
+      type: "final",
+    },
   },
 });

@@ -4,7 +4,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
 import { IntroPage } from "./Intro";
-import { ResultPage } from "./Result";
 import { Experiment } from "./Experiment";
 import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -30,9 +29,12 @@ const _deviceTrackerId = (state: GameMachineState) =>
   state.context.deviceTrackerId;
 
 const _isIntro = (state: PotionHouseState) => state.matches("intro");
+const _isExperimenting = (state: PotionHouseState) =>
+  !state.matches("intro") && !state.matches("finished");
 const _isPlaying = (state: PotionHouseState) => state.matches("playing");
 const _isRules = (state: PotionHouseState) => state.matches("rules");
 const _isGameOver = (state: PotionHouseState) => state.matches("gameOVer");
+const _isRevealing = (state: PotionHouseState) => state.matches("revealing");
 
 export const PotionHouse: React.FC<{
   showModal: boolean;
@@ -58,19 +60,14 @@ export const PotionHouse: React.FC<{
   }) as unknown as MachineInterpreter;
 
   const isIntro = useSelector(potionHouseService, _isIntro);
-  const isPlaying = useSelector(potionHouseService, _isPlaying);
+  const isExperimenting = useSelector(potionHouseService, _isExperimenting);
   const isRules = useSelector(potionHouseService, _isRules);
-  const isGameOver = useSelector(potionHouseService, _isGameOver);
 
-  const handleShowRules = () => {
-    if (!isPlaying) return;
-
-    potionHouseService.send({ type: "SHOW_RULES" });
-  };
+  const showRulesButton = isExperimenting && !isRules;
 
   return (
     <>
-      <Modal show={showModal} centered onHide={onClose}>
+      <Modal show={true} centered onHide={onClose}>
         <div
           className="bg-brown-600 text-white relative"
           style={{
@@ -83,13 +80,13 @@ export const PotionHouse: React.FC<{
             {/* Header */}
             <div className="flex mb-3 w-full justify-center">
               <div
-                onClick={handleShowRules}
+                onClick={() => potionHouseService.send({ type: "SHOW_RULES" })}
                 style={{
                   height: `${PIXEL_SCALE * 11}px`,
                   width: `${PIXEL_SCALE * 11}px`,
                 }}
               >
-                {isPlaying && (
+                {showRulesButton && (
                   <img
                     src={SUNNYSIDE.icons.expression_confused}
                     className="cursor-pointer h-full"
@@ -110,7 +107,8 @@ export const PotionHouse: React.FC<{
             </div>
             <div className="flex flex-col grow mb-1">
               {isIntro && <IntroPage machine={potionHouseService} />}
-              {(isPlaying || isRules) && (
+              {isExperimenting && (
+                // Prevents an unmount/flash when rules are displayed.
                 <div
                   className={classNames({
                     hidden: isRules,
@@ -127,7 +125,6 @@ export const PotionHouse: React.FC<{
                   }
                 />
               )}
-              {isGameOver && <ResultPage machine={potionHouseService} />}
             </div>
           </div>
         </div>
