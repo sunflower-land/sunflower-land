@@ -34,14 +34,14 @@ export const NPCModals: React.FC = () => {
   return (
     <>
       <Modal centered show={!!npc} onHide={() => setNpc(undefined)}>
-        {npc === "adam" && (
+        {npc === "pumpkin'pete" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.adam}
+            bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
           >
             <div className="p-2">
               <p className="mb-2">Howdy farmer!</p>
-              <p className="mb-2">Welcome to the Pumpkin Plaza.</p>
+              <p className="mb-2">{`Welcome to the Plaza, I'm Pumpkin Pete.`}</p>
               <p className="mb-2">
                 Here you can explore, trade & compete with other Bumpkins.
               </p>

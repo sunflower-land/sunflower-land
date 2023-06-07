@@ -125,7 +125,7 @@ const getIslandElements = ({
                 createdAt={createdAt}
                 showTimers={showTimers}
                 x={coordinates.x}
-                y={coordinates.x}
+                y={coordinates.y}
                 grid={grid}
               />
             </MapPlacement>

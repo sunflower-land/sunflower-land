@@ -3,6 +3,7 @@ import { Game, AUTO } from "phaser";
 import { useActor, useSelector } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
+import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
@@ -19,6 +20,12 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { ClothesShopScene } from "./scenes/ClothesShopScene";
 import { DecorationShopScene } from "./scenes/DecorationShop";
+import { WindmillFloorScene } from "./scenes/WindmillFloorScene";
+import { IgorHomeScene } from "./scenes/IgorHomeScene";
+import { BertScene } from "./scenes/BertRoomScene";
+import { TimmyHomeScene } from "./scenes/TimmyHomeScene";
+import { BettyHomeScene } from "./scenes/BettyHomeScene";
+import { WoodlandsScene } from "./scenes/WoodlandsScene";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -65,6 +72,11 @@ export const PhaserComponent: React.FC = () => {
             plugin: NinePatchPlugin,
             start: true,
           },
+          {
+            key: "rexVirtualJoystick",
+            plugin: VirtualJoystickPlugin,
+            start: true,
+          },
         ],
       },
       width: window.innerWidth,
@@ -77,7 +89,18 @@ export const PhaserComponent: React.FC = () => {
           gravity: { y: 0 },
         },
       },
-      scene: [PhaserScene, DecorationShopScene, ClothesShopScene, AuctionScene],
+      scene: [
+        PhaserScene,
+        BettyHomeScene,
+        TimmyHomeScene,
+        BertScene,
+        IgorHomeScene,
+        WindmillFloorScene,
+        DecorationShopScene,
+        ClothesShopScene,
+        AuctionScene,
+        WoodlandsScene,
+      ],
       loader: {
         crossOrigin: "anonymous",
       },

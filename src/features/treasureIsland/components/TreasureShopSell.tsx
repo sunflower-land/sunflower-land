@@ -10,16 +10,16 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import {
   BeachBountyTreasure,
-  BEACH_BOUNTY_TREASURE,
+  SELLABLE_TREASURE,
 } from "features/game/types/treasure";
 import { getSellPrice } from "features/game/events/landExpansion/treasureSold";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 
 export const TreasureShopSell: React.FC = () => {
-  const beachBountyTreasure = getKeys(BEACH_BOUNTY_TREASURE).sort((a, b) =>
-    BEACH_BOUNTY_TREASURE[a].sellPrice
-      .sub(BEACH_BOUNTY_TREASURE[b].sellPrice)
+  const beachBountyTreasure = getKeys(SELLABLE_TREASURE).sort((a, b) =>
+    SELLABLE_TREASURE[a].sellPrice
+      .sub(SELLABLE_TREASURE[b].sellPrice)
       .toNumber()
   );
 
@@ -27,7 +27,7 @@ export const TreasureShopSell: React.FC = () => {
     beachBountyTreasure[0]
   );
 
-  const selected = BEACH_BOUNTY_TREASURE[selectedName];
+  const selected = SELLABLE_TREASURE[selectedName];
   const { gameService } = useContext(Context);
   const [
     {

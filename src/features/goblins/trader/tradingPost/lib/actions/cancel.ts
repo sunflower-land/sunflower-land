@@ -1,4 +1,4 @@
-import { cancelTrade } from "lib/blockchain/Sessions";
+import { cancelTrade } from "lib/blockchain/Game";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";

@@ -18,7 +18,11 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
 
   return (
     <>
-      <NPC parts={bumpkinParts} onClick={() => setOpen(true)} />
+      <NPC
+        key={JSON.stringify(bumpkinParts)}
+        parts={bumpkinParts}
+        onClick={() => setOpen(true)}
+      />
 
       <NPCModal
         isOpen={open}

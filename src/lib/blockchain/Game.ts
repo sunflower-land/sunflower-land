@@ -3,12 +3,14 @@ import { KNOWN_ITEMS } from "features/game/types";
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
-import SessionABI from "./abis/Session.json";
+import GameABI from "./abis/SunflowerLandGame.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { analytics } from "lib/analytics";
+import { getNextSessionId, getSessionId } from "./Session";
 
-const address = CONFIG.SESSION_CONTRACT;
+const address = CONFIG.GAME_CONTRACT;
 
+console.log({ address });
 type ProgressData = {
   mintIds: number[];
   mintAmounts: string[];
@@ -17,14 +19,6 @@ type ProgressData = {
   statisticIds: number[];
   statisticAmounts: number[];
   tokens: string;
-};
-
-export type LandExpansionData = {
-  nonce: string;
-  metadata: string;
-  sfl: string;
-  resourceIds: number[];
-  resourceAmounts: string[];
 };
 
 export type SyncProgressArgs = {
@@ -39,7 +33,6 @@ export type SyncProgressArgs = {
   nextSessionId: string;
   progress: ProgressData;
   fee: string;
-  expansion: LandExpansionData;
   purchase: {
     name: string;
     amount: number;
@@ -75,53 +68,6 @@ export type Recipe = {
   releaseDate?: number;
 };
 
-export async function getSessionId(
-  web3: Web3,
-  farmId: number,
-  attempts = 0
-): Promise<string> {
-  const contract = new web3.eth.Contract(
-    SessionABI as AbiItem[],
-    address as string
-  );
-
-  await new Promise((res) => setTimeout(res, 3000 * attempts));
-
-  try {
-    const sessionId = await contract.methods.getSessionId(farmId).call();
-
-    return sessionId;
-  } catch (e) {
-    const error = parseMetamaskError(e);
-    if (attempts < 3) {
-      return getSessionId(web3, farmId, attempts + 1);
-    }
-
-    throw error;
-  }
-}
-
-/**
- * Poll until data is ready
- */
-export async function getNextSessionId(
-  web3: Web3,
-  account: string,
-  farmId: number,
-  oldSessionId: string
-): Promise<string> {
-  await new Promise((res) => setTimeout(res, 3000));
-
-  const sessionId = await getSessionId(web3, farmId);
-
-  // Try again
-  if (sessionId === oldSessionId) {
-    return getNextSessionId(web3, account, farmId, oldSessionId);
-  }
-
-  return sessionId;
-}
-
 export async function getRecipes(
   web3: Web3,
   account: string,
@@ -132,11 +78,11 @@ export async function getRecipes(
 
   try {
     const contract = new web3.eth.Contract(
-      SessionABI as AbiItem[],
+      GameABI as AbiItem[],
       address as string
     );
     const recipes: Recipe[] = await new web3.eth.Contract(
-      SessionABI as AbiItem[],
+      GameABI as AbiItem[],
       address as string
     ).methods
       .getRecipeBatch(ids)
@@ -199,7 +145,7 @@ export async function getMintedAtBatch(
 
   try {
     const mintedAts: number[] = await new web3.eth.Contract(
-      SessionABI as AbiItem[],
+      GameABI as AbiItem[],
       address as string
     ).methods
       .getMintedAtBatch(farmId, ids)
@@ -228,14 +174,13 @@ export async function syncProgress({
   bumpkinId,
   progress,
   fee,
-  expansion,
   purchase,
 }: SyncProgressArgs): Promise<string> {
   const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
-    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+    new web3.eth.Contract(GameABI as AbiItem[], address as string).methods
       .syncProgress({
         signature,
         farmId,
@@ -244,7 +189,6 @@ export async function syncProgress({
         sessionId,
         nextSessionId,
         progress,
-        expansion,
         fee,
       })
       .send({ from: account, value: fee, gasPrice })
@@ -322,7 +266,7 @@ export async function mint({
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
-    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+    new web3.eth.Contract(GameABI as AbiItem[], address as string).methods
       .mint(signature, sessionId, nextSessionId, deadline, farmId, mintId, fee)
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
@@ -374,7 +318,7 @@ export async function mintCollectible({
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
-    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+    new web3.eth.Contract(GameABI as AbiItem[], address as string).methods
       .mintCollectible(
         signature,
         sessionId,
@@ -406,84 +350,6 @@ export async function mintCollectible({
         }
       })
       .on("receipt", function (receipt: any) {
-        resolve(receipt);
-      });
-  });
-
-  const newSessionId = await getNextSessionId(
-    web3,
-    account,
-    farmId,
-    oldSessionId
-  );
-  return newSessionId;
-}
-
-export async function withdrawItems({
-  web3,
-  account,
-  signature,
-  sessionId,
-  nextSessionId,
-  deadline,
-  farmId,
-  ids,
-  amounts,
-  tax,
-  sfl,
-}: {
-  web3: Web3;
-  account: string;
-  signature: string;
-  sessionId: string;
-  nextSessionId: string;
-  deadline: number;
-  // Data
-  farmId: number;
-  ids: number[];
-  amounts: number[];
-  sfl: number;
-  tax: number;
-}): Promise<string> {
-  const oldSessionId = await getSessionId(web3, farmId);
-  const gasPrice = await estimateGasPrice(web3);
-
-  await new Promise((resolve, reject) => {
-    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
-      .withdraw(
-        signature,
-        sessionId,
-        nextSessionId,
-        deadline,
-        farmId,
-        ids,
-        amounts,
-        sfl,
-        tax
-      )
-      .send({ from: account, gasPrice })
-      .on("error", function (error: any) {
-        const parsed = parseMetamaskError(error);
-        console.log({ parsedIt: parsed });
-        reject(parsed);
-      })
-      .on("transactionHash", async (transactionHash: any) => {
-        console.log({ transactionHash });
-        try {
-          // Sequence wallet doesn't resolve the receipt. Therefore
-          // We try to fetch it after we have a tx hash returned
-          // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
-
-          if (receipt) resolve(receipt);
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .on("receipt", function (receipt: any) {
-        console.log({ receipt });
         resolve(receipt);
       });
   });
@@ -531,7 +397,7 @@ export async function listTrade({
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
-    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+    new web3.eth.Contract(GameABI as AbiItem[], address as string).methods
       .listTrade(
         signature,
         sessionId,
@@ -604,7 +470,7 @@ export async function cancelTrade({
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
-    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+    new web3.eth.Contract(GameABI as AbiItem[], address as string).methods
       .cancelTrade(
         signature,
         sessionId,
@@ -674,7 +540,7 @@ export async function purchaseTrade({
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
-    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
+    new web3.eth.Contract(GameABI as AbiItem[], address as string).methods
       .purchaseTrade(
         signature,
         sessionId,
@@ -683,86 +549,6 @@ export async function purchaseTrade({
         farmId,
         listingId,
         sfl
-      )
-      .send({ from: account, gasPrice })
-      .on("error", function (error: any) {
-        const parsed = parseMetamaskError(error);
-        console.log({ parsedIt: parsed });
-        reject(parsed);
-      })
-      .on("transactionHash", async (transactionHash: any) => {
-        console.log({ transactionHash });
-        try {
-          // Sequence wallet doesn't resolve the receipt. Therefore
-          // We try to fetch it after we have a tx hash returned
-          // From Sequence.
-          const receipt: any = await web3.eth.getTransactionReceipt(
-            transactionHash
-          );
-
-          if (receipt) resolve(receipt);
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .on("receipt", function (receipt: any) {
-        console.log({ receipt });
-        resolve(receipt);
-      });
-  });
-
-  const newSessionId = await getNextSessionId(
-    web3,
-    account,
-    farmId,
-    oldSessionId
-  );
-  return newSessionId;
-}
-
-export async function expandLand({
-  web3,
-  account,
-  signature,
-  sessionId,
-  nextSessionId,
-  deadline,
-  farmId,
-  sfl,
-  nonce,
-  metadata,
-  resourceIds,
-  resourceAmounts,
-}: {
-  web3: Web3;
-  account: string;
-  signature: string;
-  sessionId: string;
-  nextSessionId: string;
-  deadline: number;
-  farmId: number;
-  sfl: string;
-  nonce: string;
-  metadata: string;
-  resourceIds: number[];
-  resourceAmounts: string[];
-}) {
-  const oldSessionId = await getSessionId(web3, farmId);
-  const gasPrice = await estimateGasPrice(web3);
-
-  await new Promise((resolve, reject) => {
-    new web3.eth.Contract(SessionABI as AbiItem[], address as string).methods
-      .expandLand(
-        signature,
-        sessionId,
-        nextSessionId,
-        deadline,
-        farmId,
-        nonce,
-        metadata,
-        sfl,
-        resourceIds,
-        resourceAmounts
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {

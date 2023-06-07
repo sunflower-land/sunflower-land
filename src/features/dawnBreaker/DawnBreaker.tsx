@@ -16,8 +16,8 @@ import { Week, characters } from "./lib/characters";
 import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
-import background from "assets/land/dawn_breaker_5.webp";
-import nextBackground from "assets/land/dawn_breaker_6.webp";
+import background from "assets/land/dawn_breaker_6.webp";
+import nextBackground from "assets/land/dawn_breaker_7.webp";
 import { Characters } from "./components/Characters";
 import { Modal } from "react-bootstrap";
 import {

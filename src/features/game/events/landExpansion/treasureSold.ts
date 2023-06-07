@@ -3,9 +3,9 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { Collectibles, GameState } from "features/game/types/game";
 import {
-  BeachBounty,
+  SellableTreasure,
   BeachBountyTreasure,
-  BEACH_BOUNTY_TREASURE,
+  SELLABLE_TREASURE,
 } from "features/game/types/treasure";
 import { setPrecision } from "lib/utils/formatNumber";
 import cloneDeep from "lodash.clonedeep";
@@ -21,7 +21,10 @@ type Options = {
   action: SellTreasureAction;
 };
 
-export const getSellPrice = (item: BeachBounty, collectibles: Collectibles) => {
+export const getSellPrice = (
+  item: SellableTreasure,
+  collectibles: Collectibles
+) => {
   const price = item.sellPrice || new Decimal(0);
 
   if (isCollectibleBuilt("Treasure Map", collectibles)) {
@@ -40,7 +43,7 @@ export function sellTreasure({ state, action }: Options) {
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
-  if (!(item in BEACH_BOUNTY_TREASURE)) {
+  if (!(item in SELLABLE_TREASURE)) {
     throw new Error("Not for sale");
   }
 
@@ -54,7 +57,7 @@ export function sellTreasure({ state, action }: Options) {
     throw new Error("Insufficient quantity to sell");
   }
 
-  const price = getSellPrice(BEACH_BOUNTY_TREASURE[item], collectibles);
+  const price = getSellPrice(SELLABLE_TREASURE[item], collectibles);
   const sflEarned = price.mul(amount);
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sflEarned);
   bumpkin.activity = trackActivity(

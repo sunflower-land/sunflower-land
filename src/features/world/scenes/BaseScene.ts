@@ -5,6 +5,14 @@ import mapJson from "assets/map/plaza.json";
 import auctionJson from "assets/map/auction.json";
 import clothesShopJson from "assets/map/clothe_shop.json";
 import decorationShopJSON from "assets/map/decorations.json";
+import windmillFloorJSON from "assets/map/windmill_floor.json";
+import igorHomeJSON from "assets/map/blacksmith_home.json";
+import bertHomeJSON from "assets/map/bert_home.json";
+import timmyHomeJSON from "assets/map/timmy_home.json";
+import bettyHomeJSON from "assets/map/betty_home.json";
+import woodlandsJSON from "assets/map/woodlands.json";
+
+import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
@@ -25,6 +33,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { EventObject, State } from "xstate";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { isTouchDevice } from "../lib/device";
 
 export type NPCBumpkin = {
   x: number;
@@ -40,6 +49,8 @@ export abstract class BaseScene extends Phaser.Scene {
     state: State<ChatContext, RoomEvent, any, any, any>,
     event: RoomEvent
   ) => void;
+
+  private joystick?: VirtualJoystick;
 
   constructor(key: string) {
     super(key);
@@ -112,7 +123,15 @@ export abstract class BaseScene extends Phaser.Scene {
 
   customColliders?: Phaser.GameObjects.Group;
 
-  cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
+  cursorKeys:
+    | {
+        up: Phaser.Input.Keyboard.Key;
+        down: Phaser.Input.Keyboard.Key;
+        left: Phaser.Input.Keyboard.Key;
+        right: Phaser.Input.Keyboard.Key;
+      }
+    | undefined;
+
   inputPayload = {
     left: false,
     right: false,
@@ -136,6 +155,12 @@ export abstract class BaseScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("auction-map", auctionJson);
     this.load.tilemapTiledJSON("clothes-shop", clothesShopJson);
     this.load.tilemapTiledJSON("decorations-shop", decorationShopJSON);
+    this.load.tilemapTiledJSON("windmill-floor", windmillFloorJSON);
+    this.load.tilemapTiledJSON("igor-home", igorHomeJSON);
+    this.load.tilemapTiledJSON("bert-home", bertHomeJSON);
+    this.load.tilemapTiledJSON("timmy-home", timmyHomeJSON);
+    this.load.tilemapTiledJSON("betty-home", bettyHomeJSON);
+    this.load.tilemapTiledJSON("woodlands", woodlandsJSON);
 
     // Phaser assets must be served from an URL
     this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
@@ -218,8 +243,10 @@ export abstract class BaseScene extends Phaser.Scene {
       "Decorations Layer 1",
       "Decorations Layer 2",
       "Decorations Layer 3",
+      "Decorations Layer 4",
       "Building Layer 2",
       "Building Layer 3",
+      "Building Layer 4",
     ];
     this.map.layers.forEach((layerData, idx) => {
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
@@ -228,9 +255,28 @@ export abstract class BaseScene extends Phaser.Scene {
       }
     });
 
-    // Initialise Keyboard
-    this.cursorKeys = this.input.keyboard?.createCursorKeys();
-    this.input.keyboard?.removeCapture("SPACE");
+    if (isTouchDevice()) {
+      // Initialise joystick
+      const { x, y, centerX, centerY, width, height } = this.cameras.main;
+      const zoom = 4;
+      console.log({ x, y, centerX, centerY, width, height, zoom });
+      this.joystick = new VirtualJoystick(this, {
+        x: centerX + 25 - width / zoom / 2,
+        y: centerY - 25 + height / zoom / 2,
+        radius: 40,
+        base: this.add.circle(0, 0, 20, 0x000000, 0.2).setDepth(100),
+        thumb: this.add.circle(0, 0, 10, 0xffffff, 0.2).setDepth(100),
+        dir: "8dir",
+        fixed: true,
+        forceMin: 10,
+      });
+
+      this.cursorKeys = this.joystick?.createCursorKeys();
+    } else {
+      // Initialise Keyboard
+      this.cursorKeys = this.input.keyboard?.createCursorKeys();
+      this.input.keyboard?.removeCapture("SPACE");
+    }
 
     this.roomService.off(this.eventListener);
     this.roomService.off(this.transitionListener);

@@ -3,7 +3,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { NPCParts } from "features/island/bumpkin/components/NPC";
 
 import obieGif from "assets/sfts/obie.gif";
-import maxiumusImg from "assets/npcs/maximus.png";
+import maxiumusGif from "assets/sfts/maximus.gif";
 import snailImg from "assets/npcs/snail.png";
 import wendyImg from "assets/sfts/wood_nymph_wendy.gif";
 
@@ -73,7 +73,7 @@ export const bumpkinParts: Record<SpeakingBumpkin, Partial<NPCParts>> = {
 };
 
 export const characterImages: Record<SpeakingNonBumpkin, string> = {
-  maximus: maxiumusImg,
+  maximus: maxiumusGif,
   obie: obieGif,
   snail: snailImg,
   wendy: wendyImg,
@@ -596,6 +596,62 @@ export const characters: Record<Week, DawnBreakerPositions> = {
     bumpkin: {
       x: 4,
       y: -9,
+    },
+    marcus: {
+      x: 4,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: The shadows are shifting... I feel strong enough to start to make my way back to the Bell Tower.`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 3,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: My plants... my herbs... they're returning! The eggplants seem to be losing their strength.`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: 1,
+      y: -13,
+      dialogue: (
+        <>
+          <p>{`Sofia: The light is prevailing, and it fills my heart with happiness.`}</p>
+          <p>{`Although, I can't help but feel a twinge of empathy for them.`}</p>
+        </>
+      ),
+    },
+    maximus: {
+      x: -6,
+      y: -12,
+      dialogue: (
+        <>
+          <p>{`Maximus: Are you feeling sleepy?`}</p>
+        </>
+      ),
+    },
+    wendy: {
+      x: 4,
+      y: -8,
+      flip: true,
+      dialogue: (
+        <>{`My power is fading. I can't hold the veil much longer...`}</>
+      ),
+    },
+    obie: {
+      x: -8,
+      y: -12,
+      dialogue: (
+        <>
+          {`Obie: I don't know where the light is coming from. Where are the seekers?`}
+        </>
+      ),
     },
   },
   8: {

@@ -202,6 +202,7 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
+  wardrobe: {},
   conversations: [],
   mailbox: {
     read: [],
@@ -386,6 +387,7 @@ export const EMPTY: GameState = {
   chickens: {},
   stock: {},
   stockExpiry: {},
+  wardrobe: {},
   conversations: [],
   mailbox: {
     read: [],

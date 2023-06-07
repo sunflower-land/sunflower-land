@@ -8,7 +8,7 @@ const BUMPKINS: NPCBumpkin[] = [
   {
     x: 400,
     y: 400,
-    npc: "adam",
+    npc: "pumpkin'pete",
   },
   {
     x: 665,
@@ -48,12 +48,7 @@ const BUMPKINS: NPCBumpkin[] = [
   {
     x: 480,
     y: 140,
-    npc: "tywin",
-  },
-  {
-    x: 210,
-    y: 400,
-    npc: "pete",
+    npc: "cornwell",
   },
   {
     x: 795,
@@ -75,8 +70,8 @@ export class PhaserScene extends BaseScene {
   roomId: RoomId = "plaza";
 
   spawn: Coordinates = {
-    x: 600,
-    y: 300,
+    x: 420,
+    y: 167,
   };
   constructor() {
     super("plaza");
