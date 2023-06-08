@@ -20,10 +20,12 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 interface Props {
   auctionService: MachineInterpreter;
   gameState: GameState;
+  onMint: (id: string) => void;
 }
 export const AuctioneerContent: React.FC<Props> = ({
   auctionService,
   gameState,
+  onMint,
 }) => {
   const [auctioneerState, send] = useActor(auctionService);
 
@@ -250,7 +252,7 @@ export const AuctioneerContent: React.FC<Props> = ({
             />
           </div>
         </div>
-        <Button className="mt-2" onClick={() => send("MINT")}>
+        <Button className="mt-2" onClick={() => onMint(bid.auctionId)}>
           Mint
         </Button>
       </div>

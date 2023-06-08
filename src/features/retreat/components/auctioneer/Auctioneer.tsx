@@ -5,7 +5,6 @@ import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import { AuctioneerModal } from "./AuctioneerModal";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -84,12 +83,12 @@ export const Auctioneer: React.FC = () => {
           />
         </div>
       </div>
-      <AuctioneerModal
+      {/* <AuctioneerModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         gameState={goblinState.context.state}
-        // onUpdate={(state) => {}}
-      />
+        onUpdate={(state) => {}}
+      /> */}
 
       {/* Interested Goblins */}
       <img

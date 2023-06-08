@@ -7,26 +7,21 @@ import { AuctioneerContent } from "./AuctioneerContent";
 import { UpcomingAuctions } from "./UpcomingAuctions";
 import { useActor, useInterpret } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { setImageWidth } from "lib/images";
-import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import {
   MachineInterpreter,
   createAuctioneerMachine,
 } from "features/game/lib/auctionMachine";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
-import { Bid, GameState, InventoryItemName } from "features/game/types/game";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { Bid, GameState } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Context } from "features/game/GameProvider";
 
 interface Props {
   gameState: GameState;
   isOpen: boolean;
   onClose: () => void;
   onUpdate: (state: GameState) => void;
+  onMint: (id: string) => void;
 }
 
 export const AuctioneerModal: React.FC<Props> = ({
@@ -34,6 +29,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   onClose,
   gameState,
   onUpdate,
+  onMint,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -70,9 +66,6 @@ export const AuctioneerModal: React.FC<Props> = ({
     );
   }
 
-  const isMinting = auctioneerState.matches("minting");
-  const isMinted = auctioneerState.matches("minted");
-
   const bid = auctioneerState.context.bid as Bid;
 
   const closeModal = () => {
@@ -102,51 +95,6 @@ export const AuctioneerModal: React.FC<Props> = ({
   }
 
   const Content = () => {
-    if (isMinting) {
-      return (
-        <Panel className="relative">
-          <div className="flex flex-col items-center p-2">
-            <span className="text-shadow text-center loading">Minting</span>
-            <img
-              src={SUNNYSIDE.npcs.goblin_hammering}
-              className="w-1/2 mt-2 mb-3"
-            />
-            <span className="text-sm">
-              Please be patient while we mint the SFT for you.
-            </span>
-          </div>
-        </Panel>
-      );
-    }
-
-    if (isMinted) {
-      const image =
-        bid.type === "collectible"
-          ? ITEM_DETAILS[bid.collectible as InventoryItemName].image
-          : getImageUrl(ITEM_IDS[bid.wearable as BumpkinItem]);
-
-      return (
-        <Panel className="relative">
-          <div className="flex flex-col items-center">
-            <div className="flex flex-col items-center p-2">
-              <h1 className="text-center mb-3">
-                Woohoo, you just minted an awesome new item!
-              </h1>
-              <img
-                src={image}
-                className="mb-3"
-                onLoad={(e) => setImageWidth(e.currentTarget)}
-              />
-              <h2 className="text-center text-sm mb-3">
-                {bid.type === "collectible" ? bid.collectible : bid.wearable}
-              </h2>
-            </div>
-            <Button onClick={() => send("REFRESH")}>Ok</Button>
-          </div>
-        </Panel>
-      );
-    }
-
     return (
       <Panel className="relative" hasTabs>
         <div
@@ -186,6 +134,7 @@ export const AuctioneerModal: React.FC<Props> = ({
                 <AuctioneerContent
                   auctionService={auctionService}
                   gameState={gameState}
+                  onMint={onMint}
                 />
               )}
               {tab === "upcoming" && (

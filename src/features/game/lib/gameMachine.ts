@@ -56,10 +56,7 @@ import { randomID } from "lib/utils/random";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
-import {
-  GoblinBlacksmithItemName,
-  SeasonPassName,
-} from "../types/collectibles";
+import { SeasonPassName } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
@@ -79,6 +76,7 @@ import { purchaseItem } from "../actions/purchaseItem";
 import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
 import { getSessionId } from "lib/blockchain/Session";
 import { depositBumpkin } from "../actions/deposit";
+import { mintAuctionItem } from "../actions/mintAuctionItem";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -109,8 +107,7 @@ export interface Context {
 
 type MintEvent = {
   type: "MINT";
-  item: GoblinBlacksmithItemName;
-  captcha: string;
+  auctionId: string;
 };
 
 type WithdrawEvent = {
@@ -316,6 +313,7 @@ export type BlockchainState = {
     | "autosaving"
     | "syncing"
     | "synced"
+    | "minting"
     | "purchasing"
     | "buyingSFL"
     | "revealing"
@@ -823,6 +821,9 @@ export function startGame(authContext: AuthContext) {
             SYNC: {
               target: "syncing",
             },
+            MINT: {
+              target: "minting",
+            },
             BUY_BLOCK_BUCKS: {
               target: "buyingBlockBucks",
             },
@@ -968,6 +969,45 @@ export function startGame(authContext: AuthContext) {
               actions: assign((_, event) => ({
                 sessionId: event.data.sessionId,
                 actions: [],
+              })),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
+        minting: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { auctionId } = event as MintEvent;
+              console.log({ mintEveent: event });
+              const { sessionId } = await mintAuctionItem({
+                farmId: Number(authContext.user.farmId),
+                token: authContext.user.rawToken as string,
+                auctionId,
+                transactionId: context.transactionId as string,
+              });
+
+              return {
+                sessionId: sessionId,
+              };
+            },
+            onDone: {
+              target: "synced",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
               })),
             },
             onError: [

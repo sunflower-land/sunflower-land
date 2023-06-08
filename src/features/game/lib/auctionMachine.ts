@@ -1,16 +1,12 @@
 import { createMachine, Interpreter, assign } from "xstate";
 import { randomID } from "lib/utils/random";
 import { bid } from "features/game/actions/bid";
-import { Bid, GameState, InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
 import { autosave } from "features/game/actions/autosave";
-import { mintAuctionItem } from "features/game/actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
 import { CONFIG } from "lib/config";
-import { getKeys } from "../types/craftables";
 import { loadAuctions } from "features/retreat/components/auctioneer/actions/loadAuctions";
-import { TEST_FARM } from "./constants";
-import Decimal from "decimal.js-light";
 
 export type AuctionBase = {
   auctionId: string;
@@ -60,11 +56,6 @@ type BidEvent = {
   auctionId: string;
 };
 
-type MintEvent = {
-  type: "MINT";
-  item: AuctioneerItemName;
-};
-
 export type MintedEvent = {
   item: AuctioneerItemName;
   sessionId: string;
@@ -80,7 +71,6 @@ export type BlockchainEvent =
   | { type: "OPEN" }
   | { type: "DRAFT_BID" }
   | { type: "CHECK_RESULTS" }
-  | { type: "MINT" }
   | { type: "REFUND" };
 
 export type AuctioneerMachineState = {
@@ -98,10 +88,7 @@ export type AuctioneerMachineState = {
     | "refunded"
     | "pending"
     | "winner"
-    | "error"
-    // TODO - minting in parent machines
-    | "minting"
-    | "minted";
+    | "error";
   context: Context;
 };
 
@@ -287,44 +274,7 @@ export const createAuctioneerMachine = ({
           },
         },
 
-        winner: {
-          on: {
-            MINT: "minting",
-          },
-        },
-
-        minting: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              const { item } = event as MintEvent;
-              console.log({ event });
-              const { sessionId } = await mintAuctionItem({
-                farmId: Number(context.farmId),
-                token: context.token as string,
-                auctionId: context.bid?.auctionId as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return {
-                sessionId,
-                item,
-              } as MintedEvent;
-            },
-            onDone: {
-              target: "minted",
-              // actions: assign((_, event) => ({})),
-            },
-            onError: {
-              target: "error",
-            },
-          },
-        },
-        minted: {
-          on: {
-            REFRESH: "finish",
-          },
-        },
+        winner: {},
 
         loser: {
           on: {

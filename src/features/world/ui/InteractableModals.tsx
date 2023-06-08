@@ -1,10 +1,7 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { TEST_FARM } from "features/game/lib/constants";
 import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
 
 type InteractableName =
   | "welcome_sign"
@@ -48,10 +45,15 @@ export const InteractableModals: React.FC = () => {
       <AuctioneerModal
         isOpen={interactable === "auction_item"}
         onClose={() => setInteractable(undefined)}
-        gameState={state} // TODO
+        gameState={state}
         onUpdate={(state) => {
           console.log("Update hit!");
           gameService.send("UPDATE", { state });
+        }}
+        onMint={(id) => {
+          console.log("Update hit!", gameState.value);
+          setInteractable(undefined);
+          gameService.send("MINT", { auctionId: id });
         }}
       />
       {/* <Modal

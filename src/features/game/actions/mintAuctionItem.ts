@@ -1,4 +1,4 @@
-import { mintCollectible } from "lib/blockchain/Game";
+import { mintAuctionCollectible } from "lib/blockchain/Auction";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -14,7 +14,7 @@ const API_URL = CONFIG.API_URL;
 
 export async function mintAuctionItem(request: Request) {
   const response = await window.fetch(
-    `${API_URL}/mint-auction-item/${request.farmId}`,
+    `${API_URL}/auction/mint/${request.farmId}`,
     {
       method: "POST",
       headers: {
@@ -38,7 +38,7 @@ export async function mintAuctionItem(request: Request) {
 
   const transaction = await response.json();
 
-  const sessionId = await mintCollectible({
+  const sessionId = await mintAuctionCollectible({
     ...transaction,
     web3: wallet.web3Provider,
     account: wallet.myAccount,
