@@ -31,6 +31,13 @@ export const AuctioneerContent: React.FC<Props> = ({
 
   console.log({ items: auctions });
 
+  if (auctions.length === 0) {
+    return (
+      <div className="p-2">
+        <p>Coming soon...</p>
+      </div>
+    );
+  }
   const item = auctions[0];
 
   if (auctioneerState.matches("playing")) {

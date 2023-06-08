@@ -23,7 +23,6 @@ import {
   SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
-import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
@@ -220,7 +219,6 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | AuctioneerItemName
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem

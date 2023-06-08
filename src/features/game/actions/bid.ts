@@ -14,18 +14,21 @@ const API_URL = CONFIG.API_URL;
 
 export async function bid(request: Request) {
   console.log({ request });
-  const response = await window.fetch(`${API_URL}/bid/${request.farmId}`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${request.token}`,
-      "X-Transaction-ID": request.transactionId,
-    },
-    body: JSON.stringify({
-      auctionId: request.auctionId,
-      tickets: request.tickets,
-    }),
-  });
+  const response = await window.fetch(
+    `${API_URL}/auction/bid/${request.farmId}`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+        "X-Transaction-ID": request.transactionId,
+      },
+      body: JSON.stringify({
+        auctionId: request.auctionId,
+        tickets: request.tickets,
+      }),
+    }
+  );
 
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);

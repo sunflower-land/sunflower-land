@@ -27,6 +27,7 @@ import { TimmyHomeScene } from "./scenes/TimmyHomeScene";
 import { BettyHomeScene } from "./scenes/BettyHomeScene";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Balance } from "components/Balance";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -98,14 +99,14 @@ export const PhaserComponent: React.FC = () => {
       },
       scene: [
         PlazaScene,
+        AuctionScene,
+        BettyHomeScene,
+        TimmyHomeScene,
+        BertScene,
+        IgorHomeScene,
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
-        IgorHomeScene,
-        TimmyHomeScene,
-        BertScene,
-        BettyHomeScene,
-        AuctionScene,
         WoodlandsScene,
       ],
       loader: {
@@ -123,6 +124,7 @@ export const PhaserComponent: React.FC = () => {
 
   return (
     <div>
+      <Balance balance={gameState.context.state.balance} />
       <div id="game-content" />
       <img id="imageTest" />
       <ChatUI

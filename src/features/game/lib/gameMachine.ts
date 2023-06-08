@@ -177,6 +177,11 @@ type DepositEvent = {
   bumpkinTokenUri?: string;
 };
 
+type UpdateEvent = {
+  type: "UPDATE";
+  state: GameState;
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -218,6 +223,7 @@ export type BlockchainEvent =
   | BuyBlockBucksEvent
   | UpdateBlockBucksEvent
   | DepositEvent
+  | UpdateEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
@@ -861,6 +867,11 @@ export function startGame(authContext: AuthContext) {
                     ).add(event.amount),
                   },
                 },
+              })),
+            },
+            UPDATE: {
+              actions: assign((_, event) => ({
+                state: event.state,
               })),
             },
           },

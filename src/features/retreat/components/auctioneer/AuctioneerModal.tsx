@@ -14,33 +14,37 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import {
   MachineInterpreter,
-  auctioneerMachine,
+  createAuctioneerMachine,
 } from "features/game/lib/auctionMachine";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Bid, GameState, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import * as AuthProvider from "features/auth/lib/Provider";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   gameState: GameState;
   isOpen: boolean;
   onClose: () => void;
+  onUpdate: (state: GameState) => void;
 }
 
 export const AuctioneerModal: React.FC<Props> = ({
   isOpen,
   onClose,
   gameState,
+  onUpdate,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
   const [tab, setTab] = useState<"auction" | "upcoming">("auction");
 
-  const auctionService = useInterpret(auctioneerMachine, {
+  const auctionService = useInterpret(createAuctioneerMachine({ onUpdate }), {
     context: {
       farmId: authState.context.user.farmId,
       token: authState.context.user.rawToken,
+      bid: gameState.auctioneer.bid,
     },
   }) as unknown as MachineInterpreter;
 

@@ -5,7 +5,6 @@ import { ERRORS } from "lib/errors";
 
 type Request = {
   farmId: number;
-  sessionId: string;
   auctionId: string;
   token: string;
   transactionId: string;

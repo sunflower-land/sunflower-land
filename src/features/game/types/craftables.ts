@@ -14,7 +14,6 @@ import {
   SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
-import { AuctioneerItemName } from "./auctioneer";
 import { BoostTreasure } from "./treasure";
 import { RESOURCE_DIMENSIONS } from "./resources";
 
@@ -192,7 +191,6 @@ export type CollectibleName =
   | MutantChicken
   | MutantCropName
   | DecorationName
-  | AuctioneerItemName
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName

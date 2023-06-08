@@ -15,7 +15,6 @@ import { setImageWidth } from "lib/images";
 import { formatDateTime, secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
-import { AuctioneerItem } from "./actions/auctioneerItems";
 import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
@@ -83,7 +82,7 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
-  const makeIngredients = (ingredients?: AuctioneerItem["ingredients"]) => {
+  const makeIngredients = (ingredients?: Auction["ingredients"]) => {
     if (!ingredients) return null;
 
     return getKeys(ingredients).map((name) => {

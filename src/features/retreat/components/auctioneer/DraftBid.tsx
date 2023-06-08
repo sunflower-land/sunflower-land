@@ -65,7 +65,7 @@ export const DraftBid: React.FC<Props> = ({ auction, onBid, maxTickets }) => {
           />
         </div>
         <div className="flex items-center flex-wrap justify-center">
-          {auction.sfl && (
+          {auction.sfl > 0 && (
             <div className="flex items-center  mb-1 mr-3">
               <div>
                 <p className="mr-1 text-right text-sm">

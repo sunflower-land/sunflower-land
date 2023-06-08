@@ -411,7 +411,7 @@ import {
   GOBLIN_PIRATE_ITEMS,
   HELIOS_BLACKSMITH_ITEMS,
 } from "./collectibles";
-import { AUCTIONEER_ITEMS } from "./auctioneer";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -1683,12 +1683,12 @@ export const ITEM_DETAILS: Items = {
 
   "Wood Nymph Wendy": {
     image: wendy,
-    description: AUCTIONEER_ITEMS["Wood Nymph Wendy"].description,
+    description: "Cast an enchantment to entice the wood fairies.",
   },
 
   "Peeled Potato": {
     image: prizedPotato,
-    description: AUCTIONEER_ITEMS["Peeled Potato"].description,
+    description: "A precious potato, encourages bonus potatoes on harvest.",
   },
 
   "Colossal Crop": {

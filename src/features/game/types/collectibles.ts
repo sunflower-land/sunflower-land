@@ -12,6 +12,10 @@ export type HeliosBlacksmithItem =
   | "Basic Scarecrow";
 
 export type SoldOutCollectibleName =
+  | "Peeled Potato"
+  | "Christmas Snow Globe"
+  | "Wood Nymph Wendy"
+  | "Cyborg Bear"
   | "Palm Tree"
   | "Beach Ball"
   | "Cabbage Boy"

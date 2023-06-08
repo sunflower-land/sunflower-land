@@ -10,7 +10,6 @@ import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { AuctioneerItemName } from "features/game/types/auctioneer";
 
 export const Auctioneer: React.FC = () => {
   const { goblinService } = useContext(Context);
@@ -19,7 +18,6 @@ export const Auctioneer: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   // Show their current bid item, or the upcoming item
-  const activeItem: AuctioneerItemName | undefined = undefined;
   // goblinState.context.state.auctioneer.bid?.item ??
   // getValidAuctionItems(goblinState.context.auctioneerItems)[0]?.name;
 
@@ -90,6 +88,7 @@ export const Auctioneer: React.FC = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         gameState={goblinState.context.state}
+        // onUpdate={(state) => {}}
       />
 
       {/* Interested Goblins */}
