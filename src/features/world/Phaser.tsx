@@ -79,8 +79,8 @@ export const PhaserComponent: React.FC = () => {
           },
         ],
       },
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: window.outerWidth,
+      height: window.outerHeight,
 
       physics: {
         default: "arcade",
