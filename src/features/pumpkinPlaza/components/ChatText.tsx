@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 import Filter from "bad-words";
 import classNames from "classnames";
 
 interface Props {
   messages: { sessionId: string; text: string }[];
   onMessage: (text: string) => void;
+  isChatOpen: boolean;
 }
 
 const MAX_CHARACTERS = 48;
@@ -19,34 +19,14 @@ const URL_REGEX = new RegExp(
 
 const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 
-export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
-  const ref = useRef<HTMLTextAreaElement>();
+export const ChatText: React.FC<Props> = ({
+  messages,
+  onMessage,
+  isChatOpen,
+}) => {
+  const ref = useRef<HTMLInputElement>();
   const [text, setText] = useState("");
-
-  const isUrl = URL_REGEX.test(text);
-  const isValidText = text.length === 0 || ALPHA_REGEX.test(text);
-
-  const send = (event?: React.SyntheticEvent) => {
-    event?.preventDefault();
-
-    if (text?.trim() === "") {
-      setText("");
-      return;
-    }
-
-    // if (text.length > MAX_CHARACTERS) {
-    //   return;
-    // }
-
-    // if (isUrl || !isValidText) {
-    //   return;
-    // }
-
-    const filter = new Filter();
-    const sanitized = filter.clean(text);
-    onMessage(sanitized);
-    setText("");
-  };
+  const [valid, setValid] = useState(true);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -58,7 +38,9 @@ export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
     const keyDownListener = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         event.preventDefault();
-        send();
+        if (valid) {
+          send();
+        }
       }
     };
 
@@ -71,13 +53,54 @@ export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
     };
   });
 
+  const Validation = () => {
+    if (text.length > MAX_CHARACTERS) {
+      return (
+        <Label className="mt-1 mb-1 float-right" type="danger">
+          {`Max ${MAX_CHARACTERS} characters`}
+        </Label>
+      );
+    }
+
+    const isValidText = text.length === 0 || ALPHA_REGEX.test(text);
+
+    if (!isValidText) {
+      return (
+        <Label className="mt-1 mb-1 float-right" type="danger">
+          No special characters
+        </Label>
+      );
+    }
+
+    return null;
+  };
+
+  const isValid = () => {
+    const isValidText = text.length <= MAX_CHARACTERS && ALPHA_REGEX.test(text);
+    setValid(isValidText);
+  };
+
+  const send = (event?: React.SyntheticEvent) => {
+    event?.preventDefault();
+
+    if (text?.trim() === "") {
+      setText("");
+      return;
+    }
+
+    const filter = new Filter();
+    const sanitized = filter.clean(text);
+    onMessage(sanitized);
+    setText("");
+  };
+
   const hasMessages = messages.length > 0;
 
   return (
     <form onSubmit={send}>
       <div
         className={classNames(
-          " bg-black bg-opacity-10 relative rounded-md w-64",
+          "bg-gray-900 bg-opacity-25 relative rounded-md w-64 sm:w-96 pt-1",
           { "mt-2": hasMessages }
         )}
         style={{ lineHeight: "10px" }}
@@ -85,72 +108,49 @@ export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
       >
         <div
           className={classNames(
-            "max-h-48 overflow-y-scroll flex flex-col-reverse break-words",
-            { "mb-2": hasMessages }
+            "min-h-[60px] max-h-48 overflow-y-scroll flex flex-col-reverse break-words text-xxs p-2 ",
+            { "mb-1": hasMessages }
           )}
+          style={{ fontFamily: "monospace" }}
         >
-          {messages.slice(0, 1000).map((message, i) => (
-            <p
-              key={i}
-              className="text-xxs pt-0.5 -indent-6 pl-6"
-              style={{ fontFamily: "monospace", textShadow: "none" }}
-            >
-              {message.sessionId}: {message.text}
-            </p>
-          ))}
+          {messages
+            .slice(0, 1000)
+            .reverse()
+            .map((message, i) => {
+              if (!message.sessionId)
+                return (
+                  <p key={`${i}-${message.text}`} className="text-amber-300">
+                    {message.text}
+                  </p>
+                );
+
+              return (
+                <p
+                  key={`${i}-${message.sessionId}`}
+                  className="pt-0.5 -indent-6 pl-6"
+                >
+                  {`[${message.sessionId}]`}: {message.text}
+                </p>
+              );
+            })}
         </div>
-        <textarea
+        <input
           maxLength={MAX_CHARACTERS * 2}
           data-prevent-drag-scroll
           name="message"
+          autoComplete="off"
           value={text}
-          disabled={false}
-          ref={(r) => (ref.current = r as HTMLTextAreaElement)}
-          onFocus={() => console.log("Focus")}
+          ref={(r) => (ref.current = r as HTMLInputElement)}
           onClick={() => ref.current?.focus()}
-          onInput={(e: ChangeEvent<HTMLTextAreaElement>) =>
-            setText(e.target.value)
-          }
-          // style={
-          //   {
-          //     // border: "1px solid #ead4aa",
-          //     // fontFamily: "monospace",
-          //     // minHeight: "40px",
-          //     // maxHeight: "160px",
-          //   }
-          // }
+          onInput={(e: ChangeEvent<HTMLInputElement>) => {
+            setText(e.target.value);
+            isValid();
+          }}
           placeholder="Type here..."
-          className="text-xxs placeholder-white w-full bg-black bg-opacity-10 pt-1 pr-20 rounded-md"
-          style={{ lineHeight: "10px", fontFamily: "monospace" }}
+          className="text-xxs placeholder-white text-shadow w-full bg-black bg-opacity-10 px-2 py-2 rounded-md max-h-min"
+          style={{ lineHeight: "12px", fontFamily: "monospace" }}
         />
-
-        {/* {text.length > MAX_CHARACTERS && (
-          <Label className="mt-3 mb-1 float-right" type="danger">
-            {`Max ${MAX_CHARACTERS} characters`}
-          </Label>
-        )} */}
-
-        {/* {isUrl && (
-          <Label className="mt-3 mb-1 float-right" type="danger">
-            {`No URLs allowed`}
-          </Label>
-        )} */}
-
-        {!isValidText && (
-          <Label className="mt-3 mb-1 float-right" type="danger">
-            {`Alphanumeric characters only`}
-          </Label>
-        )}
-        <div
-          className="absolute right-1 bottom-1 cursor-pointer w-8 flex justify-end"
-          onClick={send}
-        >
-          <img src={SUNNYSIDE.icons.disc} className="w-4" />
-          <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className="w-2 absolute right-1 top-1"
-          />
-        </div>
+        <Validation />
       </div>
     </form>
   );
