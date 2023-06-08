@@ -1,12 +1,13 @@
 import { createMachine, Interpreter, assign } from "xstate";
-import { escalate, sendParent } from "xstate/lib/actions";
 import { randomID } from "lib/utils/random";
 import { bid } from "features/game/actions/bid";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { Bid, GameState, InventoryItemName } from "features/game/types/game";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
 import { autosave } from "features/game/actions/autosave";
 import { mintAuctionItem } from "features/game/actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
+import { CONFIG } from "lib/config";
+import { getKeys } from "../types/craftables";
 
 export type AuctionBase = {
   auctionId: string;
@@ -54,7 +55,6 @@ export interface Context {
 
 type BidEvent = {
   type: "BID";
-  item: AuctioneerItemName;
   tickets: number;
 };
 
@@ -75,6 +75,7 @@ type RefreshEvent = {
 export type BlockchainEvent =
   | BidEvent
   | RefreshEvent
+  | { type: "OPEN" }
   | { type: "DRAFT_BID" }
   | { type: "CHECK_RESULTS" }
   | { type: "MINT" }
@@ -82,6 +83,7 @@ export type BlockchainEvent =
 
 export type AuctioneerMachineState = {
   value:
+    | "idle"
     | "loading"
     | "initialising"
     | "playing"
@@ -94,6 +96,7 @@ export type AuctioneerMachineState = {
     | "refunded"
     | "pending"
     | "winner"
+    | "error"
     // TODO - minting in parent machines
     | "minting"
     | "minted";
@@ -114,19 +117,45 @@ export const auctioneerMachine = createMachine<
 >(
   {
     id: "auctioneerMachine",
-    initial: "loading",
+    initial: "idle",
+    context: {
+      auctionId: "test-auction-1",
+      auctions: [
+        {
+          auctionId: "test-auction-1",
+          type: "collectible",
+          collectible: "Abandoned Bear",
+          endAt: Date.now() + 1000000,
+          startAt: Date.now() - 1000,
+          ingredients: {
+            Wood: 1,
+            Gold: 10,
+          },
+          sfl: 5,
+          supply: 100,
+        },
+      ],
+    },
     states: {
+      idle: {
+        on: {
+          OPEN: {
+            target: CONFIG.API_URL ? "loading" : "initialising",
+          },
+        },
+      },
       loading: {
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { item, tickets } = event as BidEvent;
+            await new Promise((r) => setTimeout(r, 3000));
 
             console.log({ event });
-            const auctions: any[] = [];
+            const auctions: Auction[] = [];
 
             return {
               auctions,
+              auction: auctions.length > 0 ? auctions[0].auctionId : undefined,
             };
           },
           onDone: {
@@ -172,7 +201,39 @@ export const auctioneerMachine = createMachine<
         entry: "setTransactionId",
         invoke: {
           src: async (context, event) => {
-            const { item, tickets } = event as BidEvent;
+            const { tickets } = event as BidEvent;
+
+            console.log({ tickets });
+            if (!CONFIG.API_URL) {
+              const auction = context.auctions.find(
+                (a) => a.auctionId === context.auctionId
+              ) as Auction;
+              console.log({ auction, context });
+              const bid: Bid = {
+                auctionId: context.auctionId,
+                biddedAt: Date.now(),
+                ingredients: getKeys(auction?.ingredients ?? {}).reduce(
+                  (acc, name) => ({
+                    ...acc,
+                    [name]: (auction?.ingredients[name] ?? 0) * tickets,
+                  }),
+                  {}
+                ),
+                sfl: auction?.sfl * tickets,
+                tickets,
+                type: auction.type,
+                collectible:
+                  auction.type === "collectible"
+                    ? auction.collectible
+                    : undefined,
+                wearable:
+                  auction.type === "wearable" ? auction.wearable : undefined,
+              };
+
+              console.log({ bid });
+
+              return { bid };
+            }
 
             console.log({ event });
             const { game } = await bid({
@@ -192,29 +253,26 @@ export const auctioneerMachine = createMachine<
           onDone: {
             target: "bidded",
             actions: [
-              sendParent((context, event) => ({
-                type: "UPDATE_SESSION",
-                inventory: event.data.inventory,
-                balance: event.data.balance,
-                sessionId: context.sessionId,
-                deviceTrackerId: context.deviceTrackerId,
-              })),
+              // sendParent((context, event) => ({
+              //   type: "UPDATE_SESSION",
+              //   inventory: event.data.inventory,
+              //   balance: event.data.balance,
+              //   sessionId: context.sessionId,
+              //   deviceTrackerId: context.deviceTrackerId,
+              // })),
               assign({
                 bid: (_, event) => event.data.bid,
               }),
             ],
           },
           onError: {
-            actions: escalate((_, event) => ({
-              message: event.data.message,
-            })),
+            target: "error",
           },
         },
       },
       bidded: {
         on: {
           CHECK_RESULTS: "checkingResults",
-          REFRESH: "finish",
         },
       },
       checkingResults: {
@@ -247,9 +305,7 @@ export const auctioneerMachine = createMachine<
             },
           ],
           onError: {
-            actions: escalate((_, event) => ({
-              message: event.data.message,
-            })),
+            target: "error",
           },
         },
       },
@@ -354,7 +410,11 @@ export const auctioneerMachine = createMachine<
       finish: {
         type: "final",
       },
-      error: {},
+      error: {
+        on: {
+          REFRESH: "loading",
+        },
+      },
     },
   },
   {

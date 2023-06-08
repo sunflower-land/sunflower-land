@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import { Panel } from "components/ui/Panel";
@@ -17,16 +17,21 @@ import {
   auctioneerMachine,
 } from "features/game/lib/auctionMachine";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
-import { Bid, InventoryItemName } from "features/game/types/game";
+import { Bid, GameState, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 interface Props {
+  gameState: GameState;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
+export const AuctioneerModal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  gameState,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -41,8 +46,24 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [auctioneerState, send] = useActor(auctionService);
 
+  useEffect(() => {
+    if (isOpen) {
+      auctionService.send("OPEN");
+    }
+  }, [isOpen]);
+
+  if (auctioneerState.matches("idle")) {
+    return null;
+  }
+
   if (auctioneerState.matches("loading")) {
-    return <span className="loading">Loading</span>;
+    return (
+      <Modal centered show={isOpen} onHide={onClose}>
+        <Panel>
+          <span className="loading">Loading</span>
+        </Panel>
+      </Modal>
+    );
   }
 
   const isMinting = auctioneerState.matches("minting");
@@ -51,7 +72,6 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const bid = auctioneerState.context.bid as Bid;
 
   const closeModal = () => {
-    auctionService.send("REFRESH");
     onClose();
   };
 
@@ -159,9 +179,17 @@ export const AuctioneerModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <div className="flex flex-col">
             <>
               {tab === "auction" && (
-                <AuctioneerContent auctionService={auctionService} />
+                <AuctioneerContent
+                  auctionService={auctionService}
+                  gameState={gameState}
+                />
               )}
-              {tab === "upcoming" && <UpcomingAuctions />}
+              {tab === "upcoming" && (
+                <UpcomingAuctions
+                  auctionService={auctionService}
+                  game={gameState}
+                />
+              )}
             </>
           </div>
         </div>

@@ -86,12 +86,11 @@ export const Auctioneer: React.FC = () => {
           />
         </div>
       </div>
-      {showModal && (
-        <AuctioneerModal
-          isOpen={showModal}
-          onClose={() => setShowModal(true)}
-        />
-      )}
+      <AuctioneerModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        gameState={goblinState.context.state}
+      />
 
       {/* Interested Goblins */}
       <img

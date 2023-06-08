@@ -4,7 +4,7 @@ import { makeGame } from "../lib/transforms";
 
 type Request = {
   farmId: number;
-  auctionId: string;
+  auctionId?: string;
   token: string;
   transactionId: string;
   tickets: number;

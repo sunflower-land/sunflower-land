@@ -3,14 +3,14 @@ import { Context } from "features/game/GoblinProvider";
 import { MachineInterpreter } from "features/game/lib/auctionMachine";
 import React, { useContext } from "react";
 import { AuctionDetails } from "./AuctionDetails";
+import { GameState } from "features/game/types/game";
 
-export const UpcomingAuctions: React.FC = () => {
-  const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
-
-  const child = goblinState.children.auctioneer as MachineInterpreter;
-
-  const [auctioneerState] = useActor(child);
+interface Props {
+  auctionService: MachineInterpreter;
+  game: GameState;
+}
+export const UpcomingAuctions: React.FC<Props> = ({ auctionService, game }) => {
+  const [auctioneerState] = useActor(auctionService);
 
   const { auctions } = auctioneerState.context;
   const upcoming = auctions.slice(1);
@@ -34,7 +34,7 @@ export const UpcomingAuctions: React.FC = () => {
         <div className="mb-2" key={item.auctionId}>
           <AuctionDetails
             item={item}
-            game={goblinState.context.state}
+            game={game}
             // Won't be called
             onDraftBid={console.log}
             isUpcomingItem={true}

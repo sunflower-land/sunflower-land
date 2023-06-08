@@ -9,7 +9,7 @@ import { getKeys } from "features/game/types/craftables";
 import token from "assets/icons/token_2.png";
 import trivia from "assets/npcs/trivia.gif";
 import { Button } from "components/ui/Button";
-import { Bid } from "features/game/types/game";
+import { Bid, GameState } from "features/game/types/game";
 import { DraftBid } from "./DraftBid";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -19,8 +19,12 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 
 interface Props {
   auctionService: MachineInterpreter;
+  gameState: GameState;
 }
-export const AuctioneerContent: React.FC<Props> = ({ auctionService }) => {
+export const AuctioneerContent: React.FC<Props> = ({
+  auctionService,
+  gameState,
+}) => {
   const [auctioneerState, send] = useActor(auctionService);
 
   const { auctions, auctionId } = auctioneerState.context;
@@ -28,6 +32,60 @@ export const AuctioneerContent: React.FC<Props> = ({ auctionService }) => {
   console.log({ items: auctions });
 
   const item = auctions[0];
+
+  if (auctioneerState.matches("playing")) {
+    return (
+      <div
+        className="h-full overflow-y-auto scrollable"
+        style={{
+          maxHeight: "600px",
+        }}
+      >
+        <AuctionDetails
+          item={item}
+          game={gameState}
+          onDraftBid={() => {
+            auctionService.send("DRAFT_BID");
+          }}
+          isUpcomingItem={false}
+        />
+      </div>
+    );
+  }
+  if (auctioneerState.matches("draftingBid")) {
+    return (
+      <DraftBid
+        auction={item}
+        maxTickets={9999999} // TODO
+        onBid={(tickets: number) => {
+          auctionService.send("BID", { auctionId: item.auctionId, tickets });
+        }}
+      />
+    );
+  }
+
+  if (auctions.length === 0) {
+    return (
+      <div className="flex flex-col">
+        <span className="mt-1 ml-2">Coming soon...</span>
+      </div>
+    );
+  }
+
+  if (auctioneerState.matches("error")) {
+    return (
+      <div className="p-2">
+        <p className="mb-2">Something went wrong!</p>
+        <Button onClick={() => auctionService.send("REFRESH")}>Retry</Button>
+      </div>
+    );
+  }
+
+  if (auctioneerState.matches("bidding")) {
+    return <span className="loading">Placing bid</span>;
+  }
+
+  console.log({ state: auctioneerState.value });
 
   const bid = auctioneerState.context.bid as Bid;
 
@@ -70,16 +128,6 @@ export const AuctioneerContent: React.FC<Props> = ({ auctionService }) => {
               <span>{bid.sfl}</span>
             </div>
           )}
-
-          {bid.tickets && (
-            <div className="flex items-center mb-2">
-              <img
-                src={ITEM_DETAILS["Solar Flare Ticket"].image}
-                className="h-6 mr-1"
-              />
-              <span>{bid.tickets}</span>
-            </div>
-          )}
         </div>
         {secondsLeft > 0 && (
           <Label type="info">{`${secondsToString(secondsLeft, {
@@ -96,10 +144,6 @@ export const AuctioneerContent: React.FC<Props> = ({ auctionService }) => {
         </Button>
       </div>
     );
-  }
-
-  if (auctioneerState.matches("bidding")) {
-    return <span className="loading">Placing bid</span>;
   }
 
   if (auctioneerState.matches("checkingResults")) {
@@ -177,6 +221,10 @@ export const AuctioneerContent: React.FC<Props> = ({ auctionService }) => {
   }
 
   if (auctioneerState.matches("winner")) {
+    const image = bid.collectible
+      ? ITEM_DETAILS[bid?.collectible].image
+      : getImageUrl(ITEM_IDS[bid.wearable as BumpkinItem]);
+
     return (
       <div className="flex flex-col justify-center items-center pt-2">
         <p className="mb-1">Congratulations!</p>
@@ -202,40 +250,5 @@ export const AuctioneerContent: React.FC<Props> = ({ auctionService }) => {
     );
   }
 
-  if (auctioneerState.matches("draftingBid")) {
-    return (
-      <DraftBid
-        item={item}
-        onBid={(tickets: number) => {
-          auctionService.send("BID", { auctionId: item.auctionId, tickets });
-        }}
-      />
-    );
-  }
-
-  if (auctions.length === 0) {
-    return (
-      <div className="flex flex-col">
-        <span className="mt-1 ml-2">Coming soon...</span>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className="h-full overflow-y-auto scrollable"
-      style={{
-        maxHeight: "600px",
-      }}
-    >
-      <AuctionDetails
-        item={item}
-        game={goblinState.context.state}
-        onDraftBid={() => {
-          child.send("DRAFT_BID");
-        }}
-        isUpcomingItem={false}
-      />
-    </div>
-  );
+  return null;
 };

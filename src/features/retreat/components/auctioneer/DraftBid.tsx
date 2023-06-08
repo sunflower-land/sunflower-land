@@ -8,13 +8,24 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Auction } from "features/game/lib/auctionMachine";
 
+import sflIcon from "assets/icons/token_2.png";
+import { getKeys } from "features/game/types/craftables";
+import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { InventoryItemName } from "features/game/types/game";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+
 interface Props {
-  item: Auction;
+  auction: Auction;
   maxTickets: number;
   onBid: (auctionTickers: number) => void;
 }
-export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
-  const [auctionTickets, setAuctionTickets] = useState(0);
+export const DraftBid: React.FC<Props> = ({ auction, onBid, maxTickets }) => {
+  const [tickets, setTickets] = useState(1);
+
+  const image =
+    auction.type === "collectible"
+      ? ITEM_DETAILS[auction.collectible as InventoryItemName].image
+      : getImageUrl(ITEM_IDS[auction.wearable as BumpkinItem]);
 
   return (
     <div className="p-2">
@@ -32,19 +43,15 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
           </div>
         )}
       </div> */}
-      <p className="text-sm text-center mb-2">
-        Enhance your odds with Solar Flare Tickets
-      </p>
+      <p className="text-sm text-center mb-2">Place your bid</p>
 
       <div className="flex items-center justify-center mb-1">
         <div
           className="w-10 mr-2 relative cursor-pointer"
           style={{
-            opacity: auctionTickets === 0 ? 0.5 : 1,
+            opacity: tickets === 0 ? 0.5 : 1,
           }}
-          onClick={() =>
-            setAuctionTickets((prev) => (prev > 0 ? prev - 1 : prev))
-          }
+          onClick={() => setTickets((prev) => (prev > 1 ? prev - 1 : prev))}
         >
           <img src={SUNNYSIDE.icons.disc} className="w-full" />
           <img
@@ -57,22 +64,36 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
             }}
           />
         </div>
-        <div className="flex items-center mr-5">
-          <div style={{ minWidth: "45px" }}>
-            <p className="mr-2 text-right">{auctionTickets}</p>
-          </div>
-          <img
-            src={ITEM_DETAILS["Solar Flare Ticket"].image}
-            className="h-8 mr-1"
-          />
+        <div className="flex items-center flex-wrap justify-center">
+          {auction.sfl && (
+            <div className="flex items-center  mb-1 mr-3">
+              <div>
+                <p className="mr-1 text-right text-sm">
+                  {auction.sfl * tickets}
+                </p>
+              </div>
+              <img src={sflIcon} className="h-5" />
+            </div>
+          )}
+          {getKeys(auction.ingredients).map((name) => (
+            <div className="flex items-center mb-1 mr-3">
+              <div>
+                <p className="mr-1 text-right text-sm">
+                  {(auction.ingredients[name] ?? 0) * tickets}
+                </p>
+              </div>
+              <img src={ITEM_DETAILS[name].image} className="h-5" />
+            </div>
+          ))}
         </div>
+
         <div
           className="w-10 mr-2 relative"
           onClick={() =>
-            setAuctionTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
+            setTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
           }
           style={{
-            opacity: auctionTickets === maxTickets ? 0.5 : 1,
+            opacity: tickets === maxTickets ? 0.5 : 1,
           }}
         >
           <img src={SUNNYSIDE.icons.disc} className="w-full" />
@@ -88,20 +109,27 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
         </div>
       </div>
       <p className="text-xxs text-center underline mb-3">
-        How do I get tickets?
+        How does this auction work?
       </p>
       <div className="flex">
         <img src={SUNNYSIDE.icons.stopwatch} className="h-6 mr-2" />
-        <p className="text-sm mb-1">
-          At the end of the Auction, the results will be calculated.
+        <p className="text-sm mb-2">
+          {`At the end of the auction, the top ${
+            auction.supply
+          } bids will mint the ${
+            auction.type === "collectible"
+              ? auction.collectible
+              : auction.wearable
+          }.`}
         </p>
       </div>
-      <div className="flex">
+      <div className="flex mb-2">
         <img src={SUNNYSIDE.icons.happy} className="h-6 mr-2" />
-        <p className="text-sm mb-1">
-          Participants who bid the most Solar Flare Tickets are able to craft
-          the item.
-        </p>
+        <div>
+          <p className="text-sm">
+            {`Winners only pay the lowest successful bid price (the ${auction.supply}th bid)`}
+          </p>
+        </div>
       </div>
       <div className="flex mb-4">
         <img src={SUNNYSIDE.icons.neutral} className="h-6 mr-2" />
@@ -109,13 +137,12 @@ export const DraftBid: React.FC<Props> = ({ item, onBid, maxTickets }) => {
           <p className="text-sm mb-1">
             Participants who are unsuccesful will be refunded their resources.
           </p>
-          <Label type="danger">Solar Flare Tickets are non refundable</Label>
         </div>
       </div>
 
       <Button
         onClick={() => {
-          onBid(auctionTickets);
+          onBid(tickets);
         }}
       >
         Bid
