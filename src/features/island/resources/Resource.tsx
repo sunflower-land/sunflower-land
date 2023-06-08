@@ -2,9 +2,9 @@ import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
-import { Gold } from "features/game/expansion/components/resources/Gold";
-import { Iron } from "features/game/expansion/components/resources/Iron";
-import { Stone } from "features/game/expansion/components/resources/Stone";
+import { Gold } from "features/game/expansion/components/resources/gold/Gold";
+import { Iron } from "features/game/expansion/components/resources/iron/Iron";
+import { Stone } from "features/game/expansion/components/resources/stone/Stone";
 import { Tree } from "features/game/expansion/components/resources/tree/Tree";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Plot } from "../plots/Plot";
@@ -38,18 +38,45 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   React.FC<ResourceProps>
 > = {
   "Crop Plot": () => (
-    <img
-      src={SUNNYSIDE.resource.plot}
-      className="absolute bottom-0 w-full"
+    <div
+      className="relative"
       style={{
-        width: `${PIXEL_SCALE * 18}px`,
+        width: `${PIXEL_SCALE * 20}px`,
+        bottom: `${PIXEL_SCALE * 4}px`,
+        right: `${PIXEL_SCALE * 2}px`,
       }}
-    />
+    >
+      <img
+        src={SUNNYSIDE.resource.plot}
+        style={{
+          width: `${PIXEL_SCALE * 20}px`,
+        }}
+      />
+    </div>
   ),
   "Gold Rock": () => (
+    <div
+      style={{
+        width: `${PIXEL_SCALE * 14}px`,
+        top: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Gold Rock"].image}
+        className="relative pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 14}px`,
+          top: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    </div>
+  ),
+  "Iron Rock": () => (
     <img
-      src={ITEM_DETAILS["Gold Rock"].image}
-      className="relative  w-full"
+      src={ITEM_DETAILS["Iron Rock"].image}
+      className="relative"
       style={{
         width: `${PIXEL_SCALE * 14}px`,
         top: `${PIXEL_SCALE * 3}px`,
@@ -57,19 +84,10 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
-  "Iron Rock": () => (
-    <img
-      src={ITEM_DETAILS["Iron Rock"].image}
-      className="relative h-full w-full"
-      style={{
-        width: `${PIXEL_SCALE * 16}px`,
-      }}
-    />
-  ),
   "Stone Rock": () => (
     <img
       src={ITEM_DETAILS["Stone Rock"].image}
-      className="relative w-full"
+      className="relative"
       style={{
         width: `${PIXEL_SCALE * 14}px`,
         top: `${PIXEL_SCALE * 3}px`,
@@ -80,17 +98,18 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   Tree: () => (
     <img
       src={SUNNYSIDE.resource.tree}
-      className="absolute h-auto w-full"
+      className="relative"
       style={{
-        width: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * -4}px`,
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        right: `${PIXEL_SCALE * 3}px`,
       }}
     />
   ),
   "Fruit Patch": () => (
     <img
       src={ITEM_DETAILS["Fruit Patch"].image}
-      className="absolute  "
+      className="absolute"
       style={{
         width: `${PIXEL_SCALE * 30}px`,
         top: `${PIXEL_SCALE * 2}px`,
