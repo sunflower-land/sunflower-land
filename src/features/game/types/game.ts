@@ -407,9 +407,9 @@ export type Bid = {
   ingredients: Partial<Record<InventoryItemName, number>>;
   collectible?: InventoryItemName;
   wearable?: BumpkinItem;
+  type: "collectible" | "wearable";
   biddedAt: number;
   tickets: number;
-  type: "collectible" | "wearable";
 };
 
 export type HayseedHank = {

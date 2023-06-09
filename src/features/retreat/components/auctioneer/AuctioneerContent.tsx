@@ -30,10 +30,11 @@ export const AuctioneerContent: React.FC<Props> = ({
   const [auctioneerState, send] = useActor(auctionService);
 
   const { auctions, auctionId } = auctioneerState.context;
+  const bid = auctioneerState.context.bid as Bid;
 
-  console.log({ items: auctions });
+  console.log({ items: auctions, bid });
 
-  if (auctions.length === 0) {
+  if (auctions.length === 0 && !bid) {
     return (
       <div className="p-2">
         <p>Coming soon...</p>
@@ -64,20 +65,13 @@ export const AuctioneerContent: React.FC<Props> = ({
   if (auctioneerState.matches("draftingBid")) {
     return (
       <DraftBid
+        gameState={gameState}
         auction={item}
         maxTickets={9999999} // TODO
         onBid={(tickets: number) => {
           auctionService.send("BID", { auctionId: item.auctionId, tickets });
         }}
       />
-    );
-  }
-
-  if (auctions.length === 0) {
-    return (
-      <div className="flex flex-col">
-        <span className="mt-1 ml-2">Coming soon...</span>
-      </div>
     );
   }
 
@@ -96,10 +90,9 @@ export const AuctioneerContent: React.FC<Props> = ({
 
   console.log({ state: auctioneerState.value });
 
-  const bid = auctioneerState.context.bid as Bid;
-
+  console.log({ bid });
   const image = bid.collectible
-    ? ITEM_DETAILS[bid?.collectible].image
+    ? ITEM_DETAILS[bid.collectible].image
     : getImageUrl(ITEM_IDS[bid.wearable as BumpkinItem]);
 
   if (auctioneerState.matches("bidded")) {

@@ -36,6 +36,7 @@ export const AuctioneerModal: React.FC<Props> = ({
 
   const [tab, setTab] = useState<"auction" | "upcoming">("auction");
 
+  console.log({ init: gameState.auctioneer.bid });
   const auctionService = useInterpret(createAuctioneerMachine({ onUpdate }), {
     context: {
       farmId: authState.context.user.farmId,

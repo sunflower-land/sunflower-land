@@ -1,4 +1,7 @@
-import { mintAuctionCollectible } from "lib/blockchain/Auction";
+import {
+  mintAuctionCollectible,
+  mintAuctionWearable,
+} from "lib/blockchain/Auction";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -38,11 +41,21 @@ export async function mintAuctionItem(request: Request) {
 
   const transaction = await response.json();
 
-  const sessionId = await mintAuctionCollectible({
-    ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
-  });
+  if (transaction.type === "collectible") {
+    const sessionId = await mintAuctionCollectible({
+      ...transaction,
+      web3: wallet.web3Provider,
+      account: wallet.myAccount,
+    });
 
-  return { sessionId, verified: true };
+    return { sessionId, verified: true };
+  } else {
+    const sessionId = await mintAuctionWearable({
+      ...transaction,
+      web3: wallet.web3Provider,
+      account: wallet.myAccount,
+    });
+
+    return { sessionId, verified: true };
+  }
 }

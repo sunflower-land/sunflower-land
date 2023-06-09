@@ -11,38 +11,31 @@ import { Auction } from "features/game/lib/auctionMachine";
 import sflIcon from "assets/icons/token_2.png";
 import { getKeys } from "features/game/types/craftables";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import classNames from "classnames";
 
 interface Props {
   auction: Auction;
   maxTickets: number;
   onBid: (auctionTickers: number) => void;
+  gameState: GameState;
 }
-export const DraftBid: React.FC<Props> = ({ auction, onBid, maxTickets }) => {
+export const DraftBid: React.FC<Props> = ({
+  auction,
+  onBid,
+  maxTickets,
+  gameState,
+}) => {
   const [tickets, setTickets] = useState(1);
 
-  const image =
-    auction.type === "collectible"
-      ? ITEM_DETAILS[auction.collectible as InventoryItemName].image
-      : getImageUrl(ITEM_IDS[auction.wearable as BumpkinItem]);
+  const missingSFL = gameState.balance.lt(auction.sfl * tickets);
+  const missingIngredients = getKeys(auction.ingredients).some((name) =>
+    gameState.inventory[name]?.lt((auction.ingredients[name] ?? 0) * tickets)
+  );
 
   return (
     <div className="p-2">
-      {/* <div className="flex flex-wrap justify-center">
-        {getKeys(item.ingredients).map((name) => (
-          <div className="flex mr-4">
-            <img src={ITEM_DETAILS[name].image} className="h-6 mr-1" />
-            <p className="text-sm">{item.ingredients[name]}</p>
-          </div>
-        ))}
-        {!!item.price && (
-          <div className="flex">
-            <img src={token} className="h-6 mr-1" />
-            <p className="text-sm">{item.price}</p>
-          </div>
-        )}
-      </div> */}
       <p className="text-sm text-center mb-2">Place your bid</p>
 
       <div className="flex items-center justify-center mb-1">
@@ -66,7 +59,11 @@ export const DraftBid: React.FC<Props> = ({ auction, onBid, maxTickets }) => {
         </div>
         <div className="flex items-center flex-wrap justify-center">
           {auction.sfl > 0 && (
-            <div className="flex items-center  mb-1 mr-3">
+            <div
+              className={classNames("flex items-center  mb-1 mr-3", {
+                ["text-red-500"]: missingSFL,
+              })}
+            >
               <div>
                 <p className="mr-1 text-right text-sm">
                   {auction.sfl * tickets}
@@ -78,7 +75,13 @@ export const DraftBid: React.FC<Props> = ({ auction, onBid, maxTickets }) => {
           {getKeys(auction.ingredients).map((name) => (
             <div className="flex items-center mb-1 mr-3">
               <div>
-                <p className="mr-1 text-right text-sm">
+                <p
+                  className={classNames("mr-1 text-right text-sm", {
+                    ["text-red-500"]: gameState.inventory[name]?.lt(
+                      (auction.ingredients[name] ?? 0) * tickets
+                    ),
+                  })}
+                >
                   {(auction.ingredients[name] ?? 0) * tickets}
                 </p>
               </div>
@@ -144,6 +147,7 @@ export const DraftBid: React.FC<Props> = ({ auction, onBid, maxTickets }) => {
         onClick={() => {
           onBid(tickets);
         }}
+        disabled={missingSFL || missingIngredients}
       >
         Bid
       </Button>

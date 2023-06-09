@@ -18,6 +18,7 @@ import { CONFIG } from "lib/config";
 import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
+import classNames from "classnames";
 
 type Props = {
   item: Auction;
@@ -187,10 +188,10 @@ export const AuctionDetails: React.FC<Props> = ({
   return (
     <div className="w-full p-2 mt-2 flex flex-col items-center">
       <div className="w-full p-2 flex flex-col items-center mx-auto">
-        <p className="mb-3">
+        <p className="mb-1">
           {item.type === "collectible" ? item.collectible : item.wearable}
         </p>
-        <p className="text-center text-sm mb-3">
+        <p className="text-center text-sm mb-1">
           {item.type === "collectible"
             ? ITEM_DETAILS[item.collectible].description
             : ""}
@@ -204,12 +205,11 @@ export const AuctionDetails: React.FC<Props> = ({
         {!isUpcomingItem && ReleaseDateLabel(releaseDate)}
         {!isUpcomingItem && AvailableForLabel(releaseDate, releaseEndDate)}
         <div className="relative mb-2">
-          <img src={bg} className="w-64 object-contain rounded-md" />
+          <img src={bg} className="w-48 object-contain rounded-md" />
           <div className="absolute inset-0">
             <img
               src={image}
-              className="absolute z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-              onLoad={(e) => setImageWidth(e.currentTarget)}
+              className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             />
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-full">
               <div className="flex flex-col items-center w-full">
@@ -232,9 +232,12 @@ export const AuctionDetails: React.FC<Props> = ({
       </div>
 
       {!isUpcomingItem && (
-        <div className="flex items-center space-x-3 mb-3">
-          {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
-          {makeIngredients(item?.ingredients)}
+        <div className="mb-3">
+          <p className="text-center text-xs mb-1">Minimum bid</p>
+          <div className="flex items-center justify-center space-x-3 mb-3">
+            {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
+            {makeIngredients(item?.ingredients)}
+          </div>
         </div>
       )}
 
