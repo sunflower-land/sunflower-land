@@ -53,7 +53,7 @@ import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 
-import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
+import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
 import {
@@ -787,17 +787,6 @@ export function startGame(authContext: AuthContext) {
                 );
 
                 if (sessionID !== context.sessionId) {
-                  cb("EXPIRED");
-                }
-
-                const bumpkins =
-                  (await loadBumpkins(
-                    wallet.web3Provider,
-                    wallet.myAccount as string
-                  )) ?? [];
-                const tokenURI = bumpkins[0]?.tokenURI;
-
-                if (tokenURI !== context.state.bumpkin?.tokenUri) {
                   cb("EXPIRED");
                 }
               }, 1000 * 60 * 2);
