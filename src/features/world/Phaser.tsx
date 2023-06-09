@@ -124,7 +124,6 @@ export const PhaserComponent: React.FC = () => {
 
   return (
     <div>
-      <Balance balance={gameState.context.state.balance} />
       <div id="game-content" />
       <img id="imageTest" />
       <ChatUI

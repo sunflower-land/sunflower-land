@@ -7,9 +7,9 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Success } from "features/game/components/Success";
-import { ErrorMessage } from "features/auth/ErrorMessage";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { Refreshing } from "features/auth/components/Refreshing";
+import { WorldHud } from "features/island/hud/WorldHUD";
 
 const _gameState = (state: MachineState) => state.value;
 
@@ -40,6 +40,8 @@ export const Explore: React.FC = () => {
   return (
     <>
       {!isLoading && <PhaserComponent />}
+
+      <WorldHud />
       <Modal show={isLoading} centered>
         <Panel>
           <p className="loading">Loading</p>
