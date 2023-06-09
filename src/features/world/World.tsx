@@ -6,6 +6,10 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { Success } from "features/game/components/Success";
+import { ErrorMessage } from "features/auth/ErrorMessage";
+import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
+import { Refreshing } from "features/auth/components/Refreshing";
 
 const _gameState = (state: MachineState) => state.value;
 
@@ -23,6 +27,7 @@ const _isLoading = (state: MachineState) => state.matches("loading");
 const _isMinting = (state: MachineState) => state.matches("minting");
 const _isSynced = (state: MachineState) => state.matches("synced");
 const _isErrored = (state: MachineState) => state.matches("error");
+const _refreshing = (state: MachineState) => state.matches("refreshing");
 
 export const Explore: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -30,6 +35,7 @@ export const Explore: React.FC = () => {
   const isMinting = useSelector(gameService, _isMinting);
   const synced = useSelector(gameService, _isSynced);
   const errored = useSelector(gameService, _isErrored);
+  const refreshing = useSelector(gameService, _refreshing);
 
   return (
     <>
@@ -48,13 +54,19 @@ export const Explore: React.FC = () => {
 
       <Modal show={synced} centered>
         <Panel>
-          <p>Synced</p>
+          <Success />
         </Panel>
       </Modal>
 
       <Modal show={errored} centered>
         <Panel>
-          <p>Errored</p>
+          <SomethingWentWrong />
+        </Panel>
+      </Modal>
+
+      <Modal show={refreshing} centered>
+        <Panel>
+          <Refreshing />
         </Panel>
       </Modal>
     </>

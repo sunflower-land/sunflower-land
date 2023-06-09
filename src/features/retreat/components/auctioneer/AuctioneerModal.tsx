@@ -22,6 +22,7 @@ interface Props {
   onClose: () => void;
   onUpdate: (state: GameState) => void;
   onMint: (id: string) => void;
+  deviceTrackerId: string;
 }
 
 export const AuctioneerModal: React.FC<Props> = ({
@@ -30,6 +31,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   gameState,
   onUpdate,
   onMint,
+  deviceTrackerId,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -42,6 +44,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       farmId: authState.context.user.farmId,
       token: authState.context.user.rawToken,
       bid: gameState.auctioneer.bid,
+      deviceTrackerId: deviceTrackerId,
     },
   }) as unknown as MachineInterpreter;
 

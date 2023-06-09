@@ -152,6 +152,7 @@ import lightning from "assets/icons/lightning.png";
 import { EmeraldTurtle } from "./components/EmeraldTurtle";
 import { TinTurtle } from "./components/TinTurtle";
 import { OceanLantern } from "./components/OceanLantern";
+import { BetaBear } from "./components/BetaBear";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -249,6 +250,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Angel Bear": AngelBear,
   "Badass Bear": BadassBear,
   "Bear Trap": BearTrap,
+  "Beta Bear": BetaBear,
   "Brilliant Bear": BrilliantBear,
   "Classy Bear": ClassyBear,
   "Farmer Bear": FarmerBear,

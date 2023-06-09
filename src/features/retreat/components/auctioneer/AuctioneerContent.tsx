@@ -13,7 +13,7 @@ import { Bid, GameState } from "features/game/types/game";
 import { DraftBid } from "./DraftBid";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { MachineInterpreter } from "features/game/lib/auctionMachine";
+import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 
@@ -167,29 +167,48 @@ export const AuctioneerContent: React.FC<Props> = ({
       send("REFUND");
     };
 
+    const minimum = auctioneerState.context.results?.minimum;
+    const auction = auctioneerState.context.auctions.find(
+      (a) => a.auctionId === bid.auctionId
+    ) as Auction;
+
     return (
       <div className="flex flex-col items-center">
         <p className="mb-2">Bid unsuccessful</p>
         <img src={SUNNYSIDE.icons.neutral} className="w-12 mb-2" />
         <Label type="warning">Auction results</Label>
-        <div className="w-4/5 flex flex-col my-2">
-          <div className="flex mb-1">
+        <div className="w-4/5 flex flex-col my-2 justify-center items-center">
+          <div className="flex mb-2">
             <img
               src={SUNNYSIDE.icons.player}
               className="w-6 object-contain mr-2"
             />
-            <span className="text-sm">{`${auctioneerState.context.results?.supply}/${auctioneerState.context.results?.participantCount} participants successful`}</span>
+            <span className="text-sm">{`${auctioneerState.context.results?.participantCount} Bumpkins placed a bid`}</span>
           </div>
+          <p className="text-xs underline mb-1">Required bid</p>
           <div className="flex">
-            <img
-              src={ITEM_DETAILS["Solar Flare Ticket"].image}
-              className="w-6 object-contain mr-2"
-            />
             <div>
-              <p className="text-sm">{`${
-                (auctioneerState.context.results?.minimum.tickets ?? 0) *
-                bid.sfl
-              } SFL required`}</p>
+              {bid.sfl > 0 && (
+                <div className={"flex items-center justify-center  mb-1 mr-3"}>
+                  <div>
+                    <p className="mr-1 text-right text-sm">
+                      {(minimum?.tickets ?? 0) * auction.sfl}
+                    </p>
+                  </div>
+                  <img src={token} className="h-5" />
+                </div>
+              )}
+              {getKeys(bid.ingredients).map((name) => (
+                <div className="flex items-center jsutify-centermb-1 mr-3">
+                  <div>
+                    <p className={"mr-1 text-right text-sm"}>
+                      {(auction.ingredients[name] ?? 0) *
+                        (minimum?.tickets ?? 0)}
+                    </p>
+                  </div>
+                  <img src={ITEM_DETAILS[name].image} className="h-5" />
+                </div>
+              ))}
             </div>
           </div>
         </div>

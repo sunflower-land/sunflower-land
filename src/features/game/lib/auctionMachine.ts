@@ -35,6 +35,7 @@ export type Auction = CollectibleAuction | WearableAuction;
 export interface Context {
   farmId: number;
   token: string;
+  deviceTrackerId: string;
   bid?: GameState["auctioneer"]["bid"];
   auctions: Auction[];
   auctionId: string;
@@ -99,8 +100,6 @@ export type MachineInterpreter = Interpreter<
   AuctioneerMachineState
 >;
 
-// Updates - placeBid, refund
-
 export const createAuctioneerMachine = ({
   onUpdate,
 }: {
@@ -115,6 +114,7 @@ export const createAuctioneerMachine = ({
         transactionId: "?",
         auctionId: "test-auction-1",
         token: "",
+        deviceTrackerId: "",
         auctions: [
           {
             auctionId: "test-auction-1",
@@ -289,26 +289,22 @@ export const createAuctioneerMachine = ({
           invoke: {
             src: async (context, event) => {
               console.log({ event });
-              try {
-                const { farm } = await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: "X",
-                  actions: [
-                    {
-                      type: "bid.refunded",
-                      createdAt: new Date(),
-                    } as any,
-                  ],
-                  token: context.token as string,
-                  fingerprint: "0x",
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
+              const { farm } = await autosave({
+                farmId: Number(context.farmId),
+                sessionId: "X",
+                actions: [
+                  {
+                    type: "bid.refunded",
+                    createdAt: new Date(),
+                  } as any,
+                ],
+                token: context.token as string,
+                fingerprint: "0x",
+                deviceTrackerId: context.deviceTrackerId as string,
+                transactionId: context.transactionId as string,
+              });
 
-                onUpdate(farm as GameState);
-              } catch (e) {
-                console.log(`e: `, e);
-              }
+              onUpdate(farm as GameState);
             },
             onDone: {
               target: "refunded",

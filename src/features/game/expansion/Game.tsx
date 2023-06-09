@@ -83,6 +83,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   introduction: false,
   promoting: false,
   transacting: true,
+  minting: true,
 };
 
 // State change selectors

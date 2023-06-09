@@ -544,6 +544,7 @@ const travelingSalesmanItems: Record<TravelingSalesmanItem, WithdrawCondition> =
 const soldOut: Record<SoldOutCollectibleName, WithdrawCondition> = {
   "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
   "Christmas Snow Globe": true,
+  "Beta Bear": false,
   "Cyborg Bear": true,
   "Wood Nymph Wendy": (game) => !areAnyTreesChopped(game),
   "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
