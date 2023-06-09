@@ -22,6 +22,9 @@ const ADVANCED_DECORATIONS: DecorationName[] = [
   "Shrub",
   "Pine Tree",
   "Stone Fence",
+  "Field Maple",
+  "Red Maple",
+  "Golden Maple",
 ];
 export const DecorationItems: React.FC = () => {
   const [selected, setSelected] = useState<Decoration>(

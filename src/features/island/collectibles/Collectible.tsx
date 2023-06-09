@@ -153,6 +153,9 @@ import lightning from "assets/icons/lightning.png";
 import { EmeraldTurtle } from "./components/EmeraldTurtle";
 import { TinTurtle } from "./components/TinTurtle";
 import { StoneFence } from "./components/StoneFence";
+import { FieldMaple } from "./components/FieldMaple";
+import { GoldenMaple } from "./components/GoldenMaple";
+import { RedMaple } from "./components/RedMaple";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -202,6 +205,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Bush: Bush,
   Shrub: Shrub,
   "Pine Tree": PineTree,
+  "Field Maple": FieldMaple,
+  "Red Maple": RedMaple,
+  "Golden Maple": GoldenMaple,
   "Stone Fence": StoneFence,
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,

@@ -317,6 +317,9 @@ import genieBear from "src/assets/sfts/bears/genie_bear.png";
 import emeraldTurtle from "src/assets/sfts/emerald_turtle.webp";
 import tinTurtle from "src/assets/sfts/tin_turtle.webp";
 import pineTree from "src/assets/decorations/pine_tree.png";
+import fieldMaple from "src/assets/decorations/field_maple.webp";
+import redMaple from "src/assets/decorations/red_maple.webp";
+import goldenMaple from "src/assets/decorations/golden_maple.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -2068,6 +2071,19 @@ export const ITEM_DETAILS: Items = {
   "Pine Tree": {
     image: pineTree,
     description: "Standing tall and mighty, a needle-clad dream.",
+  },
+  "Field Maple": {
+    image: fieldMaple,
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+  },
+  "Red Maple": {
+    image: redMaple,
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+  },
+  "Golden Maple": {
+    image: goldenMaple,
+    description: "Radiating brilliance with its shimmering golden leaves.",
   },
   "Solar Flare Banner": {
     image: solarFlareBanner,
