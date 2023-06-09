@@ -1,18 +1,18 @@
 import React from "react";
 
-import radianceLantern from "src/assets/sfts/radiance_lantern.webp";
+import oceanLantern from "src/assets/sfts/ocean_lantern.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const RadianceLantern: React.FC = () => {
+export const OceanLantern: React.FC = () => {
   return (
     <div className="flex justify-center items-center pointer-events-none">
       <img
-        src={radianceLantern}
+        src={oceanLantern}
         style={{
           width: `${PIXEL_SCALE * 11}px`,
         }}
         className="paper-floating"
-        alt="Radiance Lantern"
+        alt="Ocean Lantern"
       />
     </div>
   );
