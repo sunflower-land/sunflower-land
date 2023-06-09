@@ -1,65 +1,29 @@
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { getKeys } from "features/game/types/craftables";
 import React from "react";
 
-/**
- * Naming is based on which sides have borders
- * Same as padding/margin order. Top, right, down, left
- * 0_1_1_0 = No top border, right border, bottom border and no bottom border
- */
-import fullEdge from "assets/decorations/fence/1_1_1_1.png";
-import topAndBottomEdge from "assets/decorations/fence/1_0_1_0.png";
-import topLeftAndBottomEdge from "assets/decorations/fence/1_0_1_1.png";
-import topRightAndBottomEdge from "assets/decorations/fence/1_1_1_0.png";
-import topRightAndLeftEdge from "assets/decorations/fence/1_1_0_1.png";
-import rightBottomAndLeftEdge from "assets/decorations/fence/0_1_1_1.png";
-import rightAndLeftEdge from "assets/decorations/fence/0_1_0_1.png";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
-import rightEdge from "assets/decorations/fence/0_1_0_0.png";
-import bottomEdge from "assets/decorations/fence/0_0_1_0.png";
-import topEdge from "assets/decorations/fence/1_0_0_0.png";
-import leftEdge from "assets/decorations/fence/0_0_0_1.png";
-
-import topAndLeftEdge from "assets/decorations/fence/1_0_0_1.png";
-import bottomAndLeftEdge from "assets/decorations/fence/0_0_1_1.png";
-import topAndRightEdge from "assets/decorations/fence/1_1_0_0.png";
-import bottomAndRightEdge from "assets/decorations/fence/0_1_1_0.png";
+import topAndRightEdge from "assets/decorations/stoneFence/top_right.png";
+import topAndLeftEdge from "assets/decorations/stoneFence/top_left.png";
+import bottomAndLeftEdge from "assets/decorations/stoneFence/bottom_left.png";
+import bottomAndRightEdge from "assets/decorations/stoneFence/bottom_right.png";
+import topAndLeftAndRightAndBottom from "assets/decorations/stoneFence/top_left_right_bottom.png";
+import topAndLeftAndRight from "assets/decorations/stoneFence/top_left_right.png";
+import bottomAndLeftAndRight from "assets/decorations/stoneFence/bottom_left_right.png";
+import rightTopAndBottom from "assets/decorations/stoneFence/right_top_bottom.png";
+import leftTopAndBottom from "assets/decorations/stoneFence/left_top_bottom.png";
+import bottom from "assets/decorations/stoneFence/bottom.png";
 
 import horizontalOne from "assets/decorations/stoneFence/x_1.png";
 import horizontalTwo from "assets/decorations/stoneFence/x_2.png";
 import horizontalThree from "assets/decorations/stoneFence/x_3.png";
 import horizontalFour from "assets/decorations/stoneFence/x_4.png";
 
-// Horizontal x 4
-// Vertical x 2
-// Left-Right-Bottom
-// Left-Right-Top
-// Left-Top
-// Left-Bottom
-// Right-Top
-// Right-Bottom
-// Left-Right-Top-Bottom
-
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-
-const IMAGE_PATHS: Record<string, string> = {
-  top_right_bottom_left: fullEdge,
-  top_left: topAndLeftEdge,
-  top_right: topAndRightEdge,
-  bottom_left: bottomAndLeftEdge,
-  right_bottom: bottomAndRightEdge,
-  top: topEdge,
-  right: rightEdge,
-  bottom: bottomEdge,
-  left: leftEdge,
-  top_bottom: topAndBottomEdge,
-  right_left: rightAndLeftEdge,
-  top_bottom_left: topLeftAndBottomEdge,
-  top_right_bottom: topRightAndBottomEdge,
-  top_right_left: topRightAndLeftEdge,
-  right_bottom_left: rightBottomAndLeftEdge,
-};
+import verticalOne from "assets/decorations/stoneFence/y_1.png";
+import verticalTwo from "assets/decorations/stoneFence/y_2.png";
+import verticalThree from "assets/decorations/stoneFence/y_3.png";
+import verticalFour from "assets/decorations/stoneFence/y_2.png";
 
 type Edges = {
   top: boolean;
@@ -80,49 +44,67 @@ const horizontalImages = [
   horizontalFour,
 ];
 
+const verticalImages = [verticalOne, verticalTwo, verticalThree, verticalFour];
+
 export const StoneFence: React.FC<Props> = ({ coordinates, grid }) => {
   const { x, y } = coordinates;
 
-  console.log({ x, y });
-
-  // these are the coordinates of this stone fence
-
   const edges: Edges = {
-    // Check if there is a stone fence directly above this one
-    top: grid[x]?.[y + 1] === "Stone Fence",
-    // Check if there is a stone fence directly to the right of this one
-    right: grid[x + 1]?.[y] === "Stone Fence",
-    // Check if there is a stone fence directly below this one
-    bottom: grid[x]?.[y - 1] === "Stone Fence",
-    // Check if there is a stone fence directly to the left of this one
-    left: grid[x - 1]?.[y] === "Stone Fence",
+    top: grid[x]?.[y + 1] === "Stone Fence" || grid[x]?.[y + 1] === "Fence",
+    right: grid[x + 1]?.[y] === "Stone Fence" || grid[x + 1]?.[y] === "Fence",
+    bottom: grid[x]?.[y - 1] === "Stone Fence" || grid[x]?.[y - 1] === "Fence",
+    left: grid[x - 1]?.[y] === "Stone Fence" || grid[x - 1]?.[y] === "Fence",
   };
 
   let image = horizontalOne;
 
-  // If this stone fence has edges solely on the horizontal axis or the vertical axis then we need to count how many there are
-  // Based on the number, we will use modular arithmetic to determine which image to use
-  if (edges.right || edges.left) {
+  if (edges.top && edges.right && edges.bottom && edges.left) {
+    image = topAndLeftAndRightAndBottom;
+  } else if (edges.left && edges.right && edges.bottom) {
+    image = topAndLeftAndRight;
+  } else if (edges.left && edges.right && edges.top) {
+    image = bottomAndLeftAndRight;
+  } else if (edges.top && edges.bottom && edges.right) {
+    image = leftTopAndBottom;
+  } else if (edges.top && edges.bottom && edges.left) {
+    image = rightTopAndBottom;
+  } else if (edges.right && edges.bottom) {
+    image = topAndRightEdge;
+  } else if (edges.left && edges.bottom) {
+    image = topAndLeftEdge;
+  } else if (edges.right && edges.top) {
+    image = bottomAndRightEdge;
+  } else if (edges.top && edges.left) {
+    image = bottomAndLeftEdge;
+  } else if (edges.top && !edges.bottom) {
+    image = bottom;
+  } else if (edges.bottom && !edges.top) {
+    image = verticalOne;
+  } else if (edges.right) {
     let numberToRightOfMe = 1;
-
     while (grid[x + numberToRightOfMe]?.[y] === "Stone Fence") {
       numberToRightOfMe++;
     }
-
-    console.log({ numberToRightOfMe });
-
     image = horizontalImages[(numberToRightOfMe - 1) % 4];
+  } else if (edges.left) {
+    let numberToLeftOfMe = 1;
+    while (grid[x - numberToLeftOfMe]?.[y] === "Stone Fence") {
+      numberToLeftOfMe++;
+    }
+    image = horizontalImages[(numberToLeftOfMe - 1) % 4];
+  } else if (edges.top) {
+    let numberAboveMe = 1;
+    while (grid[x]?.[y + numberAboveMe] === "Stone Fence") {
+      numberAboveMe++;
+    }
+    image = verticalImages[(numberAboveMe - 1) % 4];
+  } else if (edges.bottom) {
+    let numberBelowMe = 1;
+    while (grid[x]?.[y - numberBelowMe] === "Stone Fence") {
+      numberBelowMe++;
+    }
+    image = verticalImages[(numberBelowMe - 1) % 4];
   }
-
-  // let image = noEdge;
-  const edgeNames = getKeys(edges).filter((edge) => !!edges[edge]);
-
-  // console.log({ edgeNames });
-  // const name = edgeNames.join("_");
-  // const path = IMAGE_PATHS[name];
-  // if (path) {
-  //   image = path;
-  // }
 
   return (
     <img
