@@ -32,6 +32,17 @@ type WearableAuction = AuctionBase & {
 
 export type Auction = CollectibleAuction | WearableAuction;
 
+export type AuctionResults = {
+  status: "loser" | "winner" | "pending";
+  minimum: {
+    tickets: number;
+    experience: number;
+    sfl: number;
+    items: Record<InventoryItemName, number>;
+  };
+  participantCount: number;
+  supply: number;
+};
 export interface Context {
   farmId: number;
   token: string;
@@ -40,15 +51,7 @@ export interface Context {
   auctions: Auction[];
   auctionId: string;
   transactionId: string;
-  results?: {
-    status: "loser" | "winner" | "pending";
-    minimum: {
-      tickets: number;
-      experience: number;
-    };
-    participantCount: number;
-    supply: number;
-  };
+  results?: AuctionResults;
 }
 
 type BidEvent = {
@@ -85,6 +88,7 @@ export type AuctioneerMachineState = {
     | "bidded"
     | "checkingResults"
     | "loser"
+    | "missingAuction"
     | "refunding"
     | "refunded"
     | "pending"
@@ -169,6 +173,14 @@ export const createAuctioneerMachine = ({
         },
         initialising: {
           always: [
+            {
+              target: "missingAuction",
+              cond: (context) =>
+                !!context.bid &&
+                !context.auctions.find(
+                  (auction) => auction.auctionId === context.bid?.auctionId
+                ),
+            },
             {
               target: "bidded",
               cond: (context) => !!context.bid,
@@ -276,6 +288,12 @@ export const createAuctioneerMachine = ({
 
         winner: {},
 
+        missingAuction: {
+          on: {
+            REFUND: "refunding",
+          },
+        },
+
         loser: {
           on: {
             REFUND: "refunding",
@@ -309,7 +327,7 @@ export const createAuctioneerMachine = ({
             onDone: {
               target: "refunded",
               actions: assign({
-                bid: () => undefined,
+                bid: (_) => undefined,
               }),
             },
             onError: {

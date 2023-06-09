@@ -13,7 +13,10 @@ import { Bid, GameState } from "features/game/types/game";
 import { DraftBid } from "./DraftBid";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
+import {
+  AuctionResults,
+  MachineInterpreter,
+} from "features/game/lib/auctionMachine";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 
@@ -37,6 +40,9 @@ export const AuctioneerContent: React.FC<Props> = ({
 
   const bid = auctioneerState.context.bid as Bid;
 
+  const refund = () => {
+    send("REFUND");
+  };
   console.log({ items: auctions, bid });
 
   if (readyAuctions.length === 0 && !bid) {
@@ -93,17 +99,49 @@ export const AuctioneerContent: React.FC<Props> = ({
     return <span className="loading">Placing bid</span>;
   }
 
-  console.log({ state: auctioneerState.value });
+  if (auctioneerState.matches("refunding")) {
+    return <span className="loading">Loading</span>;
+  }
 
-  console.log({ bid });
+  if (auctioneerState.matches("refunded")) {
+    return (
+      <div>
+        <div className="p-2 flex flex-col items-center">
+          <img src={trivia} className="w-24 mb-2" />
+
+          <p className="text-center mb-1">
+            Your items have been returned to your inventory
+          </p>
+          <p className="text-sm">Good luck next time!</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (auctioneerState.matches("missingAuction")) {
+    return (
+      <div className="flex flex-col items-center">
+        <p className="mb-2">Auction no longer exists</p>
+        <img src={SUNNYSIDE.icons.neutral} className="w-12 mb-2" />
+        <Button className="mt-2" onClick={refund}>
+          Refund
+        </Button>
+      </div>
+    );
+  }
+
   const image = bid.collectible
     ? ITEM_DETAILS[bid.collectible].image
     : getImageUrl(ITEM_IDS[bid.wearable as BumpkinItem]);
 
   if (auctioneerState.matches("bidded")) {
-    const secondsLeft = !item
+    const auction = auctions.find(
+      (auction) => auction.auctionId === bid.auctionId
+    );
+
+    const secondsLeft = !auction
       ? 0
-      : Math.floor((item.endAt - Date.now()) / 1000);
+      : Math.floor((auction.endAt - Date.now()) / 1000);
 
     return (
       <div className="flex justify-center flex-col w-full items-center">
@@ -168,14 +206,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("loser")) {
-    const refund = () => {
-      send("REFUND");
-    };
-
-    const minimum = auctioneerState.context.results?.minimum;
-    const auction = auctioneerState.context.auctions.find(
-      (a) => a.auctionId === bid.auctionId
-    ) as Auction;
+    const minimum = (auctioneerState.context.results as AuctionResults).minimum;
 
     return (
       <div className="flex flex-col items-center">
@@ -193,22 +224,22 @@ export const AuctioneerContent: React.FC<Props> = ({
           <p className="text-xs underline mb-1">Required bid</p>
           <div className="flex">
             <div>
-              {bid.sfl > 0 && (
+              {minimum.sfl > 0 && (
                 <div className={"flex items-center justify-center  mb-1 mr-3"}>
                   <div>
-                    <p className="mr-1 text-right text-sm">
-                      {(minimum?.tickets ?? 0) * auction.sfl}
-                    </p>
+                    <p className="mr-1 text-right text-sm">{minimum.sfl}</p>
                   </div>
                   <img src={token} className="h-5" />
                 </div>
               )}
-              {getKeys(bid.ingredients).map((name) => (
-                <div className="flex items-center jsutify-centermb-1 mr-3">
+              {getKeys(minimum.items).map((name) => (
+                <div
+                  className="flex items-center jsutify-centermb-1 mr-3"
+                  key={name}
+                >
                   <div>
                     <p className={"mr-1 text-right text-sm"}>
-                      {(auction.ingredients[name] ?? 0) *
-                        (minimum?.tickets ?? 0)}
+                      {minimum.items[name] ?? 0}
                     </p>
                   </div>
                   <img src={ITEM_DETAILS[name].image} className="h-5" />
@@ -219,28 +250,6 @@ export const AuctioneerContent: React.FC<Props> = ({
         </div>
         <Button className="mt-2" onClick={refund}>
           Refund resources
-        </Button>
-      </div>
-    );
-  }
-
-  if (auctioneerState.matches("refunding")) {
-    return <span className="loading">Loading</span>;
-  }
-
-  if (auctioneerState.matches("refunded")) {
-    return (
-      <div>
-        <div className="p-2 flex flex-col items-center">
-          <img src={trivia} className="w-24 mb-2" />
-
-          <p className="text-center mb-1">
-            Your items have been returned to your inventory
-          </p>
-          <p className="text-sm">Good luck next time!</p>
-        </div>
-        <Button className="mt-2" onClick={() => send("REFRESH")}>
-          Continue
         </Button>
       </div>
     );
