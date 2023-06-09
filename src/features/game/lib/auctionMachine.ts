@@ -308,6 +308,9 @@ export const createAuctioneerMachine = ({
             },
             onDone: {
               target: "refunded",
+              actions: assign({
+                bid: () => undefined,
+              }),
             },
             onError: {
               target: "error",

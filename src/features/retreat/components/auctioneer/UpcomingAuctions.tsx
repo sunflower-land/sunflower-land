@@ -13,7 +13,10 @@ export const UpcomingAuctions: React.FC<Props> = ({ auctionService, game }) => {
   const [auctioneerState] = useActor(auctionService);
 
   const { auctions } = auctioneerState.context;
-  const upcoming = auctions.slice(1);
+  const readyAuctions = auctions.filter(
+    (auction) => auction.endAt > Date.now()
+  );
+  const upcoming = readyAuctions.slice(1);
 
   if (upcoming.length === 0) {
     return (

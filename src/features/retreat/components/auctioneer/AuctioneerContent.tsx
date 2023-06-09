@@ -30,18 +30,23 @@ export const AuctioneerContent: React.FC<Props> = ({
   const [auctioneerState, send] = useActor(auctionService);
 
   const { auctions, auctionId } = auctioneerState.context;
+
+  const readyAuctions = auctions.filter(
+    (auction) => auction.endAt > Date.now()
+  );
+
   const bid = auctioneerState.context.bid as Bid;
 
   console.log({ items: auctions, bid });
 
-  if (auctions.length === 0 && !bid) {
+  if (readyAuctions.length === 0 && !bid) {
     return (
       <div className="p-2">
         <p>Coming soon...</p>
       </div>
     );
   }
-  const item = auctions[0];
+  const item = readyAuctions[0];
 
   if (auctioneerState.matches("playing")) {
     return (
