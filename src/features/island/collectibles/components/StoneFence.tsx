@@ -2,7 +2,6 @@ import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 import topAndRightEdge from "assets/decorations/stoneFence/top_right.png";
 import topAndLeftEdge from "assets/decorations/stoneFence/top_left.png";
@@ -33,7 +32,8 @@ type Edges = {
 };
 
 interface Props {
-  coordinates: Coordinates;
+  x: number;
+  y: number;
   grid: GameGrid;
 }
 
@@ -46,9 +46,7 @@ const horizontalImages = [
 
 const verticalImages = [verticalOne, verticalTwo, verticalThree, verticalFour];
 
-export const StoneFence: React.FC<Props> = ({ coordinates, grid }) => {
-  const { x, y } = coordinates;
-
+export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
   const edges: Edges = {
     top: grid[x]?.[y + 1] === "Stone Fence" || grid[x]?.[y + 1] === "Fence",
     right: grid[x + 1]?.[y] === "Stone Fence" || grid[x + 1]?.[y] === "Fence",

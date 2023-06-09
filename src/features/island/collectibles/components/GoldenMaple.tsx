@@ -10,8 +10,9 @@ export const GoldenMaple: React.FC = () => {
         src={goldenMaple}
         style={{
           width: `${PIXEL_SCALE * 28}px`,
+          bottom: 0,
         }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 -translate-x-1/2"
         alt="Golden Maple"
       />
     </>
