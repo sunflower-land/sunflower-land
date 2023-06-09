@@ -659,6 +659,7 @@ const lanterns: Record<Lantern, WithdrawCondition> = {
   "Luminous Lantern": false,
   "Radiance Lantern": false,
   "Aurora Lantern": false,
+  "Ocean Lantern": false,
 };
 
 const purchasables: Record<SeasonPassName, WithdrawCondition> = {

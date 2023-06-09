@@ -637,7 +637,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       ),
     },
     wendy: {
-      x: 4,
+      x: 2,
       y: -8,
       flip: true,
       dialogue: (
