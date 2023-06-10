@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 
 import { Panel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
 import { AuctioneerContent } from "./AuctioneerContent";
-import { UpcomingAuctions } from "./UpcomingAuctions";
 import { useActor, useInterpret } from "@xstate/react";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import {
@@ -16,7 +13,6 @@ import {
 import { Bid, GameState } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Auctions } from "./Auctions";
 
 interface Props {
   gameState: GameState;
@@ -51,7 +47,7 @@ export const AuctioneerModal: React.FC<Props> = ({
 
   useEffect(() => {
     if (isOpen) {
-      auctionService.send("OPEN");
+      auctionService.send("OPEN", { gameState });
     }
   }, [isOpen]);
 

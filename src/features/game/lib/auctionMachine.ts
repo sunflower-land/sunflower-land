@@ -69,10 +69,15 @@ type RefreshEvent = {
   type: "REFRESH";
 };
 
+type OpenEvent = {
+  type: "OPEN";
+  gameState: GameState;
+};
+
 export type BlockchainEvent =
   | BidEvent
   | RefreshEvent
-  | { type: "OPEN" }
+  | OpenEvent
   | { type: "DRAFT_BID" }
   | { type: "CANCEL" }
   | { type: "CHECK_RESULTS" }
@@ -443,6 +448,9 @@ export const createAuctioneerMachine = ({
       on: {
         OPEN: {
           target: CONFIG.API_URL ? "loading" : "initialising",
+          actions: assign({
+            bid: (_, event) => event.gameState.auctioneer.bid,
+          }),
         },
       },
     },

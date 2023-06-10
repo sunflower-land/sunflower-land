@@ -22,8 +22,15 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
 
   const { auctions, auctionId } = auctioneerState.context;
 
-  if (auctions.length === 0) {
-    return <div>No auctions</div>;
+  const currentAuctions = auctions.filter(
+    (auction) => auction.endAt > Date.now()
+  );
+  if (currentAuctions.length === 0) {
+    return (
+      <div className="p-2">
+        <p>More Auctions Coming soon...</p>
+      </div>
+    );
   }
 
   return (
@@ -31,7 +38,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
       style={{ maxHeight: "300px" }}
       className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
     >
-      {auctions.map((auction) => {
+      {currentAuctions.map((auction) => {
         const image =
           auction.type === "collectible"
             ? ITEM_DETAILS[auction.collectible].image

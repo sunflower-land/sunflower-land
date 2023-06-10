@@ -52,11 +52,11 @@ export const AuctioneerContent: React.FC<Props> = ({
     );
   }
 
-  const auction = auctioneerState.context.auctions.find(
-    (auction) => auction.auctionId === selectedAuctionId
-  ) as IAuction;
-
   if (auctioneerState.matches("draftingBid")) {
+    const auction = auctioneerState.context.auctions.find(
+      (auction) => auction.auctionId === selectedAuctionId
+    ) as IAuction;
+
     return (
       <DraftBid
         gameState={gameState}
@@ -87,6 +87,10 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("bidded")) {
+    const auction = auctioneerState.context.auctions.find(
+      (auction) => auction.auctionId === auctioneerState.context.bid?.auctionId
+    ) as IAuction;
+
     return (
       <AuctionBid
         auction={auction}
@@ -118,6 +122,10 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (selectedAuctionId) {
+    const auction = auctioneerState.context.auctions.find(
+      (auction) => auction.auctionId === selectedAuctionId
+    ) as IAuction;
+
     return (
       <AuctionDetails
         item={auction}

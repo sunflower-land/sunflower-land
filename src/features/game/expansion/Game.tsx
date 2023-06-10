@@ -48,6 +48,7 @@ import { Promoting } from "./components/Promoting";
 import { Purchasing } from "../components/Purchasing";
 import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
 import { Transacting } from "../components/Transacting";
+import { Minting } from "../components/Minting";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -105,6 +106,7 @@ const isNoBumpkinFound = (state: MachineState) =>
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isDepositing = (state: MachineState) => state.matches("depositing");
+const isMinting = (state: MachineState) => state.matches("minting");
 const isLoadingLandToVisit = (state: MachineState) =>
   state.matches("loadLandToVisit");
 const isLoadingSession = (state: MachineState) =>
@@ -148,6 +150,7 @@ export const Game: React.FC = () => {
   const actions = useSelector(gameService, getActions);
   const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
   const transacting = useSelector(gameService, isTransacting);
+  const minting = useSelector(gameService, isMinting);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -308,6 +311,7 @@ export const Game: React.FC = () => {
           {gameRules && <Rules />}
           {transacting && <Transacting />}
           {depositing && <Loading text="Depositing" />}
+          {minting && <Minting />}
         </Panel>
       </Modal>
 

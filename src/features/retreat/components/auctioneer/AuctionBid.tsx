@@ -71,7 +71,7 @@ export const AuctionBid: React.FC<Props> = ({
 
       <Button
         className="mt-2"
-        disabled={secondsLeft > 0}
+        disabled={auction.endAt > Date.now()}
         onClick={() => auctionService.send("CHECK_RESULTS")}
       >
         Reveal winners
