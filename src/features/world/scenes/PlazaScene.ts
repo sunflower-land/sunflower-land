@@ -66,7 +66,7 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "old salty",
   },
 ];
-export class PhaserScene extends BaseScene {
+export class PlazaScene extends BaseScene {
   roomId: RoomId = "plaza";
 
   spawn: Coordinates = {
@@ -74,7 +74,10 @@ export class PhaserScene extends BaseScene {
     y: 167,
   };
   constructor() {
-    super("plaza");
+    super("plaza", {
+      x: 420,
+      y: 167,
+    });
   }
 
   async create() {
