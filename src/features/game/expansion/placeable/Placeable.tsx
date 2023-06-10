@@ -28,7 +28,7 @@ import { READONLY_BUILDINGS } from "features/island/buildings/components/buildin
 import { ZoomContext } from "components/ZoomProvider";
 
 export const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
-  Chicken: () => <Chicken coordinates={{ x: 0, y: 0 }} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
+  Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...READONLY_COLLECTIBLES,
   ...READONLY_RESOURCE_COMPONENTS,
   ...READONLY_BUILDINGS,
