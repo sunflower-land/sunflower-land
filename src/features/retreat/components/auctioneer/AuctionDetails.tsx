@@ -3,7 +3,6 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import token from "assets/icons/token_2.png";
 import bg from "assets/ui/brown_background.png";
-import calendar from "assets/icons/calendar.png";
 
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -11,15 +10,11 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getKeys } from "features/game/types/craftables";
-import { setImageWidth } from "lib/images";
-import { formatDateTime, secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
-import classNames from "classnames";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 type Props = {
   item: Auction;
@@ -36,9 +31,10 @@ type TimeObject = {
     minutes: number;
     seconds: number;
   };
+  fontSize?: number;
 };
 
-const TimerDisplay = ({ time }: TimeObject) => {
+export const TimerDisplay = ({ time, fontSize = 20 }: TimeObject) => {
   const timeKeys = getKeys(time);
 
   const times = timeKeys.map((key) => {
@@ -46,7 +42,11 @@ const TimerDisplay = ({ time }: TimeObject) => {
 
     return value;
   });
-  return <span style={{ fontFamily: "monospace" }}>{times.join(":")}</span>;
+  return (
+    <span style={{ fontFamily: "monospace", fontSize: `${fontSize}px` }}>
+      {times.join(":")}
+    </span>
+  );
 };
 
 export const AuctionDetails: React.FC<Props> = ({

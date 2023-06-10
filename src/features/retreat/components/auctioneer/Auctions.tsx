@@ -1,5 +1,5 @@
 import React from "react";
-import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
+import { MachineInterpreter } from "features/game/lib/auctionMachine";
 import { useActor } from "@xstate/react";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -39,15 +39,10 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
 
         return (
           <OuterPanel
+            key={auction.auctionId}
             onClick={() => onSelect(auction.auctionId)}
             className="w-full cursor-pointer hover:bg-brown-300 p-2 relative flex mb-1"
           >
-            {Date.now() > auction.startAt && (
-              <div className="absolute right-0 -top-3.5">
-                <Label type="warning">Auction is live</Label>
-              </div>
-            )}
-
             <div className="relative w-20 h-20 flex items-center justify-center mr-2">
               <img
                 src={bg}
@@ -75,13 +70,20 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                   <img
                     src={ITEM_DETAILS[name].image}
                     className="h-5 img-highlight -ml-1"
+                    key={name}
                   />
                 ))}
               </div>
-              <div className="flex-1 flex items-center  mt-1">
-                <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
-                <span className="text-xs">20/20/2022 9am</span>
-              </div>
+              {Date.now() > auction.startAt ? (
+                <div>
+                  <Label type="warning">Auction is live!</Label>
+                </div>
+              ) : (
+                <div className="flex-1 flex items-center  mt-1">
+                  <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
+                  <span className="text-xs">20/20/2022 9am</span>
+                </div>
+              )}
             </div>
           </OuterPanel>
         );

@@ -44,32 +44,6 @@ export const Auctioneer: React.FC = () => {
             left: `${PIXEL_SCALE * 23}px`,
           }}
         />
-        {/* {activeItem && (
-          <img
-            className="absolute"
-            src={ITEM_DETAILS[activeItem].image}
-            onLoad={(e) => {
-              const img = e.currentTarget;
-              if (
-                !img ||
-                !img.complete ||
-                !img.naturalWidth ||
-                !img.naturalHeight
-              ) {
-                return;
-              }
-
-              const left = Math.floor((80 - img.naturalWidth) / 2);
-              const bottom = Math.floor((80 - img.naturalHeight) / 2);
-              img.style.left = `${PIXEL_SCALE * left}px`;
-              img.style.bottom = `${PIXEL_SCALE * bottom}px`;
-              setImageWidth(img);
-            }}
-            style={{
-              opacity: 0,
-            }}
-          />
-        )} */}
         <div
           className="flex justify-center absolute w-full pointer-events-none"
           style={{

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -10,10 +9,10 @@ import { Auction } from "features/game/lib/auctionMachine";
 
 import sflIcon from "assets/icons/token_2.png";
 import { getKeys } from "features/game/types/craftables";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
-import { GameState, InventoryItemName } from "features/game/types/game";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { GameState } from "features/game/types/game";
 import classNames from "classnames";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { TimerDisplay } from "./AuctionDetails";
 
 interface Props {
   auction: Auction;
@@ -30,6 +29,7 @@ export const DraftBid: React.FC<Props> = ({
   onBack,
 }) => {
   const [tickets, setTickets] = useState(1);
+  const end = useCountdown(auction.endAt);
 
   const missingSFL = gameState.balance.lt(auction.sfl * tickets);
   const missingIngredients = getKeys(auction.ingredients).some((name) =>
@@ -37,7 +37,7 @@ export const DraftBid: React.FC<Props> = ({
   );
 
   return (
-    <div className="p-2">
+    <div className="p-2 relative">
       <div className="flex items-center justify-between w-full border-b border-opacity-50 pb-1 mb-2">
         <img
           onClick={onBack}
@@ -46,6 +46,10 @@ export const DraftBid: React.FC<Props> = ({
         />
         <p className="-ml-5">Place your bid</p>
         <div />
+      </div>
+
+      <div className="absolute -top-2 right-0">
+        {TimerDisplay({ time: end, fontSize: 16 })}
       </div>
 
       <div className="flex items-center justify-center mb-1">
@@ -83,7 +87,7 @@ export const DraftBid: React.FC<Props> = ({
             </div>
           )}
           {getKeys(auction.ingredients).map((name) => (
-            <div className="flex items-center mb-1 mr-3">
+            <div className="flex items-center mb-1 mr-3" key={name}>
               <div>
                 <p
                   className={classNames("mr-1 text-right text-sm", {
@@ -157,7 +161,9 @@ export const DraftBid: React.FC<Props> = ({
         onClick={() => {
           onBid(tickets);
         }}
-        disabled={missingSFL || missingIngredients}
+        disabled={
+          missingSFL || missingIngredients || Date.now() > auction.endAt
+        }
       >
         Bid
       </Button>
