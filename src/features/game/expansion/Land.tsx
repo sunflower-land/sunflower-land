@@ -25,7 +25,6 @@ import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { MachineState } from "../lib/gameMachine";
 import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
@@ -178,11 +177,12 @@ const getIslandElements = ({
         >
           <Resource
             key={`tree-${id}`}
-            coordinates={{ x, y }}
             name="Tree"
             createdAt={0}
             readyAt={0}
             id={id}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -203,11 +203,12 @@ const getIslandElements = ({
         >
           <Resource
             key={`stone-${id}`}
-            coordinates={{ x, y }}
             name="Stone Rock"
             createdAt={0}
             readyAt={0}
             id={id}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -232,7 +233,8 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
-            coordinates={{ x, y }}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -257,7 +259,8 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
-            coordinates={{ x, y }}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -281,7 +284,8 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
-            coordinates={{ x, y }}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -305,7 +309,8 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
-            coordinates={{ x, y }}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -381,8 +386,6 @@ export const Land: React.FC = () => {
     x: expansionCount >= 7 ? -9 : -2,
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
-
-  const shortcuts = getShortcuts();
 
   const gameGrid = getGameGrid({
     crops,
