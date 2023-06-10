@@ -15,6 +15,8 @@ import {
 } from "features/game/lib/auctionMachine";
 import { Bid, GameState } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Auctions } from "./Auctions";
 
 interface Props {
   gameState: GameState;
@@ -36,9 +38,6 @@ export const AuctioneerModal: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const [tab, setTab] = useState<"auction" | "upcoming">("auction");
-
-  console.log({ init: gameState.auctioneer.bid });
   const auctionService = useInterpret(createAuctioneerMachine({ onUpdate }), {
     context: {
       farmId: authState.context.user.farmId,
@@ -98,35 +97,12 @@ export const AuctioneerModal: React.FC<Props> = ({
     );
   }
 
-  const Content = () => {
-    return (
-      <Panel className="relative" hasTabs>
-        <div
-          className="absolute flex"
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-          }}
-        >
-          <Tab isActive={tab === "auction"} onClick={() => setTab("auction")}>
-            <span className="text-sm text-shadow ml-1">Auctioneer</span>
-          </Tab>
-          <Tab isActive={tab === "upcoming"} onClick={() => setTab("upcoming")}>
-            <span className="text-sm text-shadow ml-1">Upcoming</span>
-          </Tab>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="absolute cursor-pointer z-20"
-            onClick={closeModal}
-            style={{
-              top: `${PIXEL_SCALE * 1}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
-        </div>
-
+  return (
+    <Modal centered show={isOpen} onHide={closeModal} scrollable>
+      <CloseButtonPanel
+        onClose={onClose}
+        tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Auctions & Drops" }]}
+      >
         <div
           style={{
             minHeight: "200px",
@@ -134,29 +110,15 @@ export const AuctioneerModal: React.FC<Props> = ({
         >
           <div className="flex flex-col">
             <>
-              {tab === "auction" && (
-                <AuctioneerContent
-                  auctionService={auctionService}
-                  gameState={gameState}
-                  onMint={onMint}
-                />
-              )}
-              {tab === "upcoming" && (
-                <UpcomingAuctions
-                  auctionService={auctionService}
-                  game={gameState}
-                />
-              )}
+              <AuctioneerContent
+                auctionService={auctionService}
+                gameState={gameState}
+                onMint={onMint}
+              />
             </>
           </div>
         </div>
-      </Panel>
-    );
-  };
-
-  return (
-    <Modal centered show={isOpen} onHide={closeModal} scrollable>
-      <Content />
+      </CloseButtonPanel>
     </Modal>
   );
 };

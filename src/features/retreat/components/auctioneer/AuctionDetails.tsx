@@ -19,12 +19,14 @@ import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import classNames from "classnames";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 type Props = {
   item: Auction;
   game: GoblinState;
   isUpcomingItem?: boolean;
   onDraftBid: () => void;
+  onBack: () => void;
 };
 
 type TimeObject = {
@@ -39,21 +41,12 @@ type TimeObject = {
 const TimerDisplay = ({ time }: TimeObject) => {
   const timeKeys = getKeys(time);
 
-  return (
-    <div className="flex w-full justify-evenly">
-      {timeKeys.map((key) => {
-        const value = time[key];
-        const label = value === 1 ? `${key.slice(0, -1)}` : key;
+  const times = timeKeys.map((key) => {
+    const value = time[key].toString().padStart(2, "0");
 
-        return (
-          <div className="flex flex-col w-1/4 items-center mr-1" key={key}>
-            <p className="text-sm">{`${value}`}</p>
-            <p className="text-xxs font-thin">{label}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
+    return value;
+  });
+  return <span style={{ fontFamily: "monospace" }}>{times.join(":")}</span>;
 };
 
 export const AuctionDetails: React.FC<Props> = ({
@@ -61,76 +54,21 @@ export const AuctionDetails: React.FC<Props> = ({
   isUpcomingItem,
   item,
   onDraftBid,
+  onBack,
 }) => {
   const releaseDate = item?.startAt as number;
   const releaseEndDate = item?.endAt as number;
   const start = useCountdown(releaseDate);
   const end = useCountdown(releaseEndDate);
 
-  const makeSFLRequiredLabel = (sfl: number) => {
-    if (game.balance.lt(sfl)) {
-      <div className="flex items-center space-x-1">
-        <img src={token} className="h-5 mr-1" />
-        <Label type="danger">{`${game.balance.toString()}/${sfl}`}</Label>
-      </div>;
-    }
+  const isMintStarted = Date.now() > releaseDate;
 
-    return (
-      <div className="flex items-center space-x-1">
-        <img src={token} className="h-5 mr-1" />
-        <span className="text-xxs">{sfl}</span>
-      </div>
-    );
-  };
-
-  const makeIngredients = (ingredients?: Auction["ingredients"]) => {
-    if (!ingredients) return null;
-
-    return getKeys(ingredients).map((name) => {
-      const ingredientAmount = ingredients[name] ?? 0;
-      const inventoryItemAmount = game.inventory[name] ?? new Decimal(0);
-      const hasIngredient = inventoryItemAmount.gte(ingredientAmount);
-
-      if (!hasIngredient) {
-        return (
-          <div className="flex items-center space-x-1" key={name}>
-            <img src={ITEM_DETAILS[name].image} className="h-5" />
-            <Label type="danger">{`${inventoryItemAmount}/${ingredientAmount}`}</Label>
-          </div>
-        );
-      }
-
-      return (
-        <div className="flex items-center space-x-1" key={name}>
-          <img src={ITEM_DETAILS[name].image} className="h-5" />
-          <span className="text-xxs">{ingredientAmount}</span>
-        </div>
-      );
-    });
-  };
-
-  const isMintStarted =
-    !start.days && !start.hours && !start.minutes && !start.seconds;
-
-  const isMintComplete =
-    !end.days && !end.hours && !end.minutes && !end.seconds;
+  const isMintComplete = Date.now() > releaseEndDate;
 
   const hasIngredients =
     getKeys(item.ingredients).every((name) =>
       (game.inventory[name] ?? new Decimal(0)).gte(item.ingredients[name] ?? 0)
     ) ?? false;
-
-  const currentSupply = item.supply;
-
-  const SupplyLabel = () => {
-    if (isUpcomingItem) return null;
-
-    return (
-      <Label type="info" className="mb-2">
-        {`Supply: ${item.supply}`}
-      </Label>
-    );
-  };
 
   const MintButton = () => {
     if (isUpcomingItem) {
@@ -155,54 +93,38 @@ export const AuctionDetails: React.FC<Props> = ({
     );
   };
 
-  const AvailableForLabel = (releaseDate: number, endDate: number) => {
-    const diff = endDate - releaseDate;
-    const time = secondsToString(diff / 1000, { length: "full" });
-
-    return (
-      <div className="flex items-center space-x-2 mb-2">
-        <img src={SUNNYSIDE.icons.stopwatch} className="w-4" alt="timer" />
-      </div>
-    );
-  };
-
-  const ReleaseDateLabel = (releaseDate: number) => {
-    return (
-      <div className="flex items-center space-x-2 mb-2">
-        <img src={calendar} className="w-4" alt="calendar" />
-        <span className="text-xxs">
-          {formatDateTime(new Date(releaseDate).toISOString())}
-        </span>
-      </div>
-    );
-  };
-
-  const currentSflPrice = Number(item?.sfl || new Decimal(0));
-
   const image =
     item.type === "collectible"
       ? ITEM_DETAILS[item.collectible].image
       : getImageUrl(ITEM_IDS[item.wearable]);
 
   return (
-    <div className="w-full p-2 mt-2 flex flex-col items-center">
-      <div className="w-full p-2 flex flex-col items-center mx-auto">
-        <p className="mb-1">
-          {item.type === "collectible" ? item.collectible : item.wearable}
-        </p>
-        <p className="text-center text-sm mb-1">
+    <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center mx-auto">
+        <div className="flex items-center justify-between w-full pb-1">
+          <img
+            onClick={onBack}
+            src={SUNNYSIDE.icons.arrow_left}
+            className="h-8 cursor-pointer"
+          />
+          <p className="-ml-5">
+            {item.type === "collectible" ? item.collectible : item.wearable}
+          </p>
+          <div />
+        </div>
+
+        <p className="text-center text-xs mb-3">
           {item.type === "collectible"
             ? ITEM_DETAILS[item.collectible].description
             : ""}
         </p>
+
         {/* {boost && (
           <Label className="mb-2 md:text-center" type="info">
             {`Boost: ${boost}`}
           </Label>
         )} */}
-        {SupplyLabel()}
-        {!isUpcomingItem && ReleaseDateLabel(releaseDate)}
-        {!isUpcomingItem && AvailableForLabel(releaseDate, releaseEndDate)}
+
         <div className="relative mb-2">
           <img src={bg} className="w-48 object-contain rounded-md" />
           <div className="absolute inset-0">
@@ -210,35 +132,52 @@ export const AuctionDetails: React.FC<Props> = ({
               src={image}
               className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             />
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-full">
-              <div className="flex flex-col items-center w-full">
-                {isMintStarted && (
-                  <Label type="warning" className="mb-2">
-                    Closes in
-                  </Label>
-                )}
-                {(!isMintStarted || isUpcomingItem) && (
-                  <Label type="warning" className="mb-2">
-                    Opens in
-                  </Label>
-                )}
-
-                <TimerDisplay time={isMintStarted ? end : start} />
-              </div>
-            </div>
+            <Label type="default" className="mb-2 absolute top-2 right-2">
+              {`${item.supply} available`}
+            </Label>
           </div>
         </div>
       </div>
 
-      {!isUpcomingItem && (
-        <div className="mb-3">
-          <p className="text-center text-xs mb-1">Minimum bid</p>
-          <div className="flex items-center justify-center space-x-3 mb-3">
-            {currentSflPrice > 0 && makeSFLRequiredLabel(currentSflPrice)}
-            {makeIngredients(item?.ingredients)}
-          </div>
+      <div className="mb-2 flex items-center">
+        <div className="flex items-center justify-center">
+          {item.sfl > 0 && (
+            <div className="flex items-center mr-3">
+              <span className="text-sm mr-1">{item.sfl}</span>
+              <img src={token} className="h-5" />
+            </div>
+          )}
+          {getKeys(item.ingredients).map((name) => (
+            <div className="flex items-center mr-3" key={name}>
+              <span className="text-sm mr-1">{item.ingredients[name]}</span>
+              <img src={ITEM_DETAILS[name].image} className="h-5" />
+            </div>
+          ))}
         </div>
-      )}
+      </div>
+
+      <div className="flex justify-around flex-wrap">
+        <div className="flex flex-col items-center w-48 mb-2">
+          <p className="text-xs  underline mb-0.5">Starting Time</p>
+          {isMintStarted ? (
+            <Label type="warning" className="mt-1">
+              Auction is live
+            </Label>
+          ) : (
+            TimerDisplay({ time: start })
+          )}
+        </div>
+        <div className="flex  flex-col  items-center  w-48  mb-2">
+          <p className="text-xs  underline mb-0.5">Auction Period</p>
+          {isMintComplete ? (
+            <Label type="danger" className="mt-1">
+              Auction closed
+            </Label>
+          ) : (
+            TimerDisplay({ time: end })
+          )}
+        </div>
+      </div>
 
       {MintButton()}
     </div>

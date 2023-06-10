@@ -74,12 +74,15 @@ export type BlockchainEvent =
   | RefreshEvent
   | { type: "OPEN" }
   | { type: "DRAFT_BID" }
+  | { type: "CANCEL" }
   | { type: "CHECK_RESULTS" }
-  | { type: "REFUND" };
+  | { type: "REFUND" }
+  | { type: "CONTINUE" };
 
 export type AuctioneerMachineState = {
   value:
     | "idle"
+    | "introduction"
     | "loading"
     | "initialising"
     | "playing"
@@ -124,8 +127,87 @@ export const createAuctioneerMachine = ({
             auctionId: "test-auction-1",
             type: "collectible",
             collectible: "Abandoned Bear",
+            endAt: Date.now() + 500000,
+            startAt: Date.now() + 1000,
+            ingredients: {
+              Wood: 1,
+              Gold: 10,
+            },
+            sfl: 5,
+            supply: 100,
+          },
+          {
+            auctionId: "test-auction-2",
+            type: "collectible",
+            collectible: "Ancient Human Warhammer",
             endAt: Date.now() + 1000000,
-            startAt: Date.now() - 1000,
+            startAt: Date.now() + 1000,
+            ingredients: {
+              Wood: 1,
+              Gold: 10,
+            },
+            sfl: 5,
+            supply: 5000,
+          },
+          {
+            auctionId: "test-auction5",
+            type: "wearable",
+            wearable: "Trial Tee",
+            endAt: Date.now() + 1000000,
+            startAt: Date.now() + 1000,
+            ingredients: {
+              Wood: 1,
+              Gold: 10,
+              "Block Buck": 1,
+            },
+            sfl: 5,
+            supply: 100,
+          },
+          {
+            auctionId: "test-auction-1",
+            type: "collectible",
+            collectible: "Abandoned Bear",
+            endAt: Date.now() + 1000000,
+            startAt: Date.now() + 1000,
+            ingredients: {
+              Wood: 1,
+              Gold: 10,
+            },
+            sfl: 5,
+            supply: 100,
+          },
+          {
+            auctionId: "test-auction-1",
+            type: "collectible",
+            collectible: "Abandoned Bear",
+            endAt: Date.now() + 1000000,
+            startAt: Date.now() + 1000,
+            ingredients: {
+              Wood: 1,
+              Gold: 10,
+            },
+            sfl: 5,
+            supply: 100,
+          },
+          {
+            auctionId: "test-auction-1",
+            type: "collectible",
+            collectible: "Abandoned Bear",
+            endAt: Date.now() + 1000000,
+            startAt: Date.now() + 1000,
+            ingredients: {
+              Wood: 1,
+              Gold: 10,
+            },
+            sfl: 5,
+            supply: 100,
+          },
+          {
+            auctionId: "test-auction-1",
+            type: "collectible",
+            collectible: "Abandoned Bear",
+            endAt: Date.now() + 1000000,
+            startAt: Date.now() + 1000,
             ingredients: {
               Wood: 1,
               Gold: 10,
@@ -185,11 +267,22 @@ export const createAuctioneerMachine = ({
               target: "bidded",
               cond: (context) => !!context.bid,
             },
+            // {
+            //   target: "introduction",
+            // },
             {
               target: "playing",
             },
           ],
         },
+        introduction: {
+          on: {
+            CONTINUE: {
+              target: "playing",
+            },
+          },
+        },
+
         playing: {
           entry: "clearTransactionId",
           on: {
@@ -202,6 +295,9 @@ export const createAuctioneerMachine = ({
           on: {
             BID: {
               target: "bidding",
+            },
+            CANCEL: {
+              target: "playing",
             },
           },
         },
@@ -336,15 +432,8 @@ export const createAuctioneerMachine = ({
           },
         },
 
-        refunded: {
-          on: {
-            REFRESH: "finish",
-          },
-        },
+        refunded: {},
 
-        finish: {
-          type: "final",
-        },
         error: {
           on: {
             REFRESH: "loading",

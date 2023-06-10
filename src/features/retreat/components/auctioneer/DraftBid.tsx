@@ -20,12 +20,14 @@ interface Props {
   maxTickets: number;
   onBid: (auctionTickers: number) => void;
   gameState: GameState;
+  onBack: () => void;
 }
 export const DraftBid: React.FC<Props> = ({
   auction,
   onBid,
   maxTickets,
   gameState,
+  onBack,
 }) => {
   const [tickets, setTickets] = useState(1);
 
@@ -36,7 +38,15 @@ export const DraftBid: React.FC<Props> = ({
 
   return (
     <div className="p-2">
-      <p className="text-sm text-center mb-2">Place your bid</p>
+      <div className="flex items-center justify-between w-full border-b border-opacity-50 pb-1 mb-2">
+        <img
+          onClick={onBack}
+          src={SUNNYSIDE.icons.arrow_left}
+          className="h-8 cursor-pointer"
+        />
+        <p className="-ml-5">Place your bid</p>
+        <div />
+      </div>
 
       <div className="flex items-center justify-center mb-1">
         <div
