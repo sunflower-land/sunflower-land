@@ -150,14 +150,7 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <ChickenElement
-              key={`chicken-${id}`}
-              id={id}
-              coordinates={{
-                x,
-                y,
-              }}
-            />
+            <ChickenElement key={`chicken-${id}`} id={id} x={x} y={y} />
           </MapPlacement>
         );
       })

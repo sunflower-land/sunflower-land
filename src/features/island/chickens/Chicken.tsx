@@ -30,7 +30,6 @@ import {
   MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
@@ -39,7 +38,6 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { MachineState } from "features/game/expansion/placeable/landscapingMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { ZoomContext } from "components/ZoomProvider";
 
 const getPercentageComplete = (fedAt?: number) => {
@@ -127,10 +125,11 @@ const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
 
 interface Props {
   id: string;
-  coordinates: Coordinates;
+  x: number;
+  y: number;
 }
 
-const ChickenComponent: React.FC<Props> = ({ id }) => {
+const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService, selectedItem, showTimers } = useContext(Context);
 
@@ -180,9 +179,6 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
   const [showPopover, setShowPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
-
-  const shortcuts = getShortcuts();
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const handleMouseEnter = () => {
     eggIsBrewing && setShowTimeToEgg(true);
@@ -486,24 +482,20 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-export const Chicken: React.FC<Props> = (props) => {
+export const ChickenComponent: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
 
   const landscaping = useSelector(gameService, isLandscaping);
 
   if (landscaping) {
-    // In Landscaping mode, use readonly building
     return (
-      <MoveableComponent
-        name="Chicken"
-        x={props.coordinates.x}
-        y={props.coordinates.y}
-        id={props.id}
-      >
-        <ChickenComponent {...props} />
+      <MoveableComponent name="Chicken" x={props.x} y={props.y} id={props.id}>
+        <PlaceableChicken {...props} />
       </MoveableComponent>
     );
   }
 
-  return <ChickenComponent {...props} />;
+  return <PlaceableChicken {...props} />;
 };
+
+export const Chicken = React.memo(ChickenComponent);
