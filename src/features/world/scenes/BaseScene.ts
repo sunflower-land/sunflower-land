@@ -235,6 +235,7 @@ export abstract class BaseScene extends Phaser.Scene {
     // Set up the Z layers to draw in correct order
     const TOP_LAYERS = [
       "Decorations Layer 1",
+      "Decorations Foreground",
       "Decorations Layer 2",
       "Decorations Layer 3",
       "Decorations Layer 4",

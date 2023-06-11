@@ -9,8 +9,8 @@ type SpawnLocation = Record<
 export const SPAWNS: SpawnLocation = {
   plaza: {
     default: {
-      x: 420,
-      y: 300,
+      x: 440,
+      y: 440,
     },
     windmill_floor: {
       x: 420,
@@ -57,44 +57,44 @@ export const SPAWNS: SpawnLocation = {
   },
   bert_home: {
     default: {
-      x: 75,
-      y: 75,
+      x: 80,
+      y: 140,
     },
   },
   betty_home: {
     default: {
-      x: 75,
-      y: 75,
+      x: 80,
+      y: 144,
     },
   },
   clothes_shop: {
     default: {
       x: 144,
-      y: 212,
+      y: 245,
     },
   },
   decorations_shop: {
     default: {
-      x: 55,
-      y: 157,
+      x: 81,
+      y: 215,
     },
   },
   igor_home: {
     default: {
-      x: 75,
-      y: 75,
+      x: 80,
+      y: 195,
     },
   },
   timmy_home: {
     default: {
-      x: 75,
-      y: 75,
+      x: 80,
+      y: 144,
     },
   },
   windmill_floor: {
     default: {
-      x: 75,
-      y: 75,
+      x: 80,
+      y: 140,
     },
   },
   woodlands: {

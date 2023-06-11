@@ -11,7 +11,7 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "pumpkin'pete",
   },
   {
-    x: 665,
+    x: 625,
     y: 110,
     npc: "timmy",
   },

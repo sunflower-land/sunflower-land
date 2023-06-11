@@ -6,7 +6,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 const BUMPKINS: NPCBumpkin[] = [
   {
     x: 144,
-    y: 162,
+    y: 134,
     npc: "stella",
   },
 ];
