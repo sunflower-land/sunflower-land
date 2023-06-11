@@ -443,7 +443,8 @@ export type NPCDialogue = {
 export type LanternName =
   | "Luminous Lantern"
   | "Radiance Lantern"
-  | "Aurora Lantern";
+  | "Aurora Lantern"
+  | "Ocean Lantern";
 
 export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
 

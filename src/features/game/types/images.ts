@@ -52,6 +52,7 @@ import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
 import luminousLantern from "assets/sfts/luminous_lantern.webp";
 import auroraLantern from "assets/sfts/aurora_lantern.webp";
 import radianceLantern from "assets/sfts/radiance_lantern.webp";
+import oceanLantern from "assets/sfts/ocean_lantern.png";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -2074,6 +2075,11 @@ export const ITEM_DETAILS: Items = {
   "Radiance Lantern": {
     image: radianceLantern,
     description: "A radiant paper lantern that shines with a powerful light.",
+  },
+  "Ocean Lantern": {
+    image: oceanLantern,
+    description:
+      "A wavy paper lantern that sways with the bobbing of the tide.",
   },
   "Aurora Lantern": {
     image: auroraLantern,

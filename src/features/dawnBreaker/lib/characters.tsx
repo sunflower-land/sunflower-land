@@ -637,8 +637,8 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       ),
     },
     wendy: {
-      x: 4,
-      y: -8,
+      x: -3,
+      y: -11,
       flip: true,
       dialogue: (
         <>{`My power is fading. I can't hold the veil much longer...`}</>

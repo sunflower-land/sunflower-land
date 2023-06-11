@@ -151,6 +151,7 @@ import { BasicScarecrow } from "./components/BasicScarecrow";
 import lightning from "assets/icons/lightning.png";
 import { EmeraldTurtle } from "./components/EmeraldTurtle";
 import { TinTurtle } from "./components/TinTurtle";
+import { OceanLantern } from "./components/OceanLantern";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -265,6 +266,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Luminous Lantern": LuminousLantern,
   "Aurora Lantern": AuroraLantern,
   "Radiance Lantern": RadianceLantern,
+  "Ocean Lantern": OceanLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
