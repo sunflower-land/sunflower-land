@@ -74,10 +74,7 @@ export class PlazaScene extends BaseScene {
     y: 167,
   };
   constructor() {
-    super("plaza", {
-      x: 420,
-      y: 167,
-    });
+    super("plaza");
   }
 
   async create() {
