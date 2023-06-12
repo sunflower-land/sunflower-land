@@ -88,7 +88,9 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
               ) : (
                 <div className="flex-1 flex items-center  mt-1">
                   <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
-                  <span className="text-xs">20/20/2022 9am</span>
+                  <span className="text-xs">
+                    {new Date(auction.startAt).toLocaleString()}
+                  </span>
                 </div>
               )}
             </div>

@@ -6,7 +6,7 @@ import bg from "assets/ui/brown_background.png";
 
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { getReturnValues, useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getKeys } from "features/game/types/craftables";
@@ -173,8 +173,12 @@ export const AuctionDetails: React.FC<Props> = ({
             <Label type="danger" className="mt-1">
               Auction closed
             </Label>
-          ) : (
+          ) : isMintStarted ? (
             TimerDisplay({ time: end })
+          ) : (
+            TimerDisplay({
+              time: getReturnValues(releaseEndDate - releaseDate),
+            })
           )}
         </div>
       </div>

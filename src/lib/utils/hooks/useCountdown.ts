@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const getReturnValues = (timeLeft: number) => {
+export const getReturnValues = (timeLeft: number) => {
   // calculate time left
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
