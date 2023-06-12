@@ -27,7 +27,6 @@ import { TimmyHomeScene } from "./scenes/TimmyHomeScene";
 import { BettyHomeScene } from "./scenes/BettyHomeScene";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Balance } from "components/Balance";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
