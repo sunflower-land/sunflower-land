@@ -27,6 +27,7 @@ import { TimmyHomeScene } from "./scenes/TimmyHomeScene";
 import { BettyHomeScene } from "./scenes/BettyHomeScene";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Preloader } from "./scenes/Preloader";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -97,6 +98,7 @@ export const PhaserComponent: React.FC = () => {
         },
       },
       scene: [
+        Preloader,
         PlazaScene,
         AuctionScene,
         BettyHomeScene,
