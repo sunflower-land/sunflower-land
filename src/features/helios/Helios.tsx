@@ -22,6 +22,7 @@ import { GarbageCollector } from "./components/garbageCollector/GarbageCollector
 import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 import { HeliosAuction } from "./components/heliosAuction/HeliosAuction";
+import { hasFeatureAccess } from "lib/flags";
 
 const spawn = [
   [30, 15],
@@ -76,7 +77,9 @@ export const Helios: React.FC = () => {
         <LostSunflorian />
         <SeasonalNPC />
         <CommunityGardenEntry />
-        <HeliosAuction />
+        {hasFeatureAccess(gameState.context.state.inventory, "AUCTION") && (
+          <HeliosAuction />
+        )}
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
         <IslandTravel
           bumpkin={bumpkin}
