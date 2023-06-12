@@ -14,6 +14,8 @@ import { getKeys } from "features/game/types/craftables";
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 
+const AUCTION_BUFFER_SECONDS = 30;
+
 interface Props {
   auction: Auction;
   auctionService: MachineInterpreter;
@@ -28,9 +30,8 @@ export const AuctionBid: React.FC<Props> = ({
     ? ITEM_DETAILS[bid?.collectible].image
     : getImageUrl(ITEM_IDS[bid.wearable as BumpkinItem]);
 
-  const secondsLeft = !auction
-    ? 0
-    : Math.floor((auction.endAt - Date.now()) / 1000);
+  const readyAt = auction.endAt + AUCTION_BUFFER_SECONDS * 1000;
+  const secondsLeft = !auction ? 0 : Math.floor((readyAt - Date.now()) / 1000);
 
   return (
     <div className="flex justify-center flex-col w-full items-center">
@@ -71,7 +72,7 @@ export const AuctionBid: React.FC<Props> = ({
 
       <Button
         className="mt-2"
-        disabled={auction.endAt > Date.now()}
+        disabled={readyAt > Date.now()}
         onClick={() => auctionService.send("CHECK_RESULTS")}
       >
         Reveal winners
