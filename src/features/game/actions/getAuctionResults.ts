@@ -1,10 +1,9 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { AuctioneerItemName } from "../types/auctioneer";
 
 type Request = {
   farmId: number;
-  item: AuctioneerItemName;
+  auctionId: string;
   token: string;
   transactionId: string;
 };
@@ -16,14 +15,14 @@ type Status = "pending" | "winner" | "loser";
 export async function getAuctionResults(request: Request): Promise<{
   status: Status;
   minimum: {
-    auctionTickets: number;
+    tickets: number;
     biddedAt: number;
   };
   participantCount: number;
   supply: number;
 }> {
   const response = await window.fetch(
-    `${API_URL}/auction/${request.item}/results/${request.farmId}`,
+    `${API_URL}/auction/${request.auctionId}/results/${request.farmId}`,
     {
       method: "GET",
       headers: {

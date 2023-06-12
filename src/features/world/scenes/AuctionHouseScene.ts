@@ -24,8 +24,6 @@ export class AuctionScene extends BaseScene {
 
   preload() {
     super.preload();
-
-    this.load.image("pig", "public/world/pig.png");
   }
 
   async create() {
@@ -45,7 +43,5 @@ export class AuctionScene extends BaseScene {
     camera.setZoom(4);
 
     this.physics.world.setBounds(0, 0, 21 * SQUARE_WIDTH, 20 * SQUARE_WIDTH);
-
-    this.add.sprite(167, 167, "pig").setSize(21, 29);
   }
 }

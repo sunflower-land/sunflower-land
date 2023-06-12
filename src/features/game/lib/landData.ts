@@ -255,9 +255,9 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   dawnBreaker: {
-    currentWeek: 2,
+    currentWeek: 7,
     availableLantern: {
-      name: "Radiance Lantern",
+      name: "Ocean Lantern",
       startAt: "2023-05-08T00:00:00.000Z",
       endAt: "2023-05-15T00:00:00.000Z",
       ingredients: {
@@ -330,7 +330,7 @@ export const OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Sunflower Cake": new Decimal(15),
-    Carrot: new Decimal(500),
+    Carrot: new Decimal(800),
     Cauliflower: new Decimal(700),
     Beetroot: new Decimal(1000),
     Cabbage: new Decimal(1000),

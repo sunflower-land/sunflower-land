@@ -50,7 +50,6 @@ import {
   SeasonalDecorationName,
   ShopDecorationName,
 } from "./decorations";
-import { AuctioneerItemName } from "./auctioneer";
 import {
   BeachBountyTreasure,
   BoostTreasure,
@@ -547,14 +546,12 @@ const travelingSalesmanItems: Record<TravelingSalesmanItem, WithdrawCondition> =
     "Wicker Man": true,
   };
 
-const auctioneer: Record<AuctioneerItemName, WithdrawCondition> = {
+const soldOut: Record<SoldOutCollectibleName, WithdrawCondition> = {
   "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
   "Christmas Snow Globe": true,
+  "Beta Bear": false,
   "Cyborg Bear": true,
   "Wood Nymph Wendy": (game) => !areAnyTreesChopped(game),
-};
-
-const soldOut: Record<SoldOutCollectibleName, WithdrawCondition> = {
   "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
   "Black Bearry": (game) => !areFruitsGrowing(game, "Blueberry"),
   "Lady Bug": (game) => !areFruitsGrowing(game, "Apple"),
@@ -664,6 +661,7 @@ const lanterns: Record<Lantern, WithdrawCondition> = {
   "Luminous Lantern": false,
   "Radiance Lantern": false,
   "Aurora Lantern": false,
+  "Ocean Lantern": false,
 };
 
 const purchasables: Record<SeasonPassName, WithdrawCondition> = {
@@ -692,7 +690,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...specialEvents,
   ...points,
   ...goblinBlacksmith,
-  ...auctioneer,
   ...soldOut,
   ...travelingSalesmanItems,
   ...blacksmithItems,

@@ -14,7 +14,6 @@ import {
   SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
-import { AuctioneerItemName } from "./auctioneer";
 import { BoostTreasure } from "./treasure";
 import { RESOURCE_DIMENSIONS } from "./resources";
 
@@ -180,6 +179,7 @@ export type LimitedItemName =
 export type Lantern =
   | "Luminous Lantern"
   | "Radiance Lantern"
+  | "Ocean Lantern"
   | "Aurora Lantern";
 
 export type CollectibleName =
@@ -191,7 +191,6 @@ export type CollectibleName =
   | MutantChicken
   | MutantCropName
   | DecorationName
-  | AuctioneerItemName
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
@@ -1124,6 +1123,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
   "Cyborg Bear": { width: 1, height: 1 },
+  "Beta Bear": { width: 1, height: 1 },
 
   //Easter Event Items
   "Easter Bunny": { width: 2, height: 1 },
@@ -1156,6 +1156,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Luminous Lantern": { height: 2, width: 1 },
   "Aurora Lantern": { height: 2, width: 1 },
   "Radiance Lantern": { height: 2, width: 1 },
+  "Ocean Lantern": { height: 2, width: 1 },
 
   "Purple Trail": { width: 1, height: 1 },
   Obie: { width: 1, height: 1 },

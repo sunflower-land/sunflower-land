@@ -18,12 +18,10 @@ import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import {
-  ChatContext,
   ChatMessageReceived,
   MachineInterpreter,
   PlayerJoined,
   PlayerQuit,
-  RoomEvent,
   RoomId,
 } from "../roomMachine";
 import { CONFIG } from "lib/config";
@@ -31,9 +29,14 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { EventObject, State } from "xstate";
+import { EventObject } from "xstate";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { isTouchDevice } from "../lib/device";
+import { SPAWNS } from "../lib/spawn";
+
+type SceneTransitionData = {
+  previousSceneId: RoomId;
+};
 
 export type NPCBumpkin = {
   x: number;
@@ -45,14 +48,12 @@ export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
   abstract spawn: Coordinates;
   eventListener: (event: EventObject) => void;
-  transitionListener: (
-    state: State<ChatContext, RoomEvent, any, any, any>,
-    event: RoomEvent
-  ) => void;
 
   private joystick?: VirtualJoystick;
 
-  constructor(key: string) {
+  private sceneTransitionData?: SceneTransitionData;
+
+  constructor(key: RoomId) {
     super(key);
 
     this.eventListener = (event) => {
@@ -76,13 +77,16 @@ export abstract class BaseScene extends Phaser.Scene {
 
         if (!room) return;
 
-        const player = this.createPlayer({
-          x,
-          y,
-          clothing,
-          isCurrentPlayer: sessionId === room.sessionId,
-        });
-        this.playerEntities[sessionId] = player;
+        // Current player
+        if (sessionId !== room.sessionId) {
+          const player = this.createPlayer({
+            x,
+            y,
+            clothing,
+            isCurrentPlayer: sessionId === room.sessionId,
+          });
+          this.playerEntities[sessionId] = player;
+        }
       }
 
       if (event.type === "PLAYER_QUIT") {
@@ -93,27 +97,10 @@ export abstract class BaseScene extends Phaser.Scene {
         this.destroyPlayer(sessionId);
       }
     };
-
-    this.transitionListener = (state) => {
-      if (state.value === "error" && !this.readonly) {
-        console.log("We have an error");
-        // Render the player for readonly
-        this.createPlayer({
-          x: this.spawn.x ?? 0,
-          y: this.spawn.y ?? 0,
-          isCurrentPlayer: true,
-          clothing: INITIAL_BUMPKIN.equipped,
-        });
-
-        this.readonly = true;
-      }
-    };
   }
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
   room: Room | undefined;
-
-  readonly = false;
 
   currentPlayer: BumpkinContainer | undefined;
   betty: BumpkinContainer | undefined;
@@ -150,6 +137,11 @@ export abstract class BaseScene extends Phaser.Scene {
     return this.registry.get("roomService") as MachineInterpreter;
   }
 
+  init(data: SceneTransitionData) {
+    console.log({ data });
+    this.sceneTransitionData = data;
+  }
+
   preload() {
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
@@ -179,6 +171,8 @@ export abstract class BaseScene extends Phaser.Scene {
       "world/small_3x5.png",
       "world/small_3x5.xml"
     );
+
+    console.log("Preloaded");
   }
 
   async create() {
@@ -241,6 +235,7 @@ export abstract class BaseScene extends Phaser.Scene {
     // Set up the Z layers to draw in correct order
     const TOP_LAYERS = [
       "Decorations Layer 1",
+      "Decorations Foreground",
       "Decorations Layer 2",
       "Decorations Layer 3",
       "Decorations Layer 4",
@@ -259,7 +254,6 @@ export abstract class BaseScene extends Phaser.Scene {
       // Initialise joystick
       const { x, y, centerX, centerY, width, height } = this.cameras.main;
       const zoom = 4;
-      console.log({ x, y, centerX, centerY, width, height, zoom });
       this.joystick = new VirtualJoystick(this, {
         x: centerX + 25 - width / zoom / 2,
         y: centerY - 25 + height / zoom / 2,
@@ -279,14 +273,28 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     this.roomService.off(this.eventListener);
-    this.roomService.off(this.transitionListener);
     this.roomService.onEvent(this.eventListener);
-    this.roomService.onTransition(this.transitionListener);
 
     // Connect to Room
     this.roomService.send("CHANGE_ROOM", {
       roomId: this.roomId,
     });
+
+    const from = this.sceneTransitionData?.previousSceneId as RoomId;
+    const spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
+    this.createPlayer({
+      x: spawn.x ?? 0,
+      y: spawn.y ?? 0,
+      isCurrentPlayer: true,
+      clothing: INITIAL_BUMPKIN.equipped,
+    });
+
+    // camera.centerOnX(spawn.x);
+    // camera.centerOnY(spawn.y);
+    // camera.centerToSize();
+    // camera.setScroll(spawn.x, spawn.y);
+
+    console.log("Created");
   }
 
   createPlayer({
@@ -332,7 +340,10 @@ export abstract class BaseScene extends Phaser.Scene {
             this.cameras.main.on(
               "camerafadeoutcomplete",
               () => {
-                this.scene.start(warpTo);
+                const data: SceneTransitionData = {
+                  previousSceneId: this.roomId,
+                };
+                this.scene.start(warpTo, data);
               },
               this
             );

@@ -156,7 +156,9 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             throw new Error("You must initialise the client first");
           }
 
-          await context.rooms[context.roomId]?.leave();
+          if (context.rooms[context.roomId]) {
+            await context.rooms[context.roomId]?.leave();
+          }
 
           const roomId = (event.roomId ?? event.data.roomId) as RoomId;
 
@@ -212,7 +214,10 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         },
         onError: {
           target: "error",
-          cond: (_, event) => !event.data.roo,
+          actions: assign({
+            roomId: (_) => undefined as unknown as RoomId,
+          }),
+          // cond: (_, event) => !event.data.room,
           // Fire off an event, and let the game render player anyway
         },
         onDone: {
@@ -256,6 +261,12 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       },
     },
     kicked: {},
-    error: {},
+    error: {
+      on: {
+        CHANGE_ROOM: {
+          target: "joinRoom",
+        },
+      },
+    },
   },
 });

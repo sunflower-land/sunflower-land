@@ -11,7 +11,7 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "pumpkin'pete",
   },
   {
-    x: 665,
+    x: 625,
     y: 110,
     npc: "timmy",
   },
@@ -66,7 +66,7 @@ const BUMPKINS: NPCBumpkin[] = [
     npc: "old salty",
   },
 ];
-export class PhaserScene extends BaseScene {
+export class PlazaScene extends BaseScene {
   roomId: RoomId = "plaza";
 
   spawn: Coordinates = {

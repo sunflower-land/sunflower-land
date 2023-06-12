@@ -156,6 +156,8 @@ import { StoneFence } from "./components/StoneFence";
 import { FieldMaple } from "./components/FieldMaple";
 import { GoldenMaple } from "./components/GoldenMaple";
 import { RedMaple } from "./components/RedMaple";
+import { OceanLantern } from "./components/OceanLantern";
+import { BetaBear } from "./components/BetaBear";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -257,6 +259,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Angel Bear": AngelBear,
   "Badass Bear": BadassBear,
   "Bear Trap": BearTrap,
+  "Beta Bear": BetaBear,
   "Brilliant Bear": BrilliantBear,
   "Classy Bear": ClassyBear,
   "Farmer Bear": FarmerBear,
@@ -274,6 +277,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Luminous Lantern": LuminousLantern,
   "Aurora Lantern": AuroraLantern,
   "Radiance Lantern": RadianceLantern,
+  "Ocean Lantern": OceanLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,

@@ -49,7 +49,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     if (onClick) {
       this.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        console.log("Bumpkin clicked");
         onClick();
       });
     }
@@ -135,14 +134,16 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public walk() {
-    console.log("walking");
-    if (this.sprite) {
+    if (
+      this.sprite &&
+      this.sprite.anims.getName() !== this.walkingAnimationKey
+    ) {
       this.sprite.anims.play(this.walkingAnimationKey as string, true);
     }
   }
 
   public idle() {
-    if (this.sprite) {
+    if (this.sprite && this.sprite.anims.getName() !== this.idleAnimationKey) {
       this.sprite.anims.play(this.idleAnimationKey as string, true);
     }
   }
