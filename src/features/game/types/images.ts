@@ -318,6 +318,10 @@ import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
 import emeraldTurtle from "src/assets/sfts/emerald_turtle.webp";
 import tinTurtle from "src/assets/sfts/tin_turtle.webp";
+import pineTree from "src/assets/decorations/pine_tree.png";
+import fieldMaple from "src/assets/decorations/field_maple.webp";
+import redMaple from "src/assets/decorations/red_maple.webp";
+import goldenMaple from "src/assets/decorations/golden_maple.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -356,6 +360,7 @@ import dirt from "assets/sfts/dirt_path.png";
 import bush from "assets/decorations/bush.png";
 import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
+import stoneFence from "assets/decorations/stone_fence.png";
 import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
 import oldBottle from "assets/sfts/treasure/old_bottle.png";
@@ -2061,9 +2066,30 @@ export const ITEM_DETAILS: Items = {
     image: fence,
     description: "Add a touch of rustic charm to your farm.",
   },
+  "Stone Fence": {
+    image: stoneFence,
+    description: "Embrace the timeless elegance of a stone fence.",
+  },
   Shrub: {
     image: shrub,
     description: "Enhance your in-game landscaping with a beautiful shrub",
+  },
+  "Pine Tree": {
+    image: pineTree,
+    description: "Standing tall and mighty, a needle-clad dream.",
+  },
+  "Field Maple": {
+    image: fieldMaple,
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+  },
+  "Red Maple": {
+    image: redMaple,
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+  },
+  "Golden Maple": {
+    image: goldenMaple,
+    description: "Radiating brilliance with its shimmering golden leaves.",
   },
   "Solar Flare Banner": {
     image: solarFlareBanner,

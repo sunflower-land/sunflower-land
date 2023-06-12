@@ -115,6 +115,7 @@ import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot
 import { MushroomHouse } from "./components/MushroomHouse";
 import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
+import { PineTree } from "./components/PineTree";
 import { Fence } from "./components/Fence";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { useSelector } from "@xstate/react";
@@ -151,6 +152,10 @@ import { BasicScarecrow } from "./components/BasicScarecrow";
 import lightning from "assets/icons/lightning.png";
 import { EmeraldTurtle } from "./components/EmeraldTurtle";
 import { TinTurtle } from "./components/TinTurtle";
+import { StoneFence } from "./components/StoneFence";
+import { FieldMaple } from "./components/FieldMaple";
+import { GoldenMaple } from "./components/GoldenMaple";
+import { RedMaple } from "./components/RedMaple";
 import { OceanLantern } from "./components/OceanLantern";
 import { BetaBear } from "./components/BetaBear";
 
@@ -201,7 +206,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Fence: Fence,
   Bush: Bush,
   Shrub: Shrub,
-
+  "Pine Tree": PineTree,
+  "Field Maple": FieldMaple,
+  "Red Maple": RedMaple,
+  "Golden Maple": GoldenMaple,
+  "Stone Fence": StoneFence,
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
   "Golden Bonsai": GoldenBonsai,

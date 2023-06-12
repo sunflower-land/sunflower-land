@@ -3470,6 +3470,42 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1248.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Pine Tree": {
+    description: "Standing tall and mighty, a needle-clad dream.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1265.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Stone Fence": {
+    description: "Embrace the timeless elegance of a stone fence.",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1266.png",
+  },
+  "Field Maple": {
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1267.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Red Maple": {
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1268.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Golden Maple": {
+    description: "Radiating brilliance with its shimmering golden leaves.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1269.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
   "Dawn Breaker Banner": {
     description:
       "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season",

@@ -66,7 +66,6 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
 
-  console.log({ idle });
   const showRemove =
     isMobile && selectedItem && getRemoveAction(selectedItem.name);
 
