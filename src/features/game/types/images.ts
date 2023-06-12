@@ -750,7 +750,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.sand_shovel,
   },
   "Sand Drill": {
-    description: "Drill deep for rare treasure",
+    description: "Drill deep for uncommon or rare treasure",
     image: drill,
   },
 
