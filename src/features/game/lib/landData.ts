@@ -330,7 +330,7 @@ export const OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Sunflower Cake": new Decimal(15),
-    Carrot: new Decimal(500),
+    Carrot: new Decimal(800),
     Cauliflower: new Decimal(700),
     Beetroot: new Decimal(1000),
     Cabbage: new Decimal(1000),
