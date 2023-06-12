@@ -10,7 +10,7 @@ export const RedMaple: React.FC = () => {
         src={redMaple}
         style={{
           width: `${PIXEL_SCALE * 28}px`,
-          bottom: 0,
+          bottom: `${PIXEL_SCALE * 1.5}px`,
         }}
         className="absolute left-1/2 -translate-x-1/2"
         alt="Red Maple"
