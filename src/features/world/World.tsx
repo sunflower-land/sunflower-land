@@ -9,7 +9,7 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "features/game/components/Success";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { Refreshing } from "features/auth/components/Refreshing";
-import { WorldHud } from "features/island/hud/WorldHUD";
+import { WorldHud } from "features/island/hud/WorldHud";
 
 const _gameState = (state: MachineState) => state.value;
 

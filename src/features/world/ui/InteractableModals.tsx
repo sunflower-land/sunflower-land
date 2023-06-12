@@ -55,7 +55,7 @@ export const InteractableModals: React.FC = () => {
           setInteractable(undefined);
           gameService.send("MINT", { auctionId: id });
         }}
-        deviceTrackerId={gameState.context.deviceTrackerId}
+        deviceTrackerId={gameState.context.deviceTrackerId as string}
       />
       {/* <Modal
         centered
