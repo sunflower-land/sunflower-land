@@ -3,9 +3,11 @@ import { SpeechBubble } from "./SpeechBubble";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { Label } from "./Label";
+import { generateBumpkinSpriteKey } from "../lib/sprites";
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
+  public silhoutte: Phaser.GameObjects.Sprite | undefined;
 
   public speech: SpeechBubble | undefined;
 
@@ -28,6 +30,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.clothing = clothing;
 
     scene.physics.add.existing(this);
+
+    this.silhoutte = scene.add.sprite(0, 0, "silhouette");
+    this.add(this.silhoutte);
 
     this.loadSprites(scene);
 
@@ -59,9 +64,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       parts: this.clothing,
     });
 
-    const r = (Math.random() + 1).toString(36).substring(7);
-    const idleSpriteSheetKey = `${r}-bumpkin-idle-sheet`;
-    const walkingSpriteSheetKey = `${r}-bumpkin-walking-sheet`;
+    const keyName = generateBumpkinSpriteKey(this.clothing);
+    const idleSpriteSheetKey = `${keyName}-bumpkin-idle-sheet`;
+    const walkingSpriteSheetKey = `${keyName}-bumpkin-walking-sheet`;
 
     const idleLoader = this.scene.load.spritesheet(
       idleSpriteSheetKey,
@@ -90,7 +95,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
       this.add(this.sprite);
 
-      this.idleAnimationKey = `${r}-bumpkin-idle`;
+      this.idleAnimationKey = `${keyName}-bumpkin-idle`;
       scene.anims.create({
         key: this.idleAnimationKey,
         frames: scene.anims.generateFrameNumbers(idleSpriteSheetKey, {
@@ -102,10 +107,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       });
 
       this.sprite.play(this.idleAnimationKey, true);
+
+      this.silhoutte?.destroy();
     });
 
     walkingLoader.on(Phaser.Loader.Events.COMPLETE, () => {
-      this.walkingAnimationKey = `${r}-bumpkin-walking`;
+      this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
       scene.anims.create({
         key: this.walkingAnimationKey,
         frames: scene.anims.generateFrameNumbers(walkingSpriteSheetKey, {
