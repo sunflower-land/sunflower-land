@@ -1,13 +1,14 @@
-import { mintCollectible } from "lib/blockchain/Game";
+import {
+  mintAuctionCollectible,
+  mintAuctionWearable,
+} from "lib/blockchain/Auction";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { AuctioneerItemName } from "../types/auctioneer";
 
 type Request = {
   farmId: number;
-  sessionId: string;
-  item: AuctioneerItemName;
+  auctionId: string;
   token: string;
   transactionId: string;
 };
@@ -16,7 +17,7 @@ const API_URL = CONFIG.API_URL;
 
 export async function mintAuctionItem(request: Request) {
   const response = await window.fetch(
-    `${API_URL}/mint-auction-item/${request.farmId}`,
+    `${API_URL}/auction/mint/${request.farmId}`,
     {
       method: "POST",
       headers: {
@@ -25,7 +26,7 @@ export async function mintAuctionItem(request: Request) {
         "X-Transaction-ID": request.transactionId,
       },
       body: JSON.stringify({
-        item: request.item,
+        auctionId: request.auctionId,
       }),
     }
   );
@@ -40,11 +41,21 @@ export async function mintAuctionItem(request: Request) {
 
   const transaction = await response.json();
 
-  const sessionId = await mintCollectible({
-    ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
-  });
+  if (transaction.type === "collectible") {
+    const sessionId = await mintAuctionCollectible({
+      ...transaction,
+      web3: wallet.web3Provider,
+      account: wallet.myAccount,
+    });
 
-  return { sessionId, verified: true };
+    return { sessionId, verified: true };
+  } else {
+    const sessionId = await mintAuctionWearable({
+      ...transaction,
+      web3: wallet.web3Provider,
+      account: wallet.myAccount,
+    });
+
+    return { sessionId, verified: true };
+  }
 }

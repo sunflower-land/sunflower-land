@@ -302,6 +302,7 @@ import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
 import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
+import betaBear from "src/assets/sfts/bears/sfl_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
 import cyborgBear from "src/assets/sfts/cyborg_bear.png";
 import collectibleBear from "src/assets/sfts/collectible_bear.png";
@@ -411,7 +412,7 @@ import {
   GOBLIN_PIRATE_ITEMS,
   HELIOS_BLACKSMITH_ITEMS,
 } from "./collectibles";
-import { AUCTIONEER_ITEMS } from "./auctioneer";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -1666,6 +1667,10 @@ export const ITEM_DETAILS: Items = {
     ...SALESMAN_ITEMS["Christmas Bear"],
     image: christmasBear,
   },
+  "Beta Bear": {
+    image: betaBear,
+    description: "A bear found through special testing events",
+  },
   "Rainbow Artist Bear": {
     image: rainbowArtistBear,
     description: "The owner is a beautiful bear artist!",
@@ -1683,12 +1688,12 @@ export const ITEM_DETAILS: Items = {
 
   "Wood Nymph Wendy": {
     image: wendy,
-    description: AUCTIONEER_ITEMS["Wood Nymph Wendy"].description,
+    description: "Cast an enchantment to entice the wood fairies.",
   },
 
   "Peeled Potato": {
     image: prizedPotato,
-    description: AUCTIONEER_ITEMS["Peeled Potato"].description,
+    description: "A precious potato, encourages bonus potatoes on harvest.",
   },
 
   "Colossal Crop": {

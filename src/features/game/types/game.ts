@@ -23,7 +23,6 @@ import {
   SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
-import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
@@ -220,7 +219,6 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | AuctioneerItemName
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem
@@ -404,11 +402,14 @@ export type TreasureHole = {
 };
 
 export type Bid = {
+  auctionId: string;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
-  item: AuctioneerItemName;
-  bidAt: number;
-  auctionTickets: number;
+  collectible?: InventoryItemName;
+  wearable?: BumpkinItem;
+  type: "collectible" | "wearable";
+  biddedAt: number;
+  tickets: number;
 };
 
 export type HayseedHank = {
