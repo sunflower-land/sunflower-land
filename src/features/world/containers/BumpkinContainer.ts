@@ -11,6 +11,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public speech: SpeechBubble | undefined;
 
   private clothing: BumpkinParts;
+  private ready = false;
 
   // Animation Keys
   private idleAnimationKey: string | undefined;
@@ -89,6 +90,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       );
 
       idleLoader.on(Phaser.Loader.Events.COMPLETE, () => {
+        if (!scene.textures.exists(idleSpriteSheetKey) || this.ready) {
+          console.log("File did not load");
+          return;
+        }
+
         const idle = scene.add.sprite(0, 0, idleSpriteSheetKey).setOrigin(0.5);
         this.add(idle);
         this.sprite = idle;
@@ -105,12 +111,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
         this.sprite.play(this.idleAnimationKey as string, true);
 
+        this.ready = true;
         this.silhoutte?.destroy();
       });
     }
 
     if (!scene.textures.exists(walkingSpriteSheetKey)) {
-      console.log("set er up");
       const walkingLoader = scene.load.spritesheet(
         walkingSpriteSheetKey,
         sheets.walking,

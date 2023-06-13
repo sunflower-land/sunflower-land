@@ -204,6 +204,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Lumberjack Overalls",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
+    coat: "Fruit Picker Apron",
   },
   // Crazy buggy eyed bert
   bert: {
