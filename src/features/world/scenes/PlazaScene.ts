@@ -4,7 +4,7 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
-const BUMPKINS: NPCBumpkin[] = [
+export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 400,
     y: 400,
@@ -84,7 +84,7 @@ export class PlazaScene extends BaseScene {
 
     super.create();
 
-    this.initialiseNPCs(BUMPKINS);
+    this.initialiseNPCs(PLAZA_BUMPKINS);
 
     const camera = this.cameras.main;
 

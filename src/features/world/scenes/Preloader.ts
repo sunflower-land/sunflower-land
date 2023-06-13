@@ -13,7 +13,7 @@ import { CONFIG } from "lib/config";
 
 export abstract class Preloader extends Phaser.Scene {
   preload() {
-    console.time("test");
+    console.log("PRELOAD INITIAL");
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
     this.load.tilemapTiledJSON("clothes-shop", clothesShopJson);
@@ -43,10 +43,7 @@ export abstract class Preloader extends Phaser.Scene {
       "world/small_3x5.xml"
     );
 
-    console.log("Preloaded");
     this.load.once("complete", () => {
-      console.timeEnd("test");
-      console.log("Loaded");
       this.scene.start("plaza");
     });
   }
