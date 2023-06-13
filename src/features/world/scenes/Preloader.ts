@@ -10,6 +10,7 @@ import bettyHomeJSON from "assets/map/betty_home.json";
 import woodlandsJSON from "assets/map/woodlands.json";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
+import { INITIAL_ROOM } from "../roomMachine";
 
 export abstract class Preloader extends Phaser.Scene {
   preload() {
@@ -42,9 +43,14 @@ export abstract class Preloader extends Phaser.Scene {
       "world/small_3x5.png",
       "world/small_3x5.xml"
     );
+    this.load.bitmapFont(
+      "pixelmix",
+      "world/pixel_mix.png",
+      "world/pixel_mix.xml"
+    );
 
     this.load.once("complete", () => {
-      this.scene.start("clothes_shop");
+      this.scene.start(INITIAL_ROOM);
     });
   }
 }

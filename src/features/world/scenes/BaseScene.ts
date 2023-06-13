@@ -43,19 +43,25 @@ export abstract class BaseScene extends Phaser.Scene {
 
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
-        const { sessionId, text } = event as ChatMessageReceived;
+        console.log({ CHAT: event });
+        const { sessionId, text, roomId } = event as ChatMessageReceived;
+        if (roomId !== this.roomId) return;
+
+        const room = this.roomService.state.context.rooms[roomId];
+
         if (
           sessionId &&
           String(sessionId).length > 4 &&
           this.playerEntities[sessionId]
         ) {
           this.playerEntities[sessionId].speak(text);
+        } else if (sessionId === room?.sessionId) {
+          this.currentPlayer?.speak(text);
         }
       }
 
       if (event.type === "PLAYER_JOINED") {
         const { sessionId, x, y, clothing, roomId } = event as PlayerJoined;
-
         if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];

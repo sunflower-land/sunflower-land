@@ -152,7 +152,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     setTimeout(() => {
       this.speech?.destroy();
-    }, 2000);
+    }, 5000);
   }
 
   public walk() {

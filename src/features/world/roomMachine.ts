@@ -99,6 +99,8 @@ export type MachineInterpreter = Interpreter<
   any
 >;
 
+export const INITIAL_ROOM: RoomId = "plaza";
+
 /**
  * Machine which handles room events
  */
@@ -107,7 +109,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
   context: {
     jwt: "",
     farmId: 0,
-    roomId: "plaza",
+    roomId: INITIAL_ROOM,
     rooms: {
       plaza: undefined,
       auction_house: undefined,
