@@ -28,6 +28,7 @@ import { LandscapingIntroduction } from "./components/LandscapingIntroduction";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
 import { createPortal } from "react-dom";
+import { hasRestriction } from "../collectibles/removeables";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -68,6 +69,13 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
 
   const showRemove =
     isMobile && selectedItem && getRemoveAction(selectedItem.name);
+  const [isRestricted, restrictionReason] = showRemove
+    ? hasRestriction(
+        selectedItem.name,
+        selectedItem.id,
+        gameService.state.context.state
+      )
+    : [false, "No restriction"];
 
   useEffect(() => {
     setShowRemoveConfirmation(false);
@@ -183,7 +191,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
 
       {showRemove && (
         <div
-          onClick={() => remove()}
+          onClick={() => !isRestricted && remove()}
           className="fixed flex z-50 flex-col cursor-pointer"
           style={{
             marginLeft: `${PIXEL_SCALE * 2}px`,
@@ -196,11 +204,13 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
           <div
             className="absolute"
             style={{
-              top: `${PIXEL_SCALE * -10}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
               right: `${PIXEL_SCALE * -2}px`,
             }}
           >
-            <Label type="danger">Remove</Label>
+            <Label type="danger">
+              {isRestricted ? restrictionReason : "Remove"}
+            </Label>
           </div>
           <img
             src={SUNNYSIDE.ui.round_button}
@@ -220,15 +230,24 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
               }}
             />
           ) : (
-            <img
-              className="absolute"
-              src={ITEM_DETAILS["Rusty Shovel"].image}
-              style={{
-                width: `${PIXEL_SCALE * 14}px`,
-                right: `${PIXEL_SCALE * 4.5}px`,
-                top: `${PIXEL_SCALE * 4.5}px`,
-              }}
-            />
+            <>
+              <img
+                className="absolute"
+                src={ITEM_DETAILS["Rusty Shovel"].image}
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                  right: `${PIXEL_SCALE * 4.5}px`,
+                  top: `${PIXEL_SCALE * 4.5}px`,
+                }}
+              />
+              {isRestricted && (
+                <img
+                  src={SUNNYSIDE.icons.cancel}
+                  className="absolute right-0 top-0 w-1/2 object-contain"
+                  alt="restricted"
+                />
+              )}
+            </>
           )}
         </div>
       )}

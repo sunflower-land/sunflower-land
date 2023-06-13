@@ -1,6 +1,4 @@
-import { GoblinState } from "features/game/lib/goblinMachine";
-import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
-import { CROP_SEEDS, CropName, CropSeedName } from "./crops";
+import { CropName, CropSeedName } from "./crops";
 import { FruitName, FruitSeedName } from "./fruits";
 import {
   Animal,
@@ -20,15 +18,10 @@ import {
   Coupons,
   EasterEgg,
   FertiliserName,
-  Inventory,
   InventoryItemName,
   Points,
   SpecialEvent,
 } from "./game";
-import { getKeys } from "./craftables";
-import { canChop } from "../events/landExpansion/chop";
-import { canMine } from "../events/landExpansion/stoneMine";
-import { AchievementName } from "./achievements";
 import { BeanName, MutantCropName } from "./beans";
 import { WarTentItem } from "./craftables";
 import { TreasureToolName } from "./tools";
@@ -56,86 +49,6 @@ import {
   DecorationTreasure,
 } from "./treasure";
 import { WorkbenchToolName } from "./tools";
-
-type WithdrawCondition = boolean | ((gameState: GoblinState) => boolean);
-
-// Helps build withdraw rules for item groups
-function buildDefaults<T extends InventoryItemName>(
-  itemNames: T[],
-  withdrawCondition: WithdrawCondition
-): Record<T, WithdrawCondition> {
-  return itemNames.reduce(
-    (prev, cur) => ({
-      ...prev,
-      [cur]: withdrawCondition,
-    }),
-    {} as Record<T, WithdrawCondition>
-  );
-}
-
-// Helper functions
-type CanWithdrawArgs = {
-  item: InventoryItemName;
-  game: GoblinState;
-};
-
-function cropIsPlanted({ item, game }: CanWithdrawArgs): boolean {
-  return Object.values(game.crops ?? {}).some(
-    (plot) => plot.crop && plot.crop.name === item
-  );
-}
-
-function areFruitsGrowing(game: GoblinState, fruit: FruitName): boolean {
-  return Object.values(game.fruitPatches ?? {}).some(
-    (patch) => patch.fruit?.name === fruit
-  );
-}
-
-function hasSeeds(inventory: Inventory) {
-  return getKeys(inventory).some((name) => name in CROP_SEEDS());
-}
-
-function areAnyCropsPlanted(game: GoblinState): boolean {
-  return Object.values(game.crops ?? {}).some((plot) => !!plot.crop);
-}
-
-function areAnyTreesChopped(game: GoblinState): boolean {
-  return Object.values(game.trees ?? {}).some((tree) => !canChop(tree));
-}
-
-function areAnyStonesMined(game: GoblinState): boolean {
-  return Object.values(game.stones ?? {}).some((stone) => !canMine(stone));
-}
-
-function areAnyIronsMined(game: GoblinState): boolean {
-  return Object.values(game.iron ?? {}).some((iron) => !canMine(iron));
-}
-
-function areAnyGoldsMined(game: GoblinState): boolean {
-  return Object.values(game.gold ?? {}).some((gold) => !canMine(gold));
-}
-
-function areAnyChickensFed(game: GoblinState): boolean {
-  return Object.values(game.chickens).some(
-    (chicken) =>
-      chicken.fedAt && Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
-  );
-}
-
-function areAnyTreasureHolesDug(game: GoblinState): boolean {
-  return Object.values(game.treasureIsland?.holes ?? {}).some((hole) => {
-    const today = new Date().toISOString().substring(0, 10);
-
-    return new Date(hole.dugAt).toISOString().substring(0, 10) == today;
-  });
-}
-
-function hasCompletedAchievement(
-  game: GoblinState,
-  achievement: AchievementName
-): boolean {
-  return Object.keys(game.bumpkin?.achievements ?? []).includes(achievement);
-}
 
 const cropSeeds: Record<CropSeedName, boolean> = {
   "Beetroot Seed": false,
@@ -191,14 +104,14 @@ const questItems: Record<QuestItem, boolean> = {
   "Sunflower Key": false,
 };
 
-const warTentItems: Record<WarTentItem, WithdrawCondition> = {
+const warTentItems: Record<WarTentItem, boolean> = {
   "Beetroot Amulet": false,
   "Carrot Amulet": false,
   "Sunflower Amulet": false,
   "Green Amulet": false,
   "Skull Hat": false,
   "Sunflower Shield": false,
-  "Undead Rooster": (game) => !areAnyChickensFed(game),
+  "Undead Rooster": true,
   "War Skull": true,
   "War Tombstone": true,
   "Warrior Helmet": false,
@@ -264,11 +177,11 @@ const resources: Record<ResourceName, boolean> = {
   Boulder: false,
 };
 
-const mutantChickens: Record<MutantChicken, WithdrawCondition> = {
-  "Ayam Cemani": (game) => !areAnyChickensFed(game),
-  "Fat Chicken": (game) => !areAnyChickensFed(game),
-  "Rich Chicken": (game) => !areAnyChickensFed(game),
-  "Speed Chicken": (game) => !areAnyChickensFed(game),
+const mutantChickens: Record<MutantChicken, boolean> = {
+  "Ayam Cemani": true,
+  "Fat Chicken": true,
+  "Rich Chicken": true,
+  "Speed Chicken": true,
 };
 
 const flags: Record<Flag, boolean> = {
@@ -440,7 +353,7 @@ const consumables: Record<ConsumableName, boolean> = {
   "Pirate Cake": false,
 };
 
-const decorations: Record<ShopDecorationName, WithdrawCondition> = {
+const decorations: Record<ShopDecorationName, boolean> = {
   "White Tulips": false,
   "Potted Sunflower": false,
   "Potted Potato": false,
@@ -463,7 +376,7 @@ const decorations: Record<ShopDecorationName, WithdrawCondition> = {
   "Red Maple": false,
   "Golden Maple": false,
 };
-const seasonalDecorations: Record<SeasonalDecorationName, WithdrawCondition> = {
+const seasonalDecorations: Record<SeasonalDecorationName, boolean> = {
   Clementine: false,
   Cobalt: false,
   "Dawn Umbrella Seat": false,
@@ -472,49 +385,49 @@ const seasonalDecorations: Record<SeasonalDecorationName, WithdrawCondition> = {
   "Shroom Glow": false,
 };
 
-const mutantCrop: Record<MutantCropName, WithdrawCondition> = {
+const mutantCrop: Record<MutantCropName, boolean> = {
   "Stellar Sunflower": false,
   "Peaceful Potato": false,
   "Perky Pumpkin": false,
   "Colossal Crop": false,
 };
 
-const specialEvents: Record<SpecialEvent | MOMEventItem, WithdrawCondition> = {
+const specialEvents: Record<SpecialEvent | MOMEventItem, boolean> = {
   "Chef Apron": false,
   "Chef Hat": false,
   "Engine Core": false,
   Observatory: true,
 };
 
-const points: Record<Points, WithdrawCondition> = {
+const points: Record<Points, boolean> = {
   "Human War Point": false,
   "Goblin War Point": false,
 };
 
-const goblinBlacksmith: Record<GoblinBlacksmithItemName, WithdrawCondition> = {
+const goblinBlacksmith: Record<GoblinBlacksmithItemName, boolean> = {
   "Mushroom House": false,
   Obie: false,
   "Purple Trail": false,
   Maximus: false,
 };
 
-const animals: Record<Animal, WithdrawCondition> = {
+const animals: Record<Animal, boolean> = {
   Cow: false,
   Pig: false,
   Sheep: false,
   Chicken: false,
 };
 
-const barnItems: Record<BarnItem, WithdrawCondition> = {
-  "Chicken Coop": (game) => !areAnyChickensFed(game),
-  "Easter Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
+const barnItems: Record<BarnItem, boolean> = {
+  "Chicken Coop": true,
+  "Easter Bunny": true,
   "Farm Cat": true,
   "Farm Dog": true,
-  "Gold Egg": (game) => !areAnyChickensFed(game),
-  Rooster: (game) => !areAnyChickensFed(game),
+  "Gold Egg": true,
+  Rooster: true,
 };
 
-const blacksmithItems: Record<LegacyItem, WithdrawCondition> = {
+const blacksmithItems: Record<LegacyItem, boolean> = {
   "Sunflower Statue": true,
   "Potato Statue": true,
   "Christmas Tree": true,
@@ -525,38 +438,37 @@ const blacksmithItems: Record<LegacyItem, WithdrawCondition> = {
   Fountain: true,
   "Egg Basket": false,
 
-  "Woody the Beaver": (game) => !areAnyTreesChopped(game),
-  "Apprentice Beaver": (game) => !areAnyTreesChopped(game),
-  "Foreman Beaver": (game) => !areAnyTreesChopped(game),
+  "Woody the Beaver": true,
+  "Apprentice Beaver": true,
+  "Foreman Beaver": true,
   "Nyon Statue": true,
   "Homeless Tent": true,
   "Farmer Bath": true,
   "Mysterious Head": true,
-  "Rock Golem": (game) => !areAnyStonesMined(game),
-  "Tunnel Mole": (game) => !areAnyStonesMined(game),
-  "Rocky the Mole": (game) => !areAnyIronsMined(game),
-  Nugget: (game) => !areAnyGoldsMined(game),
+  "Rock Golem": true,
+  "Tunnel Mole": true,
+  "Rocky the Mole": true,
+  Nugget: true,
 };
 
-const travelingSalesmanItems: Record<TravelingSalesmanItem, WithdrawCondition> =
-  {
-    "Christmas Bear": true,
-    "Golden Bonsai": true,
-    "Victoria Sisters": (game) => !cropIsPlanted({ item: "Pumpkin", game }),
-    "Wicker Man": true,
-  };
+const travelingSalesmanItems: Record<TravelingSalesmanItem, boolean> = {
+  "Christmas Bear": true,
+  "Golden Bonsai": true,
+  "Victoria Sisters": true,
+  "Wicker Man": true,
+};
 
-const soldOut: Record<SoldOutCollectibleName, WithdrawCondition> = {
-  "Peeled Potato": (game) => !cropIsPlanted({ item: "Potato", game }),
+const soldOut: Record<SoldOutCollectibleName, boolean> = {
+  "Peeled Potato": true,
   "Christmas Snow Globe": true,
   "Beta Bear": false,
   "Cyborg Bear": true,
-  "Wood Nymph Wendy": (game) => !areAnyTreesChopped(game),
-  "Squirrel Monkey": (game) => !areFruitsGrowing(game, "Orange"),
-  "Black Bearry": (game) => !areFruitsGrowing(game, "Blueberry"),
-  "Lady Bug": (game) => !areFruitsGrowing(game, "Apple"),
-  "Cabbage Boy": (game) => !cropIsPlanted({ item: "Cabbage", game }),
-  "Cabbage Girl": (game) => !cropIsPlanted({ item: "Cabbage", game }),
+  "Wood Nymph Wendy": true,
+  "Squirrel Monkey": true,
+  "Black Bearry": true,
+  "Lady Bug": true,
+  "Cabbage Boy": true,
+  "Cabbage Girl": true,
   "Maneki Neko": true,
   "Heart Balloons": true,
   Flamingo: true,
@@ -564,17 +476,14 @@ const soldOut: Record<SoldOutCollectibleName, WithdrawCondition> = {
   "Palm Tree": true,
   "Beach Ball": true,
   "Collectible Bear": true,
-  "Pablo The Bunny": (game) => !cropIsPlanted({ item: "Carrot", game }),
+  "Pablo The Bunny": true,
   "Easter Bush": true,
   "Giant Carrot": true,
 
   Hoot: false,
 };
 
-const achievementDecoration: Record<
-  AchievementDecorationName,
-  WithdrawCondition
-> = {
+const achievementDecoration: Record<AchievementDecorationName, boolean> = {
   "Chef Bear": true,
   "Construction Bear": true,
   "Angel Bear": true,
@@ -589,33 +498,33 @@ const achievementDecoration: Record<
   "Devil Bear": true,
 };
 
-const market: Record<MarketItem, WithdrawCondition> = {
+const market: Record<MarketItem, boolean> = {
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
 
-  "Golden Cauliflower": (game) => !cropIsPlanted({ item: "Cauliflower", game }),
-  "Mysterious Parsnip": (game) => !cropIsPlanted({ item: "Parsnip", game }),
-  Nancy: (game) => !areAnyCropsPlanted(game),
-  Scarecrow: (game) => !areAnyCropsPlanted(game),
-  Kuebiko: (game) => !areAnyCropsPlanted(game) && !hasSeeds(game.inventory),
+  "Golden Cauliflower": true,
+  "Mysterious Parsnip": true,
+  Nancy: true,
+  Scarecrow: true,
+  Kuebiko: true,
 };
 
-const boostTreasure: Record<BoostTreasure, WithdrawCondition> = {
-  "Lunar Calendar": (game) => !areAnyCropsPlanted(game),
-  "Tiki Totem": (game) => !areAnyTreesChopped(game),
+const boostTreasure: Record<BoostTreasure, boolean> = {
+  "Lunar Calendar": true,
+  "Tiki Totem": true,
   "Genie Lamp": false,
   Foliant: false,
 };
 
-const goblinPirate: Record<GoblinPirateItemName, WithdrawCondition> = {
-  "Iron Idol": (game) => !areAnyIronsMined(game),
-  "Heart of Davy Jones": (game) => !areAnyTreasureHolesDug(game),
-  Karkinos: (game) => !cropIsPlanted({ item: "Cabbage", game }),
+const goblinPirate: Record<GoblinPirateItemName, boolean> = {
+  "Iron Idol": true,
+  "Heart of Davy Jones": true,
+  Karkinos: true,
   "Emerald Turtle": false,
   "Tin Turtle": false,
 };
 
-const treasureDecoration: Record<DecorationTreasure, WithdrawCondition> = {
+const treasureDecoration: Record<DecorationTreasure, boolean> = {
   "T-Rex Skull": true,
   "Sunflower Coin": true,
   "Pirate Bear": true,
@@ -634,7 +543,7 @@ const treasureDecoration: Record<DecorationTreasure, WithdrawCondition> = {
   "Goblin Bear": false,
 };
 
-const beachBounty: Record<BeachBountyTreasure, WithdrawCondition> = {
+const beachBounty: Record<BeachBountyTreasure, boolean> = {
   "Pirate Bounty": false,
   Pearl: false,
   Coral: false,
@@ -649,7 +558,7 @@ const beachBounty: Record<BeachBountyTreasure, WithdrawCondition> = {
   "Old Bottle": false,
 };
 
-const eventDecoration: Record<EventDecorationName, WithdrawCondition> = {
+const eventDecoration: Record<EventDecorationName, boolean> = {
   "Valentine Bear": true,
   "Easter Bear": true,
   "Easter Bush": true,
@@ -657,19 +566,19 @@ const eventDecoration: Record<EventDecorationName, WithdrawCondition> = {
   "Genie Bear": false,
 };
 
-const lanterns: Record<Lantern, WithdrawCondition> = {
+const lanterns: Record<Lantern, boolean> = {
   "Luminous Lantern": false,
   "Radiance Lantern": false,
   "Aurora Lantern": false,
   "Ocean Lantern": false,
 };
 
-const purchasables: Record<SeasonPassName, WithdrawCondition> = {
+const purchasables: Record<SeasonPassName, boolean> = {
   "Dawn Breaker Banner": false,
   "Solar Flare Banner": false,
 };
 
-export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
+export const WITHDRAWABLES: Record<InventoryItemName, boolean> = {
   ...crops,
   ...fruits,
   ...cropSeeds,
@@ -716,7 +625,3 @@ export const WITHDRAWABLES: Record<InventoryItemName, WithdrawCondition> = {
   ...consumables,
   ...decorations,
 };
-
-// Explicit false check is important, as we also want to check if it's a bool.
-export const isNeverWithdrawable = (itemName: InventoryItemName) =>
-  WITHDRAWABLES[itemName] === false;

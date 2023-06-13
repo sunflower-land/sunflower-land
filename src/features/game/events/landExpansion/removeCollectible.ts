@@ -7,12 +7,14 @@ import {
   areUnsupportedChickensBrewing,
   removeUnsupportedChickens,
 } from "./removeBuilding";
+import { REMOVAL_RESTRICTIONS } from "features/island/collectibles/removeables";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
   CHICKEN_COOP_REMOVE_BREWING_CHICKEN = "Cannot remove Chicken Coop that causes chickens that are brewing egg to be removed",
   GENIE_IN_USE = "Genie Lamp is in use",
+  COLLECTIBLE_IN_USE = "This item is in use",
 }
 
 export type RemoveCollectibleAction = {
@@ -80,6 +82,13 @@ export function removeCollectible({ state, action }: Options) {
     if (rubbedCount > 0) {
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.GENIE_IN_USE);
     }
+  }
+
+  const removalRestriction = REMOVAL_RESTRICTIONS[action.name];
+  if (removalRestriction) {
+    const [restricted] = removalRestriction(state);
+    if (restricted)
+      throw new Error(REMOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_IN_USE);
   }
 
   bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
