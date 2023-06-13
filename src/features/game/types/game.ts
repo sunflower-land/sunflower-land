@@ -501,6 +501,35 @@ export type DailyRewards = {
   };
 };
 
+export type PotionName =
+  | "Bloom Boost"
+  | "Happy Hooch"
+  | "Earth Essence"
+  | "Flower Power"
+  | "Organic Oasis"
+  | "Dream Drip"
+  | "Ember Elixir"
+  | "Whisper Brew"
+  | "Miracle Mix"
+  | "Golden Syrup";
+
+export type PotionStatus = "incorrect" | "correct" | "almost" | "bomb";
+
+type PotionSlot = { potion: PotionName; status: PotionStatus };
+
+export type Attempt = [PotionSlot, PotionSlot, PotionSlot, PotionSlot];
+
+type PotionHouse = {
+  game: {
+    status: "in_progress" | "finished";
+    attempts: Attempt[];
+    reward?: InventoryItemName;
+  };
+  history: {
+    [score: number]: number;
+  };
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -571,6 +600,7 @@ export interface GameState {
   hayseedHank: HayseedHank;
   mushrooms: Mushrooms;
   dawnBreaker?: DawnBreaker;
+  potionHouse?: PotionHouse;
 }
 
 export interface Context {
