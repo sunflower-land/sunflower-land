@@ -1,8 +1,6 @@
-import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -69,10 +67,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
 export class PlazaScene extends BaseScene {
   roomId: RoomId = "plaza";
 
-  spawn: Coordinates = {
-    x: 420,
-    y: 167,
-  };
   constructor() {
     super("plaza");
   }
@@ -85,13 +79,6 @@ export class PlazaScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
-
-    const camera = this.cameras.main;
-
-    camera.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
-    camera.setZoom(4);
-
-    this.physics.world.setBounds(0, 0, 55 * SQUARE_WIDTH, 32 * SQUARE_WIDTH);
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(591, 260);

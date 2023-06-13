@@ -3,7 +3,7 @@ import { Room } from "colyseus.js";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-import { INITIAL_BUMPKIN } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import {
@@ -17,7 +17,6 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { EventObject } from "xstate";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { isTouchDevice } from "../lib/device";
 import { SPAWNS } from "../lib/spawn";
 
@@ -33,7 +32,6 @@ export type NPCBumpkin = {
 
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
-  abstract spawn: Coordinates;
   eventListener: (event: EventObject) => void;
 
   private joystick?: VirtualJoystick;
@@ -246,12 +244,25 @@ export abstract class BaseScene extends Phaser.Scene {
       clothing: INITIAL_BUMPKIN.equipped,
     });
 
-    // camera.centerOnX(spawn.x);
-    // camera.centerOnY(spawn.y);
-    // camera.centerToSize();
-    // camera.setScroll(spawn.x, spawn.y);
+    camera.setBounds(
+      0,
+      0,
+      this.map.width * SQUARE_WIDTH,
+      this.map.height * SQUARE_WIDTH
+    );
+    camera.setZoom(4);
+    this.physics.world.setBounds(
+      0,
+      0,
+      this.map.width * SQUARE_WIDTH,
+      this.map.height * SQUARE_WIDTH
+    );
 
-    console.log("Created");
+    // Center it on canvas
+    const offsetX = (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
+    const offsetY =
+      (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
+    camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
   }
 
   createPlayer({

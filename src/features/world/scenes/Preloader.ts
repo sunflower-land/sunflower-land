@@ -44,7 +44,7 @@ export abstract class Preloader extends Phaser.Scene {
     );
 
     this.load.once("complete", () => {
-      this.scene.start("plaza");
+      this.scene.start("clothes_shop");
     });
   }
 }
