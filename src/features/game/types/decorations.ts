@@ -219,7 +219,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Easter Bush": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Giant Carrot": {

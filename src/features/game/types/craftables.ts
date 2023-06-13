@@ -1130,7 +1130,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Pablo The Bunny": { width: 1, height: 1 },
   "Easter Bear": { width: 1, height: 1 },
   "Giant Carrot": { width: 2, height: 2 },
-  "Easter Bush": { width: 2, height: 2 },
+  "Easter Bush": { width: 2, height: 1 },
 
   // Treasure Island SFTs
   "Tiki Totem": { height: 1, width: 1 },
