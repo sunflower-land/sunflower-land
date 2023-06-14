@@ -11,7 +11,6 @@ import Decimal from "decimal.js-light";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CONFIG } from "lib/config";
 import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
@@ -79,9 +78,10 @@ export const AuctionDetails: React.FC<Props> = ({
       item.type === "collectible"
         ? game.inventory[item.collectible]
         : game.wardrobe[item.wearable];
-    if (CONFIG.NETWORK !== "mumbai" && hasMinted) {
-      return <span className="text-sm">Already minted</span>;
-    }
+    // Turned off for testing
+    // if (CONFIG.NETWORK !== "mumbai" && hasMinted) {
+    //   return <span className="text-sm">Already minted</span>;
+    // }
 
     return (
       <Button
