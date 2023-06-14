@@ -159,6 +159,7 @@ import { RedMaple } from "./components/RedMaple";
 import { OceanLantern } from "./components/OceanLantern";
 import { BetaBear } from "./components/BetaBear";
 import { SirGoldenSnout } from "./components/SirGoldenSnout";
+import { Bale } from "./components/Bale";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -242,7 +243,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Nancy,
   Scarecrow,
   Kuebiko,
+
+  // AoE
   "Basic Scarecrow": BasicScarecrow,
+  "Emerald Turtle": EmeraldTurtle,
+  "Tin Turtle": TinTurtle,
+  Bale: Bale,
 
   "Carrot Sword": CarrotSword,
 
@@ -328,8 +334,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
   "Iron Idol": IronIdol,
-  "Emerald Turtle": EmeraldTurtle,
-  "Tin Turtle": TinTurtle,
 
   // Solar Flare Items
   "Beach Ball": BeachBall,
@@ -519,6 +523,45 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
             width: `${PIXEL_SCALE * 10}px`,
             left: `${PIXEL_SCALE * 19}px`,
             top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  Bale: () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Bale"].image}
+        className=" absolute w-full"
+        style={{
+          width: `${PIXEL_SCALE * 28}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+          top: `${PIXEL_SCALE * 5}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 25}px`,
           }}
         />
       </div>
