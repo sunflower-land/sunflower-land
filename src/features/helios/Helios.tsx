@@ -5,7 +5,6 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import background from "assets/land/helios.webp";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
-import { Potions } from "./components/potions/Potions";
 import { ExoticShop } from "./components/exoticShop/ExoticShop";
 import { HeliosSunflower } from "./components/HeliosSunflower";
 import { HeliosBlacksmith } from "./components/blacksmith/HeliosBlacksmith";
@@ -70,7 +69,6 @@ export const Helios: React.FC = () => {
         <Decorations />
         <GrubShop />
         <HeliosBlacksmith />
-        <Potions />
         <GarbageCollector />
         <ExoticShop />
         <HeliosSunflower />
