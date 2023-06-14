@@ -164,27 +164,6 @@ export abstract class BaseScene extends Phaser.Scene {
     );
     interactablesPolygons.forEach((polygon) => {
       polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        const position = polygon as unknown as Phaser.Math.Vector2;
-        const distance = Phaser.Math.Distance.BetweenPoints(
-          position,
-          this.currentPlayer as BumpkinContainer
-        );
-        if (distance > 30) {
-          // const text = this.add.bitmapText(
-          //   position.x - 20,
-          //   position.y,
-          //   "bitmapFont",
-          //   "Move closer!",
-          //   6
-          // );
-
-          // setTimeout(() => {
-          //   text.destroy();
-          // }, 1000);
-
-          return;
-        }
-
         const id = polygon.data.list.id;
         interactableModalManager.open(id);
       });

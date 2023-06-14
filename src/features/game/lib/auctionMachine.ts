@@ -52,6 +52,7 @@ export interface Context {
   auctionId: string;
   transactionId: string;
   results?: AuctionResults;
+  canAccess: boolean;
 }
 
 type BidEvent = {
@@ -87,6 +88,7 @@ export type BlockchainEvent =
 export type AuctioneerMachineState = {
   value:
     | "idle"
+    | "noAccess"
     | "introduction"
     | "loading"
     | "initialising"
@@ -123,6 +125,7 @@ export const createAuctioneerMachine = ({
       initial: "idle",
       context: {
         farmId: 0,
+        canAccess: false,
         transactionId: "?",
         auctionId: "test-auction-1",
         token: "",

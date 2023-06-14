@@ -12,6 +12,8 @@ import {
 import { Bid, GameState } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { hasFeatureAccess } from "lib/flags";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   gameState: GameState;
@@ -39,6 +41,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       token: authState.context.user.rawToken,
       bid: gameState.auctioneer.bid,
       deviceTrackerId: deviceTrackerId,
+      canAccess: hasFeatureAccess(gameState.inventory, "AUCTION"),
     },
   }) as unknown as MachineInterpreter;
 
@@ -57,7 +60,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   if (auctioneerState.matches("loading")) {
     return (
       <Modal centered show={isOpen} onHide={onClose}>
-        <Panel>
+        <Panel bumpkinParts={NPC_WEARABLES["hammerin' harry"]}>
           <span className="loading">Loading</span>
         </Panel>
       </Modal>
@@ -75,6 +78,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       <CloseButtonPanel
         onClose={onClose}
         tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Auctions & Drops" }]}
+        bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
       >
         <div
           style={{
