@@ -548,17 +548,7 @@ export const OFFLINE_FARM: GameState = {
   treasureIsland: {
     holes: {},
   },
-  auctioneer: {
-    bid: {
-      auctionId: "test-auction-1",
-      biddedAt: 0,
-      ingredients: {},
-      sfl: 5,
-      tickets: 30,
-      type: "collectible",
-      collectible: "Beta Bear",
-    },
-  },
+  auctioneer: {},
   hayseedHank: {
     chore: CHORES[0],
     choresCompleted: 0,

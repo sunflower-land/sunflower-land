@@ -27,6 +27,16 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
         <Label type="success">Congratulations!</Label>
       </div>
 
+      <p className="text-sm">You must mint your prize within 24 hours.</p>
+      <a
+        href="https://docs.sunflower-land.com/player-guides/auctions#how-to-mint-an-items"
+        className="mx-auto text-xxs underline text-center pb-2 pt-2"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Read more
+      </a>
+
       <Button className="mt-2" onClick={() => onMint(bid.auctionId)}>
         Mint
       </Button>

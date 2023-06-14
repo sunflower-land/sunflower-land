@@ -54,8 +54,8 @@ export const AuctionLeaderboardTable: React.FC<{
               className={classNames({
                 "bg-green-500": status === "winner" && result.farmId === farmId,
                 "bg-red-500":
-                  status === "loser" ||
-                  (status === "tiebreaker" && result.farmId === farmId),
+                  (status === "loser" || status === "tiebreaker") &&
+                  result.farmId === farmId,
               })}
             >
               <td
