@@ -254,6 +254,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
+  id: 4,
   dawnBreaker: {
     currentWeek: 7,
     availableLantern: {

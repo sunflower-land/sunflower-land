@@ -31,15 +31,20 @@ type WearableAuction = AuctionBase & {
 
 export type Auction = CollectibleAuction | WearableAuction;
 
+export type LeaderboardBid = {
+  rank: number;
+  tickets: number;
+  experience: number;
+  sfl: number;
+  items: Partial<Record<InventoryItemName, number>>;
+  farmId: number;
+};
+
 export type AuctionResults = {
-  status: "loser" | "winner" | "pending";
-  minimum: {
-    tickets: number;
-    experience: number;
-    sfl: number;
-    items: Record<InventoryItemName, number>;
-  };
+  status: "loser" | "winner" | "pending" | "tiebreaker";
+  leaderboard: LeaderboardBid[];
   participantCount: number;
+  rank: number;
   supply: number;
 };
 export interface Context {
@@ -97,6 +102,7 @@ export type AuctioneerMachineState = {
     | "bidded"
     | "checkingResults"
     | "loser"
+    | "tiebreaker"
     | "missingAuction"
     | "refunded"
     | "pending"
@@ -120,7 +126,7 @@ export const createAuctioneerMachine = ({
   createMachine<Context, BlockchainEvent, AuctioneerMachineState>(
     {
       id: "auctioneerMachine",
-      initial: "idle",
+      initial: "initialising",
       context: {
         farmId: 0,
         canAccess: false,
@@ -129,13 +135,63 @@ export const createAuctioneerMachine = ({
         token: "",
         deviceTrackerId: "",
 
+        // Offline testing
+        results: {
+          leaderboard: [
+            {
+              farmId: 44,
+              experience: 10,
+              items: { Gold: 50, "Block Buck": 30, Radish: 50 },
+              sfl: 1000,
+              tickets: 5,
+              rank: 1,
+            },
+            {
+              farmId: 161000,
+              experience: 10,
+              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              sfl: 100,
+              tickets: 5,
+              rank: 2,
+            },
+            {
+              farmId: 122078,
+              experience: 10,
+              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              sfl: 100,
+              tickets: 5,
+              rank: 3,
+            },
+            {
+              farmId: 156788,
+              experience: 10,
+              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              sfl: 100,
+              tickets: 5,
+              rank: 50,
+            },
+            {
+              farmId: 1,
+              experience: 10,
+              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              sfl: 100,
+              tickets: 5,
+              rank: 53,
+            },
+          ],
+          participantCount: 53,
+          rank: 56,
+          status: "winner",
+          supply: 50,
+        },
+
         auctions: [
           {
             auctionId: "test-auction-1",
             type: "collectible",
             collectible: "Abandoned Bear",
-            endAt: Date.now() + 500000,
-            startAt: Date.now() + 1000,
+            endAt: Date.now() - 500000,
+            startAt: Date.now() - 1000,
             ingredients: {
               Wood: 1,
               Gold: 10,
@@ -305,6 +361,17 @@ export const createAuctioneerMachine = ({
                 cond: (_, event) =>
                   event.data.auctionResult.status === "winner",
                 target: "winner",
+                actions: assign({
+                  results: (_, event) => event.data.auctionResult,
+                }),
+              },
+              {
+                cond: (_, event) =>
+                  event.data.auctionResult.status === "tiebreaker",
+                target: "tiebreaker",
+                actions: assign({
+                  results: (_, event) => event.data.auctionResult,
+                }),
               },
               {
                 cond: (_, event) => event.data.auctionResult.status === "loser",
@@ -332,6 +399,12 @@ export const createAuctioneerMachine = ({
         },
 
         loser: {
+          on: {
+            REFUND: "refunded",
+          },
+        },
+
+        tiebreaker: {
           on: {
             REFUND: "refunded",
           },
