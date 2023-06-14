@@ -10,8 +10,6 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-export const LAND_WIDTH = 6;
-
 interface Props {
   x: number;
   y: number;
