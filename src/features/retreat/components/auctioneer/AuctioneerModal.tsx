@@ -5,7 +5,6 @@ import { Panel } from "components/ui/Panel";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { useActor, useInterpret } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CONFIG } from "lib/config";
 import {
   MachineInterpreter,
   createAuctioneerMachine,
@@ -70,28 +69,6 @@ export const AuctioneerModal: React.FC<Props> = ({
   const closeModal = () => {
     onClose();
   };
-
-  if (CONFIG.NETWORK === "mainnet") {
-    return (
-      <Modal centered show={isOpen} onHide={onClose} scrollable>
-        <Panel className="relative">
-          <div className="p-2 flex flex-col items-center">
-            <p>Under construction!</p>
-            <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/3" />
-            <p className="my-2 text-sm">This feature is coming soon.</p>
-            <a
-              href="https://docs.sunflower-land.com/player-guides/islands/goblin-retreat/goblin-auctioneer"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs underline"
-            >
-              Read more
-            </a>
-          </div>
-        </Panel>
-      </Modal>
-    );
-  }
 
   return (
     <Modal centered show={isOpen} onHide={closeModal} scrollable>
