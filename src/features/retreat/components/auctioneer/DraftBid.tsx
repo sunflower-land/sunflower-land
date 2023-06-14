@@ -14,6 +14,30 @@ import classNames from "classnames";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
 
+/**
+ * If they have enough resources, default the bid to 5 tickets
+ */
+function getInitialTickets(auction: Auction, gameState: GameState) {
+  const defaultTickets = 5;
+
+  if (gameState.balance.lt(auction.sfl * defaultTickets)) {
+    return 1;
+  }
+
+  if (
+    getKeys(auction.ingredients).some(
+      (name) =>
+        !gameState.inventory[name]?.gt(
+          (auction.ingredients[name] ?? 0) * defaultTickets
+        )
+    )
+  ) {
+    return 1;
+  }
+
+  return defaultTickets;
+}
+
 interface Props {
   auction: Auction;
   maxTickets: number;
@@ -28,7 +52,7 @@ export const DraftBid: React.FC<Props> = ({
   gameState,
   onBack,
 }) => {
-  const [tickets, setTickets] = useState(1);
+  const [tickets, setTickets] = useState(getInitialTickets(auction, gameState));
   const end = useCountdown(auction.endAt);
 
   const missingSFL = gameState.balance.lt(auction.sfl * tickets);
@@ -125,9 +149,18 @@ export const DraftBid: React.FC<Props> = ({
           />
         </div>
       </div>
-      <p className="text-xxs text-center underline mb-3">
-        How does this auction work?
-      </p>
+
+      <div className="text-xxs text-center underline mb-3  hover:text-blue-500">
+        <a
+          href="https://docs.sunflower-land.com/player-guides/auctions"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xxs text-center underline mb-3  hover:text-blue-500"
+        >
+          How does the auction work?
+        </a>
+      </div>
+
       <div className="flex">
         <img src={SUNNYSIDE.icons.stopwatch} className="h-6 mr-2" />
         <p className="text-sm mb-2">
@@ -160,7 +193,16 @@ export const DraftBid: React.FC<Props> = ({
       >
         Bid
       </Button>
-      <p className="text-xs underline text-center">Terms and conditions</p>
+      <div className="text-center">
+        <a
+          href="https://docs.sunflower-land.com/player-guides/auctions"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-center underline mb-3  hover:text-blue-500"
+        >
+          Terms and conditions
+        </a>
+      </div>
     </div>
   );
 };

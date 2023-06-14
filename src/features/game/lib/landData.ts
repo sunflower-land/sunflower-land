@@ -286,7 +286,7 @@ export const OFFLINE_FARM: GameState = {
       },
     },
   },
-  balance: new Decimal(10),
+  balance: new Decimal(100),
   wardrobe: {
     "Eggplant Onesie": 1,
     "Golden Spatula": 1,
@@ -347,7 +347,7 @@ export const OFFLINE_FARM: GameState = {
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     "Mashed Potato": new Decimal(2),
-    Gold: new Decimal(15),
+    Gold: new Decimal(150),
     "Wooden Compass": new Decimal(20),
     "Dirt Path": new Decimal(100),
     Fence: new Decimal(50),

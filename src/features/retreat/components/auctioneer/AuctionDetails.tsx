@@ -158,7 +158,14 @@ export const AuctionDetails: React.FC<Props> = ({
 
       <div className="flex justify-around flex-wrap">
         <div className="flex flex-col items-center w-48 mb-2">
-          <p className="text-xs  underline mb-0.5">Starting Time</p>
+          <a
+            href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs  underline mb-0.5"
+          >
+            Starting Time
+          </a>
           {isMintStarted ? (
             <Label type="warning" className="mt-1">
               Auction is live
@@ -168,7 +175,14 @@ export const AuctionDetails: React.FC<Props> = ({
           )}
         </div>
         <div className="flex  flex-col  items-center  w-48  mb-2">
-          <p className="text-xs  underline mb-0.5">Auction Period</p>
+          <a
+            href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs  underline mb-0.5"
+          >
+            Auction Period
+          </a>
           {isMintComplete ? (
             <Label type="danger" className="mt-1">
               Auction closed
