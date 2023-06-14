@@ -3,7 +3,6 @@ import { randomID } from "lib/utils/random";
 import { bid } from "features/game/actions/bid";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
-import { autosave } from "features/game/actions/autosave";
 import { BumpkinItem } from "../types/bumpkin";
 import { CONFIG } from "lib/config";
 import { loadAuctions } from "features/retreat/components/auctioneer/actions/loadAuctions";
@@ -99,7 +98,6 @@ export type AuctioneerMachineState = {
     | "checkingResults"
     | "loser"
     | "missingAuction"
-    | "refunding"
     | "refunded"
     | "pending"
     | "winner"
@@ -130,6 +128,7 @@ export const createAuctioneerMachine = ({
         auctionId: "test-auction-1",
         token: "",
         deviceTrackerId: "",
+
         auctions: [
           {
             auctionId: "test-auction-1",
@@ -328,52 +327,17 @@ export const createAuctioneerMachine = ({
 
         missingAuction: {
           on: {
-            REFUND: "refunding",
+            REFUND: "refunded",
           },
         },
 
         loser: {
           on: {
-            REFUND: "refunding",
+            REFUND: "refunded",
           },
         },
 
         pending: {},
-
-        refunding: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              console.log({ event });
-              const { farm } = await autosave({
-                farmId: Number(context.farmId),
-                sessionId: "X",
-                actions: [
-                  {
-                    type: "bid.refunded",
-                    createdAt: new Date(),
-                  } as any,
-                ],
-                token: context.token as string,
-                fingerprint: "0x",
-                deviceTrackerId: context.deviceTrackerId as string,
-                transactionId: context.transactionId as string,
-              });
-
-              onUpdate(farm as GameState);
-            },
-            onDone: {
-              target: "refunded",
-              actions: assign({
-                bid: (_) => undefined,
-              }),
-            },
-            onError: {
-              target: "error",
-            },
-          },
-        },
-
         refunded: {},
 
         error: {

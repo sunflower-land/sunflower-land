@@ -74,10 +74,6 @@ export const AuctioneerContent: React.FC<Props> = ({
     return <span className="loading">Placing bid</span>;
   }
 
-  if (auctioneerState.matches("refunding")) {
-    return <span className="loading">Loading</span>;
-  }
-
   if (auctioneerState.matches("refunded")) {
     return <Refunded />;
   }

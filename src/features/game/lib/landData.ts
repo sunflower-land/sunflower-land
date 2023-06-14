@@ -334,7 +334,7 @@ export const OFFLINE_FARM: GameState = {
     Cauliflower: new Decimal(700),
     Beetroot: new Decimal(1000),
     Cabbage: new Decimal(1000),
-    Wood: new Decimal(300),
+    Wood: new Decimal(500),
     "Luminous Lantern": new Decimal(5),
     "Radiance Lantern": new Decimal(3),
     Market: new Decimal(1),
@@ -356,7 +356,7 @@ export const OFFLINE_FARM: GameState = {
     Artist: new Decimal(1),
     Sunflower: new Decimal(100),
     Potato: new Decimal(100),
-    Stone: new Decimal(100),
+    Stone: new Decimal(500),
     Axe: new Decimal(10),
     "Rusty Shovel": new Decimal(5),
     "Maneki Neko": new Decimal(2),
@@ -372,7 +372,7 @@ export const OFFLINE_FARM: GameState = {
     "Fruit Patch": new Decimal(3),
     "Gold Rock": new Decimal(3),
     "Easter Bush": new Decimal(3),
-    "Block Buck": new Decimal(1),
+    "Block Buck": new Decimal(10),
 
     "Human War Banner": new Decimal(1),
 

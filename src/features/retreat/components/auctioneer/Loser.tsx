@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -11,14 +11,19 @@ import {
   AuctionResults,
   MachineInterpreter,
 } from "features/game/lib/auctionMachine";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   auctionService: MachineInterpreter;
   results: AuctionResults;
 }
 export const Loser: React.FC<Props> = ({ auctionService, results }) => {
+  const { gameService } = useContext(Context);
+
   const refund = () => {
+    gameService.send("bid.refunded");
     auctionService.send("REFUND");
+    gameService.send("SAVE");
   };
 
   const minimum = results.minimum;
