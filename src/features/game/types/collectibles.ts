@@ -87,7 +87,8 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     sfl: new Decimal(0),
   },
   Bale: {
-    description: "",
+    description:
+      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
     ingredients: {
       Wheat: new Decimal(3),
     },

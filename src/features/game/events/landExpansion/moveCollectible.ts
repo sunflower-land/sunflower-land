@@ -1,6 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { CollectibleName } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import { Collectibles, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export const MOVE_COLLECTIBLE_SECONDS: Partial<
@@ -31,6 +31,21 @@ type Options = {
   createdAt?: number;
 };
 
+function getAOECooldown({
+  name,
+  collectibles,
+  createdAt,
+}: {
+  name: CollectibleName;
+  collectibles: Collectibles;
+  createdAt: number;
+}): number {
+  const collectibleGroup = collectibles[name];
+  const cooldown = COLLECTIBLE_PLACE_SECONDS[name] || 0;
+
+  return collectibleGroup ? createdAt + cooldown * 1000 : 0;
+}
+
 export function moveCollectible({
   state,
   action,
@@ -56,30 +71,13 @@ export function moveCollectible({
     throw new Error(MOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_NOT_PLACED);
   }
 
+  collectibleGroup[collectibleToMoveIndex].readyAt = getAOECooldown({
+    name: action.name,
+    collectibles: stateCopy.collectibles,
+    createdAt,
+  });
+
   collectibleGroup[collectibleToMoveIndex].coordinates = action.coordinates;
-
-  if (action.name === "Basic Scarecrow") {
-    const basicScarecrowCooldown =
-      MOVE_COLLECTIBLE_SECONDS["Basic Scarecrow"]! * 1000;
-
-    collectibleGroup[collectibleToMoveIndex].readyAt =
-      createdAt + basicScarecrowCooldown;
-  }
-
-  if (action.name === "Emerald Turtle") {
-    const emeraldTurtleCooldown =
-      MOVE_COLLECTIBLE_SECONDS["Emerald Turtle"]! * 1000;
-
-    collectibleGroup[collectibleToMoveIndex].readyAt =
-      createdAt + emeraldTurtleCooldown;
-  }
-
-  if (action.name === "Tin Turtle") {
-    const tinTurtleCooldown = MOVE_COLLECTIBLE_SECONDS["Tin Turtle"]! * 1000;
-
-    collectibleGroup[collectibleToMoveIndex].readyAt =
-      createdAt + tinTurtleCooldown;
-  }
 
   return stateCopy;
 }

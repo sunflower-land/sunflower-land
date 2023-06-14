@@ -388,4 +388,65 @@ describe("moveCollectible", () => {
       },
     ]);
   });
+
+  it("updates readyAt when moving Bale", () => {
+    const gameState = moveCollectible({
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          Bale: [
+            {
+              id: "123",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+            {
+              id: "456",
+              coordinates: { x: 4, y: 4 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+            {
+              id: "789",
+              coordinates: { x: 8, y: 8 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "collectible.moved",
+        name: "Bale",
+        id: "123",
+        coordinates: { x: 2, y: 2 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(gameState.collectibles["Bale"]).toEqual([
+      {
+        id: "123",
+        coordinates: { x: 2, y: 2 },
+        createdAt: 0,
+        readyAt: dateNow + COLLECTIBLE_PLACE_SECONDS["Bale"]! * 1000,
+      },
+      {
+        id: "456",
+        coordinates: { x: 4, y: 4 },
+        createdAt: 0,
+        readyAt: 0,
+      },
+      {
+        id: "789",
+        coordinates: {
+          x: 8,
+          y: 8,
+        },
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ]);
+  });
 });
