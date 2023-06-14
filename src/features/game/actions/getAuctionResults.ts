@@ -1,5 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { LeaderboardBid } from "../lib/auctionMachine";
 
 type Request = {
   farmId: number;
@@ -14,10 +15,7 @@ type Status = "pending" | "winner" | "loser";
 
 export async function getAuctionResults(request: Request): Promise<{
   status: Status;
-  minimum: {
-    tickets: number;
-    biddedAt: number;
-  };
+  leaderboard: LeaderboardBid[];
   participantCount: number;
   supply: number;
 }> {
@@ -41,7 +39,8 @@ export async function getAuctionResults(request: Request): Promise<{
     throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 
-  const { status, minimum, supply, participantCount } = await response.json();
+  const { status, leaderboard, supply, participantCount } =
+    await response.json();
 
-  return { status, minimum, supply, participantCount };
+  return { status, leaderboard, supply, participantCount };
 }

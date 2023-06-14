@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Bid, GameState } from "features/game/types/game";
+import * as AuthProvider from "features/auth/lib/Provider";
 import {
   AuctionResults,
   MachineInterpreter,
@@ -17,6 +18,7 @@ import { AuctionBid } from "./AuctionBid";
 import { DraftBid } from "./DraftBid";
 import { Refunded } from "./Refunded";
 import { MissingAuction } from "./MissingAuction";
+import { TieBreaker } from "./TieBreaker";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -29,6 +31,8 @@ export const AuctioneerContent: React.FC<Props> = ({
   onMint,
 }) => {
   const [auctioneerState, send] = useActor(auctionService);
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
 
@@ -107,6 +111,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   if (auctioneerState.matches("loser")) {
     return (
       <Loser
+        farmId={authState.context.user.farmId ?? 0}
         auctionService={auctionService}
         results={auctioneerState.context.results as AuctionResults}
       />
@@ -114,7 +119,23 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("winner")) {
-    return <Winner onMint={onMint} bid={auctioneerState.context.bid as Bid} />;
+    return (
+      <Winner
+        onMint={onMint}
+        bid={auctioneerState.context.bid as Bid}
+        farmId={authState.context.user.farmId ?? 0}
+        results={auctioneerState.context.results as AuctionResults}
+      />
+    );
+  }
+  if (auctioneerState.matches("tiebreaker")) {
+    return (
+      <TieBreaker
+        auctionService={auctionService}
+        farmId={authState.context.user.farmId ?? 0}
+        results={auctioneerState.context.results as AuctionResults}
+      />
+    );
   }
 
   if (selectedAuctionId) {

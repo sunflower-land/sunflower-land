@@ -13,7 +13,7 @@ export const HeliosAuction: React.FC = () => {
     context: { state },
   } = gameState;
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <>

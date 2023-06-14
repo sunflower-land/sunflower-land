@@ -254,6 +254,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
+  id: 4,
   dawnBreaker: {
     currentWeek: 7,
     availableLantern: {
@@ -547,7 +548,17 @@ export const OFFLINE_FARM: GameState = {
   treasureIsland: {
     holes: {},
   },
-  auctioneer: {},
+  auctioneer: {
+    bid: {
+      auctionId: "test-auction-1",
+      biddedAt: 0,
+      ingredients: {},
+      sfl: 5,
+      tickets: 30,
+      type: "collectible",
+      collectible: "Beta Bear",
+    },
+  },
   hayseedHank: {
     chore: CHORES[0],
     choresCompleted: 0,

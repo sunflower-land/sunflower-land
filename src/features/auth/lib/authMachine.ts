@@ -214,7 +214,7 @@ export const authMachine = createMachine<
     initial: ART_MODE ? "connected" : "idle",
     context: {
       user: ART_MODE
-        ? { type: "FULL" }
+        ? { type: "FULL", farmId: 1 }
         : {
             type: "GUEST",
             guestKey: getGuestKey(),

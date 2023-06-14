@@ -47,6 +47,7 @@ export const AuctioneerModal: React.FC<Props> = ({
 
   const [auctioneerState, send] = useActor(auctionService);
 
+  console.log({ state: auctioneerState.value });
   useEffect(() => {
     if (isOpen) {
       auctionService.send("OPEN", { gameState });
