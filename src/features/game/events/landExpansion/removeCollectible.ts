@@ -1,13 +1,14 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CollectibleName } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { GameState, PlacedLamp } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import {
   areUnsupportedChickensBrewing,
   removeUnsupportedChickens,
 } from "./removeBuilding";
-import { REMOVAL_RESTRICTIONS } from "features/island/collectibles/removeables";
+import { REMOVAL_RESTRICTIONS } from "features/game/types/removeables";
+import { SEEDS } from "features/game/types/seeds";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -89,6 +90,14 @@ export function removeCollectible({ state, action }: Options) {
     const [restricted] = removalRestriction(state);
     if (restricted)
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_IN_USE);
+  }
+
+  if (action.name === "Kuebiko") {
+    getKeys(SEEDS()).forEach((seed) => {
+      if (stateCopy.inventory[seed]) {
+        delete stateCopy.inventory[seed];
+      }
+    });
   }
 
   bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);

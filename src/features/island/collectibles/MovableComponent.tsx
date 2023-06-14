@@ -31,7 +31,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { ZoomContext } from "components/ZoomProvider";
 import { InnerPanel } from "components/ui/Panel";
-import { hasRestriction } from "./removeables";
+import { hasRestriction } from "../../game/types/removeables";
+import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -324,6 +325,12 @@ export const MoveableComponent: React.FC<MovableProps> = ({
                 />
               )}
             </div>
+            {showRemoveConfirmation && name === "Kuebiko" && (
+              <RemoveKuebikoModal
+                onClose={() => setShowRemoveConfirmation(false)}
+                onRemove={() => remove()}
+              />
+            )}
             {hasRemovalAction && (
               <div
                 className={classNames("group relative cursor-pointer", {
@@ -339,15 +346,17 @@ export const MoveableComponent: React.FC<MovableProps> = ({
               >
                 <img className="w-full" src={SUNNYSIDE.icons.disc} />
                 {isSelected && showRemoveConfirmation ? (
-                  <img
-                    className="absolute"
-                    src={SUNNYSIDE.icons.confirm}
-                    style={{
-                      width: `${PIXEL_SCALE * 12}px`,
-                      right: `${PIXEL_SCALE * 3}px`,
-                      top: `${PIXEL_SCALE * 3}px`,
-                    }}
-                  />
+                  <>
+                    <img
+                      className="absolute"
+                      src={SUNNYSIDE.icons.confirm}
+                      style={{
+                        width: `${PIXEL_SCALE * 12}px`,
+                        right: `${PIXEL_SCALE * 3}px`,
+                        top: `${PIXEL_SCALE * 3}px`,
+                      }}
+                    />
+                  </>
                 ) : (
                   <>
                     <img
