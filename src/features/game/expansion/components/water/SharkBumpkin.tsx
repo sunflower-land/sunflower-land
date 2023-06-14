@@ -13,8 +13,6 @@ import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
 
-export const LAND_WIDTH = 6;
-
 interface Props {
   x: number;
   y: number;

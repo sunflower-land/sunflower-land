@@ -165,7 +165,11 @@ export const Rooms: React.FC = () => {
   );
 };
 
-export const PartyIsland: React.FC = () => {
+interface Props {
+  offset: number;
+}
+
+export const PartyIsland: React.FC<Props> = ({ offset }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -291,7 +295,7 @@ export const PartyIsland: React.FC = () => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      <MapPlacement x={20} y={15} width={6}>
+      <MapPlacement x={10 + offset} y={3} width={6}>
         <img
           src={partyIsland}
           style={{

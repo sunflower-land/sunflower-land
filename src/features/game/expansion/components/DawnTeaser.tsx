@@ -11,7 +11,11 @@ import { MapPlacement } from "./MapPlacement";
 import { PromotingModal } from "./Promoting";
 import { NPC_WEARABLES } from "lib/npcs";
 
-export const DawnTeaser: React.FC = () => {
+interface Props {
+  offset: number;
+}
+
+export const DawnTeaser: React.FC<Props> = ({ offset }) => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -25,7 +29,7 @@ export const DawnTeaser: React.FC = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
-      <MapPlacement x={0} y={-12} width={6}>
+      <MapPlacement x={0} y={-6 - offset} width={6}>
         <img
           src={island}
           style={{
