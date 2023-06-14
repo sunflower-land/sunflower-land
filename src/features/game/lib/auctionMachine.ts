@@ -264,9 +264,10 @@ export const createAuctioneerMachine = ({
               target: "bidded",
               cond: (context) => !!context.bid,
             },
-            // {
-            //   target: "introduction",
-            // },
+            {
+              target: "introduction",
+              cond: () => !localStorage.getItem("auctioneer_tutorial"),
+            },
             {
               target: "playing",
             },
@@ -276,6 +277,11 @@ export const createAuctioneerMachine = ({
           on: {
             CONTINUE: {
               target: "playing",
+              actions: () =>
+                localStorage.setItem(
+                  "auctioneer_tutorial",
+                  Date.now().toString()
+                ),
             },
           },
         },

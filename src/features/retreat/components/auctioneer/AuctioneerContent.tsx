@@ -40,7 +40,8 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <>
         <div className="p-2">
-          <p>Intro</p>
+          <p className="text-sm mb-2">{`I've travelled far and wide across Sunflower Land in search for exotic treasures to bring to my fellow Bumpkins.`}</p>
+          <p className="text-sm mb-2">{`Don't miss one of the Auctions where a swing of my mighty hammer can turn your hard-earned resources into rare, minted marvels!`}</p>
         </div>
         <Button onClick={() => send("CONTINUE")}>Continue</Button>
       </>

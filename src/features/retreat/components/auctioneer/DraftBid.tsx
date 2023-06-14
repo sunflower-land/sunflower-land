@@ -140,14 +140,7 @@ export const DraftBid: React.FC<Props> = ({
           }.`}
         </p>
       </div>
-      <div className="flex mb-2">
-        <img src={SUNNYSIDE.icons.happy} className="h-6 mr-2" />
-        <div>
-          <p className="text-sm">
-            {`Winners only pay the lowest successful bid price (the ${auction.supply}th bid)`}
-          </p>
-        </div>
-      </div>
+
       <div className="flex mb-4">
         <img src={SUNNYSIDE.icons.neutral} className="h-6 mr-2" />
         <div>
