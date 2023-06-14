@@ -129,11 +129,11 @@ export const createAuctioneerMachine = ({
       initial: "initialising",
       context: {
         farmId: 0,
-        canAccess: false,
         transactionId: "?",
         auctionId: "test-auction-1",
         token: "",
         deviceTrackerId: "",
+        canAccess: false,
 
         // Offline testing
         results: {
@@ -252,6 +252,13 @@ export const createAuctioneerMachine = ({
         },
         initialising: {
           always: [
+            {
+              target: "noAccess",
+              cond: (context) => {
+                console.log({ canAccess: context.canAccess });
+                return !context.canAccess;
+              },
+            },
             {
               target: "missingAuction",
               cond: (context) =>
@@ -397,6 +404,7 @@ export const createAuctioneerMachine = ({
         },
 
         winner: {},
+        noAccess: {},
 
         missingAuction: {
           on: {

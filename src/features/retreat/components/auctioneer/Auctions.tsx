@@ -12,6 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
+import { AuctionsComingSoon } from "./AuctionsComingSoon";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -26,21 +27,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
     (auction) => auction.endAt > Date.now()
   );
   if (currentAuctions.length === 0) {
-    return (
-      <div className="p-2 flex flex-col items-center">
-        <p>Under construction!</p>
-        <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/3" />
-        <p className="my-2 text-sm">This feature is coming soon.</p>
-        <a
-          href="https://docs.sunflower-land.com/player-guides/islands/goblin-retreat/goblin-auctioneer"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs underline"
-        >
-          Read more
-        </a>
-      </div>
-    );
+    return <AuctionsComingSoon />;
   }
 
   return (

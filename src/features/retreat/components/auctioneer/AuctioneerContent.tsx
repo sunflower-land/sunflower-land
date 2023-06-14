@@ -19,6 +19,7 @@ import { DraftBid } from "./DraftBid";
 import { Refunded } from "./Refunded";
 import { MissingAuction } from "./MissingAuction";
 import { TieBreaker } from "./TieBreaker";
+import { AuctionsComingSoon } from "./AuctionsComingSoon";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -35,6 +36,10 @@ export const AuctioneerContent: React.FC<Props> = ({
   const [authState] = useActor(authService);
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
+
+  if (auctioneerState.matches("noAccess")) {
+    return <AuctionsComingSoon />;
+  }
 
   if (auctioneerState.matches("introduction")) {
     return (

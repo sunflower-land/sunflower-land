@@ -37,7 +37,8 @@ export type BumpkinHair =
   | "Blacksmith Hair"
   | "Fire Hair"
   | "Luscious Hair"
-  | "Cupid Hair";
+  | "Cupid Hair"
+  | "Tangerine Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -66,7 +67,8 @@ export type BumpkinShirt =
   | "Summer Top"
   | "Striped Red Shirt"
   | "Striped Yellow Shirt"
-  | "Trial Tee";
+  | "Trial Tee"
+  | "Bidder's Brocade";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -88,7 +90,8 @@ export type BumpkinTool =
   | "Mushroom Lamp"
   | "Dawn Lamp"
   | "Water Gun"
-  | "Grave Diggers Shovel";
+  | "Grave Diggers Shovel"
+  | "Auction Megaphone";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -97,7 +100,8 @@ export type BumpkinShoe =
   | "Bumpkin Boots"
   | "Peg Leg"
   | "Cupid Sandals"
-  | "Mushroom Shoes";
+  | "Mushroom Shoes"
+  | "Leather Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -122,7 +126,8 @@ export type BumpkinHat =
   | "St Patricks Hat"
   | "Squid Hat"
   | "Fox Hat"
-  | "Mushroom Hat";
+  | "Mushroom Hat"
+  | "Harry's Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -138,7 +143,8 @@ export type BumpkinPant =
   | "Lifeguard Pants"
   | "Beach Trunks"
   | "Wavy Pants"
-  | "Mushroom Pants";
+  | "Mushroom Pants"
+  | "Auctioneer Slacks";
 
 export type BumpkinDress = "Cupid Dress" | "Beach Sarong" | "Tropical Sarong";
 export type BumpkinSecondaryTool =
@@ -317,6 +323,12 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Wavy Pants": 142,
   "White Turtle Neck": 143,
   "Trial Tee": 144,
+  "Auction Megaphone": 145,
+  "Auctioneer Slacks": 146,
+  "Bidder's Brocade": 147,
+  "Harry's Hat": 148,
+  "Leather Shoes": 149,
+  "Tangerine Hair": 150,
 };
 
 // The reverse of above
@@ -369,6 +381,14 @@ export type BumpkinPart = keyof Equipped;
 export type WalletItems = Record<BumpkinItem, number>;
 
 export const UNLIMITED_SUPPLY = 1000000;
+
+// The reverse of above
+export const BUMPKIN_ITEMS: Record<string, number> = Object.assign(
+  {},
+  ...Object.entries(ITEM_IDS).map(([a, b]) => ({ [b]: a }))
+);
+
+export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
 
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Beige Farmer Potion": "body",
@@ -510,6 +530,12 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Wavy Pants": "pants",
   "White Turtle Neck": "shirt",
   "Trial Tee": "shirt",
+  "Auction Megaphone": "tool",
+  "Auctioneer Slacks": "pants",
+  "Bidder's Brocade": "shirt",
+  "Harry's Hat": "hat",
+  "Leather Shoes": "shoes",
+  "Tangerine Hair": "hair",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
