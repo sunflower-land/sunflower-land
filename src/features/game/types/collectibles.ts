@@ -90,7 +90,10 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     description:
       "A poultry's favorite neighbor, providing a cozy retreat for chickens",
     ingredients: {
-      Wheat: new Decimal(3),
+      Egg: new Decimal(200),
+      Wood: new Decimal(100),
+      Wheat: new Decimal(30),
+      Iron: new Decimal(20),
     },
     boost: "Adjacent chickens produce +0.2 Eggs",
     sfl: new Decimal(0),
