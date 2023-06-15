@@ -17,7 +17,8 @@ type RESTRICTION_REASON =
   | "Trees are chopped"
   | `${CommodityName} is mined`
   | "Treasure holes are dug"
-  | "Genie Lamp rubbed";
+  | "Genie Lamp rubbed"
+  | "Paw shaken";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -99,6 +100,25 @@ function areAnyTreasureHolesDug(game: GameState): Restriction {
   return [holesDug, "Treasure holes are dug"];
 }
 
+export const canShake = (shakenAt?: number) => {
+  if (!shakenAt) return true;
+
+  const today = new Date().toISOString().substring(0, 10);
+
+  return new Date(shakenAt).toISOString().substring(0, 10) !== today;
+};
+
+function hasShakenManeki(game: GameState): Restriction {
+  const manekiNekos = game.collectibles["Maneki Neko"] ?? [];
+  const hasShakenRecently = manekiNekos.some((maneki) => {
+    const shakenAt = maneki.shakenAt || 0;
+
+    return !canShake(shakenAt);
+  });
+
+  return [hasShakenRecently, "Paw shaken"];
+}
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
@@ -143,6 +163,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Nugget: (game) => areAnyGoldsMined(game),
 
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
+
+  "Maneki Neko": (game) => hasShakenManeki(game),
 };
 
 export const hasRestriction = (
