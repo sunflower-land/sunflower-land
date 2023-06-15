@@ -145,6 +145,7 @@ export const DraftBid: React.FC<Props> = ({
         <Button
           className="w-10 h-10 mr-2 relative cursor-pointer"
           disabled={tickets === 1}
+          longPress
           onClick={() => setTickets((prev) => (prev > 1 ? prev - 1 : prev))}
         >
           <img
@@ -194,6 +195,7 @@ export const DraftBid: React.FC<Props> = ({
           onClick={() =>
             setTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
           }
+          longPress
         >
           <img
             src={SUNNYSIDE.icons.plus}

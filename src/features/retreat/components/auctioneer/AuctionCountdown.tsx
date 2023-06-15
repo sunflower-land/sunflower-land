@@ -43,7 +43,6 @@ const Countdown: React.FC<{ auction: Auction }> = ({ auction }) => {
 };
 
 export const AuctionCountdown: React.FC = () => {
-  console.log("YO");
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
