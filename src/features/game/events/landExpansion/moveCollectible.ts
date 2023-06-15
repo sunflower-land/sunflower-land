@@ -10,6 +10,7 @@ export const MOVE_COLLECTIBLE_SECONDS: Partial<
   "Basic Scarecrow": 60 * 10,
   "Emerald Turtle": 60 * 60 * 24 + 100,
   "Tin Turtle": 60 * 60 * 4 + 100,
+  Bale: 60 * 60 * 48 + 100,
 };
 
 export enum MOVE_COLLECTIBLE_ERRORS {
@@ -41,7 +42,7 @@ function getAOECooldown({
   createdAt: number;
 }): number {
   const collectibleGroup = collectibles[name];
-  const cooldown = COLLECTIBLE_PLACE_SECONDS[name] || 0;
+  const cooldown = MOVE_COLLECTIBLE_SECONDS[name] || 0;
 
   return collectibleGroup ? createdAt + cooldown * 1000 : 0;
 }

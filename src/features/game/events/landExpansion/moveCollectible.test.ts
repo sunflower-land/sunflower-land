@@ -430,7 +430,7 @@ describe("moveCollectible", () => {
         id: "123",
         coordinates: { x: 2, y: 2 },
         createdAt: 0,
-        readyAt: dateNow + COLLECTIBLE_PLACE_SECONDS["Bale"]! * 1000,
+        readyAt: dateNow + MOVE_COLLECTIBLE_SECONDS["Bale"]! * 1000,
       },
       {
         id: "456",
