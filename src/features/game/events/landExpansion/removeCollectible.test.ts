@@ -7,6 +7,7 @@ import {
   removeCollectible,
   REMOVE_COLLECTIBLE_ERRORS,
 } from "./removeCollectible";
+import { SEEDS } from "features/game/types/seeds";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -329,5 +330,37 @@ describe("removeCollectible", () => {
         },
       })
     ).toThrow("Genie Lamp is in use");
+  });
+
+  it("burns all seeds if a Kuebiko is removed", () => {
+    const gameState = removeCollectible({
+      state: {
+        ...GAME_STATE,
+        crops: {},
+        inventory: {
+          Kuebiko: new Decimal(1),
+          ...Object.fromEntries(
+            Object.entries(SEEDS()).map(([name]) => [name, new Decimal(1)])
+          ),
+        },
+        collectibles: {
+          Kuebiko: [
+            {
+              id: "123",
+              createdAt: 0,
+              coordinates: { x: 1, y: 1 },
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "collectible.removed",
+        name: "Kuebiko",
+        id: "123",
+      },
+    });
+
+    expect(gameState.inventory).toStrictEqual({ Kuebiko: new Decimal(1) });
   });
 });

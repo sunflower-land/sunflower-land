@@ -1,8 +1,11 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { MOVE_COLLECTIBLE_ERRORS, moveCollectible } from "./moveCollectible";
-import { COLLECTIBLE_PLACE_SECONDS } from "./placeCollectible";
+import {
+  MOVE_COLLECTIBLE_ERRORS,
+  MOVE_COLLECTIBLE_SECONDS,
+  moveCollectible,
+} from "./moveCollectible";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -305,7 +308,7 @@ describe("moveCollectible", () => {
         id: "123",
         coordinates: { x: 2, y: 2 },
         createdAt: 0,
-        readyAt: dateNow + COLLECTIBLE_PLACE_SECONDS["Emerald Turtle"]! * 1000,
+        readyAt: dateNow + MOVE_COLLECTIBLE_SECONDS["Emerald Turtle"]! * 1000,
       },
       {
         id: "456",
@@ -366,7 +369,7 @@ describe("moveCollectible", () => {
         id: "123",
         coordinates: { x: 2, y: 2 },
         createdAt: 0,
-        readyAt: dateNow + COLLECTIBLE_PLACE_SECONDS["Tin Turtle"]! * 1000,
+        readyAt: dateNow + MOVE_COLLECTIBLE_SECONDS["Tin Turtle"]! * 1000,
       },
       {
         id: "456",

@@ -3,11 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GoblinProvider";
-import {
-  Collectibles,
-  Inventory,
-  InventoryItemName,
-} from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { shortAddress } from "lib/utils/shortAddress";
 import { KNOWN_IDS } from "features/game/types";
@@ -18,12 +14,11 @@ import { Box } from "components/ui/Box";
 
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
-import { canWithdraw } from "../lib/bankUtils";
 
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { isNeverWithdrawable } from "features/game/types/withdrawables";
+import { getKeys } from "features/game/types/craftables";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { WITHDRAWABLES } from "features/game/types/withdrawables";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -68,13 +63,11 @@ export const WithdrawItems: React.FC<Props> = ({
   const [goblinState] = useActor(goblinService);
 
   const [inventory, setInventory] = useState<Inventory>({});
-  const [collectibles, setCollectibles] = useState<Collectibles>({});
   const [selected, setSelected] = useState<Inventory>({});
 
   useEffect(() => {
     const bankItems = getBankItems(goblinState.context.state.inventory);
     setInventory(bankItems);
-    setCollectibles(goblinState.context.state.collectibles);
     setSelected({});
   }, []);
 
@@ -107,22 +100,8 @@ export const WithdrawItems: React.FC<Props> = ({
     };
   };
 
-  // withdrawable items includes items a player has in their inventory or collectibles
-  // transformation has already applied to inventory so the list of collectibles keys is needed
-  const withdrawableItems = [
-    ...new Set([...getKeys(inventory), ...getKeys(collectibles)]),
-  ]
-    .filter((item) => {
-      const areItemsPlaced =
-        collectibles[item as CollectibleName]?.length ?? 0 > 0;
-      const hasUnselectedItemsInInventory = (
-        selected[item] ?? new Decimal(0)
-      ).lessThan(inventory[item] ?? new Decimal(0));
-      return (
-        !isNeverWithdrawable(item) &&
-        (areItemsPlaced || hasUnselectedItemsInInventory)
-      );
-    })
+  const withdrawableItems = getKeys(inventory)
+    .filter((itemName) => WITHDRAWABLES[itemName])
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const selectedItems = getKeys(selected)
@@ -161,26 +140,17 @@ export const WithdrawItems: React.FC<Props> = ({
         <div className="flex flex-wrap h-fit -ml-1.5">
           {withdrawableItems.map((itemName) => {
             const details = makeItemDetails(itemName);
-            const gameState = goblinState.context.state;
-
-            const withdrawable = canWithdraw({
-              itemName: itemName,
-              gameState: gameState,
-              selectedAmont: selected[itemName] ?? new Decimal(0),
-            });
 
             // The inventory amount that is not placed
             const inventoryCount = inventory[itemName] ?? new Decimal(0);
-            const locked = !withdrawable || inventoryCount.lessThanOrEqualTo(0);
 
             return (
               <Box
                 count={inventoryCount}
                 key={itemName}
+                disabled={inventoryCount.lessThanOrEqualTo(0)}
                 onClick={() => onAdd(itemName)}
                 image={details.image}
-                locked={locked}
-                disabled={locked}
                 canBeLongPressed={allowLongpressWithdrawal}
               />
             );
