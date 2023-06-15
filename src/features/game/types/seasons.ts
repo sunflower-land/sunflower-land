@@ -13,8 +13,6 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
   },
 };
 
-export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
-
 type SeasonalTicket = "Solar Flare Ticket" | "Dawn Breaker Ticket";
 
 export function getCurrentSeason(): SeasonName {

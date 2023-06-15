@@ -272,19 +272,6 @@ export type WarCollectionOffer = {
   }[];
 };
 
-export type GrubShopOrder = {
-  id: string;
-  name: CookableName;
-  sfl: Decimal;
-};
-
-// TODO - we need to store the opening and closing times for the shop
-export type GrubShop = {
-  opensAt: number;
-  closesAt: number;
-  orders: GrubShopOrder[];
-};
-
 export type Position = {
   x: number;
   y: number;
@@ -530,11 +517,6 @@ export interface GameState {
   buildings: Buildings;
   collectibles: Collectibles;
   delivery: Delivery;
-  grubShop?: GrubShop;
-  grubOrdersFulfilled?: {
-    id: string;
-    fulfilledAt: number;
-  }[];
   treasureIsland?: {
     holes: Record<number, TreasureHole>;
     rareTreasure?: {

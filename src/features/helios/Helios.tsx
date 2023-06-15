@@ -3,7 +3,6 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect, useState } from "react";
 
 import background from "assets/land/helios.webp";
-import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { Potions } from "./components/potions/Potions";
 import { ExoticShop } from "./components/exoticShop/ExoticShop";
@@ -66,7 +65,6 @@ export const Helios: React.FC = () => {
           id={Section.HeliosBackGround}
         />
         <Decorations />
-        <GrubShop />
         <HeliosBlacksmith />
         <Potions />
         <GarbageCollector />

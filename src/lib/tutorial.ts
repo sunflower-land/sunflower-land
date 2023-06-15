@@ -7,7 +7,6 @@ type TutorialName =
   | "Boat"
   | "BuildingMenu"
   | "Bumpkin"
-  | "Grub Shop"
   | "Treasure Detector"
   | "Pirate Quest"
   | "Garbage Collector"

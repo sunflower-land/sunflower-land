@@ -3,7 +3,6 @@ import Decimal from "decimal.js-light";
 import {
   Bumpkin,
   Collectibles,
-  GrubShopOrder,
   Inventory,
 } from "../../types/game";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
@@ -115,19 +114,4 @@ export const getFoodExpBoost = (
   }
 
   return boostedExp.toNumber();
-};
-
-export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {
-  const { skills, equipped } = bumpkin;
-  let mul = 1;
-
-  if (skills["Michelin Stars"]) {
-    mul += 0.05;
-  }
-
-  if (order.name in CAKES() && equipped.coat === "Chef Apron") {
-    mul += 0.2;
-  }
-
-  return order.sfl.mul(mul);
 };

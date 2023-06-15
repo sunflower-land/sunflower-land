@@ -36,13 +36,6 @@ export const SeasonalNPCModal: React.FC = () => {
         >
           How to collect tickets?
         </a>
-        <div className="flex mt-2 items-center">
-          <img
-            src={ITEM_DETAILS["Pumpkin Soup"].image}
-            className="w-6 h-6 mr-2 object-contain"
-          />
-          <p className="text-sm">Fulfill orders at the Grub Shop</p>
-        </div>
         <div className="flex mt-0.5 items-center">
           <img
             src={CROP_LIFECYCLE.Sunflower.crop}
