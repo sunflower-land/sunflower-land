@@ -75,6 +75,33 @@ export function isLocked(
     }
   }
 
+  if (plot.crop && collectibles["Scarecrow 2"]?.[0]) {
+    const basicScarecrowCoordinates =
+      collectibles["Scarecrow 2"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scarecrow 2"];
+
+    const scarecrowPosition: Position = {
+      x: basicScarecrowCoordinates.x,
+      y: basicScarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isBasicCrop &&
+      isWithinAOE("Scarecrow 2", scarecrowPosition, plotPosition)
+    ) {
+      return true;
+    }
+  }
+
   return false;
 }
 

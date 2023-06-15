@@ -10,7 +10,8 @@ export type HeliosBlacksmithItem =
   | "Immortal Pear"
   | "Treasure Map"
   | "Basic Scarecrow"
-  | "Bale";
+  | "Bale"
+  | "Scarecrow 2";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -97,6 +98,14 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     },
     sfl: new Decimal(5),
     boost: "Adjacent chickens produce +0.2 Eggs",
+  },
+  "Scarecrow 2": {
+    description: "",
+    ingredients: {
+      Wood: new Decimal(15),
+    },
+    boost: "+0.2 yield on medium level crops",
+    sfl: new Decimal(2),
   },
 };
 

@@ -149,7 +149,11 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, boolean> = {
   "Immortal Pear": false,
   "Treasure Map": false,
   "Basic Scarecrow": false,
+<<<<<<< HEAD
   Bale: false,
+=======
+  "Scarecrow 2": false,
+>>>>>>> 4406f70fe ([FEAT] scarecrow 2)
 };
 
 const commodities: Record<CommodityName, boolean> = {

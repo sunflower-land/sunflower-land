@@ -165,6 +165,7 @@ import classNames from "classnames";
 import lockIcon from "assets/skills/lock.png";
 import { SolarLantern } from "./components/SolarLantern";
 import { hasMoveRestriction } from "features/game/types/removeables";
+import { Scarecrow2 } from "./components/Scarecrow2";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -247,13 +248,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Scarecrows
   Nancy,
   Scarecrow,
-  Kuebiko,
 
   // AoE
   "Basic Scarecrow": BasicScarecrow,
   "Emerald Turtle": EmeraldTurtle,
   "Tin Turtle": TinTurtle,
   Bale: Bale,
+  "Scarecrow 2": Scarecrow2,
 
   "Carrot Sword": CarrotSword,
 
@@ -403,6 +404,33 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       />
       <div
         className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Scarecrow 2": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
+    >
+      <img src={ITEM_DETAILS["Scarecrow 2"].image} className="w-full" />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
