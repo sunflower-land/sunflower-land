@@ -459,6 +459,7 @@ const travelingSalesmanItems: Record<TravelingSalesmanItem, boolean> = {
 };
 
 const soldOut: Record<SoldOutCollectibleName, boolean> = {
+  "Sir Goldensnout": false,
   "Peeled Potato": true,
   "Christmas Snow Globe": true,
   "Beta Bear": false,

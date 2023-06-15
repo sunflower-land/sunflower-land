@@ -328,7 +328,11 @@ export function detectCollision(state: GameState, position: Position) {
   );
 }
 
-export type AOEItemName = "Basic Scarecrow" | "Emerald Turtle" | "Tin Turtle";
+export type AOEItemName =
+  | "Basic Scarecrow"
+  | "Emerald Turtle"
+  | "Tin Turtle"
+  | "Sir Goldensnout";
 
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.

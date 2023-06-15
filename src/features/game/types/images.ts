@@ -381,6 +381,7 @@ import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
+import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -2188,5 +2189,10 @@ export const ITEM_DETAILS: Items = {
   "Genie Bear": {
     image: genieBear,
     description: "Exactly what I wished for!",
+  },
+  "Sir Goldensnout": {
+    image: sirGoldenSnout,
+    description:
+      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
   },
 };
