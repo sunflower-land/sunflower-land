@@ -53,12 +53,73 @@ export const DraftBid: React.FC<Props> = ({
   onBack,
 }) => {
   const [tickets, setTickets] = useState(getInitialTickets(auction, gameState));
+  const [showConfirm, setShowConfirm] = useState(false);
   const end = useCountdown(auction.endAt);
 
   const missingSFL = gameState.balance.lt(auction.sfl * tickets);
   const missingIngredients = getKeys(auction.ingredients).some((name) =>
     gameState.inventory[name]?.lt((auction.ingredients[name] ?? 0) * tickets)
   );
+
+  if (showConfirm) {
+    return (
+      <div
+        className="flex flex-col justify-center items-center relative"
+        style={{ height: "200px" }}
+      >
+        <div className="absolute -top-2 right-0">
+          {TimerDisplay({
+            time: end,
+            fontSize: 18,
+            color: end.minutes >= 1 ? "white" : "red",
+          })}
+        </div>
+        <div className="p-2 flex-1 flex flex-col items-center justify-center">
+          <p className="text-sm mb-2">
+            Are you sure you want to place this bid?
+          </p>
+          <div className="flex items-center flex-wrap justify-center mb-4">
+            {auction.sfl > 0 && (
+              <div className={classNames("flex items-center  mb-1 mr-3")}>
+                <div>
+                  <p className="mr-1 text-right text-sm">
+                    {auction.sfl * tickets}
+                  </p>
+                </div>
+                <img src={sflIcon} className="h-5" />
+              </div>
+            )}
+            {getKeys(auction.ingredients).map((name) => (
+              <div className="flex items-center mb-1 mr-3" key={name}>
+                <div>
+                  <p className={classNames("mr-1 text-right text-sm")}>
+                    {(auction.ingredients[name] ?? 0) * tickets}
+                  </p>
+                </div>
+                <img src={ITEM_DETAILS[name].image} className="h-5" />
+              </div>
+            ))}
+          </div>
+
+          <p className="text-xs mb-2">
+            Bids cannot be changed once they have been placed.
+          </p>
+        </div>
+        <div className="flex w-full">
+          <Button className="mr-1" onClick={() => setShowConfirm(false)}>
+            Back
+          </Button>
+          <Button
+            onClick={() => {
+              onBid(tickets);
+            }}
+          >
+            Confirm
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-2 relative">
@@ -188,9 +249,7 @@ export const DraftBid: React.FC<Props> = ({
       </div>
 
       <Button
-        onClick={() => {
-          onBid(tickets);
-        }}
+        onClick={() => setShowConfirm(true)}
         disabled={
           missingSFL || missingIngredients || Date.now() > auction.endAt
         }

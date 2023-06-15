@@ -96,16 +96,12 @@ export const NPCModals: React.FC = () => {
           </CloseButtonPanel>
         )}
         {npc === "hammerin' harry" && (
-          <CloseButtonPanel
+          <SpeakingModal
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.lily}
-          >
-            <div className="p-2">
-              <p className="mb-2">
-                Gather round Bumpkins, an auction is about to begin!
-              </p>
-            </div>
-          </CloseButtonPanel>
+            bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+            text={["Gather round Bumpkins, an auction is about to begin."]}
+            npc="hammerin' harry"
+          />
         )}
         {npc === "grimbly" && (
           <CloseButtonPanel
