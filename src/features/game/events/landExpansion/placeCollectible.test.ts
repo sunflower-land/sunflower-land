@@ -126,7 +126,7 @@ describe("Place Collectible", () => {
     expect(state.collectibles["Scarecrow"]?.[1]).toEqual({
       id: expect.any(String),
       coordinates: { x: 0, y: 0 },
-      readyAt: date + 5 * 60 * 1000,
+      readyAt: date,
       createdAt: date,
     });
   });
