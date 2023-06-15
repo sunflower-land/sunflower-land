@@ -139,18 +139,17 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="mb-2 flex items-center">
+      <div className="mb-2 flex flex-col items-center">
+        <span className="text-xs mb-1">Requirements</span>
         <div className="flex items-center justify-center">
           {item.sfl > 0 && (
-            <div className="flex items-center mr-3">
-              <span className="text-sm mr-1">{item.sfl}</span>
-              <img src={token} className="h-5" />
+            <div className="flex items-center">
+              <img src={token} className="h-6" />
             </div>
           )}
           {getKeys(item.ingredients).map((name) => (
-            <div className="flex items-center mr-3" key={name}>
-              <span className="text-sm mr-1">{item.ingredients[name]}</span>
-              <img src={ITEM_DETAILS[name].image} className="h-5" />
+            <div className="flex items-center ml-1" key={name}>
+              <img src={ITEM_DETAILS[name].image} className="h-6" />
             </div>
           ))}
         </div>

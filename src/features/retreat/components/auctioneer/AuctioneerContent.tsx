@@ -47,6 +47,14 @@ export const AuctioneerContent: React.FC<Props> = ({
         <div className="p-2">
           <p className="text-sm mb-2">{`I've travelled far and wide across Sunflower Land in search for exotic treasures to bring to my fellow Bumpkins.`}</p>
           <p className="text-sm mb-2">{`Don't miss one of the Auctions where a swing of my mighty hammer can turn your hard-earned resources into rare, minted marvels!`}</p>
+          <a
+            href="https://docs.sunflower-land.com/player-guides/auctions"
+            className="mx-auto text-xxs underline  pb-2 pt-2"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Read more
+          </a>
         </div>
         <Button onClick={() => send("CONTINUE")}>Continue</Button>
       </>
@@ -125,12 +133,17 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("winner")) {
+    const auction = auctioneerState.context.auctions.find(
+      (auction) => auction.auctionId === auctioneerState.context.bid?.auctionId
+    ) as IAuction;
+
     return (
       <Winner
         onMint={onMint}
         bid={auctioneerState.context.bid as Bid}
         farmId={authState.context.user.farmId ?? 0}
         results={auctioneerState.context.results as AuctionResults}
+        auction={auction}
       />
     );
   }

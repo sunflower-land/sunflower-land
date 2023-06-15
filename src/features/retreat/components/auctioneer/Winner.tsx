@@ -4,16 +4,28 @@ import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";
 
 import { AuctionLeaderboardTable } from "./AuctionLeaderboardTable";
-import { AuctionResults } from "features/game/lib/auctionMachine";
+import { Auction, AuctionResults } from "features/game/lib/auctionMachine";
 import { Label } from "components/ui/Label";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { TimerDisplay } from "./AuctionDetails";
 
 interface Props {
   onMint: (id: string) => void;
   bid: Bid;
   farmId: number;
   results: AuctionResults;
+  auction: Auction;
 }
-export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
+export const Winner: React.FC<Props> = ({
+  onMint,
+  bid,
+  farmId,
+  results,
+  auction,
+}) => {
+  const deadline = auction.endAt + 24 * 60 * 60 * 1000;
+  const countdown = useCountdown(deadline);
+
   return (
     <div className="flex flex-col justify-center items-center pt-2">
       <AuctionLeaderboardTable
@@ -27,7 +39,8 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
         <Label type="success">Congratulations!</Label>
       </div>
 
-      <p className="text-sm">You must mint your prize within 24 hours.</p>
+      <p className="text-xs mb-2">You have 24 hours to mint your prize.</p>
+      <TimerDisplay time={countdown} />
       <a
         href="https://docs.sunflower-land.com/player-guides/auctions#how-to-mint-an-items"
         className="mx-auto text-xxs underline text-center pb-2 pt-2"
