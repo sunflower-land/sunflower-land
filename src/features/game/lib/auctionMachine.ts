@@ -190,7 +190,7 @@ export const createAuctioneerMachine = ({
             auctionId: "test-auction-1",
             type: "collectible",
             collectible: "Abandoned Bear",
-            endAt: Date.now() + 200000,
+            endAt: Date.now() + 70000,
             startAt: Date.now() - 1000,
             ingredients: {
               Wood: 1,

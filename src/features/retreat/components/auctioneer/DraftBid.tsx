@@ -73,7 +73,11 @@ export const DraftBid: React.FC<Props> = ({
       </div>
 
       <div className="absolute -top-2 right-0">
-        {TimerDisplay({ time: end, fontSize: 16 })}
+        {TimerDisplay({
+          time: end,
+          fontSize: 18,
+          color: end.minutes >= 1 ? "white" : "red",
+        })}
       </div>
 
       <div className="flex items-center justify-center mb-1">
@@ -129,7 +133,7 @@ export const DraftBid: React.FC<Props> = ({
         </div>
 
         <div
-          className="w-10 mr-2 relative"
+          className="w-10 mr-2 relative cursor-pointer"
           onClick={() =>
             setTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
           }

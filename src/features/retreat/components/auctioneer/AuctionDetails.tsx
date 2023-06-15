@@ -31,9 +31,14 @@ type TimeObject = {
     seconds: number;
   };
   fontSize?: number;
+  color?: string;
 };
 
-export const TimerDisplay = ({ time, fontSize = 20 }: TimeObject) => {
+export const TimerDisplay = ({
+  time,
+  fontSize = 20,
+  color = "white",
+}: TimeObject) => {
   const timeKeys = getKeys(time);
 
   const times = timeKeys.map((key) => {
@@ -42,7 +47,7 @@ export const TimerDisplay = ({ time, fontSize = 20 }: TimeObject) => {
     return value;
   });
   return (
-    <span style={{ fontFamily: "monospace", fontSize: `${fontSize}px` }}>
+    <span style={{ fontFamily: "monospace", fontSize: `${fontSize}px`, color }}>
       {times.join(":")}
     </span>
   );
