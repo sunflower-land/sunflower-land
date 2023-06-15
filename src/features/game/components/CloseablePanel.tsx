@@ -19,7 +19,7 @@ interface Props {
   currentTab?: number;
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
   title?: string | JSX.Element;
-  secondaryAction: JSX.Element;
+  secondaryAction?: JSX.Element;
   onClose?: () => void;
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;

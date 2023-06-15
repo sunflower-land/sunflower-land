@@ -75,13 +75,13 @@ export const AuctionLeaderboardTable: React.FC<{
                 className="p-1.5 flex flex-wrap"
               >
                 {result.sfl && (
-                  <div className="flex mr-2">
+                  <div className="flex w-16">
                     <img src={sflIcon} className="h-4 mr-0.5" />
                     <span className="text-xs">{result.sfl}</span>
                   </div>
                 )}
                 {getKeys(result.items).map((name) => (
-                  <div className="flex mr-2" key={name}>
+                  <div className="flex w-16" key={name}>
                     <img
                       src={ITEM_DETAILS[name].image}
                       className="h-4 mr-0.5"

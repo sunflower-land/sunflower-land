@@ -435,7 +435,7 @@ export const createAuctioneerMachine = ({
       },
       on: {
         OPEN: {
-          target: CONFIG.API_URL ? "loading" : "initialising",
+          target: CONFIG.API_URL ? "loading" : "winner",
           actions: assign({
             bid: (_, event) => event.gameState.auctioneer.bid,
           }),

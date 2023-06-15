@@ -137,6 +137,8 @@ export const AuctioneerContent: React.FC<Props> = ({
       (auction) => auction.auctionId === auctioneerState.context.bid?.auctionId
     ) as IAuction;
 
+    console.log({ auction });
+
     return (
       <Winner
         onMint={onMint}
