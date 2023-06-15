@@ -74,7 +74,7 @@ export const AuctionLeaderboardTable: React.FC<{
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 flex flex-wrap"
               >
-                {result.sfl && (
+                {result.sfl > 0 && (
                   <div className="flex w-16">
                     <img src={sflIcon} className="h-4 mr-0.5" />
                     <span className="text-xs">{result.sfl}</span>
