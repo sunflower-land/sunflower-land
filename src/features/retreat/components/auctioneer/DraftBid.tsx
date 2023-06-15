@@ -142,24 +142,19 @@ export const DraftBid: React.FC<Props> = ({
       </div>
 
       <div className="flex items-center justify-center mb-1">
-        <div
-          className="w-10 mr-2 relative cursor-pointer"
-          style={{
-            opacity: tickets === 0 ? 0.5 : 1,
-          }}
+        <Button
+          className="w-10 h-10 mr-2 relative cursor-pointer"
+          disabled={tickets === 1}
           onClick={() => setTickets((prev) => (prev > 1 ? prev - 1 : prev))}
         >
-          <img src={SUNNYSIDE.icons.disc} className="w-full" />
           <img
             src={SUNNYSIDE.icons.minus}
-            className="absolute"
+            className="relative top-0.5"
             style={{
               width: `${PIXEL_SCALE * 8}px`,
-              top: `${PIXEL_SCALE * 4.5}px`,
-              left: `${PIXEL_SCALE * 3.7}px`,
             }}
           />
-        </div>
+        </Button>
         <div className="flex items-center flex-wrap justify-center">
           {auction.sfl > 0 && (
             <div
@@ -193,26 +188,21 @@ export const DraftBid: React.FC<Props> = ({
           ))}
         </div>
 
-        <div
-          className="w-10 mr-2 relative cursor-pointer"
+        <Button
+          className="w-10 h-10 mr-2 relative cursor-pointer"
+          disabled={tickets === maxTickets}
           onClick={() =>
             setTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
           }
-          style={{
-            opacity: tickets === maxTickets ? 0.5 : 1,
-          }}
         >
-          <img src={SUNNYSIDE.icons.disc} className="w-full" />
           <img
             src={SUNNYSIDE.icons.plus}
-            className="absolute"
+            className="relative top-0.5"
             style={{
               width: `${PIXEL_SCALE * 8}px`,
-              top: `${PIXEL_SCALE * 3.5}px`,
-              left: `${PIXEL_SCALE * 3.7}px`,
             }}
           />
-        </div>
+        </Button>
       </div>
 
       <div className="text-xxs text-center underline mb-3  hover:text-blue-500">
