@@ -60,8 +60,6 @@ export function placeCollectible({
     readyAt: createdAt,
   };
 
-  console.log(action.coordinates);
-
   bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);
 
   return {
