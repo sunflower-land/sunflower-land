@@ -384,6 +384,20 @@ export function isWithinAOE(
         return true;
       }
     }
+
+    // AoE surrounding the bale
+    if (AOEItemName === "Sir Goldensnout") {
+      const dx = Math.abs(AOEItemCoordinates.x - effectItem.x);
+      const dy = Math.abs(AOEItemCoordinates.y - effectItem.y);
+
+      if (
+        (dx <= 1 && dy <= 1) ||
+        (dx <= 1 && dy === 2) ||
+        (dx === 2 && dy <= 1)
+      ) {
+        return true;
+      }
+    }
   }
   return false;
 }

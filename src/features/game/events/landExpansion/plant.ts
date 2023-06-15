@@ -205,11 +205,13 @@ export function getPlantedAt({
  */
 export function getCropYieldAmount({
   crop,
+  plot,
   inventory,
   collectibles,
   bumpkin,
 }: {
   crop: CropName;
+  plot: CropPlot;
   inventory: Inventory;
   collectibles: Collectibles;
   bumpkin: Bumpkin;
@@ -217,6 +219,24 @@ export function getCropYieldAmount({
   let amount = 1;
   const { skills, equipped } = bumpkin;
   const { tool, necklace } = equipped;
+
+  if (
+    collectibles["Sir Goldensnout"] &&
+    isCollectibleBuilt("Sir Goldensnout", collectibles)
+  ) {
+    const sirGoldenSnout = collectibles["Sir Goldensnout"][0];
+
+    const position: Position = {
+      x: sirGoldenSnout.coordinates.x,
+      y: sirGoldenSnout.coordinates.y,
+      ...COLLECTIBLES_DIMENSIONS["Sir Goldensnout"],
+    };
+
+    if (isWithinAOE("Sir Goldensnout", position, plot)) {
+      amount = amount + 0.5;
+    }
+  }
+
   if (
     crop === "Cauliflower" &&
     isCollectibleBuilt("Golden Cauliflower", collectibles)
@@ -333,6 +353,7 @@ export function plant({
         inventory: inventory,
         collectibles,
         bumpkin,
+        plot: plots[action.index],
       }),
     },
   };
