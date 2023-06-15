@@ -71,11 +71,18 @@ export function moveCollectible({
     throw new Error(MOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_NOT_PLACED);
   }
 
-  collectibleGroup[collectibleToMoveIndex].readyAt = getAOECooldown({
-    name: action.name,
-    collectibles: stateCopy.collectibles,
-    createdAt,
-  });
+  if (
+    action.name === "Bale" ||
+    action.name === "Basic Scarecrow" ||
+    action.name === "Emerald Turtle" ||
+    action.name === "Tin Turtle"
+  ) {
+    collectibleGroup[collectibleToMoveIndex].readyAt = getAOECooldown({
+      name: action.name,
+      collectibles: stateCopy.collectibles,
+      createdAt,
+    });
+  }
 
   collectibleGroup[collectibleToMoveIndex].coordinates = action.coordinates;
 

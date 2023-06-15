@@ -21,7 +21,7 @@ export function isLocked(
   collectibles: Collectibles,
   createdAt: number
 ): boolean {
-  if (!chicken || !chicken.coordinates) return false;
+  if (!chicken || !chicken.coordinates || !chicken.fedAt) return false;
 
   if (eggIsReady(chicken, createdAt)) return false;
 
