@@ -67,7 +67,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                   : auction.wearable}
               </p>
               <div className="ml-1 hidden sm:flex my-1">
-                {auction.sfl && (
+                {auction.sfl > 0 && (
                   <img src={sflIcon} className="h-5 img-highlight -ml-1" />
                 )}
                 {getKeys(auction.ingredients).map((name) => (
