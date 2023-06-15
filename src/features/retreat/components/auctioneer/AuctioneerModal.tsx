@@ -14,6 +14,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { hasFeatureAccess } from "lib/flags";
 import { NPC_WEARABLES } from "lib/npcs";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   gameState: GameState;
@@ -80,6 +81,22 @@ export const AuctioneerModal: React.FC<Props> = ({
         onClose={onClose}
         tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Auctions & Drops" }]}
         bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+        secondaryAction={
+          <a
+            href="https://docs.sunflower-land.com/player-guides/auctions"
+            className="mx-auto text-xxs underline text-center pb-2 pt-2"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src={SUNNYSIDE.icons.expression_confused}
+              className="flex-none cursor-pointer float-right"
+              style={{
+                height: `${PIXEL_SCALE * 11}px`,
+              }}
+            />
+          </a>
+        }
       >
         <div
           style={{

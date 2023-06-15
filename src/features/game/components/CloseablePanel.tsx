@@ -19,6 +19,7 @@ interface Props {
   currentTab?: number;
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
   title?: string | JSX.Element;
+  secondaryAction: JSX.Element;
   onClose?: () => void;
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
@@ -45,6 +46,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
   onClose,
   onBack,
   bumpkinParts,
+  secondaryAction,
   className,
   children,
 }) => {
@@ -95,6 +97,20 @@ export const CloseButtonPanel: React.FC<Props> = ({
             ))}
           </div>
           <div className="grow" />
+          {secondaryAction && (
+            <div
+              className="flex-none cursor-pointer float-right"
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+                height: `${PIXEL_SCALE * 11}px`,
+                marginTop: `${PIXEL_SCALE * 1}px`,
+                marginLeft: `${PIXEL_SCALE * 2}px`,
+                marginRight: `${PIXEL_SCALE * 3}px`,
+              }}
+            >
+              {secondaryAction}
+            </div>
+          )}
           {showCloseButton && (
             <img
               src={SUNNYSIDE.icons.close}
