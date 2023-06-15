@@ -1,11 +1,17 @@
 import { canChop } from "features/game/events/landExpansion/chop";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { FruitName } from "features/game/types/fruits";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  Position,
+} from "features/game/types/game";
 import { CropName } from "features/game/types/crops";
 import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { CommodityName } from "features/game/types/resources";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
+import { isWithinAOE } from "../expansion/placeable/lib/collisionDetection";
+import { COLLECTIBLES_DIMENSIONS } from "./craftables";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -18,7 +24,8 @@ type RESTRICTION_REASON =
   | `${CommodityName} is mined`
   | "Treasure holes are dug"
   | "Genie Lamp rubbed"
-  | "Paw shaken";
+  | "Paw shaken"
+  | "Chicken is fed and within bale's AoE";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -189,6 +196,37 @@ export const hasRestriction = (
 
   if (name === "Chicken Coop") {
     if (areUnsupportedChickensBrewing(state)) return [true, "Chickens are fed"];
+  }
+
+  if (name === "Bale" && state.collectibles["Bale"]?.[0]) {
+    const baleCoordinates = state.collectibles["Bale"]?.[0].coordinates;
+    const baleDimensions = COLLECTIBLES_DIMENSIONS["Bale"];
+
+    const balePosition: Position = {
+      x: baleCoordinates.x,
+      y: baleCoordinates.y,
+      height: baleDimensions.height,
+      width: baleDimensions.width,
+    };
+
+    const chickens = Object.values(state.chickens);
+    // if any chicken is in the bale's AOE, return true
+    if (
+      chickens.some((chicken) => {
+        if (!chicken.coordinates || !chicken.fedAt) return false;
+
+        const chickenPosition: Position = {
+          x: chicken.coordinates.x,
+          y: chicken.coordinates?.y,
+          height: 1,
+          width: 1,
+        };
+
+        return isWithinAOE("Bale", balePosition, chickenPosition);
+      })
+    ) {
+      return [true, "Chicken is fed and within bale's AoE"];
+    }
   }
 
   const removeRestriction = REMOVAL_RESTRICTIONS[name];
