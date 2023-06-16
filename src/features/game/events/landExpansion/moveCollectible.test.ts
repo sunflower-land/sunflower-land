@@ -1,11 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import {
-  MOVE_COLLECTIBLE_ERRORS,
-  MOVE_COLLECTIBLE_SECONDS,
-  moveCollectible,
-} from "./moveCollectible";
+import { MOVE_COLLECTIBLE_ERRORS, moveCollectible } from "./moveCollectible";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -145,67 +141,6 @@ describe("moveCollectible", () => {
     ]);
   });
 
-  it("updates readyAt when moving Basic Scarecrow", () => {
-    const gameState = moveCollectible({
-      state: {
-        ...GAME_STATE,
-        collectibles: {
-          "Basic Scarecrow": [
-            {
-              id: "123",
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "456",
-              coordinates: { x: 4, y: 4 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "789",
-              coordinates: { x: 8, y: 8 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "collectible.moved",
-        name: "Basic Scarecrow",
-        id: "123",
-        coordinates: { x: 2, y: 2 },
-      },
-      createdAt: dateNow,
-    });
-
-    expect(gameState.collectibles["Basic Scarecrow"]).toEqual([
-      {
-        id: "123",
-        coordinates: { x: 2, y: 2 },
-        createdAt: 0,
-        readyAt: dateNow + 10 * 60 * 1000,
-      },
-      {
-        id: "456",
-        coordinates: { x: 4, y: 4 },
-        createdAt: 0,
-        readyAt: 0,
-      },
-      {
-        id: "789",
-        coordinates: {
-          x: 8,
-          y: 8,
-        },
-        createdAt: 0,
-        readyAt: 0,
-      },
-    ]);
-  });
-
   it("does not updates readyAt when moving Nancy", () => {
     const gameState = moveCollectible({
       state: {
@@ -267,186 +202,38 @@ describe("moveCollectible", () => {
     ]);
   });
 
-  it("updates readyAt when moving Emerald Turtle", () => {
-    const gameState = moveCollectible({
-      state: {
-        ...GAME_STATE,
-        collectibles: {
-          "Emerald Turtle": [
-            {
-              id: "123",
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "456",
-              coordinates: { x: 4, y: 4 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "789",
-              coordinates: { x: 8, y: 8 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "collectible.moved",
-        name: "Emerald Turtle",
-        id: "123",
-        coordinates: { x: 2, y: 2 },
-      },
-      createdAt: dateNow,
-    });
+  it("throws when trying to move Bale with chickens fed", () => {
+    const dateNow = Date.now();
 
-    expect(gameState.collectibles["Emerald Turtle"]).toEqual([
-      {
-        id: "123",
-        coordinates: { x: 2, y: 2 },
-        createdAt: 0,
-        readyAt: dateNow + MOVE_COLLECTIBLE_SECONDS["Emerald Turtle"]! * 1000,
-      },
-      {
-        id: "456",
-        coordinates: { x: 4, y: 4 },
-        createdAt: 0,
-        readyAt: 0,
-      },
-      {
-        id: "789",
-        coordinates: {
-          x: 8,
-          y: 8,
+    expect(() =>
+      moveCollectible({
+        state: {
+          ...GAME_STATE,
+          chickens: {
+            0: {
+              fedAt: dateNow,
+              multiplier: 1,
+            },
+          },
+          collectibles: {
+            Bale: [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
         },
-        createdAt: 0,
-        readyAt: 0,
-      },
-    ]);
-  });
-
-  it("updates readyAt when moving Tin Turtle", () => {
-    const gameState = moveCollectible({
-      state: {
-        ...GAME_STATE,
-        collectibles: {
-          "Tin Turtle": [
-            {
-              id: "123",
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "456",
-              coordinates: { x: 4, y: 4 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "789",
-              coordinates: { x: 8, y: 8 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
+        action: {
+          type: "collectible.moved",
+          name: "Bale",
+          id: "123",
+          coordinates: { x: 2, y: 2 },
         },
-      },
-      action: {
-        type: "collectible.moved",
-        name: "Tin Turtle",
-        id: "123",
-        coordinates: { x: 2, y: 2 },
-      },
-      createdAt: dateNow,
-    });
-
-    expect(gameState.collectibles["Tin Turtle"]).toEqual([
-      {
-        id: "123",
-        coordinates: { x: 2, y: 2 },
-        createdAt: 0,
-        readyAt: dateNow + MOVE_COLLECTIBLE_SECONDS["Tin Turtle"]! * 1000,
-      },
-      {
-        id: "456",
-        coordinates: { x: 4, y: 4 },
-        createdAt: 0,
-        readyAt: 0,
-      },
-      {
-        id: "789",
-        coordinates: {
-          x: 8,
-          y: 8,
-        },
-        createdAt: 0,
-        readyAt: 0,
-      },
-    ]);
-  });
-
-  it("updates readyAt when moving Bale", () => {
-    const gameState = moveCollectible({
-      state: {
-        ...GAME_STATE,
-        collectibles: {
-          Bale: [
-            {
-              id: "123",
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "456",
-              coordinates: { x: 4, y: 4 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-            {
-              id: "789",
-              coordinates: { x: 8, y: 8 },
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "collectible.moved",
-        name: "Bale",
-        id: "123",
-        coordinates: { x: 2, y: 2 },
-      },
-      createdAt: dateNow,
-    });
-
-    expect(gameState.collectibles["Bale"]).toEqual([
-      {
-        id: "123",
-        coordinates: { x: 2, y: 2 },
-        createdAt: 0,
-        readyAt: dateNow + MOVE_COLLECTIBLE_SECONDS["Bale"]! * 1000,
-      },
-      {
-        id: "456",
-        coordinates: { x: 4, y: 4 },
-        createdAt: 0,
-        readyAt: 0,
-      },
-      {
-        id: "789",
-        coordinates: {
-          x: 8,
-          y: 8,
-        },
-        createdAt: 0,
-        readyAt: 0,
-      },
-    ]);
+        createdAt: dateNow,
+      })
+    ).toThrow("Chickens are fed");
   });
 });

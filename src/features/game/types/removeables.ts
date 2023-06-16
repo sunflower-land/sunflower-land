@@ -1,17 +1,11 @@
 import { canChop } from "features/game/events/landExpansion/chop";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { FruitName } from "features/game/types/fruits";
-import {
-  GameState,
-  InventoryItemName,
-  Position,
-} from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { CropName } from "features/game/types/crops";
 import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { CommodityName } from "features/game/types/resources";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
-import { isWithinAOE } from "../expansion/placeable/lib/collisionDetection";
-import { COLLECTIBLES_DIMENSIONS } from "./craftables";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -25,7 +19,7 @@ type RESTRICTION_REASON =
   | "Treasure holes are dug"
   | "Genie Lamp rubbed"
   | "Paw shaken"
-  | "Chicken is fed and within bale's AoE";
+  | "Basic crops are planted";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -56,6 +50,17 @@ function areAnyCropsPlanted(game: GameState): Restriction {
   );
 
   return [cropsPlanted, "Crops are planted"];
+}
+
+function areAnyBasicCropsPlanted(game: GameState): Restriction {
+  const cropsPlanted = Object.values(game.crops ?? {}).some(
+    (plot) =>
+      plot.crop?.name === "Sunflower" ||
+      plot.crop?.name === "Potato" ||
+      plot.crop?.name === "Pumpkin"
+  );
+
+  return [cropsPlanted, "Basic crops are planted"];
 }
 
 function areAnyTreesChopped(game: GameState): Restriction {
@@ -137,11 +142,13 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Chicken Coop": (game) => areAnyChickensFed(game),
   "Gold Egg": (game) => areAnyChickensFed(game),
   Rooster: (game) => areAnyChickensFed(game),
+  Bale: (game) => areAnyChickensFed(game),
 
   Nancy: (game) => areAnyCropsPlanted(game),
   Scarecrow: (game) => areAnyCropsPlanted(game),
   Kuebiko: (game) => areAnyCropsPlanted(game),
   "Lunar Calendar": (game) => areAnyCropsPlanted(game),
+  "Basic Scarecrow": (game) => areAnyBasicCropsPlanted(game),
 
   "Cabbage Boy": (game) => cropIsPlanted({ item: "Cabbage", game }),
   "Cabbage Girl": (game) => cropIsPlanted({ item: "Cabbage", game }),
@@ -196,37 +203,6 @@ export const hasRestriction = (
 
   if (name === "Chicken Coop") {
     if (areUnsupportedChickensBrewing(state)) return [true, "Chickens are fed"];
-  }
-
-  if (name === "Bale" && state.collectibles["Bale"]?.[0]) {
-    const baleCoordinates = state.collectibles["Bale"]?.[0].coordinates;
-    const baleDimensions = COLLECTIBLES_DIMENSIONS["Bale"];
-
-    const balePosition: Position = {
-      x: baleCoordinates.x,
-      y: baleCoordinates.y,
-      height: baleDimensions.height,
-      width: baleDimensions.width,
-    };
-
-    const chickens = Object.values(state.chickens);
-    // if any chicken is in the bale's AOE, return true
-    if (
-      chickens.some((chicken) => {
-        if (!chicken.coordinates || !chicken.fedAt) return false;
-
-        const chickenPosition: Position = {
-          x: chicken.coordinates.x,
-          y: chicken.coordinates?.y,
-          height: 1,
-          width: 1,
-        };
-
-        return isWithinAOE("Bale", balePosition, chickenPosition);
-      })
-    ) {
-      return [true, "Chicken is fed and within bale's AoE"];
-    }
   }
 
   const removeRestriction = REMOVAL_RESTRICTIONS[name];

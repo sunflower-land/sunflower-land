@@ -20,6 +20,7 @@ import { isLocked as isPlotLocked } from "features/game/events/landExpansion/mov
 import { isLocked as isStoneLocked } from "features/game/events/landExpansion/moveStone";
 import { isLocked as isIronLocked } from "features/game/events/landExpansion/moveIron";
 import { isLocked as isGoldLocked } from "features/game/events/landExpansion/moveGold";
+import lockIcon from "assets/skills/lock.png";
 
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -234,7 +235,7 @@ const ResourceComponent: React.FC<ResourceProps> = (props) => {
           >
             <div className="flex flex-col text-xxs text-white text-shadow mx-2">
               <div className="flex flex-1 items-center justify-center">
-                <img src={SUNNYSIDE.icons.cancel} className="w-4 mr-1" />
+                <img src={lockIcon} className="w-4 mr-1" />
                 <span>AoE Locked</span>
               </div>
             </div>

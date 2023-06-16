@@ -160,6 +160,10 @@ import { OceanLantern } from "./components/OceanLantern";
 import { BetaBear } from "./components/BetaBear";
 import { SirGoldenSnout } from "./components/SirGoldenSnout";
 import { Bale } from "./components/Bale";
+import { InnerPanel } from "components/ui/Panel";
+import classNames from "classnames";
+import { hasRestriction } from "features/game/types/removeables";
+import lockIcon from "assets/skills/lock.png";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -391,7 +395,10 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
     >
-      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full" />
+      <img
+        src={ITEM_DETAILS["Basic Scarecrow"].image}
+        className="w-full pointer-events-auto"
+      />
       <div
         className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
         style={{
@@ -539,7 +546,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
     >
       <img
         src={ITEM_DETAILS["Bale"].image}
-        className=" absolute w-full"
+        className=" absolute w-full pointer-events-auto"
         style={{
           width: `${PIXEL_SCALE * 28}px`,
           left: `${PIXEL_SCALE * 3}px`,
@@ -720,12 +727,58 @@ const MemorizedCollectibleComponent = React.memo(CollectibleComponent);
 
 export const Collectible: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
-
+  const [showPopover, setShowPopover] = useState(false);
   const landscaping = useSelector(gameService, isLandscaping);
+
+  const handleMouseEnter = () => {
+    // set state to show details
+    setShowPopover(true);
+  };
+
+  const handleMouseLeave = () => {
+    // set state to hide details
+    setShowPopover(false);
+  };
 
   if (landscaping) {
     const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
 
+    const [isRestricted, restrictionReason] = hasRestriction(
+      props.name,
+      props.id,
+      gameService.state.context.state
+    );
+    if (isRestricted) {
+      return (
+        <div
+          className="relative w-full h-full pointer-events-none"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <InnerPanel
+            className={classNames(
+              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50 pointer-events-none",
+              {
+                "opacity-100": showPopover,
+                "opacity-0": !showPopover,
+              }
+            )}
+            style={{
+              top: `${PIXEL_SCALE * -10}px`,
+              left: `${PIXEL_SCALE * 16}px`,
+            }}
+          >
+            <div className="flex flex-col text-xxs text-white text-shadow mx-2">
+              <div className="flex flex-1 items-center justify-center">
+                <img src={lockIcon} className="w-4 mr-1" />
+                <span>{restrictionReason}</span>
+              </div>
+            </div>
+          </InnerPanel>
+          <CollectiblePlaced {...props} />
+        </div>
+      );
+    }
     return (
       <MoveableComponent {...(props as any)}>
         <CollectiblePlaced {...props} />

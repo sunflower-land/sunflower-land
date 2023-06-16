@@ -42,6 +42,7 @@ import { MoveableComponent } from "../collectibles/MovableComponent";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { ZoomContext } from "components/ZoomProvider";
 import { isLocked } from "features/game/events/landExpansion/moveChicken";
+import lockIcon from "assets/skills/lock.png";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -532,7 +533,7 @@ export const Chicken: React.FC<Props> = (props) => {
           >
             <div className="flex flex-col text-xxs text-white text-shadow mx-2">
               <div className="flex flex-1 items-center justify-center">
-                <img src={SUNNYSIDE.icons.cancel} className="w-4 mr-1" />
+                <img src={lockIcon} className="w-4 mr-1" />
                 <span>AoE Locked</span>
               </div>
             </div>
