@@ -18,7 +18,8 @@ type RESTRICTION_REASON =
   | `${CommodityName} is mined`
   | "Treasure holes are dug"
   | "Genie Lamp rubbed"
-  | "Paw shaken";
+  | "Paw shaken"
+  | "Basic crops are planted";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -49,6 +50,17 @@ function areAnyCropsPlanted(game: GameState): Restriction {
   );
 
   return [cropsPlanted, "Crops are planted"];
+}
+
+function areAnyBasicCropsPlanted(game: GameState): Restriction {
+  const cropsPlanted = Object.values(game.crops ?? {}).some(
+    (plot) =>
+      plot.crop?.name === "Sunflower" ||
+      plot.crop?.name === "Potato" ||
+      plot.crop?.name === "Pumpkin"
+  );
+
+  return [cropsPlanted, "Basic crops are planted"];
 }
 
 function areAnyTreesChopped(game: GameState): Restriction {
@@ -130,11 +142,14 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Chicken Coop": (game) => areAnyChickensFed(game),
   "Gold Egg": (game) => areAnyChickensFed(game),
   Rooster: (game) => areAnyChickensFed(game),
+  Bale: (game) => areAnyChickensFed(game),
 
   Nancy: (game) => areAnyCropsPlanted(game),
   Scarecrow: (game) => areAnyCropsPlanted(game),
   Kuebiko: (game) => areAnyCropsPlanted(game),
   "Lunar Calendar": (game) => areAnyCropsPlanted(game),
+  "Basic Scarecrow": (game) => areAnyBasicCropsPlanted(game),
+  "Sir Goldensnout": (game) => areAnyCropsPlanted(game),
 
   "Cabbage Boy": (game) => cropIsPlanted({ item: "Cabbage", game }),
   "Cabbage Girl": (game) => cropIsPlanted({ item: "Cabbage", game }),

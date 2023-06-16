@@ -125,6 +125,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Basic Scarecrow": 462,
   "Emerald Turtle": 463,
   "Tin Turtle": 464,
+  Bale: 465,
   "Sir Goldensnout": 466,
 
   "Pumpkin Soup": 501,

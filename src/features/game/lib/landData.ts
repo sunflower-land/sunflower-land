@@ -358,6 +358,8 @@ export const OFFLINE_FARM: GameState = {
     Sunflower: new Decimal(100),
     Potato: new Decimal(100),
     Stone: new Decimal(500),
+    Bale: new Decimal(1),
+    Wheat: new Decimal(100),
     Axe: new Decimal(10),
     "Rusty Shovel": new Decimal(5),
     "Maneki Neko": new Decimal(2),

@@ -29,7 +29,6 @@ import carrotSword from "assets/sfts/carrot_sword.png";
 import goldenBonsai from "assets/sfts/golden_bonsai.png";
 import nancy from "assets/sfts/nancy.png";
 import kuebiko from "assets/sfts/kuebiko.gif";
-import basicScarecrow from "assets/sfts/scarecrows/basic_scarecrow.png";
 import nyonStatue from "assets/sfts/nyon_statue.png";
 import homelessTent from "assets/sfts/homeless_tent.png";
 import farmerBath from "assets/sfts/farmer_bath.png";
@@ -54,6 +53,11 @@ import auroraLantern from "assets/sfts/aurora_lantern.webp";
 import radianceLantern from "assets/sfts/radiance_lantern.webp";
 import oceanLantern from "assets/sfts/ocean_lantern.png";
 
+// AoE items
+import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
+import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
+import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
+import bale from "assets/sfts/aoe/bale.png";
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
@@ -316,8 +320,7 @@ import valentineBear from "src/assets/sfts/bears/love_bear.png";
 import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
-import emeraldTurtle from "src/assets/sfts/emerald_turtle.webp";
-import tinTurtle from "src/assets/sfts/tin_turtle.webp";
+
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
 import redMaple from "src/assets/decorations/red_maple.webp";
@@ -788,10 +791,7 @@ export const ITEM_DETAILS: Items = {
     ...MARKET_ITEMS["Kuebiko"],
     image: kuebiko,
   },
-  "Basic Scarecrow": {
-    description: HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].description,
-    image: basicScarecrow,
-  },
+
   "Christmas Tree": {
     ...BLACKSMITH_ITEMS["Christmas Tree"],
     image: christmasTree,
@@ -1978,6 +1978,8 @@ export const ITEM_DETAILS: Items = {
     description:
       "A magical lamp that contains a genie who will grant you three wishes.",
   },
+
+  // AoE items
   "Emerald Turtle": {
     image: emeraldTurtle,
     description: GOBLIN_PIRATE_ITEMS["Emerald Turtle"].description,
@@ -1985,6 +1987,14 @@ export const ITEM_DETAILS: Items = {
   "Tin Turtle": {
     image: tinTurtle,
     description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
+  },
+  "Basic Scarecrow": {
+    description: HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].description,
+    image: basicScarecrow,
+  },
+  Bale: {
+    description: HELIOS_BLACKSMITH_ITEMS["Bale"].description,
+    image: bale,
   },
 
   // Season tickets

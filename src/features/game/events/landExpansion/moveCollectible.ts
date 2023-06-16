@@ -1,16 +1,8 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
+import { hasRestriction } from "features/game/types/removeables";
 import cloneDeep from "lodash.clonedeep";
-
-export const MOVE_COLLECTIBLE_SECONDS: Partial<
-  Record<CollectibleName, number>
-> = {
-  // AOE items
-  "Basic Scarecrow": 60 * 10,
-  "Emerald Turtle": 60 * 60 * 24 + 100,
-  "Tin Turtle": 60 * 60 * 4 + 100,
-};
 
 export enum MOVE_COLLECTIBLE_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -56,30 +48,23 @@ export function moveCollectible({
     throw new Error(MOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_NOT_PLACED);
   }
 
+  const isAoEItem =
+    action.name === "Bale" ||
+    action.name === "Basic Scarecrow" ||
+    action.name === "Emerald Turtle" ||
+    action.name === "Tin Turtle" ||
+    action.name === "Sir Goldensnout";
+
+  const [isRestricted, restrictionReason] = hasRestriction(
+    action.name,
+    action.id,
+    stateCopy
+  );
+  if (isAoEItem && isRestricted) {
+    throw new Error(restrictionReason);
+  }
+
   collectibleGroup[collectibleToMoveIndex].coordinates = action.coordinates;
-
-  if (action.name === "Basic Scarecrow") {
-    const basicScarecrowCooldown =
-      MOVE_COLLECTIBLE_SECONDS["Basic Scarecrow"]! * 1000;
-
-    collectibleGroup[collectibleToMoveIndex].readyAt =
-      createdAt + basicScarecrowCooldown;
-  }
-
-  if (action.name === "Emerald Turtle") {
-    const emeraldTurtleCooldown =
-      MOVE_COLLECTIBLE_SECONDS["Emerald Turtle"]! * 1000;
-
-    collectibleGroup[collectibleToMoveIndex].readyAt =
-      createdAt + emeraldTurtleCooldown;
-  }
-
-  if (action.name === "Tin Turtle") {
-    const tinTurtleCooldown = MOVE_COLLECTIBLE_SECONDS["Tin Turtle"]! * 1000;
-
-    collectibleGroup[collectibleToMoveIndex].readyAt =
-      createdAt + tinTurtleCooldown;
-  }
 
   return stateCopy;
 }

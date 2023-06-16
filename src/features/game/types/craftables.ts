@@ -1076,8 +1076,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Mysterious Parsnip": { width: 1, height: 1 },
   "Carrot Sword": { width: 1, height: 1 },
 
-  "Basic Scarecrow": { width: 1, height: 2 },
-
   // Barn Items
   "Farm Cat": { width: 1, height: 1 },
   "Farm Dog": { width: 1, height: 1 },
@@ -1117,8 +1115,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
   "Iron Idol": { height: 2, width: 2 },
-  "Emerald Turtle": { height: 1, width: 1 },
-  "Tin Turtle": { height: 1, width: 1 },
 
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
@@ -1163,6 +1159,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Maximus: { width: 2, height: 2 },
   Hoot: { width: 1, height: 1 },
 
+  // AoE items
+  "Emerald Turtle": { height: 1, width: 1 },
+  "Tin Turtle": { height: 1, width: 1 },
+  "Basic Scarecrow": { width: 1, height: 2 },
+  Bale: { width: 2, height: 2 },
   "Sir Goldensnout": { width: 2, height: 2 },
 };
 
