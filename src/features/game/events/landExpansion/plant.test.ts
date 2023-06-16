@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
-import { getCropTime, isPlotFertile, plant } from "./plant";
+import { getCropTime, getCropYieldAmount, isPlotFertile, plant } from "./plant";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -989,5 +989,49 @@ describe("isPlotFertile", () => {
     });
 
     expect(isFertile).toBeTruthy();
+  });
+});
+
+describe("getCropYield", () => {
+  it("does not apply sir goldensnout boost outside AOE", () => {
+    const amount = getCropYieldAmount({
+      crop: "Sunflower",
+      bumpkin: INITIAL_BUMPKIN,
+      collectibles: {
+        "Sir Goldensnout": [
+          {
+            coordinates: { x: 6, y: 6 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+      inventory: {},
+      plot: { createdAt: 0, height: 1, width: 1, x: 2, y: 3 },
+    });
+
+    expect(amount).toEqual(1);
+  });
+
+  it("applies sir goldensnout boost inside AOE", () => {
+    const amount = getCropYieldAmount({
+      crop: "Sunflower",
+      bumpkin: INITIAL_BUMPKIN,
+      collectibles: {
+        "Sir Goldensnout": [
+          {
+            coordinates: { x: 6, y: 6 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+      inventory: {},
+      plot: { createdAt: 0, height: 1, width: 1, x: 5, y: 6 },
+    });
+
+    expect(amount).toEqual(1.5);
   });
 });

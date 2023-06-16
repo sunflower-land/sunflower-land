@@ -158,6 +158,7 @@ import { GoldenMaple } from "./components/GoldenMaple";
 import { RedMaple } from "./components/RedMaple";
 import { OceanLantern } from "./components/OceanLantern";
 import { BetaBear } from "./components/BetaBear";
+import { SirGoldenSnout } from "./components/SirGoldenSnout";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -360,6 +361,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Genie Lamp": GenieLamp,
   Hoot: Hoot,
   "Genie Bear": GenieBear,
+  "Sir Goldensnout": SirGoldenSnout,
 };
 
 // Need readonly versions for some troublesome components while in design mode
@@ -440,6 +442,45 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
             width: `${PIXEL_SCALE * 10}px`,
             left: `${PIXEL_SCALE * 19}px`,
             top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Sir Goldensnout": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 24}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Sir Goldensnout"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 7}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 24}px`,
           }}
         />
       </div>
