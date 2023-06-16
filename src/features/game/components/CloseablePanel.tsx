@@ -101,7 +101,6 @@ export const CloseButtonPanel: React.FC<Props> = ({
             <div
               className="flex-none cursor-pointer float-right"
               style={{
-                width: `${PIXEL_SCALE * 11}px`,
                 height: `${PIXEL_SCALE * 11}px`,
                 marginTop: `${PIXEL_SCALE * 1}px`,
                 marginLeft: `${PIXEL_SCALE * 2}px`,
