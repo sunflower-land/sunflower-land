@@ -286,6 +286,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         className={classNames("h-full relative", {
           "cursor-grabbing": isDragging,
           "cursor-pointer": !isDragging,
+          "z-10": isSelected,
         })}
       >
         {isSelected && (
