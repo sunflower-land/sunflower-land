@@ -3552,6 +3552,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1251.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Solar Lantern": {
+    description:
+      "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow, reminiscent of a blossoming field under the golden sun.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1272.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
   "Bonnie's Tombstone": {
     description:
       "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",

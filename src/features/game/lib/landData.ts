@@ -354,6 +354,7 @@ export const OFFLINE_FARM: GameState = {
     Shrub: new Decimal(50),
     "White Tulips": new Decimal(10),
     Artist: new Decimal(1),
+    "Solar Lantern": new Decimal(1),
     Sunflower: new Decimal(100),
     Potato: new Decimal(100),
     Stone: new Decimal(500),
