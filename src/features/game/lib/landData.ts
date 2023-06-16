@@ -255,9 +255,9 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   id: 4,
   dawnBreaker: {
-    currentWeek: 7,
+    currentWeek: 8,
     availableLantern: {
-      name: "Ocean Lantern",
+      name: "Solar Lantern",
       startAt: "2023-05-08T00:00:00.000Z",
       endAt: "2023-05-15T00:00:00.000Z",
       ingredients: {
@@ -346,7 +346,7 @@ export const OFFLINE_FARM: GameState = {
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     "Mashed Potato": new Decimal(2),
-    Gold: new Decimal(150),
+    Gold: new Decimal(50),
     "Wooden Compass": new Decimal(20),
     "Dirt Path": new Decimal(100),
     Fence: new Decimal(50),

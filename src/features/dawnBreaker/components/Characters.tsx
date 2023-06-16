@@ -16,7 +16,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import classNames from "classnames";
 
 import wendyGif from "assets/sfts/wood_nymph_wendy.gif";
-import kuebiko from "assets/sfts/kuebiko.gif";
+import raft from "assets/decorations/raft.png";
 
 interface Props {
   currentWeek: Week;
@@ -52,19 +52,11 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
 
   return (
     <>
-      <MapPlacement x={-1} y={3} width={2}>
-        <img
-          src={kuebiko}
-          // Remove brightness if npc is on a bright part of the map
-          className="brightness-[0.6] absolute"
-          style={{
-            width: `${PIXEL_SCALE * 30}px`,
-            bottom: `-${PIXEL_SCALE * 4}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-          }}
-          alt="Kuebiko"
-        />
-      </MapPlacement>
+      {currentWeek >= 8 && (
+        <MapPlacement x={-14.5} y={-11}>
+          <img src={raft} style={{ width: `${PIXEL_SCALE * 35}px` }} />
+        </MapPlacement>
+      )}
       {marcus && (
         <MapPlacement x={marcus.x} y={marcus.y}>
           <div className={classNames({ "brightness-50": marcus.inDarkness })}>
@@ -117,9 +109,10 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
             alt="Obie"
             style={{ width: `${PIXEL_SCALE * 15}px` }}
             // Remove brightness if npc is on a bright part of the map
-            className={classNames("brightness-50", {
+            className={classNames({
               "cursor-pointer hover:img-highlight": hasDialogue("obie"),
               "-scale-x-100": !!obie.flip,
+              "brightness-50": obie.inDarkness,
             })}
             onClick={
               hasDialogue("obie") ? () => handleDialogueOpen("obie") : undefined
@@ -134,9 +127,10 @@ export const Characters: React.FC<Props> = ({ currentWeek }) => {
             alt="Maximus"
             style={{ width: `${PIXEL_SCALE * 21}px` }}
             // Remove brightness-50  if npc is in a bright part of the map
-            className={classNames("brightness-50", {
+            className={classNames({
               "cursor-pointer hover:img-highlight": hasDialogue("maximus"),
               "-scale-x-100": !!maximus.flip,
+              "brightness-50": maximus.inDarkness,
             })}
             onClick={
               hasDialogue("maximus")

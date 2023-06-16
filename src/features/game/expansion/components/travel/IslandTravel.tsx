@@ -29,8 +29,6 @@ export const IslandTravel: React.FC<IslandTravelProps> = ({
   const [openIslandList, setOpenIslandList] = useState(false);
   const location = useLocation();
 
-  const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
-
   return (
     <>
       <MapPlacement x={x} y={y}>
@@ -43,8 +41,7 @@ export const IslandTravel: React.FC<IslandTravelProps> = ({
             src={boat}
             onClick={() => setOpenIslandList(true)}
             className={classNames(
-              "relative cursor-pointer hover:img-highlight",
-              { "brightness-50": isDawnBreakerIsland }
+              "relative cursor-pointer hover:img-highlight"
             )}
             style={{
               width: `${68 * PIXEL_SCALE}px`,
