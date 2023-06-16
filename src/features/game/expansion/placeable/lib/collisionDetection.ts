@@ -387,13 +387,14 @@ export function isWithinAOE(
 
     // AoE surrounding the bale
     if (AOEItemName === "Sir Goldensnout") {
-      const dx = Math.abs(AOEItemCoordinates.x - effectItem.x);
-      const dy = Math.abs(AOEItemCoordinates.y - effectItem.y);
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
 
       if (
-        (dx <= 1 && dy <= 1) ||
-        (dx <= 1 && dy === 2) ||
-        (dx === 2 && dy <= 1)
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
       ) {
         return true;
       }
