@@ -342,15 +342,14 @@ export abstract class BaseScene extends Phaser.Scene {
     // Horizontal movements
     if (this.inputPayload.left) {
       // Flip sprite
-      this.currentPlayer.sprite?.setScale(-1, 1);
-
+      this.currentPlayer.faceLeft();
       // Move character
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
         .setVelocityX(-speed)
         .setSize(10, 10)
         .setOffset(2, 10);
     } else if (this.inputPayload.right) {
-      this.currentPlayer.sprite?.setScale(1, 1);
+      this.currentPlayer.faceRight();
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
         .setVelocityX(speed)
         .setOffset(3, 10);
