@@ -149,6 +149,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Kuebiko: (game) => areAnyCropsPlanted(game),
   "Lunar Calendar": (game) => areAnyCropsPlanted(game),
   "Basic Scarecrow": (game) => areAnyBasicCropsPlanted(game),
+  "Sir Goldensnout": (game) => areAnyCropsPlanted(game),
 
   "Cabbage Boy": (game) => cropIsPlanted({ item: "Cabbage", game }),
   "Cabbage Girl": (game) => cropIsPlanted({ item: "Cabbage", game }),

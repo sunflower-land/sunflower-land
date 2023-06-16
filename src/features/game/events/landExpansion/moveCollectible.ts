@@ -52,7 +52,8 @@ export function moveCollectible({
     action.name === "Bale" ||
     action.name === "Basic Scarecrow" ||
     action.name === "Emerald Turtle" ||
-    action.name === "Tin Turtle";
+    action.name === "Tin Turtle" ||
+    action.name === "Sir Goldensnout";
 
   const [isRestricted, restrictionReason] = hasRestriction(
     action.name,
