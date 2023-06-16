@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, Inventory } from "./game";
+import { GameState, Inventory, InventoryItemName } from "./game";
 import { SEASONS } from "./seasons";
 import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
@@ -236,4 +236,9 @@ export const SEASON_PASS_ITEMS: Record<SeasonPassName, Purchasable> = {
     boost: "?",
     usd: 3.99,
   },
+};
+
+// TODO - add all other boosts
+export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
+  "Sir Goldensnout": "+0.5 Surrounding Crops",
 };
