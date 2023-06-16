@@ -165,6 +165,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Auctioneer Slacks",
     shoes: "Leather Shoes",
     tool: "Auction Megaphone",
+    hat: "Harry's Hat",
   },
   // Grave Digger
   craig: {
