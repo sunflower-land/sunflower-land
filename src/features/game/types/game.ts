@@ -7,7 +7,7 @@ import { CommodityName, MushroomName, ResourceName } from "./resources";
 import { SkillName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
-import { Equipped as BumpkinParts } from "./bumpkin";
+import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
 import { ConsumableName, CookableName } from "./consumables";
 import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
@@ -23,7 +23,6 @@ import {
   SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
-import { AuctioneerItemName } from "./auctioneer";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
@@ -220,7 +219,6 @@ export type InventoryItemName =
   | WarBanner
   | ConsumableName
   | DecorationName
-  | AuctioneerItemName
   | GoldenCropEventItem
   | TreasureName
   | HeliosBlacksmithItem
@@ -233,6 +231,8 @@ export type InventoryItemName =
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
+
+export type Wardrobe = Partial<Record<BumpkinItem, number>>;
 
 export type Fields = Record<number, FieldItem>;
 
@@ -402,11 +402,14 @@ export type TreasureHole = {
 };
 
 export type Bid = {
+  auctionId: string;
   sfl: number;
   ingredients: Partial<Record<InventoryItemName, number>>;
-  item: AuctioneerItemName;
-  bidAt: number;
-  auctionTickets: number;
+  collectible?: InventoryItemName;
+  wearable?: BumpkinItem;
+  type: "collectible" | "wearable";
+  biddedAt: number;
+  tickets: number;
 };
 
 export type HayseedHank = {
@@ -441,7 +444,8 @@ export type NPCDialogue = {
 export type LanternName =
   | "Luminous Lantern"
   | "Radiance Lantern"
-  | "Aurora Lantern";
+  | "Aurora Lantern"
+  | "Ocean Lantern";
 
 export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -506,6 +510,7 @@ export interface GameState {
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;
+  wardrobe: Wardrobe;
   stock: Inventory;
   stockExpiry: StockExpiry;
 
@@ -556,7 +561,7 @@ export interface GameState {
       createdAt: number;
     }[];
   };
-  dailyRewards: DailyRewards;
+  dailyRewards?: DailyRewards;
   auctioneer: {
     bid?: Bid;
   };

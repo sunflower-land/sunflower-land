@@ -22,13 +22,14 @@ export type NPCName =
   | "stella"
   | "gabi"
   | "tywin"
-  | "pete"
+  | "pumpkin'pete"
   | "gordy" // TO ADD
   | "bert"
   | "craig"
   | "raven" // TO ADD
   | "birdie"
-  | "old salty";
+  | "old salty"
+  | "cornwell";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -157,13 +158,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   // Auctioneer who collects rare items and sells them off
   "hammerin' harry": {
-    body: "Dark Brown Farmer Potion",
+    body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
-    hair: "Parlour Hair",
-    shirt: "Hawaiian Shirt",
-    pants: "Farmer Pants",
-    shoes: "Black Farmer Boots",
-    tool: "Mushroom Lamp",
+    hair: "Tangerine Hair",
+    shirt: "Bidder's Brocade",
+    pants: "Auctioneer Slacks",
+    shoes: "Leather Shoes",
+    tool: "Auction Megaphone",
+    hat: "Harry's Hat",
   },
   // Grave Digger
   craig: {
@@ -195,7 +197,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
   },
   // Local farmer in Plaza
-  pete: {
+  "pumpkin'pete": {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Sun Spots",
@@ -203,6 +205,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Lumberjack Overalls",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
+    coat: "Fruit Picker Apron",
   },
   // Crazy buggy eyed bert
   bert: {
@@ -303,6 +306,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shirt: "Striped Blue Shirt",
     coat: "Pirate General Coat",
     tool: "Pirate Scimitar",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  cornwell: {
+    body: "Beige Farmer Potion",
+    hair: "Sun Spots",
+    pants: "Blue Suspenders",
+    shirt: "Yellow Farmer Shirt",
+    tool: "Farmer Pitchfork",
     background: "Farm Background",
     shoes: "Brown Boots",
   },

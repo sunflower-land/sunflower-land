@@ -47,6 +47,8 @@ import { NoTownCenter } from "../components/NoTownCenter";
 import { Promoting } from "./components/Promoting";
 import { Purchasing } from "../components/Purchasing";
 import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
+import { Transacting } from "../components/Transacting";
+import { Minting } from "../components/Minting";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -81,6 +83,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   upgradingGuestGame: false,
   introduction: false,
   promoting: false,
+  transacting: true,
+  minting: true,
 };
 
 // State change selectors
@@ -102,6 +106,7 @@ const isNoBumpkinFound = (state: MachineState) =>
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isDepositing = (state: MachineState) => state.matches("depositing");
+const isMinting = (state: MachineState) => state.matches("minting");
 const isLoadingLandToVisit = (state: MachineState) =>
   state.matches("loadLandToVisit");
 const isLoadingSession = (state: MachineState) =>
@@ -115,7 +120,7 @@ const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
 const isUpgradingGuestGame = (state: MachineState) =>
   state.matches("upgradingGuestGame");
-
+const isTransacting = (state: MachineState) => state.matches("transacting");
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
@@ -144,6 +149,8 @@ export const Game: React.FC = () => {
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
   const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
+  const transacting = useSelector(gameService, isTransacting);
+  const minting = useSelector(gameService, isMinting);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -302,7 +309,9 @@ export const Game: React.FC = () => {
           {noTownCenter && <NoTownCenter />}
           {coolingDown && <Cooldown />}
           {gameRules && <Rules />}
+          {transacting && <Transacting />}
           {depositing && <Loading text="Depositing" />}
+          {minting && <Minting />}
         </Panel>
       </Modal>
 

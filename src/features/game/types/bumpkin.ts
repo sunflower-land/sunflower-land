@@ -37,7 +37,8 @@ export type BumpkinHair =
   | "Blacksmith Hair"
   | "Fire Hair"
   | "Luscious Hair"
-  | "Cupid Hair";
+  | "Cupid Hair"
+  | "Tangerine Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -65,7 +66,9 @@ export type BumpkinShirt =
   | "White Turtle Neck"
   | "Summer Top"
   | "Striped Red Shirt"
-  | "Striped Yellow Shirt";
+  | "Striped Yellow Shirt"
+  | "Trial Tee"
+  | "Bidder's Brocade";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -87,7 +90,8 @@ export type BumpkinTool =
   | "Mushroom Lamp"
   | "Dawn Lamp"
   | "Water Gun"
-  | "Grave Diggers Shovel";
+  | "Grave Diggers Shovel"
+  | "Auction Megaphone";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -96,7 +100,8 @@ export type BumpkinShoe =
   | "Bumpkin Boots"
   | "Peg Leg"
   | "Cupid Sandals"
-  | "Mushroom Shoes";
+  | "Mushroom Shoes"
+  | "Leather Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -121,7 +126,8 @@ export type BumpkinHat =
   | "St Patricks Hat"
   | "Squid Hat"
   | "Fox Hat"
-  | "Mushroom Hat";
+  | "Mushroom Hat"
+  | "Harry's Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -137,7 +143,8 @@ export type BumpkinPant =
   | "Lifeguard Pants"
   | "Beach Trunks"
   | "Wavy Pants"
-  | "Mushroom Pants";
+  | "Mushroom Pants"
+  | "Auctioneer Slacks";
 
 export type BumpkinDress = "Cupid Dress" | "Beach Sarong" | "Tropical Sarong";
 export type BumpkinSecondaryTool =
@@ -315,6 +322,13 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Water Gun": 141,
   "Wavy Pants": 142,
   "White Turtle Neck": 143,
+  "Trial Tee": 144,
+  "Auction Megaphone": 145,
+  "Auctioneer Slacks": 146,
+  "Bidder's Brocade": 147,
+  "Harry's Hat": 148,
+  "Leather Shoes": 149,
+  "Tangerine Hair": 150,
 };
 
 // The reverse of above
@@ -367,3 +381,168 @@ export type BumpkinPart = keyof Equipped;
 export type WalletItems = Record<BumpkinItem, number>;
 
 export const UNLIMITED_SUPPLY = 1000000;
+
+// The reverse of above
+export const BUMPKIN_ITEMS: Record<string, number> = Object.assign(
+  {},
+  ...Object.entries(ITEM_IDS).map(([a, b]) => ({ [b]: a }))
+);
+
+export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
+
+export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
+  "Beige Farmer Potion": "body",
+  "Dark Brown Farmer Potion": "body",
+  "Light Brown Farmer Potion": "body",
+  "Goblin Potion": "body",
+  "Basic Hair": "hair",
+  "Rancher Hair": "hair",
+  "Explorer Hair": "hair",
+  "Red Farmer Shirt": "shirt",
+  "Yellow Farmer Shirt": "shirt",
+  "Blue Farmer Shirt": "shirt",
+  "Chef Apron": "coat",
+  "Warrior Shirt": "shirt",
+  "Farmer Overalls": "pants",
+  "Lumberjack Overalls": "pants",
+  "Farmer Pants": "pants",
+  "Warrior Pants": "pants",
+  "Black Farmer Boots": "shoes",
+  "Farmer Pitchfork": "tool",
+  "Farmer Hat": "hat",
+  "Chef Hat": "hat",
+  "Warrior Helmet": "hat",
+  "Sunflower Amulet": "necklace",
+  "Carrot Amulet": "necklace",
+  "Beetroot Amulet": "necklace",
+  "Green Amulet": "necklace",
+  "Sunflower Shield": "secondaryTool",
+  "Farm Background": "background",
+  "Fancy Top": "shirt",
+  "Brown Boots": "shoes",
+  "Brown Suspenders": "pants",
+  "Fancy Pants": "pants",
+  "Maiden Skirt": "pants",
+  "Maiden Top": "shirt",
+  "Peasant Skirt": "pants",
+  "SFL T-Shirt": "shirt",
+  "Yellow Boots": "shoes",
+  "Buzz Cut": "hair",
+  "Parlour Hair": "hair",
+  Axe: "tool",
+  Sword: "tool",
+  "Blue Suspenders": "pants",
+  "Forest Background": "background",
+  "Seashore Background": "background",
+  Blondie: "hair",
+  "Brown Long Hair": "hair",
+  "Sun Spots": "hair",
+  "White Long Hair": "hair",
+  "Cemetery Background": "background",
+  "Teal Mohawk": "hair",
+  "Space Background": "background",
+  Parsnip: "tool",
+  "Jail Background": "background",
+  "Golden Spatula": "tool",
+  "Artist Scarf": "necklace",
+  "Bumpkin Art Competition Merch": "shirt",
+  "Project Dignity Hoodie": "shirt",
+  "Developer Hoodie": "shirt",
+  "Blacksmith Hair": "hair",
+  Hammer: "tool",
+  "Bumpkin Boots": "shoes",
+  "Fire Shirt": "shirt",
+  "Red Long Hair": "hair",
+  "Snowman Onesie": "onesie",
+  "Reindeer Suit": "suit",
+  "Shark Onesie": "onesie",
+  "Christmas Background": "background",
+  "Devil Wings": "wings",
+  "Angel Wings": "wings",
+  "Fire Hair": "hair",
+  "Luscious Hair": "hair",
+  "Ancient War Hammer": "tool",
+  "Ancient Goblin Sword": "tool",
+  "Mountain View Background": "background",
+  "Skull Hat": "hat",
+  "Reindeer Antlers": "hat",
+  "Santa Hat": "hat",
+  "Pineapple Shirt": "shirt",
+  "China Town Background": "background",
+  "Lion Dance Mask": "hat",
+  "Fruit Picker Shirt": "shirt",
+  "Fruit Picker Apron": "coat",
+  "Fruit Bowl": "hat",
+  "Striped Blue Shirt": "shirt",
+  "Peg Leg": "shoes",
+  "Pirate Potion": "body",
+  "Pirate Hat": "hat",
+  "Pirate General Coat": "coat",
+  "Pirate Pants": "pants",
+  "Pirate Leather Polo": "shirt",
+  "Crab Claw": "tool",
+  "Pirate Scimitar": "tool",
+  "Cupid Hair": "hair",
+  "Cupid Dress": "dress",
+  "Cupid Sandals": "shoes",
+  "Love Quiver": "wings",
+  "SFL Office Background": "background",
+  "Bumpkin Puppet": "tool",
+  "Goblin Puppet": "tool",
+  "Hawaiian Shirt": "shirt",
+  "Bear Onesie": "onesie",
+  "Frog Onesie": "onesie",
+  "Tiger Onesie": "onesie",
+  "Beach Sarong": "dress",
+  "Lifeguard Hat": "hat",
+  "Lifeguard Pants": "pants",
+  "Lifeguard Shirt": "shirt",
+  "Sleeping Otter": "hat",
+  "Tropical Sarong": "pants",
+  "Sequence Hat": "hat",
+  "Sequence Shirt": "shirt",
+  "St Patricks Hat": "hat",
+  "Bunny Onesie": "onesie",
+  "Light Brown Worried Farmer Potion": "body",
+  "Polkastarter Shirt": "shirt",
+  "Beach Trunks": "pants",
+  "Club Polo": "shirt",
+  "Dawn Breaker Background": "background",
+  "Dawn Lamp": "tool",
+  "Eggplant Onesie": "onesie",
+  "Fox Hat": "hat",
+  "Grave Diggers Shovel": "tool",
+  "Infected Potion": "body",
+  "Mushroom Hat": "hat",
+  "Mushroom Lamp": "tool",
+  "Mushroom Lights Background": "background",
+  "Mushroom Pants": "pants",
+  "Mushroom Shield": "secondaryTool",
+  "Mushroom Shoes": "shoes",
+  "Mushroom Sweater": "shirt",
+  "Rash Vest": "shirt",
+  "Squid Hat": "hat",
+  "Striped Red Shirt": "shirt",
+  "Striped Yellow Shirt": "shirt",
+  "Summer Top": "shirt",
+  "Sunburst Potion": "body",
+  "Water Gun": "tool",
+  "Wavy Pants": "pants",
+  "White Turtle Neck": "shirt",
+  "Trial Tee": "shirt",
+  "Auction Megaphone": "tool",
+  "Auctioneer Slacks": "pants",
+  "Bidder's Brocade": "shirt",
+  "Harry's Hat": "hat",
+  "Leather Shoes": "shoes",
+  "Tangerine Hair": "hair",
+};
+
+export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
+  "Chef Apron": "+20% cake profit",
+  "Fruit Picker Apron": "+0.1 Apple, Orange & Blueberries",
+  "Angel Wings": "Instant Crops",
+  "Devil Wings": "Instant Crops",
+  "Eggplant Onesie": "+0.1 Eggplant",
+  "Golden Spatula": "+10% EXP",
+};

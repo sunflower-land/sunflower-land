@@ -2,7 +2,7 @@ import { loadSession } from "features/game/actions/loadSession";
 import { getOnChainState } from "features/game/actions/onchain";
 import { getAvailableGameState } from "features/game/lib/transforms";
 import { GameState } from "features/game/types/game";
-import { getSessionId } from "lib/blockchain/Sessions";
+import { getSessionId } from "lib/blockchain/Session";
 import { wallet } from "lib/blockchain/wallet";
 
 export const loadUpdatedSession = async (
@@ -25,7 +25,6 @@ export const loadUpdatedSession = async (
     farmId,
     sessionId,
     token,
-    bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
     transactionId,
     wallet: walletName,
   });

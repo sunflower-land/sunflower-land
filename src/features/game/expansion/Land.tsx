@@ -25,14 +25,16 @@ import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
 import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { MachineState } from "../lib/gameMachine";
 import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
-import { GRID_WIDTH_PX } from "../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
+import ocean from "assets/decorations/ocean.webp";
+
+export const LAND_WIDTH = 6;
 
 const getIslandElements = ({
   buildings,
@@ -125,7 +127,7 @@ const getIslandElements = ({
                 createdAt={createdAt}
                 showTimers={showTimers}
                 x={coordinates.x}
-                y={coordinates.x}
+                y={coordinates.y}
                 grid={grid}
               />
             </MapPlacement>
@@ -369,6 +371,15 @@ export const Land: React.FC = () => {
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
+  // As the land gets bigger, expand the gameboard
+  // The distance between the edge of the gameboard and the edge of island should remain roughly the same for higher expansions
+  const gameboardSizeOffset =
+    Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2) * 2; // make sure this is even
+  const gameboardDimensions = {
+    x: 84 + gameboardSizeOffset,
+    y: 56 + gameboardSizeOffset,
+  };
+
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
@@ -382,8 +393,6 @@ export const Land: React.FC = () => {
     y: expansionCount >= 7 ? -10.5 : -4.5,
   };
 
-  const shortcuts = getShortcuts();
-
   const gameGrid = getGameGrid({
     crops,
     collectibles,
@@ -391,78 +400,90 @@ export const Land: React.FC = () => {
 
   return (
     <>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div
-          className={classNames("relative w-full h-full", {
-            "pointer-events-none": visiting,
-          })}
-        >
-          <LandBase expandedCount={expansionCount} />
-          <DirtRenderer grid={gameGrid} />
-
-          {!landscaping && <Water level={expansionCount} />}
-          {!landscaping && <UpcomingExpansion />}
-
+      <div
+        className="absolute"
+        style={{
+          // dynamic gameboard
+          width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
+          height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
+          backgroundImage: `url(${ocean})`,
+          backgroundSize: `${64 * PIXEL_SCALE}px`,
+          imageRendering: "pixelated",
+        }}
+      >
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
-            className={classNames(
-              `w-full h-full top-0 absolute transition-opacity pointer-events-none`,
-              {
-                "opacity-0": !landscaping,
-                "opacity-100": landscaping,
-              }
-            )}
-            style={{
-              backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
-              backgroundImage: `
+            className={classNames("relative w-full h-full", {
+              "pointer-events-none": visiting,
+            })}
+          >
+            <LandBase expandedCount={expansionCount} />
+            <DirtRenderer grid={gameGrid} />
+
+            {!landscaping && <Water expansionCount={expansionCount} />}
+            {!landscaping && <UpcomingExpansion />}
+
+            <div
+              className={classNames(
+                `w-full h-full top-0 absolute transition-opacity pointer-events-none`,
+                {
+                  "opacity-0": !landscaping,
+                  "opacity-100": landscaping,
+                }
+              )}
+              style={{
+                backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+                backgroundImage: `
             linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
             linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
-            }}
-          />
+              }}
+            />
 
-          {/* Sort island elements by y axis */}
-          {getIslandElements({
-            expansionConstruction,
-            buildings,
-            collectibles,
-            chickens,
-            trees,
-            stones,
-            iron,
-            gold,
-            fruitPatches,
-            crops,
-            showTimers: showTimers,
-            grid: gameGrid,
-            mushrooms: mushrooms?.mushrooms,
-            isFirstRender,
-          }).sort((a, b) => b.props.y - a.props.y)}
+            {/* Sort island elements by y axis */}
+            {getIslandElements({
+              expansionConstruction,
+              buildings,
+              collectibles,
+              chickens,
+              trees,
+              stones,
+              iron,
+              gold,
+              fruitPatches,
+              crops,
+              showTimers: showTimers,
+              grid: gameGrid,
+              mushrooms: mushrooms?.mushrooms,
+              isFirstRender,
+            }).sort((a, b) => b.props.y - a.props.y)}
+          </div>
+
+          {landscaping && <Placeable />}
         </div>
 
-        {landscaping && <Placeable />}
-      </div>
-
-      {!landscaping && (
-        <IslandTravel
-          bumpkin={bumpkin}
-          isVisiting={visiting}
-          inventory={inventory}
-          travelAllowed={!autosaving}
-          onTravelDialogOpened={() => gameService.send("SAVE")}
-          x={boatCoordinates.x}
-          y={boatCoordinates.y}
-        />
-      )}
-
-      {/* Background darkens in landscaping */}
-      <div
-        className={classNames(
-          "absolute w-full h-full bg-black -z-10  transition-opacity pointer-events-none",
-          {
-            "opacity-0": !landscaping,
-            "opacity-50": landscaping,
-          }
+        {!landscaping && (
+          <IslandTravel
+            bumpkin={bumpkin}
+            isVisiting={visiting}
+            inventory={inventory}
+            travelAllowed={!autosaving}
+            onTravelDialogOpened={() => gameService.send("SAVE")}
+            x={boatCoordinates.x}
+            y={boatCoordinates.y}
+          />
         )}
-      />
+
+        {/* Background darkens in landscaping */}
+        <div
+          className={classNames(
+            "absolute w-full h-full bg-black -z-10  transition-opacity pointer-events-none",
+            {
+              "opacity-0": !landscaping,
+              "opacity-50": landscaping,
+            }
+          )}
+        />
+      </div>
 
       {landscaping ? (
         <>

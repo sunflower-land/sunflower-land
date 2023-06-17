@@ -27,7 +27,7 @@ export const Revealed: React.FC<{
   const items = getKeys(gameState.context.revealed?.inventory ?? {});
   const sfl = Number(gameState.context.revealed?.balance ?? 0);
 
-  const currentStreaks = gameState.context.state.dailyRewards.streaks ?? 1;
+  const currentStreaks = gameState.context.state.dailyRewards?.streaks ?? 1;
   const streakBonus = currentStreaks % 5 == 0;
 
   return (

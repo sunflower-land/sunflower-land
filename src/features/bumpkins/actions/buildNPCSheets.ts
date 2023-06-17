@@ -41,8 +41,8 @@ export async function buildNPCSheetsRequest(fileName: string) {
 
 const URL =
   CONFIG.NETWORK === "mainnet"
-    ? "https://dnsiyof0tdu4q.cloudfront.net/npcSheets"
-    : "https://d2ntlp2ifsinlo.cloudfront.net/npcSheets";
+    ? "https://images.bumpkins.io/npcSheets"
+    : "https://testnet-images.bumpkins.io/npcSheets";
 
 export async function buildNPCSheets(request: Request): Promise<Response> {
   const tokenUri = tokenUriBuilder(request.parts);

@@ -82,7 +82,7 @@ interface GuestUser extends Authentication {
   guestKey: string | null;
 }
 
-interface FullUser extends Authentication {
+export interface FullUser extends Authentication {
   type: "FULL";
   farmAddress?: string;
 }
@@ -214,7 +214,7 @@ export const authMachine = createMachine<
     initial: ART_MODE ? "connected" : "idle",
     context: {
       user: ART_MODE
-        ? { type: "FULL" }
+        ? { type: "FULL", farmId: 1 }
         : {
             type: "GUEST",
             guestKey: getGuestKey(),
@@ -645,6 +645,7 @@ export const authMachine = createMachine<
               "clearTransactionId",
               (context) => {
                 if (window.location.hash.includes("retreat")) return;
+                if (window.location.hash.includes("world")) return;
 
                 if (!ART_MODE) {
                   if (context.user.type === "GUEST") {

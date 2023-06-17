@@ -78,7 +78,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
             style={{
               width: `${PIXEL_SCALE * 26}px`,
               bottom: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 2.8}px`,
+              right: `${PIXEL_SCALE * 3}px`,
             }}
           />
         )}

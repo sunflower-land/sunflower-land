@@ -58,6 +58,7 @@ const HudComponent: React.FC<{
   const farmAddress = isFullUser ? user.farmAddress : undefined;
 
   const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
+  const isHelios = location.pathname.includes("helios");
 
   return (
     <>
@@ -100,9 +101,9 @@ const HudComponent: React.FC<{
                   src={SUNNYSIDE.icons.drag}
                   className={"absolute"}
                   style={{
-                    top: `${PIXEL_SCALE * 5}px`,
-                    left: `${PIXEL_SCALE * 5}px`,
-                    width: `${PIXEL_SCALE * 12}px`,
+                    top: `${PIXEL_SCALE * 4}px`,
+                    left: `${PIXEL_SCALE * 4}px`,
+                    width: `${PIXEL_SCALE * 14}px`,
                   }}
                 />
               </div>
@@ -137,7 +138,9 @@ const HudComponent: React.FC<{
             }
             isFullUser={isFullUser}
           />
-          {landId && !isDawnBreakerIsland && <LandId landId={landId} />}
+          {landId && !isDawnBreakerIsland && !isHelios && (
+            <LandId landId={landId} />
+          )}
           <div
             className="fixed z-50 flex flex-col justify-between"
             style={{

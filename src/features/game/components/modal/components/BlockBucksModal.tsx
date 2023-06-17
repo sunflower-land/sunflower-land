@@ -9,7 +9,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { analytics } from "lib/analytics";
-import { hasFeatureAccess } from "lib/flags";
 import { CONFIG } from "lib/config";
 import { wallet } from "lib/blockchain/wallet";
 import { buyBlockBucks } from "features/game/actions/buyBlockBucks";
@@ -122,26 +121,16 @@ export const BlockBucksModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [showPoko, setShowPoko] = useState<PokoConfig | undefined>(undefined);
+  const [showPoko, setShowPoko] = useState<PokoConfig>();
   const [loading, setLoading] = useState(false);
 
-  const [price, setPrice] = useState<Price | undefined>(undefined);
+  const [price, setPrice] = useState<Price>();
 
   const onMaticBuy = async (amount: number) => {
-    if (
-      hasFeatureAccess(gameState.context.state.inventory, "DIRECT_CHECKOUT")
-    ) {
-      gameService.send("BUY_BLOCK_BUCKS", {
-        currency: "MATIC",
-        amount,
-      });
-    } else {
-      gameService.send("PURCHASE_ITEM", {
-        name: "Block Buck",
-        amount,
-      });
-    }
-
+    gameService.send("BUY_BLOCK_BUCKS", {
+      currency: "MATIC",
+      amount,
+    });
     onClose();
   };
 
@@ -264,13 +253,6 @@ export const BlockBucksModal: React.FC<Props> = ({
       );
     }
 
-    const onBuy = (price: Price) => {
-      // Go directly to MATIC purchase if they do not have direct checkout access
-      hasFeatureAccess(gameState.context.state.inventory, "DIRECT_CHECKOUT")
-        ? setPrice(price)
-        : onMaticBuy(price.amount);
-    };
-
     return (
       <>
         <div className="flex flex-wrap">
@@ -287,7 +269,7 @@ export const BlockBucksModal: React.FC<Props> = ({
                   />
                 </div>
                 <Button
-                  onClick={() => onBuy(price)}
+                  onClick={() => setPrice(price)}
                 >{`$${price.usd} USD`}</Button>
               </OuterPanel>
             </div>
@@ -313,6 +295,7 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   return (
     <CloseButtonPanel
+      onBack={closeable && price ? () => setPrice(undefined) : undefined}
       onClose={closeable ? onClose : undefined}
       title="Buy Block Bucks"
       bumpkinParts={{

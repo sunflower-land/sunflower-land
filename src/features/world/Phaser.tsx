@@ -3,12 +3,13 @@ import { Game, AUTO } from "phaser";
 import { useActor, useSelector } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
+import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
 import { OFFLINE_FARM } from "features/game/lib/landData";
 
-import { PhaserScene } from "./scenes/PlazaScene";
+import { PlazaScene } from "./scenes/PlazaScene";
 import { AuctionScene } from "./scenes/AuctionHouseScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
@@ -16,11 +17,30 @@ import { NPCModals } from "./ui/NPCModals";
 import { MachineInterpreter, MachineState, roomMachine } from "./roomMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import { ClothesShopScene } from "./scenes/ClothesShopScene";
 import { DecorationShopScene } from "./scenes/DecorationShop";
+import { WindmillFloorScene } from "./scenes/WindmillFloorScene";
+import { IgorHomeScene } from "./scenes/IgorHomeScene";
+import { BertScene } from "./scenes/BertRoomScene";
+import { TimmyHomeScene } from "./scenes/TimmyHomeScene";
+import { BettyHomeScene } from "./scenes/BettyHomeScene";
+import { WoodlandsScene } from "./scenes/WoodlandsScene";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Preloader } from "./scenes/Preloader";
 
 const _roomState = (state: MachineState) => state.value;
+const _messages = (state: MachineState) => {
+  const messages = state.context.rooms[
+    state.context.roomId
+  ]?.state.messages.map((m) => ({
+    sessionId: m.sessionId ?? "",
+    text: m.text,
+  }));
+
+  // Pass so we are comparing a primitive in re-render
+  return JSON.stringify(messages ?? []);
+};
 
 export const PhaserComponent: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -38,12 +58,7 @@ export const PhaserComponent: React.FC = () => {
   }) as unknown as MachineInterpreter;
 
   const roomState = useSelector(roomService, _roomState);
-  const messages = useSelector(roomService, (state: MachineState) =>
-    state.context.rooms[state.context.roomId]?.state.messages.map((m) => ({
-      sessionId: m.sessionId ?? "",
-      text: m.text,
-    }))
-  );
+  const messages = JSON.parse(useSelector(roomService, _messages));
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -65,6 +80,11 @@ export const PhaserComponent: React.FC = () => {
             plugin: NinePatchPlugin,
             start: true,
           },
+          {
+            key: "rexVirtualJoystick",
+            plugin: VirtualJoystickPlugin,
+            start: true,
+          },
         ],
       },
       width: window.innerWidth,
@@ -77,7 +97,19 @@ export const PhaserComponent: React.FC = () => {
           gravity: { y: 0 },
         },
       },
-      scene: [PhaserScene, DecorationShopScene, ClothesShopScene, AuctionScene],
+      scene: [
+        Preloader,
+        PlazaScene,
+        AuctionScene,
+        BettyHomeScene,
+        TimmyHomeScene,
+        BertScene,
+        IgorHomeScene,
+        WindmillFloorScene,
+        ClothesShopScene,
+        DecorationShopScene,
+        WoodlandsScene,
+      ],
       loader: {
         crossOrigin: "anonymous",
       },
@@ -109,6 +141,22 @@ export const PhaserComponent: React.FC = () => {
           <p className="loading">Loading</p>
         </Panel>
       </Modal>
+
+      <Modal show={roomState === "joinRoom"} centered>
+        <Panel>
+          <p className="loading">Loading</p>
+        </Panel>
+      </Modal>
+
+      {roomState === "error" && (
+        <InnerPanel className="fixed bottom-2 left-2 flex items-center">
+          <img src={SUNNYSIDE.icons.sad} className="h-6 mr-2" />
+          <div>
+            <p className="text-xs">Connection failed</p>
+            <p className="text-xxs underline cursor-pointer">Retry</p>
+          </div>
+        </InnerPanel>
+      )}
     </div>
   );
 };

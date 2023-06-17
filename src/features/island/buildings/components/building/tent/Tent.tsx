@@ -41,10 +41,8 @@ export const Tent: React.FC<BuildingProps> = ({
   const buildingIndex = buildings["Tent"]?.findIndex(
     (building) => building.id === buildingId
   );
-  const placedIndex =
-    buildingIndex !== undefined ? buildingIndex + 1 : undefined;
 
-  const bumpkin = placedIndex !== undefined && bumpkins[placedIndex];
+  const bumpkin = buildingIndex !== undefined && bumpkins[buildingIndex];
 
   const handleClick = () => {
     if (onRemove) {
@@ -86,7 +84,7 @@ export const Tent: React.FC<BuildingProps> = ({
       </BuildingImageWrapper>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <TentModal
-          defaultSelectedIndex={placedIndex}
+          defaultSelectedIndex={buildingIndex}
           onClose={() => setShowModal(false)}
         />
       </Modal>

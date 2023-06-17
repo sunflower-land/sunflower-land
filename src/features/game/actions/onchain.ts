@@ -9,7 +9,7 @@ import { getKeys } from "../types/craftables";
 import { EMPTY } from "../lib/constants";
 import { CONFIG } from "lib/config";
 import { KNOWN_IDS, KNOWN_ITEMS } from "../types";
-import { getMintedAtBatch, Recipe } from "lib/blockchain/Sessions";
+import { getMintedAtBatch, Recipe } from "lib/blockchain/Game";
 import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { getInventoryBalances } from "lib/blockchain/Inventory";

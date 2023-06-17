@@ -5,7 +5,6 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import background from "assets/land/helios.webp";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
-import { Potions } from "./components/potions/Potions";
 import { ExoticShop } from "./components/exoticShop/ExoticShop";
 import { HeliosSunflower } from "./components/HeliosSunflower";
 import { HeliosBlacksmith } from "./components/blacksmith/HeliosBlacksmith";
@@ -21,6 +20,8 @@ import { Hud } from "features/island/hud/Hud";
 import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
 import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
+import { HeliosAuction } from "./components/heliosAuction/HeliosAuction";
+import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 
 const spawn = [
   [30, 15],
@@ -68,13 +69,13 @@ export const Helios: React.FC = () => {
         <Decorations />
         <GrubShop />
         <HeliosBlacksmith />
-        <Potions />
         <GarbageCollector />
         <ExoticShop />
         <HeliosSunflower />
         <LostSunflorian />
         <SeasonalNPC />
         <CommunityGardenEntry />
+        <HeliosAuction />
         <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
         <IslandTravel
           bumpkin={bumpkin}
@@ -86,6 +87,7 @@ export const Helios: React.FC = () => {
         />
       </div>
       <Hud isFarming={false} />
+      <AuctionCountdown />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useInterpret, useSelector } from "@xstate/react";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
@@ -41,6 +41,8 @@ import { MachineState } from "features/game/expansion/placeable/landscapingMachi
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { ZoomContext } from "components/ZoomProvider";
+import { isLocked } from "features/game/events/landExpansion/moveChicken";
+import lockIcon from "assets/skills/lock.png";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -488,11 +490,60 @@ const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 export const Chicken: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const collectibles = gameState.context.state.collectibles;
+  const chickens = gameState.context.state.chickens;
+  const [showPopover, setShowPopover] = useState(false);
 
   const landscaping = useSelector(gameService, isLandscaping);
 
+  const handleMouseEnter = () => {
+    // set state to show details
+    setShowPopover(true);
+  };
+
+  const handleMouseLeave = () => {
+    // set state to hide details
+    setShowPopover(false);
+  };
+
   if (landscaping) {
     // In Landscaping mode, use readonly building
+
+    if (isLocked(chickens[props.id], collectibles, Date.now())) {
+      return (
+        <div
+          className="relative w-full h-full"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <InnerPanel
+            className={classNames(
+              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50 pointer-events-none",
+              {
+                "opacity-100": showPopover,
+                "opacity-0": !showPopover,
+              }
+            )}
+            style={{
+              top: `${PIXEL_SCALE * -10}px`,
+              left: `${PIXEL_SCALE * 16}px`,
+            }}
+          >
+            <div className="flex flex-col text-xxs text-white text-shadow mx-2">
+              <div className="flex flex-1 items-center justify-center">
+                <img src={lockIcon} className="w-4 mr-1" />
+                <span>AoE Locked</span>
+              </div>
+            </div>
+          </InnerPanel>
+          <div className="relative">
+            <ChickenComponent {...props} />
+          </div>
+        </div>
+      );
+    }
     return (
       <MoveableComponent
         name="Chicken"

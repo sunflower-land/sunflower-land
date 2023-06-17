@@ -13,6 +13,12 @@ export type Rooms = {
   auction_house: Room<PlazaRoomState> | undefined;
   clothes_shop: Room<PlazaRoomState> | undefined;
   decorations_shop: Room<PlazaRoomState> | undefined;
+  windmill_floor: Room<PlazaRoomState> | undefined;
+  igor_home: Room<PlazaRoomState> | undefined;
+  bert_home: Room<PlazaRoomState> | undefined;
+  timmy_home: Room<PlazaRoomState> | undefined;
+  betty_home: Room<PlazaRoomState> | undefined;
+  woodlands: Room<PlazaRoomState> | undefined;
 };
 export type RoomId = keyof Rooms;
 
@@ -93,6 +99,8 @@ export type MachineInterpreter = Interpreter<
   any
 >;
 
+export const INITIAL_ROOM: RoomId = "plaza";
+
 /**
  * Machine which handles room events
  */
@@ -101,12 +109,18 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
   context: {
     jwt: "",
     farmId: 0,
-    roomId: "plaza",
+    roomId: INITIAL_ROOM,
     rooms: {
       plaza: undefined,
       auction_house: undefined,
       clothes_shop: undefined,
       decorations_shop: undefined,
+      windmill_floor: undefined,
+      igor_home: undefined,
+      bert_home: undefined,
+      timmy_home: undefined,
+      betty_home: undefined,
+      woodlands: undefined,
     },
     // TEMP FIELD - server will set this
     bumpkin: INITIAL_BUMPKIN,
@@ -144,7 +158,9 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             throw new Error("You must initialise the client first");
           }
 
-          await context.rooms[context.roomId]?.leave();
+          if (context.rooms[context.roomId]) {
+            await context.rooms[context.roomId]?.leave();
+          }
 
           const roomId = (event.roomId ?? event.data.roomId) as RoomId;
 
@@ -200,7 +216,10 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         },
         onError: {
           target: "error",
-          cond: (_, event) => !event.data.roo,
+          actions: assign({
+            roomId: (_) => undefined as unknown as RoomId,
+          }),
+          // cond: (_, event) => !event.data.room,
           // Fire off an event, and let the game render player anyway
         },
         onDone: {
@@ -244,6 +263,12 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       },
     },
     kicked: {},
-    error: {},
+    error: {
+      on: {
+        CHANGE_ROOM: {
+          target: "joinRoom",
+        },
+      },
+    },
   },
 });

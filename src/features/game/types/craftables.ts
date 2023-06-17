@@ -14,7 +14,6 @@ import {
   SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
-import { AuctioneerItemName } from "./auctioneer";
 import { BoostTreasure } from "./treasure";
 import { RESOURCE_DIMENSIONS } from "./resources";
 
@@ -180,6 +179,7 @@ export type LimitedItemName =
 export type Lantern =
   | "Luminous Lantern"
   | "Radiance Lantern"
+  | "Ocean Lantern"
   | "Aurora Lantern";
 
 export type CollectibleName =
@@ -191,7 +191,6 @@ export type CollectibleName =
   | MutantChicken
   | MutantCropName
   | DecorationName
-  | AuctioneerItemName
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
@@ -1077,8 +1076,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Mysterious Parsnip": { width: 1, height: 1 },
   "Carrot Sword": { width: 1, height: 1 },
 
-  "Basic Scarecrow": { width: 1, height: 2 },
-
   // Barn Items
   "Farm Cat": { width: 1, height: 1 },
   "Farm Dog": { width: 1, height: 1 },
@@ -1118,12 +1115,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
   "Iron Idol": { height: 2, width: 2 },
-  "Emerald Turtle": { height: 1, width: 1 },
-  "Tin Turtle": { height: 1, width: 1 },
 
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
   "Cyborg Bear": { width: 1, height: 1 },
+  "Beta Bear": { width: 1, height: 1 },
 
   //Easter Event Items
   "Easter Bunny": { width: 2, height: 1 },
@@ -1156,11 +1152,19 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Luminous Lantern": { height: 2, width: 1 },
   "Aurora Lantern": { height: 2, width: 1 },
   "Radiance Lantern": { height: 2, width: 1 },
+  "Ocean Lantern": { height: 2, width: 1 },
 
   "Purple Trail": { width: 1, height: 1 },
   Obie: { width: 1, height: 1 },
   Maximus: { width: 2, height: 2 },
   Hoot: { width: 1, height: 1 },
+
+  // AoE items
+  "Emerald Turtle": { height: 1, width: 1 },
+  "Tin Turtle": { height: 1, width: 1 },
+  "Basic Scarecrow": { width: 1, height: 2 },
+  Bale: { width: 2, height: 2 },
+  "Sir Goldensnout": { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

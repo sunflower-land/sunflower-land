@@ -1,4 +1,4 @@
-import { syncProgress } from "lib/blockchain/Sessions";
+import { syncProgress } from "lib/blockchain/Game";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";

@@ -7,7 +7,7 @@ export const Minting: React.FC = () => {
       <span className="text-shadow text-center loading">Minting</span>
       <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/2 mt-2 mb-3" />
       <span className="text-sm">
-        Please be patient while our minions mint something special for you.
+        Please be patient while your item is minted on the Blockchain.
       </span>
     </div>
   );

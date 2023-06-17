@@ -63,6 +63,8 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
         <div
           className="flex justify-center absolute w-full z-40"
           style={{
+            width: `${PIXEL_SCALE * 48}px`,
+            left: `${PIXEL_SCALE * -8}px`,
             top: `${PIXEL_SCALE * -2}px`,
             opacity: playing ? 1 : 0,
             transition: "opacity 0.2s ease-in",
@@ -70,7 +72,7 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
         >
           <img
             src={SUNNYSIDE.resource.wood}
-            className="mr-2"
+            className="mr-2 img-highlight-heavy"
             style={{
               width: `${PIXEL_SCALE * 11}px`,
             }}

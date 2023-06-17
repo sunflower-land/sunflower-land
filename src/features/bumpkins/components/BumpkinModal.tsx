@@ -4,7 +4,7 @@ import levelIcon from "assets/icons/level_up.png";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -20,6 +20,8 @@ import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansi
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { BumpkinEquip } from "./BumpkinEquip";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -79,6 +81,8 @@ export const BumpkinModal: React.FC<Props> = ({
 }) => {
   const [view, setView] = useState<ViewState>(initialView);
 
+  const [tab, setTab] = useState(0);
+
   const getVisitBumpkinUrl = () => {
     if (readonly) {
       const baseUrl =
@@ -124,97 +128,107 @@ export const BumpkinModal: React.FC<Props> = ({
   const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
 
   return (
-    <Panel>
-      <div className="flex flex-wrap">
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 6}px`,
-            right: `${PIXEL_SCALE * 6}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-        <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
-          <div className="w-full rounded-md overflow-hidden mb-1">
-            <DynamicNFT
-              showBackground
-              bumpkinParts={bumpkin?.equipped as BumpkinParts}
-            />
-          </div>
-          {isFullUser && (
-            <div className="ml-1">
-              <a
-                href={getVisitBumpkinUrl()}
-                target="_blank"
-                className="underline text-xxs"
-                rel="noreferrer"
-              >
-                Visit Bumpkin
-              </a>
-            </div>
-          )}
-        </div>
-
-        <div className="flex-1">
-          <div className="mb-3">
-            <div className="flex items-center ml-1 my-2">
-              <img
-                src={levelIcon}
-                style={{
-                  width: `${PIXEL_SCALE * 10}px`,
-                  marginRight: `${PIXEL_SCALE * 4}px`,
-                }}
+    <CloseButtonPanel
+      currentTab={tab}
+      setCurrentTab={setTab}
+      onClose={onClose}
+      tabs={[
+        {
+          icon: SUNNYSIDE.icons.player,
+          name: "Info",
+        },
+        {
+          icon: SUNNYSIDE.icons.wardrobe,
+          name: "Equip",
+        },
+      ]}
+    >
+      {tab === 0 && (
+        <div className="flex flex-wrap">
+          <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
+            <div className="w-full rounded-md overflow-hidden mb-1">
+              <DynamicNFT
+                showBackground
+                bumpkinParts={bumpkin?.equipped as BumpkinParts}
               />
-              <div>
-                <p className="text-base">
-                  Level {level}
-                  {maxLevel ? " (Max)" : ""}
-                </p>
-                {/* Progress bar */}
-                <BumpkinLevel bumpkin={bumpkin} />
+            </div>
+            {isFullUser && (
+              <div className="ml-1">
+                <a
+                  href={getVisitBumpkinUrl()}
+                  target="_blank"
+                  className="underline text-xxs"
+                  rel="noreferrer"
+                >
+                  Visit Bumpkin
+                </a>
+              </div>
+            )}
+          </div>
+
+          <div className="flex-1">
+            <div className="mb-3">
+              <div className="flex items-center ml-1 my-2">
+                <img
+                  src={levelIcon}
+                  style={{
+                    width: `${PIXEL_SCALE * 10}px`,
+                    marginRight: `${PIXEL_SCALE * 4}px`,
+                  }}
+                />
+                <div>
+                  <p className="text-base">
+                    Level {level}
+                    {maxLevel ? " (Max)" : ""}
+                  </p>
+                  {/* Progress bar */}
+                  <BumpkinLevel bumpkin={bumpkin} />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div
-            className="mb-2 cursor-pointer"
-            onClick={() => setView("skills")}
-          >
-            <InnerPanel className="relative mt-1 px-2 py-1">
-              <div className="flex items-center mb-1 justify-between">
-                <div className="flex items-center">
-                  <span className="text-xs">Skills</span>
-                  {hasAvailableSP && !readonly && (
-                    <img
-                      src={SUNNYSIDE.icons.expression_alerted}
-                      className="h-4 ml-2"
-                    />
-                  )}
+            <div
+              className="mb-2 cursor-pointer"
+              onClick={() => setView("skills")}
+            >
+              <InnerPanel className="relative mt-1 px-2 py-1">
+                <div className="flex items-center mb-1 justify-between">
+                  <div className="flex items-center">
+                    <span className="text-xs">Skills</span>
+                    {hasAvailableSP && !readonly && (
+                      <img
+                        src={SUNNYSIDE.icons.expression_alerted}
+                        className="h-4 ml-2"
+                      />
+                    )}
+                  </div>
+                  <span className="text-xxs underline">View all</span>
                 </div>
-                <span className="text-xxs underline">View all</span>
-              </div>
-              <SkillBadges inventory={inventory} bumpkin={bumpkin as Bumpkin} />
-            </InnerPanel>
-          </div>
+                <SkillBadges
+                  inventory={inventory}
+                  bumpkin={bumpkin as Bumpkin}
+                />
+              </InnerPanel>
+            </div>
 
-          <div
-            className="mb-2 cursor-pointer"
-            onClick={() => setView("achievements")}
-          >
-            <InnerPanel className="relative mt-1 px-2 py-1">
-              <div className="flex items-center mb-1 justify-between">
-                <div className="flex items-center">
-                  <span className="text-xs">Achievements</span>
+            <div
+              className="mb-2 cursor-pointer"
+              onClick={() => setView("achievements")}
+            >
+              <InnerPanel className="relative mt-1 px-2 py-1">
+                <div className="flex items-center mb-1 justify-between">
+                  <div className="flex items-center">
+                    <span className="text-xs">Achievements</span>
+                  </div>
+                  <span className="text-xxs underline">View all</span>
                 </div>
-                <span className="text-xxs underline">View all</span>
-              </div>
-              <AchievementBadges achievements={bumpkin?.achievements} />
-            </InnerPanel>
+                <AchievementBadges achievements={bumpkin?.achievements} />
+              </InnerPanel>
+            </div>
           </div>
         </div>
-      </div>
-    </Panel>
+      )}
+      {tab === 1 && <BumpkinEquip />}
+    </CloseButtonPanel>
   );
 };
