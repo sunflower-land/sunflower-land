@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineInterpreter } from "features/game/lib/auctionMachine";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   auctionService: MachineInterpreter;
 }
 export const MissingAuction: React.FC<Props> = ({ auctionService }) => {
+  const { gameService } = useContext(Context);
+
   const refund = () => {
+    gameService.send("bid.refunded");
     auctionService.send("REFUND");
+    gameService.send("SAVE");
   };
 
   return (

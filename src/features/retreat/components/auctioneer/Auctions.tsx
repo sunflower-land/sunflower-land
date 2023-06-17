@@ -12,6 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
+import { AuctionsComingSoon } from "./AuctionsComingSoon";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -26,11 +27,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
     (auction) => auction.endAt > Date.now()
   );
   if (currentAuctions.length === 0) {
-    return (
-      <div className="p-2">
-        <p>More Auctions Coming soon...</p>
-      </div>
-    );
+    return <AuctionsComingSoon />;
   }
 
   return (
@@ -70,7 +67,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                   : auction.wearable}
               </p>
               <div className="ml-1 hidden sm:flex my-1">
-                {auction.sfl && (
+                {auction.sfl > 0 && (
                   <img src={sflIcon} className="h-5 img-highlight -ml-1" />
                 )}
                 {getKeys(auction.ingredients).map((name) => (

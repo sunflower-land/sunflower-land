@@ -14,6 +14,30 @@ import classNames from "classnames";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
 
+/**
+ * If they have enough resources, default the bid to 5 tickets
+ */
+function getInitialTickets(auction: Auction, gameState: GameState) {
+  const defaultTickets = 5;
+
+  if (gameState.balance.lt(auction.sfl * defaultTickets)) {
+    return 1;
+  }
+
+  if (
+    getKeys(auction.ingredients).some(
+      (name) =>
+        !gameState.inventory[name]?.gt(
+          (auction.ingredients[name] ?? 0) * defaultTickets
+        )
+    )
+  ) {
+    return 1;
+  }
+
+  return defaultTickets;
+}
+
 interface Props {
   auction: Auction;
   maxTickets: number;
@@ -28,13 +52,74 @@ export const DraftBid: React.FC<Props> = ({
   gameState,
   onBack,
 }) => {
-  const [tickets, setTickets] = useState(1);
+  const [tickets, setTickets] = useState(getInitialTickets(auction, gameState));
+  const [showConfirm, setShowConfirm] = useState(false);
   const end = useCountdown(auction.endAt);
 
   const missingSFL = gameState.balance.lt(auction.sfl * tickets);
   const missingIngredients = getKeys(auction.ingredients).some((name) =>
     gameState.inventory[name]?.lt((auction.ingredients[name] ?? 0) * tickets)
   );
+
+  if (showConfirm) {
+    return (
+      <div
+        className="flex flex-col justify-center items-center relative"
+        style={{ height: "200px" }}
+      >
+        <div className="absolute -top-2 right-0">
+          {TimerDisplay({
+            time: end,
+            fontSize: 18,
+            color: end.minutes >= 1 ? "white" : "red",
+          })}
+        </div>
+        <div className="p-2 flex-1 flex flex-col items-center justify-center">
+          <p className="text-sm mb-2">
+            Are you sure you want to place this bid?
+          </p>
+          <div className="flex items-center flex-wrap justify-center mb-4">
+            {auction.sfl > 0 && (
+              <div className={classNames("flex items-center  mb-1 mr-3")}>
+                <div>
+                  <p className="mr-1 text-right text-sm">
+                    {auction.sfl * tickets}
+                  </p>
+                </div>
+                <img src={sflIcon} className="h-5" />
+              </div>
+            )}
+            {getKeys(auction.ingredients).map((name) => (
+              <div className="flex items-center mb-1 mr-3" key={name}>
+                <div>
+                  <p className={classNames("mr-1 text-right text-sm")}>
+                    {(auction.ingredients[name] ?? 0) * tickets}
+                  </p>
+                </div>
+                <img src={ITEM_DETAILS[name].image} className="h-5" />
+              </div>
+            ))}
+          </div>
+
+          <p className="text-xs mb-2">
+            Bids cannot be changed once they have been placed.
+          </p>
+        </div>
+        <div className="flex w-full">
+          <Button className="mr-1" onClick={() => setShowConfirm(false)}>
+            Back
+          </Button>
+          <Button
+            onClick={() => {
+              onBid(tickets);
+            }}
+          >
+            Confirm
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-2 relative">
@@ -49,28 +134,28 @@ export const DraftBid: React.FC<Props> = ({
       </div>
 
       <div className="absolute -top-2 right-0">
-        {TimerDisplay({ time: end, fontSize: 16 })}
+        {TimerDisplay({
+          time: end,
+          fontSize: 18,
+          color: end.minutes >= 1 ? "white" : "red",
+        })}
       </div>
 
       <div className="flex items-center justify-center mb-1">
-        <div
-          className="w-10 mr-2 relative cursor-pointer"
-          style={{
-            opacity: tickets === 0 ? 0.5 : 1,
-          }}
+        <Button
+          className="w-10 h-10 mr-2 relative cursor-pointer"
+          disabled={tickets === 1}
+          longPress
           onClick={() => setTickets((prev) => (prev > 1 ? prev - 1 : prev))}
         >
-          <img src={SUNNYSIDE.icons.disc} className="w-full" />
           <img
             src={SUNNYSIDE.icons.minus}
-            className="absolute"
+            className="relative top-0.5"
             style={{
               width: `${PIXEL_SCALE * 8}px`,
-              top: `${PIXEL_SCALE * 4.5}px`,
-              left: `${PIXEL_SCALE * 3.7}px`,
             }}
           />
-        </div>
+        </Button>
         <div className="flex items-center flex-wrap justify-center">
           {auction.sfl > 0 && (
             <div
@@ -104,30 +189,35 @@ export const DraftBid: React.FC<Props> = ({
           ))}
         </div>
 
-        <div
-          className="w-10 mr-2 relative"
+        <Button
+          className="w-10 h-10 mr-2 relative cursor-pointer"
+          disabled={tickets === maxTickets}
           onClick={() =>
             setTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
           }
-          style={{
-            opacity: tickets === maxTickets ? 0.5 : 1,
-          }}
+          longPress
         >
-          <img src={SUNNYSIDE.icons.disc} className="w-full" />
           <img
             src={SUNNYSIDE.icons.plus}
-            className="absolute"
+            className="relative top-0.5"
             style={{
               width: `${PIXEL_SCALE * 8}px`,
-              top: `${PIXEL_SCALE * 3.5}px`,
-              left: `${PIXEL_SCALE * 3.7}px`,
             }}
           />
-        </div>
+        </Button>
       </div>
-      <p className="text-xxs text-center underline mb-3">
-        How does this auction work?
-      </p>
+
+      <div className="text-xxs text-center underline mb-3  hover:text-blue-500">
+        <a
+          href="https://docs.sunflower-land.com/player-guides/auctions"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xxs text-center underline mb-3  hover:text-blue-500"
+        >
+          How does the auction work?
+        </a>
+      </div>
+
       <div className="flex">
         <img src={SUNNYSIDE.icons.stopwatch} className="h-6 mr-2" />
         <p className="text-sm mb-2">
@@ -140,14 +230,7 @@ export const DraftBid: React.FC<Props> = ({
           }.`}
         </p>
       </div>
-      <div className="flex mb-2">
-        <img src={SUNNYSIDE.icons.happy} className="h-6 mr-2" />
-        <div>
-          <p className="text-sm">
-            {`Winners only pay the lowest successful bid price (the ${auction.supply}th bid)`}
-          </p>
-        </div>
-      </div>
+
       <div className="flex mb-4">
         <img src={SUNNYSIDE.icons.neutral} className="h-6 mr-2" />
         <div>
@@ -158,16 +241,23 @@ export const DraftBid: React.FC<Props> = ({
       </div>
 
       <Button
-        onClick={() => {
-          onBid(tickets);
-        }}
+        onClick={() => setShowConfirm(true)}
         disabled={
           missingSFL || missingIngredients || Date.now() > auction.endAt
         }
       >
         Bid
       </Button>
-      <p className="text-xs underline text-center">Terms and conditions</p>
+      <div className="text-center">
+        <a
+          href="https://docs.sunflower-land.com/player-guides/auctions"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-center underline mb-3  hover:text-blue-500"
+        >
+          Terms and conditions
+        </a>
+      </div>
     </div>
   );
 };

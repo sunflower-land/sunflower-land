@@ -24,13 +24,15 @@ import {
 } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { ZoomContext } from "components/ZoomProvider";
-import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
+import { InnerPanel } from "components/ui/Panel";
+import { hasRestriction } from "../../game/types/removeables";
+import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -87,32 +89,6 @@ export function getRemoveAction(
   return null;
 }
 
-const canRemoveItem = (
-  name: InventoryItemName,
-  id: string,
-  state: GameState
-): boolean => {
-  if (name === "Genie Lamp") {
-    const collectibleGroup = state.collectibles[name];
-    if (!collectibleGroup) return false;
-
-    const collectibleToRemove = collectibleGroup.find(
-      (collectible) => collectible.id === id
-    );
-    if (!collectibleToRemove) return false;
-
-    const rubbedCount = collectibleToRemove.rubbedCount ?? 0;
-    if (rubbedCount > 0) {
-      return false;
-    }
-  }
-
-  if (name === "Chicken Coop") {
-    if (areUnsupportedChickensBrewing(state)) return false;
-  }
-  return true;
-};
-
 export interface MovableProps {
   name: CollectibleName | BuildingName | "Chicken";
   id: string;
@@ -148,8 +124,12 @@ export const MoveableComponent: React.FC<MovableProps> = ({
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
   const removeAction = !isMobile && getRemoveAction(name);
-  const canRemove =
-    !!removeAction && canRemoveItem(name, id, gameService.state.context.state);
+  const hasRemovalAction = !!removeAction;
+  const [isRestricted, restrictionReason] = hasRestriction(
+    name,
+    id,
+    gameService.state.context.state
+  );
 
   /**
    * Deselect if clicked outside of element
@@ -306,13 +286,14 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         className={classNames("h-full relative", {
           "cursor-grabbing": isDragging,
           "cursor-pointer": !isDragging,
+          "z-10": isSelected,
         })}
       >
         {isSelected && (
           <div
             className="absolute z-10 flex"
             style={{
-              right: `${PIXEL_SCALE * -(canRemove ? 34 : 12)}px`,
+              right: `${PIXEL_SCALE * -(hasRemovalAction ? 34 : 12)}px`,
               top: `${PIXEL_SCALE * -12}px`,
             }}
           >
@@ -345,38 +326,71 @@ export const MoveableComponent: React.FC<MovableProps> = ({
                 />
               )}
             </div>
-            {canRemove && (
+            {showRemoveConfirmation && name === "Kuebiko" && (
+              <RemoveKuebikoModal
+                onClose={() => setShowRemoveConfirmation(false)}
+                onRemove={() => remove()}
+              />
+            )}
+            {hasRemovalAction && (
               <div
-                className="relative cursor-pointer"
+                className={classNames("group relative cursor-pointer", {
+                  "cursor-not-allowed": isRestricted,
+                })}
                 style={{
                   width: `${PIXEL_SCALE * 18}px`,
                 }}
                 onClick={(e) => {
-                  remove();
+                  if (!isRestricted) remove();
                   e.preventDefault();
                 }}
               >
                 <img className="w-full" src={SUNNYSIDE.icons.disc} />
                 {isSelected && showRemoveConfirmation ? (
-                  <img
-                    className="absolute"
-                    src={SUNNYSIDE.icons.confirm}
-                    style={{
-                      width: `${PIXEL_SCALE * 12}px`,
-                      right: `${PIXEL_SCALE * 3}px`,
-                      top: `${PIXEL_SCALE * 3}px`,
-                    }}
-                  />
+                  <>
+                    <img
+                      className="absolute"
+                      src={SUNNYSIDE.icons.confirm}
+                      style={{
+                        width: `${PIXEL_SCALE * 12}px`,
+                        right: `${PIXEL_SCALE * 3}px`,
+                        top: `${PIXEL_SCALE * 3}px`,
+                      }}
+                    />
+                  </>
                 ) : (
-                  <img
-                    className="absolute"
-                    src={ITEM_DETAILS["Rusty Shovel"].image}
+                  <>
+                    <img
+                      className="absolute"
+                      src={ITEM_DETAILS["Rusty Shovel"].image}
+                      style={{
+                        width: `${PIXEL_SCALE * 12}px`,
+                        right: `${PIXEL_SCALE * 3}px`,
+                        top: `${PIXEL_SCALE * 3}px`,
+                      }}
+                    />
+                    {isRestricted && (
+                      <img
+                        src={SUNNYSIDE.icons.cancel}
+                        className="absolute right-0 top-0 w-1/2 h-1/2 object-contain"
+                        alt="restricted"
+                      />
+                    )}
+                  </>
+                )}
+                {isRestricted && (
+                  <div
+                    className="flex justify-center absolute w-full pointer-events-none invisible group-hover:!visible"
                     style={{
-                      width: `${PIXEL_SCALE * 12}px`,
-                      right: `${PIXEL_SCALE * 3}px`,
-                      top: `${PIXEL_SCALE * 3}px`,
+                      top: `${PIXEL_SCALE * -10}px`,
                     }}
-                  />
+                  >
+                    <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+                      <div className="text-xxs mx-1 p-1">
+                        <span>{restrictionReason}</span>
+                      </div>
+                    </InnerPanel>
+                  </div>
                 )}
               </div>
             )}

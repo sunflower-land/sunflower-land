@@ -11,8 +11,8 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
 import { getKeys } from "features/game/types/craftables";
-import { secondsToString } from "lib/utils/time";
-import { Label } from "components/ui/Label";
+import { TimerDisplay } from "./AuctionDetails";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 const AUCTION_BUFFER_SECONDS = 30;
 
@@ -33,6 +33,7 @@ export const AuctionBid: React.FC<Props> = ({
   const readyAt = auction.endAt + AUCTION_BUFFER_SECONDS * 1000;
   const secondsLeft = !auction ? 0 : Math.floor((readyAt - Date.now()) / 1000);
 
+  const ready = useCountdown(readyAt);
   return (
     <div className="flex justify-center flex-col w-full items-center">
       <div className="relative my-2">
@@ -64,11 +65,7 @@ export const AuctionBid: React.FC<Props> = ({
           </div>
         )}
       </div>
-      {secondsLeft > 0 && (
-        <Label type="info">{`${secondsToString(secondsLeft, {
-          length: "full",
-        })} left`}</Label>
-      )}
+      <TimerDisplay time={ready} />
 
       <Button
         className="mt-2"

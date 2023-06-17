@@ -20,7 +20,7 @@ type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
-  AUCTION: defaultFeatureFlag,
+  AUCTION: () => true, // TEMP FOR TESTING defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (

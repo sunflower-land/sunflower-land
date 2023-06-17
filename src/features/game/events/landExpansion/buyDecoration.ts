@@ -12,6 +12,7 @@ import {
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
+import { analytics } from "lib/analytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
@@ -112,6 +113,15 @@ export function buyDecoration({ state, action }: Options) {
       coordinates: { x: action.coordinates.x, y: action.coordinates.y },
       readyAt: Date.now(),
       createdAt: Date.now(),
+    });
+  }
+
+  if (desiredItem.ingredients["Block Buck"]) {
+    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
+    analytics.logEvent("spend_virtual_currency", {
+      value: desiredItem.ingredients["Block Buck"].toNumber() ?? 1,
+      virtual_currency_name: "Block Buck",
+      item_name: `${name}`,
     });
   }
 

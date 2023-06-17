@@ -8,9 +8,10 @@ import { SealContainer } from "features/community/project-dignity/components/Sea
 
 interface Props {
   isGarden: boolean;
+  offset?: number;
 }
 
-export const ProjectDignitySeals: React.FC<Props> = ({ isGarden }) => {
+export const ProjectDignitySeals: React.FC<Props> = ({ isGarden, offset }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const [sealData, setSealData] = useState<Seal[]>([]);
@@ -24,5 +25,5 @@ export const ProjectDignitySeals: React.FC<Props> = ({ isGarden }) => {
     fetchSeals();
   }, []);
 
-  return <SealContainer seals={sealData} isGarden={isGarden} />;
+  return <SealContainer seals={sealData} isGarden={isGarden} offset={offset} />;
 };

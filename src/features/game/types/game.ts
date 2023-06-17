@@ -561,7 +561,7 @@ export interface GameState {
       createdAt: number;
     }[];
   };
-  dailyRewards: DailyRewards;
+  dailyRewards?: DailyRewards;
   auctioneer: {
     bid?: Bid;
   };

@@ -5,7 +5,6 @@ import { Panel } from "components/ui/Panel";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { useActor, useInterpret } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CONFIG } from "lib/config";
 import {
   MachineInterpreter,
   createAuctioneerMachine,
@@ -13,6 +12,10 @@ import {
 import { Bid, GameState } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { hasFeatureAccess } from "lib/flags";
+import { NPC_WEARABLES } from "lib/npcs";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Label } from "components/ui/Label";
 
 interface Props {
   gameState: GameState;
@@ -40,11 +43,13 @@ export const AuctioneerModal: React.FC<Props> = ({
       token: authState.context.user.rawToken,
       bid: gameState.auctioneer.bid,
       deviceTrackerId: deviceTrackerId,
+      canAccess: hasFeatureAccess(gameState.inventory, "AUCTION"),
     },
   }) as unknown as MachineInterpreter;
 
   const [auctioneerState, send] = useActor(auctionService);
 
+  console.log({ state: auctioneerState.value });
   useEffect(() => {
     if (isOpen) {
       auctionService.send("OPEN", { gameState });
@@ -58,7 +63,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   if (auctioneerState.matches("loading")) {
     return (
       <Modal centered show={isOpen} onHide={onClose}>
-        <Panel>
+        <Panel bumpkinParts={NPC_WEARABLES["hammerin' harry"]}>
           <span className="loading">Loading</span>
         </Panel>
       </Modal>
@@ -71,33 +76,34 @@ export const AuctioneerModal: React.FC<Props> = ({
     onClose();
   };
 
-  if (CONFIG.NETWORK === "mainnet") {
-    return (
-      <Modal centered show={isOpen} onHide={onClose} scrollable>
-        <Panel className="relative">
-          <div className="p-2 flex flex-col items-center">
-            <p>Under construction!</p>
-            <img src={SUNNYSIDE.npcs.goblin_hammering} className="w-1/3" />
-            <p className="my-2 text-sm">This feature is coming soon.</p>
-            <a
-              href="https://docs.sunflower-land.com/player-guides/islands/goblin-retreat/goblin-auctioneer"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs underline"
-            >
-              Read more
-            </a>
-          </div>
-        </Panel>
-      </Modal>
-    );
-  }
-
   return (
     <Modal centered show={isOpen} onHide={closeModal} scrollable>
       <CloseButtonPanel
         onClose={onClose}
         tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Auctions & Drops" }]}
+        bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+        secondaryAction={
+          <a
+            href="https://docs.sunflower-land.com/player-guides/auctions"
+            className="mx-auto text-xxs underline text-center"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="flex items-center">
+              <div className="mr-2">
+                <Label type="info">BETA</Label>
+              </div>
+
+              <img
+                src={SUNNYSIDE.icons.expression_confused}
+                className="flex-none cursor-pointer float-right"
+                style={{
+                  height: `${PIXEL_SCALE * 11}px`,
+                }}
+              />
+            </div>
+          </a>
+        }
       >
         <div
           style={{

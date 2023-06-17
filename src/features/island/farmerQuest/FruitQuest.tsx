@@ -9,8 +9,13 @@ import appleTree from "assets/fruit/apple/apple_tree.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
 import { NPC } from "../bumpkin/components/NPC";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
-export const FruitQuest: React.FC = () => {
+interface Props {
+  offset: number;
+}
+
+export const FruitQuest: React.FC<Props> = ({ offset }) => {
   const [showModal, setShowModal] = useState(false);
 
   const ModalDescription = () => {
@@ -62,34 +67,35 @@ export const FruitQuest: React.FC = () => {
   };
   return (
     <>
-      <img
-        src={island}
-        className="absolute"
-        style={{
-          left: `${GRID_WIDTH_PX * -4}px`,
-          top: `${GRID_WIDTH_PX * -4}px`,
-          width: `${PIXEL_SCALE * 94}px`,
-        }}
-      />
-      <div
-        className="absolute"
-        style={{
-          left: `${GRID_WIDTH_PX * -1.5}px`,
-          top: `${GRID_WIDTH_PX * -3.2}px`,
-          width: `${PIXEL_SCALE * 15}px`,
-        }}
-      >
-        <NPC
-          parts={{
-            pants: "Blue Suspenders",
-            body: "Beige Farmer Potion",
-            hair: "Sun Spots",
-            shirt: "Fruit Picker Shirt",
-            hat: "Fruit Bowl",
+      <MapPlacement width={6} height={6} x={-8 - offset} y={9 + offset}>
+        <img
+          src={island}
+          className="absolute"
+          style={{
+            left: `${GRID_WIDTH_PX * 0}px`,
+            top: `${GRID_WIDTH_PX * 0}px`,
+            width: `${PIXEL_SCALE * 94}px`,
           }}
-          onClick={() => setShowModal(true)}
         />
-      </div>
+        <div
+          className="absolute"
+          style={{
+            left: `${GRID_WIDTH_PX * 2.5}px`,
+            top: `${GRID_WIDTH_PX * 0.75}px`,
+          }}
+        >
+          <NPC
+            parts={{
+              pants: "Blue Suspenders",
+              body: "Beige Farmer Potion",
+              hair: "Sun Spots",
+              shirt: "Fruit Picker Shirt",
+              hat: "Fruit Bowl",
+            }}
+            onClick={() => setShowModal(true)}
+          />
+        </div>
+      </MapPlacement>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Quest
           quests={["Fruit Quest 1", "Fruit Quest 2", "Fruit Quest 3"]}

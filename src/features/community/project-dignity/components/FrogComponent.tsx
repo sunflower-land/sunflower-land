@@ -36,26 +36,26 @@ export const FrogComponent: React.FC<Props> = ({ frog, disableSound }) => {
           width: `${FROG_SIZE * PIXEL_SCALE}px`,
         }}
       />
-      <InnerPanel
-        className={classNames(
-          "absolute transition-opacity whitespace-nowrap z-20 pointer-events-none",
-          {
-            "opacity-100": showTooltip,
-            "opacity-0": !showTooltip,
-          }
-        )}
+
+      <div
+        className="flex justify-center absolute w-full pointer-events-none"
         style={{
-          left: `${PIXEL_SCALE * 22}px`,
-          bottom: `${PIXEL_SCALE * 22}px`,
+          top: `${PIXEL_SCALE * -18}px`,
         }}
       >
-        <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
-          <span className="flex-1">{frog.name}</span>
-          <span className="flex-1" style={{ color: frog.rarity?.color }}>
-            {frog.rarity?.name}
-          </span>
-        </div>
-      </InnerPanel>
+        <InnerPanel
+          className={classNames(
+            "absolute transition-opacity whitespace-nowrap z-20 pointer-events-none p-2 flex flex-col text-xxs",
+            {
+              "opacity-100": showTooltip,
+              "opacity-0": !showTooltip,
+            }
+          )}
+        >
+          <span>{frog.name}</span>
+          <span style={{ color: frog.rarity?.color }}>{frog.rarity?.name}</span>
+        </InnerPanel>
+      </div>
     </div>
   );
 };

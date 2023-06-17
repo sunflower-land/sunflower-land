@@ -3,7 +3,6 @@ import { randomID } from "lib/utils/random";
 import { bid } from "features/game/actions/bid";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getAuctionResults } from "features/game/actions/getAuctionResults";
-import { autosave } from "features/game/actions/autosave";
 import { BumpkinItem } from "../types/bumpkin";
 import { CONFIG } from "lib/config";
 import { loadAuctions } from "features/retreat/components/auctioneer/actions/loadAuctions";
@@ -32,15 +31,20 @@ type WearableAuction = AuctionBase & {
 
 export type Auction = CollectibleAuction | WearableAuction;
 
+export type LeaderboardBid = {
+  rank: number;
+  tickets: number;
+  experience: number;
+  sfl: number;
+  items: Partial<Record<InventoryItemName, number>>;
+  farmId: number;
+};
+
 export type AuctionResults = {
-  status: "loser" | "winner" | "pending";
-  minimum: {
-    tickets: number;
-    experience: number;
-    sfl: number;
-    items: Record<InventoryItemName, number>;
-  };
+  status: "loser" | "winner" | "pending" | "tiebreaker";
+  leaderboard: LeaderboardBid[];
   participantCount: number;
+  rank: number;
   supply: number;
 };
 export interface Context {
@@ -52,6 +56,7 @@ export interface Context {
   auctionId: string;
   transactionId: string;
   results?: AuctionResults;
+  canAccess: boolean;
 }
 
 type BidEvent = {
@@ -87,6 +92,7 @@ export type BlockchainEvent =
 export type AuctioneerMachineState = {
   value:
     | "idle"
+    | "noAccess"
     | "introduction"
     | "loading"
     | "initialising"
@@ -96,8 +102,8 @@ export type AuctioneerMachineState = {
     | "bidded"
     | "checkingResults"
     | "loser"
+    | "tiebreaker"
     | "missingAuction"
-    | "refunding"
     | "refunded"
     | "pending"
     | "winner"
@@ -120,20 +126,72 @@ export const createAuctioneerMachine = ({
   createMachine<Context, BlockchainEvent, AuctioneerMachineState>(
     {
       id: "auctioneerMachine",
-      initial: "idle",
+      initial: "initialising",
       context: {
         farmId: 0,
         transactionId: "?",
         auctionId: "test-auction-1",
         token: "",
         deviceTrackerId: "",
+        canAccess: false,
+
+        // Offline testing
+        results: {
+          leaderboard: [
+            {
+              farmId: 44,
+              experience: 10,
+              items: { Gold: 50, "Block Buck": 30, Radish: 50 },
+              sfl: 1000,
+              tickets: 5,
+              rank: 1,
+            },
+            {
+              farmId: 1,
+              experience: 10,
+              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              sfl: 100,
+              tickets: 5,
+              rank: 2,
+            },
+            {
+              farmId: 122078,
+              experience: 10,
+              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              sfl: 100,
+              tickets: 5,
+              rank: 3,
+            },
+            {
+              farmId: 156788,
+              experience: 10,
+              items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+              sfl: 100,
+              tickets: 5,
+              rank: 50,
+            },
+            // {
+            //   farmId: 1,
+            //   experience: 10,
+            //   items: { Gold: 5, "Block Buck": 3, Radish: 5 },
+            //   sfl: 100,
+            //   tickets: 5,
+            //   rank: 53,
+            // },
+          ],
+          participantCount: 53,
+          rank: 56,
+          status: "winner",
+          supply: 50,
+        },
+
         auctions: [
           {
             auctionId: "test-auction-1",
             type: "collectible",
-            collectible: "Abandoned Bear",
-            endAt: Date.now() + 500000,
-            startAt: Date.now() + 1000,
+            collectible: "Sir Goldensnout",
+            endAt: Date.now() + 70000,
+            startAt: Date.now() - 1000,
             ingredients: {
               Wood: 1,
               Gold: 10,
@@ -195,6 +253,13 @@ export const createAuctioneerMachine = ({
         initialising: {
           always: [
             {
+              target: "noAccess",
+              cond: (context) => {
+                console.log({ canAccess: context.canAccess });
+                return !context.canAccess;
+              },
+            },
+            {
               target: "missingAuction",
               cond: (context) =>
                 !!context.bid &&
@@ -206,9 +271,10 @@ export const createAuctioneerMachine = ({
               target: "bidded",
               cond: (context) => !!context.bid,
             },
-            // {
-            //   target: "introduction",
-            // },
+            {
+              target: "introduction",
+              cond: () => !localStorage.getItem("auctioneer_tutorial"),
+            },
             {
               target: "playing",
             },
@@ -218,6 +284,11 @@ export const createAuctioneerMachine = ({
           on: {
             CONTINUE: {
               target: "playing",
+              actions: () =>
+                localStorage.setItem(
+                  "auctioneer_tutorial",
+                  Date.now().toString()
+                ),
             },
           },
         },
@@ -303,6 +374,17 @@ export const createAuctioneerMachine = ({
                 cond: (_, event) =>
                   event.data.auctionResult.status === "winner",
                 target: "winner",
+                actions: assign({
+                  results: (_, event) => event.data.auctionResult,
+                }),
+              },
+              {
+                cond: (_, event) =>
+                  event.data.auctionResult.status === "tiebreaker",
+                target: "tiebreaker",
+                actions: assign({
+                  results: (_, event) => event.data.auctionResult,
+                }),
               },
               {
                 cond: (_, event) => event.data.auctionResult.status === "loser",
@@ -322,55 +404,27 @@ export const createAuctioneerMachine = ({
         },
 
         winner: {},
+        noAccess: {},
 
         missingAuction: {
           on: {
-            REFUND: "refunding",
+            REFUND: "refunded",
           },
         },
 
         loser: {
           on: {
-            REFUND: "refunding",
+            REFUND: "refunded",
+          },
+        },
+
+        tiebreaker: {
+          on: {
+            REFUND: "refunded",
           },
         },
 
         pending: {},
-
-        refunding: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              console.log({ event });
-              const { farm } = await autosave({
-                farmId: Number(context.farmId),
-                sessionId: "X",
-                actions: [
-                  {
-                    type: "bid.refunded",
-                    createdAt: new Date(),
-                  } as any,
-                ],
-                token: context.token as string,
-                fingerprint: "0x",
-                deviceTrackerId: context.deviceTrackerId as string,
-                transactionId: context.transactionId as string,
-              });
-
-              onUpdate(farm as GameState);
-            },
-            onDone: {
-              target: "refunded",
-              actions: assign({
-                bid: (_) => undefined,
-              }),
-            },
-            onError: {
-              target: "error",
-            },
-          },
-        },
-
         refunded: {},
 
         error: {

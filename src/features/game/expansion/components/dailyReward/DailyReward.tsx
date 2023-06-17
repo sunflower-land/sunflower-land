@@ -70,9 +70,9 @@ export const DailyReward: React.FC = () => {
     shoes: "Black Farmer Boots",
   };
 
-  const streaks = gameState.context.state.dailyRewards.streaks ?? 0;
+  const streaks = gameState.context.state.dailyRewards?.streaks ?? 0;
   const collectedAt =
-    gameState.context.state.dailyRewards.chest?.collectedAt ?? 0;
+    gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0;
 
   const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
   const currentDate = new Date().toISOString().substring(0, 10);

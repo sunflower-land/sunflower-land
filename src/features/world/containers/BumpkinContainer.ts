@@ -3,6 +3,7 @@ import { SpeechBubble } from "./SpeechBubble";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Label } from "./Label";
+import debounce from "lodash.debounce";
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -142,17 +143,44 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     scene.load.start();
   }
 
+  public faceRight() {
+    this.sprite?.setScale(1, 1);
+
+    if (this.speech) {
+      this.speech.setScale(1, 1);
+      this.speech.changeDirection("right");
+    }
+  }
+
+  public faceLeft() {
+    this.sprite?.setScale(-1, 1);
+
+    if (this.speech) {
+      this.speech.changeDirection("left");
+    }
+  }
+
+  /**
+   * Use a debouncer to allow players new messages not to be destroyed by old timeouts
+   */
+  destroySpeechBubble = debounce(() => {
+    this.speech?.destroy();
+    this.speech = undefined;
+  }, 5000);
+
   public speak(text: string) {
     if (this.speech) {
       this.speech.destroy();
     }
 
-    this.speech = new SpeechBubble(this.scene, text);
+    this.speech = new SpeechBubble(
+      this.scene,
+      text,
+      this.sprite?.scaleX === 1 ? "right" : "left"
+    );
     this.add(this.speech);
 
-    setTimeout(() => {
-      this.speech?.destroy();
-    }, 5000);
+    this.destroySpeechBubble();
   }
 
   public walk() {
