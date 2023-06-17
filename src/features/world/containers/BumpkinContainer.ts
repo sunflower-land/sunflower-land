@@ -165,6 +165,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
    */
   destroySpeechBubble = debounce(() => {
     this.speech?.destroy();
+    this.speech = undefined;
   }, 5000);
 
   public speak(text: string) {
