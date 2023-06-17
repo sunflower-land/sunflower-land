@@ -5,11 +5,12 @@ import { sealAudio } from "lib/utils/sfx";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import { Seal, SEAL_SIZE } from "../models/seal";
+import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 interface Props {
   seal: Seal;
   disableSound?: boolean;
-  position: { left: number; top: number };
+  position: { x: number; y: number };
 }
 
 export const SealComponent: React.FC<Props> = ({
@@ -18,7 +19,6 @@ export const SealComponent: React.FC<Props> = ({
   position,
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
-  const { top, left } = position;
 
   const playSound = () => {
     if (disableSound) {
@@ -29,45 +29,58 @@ export const SealComponent: React.FC<Props> = ({
   };
 
   return (
-    <div
-      className="absolute"
-      style={{
-        width: `${SEAL_SIZE * PIXEL_SCALE}px`,
-        height: `${SEAL_SIZE * PIXEL_SCALE}px`,
-        left: `${GRID_WIDTH_PX * left}px`,
-        top: `${GRID_WIDTH_PX * top}px`,
-      }}
-    >
-      <img
-        src={seal.pixel_image}
-        className="hover:img-highlight cursor-pointer z-10"
+    <MapPlacement width={2} height={2} x={position.x} y={position.y}>
+      <div
+        className="absolute cursor-pointer z-10 hover:img-highlight"
         onClick={playSound}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         style={{
-          width: `${SEAL_SIZE * PIXEL_SCALE}px`,
-        }}
-      />
-      <InnerPanel
-        className={classNames(
-          "absolute transition-opacity whitespace-nowrap z-20 pointer-events-none",
-          {
-            "opacity-100": showTooltip,
-            "opacity-0": !showTooltip,
-          }
-        )}
-        style={{
-          left: `${PIXEL_SCALE * 52}px`,
-          bottom: `${PIXEL_SCALE * 24}px`,
+          width: `${GRID_WIDTH_PX * 2}px`,
+          height: `${GRID_WIDTH_PX * 2}px`,
         }}
       >
-        <div className="flex flex-col text-xxs text-white ml-2 mr-2">
-          <span className="flex-1">{seal.name}</span>
-          <span className="flex-1" style={{ color: seal.rarity?.color }}>
-            {seal.rarity?.name}
-          </span>
+        <div
+          className="absolute pointer-events-none"
+          onClick={playSound}
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+          style={{
+            width: `${PIXEL_SCALE * SEAL_SIZE}px`,
+            height: `${PIXEL_SCALE * SEAL_SIZE}px`,
+            left: `${GRID_WIDTH_PX * -1}px`,
+            top: `${GRID_WIDTH_PX * -1}px`,
+          }}
+        >
+          <img
+            src={seal.pixel_image}
+            className="pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * SEAL_SIZE}px`,
+            }}
+          />
         </div>
-      </InnerPanel>
-    </div>
+      </div>
+
+      <div
+        className="flex justify-center absolute w-full pointer-events-none"
+        style={{
+          top: `${PIXEL_SCALE * -24}px`,
+        }}
+      >
+        <InnerPanel
+          className={classNames(
+            "absolute transition-opacity whitespace-nowrap z-20 pointer-events-none p-2 flex flex-col text-xxs",
+            {
+              "opacity-100": showTooltip,
+              "opacity-0": !showTooltip,
+            }
+          )}
+        >
+          <span>{seal.name}</span>
+          <span style={{ color: seal.rarity?.color }}>{seal.rarity?.name}</span>
+        </InnerPanel>
+      </div>
+    </MapPlacement>
   );
 };

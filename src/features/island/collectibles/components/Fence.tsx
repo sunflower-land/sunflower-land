@@ -61,10 +61,10 @@ interface Props {
 
 export const Fence: React.FC<Props> = ({ x, y, grid }) => {
   const edges: Edges = {
-    top: grid[x]?.[y + 1] === "Fence",
-    right: grid[x + 1]?.[y] === "Fence",
-    bottom: grid[x]?.[y - 1] === "Fence",
-    left: grid[x - 1]?.[y] === "Fence",
+    top: grid[x]?.[y + 1] === "Fence" || grid[x]?.[y + 1] === "Stone Fence",
+    right: grid[x + 1]?.[y] === "Fence" || grid[x + 1]?.[y] === "Stone Fence",
+    bottom: grid[x]?.[y - 1] === "Fence" || grid[x]?.[y - 1] === "Stone Fence",
+    left: grid[x - 1]?.[y] === "Fence" || grid[x - 1]?.[y] === "Stone Fence",
   };
 
   let image = noEdge;

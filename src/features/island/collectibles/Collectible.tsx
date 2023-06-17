@@ -115,6 +115,7 @@ import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot
 import { MushroomHouse } from "./components/MushroomHouse";
 import { Bush } from "./components/Bush";
 import { Shrub } from "./components/Shrub";
+import { PineTree } from "./components/PineTree";
 import { Fence } from "./components/Fence";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { useSelector } from "@xstate/react";
@@ -151,6 +152,18 @@ import { BasicScarecrow } from "./components/BasicScarecrow";
 import lightning from "assets/icons/lightning.png";
 import { EmeraldTurtle } from "./components/EmeraldTurtle";
 import { TinTurtle } from "./components/TinTurtle";
+import { StoneFence } from "./components/StoneFence";
+import { FieldMaple } from "./components/FieldMaple";
+import { GoldenMaple } from "./components/GoldenMaple";
+import { RedMaple } from "./components/RedMaple";
+import { OceanLantern } from "./components/OceanLantern";
+import { BetaBear } from "./components/BetaBear";
+import { SirGoldenSnout } from "./components/SirGoldenSnout";
+import { Bale } from "./components/Bale";
+import { InnerPanel } from "components/ui/Panel";
+import classNames from "classnames";
+import { hasRestriction } from "features/game/types/removeables";
+import lockIcon from "assets/skills/lock.png";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -199,7 +212,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Fence: Fence,
   Bush: Bush,
   Shrub: Shrub,
-
+  "Pine Tree": PineTree,
+  "Field Maple": FieldMaple,
+  "Red Maple": RedMaple,
+  "Golden Maple": GoldenMaple,
+  "Stone Fence": StoneFence,
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
   "Golden Bonsai": GoldenBonsai,
@@ -230,7 +247,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Nancy,
   Scarecrow,
   Kuebiko,
+
+  // AoE
   "Basic Scarecrow": BasicScarecrow,
+  "Emerald Turtle": EmeraldTurtle,
+  "Tin Turtle": TinTurtle,
+  Bale: Bale,
 
   "Carrot Sword": CarrotSword,
 
@@ -248,6 +270,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Angel Bear": AngelBear,
   "Badass Bear": BadassBear,
   "Bear Trap": BearTrap,
+  "Beta Bear": BetaBear,
   "Brilliant Bear": BrilliantBear,
   "Classy Bear": ClassyBear,
   "Farmer Bear": FarmerBear,
@@ -265,6 +288,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Luminous Lantern": LuminousLantern,
   "Aurora Lantern": AuroraLantern,
   "Radiance Lantern": RadianceLantern,
+  "Ocean Lantern": OceanLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
@@ -314,8 +338,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
   "Iron Idol": IronIdol,
-  "Emerald Turtle": EmeraldTurtle,
-  "Tin Turtle": TinTurtle,
 
   // Solar Flare Items
   "Beach Ball": BeachBall,
@@ -347,6 +369,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Genie Lamp": GenieLamp,
   Hoot: Hoot,
   "Genie Bear": GenieBear,
+  "Sir Goldensnout": SirGoldenSnout,
 };
 
 // Need readonly versions for some troublesome components while in design mode
@@ -372,7 +395,10 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
     >
-      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full" />
+      <img
+        src={ITEM_DETAILS["Basic Scarecrow"].image}
+        className="w-full pointer-events-auto"
+      />
       <div
         className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
         style={{
@@ -432,6 +458,45 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       </div>
     </div>
   ),
+  "Sir Goldensnout": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 24}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Sir Goldensnout"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 7}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 24}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
   "Tin Turtle": () => (
     <div
       className="absolute bottom-0"
@@ -465,6 +530,45 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
             width: `${PIXEL_SCALE * 10}px`,
             left: `${PIXEL_SCALE * 19}px`,
             top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  Bale: () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Bale"].image}
+        className=" absolute w-full pointer-events-auto"
+        style={{
+          width: `${PIXEL_SCALE * 28}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+          top: `${PIXEL_SCALE * 5}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 25}px`,
           }}
         />
       </div>
@@ -623,12 +727,58 @@ const MemorizedCollectibleComponent = React.memo(CollectibleComponent);
 
 export const Collectible: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
-
+  const [showPopover, setShowPopover] = useState(false);
   const landscaping = useSelector(gameService, isLandscaping);
+
+  const handleMouseEnter = () => {
+    // set state to show details
+    setShowPopover(true);
+  };
+
+  const handleMouseLeave = () => {
+    // set state to hide details
+    setShowPopover(false);
+  };
 
   if (landscaping) {
     const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
 
+    const [isRestricted, restrictionReason] = hasRestriction(
+      props.name,
+      props.id,
+      gameService.state.context.state
+    );
+    if (isRestricted) {
+      return (
+        <div
+          className="relative w-full h-full pointer-events-none"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <InnerPanel
+            className={classNames(
+              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50 pointer-events-none",
+              {
+                "opacity-100": showPopover,
+                "opacity-0": !showPopover,
+              }
+            )}
+            style={{
+              top: `${PIXEL_SCALE * -10}px`,
+              left: `${PIXEL_SCALE * 16}px`,
+            }}
+          >
+            <div className="flex flex-col text-xxs text-white text-shadow mx-2">
+              <div className="flex flex-1 items-center justify-center">
+                <img src={lockIcon} className="w-4 mr-1" />
+                <span>{restrictionReason}</span>
+              </div>
+            </div>
+          </InnerPanel>
+          <CollectiblePlaced {...props} />
+        </div>
+      );
+    }
     return (
       <MoveableComponent {...(props as any)}>
         <CollectiblePlaced {...props} />

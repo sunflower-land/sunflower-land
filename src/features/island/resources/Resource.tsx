@@ -19,9 +19,9 @@ import { isLocked as isPlotLocked } from "features/game/events/landExpansion/mov
 import { isLocked as isStoneLocked } from "features/game/events/landExpansion/moveStone";
 import { isLocked as isIronLocked } from "features/game/events/landExpansion/moveIron";
 import { isLocked as isGoldLocked } from "features/game/events/landExpansion/moveGold";
-
 import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
+import lockIcon from "assets/skills/lock.png";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -169,7 +169,7 @@ const LockedResource: React.FC<ResourceProps> = (props) => {
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="flex items-center space-x-2 mx-1 p-1">
-              <SquareIcon icon={SUNNYSIDE.icons.cancel} width={5} />
+              <SquareIcon icon={lockIcon} width={5} />
               <span className="text-xxs mb-0.5">AoE Locked</span>
             </div>
           </InnerPanel>

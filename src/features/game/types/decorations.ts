@@ -35,7 +35,12 @@ export type ShopDecorationName =
   | "Crimson Cap"
   | "Toadstool Seat"
   | "Chestnut Fungi Stool"
-  | "Mahogany Cap";
+  | "Mahogany Cap"
+  | "Pine Tree"
+  | "Stone Fence"
+  | "Field Maple"
+  | "Red Maple"
+  | "Golden Maple";
 
 export type SeasonalDecorationName =
   | "Clementine"
@@ -233,9 +238,29 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
+  "Stone Fence": {
+    width: 1,
+    height: 1,
+  },
   Shrub: {
     width: 1,
     height: 1,
+  },
+  "Pine Tree": {
+    width: 1,
+    height: 2,
+  },
+  "Field Maple": {
+    height: 2,
+    width: 2,
+  },
+  "Red Maple": {
+    height: 2,
+    width: 2,
+  },
+  "Golden Maple": {
+    height: 2,
+    width: 2,
   },
   "Bonnie's Tombstone": {
     width: 1,
@@ -372,13 +397,56 @@ export const HELIOS_DECORATIONS: () => Record<
     },
     description: "Add a touch of rustic charm to your farm.",
   },
+  "Stone Fence": {
+    name: "Stone Fence",
+    sfl: marketRate(20),
+    ingredients: {
+      Stone: new Decimal(5),
+    },
+    description: "Embrace the timeless elegance of a stone fence.",
+  },
   Shrub: {
     name: "Shrub",
     sfl: marketRate(50),
     ingredients: {
       Wood: new Decimal(3),
     },
-    description: "Enhance your in-game landscaping with a beautiful shrub",
+    description: "Enhance your in-game landscaping with a beautiful shrub.",
+  },
+  "Pine Tree": {
+    name: "Pine Tree",
+    sfl: marketRate(100),
+    ingredients: {
+      Wood: new Decimal(5),
+    },
+    description: "Standing tall and mighty, a needle-clad dream.",
+  },
+  "Field Maple": {
+    name: "Field Maple",
+    sfl: marketRate(50),
+    ingredients: {
+      Wood: new Decimal(20),
+    },
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+  },
+  "Red Maple": {
+    name: "Red Maple",
+    sfl: marketRate(50),
+    ingredients: {
+      Wood: new Decimal(3),
+      "Block Buck": new Decimal(1),
+    },
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+  },
+  "Golden Maple": {
+    name: "Golden Maple",
+    sfl: marketRate(50),
+    ingredients: {
+      Wood: new Decimal(3),
+      "Block Buck": new Decimal(1),
+    },
+    description: "Radiating brilliance with its shimmering golden leaves.",
   },
   "Bonnie's Tombstone": {
     name: "Bonnie's Tombstone",

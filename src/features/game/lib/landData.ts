@@ -254,10 +254,11 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
+  id: 4,
   dawnBreaker: {
-    currentWeek: 2,
+    currentWeek: 7,
     availableLantern: {
-      name: "Radiance Lantern",
+      name: "Ocean Lantern",
       startAt: "2023-05-08T00:00:00.000Z",
       endAt: "2023-05-15T00:00:00.000Z",
       ingredients: {
@@ -285,7 +286,7 @@ export const OFFLINE_FARM: GameState = {
       },
     },
   },
-  balance: new Decimal(10),
+  balance: new Decimal(100),
   wardrobe: {
     "Eggplant Onesie": 1,
     "Golden Spatula": 1,
@@ -330,23 +331,23 @@ export const OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Sunflower Cake": new Decimal(15),
-    Carrot: new Decimal(500),
+    Carrot: new Decimal(800),
     Cauliflower: new Decimal(700),
     Beetroot: new Decimal(1000),
     Cabbage: new Decimal(1000),
-    Wood: new Decimal(300),
+    Wood: new Decimal(500),
     "Luminous Lantern": new Decimal(5),
     "Radiance Lantern": new Decimal(3),
     Market: new Decimal(1),
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(3),
+    "Basic Land": new Decimal(5),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     "Mashed Potato": new Decimal(2),
-    Gold: new Decimal(15),
+    Gold: new Decimal(150),
     "Wooden Compass": new Decimal(20),
     "Dirt Path": new Decimal(100),
     Fence: new Decimal(50),
@@ -356,7 +357,9 @@ export const OFFLINE_FARM: GameState = {
     Artist: new Decimal(1),
     Sunflower: new Decimal(100),
     Potato: new Decimal(100),
-    Stone: new Decimal(1),
+    Stone: new Decimal(500),
+    Bale: new Decimal(1),
+    Wheat: new Decimal(100),
     Axe: new Decimal(10),
     "Rusty Shovel": new Decimal(5),
     "Maneki Neko": new Decimal(2),
@@ -372,7 +375,7 @@ export const OFFLINE_FARM: GameState = {
     "Fruit Patch": new Decimal(3),
     "Gold Rock": new Decimal(3),
     "Easter Bush": new Decimal(3),
-    "Block Buck": new Decimal(1),
+    "Block Buck": new Decimal(10),
 
     "Human War Banner": new Decimal(1),
 
@@ -398,6 +401,7 @@ export const OFFLINE_FARM: GameState = {
     Obie: new Decimal(1),
     Maximus: new Decimal(1),
     Hoot: new Decimal(1),
+    "Sir Goldensnout": new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,

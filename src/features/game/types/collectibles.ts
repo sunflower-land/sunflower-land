@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, Inventory } from "./game";
+import { GameState, Inventory, InventoryItemName } from "./game";
 import { SEASONS } from "./seasons";
 import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
@@ -9,9 +9,16 @@ export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
 export type HeliosBlacksmithItem =
   | "Immortal Pear"
   | "Treasure Map"
-  | "Basic Scarecrow";
+  | "Basic Scarecrow"
+  | "Bale";
 
 export type SoldOutCollectibleName =
+  | "Sir Goldensnout"
+  | "Beta Bear"
+  | "Peeled Potato"
+  | "Christmas Snow Globe"
+  | "Wood Nymph Wendy"
+  | "Cyborg Bear"
   | "Palm Tree"
   | "Beach Ball"
   | "Cabbage Boy"
@@ -53,14 +60,6 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
   HeliosBlacksmithItem,
   CraftableCollectible
 > = {
-  "Basic Scarecrow": {
-    description: "Choosy defender of your farm's VIP (Very Important Plants)",
-    ingredients: {
-      Wood: new Decimal(3),
-    },
-    boost: "20% faster Sunflowers, Potatoes and Pumpkins",
-    sfl: new Decimal(0),
-  },
   "Immortal Pear": {
     description: "A long-lived pear that makes fruit trees last longer.",
     ingredients: {
@@ -78,6 +77,26 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       "Wooden Compass": new Decimal(2),
     },
     boost: "+20% SFL on Treasure Bounty",
+  },
+  "Basic Scarecrow": {
+    description: "Choosy defender of your farm's VIP (Very Important Plants)",
+    ingredients: {
+      Wood: new Decimal(3),
+    },
+    boost: "20% faster Sunflowers, Potatoes and Pumpkins",
+    sfl: new Decimal(0),
+  },
+  Bale: {
+    description:
+      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+    ingredients: {
+      Egg: new Decimal(200),
+      Wheat: new Decimal(200),
+      Wood: new Decimal(100),
+      Stone: new Decimal(30),
+    },
+    sfl: new Decimal(5),
+    boost: "Adjacent chickens produce +0.2 Eggs",
   },
 };
 
@@ -230,4 +249,9 @@ export const SEASON_PASS_ITEMS: Record<SeasonPassName, Purchasable> = {
     boost: "?",
     usd: 3.99,
   },
+};
+
+// TODO - add all other boosts
+export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
+  "Sir Goldensnout": "+0.5 Surrounding Crops",
 };

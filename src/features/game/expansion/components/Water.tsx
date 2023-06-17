@@ -24,20 +24,19 @@ import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { PartyIsland } from "./PartyIsland";
 import { DawnTeaser } from "./DawnTeaser";
-
-export const LAND_WIDTH = 6;
+import { LAND_WIDTH } from "../Land";
 
 interface Props {
-  level: number;
+  expansionCount: number;
 }
 
-export const WaterComponent: React.FC<Props> = ({ level }) => {
+export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
   // As the land gets bigger, push the water decorations out
-  const offset = Math.ceil((Math.sqrt(level + 1) * LAND_WIDTH) / 2);
+  const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
 
   const frogCoordinates = {
-    x: level >= 7 ? -2 : 5,
-    y: level >= 7 ? -11 : -5,
+    x: expansionCount >= 7 ? -2 : 5,
+    y: expansionCount >= 7 ? -11 : -5,
   };
 
   return (
@@ -47,9 +46,10 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
         height: "inherit",
       }}
     >
-      {/* Navigation Center Point */}
+      {/* Decorations */}
 
-      <MapPlacement x={-6 - offset} y={3} width={1}>
+      {/* Dragonfly */}
+      <MapPlacement x={-4 - offset} y={3} width={1}>
         <img
           style={{
             width: `${PIXEL_SCALE * 13}px`,
@@ -61,7 +61,8 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      <MapPlacement x={-8 - offset} y={-1} width={6}>
+      {/* Goblin swimming */}
+      <MapPlacement x={-6 - offset} y={-1} width={6}>
         <img
           src={goblinSwimming}
           style={{
@@ -70,11 +71,14 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      <Snorkler x={-2} y={offset + 9} />
+      {/* Snorkler */}
+      <Snorkler x={-2} y={offset + 7} />
 
-      <SharkBumpkin x={-8} y={offset + 12} />
+      {/* Shark bumpkin */}
+      <SharkBumpkin x={-8} y={offset + 10} />
 
-      <MapPlacement x={offset + 8} y={6} width={1}>
+      {/* Swimmer with cossies */}
+      <MapPlacement x={offset + 7} y={6} width={1}>
         <img
           src={SUNNYSIDE.npcs.swimmer}
           className="absolute pointer-events-none"
@@ -96,7 +100,10 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
         />
       </MapPlacement>
 
-      <MapPlacement x={20} y={25} width={6}>
+      {/* Islands */}
+
+      {/* Top right island */}
+      <MapPlacement x={7 + offset} y={9 + offset} width={6}>
         <img
           src={bearIsland}
           style={{
@@ -114,11 +121,11 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
         </div>
       </MapPlacement>
 
-      <PartyIsland />
-      <DawnTeaser />
-      <FruitQuest />
+      {/* Top left island */}
+      <FruitQuest offset={offset} />
 
-      <MapPlacement x={-20} y={-15} width={6}>
+      {/* Bottom left island */}
+      <MapPlacement x={-8 - offset} y={-2 - offset} width={6}>
         <img
           src={pirateIsland}
           style={{
@@ -135,7 +142,12 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
           <Pirate />
         </div>
       </MapPlacement>
-      <MapPlacement x={16} y={-11} width={6}>
+
+      {/* Bottom island */}
+      <DawnTeaser offset={offset} />
+
+      {/* Bottom right island */}
+      <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
         <DailyReward />
         <img
           src={abandonedLand}
@@ -144,13 +156,17 @@ export const WaterComponent: React.FC<Props> = ({ level }) => {
           }}
         />
       </MapPlacement>
-      {/* Community Assets */}
+
+      {/* Right island */}
+      <PartyIsland offset={offset} />
+
+      {/* community assets */}
       <CommunityBoundary>
         <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y}>
           <ProjectDignityFrogs left={0} top={0} />
         </MapPlacement>
 
-        <ProjectDignitySeals isGarden={false} />
+        <ProjectDignitySeals isGarden={false} offset={offset} />
       </CommunityBoundary>
     </div>
   );

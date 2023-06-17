@@ -14,6 +14,7 @@ import Modal from "react-bootstrap/esm/Modal";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { canShake } from "features/game/types/removeables";
 
 interface Props {
   id: string;
@@ -26,14 +27,6 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const manekiNekos = gameState.context.state.collectibles["Maneki Neko"] ?? [];
 
   useUiRefresher();
-
-  const canShake = (shakenAt?: number) => {
-    if (!shakenAt) return true;
-
-    const today = new Date().toISOString().substring(0, 10);
-
-    return new Date(shakenAt).toISOString().substring(0, 10) !== today;
-  };
 
   const date = new Date();
 

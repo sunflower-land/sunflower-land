@@ -36,9 +36,11 @@ import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { Collectibles, Chicken as ChickenType } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
-import { MachineState } from "features/game/expansion/placeable/landscapingMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { ZoomContext } from "components/ZoomProvider";
+import { isLocked } from "features/game/events/landExpansion/moveChicken";
+import lockIcon from "assets/skills/lock.png";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -480,20 +482,68 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   );
 };
 
-const isLandscaping = (state: MachineState) => state.matches("landscaping");
+const isLandscaping = (state: GameMachineState) => state.matches("landscaping");
+const _collectibles = (state: GameMachineState) =>
+  state.context.state.collectibles;
+const _chickens = (state: GameMachineState) => state.context.state.chickens;
 
-export const ChickenComponent: React.FC<Props> = (props) => {
+const LockedChicken: React.FC<Props> = (props) => {
+  const [showPopover, setShowPopover] = useState(false);
+
+  return (
+    <div
+      className="relative w-full h-full"
+      onMouseEnter={() => setShowPopover(true)}
+      onMouseLeave={() => setShowPopover(false)}
+    >
+      {showPopover && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -15}px`,
+          }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="flex items-center space-x-2 mx-1 p-1">
+              <SquareIcon icon={lockIcon} width={5} />
+              <span className="text-xxs mb-0.5">AoE Locked</span>
+            </div>
+          </InnerPanel>
+        </div>
+      )}
+      <div className="relative">
+        <PlaceableChicken {...props} />
+      </div>
+    </div>
+  );
+};
+
+const MoveableChicken: React.FC<Props> = (props) => {
+  return (
+    <MoveableComponent name="Chicken" x={props.x} y={props.y} id={props.id}>
+      <PlaceableChicken {...props} />
+    </MoveableComponent>
+  );
+};
+
+const LandscapingChicken: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
 
+  const collectibles = useSelector(gameService, _collectibles);
+  const chickens = useSelector(gameService, _chickens);
+
+  if (isLocked(chickens[props.id], collectibles, Date.now())) {
+    return <LockedChicken {...props} />;
+  }
+
+  return <MoveableChicken {...props} />;
+};
+
+const ChickenComponent: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
   const landscaping = useSelector(gameService, isLandscaping);
 
-  if (landscaping) {
-    return (
-      <MoveableComponent name="Chicken" x={props.x} y={props.y} id={props.id}>
-        <PlaceableChicken {...props} />
-      </MoveableComponent>
-    );
-  }
+  if (landscaping) return <LandscapingChicken {...props} />;
 
   return <PlaceableChicken {...props} />;
 };

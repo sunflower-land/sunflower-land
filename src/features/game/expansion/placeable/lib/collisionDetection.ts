@@ -328,7 +328,12 @@ export function detectCollision(state: GameState, position: Position) {
   );
 }
 
-export type AOEItemName = "Basic Scarecrow" | "Emerald Turtle" | "Tin Turtle";
+export type AOEItemName =
+  | "Basic Scarecrow"
+  | "Emerald Turtle"
+  | "Tin Turtle"
+  | "Sir Goldensnout"
+  | "Bale";
 
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.
@@ -377,6 +382,34 @@ export function isWithinAOE(
       const dy = Math.abs(AOEItemCoordinates.y - effectItem.y);
 
       if (dx <= 1 && dy <= 1 && (dx != 0 || dy != 0)) {
+        return true;
+      }
+    }
+    // AoE surrounding the bale
+    if (AOEItemName === "Sir Goldensnout") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
+
+      if (
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
+      ) {
+        return true;
+      }
+    }
+
+    if (AOEItemName === "Bale") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
+
+      if (
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
+      ) {
         return true;
       }
     }

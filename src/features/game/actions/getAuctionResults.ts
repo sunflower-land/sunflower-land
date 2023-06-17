@@ -1,10 +1,10 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { AuctioneerItemName } from "../types/auctioneer";
+import { LeaderboardBid } from "../lib/auctionMachine";
 
 type Request = {
   farmId: number;
-  item: AuctioneerItemName;
+  auctionId: string;
   token: string;
   transactionId: string;
 };
@@ -15,15 +15,12 @@ type Status = "pending" | "winner" | "loser";
 
 export async function getAuctionResults(request: Request): Promise<{
   status: Status;
-  minimum: {
-    auctionTickets: number;
-    biddedAt: number;
-  };
+  leaderboard: LeaderboardBid[];
   participantCount: number;
   supply: number;
 }> {
   const response = await window.fetch(
-    `${API_URL}/auction/${request.item}/results/${request.farmId}`,
+    `${API_URL}/auction/${request.auctionId}/results/${request.farmId}`,
     {
       method: "GET",
       headers: {
@@ -42,7 +39,8 @@ export async function getAuctionResults(request: Request): Promise<{
     throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 
-  const { status, minimum, supply, participantCount } = await response.json();
+  const { status, leaderboard, supply, participantCount } =
+    await response.json();
 
-  return { status, minimum, supply, participantCount };
+  return { status, leaderboard, supply, participantCount };
 }

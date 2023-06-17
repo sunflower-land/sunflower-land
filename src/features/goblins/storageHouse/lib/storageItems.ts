@@ -2,7 +2,7 @@ import { CROPS } from "features/game/types/crops";
 import { FRUIT } from "features/game/types/fruits";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { COMMODITIES } from "features/game/types/resources";
-import { isNeverWithdrawable } from "features/game/types/withdrawables";
+import { WITHDRAWABLES } from "features/game/types/withdrawables";
 
 /**
  * Items for the storage house
@@ -15,7 +15,7 @@ export function getDeliverableItems(inventory: Inventory) {
         itemName in FRUIT() ||
         (itemName in COMMODITIES && itemName !== "Chicken");
 
-      if (isDeliverable && !isNeverWithdrawable(itemName)) {
+      if (isDeliverable && WITHDRAWABLES[itemName]) {
         return {
           ...acc,
           [itemName]: inventory[itemName],

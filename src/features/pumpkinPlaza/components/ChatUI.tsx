@@ -42,7 +42,7 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game, messages }) => {
     <>
       <div
         className={classNames(
-          "w-full fixed top-11 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          "w-full fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showChat, "scale-100": showChat }
         )}
         onClick={console.log}
@@ -55,7 +55,7 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game, messages }) => {
       </div>
       <div
         className={classNames(
-          "fixed top-4 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
+          "fixed top-36 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
           {
             "scale-50": showChat,
           }

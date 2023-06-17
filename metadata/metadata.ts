@@ -3240,7 +3240,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   "Sand Drill": {
-    description: "Drill deep for rare treasure",
+    description: "Drill deep for uncommon or rare treasure",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/311.png",
@@ -3470,6 +3470,42 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1248.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Pine Tree": {
+    description: "Standing tall and mighty, a needle-clad dream.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1265.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Stone Fence": {
+    description: "Embrace the timeless elegance of a stone fence.",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1266.png",
+  },
+  "Field Maple": {
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1267.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Red Maple": {
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1268.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Golden Maple": {
+    description: "Radiating brilliance with its shimmering golden leaves.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1269.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
   "Dawn Breaker Banner": {
     description:
       "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season",
@@ -3498,6 +3534,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1250.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Ocean Lantern": {
+    description:
+      "A wavy paper lantern that sways with the bobbing of the tide.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1265.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Aurora Lantern": {
@@ -3692,5 +3736,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/928.png",
     attributes: [],
+  },
+  "Beta Bear": {
+    description: "A bear found during special testing events",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1266.png",
+    attributes: [],
+  },
+  "Sir Goldensnout": {
+    description:
+      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/466.png",
+    attributes: [],
+  },
+  Bale: {
+    description:
+      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/465.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
 };

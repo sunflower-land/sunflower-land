@@ -637,8 +637,8 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       ),
     },
     wendy: {
-      x: 4,
-      y: -8,
+      x: -3,
+      y: -11,
       flip: true,
       dialogue: (
         <>{`My power is fading. I can't hold the veil much longer...`}</>
@@ -680,6 +680,55 @@ export const characters: Record<Week, DawnBreakerPositions> = {
     bumpkin: {
       x: -7,
       y: -13,
+    },
+    marcus: {
+      x: 4,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: The shadows, they are disappearing. You are my hero!`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 3,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: The sunshine on my face, it feels incredible!`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: 1,
+      y: -13,
+      dialogue: (
+        <>
+          <p>{`Sofia: If only we could move these Eggplant soliders, I could run up to the Bell Tower`}</p>
+        </>
+      ),
+    },
+    maximus: {
+      x: -6,
+      y: -12,
+      dialogue: (
+        <>
+          <p>{`Maximus: Obie, what do we do?!?`}</p>
+        </>
+      ),
+    },
+    wendy: {
+      x: -4.5,
+      y: -10,
+      flip: true,
+      dialogue: <>{`All hope is lost, these Bumpkins are too strong...`}</>,
+    },
+    obie: {
+      x: -8,
+      y: -12,
+      dialogue: <>{`Obie: Boss ain't gonna be happy about this.`}</>,
     },
   },
   9: {

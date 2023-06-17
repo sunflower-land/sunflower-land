@@ -1,5 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/component/HeliosBlacksmithItems";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import React, { useEffect, useState } from "react";
@@ -33,20 +34,23 @@ export const NPCModals: React.FC = () => {
 
   return (
     <>
-      <Modal centered show={!!npc} onHide={() => setNpc(undefined)}>
+      <Modal
+        dialogClassName="npc-dialog"
+        show={!!npc}
+        size="xl"
+        onHide={() => setNpc(undefined)}
+      >
         {npc === "pumpkin'pete" && (
-          <CloseButtonPanel
+          <SpeakingModal
             onClose={() => setNpc(undefined)}
             bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
-          >
-            <div className="p-2">
-              <p className="mb-2">Howdy farmer!</p>
-              <p className="mb-2">{`Welcome to the Plaza, I'm Pumpkin Pete.`}</p>
-              <p className="mb-2">
-                Here you can explore, trade & compete with other Bumpkins.
-              </p>
-            </div>
-          </CloseButtonPanel>
+            text={[
+              "Howdy Bumpkin",
+              `Welcome to the Plaza, I'm Pumpkin Pete.`,
+              "Here you can explore, trade & compete with other Bumpkins.",
+            ]}
+            npc="pumpkin'pete"
+          />
         )}
         {npc === "stella" && (
           <CloseButtonPanel
@@ -92,16 +96,12 @@ export const NPCModals: React.FC = () => {
           </CloseButtonPanel>
         )}
         {npc === "hammerin' harry" && (
-          <CloseButtonPanel
+          <SpeakingModal
             onClose={() => setNpc(undefined)}
-            bumpkinParts={NPC_WEARABLES.lily}
-          >
-            <div className="p-2">
-              <p className="mb-2">
-                Gather round Bumpkins, an auction is about to begin!
-              </p>
-            </div>
-          </CloseButtonPanel>
+            bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+            text={["Gather round Bumpkins, an auction is about to begin."]}
+            npc="hammerin' harry"
+          />
         )}
         {npc === "grimbly" && (
           <CloseButtonPanel

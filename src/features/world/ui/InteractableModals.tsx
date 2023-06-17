@@ -1,8 +1,13 @@
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
+import React, { useContext, useEffect, useState } from "react";
 
-type InteractableName = "welcome_sign" | "plaza_statue" | "fan_art";
+type InteractableName =
+  | "welcome_sign"
+  | "plaza_statue"
+  | "fan_art"
+  | "auction_item";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -21,6 +26,12 @@ class InteractableModalManager {
 export const interactableModalManager = new InteractableModalManager();
 
 export const InteractableModals: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+  const {
+    context: { state },
+  } = gameState;
+
   const [interactable, setInteractable] = useState<InteractableName>();
 
   useEffect(() => {
@@ -31,7 +42,22 @@ export const InteractableModals: React.FC = () => {
 
   return (
     <>
-      <Modal
+      <AuctioneerModal
+        isOpen={interactable === "auction_item"}
+        onClose={() => setInteractable(undefined)}
+        gameState={state}
+        onUpdate={(state) => {
+          console.log("Update hit!");
+          gameService.send("UPDATE", { state });
+        }}
+        onMint={(id) => {
+          console.log("Update hit!", gameState.value);
+          setInteractable(undefined);
+          gameService.send("MINT", { auctionId: id });
+        }}
+        deviceTrackerId={gameState.context.deviceTrackerId as string}
+      />
+      {/* <Modal
         centered
         show={!!interactable}
         onHide={() => setInteractable(undefined)}
@@ -51,7 +77,7 @@ export const InteractableModals: React.FC = () => {
             </div>
           )}
         </CloseButtonPanel>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

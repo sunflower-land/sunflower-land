@@ -158,13 +158,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   // Auctioneer who collects rare items and sells them off
   "hammerin' harry": {
-    body: "Dark Brown Farmer Potion",
+    body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
-    hair: "Parlour Hair",
-    shirt: "Hawaiian Shirt",
-    pants: "Farmer Pants",
-    shoes: "Black Farmer Boots",
-    tool: "Mushroom Lamp",
+    hair: "Tangerine Hair",
+    shirt: "Bidder's Brocade",
+    pants: "Auctioneer Slacks",
+    shoes: "Leather Shoes",
+    tool: "Auction Megaphone",
+    hat: "Harry's Hat",
   },
   // Grave Digger
   craig: {
@@ -204,6 +205,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Lumberjack Overalls",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
+    coat: "Fruit Picker Apron",
   },
   // Crazy buggy eyed bert
   bert: {

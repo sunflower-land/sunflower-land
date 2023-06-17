@@ -29,7 +29,6 @@ import carrotSword from "assets/sfts/carrot_sword.png";
 import goldenBonsai from "assets/sfts/golden_bonsai.png";
 import nancy from "assets/sfts/nancy.png";
 import kuebiko from "assets/sfts/kuebiko.gif";
-import basicScarecrow from "assets/sfts/scarecrows/basic_scarecrow.png";
 import nyonStatue from "assets/sfts/nyon_statue.png";
 import homelessTent from "assets/sfts/homeless_tent.png";
 import farmerBath from "assets/sfts/farmer_bath.png";
@@ -52,7 +51,13 @@ import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
 import luminousLantern from "assets/sfts/luminous_lantern.webp";
 import auroraLantern from "assets/sfts/aurora_lantern.webp";
 import radianceLantern from "assets/sfts/radiance_lantern.webp";
+import oceanLantern from "assets/sfts/ocean_lantern.png";
 
+// AoE items
+import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
+import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
+import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
+import bale from "assets/sfts/aoe/bale.png";
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
@@ -301,6 +306,7 @@ import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
 import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
+import betaBear from "src/assets/sfts/bears/sfl_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
 import cyborgBear from "src/assets/sfts/cyborg_bear.png";
 import collectibleBear from "src/assets/sfts/collectible_bear.png";
@@ -314,8 +320,11 @@ import valentineBear from "src/assets/sfts/bears/love_bear.png";
 import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
-import emeraldTurtle from "src/assets/sfts/emerald_turtle.webp";
-import tinTurtle from "src/assets/sfts/tin_turtle.webp";
+
+import pineTree from "src/assets/decorations/pine_tree.png";
+import fieldMaple from "src/assets/decorations/field_maple.webp";
+import redMaple from "src/assets/decorations/red_maple.webp";
+import goldenMaple from "src/assets/decorations/golden_maple.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -354,6 +363,7 @@ import dirt from "assets/sfts/dirt_path.png";
 import bush from "assets/decorations/bush.png";
 import shrub from "assets/decorations/shrub.png";
 import fence from "assets/decorations/fence.png";
+import stoneFence from "assets/decorations/stone_fence.png";
 import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
 import oldBottle from "assets/sfts/treasure/old_bottle.png";
@@ -374,6 +384,7 @@ import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
+import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -410,7 +421,7 @@ import {
   GOBLIN_PIRATE_ITEMS,
   HELIOS_BLACKSMITH_ITEMS,
 } from "./collectibles";
-import { AUCTIONEER_ITEMS } from "./auctioneer";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -749,7 +760,7 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.sand_shovel,
   },
   "Sand Drill": {
-    description: "Drill deep for rare treasure",
+    description: "Drill deep for uncommon or rare treasure",
     image: drill,
   },
 
@@ -780,10 +791,7 @@ export const ITEM_DETAILS: Items = {
     ...MARKET_ITEMS["Kuebiko"],
     image: kuebiko,
   },
-  "Basic Scarecrow": {
-    description: HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].description,
-    image: basicScarecrow,
-  },
+
   "Christmas Tree": {
     ...BLACKSMITH_ITEMS["Christmas Tree"],
     image: christmasTree,
@@ -1665,6 +1673,10 @@ export const ITEM_DETAILS: Items = {
     ...SALESMAN_ITEMS["Christmas Bear"],
     image: christmasBear,
   },
+  "Beta Bear": {
+    image: betaBear,
+    description: "A bear found through special testing events",
+  },
   "Rainbow Artist Bear": {
     image: rainbowArtistBear,
     description: "The owner is a beautiful bear artist!",
@@ -1682,12 +1694,12 @@ export const ITEM_DETAILS: Items = {
 
   "Wood Nymph Wendy": {
     image: wendy,
-    description: AUCTIONEER_ITEMS["Wood Nymph Wendy"].description,
+    description: "Cast an enchantment to entice the wood fairies.",
   },
 
   "Peeled Potato": {
     image: prizedPotato,
-    description: AUCTIONEER_ITEMS["Peeled Potato"].description,
+    description: "A precious potato, encourages bonus potatoes on harvest.",
   },
 
   "Colossal Crop": {
@@ -1966,6 +1978,8 @@ export const ITEM_DETAILS: Items = {
     description:
       "A magical lamp that contains a genie who will grant you three wishes.",
   },
+
+  // AoE items
   "Emerald Turtle": {
     image: emeraldTurtle,
     description: GOBLIN_PIRATE_ITEMS["Emerald Turtle"].description,
@@ -1973,6 +1987,14 @@ export const ITEM_DETAILS: Items = {
   "Tin Turtle": {
     image: tinTurtle,
     description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
+  },
+  "Basic Scarecrow": {
+    description: HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].description,
+    image: basicScarecrow,
+  },
+  Bale: {
+    description: HELIOS_BLACKSMITH_ITEMS["Bale"].description,
+    image: bale,
   },
 
   // Season tickets
@@ -2055,9 +2077,30 @@ export const ITEM_DETAILS: Items = {
     image: fence,
     description: "Add a touch of rustic charm to your farm.",
   },
+  "Stone Fence": {
+    image: stoneFence,
+    description: "Embrace the timeless elegance of a stone fence.",
+  },
   Shrub: {
     image: shrub,
     description: "Enhance your in-game landscaping with a beautiful shrub",
+  },
+  "Pine Tree": {
+    image: pineTree,
+    description: "Standing tall and mighty, a needle-clad dream.",
+  },
+  "Field Maple": {
+    image: fieldMaple,
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+  },
+  "Red Maple": {
+    image: redMaple,
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+  },
+  "Golden Maple": {
+    image: goldenMaple,
+    description: "Radiating brilliance with its shimmering golden leaves.",
   },
   "Solar Flare Banner": {
     image: solarFlareBanner,
@@ -2074,6 +2117,11 @@ export const ITEM_DETAILS: Items = {
   "Radiance Lantern": {
     image: radianceLantern,
     description: "A radiant paper lantern that shines with a powerful light.",
+  },
+  "Ocean Lantern": {
+    image: oceanLantern,
+    description:
+      "A wavy paper lantern that sways with the bobbing of the tide.",
   },
   "Aurora Lantern": {
     image: auroraLantern,
@@ -2151,5 +2199,10 @@ export const ITEM_DETAILS: Items = {
   "Genie Bear": {
     image: genieBear,
     description: "Exactly what I wished for!",
+  },
+  "Sir Goldensnout": {
+    image: sirGoldenSnout,
+    description:
+      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
   },
 };
