@@ -3,7 +3,7 @@ import { Room } from "colyseus.js";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
+import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import {
@@ -226,7 +226,7 @@ export abstract class BaseScene extends Phaser.Scene {
       x: spawn.x ?? 0,
       y: spawn.y ?? 0,
       isCurrentPlayer: true,
-      clothing: INITIAL_BUMPKIN.equipped,
+      clothing: this.roomService.state.context.bumpkin.equipped,
     });
 
     camera.setBounds(
@@ -454,9 +454,9 @@ export abstract class BaseScene extends Phaser.Scene {
       if (!entity.active) return;
 
       if (player.x > entity.x) {
-        entity.setScale(1, 1);
+        entity.faceRight();
       } else if (player.x < entity.x) {
-        entity.setScale(-1, 1);
+        entity.faceLeft();
       }
 
       const distance = Phaser.Math.Distance.BetweenPoints(player, entity);

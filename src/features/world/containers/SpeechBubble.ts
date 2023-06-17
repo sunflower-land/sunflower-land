@@ -42,7 +42,7 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
     const bounds = this.text.getBounds();
     this.setPosition(
       direction === "right" ? 2 : -bounds.width,
-      -bounds.height - 14
+      -bounds.height - 12
     );
   }
 }
