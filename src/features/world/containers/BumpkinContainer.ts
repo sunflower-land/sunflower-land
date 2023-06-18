@@ -64,17 +64,15 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   private async loadSprites(scene: Phaser.Scene) {
-    const { sheets } = await buildNPCSheets({
-      parts: this.clothing,
-    });
-
-    console.log({ sheets });
     const keyName = tokenUriBuilder(this.clothing);
-    console.log({ keyName });
     this.idleSpriteKey = `${keyName}-bumpkin-idle-sheet`;
     this.walkingSpriteKey = `${keyName}-bumpkin-walking-sheet`;
     this.idleAnimationKey = `${keyName}-bumpkin-idle`;
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
+
+    const { sheets } = await buildNPCSheets({
+      parts: this.clothing,
+    });
 
     if (scene.textures.exists(this.idleSpriteKey)) {
       const idle = scene.add.sprite(0, 0, this.idleSpriteKey).setOrigin(0.5);
@@ -102,7 +100,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           return;
         }
 
-        console.log("It loaded");
         const idle = scene.add
           .sprite(0, 0, this.idleSpriteKey as string)
           .setOrigin(0.5);

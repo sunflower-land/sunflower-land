@@ -44,7 +44,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
-        console.log({ CHAT: event });
         const { sessionId, text, roomId } = event as ChatMessageReceived;
         if (roomId !== this.roomId) return;
 
@@ -147,7 +146,6 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   init(data: SceneTransitionData) {
-    console.log({ data });
     this.sceneTransitionData = data;
   }
 
@@ -204,7 +202,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData, idx) => {
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
-        layer?.setDepth(1);
+        layer?.setDepth(1000000);
       }
     });
 
@@ -216,8 +214,8 @@ export abstract class BaseScene extends Phaser.Scene {
         x: centerX + 25 - width / zoom / 2,
         y: centerY - 25 + height / zoom / 2,
         radius: 40,
-        base: this.add.circle(0, 0, 20, 0x000000, 0.2).setDepth(100),
-        thumb: this.add.circle(0, 0, 10, 0xffffff, 0.2).setDepth(100),
+        base: this.add.circle(0, 0, 20, 0x000000, 0.2).setDepth(1000000000),
+        thumb: this.add.circle(0, 0, 10, 0xffffff, 0.2).setDepth(1000000000),
         dir: "8dir",
         fixed: true,
         forceMin: 10,
@@ -266,6 +264,9 @@ export abstract class BaseScene extends Phaser.Scene {
     const offsetY =
       (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
+
+    // this.physics.world.fixedStep = false; // activates sync
+    // this.physics.world.fixedStep = true; // deactivates sync (default)
   }
 
   createPlayer({
@@ -291,8 +292,12 @@ export abstract class BaseScene extends Phaser.Scene {
         .setSize(10, 8)
         .setCollideWorldBounds(true);
 
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setAllowRotation(
+        false
+      );
+
       // Follow player with camera
-      this.cameras.main.startFollow(this.currentPlayer, true, 0.08, 0.08);
+      this.cameras.main.startFollow(this.currentPlayer);
 
       // Callback to fire on collisions
       this.physics.add.collider(
@@ -329,7 +334,6 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
-      console.log({ destroy: sessionId });
       entity.destroy();
       delete this.playerEntities[sessionId];
     }
@@ -356,6 +360,13 @@ export abstract class BaseScene extends Phaser.Scene {
     this.inputPayload.right = this.cursorKeys?.right.isDown ?? false;
     this.inputPayload.up = this.cursorKeys?.up.isDown ?? false;
     this.inputPayload.down = this.cursorKeys?.down.isDown ?? false;
+
+    // if (this.inputPayload.right) this.cameras.main.x -= 4;
+    // if (this.inputPayload.left) this.cameras.main.x += 4;
+    // if (this.inputPayload.up) this.cameras.main.y += 4;
+    // if (this.inputPayload.down) this.cameras.main.y -= 4;
+
+    // return;
 
     // Horizontal movements
     if (this.inputPayload.left) {
@@ -417,6 +428,51 @@ export abstract class BaseScene extends Phaser.Scene {
     } else {
       this.currentPlayer.idle();
     }
+
+    this.currentPlayer.setDepth(Math.floor(this.currentPlayer.y));
+
+    // this.cameras.main.setScroll(this.currentPlayer.x, this.currentPlayer.y);
+  }
+
+  updateOtherPlayers() {
+    const room = this.roomService.state.context.rooms[this.roomId];
+    if (!room) return;
+
+    // Destroy any dereferenced players
+    Object.keys(this.playerEntities).forEach((sessionId) => {
+      if (!room.state.players.get(sessionId)) {
+        this.destroyPlayer(sessionId);
+      }
+    });
+
+    // Render current players
+    room?.state.players.forEach((player, sessionId) => {
+      if (sessionId === room.sessionId) return;
+
+      const entity = this.playerEntities[sessionId];
+
+      // Skip if the player hasn't been set up yet
+      if (!entity?.active) return;
+
+      if (player.x > entity.x) {
+        entity.faceRight();
+      } else if (player.x < entity.x) {
+        entity.faceLeft();
+      }
+
+      const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
+
+      if (distance < 2) {
+        entity.idle();
+      } else {
+        entity.walk();
+      }
+
+      entity.x = Phaser.Math.Linear(entity.x, player.x, 0.05);
+      entity.y = Phaser.Math.Linear(entity.y, player.y, 0.05);
+
+      entity.setDepth(entity.y);
+    });
   }
 
   initialiseNPCs(npcs: NPCBumpkin[]) {
@@ -440,6 +496,8 @@ export abstract class BaseScene extends Phaser.Scene {
         },
         bumpkin.npc
       );
+
+      container.setDepth(bumpkin.y);
       (container.body as Phaser.Physics.Arcade.Body)
         .setSize(16, 20)
         .setOffset(0, 0)
@@ -448,45 +506,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
       this.physics.world.enable(container);
       this.customColliders?.add(container);
-    });
-  }
-
-  updateOtherPlayers() {
-    const room = this.roomService.state.context.rooms[this.roomId];
-    if (!room) return;
-
-    // Destroy any dereferenced players
-    Object.keys(this.playerEntities).forEach((sessionId) => {
-      if (!room.state.players.get(sessionId)) {
-        this.destroyPlayer(sessionId);
-      }
-    });
-
-    // Render current players
-    room?.state.players.forEach((player, sessionId) => {
-      if (sessionId === room.sessionId) return;
-
-      const entity = this.playerEntities[sessionId];
-
-      // Skip if the player hasn't been set up yet
-      if (!entity.active) return;
-
-      if (player.x > entity.x) {
-        entity.faceRight();
-      } else if (player.x < entity.x) {
-        entity.faceLeft();
-      }
-
-      const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
-
-      if (distance < 2) {
-        entity.idle();
-      } else {
-        entity.walk();
-      }
-
-      entity.x = Phaser.Math.Linear(entity.x, player.x, 0.05);
-      entity.y = Phaser.Math.Linear(entity.y, player.y, 0.05);
     });
   }
 

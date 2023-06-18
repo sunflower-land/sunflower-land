@@ -91,6 +91,7 @@ export type RoomEvent =
   | ChatMessageReceived
   | PlayerQuit
   | ChangeClothingEvent
+  | PlayerJoined
   | SendPositionEvent
   | ClothingChangedEvent;
 
@@ -189,6 +190,16 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           });
 
           room.state.players.onAdd((player: any, sessionId: string) => {
+            cb({
+              type: "PLAYER_JOINED",
+              roomId,
+              sessionId: sessionId,
+              x: player.x,
+              y: player.y,
+              clothing: player.clothing,
+            });
+
+            console.log("On player added");
             let clothingChangedAt = 0;
             player.onChange(() => {
               if (clothingChangedAt !== player.clothing.updatedAt) {
