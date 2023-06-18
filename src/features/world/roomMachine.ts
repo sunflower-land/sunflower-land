@@ -51,16 +51,15 @@ type SendPositionEvent = {
   y: number;
 };
 
+type ChangeClothingEvent = {
+  type: "CHANGE_CLOTHING";
+  clothing: BumpkinParts;
+};
+
 export type ChatMessageReceived = {
   type: "CHAT_MESSAGE_RECEIVED";
   roomId: RoomId;
   text: string;
-  sessionId: string;
-};
-
-export type PlayerQuit = {
-  type: "PLAYER_QUIT";
-  roomId: string;
   sessionId: string;
 };
 
@@ -73,11 +72,17 @@ export type PlayerJoined = {
   clothing: BumpkinParts;
 };
 
-export type PlayerMoved = {
-  type: "PLAYER_MOVED";
+export type ClothingChangedEvent = {
+  type: "CLOTHING_CHANGED";
+  roomId: RoomId;
+  clothing: BumpkinParts;
   sessionId: string;
-  x: number;
-  y: number;
+};
+
+export type PlayerQuit = {
+  type: "PLAYER_QUIT";
+  roomId: string;
+  sessionId: string;
 };
 
 export type RoomEvent =
@@ -85,9 +90,9 @@ export type RoomEvent =
   | SendChatMessageEvent
   | ChatMessageReceived
   | PlayerQuit
-  | PlayerMoved
-  | PlayerJoined
-  | SendPositionEvent;
+  | ChangeClothingEvent
+  | SendPositionEvent
+  | ClothingChangedEvent;
 
 export type MachineState = State<ChatContext, RoomEvent, RoomState>;
 
@@ -184,23 +189,17 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           });
 
           room.state.players.onAdd((player: any, sessionId: string) => {
-            cb({
-              type: "PLAYER_JOINED",
-              roomId,
-              sessionId: sessionId,
-              x: player.x,
-              y: player.y,
-              clothing: player.clothing,
-            });
-
+            let clothingChangedAt = 0;
             player.onChange(() => {
-              cb({
-                type: "PLAYER_MOVED",
-                roomId,
-                sessionId: sessionId,
-                x: player.x,
-                y: player.y,
-              });
+              if (clothingChangedAt !== player.clothing.updatedAt) {
+                clothingChangedAt = player.clothing.updatedAt;
+                cb({
+                  type: "CLOTHING_CHANGED",
+                  roomId,
+                  clothing: player.clothing,
+                  sessionId: sessionId,
+                });
+              }
             });
           });
 
@@ -247,6 +246,14 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             if (!room) return {};
 
             room.send(0, { text: event.text });
+          },
+        },
+        CHANGE_CLOTHING: {
+          actions: (context, event) => {
+            const room = context.rooms[context.roomId];
+            if (!room) return {};
+
+            room.send(0, { clothing: event.clothing });
           },
         },
         SEND_POSITION: {

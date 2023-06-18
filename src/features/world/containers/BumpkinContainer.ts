@@ -15,6 +15,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private ready = false;
 
   // Animation Keys
+  private idleSpriteKey: string | undefined;
+  private walkingSpriteKey: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
 
@@ -66,14 +68,16 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       parts: this.clothing,
     });
 
+    console.log({ sheets });
     const keyName = tokenUriBuilder(this.clothing);
-    const idleSpriteSheetKey = `${keyName}-bumpkin-idle-sheet`;
-    const walkingSpriteSheetKey = `${keyName}-bumpkin-walking-sheet`;
+    console.log({ keyName });
+    this.idleSpriteKey = `${keyName}-bumpkin-idle-sheet`;
+    this.walkingSpriteKey = `${keyName}-bumpkin-walking-sheet`;
     this.idleAnimationKey = `${keyName}-bumpkin-idle`;
     this.walkingAnimationKey = `${keyName}-bumpkin-walking`;
 
-    if (scene.textures.exists(idleSpriteSheetKey)) {
-      const idle = scene.add.sprite(0, 0, idleSpriteSheetKey).setOrigin(0.5);
+    if (scene.textures.exists(this.idleSpriteKey)) {
+      const idle = scene.add.sprite(0, 0, this.idleSpriteKey).setOrigin(0.5);
       this.add(idle);
       this.sprite = idle;
 
@@ -82,7 +86,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.silhoutte?.destroy();
     } else {
       const idleLoader = scene.load.spritesheet(
-        idleSpriteSheetKey,
+        this.idleSpriteKey,
         sheets.idle,
         {
           frameWidth: 20,
@@ -91,21 +95,29 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       );
 
       idleLoader.on(Phaser.Loader.Events.COMPLETE, () => {
-        if (!scene.textures.exists(idleSpriteSheetKey) || this.ready) {
-          console.log("File did not load");
+        if (
+          !scene.textures.exists(this.idleSpriteKey as string) ||
+          this.ready
+        ) {
           return;
         }
 
-        const idle = scene.add.sprite(0, 0, idleSpriteSheetKey).setOrigin(0.5);
+        console.log("It loaded");
+        const idle = scene.add
+          .sprite(0, 0, this.idleSpriteKey as string)
+          .setOrigin(0.5);
         this.add(idle);
         this.sprite = idle;
 
         scene.anims.create({
           key: this.idleAnimationKey,
-          frames: scene.anims.generateFrameNumbers(idleSpriteSheetKey, {
-            start: 0,
-            end: 8,
-          }),
+          frames: scene.anims.generateFrameNumbers(
+            this.idleSpriteKey as string,
+            {
+              start: 0,
+              end: 8,
+            }
+          ),
           repeat: -1,
           frameRate: 10,
         });
@@ -117,9 +129,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       });
     }
 
-    if (!scene.textures.exists(walkingSpriteSheetKey)) {
+    if (!scene.textures.exists(this.walkingSpriteKey)) {
       const walkingLoader = scene.load.spritesheet(
-        walkingSpriteSheetKey,
+        this.walkingSpriteKey,
         sheets.walking,
         {
           frameWidth: 20,
@@ -130,10 +142,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       walkingLoader.on(Phaser.Loader.Events.COMPLETE, () => {
         scene.anims.create({
           key: this.walkingAnimationKey,
-          frames: scene.anims.generateFrameNumbers(walkingSpriteSheetKey, {
-            start: 0,
-            end: 7,
-          }),
+          frames: scene.anims.generateFrameNumbers(
+            this.walkingSpriteKey as string,
+            {
+              start: 0,
+              end: 7,
+            }
+          ),
           repeat: -1,
           frameRate: 10,
         });
@@ -141,6 +156,22 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
 
     scene.load.start();
+  }
+
+  public changeClothing(clothing: BumpkinParts) {
+    if (tokenUriBuilder(clothing) === tokenUriBuilder(this.clothing)) {
+      return;
+    }
+
+    if (!this.ready) {
+      return;
+    }
+
+    this.ready = false;
+    this.sprite?.destroy();
+
+    this.clothing = clothing;
+    this.loadSprites(this.scene);
   }
 
   public faceRight() {

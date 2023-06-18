@@ -1,4 +1,5 @@
 import { Schema, MapSchema, ArraySchema } from "@colyseus/schema";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export interface InputData {
   x: number;
@@ -11,6 +12,7 @@ export interface Player extends Schema {
   x: number;
   y: number;
   tick: number;
+  clothing: BumpkinParts;
 
   inputQueue: InputData[];
 }

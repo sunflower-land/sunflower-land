@@ -28,6 +28,7 @@ import { BettyHomeScene } from "./scenes/BettyHomeScene";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
+import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -121,6 +122,13 @@ export const PhaserComponent: React.FC = () => {
     });
 
     game.registry.set("roomService", roomService);
+    gameService.onEvent((e) => {
+      if (e.type === "bumpkin.equipped") {
+        roomService.send("CHANGE_CLOTHING", {
+          clothing: (e as EquipBumpkinAction).equipment,
+        });
+      }
+    });
   }, []);
 
   return (

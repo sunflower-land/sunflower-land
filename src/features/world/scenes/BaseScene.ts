@@ -8,6 +8,7 @@ import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import {
   ChatMessageReceived,
+  ClothingChangedEvent,
   MachineInterpreter,
   PlayerJoined,
   PlayerQuit,
@@ -57,6 +58,23 @@ export abstract class BaseScene extends Phaser.Scene {
           this.playerEntities[sessionId].speak(text);
         } else if (sessionId === room?.sessionId) {
           this.currentPlayer?.speak(text);
+        }
+      }
+
+      if (event.type === "CLOTHING_CHANGED") {
+        const { sessionId, clothing, roomId } = event as ClothingChangedEvent;
+        if (roomId !== this.roomId) return;
+
+        const room = this.roomService.state.context.rooms[roomId];
+
+        if (
+          sessionId &&
+          String(sessionId).length > 4 &&
+          this.playerEntities[sessionId]
+        ) {
+          this.playerEntities[sessionId].changeClothing(clothing);
+        } else if (sessionId === room?.sessionId) {
+          this.currentPlayer?.changeClothing(clothing);
         }
       }
 
@@ -327,7 +345,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.fixedTick(time, this.fixedTimeStep);
   }
 
-  moveCurrentPlayer() {
+  updatePlayer() {
     if (!this.currentPlayer?.body) {
       return;
     }
@@ -433,7 +451,7 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
-  moveOtherPlayers() {
+  updateOtherPlayers() {
     const room = this.roomService.state.context.rooms[this.roomId];
     if (!room) return;
 
@@ -475,7 +493,7 @@ export abstract class BaseScene extends Phaser.Scene {
   fixedTick(time: number, delta: number) {
     this.currentTick++;
 
-    this.moveCurrentPlayer();
-    this.moveOtherPlayers();
+    this.updatePlayer();
+    this.updateOtherPlayers();
   }
 }
