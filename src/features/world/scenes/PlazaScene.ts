@@ -82,14 +82,17 @@ export class PlazaScene extends BaseScene {
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(591, 260);
+    auctionLabel.setDepth(10000000);
     this.add.existing(auctionLabel);
 
     const clotheShopLabel = new Label(this, "STYLIST", "brown");
     clotheShopLabel.setPosition(256, 264);
+    clotheShopLabel.setDepth(10000000);
     this.add.existing(clotheShopLabel);
 
     const decorationShopLabel = new Label(this, "DECORATIONS", "brown");
     decorationShopLabel.setPosition(797, 252);
+    decorationShopLabel.setDepth(10000000);
     this.add.existing(decorationShopLabel);
   }
 }
