@@ -2190,7 +2190,7 @@ export const ITEM_DETAILS: Items = {
   },
   Obie: {
     image: obie,
-    description: "A fierce eggplant solider",
+    description: "A fierce eggplant soldier",
   },
   Hoot: {
     image: hoot,
