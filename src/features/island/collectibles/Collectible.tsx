@@ -164,6 +164,7 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { hasRestriction } from "features/game/types/removeables";
 import lockIcon from "assets/skills/lock.png";
+import { SolarLantern } from "./components/SolarLantern";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -289,6 +290,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Aurora Lantern": AuroraLantern,
   "Radiance Lantern": RadianceLantern,
   "Ocean Lantern": OceanLantern,
+  "Solar Lantern": SolarLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,

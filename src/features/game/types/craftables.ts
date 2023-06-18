@@ -180,7 +180,8 @@ export type Lantern =
   | "Luminous Lantern"
   | "Radiance Lantern"
   | "Ocean Lantern"
-  | "Aurora Lantern";
+  | "Aurora Lantern"
+  | "Solar Lantern";
 
 export type CollectibleName =
   | LegacyItem
@@ -1153,6 +1154,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Aurora Lantern": { height: 2, width: 1 },
   "Radiance Lantern": { height: 2, width: 1 },
   "Ocean Lantern": { height: 2, width: 1 },
+  "Solar Lantern": { height: 2, width: 1 },
 
   "Purple Trail": { width: 1, height: 1 },
   Obie: { width: 1, height: 1 },
