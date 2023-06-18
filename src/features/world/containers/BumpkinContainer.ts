@@ -92,7 +92,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         }
       );
 
-      idleLoader.on(Phaser.Loader.Events.COMPLETE, () => {
+      idleLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
         if (
           !scene.textures.exists(this.idleSpriteKey as string) ||
           this.ready
@@ -123,6 +123,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
         this.ready = true;
         this.silhoutte?.destroy();
+
+        idleLoader.removeAllListeners();
       });
     }
 
