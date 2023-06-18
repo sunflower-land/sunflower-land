@@ -52,6 +52,7 @@ import luminousLantern from "assets/sfts/luminous_lantern.webp";
 import auroraLantern from "assets/sfts/aurora_lantern.webp";
 import radianceLantern from "assets/sfts/radiance_lantern.webp";
 import oceanLantern from "assets/sfts/ocean_lantern.png";
+import solarLantern from "assets/sfts/solar_lantern.png";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -2122,6 +2123,11 @@ export const ITEM_DETAILS: Items = {
     image: oceanLantern,
     description:
       "A wavy paper lantern that sways with the bobbing of the tide.",
+  },
+  "Solar Lantern": {
+    image: solarLantern,
+    description:
+      "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow.",
   },
   "Aurora Lantern": {
     image: auroraLantern,

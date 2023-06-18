@@ -573,6 +573,7 @@ const lanterns: Record<Lantern, boolean> = {
   "Radiance Lantern": false,
   "Aurora Lantern": false,
   "Ocean Lantern": false,
+  "Solar Lantern": false,
 };
 
 const purchasables: Record<SeasonPassName, boolean> = {

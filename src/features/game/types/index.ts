@@ -401,6 +401,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Golden Maple": 1269,
   "Pine Tree": 1270,
   "Stone Fence": 1271,
+  "Solar Lantern": 1272,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

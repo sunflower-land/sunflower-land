@@ -16,8 +16,8 @@ import { Week, characters } from "./lib/characters";
 import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
-import background from "assets/land/dawn_breaker_7.png";
-import nextBackground from "assets/land/dawn_breaker_8.webp";
+import background from "assets/land/dawn_breaker_8.webp";
+import nextBackground from "assets/land/dawn_breaker_9.png";
 import { Characters } from "./components/Characters";
 import { Modal } from "react-bootstrap";
 import {
@@ -46,6 +46,7 @@ export const DawnBreaker: React.FC = () => {
   const { gameService } = useContext(Context);
   const [scrollIntoView] = useScrollIntoView();
   const { id } = useParams();
+
   // "0" will be assigned to guest farms
   const farmId = parseInt(id ?? "0", 10);
 
