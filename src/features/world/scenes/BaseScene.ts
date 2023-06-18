@@ -159,7 +159,10 @@ export abstract class BaseScene extends Phaser.Scene {
       "Sunnyside V3",
       "tileset",
       16,
-      16
+      16,
+      // Extruded tileset
+      1,
+      2
     ) as Phaser.Tilemaps.Tileset;
 
     // Set up collider layers

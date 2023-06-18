@@ -27,7 +27,10 @@ export abstract class Preloader extends Phaser.Scene {
     this.load.tilemapTiledJSON("woodlands", woodlandsJSON);
 
     // Phaser assets must be served from an URL
-    this.load.image("tileset", `${CONFIG.PROTECTED_IMAGE_URL}/world/map.png`);
+    this.load.image(
+      "tileset",
+      `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`
+    );
     this.load.image("speech_bubble", "world/speech_bubble.png");
     this.load.image("label", "world/label.png");
     this.load.image("brown_label", "world/brown_label.png");
