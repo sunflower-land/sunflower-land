@@ -399,10 +399,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
     >
-      <img
-        src={ITEM_DETAILS["Basic Scarecrow"].image}
-        className="w-full pointer-events-auto"
-      />
+      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full " />
       <div
         className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
@@ -430,10 +427,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
     >
-      <img
-        src={ITEM_DETAILS["Scary Mike"].image}
-        className="w-full pointer-events-auto"
-      />
+      <img src={ITEM_DETAILS["Scary Mike"].image} className="w-full" />
       <div
         className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
