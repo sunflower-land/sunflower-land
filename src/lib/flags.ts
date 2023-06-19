@@ -13,7 +13,7 @@ const testnetFeatureFlag = (inventory: GameState["inventory"]) =>
  *
  * Do not delete JEST_TEST.
  */
-type FeatureName = "JEST_TEST" | "PUMPKIN_PLAZA" | "AUCTION";
+type FeatureName = "JEST_TEST" | "PUMPKIN_PLAZA" | "AUCTION" | "SCARY_MIKE";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
@@ -21,6 +21,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   AUCTION: () => true, // TEMP FOR TESTING defaultFeatureFlag,
+  SCARY_MIKE: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (

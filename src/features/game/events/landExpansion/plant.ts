@@ -290,6 +290,39 @@ export function getCropYieldAmount({
     amount *= 1.1;
   }
 
+  const isMediumLevelCrop =
+    crop === "Carrot" ||
+    crop === "Cabbage" ||
+    crop === "Beetroot" ||
+    crop === "Cauliflower" ||
+    crop === "Parsnip";
+
+  if (collectibles["Scary Mike"]?.[0] && isMediumLevelCrop && plot) {
+    const scarecrowCoordinates = collectibles["Scary Mike"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
+
+    const scarecrowPosition: Position = {
+      x: scarecrowCoordinates.x,
+      y: scarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isCollectibleBuilt("Scary Mike", collectibles) &&
+      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
+    ) {
+      amount = amount + 0.2;
+    }
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 
@@ -353,7 +386,7 @@ export function plant({
         inventory: inventory,
         collectibles,
         bumpkin,
-        plot: plots[action.index],
+        plot,
       }),
     },
   };
