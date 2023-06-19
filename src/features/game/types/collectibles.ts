@@ -100,7 +100,8 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     boost: "Adjacent chickens produce +0.2 Eggs",
   },
   "Scary Mike": {
-    description: "",
+    description:
+      "The veggie whisperer and champion of frightfully good harvests!",
     ingredients: {
       Wood: new Decimal(30),
       Carrot: new Decimal(50),
