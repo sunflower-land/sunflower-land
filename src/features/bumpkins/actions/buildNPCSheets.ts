@@ -88,6 +88,7 @@ export async function buildNPCSheets(request: Request): Promise<Response> {
       },
     };
   } catch {
+    // Since these are not real NFTs, prepend fake ID and version
     const validName = `0_v1_${tokenUri}`;
     const sheets = await buildNPCSheetsRequest(validName);
     return {
