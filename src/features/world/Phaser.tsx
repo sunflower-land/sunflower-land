@@ -29,6 +29,7 @@ import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
+import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -100,6 +101,7 @@ export const PhaserComponent: React.FC = () => {
       },
       scene: [
         Preloader,
+        DawnBreakerScene,
         PlazaScene,
         AuctionScene,
         BettyHomeScene,

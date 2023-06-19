@@ -8,6 +8,7 @@ import bertHomeJSON from "assets/map/bert_home.json";
 import timmyHomeJSON from "assets/map/timmy_home.json";
 import bettyHomeJSON from "assets/map/betty_home.json";
 import woodlandsJSON from "assets/map/woodlands.json";
+import dawnBreakerJSON from "assets/map/dawn_breaker.json";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { INITIAL_ROOM } from "../roomMachine";
@@ -17,6 +18,7 @@ export abstract class Preloader extends Phaser.Scene {
     console.log("PRELOAD INITIAL");
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
+    this.load.tilemapTiledJSON("dawn-breaker", dawnBreakerJSON);
     this.load.tilemapTiledJSON("clothes-shop", clothesShopJson);
     this.load.tilemapTiledJSON("decorations-shop", decorationShopJSON);
     this.load.tilemapTiledJSON("windmill-floor", windmillFloorJSON);
