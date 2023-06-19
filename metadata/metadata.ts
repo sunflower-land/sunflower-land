@@ -3752,14 +3752,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1266.png",
     attributes: [],
   },
-  "Sir Goldensnout": {
-    description:
-      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/466.png",
-    attributes: [],
-  },
   Bale: {
     description:
       "A poultry's favorite neighbor, providing a cozy retreat for chickens",
@@ -3767,6 +3759,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/465.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Sir Goldensnout": {
+    description:
+      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/466.png",
+    attributes: [],
   },
   "Scary Mike": {
     description:
