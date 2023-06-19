@@ -19,7 +19,8 @@ type FeatureName =
   | "AUCTION"
   | "SCARY_MIKE"
   | "OKX_WALLET"
-  | "POTION_HOUSE";
+  | "POTION_HOUSE"
+  | "LAURIE";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
@@ -29,7 +30,11 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   AUCTION: () => true, // TEMP FOR TESTING defaultFeatureFlag,
   SCARY_MIKE: testnetFeatureFlag,
   OKX_WALLET: testnetFeatureFlag,
+<<<<<<< HEAD
   POTION_HOUSE: testnetFeatureFlag,
+=======
+  LAURIE: testnetFeatureFlag,
+>>>>>>> ec07af593 ([FEAT] block from mainnet)
 };
 
 export const hasFeatureAccess = (

@@ -71,8 +71,10 @@ export const HeliosBlacksmithItems: React.FC = () => {
           {getKeys(HELIOS_BLACKSMITH_ITEMS)
             .filter(
               (name: HeliosBlacksmithItem) =>
-                name !== "Scary Mike" ||
-                hasFeatureAccess(state.inventory, "SCARY_MIKE")
+                (name !== "Scary Mike" ||
+                  hasFeatureAccess(state.inventory, "SCARY_MIKE")) &&
+                (name !== "Laurie the Chuckle Crow" ||
+                  hasFeatureAccess(state.inventory, "LAURIE"))
             )
             .map((name: HeliosBlacksmithItem) => (
               <Box
