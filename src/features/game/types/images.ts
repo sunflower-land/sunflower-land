@@ -63,6 +63,7 @@ import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
 import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
 import bale from "assets/sfts/aoe/bale.png";
 import scaryMike from "assets/sfts/aoe/scary_mike.png";
+import laurie from "assets/sfts/aoe/laurie.png";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -2012,6 +2013,11 @@ export const ITEM_DETAILS: Items = {
   "Scary Mike": {
     description: HELIOS_BLACKSMITH_ITEMS["Scary Mike"].description,
     image: scaryMike,
+  },
+
+  "Laurie the Chuckle Crow": {
+    description: HELIOS_BLACKSMITH_ITEMS["Laurie the Chuckle Crow"].description,
+    image: laurie,
   },
 
   // Season tickets

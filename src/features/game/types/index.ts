@@ -129,6 +129,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sir Goldensnout": 466,
   "Scary Mike": 467,
 
+  "Laurie the Chuckle Crow": 468,
+
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
   Sauerkraut: 503,

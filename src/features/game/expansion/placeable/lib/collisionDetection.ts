@@ -334,7 +334,8 @@ export type AOEItemName =
   | "Tin Turtle"
   | "Sir Goldensnout"
   | "Bale"
-  | "Scary Mike";
+  | "Scary Mike"
+  | "Laurie the Chuckle Crow";
 
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.
@@ -431,6 +432,27 @@ export function isWithinAOE(
         dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
         dy <= 1 &&
         dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
+      ) {
+        return true;
+      }
+    }
+
+    if (AOEItemName === "Laurie the Chuckle Crow") {
+      const topLeft = {
+        x: AOEItemCoordinates.x - 1,
+        y: AOEItemCoordinates.y - AOEItem.height,
+      };
+
+      const bottomRight = {
+        x: AOEItemCoordinates.x + 1,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+      };
+
+      if (
+        effectItem.x >= topLeft.x &&
+        effectItem.x <= bottomRight.x &&
+        effectItem.y <= topLeft.y &&
+        effectItem.y >= bottomRight.y
       ) {
         return true;
       }

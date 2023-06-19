@@ -11,7 +11,8 @@ export type HeliosBlacksmithItem =
   | "Treasure Map"
   | "Basic Scarecrow"
   | "Bale"
-  | "Scary Mike";
+  | "Scary Mike"
+  | "Laurie the Chuckle Crow";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -111,6 +112,15 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     sfl: new Decimal(15),
     boost:
       "+0.2 yield on Carrots, Cabbages, Beetroots, Cauliflowers and Parsnips",
+  },
+  "Laurie the Chuckle Crow": {
+    description:
+      "With her disconcerting chuckle, she shooes peckers away from your crops!",
+    ingredients: {
+      Wood: new Decimal(3),
+    },
+    boost: "+0.2 yield on Eggplants, Radishes, Wheat and Kale",
+    sfl: new Decimal(0),
   },
 };
 
