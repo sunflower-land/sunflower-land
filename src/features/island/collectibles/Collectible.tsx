@@ -165,7 +165,7 @@ import classNames from "classnames";
 import lockIcon from "assets/skills/lock.png";
 import { SolarLantern } from "./components/SolarLantern";
 import { hasMoveRestriction } from "features/game/types/removeables";
-import { Scarecrow2 } from "./components/ScaryMike";
+import { ScaryMike } from "./components/ScaryMike";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -254,7 +254,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Emerald Turtle": EmeraldTurtle,
   "Tin Turtle": TinTurtle,
   Bale: Bale,
-  "Scary Mike": Scarecrow2,
+  "Scary Mike": ScaryMike,
 
   "Carrot Sword": CarrotSword,
 
