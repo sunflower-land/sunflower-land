@@ -297,9 +297,9 @@ export function getCropYieldAmount({
     crop === "Cauliflower" ||
     crop === "Parsnip";
 
-  if (collectibles["Scarecrow 2"]?.[0] && isMediumLevelCrop && plot) {
-    const scarecrowCoordinates = collectibles["Scarecrow 2"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scarecrow 2"];
+  if (collectibles["Scary Mike"]?.[0] && isMediumLevelCrop && plot) {
+    const scarecrowCoordinates = collectibles["Scary Mike"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
 
     const scarecrowPosition: Position = {
       x: scarecrowCoordinates.x,
@@ -316,8 +316,8 @@ export function getCropYieldAmount({
     };
 
     if (
-      isCollectibleBuilt("Scarecrow 2", collectibles) &&
-      isWithinAOE("Scarecrow 2", scarecrowPosition, plotPosition)
+      isCollectibleBuilt("Scary Mike", collectibles) &&
+      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
     ) {
       amount = amount + 0.2;
     }

@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
   COLLECTIBLES_DIMENSIONS,
-  CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
 
@@ -14,14 +13,6 @@ import {
   HELIOS_BLACKSMITH_ITEMS,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
-
-export const COLLECTIBLE_CRAFT_SECONDS: Partial<
-  Record<CollectibleName, number>
-> = {
-  // AOE items
-  "Basic Scarecrow": 60,
-  "Scarecrow 2": 60,
-};
 
 export type CraftCollectibleAction = {
   type: "collectible.crafted";
@@ -100,12 +91,11 @@ export function craftCollectible({
     if (previous.find((item) => item.id === action.id)) {
       throw new Error("ID already exists");
     }
-    const seconds = COLLECTIBLE_CRAFT_SECONDS[action.name] ?? 0;
 
     stateCopy.collectibles[action.name] = previous.concat({
       id: action.id,
       coordinates: { x: action.coordinates.x, y: action.coordinates.y },
-      readyAt: createdAt + seconds * 1000,
+      readyAt: createdAt,
       createdAt: createdAt,
     });
   }

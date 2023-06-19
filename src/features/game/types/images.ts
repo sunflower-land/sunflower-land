@@ -59,7 +59,7 @@ import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
 import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
 import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
 import bale from "assets/sfts/aoe/bale.png";
-import scarecrow2 from "assets/sfts/aoe/scarecrow2.png";
+import scaryMike from "assets/sfts/aoe/scary_mike.png";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -2004,9 +2004,9 @@ export const ITEM_DETAILS: Items = {
     description:
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
   },
-  "Scarecrow 2": {
-    description: HELIOS_BLACKSMITH_ITEMS["Scarecrow 2"].description,
-    image: scarecrow2,
+  "Scary Mike": {
+    description: HELIOS_BLACKSMITH_ITEMS["Scary Mike"].description,
+    image: scaryMike,
   },
 
   // Season tickets

@@ -597,13 +597,13 @@ describe("plant", () => {
     ).toThrow("You do not have a Bumpkin");
   });
 
-  it("yields +0.2 if Scarecrow 2 is placed, plot is within AoE and planting Carrot", () => {
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Carrot", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
         inventory: {
           "Carrot Seed": new Decimal(1),
-          "Scarecrow 2": new Decimal(1),
+          "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         crops: {
@@ -616,7 +616,7 @@ describe("plant", () => {
           },
         },
         collectibles: {
-          "Scarecrow 2": [
+          "Scary Mike": [
             {
               id: "123",
               createdAt: dateNow,
@@ -642,13 +642,13 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
-  it("yields +0.2 if Scarecrow 2 is placed, plot is within AoE and planting Cabbage", () => {
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Cabbage", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
         inventory: {
           "Cabbage Seed": new Decimal(1),
-          "Scarecrow 2": new Decimal(1),
+          "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         crops: {
@@ -661,7 +661,7 @@ describe("plant", () => {
           },
         },
         collectibles: {
-          "Scarecrow 2": [
+          "Scary Mike": [
             {
               id: "123",
               createdAt: dateNow,
@@ -687,13 +687,13 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
-  it("yields +0.2 if Scarecrow 2 is placed, plot is within AoE and planting Beetroot", () => {
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Beetroot", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
         inventory: {
           "Beetroot Seed": new Decimal(1),
-          "Scarecrow 2": new Decimal(1),
+          "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         crops: {
@@ -706,7 +706,7 @@ describe("plant", () => {
           },
         },
         collectibles: {
-          "Scarecrow 2": [
+          "Scary Mike": [
             {
               id: "123",
               createdAt: dateNow,
@@ -732,13 +732,13 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
-  it("yields +0.2 if Scarecrow 2 is placed, plot is within AoE and planting Cauliflower", () => {
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Cauliflower", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
         inventory: {
           "Cauliflower Seed": new Decimal(1),
-          "Scarecrow 2": new Decimal(1),
+          "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         crops: {
@@ -751,7 +751,7 @@ describe("plant", () => {
           },
         },
         collectibles: {
-          "Scarecrow 2": [
+          "Scary Mike": [
             {
               id: "123",
               createdAt: dateNow,
@@ -777,13 +777,13 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
-  it("yields +0.2 if Scarecrow 2 is placed, plot is within AoE and planting Parsnip", () => {
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Parsnip", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
         inventory: {
           "Parsnip Seed": new Decimal(1),
-          "Scarecrow 2": new Decimal(1),
+          "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         crops: {
@@ -796,7 +796,7 @@ describe("plant", () => {
           },
         },
         collectibles: {
-          "Scarecrow 2": [
+          "Scary Mike": [
             {
               id: "123",
               createdAt: dateNow,
@@ -822,13 +822,13 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
-  it("does not give boost if Scarecrow 2 is placed, plot is within AoE and planting Sunflower", () => {
+  it("does not give boost if Scary Mike is placed, plot is within AoE and planting Sunflower", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
         inventory: {
           "Sunflower Seed": new Decimal(1),
-          "Scarecrow 2": new Decimal(1),
+          "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         crops: {
@@ -841,7 +841,7 @@ describe("plant", () => {
           },
         },
         collectibles: {
-          "Scarecrow 2": [
+          "Scary Mike": [
             {
               id: "123",
               createdAt: dateNow,
@@ -867,13 +867,13 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
   });
 
-  it("does not give boost if Scarecrow 2 is placed, plot is NOT within AoE and planting Cauliflower", () => {
+  it("does not give boost if Scary Mike is placed, plot is NOT within AoE and planting Cauliflower", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
         inventory: {
           "Cauliflower Seed": new Decimal(1),
-          "Scarecrow 2": new Decimal(1),
+          "Scary Mike": new Decimal(1),
           "Water Well": new Decimal(1),
         },
         crops: {
@@ -886,7 +886,7 @@ describe("plant", () => {
           },
         },
         collectibles: {
-          "Scarecrow 2": [
+          "Scary Mike": [
             {
               id: "123",
               createdAt: dateNow,

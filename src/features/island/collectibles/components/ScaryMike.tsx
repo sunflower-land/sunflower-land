@@ -1,6 +1,6 @@
 import React from "react";
 
-import scarecrow2 from "assets/sfts/aoe/scarecrow2.png";
+import scaryMike from "assets/sfts/aoe/scary_mike.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const Scarecrow2: React.FC = () => {
   return (
@@ -13,13 +13,13 @@ export const Scarecrow2: React.FC = () => {
       }}
     >
       <img
-        src={scarecrow2}
+        src={scaryMike}
         className="absolute"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
-        alt="Scarecrow 2"
+        alt="Scary Mike"
       />
     </div>
   );

@@ -165,7 +165,7 @@ import classNames from "classnames";
 import lockIcon from "assets/skills/lock.png";
 import { SolarLantern } from "./components/SolarLantern";
 import { hasMoveRestriction } from "features/game/types/removeables";
-import { Scarecrow2 } from "./components/Scarecrow2";
+import { Scarecrow2 } from "./components/ScaryMike";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -254,7 +254,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Emerald Turtle": EmeraldTurtle,
   "Tin Turtle": TinTurtle,
   Bale: Bale,
-  "Scarecrow 2": Scarecrow2,
+  "Scary Mike": Scarecrow2,
 
   "Carrot Sword": CarrotSword,
 
@@ -423,12 +423,16 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       </div>
     </div>
   ),
-  "Scarecrow 2": () => (
+
+  "Scary Mike": () => (
     <div
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
     >
-      <img src={ITEM_DETAILS["Scarecrow 2"].image} className="w-full" />
+      <img
+        src={ITEM_DETAILS["Scary Mike"].image}
+        className="w-full pointer-events-auto"
+      />
       <div
         className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
         style={{

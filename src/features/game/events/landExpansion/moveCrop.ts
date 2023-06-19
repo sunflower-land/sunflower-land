@@ -75,10 +75,10 @@ export function isLocked(
     }
   }
 
-  if (plot.crop && collectibles["Scarecrow 2"]?.[0]) {
+  if (plot.crop && collectibles["Scary Mike"]?.[0]) {
     const basicScarecrowCoordinates =
-      collectibles["Scarecrow 2"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scarecrow 2"];
+      collectibles["Scary Mike"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
 
     const scarecrowPosition: Position = {
       x: basicScarecrowCoordinates.x,
@@ -96,7 +96,7 @@ export function isLocked(
 
     if (
       isBasicCrop &&
-      isWithinAOE("Scarecrow 2", scarecrowPosition, plotPosition)
+      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
     ) {
       return true;
     }

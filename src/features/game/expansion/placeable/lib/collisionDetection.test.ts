@@ -389,52 +389,52 @@ describe("isWithinAOE", () => {
     expect(cropPlot14).toBe(false);
   });
 
-  it("returns true if the crop is within the Scarecrow 2 AOE", () => {
+  it("returns true if the crop is within the Scary Mike AOE", () => {
     const cropPlot1 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot1
     );
     const cropPlot2 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot2
     );
 
     const cropPlot3 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot3
     );
 
     const cropPlot4 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot4
     );
 
     const cropPlot5 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot5
     );
     const cropPlot6 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot6
     );
     const cropPlot7 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot7
     );
     const cropPlot8 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot8
     );
     const cropPlot9 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plot9
     );
@@ -450,7 +450,7 @@ describe("isWithinAOE", () => {
     expect(cropPlot9).toBe(true);
   });
 
-  it("returns false if the crop is outside the Scarecrow 2 AOE", () => {
+  it("returns false if the crop is outside the Scary Mike AOE", () => {
     const plotOutsideAOE1: Position = { x: -1, y: 0, ...plotDimensions };
     const plotOutsideAOE2: Position = { x: -1, y: -1, ...plotDimensions };
     const plotOutsideAOE3: Position = { x: 1, y: 0, ...plotDimensions };
@@ -467,84 +467,84 @@ describe("isWithinAOE", () => {
     const plotOutsideAOE14: Position = { x: 2, y: -4, ...plotDimensions };
 
     const cropPlot1 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE1
     );
     const cropPlot2 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE2
     );
 
     const cropPlot3 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE3
     );
 
     const cropPlot4 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE4
     );
 
     const cropPlot5 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE5
     );
 
     const cropPlot6 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE6
     );
 
     const cropPlot7 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE7
     );
 
     const cropPlot8 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE8
     );
 
     const cropPlot9 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE9
     );
 
     const cropPlot10 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE10
     );
 
     const cropPlot11 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE11
     );
 
     const cropPlot12 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE12
     );
 
     const cropPlot13 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE13
     );
 
     const cropPlot14 = isWithinAOE(
-      "Scarecrow 2",
+      "Scary Mike",
       { x: 0, y: 0, height: 2, width: 1 },
       plotOutsideAOE14
     );
