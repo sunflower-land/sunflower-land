@@ -11,6 +11,7 @@ export const AddMATIC: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       ? "https://stg.onramp.pokoapp.xyz"
       : "https://onramp.pokoapp.xyz";
   const crypto = "MATIC-polygon";
+  const cryptoList = "MATIC-polygon,SFL-polygon";
   const cryptoAmount = 10;
 
   return (
@@ -36,7 +37,7 @@ export const AddMATIC: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       </div>
       <iframe
-        src={`${pokoUrl}?crypto=${crypto}&cryptoAmount=${cryptoAmount}&receiveWalletAddress=${wallet.myAccount}&userId=${wallet.myAccount}&apiKey=${CONFIG.POKO_API_KEY}&cryptoList=${crypto}`}
+        src={`${pokoUrl}?crypto=${crypto}&cryptoAmount=${cryptoAmount}&receiveWalletAddress=${wallet.myAccount}&userId=${wallet.myAccount}&apiKey=${CONFIG.POKO_API_KEY}&cryptoList=${cryptoList}`}
         height="650px"
         className="w-full"
         title="Poko widget"

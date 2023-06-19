@@ -156,13 +156,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
                     <li className="p-1">
                       <Button onClick={handleAddMatic}>
-                        <span>Add Matic</span>
+                        <span>Buy Matic and SFL</span>
                       </Button>
                     </li>
 
                     <li className="p-1">
                       <Button onClick={handleAddSFL}>
-                        <span>Add SFL</span>
+                        <span>Swap MATIC to SFL</span>
                       </Button>
                     </li>
                   </>
