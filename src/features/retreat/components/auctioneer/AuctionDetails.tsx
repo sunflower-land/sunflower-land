@@ -16,7 +16,6 @@ import { Auction } from "features/game/lib/auctionMachine";
 import { BUMPKIN_ITEM_BUFF, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { COLLECTIBLE_BUFF } from "features/game/types/collectibles";
-import { CONFIG } from "lib/config";
 
 type Props = {
   item: Auction;
@@ -80,15 +79,6 @@ export const AuctionDetails: React.FC<Props> = ({
   const MintButton = () => {
     if (isUpcomingItem) {
       return null;
-    }
-
-    const hasMinted =
-      item.type === "collectible"
-        ? game.inventory[item.collectible]
-        : game.wardrobe[item.wearable];
-
-    if (CONFIG.NETWORK !== "mumbai" && hasMinted) {
-      return <span className="text-sm">Already minted</span>;
     }
 
     return (
