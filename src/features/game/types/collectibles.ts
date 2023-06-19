@@ -102,11 +102,14 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
   "Scary Mike": {
     description: "",
     ingredients: {
-      Wood: new Decimal(15),
+      Wood: new Decimal(30),
+      Carrot: new Decimal(50),
+      Wheat: new Decimal(10),
+      Parsnip: new Decimal(10),
     },
+    sfl: new Decimal(15),
     boost:
       "+0.2 yield on Carrots, Cabbages, Beetroots, Cauliflowers and Parsnips",
-    sfl: new Decimal(2),
   },
 };
 
