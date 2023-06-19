@@ -182,7 +182,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Maneki Neko": (game) => hasShakenManeki(game),
 };
 
-export const hasRestriction = (
+export const hasRemoveRestriction = (
   name: InventoryItemName,
   id: string,
   state: GameState
@@ -210,4 +210,25 @@ export const hasRestriction = (
   if (removeRestriction) return removeRestriction(state);
 
   return [false, "No restriction"];
+};
+
+export const hasMoveRestriction = (
+  name: InventoryItemName,
+  id: string,
+  state: GameState
+): Restriction => {
+  const isAoEItem =
+    name === "Bale" ||
+    name === "Basic Scarecrow" ||
+    name === "Emerald Turtle" ||
+    name === "Tin Turtle" ||
+    name === "Sir Goldensnout";
+
+  const [isRestricted, restrictionReason] = hasRemoveRestriction(
+    name,
+    id,
+    state
+  );
+
+  return [isRestricted && isAoEItem, restrictionReason];
 };

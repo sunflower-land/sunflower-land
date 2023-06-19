@@ -162,9 +162,9 @@ import { SirGoldenSnout } from "./components/SirGoldenSnout";
 import { Bale } from "./components/Bale";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { hasRestriction } from "features/game/types/removeables";
 import lockIcon from "assets/skills/lock.png";
 import { SolarLantern } from "./components/SolarLantern";
+import { hasMoveRestriction } from "features/game/types/removeables";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -548,7 +548,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
     >
       <img
         src={ITEM_DETAILS["Bale"].image}
-        className=" absolute w-full pointer-events-auto"
+        className=" absolute w-full"
         style={{
           width: `${PIXEL_SCALE * 28}px`,
           left: `${PIXEL_SCALE * 3}px`,
@@ -556,7 +556,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
         }}
       />
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16 * 4}px`,
           height: `${PIXEL_SCALE * 16 * 4}px`,
@@ -745,7 +745,7 @@ export const Collectible: React.FC<Props> = (props) => {
   if (landscaping) {
     const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
 
-    const [isRestricted, restrictionReason] = hasRestriction(
+    const [isRestricted, restrictionReason] = hasMoveRestriction(
       props.name,
       props.id,
       gameService.state.context.state
@@ -753,13 +753,13 @@ export const Collectible: React.FC<Props> = (props) => {
     if (isRestricted) {
       return (
         <div
-          className="relative w-full h-full pointer-events-none"
+          className="relative w-full h-full"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <InnerPanel
             className={classNames(
-              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50 pointer-events-none",
+              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50",
               {
                 "opacity-100": showPopover,
                 "opacity-0": !showPopover,

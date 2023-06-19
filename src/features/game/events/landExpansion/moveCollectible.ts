@@ -1,7 +1,7 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import { hasRestriction } from "features/game/types/removeables";
+import { hasMoveRestriction } from "features/game/types/removeables";
 import cloneDeep from "lodash.clonedeep";
 
 export enum MOVE_COLLECTIBLE_ERRORS {
@@ -48,19 +48,13 @@ export function moveCollectible({
     throw new Error(MOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_NOT_PLACED);
   }
 
-  const isAoEItem =
-    action.name === "Bale" ||
-    action.name === "Basic Scarecrow" ||
-    action.name === "Emerald Turtle" ||
-    action.name === "Tin Turtle" ||
-    action.name === "Sir Goldensnout";
-
-  const [isRestricted, restrictionReason] = hasRestriction(
+  const [isRestricted, restrictionReason] = hasMoveRestriction(
     action.name,
     action.id,
     stateCopy
   );
-  if (isAoEItem && isRestricted) {
+
+  if (isRestricted) {
     throw new Error(restrictionReason);
   }
 
