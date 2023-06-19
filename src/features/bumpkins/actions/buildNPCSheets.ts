@@ -5,7 +5,6 @@ import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 const API_URL = CONFIG.API_URL ?? "https://api-dev.sunflower-land.com";
 
 export type NPCActionType = "idle" | "walking";
-const SHEET_TYPES: NPCActionType[] = ["idle", "walking"];
 
 type Request = {
   parts: BumpkinParts;
@@ -44,39 +43,55 @@ const URL =
     ? "https://images.bumpkins.io/npcSheets"
     : "https://testnet-images.bumpkins.io/npcSheets";
 
+const getImage = async (url: string) => {
+  let image: string;
+
+  try {
+    image = await new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = url;
+      img.onload = () => resolve(url);
+      img.onerror = (e) => reject(e);
+    });
+  } catch {
+    image = await new Promise((resolve, reject) => {
+      const skipCacheUrl = `${url}?version=${Date.now()}`;
+
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = skipCacheUrl;
+      img.onload = () => resolve(skipCacheUrl);
+      img.onerror = (e) => reject(e);
+    });
+  }
+
+  return image;
+};
+
 export async function buildNPCSheets(request: Request): Promise<Response> {
   const tokenUri = tokenUriBuilder(request.parts);
-  const response: Response = { sheets: {} as Sheets };
 
-  await Promise.all(
-    SHEET_TYPES.map(async (sheetType) => {
-      const url = `${URL}/${sheetType}/${tokenUri}.webp`;
-      const img = new Image();
-      img.src = url;
+  const idleUrl = `${URL}/idle/${tokenUri}.webp`;
+  const walkingUrl = `${URL}/walking/${tokenUri}.webp`;
 
-      await new Promise((resolve) => {
-        // Check if image already loaded
-        if (img.complete) {
-          response.sheets[sheetType] = url;
-          resolve(url);
-        } else {
-          img.onload = () => {
-            response.sheets[sheetType] = url;
-            resolve(url);
-          };
+  try {
+    const [idle, walking] = await Promise.all([
+      getImage(idleUrl),
+      getImage(walkingUrl),
+    ]);
 
-          // Image 404 - build them
-          img.onerror = async () => {
-            // Since these are not real NFTs, prepend fake ID and version
-            const validName = `0_v1_${tokenUri}`;
-            const sheets = await buildNPCSheetsRequest(validName);
-            response.sheets = sheets;
-            resolve(sheets[sheetType]);
-          };
-        }
-      });
-    })
-  );
-
-  return response;
+    return {
+      sheets: {
+        idle,
+        walking,
+      },
+    };
+  } catch {
+    const validName = `0_v1_${tokenUri}`;
+    const sheets = await buildNPCSheetsRequest(validName);
+    return {
+      sheets,
+    };
+  }
 }
