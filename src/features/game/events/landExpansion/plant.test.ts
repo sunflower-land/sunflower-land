@@ -365,7 +365,6 @@ describe("plant", () => {
     expect(plots).toBeDefined();
     const plantedAt =
       (plots as Record<number, CropPlot>)[0].crop?.plantedAt || 0;
-    console.log(plantedAt);
 
     expect(plantedAt).toBe(dateNow - parsnipTime * 0.5);
   });
@@ -597,6 +596,321 @@ describe("plant", () => {
       })
     ).toThrow("You do not have a Bumpkin");
   });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Carrot", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Carrot Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Carrot Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Cabbage", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cabbage Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cabbage Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Beetroot", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Beetroot Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Beetroot Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Parsnip", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Parsnip Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Parsnip Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("does not give boost if Scary Mike is placed, plot is within AoE and planting Sunflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Sunflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not give boost if Scary Mike is placed, plot is NOT within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -6,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
 });
 
 describe("getCropTime", () => {
@@ -741,6 +1055,7 @@ describe("getCropTime", () => {
 
     expect(time).toEqual(potatoHarvestSeconds * 0.8);
   });
+
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Pumpkin", () => {
     const pumpkinHarvestSeconds = CROPS()["Pumpkin"].harvestSeconds;
 

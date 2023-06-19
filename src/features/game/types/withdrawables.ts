@@ -150,6 +150,7 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, boolean> = {
   "Treasure Map": false,
   "Basic Scarecrow": false,
   Bale: false,
+  "Scary Mike": false,
 };
 
 const commodities: Record<CommodityName, boolean> = {
