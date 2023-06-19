@@ -28,8 +28,8 @@ import { LandscapingIntroduction } from "./components/LandscapingIntroduction";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
 import { createPortal } from "react-dom";
-import { hasRestriction } from "../../game/types/removeables";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
+import { hasRemoveRestriction } from "features/game/types/removeables";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -71,7 +71,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const showRemove =
     isMobile && selectedItem && getRemoveAction(selectedItem.name);
   const [isRestricted, restrictionReason] = showRemove
-    ? hasRestriction(
+    ? hasRemoveRestriction(
         selectedItem.name,
         selectedItem.id,
         gameService.state.context.state
