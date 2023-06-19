@@ -435,7 +435,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
         className="w-full pointer-events-auto"
       />
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,

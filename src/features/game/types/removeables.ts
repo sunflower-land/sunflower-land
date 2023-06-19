@@ -237,7 +237,8 @@ export const hasMoveRestriction = (
     name === "Basic Scarecrow" ||
     name === "Emerald Turtle" ||
     name === "Tin Turtle" ||
-    name === "Sir Goldensnout";
+    name === "Sir Goldensnout" ||
+    name === "Scary Mike";
 
   const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,

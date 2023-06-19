@@ -56,8 +56,7 @@ export function isLocked(
 
   if (isReadyToHarvest(createdAt, crop, cropDetails)) return false;
 
-  if (plot.crop && collectibles["Basic Scarecrow"]?.[0]) {
-    if (!isBasicCrop) return false;
+  if (isBasicCrop && collectibles["Basic Scarecrow"]?.[0]) {
     const basicScarecrowCoordinates =
       collectibles["Basic Scarecrow"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
@@ -76,17 +75,12 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (
-      isBasicCrop &&
-      isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)
-    ) {
+    if (isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)) {
       return true;
     }
   }
 
-  if (plot.crop && collectibles["Scary Mike"]?.[0]) {
-    if (!isMediumLevelCrop) return false;
-
+  if (isMediumLevelCrop && collectibles["Scary Mike"]?.[0]) {
     const basicScarecrowCoordinates =
       collectibles["Scary Mike"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
@@ -105,10 +99,7 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (
-      isMediumLevelCrop &&
-      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
-    ) {
+    if (isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)) {
       return true;
     }
   }
