@@ -34,21 +34,30 @@ export function isLocked(
   collectibles: Collectibles,
   createdAt: number
 ): boolean {
-  const cropName = plot.crop?.name;
   const crop = plot.crop;
-  const isBasicCrop =
-    cropName === "Sunflower" || cropName === "Potato" || cropName === "Pumpkin";
 
   const plantedAt = plot.crop?.plantedAt;
 
   // If the crop is not a basic crop, or if it has not been planted, then it is not locked
-  if (!crop || !isBasicCrop || !plantedAt) return false;
+  if (!crop || !plantedAt) return false;
 
+  const cropName = crop.name;
   const cropDetails = CROPS()[cropName];
+
+  const isBasicCrop =
+    cropName === "Sunflower" || cropName === "Potato" || cropName === "Pumpkin";
+
+  const isMediumLevelCrop =
+    cropName === "Carrot" ||
+    cropName === "Cabbage" ||
+    cropName === "Beetroot" ||
+    cropName === "Cauliflower" ||
+    cropName === "Parsnip";
 
   if (isReadyToHarvest(createdAt, crop, cropDetails)) return false;
 
   if (plot.crop && collectibles["Basic Scarecrow"]?.[0]) {
+    if (!isBasicCrop) return false;
     const basicScarecrowCoordinates =
       collectibles["Basic Scarecrow"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
@@ -76,6 +85,8 @@ export function isLocked(
   }
 
   if (plot.crop && collectibles["Scary Mike"]?.[0]) {
+    if (!isMediumLevelCrop) return false;
+
     const basicScarecrowCoordinates =
       collectibles["Scary Mike"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
@@ -95,7 +106,7 @@ export function isLocked(
     };
 
     if (
-      isBasicCrop &&
+      isMediumLevelCrop &&
       isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
     ) {
       return true;
