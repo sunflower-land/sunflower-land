@@ -248,6 +248,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Scarecrows
   Nancy,
   Scarecrow,
+  Kuebiko,
 
   // AoE
   "Basic Scarecrow": BasicScarecrow,
