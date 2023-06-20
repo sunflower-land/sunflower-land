@@ -117,10 +117,13 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     description:
       "With her disconcerting chuckle, she shooes peckers away from your crops!",
     ingredients: {
-      Wood: new Decimal(3),
+      Wood: new Decimal(100),
+      Radish: new Decimal(60),
+      Kale: new Decimal(40),
+      Wheat: new Decimal(20),
     },
+    sfl: new Decimal(45),
     boost: "+0.2 yield on Eggplants, Radishes, Wheat and Kale",
-    sfl: new Decimal(0),
   },
 };
 
