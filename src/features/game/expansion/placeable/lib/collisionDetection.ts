@@ -377,8 +377,29 @@ export function isWithinAOE(
         return true;
       }
     }
-    // AoE surrounding the Scary Mike
+    // AoE for the Scary Mike
     if (AOEItemName === "Scary Mike") {
+      const topLeft = {
+        x: AOEItemCoordinates.x - 1,
+        y: AOEItemCoordinates.y - AOEItem.height,
+      };
+
+      const bottomRight = {
+        x: AOEItemCoordinates.x + 1,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+      };
+
+      if (
+        effectItem.x >= topLeft.x &&
+        effectItem.x <= bottomRight.x &&
+        effectItem.y <= topLeft.y &&
+        effectItem.y >= bottomRight.y
+      ) {
+        return true;
+      }
+    }
+    // AoE for the Laurie the Chuckle Crow
+    if (AOEItemName === "Laurie the Chuckle Crow") {
       const topLeft = {
         x: AOEItemCoordinates.x - 1,
         y: AOEItemCoordinates.y - AOEItem.height,
@@ -432,27 +453,6 @@ export function isWithinAOE(
         dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
         dy <= 1 &&
         dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
-      ) {
-        return true;
-      }
-    }
-
-    if (AOEItemName === "Laurie the Chuckle Crow") {
-      const topLeft = {
-        x: AOEItemCoordinates.x - 1,
-        y: AOEItemCoordinates.y - AOEItem.height,
-      };
-
-      const bottomRight = {
-        x: AOEItemCoordinates.x + 1,
-        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
-      };
-
-      if (
-        effectItem.x >= topLeft.x &&
-        effectItem.x <= bottomRight.x &&
-        effectItem.y <= topLeft.y &&
-        effectItem.y >= bottomRight.y
       ) {
         return true;
       }

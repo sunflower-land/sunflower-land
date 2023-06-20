@@ -203,4 +203,44 @@ describe("moveCrop", () => {
       })
     ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
   });
+
+  it("does not move locked crop by Laurie the Chuckle Crow", () => {
+    expect(() =>
+      moveCrop({
+        state: {
+          ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
+          collectibles: {
+            "Laurie the Chuckle Crow": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: Date.now(),
+                readyAt: 0,
+              },
+            ],
+          },
+          crops: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 0,
+              y: -2,
+              createdAt: Date.now(),
+              crop: {
+                name: "Eggplant",
+                amount: 1,
+                plantedAt: Date.now(),
+              },
+            },
+          },
+        },
+        action: {
+          type: "crop.moved",
+          id: "1",
+          coordinates: { x: 2, y: 2 },
+        },
+      })
+    ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
+  });
 });
