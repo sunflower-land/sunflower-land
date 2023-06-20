@@ -153,6 +153,7 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_PHANTOM" }
   | { type: "CONNECT_TO_WALLET_CONNECT" }
   | { type: "CONNECT_TO_SEQUENCE" }
+  | { type: "CONNECT_TO_OKX" }
   | { type: "CONNECT_AS_GUEST" }
   | { type: "SIGN" }
   | { type: "VERIFIED" }
@@ -171,6 +172,7 @@ export type BlockchainState = {
     | "connectingToPhantom"
     | "connectingToWalletConnect"
     | "connectingToSequence"
+    | "connectingToOkx"
     | "connectingAsGuest"
     | "setupContracts"
     | "connectedToWallet"
@@ -258,6 +260,9 @@ export const authMachine = createMachine<
           CONNECT_TO_SEQUENCE: {
             target: "connectingToSequence",
           },
+          CONNECT_TO_OKX: {
+            target: "connectingToOkx",
+          },
           RETURN: {
             target: "idle",
           },
@@ -277,6 +282,10 @@ export const authMachine = createMachine<
           {
             target: "connectingToSequence",
             cond: (context) => context.user.web3?.wallet === "SEQUENCE",
+          },
+          {
+            target: "connectingToOkx",
+            cond: (context) => context.user.web3?.wallet === "OKX",
           },
           {
             target: "connectingToWalletConnect",
@@ -376,6 +385,26 @@ export const authMachine = createMachine<
               actions: "assignErrorMessage",
             },
           ],
+        },
+      },
+      connectingToOkx: {
+        id: "connectingToOkx",
+        invoke: {
+          src: "initOkx",
+          onDone: [
+            {
+              target: "setupContracts",
+              cond: (context) => context.user.type === "GUEST",
+              actions: "assignGuestUser",
+            },
+            {
+              target: "setupContracts",
+            },
+          ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
         },
       },
       connectingAsGuest: {
@@ -831,6 +860,27 @@ export const authMachine = createMachine<
         const provider = sequenceWallet.getProvider();
 
         return { web3: { wallet: "SEQUENCE", provider } };
+      },
+      initOkx: async () => {
+        const _window = window as any;
+
+        if (typeof _window.okxwallet !== "undefined") {
+          // _window.phantom doesn't seem to handle polygon atm
+          // therefore we will continue to use the provider it attaches to window.ethereum
+          const provider = _window.ethereum;
+
+          try {
+            await provider.request({
+              method: "eth_requestAccounts",
+            });
+          } catch (e) {
+            throw new Error(ERRORS.WALLET_INITIALISATION_FAILED);
+          }
+
+          return { web3: { wallet: "OKX", provider } };
+        } else {
+          throw new Error(ERRORS.NO_WEB3);
+        }
       },
       loadFarm: async (context): Promise<Farm | undefined> => {
         if (!wallet.myAccount) return;
